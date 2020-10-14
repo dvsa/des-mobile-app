@@ -1,4 +1,3 @@
-import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -14,5 +13,24 @@ export class ToolbarComponent {
 
   constructor() {}
 
+
+
+  toggleRemoveFaultMode(): void {
+    this.isRemoveFaultMode = !this.isRemoveFaultMode;
+  }
+
+  toggleSeriousMode(): void {
+    if (this.isDangerousMode) {
+      this.isDangerousMode = false;
+    }
+    this.isSeriousMode = !this.isSeriousMode;
+  }
+
+  toggleDangerousMode(): void {
+    if (this.isSeriousMode) {
+      this.isSeriousMode = false;
+    }
+    this.isDangerousMode = !this.isDangerousMode;
+  }
 
 }

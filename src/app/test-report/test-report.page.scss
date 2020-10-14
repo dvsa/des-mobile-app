@@ -1,0 +1,134 @@
+$report-mode-border-width: 4px;
+$toolbar-height: 68px;
+app-test-report {
+
+  // ensure the content on the test report page doesn't grow with larger accessibility text
+  ion-content {
+    div, span {
+      .text-zoom-regular &,
+      .text-zoom-large &,
+      .text-zoom-x-large & {
+        font-size: 16px;
+        line-height: 26px;
+      }
+    }
+  }
+
+  .content-ios {
+    background-color: #dee0e2;
+  }
+
+  .grid-layout {
+    box-sizing: border-box;
+    height: calc(100% - #{$toolbar-height});
+    border: $report-mode-border-width solid #dee0e2;
+    &.serious-mode {
+      border: $report-mode-border-width solid #ffbf47;
+    }
+    &.dangerous-mode {
+      border: $report-mode-border-width solid #b10e1e;
+    }
+    &.remove-mode {
+      border: $report-mode-border-width solid #0b0c0c;
+    }
+  }
+  .grid[no-padding] {
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+  .grid[no-padding] > .row > .col {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .first-row-adjust {
+    margin: -6px 0;
+  }
+
+  .section-header {
+    color: #0b0c0c;
+    .text-zoom-regular &,
+    .text-zoom-large &,
+    .text-zoom-x-large & {
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 25px;
+      margin-left: 4px;
+    }
+  }
+  .divider {
+    border-top: 1px solid #6f777b;
+    margin: 4px 8px;
+  }
+
+  .dark-divider {
+    border-top: 1px solid #2f3233;
+    box-shadow: 0 1px 0 0 #ffffff;
+    margin: 4px 8px;
+  }
+  .report-overlay {
+    background-color: rgba(0, 0, 0, 0.85);
+    position: absolute;
+    top: $toolbar-height;
+    left: 0px;
+    width: 100%;
+    height: calc(100% - #{$toolbar-height});
+    visibility: hidden;
+    &.contract{
+      top: $toolbar-height + $report-mode-border-width;
+      left: 4px;
+      width: calc(100% - #{$report-mode-border-width *2});
+      height: calc(100% - #{$toolbar-height + $report-mode-border-width*2});
+    }
+  }
+  .report-overlay-modal {
+    z-index: 220;
+  }
+  .report-overlay-remove {
+    z-index: 120;
+  }
+  @keyframes showAnimation {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    10% {
+      opacity: 0.3;
+      visibility: visible;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  @keyframes hideAnimation {
+    0% {
+      opacity: 1;
+      visibility: visible;
+    }
+    30% {
+      opacity: 0.5;
+      visibility: visible;
+    }
+    99% {
+      opacity: 0;
+      visibility: visible;
+    }
+    100% {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .show-overlay {
+    animation-name: showAnimation;
+    animation-duration: 0.25s;
+    animation-fill-mode: forwards;
+  }
+  .hide-overlay {
+    animation-name: hideAnimation;
+    animation-duration: 0.15s;
+    animation-fill-mode: forwards;
+  }
+}
