@@ -7,6 +7,10 @@ import { Component } from '@angular/core';
 })
 export class TestReportPage {
 
+  isRemoveFaultMode = false;
+  isSeriousMode = false;
+  isDangerousMode = false;
+
   constructor() {}
 
 }
