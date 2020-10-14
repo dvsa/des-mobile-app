@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'test-report',
+    loadChildren: () => import('./test-report/test-report.module').then( m => m.TestReportModule)
+  },
 ];
 
 @NgModule({
