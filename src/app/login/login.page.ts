@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, Platform } from '@ionic/angular';
+import { AppConfigProvider } from '../providers/app-config/app-config';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ export class LoginPage implements OnInit {
   constructor(
     public loadingController: LoadingController,
     public platform: Platform,
+    public appConfigProvider: AppConfigProvider,
   ) { }
 
   ngOnInit() {
@@ -26,12 +28,17 @@ export class LoginPage implements OnInit {
 
     try {
       await this.platform.ready();
+      await this.initialiseAppConfig();
 
       await this.handleLoadingUI(false);
     } catch (error) {
 
       await this.handleLoadingUI(false);
     }
+  }
+
+  initialiseAppConfig = (): Promise<void> => {
+    return this.appConfigProvider.initialiseAppConfig();
   }
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
