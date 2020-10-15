@@ -1,7 +1,17 @@
 {
-  "name": "des-mobil-app",
+  "name": "des-mobile-app",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "enterprise": {
+      "keyId": 1280,
+      "productKey": "key_d8db37ac709e4f1ea181cb60c846ffb7",
+      "appId": "33e9dccb",
+      "orgId": "02cfb89d-b148-418c-a145-8bd32cf06a7b",
+      "registries": [
+        "@ionic-enterprise;https://registry.ionicframework.com/"
+      ]
+    },
+    "cordova": {}
   },
   "type": "angular"
 }

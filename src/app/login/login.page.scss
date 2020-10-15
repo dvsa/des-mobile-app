@@ -1,0 +1,19 @@
+.login-grid {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & div{
+    max-width: 80%;
+    text-align: center;
+  }
+}
+.link {
+  text-decoration: underline;
+  color: #005ea5;
+  &.error-details-link {
+    font-size: 14px;
+    padding-top: 5px;
+  }
+}
