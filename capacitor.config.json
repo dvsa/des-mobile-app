@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "des-mobil-app",
+  "appName": "des-mobile-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
@@ -9,5 +9,8 @@
       "launchShowDuration": 0
     }
   },
-  "cordova": {}
+  "cordova": {},
+  "server": {
+    "url": "http://192.168.1.111:8100"
+  }
 }

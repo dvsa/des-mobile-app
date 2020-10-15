@@ -1,20 +1,20 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Driving Examiner Services
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>DVSA Template App - Main Screen</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <div id="container">
-    <strong>DES is being upgraded to Ionic 5</strong>
+    <strong>DVSA Template app with Ionic 5</strong>
     <p>Work in progress</p>
+    <br>
+    <ion-button color="dark" name="login-button" (click)="goToLogin()">
+      <ion-icon name="log-in-outline"></ion-icon>
+      Login
+    </ion-button>
   </div>
+
+
 </ion-content>
