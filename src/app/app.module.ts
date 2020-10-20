@@ -12,6 +12,8 @@ import { AppConfigProvider } from './providers/app-config/app-config';
 import { AuthenticationProvider } from './providers/authentication/authentication';
 import { DataStoreProvider } from './providers/data-store/data-store';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
+import { Network } from '@ionic-native/network/ngx';
+import { NetworkStateProvider } from './providers/network-state/network-state';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +30,8 @@ import { SecureStorage } from '@ionic-native/secure-storage/ngx';
     AuthenticationProvider,
     SecureStorage,
     DataStoreProvider,
+    Network,
+    NetworkStateProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent]

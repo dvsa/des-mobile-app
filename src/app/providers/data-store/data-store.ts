@@ -5,7 +5,7 @@ import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage
 @Injectable()
 export class DataStoreProvider {
 
-  defaultStoreName = 'DES';
+  defaultStoreName = 'DVSAApp';
   secureContainer: SecureStorageObject = null;
   tempStorage: [];
 
@@ -13,6 +13,14 @@ export class DataStoreProvider {
     public platform: Platform,
     private secureStorage: SecureStorage,
   ) {
+  }
+
+  setSecureContainer(container: SecureStorageObject): void {
+    this.secureContainer = container;
+  }
+
+  getSecureContainer(): SecureStorageObject {
+    return this.secureContainer;
   }
 
   setItem(key: string, value: any): Promise<string> {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppConfigProvider } from '../app-config/app-config';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { DataStoreProvider } from '../data-store/data-store';
+import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 
 export enum Token {
   ID = 'idToken',
@@ -20,6 +21,7 @@ export class AuthenticationProvider {
   constructor(
     private appConfig: AppConfigProvider,
     private dataStoreProvider: DataStoreProvider,
+    private networkState: NetworkStateProvider,
   ) {
 
   }
@@ -48,6 +50,10 @@ export class AuthenticationProvider {
     };
   }
 
+  public async expireTokens(): Promise<void> {
+    await this.ionicAuth.expire();
+  }
+
   private async getToken(tokenName: Token): Promise<string | null> {
     try {
       return JSON.parse(await this.dataStoreProvider.getItem(tokenName));
@@ -66,6 +72,34 @@ export class AuthenticationProvider {
     this.employeeIdKey = this.appConfig.getAppConfig().authentication.employeeIdKey;
     this.inUnAuthenticatedMode = false;
     this.ionicAuth = new IonicAuth(this.getAuthOptions());
+  }
+
+  public isInUnAuthenticatedMode = (): boolean => {
+    return this.inUnAuthenticatedMode;
+  }
+
+  public async isAuthenticated(): Promise<boolean> {
+    if (this.isInUnAuthenticatedMode()) {
+      return Promise.resolve(true);
+    }
+    return await this.ionicAuth.isAuthenticated();
+  }
+
+  public setUnAuthenticatedMode = (mode: boolean): void => {
+    this.inUnAuthenticatedMode = mode;
+  }
+
+  public determineAuthenticationMode = (): void => {
+    console.log('networkState', this.networkState.getNetworkState());
+    const mode = this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
+    this.setUnAuthenticatedMode(mode);
+  }
+
+  public async login(): Promise<void> {
+    if (this.isInUnAuthenticatedMode()) {
+      return Promise.resolve();
+    }
+    return await this.ionicAuth.login();
   }
 
 }
