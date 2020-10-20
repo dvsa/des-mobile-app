@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController, Platform } from '@ionic/angular';
 import { AppConfigProvider } from '../providers/app-config/app-config';
+import { AuthenticationProvider } from '../providers/authentication/authentication';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ export class LoginPage implements OnInit {
     public loadingController: LoadingController,
     public platform: Platform,
     public appConfigProvider: AppConfigProvider,
+    public authenticationProvider: AuthenticationProvider,
   ) { }
 
   ngOnInit() {
@@ -29,6 +31,7 @@ export class LoginPage implements OnInit {
     try {
       await this.platform.ready();
       await this.initialiseAppConfig();
+      this.initialiseAuthentication();
 
       await this.handleLoadingUI(false);
     } catch (error) {
@@ -39,6 +42,11 @@ export class LoginPage implements OnInit {
 
   initialiseAppConfig = (): Promise<void> => {
     return this.appConfigProvider.initialiseAppConfig();
+  }
+
+  initialiseAuthentication = (): void => {
+    this.authenticationProvider.initialiseAuthentication();
+    // this.authenticationProvider.determineAuthenticationMode();
   }
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {

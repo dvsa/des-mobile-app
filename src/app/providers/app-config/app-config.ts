@@ -17,6 +17,16 @@ export class AppConfigProvider {
   ) {
   }
 
+  public getAppConfig = (): AppConfig => {
+    if (!this.appConfig) {
+      this.initialiseAppConfig().then(res => {
+        return res;
+      });
+    }
+
+    return this.appConfig;
+  }
+
   public initialiseAppConfig = async (): Promise<void> => {
     try {
       // TODO add remote config settings
