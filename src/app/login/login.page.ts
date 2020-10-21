@@ -5,6 +5,8 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { DataStoreProvider } from '../providers/data-store/data-store';
 import { NetworkStateProvider } from '../providers/network-state/network-state';
+import { AuthenticationError } from '../providers/authentication/authentication.constants';
+import { AppConfigError } from '../providers/app-config/app-config.constants';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,8 @@ import { NetworkStateProvider } from '../providers/network-state/network-state';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
+  appInitError: AuthenticationError | AppConfigError;
 
   constructor(
     public loadingController: LoadingController,
@@ -22,7 +26,14 @@ export class LoginPage implements OnInit {
     public dataStore: DataStoreProvider,
     public networkStateProvider: NetworkStateProvider,
   ) {
+
     this.networkStateProvider.initialiseNetworkState();
+
+    // Trigger Authentication if this an ios device
+    // TODO expand to force login if user logsout
+    if (this.isIos()) {
+      this.login();
+    }
   }
 
   ngOnInit() {
@@ -54,6 +65,17 @@ export class LoginPage implements OnInit {
     } catch (error) {
 
       await this.handleLoadingUI(false);
+
+      if (error === AuthenticationError.USER_NOT_AUTHORISED) {
+
+        const token = await this.authenticationProvider.getAuthenticationToken();
+
+        // TODO remove console.log for debugging purposes
+        console.log('token', token);
+        await this.authenticationProvider.logout();
+      }
+      this.appInitError = error;
+      console.log(error);
     }
   }
 
@@ -90,6 +112,11 @@ export class LoginPage implements OnInit {
       return;
     }
     await this.loadingController.dismiss();
+  }
+
+  // TODO move to basepage
+  isIos(): boolean {
+    return this.platform.is('ios');
   }
 
 }

@@ -95,11 +95,29 @@ export class AuthenticationProvider {
     this.setUnAuthenticatedMode(mode);
   }
 
+  public getAuthenticationToken = async (): Promise<string> => {
+    await this.isAuthenticated();
+    return this.getToken(Token.ID);
+  }
+
+  private async clearTokens(): Promise<void> {
+    await this.dataStoreProvider.removeItem(Token.ACCESS);
+    await this.dataStoreProvider.removeItem(Token.ID);
+    await this.dataStoreProvider.removeItem(Token.REFRESH);
+  }
+
   public async login(): Promise<void> {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve();
     }
     return await this.ionicAuth.login();
+  }
+
+  public async logout(): Promise<void> {
+    // TODO add call to function to clear out state
+
+    await this.clearTokens();
+    await this.ionicAuth.logout();
   }
 
 }
