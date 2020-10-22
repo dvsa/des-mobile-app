@@ -7,15 +7,19 @@ import { DataStoreProvider } from '../providers/data-store/data-store';
 import { NetworkStateProvider } from '../providers/network-state/network-state';
 import { AuthenticationError } from '../providers/authentication/authentication.constants';
 import { AppConfigError } from '../providers/app-config/app-config.constants';
+import { BasePageComponent } from '../shared/classes/base-page';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage extends BasePageComponent {
 
   appInitError: AuthenticationError | AppConfigError;
+  hasUserLoggedOut = false;
+  hasDeviceTypeError = false;
 
   constructor(
     public loadingController: LoadingController,
@@ -25,22 +29,27 @@ export class LoginPage implements OnInit {
     public secureStorage: SecureStorage,
     public dataStore: DataStoreProvider,
     public networkStateProvider: NetworkStateProvider,
+    public router: Router,
   ) {
+    super(platform, authenticationProvider, router, false);
 
     this.networkStateProvider.initialiseNetworkState();
 
-    // Trigger Authentication if this an ios device
-    // TODO expand to force login if user logsout
+    // Trigger Authentication if ios device
+    // TODO expand to force login if user logs out
     if (this.isIos()) {
       this.login();
     }
-  }
 
-  ngOnInit() {
+    this.hasUserLoggedOut = false;
   }
 
   isUserNotAuthorised = (): boolean => {
-    return true;
+    return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_NOT_AUTHORISED;
+  }
+
+  isInvalidAppVersionError = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError === AppConfigError.INVALID_APP_VERSION;
   }
 
   login = async (): Promise<any> => {
@@ -101,6 +110,28 @@ export class LoginPage implements OnInit {
     }
   }
 
+  isInternetConnectionError = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.NO_INTERNET;
+  }
+
+  isUserCancelledError = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_CANCELLED;
+  }
+
+  isUnknownError = (): boolean => {
+    return !this.hasUserLoggedOut &&
+      this.appInitError &&
+      this.appInitError.valueOf() !== AuthenticationError.USER_CANCELLED &&
+      this.appInitError.valueOf() !== AuthenticationError.NO_INTERNET &&
+      this.appInitError.valueOf() !== AuthenticationError.USER_NOT_AUTHORISED &&
+      this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION;
+  }
+
+  showErrorDetails() {
+    // TODO create means of displaying error to user
+    console.log(this.appInitError);
+  }
+
   async handleLoadingUI(isLoading: boolean): Promise<void> {
     if (isLoading) {
       await this.loadingController.create({
@@ -112,11 +143,6 @@ export class LoginPage implements OnInit {
       return;
     }
     await this.loadingController.dismiss();
-  }
-
-  // TODO move to basepage
-  isIos(): boolean {
-    return this.platform.is('ios');
   }
 
 }

@@ -75,6 +75,7 @@ export class AuthenticationProvider {
   }
 
   public isInUnAuthenticatedMode = (): boolean => {
+    console.log('this.inUnAuthenticatedMode', this.inUnAuthenticatedMode);
     return this.inUnAuthenticatedMode;
   }
 
@@ -104,6 +105,8 @@ export class AuthenticationProvider {
     await this.dataStoreProvider.removeItem(Token.ACCESS);
     await this.dataStoreProvider.removeItem(Token.ID);
     await this.dataStoreProvider.removeItem(Token.REFRESH);
+
+    console.log('tokenid', );
   }
 
   public async login(): Promise<void> {
