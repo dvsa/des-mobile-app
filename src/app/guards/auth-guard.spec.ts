@@ -1,12 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-
 import { AuthGuard } from './auth-guard';
+import { AuthenticationProvider } from '../providers/authentication/authentication';
+import { AuthenticationProviderMock } from '../providers/authentication/_mocks_/authentication.mock';
 
-describe('AuthGuardGuard', () => {
+describe('AuthGuard', () => {
   let guard: AuthGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [
+        AuthGuard,
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+      ]
+    });
     guard = TestBed.inject(AuthGuard);
   });
 

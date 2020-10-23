@@ -5,7 +5,9 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
 @Injectable()
 
 export class AuthGuard implements CanActivate {
-  constructor(public authenticationProvider: AuthenticationProvider) {
+  constructor(
+    public authenticationProvider: AuthenticationProvider,
+  ) {
   }
 
   async canActivate(): Promise<boolean> {
