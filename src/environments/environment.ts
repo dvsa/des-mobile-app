@@ -10,7 +10,6 @@ export const environment = {
   production: false,
   isRemote: true,
   configUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/configuration/dev',
-  daysToCacheLogs: 7,
   enableDevTools: true,
   logoutClearsTestPersistence: true,
   logsPostApiKey: '',

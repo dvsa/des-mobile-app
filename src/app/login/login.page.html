@@ -6,6 +6,13 @@
 
 <ion-content>
 
+<div i>
+<ion-button color="dark" name="login-button" (click)="goToHome()">
+<ion-icon name="log-in-outline"></ion-icon>
+home
+</ion-button>
+</div>
+
   <div class="login-grid">
         <div *ngIf="hasUserLoggedOut">
           <h2>You've signed out</h2>

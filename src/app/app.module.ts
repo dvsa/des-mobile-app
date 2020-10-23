@@ -14,6 +14,7 @@ import { DataStoreProvider } from './providers/data-store/data-store';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { NetworkStateProvider } from './providers/network-state/network-state';
+import { AuthGuard } from './guards/auth-guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { NetworkStateProvider } from './providers/network-state/network-state';
     SplashScreen,
     AppConfigProvider,
     AuthenticationProvider,
+    AuthGuard,
     SecureStorage,
     DataStoreProvider,
     Network,

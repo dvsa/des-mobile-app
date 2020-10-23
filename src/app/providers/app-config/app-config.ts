@@ -31,18 +31,15 @@ export class AppConfigProvider {
     try {
       // TODO add remote config settings
       this.mapInAppConfig(this.environmentFile);
-      console.log('this.appConfig', this.appConfig);
       return Promise.resolve();
     } catch (err) {
       // TODO catch error
-      // return Promise.reject(AppConfigError.MDM_ERROR);
     }
   }
 
   private mapInAppConfig = (data) =>
     this.appConfig = merge({}, this.appConfig, {
       configUrl: data.configUrl,
-      daysToCacheLogs: data.daysToCacheLogs,
       logoutClearsTestPersistence: data.logoutClearsTestPersistence,
       logsPostApiKey: data.logsPostApiKey,
       logsApiUrl: data.logsApiUrl,

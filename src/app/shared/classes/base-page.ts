@@ -1,10 +1,10 @@
 import { Platform } from '@ionic/angular';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 export abstract class BasePageComponent {
 
-  constructor(
+  protected constructor(
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
     public router: Router,
@@ -14,18 +14,13 @@ export abstract class BasePageComponent {
   }
 
   ionViewWillEnter() {
-    console.log('this.loginRequired', this.loginRequired);
-    console.log('isIos()', this.isIos());
     if (this.loginRequired && this.isIos()) {
-      this.authenticationProvider.isAuthenticated().then(
-        (isAuthenticated) => {
-          console.log('isAuthenticated', isAuthenticated);
-          if (!isAuthenticated) {
-            console.log('guardToLogin');
-            this.router.navigate(['login']);
-          }
-        },
-      );
+      this.authenticationProvider.hasValidToken().then(async (hasValidToken) => {
+        this.authenticationProvider.determineAuthenticationMode();
+        if (!hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
+          await this.router.navigate(['login']);
+        }
+      });
     }
   }
 
@@ -41,10 +36,12 @@ export abstract class BasePageComponent {
       } catch (error) {
         console.error(error);
       } finally {
-        // route to login page...
-        // await this.navController.setRoot(LOGIN_PAGE, {
-        //   hasLoggedOut: true,
-        // });
+        const navigationExtras: NavigationExtras = {
+          state: {
+            hasLoggedOut: true,
+          },
+        };
+        await this.router.navigate(['login'], navigationExtras);
       }
     }
   }

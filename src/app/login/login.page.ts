@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { AppConfigProvider } from '../providers/app-config/app-config';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
@@ -8,7 +8,7 @@ import { NetworkStateProvider } from '../providers/network-state/network-state';
 import { AuthenticationError } from '../providers/authentication/authentication.constants';
 import { AppConfigError } from '../providers/app-config/app-config.constants';
 import { BasePageComponent } from '../shared/classes/base-page';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -30,18 +30,24 @@ export class LoginPage extends BasePageComponent {
     public dataStore: DataStoreProvider,
     public networkStateProvider: NetworkStateProvider,
     public router: Router,
+    public route: ActivatedRoute,
+    public alertCtrl: AlertController,
   ) {
     super(platform, authenticationProvider, router, false);
 
     this.networkStateProvider.initialiseNetworkState();
 
     // Trigger Authentication if ios device
-    // TODO expand to force login if user logs out
     if (this.isIos()) {
       this.login();
     }
 
     this.hasUserLoggedOut = false;
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
+      }
+    });
   }
 
   isUserNotAuthorised = (): boolean => {
@@ -54,7 +60,6 @@ export class LoginPage extends BasePageComponent {
 
   login = async (): Promise<any> => {
     await this.handleLoadingUI(true);
-    console.log('loginClicked');
 
     try {
       await this.platform.ready();
@@ -64,23 +69,15 @@ export class LoginPage extends BasePageComponent {
       await this.initialisePersistentStorage();
 
       await this.authenticationProvider.expireTokens();
-
-      const isAuthenticated = await this.authenticationProvider.isAuthenticated();
-      console.log('isAuthenticated', isAuthenticated);
-
       await this.authenticationProvider.login();
 
       await this.handleLoadingUI(false);
+      this.validateDeviceType();
     } catch (error) {
 
       await this.handleLoadingUI(false);
 
       if (error === AuthenticationError.USER_NOT_AUTHORISED) {
-
-        const token = await this.authenticationProvider.getAuthenticationToken();
-
-        // TODO remove console.log for debugging purposes
-        console.log('token', token);
         await this.authenticationProvider.logout();
       }
       this.appInitError = error;
@@ -127,9 +124,21 @@ export class LoginPage extends BasePageComponent {
       this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION;
   }
 
-  showErrorDetails() {
-    // TODO create means of displaying error to user
-    console.log(this.appInitError);
+  /**
+   * Check app is running on a supported device and navigate to app starting page
+   */
+  validateDeviceType = (): void => {
+    // TODO create provider for check device type id valid
+    this.router.navigate(['home']);
+  }
+
+  async showErrorDetails() {
+    const alert = await this.alertCtrl.create({
+      header: 'Error details',
+      message: JSON.stringify(this.appInitError),
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
@@ -143,6 +152,10 @@ export class LoginPage extends BasePageComponent {
       return;
     }
     await this.loadingController.dismiss();
+  }
+
+  goToHome() {
+    this.router.navigate(['home']);
   }
 
 }

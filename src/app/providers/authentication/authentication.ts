@@ -28,9 +28,7 @@ export class AuthenticationProvider {
 
   private getAuthOptions =  (): IonicAuthOptions => {
     const authSettings = this.appConfig.getAppConfig().authentication;
-    console.log('authSettings', authSettings);
     return {
-      logLevel: 'DEBUG',
       authConfig: 'azure',
       platform: 'capacitor',
       clientID: authSettings.clientId,
@@ -75,7 +73,6 @@ export class AuthenticationProvider {
   }
 
   public isInUnAuthenticatedMode = (): boolean => {
-    console.log('this.inUnAuthenticatedMode', this.inUnAuthenticatedMode);
     return this.inUnAuthenticatedMode;
   }
 
@@ -91,12 +88,36 @@ export class AuthenticationProvider {
   }
 
   public determineAuthenticationMode = (): void => {
-    console.log('networkState', this.networkState.getNetworkState());
     const mode = this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
     this.setUnAuthenticatedMode(mode);
   }
 
+  async hasValidToken(): Promise<boolean> {
+    // refresh token if required
+    await this.ionicAuth.isAuthenticated();
+    await this.refreshTokenIfExpired();
+    const token = await this.ionicAuth.getIdToken();
+    return token.exp && new Date(token.exp * 1000) > new Date();
+  }
+
+  async refreshTokenIfExpired(): Promise<void> {
+    const token = await this.ionicAuth.getIdToken();
+    if (this.isTokenExpired(token)) {
+      await this.ionicAuth.refreshSession();
+    }
+  }
+
+  isTokenExpired(token: any): boolean {
+    return token.exp && new Date(token.exp * 1000) < new Date();
+  }
+
   public getAuthenticationToken = async (): Promise<string> => {
+
+    // TODO - temporary code to manually check token expiry date, awaiting ionic fix
+    const hasValidToken: boolean = await this.hasValidToken();
+    if (!hasValidToken) {
+      await this.expireTokens();
+    }
     await this.isAuthenticated();
     return this.getToken(Token.ID);
   }
@@ -105,8 +126,6 @@ export class AuthenticationProvider {
     await this.dataStoreProvider.removeItem(Token.ACCESS);
     await this.dataStoreProvider.removeItem(Token.ID);
     await this.dataStoreProvider.removeItem(Token.REFRESH);
-
-    console.log('tokenid', );
   }
 
   public async login(): Promise<void> {
@@ -117,7 +136,7 @@ export class AuthenticationProvider {
   }
 
   public async logout(): Promise<void> {
-    // TODO add call to function to clear out state
+    // TODO add call to function to clear out state when state has been implemented
 
     await this.clearTokens();
     await this.ionicAuth.logout();

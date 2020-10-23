@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "des-mobile-app",
+  "appId": "dvsa.template.app",
+  "appName": "dvsa-template-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
@@ -11,6 +11,5 @@
   },
   "cordova": {},
   "server": {
-    "url": "http://192.168.1.111:8100"
   }
 }
