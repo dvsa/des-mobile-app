@@ -22,8 +22,6 @@ describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
 
-  // const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'getCurrentNavigation']);
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LoginPage],
