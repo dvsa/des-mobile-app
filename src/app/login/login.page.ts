@@ -15,7 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage extends BasePageComponent {
+export class LoginPage extends BasePageComponent implements OnInit {
 
   appInitError: AuthenticationError | AppConfigError;
   hasUserLoggedOut = false;
@@ -34,7 +34,9 @@ export class LoginPage extends BasePageComponent {
     public alertCtrl: AlertController,
   ) {
     super(platform, authenticationProvider, router, false);
+  }
 
+  ngOnInit(): void {
     this.networkStateProvider.initialiseNetworkState();
 
     // Trigger Authentication if ios device
@@ -42,7 +44,6 @@ export class LoginPage extends BasePageComponent {
       this.login();
     }
 
-    this.hasUserLoggedOut = false;
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
@@ -143,12 +144,11 @@ export class LoginPage extends BasePageComponent {
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
     if (isLoading) {
-      await this.loadingController.create({
+      const loading = await this.loadingController.create({
         spinner: 'circles',
         message: 'App initialising...',
-      }).then(result => {
-        result.present();
       });
+      await loading.present();
       return;
     }
     await this.loadingController.dismiss();
