@@ -14,18 +14,20 @@ import { DataStoreProviderMock } from '../providers/data-store/_mock_/data-store
 import { NetworkStateProvider } from '../providers/network-state/network-state';
 import { NetworkStateProviderMock } from '../providers/network-state/_mock_/network-state.mock';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import 'rxjs-compat/add/observable/from';
+import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { LoginRouterMock } from './_mock_/login.page.mock';
 
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+
+  // const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'getCurrentNavigation']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LoginPage],
-      imports: [IonicModule.forRoot()],
+      imports: [IonicModule.forRoot(), RouterTestingModule],
       providers: [
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -34,11 +36,14 @@ describe('LoginPage', () => {
         { provide: SecureStorage, useClass: SecureStorageMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: Router, useValue: routerSpy },
+        { provide: Router, useClass: LoginRouterMock },
         {
           provide: ActivatedRoute,
           useValue: {
-            params: Observable.from([{ hasUserLoggedOut: true }]),
+            params: of([{ hasUserLoggedOut: true }]),
+            queryParams: of({
+              hasUserLoggedOut: true,
+            }),
           },
         },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },

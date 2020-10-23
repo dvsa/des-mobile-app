@@ -37,18 +37,19 @@ export class LoginPage extends BasePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.networkStateProvider.initialiseNetworkState();
-
-    // Trigger Authentication if ios device
-    if (this.isIos()) {
-      this.login();
-    }
 
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
       }
     });
+
+    this.networkStateProvider.initialiseNetworkState();
+
+    // Trigger Authentication if ios device
+    if (!this.hasUserLoggedOut && this.isIos()) {
+      this.login();
+    }
   }
 
   isUserNotAuthorised = (): boolean => {
