@@ -9,6 +9,7 @@ back-to-office/cat-b
 candidatedetails
 communications-page/cat-a-mod1
 communications-page/cat-a-mod2
+communications-page/cat-adi-part2
 )
 
 for i in "${pages[@]}"
