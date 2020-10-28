@@ -7,29 +7,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content no-padding no-bounce>
-  <app-test-report-toolbar></app-test-report-toolbar>
-  <ion-grid
-  no-padding
-  class="grid-layout"
-  [ngClass]="{
-      'remove-mode': isRemoveFaultMode,
-      'add-mode': !isRemoveFaultMode,
-      'fault-mode': !isSeriousMode && !isDangerousMode,
-      'serious-mode': isSeriousMode,
-      'dangerous-mode': isDangerousMode
-    }">
+  <ion-grid no-padding class="grid-layout">
     <ion-row class="first-row-adjust">
       <ion-col col-32>
-        <ion-row>
-          <ion-col no-padding>
-            <span>Test Competency</span>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <app-competency [competency]="'Test Competency'"></app-competency>
-          </ion-col>
-        </ion-row>
+        <app-competency [competency]="'Test Competency'"></app-competency>
       </ion-col>
     </ion-row>
   </ion-grid>
