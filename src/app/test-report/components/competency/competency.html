@@ -1,0 +1,20 @@
+<app-competency-button
+  [onTap]="onTap"
+  [onPress]="onPress"
+  [ripple]="allowRipple"
+  [ngClass]="{
+    'fault': faultCount > 0,
+    'serious-fault': hasSeriousFault,
+    'dangerous-fault': hasDangerousFault
+  }"
+>
+
+  <app-driving-faults-badge class="driving-faults" [count]="faultCount"></app-driving-faults-badge>
+
+  <span class='competency-label'>{{ competency }}</span>
+
+  <div class="fault-wrapper">
+    <app-serious-fault-badge [showBadge]="hasSeriousFault"></app-serious-fault-badge>
+    <app-dangerous-fault-badge [showBadge]="hasDangerousFault"></app-dangerous-fault-badge>
+  </div>
+</app-competency-button>

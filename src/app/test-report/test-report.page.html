@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-navbar hideBackButton>
+  <ion-toolbar>
     <ion-title>Test report</ion-title>
     <ion-buttons end>
       <ion-button id="end-test-button">End test</ion-button>
     </ion-buttons>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 <ion-content no-padding no-bounce>
   <app-test-report-toolbar></app-test-report-toolbar>
@@ -27,7 +27,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-<!--            <competency></competency>-->
+            <app-competency [competency]="'Test Competency'"></app-competency>
           </ion-col>
         </ion-row>
       </ion-col>

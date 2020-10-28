@@ -1,6 +1,5 @@
 $report-mode-border-width: 4px;
 $toolbar-height: 68px;
-app-test-report {
 
   // ensure the content on the test report page doesn't grow with larger accessibility text
   ion-content {
@@ -12,6 +11,10 @@ app-test-report {
         line-height: 26px;
       }
     }
+  }
+
+  ion-toolbar {
+    --background: #ffffff;
   }
 
   .content-ios {
@@ -131,4 +134,3 @@ app-test-report {
     animation-duration: 0.15s;
     animation-fill-mode: forwards;
   }
-}
