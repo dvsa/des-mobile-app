@@ -3,16 +3,16 @@ import { AlertController, IonicModule, LoadingController, Platform } from '@ioni
 
 import { LoginPage } from './login.page';
 import { AlertControllerMock, LoadingControllerMock, PlatformMock } from 'ionic-mocks';
-import { AppConfigProvider } from '../providers/app-config/app-config';
-import { AppConfigProviderMock } from '../providers/app-config/_mock_/app-config.mock';
-import { AuthenticationProvider } from '../providers/authentication/authentication';
-import { AuthenticationProviderMock } from '../providers/authentication/_mocks_/authentication.mock';
+import { AppConfigProvider } from '../../providers/app-config/app-config';
+import { AppConfigProviderMock } from '../../providers/app-config/_mock_/app-config.mock';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { AuthenticationProviderMock } from '../../providers/authentication/_mocks_/authentication.mock';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { SecureStorageMock } from '@ionic-native-mocks/secure-storage';
-import { DataStoreProvider } from '../providers/data-store/data-store';
-import { DataStoreProviderMock } from '../providers/data-store/_mock_/data-store.mock';
-import { NetworkStateProvider } from '../providers/network-state/network-state';
-import { NetworkStateProviderMock } from '../providers/network-state/_mock_/network-state.mock';
+import { DataStoreProvider } from '../../providers/data-store/data-store';
+import { DataStoreProviderMock } from '../../providers/data-store/_mock_/data-store.mock';
+import { NetworkStateProvider } from '../../providers/network-state/network-state';
+import { NetworkStateProviderMock } from '../../providers/network-state/_mock_/network-state.mock';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
