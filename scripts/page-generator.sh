@@ -42,7 +42,6 @@ $pageswithcategory
 E
 
 echo "Create folder structure/pages without categories for DES TBC"
-
 for pages in "${pageswithoutcategories[@]}"
 do
 	ionic g page pages/$pages --selector=$pages --dry-run
