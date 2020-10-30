@@ -2,15 +2,18 @@
 echo "Moving Tests ..."
 cd ./src/app
 
+testsDir="__tests__"
+fileExt="*.spec.ts"
+
 moveTests() {
-  if [[ -e "$1/__tests__" ]]; then
-    echo "EXISTS $1__tests__"
+  if [[ -e "$1/$testDir" ]]; then
+    echo "EXISTS $1/$testsDir"
   else
-    echo "CREATING $1/__tests__"
+    echo "CREATING $1/$testsDir"
     mkdir $1/__tests__
   fi
 
-  echo "MOVING $1/*.spec.ts to $1/__tests__/"
+  echo "MOVING $1/$fileExt to $1/$testsDir/"
   mv $1/*.spec.ts $1/__tests__/
 }
 
@@ -21,10 +24,10 @@ for path in "${paths[@]}"
 do
   file=$(basename $path)
   
-  if [[ "$file" = "__tests__" ]]; then
-    echo "__tests__ found"
+  if [[ "$file" = "$testsDir" ]]; then
+    echo "$testsDir found"
   else
-    if compgen -G "$path/*.spec.ts" > /dev/null; then
+    if compgen -G "$path/$fileExt" > /dev/null; then
       moveTests $path
     fi
   fi
