@@ -1,6 +1,5 @@
 
 echo "Moving Tests ..."
-
 cd ./src/app
 
 moveTests() {
@@ -16,16 +15,19 @@ moveTests() {
 }
 
 paths=(`find . -type d`)
-
 files=()
 
 for path in "${paths[@]}"
 do
-  # check if a folder is __tests__
-  if compgen -G "$path/*.spec.ts" > /dev/null; then
-    moveTests $path
+  file=$(basename $path)
+  
+  if [[ "$file" = "__tests__" ]]; then
+    echo "__tests__ found"
+  else
+    if compgen -G "$path/*.spec.ts" > /dev/null; then
+      moveTests $path
+    fi
   fi
 done
 
 echo "Moving Tests Completed"
-
