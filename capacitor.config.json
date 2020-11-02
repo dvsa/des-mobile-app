@@ -1,6 +1,6 @@
 {
-  "appId": "dvsa.template.app",
-  "appName": "dvsa-template-app",
+  "appId": "des.mobile.app",
+  "appName": "des-mobile-app",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

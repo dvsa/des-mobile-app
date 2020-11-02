@@ -99,7 +99,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
   async initialisePersistentStorage(): Promise<void> {
     if (this.platform.is('ios')) {
       try {
-        const storage = await this.secureStorage.create('DVSAApp');
+        const storage = await this.secureStorage.create('DES');
         this.dataStore.setSecureContainer(storage);
 
         return Promise.resolve();

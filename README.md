@@ -1,6 +1,5 @@
-# DVSA Template Application
-A common template for all DVSA Ionic5 applications.
-
+# DES-MOBILE-APPLICATION
+DVSA Driving Examiner Application
 
 ### Pre-requisites
 
