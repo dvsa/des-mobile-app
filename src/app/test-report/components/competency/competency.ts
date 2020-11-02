@@ -13,7 +13,7 @@ export class CompetencyComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const element = document.getElementById('competency-button');
-    element.addEventListener('mousedown', async () => this.pressdown());
+    element.addEventListener('mousedown', () => this.pressdown());
     element.addEventListener('mouseup',  () => this.pressup());
   }
 
