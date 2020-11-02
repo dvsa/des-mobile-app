@@ -1,5 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-import { LongPress } from '../../../modules/long-press/long-press';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-competency',
@@ -9,24 +8,25 @@ export class CompetencyComponent implements AfterViewInit {
 
   @Input()
   competency: string;
-
-  faultCount: number;
-
-  longPress: LongPress;
-
-  constructor() {
-    console.log('test');
-    this.faultCount = 0;
-  }
+  isPressed = false;
+  @Output() press: EventEmitter<any> = new EventEmitter<any>();
 
   ngAfterViewInit() {
     const element = document.getElementById('competency-button');
-    this.longPress = new LongPress(element, 300, this.onPress);
+    element.addEventListener('mousedown', async () => this.pressdown());
+    element.addEventListener('mouseup',  () => this.pressup());
   }
 
-  onPress() {
-    console.log('onPress');
-    this.faultCount = this.faultCount + 1;
-    console.log(this);
+  pressdown() {
+    this.isPressed = true;
+    setTimeout((competency) => {
+      if (competency.isPressed) {
+        competency.press.emit();
+      }
+    }, 2000, this);
+  }
+
+  pressup() {
+    this.isPressed = false;
   }
 }

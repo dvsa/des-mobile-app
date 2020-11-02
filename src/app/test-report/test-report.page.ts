@@ -7,10 +7,14 @@ import { Component } from '@angular/core';
 })
 export class TestReportPage {
 
-  isRemoveFaultMode = false;
-  isSeriousMode = false;
-  isDangerousMode = false;
+  faultCount: number;
 
-  constructor() {}
+  constructor() {
+    this.faultCount = 0;
+  }
+
+  onPress($event) {
+    this.faultCount += 1;
+  }
 
 }

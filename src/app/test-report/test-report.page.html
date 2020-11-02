@@ -10,7 +10,8 @@
   <ion-grid no-padding class="grid-layout">
     <ion-row class="first-row-adjust">
       <ion-col col-32>
-        <app-competency [competency]="'Test Competency'"></app-competency>
+        <div><p>Fault Count: {{faultCount}}</p></div>
+        <app-competency [competency]="'Test Competency'" (press)="onPress($event)"></app-competency>
       </ion-col>
     </ion-row>
   </ion-grid>
