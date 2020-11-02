@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
+import { LongPress } from '../../../modules/long-press/long-press';
 
 @Component({
   selector: 'app-competency',
@@ -11,20 +12,21 @@ export class CompetencyComponent implements AfterViewInit {
 
   faultCount: number;
 
-  hammerInstance;
+  longPress: LongPress;
 
   constructor() {
+    console.log('test');
     this.faultCount = 0;
   }
 
   ngAfterViewInit() {
     const element = document.getElementById('competency-button');
-    this.hammerInstance = new (window as any).Hammer(element);
-    this.hammerInstance.on('press', this.onPress.bind(this));
+    this.longPress = new LongPress(element, 300, this.onPress);
   }
 
-  onPress($event) {
-    console.log('onPress', $event);
-    this.faultCount += 1;
+  onPress() {
+    console.log('onPress');
+    this.faultCount = this.faultCount + 1;
+    console.log(this);
   }
 }
