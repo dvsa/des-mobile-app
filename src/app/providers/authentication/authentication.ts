@@ -136,7 +136,6 @@ export class AuthenticationProvider {
   }
 
   public async logout(): Promise<void> {
-    // TODO add call to function to clear out state when state has been implemented
 
     await this.clearTokens();
     await this.ionicAuth.logout();

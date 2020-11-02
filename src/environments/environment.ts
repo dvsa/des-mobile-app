@@ -2,10 +2,6 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-
-// TODO This is for dev only and will need to be configured for other environments
-// TODO add config schema (MdmConfig)
-
 export const environment = {
   production: false,
   isRemote: true,

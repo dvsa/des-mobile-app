@@ -1,5 +1,3 @@
-// TODO add app specific config elements
-
 export type AppConfig = {
   configUrl: string
   logoutClearsTestPersistence?: boolean;

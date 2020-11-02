@@ -29,11 +29,10 @@ export class AppConfigProvider {
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
-      // TODO add remote config settings
       this.mapInAppConfig(this.environmentFile);
       return Promise.resolve();
     } catch (err) {
-      // TODO catch error
+      console.log(err);
     }
   }
 
