@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
-import { LogoutBasePageComponent } from '../shared/classes/logout-base-page';
+import { BasePageComponent } from '../shared/classes/base-page';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage extends LogoutBasePageComponent {
+export class HomePage extends BasePageComponent {
 
   constructor(
     public platform: Platform,

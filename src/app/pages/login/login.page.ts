@@ -29,11 +29,12 @@ export class LoginPage extends BasePageComponent implements OnInit {
     public secureStorage: SecureStorage,
     public dataStore: DataStoreProvider,
     public networkStateProvider: NetworkStateProvider,
+    public alertController: AlertController,
     public router: Router,
     public route: ActivatedRoute,
     public alertCtrl: AlertController,
   ) {
-    super(platform, authenticationProvider, router, false);
+    super(platform, authenticationProvider, alertController, router, false);
   }
 
   ngOnInit(): void {
