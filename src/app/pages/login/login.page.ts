@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController, Platform } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
@@ -29,12 +29,10 @@ export class LoginPage extends BasePageComponent implements OnInit {
     public secureStorage: SecureStorage,
     public dataStore: DataStoreProvider,
     public networkStateProvider: NetworkStateProvider,
-    public alertController: AlertController,
     public router: Router,
     public route: ActivatedRoute,
-    public alertCtrl: AlertController,
   ) {
-    super(platform, authenticationProvider, alertController, router, false);
+    super(platform);
   }
 
   ngOnInit(): void {

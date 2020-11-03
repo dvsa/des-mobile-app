@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { BasePageComponent } from '../shared/classes/base-page';
+import { LogoutProvider } from '../providers/logout/logout';
 
 @Component({
   selector: 'app-home',
@@ -14,14 +15,18 @@ export class HomePage extends BasePageComponent {
   constructor(
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
-    public alertController: AlertController,
     public router: Router,
+    public logoutProvider: LogoutProvider,
   ) {
-    super(platform, authenticationProvider, alertController, router, true);
+    super(platform);
   }
 
   goToLogin() {
     this.router.navigate(['login']);
+  }
+
+  logout() {
+    this.logoutProvider.openLogoutModal();
   }
 
 }

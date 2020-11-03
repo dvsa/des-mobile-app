@@ -15,6 +15,7 @@ import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { NetworkStateProvider } from './providers/network-state/network-state';
 import { AuthGuard } from './guards/auth-guard';
+import { LogoutProvider } from './providers/logout/logout';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import { AuthGuard } from './guards/auth-guard';
     AuthGuard,
     SecureStorage,
     DataStoreProvider,
+    LogoutProvider,
     Network,
     NetworkStateProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
