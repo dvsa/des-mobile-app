@@ -9,6 +9,7 @@ export class CompetencyComponent implements AfterViewInit {
   @Input()
   competency: string;
   isPressed = false;
+  timeoutId: number;
   @Output() press: EventEmitter<any> = new EventEmitter<any>();
 
   ngAfterViewInit() {
@@ -19,7 +20,7 @@ export class CompetencyComponent implements AfterViewInit {
 
   pressdown() {
     this.isPressed = true;
-    setTimeout((competency) => {
+    this.timeoutId = setTimeout((competency) => {
       if (competency.isPressed) {
         competency.press.emit();
       }
@@ -28,5 +29,6 @@ export class CompetencyComponent implements AfterViewInit {
 
   pressup() {
     this.isPressed = false;
+    clearTimeout(this.timeoutId);
   }
 }
