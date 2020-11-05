@@ -16,6 +16,8 @@ export class CompetencyComponent implements AfterViewInit {
     const element = document.getElementById('competency-button');
     element.addEventListener('mousedown', () => this.pressdown());
     element.addEventListener('mouseup',  () => this.pressup());
+    element.addEventListener('touchstart', () => this.pressdown());
+    element.addEventListener('touchend',  () => this.pressup());
   }
 
   pressdown() {
@@ -24,7 +26,7 @@ export class CompetencyComponent implements AfterViewInit {
       if (competency.isPressed) {
         competency.press.emit();
       }
-    }, 2000, this);
+    }, 300, this);
   }
 
   pressup() {
