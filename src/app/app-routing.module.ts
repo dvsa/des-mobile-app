@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'office',
+    loadChildren: () => import('./office/office.page.module').then(m => m.OfficePageModule)
+  },
 ];
 
 @NgModule({
