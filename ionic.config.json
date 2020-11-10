@@ -1,7 +1,0 @@
-{
-  "name": "des-mobil-app",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "angular"
-}

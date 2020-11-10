@@ -12,6 +12,8 @@
 Thumbs.db
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
+ionic.config.json
+.npmrc
 
 *.log
 log.txt
