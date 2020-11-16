@@ -1,14 +1,85 @@
 <ion-header>
-    <ion-title>Office</ion-title>
+  <ion-toolbar>
+    <ion-title>Test Summary - Florence Pearson</ion-title>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
+  <ion-row class="mes-full-width-card" id="candidate-section">
+    <ion-col>
+      <h2 id="candidate-name">Miss Florence Pearson</h2>
+      <h3 id="candidate-driver-number">PEARS76765577BN</h3>
+    </ion-col>
+    <ion-col class="align-col-right">
+      <h2>14:32</h2>
+      <h3>Test outcome:
+        <div id="test-outcome-text" class="inline-mode">
+                  <span class="pass">
+                      Passed
+                  </span>
+        </div>
+    </h3>
+  </ion-col>
+</ion-row>
   <form>
     <ion-card>
       <ion-card-header>
         <h4>Test Summary</h4>
       </ion-card-header>
+      <ion-card-content class="card-content-ios">
+        <ion-grid class="grid">
+          <ion-row class="mes-validated-row mes-row-separator">
+            <ion-col class="component-label ion-align-self-center" size="5">
+              <label>Ion Select</label>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+                <ion-select placeholder="Select something" okText="Submit" cancelText="Cancel"></ion-select>
+            </ion-col>
+          </ion-row>
+          <ion-row class="mes-validated-row mes-row-separator">
+            <ion-col class="component-label ion-align-self-center" size="5">
+              <label>Input (Number)</label>
+            </ion-col>
+            <ion-col class="ion-align-self-center" size="2">
+              <input placeholder="Number" type="number">
+            </ion-col>
+          </ion-row>
+          <ion-row class="mes-validated-row mes-row-separator">
+            <ion-col class="component-label ion-align-self-center" size="5">
+              <label>Radio button</label>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+              <ion-row>
+                <ion-col>
+                  <input type="radio" id="radio-yes" value="yes" class="gds-radio-button">
+                  <label for="radio-yes" class="radio-label">Yes</label>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+              <ion-row>
+                <ion-col>
+                  <input type="radio" id="radio-no" value="yes" class="gds-radio-button">
+                  <label for="radio-no" class="radio-label">No</label>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+          <ion-row class="mes-validated-row mes-row-separator">
+            <ion-col class="component-label ion-align-self-center" size="5">
+              <label>Text Box</label>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+              <ion-row>
+                <ion-col class="textarea-input">
+                  <textarea id="textarea" class="mes-data">
+                  </textarea>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
+      </ion-card-content>
     </ion-card>
-    <ion-card-content class="card-content-ios" no-bounce no-padding>
-    </ion-card-content>
   </form>
 </ion-content>

@@ -3,6 +3,52 @@
 
 /** Ionic CSS Variables **/
 :root {
+  /** custom variables **/
+  --gds-black: #0b0c0c;
+  --gds-grey-1: #6f777b;
+  --gds-grey-2: #bfc1c3;
+  --gds-grey-3: #dee0e2;
+  --gds-grey-4: #f8f8f8;
+  --gds-grey-5: #efefee;
+  --gds-red: #b10e1e;
+  --gds-bright-red: #df3034;
+  --gds-orange: #f47738;
+  --gds-brown: #b58840;
+  --gds-yellow: #ffbf47;
+  --gds-light-green: #85994b;
+  --gds-green: #006435;
+  --gds-dark-green: #00823b;
+  --gds-dark-green-2: #006f4b;
+  --gds-dark-green-3: #00703c;
+  --gds-turquoise: #28a197;
+  --gds-light-blue: #2b8cc4;
+  --gds-blue: #005ea5;
+  --gds-light-purple: #6f72af;
+  --gds-purple: #2e358b;
+  --gds-bright-purple: #912b88;
+  --gds-pink: #d53880;
+  --gds-light-pink: #f499be;
+  --gds-lavendar: #e8f0fe;
+  --primary: #488aff;
+  --secondary: #32db64;
+  --danger: #f53d3d;
+  --light: #f4f4f4;
+  --dark: #222;
+  --mes-secondary-header: #dbd8d8;
+  --mes-background: #efefee;
+  --mes-toolbar-background: #212121;
+  --mes-white: #ffffff;
+  --mesBoxGrey: #f6f6f6;
+  --journalTestCategory:  #818080;
+  --journalSlotChangeIdentifier: #d0021b;
+  --secondary-button: #f5a623;
+  --nonTestActivitySlotBackground: rgba(198, 236, 233, 0.1);
+  --travelSlotBackground: #eef8e5;
+  --mes-validation-error: #b12025;
+  --mes-light-yellow: #F8E8CE;
+  --mes-light-grey: #f9f9f9;
+  --reverseLightBlue: #e8f0fe;
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -76,7 +122,7 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   /*
    * Dark Colors
    * -------------------------------------------
