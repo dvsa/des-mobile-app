@@ -4,6 +4,11 @@
 /** Ionic CSS Variables **/
 :root {
   /** custom variables **/
+  --ion-toolbar-background: #0b0c0c;
+  --ion-toolbar-color: #efefee;
+  ion-content {
+    --background: #f9f9f9;
+  }
   --gds-black: #0b0c0c;
   --gds-grey-1: #6f777b;
   --gds-grey-2: #bfc1c3;
@@ -225,7 +230,7 @@
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
 
-    --ion-toolbar-background: #0d0d0d;
+    --ion-toolbar-background: var();
 
     --ion-item-background: #000000;
 
@@ -269,7 +274,7 @@
 
     --ion-item-background: #1e1e1e;
 
-    --ion-toolbar-background: #1f1f1f;
+    --ion-toolbar-background: --gds-black;
 
     --ion-tab-bar-background: #1f1f1f;
 
