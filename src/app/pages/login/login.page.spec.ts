@@ -38,8 +38,8 @@ describe('LoginPage', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params: of([{ hasUserLoggedOut: true }]),
-            queryParams: of({
+            params$: of([{ hasUserLoggedOut: true }]),
+            queryParams$: of({
               hasUserLoggedOut: true,
             }),
           },

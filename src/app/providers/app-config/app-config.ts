@@ -19,7 +19,7 @@ export class AppConfigProvider {
 
   public getAppConfig = (): AppConfig => {
     if (!this.appConfig) {
-      this.initialiseAppConfig().then(res => {
+      this.initialiseAppConfig().then((res) => {
         return res;
       });
     }
@@ -36,7 +36,7 @@ export class AppConfigProvider {
     }
   }
 
-  private mapInAppConfig = (data) =>
+  private mapInAppConfig = (data) => {
     this.appConfig = merge({}, this.appConfig, {
       configUrl: data.configUrl,
       logoutClearsTestPersistence: data.logoutClearsTestPersistence,
@@ -51,5 +51,6 @@ export class AppConfigProvider {
         logoutUrl: data.authentication.logoutUrl,
         employeeIdKey: data.authentication.employeeIdKey,
       },
-    } as AppConfig)
+    } as AppConfig);
+  }
 }
