@@ -134,6 +134,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     this.router.navigate(['home']);
   };
 
+  /*
   async showErrorDetails() {
     const alert = await this.alertController.create({
       header: 'Error details',
@@ -142,6 +143,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     });
     await alert.present();
   }
+  */
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
     if (isLoading) {
