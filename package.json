@@ -14,8 +14,8 @@
     "gitSecrets": "git secrets --scan",
     "scanRepo": "git log -p -n 15 | scanrepo",
     "e2e": "ng e2e",
-    "ionic:serve": "ng run app:serve --host=localhost --port=8100",
     "serve:local": "run-s config:local ionic:serve",
+    "serve:emulator": "npm run config:dev-tools && ionic cap run ios -l --external",
     "config:dev-tools": "cp src/environments/environment.dev.dev-tools.ts src/environments/environment.ts",
     "config:local": "cp src/environments/environment.local.ts src/environments/environment.ts"
   },
