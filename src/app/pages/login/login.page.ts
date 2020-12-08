@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController, Platform } from '@ionic/angular';
+import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
@@ -18,13 +18,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginPage extends BasePageComponent implements OnInit {
 
   appInitError: AuthenticationError | AppConfigError;
-
   hasUserLoggedOut = false;
-
   hasDeviceTypeError = false;
 
   constructor(
     public loadingController: LoadingController,
+    public alertController: AlertController,
     public platform: Platform,
     public appConfigProvider: AppConfigProvider,
     public authenticationProvider: AuthenticationProvider,
@@ -119,12 +118,12 @@ export class LoginPage extends BasePageComponent implements OnInit {
   };
 
   isUnknownError = (): boolean => {
-    return !this.hasUserLoggedOut &&
-      this.appInitError &&
-      this.appInitError.valueOf() !== AuthenticationError.USER_CANCELLED &&
-      this.appInitError.valueOf() !== AuthenticationError.NO_INTERNET &&
-      this.appInitError.valueOf() !== AuthenticationError.USER_NOT_AUTHORISED &&
-      this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION;
+    return !this.hasUserLoggedOut
+      && this.appInitError
+      && this.appInitError.valueOf() !== AuthenticationError.USER_CANCELLED
+      && this.appInitError.valueOf() !== AuthenticationError.NO_INTERNET
+      && this.appInitError.valueOf() !== AuthenticationError.USER_NOT_AUTHORISED
+      && this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION;
   };
 
   /**
@@ -135,14 +134,12 @@ export class LoginPage extends BasePageComponent implements OnInit {
   };
 
   async showErrorDetails() {
-    /*
-    const alert = await this.alertCtrl.create({
+    const alert = await this.alertController.create({
       header: 'Error details',
       message: JSON.stringify(this.appInitError),
       buttons: ['OK'],
     });
     await alert.present();
-    */
   }
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
