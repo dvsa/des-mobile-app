@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AppConfigProvider } from '../app-config/app-config';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
+import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 
@@ -12,10 +12,12 @@ export enum Token {
 
 @Injectable()
 export class AuthenticationProvider {
-
   public authenticationSettings: any;
+
   private employeeIdKey: string;
+
   private inUnAuthenticatedMode: boolean;
+
   public ionicAuth: IonicAuth;
 
   constructor(
@@ -26,7 +28,7 @@ export class AuthenticationProvider {
 
   }
 
-  private getAuthOptions =  (): IonicAuthOptions => {
+  private getAuthOptions = (): IonicAuthOptions => {
     const authSettings = this.appConfig.getAppConfig().authentication;
     return {
       authConfig: 'azure',
@@ -46,7 +48,7 @@ export class AuthenticationProvider {
         setRefreshToken: async (token: string) => await this.setToken(Token.REFRESH, token),
       },
     };
-  }
+  };
 
   public async expireTokens(): Promise<void> {
     await this.ionicAuth.expire();
@@ -70,11 +72,11 @@ export class AuthenticationProvider {
     this.employeeIdKey = this.appConfig.getAppConfig().authentication.employeeIdKey;
     this.inUnAuthenticatedMode = false;
     this.ionicAuth = new IonicAuth(this.getAuthOptions());
-  }
+  };
 
   public isInUnAuthenticatedMode = (): boolean => {
     return this.inUnAuthenticatedMode;
-  }
+  };
 
   public async isAuthenticated(): Promise<boolean> {
     if (this.isInUnAuthenticatedMode()) {
@@ -85,12 +87,12 @@ export class AuthenticationProvider {
 
   public setUnAuthenticatedMode = (mode: boolean): void => {
     this.inUnAuthenticatedMode = mode;
-  }
+  };
 
   public determineAuthenticationMode = (): void => {
     const mode = this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
     this.setUnAuthenticatedMode(mode);
-  }
+  };
 
   async hasValidToken(): Promise<boolean> {
     // refresh token if required
@@ -120,7 +122,7 @@ export class AuthenticationProvider {
     }
     await this.isAuthenticated();
     return this.getToken(Token.ID);
-  }
+  };
 
   private async clearTokens(): Promise<void> {
     await this.dataStoreProvider.removeItem(Token.ACCESS);

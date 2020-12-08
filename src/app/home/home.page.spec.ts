@@ -5,7 +5,7 @@ import { HomePage } from './home.page';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../providers/authentication/_mocks_/authentication.mock';
 import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
-import { RouterTestingModule, setupTestingRouter } from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
 describe('HomePage', () => {

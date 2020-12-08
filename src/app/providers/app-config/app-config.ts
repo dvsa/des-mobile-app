@@ -8,6 +8,7 @@ import { merge } from 'lodash';
 export class AppConfigProvider {
 
   isDebugMode = false;
+
   environmentFile = environment;
 
   private appConfig: AppConfig;
@@ -25,7 +26,7 @@ export class AppConfigProvider {
     }
 
     return this.appConfig;
-  }
+  };
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
@@ -34,7 +35,7 @@ export class AppConfigProvider {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   private mapInAppConfig = (data) => {
     this.appConfig = merge({}, this.appConfig, {
@@ -52,5 +53,5 @@ export class AppConfigProvider {
         employeeIdKey: data.authentication.employeeIdKey,
       },
     } as AppConfig);
-  }
+  };
 }

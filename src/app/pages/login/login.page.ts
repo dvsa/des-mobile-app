@@ -18,7 +18,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class LoginPage extends BasePageComponent implements OnInit {
 
   appInitError: AuthenticationError | AppConfigError;
+
   hasUserLoggedOut = false;
+
   hasDeviceTypeError = false;
 
   constructor(
@@ -37,7 +39,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.route.queryParams.subscribe((params) => {
+    this.route.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
       }
@@ -53,11 +55,11 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
   isUserNotAuthorised = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_NOT_AUTHORISED;
-  }
+  };
 
   isInvalidAppVersionError = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError === AppConfigError.INVALID_APP_VERSION;
-  }
+  };
 
   login = async (): Promise<any> => {
     await this.handleLoadingUI(true);
@@ -84,16 +86,16 @@ export class LoginPage extends BasePageComponent implements OnInit {
       this.appInitError = error;
       console.log(error);
     }
-  }
+  };
 
   initialiseAppConfig = (): Promise<void> => {
     return this.appConfigProvider.initialiseAppConfig();
-  }
+  };
 
   initialiseAuthentication = (): void => {
     this.authenticationProvider.initialiseAuthentication();
     this.authenticationProvider.determineAuthenticationMode();
-  }
+  };
 
   async initialisePersistentStorage(): Promise<void> {
     if (this.platform.is('ios')) {
@@ -110,11 +112,11 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
   isInternetConnectionError = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.NO_INTERNET;
-  }
+  };
 
   isUserCancelledError = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_CANCELLED;
-  }
+  };
 
   isUnknownError = (): boolean => {
     return !this.hasUserLoggedOut &&
@@ -123,22 +125,24 @@ export class LoginPage extends BasePageComponent implements OnInit {
       this.appInitError.valueOf() !== AuthenticationError.NO_INTERNET &&
       this.appInitError.valueOf() !== AuthenticationError.USER_NOT_AUTHORISED &&
       this.appInitError.valueOf() !== AppConfigError.INVALID_APP_VERSION;
-  }
+  };
 
   /**
    * Check app is running on a supported device and navigate to app starting page
    */
   validateDeviceType = (): void => {
     this.router.navigate(['home']);
-  }
+  };
 
   async showErrorDetails() {
+    /*
     const alert = await this.alertCtrl.create({
       header: 'Error details',
       message: JSON.stringify(this.appInitError),
       buttons: ['OK'],
     });
     await alert.present();
+    */
   }
 
   async handleLoadingUI(isLoading: boolean): Promise<void> {
