@@ -38,9 +38,11 @@ export class NetworkStateProvider {
     this.networkStatus$.next(status);
   }
 
+  // eslint-disable-next-line rxjs/finnish
   public onNetworkChange(): Observable<ConnectionStatus> {
     return this.networkStatus$.asObservable();
   }
+
   /**
    * Gets whether the network is online or offline
    * NOTE: networkStatus$ guard clause allows app to run in browser

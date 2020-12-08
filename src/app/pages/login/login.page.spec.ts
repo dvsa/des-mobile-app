@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AlertController, IonicModule, LoadingController, Platform } from '@ionic/angular';
+import {
+  AlertController, IonicModule, LoadingController, Platform,
+} from '@ionic/angular';
 
 import { LoginPage } from './login.page';
 import { AlertControllerMock, LoadingControllerMock, PlatformMock } from 'ionic-mocks';
