@@ -13,11 +13,8 @@ export enum Token {
 @Injectable()
 export class AuthenticationProvider {
   public authenticationSettings: any;
-
   private employeeIdKey: string;
-
   private inUnAuthenticatedMode: boolean;
-
   public ionicAuth: IonicAuth;
 
   constructor(
@@ -40,12 +37,12 @@ export class AuthenticationProvider {
       logoutUrl: authSettings.logoutUrl,
       iosWebView: 'shared',
       tokenStorageProvider: {
-        getAccessToken: async () => await this.getToken(Token.ACCESS),
-        setAccessToken: async (token: string) => await this.setToken(Token.ACCESS, token),
-        getIdToken: async () => await this.getToken(Token.ID),
-        setIdToken: async (token: string) => await this.setToken(Token.ID, token),
-        getRefreshToken: async () => await this.getToken(Token.REFRESH),
-        setRefreshToken: async (token: string) => await this.setToken(Token.REFRESH, token),
+        getAccessToken: async () => this.getToken(Token.ACCESS),
+        setAccessToken: async (token: string) => this.setToken(Token.ACCESS, token),
+        getIdToken: async () => this.getToken(Token.ID),
+        setIdToken: async (token: string) => this.setToken(Token.ID, token),
+        getRefreshToken: async () => this.getToken(Token.REFRESH),
+        setRefreshToken: async (token: string) => this.setToken(Token.REFRESH, token),
       },
     };
   };
@@ -82,7 +79,7 @@ export class AuthenticationProvider {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve(true);
     }
-    return await this.ionicAuth.isAuthenticated();
+    return this.ionicAuth.isAuthenticated();
   }
 
   public setUnAuthenticatedMode = (mode: boolean): void => {
@@ -134,7 +131,7 @@ export class AuthenticationProvider {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve();
     }
-    return await this.ionicAuth.login();
+    return this.ionicAuth.login();
   }
 
   public async logout(): Promise<void> {
