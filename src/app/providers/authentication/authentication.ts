@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AppConfigProvider } from '../app-config/app-config';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
+import { AppConfigProvider } from '../app-config/app-config';
 import { DataStoreProvider } from '../data-store/data-store';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 
@@ -12,7 +12,6 @@ export enum Token {
 
 @Injectable()
 export class AuthenticationProvider {
-
   public authenticationSettings: any;
   private employeeIdKey: string;
   private inUnAuthenticatedMode: boolean;
@@ -26,7 +25,7 @@ export class AuthenticationProvider {
 
   }
 
-  private getAuthOptions =  (): IonicAuthOptions => {
+  private getAuthOptions = (): IonicAuthOptions => {
     const authSettings = this.appConfig.getAppConfig().authentication;
     return {
       authConfig: 'azure',
@@ -38,15 +37,15 @@ export class AuthenticationProvider {
       logoutUrl: authSettings.logoutUrl,
       iosWebView: 'shared',
       tokenStorageProvider: {
-        getAccessToken: async () => await this.getToken(Token.ACCESS),
-        setAccessToken: async (token: string) => await this.setToken(Token.ACCESS, token),
-        getIdToken: async () => await this.getToken(Token.ID),
-        setIdToken: async (token: string) => await this.setToken(Token.ID, token),
-        getRefreshToken: async () => await this.getToken(Token.REFRESH),
-        setRefreshToken: async (token: string) => await this.setToken(Token.REFRESH, token),
+        getAccessToken: async () => this.getToken(Token.ACCESS),
+        setAccessToken: async (token: string) => this.setToken(Token.ACCESS, token),
+        getIdToken: async () => this.getToken(Token.ID),
+        setIdToken: async (token: string) => this.setToken(Token.ID, token),
+        getRefreshToken: async () => this.getToken(Token.REFRESH),
+        setRefreshToken: async (token: string) => this.setToken(Token.REFRESH, token),
       },
     };
-  }
+  };
 
   public async expireTokens(): Promise<void> {
     await this.ionicAuth.expire();
@@ -70,27 +69,27 @@ export class AuthenticationProvider {
     this.employeeIdKey = this.appConfig.getAppConfig().authentication.employeeIdKey;
     this.inUnAuthenticatedMode = false;
     this.ionicAuth = new IonicAuth(this.getAuthOptions());
-  }
+  };
 
   public isInUnAuthenticatedMode = (): boolean => {
     return this.inUnAuthenticatedMode;
-  }
+  };
 
   public async isAuthenticated(): Promise<boolean> {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve(true);
     }
-    return await this.ionicAuth.isAuthenticated();
+    return this.ionicAuth.isAuthenticated();
   }
 
   public setUnAuthenticatedMode = (mode: boolean): void => {
     this.inUnAuthenticatedMode = mode;
-  }
+  };
 
   public determineAuthenticationMode = (): void => {
     const mode = this.networkState.getNetworkState() === ConnectionStatus.OFFLINE;
     this.setUnAuthenticatedMode(mode);
-  }
+  };
 
   async hasValidToken(): Promise<boolean> {
     // refresh token if required
@@ -120,7 +119,7 @@ export class AuthenticationProvider {
     }
     await this.isAuthenticated();
     return this.getToken(Token.ID);
-  }
+  };
 
   private async clearTokens(): Promise<void> {
     await this.dataStoreProvider.removeItem(Token.ACCESS);
@@ -132,7 +131,7 @@ export class AuthenticationProvider {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve();
     }
-    return await this.ionicAuth.login();
+    return this.ionicAuth.login();
   }
 
   public async logout(): Promise<void> {

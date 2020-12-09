@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { Platform } from '@ionic/angular';
-import { AppConfig } from './app-config.model';
 import { merge } from 'lodash';
+import { environment } from '../../../environments/environment';
+import { AppConfig } from './app-config.model';
 
 @Injectable()
 export class AppConfigProvider {
 
   isDebugMode = false;
+
   environmentFile = environment;
 
   private appConfig: AppConfig;
@@ -19,13 +20,13 @@ export class AppConfigProvider {
 
   public getAppConfig = (): AppConfig => {
     if (!this.appConfig) {
-      this.initialiseAppConfig().then(res => {
+      this.initialiseAppConfig().then((res) => {
         return res;
       });
     }
 
     return this.appConfig;
-  }
+  };
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
@@ -34,9 +35,9 @@ export class AppConfigProvider {
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
-  private mapInAppConfig = (data) =>
+  private mapInAppConfig = (data) => {
     this.appConfig = merge({}, this.appConfig, {
       configUrl: data.configUrl,
       logoutClearsTestPersistence: data.logoutClearsTestPersistence,
@@ -51,5 +52,6 @@ export class AppConfigProvider {
         logoutUrl: data.authentication.logoutUrl,
         employeeIdKey: data.authentication.employeeIdKey,
       },
-    } as AppConfig)
+    } as AppConfig);
+  };
 }

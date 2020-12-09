@@ -6,7 +6,9 @@ import { SecureStorageObject } from '@ionic-native/secure-storage/ngx';
 export class DataStoreProvider {
 
   defaultStoreName = 'DES';
+
   secureContainer: SecureStorageObject = null;
+
   tempStorage: [];
 
   constructor(

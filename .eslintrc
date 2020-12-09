@@ -1,0 +1,39 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "rxjs"
+  ],
+  "extends": [
+    "airbnb-typescript/base"
+  ],
+  "rules": {
+    "@typescript-eslint/lines-between-class-members": "off",
+    "no-unused-expressions": "error",
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "arrow-body-style": "off",
+    "padded-blocks": "off",
+    "no-console": "warn",
+    "import/prefer-default-export": "off",
+    "quotes": ["error", "single"],
+    "indent": ["error", 2],
+    "max-len": ["error", { "code": 120 }],
+    "rxjs/finnish": [
+      "error",
+      {
+        "functions": false,
+        "methods": false,
+        "parameters": true,
+        "properties": true,
+        "variables": true
+      }
+    ],
+    "rxjs/ban-operators": "error",
+    "rxjs/no-unsafe-switchmap": "error"
+  }
+}
