@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { Platform } from '@ionic/angular';
-import { AppConfig } from './app-config.model';
 import { merge } from 'lodash';
+import { environment } from '../../../environments/environment';
+import { AppConfig } from './app-config.model';
 
 @Injectable()
 export class AppConfigProvider {

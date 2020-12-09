@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '../authentication/authentication';
 import { NavigationExtras, Router } from '@angular/router';
+import { AuthenticationProvider } from '../authentication/authentication';
 
 @Injectable()
 export class LogoutProvider {

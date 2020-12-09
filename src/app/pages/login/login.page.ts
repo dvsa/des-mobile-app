@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, Platform } from '@ionic/angular';
+import { SecureStorage } from '@ionic-native/secure-storage/ngx';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { DataStoreProvider } from '../../providers/data-store/data-store';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
 import { BasePageComponent } from '../../shared/classes/base-page';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',

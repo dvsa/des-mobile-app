@@ -14,12 +14,11 @@
   "rules": {
     "@typescript-eslint/lines-between-class-members": "off",
     "no-unused-expressions": "error",
-    "class-methods-use-this": "off", // discuss
-    "consistent-return": "off", // discuss
-    "arrow-body-style": "off", // discuss
-    "padded-blocks": "off", // discuss
-    "no-console": "off", // discuss
-    "import/order": "off", // discuss (auto import tool)
+    "class-methods-use-this": "off",
+    "consistent-return": "off",
+    "arrow-body-style": "off",
+    "padded-blocks": "off",
+    "no-console": "warn",
     "import/prefer-default-export": "off",
     "quotes": ["error", "single"],
     "indent": ["error", 2],

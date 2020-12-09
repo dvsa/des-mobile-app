@@ -6,13 +6,13 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { SecureStorage } from '@ionic-native/secure-storage/ngx';
+import { Network } from '@ionic-native/network/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppConfigProvider } from './providers/app-config/app-config';
 import { AuthenticationProvider } from './providers/authentication/authentication';
 import { DataStoreProvider } from './providers/data-store/data-store';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
-import { Network } from '@ionic-native/network/ngx';
 import { NetworkStateProvider } from './providers/network-state/network-state';
 import { AuthGuard } from './guards/auth-guard';
 import { LogoutProvider } from './providers/logout/logout';
