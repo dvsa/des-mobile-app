@@ -23,7 +23,7 @@ import { LogoutProvider } from './providers/logout/logout';
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     StatusBar,
@@ -38,6 +38,6 @@ import { LogoutProvider } from './providers/logout/logout';
     NetworkStateProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

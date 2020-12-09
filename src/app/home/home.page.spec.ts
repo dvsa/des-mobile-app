@@ -15,21 +15,21 @@ describe('HomePage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomePage ],
+      declarations: [HomePage],
       imports: [
         RouterTestingModule.withRoutes(
           [
-            { path: '', component: HomePage }
-            ]
+            { path: '', component: HomePage },
+          ],
         ),
-        IonicModule.forRoot()
+        IonicModule.forRoot(),
       ],
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: Router, useValue: routerSpy },
-      ]
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HomePage);
