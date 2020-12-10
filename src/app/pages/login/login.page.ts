@@ -32,6 +32,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     public networkStateProvider: NetworkStateProvider,
     public router: Router,
     public route: ActivatedRoute,
+    public alertCtrl: AlertController,
   ) {
     super(platform);
   }
