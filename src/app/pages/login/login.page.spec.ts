@@ -40,8 +40,10 @@ describe('LoginPage', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            params$: of([{ hasUserLoggedOut: true }]),
-            queryParams$: of({
+            // eslint-disable-next-line rxjs/finnish
+            params: of([{ hasUserLoggedOut: true }]),
+            // eslint-disable-next-line rxjs/finnish
+            queryParams: of({
               hasUserLoggedOut: true,
             }),
           },

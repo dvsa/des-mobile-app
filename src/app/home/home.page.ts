@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
-import { AuthenticationProvider } from '../providers/authentication/authentication';
+import { AlertController, Platform } from '@ionic/angular';
 import { BasePageComponent } from '../shared/classes/base-page';
-import { LogoutProvider } from '../providers/logout/logout';
+import { AuthenticationProvider } from '../providers/authentication/authentication';
 
 @Component({
   selector: 'app-home',
@@ -13,20 +12,39 @@ import { LogoutProvider } from '../providers/logout/logout';
 export class HomePage extends BasePageComponent {
 
   constructor(
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    public router: Router,
-    public logoutProvider: LogoutProvider,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
+    private alertController: AlertController,
   ) {
-    super(platform);
+    super(platform, authenticationProvider, router);
   }
 
   goToLogin() {
     this.router.navigate(['login']);
   }
 
-  logout() {
-    this.logoutProvider.openLogoutModal();
+  onLogout() {
+    this.openLogoutModal();
   }
 
+  async openLogoutModal() {
+    const alert = await this.alertController.create({
+      cssClass: 'logout-modal',
+      header: 'Logout?',
+      message: 'Are you sure you want to logout?',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: () => {
+          },
+        }, {
+          text: 'Logout',
+          handler: () => this.logout(),
+        },
+      ],
+    });
+
+    await alert.present();
+  }
 }
