@@ -24,8 +24,6 @@ DVSA Driving Examiner Application
 - For simulator `ionic cap run ios -l --external` this will open xcode where you can select your device and click play
 - For browser `ionic serve`
 
-### TODO
-
 #### Config
 
 - Environment file is currently configured for DES locally, needs to be replaced with app specific values and configured to use Mdm  
