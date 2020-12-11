@@ -7,11 +7,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-
     "test": "ng test --no-watch",
     "test:watch": "ng test",
     "test:coverage": "ng test --no-watch --code-coverage",
-    
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
@@ -41,6 +39,7 @@
     "cordova-plugin-secure-storage-echo": "^5.1.1",
     "ionic-mocks": "^1.3.0",
     "lodash": "^4.17.20",
+    "ng-bullet": "^1.0.3",
     "protractor": "^7.0.0",
     "rxjs": "~6.5.5",
     "rxjs-compat": "^6.6.3",

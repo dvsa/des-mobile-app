@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AlertController, IonicModule, LoadingController, Platform,
 } from '@ionic/angular';
-
+import { configureTestSuite } from 'ng-bullet';
 import { AlertControllerMock, LoadingControllerMock, PlatformMock } from 'ionic-mocks';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { SecureStorageMock } from '@ionic-native-mocks/secure-storage';
@@ -24,7 +24,7 @@ describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
 
-  beforeEach(async(() => {
+  configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [LoginPage],
       imports: [IonicModule.forRoot(), RouterTestingModule],
@@ -50,8 +50,10 @@ describe('LoginPage', () => {
         },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
       ],
-    }).compileComponents();
+    });
+  });
 
+  beforeEach(async(() => {
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
