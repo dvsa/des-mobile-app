@@ -7,7 +7,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "echo 'ng test'",
+
+    "test": "ng test --no-watch",
+    "test:watch": "ng test",
+    "test:coverage": "ng test --no-watch --code-coverage",
+    
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
