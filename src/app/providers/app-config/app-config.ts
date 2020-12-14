@@ -33,7 +33,9 @@ export class AppConfigProvider {
       this.mapInAppConfig(this.environmentFile);
       return Promise.resolve();
     } catch (err) {
-      console.log(err);
+
+      // TODO: Send error through the logging service
+
     }
   };
 

@@ -22,19 +22,18 @@ export class LoginPage extends BasePageComponent implements OnInit {
   hasDeviceTypeError = false;
 
   constructor(
-    public loadingController: LoadingController,
-    public alertController: AlertController,
-    public platform: Platform,
-    public appConfigProvider: AppConfigProvider,
-    public authenticationProvider: AuthenticationProvider,
-    public secureStorage: SecureStorage,
-    public dataStore: DataStoreProvider,
-    public networkStateProvider: NetworkStateProvider,
-    public router: Router,
-    public route: ActivatedRoute,
-    public alertCtrl: AlertController,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
+    private loadingController: LoadingController,
+    private alertController: AlertController,
+    private appConfigProvider: AppConfigProvider,
+    private secureStorage: SecureStorage,
+    private dataStore: DataStoreProvider,
+    private networkStateProvider: NetworkStateProvider,
+    private route: ActivatedRoute,
   ) {
-    super(platform);
+    super(platform, authenticationProvider, router);
   }
 
   ngOnInit(): void {
@@ -84,7 +83,8 @@ export class LoginPage extends BasePageComponent implements OnInit {
         await this.authenticationProvider.logout();
       }
       this.appInitError = error;
-      console.log(error);
+
+      // TODO: Send error through the logging service
     }
   };
 

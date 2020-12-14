@@ -1,9 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule, Platform } from '@ionic/angular';
-
 import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { configureTestSuite } from 'ng-bullet';
 import { HomePage } from './home.page';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../providers/authentication/_mocks_/authentication.mock';
@@ -13,7 +13,7 @@ describe('HomePage', () => {
   let fixture: ComponentFixture<HomePage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
-  beforeEach(async(() => {
+  configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [HomePage],
       imports: [
@@ -30,8 +30,10 @@ describe('HomePage', () => {
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: Router, useValue: routerSpy },
       ],
-    }).compileComponents();
+    });
+  });
 
+  beforeEach(async(() => {
     fixture = TestBed.createComponent(HomePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
