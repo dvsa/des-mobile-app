@@ -85,7 +85,6 @@ export class LoginPage extends BasePageComponent implements OnInit {
       this.appInitError = error;
 
       // TODO: Dispatch action and log the error elsewhere not to the console.
-      console.log(error);
     }
   };
 
