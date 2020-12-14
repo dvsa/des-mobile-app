@@ -13,9 +13,10 @@ export enum Token {
 @Injectable()
 export class AuthenticationProvider {
   public authenticationSettings: any;
-  private employeeIdKey: string;
   private inUnAuthenticatedMode: boolean;
   public ionicAuth: IonicAuth;
+  private employeeIdKey: string;
+  private employeeId: string;
 
   constructor(
     private appConfig: AppConfigProvider,
@@ -147,5 +148,17 @@ export class AuthenticationProvider {
     await this.clearTokens();
     await this.ionicAuth.logout();
   }
+
+  public async setEmployeeId() {
+    const idToken = await this.ionicAuth.getIdToken();
+    const employeeId = idToken[this.employeeIdKey];
+    const employeeIdClaim = Array.isArray(employeeId) ? employeeId[0] : employeeId;
+    const numericEmployeeId = Number.parseInt(employeeIdClaim, 10);
+    this.employeeId = numericEmployeeId.toString();
+  }
+
+  public getEmployeeId = (): string => {
+    return this.employeeId || null;
+  };
 
 }

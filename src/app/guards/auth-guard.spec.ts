@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AuthGuard } from './auth-guard';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
-import { AuthenticationProviderMock } from '../providers/authentication/_mocks_/authentication.mock';
+import { AuthenticationProviderMock } from '../providers/authentication/__mocks__/authentication.mock';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -23,6 +23,7 @@ import { DateTimeProvider } from './providers/date-time/date-time';
 import { environment } from '../environments/environment';
 import { AuthGuard } from './guards/auth-guard';
 import { AppInfoStoreModule } from '../store/app-info/app-info.module';
+import { AuthInterceptor } from './providers/authentication/interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -50,6 +51,11 @@ import { AppInfoStoreModule } from '../store/app-info/app-info.module';
     Network,
     NetworkStateProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

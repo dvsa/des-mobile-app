@@ -7,8 +7,8 @@ import { configureTestSuite } from 'ng-bullet';
 import { StoreModule } from '@ngrx/store';
 import { HomePage } from './home.page';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
-import { AuthenticationProviderMock } from '../providers/authentication/_mocks_/authentication.mock';
 import { appInfoReducer } from '../../store/app-info/app-info.reducer';
+import { AuthenticationProviderMock } from '../providers/authentication/__mocks__/authentication.mock';
 
 describe('HomePage', () => {
   let component: HomePage;

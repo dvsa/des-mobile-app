@@ -76,7 +76,14 @@ export class LoginPage extends BasePageComponent implements OnInit {
       await this.initialisePersistentStorage();
 
       await this.authenticationProvider.expireTokens();
-      await this.authenticationProvider.login();
+
+      const isAuthenticated = await this.authenticationProvider.isAuthenticated();
+
+      if (!isAuthenticated) {
+        await this.authenticationProvider.login();
+      }
+
+      await this.authenticationProvider.setEmployeeId();
 
       this.store$.dispatch(LoadEmployeeName());
 
