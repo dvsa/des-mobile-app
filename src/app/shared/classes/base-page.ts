@@ -21,7 +21,9 @@ export abstract class BasePageComponent {
       try {
         await this.authenticationProvider.logout();
       } catch (error) {
-        console.error(error);
+
+        // TODO: Send error through the logging service
+
       } finally {
         const navigationExtras: NavigationExtras = {
           state: {

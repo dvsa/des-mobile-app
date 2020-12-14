@@ -73,6 +73,9 @@ export class DataStoreProvider {
       return Promise.resolve('');
     }
     return this.secureContainer.remove(key).catch((error) => {
+
+      // TODO: Send error through the logging service
+
       console.error(`error removing ${key}. Error is: ${error.message}`);
       return Promise.resolve('');
     });
