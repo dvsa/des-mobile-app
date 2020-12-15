@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AlertController, IonicModule, LoadingController, Platform,
 } from '@ionic/angular';
@@ -57,11 +57,10 @@ describe('LoginPage', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
