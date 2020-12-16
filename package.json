@@ -21,8 +21,6 @@
     "config:dev": "cp src/environments/environment.dev.ts src/environments/environment.ts",
     "config:local": "cp src/environments/environment.local.ts src/environments/environment.ts",
     "schema-version": "buildScripts/generate-test-schema-version.js",
-    "test": "ng test",
-    "build": "ng build"
   },
   "private": true,
   "dependencies": {
