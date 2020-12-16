@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
-import { AppVersion } from '@ionic-native/app-version';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 import { AppInfoProvider } from '../app-info';
 // eslint-disable-next-line import/no-cycle
 import { AppVersionMock } from '../__mocks__/app-version.mock';
