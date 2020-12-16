@@ -1,4 +1,4 @@
-export type AppInfoModel = {
+export type AppInfoStateModel = {
   versionNumber: string,
   employeeId: string | null,
   employeeName: string,

@@ -7,11 +7,11 @@ import {
   SetDateConfigLoaded,
 } from './app-info.actions';
 
-import { AppInfoModel } from './app-info.model';
+import { AppInfoStateModel } from '../../types/app-info.model';
 
 export const appInfoFeatureKey = 'appInfo';
 
-export const initialState: AppInfoModel = {
+export const initialState: AppInfoStateModel = {
   versionNumber: 'VERSION_NOT_LOADED',
   employeeId: null,
   employeeName: 'Unknown Name',
@@ -19,23 +19,23 @@ export const initialState: AppInfoModel = {
 
 export const reducer = createReducer(
   initialState,
-  on(LoadAppInfoSuccess, (state: AppInfoModel, { versionNumber }) => ({
+  on(LoadAppInfoSuccess, (state: AppInfoStateModel, { versionNumber }) => ({
     ...state,
     versionNumber,
   })),
-  on(LoadAppInfoFailure, (state: AppInfoModel, { error }) => ({
+  on(LoadAppInfoFailure, (state: AppInfoStateModel, { error }) => ({
     ...state,
     error,
   })),
-  on(LoadEmployeeId, (state: AppInfoModel, { employeeId }) => ({
+  on(LoadEmployeeId, (state: AppInfoStateModel, { employeeId }) => ({
     ...state,
     employeeId,
   })),
-  on(LoadEmployeeNameSuccess, (state: AppInfoModel, { employeeName }) => ({
+  on(LoadEmployeeNameSuccess, (state: AppInfoStateModel, { employeeName }) => ({
     ...state,
     employeeName,
   })),
-  on(SetDateConfigLoaded, (state: AppInfoModel, { refreshDate }) => ({
+  on(SetDateConfigLoaded, (state: AppInfoStateModel, { refreshDate }) => ({
     ...state,
     dateConfigLoaded: refreshDate,
   })),
