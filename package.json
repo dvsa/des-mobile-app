@@ -10,7 +10,7 @@
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "npm run config:local && ionic serve",
     "serve:emulator": "npm run config:dev-tools && ionic cap run ios",
-    "serve:ipad": "npm run config:dev && npm run schema-version",
+    "serve:ipad:notworking": "npm run config:dev && npm run schema-version",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
