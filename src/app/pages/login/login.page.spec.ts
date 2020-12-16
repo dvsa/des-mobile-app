@@ -19,7 +19,7 @@ import { DataStoreProvider } from '../../providers/data-store/data-store';
 import { DataStoreProviderMock } from '../../providers/data-store/__mocks__/data-store.mock';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { NetworkStateProviderMock } from '../../providers/network-state/__mocks__/network-state.mock';
-import { LoginRouterMock } from './_mock_/login.page.mock';
+import { LoginRouterMock } from './__mocks__/login.page.mock';
 
 describe('LoginPage', () => {
   let component: LoginPage;
