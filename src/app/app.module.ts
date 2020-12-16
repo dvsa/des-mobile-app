@@ -8,12 +8,16 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppConfigProvider } from './providers/app-config/app-config';
 import { AuthenticationProvider } from './providers/authentication/authentication';
 import { DataStoreProvider } from './providers/data-store/data-store';
 import { NetworkStateProvider } from './providers/network-state/network-state';
+import { environment } from '../environments/environment';
 import { AuthGuard } from './guards/auth-guard';
 
 @NgModule({
@@ -23,6 +27,9 @@ import { AuthGuard } from './guards/auth-guard';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot(),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
     StatusBar,
