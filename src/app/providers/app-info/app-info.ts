@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AppVersionOriginal } from '@ionic-native/app-version';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 import { from, Observable } from 'rxjs';
 
 @Injectable()
 export class AppInfoProvider {
 
-  constructor(private appVersion: AppVersionOriginal) { }
+  constructor(private appVersion: AppVersion) { }
 
   public getVersionNumber(): Observable<string> {
     return from(this.appVersion.getVersionNumber());
