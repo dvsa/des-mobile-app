@@ -1,6 +1,6 @@
 {
   "appId": "des.mobile.app",
-  "appName": "des-mobile-app",
+  "appName": "DES 4",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
