@@ -1,4 +1,4 @@
-import { createReducer, on } from '@ngrx/store';
+import { createReducer, createFeatureSelector, on } from '@ngrx/store';
 import {
   LoadAppInfoFailure,
   LoadAppInfoSuccess,
@@ -40,3 +40,5 @@ export const reducer = createReducer(
     dateConfigLoaded: refreshDate,
   })),
 );
+
+export const getAppInfoState = createFeatureSelector<AppInfoStateModel>('appInfo');
