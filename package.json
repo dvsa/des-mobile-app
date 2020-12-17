@@ -11,6 +11,7 @@
     "serve:local": "npm run config:local && ionic serve",
     "serve:emulator": "npm run config:dev-tools && ionic cap run ios",
     "serve:ipad:notworking": "npm run config:dev && npm run schema-version",
+    "build": "npm run copy-resources && ionic build",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
@@ -20,7 +21,8 @@
     "config:dev-tools": "cp src/environments/environment.dev.dev-tools.ts src/environments/environment.ts",
     "config:dev": "cp src/environments/environment.dev.ts src/environments/environment.ts",
     "config:local": "cp src/environments/environment.local.ts src/environments/environment.ts",
-    "schema-version": "buildScripts/generate-test-schema-version.js"
+    "schema-version": "buildScripts/generate-test-schema-version.js",
+    "copy-resources": "rm -r ios/App/App/Assets.xcassets/AppIcon.appiconset* && cp -r resources/ios/icon/ ios/App/App/Assets.xcassets/AppIcon.appiconset && rm -r ios/App/App/Assets.xcassets/Splash.imageset/* && cp -r resources/ios/splash/ ios/App/App/Assets.xcassets/Splash.imageset"
   },
   "private": true,
   "dependencies": {
