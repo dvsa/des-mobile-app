@@ -22,7 +22,7 @@
     "config:dev": "cp src/environments/environment.dev.ts src/environments/environment.ts",
     "config:local": "cp src/environments/environment.local.ts src/environments/environment.ts",
     "schema-version": "buildScripts/generate-test-schema-version.js",
-    "copy-resources": "cp -r resources/ios/icon/ ios/App/App/Assets.xcassets/AppIcon.appiconset && cp -r resources/ios/splash/ ios/App/App/Assets.xcassets/Splash.imageset"
+    "copy-resources": "rm -r ios/App/App/Assets.xcassets/AppIcon.appiconset* && cp -r resources/ios/icon/ ios/App/App/Assets.xcassets/AppIcon.appiconset && rm -r ios/App/App/Assets.xcassets/Splash.imageset/* && cp -r resources/ios/splash/ ios/App/App/Assets.xcassets/Splash.imageset"
   },
   "private": true,
   "dependencies": {
