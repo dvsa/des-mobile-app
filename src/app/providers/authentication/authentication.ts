@@ -121,6 +121,14 @@ export class AuthenticationProvider {
     return this.getToken(Token.ID);
   };
 
+  public loadEmployeeName = async (): Promise<string> => {
+    const idToken = await this.ionicAuth.getIdToken();
+    if (idToken) {
+      return idToken[this.appConfig.getAppConfig().authentication.employeeNameKey];
+    }
+    return '';
+  };
+
   private async clearTokens(): Promise<void> {
     await this.dataStoreProvider.removeItem(Token.ACCESS);
     await this.dataStoreProvider.removeItem(Token.ID);
