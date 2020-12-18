@@ -4,9 +4,11 @@ import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { configureTestSuite } from 'ng-bullet';
+import { StoreModule } from '@ngrx/store';
 import { HomePage } from './home.page';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../providers/authentication/_mocks_/authentication.mock';
+import { appInfoReducer } from '../../store/app-info/app-info.reducer';
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -23,6 +25,7 @@ describe('HomePage', () => {
           ],
         ),
         IonicModule.forRoot(),
+        StoreModule.forRoot({ appInfo: appInfoReducer }),
       ],
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },

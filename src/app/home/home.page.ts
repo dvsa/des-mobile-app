@@ -20,8 +20,8 @@ export class HomePage extends BasePageComponent {
   constructor(
     private store$: Store<StoreModel>,
     private alertController: AlertController,
-    platform: Platform,
     authenticationProvider: AuthenticationProvider,
+    platform: Platform,
     router: Router,
   ) {
     super(platform, authenticationProvider, router);
