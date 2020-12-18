@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { AppVersionMock } from '@ionic-native-mocks/app-version';
 import { AppInfoProvider } from '../app-info';
-// eslint-disable-next-line import/no-cycle
-import { AppVersionMock } from '../__mocks__/app-version.mock';
 
-export const APP_VERSION_NUMBER = '1.1.9';
+const APP_VERSION_NUMBER = '1.1.9';
 
 describe('AppInfoProvider', () => {
   let appInfoProvider: AppInfoProvider;
@@ -21,8 +20,9 @@ describe('AppInfoProvider', () => {
   });
 
   beforeEach(() => {
-    appInfoProvider = TestBed.get(AppInfoProvider);
-    appVersionMock = TestBed.get(AppVersion);
+    appInfoProvider = TestBed.inject(AppInfoProvider);
+    appVersionMock = TestBed.inject(AppVersion);
+    spyOn(appVersionMock, 'getVersionNumber').and.returnValue(Promise.resolve(APP_VERSION_NUMBER));
   });
 
   describe('getVersionNumber', () => {

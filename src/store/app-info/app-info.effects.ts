@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -62,7 +61,7 @@ export class AppInfoEffects {
       ),
     )),
     filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now().format('YYYY-MM-DD')),
-    switchMap(([action, dateConfigLoaded]) => {
+    switchMap(() => {
       this.router.navigate(['login']);
       return of(RestartApp());
     }),

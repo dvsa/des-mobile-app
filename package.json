@@ -72,6 +72,7 @@
     "@dvsa/mes-journal-schema": "1.2.0",
     "@dvsa/mes-search-schema": "1.1.2",
     "@dvsa/mes-test-schema": "3.31.0",
+    "@ionic-native-mocks/app-version": "^2.0.12",
     "@ionic/angular-toolkit": "^2.3.0",
     "@ionic/app-scripts": "3.2.4",
     "@ngrx/schematics": "^10.1.0",
