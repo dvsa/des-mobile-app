@@ -1,7 +1,7 @@
 import { createReducer, createFeatureSelector, on } from '@ngrx/store';
 import {
-  LoadAppInfoFailure,
-  LoadAppInfoSuccess,
+  LoadAppVersionFailure,
+  LoadAppVersionSuccess,
   LoadEmployeeId,
   LoadEmployeeNameSuccess,
   SetDateConfigLoaded,
@@ -19,11 +19,11 @@ export const initialState: AppInfoStateModel = {
 
 export const appInfoReducer = createReducer(
   initialState,
-  on(LoadAppInfoSuccess, (state: AppInfoStateModel, { versionNumber }) => ({
+  on(LoadAppVersionSuccess, (state: AppInfoStateModel, { versionNumber }) => ({
     ...state,
     versionNumber,
   })),
-  on(LoadAppInfoFailure, (state: AppInfoStateModel, { error }) => ({
+  on(LoadAppVersionFailure, (state: AppInfoStateModel, { error }) => ({
     ...state,
     error,
   })),

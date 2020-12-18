@@ -14,9 +14,9 @@ import { DateTimeProvider } from '../../app/providers/date-time/date-time';
 import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
 import {
   AppResumed,
-  LoadAppInfo,
-  LoadAppInfoFailure,
-  LoadAppInfoSuccess,
+  LoadAppVersion,
+  LoadAppVersionFailure,
+  LoadAppVersionSuccess,
   LoadConfigSuccess,
   LoadEmployeeName,
   LoadEmployeeNameSuccess,
@@ -38,12 +38,12 @@ export class AppInfoEffects {
   ) {}
 
   loadAppInfo$ = createEffect(() => this.actions$.pipe(
-    ofType(LoadAppInfo.type),
+    ofType(LoadAppVersion.type),
     switchMap(() => this.appInfoProvider.getVersionNumber()
       .pipe(
-        map((versionNumber: string) => LoadAppInfoSuccess({ versionNumber })),
+        map((versionNumber: string) => LoadAppVersionSuccess({ versionNumber })),
         catchError((err: HttpErrorResponse) => {
-          return of(LoadAppInfoFailure(err));
+          return of(LoadAppVersionFailure(err));
         }),
       )),
   ));

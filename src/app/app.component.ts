@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { StoreModel } from '../types/store.model';
-import { LoadAppInfo } from '../store/app-info/app-info.actions';
+import { LoadAppVersion } from '../store/app-info/app-info.actions';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +25,7 @@ export class AppComponent {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.store$.dispatch(LoadAppInfo());
+      this.store$.dispatch(LoadAppVersion());
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });

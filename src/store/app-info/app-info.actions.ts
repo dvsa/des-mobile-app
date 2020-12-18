@@ -1,16 +1,16 @@
 import { createAction, props } from '@ngrx/store';
 
-export const LoadAppInfo = createAction(
-  '[AppComponent] Load App Info',
+export const LoadAppVersion = createAction(
+  '[AppComponent] Load App Version',
 );
 
-export const LoadAppInfoSuccess = createAction(
-  '[AppInfoEffects] Load App Info Success',
+export const LoadAppVersionSuccess = createAction(
+  '[AppInfoEffects] Load App Version Success',
   props<{ versionNumber: string }>(),
 );
 
-export const LoadAppInfoFailure = createAction(
-  '[AppInfoEffects] Load App Info Failure',
+export const LoadAppVersionFailure = createAction(
+  '[AppInfoEffects] Load App Version Failure',
   props<{ error: any }>(),
 );
 
