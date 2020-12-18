@@ -5,6 +5,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AppVersion } from '@ionic-native/app-version/ngx';
 
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
@@ -17,6 +18,8 @@ import { AppConfigProvider } from './providers/app-config/app-config';
 import { AuthenticationProvider } from './providers/authentication/authentication';
 import { DataStoreProvider } from './providers/data-store/data-store';
 import { NetworkStateProvider } from './providers/network-state/network-state';
+import { AppInfoProvider } from './providers/app-info/app-info';
+import { DateTimeProvider } from './providers/date-time/date-time';
 import { environment } from '../environments/environment';
 import { AuthGuard } from './guards/auth-guard';
 import { AppInfoStoreModule } from '../store/app-info/app-info.module';
@@ -36,8 +39,11 @@ import { AppInfoStoreModule } from '../store/app-info/app-info.module';
   providers: [
     StatusBar,
     SplashScreen,
+    AppVersion,
     AppConfigProvider,
     AuthenticationProvider,
+    AppInfoProvider,
+    DateTimeProvider,
     AuthGuard,
     SecureStorage,
     DataStoreProvider,
