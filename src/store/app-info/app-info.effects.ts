@@ -43,7 +43,10 @@ export class AppInfoEffects {
     switchMap(() => this.appInfoProvider.getVersionNumber()
       .pipe(
         map((versionNumber: string) => LoadAppInfoSuccess({ versionNumber })),
-        catchError((err: HttpErrorResponse) => of(LoadAppInfoFailure(err))),
+        catchError((err: HttpErrorResponse) => {
+          console.log(err);
+          return of(LoadAppInfoFailure(err));
+        }),
       )),
   ));
 
