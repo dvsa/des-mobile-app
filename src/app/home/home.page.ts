@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { BasePageComponent } from '../shared/classes/base-page';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
 import { StoreModel } from '../../types/store.model';
-import { selectVersionNumber } from '../../store/app-info/app-info.selectors';
+import { selectEmployeeName, selectVersionNumber } from '../../store/app-info/app-info.selectors';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -15,6 +15,7 @@ import { selectVersionNumber } from '../../store/app-info/app-info.selectors';
 export class HomePage extends BasePageComponent {
 
   appVersion$: Observable<string>;
+  employeeName$: Observable<string>;
 
   constructor(
     private store$: Store<StoreModel>,
@@ -28,6 +29,7 @@ export class HomePage extends BasePageComponent {
 
   ngOnInit() {
     this.appVersion$ = this.store$.select(selectVersionNumber);
+    this.employeeName$ = this.store$.select(selectEmployeeName);
   }
 
   goToLogin() {

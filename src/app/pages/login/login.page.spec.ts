@@ -9,6 +9,7 @@ import { SecureStorageMock } from '@ionic-native-mocks/secure-storage';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 import { LoginPage } from './login.page';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { AppConfigProviderMock } from '../../providers/app-config/_mock_/app-config.mock';
@@ -27,7 +28,8 @@ describe('LoginPage', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [LoginPage],
-      imports: [IonicModule.forRoot(), RouterTestingModule],
+      imports: [
+        IonicModule.forRoot(), RouterTestingModule, StoreModule.forRoot({})],
       providers: [
         { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
