@@ -19,6 +19,7 @@ import { DataStoreProvider } from './providers/data-store/data-store';
 import { NetworkStateProvider } from './providers/network-state/network-state';
 import { environment } from '../environments/environment';
 import { AuthGuard } from './guards/auth-guard';
+import { AppInfoStoreModule } from '../store/app-info/app-info.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +31,7 @@ import { AuthGuard } from './guards/auth-guard';
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    AppInfoStoreModule,
   ],
   providers: [
     StatusBar,

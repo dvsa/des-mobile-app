@@ -17,7 +17,7 @@ export const initialState: AppInfoStateModel = {
   employeeName: 'Unknown Name',
 };
 
-export const reducer = createReducer(
+export const appInfoReducer = createReducer(
   initialState,
   on(LoadAppInfoSuccess, (state: AppInfoStateModel, { versionNumber }) => ({
     ...state,
