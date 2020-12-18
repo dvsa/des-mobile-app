@@ -44,7 +44,6 @@ export class AppInfoEffects {
       .pipe(
         map((versionNumber: string) => LoadAppInfoSuccess({ versionNumber })),
         catchError((err: HttpErrorResponse) => {
-          console.log(err);
           return of(LoadAppInfoFailure(err));
         }),
       )),
