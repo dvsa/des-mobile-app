@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -24,6 +24,9 @@ import { environment } from '../environments/environment';
 import { AuthGuard } from './guards/auth-guard';
 import { AppInfoStoreModule } from '../store/app-info/app-info.module';
 import { AuthInterceptor } from './providers/authentication/interceptor';
+import { JournalProvider } from './providers/journal/journal';
+import { UrlProvider } from './providers/url/url';
+import { DateTimeProvider } from './providers/date-time/date-time';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +35,7 @@ import { AuthInterceptor } from './providers/authentication/interceptor';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    HttpClientModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
@@ -50,6 +54,9 @@ import { AuthInterceptor } from './providers/authentication/interceptor';
     DataStoreProvider,
     Network,
     NetworkStateProvider,
+    UrlProvider,
+    DateTimeProvider,
+    JournalProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,
