@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -19,10 +19,13 @@ import { AuthenticationProvider } from './providers/authentication/authenticatio
 import { DataStoreProvider } from './providers/data-store/data-store';
 import { NetworkStateProvider } from './providers/network-state/network-state';
 import { AppInfoProvider } from './providers/app-info/app-info';
-import { DateTimeProvider } from './providers/date-time/date-time';
 import { environment } from '../environments/environment';
 import { AuthGuard } from './guards/auth-guard';
 import { AppInfoStoreModule } from '../store/app-info/app-info.module';
+import { AuthInterceptor } from './providers/authentication/interceptor';
+import { JournalProvider } from './providers/journal/journal';
+import { UrlProvider } from './providers/url/url';
+import { DateTimeProvider } from './providers/date-time/date-time';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,6 +34,7 @@ import { AppInfoStoreModule } from '../store/app-info/app-info.module';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    HttpClientModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
@@ -49,7 +53,15 @@ import { AppInfoStoreModule } from '../store/app-info/app-info.module';
     DataStoreProvider,
     Network,
     NetworkStateProvider,
+    UrlProvider,
+    DateTimeProvider,
+    JournalProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
