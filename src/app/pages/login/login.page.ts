@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, LoadingController, Platform } from '@ionic/angular';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { DataStoreProvider } from '../../providers/data-store/data-store';
@@ -9,6 +11,8 @@ import { NetworkStateProvider } from '../../providers/network-state/network-stat
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
 import { BasePageComponent } from '../../shared/classes/base-page';
+import { LoadEmployeeName } from '../../../store/app-info/app-info.actions';
+import { StoreModel } from '../../../types/store.model';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +29,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
+    private store$: Store<StoreModel>,
     private loadingController: LoadingController,
     private alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
@@ -72,6 +77,8 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
       await this.authenticationProvider.expireTokens();
       await this.authenticationProvider.login();
+
+      this.store$.dispatch(LoadEmployeeName());
 
       await this.handleLoadingUI(false);
       this.validateDeviceType();
