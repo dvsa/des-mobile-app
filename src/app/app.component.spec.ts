@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { configureTestSuite } from 'ng-bullet';
+import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -22,6 +23,9 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [
+        StoreModule.forRoot({}),
+      ],
       providers: [
         { provide: StatusBar, useValue: statusBarSpy },
         { provide: SplashScreen, useValue: splashScreenSpy },

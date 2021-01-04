@@ -10,6 +10,8 @@
 <ion-content [fullscreen]="true">
 
   <div id="container">
+    <div *ngIf="appVersion$ | async as appVersion">{{ appVersion }}</div>
+    <div *ngIf="employeeName$ | async as employeeName">{{ employeeName }}</div>
     <strong>DVSA DES Mobile application with Ionic 5</strong>
     <p>Work in progress</p>
     <br>
