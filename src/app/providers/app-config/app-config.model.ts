@@ -8,7 +8,6 @@ export type AppConfig = {
   logsPostApiKey: string;
   logsApiUrl: string;
   logsAutoSendInterval: number;
-  timeTravelDate?: string,
   authentication: {
     context: string,
     resourceUrl: string,

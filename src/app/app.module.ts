@@ -19,7 +19,6 @@ import { AuthenticationProvider } from './providers/authentication/authenticatio
 import { DataStoreProvider } from './providers/data-store/data-store';
 import { NetworkStateProvider } from './providers/network-state/network-state';
 import { AppInfoProvider } from './providers/app-info/app-info';
-import { DateTimeProvider } from './providers/date-time/date-time';
 import { environment } from '../environments/environment';
 import { AuthGuard } from './guards/auth-guard';
 import { AppInfoStoreModule } from '../store/app-info/app-info.module';
