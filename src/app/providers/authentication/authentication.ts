@@ -125,7 +125,7 @@ export class AuthenticationProvider {
   public loadEmployeeName = async (): Promise<string> => {
     const idToken = await this.ionicAuth.getIdToken();
     if (idToken) {
-      return idToken.name;
+      return idToken[this.appConfig.getAppConfig().authentication.employeeNameKey];
     }
     return '';
   };
