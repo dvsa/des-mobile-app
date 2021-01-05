@@ -41,13 +41,13 @@ describe('Authentication', () => {
       expect(authenticationProvider).toBeDefined();
     });
 
-    it('determineAuthenticationMode() should set unauthenticated mode to true if offline', async () => {
+    it('determineAuthenticationMode() should set unauthenticated mode to true if offline', () => {
       spyOn(networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
       authenticationProvider.determineAuthenticationMode();
       expect(authenticationProvider.isInUnAuthenticatedMode()).toEqual(true);
     });
 
-    it('determineAuthenticationMode() should set unauthenticated mode to false if online', async () => {
+    it('determineAuthenticationMode() should set unauthenticated mode to false if online', () => {
       spyOn(networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       authenticationProvider.determineAuthenticationMode();
       expect(authenticationProvider.isInUnAuthenticatedMode()).toEqual(false);
