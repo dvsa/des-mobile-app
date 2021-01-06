@@ -9,9 +9,9 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'home',
+    path: 'dashboard',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardPageModule),
   },
   {
     path: 'login',
