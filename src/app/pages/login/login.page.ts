@@ -12,7 +12,7 @@ import { AuthenticationError } from '../../providers/authentication/authenticati
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { LoadEmployeeName } from '../../../store/app-info/app-info.actions';
-import { StoreModel } from '../../../types/store.model';
+import { StoreModel } from '../../shared/models/store.model';
 
 @Component({
   selector: 'app-login',
