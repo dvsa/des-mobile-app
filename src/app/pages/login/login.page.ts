@@ -119,7 +119,6 @@ export class LoginPage extends BasePageComponent implements OnInit {
   };
 
   isUnknownError = (): boolean => {
-    console.log(`appInitError ${this.appInitError}`);
     return !this.hasUserLoggedOut
       && this.appInitError
       && this.appInitError.valueOf() !== AuthenticationError.USER_CANCELLED
