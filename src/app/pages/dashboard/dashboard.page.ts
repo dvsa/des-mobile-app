@@ -10,6 +10,11 @@ import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { StoreModel } from '../../../types/store.model';
 import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info/app-info.selectors';
+
+interface DashboardPageState {
+  appVersion$: Observable<string>;
+  employeeName$: Observable<string>;
+}
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'dashboard.page.html',
@@ -17,8 +22,7 @@ import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info
 })
 export class DashboardPage extends LogoutBasePageComponent {
 
-  appVersion$: Observable<string>;
-  employeeName$: Observable<string>;
+  pageState: DashboardPageState;
   todaysDate: DateTime;
   todaysDateFormatted: string;
 
@@ -36,8 +40,10 @@ export class DashboardPage extends LogoutBasePageComponent {
   }
 
   ngOnInit() {
-    this.appVersion$ = this.store$.select(selectVersionNumber);
-    this.employeeName$ = this.store$.select(selectEmployeeName);
+    this.pageState = {
+      appVersion$: this.store$.select(selectVersionNumber),
+      employeeName$: this.store$.select(selectEmployeeName),
+    };
   }
 
   ionViewWillEnter(): boolean {
@@ -46,6 +52,8 @@ export class DashboardPage extends LogoutBasePageComponent {
 
     return true;
   }
+
+  isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 
   goToLogin() {
     this.router.navigate(['login']);

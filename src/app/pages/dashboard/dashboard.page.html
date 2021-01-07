@@ -1,10 +1,16 @@
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-button color="dark" (click)="onLogout()">
-      Logout
-    </ion-button>
-    <ion-title>DES Ionic 5 - Main Screen</ion-title>
-  </ion-toolbar>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="openLogoutModal()" *ngIf="isLogoutEnabled()">
+        <span>Logout</span>
+        <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+      </button>
+      <h6 *ngIf="!isLogoutEnabled()" class="version-number">Version {{pageState.appVersion$
+        | async}}</h6>
+      <input type="hidden" name="employeeId" id="employeeId" value="{{employeeId}}" />
+    </ion-buttons>
+    <ion-title>My dashboard</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">

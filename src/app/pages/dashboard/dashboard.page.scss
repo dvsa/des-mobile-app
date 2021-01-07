@@ -1,27 +1,101 @@
-#container {
+
+h4 { 
+  margin: 24px 12px 0px;
+}
+
+.card-ios {
+  border-radius: 5px;
+}
+
+.go-to-journal-card {
+  @media (orientation: landscape) {
+    margin-right: 6px;
+    width: calc(100% - 18px);
+  }
+}
+.search-card {
+  @media (orientation: landscape) {
+    margin-left: 8px;
+    margin-right: 8px;
+    width: calc(100% - 16px);
+  }
+  @media (orientation: portrait) {
+    margin-top: 0px;
+    margin-right: 8px;
+    width: calc(100% - 20px);
+  }
+}
+.rekey-search-card {
+  @media (orientation: landscape) {
+    margin-left: 6px;
+    width: calc(100% - 18px);
+  }
+  @media (orientation: portrait) {
+    margin-top: 0px;
+    margin-left: 8px;
+    width: calc(100% - 20px);
+  }
+}
+.practice-mode-card {
+  margin-bottom: 2px;
+}
+
+.content-ios hr {
+  background-color: map-get($colors-gds, 'gds-grey-2');
+  height: 2px;
+  margin: 0px 14px 0px;
+}
+.version-number {
+  color: var(--mes-secondary-header);
+  margin-top: -4px;
+}
+.last-sync {
+  color: var(--mes-secondary-header);
+  margin-top: -4px;
+}
+#unauthenticated-mode-indicator {
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  padding: 16px 0;
+  background: var(--gds-red);
+  #unauth-text {
+    color: var(--mes-white);
+    font-size: 20px;
+    font-weight: normal;
+    letter-spacing: 0.34px;
+    }
+  }
+  .toolbar-ios ion-title {
+  height: 100% !important;
+}
+ion-buttons[start] .button-inner{
+  flex-flow: column;
+  align-items: flex-start;
+  line-height: 25px;
+}
+ion-buttons[end] .button-inner{
+  flex-flow: column;
+  align-items: flex-end;
+  line-height: 25px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+.logout-modal {
+  .alert-head:before {
+    display: inline-block;
+    font-size: 68px;
+    content: '\f276';
+    display: inline-block;
+    font-family: "Ionicons";
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-rendering: auto;
+    text-transform: none;
+  }
+  .alert-title {
+    padding-left: 72px;
+    padding-right: 72px;
+  }
 }
