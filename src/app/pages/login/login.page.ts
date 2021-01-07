@@ -13,6 +13,7 @@ import { AppConfigError } from '../../providers/app-config/app-config.constants'
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { LoadEmployeeName } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
+import { StartSendingLogs } from '../../../store/logs/logs.actions';
 
 @Component({
   selector: 'app-login',
@@ -71,6 +72,9 @@ export class LoginPage extends BasePageComponent implements OnInit {
     try {
       await this.platform.ready();
       await this.initialiseAppConfig();
+
+      this.store$.dispatch(StartSendingLogs());
+
       this.initialiseAuthentication();
 
       await this.initialisePersistentStorage();

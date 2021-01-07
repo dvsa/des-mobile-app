@@ -140,7 +140,7 @@ export class LogsEffects {
       dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
       data: logData,
     };
-    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then(() => {});
+    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore));
   };
 
   isCacheTooOld = (dateStored: DateTime, now: DateTime): boolean => {
