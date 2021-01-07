@@ -41,7 +41,7 @@ h4 {
 }
 
 .content-ios hr {
-  background-color: map-get($colors-gds, 'gds-grey-2');
+  background-color: var(--gds-grey-2);
   height: 2px;
   margin: 0px 14px 0px;
 }

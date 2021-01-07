@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar>
     <ion-buttons start>
       <button ion-button (click)="openLogoutModal()" *ngIf="isLogoutEnabled()">
         <span>Logout</span>
@@ -10,7 +10,7 @@
       <input type="hidden" name="employeeId" id="employeeId" value="{{employeeId}}" />
     </ion-buttons>
     <ion-title>My dashboard</ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
