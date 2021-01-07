@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { BasePageComponent } from '../../shared/classes/base-page';
+
+import { DateTime } from '../../shared/helpers/date-time';
+import { DateTimeProvider } from '../../providers/date-time/date-time';
+import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { StoreModel } from '../../../types/store.model';
 import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info/app-info.selectors';
@@ -12,24 +15,36 @@ import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info
   templateUrl: 'dashboard.page.html',
   styleUrls: ['dashboard.page.scss'],
 })
-export class DashboardPage extends BasePageComponent {
+export class DashboardPage extends LogoutBasePageComponent {
 
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
+  todaysDate: DateTime;
+  todaysDateFormatted: string;
 
   constructor(
+    public alertController: AlertController,
     private store$: Store<StoreModel>,
-    private alertController: AlertController,
+    private dateTimeProvider: DateTimeProvider,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,
     router: Router,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, alertController, router);
+    this.todaysDate = this.dateTimeProvider.now();
+    this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
   }
 
   ngOnInit() {
     this.appVersion$ = this.store$.select(selectVersionNumber);
     this.employeeName$ = this.store$.select(selectEmployeeName);
+  }
+
+  ionViewWillEnter(): boolean {
+    this.todaysDate = this.dateTimeProvider.now();
+    this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
+
+    return true;
   }
 
   goToLogin() {
@@ -40,23 +55,4 @@ export class DashboardPage extends BasePageComponent {
     this.openLogoutModal();
   }
 
-  async openLogoutModal() {
-    const alert = await this.alertController.create({
-      cssClass: 'logout-modal',
-      header: 'Logout?',
-      message: 'Are you sure you want to logout?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-          },
-        }, {
-          text: 'Logout',
-          handler: () => this.logout(),
-        },
-      ],
-    });
-
-    await alert.present();
-  }
 }
