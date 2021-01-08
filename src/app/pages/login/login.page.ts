@@ -11,9 +11,9 @@ import { NetworkStateProvider } from '../../providers/network-state/network-stat
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
 import { BasePageComponent } from '../../shared/classes/base-page';
-import { LoadEmployeeName } from '../../../store/app-info/app-info.actions';
+// import { LoadEmployeeName } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
-import { StartSendingLogs } from '../../../store/logs/logs.actions';
+// import { StartSendingLogs } from '../../../store/logs/logs.actions';
 
 @Component({
   selector: 'app-login',
@@ -73,7 +73,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
       await this.platform.ready();
       await this.initialiseAppConfig();
 
-      this.store$.dispatch(StartSendingLogs());
+      // this.store$.dispatch(StartSendingLogs());
 
       this.initialiseAuthentication();
 
@@ -89,7 +89,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
       await this.authenticationProvider.setEmployeeId();
 
-      this.store$.dispatch(LoadEmployeeName());
+      // this.store$.dispatch(LoadEmployeeName());
 
       await this.handleLoadingUI(false);
       this.validateDeviceType();
