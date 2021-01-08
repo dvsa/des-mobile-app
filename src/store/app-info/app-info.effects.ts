@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   switchMap, concatMap, map, catchError, withLatestFrom, filter,
 } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 
-import { StoreModel } from '../../types/store.model';
+import { StoreModel } from '../../app/shared/models/store.model';
 import { AppInfoProvider } from '../../app/providers/app-info/app-info';
 import { DateTimeProvider } from '../../app/providers/date-time/date-time';
 import { AuthenticationProvider } from '../../app/providers/authentication/authentication';

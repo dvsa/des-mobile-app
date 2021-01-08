@@ -7,7 +7,7 @@ import {
   SetDateConfigLoaded,
 } from './app-info.actions';
 
-import { AppInfoStateModel } from '../../types/app-info.model';
+import { AppInfoStateModel } from './app-info.model';
 
 export const appInfoFeatureKey = 'appInfo';
 

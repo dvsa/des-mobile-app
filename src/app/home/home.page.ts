@@ -5,7 +5,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { BasePageComponent } from '../shared/classes/base-page';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
-import { StoreModel } from '../../types/store.model';
+import { StoreModel } from '../shared/models/store.model';
 import { selectEmployeeName, selectVersionNumber } from '../../store/app-info/app-info.selectors';
 @Component({
   selector: 'app-home',

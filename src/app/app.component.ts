@@ -5,7 +5,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { StoreModel } from '../types/store.model';
+import { StoreModel } from './shared/models/store.model';
 import { LoadAppVersion } from '../store/app-info/app-info.actions';
 
 @Component({
