@@ -18,16 +18,6 @@ export class AppConfigProvider {
   ) {
   }
 
-  public getAppConfig = (): AppConfig => {
-    if (!this.appConfig) {
-      this.initialiseAppConfig().then((res) => {
-        return res;
-      });
-    }
-
-    return this.appConfig;
-  };
-
   public initialiseAppConfig = async (): Promise<void> => {
     try {
       this.mapInAppConfig(this.environmentFile);
@@ -37,6 +27,14 @@ export class AppConfigProvider {
       // TODO: Send error through the logging service
 
     }
+  };
+
+  public getAppConfig = (): AppConfig => {
+    if (!this.appConfig) {
+      this.initialiseAppConfig();
+    }
+
+    return this.appConfig;
   };
 
   private mapInAppConfig = (data) => {
