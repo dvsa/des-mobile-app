@@ -37,7 +37,7 @@ import { DateTimeProvider } from './providers/date-time/date-time';
     HttpClientModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.enableDevTools ? [StoreDevtoolsModule.instrument()] : [],
     AppInfoStoreModule,
   ],
   providers: [
