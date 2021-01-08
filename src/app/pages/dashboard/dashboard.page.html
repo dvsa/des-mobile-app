@@ -15,9 +15,10 @@
 
 <ion-content [fullscreen]="true">
 
-  <div id="container">
-    <div *ngIf="appVersion$ | async as appVersion">{{ appVersion }}</div>
-    <div *ngIf="employeeName$ | async as employeeName">{{ employeeName }}</div>
+  <div>
+    <profile-header [employeeId]="employeeId" [name]="pageState.employeeName$ | async" [role]="role"></profile-header>
+    <hr/>
+    <h4 class="date">{{todaysDateFormatted}}</h4>
     <strong>DVSA DES Mobile application with Ionic 5</strong>
     <p>Work in progress</p>
     <br>

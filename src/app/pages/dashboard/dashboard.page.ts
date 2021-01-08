@@ -10,6 +10,7 @@ import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { StoreModel } from '../../../types/store.model';
 import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info/app-info.selectors';
+import { LOGIN_PAGE } from '../page-names.constants';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -53,10 +54,10 @@ export class DashboardPage extends LogoutBasePageComponent {
     return true;
   }
 
-  isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
+  isLogoutEnabled = (): boolean => true; // this.authenticationProvider.logoutEnabled();
 
   goToLogin() {
-    this.router.navigate(['login']);
+    this.router.navigate([LOGIN_PAGE]);
   }
 
   onLogout() {
