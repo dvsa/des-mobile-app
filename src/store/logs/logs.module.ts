@@ -11,4 +11,4 @@ import { LogsEffects } from './logs.effects';
     EffectsModule.forFeature([LogsEffects]),
   ],
 })
-export class LogsModule { }
+export class LogsStoreModule { }
