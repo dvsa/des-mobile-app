@@ -2,6 +2,7 @@ import { EnvironmentFile, LocalEnvironmentFile } from '../../../../environments/
 import { ExaminerRole } from '../constants/examiner-role.constants';
 
 export const remoteEnvironmentMock: EnvironmentFile = {
+  production: false,
   isRemote: true,
   configUrl: 'remote-url',
   daysToCacheLogs: 14,
@@ -20,6 +21,7 @@ export const remoteEnvironmentMock: EnvironmentFile = {
 };
 
 export const localEnvironmentMock: LocalEnvironmentFile = {
+  production: false,
   isRemote: false,
   configUrl: 'https://www.example.com/api/v1/config/dev',
   daysToCacheLogs: 14,

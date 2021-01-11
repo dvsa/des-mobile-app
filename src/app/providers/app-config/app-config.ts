@@ -21,6 +21,11 @@ export class AppConfigProvider {
   public initialiseAppConfig = async (): Promise<void> => {
     try {
       this.mapInAppConfig(this.environmentFile);
+
+      if (!this.environmentFile.isRemote) {
+        this.mapRemoteConfig(this.environmentFile);
+      }
+
       return Promise.resolve();
     } catch (err) {
 
@@ -52,6 +57,40 @@ export class AppConfigProvider {
         logoutUrl: data.authentication.logoutUrl,
         employeeIdKey: data.authentication.employeeIdKey,
       },
+    } as AppConfig);
+  };
+
+  private mapRemoteConfig = (data: any) => {
+    this.appConfig = merge({}, this.appConfig, {
+      googleAnalyticsId: data.googleAnalyticsId,
+      approvedDeviceIdentifiers: data.approvedDeviceIdentifiers,
+      timeTravelDate: data.timeTravelDate,
+      role: data.role,
+      authentication: {
+        employeeNameKey: data.employeeNameKey,
+      },
+      journal: {
+        journalUrl: data.journal.journalUrl,
+        searchBookingUrl: data.journal.searchBookingUrl,
+        delegatedExaminerSearchBookingUrl: data.journal.delegatedExaminerSearchBookingUrl,
+        autoRefreshInterval: data.journal.autoRefreshInterval || 15000,
+        numberOfDaysToView: data.journal.numberOfDaysToView,
+        daysToCacheJournalData: data.journal.daysToCacheJournalData,
+        allowTests: data.journal.allowTests,
+        allowedTestCategories: data.journal.allowedTestCategories,
+        enableTestReportPracticeMode: data.journal.enableTestReportPracticeMode,
+        enableEndToEndPracticeMode: data.journal.enableEndToEndPracticeMode,
+        enableLogoutButton: data.journal.enableLogoutButton,
+        testPermissionPeriods: data.journal.testPermissionPeriods,
+      },
+      tests: {
+        testSubmissionUrl: data.tests.testSubmissionUrl,
+        autoSendInterval: data.tests.autoSendInterval,
+      },
+      user: {
+        findUserUrl: data.user.findUserUrl,
+      },
+      requestTimeout: data.requestTimeout,
     } as AppConfig);
   };
 }
