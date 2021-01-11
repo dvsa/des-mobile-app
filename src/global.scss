@@ -24,3 +24,22 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/* Custom SCSS partials */
+@import "./theme/variables.scss";
+@import "./theme/sass-partials/alert";
+@import "./theme/sass-partials/box";
+@import "./theme/sass-partials/buttons";
+@import "./theme/sass-partials/checkbox";
+@import "./theme/sass-partials/colors";
+@import "./theme/sass-partials/fonts";
+@import "./theme/sass-partials/input";
+@import "./theme/sass-partials/modal";
+@import "./theme/sass-partials/radio";
+@import "./theme/sass-partials/reset";
+@import "./theme/sass-partials/row";
+@import "./theme/sass-partials/spacing";
+@import "./theme/sass-partials/textarea";
+@import "./theme/sass-partials/toast";
+@import "./theme/sass-partials/typography";
+@import "./theme/sass-partials/validation";

@@ -1,0 +1,201 @@
+// reset the default ionic styling
+.card-ios {
+  h1, h2, h3, h4, h5, h6, p {
+    font-size: initial;
+    font-weight: initial;
+    margin: initial;
+  }
+}
+
+.heavy-font-family {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
+  font-weight: 800;
+}
+
+.semibold-font-family {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
+  font-weight: 600;
+}
+
+.regular-font-family {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
+  font-weight: 400;
+};
+
+html .text-zoom-regular {
+  h1 {
+    @extend .heavy-font-family;
+    font-size: 40px;
+    line-height: 56px;
+  }
+  h2 {
+    @extend .heavy-font-family;
+    font-size: 28px;
+    line-height: 40px;
+  }
+  h3 {
+    @extend .semibold-font-family;
+    font-size: 20px;
+    line-height: 26px;
+  }
+  h4 {
+    @extend .heavy-font-family;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  h5 {
+    @extend .heavy-font-family;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+  }
+  h6 {
+    @extend .regular-font-family;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  a,
+  a:hover {
+    @extend .semibold-font-family;
+    font-size: 20px;
+    line-height: 26px;
+  }
+  label {
+    @extend .semibold-font-family;
+    font-size: 23px;
+    line-height: 26px;
+  }
+  p,
+  .mes-data {
+    @extend .regular-font-family;
+    font-size: 23px;
+    line-height: 26px;
+  }
+  div {
+    font-size: 20px;
+    line-height: 26px;
+  }
+  span {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}
+
+.text-zoom-large {
+  h1 {
+    @extend .heavy-font-family;
+    font-size: 48px;
+    line-height: 68px;
+  }
+  h2 {
+    @extend .heavy-font-family;
+    font-size: 32px;
+    line-height: 44px;
+  }
+  h3 {
+    @extend .semibold-font-family;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  h4 {
+    @extend .heavy-font-family;
+    font-size: 28px;
+    line-height: 34px;
+  }
+  h5 {
+    @extend .heavy-font-family;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  h6 {
+    @extend .regular-font-family;
+    font-size: 16px;
+    line-height: 22px;
+  }
+  a,
+  a:hover {
+    @extend .semibold-font-family;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  label {
+    @extend .semibold-font-family;
+    font-size: 24px;
+    line-height: 30px;
+  }
+  p,
+  .mes-data {
+    @extend .regular-font-family;
+    font-size: 22px;
+    line-height: 30px;
+  }
+  div {
+    font-size: 22px;
+    line-height: 28px;
+  }
+  span {
+    font-size: 22px;
+    line-height: 28px;
+  }
+}
+
+.text-zoom-x-large {
+  h1 {
+    @extend .heavy-font-family;
+    font-size: 58px;
+    line-height: 80px;
+  }
+  h2 {
+    @extend .heavy-font-family;
+    font-size: 38px;
+    line-height: 48px;
+  }
+  h3 {
+    @extend .semibold-font-family;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 36px;
+  }
+  h4 {
+    @extend .heavy-font-family;
+    font-size: 32px;
+    line-height: 40px;
+  }
+  h5 {
+    @extend .heavy-font-family;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 36px;
+  }
+  h6 {
+    @extend .regular-font-family;
+    font-size: 18px;
+    line-height: 24px;
+  }
+  a,
+  a:hover {
+    @extend .semibold-font-family;
+    font-size: 28px;
+    line-height: 36px;
+  }
+  label {
+    @extend .semibold-font-family;
+    font-size: 28px;
+    line-height: 36px;
+  }
+  p,
+  .mes-data {
+    @extend .regular-font-family;
+    font-size: 28px;
+    line-height: 36px;
+  }
+  div {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  span {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}

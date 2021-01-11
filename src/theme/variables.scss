@@ -1,6 +1,8 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+$secondary-button: #f5a623;
+
 /** Ionic CSS Variables **/
 :root {
   /** custom colours **/
@@ -16,7 +18,7 @@
   --mesBoxGrey: #f6f6f6;
   --journalTestCategory:  #818080;
   --journalSlotChangeIdentifier: #d0021b;
-  --secondary-button: #f5a623;
+  --secondary-button: #{$secondary-button};
   --nonTestActivitySlotBackground: rgba(198, 236, 233, 0.1);
   --travelSlotBackground: #eef8e5;
   --mes-validation-error: #b12025;

@@ -1,0 +1,20 @@
+.mes-box-grey {
+  border-radius: 23px;
+  background-color: var(--mesBoxGrey);
+  padding: 20px;
+  ion-icon[name='alert'] {
+    font-size: 2em;
+  }
+}
+
+.mes-full-width-card {
+  &.box-shadow {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  }
+  padding: 32px;
+}
+
+.mes-full-width-card-separator {
+  height: 2px;
+  background-color: var(--gds-grey-5);
+}
