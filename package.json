@@ -11,7 +11,7 @@
     "serve:local": "npm run config:local && ionic serve",
     "serve:emulator": "npm run config:dev-tools && ionic cap run ios",
     "serve:ipad:notworking": "npm run config:dev && npm run schema-version",
-    "open:ios": "rm -rf ios && ionic build && ionic cap add ios & ionic cap copy ios && ionic cap open ios",
+    "open:ios": "rm -rf ios && npm run build && ionic cap add ios & ionic cap copy ios && ionic cap open ios",
     "build": "npm run copy-resources && ionic build",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix --ext .ts",
