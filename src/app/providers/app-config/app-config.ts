@@ -39,8 +39,6 @@ export class AppConfigProvider {
       this.initialiseAppConfig();
     }
 
-    console.log('AppConfig', this.appConfig);
-
     return this.appConfig;
   };
 
