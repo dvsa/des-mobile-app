@@ -3,9 +3,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
-import { StoreModule, Store } from '@ngrx/store';
-import { Device } from '@ionic-native/device';
+import { StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
+
 import { AppConfigProvider } from '../app-config';
 
 import { environmentResponseMock } from '../__mocks__/environment-response.mock';
@@ -44,17 +44,15 @@ describe('App Config Provider', () => {
         { provide: AppConfigProvider, useClass: AppConfigProvider, environmentFile: remoteEnvironmentMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AppInfoProvider, useClass: AppInfoProviderMock },
-        Store,
         { provide: LogHelper, useClass: LogHelperMock },
-        Device,
       ],
     });
   });
 
   beforeEach(() => {
-    appConfig = TestBed.get(AppConfigProvider);
-    httpMock = TestBed.get(HttpTestingController);
-    platform = TestBed.get(Platform);
+    appConfig = TestBed.inject(AppConfigProvider);
+    httpMock = TestBed.inject(HttpTestingController);
+    platform = TestBed.inject(Platform);
     appConfig.isDebugMode = true;
     spyOn(appConfig, 'getDebugMode').and.returnValue(Promise.resolve());
   });
