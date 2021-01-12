@@ -8,7 +8,7 @@ import { DateTime } from '../../shared/helpers/date-time';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { StoreModel } from '../../../types/store.model';
+import { StoreModel } from '../../shared/models/store.model';
 import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { LOGIN_PAGE } from '../page-names.constants';
 
