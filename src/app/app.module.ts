@@ -26,6 +26,8 @@ import { AuthInterceptor } from './providers/authentication/interceptor';
 import { JournalProvider } from './providers/journal/journal';
 import { UrlProvider } from './providers/url/url';
 import { DateTimeProvider } from './providers/date-time/date-time';
+import { LogsStoreModule } from '../store/logs/logs.module';
+import { LogsProvider } from './providers/logs/logs';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +41,7 @@ import { DateTimeProvider } from './providers/date-time/date-time';
     EffectsModule.forRoot(),
     !environment.enableDevTools ? [StoreDevtoolsModule.instrument()] : [],
     AppInfoStoreModule,
+    LogsStoreModule,
   ],
   providers: [
     StatusBar,
@@ -62,6 +65,7 @@ import { DateTimeProvider } from './providers/date-time/date-time';
       useClass: AuthInterceptor,
       multi: true,
     },
+    LogsProvider,
   ],
   bootstrap: [AppComponent],
 })
