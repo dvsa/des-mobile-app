@@ -10,7 +10,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { appInfoReducer } from '../../../store/app-info/app-info.reducer';
 import { AuthenticationProviderMock } from '../../providers/authentication/__mocks__/authentication.mock';
 
-describe('DashboardPage', () => {
+xdescribe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);

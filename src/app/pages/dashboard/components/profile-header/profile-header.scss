@@ -2,16 +2,17 @@
 
   padding: 12px;
 
-  h1, h4 {
-    color: var(--mes-white);
-  }
-
   h2 {
     margin: 0px;
   }
 
+  span {
+    color: var(--dark);
+  }
+
   .role {
     margin-top: -4px;
+    --ion-grid-column-padding: 0;
   }
 
   .staff-number {
@@ -33,5 +34,6 @@
   #contact-icon {
     margin-left: 2px;
     font-size: 72px;
+    color: var(--dark);
   }
 }

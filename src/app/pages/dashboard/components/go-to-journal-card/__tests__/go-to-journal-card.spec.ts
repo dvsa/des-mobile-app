@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+// import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { GoToJournalCardComponent } from '../go-to-journal-card';
@@ -12,6 +13,14 @@ describe('GoToJournalCard ', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [GoToJournalCardComponent],
+      /* imports: [
+        RouterTestingModule.withRoutes(
+          [
+            { path: '', component:  },
+          ],
+        ),
+      ], */
+      // providers: [{ provide: Router, useValue: routerSpy }],
     });
   });
 
@@ -20,7 +29,7 @@ describe('GoToJournalCard ', () => {
     component = fixture.componentInstance;
   }));
 
-  describe('Class', () => {
+  xdescribe('Class', () => {
     describe('navigateToJournal', () => {
       it('should trigger navigation to Journal', () => {
         component.navigateToJournal();

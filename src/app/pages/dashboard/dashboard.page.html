@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons start>
-      <button ion-button (click)="openLogoutModal()" *ngIf="isLogoutEnabled()">
+    <ion-buttons slot="start">
+      <button class="logout-button" (click)="openLogoutModal()" *ngIf="isLogoutEnabled()">
         <span>Logout</span>
         <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
       </button>

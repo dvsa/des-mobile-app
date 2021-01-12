@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-// import { JOURNAL_PAGE } from '../../../page-names.constants';
+import { JOURNAL_PAGE } from '../../../page-names.constants';
 
 @Component({
   selector: 'go-to-journal-card',
@@ -13,6 +13,6 @@ export class GoToJournalCardComponent {
   constructor(private router: Router) { }
 
   navigateToJournal = () => {
-    // this.router.navigate([JOURNAL_PAGE]);
+    this.router.navigate([JOURNAL_PAGE]);
   };
 }

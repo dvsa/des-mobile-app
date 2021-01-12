@@ -9,6 +9,7 @@ h4 {
 
 .dashboard-grid {
   --ion-grid-padding: 0;
+  --ion-grid-column-padding: 0;
 }
 
 .go-to-journal-card {
@@ -44,7 +45,7 @@ h4 {
   margin-bottom: 2px;
 }
 
-.content-ios hr {
+ hr {
   background-color: var(--gds-grey-2);
   height: 2px;
   margin: 0px 14px 0px;
@@ -71,15 +72,16 @@ h4 {
   .toolbar-ios ion-title {
   height: 100% !important;
 }
-ion-buttons[start] .button-inner{
+
+button.logout-button {
+  display: flex;
   flex-flow: column;
-  align-items: flex-start;
   line-height: 25px;
+  background-color: var(--gds-dark);
 }
-ion-buttons[end] .button-inner{
-  flex-flow: column;
-  align-items: flex-end;
-  line-height: 25px;
+
+span {
+  color: var(--mes-white);
 }
 
 .logout-modal {
