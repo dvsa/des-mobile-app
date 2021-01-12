@@ -1,20 +1,22 @@
-button[clear] {
+.go-to-journal-button {
   width: 100%;
   padding: 0px;
   background-color: initial;
   &.activated {
     .go-to-journal-card #card-content-wrapper {
-      background: darken(var(--mes-white), 10);
+      background: darken(#fff, 10); // $mes-white
     }
   }
 }
 .go-to-journal-card {
 
+  --background: none;
+
   h1, h4 {
     color: var(--mes-white);
   }
 
-  .row {
+  ion-row {
       display: flex;
       justify-content: center;
       align-items: center;

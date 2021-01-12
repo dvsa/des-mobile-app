@@ -22,7 +22,7 @@
   font-weight: 400;
 };
 
-html .text-zoom-regular {
+// html .text-zoom-regular {
   h1 {
     @extend .heavy-font-family;
     font-size: 40px;
@@ -79,8 +79,9 @@ html .text-zoom-regular {
     font-size: 20px;
     line-height: 26px;
   }
-}
+// }
 
+/*
 .text-zoom-large {
   h1 {
     @extend .heavy-font-family;
@@ -199,3 +200,4 @@ html .text-zoom-regular {
     line-height: 32px;
   }
 }
+*/

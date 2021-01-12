@@ -19,15 +19,19 @@
     <profile-header [employeeId]="employeeId" [name]="pageState.employeeName$ | async" [role]="role"></profile-header>
     <hr/>
     <h4 class="date">{{todaysDateFormatted}}</h4>
-    <ion-grid no-padding>
+    <ion-grid class="dashboard-grid">
       <ion-row>
-        <ion-col no-padding col-96 col-lg-32>
+        <ion-col>
           <go-to-journal-card></go-to-journal-card> <!-- *ngIf="!showDelegatedExaminerRekey()" -->
         </ion-col>
-        <ion-col no-padding col-48 col-lg-32 *ngIf="!showDelegatedExaminerRekey()">
+      </ion-row>
+      <ion-row>
+        <ion-col no-padding col-48 col-lg-32> <!-- *ngIf="!showDelegatedExaminerRekey()" -->
         </ion-col>
-        <ion-col no-padding col-96 col-lg-32 *ngIf="showDelegatedExaminerRekey()">
+        <ion-col no-padding col-96 col-lg-32> <!-- *ngIf="!showDelegatedExaminerRekey()" -->
         </ion-col>
+      </ion-row>
+      <ion-row>
         <ion-col no-padding col-48 col-lg-32>
         </ion-col>
       </ion-row>

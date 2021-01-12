@@ -7,6 +7,10 @@ h4 {
   border-radius: 5px;
 }
 
+.dashboard-grid {
+  --ion-grid-padding: 0;
+}
+
 .go-to-journal-card {
   @media (orientation: landscape) {
     margin-right: 6px;
