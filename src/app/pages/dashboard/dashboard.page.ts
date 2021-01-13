@@ -69,6 +69,10 @@ export class DashboardPage extends LogoutBasePageComponent {
     this.openLogoutModal();
   }
 
+  showTestReportPracticeMode = ():boolean => this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;
+
+  showEndToEndPracticeMode = (): boolean => this.appConfigProvider.getAppConfig().journal.enableEndToEndPracticeMode;
+
   isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 
   showDelegatedExaminerRekey = (): boolean => this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;

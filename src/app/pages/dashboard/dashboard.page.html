@@ -34,11 +34,9 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <hr/>
-    <ion-button color="dark" name="login-button" (click)="goToLogin()">
-      <ion-icon name="log-in-outline"></ion-icon>
-      Login
-    </ion-button>
+    <hr *ngIf="!showDelegatedExaminerRekey() && (showEndToEndPracticeMode() || showTestReportPracticeMode())" />
+    <practice-test-report-card id="testReportPracticeMode" *ngIf="showTestReportPracticeMode() && !showDelegatedExaminerRekey()"></practice-test-report-card>
+    <practice-end-to-end-card id="endToendPracticeMode" *ngIf="showEndToEndPracticeMode() && !showDelegatedExaminerRekey()"></practice-end-to-end-card>
   </div>
 
 </ion-content>
