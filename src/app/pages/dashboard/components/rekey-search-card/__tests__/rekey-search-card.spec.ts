@@ -27,7 +27,7 @@ describe('RekeySearchCard ', () => {
       it('should trigger navigation to rekey', () => {
         component.navigateToRekeySearch();
 
-        expect(router.navigate).toHaveBeenCalledWith(REKEY_SEARCH_PAGE);
+        expect(router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
       });
     });
   });

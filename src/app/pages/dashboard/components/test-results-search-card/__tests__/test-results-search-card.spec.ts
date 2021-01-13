@@ -27,7 +27,7 @@ describe('TestResultsSearchCard ', () => {
       it('should trigger navigation to Fake Journal', () => {
         component.navigateToTestResultsSearch();
 
-        expect(router.navigate).toHaveBeenCalledWith(TEST_RESULTS_SEARCH_PAGE);
+        expect(router.navigate).toHaveBeenCalledWith([TEST_RESULTS_SEARCH_PAGE]);
       });
     });
   });
