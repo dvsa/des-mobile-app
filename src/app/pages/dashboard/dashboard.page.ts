@@ -4,12 +4,14 @@ import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
-import { DateTime } from '../../shared/helpers/date-time';
-import { DateTimeProvider } from '../../providers/date-time/date-time';
-import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { StoreModel } from '../../shared/models/store.model';
 import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info/app-info.selectors';
+import { ExaminerRole, ExaminerRoleDescription } from '../../providers/app-config/constants/examiner-role.constants';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
+import { AppConfigProvider } from '../../providers/app-config/app-config';
+import { DateTimeProvider } from '../../providers/date-time/date-time';
+import { StoreModel } from '../../shared/models/store.model';
+import { DateTime } from '../../shared/helpers/date-time';
 import { LOGIN_PAGE } from '../page-names.constants';
 
 interface DashboardPageState {
@@ -24,11 +26,14 @@ interface DashboardPageState {
 export class DashboardPage extends LogoutBasePageComponent {
 
   pageState: DashboardPageState;
-  todaysDate: DateTime;
   todaysDateFormatted: string;
+  employeeId: string;
+  todaysDate: DateTime;
+  role: string;
 
   constructor(
     protected alertController: AlertController,
+    private appConfigProvider: AppConfigProvider,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     authenticationProvider: AuthenticationProvider,
@@ -36,6 +41,8 @@ export class DashboardPage extends LogoutBasePageComponent {
     router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
+    this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
+    this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
   }
@@ -64,6 +71,5 @@ export class DashboardPage extends LogoutBasePageComponent {
 
   isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 
-  showDelegatedExaminerRekey = (): boolean => false;
-  // this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG
+  showDelegatedExaminerRekey = (): boolean => this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
 }
