@@ -1,6 +1,10 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
+import { IsDebug } from '@ionic-native/is-debug/ngx';
+import { IsDebugMock } from '@ionic-native-mocks/is-debug';
+import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
+
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { StoreModule } from '@ngrx/store';
@@ -45,6 +49,8 @@ describe('App Config Provider', () => {
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AppInfoProvider, useClass: AppInfoProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
+        { provide: IsDebug, useClass: IsDebugMock },
+        EmmAppConfig,
       ],
     });
   });
@@ -99,7 +105,7 @@ describe('App Config Provider', () => {
     it('should load managed config and update environmentFile', () => {
       appConfig.loadManagedConfig();
 
-      expect(appConfig.environmentFile.configUrl).toBe('AppConfigMock');
+      expect(appConfig.environmentFile.configUrl).toBe('remote-url');
     });
   });
 });

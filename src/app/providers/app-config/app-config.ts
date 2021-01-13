@@ -3,8 +3,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { timeout } from 'rxjs/operators';
-import { get, merge } from 'lodash';
+import { isEmpty, merge } from 'lodash';
 import { ValidationResult, ValidationError } from 'joi';
+
+import { IsDebug } from '@ionic-native/is-debug/ngx';
+import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 
 import { environment } from '../../../environments/environment';
 import { StoreModel } from '../../shared/models/store.model';
@@ -20,8 +23,6 @@ import { ConnectionStatus, NetworkStateProvider } from '../network-state/network
 import { AppInfoProvider } from '../app-info/app-info';
 import { DataStoreProvider } from '../data-store/data-store';
 import { EnvironmentFile } from '../../../environments/models/environment.model';
-
-declare let cordova: any;
 
 @Injectable()
 export class AppConfigProvider {
@@ -41,13 +42,16 @@ export class AppConfigProvider {
     private dataStoreProvider: DataStoreProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
+    private isDebug: IsDebug,
+    private emmAppConfig: EmmAppConfig,
   ) {
   }
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
       if (this.platform.is('ios')) {
-        console.log('We are on an ios platform');
+        await this.getDebugMode();
+        this.loadManagedConfig();
       }
 
       this.mapInAppConfig(this.environmentFile);
@@ -73,38 +77,33 @@ export class AppConfigProvider {
   };
 
   public loadManagedConfig = (): void => {
+    const newEnvFile = {
+      production: false,
+      configUrl: this.emmAppConfig.getValue('configUrl'),
+      daysToCacheJournalData: this.emmAppConfig.getValue('daysToCacheJournalData'),
+      daysToCacheLogs: this.emmAppConfig.getValue('daysToCacheLogs'),
+      isRemote: true,
+      logsPostApiKey: this.emmAppConfig.getValue('logsPostApiKey'),
+      logsApiUrl: this.emmAppConfig.getValue('logsApiUrl'),
+      logsAutoSendInterval: this.emmAppConfig.getValue('logsAutoSendInterval'),
+      authentication: {
+        clientId: this.emmAppConfig.getValue('clientId'),
+        context: this.emmAppConfig.getValue('authenticationContext'),
+        employeeIdKey: this.emmAppConfig.getValue('employeeIdKey'),
+        logoutUrl: this.emmAppConfig.getValue('logoutUrl'),
+        redirectUrl: this.emmAppConfig.getValue('redirectUrl'),
+        resourceUrl: this.emmAppConfig.getValue('resourceUrl'),
+      },
+    } as EnvironmentFile;
 
-    if (get(cordova, 'plugins.AppConfig', false)) {
-      const appConfigPlugin = cordova.plugins.AppConfig;
+    // Check to see if we have any config
+    if (isEmpty((newEnvFile.configUrl as any).error)) {
+      this.environmentFile = { ...newEnvFile };
+      return;
+    }
 
-      const newEnvFile = {
-        production: false,
-        configUrl: appConfigPlugin.getValue('configUrl'),
-        daysToCacheJournalData: appConfigPlugin.getValue('daysToCacheJournalData'),
-        daysToCacheLogs: appConfigPlugin.getValue('daysToCacheLogs'),
-        isRemote: true,
-        logsPostApiKey: appConfigPlugin.getValue('logsPostApiKey'),
-        logsApiUrl: appConfigPlugin.getValue('logsApiUrl'),
-        logsAutoSendInterval: appConfigPlugin.getValue('logsAutoSendInterval'),
-        authentication: {
-          clientId: appConfigPlugin.getValue('clientId'),
-          context: appConfigPlugin.getValue('authenticationContext'),
-          employeeIdKey: appConfigPlugin.getValue('employeeIdKey'),
-          logoutUrl: appConfigPlugin.getValue('logoutUrl'),
-          redirectUrl: appConfigPlugin.getValue('redirectUrl'),
-          resourceUrl: appConfigPlugin.getValue('resourceUrl'),
-        },
-      } as EnvironmentFile;
-
-      // Check to see if we have any config
-      if (newEnvFile.configUrl) {
-        this.environmentFile = { ...newEnvFile };
-        return;
-      }
-
-      if (!this.isDebugMode) {
-        throw new Error(AppConfigError.MISSING_REMOTE_CONFIG_URL_ERROR);
-      }
+    if (!this.isDebugMode) {
+      throw new Error(AppConfigError.MISSING_REMOTE_CONFIG_URL_ERROR);
     }
   };
 
@@ -248,17 +247,13 @@ export class AppConfigProvider {
 
   getDebugMode = (): Promise<void> => {
     return new Promise((resolve, reject) => {
-      if (get(cordova, 'plugins.IsDebug', false)) {
-        cordova.plugins.IsDebug.getIsDebug((isDebug: boolean) => {
+      this.isDebug.getIsDebug()
+        .then((isDebug) => {
           this.isDebugMode = isDebug;
           console.log('Detected that app is running in debug mode');
           resolve();
-        }, (err: any) => {
-          reject(err);
-        });
-      } else {
-        resolve();
-      }
+        })
+        .catch((err) => reject(err));
     });
   };
 }
