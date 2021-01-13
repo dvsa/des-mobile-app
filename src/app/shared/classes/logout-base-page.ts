@@ -6,9 +6,9 @@ import { BasePageComponent } from './base-page';
 export abstract class LogoutBasePageComponent extends BasePageComponent {
 
   constructor(
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
-    public alertController: AlertController,
+    protected platform: Platform,
+    protected authenticationProvider: AuthenticationProvider,
+    protected alertController: AlertController,
     router: Router,
   ) {
     super(platform, authenticationProvider, router);

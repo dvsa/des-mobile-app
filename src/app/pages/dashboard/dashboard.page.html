@@ -22,13 +22,13 @@
     <ion-grid class="dashboard-grid">
       <ion-row>
         <ion-col>
-          <go-to-journal-card></go-to-journal-card> <!-- *ngIf="!showDelegatedExaminerRekey()" -->
+          <go-to-journal-card *ngIf="!showDelegatedExaminerRekey()"></go-to-journal-card>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col no-padding col-48 col-lg-32> <!-- *ngIf="!showDelegatedExaminerRekey()" -->
+        <ion-col no-padding col-48 col-lg-32 *ngIf="!showDelegatedExaminerRekey()">
         </ion-col>
-        <ion-col no-padding col-96 col-lg-32> <!-- *ngIf="!showDelegatedExaminerRekey()" -->
+        <ion-col no-padding col-96 col-lg-32 *ngIf="!showDelegatedExaminerRekey()">
         </ion-col>
       </ion-row>
       <ion-row>

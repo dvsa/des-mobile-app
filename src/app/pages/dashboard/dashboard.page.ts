@@ -28,7 +28,7 @@ export class DashboardPage extends LogoutBasePageComponent {
   todaysDateFormatted: string;
 
   constructor(
-    public alertController: AlertController,
+    protected alertController: AlertController,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     authenticationProvider: AuthenticationProvider,
@@ -54,7 +54,7 @@ export class DashboardPage extends LogoutBasePageComponent {
     return true;
   }
 
-  isLogoutEnabled = (): boolean => true; // this.authenticationProvider.logoutEnabled();
+  isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 
   goToLogin() {
     this.router.navigate([LOGIN_PAGE]);
@@ -64,4 +64,6 @@ export class DashboardPage extends LogoutBasePageComponent {
     this.openLogoutModal();
   }
 
+  showDelegatedExaminerRekey = (): boolean => false;
+  // this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG
 }
