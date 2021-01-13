@@ -54,8 +54,6 @@ export class DashboardPage extends LogoutBasePageComponent {
     return true;
   }
 
-  isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
-
   goToLogin() {
     this.router.navigate([LOGIN_PAGE]);
   }
@@ -63,6 +61,8 @@ export class DashboardPage extends LogoutBasePageComponent {
   onLogout() {
     this.openLogoutModal();
   }
+
+  isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 
   showDelegatedExaminerRekey = (): boolean => false;
   // this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG

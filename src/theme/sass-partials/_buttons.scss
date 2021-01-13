@@ -27,7 +27,7 @@
   margin: 0 0.2em;
   height: initial;
   &.activated {
-    background: darken($secondary-button, 10);
+    background: var(--secondary-button-darken);
   }
   h3 {
     color: var(--mes-white);

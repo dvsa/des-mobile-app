@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ProfileHeaderComponent } from './profile-header/profile-header';
 import { GoToJournalCardComponent } from './go-to-journal-card/go-to-journal-card';
+import { TestResultsSearchCardComponent } from './test-results-search-card/test-results-search-card';
 
 @NgModule({
   declarations: [
     ProfileHeaderComponent,
     GoToJournalCardComponent,
+    TestResultsSearchCardComponent,
   ],
   imports: [
     CommonModule,
@@ -16,6 +18,7 @@ import { GoToJournalCardComponent } from './go-to-journal-card/go-to-journal-car
   exports: [
     ProfileHeaderComponent,
     GoToJournalCardComponent,
+    TestResultsSearchCardComponent,
   ],
 })
 

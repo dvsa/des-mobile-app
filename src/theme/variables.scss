@@ -1,7 +1,6 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
-$secondary-button: #f5a623;
 $mes-white: #ffffff;
 $gds-black: #0b0c0c;
 
@@ -16,11 +15,13 @@ $gds-black: #0b0c0c;
   --mes-secondary-header: #dbd8d8;
   --mes-background: #efefee;
   --mes-toolbar-background: #212121;
-  --mes-white: #{$mes-white};
+  --mes-white: #ffffff;
+  --mes-white-darken: #E6E6E6;
   --mesBoxGrey: #f6f6f6;
   --journalTestCategory:  #818080;
   --journalSlotChangeIdentifier: #d0021b;
-  --secondary-button: #{$secondary-button};
+  --secondary-button: #f5a623;
+  --secondary-button-darken: #DC8D0A;
   --nonTestActivitySlotBackground: rgba(198, 236, 233, 0.1);
   --travelSlotBackground: #eef8e5;
   --mes-validation-error: #b12025;
@@ -43,11 +44,13 @@ $gds-black: #0b0c0c;
   --gds-light-green: #85994b;
   --gds-green: #006435;
   --gds-dark-green: #00823b;
+  --gds-dark-green-darken: #006922;
   --gds-dark-green-2: #006f4b;
   --gds-dark-green-3: #00703c;
   --gds-turquoise: #28a197;
   --gds-light-blue: #2b8cc4;
   --gds-blue: #005ea5;
+  --gds-blue-darken: #00458C;
   --gds-light-purple: #6f72af;
   --gds-purple: #2e358b;
   --gds-bright-purple: #912b88;

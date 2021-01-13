@@ -4,7 +4,7 @@
   background-color: initial;
   &.activated {
     .go-to-journal-card #card-content-wrapper {
-      background: darken(#fff, 10); // $mes-white
+      background: var(--mes-white-darken);
     }
   }
 }
