@@ -26,15 +26,15 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col no-padding col-48 col-lg-32>
+        <ion-col>
           <test-results-search-card></test-results-search-card>
         </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col no-padding col-48 col-lg-32>
+        <ion-col *ngIf="!showDelegatedExaminerRekey()">
+          <rekey-search-card></rekey-search-card>
         </ion-col>
       </ion-row>
     </ion-grid>
+    <hr/>
     <ion-button color="dark" name="login-button" (click)="goToLogin()">
       <ion-icon name="log-in-outline"></ion-icon>
       Login
