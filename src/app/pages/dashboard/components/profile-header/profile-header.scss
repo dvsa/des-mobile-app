@@ -32,8 +32,12 @@
   }
 
   #contact-icon {
-    margin-left: 2px;
     font-size: 72px;
     color: var(--dark);
+  }
+
+  #contact-col {
+    display: flex;
+    justify-content: center;
   }
 }
