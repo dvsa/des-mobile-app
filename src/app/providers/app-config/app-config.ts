@@ -24,6 +24,35 @@ import { AppInfoProvider } from '../app-info/app-info';
 import { DataStoreProvider } from '../data-store/data-store';
 import { EnvironmentFile } from '../../../environments/models/environment.model';
 
+/**
+ *  How Loading Config Works
+ *
+ *  IOS Devices
+ *
+ *  If the device is IOS it will attempt to create a Environment file in from configuration provided from MDM
+ *  using loadManagedConfig().
+ *
+ *  If this fails then it will use the Enviroment configuration
+ *  provided by the enviroment file at ../../enviroment/enviroment which is required for the app to build
+ *
+ *  In the Login page for an IOS device the App Config initialiseAppConfig() is ran
+ *  followed by loadRemoteConfig() which makes an api call to the configuration microservice
+ *  and then calls mapRemoteConfig()
+ *
+ *  If loading the remote config fails we fall back to getCachedRemoteConfig() which should load
+ *  the configuration from a previous run of the app from the on device database.
+ *
+ *  Non IOS Devices
+ *
+ *  Non ios devcies will always use the enviroment file at ../../enviroment/enviroment
+ *
+ *  In the Login page for a non IOS device initialiseAppConfig() is run which also calls mapRemoteConfig() to
+ *  load more config from the enviroment file.
+ *
+ *  As on non-IOS devices we can't authenticate with AWS so the enviroment file should always have the setting
+ *  isRemote set to false
+ */
+
 @Injectable()
 export class AppConfigProvider {
 
@@ -97,7 +126,7 @@ export class AppConfigProvider {
     } as EnvironmentFile;
 
     // Check to see if we have any config
-    if (isEmpty((newEnvFile.configUrl as any).error)) {
+    if (!isEmpty((newEnvFile.configUrl))) {
       this.environmentFile = { ...newEnvFile };
       return;
     }
@@ -109,6 +138,7 @@ export class AppConfigProvider {
 
   public loadRemoteConfig = (): Promise<any> => this.getRemoteData()
     .then((data: any) => {
+
       const result: ValidationResult = this.schemaValidatorProvider.validateRemoteConfig(data);
 
       if (result.error !== null) {
@@ -150,7 +180,9 @@ export class AppConfigProvider {
 
     this.appInfoProvider.getMajorAndMinorVersionNumber()
       .then((version: string) => {
-        const url = `${this.environmentFile.configUrl}?app_version=${version}`;
+        console.log('app version', version);
+        const tempVersion = 3.1;
+        const url = `${this.environmentFile.configUrl}?app_version=${tempVersion}`;
         this.httpClient.get(url)
           .pipe(timeout(30000))
           .subscribe(
@@ -250,7 +282,6 @@ export class AppConfigProvider {
       this.isDebug.getIsDebug()
         .then((isDebug) => {
           this.isDebugMode = isDebug;
-          console.log('Detected that app is running in debug mode');
           resolve();
         })
         .catch((err) => reject(err));

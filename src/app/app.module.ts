@@ -6,6 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
+import { IsDebug } from '@ionic-native/is-debug/ngx';
 
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
@@ -28,6 +30,8 @@ import { UrlProvider } from './providers/url/url';
 import { DateTimeProvider } from './providers/date-time/date-time';
 import { LogsStoreModule } from '../store/logs/logs.module';
 import { LogsProvider } from './providers/logs/logs';
+import { SchemaValidatorProvider } from './providers/schema-validator/schema-validator';
+import { LogHelper } from './providers/logs/logs-helper';
 
 @NgModule({
   declarations: [AppComponent],
@@ -53,6 +57,7 @@ import { LogsProvider } from './providers/logs/logs';
     DateTimeProvider,
     AuthGuard,
     SecureStorage,
+    IsDebug,
     DataStoreProvider,
     Network,
     NetworkStateProvider,
@@ -66,6 +71,9 @@ import { LogsProvider } from './providers/logs/logs';
       multi: true,
     },
     LogsProvider,
+    LogHelper,
+    SchemaValidatorProvider,
+    EmmAppConfig,
   ],
   bootstrap: [AppComponent],
 })

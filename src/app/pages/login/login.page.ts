@@ -11,7 +11,7 @@ import { NetworkStateProvider } from '../../providers/network-state/network-stat
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
 import { BasePageComponent } from '../../shared/classes/base-page';
-import { LoadEmployeeName } from '../../../store/app-info/app-info.actions';
+import { LoadConfigSuccess, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
 import { StartSendingLogs } from '../../../store/logs/logs.actions';
 
@@ -71,7 +71,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
     try {
       await this.platform.ready();
-      await this.initialiseAppConfig();
+      await this.appConfigProvider.initialiseAppConfig();
 
       this.store$.dispatch(StartSendingLogs());
 
@@ -91,6 +91,9 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
       this.store$.dispatch(LoadEmployeeName());
 
+      await this.appConfigProvider.loadRemoteConfig();
+      this.store$.dispatch(LoadConfigSuccess());
+
       await this.handleLoadingUI(false);
       this.validateDeviceType();
     } catch (error) {
@@ -104,10 +107,6 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
       // TODO: Send error through the logging service
     }
-  };
-
-  initialiseAppConfig = (): Promise<void> => {
-    return this.appConfigProvider.initialiseAppConfig();
   };
 
   initialiseAuthentication = (): void => {
