@@ -40,7 +40,7 @@ button[clear] {
     }
 
     h3 {
-      color: var(--gds-blue);
+      color: var(--gds-grey-1); // var(--gds-blue);
       .text-zoom-large & {
         line-height: 1.4em;
         white-space: normal;
@@ -58,7 +58,7 @@ button[clear] {
     align-items: center;
     height: 240px;
     padding: 24px;
-    background: var(--gds-blue);
+    background: var(--gds-grey-1); // var(--gds-blue);
     width: 100%;
   }
 }

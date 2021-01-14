@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { REKEY_SEARCH_PAGE } from '../../../page-names.constants';
+// import { REKEY_SEARCH_PAGE } from '../../../page-names.constants';
 
 @Component({
   selector: 'rekey-search-card',
@@ -13,7 +13,7 @@ export class RekeySearchCardComponent {
   constructor(private router: Router) { }
 
   navigateToRekeySearch = () => {
-    this.router.navigate([REKEY_SEARCH_PAGE]);
+    // this.router.navigate([REKEY_SEARCH_PAGE]);
   };
 
 }
