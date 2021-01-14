@@ -1,6 +1,4 @@
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import * as enjoi from 'enjoi';
-import * as joi from '@hapi/joi';
 const journalSchema = require('@dvsa/mes-journal-schema/index.json');
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
@@ -1448,12 +1446,5 @@ const localJournal: ExaminerWorkSchedule = {
   ],
 };
 
-const joiSchema = enjoi.schema(journalSchema);
-const validationResult = joi.validate(localJournal, joiSchema);
-if (validationResult.error) {
-  console.log('Generated local journal did not match journal schema');
-  console.log(validationResult.error);
-  process.exit(1);
-}
 writeFileSync(join(`${dirname(process.argv[1])}`, 'local-journal.json'), JSON.stringify(localJournal, null, 2));
 console.log('Local journal updated');
