@@ -100,12 +100,4 @@ describe('App Config Provider', () => {
       request.flush(environmentResponseMock);
     }));
   });
-
-  describe('loadMangedConfig', () => {
-    it('should load managed config and update environmentFile', () => {
-      appConfig.loadManagedConfig();
-
-      expect(appConfig.environmentFile.configUrl).toBe('remote-url');
-    });
-  });
 });
