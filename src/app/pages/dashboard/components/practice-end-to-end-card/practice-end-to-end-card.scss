@@ -1,6 +1,8 @@
 button[clear] {
   width: 100%;
   padding: 0px;
+  outline: none;
+  border: none;
   background-color: initial;
   &.activated {
     .practice-mode-card {
