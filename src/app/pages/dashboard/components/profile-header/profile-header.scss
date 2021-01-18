@@ -10,6 +10,10 @@
     color: var(--dark);
   }
 
+  ion-row {
+    align-items: center;
+  }
+
   .role {
     margin-top: -4px;
     --ion-grid-column-padding: 0;

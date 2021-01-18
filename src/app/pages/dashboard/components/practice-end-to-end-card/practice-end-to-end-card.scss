@@ -9,9 +9,13 @@ button[clear] {
       background: var(--gds-yellow-darken-15);
     }
   }
+
+  h3 {
+    color: var(--gds-grey-2);
+  }
 }
 .practice-mode-card {
-  background-color: var(--gds-grey-1); // var(--gds-yellow);
+  background-color: var(--gds-grey-2); // var(--gds-yellow);
   padding: 10px;
   border: 10px solid var(--mes-white);
 }
