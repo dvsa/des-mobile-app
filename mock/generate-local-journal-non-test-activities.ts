@@ -1,5 +1,3 @@
-import * as enjoi from 'enjoi';
-import * as joi from '@hapi/joi';
 const journalSchema = require('@dvsa/mes-journal-schema/index.json');
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
@@ -222,13 +220,6 @@ const localNonTestActivities = {
   ],
 };
 
-const joiSchema = enjoi.schema(journalSchema);
-const validationResult = joi.validate(localNonTestActivities, joiSchema);
-if (validationResult.error) {
-  console.log('Generated local NTA journal did not match journal schema');
-  console.log(validationResult.error);
-  process.exit(1);
-}
 // tslint:disable-next-line:max-line-length
 writeFileSync(join(`${dirname(process.argv[1])}`, 'local-journal-non-test-activities.json'), JSON.stringify(localNonTestActivities, null, 2));
 console.log('Local NTA journal updated');
