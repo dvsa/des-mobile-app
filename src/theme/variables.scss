@@ -3,6 +3,7 @@
 
 $mes-white: #ffffff;
 $gds-black: #0b0c0c;
+$mes-toolbar-background: #212121;
 
 /** Ionic CSS Variables **/
 :root {
@@ -14,7 +15,7 @@ $gds-black: #0b0c0c;
   --dark: #222;
   --mes-secondary-header: #dbd8d8;
   --mes-background: #efefee;
-  --mes-toolbar-background: #212121;
+  --mes-toolbar-background: #{$mes-toolbar-background};
   --mes-white: #ffffff;
   --mes-white-darken-10: #E6E6E6;
   --mes-white-darken-15: #D9D9D9;
@@ -236,7 +237,7 @@ $gds-black: #0b0c0c;
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
 
-    --ion-toolbar-background: #{$gds-black};
+    --ion-toolbar-background: #{$mes-toolbar-background};
 
     --ion-item-background: #000000;
 
@@ -280,7 +281,7 @@ $gds-black: #0b0c0c;
 
     --ion-item-background: #1e1e1e;
 
-    --ion-toolbar-background: #{$gds-black};
+    --ion-toolbar-background: #{$mes-toolbar-background};
 
     --ion-tab-bar-background: #1f1f1f;
 
