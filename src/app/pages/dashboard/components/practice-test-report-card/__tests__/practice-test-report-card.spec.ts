@@ -25,6 +25,7 @@ describe('PracticeTestReportCard ', () => {
   beforeEach(async(() => {
   }));
 
+  // TODO: tests will be reinstated when practice test report mode is implemented
   xdescribe('Class', () => {
     it('should create', () => {
     });

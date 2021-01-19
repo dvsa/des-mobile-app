@@ -22,6 +22,7 @@ describe('TestResultsSearchCard ', () => {
     component = fixture.componentInstance;
   }));
 
+  // TODO: tests will be reinstated when test results search is implemented
   xdescribe('Class', () => {
     describe('navigateToFakeJournal', () => {
       it('should trigger navigation to Fake Journal', () => {

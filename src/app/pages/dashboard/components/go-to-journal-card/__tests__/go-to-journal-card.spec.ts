@@ -1,26 +1,29 @@
 import { Router } from '@angular/router';
-// import { RouterTestingModule } from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { GoToJournalCardComponent } from '../go-to-journal-card';
 import { JOURNAL_PAGE } from '../../../../page-names.constants';
+import { JournalPage } from '../../../../journal/journal.page';
 
 describe('GoToJournalCard ', () => {
   let component: GoToJournalCardComponent;
   let fixture: ComponentFixture<GoToJournalCardComponent>;
-  let router: Router;
+  let routerSpy;
 
   configureTestSuite(() => {
+    routerSpy = jasmine.createSpyObj('Router', ['navigate']);
+
     TestBed.configureTestingModule({
       declarations: [GoToJournalCardComponent],
-      /* imports: [
+      imports: [
         RouterTestingModule.withRoutes(
           [
-            { path: '', component:  },
+            { path: 'journal', component: JournalPage },
           ],
         ),
-      ], */
-      // providers: [{ provide: Router, useValue: routerSpy }],
+      ],
+      providers: [{ provide: Router, useValue: routerSpy }],
     });
   });
 
@@ -29,12 +32,12 @@ describe('GoToJournalCard ', () => {
     component = fixture.componentInstance;
   }));
 
-  xdescribe('Class', () => {
+  describe('Class', () => {
     describe('navigateToJournal', () => {
       it('should trigger navigation to Journal', () => {
         component.navigateToJournal();
 
-        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
+        expect(routerSpy.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
       });
     });
   });

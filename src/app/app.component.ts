@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Plugins, StatusBarStyle } from '@capacitor/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { StoreModel } from './shared/models/store.model';
 import { LoadAppVersion } from '../store/app-info/app-info.actions';
@@ -18,16 +18,21 @@ export class AppComponent {
     private store$: Store<StoreModel>,
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
       this.store$.dispatch(LoadAppVersion());
-      this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.configureStatusBar();
+    });
+  }
+
+  configureStatusBar() {
+    Plugins.StatusBar.setStyle({
+      style: StatusBarStyle.Dark,
     });
   }
 }

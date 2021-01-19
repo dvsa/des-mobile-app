@@ -20,6 +20,7 @@ describe('PracticeEndToEndCard ', () => {
     component = fixture.componentInstance;
   }));
 
+  // TODO: tests will be reinstated when practice end-to-end mode is implemented
   xdescribe('Class', () => {
     describe('navigateToFakeJournal', () => {
       it('should trigger navigation to Fake Journal', () => {
