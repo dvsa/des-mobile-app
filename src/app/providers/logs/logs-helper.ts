@@ -1,7 +1,7 @@
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { merge } from 'rxjs';
-import { Device } from '@ionic-native/device/ngx';
+// import { Device } from '@capacitor/core';
 import { Injectable } from '@angular/core';
 
 import { LogType, Log } from '../../shared/models/log.model';
@@ -15,7 +15,7 @@ export class LogHelper {
   private employeeId: string;
 
   constructor(
-    private device: Device,
+    // private device: Device,
     private store$: Store<StoreModel>,
   ) {
     const versionNumber$ = this.store$.pipe(
@@ -39,8 +39,8 @@ export class LogHelper {
       timestamp: Date.now(),
       description: desc,
       appVersion: this.appVersion,
-      iosVersion: this.device.version,
-      deviceId: this.device.uuid,
+      iosVersion: '12.3', // this.device.version,
+      deviceId: '12345456', // this.device.uuid,
       drivingExaminerId: this.employeeId,
     };
   }
