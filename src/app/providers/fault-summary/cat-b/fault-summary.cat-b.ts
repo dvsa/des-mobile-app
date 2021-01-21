@@ -4,7 +4,7 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CommentSource, CompetencyIdentifiers, FaultSummary } from '../../../shared/models/fault-marking.model';
 import { CompetencyDisplayName } from '../../../shared/models/competency-display-name';
 import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { ManoeuvreTypes } from '../../../modules/tests/test-data/test-data.constants';
+import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
 import {
   manoeuvreCompetencyLabels as manoeuvreCompetencyLabelsCatB,
   manoeuvreTypeLabels as manoeuvreTypeLabelsCatB,
