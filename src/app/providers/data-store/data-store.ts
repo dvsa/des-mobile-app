@@ -37,6 +37,19 @@ export class DataStoreProvider {
   getSecureContainer(): SecureStorageObject {
     return this.secureContainer;
   }
+  /**
+   * Get all stored keys
+   * NOTE: secureContainer guard clause allows app to run in browser
+   * @returns Promise
+   */
+  getKeys(): Promise<string[]> {
+    if (!this.secureContainer) {
+      return Promise.resolve(['']);
+    }
+    return this.secureContainer.keys().then((response: string[]) => {
+      return response;
+    });
+  }
 
   /**
    * sets the value for specified key
