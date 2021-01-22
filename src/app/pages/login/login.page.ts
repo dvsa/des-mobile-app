@@ -176,4 +176,8 @@ export class LoginPage extends BasePageComponent implements OnInit {
     this.router.navigate(['dashboard']);
   }
 
+  goToJournal() {
+    this.router.navigate(['journal']);
+  }
+
 }

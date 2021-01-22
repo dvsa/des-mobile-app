@@ -1,20 +1,42 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
+import { EffectsModule } from '@ngrx/effects';
 import { IonicModule } from '@ionic/angular';
-
-import { JournalPageRoutingModule } from './journal-routing.module';
-
-import { JournalPage } from './journal.page';
+import { JournalPage } from './journal';
+// import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
+// import { ActivitySlotComponent } from './components/activity-slot/activity-slot';
+// import { EmptySlotComponent } from './components/empty-slot/empty-slot';
+import { JournalProvider } from '../../providers/journal/journal';
+// import { SlotProvider } from '../../providers/slot/slot';
+import { DateTimeProvider } from '../../providers/date-time/date-time';
+// import { JournalComponentsModule } from './components/journal-components.module';
+// import { TestsEffects } from '../../modules/tests/tests.effects';
+// import { TestSlotComponentsModule } from '../../components/test-slot/test-slot-components.module';
+// import { ComponentsModule } from '../../components/common/common-components.module';
+// import { JournalAnalyticsEffects } from './journal.analytics.effects';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    JournalPageRoutingModule,
+  declarations: [
+    JournalPage,
   ],
-  declarations: [JournalPage],
+  imports: [
+    // JournalComponentsModule,
+    // TestSlotComponentsModule,
+    IonicModule,
+    EffectsModule.forFeature([
+      // JournalAnalyticsEffects,
+      // TestsEffects,
+    ]),
+    // ComponentsModule,
+  ],
+  entryComponents: [
+    // ActivitySlotComponent,
+    // EmptySlotComponent,
+  ],
+  providers: [
+    JournalProvider,
+    // SlotProvider,
+    // SlotSelectorProvider,
+    DateTimeProvider,
+  ],
 })
 export class JournalPageModule {}

@@ -76,6 +76,7 @@ export class DataStoreProvider {
 
       // TODO: Send error through the logging service
 
+      // eslint-disable-next-line no-console
       console.error(`error removing ${key}. Error is: ${error.message}`);
       return Promise.resolve('');
     });
