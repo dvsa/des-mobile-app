@@ -1,0 +1,47 @@
+.profile-header {
+
+  padding: 12px;
+
+  h2 {
+    margin: 0px;
+  }
+
+  span {
+    color: var(--dark);
+  }
+
+  ion-row {
+    align-items: center;
+  }
+
+  .role {
+    margin-top: -4px;
+    --ion-grid-column-padding: 0;
+  }
+
+  .staff-number {
+    margin-top: -4px;
+    margin-right: 2px;
+    text-align: right;
+    .employee-id {
+      font-weight: bold;
+    }
+  }
+
+  #card-content-wrapper {
+    height: 240px;
+    padding: 24px;
+    background: var(--mes-white);
+    width: 100%;
+  }
+
+  #contact-icon {
+    font-size: 72px;
+    color: var(--dark);
+  }
+
+  #contact-col {
+    display: flex;
+    justify-content: center;
+  }
+}

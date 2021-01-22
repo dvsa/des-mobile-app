@@ -1,8 +1,66 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
+$mes-white: #ffffff;
+$gds-black: #0b0c0c;
+$mes-toolbar-background: #212121;
+
 /** Ionic CSS Variables **/
 :root {
+  /** custom colours **/
+  --primary: #488aff;
+  --secondary: #32db64;
+  --danger: #f53d3d;
+  --light: #f4f4f4;
+  --dark: #222;
+  --mes-secondary-header: #dbd8d8;
+  --mes-background: #efefee;
+  --mes-toolbar-background: #{$mes-toolbar-background};
+  --mes-white: #ffffff;
+  --mes-white-darken-10: #E6E6E6;
+  --mes-white-darken-15: #D9D9D9;
+  --mesBoxGrey: #f6f6f6;
+  --journalTestCategory:  #818080;
+  --journalSlotChangeIdentifier: #d0021b;
+  --secondary-button: #f5a623;
+  --secondary-button-darken: #DC8D0A;
+  --nonTestActivitySlotBackground: rgba(198, 236, 233, 0.1);
+  --travelSlotBackground: #eef8e5;
+  --mes-validation-error: #b12025;
+  --mes-light-yellow: #F8E8CE;
+  --mes-light-grey: #f9f9f9;
+  --reverseLightBlue: #e8f0fe;
+
+  /** gds colours **/
+  --gds-black: #{$gds-black};
+  --gds-grey-1: #6f777b;
+  --gds-grey-2: #bfc1c3;
+  --gds-grey-3: #dee0e2;
+  --gds-grey-4: #f8f8f8;
+  --gds-grey-5: #efefee;
+  --gds-red: #b10e1e;
+  --gds-bright-red: #df3034;
+  --gds-orange: #f47738;
+  --gds-brown: #b58840;
+  --gds-yellow: #ffbf47;
+  --gds-yellow-darken-15: #D99921;
+  --gds-light-green: #85994b;
+  --gds-green: #006435;
+  --gds-dark-green: #00823b;
+  --gds-dark-green-darken: #006922;
+  --gds-dark-green-2: #006f4b;
+  --gds-dark-green-3: #00703c;
+  --gds-turquoise: #28a197;
+  --gds-light-blue: #2b8cc4;
+  --gds-blue: #005ea5;
+  --gds-blue-darken: #00458C;
+  --gds-light-purple: #6f72af;
+  --gds-purple: #2e358b;
+  --gds-bright-purple: #912b88;
+  --gds-pink: #d53880;
+  --gds-light-pink: #f499be;
+  --gds-lavendar: #e8f0fe;
+
   /** primary **/
   --ion-color-primary: #3880ff;
   --ion-color-primary-rgb: 56, 128, 255;
@@ -153,8 +211,8 @@
    */
 
   .ios body {
-    --ion-background-color: #000000;
-    --ion-background-color-rgb: 0,0,0;
+    --ion-background-color: #f4f4f4;
+    --ion-background-color-rgb: 255,255,255;
 
     --ion-text-color: #ffffff;
     --ion-text-color-rgb: 255,255,255;
@@ -179,7 +237,7 @@
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
 
-    --ion-toolbar-background: #0d0d0d;
+    --ion-toolbar-background: #{$mes-toolbar-background};
 
     --ion-item-background: #000000;
 
@@ -193,8 +251,8 @@
    */
 
   .md body {
-    --ion-background-color: #121212;
-    --ion-background-color-rgb: 18,18,18;
+    --ion-background-color:  #f4f4f4;
+    --ion-background-color-rgb: 255,255,255;
 
     --ion-text-color: #ffffff;
     --ion-text-color-rgb: 255,255,255;
@@ -223,7 +281,7 @@
 
     --ion-item-background: #1e1e1e;
 
-    --ion-toolbar-background: #1f1f1f;
+    --ion-toolbar-background: #{$mes-toolbar-background};
 
     --ion-tab-bar-background: #1f1f1f;
 

@@ -1,0 +1,16 @@
+
+h1, h2, h3, h4, h5, h6, a, a:hover, label {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+  vertical-align: baseline;
+  text-decoration: none;
+  color: var(--gds-black);
+}
+
+abbr[title] {
+  border-bottom: none;
+  text-decoration: none;
+}
