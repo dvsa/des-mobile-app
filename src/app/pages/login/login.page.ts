@@ -14,6 +14,7 @@ import { BasePageComponent } from '../../shared/classes/base-page';
 import { LoadConfigSuccess, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
 import { StartSendingLogs } from '../../../store/logs/logs.actions';
+import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
   selector: 'app-login',
@@ -173,11 +174,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
   }
 
   goToDashboard() {
-    this.router.navigate(['dashboard']);
-  }
-
-  goToJournal() {
-    this.router.navigate(['journal']);
+    this.router.navigate([DASHBOARD_PAGE]);
   }
 
 }

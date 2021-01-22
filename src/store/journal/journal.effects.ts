@@ -13,25 +13,25 @@ import { HttpErrorResponse } from '@angular/common/http';
 // import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { Store, select } from '@ngrx/store';
 import * as journalActions from './journal.actions';
-import { JournalProvider } from '../../providers/journal/journal';
-import { StoreModel } from '../../shared/models/store.model';
+import { JournalProvider } from '../../app/providers/journal/journal';
+import { StoreModel } from '../../app/shared/models/store.model';
 import { getJournalState } from './journal.reducer';
-import { AppConfigProvider } from '../../providers/app-config/app-config';
+import { AppConfigProvider } from '../../app/providers/app-config/app-config';
 // import { SlotItem } from '../../providers/slot-selector/slot-item';
 // TODO Re-introduce in MES-6242
 // import { SlotProvider } from '../../providers/slot/slot';
-import { JournalRefreshModes } from '../../providers/analytics/analytics.model';
+import { JournalRefreshModes } from '../../app/providers/analytics/analytics.model';
 import {
   getSelectedDate, getLastRefreshed, getSlots,
   canNavigateToPreviousDay, canNavigateToNextDay,
 // getCompletedTests,
 } from './journal.selector';
-import { NetworkStateProvider, ConnectionStatus } from '../../providers/network-state/network-state';
-import { DateTime, Duration } from '../../shared/helpers/date-time';
-import { DataStoreProvider } from '../../providers/data-store/data-store';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { NetworkStateProvider, ConnectionStatus } from '../../app/providers/network-state/network-state';
+import { DateTime, Duration } from '../../app/shared/helpers/date-time';
+import { DataStoreProvider } from '../../app/providers/data-store/data-store';
+import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
 // import { Examiner } from '@dvsa/mes-test-schema/categories/common';
-import { DateTimeProvider } from '../../providers/date-time/date-time';
+import { DateTimeProvider } from '../../app/providers/date-time/date-time';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 // import { LogType } from '../../shared/models/log.model';
 // import { SaveLog } from '../../modules/logs/logs.actions';

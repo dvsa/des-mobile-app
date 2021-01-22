@@ -6,8 +6,8 @@ import { of } from 'rxjs';
 
 import * as journalActions from './journal.actions';
 import * as logsActions from '../logs/logs.actions';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { Log, LogType } from '../../shared/models/log.model';
+import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
+import { Log, LogType } from '../../app/shared/models/log.model';
 
 @Injectable()
 export class JournalLogsEffects {
@@ -22,7 +22,7 @@ export class JournalLogsEffects {
     ofType(journalActions.LOAD_JOURNAL_FAILURE),
     switchMap((action: journalActions.LoadJournalFailure) => {
       const log: Log = this.createLog(LogType.ERROR, action.type);
-      return of(new logsActions.SaveLog(log));
+      return of(logsActions.SaveLog({ payload: log }));
     }),
   );
 
@@ -31,7 +31,7 @@ export class JournalLogsEffects {
     ofType(journalActions.LOAD_JOURNAL_SILENT_FAILURE),
     switchMap((action: journalActions.LoadJournalSilentFailure) => {
       const log: Log = this.createLog(LogType.WARNING, action.type);
-      return of(new logsActions.SaveLog(log));
+      return of(logsActions.SaveLog({ payload: log }));
     }),
   );
 

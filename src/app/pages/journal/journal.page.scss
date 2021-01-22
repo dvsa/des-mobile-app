@@ -1,0 +1,61 @@
+.version-number {
+  color: var(--mes-secondary-header);
+  margin-top: -4px;
+}
+.last-sync {
+  color: var(--mes-secondary-header);
+  margin-top: -4px;
+}
+.refresh-button-icon {
+  padding: 0 10px;
+}
+#unauthenticated-mode-indicator {
+  text-align: center;
+  padding: 16px 0;
+  background: var(--gds-red);
+  #unauth-text {
+    color: var(--mes-white);
+    font-size: 20px;
+    font-weight: normal;
+    letter-spacing: 0.34px;
+  }
+}
+
+.toolbar-ios ion-title {
+  height: 100% !important;
+}
+ion-buttons[start] .button-inner{
+  flex-flow: column;
+  align-items: flex-start;
+  line-height: 25px;
+}
+ion-buttons[end] .button-inner{
+  flex-flow: column;
+  align-items: flex-end;
+  line-height: 25px;
+}
+
+.list-ios {
+  margin-bottom: 16px;
+}
+
+.content-ios hr {
+  height: 2px;
+  background-color: #bdbdbd;
+  margin: 0px 12px 0px;
+}
+#incomplete-tests-indicator {
+  padding-top: 20px;
+  text-align: center;
+  background: var(--gds-yellow);
+  height: 70px;
+  #incomplete-tests-text{
+    font-size: 20px;
+    font-weight: normal;
+    padding-bottom: 10px;
+  }
+  #exclamation-icon {
+    height: 37px;
+    vertical-align: middle;
+  }
+}

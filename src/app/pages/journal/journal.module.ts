@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
-import { IonicModule } from '@ionic/angular';
-import { JournalPage } from './journal';
+import { IonicModule, NavParams } from '@ionic/angular';
+import { JournalPage } from './journal.page';
 // import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
 // import { ActivitySlotComponent } from './components/activity-slot/activity-slot';
 // import { EmptySlotComponent } from './components/empty-slot/empty-slot';
@@ -13,6 +13,8 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 // import { TestSlotComponentsModule } from '../../components/test-slot/test-slot-components.module';
 // import { ComponentsModule } from '../../components/common/common-components.module';
 // import { JournalAnalyticsEffects } from './journal.analytics.effects';
+
+import { JournalPageRoutingModule } from './journal-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
       // JournalAnalyticsEffects,
       // TestsEffects,
     ]),
+    JournalPageRoutingModule,
     // ComponentsModule,
   ],
   entryComponents: [
@@ -34,6 +37,7 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
   ],
   providers: [
     JournalProvider,
+    NavParams,
     // SlotProvider,
     // SlotSelectorProvider,
     DateTimeProvider,

@@ -3,7 +3,7 @@ import { createFeatureSelector } from '@ngrx/store';
 import { get } from 'lodash';
 import * as journalActions from './journal.actions';
 import { JournalModel } from './journal.model';
-import { ConnectionStatus } from '../../providers/network-state/network-state';
+import { ConnectionStatus } from '../../app/providers/network-state/network-state';
 
 export const initialState: JournalModel = {
   isLoading: false,

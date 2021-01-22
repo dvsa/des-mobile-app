@@ -1,9 +1,9 @@
 // eslint-disable-next-line max-classes-per-file
 import { Action } from '@ngrx/store';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ConnectionStatus } from '../../providers/network-state/network-state';
+import { ConnectionStatus } from '../../app/providers/network-state/network-state';
 import { ExaminerSlotItemsByDate } from './journal.model';
-import { MesError } from '../../shared/models/mes-error.model';
+import { MesError } from '../../app/shared/models/mes-error.model';
 
 export const LOAD_JOURNAL = '[JournalPage] Load Journal';
 export const LOAD_JOURNAL_SUCCESS = '[JournalEffects] Load Journal Success';

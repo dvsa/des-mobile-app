@@ -5,8 +5,8 @@ import {
 } from 'lodash';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { JournalModel } from './journal.model';
-import { DateTime, Duration } from '../../shared/helpers/date-time';
-import { SlotItem } from '../../providers/slot-selector/slot-item';
+import { DateTime, Duration } from '../../app/shared/helpers/date-time';
+import { SlotItem } from '../../app/providers/slot-selector/slot-item';
 // import { SlotProvider } from '../../providers/slot/slot';
 
 export const getSlots = (journal: JournalModel) => journal.slots;
