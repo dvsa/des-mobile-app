@@ -7,7 +7,7 @@
     {
       "slotDetail": {
         "slotId": 1000,
-        "start": "2020-12-01T09:00:00",
+        "start": "2021-01-25T09:00:00",
         "duration": 57
       },
       "vehicleTypeCode": "C",
@@ -20,7 +20,7 @@
     {
       "slotDetail": {
         "slotId": 1001,
-        "start": "2020-12-01T10:15:00",
+        "start": "2021-01-25T10:15:00",
         "duration": 57
       },
       "vehicleTypeCode": "C",
@@ -91,17 +91,17 @@
   "personalCommitments": [
     {
       "commitmentId": 123400,
-      "startDate": "2020-12-01",
+      "startDate": "2021-01-25",
       "startTime": "10:00:00",
-      "endDate": "2020-12-01",
+      "endDate": "2021-01-25",
       "endTime": "11:00:00",
       "activityCode": "104",
       "activityDescription": "Medical appointment"
     },
     {
       "commitmentId": 123401,
-      "startDate": "2020-12-08",
-      "endDate": "2020-12-08",
+      "startDate": "2021-02-01",
+      "endDate": "2021-02-01",
       "activityCode": "081",
       "activityDescription": "Annual Leave"
     }
@@ -110,7 +110,7 @@
     {
       "slotDetail": {
         "slotId": 1111,
-        "start": "2020-12-01T11:15:00",
+        "start": "2021-01-25T11:15:00",
         "duration": 57
       },
       "activityCode": "091",
@@ -124,7 +124,7 @@
     {
       "slotDetail": {
         "slotId": 1110,
-        "start": "2020-12-01T12:15:00",
+        "start": "2021-01-25T12:15:00",
         "duration": 57
       },
       "activityCode": "089",
@@ -138,7 +138,7 @@
     {
       "slotDetail": {
         "slotId": 1200,
-        "start": "2020-12-01T13:15:00",
+        "start": "2021-01-25T13:15:00",
         "duration": 57
       },
       "activityCode": "104",
@@ -154,7 +154,7 @@
     {
       "slotDetail": {
         "slotId": 1300,
-        "start": "2020-12-01T09:00:00",
+        "start": "2021-01-25T09:00:00",
         "duration": 90
       },
       "testCentre": {
@@ -167,7 +167,7 @@
     {
       "slotDetail": {
         "slotId": 1301,
-        "start": "2020-12-01T10:45:00",
+        "start": "2021-01-25T10:45:00",
         "duration": 90
       },
       "testCentre": {
@@ -180,7 +180,7 @@
     {
       "slotDetail": {
         "slotId": 1302,
-        "start": "2020-12-01T12:30:00",
+        "start": "2021-01-25T12:30:00",
         "duration": 90
       },
       "testCentre": {
@@ -199,7 +199,7 @@
         "centreName": "Example Test Centre 3",
         "costCode": "EXTC 3"
       },
-      "date": "2020-12-01"
+      "date": "2021-01-25"
     },
     {
       "deploymentId": 22222,
@@ -208,7 +208,7 @@
         "centreName": "Example Test Centre 4",
         "costCode": "EXTC 4"
       },
-      "date": "2020-12-01"
+      "date": "2021-01-25"
     }
   ]
 }

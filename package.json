@@ -8,7 +8,7 @@
     "test:watch": "ng test",
     "test:coverage": "ng test --no-watch --code-coverage",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
-    "serve:local": "npm run config:local && npm run copy-mock-data && ionic serve",
+    "serve:local": "run-s update-mock-data copy-mock-data config:local && ionic serve",
     "serve:emulator": "npm run config:dev-tools && ionic cap run ios",
     "serve:ipad:notworking": "npm run config:dev && npm run schema-version",
     "open:ios": "rm -rf ios && ionic build && ionic cap add ios & ionic cap copy ios && npm run copy-resources && ionic cap open ios",

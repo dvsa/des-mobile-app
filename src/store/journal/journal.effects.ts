@@ -6,7 +6,6 @@ import {
   switchMap, map, withLatestFrom, takeUntil, mapTo, filter, catchError, startWith,
   // tap,
   concatMap,
-  groupBy,
 } from 'rxjs/operators';
 import { of, interval, Observable } from 'rxjs';
 // import { groupBy } from 'lodash';
@@ -14,6 +13,7 @@ import { of, interval, Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 // import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { Store, select } from '@ngrx/store';
+import { groupBy } from 'lodash';
 import * as journalActions from './journal.actions';
 import { JournalProvider } from '../../app/providers/journal/journal';
 import { StoreModel } from '../../app/shared/models/store.model';
@@ -137,7 +137,7 @@ export class JournalEffects {
 
   private getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
     let slotItemsByDate: { [date: string]: SlotItem[] };
-    slotItemsByDate = groupBy(slotItems as any, this.slotProvider.getSlotDate) as any;
+    slotItemsByDate = groupBy(slotItems, this.slotProvider.getSlotDate);
     slotItemsByDate = this.slotProvider.extendWithEmptyDays(slotItemsByDate);
     slotItemsByDate = this.slotProvider.getRelevantSlots(slotItemsByDate);
     return slotItemsByDate;
