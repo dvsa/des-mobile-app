@@ -15,6 +15,7 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 // import { JournalAnalyticsEffects } from './journal.analytics.effects';
 
 import { JournalPageRoutingModule } from './journal-routing.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { JournalPageRoutingModule } from './journal-routing.module';
       // TestsEffects,
     ]),
     JournalPageRoutingModule,
+    CommonModule,
     // ComponentsModule,
   ],
   entryComponents: [

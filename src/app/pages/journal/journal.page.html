@@ -20,7 +20,7 @@
 
   <!-- <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner> -->
 
-  <ion-refresher (ionRefresh)="pullRefreshJournal($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefreshJournal($event)">
     <ion-refresher-content
       pullingIcon="arrow-dropdown"
       pullingText="Pull to refresh"

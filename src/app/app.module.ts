@@ -32,6 +32,7 @@ import { LogsStoreModule } from '../store/logs/logs.module';
 import { LogsProvider } from './providers/logs/logs';
 import { SchemaValidatorProvider } from './providers/schema-validator/schema-validator';
 import { LogHelper } from './providers/logs/logs-helper';
+import { JournalModule } from '../store/journal/journal.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -46,6 +47,7 @@ import { LogHelper } from './providers/logs/logs-helper';
     !environment.enableDevTools ? [StoreDevtoolsModule.instrument()] : [],
     AppInfoStoreModule,
     LogsStoreModule,
+    JournalModule,
   ],
   providers: [
     StatusBar,
