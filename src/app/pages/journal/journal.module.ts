@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { IonicModule, NavParams } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 import { JournalPage } from './journal.page';
 // import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
 // import { ActivitySlotComponent } from './components/activity-slot/activity-slot';
 // import { EmptySlotComponent } from './components/empty-slot/empty-slot';
 import { JournalProvider } from '../../providers/journal/journal';
-// import { SlotProvider } from '../../providers/slot/slot';
+import { SlotProvider } from '../../providers/slot/slot';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 // import { JournalComponentsModule } from './components/journal-components.module';
 // import { TestsEffects } from '../../modules/tests/tests.effects';
@@ -15,7 +16,6 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 // import { JournalAnalyticsEffects } from './journal.analytics.effects';
 
 import { JournalPageRoutingModule } from './journal-routing.module';
-import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -40,7 +40,7 @@ import { CommonModule } from '@angular/common';
   providers: [
     JournalProvider,
     NavParams,
-    // SlotProvider,
+    SlotProvider,
     // SlotSelectorProvider,
     DateTimeProvider,
   ],

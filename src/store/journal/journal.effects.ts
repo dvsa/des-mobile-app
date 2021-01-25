@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-
+import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
   switchMap, map, withLatestFrom, takeUntil, mapTo, filter, catchError, startWith,
   // tap,
   concatMap,
+  groupBy,
 } from 'rxjs/operators';
-import { of, interval } from 'rxjs';
+import { of, interval, Observable } from 'rxjs';
 // import { groupBy } from 'lodash';
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -19,7 +21,7 @@ import { getJournalState } from './journal.reducer';
 import { AppConfigProvider } from '../../app/providers/app-config/app-config';
 // import { SlotItem } from '../../providers/slot-selector/slot-item';
 // TODO Re-introduce in MES-6242
-// import { SlotProvider } from '../../providers/slot/slot';
+import { SlotProvider } from '../../app/providers/slot/slot';
 import { JournalRefreshModes } from '../../app/providers/analytics/analytics.model';
 import {
   getSelectedDate, getLastRefreshed, getSlots,
@@ -32,6 +34,12 @@ import { DataStoreProvider } from '../../app/providers/data-store/data-store';
 import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
 // import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { DateTimeProvider } from '../../app/providers/date-time/date-time';
+import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
+
+import { SlotItem } from '../../app/providers/slot-selector/slot-item';
+// import { LogType } from '../../app/shared/models/log.model';
+// import { SaveLog } from '../logs/logs.actions';
+import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 // import { LogType } from '../../shared/models/log.model';
 // import { SaveLog } from '../../modules/logs/logs.actions';
@@ -52,7 +60,7 @@ export class JournalEffects {
     private actions$: Actions,
     private journalProvider: JournalProvider,
     // TODO Re-introduce in MES-6242
-    // private slotProvider: SlotProvider,
+    private slotProvider: SlotProvider,
     private store$: Store<StoreModel>,
     public appConfig: AppConfigProvider,
     public networkStateProvider: NetworkStateProvider,
@@ -65,7 +73,7 @@ export class JournalEffects {
   ) {
   }
 
-  callJournalProvider$ = (mode: string) => {
+  callJournalProvider$ = (mode: string): Observable<any> => {
     this.store$.dispatch(new journalActions.JournalRefresh(mode));
     return of(null).pipe(
       withLatestFrom(
@@ -82,62 +90,58 @@ export class JournalEffects {
           map((journal) => journal.examiner),
         ),
       ),
-      // TODO Re-introduce in MES-6242
-      // switchMap(([action, lastRefreshed, slots, examiner]) => {
-      //   return this.journalProvider
-      //     .getJournal(lastRefreshed)
-      //     .pipe(
-      //       tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
-      //       map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
-      //         examiner: journalData.examiner as Required<Examiner>,
-      //         slotItems: this.slotProvider.detectSlotChanges(slots, journalData),
-      //       })),
-      //       map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
-      //         examiner: examinerSlotItems.examiner,
-      //         slotItemsByDate: this.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
-      //       })),
-      //       map((slotItemsByDate: ExaminerSlotItemsByDate) =>
-      //         new journalActions.LoadJournalSuccess(
-      //           slotItemsByDate,
-      //           this.networkStateProvider.getNetworkState(),
-      //           this.authProvider.isInUnAuthenticatedMode(),
-      //           lastRefreshed,
-      //         ),
-      //       ),
-      //       catchError((err: HttpErrorResponse) => {
-      //         // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
-      //         if (err.status === HttpStatusCodes.NOT_MODIFIED) {
-      //           return of(new journalActions.LoadJournalSuccess(
-      //             { examiner, slotItemsByDate: slots },
-      //             this.networkStateProvider.getNetworkState(),
-      //             this.authProvider.isInUnAuthenticatedMode(),
-      //             lastRefreshed,
-      //           ));
-      //         }
-      //
-      //         if (err.message === 'Timeout has occurred') {
-      //           return of(new journalActions.JournalRefreshError('Retrieving Journal', err.message));
-      //         }
-      //
-      //         this.store$.dispatch(new SaveLog(
-      //           this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
-      //         ));
-      //
-      //         return ErrorObservable.create(err);
-      //       }),
-      //     );
-      // }),
+      switchMap(([action, lastRefreshed, slots, examiner]) => {
+        return this.journalProvider
+          .getJournal(lastRefreshed)
+          .pipe(
+            // tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
+            map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
+              examiner: journalData.examiner as Required<Examiner>,
+              slotItems: this.slotProvider.detectSlotChanges(slots, journalData),
+            })),
+            map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
+              examiner: examinerSlotItems.examiner,
+              slotItemsByDate: this.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
+            })),
+            map((slotItemsByDate: ExaminerSlotItemsByDate) => new journalActions.LoadJournalSuccess(
+              slotItemsByDate,
+              this.networkStateProvider.getNetworkState(),
+              this.authProvider.isInUnAuthenticatedMode(),
+              lastRefreshed,
+            )),
+            catchError((err: HttpErrorResponse) => {
+              // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
+              if (err.status === HttpStatusCodes.NOT_MODIFIED) {
+                return of(new journalActions.LoadJournalSuccess(
+                  { examiner, slotItemsByDate: slots },
+                  this.networkStateProvider.getNetworkState(),
+                  this.authProvider.isInUnAuthenticatedMode(),
+                  lastRefreshed,
+                ));
+              }
+
+              if (err.message === 'Timeout has occurred') {
+                return of(new journalActions.JournalRefreshError('Retrieving Journal', err.message));
+              }
+
+              // this.store$.dispatch(new SaveLog(
+              // this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
+              // ));
+
+              return ErrorObservable.create(err);
+            }),
+          );
+      }),
     );
   };
 
-  // TODO Re-introduce in MES-6242
-  // private getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
-  //   let slotItemsByDate: { [date: string]: SlotItem[] };
-  //   slotItemsByDate = groupBy(slotItems, this.slotProvider.getSlotDate);
-  //   slotItemsByDate = this.slotProvider.extendWithEmptyDays(slotItemsByDate);
-  //   slotItemsByDate = this.slotProvider.getRelevantSlots(slotItemsByDate);
-  //   return slotItemsByDate;
-  // }
+  private getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
+    let slotItemsByDate: { [date: string]: SlotItem[] };
+    slotItemsByDate = groupBy(slotItems as any, this.slotProvider.getSlotDate) as any;
+    slotItemsByDate = this.slotProvider.extendWithEmptyDays(slotItemsByDate);
+    slotItemsByDate = this.slotProvider.getRelevantSlots(slotItemsByDate);
+    return slotItemsByDate;
+  };
 
   @Effect()
   journal$ = this.actions$.pipe(

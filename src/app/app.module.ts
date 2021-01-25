@@ -44,7 +44,7 @@ import { JournalModule } from '../store/journal/journal.module';
     HttpClientModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot(),
-    !environment.enableDevTools ? [StoreDevtoolsModule.instrument()] : [],
+    environment.enableDevTools ? [StoreDevtoolsModule.instrument()] : [],
     AppInfoStoreModule,
     LogsStoreModule,
     JournalModule,
