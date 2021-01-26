@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   switchMap, map, withLatestFrom, takeUntil, mapTo, filter, catchError, startWith,
   // tap,
@@ -143,8 +143,7 @@ export class JournalEffects {
     return slotItemsByDate;
   };
 
-  @Effect()
-  journal$ = this.actions$.pipe(
+  journal$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.LOAD_JOURNAL_SILENT),
     switchMap(
       () => this.callJournalProvider$(JournalRefreshModes.AUTOMATIC).pipe(
@@ -156,10 +155,9 @@ export class JournalEffects {
         }),
       ),
     ),
-  );
+  ));
 
-  @Effect()
-  loadJournal$ = this.actions$.pipe(
+  loadJournal$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.LOAD_JOURNAL),
     switchMap(
       () => this.callJournalProvider$(JournalRefreshModes.MANUAL).pipe(
@@ -171,10 +169,9 @@ export class JournalEffects {
         }),
       ),
     ),
-  );
+  ));
 
-  @Effect()
-  pollingSetup$ = this.actions$.pipe(
+  pollingSetup$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SETUP_JOURNAL_POLLING),
     switchMap(() => {
       // Switch map the manual refreshes so they restart the timer.
@@ -200,7 +197,7 @@ export class JournalEffects {
           mapTo({ type: journalActions.LOAD_JOURNAL_SILENT }),
         );
     }),
-  );
+  ));
 
   // TODO Re-introduce at later date
   // @Effect()
@@ -247,8 +244,7 @@ export class JournalEffects {
   //   }),
   // );
 
-  @Effect()
-  selectPreviousDayEffect$ = this.actions$.pipe(
+  selectPreviousDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SELECT_PREVIOUS_DAY),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
@@ -273,10 +269,9 @@ export class JournalEffects {
         new journalActions.JournalNavigateDay(previousDay),
       ];
     }),
-  );
+  ));
 
-  @Effect()
-  selectNextDayEffect$ = this.actions$.pipe(
+  selectNextDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SELECT_NEXT_DAY),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
@@ -301,6 +296,6 @@ export class JournalEffects {
         new journalActions.JournalNavigateDay(nextDay),
       ];
     }),
-  );
+  ));
 
 }
