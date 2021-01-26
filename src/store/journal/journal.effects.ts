@@ -90,7 +90,7 @@ export class JournalEffects {
           map((journal) => journal.examiner),
         ),
       ),
-      switchMap(([action, lastRefreshed, slots, examiner]) => {
+      switchMap(([, lastRefreshed, slots, examiner]) => {
         return this.journalProvider
           .getJournal(lastRefreshed)
           .pipe(
@@ -262,10 +262,10 @@ export class JournalEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-shadow
-    filter(([action, selectedDate, canNavigateToPreviousDay]) => canNavigateToPreviousDay),
-    // eslint-disable-next-line @typescript-eslint/no-shadow,@typescript-eslint/no-unused-vars
-    switchMap(([action, selectedDate, canNavigateToPreviousDay]) => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    filter(([,, canNavigateToPreviousDay]) => canNavigateToPreviousDay),
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    switchMap(([, selectedDate]) => {
       const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
 
       return [
@@ -290,10 +290,10 @@ export class JournalEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-shadow
-    filter(([action, selectedDate, canNavigateToNextDay]) => canNavigateToNextDay),
-    // eslint-disable-next-line @typescript-eslint/no-shadow,@typescript-eslint/no-unused-vars
-    switchMap(([action, selectedDate, canNavigateToNextDay]) => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    filter(([,, canNavigateToNextDay]) => canNavigateToNextDay),
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    switchMap(([, selectedDate]) => {
       const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
 
       return [
