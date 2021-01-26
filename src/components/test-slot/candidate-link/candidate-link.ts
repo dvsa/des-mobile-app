@@ -9,6 +9,7 @@ import { AppComponent } from '../../../app/app.component';
 @Component({
   selector: 'candidate-link',
   templateUrl: 'candidate-link.html',
+  styleUrls: ['candidate-link.scss'],
 })
 export class CandidateLinkComponent {
   @Input()

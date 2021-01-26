@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'indicators',
   templateUrl: 'indicators.html',
+  styleUrls: ['indicators.scss'],
 })
 export class IndicatorsComponent {
 

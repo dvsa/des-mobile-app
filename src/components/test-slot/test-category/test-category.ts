@@ -4,6 +4,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 @Component({
   selector: 'test-category',
   templateUrl: 'test-category.html',
+  styleUrls: ['test-category.scss'],
 })
 export class TestCategoryComponent {
   @Input()

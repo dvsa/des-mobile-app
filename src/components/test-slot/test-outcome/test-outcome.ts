@@ -41,6 +41,7 @@ import { SetExaminerBooked } from '../../../store/tests/examiner-booked/examiner
 @Component({
   selector: 'test-outcome',
   templateUrl: 'test-outcome.html',
+  styleUrls: ['test-outcome.scss'],
 })
 export class TestOutcomeComponent implements OnInit {
 

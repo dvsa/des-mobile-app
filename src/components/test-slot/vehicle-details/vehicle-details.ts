@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'vehicle-details',
   templateUrl: 'vehicle-details.html',
+  styleUrls: ['vehicle-details.scss'],
 })
 export class VehicleDetailsComponent {
   @Input()
