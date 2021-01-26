@@ -1,0 +1,21 @@
+language {
+  div {
+    padding-left: 6px;
+    display: flex;
+    img {
+      height: 19px;
+      width: 30px;
+      .text-zoom-large & {
+        height: 22px;
+        width: 35px;
+      }
+      .text-zoom-x-large & {
+        height: 24px;
+        width: 38px;
+      }
+    }
+    .language-description {
+      padding-left: 6px;
+    }
+  }
+}

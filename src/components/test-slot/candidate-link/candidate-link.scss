@@ -1,0 +1,22 @@
+candidate-link {
+  & > div {
+    h3.candidate-name {
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      &.candidate-name-short {
+        max-width: 300px;
+      }
+      &.candidate-name-long {
+        max-width: 420px;
+      }
+    }
+    ion-icon {
+      padding-left: 6px;
+      padding-right: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      margin-top: 3px;
+    }
+  }
+}

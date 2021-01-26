@@ -1,0 +1,28 @@
+.additional-candidate-details {
+  margin-left: 10px;
+  color: var(--gds-black);
+
+  &__list {
+    margin: 0;
+  }
+
+  &__key {
+    display: inline-block;
+
+    &:nth-of-type(n+2) {
+      margin-left: 5px;
+
+      &::before {
+        content: '';
+        border-left: 1px solid var(--gds-black);
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &__value {
+    display: inline-block;
+    margin-left: 0;
+    font-weight: bold;
+  }
+}

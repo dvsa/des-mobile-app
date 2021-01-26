@@ -41,8 +41,13 @@
     "@capacitor/ios": "^2.4.2",
     "@dvsa/mes-config-schema": "1.1.0",
     "@dvsa/mes-journal-schema": "1.2.0",
+<<<<<<< HEAD
     "@dvsa/mes-search-schema": "1.1.2",
     "@dvsa/mes-test-schema": "3.31.0",
+=======
+    "@dvsa/mes-search-schema": "^1.1.2",
+    "@dvsa/mes-test-schema": "^3.31.0",
+>>>>>>> initial shift of test-slot provider
     "@ionic-enterprise/auth": "^3.1.4",
     "@ionic-native-mocks/secure-storage": "^2.0.12",
     "@ionic-native/app-version": "^5.30.0",
@@ -60,6 +65,7 @@
     "@ngrx/entity": "^10.1.0",
     "@ngrx/store": "^10.1.0",
     "@ngrx/store-devtools": "^10.1.0",
+    "@ngx-translate/core": "^13.0.0",
     "cordova-ios": "5.1.1",
     "cordova-plugin-app-version": "^0.1.12",
     "cordova-plugin-emm-app-config": "^1.0.2",
@@ -73,6 +79,7 @@
     "lodash": "^4.17.20",
     "moment": "2.24.0",
     "ng-bullet": "^1.0.3",
+    "ng-mocks": "^11.5.0",
     "protractor": "^7.0.0",
     "rxjs": "~6.5.5",
     "rxjs-compat": "^6.6.3",

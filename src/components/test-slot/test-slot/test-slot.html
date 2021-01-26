@@ -1,0 +1,101 @@
+<location *ngIf="showLocation" [location]="slot.testCentre.centreName">
+</location>
+<ion-card [ngClass]="{'test-slot-portrait-mode': isPortrait()}">
+  <ion-row class="slot-row" align-items-center nowrap>
+    <div class="slot-changed-indicator" [ngClass]="{ 'slot-changed': hasSlotChanged }"></div>
+    <ion-grid>
+      <ion-row class="slot-header" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
+        <ion-col no-padding>
+          <language align-items-center [welshLanguage]="slot.booking.application.welshTest">
+          </language>
+        </ion-col>
+        <ion-col no-padding>
+          <submission-status float-end [testStatus]="componentState.testStatus$ | async"></submission-status>
+        </ion-col>
+      </ion-row>
+      <ion-row class="slot-main" align-items-center>
+        <ion-col class="time-exclamation-col">
+          <ion-grid no-padding>
+            <ion-row align-items-center nowrap>
+              <ion-col class="exclamation-col">
+                <indicators [showExclamationIndicator]="isIndicatorNeededForSlot()" [testStatus]="componentState.testStatus$ | async">
+                </indicators>
+              </ion-col>
+              <ion-col>
+                <time [time]="slot.slotDetail.start" [testComplete]="testComplete">
+                </time>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+        <ion-col class="candidate-details-col" no-padding>
+          <ion-grid no-padding>
+            <ion-row align-items-center>
+              <ion-col>
+                <ng-content *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate">
+                </ng-content>
+              </ion-col>
+              <ion-col class="category-col">
+                <test-category [category]="slot.booking.application.testCategory"></test-category>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+        <ion-col class="test-outcome-col" no-padding padding-right>
+          <test-outcome
+            [slotDetail]="slot.slotDetail"
+            [canStartTest]="canStartTest()"
+            [isDelegatedTest]="delegatedTest"
+            [examinerId]="getExaminerId()"
+            [testStatus]="componentState.testStatus$ | async"
+            [activityCode]="componentState.testActivityCode$ | async"
+            [specialRequirements]="isIndicatorNeededForSlot()"
+            [hasSeenCandidateDetails]="hasSeenCandidateDetails"
+            [isRekey]="componentState.isRekey$ | async"
+            [category]="slot.booking.application.testCategory">
+          </test-outcome>
+        </ion-col>
+      </ion-row>
+      <ion-row class="slot-footer" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
+        <ion-col class="progressive-access-col">
+          <date *ngIf="delegatedTest" id="del-ex-date" [date]="slot.slotDetail.start">
+          </date>
+          <progressive-access align-items-center [progressiveAccess]="slot.booking.application.progressiveAccess">
+          </progressive-access>
+        </ion-col>
+        <ion-col class="vehicle-details-col" no-padding>
+          <h3 id="del-ex-driver-number" *ngIf="delegatedTest && slot.booking.candidate.driverNumber">{{slot.booking.candidate.driverNumber}}</h3>
+
+          <vehicle-details
+            *ngIf="showVehicleDetails() && !delegatedTest"
+            [height]="slot.booking.application.vehicleHeight"
+            [width]="slot.booking.application.vehicleWidth"
+            [length]="slot.booking.application.vehicleLength"
+            [seats]="slot.booking.application.vehicleSeats"
+            [transmission]="slot.booking.application.vehicleGearbox"
+            [showNumberOfSeats]="showVehicleDetails()"
+          ></vehicle-details>
+
+          <additional-candidate-details
+            *ngIf="showAdditionalCandidateDetails()"
+            [prn]="slot.booking.candidate.prn"
+            [attempts]="slot.booking.candidate.previousADITests"
+          ></additional-candidate-details>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-row>
+</ion-card>
+<ng-template #candidateLink>
+  <candidate-link *ngIf="canViewCandidateDetails()" [slot]="slot" [slotChanged]="hasSlotChanged" [name]="slot.booking.candidate.candidateName"
+    [isPortrait]="isPortrait()">
+  </candidate-link>
+  <button *ngIf="!canViewCandidateDetails()" class="mes-transparent-button" ion-button disabled>
+    <h3 class="candidate-name">Candidate details unavailable</h3>
+  </button>
+</ng-template>
+<ng-template #unknownCandidate>
+  <button class="mes-transparent-button" ion-button disabled>
+    <h3 class="candidate-name">Trainer booked - unnamed</h3>
+  </button>
+</ng-template>

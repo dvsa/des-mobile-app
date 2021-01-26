@@ -1,0 +1,35 @@
+location {
+  display: flex;
+  margin-top: 8px;
+  margin-bottom: -2px;
+  margin-left: 12px;
+
+  // TODO find a better way to set the font size without defining it here
+  ion-icon {
+    .text-zoom-regular & {
+      font-size: 30px;
+    }
+    .text-zoom-large & {
+      font-size: 33px;
+    }
+    .text-zoom-x-large & {
+      font-size: 36px;
+    }
+    color: var(--gds-grey-1);
+    padding-right: 8px;
+  }
+  h3 {
+    .text-zoom-regular & {
+      font-size: 20px;
+      line-height: 1.5em;
+    }
+    .text-zoom-large & {
+      font-size: 22px;
+      line-height: 1.5em;
+    }
+    .text-zoom-x-large & {
+      font-size: 24px;
+      line-height: 1.5em;
+    }
+  }
+}

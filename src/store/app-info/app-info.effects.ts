@@ -8,6 +8,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 
+import { LOGIN_PAGE } from '../../app/pages/page-names.constants';
 import { StoreModel } from '../../app/shared/models/store.model';
 import { AppInfoProvider } from '../../app/providers/app-info/app-info';
 import { DateTimeProvider } from '../../app/providers/date-time/date-time';
@@ -62,7 +63,7 @@ export class AppInfoEffects {
     )),
     filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now().format('YYYY-MM-DD')),
     switchMap(() => {
-      this.router.navigate(['login']);
+      this.router.navigate([LOGIN_PAGE]);
       return of(RestartApp());
     }),
   ));
