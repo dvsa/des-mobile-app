@@ -102,7 +102,7 @@ export const categoryDTestResultMock : CatDUniqueTypes.TestResult = {
   passCompletion: {
     passCertificateNumber: 'A123456X',
     provisionalLicenceProvided: true,
-    code78Present: true,
+    // code78Present: true,
   },
   testSummary: {
     D255: false,

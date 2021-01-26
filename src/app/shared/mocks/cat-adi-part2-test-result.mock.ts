@@ -50,14 +50,14 @@ export const categoryAdiPart2TestMock: CatADI2UniqueTypes.TestResult = {
         addressLine3: 'Sometown',
         postcode: 'AB67 8CD',
       },
-      businessName: 'Logistic and Distribution Training Limited',
+      /* businessName: 'Logistic and Distribution Training Limited',
       businessAddress: {
         addressLine1: '18 Bridge Street',
         addressLine2: 'Horncastle',
         addressLine3: 'Lincolnshire',
         postcode: 'LN9 5JA',
       },
-      businessTelephone: '07988 674 536',
+      businessTelephone: '07988 674 536', */
     },
     examiner: {
       individualId: 1,
@@ -149,7 +149,7 @@ export const categoryAdiPart2TestMock: CatADI2UniqueTypes.TestResult = {
     },
     testRequirements: {
       angledStart: true,
-      uphillStartDesignatedStart: true,
+      // uphillStartDesignatedStart: true,
       normalStart1: true,
       normalStart2: true,
     },
