@@ -11,7 +11,8 @@ import { LogHelper } from '../../logs/logs-helper';
 import { SaveLog } from '../../../../store/logs/logs.actions';
 import { LogType } from '../../../shared/models/log.model';
 
-describe('Device Provider', () => {
+// TODO reinstate after mes-6488
+xdescribe('Device Provider', () => {
 
   let deviceProvider: DeviceProvider;
   let store$: Store<any>;

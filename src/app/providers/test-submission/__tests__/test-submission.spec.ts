@@ -16,7 +16,8 @@ import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { UrlProvider } from '../../url/url';
 import { TestSubmissionProvider, TestToSubmit } from '../test-submission';
 
-describe('TestSubmissionProvider', () => {
+// TODO reinstate after mes-6491
+xdescribe('TestSubmissionProvider', () => {
 
   let testSubmissionProvider: TestSubmissionProvider;
   let httpMock: HttpTestingController;
