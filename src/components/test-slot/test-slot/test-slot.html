@@ -1,7 +1,7 @@
 <location *ngIf="showLocation" [location]="slot.testCentre.centreName">
 </location>
-<ion-card [ngClass]="{'test-slot-portrait-mode': isPortrait()}">
-  <ion-row class="slot-row" align-items-center nowrap>
+<ion-card> <!-- [ngClass]="{'test-slot-portrait-mode': isPortrait()}"  -->
+<ion-row class="slot-row" align-items-center nowrap>
     <div class="slot-changed-indicator" [ngClass]="{ 'slot-changed': hasSlotChanged }"></div>
     <ion-grid>
       <ion-row class="slot-header" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
@@ -88,7 +88,7 @@
 </ion-card>
 <ng-template #candidateLink>
   <candidate-link *ngIf="canViewCandidateDetails()" [slot]="slot" [slotChanged]="hasSlotChanged" [name]="slot.booking.candidate.candidateName"
-    [isPortrait]="isPortrait()">
+    > <!-- [isPortrait]="isPortrait()" -->
   </candidate-link>
   <button *ngIf="!canViewCandidateDetails()" class="mes-transparent-button" ion-button disabled>
     <h3 class="candidate-name">Candidate details unavailable</h3>

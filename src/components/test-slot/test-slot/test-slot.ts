@@ -59,7 +59,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   componentState: TestSlotComponentState;
 
   constructor(
-    public screenOrientation: ScreenOrientation,
+    // public screenOrientation: ScreenOrientation,
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
     public store$: Store<StoreModel>,

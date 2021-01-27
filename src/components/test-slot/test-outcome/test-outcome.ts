@@ -1,6 +1,7 @@
 import { Subscription, Observable } from 'rxjs'; // merge
 import { Component, Input, OnInit } from '@angular/core';
-import { NavController, ModalController } from '@ionic/angular'; // Modal
+import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular'; // Modal
 import { Store } from '@ngrx/store'; // select
 // import { isEmpty, startsWith } from 'lodash';
 import { SlotDetail } from '@dvsa/mes-journal-schema'; // TestSlot
@@ -85,7 +86,7 @@ export class TestOutcomeComponent implements OnInit {
 
   constructor(
     private store$: Store<StoreModel>,
-    public navController: NavController,
+    private router: Router,
     private modalController: ModalController,
   ) {
   }
@@ -168,17 +169,17 @@ export class TestOutcomeComponent implements OnInit {
   writeUpTest() {
     /* this.store$.dispatch(new ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(new ResumingWriteUp(this.slotDetail.slotId.toString()));
-    this.navController.push(this.getOfficePage()); */
+    this.router.navigate(this.getOfficePage()); */
   }
 
   resumeTest() {
   /* this.store$.dispatch(new ActivateTest(this.slotDetail.slotId, this.category));
     if (this.testStatus === TestStatus.Started) {
-      this.navController.push(this.getTestStartingPage());
+      this.router.navigate(this.getTestStartingPage());
     } else if (this.activityCode === ActivityCodes.PASS) {
-      this.navController.push(this.getPassFinalisationPage());
+      this.router.navigate(this.getPassFinalisationPage());
     } else {
-      this.navController.push(this.getNonPassFinalisationPage());
+      this.router.navigate(this.getNonPassFinalisationPage());
     } */
   }
 
@@ -188,7 +189,7 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.store$.dispatch(new StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
-    this.navController.push(this.getTestStartingPage()); */
+    this.router.navigate(this.getTestStartingPage()); */
   }
 
   rekeyTest() {
@@ -199,47 +200,47 @@ export class TestOutcomeComponent implements OnInit {
     }
     switch (this.category) {
       case TestCategory.ADI2:
-        this.navController.push(CAT_ADI_PART2.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_ADI_PART2.WAITING_ROOM_PAGE);
         break;
       case TestCategory.B:
-        this.navController.push(CAT_B.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_B.WAITING_ROOM_PAGE);
         break;
       case TestCategory.BE:
-        this.navController.push(CAT_BE.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_BE.WAITING_ROOM_PAGE);
         break;
       case TestCategory.CE:
       case TestCategory.C1E:
       case TestCategory.C1:
       case TestCategory.C:
-        this.navController.push(CAT_C.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_C.WAITING_ROOM_PAGE);
         break;
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        this.navController.push(CAT_CPC.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_CPC.WAITING_ROOM_PAGE);
         break;
       case TestCategory.DE:
       case TestCategory.D1E:
       case TestCategory.D1:
       case TestCategory.D:
-        this.navController.push(CAT_D.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_D.WAITING_ROOM_PAGE);
         break;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAMM1:
-        this.navController.push(CAT_A_MOD1.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_A_MOD1.WAITING_ROOM_PAGE);
         break;
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
-        this.navController.push(CAT_A_MOD2.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_A_MOD2.WAITING_ROOM_PAGE);
         break;
       case TestCategory.K:
       case TestCategory.H:
       case TestCategory.G:
       case TestCategory.F:
-        this.navController.push(CAT_HOME_TEST.WAITING_ROOM_PAGE);
+        this.router.navigate(CAT_HOME_TEST.WAITING_ROOM_PAGE);
         break;
       default:
     } */
@@ -252,23 +253,23 @@ export class TestOutcomeComponent implements OnInit {
 
     switch (this.category) {
       case TestCategory.BE:
-        this.navController.push(CAT_BE.WAITING_ROOM_TO_CAR_PAGE);
+        this.router.navigate(CAT_BE.WAITING_ROOM_TO_CAR_PAGE);
         break;
       case TestCategory.CE:
       case TestCategory.C1E:
       case TestCategory.C1:
       case TestCategory.C:
-        this.navController.push(CAT_C.WAITING_ROOM_TO_CAR_PAGE);
+        this.router.navigate(CAT_C.WAITING_ROOM_TO_CAR_PAGE);
         break;
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        this.navController.push(CAT_CPC.WAITING_ROOM_TO_CAR_PAGE);
+        this.router.navigate(CAT_CPC.WAITING_ROOM_TO_CAR_PAGE);
         break;
       case TestCategory.DE:
       case TestCategory.D1E:
       case TestCategory.D1:
       case TestCategory.D:
-        this.navController.push(CAT_D.WAITING_ROOM_TO_CAR_PAGE);
+        this.router.navigate(CAT_D.WAITING_ROOM_TO_CAR_PAGE);
         break;
       default:
     } */
@@ -382,162 +383,162 @@ export class TestOutcomeComponent implements OnInit {
     } */
   }
 
-  getTestStartingPage(): string {
+  getTestStartingPage(): [string] {
     switch (this.category as TestCategory) {
       case TestCategory.ADI2:
-        return CAT_ADI_PART2.WAITING_ROOM_PAGE;
+        return [CAT_ADI_PART2.WAITING_ROOM_PAGE];
       case TestCategory.B:
-        return CAT_B.WAITING_ROOM_PAGE;
+        return [CAT_B.WAITING_ROOM_PAGE];
       case TestCategory.BE:
-        return CAT_BE.WAITING_ROOM_PAGE;
+        return [CAT_BE.WAITING_ROOM_PAGE];
       case TestCategory.C1E:
       case TestCategory.CE:
       case TestCategory.C1:
       case TestCategory.C:
-        return CAT_C.WAITING_ROOM_PAGE;
+        return [CAT_C.WAITING_ROOM_PAGE];
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        return CAT_CPC.WAITING_ROOM_PAGE;
+        return [CAT_CPC.WAITING_ROOM_PAGE];
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAMM1:
-        return CAT_A_MOD1.WAITING_ROOM_PAGE;
+        return [CAT_A_MOD1.WAITING_ROOM_PAGE];
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
-        return CAT_A_MOD2.WAITING_ROOM_PAGE;
+        return [CAT_A_MOD2.WAITING_ROOM_PAGE];
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-        return CAT_D.WAITING_ROOM_PAGE;
+        return [CAT_D.WAITING_ROOM_PAGE];
       case TestCategory.K:
       case TestCategory.H:
       case TestCategory.G:
       case TestCategory.F:
-        return CAT_HOME_TEST.WAITING_ROOM_PAGE;
+        return [CAT_HOME_TEST.WAITING_ROOM_PAGE];
       default:
     }
   }
 
-  getPassFinalisationPage(): string {
+  getPassFinalisationPage(): [string] {
     switch (this.category as TestCategory) {
       case TestCategory.ADI2:
-        return CAT_ADI_PART2.PASS_FINALISATION_PAGE;
+        return [CAT_ADI_PART2.PASS_FINALISATION_PAGE];
       case TestCategory.B:
-        return CAT_B.PASS_FINALISATION_PAGE;
+        return [CAT_B.PASS_FINALISATION_PAGE];
       case TestCategory.BE:
-        return CAT_BE.PASS_FINALISATION_PAGE;
+        return [CAT_BE.PASS_FINALISATION_PAGE];
       case TestCategory.C1E:
       case TestCategory.CE:
       case TestCategory.C1:
       case TestCategory.C:
-        return CAT_C.PASS_FINALISATION_PAGE;
+        return [CAT_C.PASS_FINALISATION_PAGE];
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        return CAT_CPC.PASS_FINALISATION_PAGE;
+        return [CAT_CPC.PASS_FINALISATION_PAGE];
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAMM1:
-        return CAT_A_MOD1.PASS_FINALISATION_PAGE;
+        return [CAT_A_MOD1.PASS_FINALISATION_PAGE];
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
-        return CAT_A_MOD2.PASS_FINALISATION_PAGE;
+        return [CAT_A_MOD2.PASS_FINALISATION_PAGE];
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-        return CAT_D.PASS_FINALISATION_PAGE;
+        return [CAT_D.PASS_FINALISATION_PAGE];
       case TestCategory.K:
       case TestCategory.H:
       case TestCategory.G:
       case TestCategory.F:
-        return CAT_HOME_TEST.PASS_FINALISATION_PAGE;
+        return [CAT_HOME_TEST.PASS_FINALISATION_PAGE];
       default:
     }
   }
 
-  getNonPassFinalisationPage(): string {
+  getNonPassFinalisationPage(): [string] {
     switch (this.category as TestCategory) {
       case TestCategory.ADI2:
-        return CAT_ADI_PART2.NON_PASS_FINALISATION_PAGE;
+        return [CAT_ADI_PART2.NON_PASS_FINALISATION_PAGE];
       case TestCategory.B:
-        return CAT_B.NON_PASS_FINALISATION_PAGE;
+        return [CAT_B.NON_PASS_FINALISATION_PAGE];
       case TestCategory.BE:
-        return CAT_BE.NON_PASS_FINALISATION_PAGE;
+        return [CAT_BE.NON_PASS_FINALISATION_PAGE];
       case TestCategory.C1E:
       case TestCategory.CE:
       case TestCategory.C1:
       case TestCategory.C:
-        return CAT_C.NON_PASS_FINALISATION_PAGE;
+        return [CAT_C.NON_PASS_FINALISATION_PAGE];
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        return CAT_CPC.NON_PASS_FINALISATION_PAGE;
+        return [CAT_CPC.NON_PASS_FINALISATION_PAGE];
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAMM1:
-        return CAT_A_MOD1.NON_PASS_FINALISATION_PAGE;
+        return [CAT_A_MOD1.NON_PASS_FINALISATION_PAGE];
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
-        return CAT_A_MOD2.NON_PASS_FINALISATION_PAGE;
+        return [CAT_A_MOD2.NON_PASS_FINALISATION_PAGE];
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-        return CAT_D.NON_PASS_FINALISATION_PAGE;
+        return [CAT_D.NON_PASS_FINALISATION_PAGE];
       case TestCategory.K:
       case TestCategory.H:
       case TestCategory.G:
       case TestCategory.F:
-        return CAT_HOME_TEST.NON_PASS_FINALISATION_PAGE;
+        return [CAT_HOME_TEST.NON_PASS_FINALISATION_PAGE];
       default:
     }
   }
 
-  getOfficePage(): string {
+  getOfficePage(): [string] {
     switch (this.category as TestCategory) {
       case TestCategory.ADI2:
-        return CAT_ADI_PART2.OFFICE_PAGE;
+        return [CAT_ADI_PART2.OFFICE_PAGE];
       case TestCategory.B:
-        return CAT_B.OFFICE_PAGE;
+        return [CAT_B.OFFICE_PAGE];
       case TestCategory.BE:
-        return CAT_BE.OFFICE_PAGE;
+        return [CAT_BE.OFFICE_PAGE];
       case TestCategory.C1E:
       case TestCategory.CE:
       case TestCategory.C1:
       case TestCategory.C:
-        return CAT_C.OFFICE_PAGE;
+        return [CAT_C.OFFICE_PAGE];
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        return CAT_CPC.OFFICE_PAGE;
+        return [CAT_CPC.OFFICE_PAGE];
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAMM1:
-        return CAT_A_MOD1.OFFICE_PAGE;
+        return [CAT_A_MOD1.OFFICE_PAGE];
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
-        return CAT_A_MOD2.OFFICE_PAGE;
+        return [CAT_A_MOD2.OFFICE_PAGE];
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-        return CAT_D.OFFICE_PAGE;
+        return [CAT_D.OFFICE_PAGE];
       case TestCategory.K:
       case TestCategory.H:
       case TestCategory.G:
       case TestCategory.F:
-        return CAT_HOME_TEST.OFFICE_PAGE;
+        return [CAT_HOME_TEST.OFFICE_PAGE];
       default:
     }
   }
