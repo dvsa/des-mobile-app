@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import { LanguageComponent } from '../language';
 
-describe('LanguageComponent', () => {
+xdescribe('LanguageComponent', () => {
   let component: LanguageComponent;
   let fixture: ComponentFixture<LanguageComponent>;
 

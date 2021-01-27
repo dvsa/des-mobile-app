@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import { LocationComponent } from '../location';
 
-describe('LocationComponent', () => {
+xdescribe('LocationComponent', () => {
   let component: LocationComponent;
   let fixture: ComponentFixture<LocationComponent>;
 

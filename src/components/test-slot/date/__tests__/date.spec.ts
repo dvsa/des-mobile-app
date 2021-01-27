@@ -7,7 +7,7 @@ import { LogHelper } from '../../../../app/providers/logs/logs-helper';
 import { LogHelperMock } from '../../../../app/providers/logs/__mocks__/logs-helper.mock';
 import { DateComponent } from '../date';
 
-describe('TimeComponent', () => {
+xdescribe('TimeComponent', () => {
   let component: DateComponent;
   let fixture: ComponentFixture<DateComponent>;
 

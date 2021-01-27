@@ -5,7 +5,7 @@ import { configureTestSuite } from 'ng-bullet';
 // import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
 import { IndicatorsComponent } from '../indicators';
 
-describe('IndicatorsComponent', () => {
+xdescribe('IndicatorsComponent', () => {
   let component: IndicatorsComponent;
   let fixture: ComponentFixture<IndicatorsComponent>;
 

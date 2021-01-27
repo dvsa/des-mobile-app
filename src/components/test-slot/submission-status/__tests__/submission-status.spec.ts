@@ -5,7 +5,7 @@ import { AppModule } from '../../../../app/app.module';
 import { SubmissionStatusComponent } from '../submission-status';
 // import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
 
-describe('PracticeTestModal', () => {
+xdescribe('PracticeTestModal', () => {
   // let fixture: ComponentFixture<SubmissionStatusComponent>;
   // let component: SubmissionStatusComponent;
 
