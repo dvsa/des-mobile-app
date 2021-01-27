@@ -187,8 +187,7 @@ export class JournalEffects {
       const pollsWhileOnline$ = pollTimer$
         .pipe(
           withLatestFrom(this.networkStateProvider.onNetworkChange()),
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          filter(([_, connectionStatus]) => connectionStatus === ConnectionStatus.ONLINE),
+          filter(([, connectionStatus]) => connectionStatus === ConnectionStatus.ONLINE),
         );
 
       return pollsWhileOnline$
