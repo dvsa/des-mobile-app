@@ -111,7 +111,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
     this.isUnauthenticated = this.authenticationProvider.isInUnAuthenticatedMode();
-    this.store$.dispatch(new journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
+    this.store$.dispatch(journalActions.SetSelectedDate({ payload: this.dateTimeProvider.now().format('YYYY-MM-DD') }));
     this.todaysDate = this.dateTimeProvider.now();
   }
 
@@ -193,7 +193,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   ionViewDidEnter(): void {
-    this.store$.dispatch(new journalActions.JournalViewDidEnter());
+    this.store$.dispatch(journalActions.JournalViewDidEnter());
 
     if (super.isIos()) {
       // this.screenOrientation.unlock();
@@ -203,11 +203,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   loadJournalManually() {
-    this.store$.dispatch(new journalActions.LoadJournal());
+    this.store$.dispatch(journalActions.LoadJournal());
   }
 
   setupPolling() {
-    this.store$.dispatch(new journalActions.SetupPolling());
+    this.store$.dispatch(journalActions.SetupPolling());
   }
 
   setSelectedDate = (selectedDate: string): void => {
@@ -326,7 +326,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   async logout() {
-    this.store$.dispatch(new journalActions.UnloadJournal());
+    this.store$.dispatch(journalActions.UnloadJournal());
     await super.logout();
   }
 }

@@ -1,183 +1,122 @@
-// eslint-disable-next-line max-classes-per-file
-import { Action } from '@ngrx/store';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { createAction, props } from '@ngrx/store';
 import { ConnectionStatus } from '../../app/providers/network-state/network-state';
 import { ExaminerSlotItemsByDate } from './journal.model';
 import { MesError } from '../../app/shared/models/mes-error.model';
 
-export const LOAD_JOURNAL = '[JournalPage] Load Journal';
-export const LOAD_JOURNAL_SUCCESS = '[JournalEffects] Load Journal Success';
-export const LOAD_JOURNAL_FAILURE = '[JournalEffects] Load Journal Failure';
+export const EarlyStartModalDidEnter = createAction(
+  '[JournalPage] Early Start Modal Entered',
+);
 
-export const LOAD_JOURNAL_SILENT = '[JournalEffect] Load Journal Silent';
-export const LOAD_JOURNAL_SILENT_FAILURE = '[JournalEffect] Load Journal Silent Failure';
+export const EarlyStartDidContinue = createAction(
+  '[JournalPage] Early Start Modal Exited - Continue to Test',
+);
 
-export const LOAD_COMPLETED_TESTS = '[JournalEffect] Load Completed Tests';
-export const LOAD_COMPLETED_TESTS_SUCCESS = '[JournalEffect] Load Completed Tests Success';
-export const LOAD_COMPLETED_TESTS_FAILURE = '[JournalEffect] Load Completed Tests Failure';
+export const EarlyStartDidReturn = createAction(
+  '[JournalPage] Early Start Modal Exited - Return to Journal',
+);
 
-export const SETUP_JOURNAL_POLLING = '[JournalPage] Setup Journal Polling';
-export const STOP_JOURNAL_POLLING = '[JournalPage] Stop Journal Polling';
-export const UNLOAD_JOURNAL = '[JournalPage] Unload Journal';
-export const CLEAR_CHANGED_SLOT = '[JournalPage] Clear Changed Slot';
-export const UNSET_ERROR = '[JournalPage] Unset Error';
-export const SELECT_PREVIOUS_DAY = '[JournalPage] Select Previous Day';
-export const SELECT_NEXT_DAY = '[JournalPage] Select Next Day';
-export const SET_SELECTED_DAY = '[JournalEffects] Set Selected Day';
-export const CANDIDATE_DETAILS_SEEN = '[JournalPage] Candidate Details Seen';
+export const LoadJournal = createAction(
+  '[JournalPage] Load Journal',
+);
 
-// Analytic actions
+export const LoadJournalSilent = createAction(
+  '[JournalPage] Load Journal Silent',
+);
 
-export const EARLY_START_MODAL_DID_ENTER = '[JournalPage] Early Start Modal Entered';
-export const EARLY_START_MODAL_RETURN_TO_JOURNAL = '[JournalPage] Early Start Modal Exited - Return to Journal';
-export const EARLY_START_MODAL_CONTINUE_TO_TEST = '[JournalPage] Early Start Modal Exited - Continue to Test';
-export const JOURNAL_VIEW_DID_ENTER = '[JournalPage] Journal view did enter';
-export const JOURNAL_NAVIGATE_DAY = '[JournalPage] Navigate Day';
-export const JOURNAL_REFRESH = '[JournalPage] Journal Refresh';
-export const JOURNAL_REFRESH_ERROR = '[JournalPage] Journal Refresh Error';
-export const RESUMING_WRITE_UP = '[JournalPage] Resuming write-up';
+export const LoadJournalSuccess = createAction(
+  '[JournalPage] Load Journal Success',
+  props<{
+    payload: ExaminerSlotItemsByDate,
+    onlineOffline: ConnectionStatus,
+    unAuthenticatedMode: boolean,
+    lastRefreshed: Date
+  }>(),
+);
 
-export class EarlyStartModalDidEnter implements Action {
-  readonly type = EARLY_START_MODAL_DID_ENTER;
-}
+export const LoadJournalFailure = createAction(
+  '[JournalEffects] Load Journal Failure',
+  props<{ error: MesError }>(),
+);
 
-export class EarlyStartDidContinue implements Action {
-  readonly type = EARLY_START_MODAL_CONTINUE_TO_TEST;
-}
+export const LoadJournalSilentFailure = createAction(
+  '[JournalEffects] Load Journal Silent Failure',
+  props<{ error: MesError }>(),
+);
 
-export class EarlyStartDidReturn implements Action {
-  readonly type = EARLY_START_MODAL_RETURN_TO_JOURNAL;
-}
+export const UnloadJournal = createAction(
+  '[JournalPage] Unload Journal',
+);
 
-export class LoadJournal implements Action {
-  readonly type = LOAD_JOURNAL;
-}
+export const LoadCompletedTests = createAction(
+  '[JournalEffect] Load Completed Tests',
+);
 
-export class LoadJournalSilent implements Action {
-  readonly type = LOAD_JOURNAL_SILENT;
-}
+export const LoadCompletedTestsSuccess = createAction(
+  '[JournalEffect] Load Completed Tests Success',
+  props<{ payload: SearchResultTestSchema[] }>(),
+);
 
-export class LoadJournalSuccess implements Action {
-  readonly type = LOAD_JOURNAL_SUCCESS;
+export const LoadCompletedTestsFailure = createAction(
+  '[JournalEffect] Load Completed Tests Failure',
+  props<{ error: MesError }>(),
+);
 
-  // TODO: declare payload with the correct type when we have a slot type in place
-  constructor(
-    public payload: ExaminerSlotItemsByDate,
-    public onlineOffline: ConnectionStatus,
-    public unAuthenticatedMode: boolean,
-    public lastRefreshed: Date,
-  ) { }
-}
+export const UnsetError = createAction(
+  '[JournalPage] Unset Error',
+);
 
-export class LoadJournalFailure implements Action {
-  readonly type = LOAD_JOURNAL_FAILURE;
-  constructor(public payload: MesError) { }
-}
+export const ClearChangedSlot = createAction(
+  '[JournalPage] Clear Changed Slot',
+  props<{ slotId: number }>(),
+);
 
-export class LoadJournalSilentFailure implements Action {
-  readonly type = LOAD_JOURNAL_SILENT_FAILURE;
-  constructor(public payload: MesError) { }
-}
+export const SelectPreviousDay = createAction(
+  '[JournalPage] Select Previous Day',
+);
 
-export class UnloadJournal implements Action {
-  readonly type = UNLOAD_JOURNAL;
-}
+export const SelectNextDay = createAction(
+  '[JournalPage] Select Next Day',
+);
 
-export class LoadCompletedTests implements Action {
-  readonly type = LOAD_COMPLETED_TESTS;
-}
+export const SetSelectedDate = createAction(
+  '[JournalEffects] Set Selected Day',
+  props<{ payload: string }>(),
+);
 
-export class LoadCompletedTestsSuccess implements Action {
-  readonly type = LOAD_COMPLETED_TESTS_SUCCESS;
-  constructor(public payload: SearchResultTestSchema[]) { }
-}
+export const SetupPolling = createAction(
+  '[JournalPage] Setup Journal Polling',
+);
 
-export class LoadCompletedTestsFailure implements Action {
-  readonly type = LOAD_COMPLETED_TESTS_FAILURE;
-  constructor(public payload: MesError) { }
-}
+export const StopPolling = createAction(
+  '[JournalPage] Stop Journal Polling',
+);
 
-export class UnsetError implements Action {
-  readonly type = UNSET_ERROR;
-}
+export const JournalViewDidEnter = createAction(
+  '[JournalPage] Journal view did enter',
+);
 
-export class ClearChangedSlot implements Action {
-  readonly type = CLEAR_CHANGED_SLOT;
-  constructor(public slotId: number) { }
-}
+export const JournalNavigateDay = createAction(
+  '[JournalPage] Navigate Day',
+  props<{ day: string }>(),
+);
 
-export class SelectPreviousDay implements Action {
-  readonly type = SELECT_PREVIOUS_DAY;
-}
+export const ResumingWriteUp = createAction(
+  '[JournalPage] Resuming write-up',
+  props<{ slotId: string }>(),
+);
 
-export class SelectNextDay implements Action {
-  readonly type = SELECT_NEXT_DAY;
-}
+export const JournalRefreshError = createAction(
+  '[JournalPage] Journal Refresh Error',
+  props<{ errorDescription: string, errorMessage: string }>(),
+);
 
-export class SetSelectedDate implements Action {
-  readonly type = SET_SELECTED_DAY;
-  constructor(public payload: string) { }
-}
+export const JournalRefresh = createAction(
+  '[JournalPage] Journal Refresh',
+  props<{ mode: string }>(),
+);
 
-export class SetupPolling implements Action {
-  readonly type = SETUP_JOURNAL_POLLING;
-}
-
-export class StopPolling implements Action {
-  readonly type = STOP_JOURNAL_POLLING;
-}
-
-export class JournalViewDidEnter implements Action {
-  readonly type = JOURNAL_VIEW_DID_ENTER;
-}
-
-export class JournalNavigateDay implements Action {
-  readonly type = JOURNAL_NAVIGATE_DAY;
-  constructor(public day: string) { }
-}
-
-export class ResumingWriteUp implements Action {
-  readonly type = RESUMING_WRITE_UP;
-  constructor(public slotId: string) { }
-}
-
-export class JournalRefreshError implements Action {
-  readonly type = JOURNAL_REFRESH_ERROR;
-  constructor(public errorDescription: string, public errorMessage: string) { }
-}
-
-export class JournalRefresh implements Action {
-  readonly type = JOURNAL_REFRESH;
-  constructor(public mode: string) { }
-}
-
-export class CandidateDetailsSeen implements Action {
-  readonly type = CANDIDATE_DETAILS_SEEN;
-  constructor(public slotId: number) { }
-}
-
-export type JournalActionTypes =
-  | LoadJournal
-  | LoadJournalSilent
-  | LoadJournalSuccess
-  | LoadJournalFailure
-  | LoadCompletedTests
-  | LoadCompletedTestsSuccess
-  | LoadCompletedTestsFailure
-  | UnloadJournal
-  | UnsetError
-  | ClearChangedSlot
-  | SelectPreviousDay
-  | SelectNextDay
-  | SetSelectedDate
-  | SetupPolling
-  | StopPolling
-  | JournalViewDidEnter
-  | JournalNavigateDay
-  | ResumingWriteUp
-  | JournalRefreshError
-  | JournalRefresh
-  | CandidateDetailsSeen
-  | EarlyStartModalDidEnter
-  | EarlyStartDidContinue
-  | EarlyStartDidReturn;
+export const CandidateDetailsSeen = createAction(
+  '[JournalPage] Candidate Details Seen',
+  props<{ slotId: number }>(),
+);

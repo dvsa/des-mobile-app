@@ -74,7 +74,7 @@ export class JournalEffects {
   }
 
   callJournalProvider$ = (mode: string): Observable<any> => {
-    this.store$.dispatch(new journalActions.JournalRefresh(mode));
+    this.store$.dispatch(journalActions.JournalRefresh({ mode }));
     return of(null).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -103,25 +103,28 @@ export class JournalEffects {
               examiner: examinerSlotItems.examiner,
               slotItemsByDate: this.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
             })),
-            map((slotItemsByDate: ExaminerSlotItemsByDate) => new journalActions.LoadJournalSuccess(
-              slotItemsByDate,
-              this.networkStateProvider.getNetworkState(),
-              this.authProvider.isInUnAuthenticatedMode(),
+            map((slotItemsByDate: ExaminerSlotItemsByDate) => journalActions.LoadJournalSuccess({
+              payload: slotItemsByDate,
+              onlineOffline: this.networkStateProvider.getNetworkState(),
+              unAuthenticatedMode: this.authProvider.isInUnAuthenticatedMode(),
               lastRefreshed,
-            )),
+            })),
             catchError((err: HttpErrorResponse) => {
               // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
               if (err.status === HttpStatusCodes.NOT_MODIFIED) {
-                return of(new journalActions.LoadJournalSuccess(
-                  { examiner, slotItemsByDate: slots },
-                  this.networkStateProvider.getNetworkState(),
-                  this.authProvider.isInUnAuthenticatedMode(),
+                return of(journalActions.LoadJournalSuccess({
+                  payload: { examiner, slotItemsByDate: slots },
+                  onlineOffline: this.networkStateProvider.getNetworkState(),
+                  unAuthenticatedMode: this.authProvider.isInUnAuthenticatedMode(),
                   lastRefreshed,
-                ));
+                }));
               }
 
               if (err.message === 'Timeout has occurred') {
-                return of(new journalActions.JournalRefreshError('Retrieving Journal', err.message));
+                return of(journalActions.JournalRefreshError({
+                  errorDescription: 'Retrieving Journal',
+                  errorMessage: err.message,
+                }));
               }
 
               // this.store$.dispatch(new SaveLog(
@@ -144,13 +147,16 @@ export class JournalEffects {
   };
 
   journal$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.LOAD_JOURNAL_SILENT),
+    ofType(journalActions.LoadJournalSilent),
     switchMap(
       () => this.callJournalProvider$(JournalRefreshModes.AUTOMATIC).pipe(
         catchError((err: HttpErrorResponse) => {
           return [
-            new journalActions.JournalRefreshError('AutomaticJournalRefresh', err.message),
-            new journalActions.LoadJournalSilentFailure(err),
+            journalActions.JournalRefreshError({
+              errorDescription: 'AutomaticJournalRefresh',
+              errorMessage: err.message,
+            }),
+            journalActions.LoadJournalSilentFailure(err),
           ];
         }),
       ),
@@ -158,45 +164,48 @@ export class JournalEffects {
   ));
 
   loadJournal$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.LOAD_JOURNAL),
+    ofType(journalActions.LoadJournal),
     switchMap(
       () => this.callJournalProvider$(JournalRefreshModes.MANUAL).pipe(
         catchError((err: HttpErrorResponse) => {
           return [
-            new journalActions.JournalRefreshError('ManualJournalRefresh', err.message),
-            new journalActions.LoadJournalFailure(err),
+            journalActions.JournalRefreshError({ errorDescription: 'ManualJournalRefresh', errorMessage: err.message }),
+            journalActions.LoadJournalFailure(err),
           ];
         }),
       ),
     ),
   ));
 
-  pollingSetup$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.SETUP_JOURNAL_POLLING),
-    switchMap(() => {
-      // Switch map the manual refreshes so they restart the timer.
-      const manualRefreshes$ = this.actions$.pipe(
-        ofType(journalActions.LOAD_JOURNAL),
-        // Initial emission so poll doesn't wait until the first manual refresh
-        startWith(null),
-      );
-      const pollTimer$ = manualRefreshes$.pipe(
-        switchMap(() => interval(this.appConfig.getAppConfig().journal.autoRefreshInterval)),
-      );
-
-      const pollsWhileOnline$ = pollTimer$
-        .pipe(
-          withLatestFrom(this.networkStateProvider.onNetworkChange()),
-          filter(([, connectionStatus]) => connectionStatus === ConnectionStatus.ONLINE),
-        );
-
-      return pollsWhileOnline$
-        .pipe(
-          takeUntil(this.actions$.pipe(ofType(journalActions.STOP_JOURNAL_POLLING))),
-          mapTo({ type: journalActions.LOAD_JOURNAL_SILENT }),
-        );
-    }),
-  ));
+  // TODO pick back up in sub-task 6455 implement journal loading mechanisms
+  // pollingSetup$ = createEffect(() => this.actions$.pipe(
+  //   ofType(journalActions.SetupPolling.type),
+  //   switchMap(() => {
+  //     // return of(journalActions.SetupPolling());
+  //     // Switch map the manual refreshes so they restart the timer.
+  //     const manualRefreshes$ = this.actions$.pipe(
+  //       ofType(journalActions.LoadJournal),
+  //       // Initial emission so poll doesn't wait until the first manual refresh
+  //       startWith(null),
+  //     );
+  //     const pollTimer$ = manualRefreshes$.pipe(
+  //       switchMap(() => interval(this.appConfig.getAppConfig().journal.autoRefreshInterval)),
+  //     );
+  //
+  //     const pollsWhileOnline$ = pollTimer$
+  //       .pipe(
+  //         withLatestFrom(this.networkStateProvider.onNetworkChange()),
+  //         // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //         filter(([_, connectionStatus]) => connectionStatus === ConnectionStatus.ONLINE),
+  //       );
+  //
+  //     return pollsWhileOnline$
+  //       .pipe(
+  //         takeUntil(this.actions$.pipe(ofType(journalActions.StopPolling))),
+  //         mapTo({ type: journalActions.LoadJournalFailure }),
+  //       );
+  //   }),
+  // ));
 
   // TODO Re-introduce at later date
   // @Effect()
@@ -244,7 +253,7 @@ export class JournalEffects {
   // );
 
   selectPreviousDayEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.SELECT_PREVIOUS_DAY),
+    ofType(journalActions.SelectPreviousDay),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -264,14 +273,14 @@ export class JournalEffects {
       const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
 
       return [
-        new journalActions.SetSelectedDate(previousDay),
-        new journalActions.JournalNavigateDay(previousDay),
+        journalActions.SetSelectedDate({ payload: previousDay }),
+        journalActions.JournalNavigateDay({ day: previousDay }),
       ];
     }),
   ));
 
   selectNextDayEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.SELECT_NEXT_DAY),
+    ofType(journalActions.SelectNextDay),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -291,8 +300,8 @@ export class JournalEffects {
       const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
 
       return [
-        new journalActions.SetSelectedDate(nextDay),
-        new journalActions.JournalNavigateDay(nextDay),
+        journalActions.SetSelectedDate({ payload: nextDay }),
+        journalActions.JournalNavigateDay({ day: nextDay }),
       ];
     }),
   ));

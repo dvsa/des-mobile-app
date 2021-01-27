@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -17,23 +17,21 @@ export class JournalLogsEffects {
     private authenticationProvider: AuthenticationProvider,
   ) { }
 
-  @Effect()
-  loadJournalFailureLogEffect$ = this.actions$.pipe(
-    ofType(journalActions.LOAD_JOURNAL_FAILURE),
-    switchMap((action: journalActions.LoadJournalFailure) => {
+  loadJournalFailureLogEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(journalActions.LoadJournalFailure),
+    switchMap((action) => {
       const log: Log = this.createLog(LogType.ERROR, action.type);
       return of(logsActions.SaveLog({ payload: log }));
     }),
-  );
+  ));
 
-  @Effect()
-  loadJournalSilentFailureLogEffect$ = this.actions$.pipe(
-    ofType(journalActions.LOAD_JOURNAL_SILENT_FAILURE),
-    switchMap((action: journalActions.LoadJournalSilentFailure) => {
+  loadJournalSilentFailureLogEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(journalActions.LoadJournalSilentFailure),
+    switchMap((action) => {
       const log: Log = this.createLog(LogType.WARNING, action.type);
       return of(logsActions.SaveLog({ payload: log }));
     }),
-  );
+  ));
 
   private createLog(logType: LogType, actionType: string): Log {
     const employeeId: string = this.authenticationProvider.getEmployeeId();
