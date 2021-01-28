@@ -14,6 +14,8 @@ export const initialState: JournalModel = {
   completedTests: [],
 };
 
+export const journalFeatureKey = 'journal';
+
 export const journalReducer = createReducer(
   initialState,
   on(journalActions.LoadJournal, (state: JournalModel) => ({

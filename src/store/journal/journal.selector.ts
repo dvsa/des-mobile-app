@@ -1,13 +1,22 @@
 import {
-// flatten,
+  flatten,
   isEmpty,
   isNil,
 } from 'lodash';
+import { createSelector } from '@ngrx/store';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { JournalModel } from './journal.model';
 import { DateTime, Duration } from '../../app/shared/helpers/date-time';
 import { SlotItem } from '../../app/providers/slot-selector/slot-item';
-// import { SlotProvider } from '../../providers/slot/slot';
+import { SlotProvider } from '../../app/providers/slot/slot';
+import { StoreModel } from '../../app/shared/models/store.model';
+
+export const selectJournal = (state: StoreModel): JournalModel => state.journal;
+
+export const selectSlots = createSelector(
+  selectJournal,
+  (journal: JournalModel): { [k: string]: SlotItem[] } => journal.slots,
+);
 
 export const getSlots = (journal: JournalModel) => journal.slots;
 
@@ -62,17 +71,18 @@ export const getAllSlots = (journal: JournalModel): SlotItem[] => {
   return slotArray;
 };
 
-// TODO Re-introduce in MES-6242
-// export const getPermittedSlotIdsBeforeToday = (
-//   journal: JournalModel, today: DateTime, slotProvider: SlotProvider): number[] => {
-//   const slots = getSlots(journal);
-//   const arrayOfDateStrings = Object.keys(slots).filter((date: string) => {
-//     const thisDate = new DateTime(date);
-//     return thisDate.isBefore(today.format('YYYY-MM-DD'));
-//   });
-//   return flatten((arrayOfDateStrings.map(date => slots[date].filter(slot => slotProvider.canStartTest(slot.slotData))
-//     .map(slot => slot.slotData.slotDetail.slotId))));
-// };
+export const getPermittedSlotIdsBeforeToday = (
+  journal: JournalModel, today: DateTime, slotProvider: SlotProvider,
+): number[] => {
+  const slots = getSlots(journal);
+  const arrayOfDateStrings = Object.keys(slots).filter((date: string) => {
+    const thisDate = new DateTime(date);
+    return thisDate.isBefore(today.format('YYYY-MM-DD'));
+  });
+  return flatten((arrayOfDateStrings.map((date) => slots[date]
+    .filter((slot) => slotProvider.canStartTest(slot.slotData))
+    .map((slot) => slot.slotData.slotDetail.slotId))));
+};
 
 export const getCompletedTests = (journalModel: JournalModel): SearchResultTestSchema[] => {
   return journalModel.completedTests;

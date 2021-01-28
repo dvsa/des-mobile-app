@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import {
   Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef,
 } from '@angular/core';
@@ -12,11 +13,12 @@ import { map } from 'rxjs/operators';
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Router } from '@angular/router';
 import {
-  // ActivityCode,
+  ActivityCode,
   SearchResultTestSchema,
 } from '@dvsa/mes-search-schema';
-// TODO Reintroduce this after MES-6242
-// import { TestSlot } from '@dvsa/mes-journal-schema';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { isEmpty } from 'lodash';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import * as journalActions from '../../../store/journal/journal.actions';
@@ -26,13 +28,11 @@ import {
   getLastRefreshedTime, getSlotsOnSelectedDate, // getCompletedTests,
 } from '../../../store/journal/journal.selector';
 import { getJournalState } from '../../../store/journal/journal.reducer';
-// TODO Reintroduce this after MES-6242
-// import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
-// import { SlotComponent } from '../../components/test-slot/slot/slot';
+import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
+import { SlotComponent } from '../../components/test-slot/slot/slot';
 import { SlotItem } from '../../providers/slot-selector/slot-item';
 // TODO Reintroduce this after MES-6419
-// import { getAppInfoState } from '../../modules/app-info/app-info.reducer';
-// import { getVersionNumber } from '../../modules/app-info/app-info.selector';
+import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { ERROR_PAGE } from '../page-names.constants';
@@ -40,18 +40,14 @@ import { ERROR_PAGE } from '../page-names.constants';
 // import { DeviceProvider } from '../../providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
-// TODO Reintroduce this after MES-6242
-// import { TestSlotComponent } from '../../components/test-slot/test-slot/test-slot';
+import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 // import { IncompleteTestsBanner } from '../../components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { DateTime } from '../../shared/helpers/date-time';
 import { MesError } from '../../shared/models/mes-error.model';
 // import { SearchProvider } from '../../providers/search/search';
-// import { formatApplicationReference } from '../../shared/helpers/formatters';
-// import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
-import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
-// import { isEmpty } from 'lodash';
-// import { TestStatus } from '../../modules/tests/test-status/test-status.model';
+import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -95,7 +91,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public loadingController: LoadingController,
     public router: Router,
     private store$: Store<StoreModel>,
-    // private slotSelector: SlotSelectorProvider,
+    private slotSelector: SlotSelectorProvider,
     private resolver: ComponentFactoryResolver,
     public dateTimeProvider: DateTimeProvider,
     public appConfigProvider: AppConfigProvider,
@@ -250,64 +246,62 @@ export class JournalPage extends BasePageComponent implements OnInit {
    * Returns the activity code if the test has been completed already
    * Returns null if test hasn't been completed yet
    */
-  // TODO reintroduce in MES-6242
-  // hasSlotBeenTested(slotData: TestSlot): ActivityCode | null {
-  //   if (isEmpty(this.completedTests)) {
-  //     return null;
-  //   }
-  //
-  //   const applicationReference: ApplicationReference = {
-  //     applicationId: slotData.booking.application.applicationId,
-  //     bookingSequence: slotData.booking.application.bookingSequence,
-  //     checkDigit: slotData.booking.application.checkDigit,
-  //   };
-  //
-  //   const completedTest = this.completedTests.find((completedTest) => {
-  //     return completedTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
-  //   });
-  //
-  //   return completedTest ? completedTest.activityCode : null;
-  // }
+  hasSlotBeenTested(slotData: TestSlot): ActivityCode | null {
+    if (isEmpty(this.completedTests)) {
+      return null;
+    }
 
-  // TODO Reintroduce in MES-6242
-  // private createSlots = (emission: SlotItem[]) => {
-  //   // Clear any dynamically created slots before adding the latest
-  //   this.slotContainer.clear();
-  //
-  //   if (!Array.isArray(emission)) return;
-  //
-  //   if (emission.length === 0) return;
-  //
-  //   const slots = this.slotSelector.getSlotTypes(emission);
-  //
-  //   let lastLocation;
-  //   for (const slot of slots) {
-  //     const factory = this.resolver.resolveComponentFactory(slot.component);
-  //     const componentRef = this.slotContainer.createComponent(factory);
-  //
-  //     (<SlotComponent>componentRef.instance).slot = slot.slotData;
-  //     (<SlotComponent>componentRef.instance).hasSlotChanged = slot.hasSlotChanged;
-  //     (<SlotComponent>componentRef.instance).showLocation = (slot.slotData.testCentre.centreName !== lastLocation);
-  //     lastLocation = slot.slotData.testCentre.centreName;
-  //
-  //     if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
-  //       // if this is a personal commitment assign it to the component
-  //       (<PersonalCommitmentSlotComponent>componentRef.instance).personalCommitments = slot.personalCommitment;
-  //     }
-  //
-  //     if (componentRef.instance instanceof TestSlotComponent) {
-  //       const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
-  //
-  //       if (activityCode) {
-  //         (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
-  //         (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
-  //       }
-  //
-  //       // if this is a test slot assign hasSeenCandidateDetails separately
-  //       (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
-  //     }
-  //   }
-  // }
+    const applicationReference: ApplicationReference = {
+      applicationId: slotData.booking.application.applicationId,
+      bookingSequence: slotData.booking.application.bookingSequence,
+      checkDigit: slotData.booking.application.checkDigit,
+    };
+
+    const completedTest = this.completedTests.find((compTest) => {
+      return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
+    });
+
+    return completedTest ? completedTest.activityCode : null;
+  }
+
+  private createSlots = (emission: SlotItem[]) => {
+    // Clear any dynamically created slots before adding the latest
+    this.slotContainer.clear();
+
+    if (!Array.isArray(emission)) return;
+
+    if (emission.length === 0) return;
+
+    const slots = this.slotSelector.getSlotTypes(emission);
+
+    let lastLocation;
+    for (const slot of slots) {
+      const factory = this.resolver.resolveComponentFactory(slot.component);
+      const componentRef = this.slotContainer.createComponent(factory);
+
+      (<SlotComponent>componentRef.instance).slot = slot.slotData;
+      (<SlotComponent>componentRef.instance).hasSlotChanged = slot.hasSlotChanged;
+      (<SlotComponent>componentRef.instance).showLocation = (slot.slotData.testCentre.centreName !== lastLocation);
+      lastLocation = slot.slotData.testCentre.centreName;
+
+      // if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
+      //   // if this is a personal commitment assign it to the component
+      //   (<PersonalCommitmentSlotComponent>componentRef.instance).personalCommitments = slot.personalCommitment;
+      // }
+
+      if (componentRef.instance instanceof TestSlotComponent) {
+        const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
+
+        if (activityCode) {
+          (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
+          (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
+        }
+
+        // if this is a test slot assign hasSeenCandidateDetails separately
+        (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
+      }
+    }
+  };
 
   public pullRefreshJournal = (refresher: IonRefresher) => {
     this.loadJournalManually();
