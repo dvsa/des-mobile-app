@@ -1,12 +1,40 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
     <ion-title>Journal</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="refreshJournal()">
+        <span>
+          <ion-icon name="md-sync" class="refresh-button-icon"></ion-icon>
+          <span>Refresh</span>
+        </span>
+        <!-- <h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6> -->
+      </button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content no-padding>
+  <div *ngIf="isUnauthenticated" id="unauthenticated-mode-indicator">
+    <label id="unauth-text">You are offline. Some features may be unavailable.</label>
+  </div>
+
+  <!-- <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner> -->
+
+  <ion-refresher slot="fixed" (ionRefresh)="pullRefreshJournal($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing Journal..."
+      pullMin=70
+      pullMax=500>
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- <journal-navigation></journal-navigation> -->
+
+  <ion-list>
+    <ng-template #slotContainer></ng-template>
+  </ion-list>
 
 </ion-content>

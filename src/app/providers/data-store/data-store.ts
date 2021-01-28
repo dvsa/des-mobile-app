@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { Store } from '@ngrx/store';
 import { SecureStorageObject } from '@ionic-native/secure-storage/ngx';
+import { LogHelper } from '../logs/logs-helper';
+import { LogType } from '../../shared/models/log.model';
+import { StoreModel } from '../../shared/models/store.model';
+import { SaveLog } from '../../../store/logs/logs.actions';
 
 @Injectable()
 export class DataStoreProvider {
@@ -13,6 +18,8 @@ export class DataStoreProvider {
 
   constructor(
     public platform: Platform,
+    private logHelper: LogHelper,
+    private store$: Store<StoreModel>,
   ) {
   }
 
@@ -73,10 +80,9 @@ export class DataStoreProvider {
       return Promise.resolve('');
     }
     return this.secureContainer.remove(key).catch((error) => {
-
-      // TODO: Send error through the logging service
-
-      console.error(`error removing ${key}. Error is: ${error.message}`);
+      this.store$.dispatch(SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, `DataStoreProvider error removing ${key}`, error.message),
+      }));
       return Promise.resolve('');
     });
   }

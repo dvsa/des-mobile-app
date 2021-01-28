@@ -14,8 +14,6 @@ UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 ionic.config.json
 .npmrc
-mock/local-journal.json
-mock/local-journal-non-test-activities.json
 
 *.log
 log.txt
@@ -37,3 +35,5 @@ npm-debug.log*
 /src/assets/mock
 
 src/environments/environment.ts
+mock/local-journal.json
+mock/local-journal-non-test-activities.json
