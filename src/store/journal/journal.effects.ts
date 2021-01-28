@@ -3,16 +3,16 @@ import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  switchMap, map, withLatestFrom, filter, catchError,
+  switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith,
   // tap,
   concatMap,
 } from 'rxjs/operators';
-import { of, Observable } from 'rxjs';
+import { of, Observable, interval } from 'rxjs';
 // import { groupBy } from 'lodash';
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { HttpErrorResponse } from '@angular/common/http';
 // import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import { Store, select } from '@ngrx/store';
+import { Store, select, Action } from '@ngrx/store';
 import { groupBy } from 'lodash';
 import * as journalActions from './journal.actions';
 import { JournalProvider } from '../../app/providers/journal/journal';
@@ -26,7 +26,7 @@ import {
   canNavigateToPreviousDay, canNavigateToNextDay,
 // getCompletedTests,
 } from './journal.selector';
-import { NetworkStateProvider } from '../../app/providers/network-state/network-state';
+import { ConnectionStatus, NetworkStateProvider } from '../../app/providers/network-state/network-state';
 import { DateTime, Duration } from '../../app/shared/helpers/date-time';
 import { DataStoreProvider } from '../../app/providers/data-store/data-store';
 import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
@@ -70,7 +70,7 @@ export class JournalEffects {
   ) {
   }
 
-  callJournalProvider$ = (mode: string): Observable<any> => {
+  callJournalProvider$ = (mode: string): Observable<Action> => {
     this.store$.dispatch(journalActions.JournalRefresh({ mode }));
     return of(null).pipe(
       withLatestFrom(
@@ -174,35 +174,32 @@ export class JournalEffects {
     ),
   ));
 
-  // TODO pick back up in sub-task 6455 implement journal loading mechanisms
-  // pollingSetup$ = createEffect(() => this.actions$.pipe(
-  //   ofType(journalActions.SetupPolling.type),
-  //   switchMap(() => {
-  //     // return of(journalActions.SetupPolling());
-  //     // Switch map the manual refreshes so they restart the timer.
-  //     const manualRefreshes$ = this.actions$.pipe(
-  //       ofType(journalActions.LoadJournal),
-  //       // Initial emission so poll doesn't wait until the first manual refresh
-  //       startWith(null),
-  //     );
-  //     const pollTimer$ = manualRefreshes$.pipe(
-  //       switchMap(() => interval(this.appConfig.getAppConfig().journal.autoRefreshInterval)),
-  //     );
-  //
-  //     const pollsWhileOnline$ = pollTimer$
-  //       .pipe(
-  //         withLatestFrom(this.networkStateProvider.onNetworkChange()),
-  //         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //         filter(([_, connectionStatus]) => connectionStatus === ConnectionStatus.ONLINE),
-  //       );
-  //
-  //     return pollsWhileOnline$
-  //       .pipe(
-  //         takeUntil(this.actions$.pipe(ofType(journalActions.StopPolling))),
-  //         mapTo({ type: journalActions.LoadJournalFailure }),
-  //       );
-  //   }),
-  // ));
+  pollingSetup$ = createEffect(() => this.actions$.pipe(
+    ofType(journalActions.SetupPolling.type),
+    switchMap(() => {
+      // Switch map the manual refreshes so they restart the timer.
+      const manualRefreshes$ = this.actions$.pipe(
+        ofType(journalActions.LoadJournal),
+        // Initial emission so poll doesn't wait until the first manual refresh
+        startWith(null),
+      );
+      const pollTimer$ = manualRefreshes$.pipe(
+        switchMap(() => interval(this.appConfig.getAppConfig().journal.autoRefreshInterval)),
+      );
+
+      const pollsWhileOnline$ = pollTimer$
+        .pipe(
+          withLatestFrom(this.networkStateProvider.onNetworkChange()),
+          filter(([, connectionStatus]) => connectionStatus === ConnectionStatus.ONLINE),
+        );
+
+      return pollsWhileOnline$
+        .pipe(
+          takeUntil(this.actions$.pipe(ofType(journalActions.StopPolling))),
+          switchMap(() => of(journalActions.LoadJournalSilent())),
+        );
+    }),
+  ));
 
   // TODO Re-introduce at later date
   // @Effect()
