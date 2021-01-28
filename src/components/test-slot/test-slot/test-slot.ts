@@ -13,18 +13,19 @@ import { vehicleDetails } from './test-slot.constants';
 import { AppConfigProvider } from '../../../app/providers/app-config/app-config';
 import { DateTimeProvider } from '../../../app/providers/date-time/date-time';
 import { StoreModel } from '../../../app/shared/models/store.model';
-// import { SlotTypes } from '../../../shared/models/slot-types';
-/* import { getSlotType } from '../../../shared/helpers/get-slot-type';
-import { getTestStatus, getActivityCodeBySlotId, getTestById } from '../../../store/tests/tests.selector';
-import { TestStatus } from '../../../store/tests/test-status/test-status.model';
-import { getTests } from '../../../store/tests/tests.reducer';
+import { SlotTypes } from '../../../app/shared/models/slot-types';
+import { getSlotType } from '../../../app/shared/helpers/get-slot-type';
 import { SlotProvider } from '../../../app/providers/slot/slot';
+import { TestStatus } from '../../../store/tests/test-status/test-status.model';
+/* import { getTestStatus, getActivityCodeBySlotId, getTestById } from '../../../store/tests/tests.selector';
+import { getTests } from '../../../store/tests/tests.reducer';
 import { isRekey } from '../../../store/tests/rekey/rekey.selector';
 import { getRekeyIndicator } from '../../../store/tests/rekey/rekey.reducer';
-import { DelegatedExaminerTestSlot } from '../../../providers/delegated-rekey-search/mock-data/delegated-mock-data'; */
+import { DelegatedExaminerTestSlot } from '../../../app/providers/delegated-rekey-search/mock-data/delegated-mock-data';
+*/
 
 interface TestSlotComponentState {
-  // testStatus$: Observable<TestStatus>;
+  testStatus$: Observable<TestStatus>;
   testActivityCode$: Observable<ActivityCode>;
   isRekey$: Observable<boolean>;
 }
@@ -50,8 +51,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   @Input()
   delegatedTest: boolean = false;
 
-  /* @Input()
-  derivedTestStatus: TestStatus | null = null; */
+  @Input()
+  derivedTestStatus: TestStatus | null = null;
 
   @Input()
   derivedActivityCode: ActivityCode | null = null;
@@ -63,7 +64,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
     public store$: Store<StoreModel>,
-    /* private slotProvider: SlotProvider, */
+    private slotProvider: SlotProvider,
   ) { }
 
   ngOnInit(): void {
@@ -87,13 +88,13 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     }; */
   }
 
-  /* isIndicatorNeededForSlot(): boolean {
+  isIndicatorNeededForSlot(): boolean {
     const specialNeeds: boolean = this.isSpecialNeedsSlot();
     const checkNeeded: boolean = this.slot.booking.application.entitlementCheck || false;
     const nonStandardTest: boolean = getSlotType(this.slot) !== SlotTypes.STANDARD_TEST;
 
     return specialNeeds || checkNeeded || nonStandardTest;
-  } */
+  }
 
   isSpecialNeedsSlot(): boolean {
     const specialNeeds = get(this.slot, 'booking.application.specialNeeds', '');
@@ -115,9 +116,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     return this.slot.booking.application.testCategory === TestCategory.ADI2;
   }
 
-  /*   canStartTest(): boolean {
+  canStartTest(): boolean {
     return this.slotProvider.canStartTest(this.slot);
-  } */
+  }
 
   canViewCandidateDetails(): boolean {
     const { testPermissionPeriods } = this.appConfig.getAppConfig().journal;
@@ -145,11 +146,11 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   getExaminerId(): number {
-    // let returnValue = null;
-    /* if (this.delegatedTest) {
-      const slot = this.slot as DelegatedExaminerTestSlot;
-      returnValue = slot.examinerId;
-    } */
-    return null; // returnValue;
+    let returnValue = null;
+    if (this.delegatedTest) {
+      // const slot = this.slot as DelegatedExaminerTestSlot;
+      returnValue = null; // slot.examinerId;
+    }
+    return returnValue;
   }
 }

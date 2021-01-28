@@ -1,13 +1,13 @@
-import { async, TestBed } from '@angular/core/testing'; // ComponentFixture
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'; // ComponentFixture
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '../../../../app/app.module';
 import { SubmissionStatusComponent } from '../submission-status';
-// import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
+import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
 
 xdescribe('PracticeTestModal', () => {
-  // let fixture: ComponentFixture<SubmissionStatusComponent>;
-  // let component: SubmissionStatusComponent;
+  let fixture: ComponentFixture<SubmissionStatusComponent>;
+  let component: SubmissionStatusComponent;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -22,13 +22,13 @@ xdescribe('PracticeTestModal', () => {
   });
 
   beforeEach(async(() => {
-    // fixture = TestBed.createComponent(SubmissionStatusComponent);
-    // component = fixture.componentInstance;
+    fixture = TestBed.createComponent(SubmissionStatusComponent);
+    component = fixture.componentInstance;
   }));
 
   describe('Class', () => {
     describe('showBanner', () => {
-      /* it('should show banner if test status is completed', () => {
+      it('should show banner if test status is completed', () => {
         component.testStatus = TestStatus.Completed;
         expect(component.showBanner()).toEqual(true);
       });
@@ -47,7 +47,7 @@ xdescribe('PracticeTestModal', () => {
       it('should not show banner if test status is submitted', () => {
         component.testStatus = TestStatus.Submitted;
         expect(component.showBanner()).toEqual(false);
-      }); */
+      });
     });
   });
 

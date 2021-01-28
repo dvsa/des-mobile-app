@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-// import { TestStatus } from '../../../store/tests/test-status/test-status.model';
+import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 
 @Component({
   selector: 'indicators',
@@ -11,14 +11,14 @@ export class IndicatorsComponent {
   @Input()
   showExclamationIndicator: boolean;
 
-  // @Input()
-  // testStatus: TestStatus;
+  @Input()
+  testStatus: TestStatus;
 
-  /* shouldShowExclamationIndicator = (): boolean => {
+  shouldShowExclamationIndicator = (): boolean => {
     return !this.shouldShowGreenTickIndicator() && this.showExclamationIndicator;
-  }; */
+  };
 
-  /* shouldShowGreenTickIndicator = (): boolean => {
+  shouldShowGreenTickIndicator = (): boolean => {
     return this.testStatus === TestStatus.Submitted;
-  }; */
+  };
 }
