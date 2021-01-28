@@ -107,8 +107,8 @@ describe('TestPersistenceProvider', () => {
         23456789: TestStatus.Booked,
       },
     };
-    testPersistenceProvider = TestBed.get(TestPersistenceProvider);
-    dataStoreProvider = TestBed.get(DataStoreProvider);
+    testPersistenceProvider = TestBed.inject(TestPersistenceProvider);
+    dataStoreProvider = TestBed.inject(DataStoreProvider);
   });
 
   describe('persistTests', () => {

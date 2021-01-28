@@ -48,7 +48,7 @@ describe('FaultCountProvider', () => {
 
   beforeEach(() => {
 
-    faultCountProvider = TestBed.get(FaultCountProvider);
+    faultCountProvider = TestBed.inject(FaultCountProvider);
 
     spyOn(FaultCountADIPart2Helper, 'getDrivingFaultSumCountCatADIPart2').and.callThrough();
     spyOn(FaultCountADIPart2Helper, 'getSeriousFaultSumCountCatADIPart2').and.callThrough();

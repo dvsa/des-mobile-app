@@ -17,7 +17,7 @@ describe('ReversingDistancesProvider', () => {
   });
 
   beforeEach(() => {
-    reversingDistancesProvider = TestBed.get(ReversingDistancesProvider);
+    reversingDistancesProvider = TestBed.inject(ReversingDistancesProvider);
   });
 
   describe('getDistanceLength', () => {

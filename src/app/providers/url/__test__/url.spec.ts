@@ -18,7 +18,7 @@ describe('UrlProvider', () => {
   });
 
   beforeEach(() => {
-    urlProvider = TestBed.get(UrlProvider);
+    urlProvider = TestBed.inject(UrlProvider);
   });
 
   describe('getPersonalJournalUrl', () => {

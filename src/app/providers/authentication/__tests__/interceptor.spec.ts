@@ -50,11 +50,11 @@ describe('Authentication interceptor', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
-    platform = TestBed.get(Platform);
-    httpMock = TestBed.get(HttpTestingController);
-    interceptor = TestBed.get(AuthInterceptor);
-    journalProvider = TestBed.get(JournalProvider);
-    urlProvider = TestBed.get(UrlProvider);
+    platform = TestBed.inject(Platform);
+    httpMock = TestBed.inject(HttpTestingController);
+    interceptor = TestBed.inject(AuthInterceptor);
+    journalProvider = TestBed.inject(JournalProvider);
+    urlProvider = TestBed.inject(UrlProvider);
     journalUrl = urlProvider.getPersonalJournalUrl('');
   });
 

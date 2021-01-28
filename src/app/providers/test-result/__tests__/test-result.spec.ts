@@ -47,7 +47,7 @@ describe('TestResultCalculatorProvider', () => {
   });
 
   beforeEach(() => {
-    testResultProvider = TestBed.get(TestResultProvider);
+    testResultProvider = TestBed.inject(TestResultProvider);
   });
 
   // TODO: reinstate tests when home tests dependencies have been implemented (see test-result.ts)

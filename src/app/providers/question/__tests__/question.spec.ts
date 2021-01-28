@@ -44,7 +44,7 @@ describe('question provider', () => {
   });
 
   beforeEach(() => {
-    questionProvider = TestBed.get(QuestionProvider);
+    questionProvider = TestBed.inject(QuestionProvider);
   });
 
   describe('getTellMeQuestions', () => {

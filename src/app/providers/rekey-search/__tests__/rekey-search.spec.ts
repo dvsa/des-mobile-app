@@ -26,8 +26,8 @@ describe('RekeySearchProvider', () => {
   });
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
-    rekeySearchProvider = TestBed.get(RekeySearchProvider);
+    httpMock = TestBed.inject(HttpTestingController);
+    rekeySearchProvider = TestBed.inject(RekeySearchProvider);
   });
 
   describe('getTest', () => {

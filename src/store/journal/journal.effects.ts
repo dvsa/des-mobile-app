@@ -3,11 +3,11 @@ import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  switchMap, map, withLatestFrom, takeUntil, mapTo, filter, catchError, startWith,
+  switchMap, map, withLatestFrom, filter, catchError,
   // tap,
   concatMap,
 } from 'rxjs/operators';
-import { of, interval, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 // import { groupBy } from 'lodash';
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -28,7 +28,7 @@ import {
   canNavigateToPreviousDay, canNavigateToNextDay,
 // getCompletedTests,
 } from './journal.selector';
-import { NetworkStateProvider, ConnectionStatus } from '../../app/providers/network-state/network-state';
+import { NetworkStateProvider } from '../../app/providers/network-state/network-state';
 import { DateTime, Duration } from '../../app/shared/helpers/date-time';
 import { DataStoreProvider } from '../../app/providers/data-store/data-store';
 import { AuthenticationProvider } from '../../app/providers/authentication/authentication';

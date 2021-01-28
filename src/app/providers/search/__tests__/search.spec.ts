@@ -27,8 +27,8 @@ describe('SearchProvider', () => {
   });
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
-    searchProvider = TestBed.get(SearchProvider);
+    httpMock = TestBed.inject(HttpTestingController);
+    searchProvider = TestBed.inject(SearchProvider);
   });
 
   describe('driverNumberSearch', () => {

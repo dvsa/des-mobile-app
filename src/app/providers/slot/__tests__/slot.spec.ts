@@ -95,9 +95,9 @@
 //   });
 
 //   beforeEach(() => {
-//     store$ = TestBed.get(Store);
-//     slotProvider = TestBed.get(SlotProvider);
-//     appConfigProvider = TestBed.get(AppConfigProvider);
+//     store$ = TestBed.inject(Store);
+//     slotProvider = TestBed.inject(SlotProvider);
+//     appConfigProvider = TestBed.inject(AppConfigProvider);
 //     spyOn(store$, 'dispatch');
 //   });
 

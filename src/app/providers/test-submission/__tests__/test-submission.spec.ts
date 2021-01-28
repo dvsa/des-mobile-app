@@ -47,10 +47,10 @@ xdescribe('TestSubmissionProvider', () => {
   });
 
   beforeEach(() => {
-    testSubmissionProvider = TestBed.get(TestSubmissionProvider);
-    httpMock = TestBed.get(HttpTestingController);
-    httpClient = TestBed.get(HttpClient);
-    urlProvider = TestBed.get(UrlProvider);
+    testSubmissionProvider = TestBed.inject(TestSubmissionProvider);
+    httpMock = TestBed.inject(HttpTestingController);
+    httpClient = TestBed.inject(HttpClient);
+    urlProvider = TestBed.inject(UrlProvider);
     spyOn(testSubmissionProvider, 'compressData').and.callThrough();
     spyOn(testSubmissionProvider, 'removeNullFieldsDeep').and.callThrough();
     spyOn(testSubmissionProvider, 'submitTest').and.callThrough();

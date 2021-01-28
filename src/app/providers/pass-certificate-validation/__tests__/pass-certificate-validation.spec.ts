@@ -15,7 +15,7 @@ describe('PassCertificateValidationProvider', () => {
   });
 
   beforeEach(() => {
-    certificateValidatorProvider = TestBed.get(PassCertificateValidationProvider);
+    certificateValidatorProvider = TestBed.inject(PassCertificateValidationProvider);
   });
 
   describe('calculateMod37CheckDigit', () => {

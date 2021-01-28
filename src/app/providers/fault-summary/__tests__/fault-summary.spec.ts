@@ -92,7 +92,7 @@ describe('faultSummaryProvider', () => {
   });
 
   beforeEach(() => {
-    faultSummaryProvider = TestBed.get(FaultSummaryProvider);
+    faultSummaryProvider = TestBed.inject(FaultSummaryProvider);
 
     spyOn(FaultSummaryCatBHelper, 'getDrivingFaultsCatB').and.callThrough();
     spyOn(FaultSummaryCatBHelper, 'getSeriousFaultsCatB').and.callThrough();

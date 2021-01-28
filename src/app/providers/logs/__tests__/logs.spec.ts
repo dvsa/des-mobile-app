@@ -34,9 +34,9 @@ describe('LogsProvider', () => {
   });
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
-    logsProvider = TestBed.get(LogsProvider);
-    urlProviderMock = TestBed.get(UrlProvider);
+    httpMock = TestBed.inject(HttpTestingController);
+    logsProvider = TestBed.inject(LogsProvider);
+    urlProviderMock = TestBed.inject(UrlProvider);
   });
 
   describe('sendLogs', () => {

@@ -16,7 +16,7 @@ describe('OutcomeBehaviourMapProvider', () => {
   });
 
   beforeEach(() => {
-    outcomeBehaviourMapProvider = TestBed.get(OutcomeBehaviourMapProvider);
+    outcomeBehaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     outcomeBehaviourMapProvider.setBehaviourMap(behaviourMap);
   });
 

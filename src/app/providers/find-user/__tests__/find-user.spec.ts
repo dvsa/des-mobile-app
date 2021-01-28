@@ -26,8 +26,8 @@ describe('FindUserProvider', () => {
   });
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
-    findUserProvider = TestBed.get(FindUserProvider);
+    httpMock = TestBed.inject(HttpTestingController);
+    findUserProvider = TestBed.inject(FindUserProvider);
   });
 
   describe('userExists', () => {
