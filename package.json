@@ -49,6 +49,7 @@
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/device": "^5.30.0",
     "@ionic-native/emm-app-config": "^5.30.0",
+    "@ionic-native/google-analytics": "^5.30.0",
     "@ionic-native/is-debug": "^5.30.0",
     "@ionic-native/network": "^5.29.0",
     "@ionic-native/secure-storage": "^5.29.0",

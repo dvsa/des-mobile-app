@@ -3,11 +3,11 @@ import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  switchMap, map, withLatestFrom, takeUntil, mapTo, filter, catchError, startWith,
+  switchMap, map, withLatestFrom, filter, catchError,
   // tap,
   concatMap,
 } from 'rxjs/operators';
-import { of, interval, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 // import { groupBy } from 'lodash';
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -20,7 +20,6 @@ import { StoreModel } from '../../app/shared/models/store.model';
 import { getJournalState } from './journal.reducer';
 import { AppConfigProvider } from '../../app/providers/app-config/app-config';
 // import { SlotItem } from '../../providers/slot-selector/slot-item';
-// TODO Re-introduce in MES-6242
 import { SlotProvider } from '../../app/providers/slot/slot';
 import { JournalRefreshModes } from '../../app/providers/analytics/analytics.model';
 import {
@@ -28,7 +27,7 @@ import {
   canNavigateToPreviousDay, canNavigateToNextDay,
 // getCompletedTests,
 } from './journal.selector';
-import { NetworkStateProvider, ConnectionStatus } from '../../app/providers/network-state/network-state';
+import { NetworkStateProvider } from '../../app/providers/network-state/network-state';
 import { DateTime, Duration } from '../../app/shared/helpers/date-time';
 import { DataStoreProvider } from '../../app/providers/data-store/data-store';
 import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
@@ -43,9 +42,11 @@ import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 // import { LogType } from '../../shared/models/log.model';
 // import { SaveLog } from '../../modules/logs/logs.actions';
-// import { LogHelper } from '../../providers/logs/logsHelper';
+import { LogHelper } from '../../app/providers/logs/logs-helper';
 // import { HttpStatusCodes } from '../../shared/models/http-status-codes';
-// import { SearchProvider } from '../../providers/search/search';
+// import { SearchProvider } from '../../app/providers/search/search';
+import { LogType } from '../../app/shared/models/log.model';
+import { SaveLog } from '../logs/logs.actions';
 // import { AdvancedSearchParams } from '../../providers/search/search.models';
 // import moment from 'moment';
 // import { removeLeadingZeros } from '../../shared/helpers/formatters';
@@ -59,7 +60,6 @@ export class JournalEffects {
   constructor(
     private actions$: Actions,
     private journalProvider: JournalProvider,
-    // TODO Re-introduce in MES-6242
     private slotProvider: SlotProvider,
     private store$: Store<StoreModel>,
     public appConfig: AppConfigProvider,
@@ -67,9 +67,8 @@ export class JournalEffects {
     public dataStoreprovider: DataStoreProvider,
     public authProvider: AuthenticationProvider,
     public dateTimeProvider: DateTimeProvider,
-    // TODO Reintroduce this after MES-6251
     // public searchProvider: SearchProvider,
-    // private logHelper: LogHelper,
+    private logHelper: LogHelper,
   ) {
   }
 
@@ -127,9 +126,9 @@ export class JournalEffects {
                 }));
               }
 
-              // this.store$.dispatch(new SaveLog(
-              // this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
-              // ));
+              this.store$.dispatch(SaveLog({
+                payload: this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
+              }));
 
               return ErrorObservable.create(err);
             }),

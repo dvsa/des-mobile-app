@@ -13,15 +13,16 @@
   ],
   "rules": {
     "@typescript-eslint/lines-between-class-members": "off",
+    "@typescript-eslint/naming-convention": "off",
     "no-unused-expressions": "error",
     "class-methods-use-this": "off",
     "consistent-return": "off",
     "arrow-body-style": "off",
     "padded-blocks": "off",
+    "array-callback-return": "off",
     "no-console": "warn",
     "import/prefer-default-export": "off",
     "quotes": ["error", "single"],
-    "indent": ["error", 2],
     "max-len": ["error", { "code": 120 }],
     "rxjs/finnish": [
       "error",
