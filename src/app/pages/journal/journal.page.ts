@@ -37,7 +37,7 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { ERROR_PAGE } from '../page-names.constants';
 // import { ErrorTypes } from '../../shared/models/error-message';
-import { DeviceProvider } from '../../providers/device/device';
+// import { DeviceProvider } from '../../providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
 // TODO Reintroduce this after MES-6242
@@ -45,7 +45,7 @@ import { DeviceProvider } from '../../providers/device/device';
 // import { IncompleteTestsBanner } from '../../components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { DateTime } from '../../shared/helpers/date-time';
 import { MesError } from '../../shared/models/mes-error.model';
-import { SearchProvider } from '../../providers/search/search';
+// import { SearchProvider } from '../../providers/search/search';
 // import { formatApplicationReference } from '../../shared/helpers/formatters';
 // import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { AppComponent } from '../../app.component';
@@ -100,10 +100,10 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public dateTimeProvider: DateTimeProvider,
     public appConfigProvider: AppConfigProvider,
     private app: AppComponent,
-    private deviceProvider: DeviceProvider,
+    // private deviceProvider: DeviceProvider,
     // public screenOrientation: ScreenOrientation,
     // public insomnia: Insomnia,
-    public searchProvider: SearchProvider,
+    // public searchProvider: SearchProvider,
   ) {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
@@ -191,7 +191,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     if (super.isIos()) {
       // this.screenOrientation.unlock();
       // this.insomnia.allowSleepAgain();
-      this.deviceProvider.disableSingleAppMode();
+      // this.deviceProvider.disableSingleAppMode();
     }
   }
 

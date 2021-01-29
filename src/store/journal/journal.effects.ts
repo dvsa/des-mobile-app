@@ -44,7 +44,7 @@ import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 // import { SaveLog } from '../../modules/logs/logs.actions';
 import { LogHelper } from '../../app/providers/logs/logs-helper';
 // import { HttpStatusCodes } from '../../shared/models/http-status-codes';
-import { SearchProvider } from '../../app/providers/search/search';
+// import { SearchProvider } from '../../app/providers/search/search';
 import { LogType } from '../../app/shared/models/log.model';
 import { SaveLog } from '../logs/logs.actions';
 // import { AdvancedSearchParams } from '../../providers/search/search.models';
@@ -67,7 +67,7 @@ export class JournalEffects {
     public dataStoreprovider: DataStoreProvider,
     public authProvider: AuthenticationProvider,
     public dateTimeProvider: DateTimeProvider,
-    public searchProvider: SearchProvider,
+    // public searchProvider: SearchProvider,
     private logHelper: LogHelper,
   ) {
   }
