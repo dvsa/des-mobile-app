@@ -27,11 +27,12 @@ export class SlotSelectorProvider {
       return [];
     }
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const slotItem of slotItems) {
-      slotItem.component = this.resolveComponentName(slotItem);
-    }
-    return slotItems;
+    return slotItems.map((slotItem) => {
+      return {
+        ...slotItem,
+        component: this.resolveComponentName(slotItem),
+      } as SlotItem;
+    });
   };
 
   private isBookingEmptyOrNull = (slot: SlotItem): boolean => {

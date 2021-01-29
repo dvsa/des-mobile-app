@@ -150,21 +150,21 @@ export class TestOutcomeComponent implements OnInit {
     return false;
   }
 
-  /* showStartTestButton(): boolean {
-    return !this.isDelegatedTest && (this.testStatus === TestStatus.Booked);
-  } */
+  showStartTestButton(): boolean {
+    return true; // !this.isDelegatedTest && (this.testStatus === TestStatus.Booked);
+  }
 
-  /* showDelegatedExaminerRekeyButton(): boolean {
-    return this.isDelegatedTest && !this.showResumeButton();
-  } */
+  showDelegatedExaminerRekeyButton(): boolean {
+    return false; // this.isDelegatedTest && !this.showResumeButton();
+  }
 
-  /* showResumeButton(): boolean {
-    return this.testStatus === TestStatus.Started || this.testStatus === TestStatus.Decided;
-  } */
+  showResumeButton(): boolean {
+    return false; // this.testStatus === TestStatus.Started || this.testStatus === TestStatus.Decided;
+  }
 
-  /* showWriteUpButton(): boolean {
-    return this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved;
-  } */
+  showWriteUpButton(): boolean {
+    return false; // this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved;
+  }
 
   writeUpTest() {
     /* this.store$.dispatch(new ActivateTest(this.slotDetail.slotId, this.category));

@@ -10,7 +10,7 @@
           </language>
         </ion-col>
         <ion-col no-padding>
-          <submission-status float-end [testStatus]="componentState.testStatus$ | async"></submission-status>
+          <submission-status float-end></submission-status> <!-- [testStatus]="componentState.testStatus$ | async" -->
         </ion-col>
       </ion-row>
       <ion-row class="slot-main" align-items-center>
@@ -18,7 +18,7 @@
           <ion-grid no-padding>
             <ion-row align-items-center nowrap>
               <ion-col class="exclamation-col">
-                <indicators [showExclamationIndicator]="isIndicatorNeededForSlot()" [testStatus]="componentState.testStatus$ | async">
+                <indicators [showExclamationIndicator]="isIndicatorNeededForSlot()"> <!-- [testStatus]="componentState.testStatus$ | async" -->
                 </indicators>
               </ion-col>
               <ion-col>
@@ -47,13 +47,12 @@
             [canStartTest]="canStartTest()"
             [isDelegatedTest]="delegatedTest"
             [examinerId]="getExaminerId()"
-            [testStatus]="componentState.testStatus$ | async"
-            [activityCode]="componentState.testActivityCode$ | async"
             [specialRequirements]="isIndicatorNeededForSlot()"
             [hasSeenCandidateDetails]="hasSeenCandidateDetails"
-            [isRekey]="componentState.isRekey$ | async"
             [category]="slot.booking.application.testCategory">
-          </test-outcome>
+          </test-outcome> <!-- [testStatus]="componentState.testStatus$ | async" -->
+          <!-- [activityCode]="componentState.testActivityCode$ | async" -->
+          <!-- [isRekey]="componentState.isRekey$ | async" -->
         </ion-col>
       </ion-row>
       <ion-row class="slot-footer" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>

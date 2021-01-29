@@ -44,7 +44,6 @@ import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-
 // import { IncompleteTestsBanner } from '../../components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { DateTime } from '../../shared/helpers/date-time';
 import { MesError } from '../../shared/models/mes-error.model';
-// import { SearchProvider } from '../../providers/search/search';
 import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
@@ -99,7 +98,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     // private deviceProvider: DeviceProvider,
     // public screenOrientation: ScreenOrientation,
     // public insomnia: Insomnia,
-    // public searchProvider: SearchProvider,
   ) {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
