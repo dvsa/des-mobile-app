@@ -37,8 +37,7 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { ERROR_PAGE } from '../page-names.constants';
 // import { ErrorTypes } from '../../shared/models/error-message';
-// TODO Reintroduce this after MES-6251
-// import { DeviceProvider } from '../../providers/device/device';
+import { DeviceProvider } from '../../providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
 // TODO Reintroduce this after MES-6242
@@ -46,11 +45,11 @@ import { ERROR_PAGE } from '../page-names.constants';
 // import { IncompleteTestsBanner } from '../../components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { DateTime } from '../../shared/helpers/date-time';
 import { MesError } from '../../shared/models/mes-error.model';
-// TODO Reintroduce this after MES-6251
-// import { SearchProvider } from '../../providers/search/search';
+import { SearchProvider } from '../../providers/search/search';
 // import { formatApplicationReference } from '../../shared/helpers/formatters';
 // import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { AppComponent } from '../../app.component';
+import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 // import { isEmpty } from 'lodash';
 // import { TestStatus } from '../../modules/tests/test-status/test-status.model';
 
@@ -60,7 +59,7 @@ interface JournalPageState {
   error$: Observable<MesError>;
   isLoading$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
-  // appVersion$: Observable<string>;
+  appVersion$: Observable<string>;
   // completedTests$: Observable<SearchResultTestSchema[]>;
 }
 
@@ -101,12 +100,10 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public dateTimeProvider: DateTimeProvider,
     public appConfigProvider: AppConfigProvider,
     private app: AppComponent,
-    // TODO Reintroduce this after MES-6251
-    // private deviceProvider: DeviceProvider,
+    private deviceProvider: DeviceProvider,
     // public screenOrientation: ScreenOrientation,
     // public insomnia: Insomnia,
-    // TODO Reintroduce this after MES-6251
-    // public searchProvider: SearchProvider,
+    public searchProvider: SearchProvider,
   ) {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
@@ -138,11 +135,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map(getLastRefreshed),
         map(getLastRefreshedTime),
       ),
-      // TODO Reintroduce this after MES-6251
-      // appVersion$: this.store$.pipe(
-      //   select(getAppInfoState),
-      //   map(getVersionNumber),
-      // ),
+      appVersion$: this.store$.select(selectVersionNumber),
       // completedTests$: this.store$.pipe(
       //   select(getJournalState),
       //   select(getCompletedTests),
@@ -198,7 +191,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     if (super.isIos()) {
       // this.screenOrientation.unlock();
       // this.insomnia.allowSleepAgain();
-      // this.deviceProvider.disableSingleAppMode();
+      this.deviceProvider.disableSingleAppMode();
     }
   }
 
