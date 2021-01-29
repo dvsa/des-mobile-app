@@ -6,8 +6,7 @@ import { RouterModule } from '@angular/router';
 import { DateTimeProvider } from '../../app/providers/date-time/date-time';
 import { journalReducer } from './journal.reducer';
 import { JournalEffects } from './journal.effects';
-// TODO Re-introduce in MES-6242
-// import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
+import { SlotSelectorProvider } from '../../app/providers/slot-selector/slot-selector';
 import { SlotProvider } from '../../app/providers/slot/slot';
 import { JournalProvider } from '../../app/providers/journal/journal';
 import { JournalLogsEffects } from './journal.logs.effects';
@@ -24,8 +23,7 @@ import { JournalLogsEffects } from './journal.logs.effects';
   providers: [
     JournalProvider,
     SlotProvider,
-    // TODO Re-introduce in MES-6242
-    // SlotSelectorProvider,
+    SlotSelectorProvider,
     DateTimeProvider,
   ],
 })

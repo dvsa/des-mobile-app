@@ -29,7 +29,7 @@ export class SlotSelectorProvider {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const slotItem of slotItems) {
-      slotItem.component = this.resolveComponentName(); // slotItem
+      slotItem.component = this.resolveComponentName(slotItem);
     }
     return slotItems;
   };
@@ -66,7 +66,8 @@ export class SlotSelectorProvider {
 
   public isTestSlot = (slot: Slot) => has(slot, 'vehicleTypeCode');
 
-  private resolveComponentName = () => { // slot: SlotItem
+  private resolveComponentName = (slot: SlotItem) => {
+    console.log(slot);
     // const { slotData, personalCommitment } = slot;
 
     // if (!isEmpty(personalCommitment)) {

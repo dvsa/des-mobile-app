@@ -149,7 +149,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.merged$ = merge(
       selectedDate$.pipe(map(this.setSelectedDate)),
       // completedTests$.pipe(map(this.setCompletedTests)),
-      // slots$.pipe(map(this.createSlots)),
+      slots$.pipe(map(this.createSlots)),
       slots$.pipe(map((value) => console.log(JSON.stringify(value)))),
       error$.pipe(map(this.showError)),
       // isLoading$.pipe(map(this.handleLoadingUI)),
@@ -289,17 +289,17 @@ export class JournalPage extends BasePageComponent implements OnInit {
       //   (<PersonalCommitmentSlotComponent>componentRef.instance).personalCommitments = slot.personalCommitment;
       // }
 
-      if (componentRef.instance instanceof TestSlotComponent) {
-        const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
+      // if (componentRef.instance instanceof TestSlotComponent) {
+      const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
 
-        if (activityCode) {
-          (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
-          (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
-        }
+      // if (activityCode) {
+      (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
+      (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
+      // }
 
-        // if this is a test slot assign hasSeenCandidateDetails separately
-        (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
-      }
+      // if this is a test slot assign hasSeenCandidateDetails separately
+      (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
+      // }
     }
   };
 
