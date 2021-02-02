@@ -1,0 +1,14 @@
+<div class="vehicle-details-row">
+  <span padding-right>
+    <span>L: </span><span class="bold">{{ length }}</span>
+  </span>
+  <span padding-right>
+    <span>W: </span><span class="bold">{{ width }}</span>
+  </span>
+  <span padding-right>
+    <span>H: </span><span class="bold">{{ height }}</span>
+  </span>
+  <span padding-right>
+    <span *ngIf="showNumberOfSeats">Seats: </span><span class="bold">{{ seats }}</span>
+  </span>
+</div>

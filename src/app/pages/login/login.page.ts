@@ -149,7 +149,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
    * Check app is running on a supported device and navigate to app starting page
    */
   validateDeviceType = (): void => {
-    this.router.navigate(['dashboard']);
+    this.router.navigate([DASHBOARD_PAGE]);
   };
 
   async showErrorDetails() {

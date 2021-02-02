@@ -1,0 +1,48 @@
+<div float-right>
+  <ion-grid no-padding>
+    <ion-row align-items-right>
+      <ion-col *ngIf="showOutcome()">        
+        <span class="outcome">
+          <h2>{{activityCode}}</h2>
+        </span>
+      </ion-col>
+      <ion-col *ngIf="showRekeyButton(); else nonRekey">
+        <span>
+          <button class="mes-secondary-button mes-rekey-button" ion-button (click)="rekeyTest()" [disabled]="!canStartTest">
+            <h3 class="write-up-label">Rekey</h3>
+          </button>
+        </span>
+      </ion-col>
+      <ng-template #nonRekey>
+        <ion-col *ngIf="showDelegatedExaminerRekeyButton()">
+          <span>
+            <button class="mes-secondary-button mes-delegated-button" ion-button (click)="rekeyDelegatedTest()">
+              <h3 class="write-up-label">Rekey</h3>
+            </button>
+          </span>
+        </ion-col>
+        <ion-col *ngIf="showResumeButton()">
+          <span>
+            <button class="mes-secondary-button mes-warning-button" ion-button (click)="clickStartOrResumeTest()">
+              <h3 class="write-up-label">Resume</h3>
+            </button>
+          </span>
+        </ion-col>
+        <ion-col *ngIf="showStartTestButton()">
+          <span>
+            <button class="mes-primary-button" ion-button (click)="clickStartOrResumeTest()" [disabled]="!canStartTest">
+              <h3>Start test</h3>
+            </button>
+          </span>
+        </ion-col>
+        <ion-col *ngIf="showWriteUpButton()">
+          <span>
+            <button class="mes-secondary-button mes-warning-button" ion-button (click)="writeUpTest()">
+              <h3 class="write-up-label">Write-up</h3>
+            </button>
+          </span>
+        </ion-col>
+      </ng-template>
+    </ion-row>
+  </ion-grid>
+</div>

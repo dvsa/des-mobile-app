@@ -19,7 +19,6 @@ import { JournalProvider } from '../../app/providers/journal/journal';
 import { StoreModel } from '../../app/shared/models/store.model';
 import { getJournalState } from './journal.reducer';
 import { AppConfigProvider } from '../../app/providers/app-config/app-config';
-// import { SlotItem } from '../../providers/slot-selector/slot-item';
 import { SlotProvider } from '../../app/providers/slot/slot';
 import { JournalRefreshModes } from '../../app/providers/analytics/analytics.model';
 import {
@@ -40,7 +39,6 @@ import { SlotItem } from '../../app/providers/slot-selector/slot-item';
 // import { SaveLog } from '../logs/logs.actions';
 import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
-// import { LogType } from '../../shared/models/log.model';
 // import { SaveLog } from '../../modules/logs/logs.actions';
 import { LogHelper } from '../../app/providers/logs/logs-helper';
 // import { HttpStatusCodes } from '../../shared/models/http-status-codes';

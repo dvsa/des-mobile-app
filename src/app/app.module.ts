@@ -4,7 +4,6 @@ import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
@@ -50,7 +49,6 @@ import { JournalModule } from '../store/journal/journal.module';
     JournalModule,
   ],
   providers: [
-    StatusBar,
     SplashScreen,
     AppVersion,
     AppConfigProvider,
