@@ -148,7 +148,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
       selectedDate$.pipe(map(this.setSelectedDate)),
       // completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(map(this.createSlots)),
-      slots$.pipe(map((value) => console.log(JSON.stringify(value)))),
       error$.pipe(map(this.showError)),
       // isLoading$.pipe(map(this.handleLoadingUI)),
     );

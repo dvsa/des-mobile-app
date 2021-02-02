@@ -30,7 +30,7 @@ export class SlotSelectorProvider {
     return slotItems.map((slotItem) => {
       return {
         ...slotItem,
-        component: this.resolveComponentName(slotItem),
+        component: this.resolveComponentName(), // slotItem
       } as SlotItem;
     });
   };
@@ -67,8 +67,7 @@ export class SlotSelectorProvider {
 
   public isTestSlot = (slot: Slot) => has(slot, 'vehicleTypeCode');
 
-  private resolveComponentName = (slot: SlotItem) => {
-    console.log(slot);
+  private resolveComponentName = () => { // slot: SlotItem
     // const { slotData, personalCommitment } = slot;
 
     // if (!isEmpty(personalCommitment)) {

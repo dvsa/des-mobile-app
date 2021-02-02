@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import { LocationComponent } from '../location';
 
-xdescribe('LocationComponent', () => {
+describe('LocationComponent', () => {
   let component: LocationComponent;
   let fixture: ComponentFixture<LocationComponent>;
 
@@ -31,7 +31,7 @@ xdescribe('LocationComponent', () => {
       });
       it('should display a location icon', () => {
         const iconElement = fixture.debugElement.queryAll(
-          By.css('ion-icon[name="pin"]'),
+          By.css('ion-icon[name="location"]'),
         );
         fixture.detectChanges();
         expect(iconElement.length).toBe(1);
