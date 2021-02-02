@@ -4,18 +4,18 @@
   <ion-row class="slot-row align-center">
     <div class="slot-changed-indicator" [ngClass]="{ 'slot-changed': hasSlotChanged }"></div>
     <ion-grid>
-      <ion-row class="slot-header" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
-        <ion-col no-padding>
+      <ion-row class="slot-header" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}">
+        <ion-col class="no-padding">
           <language [welshLanguage]="slot.booking.application.welshTest">
           </language>
         </ion-col>
-        <ion-col no-padding>
+        <ion-col class="no-padding">
           <submission-status float-end></submission-status> <!-- [testStatus]="componentState.testStatus$ | async" -->
         </ion-col>
       </ion-row>
       <ion-row class="slot-main align-center">
         <ion-col class="time-exclamation-col">
-          <ion-grid no-padding>
+          <ion-grid class="no-padding">
             <ion-row class="align-center">
               <ion-col class="exclamation-col">
                 <indicators [showExclamationIndicator]="isIndicatorNeededForSlot()"> <!-- [testStatus]="componentState.testStatus$ | async" -->
@@ -41,8 +41,9 @@
             </ion-row>
           </ion-grid>
         </ion-col>
-        <ion-col class="test-outcome-col" no-padding padding-right>
+        <ion-col class="test-outcome-col">
           <test-outcome
+            class="align-center"
             [slotDetail]="slot.slotDetail"
             [canStartTest]="canStartTest()"
             [isDelegatedTest]="delegatedTest"

@@ -1,6 +1,9 @@
-div {
-  padding-left: 6px;
+div.welsh-language-indicator {
   display: flex;
+  position: relative;
+  top: 10px;
+  left: 20px;
+
   img {
     height: 19px;
     width: 30px;
@@ -14,6 +17,6 @@ div {
     }
   }
   .language-description {
-    padding-left: 6px;
+    padding-left: 10px;
   }
 }

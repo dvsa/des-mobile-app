@@ -28,7 +28,10 @@ ion-row {
   }
 }
 ion-col {
+  padding: 0;
+  
   &.time-exclamation-col {
+    padding-left: 8px;
     max-width: 152px;
     .text-zoom-large & {
       max-width: 172px;
@@ -63,6 +66,7 @@ ion-col {
     margin-top: -6px;
   }
   &.category-col {
+    padding-right: 8px;
     flex-grow: 0;
   }
 }
@@ -73,6 +77,10 @@ ion-col {
 }
 .slot-changed {
   background: var(--journalSlotChangeIdentifier);
+}
+
+.no-padding {
+  padding: 0;
 }
 
 .align-center {
