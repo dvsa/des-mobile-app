@@ -16,6 +16,7 @@ import {
   ActivityCode,
   SearchResultTestSchema,
 } from '@dvsa/mes-search-schema';
+import { async } from '@angular/core/testing';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { isEmpty } from 'lodash';
@@ -72,7 +73,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   pageState: JournalPageState;
   selectedDate: string;
-  // loadingSpinner: Loading;
+  loadingSpinner;
   pageRefresher: IonRefresher;
   isUnauthenticated: boolean;
   subscription: Subscription;
@@ -140,7 +141,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       selectedDate$,
       slots$,
       error$,
-      // isLoading$,
+      isLoading$,
       // completedTests$,
     } = this.pageState;
 
@@ -149,7 +150,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       // completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(map(this.createSlots)),
       error$.pipe(map(this.showError)),
-      // isLoading$.pipe(map(this.handleLoadingUI)),
+      isLoading$.pipe(map(async(this.handleLoadingUI))),
     );
 
   }
@@ -204,22 +205,23 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.completedTests = completedTests;
   };
 
-  // handleLoadingUI = (isLoading: boolean): void => {
-  //   if (isLoading) {
-  //     this.loadingSpinner = this.loadingController.create({
-  //       dismissOnPageChange: true,
-  //       spinner: 'circles',
-  //     });
-  //     this.loadingSpinner.present();
-  //     return;
-  //   }
-  //   this.pageRefresher ? this.pageRefresher.complete() : null;
-  //   if (this.loadingSpinner) {
-  //     this.loadingSpinner.dismiss();
-  //     this.loadingSpinner = null;
-  //   }
-  // }
+  // TODO test that spinner dismisses on page change
+  handleLoadingUI = async (isLoading: boolean): Promise<void> => {
+    if (isLoading) {
+      this.loadingSpinner = await this.loadingController.create({
+        spinner: 'circles',
+      });
+      await this.loadingSpinner.present();
+      return;
+    }
+    if (this.pageRefresher) this.pageRefresher.complete();
+    if (this.loadingSpinner) {
+      this.loadingSpinner.dismiss();
+      this.loadingSpinner = null;
+    }
+  };
 
+  // TODO visually check this to see whats going on when unblocked
   showError = (error: MesError): void => {
     if (error === undefined || error.message === '') return;
 
