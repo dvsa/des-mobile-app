@@ -39,6 +39,10 @@ ion-buttons[end] .button-inner{
   margin-bottom: 16px;
 }
 
+ion-list {
+  background-color: var(--ion-background-color);
+}
+
 .content-ios hr {
   height: 2px;
   background-color: #bdbdbd;

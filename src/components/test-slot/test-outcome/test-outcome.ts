@@ -121,9 +121,9 @@ export class TestOutcomeComponent implements OnInit {
     }
   }
 
-  /* showOutcome(): boolean {
-    return [TestStatus.Completed, TestStatus.Submitted].includes(this.testStatus);
-  } */
+  showOutcome(): boolean {
+    return false; // [TestStatus.Completed, TestStatus.Submitted].includes(this.testStatus);
+  }
 
   showRekeyButton(): boolean {
     /* if (this.testStatus === TestStatus.Completed || this.testStatus === TestStatus.Submitted) {

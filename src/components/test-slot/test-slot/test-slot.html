@@ -1,41 +1,41 @@
 <location *ngIf="showLocation" [location]="slot.testCentre.centreName">
 </location>
 <ion-card> <!-- [ngClass]="{'test-slot-portrait-mode': isPortrait()}"  -->
-<ion-row class="slot-row" align-items-center nowrap>
+  <ion-row class="slot-row align-center">
     <div class="slot-changed-indicator" [ngClass]="{ 'slot-changed': hasSlotChanged }"></div>
     <ion-grid>
       <ion-row class="slot-header" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
         <ion-col no-padding>
-          <language align-items-center [welshLanguage]="slot.booking.application.welshTest">
+          <language [welshLanguage]="slot.booking.application.welshTest">
           </language>
         </ion-col>
         <ion-col no-padding>
           <submission-status float-end></submission-status> <!-- [testStatus]="componentState.testStatus$ | async" -->
         </ion-col>
       </ion-row>
-      <ion-row class="slot-main" align-items-center>
+      <ion-row class="slot-main align-center">
         <ion-col class="time-exclamation-col">
           <ion-grid no-padding>
-            <ion-row align-items-center nowrap>
+            <ion-row class="align-center">
               <ion-col class="exclamation-col">
                 <indicators [showExclamationIndicator]="isIndicatorNeededForSlot()"> <!-- [testStatus]="componentState.testStatus$ | async" -->
                 </indicators>
               </ion-col>
-              <ion-col>
+              <ion-col class="align-center">
                 <time [time]="slot.slotDetail.start" [testComplete]="testComplete">
                 </time>
               </ion-col>
             </ion-row>
           </ion-grid>
         </ion-col>
-        <ion-col class="candidate-details-col" no-padding>
-          <ion-grid no-padding>
-            <ion-row align-items-center>
+        <ion-col  class="align-center">
+          <ion-grid>
+            <ion-row  class="align-center">
               <ion-col>
                 <ng-content *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate">
                 </ng-content>
               </ion-col>
-              <ion-col class="category-col">
+              <ion-col class="category-col align-center">
                 <test-category [category]="slot.booking.application.testCategory"></test-category>
               </ion-col>
             </ion-row>

@@ -1,84 +1,92 @@
-test-slot {
-  ion-card {
-    ion-grid {
-      height: 100%;
-    }
-  }
-  ion-row {
-    &.slot-row {
-      min-height: 108px;
-      position: relative;
-      &.test-slot-portrait-mode {
-        min-height:108px;
-      }
-    }
-    &.slot-header,
-    &.slot-footer {
-      min-height: 22px;
-      padding-right: 4px;
-      &.vehicle-details-displayed {
-        min-height: 34px;
-      }
-    }
-    &.slot-main {
-      min-height: 48px;
-    }
-  }
-  ion-col {
-    &.time-exclamation-col {
-      max-width: 152px;
-      .text-zoom-large & {
-        max-width: 172px;
-      }
-      .text-zoom-x-large & {
-        max-width: 192px;
-      }
-    }
-    &.exclamation-col {
-      max-width: 48px;
-    }
-    &.test-outcome-col {
-      max-width: 152px;
-      .text-zoom-large & {
-        max-width: 172px;
-      }
-      .text-zoom-x-large & {
-        max-width: 192px;
-      }
-    }
-    &.vehicle-details-col {
-      margin-top: -10px;
-      .text-zoom-large & {
-        padding-left: 20px;
-      }
-      .text-zoom-x-large & {
-        padding-left: 40px;
-      }
-    }
-    &.progressive-access-col {
-      max-width: 152px;
-      margin-top: -6px;
-    }
-    &.category-col {
-      flex-grow: 0;
-    }
-  }
-  .slot-changed-indicator {
-    position: absolute;
+ion-card {
+
+  margin: 15px 10px;
+
+  ion-grid {
     height: 100%;
-    width: 8px;
+    padding: 0;
   }
-  .slot-changed {
-    background: var(--journalSlotChangeIdentifier);
-  }
-
-  #del-ex-driver-number {
-    padding: 0px 10px;
-  }
-
-  #del-ex-date {
+}
+ion-row {
+  &.slot-row {
+    min-height: 108px;
     position: relative;
-    left: 125px;
-    bottom: 5px;
+    &.test-slot-portrait-mode {
+      min-height:108px;
+    }
   }
+  &.slot-header,
+  &.slot-footer {
+    min-height: 22px;
+    padding-right: 4px;
+    &.vehicle-details-displayed {
+      min-height: 34px;
+    }
+  }
+  &.slot-main {
+    min-height: 48px;
+  }
+}
+ion-col {
+  &.time-exclamation-col {
+    max-width: 152px;
+    .text-zoom-large & {
+      max-width: 172px;
+    }
+    .text-zoom-x-large & {
+      max-width: 192px;
+    }
+  }
+  &.exclamation-col {
+    max-width: 48px;
+  }
+  &.test-outcome-col {
+    max-width: 152px;
+    .text-zoom-large & {
+      max-width: 172px;
+    }
+    .text-zoom-x-large & {
+      max-width: 192px;
+    }
+  }
+  &.vehicle-details-col {
+    margin-top: -10px;
+    .text-zoom-large & {
+      padding-left: 20px;
+    }
+    .text-zoom-x-large & {
+      padding-left: 40px;
+    }
+  }
+  &.progressive-access-col {
+    max-width: 152px;
+    margin-top: -6px;
+  }
+  &.category-col {
+    flex-grow: 0;
+  }
+}
+.slot-changed-indicator {
+  position: absolute;
+  height: 100%;
+  width: 8px;
+}
+.slot-changed {
+  background: var(--journalSlotChangeIdentifier);
+}
+
+.align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#del-ex-driver-number {
+  padding: 0px 10px;
+}
+
+#del-ex-date {
+  position: relative;
+  left: 125px;
+  bottom: 5px;
 }
