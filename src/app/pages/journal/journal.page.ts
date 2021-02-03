@@ -214,9 +214,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
       await this.loadingSpinner.present();
       return;
     }
-    if (this.pageRefresher) this.pageRefresher.complete();
+    if (this.pageRefresher) await this.pageRefresher.complete();
     if (this.loadingSpinner) {
-      this.loadingSpinner.dismiss();
+      await this.loadingSpinner.dismiss();
       this.loadingSpinner = null;
     }
   };
