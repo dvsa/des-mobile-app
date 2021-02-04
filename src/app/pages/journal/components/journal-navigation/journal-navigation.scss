@@ -1,0 +1,38 @@
+> div {
+  margin: 12px 0 24px;
+}
+
+.navigation-button {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.next-navigation-button {
+  @extend .navigation-button;
+  float: right;
+}
+
+.navigation-arrow {
+  width: 40px;
+  height: 40px;
+  font-weight: bolder;
+  border-radius: 50%;
+  color: #000;
+  line-height: 48px;
+  text-align: center;
+  background: #fff;
+}
+
+#previous-day {
+  padding-left: 12px;
+}
+
+#next-day {
+  padding-right: 12px;
+}
+
+#date-container {
+  text-align: center;
+  white-space: nowrap;
+}

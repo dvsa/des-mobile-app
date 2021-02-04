@@ -9,20 +9,20 @@ import { JournalPage } from './journal.page';
 import { JournalProvider } from '../../providers/journal/journal';
 import { SlotProvider } from '../../providers/slot/slot';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
-// import { JournalComponentsModule } from './components/journal-components.module';
 // import { TestsEffects } from '../../modules/tests/tests.effects';
 import { TestSlotComponentsModule } from '../../../components/test-slot/test-slot-components.module';
 // import { ComponentsModule } from '../../components/common/common-components.module';
 // import { JournalAnalyticsEffects } from './journal.analytics.effects';
 
 import { JournalPageRoutingModule } from './journal-routing.module';
+import { JournalComponentsModule } from './components/journal-components.module';
 
 @NgModule({
   declarations: [
     JournalPage,
   ],
   imports: [
-    // JournalComponentsModule,
+    JournalComponentsModule,
     TestSlotComponentsModule,
     IonicModule,
     EffectsModule.forFeature([
