@@ -24,13 +24,13 @@ Run the following commands after cloning the project
 - `ionic cap copy ios`
 - `npm run copy-resources`
 
-#### Config
+### Config
 
 Run the following to switch between configurations
 - `npm run config:dev` (access dev services)
 - `npm run config:local`
 
-#### Running Application
+### Running Application
 
 - For simulator (this will open xcode where you can select your device and click play)
   - `ionic cap open ios`
@@ -39,11 +39,11 @@ Run the following to switch between configurations
 - For browser (open in default browser using local data)
   - `npm run serve:local`
 
-#### Accessing NGRX state
+### Accessing NGRX state
 
 - Browser: Open ReduxDevTools
 - Simulator: TBC
 
-#### Unit Test suite
+### Unit Test suite
 
 - `npm run test`
