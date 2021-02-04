@@ -8,7 +8,7 @@ import {
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Router } from '@angular/router';
@@ -16,7 +16,6 @@ import {
   ActivityCode,
   SearchResultTestSchema,
 } from '@dvsa/mes-search-schema';
-import { async } from '@angular/core/testing';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { isEmpty } from 'lodash';
@@ -150,7 +149,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       // completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(map(this.createSlots)),
       error$.pipe(map(this.showError)),
-      isLoading$.pipe(map(async(this.handleLoadingUI))),
+      isLoading$.pipe(mergeMap(async (r) => this.handleLoadingUI(r))),
     );
 
   }
@@ -212,13 +211,15 @@ export class JournalPage extends BasePageComponent implements OnInit {
         spinner: 'circles',
       });
       await this.loadingSpinner.present();
-      return;
+      // TODO: may need to be reintroduced at a later date
+      // return;
     }
     if (this.pageRefresher) await this.pageRefresher.complete();
     if (this.loadingSpinner) {
       await this.loadingSpinner.dismiss();
       this.loadingSpinner = null;
     }
+    return Promise.resolve();
   };
 
   // TODO visually check this to see whats going on when unblocked
