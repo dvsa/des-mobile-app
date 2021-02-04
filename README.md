@@ -6,7 +6,7 @@ DVSA Driving Examiner Application
 - Node
 - npm
 - Ionic CLI: `npm install -g ionic`
-- Capacitor `npm install @capacitor/core @capacitor/cli`
+- Capacitor `npm install @capacitor/core @capacitor/cli` May need to be installed globally (with sudo)
 - Cocoapods `brew install cocoapods`
 - Security
   - [Git secrets](https://github.com/awslabs/git-secrets)
@@ -17,22 +17,33 @@ DVSA Driving Examiner Application
 
 ### Get started
 
+Run the following commands after cloning the project
 - `npm i`
-- `npm run build`
-- `ionic capacitor add ios`
-- `ionic cap sync`todo
-- For simulator `ionic cap run ios -l --external` this will open xcode where you can select your device and click play
-- For browser `ionic serve`
+- `ionic build`
+- `ionic cap add ios`
+- `ionic cap copy ios`
+- `npm run copy-resources`
 
 #### Config
 
-- Environment file is currently configured for DES locally, needs to be replaced with app specific values and configured to use Mdm  
-- 
+Run the following to switch between configurations
+- `npm run config:dev` (access dev services)
+- `npm run config:local`
 
-#### Login
+#### Running Application
 
-- Function validateDeviceType() needs to check that the device its running on is supported
+- For simulator (this will open xcode where you can select your device and click play)
+  - `ionic cap open ios`
+  - OR
+  - `ionic cap run ios -l --external` 
+- For browser (open in default browser using local data)
+  - `npm run serve:local`
 
-#### Logout
+#### Accessing NGRX state
 
-- Function logout() in authentication.ts needs to reset state (if app will use a state manager)
+- Browser: Open ReduxDevTools
+- Simulator: TBC
+
+#### Unit Test suite
+
+- `npm run test`
