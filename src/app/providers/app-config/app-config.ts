@@ -180,11 +180,7 @@ export class AppConfigProvider {
 
     this.appInfoProvider.getMajorAndMinorVersionNumber()
       .then((version: string) => {
-        console.log('app version', version);
-
-        // TEMP: this temporary version is in here until we fix the app version provider
-        const tempVersion = '4.0';
-        const url = `${this.environmentFile.configUrl}?app_version=${tempVersion}`;
+        const url = `${this.environmentFile.configUrl}?app_version=${version}`;
         this.httpClient.get(url)
           .pipe(timeout(30000))
           .subscribe(
