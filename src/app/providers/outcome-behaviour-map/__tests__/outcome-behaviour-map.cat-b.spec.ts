@@ -224,7 +224,6 @@ describe('OutcomeBehaviourMapProvider', () => {
     });
 
     describe('outcome 21', () => {
-      // tslint:disable-next-line:max-line-length
       it('should return visibility Y for candidateDescription,additionalInformation,identification, weather and d255',
         () => {
           const candidate = outcomeBehaviourMapProvider.getVisibilityType('21', 'candidateDescription');

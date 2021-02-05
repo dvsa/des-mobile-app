@@ -4,6 +4,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { SlotSelectorProvider } from '../slot-selector';
 import { TestSlotComponent } from '../../../../components/test-slot/test-slot/test-slot';
 import { SlotItem } from '../slot-item';
+// TODO: reinstate when other journal slot components are being shifted mes-6320
 // import { ActivitySlotComponent } from '../../../pages/journal/components/activity-slot/activity-slot';
 // import { EmptySlotComponent } from '../../../pages/journal/components/empty-slot/empty-slot';
 import { Slot } from '../../../../store/journal/journal.model';
@@ -33,6 +34,7 @@ describe('Slot Selector', () => {
     return journalSlots;
   };
 
+  // TODO: reinstate when other journal slot components are being shifted mes-6320
   // const expectNonTestActivitySlotComponentResolvedForActivityCode = (code) => {
   //   const journalSlots = singleSlotItemWithActivityCode(code);
   //   const response = slotSelector.getSlotTypes(journalSlots);

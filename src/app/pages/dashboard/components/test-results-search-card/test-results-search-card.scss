@@ -42,7 +42,7 @@ button[clear] {
     }
 
     h3 {
-      color: var(--gds-grey-2); // var(--gds-dark-green);
+      color: var(--gds-grey-2); // TODO: revert colour when test result search is implemented - var(--gds-dark-green);
       .text-zoom-x-large & {
         line-height: 1.5em;
         white-space: normal;
@@ -55,7 +55,7 @@ button[clear] {
     align-items: center;
     height: 240px;
     padding: 24px;
-    background: var(--gds-grey-2); // var(--gds-dark-green);
+    background: var(--gds-grey-2); // TODO: revert colour when test result search is implemented - var(--gds-dark-green);
     width: 100%;
   }
 }

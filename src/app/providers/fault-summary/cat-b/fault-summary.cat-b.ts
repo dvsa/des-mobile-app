@@ -120,7 +120,6 @@ export class FaultSummaryCatBHelper {
     : FaultSummary[] {
     const faultsEncountered: FaultSummary[] = [];
 
-    // TODO: Replace any with Manoeuvres and change the transform function
     forOwn(manoeuvres, (manoeuvre: any, type: ManoeuvreTypes) => {
       const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
 

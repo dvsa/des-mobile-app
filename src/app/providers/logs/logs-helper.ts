@@ -1,6 +1,7 @@
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { merge } from 'rxjs';
+// TODO: reinstate after mes-6488
 // import { Device } from '@capacitor/core';
 import { Injectable } from '@angular/core';
 

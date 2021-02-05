@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+// TODO: reinstate when shifting end-to-end practice mode
 // import { FAKE_JOURNAL_PAGE } from '../../../page-names.constants';
 
 @Component({

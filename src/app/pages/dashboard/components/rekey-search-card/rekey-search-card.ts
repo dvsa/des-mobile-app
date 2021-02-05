@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+// TODO: reinstate when rekey search is implemented
 // import { REKEY_SEARCH_PAGE } from '../../../page-names.constants';
 
 @Component({

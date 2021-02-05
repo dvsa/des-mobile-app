@@ -28,6 +28,7 @@ import {
   CAT_HOME_TEST,
   CAT_CPC,
 } from '../../../app/pages/page-names.constants';
+// TODO: reintroduce during test outcome
 /* import { ModalEvent } from '../../../app/pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
 import {
   ModalEvent as EarlyStartModalEvent,

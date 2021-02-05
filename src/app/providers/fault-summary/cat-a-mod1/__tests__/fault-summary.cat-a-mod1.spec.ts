@@ -20,6 +20,7 @@ describe('FaultSummaryCatAM1Helper', () => {
 
   describe('matchCompetenciesIncludingComments', () => {
     it('should match competencies with its corresponding comments', () => {
+      // TODO: fix failing tests
       // const { singleFaultCompetencies } = catAM1TestDataStateObject;
       /* const expected = {
         slowControl: CompetencyOutcome.S,

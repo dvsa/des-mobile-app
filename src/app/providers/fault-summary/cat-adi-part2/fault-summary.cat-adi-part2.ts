@@ -192,6 +192,7 @@ export class FaultSummaryCatAdiPart2Helper {
         if (!manoeuvre.selected) {
           faults = [];
         } else {
+          // TODO: fix typescript issue (related to all imports & params above)
           /*
           faults = transform<Manoeuvre, FaultSummary>(manoeuvre as any, (result, value, key: string) => {
             if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {

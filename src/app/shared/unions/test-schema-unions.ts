@@ -18,7 +18,6 @@ import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 
-// Vehicle Details
 export type VehicleDetailsUnion =
   | CatBEUniqueTypes.VehicleDetails
   | CatCUniqueTypes.VehicleDetails
@@ -30,7 +29,6 @@ export type VehicleDetailsUnion =
   | CatDEUniqueTypes.VehicleDetails
   | CatD1EUniqueTypes.VehicleDetails;
 
-// Vehicle CHecks
 export type VehicleChecksUnion =
   | CatFUniqueTypes.VehicleChecks
   | CatGUniqueTypes.VehicleChecks
@@ -55,7 +53,6 @@ export type CatHomeTestVehicleChecks =
   | CatHUniqueTypes.VehicleChecks
   | CatKUniqueTypes.VehicleChecks;
 
-// Controlled Stop
 export type ControlledStopUnion =
   | CatADI2UniqueTypes.ControlledStop
   | CatBUniqueTypes.ControlledStop
@@ -64,14 +61,12 @@ export type ControlledStopUnion =
   | CatHUniqueTypes.ControlledStop
   | CatKUniqueTypes.ControlledStop;
 
-// Highway Code
 export type HighwayCodeSafetyUnion =
   | CatFUniqueTypes.HighwayCodeSafety
   | CatGUniqueTypes.HighwayCodeSafety
   | CatHUniqueTypes.HighwayCodeSafety
   | CatKUniqueTypes.HighwayCodeSafety;
 
-// Manoeuvres
 export type CatCManoeuvres =
   | CatCUniqueTypes.Manoeuvres
   | CatC1UniqueTypes.Manoeuvres
@@ -103,7 +98,6 @@ export type ManoeuvreUnion =
   | CatGUniqueTypes.Manoeuvres
   | CatHUniqueTypes.Manoeuvres;
 
-// Test Requirements
 export type CatCTestRequirements =
   | CatCUniqueTypes.TestRequirements
   | CatC1UniqueTypes.TestRequirements
@@ -122,7 +116,6 @@ export type HomeTestRequirements =
   | CatHUniqueTypes.TestRequirements
   | CatKUniqueTypes.TestRequirements;
 
-// Test Data
 export type TestDataUnion =
   | CatBUniqueTypes.TestData
   | CatBEUniqueTypes.TestData

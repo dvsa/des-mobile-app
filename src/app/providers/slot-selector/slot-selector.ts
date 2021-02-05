@@ -6,6 +6,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotItem } from './slot-item';
 import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 import { Slot } from '../../../store/journal/journal.model';
+// TODO: reinstate when other journal slot components are being shifted mes-6320
 // import { ActivitySlotComponent } from '../../pages/journal/components/activity-slot/activity-slot';
 // import { EmptySlotComponent } from '../../pages/journal/components/empty-slot/empty-slot';
 // import { PersonalCommitmentSlotComponent } from '../../pages/journal/personal-commitment/personal-commitment';
@@ -68,6 +69,7 @@ export class SlotSelectorProvider {
   public isTestSlot = (slot: Slot) => has(slot, 'vehicleTypeCode');
 
   private resolveComponentName = () => { // slot: SlotItem
+    // TODO: reinstate when other journal slot components are being shifted mes-6320
     // const { slotData, personalCommitment } = slot;
 
     // if (!isEmpty(personalCommitment)) {

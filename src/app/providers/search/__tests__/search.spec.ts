@@ -57,7 +57,6 @@ describe('SearchProvider', () => {
       searchProvider.advancedSearch(params).subscribe();
 
       httpMock.expectOne(
-        // tslint:disable-next-line:max-line-length
         'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc',
       );
     });

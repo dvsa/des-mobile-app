@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+// TODO: reinstate when test results search is implemented
 // import { TEST_RESULTS_SEARCH_PAGE } from '../../../page-names.constants';
 
 @Component({
