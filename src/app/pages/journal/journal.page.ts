@@ -163,7 +163,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   ionViewWillEnter() {
     this.loadJournalManually();
-    // this.setupPolling();
+    this.setupPolling();
 
     // this.store$.dispatch(new journalActions.LoadCompletedTests());
     if (this.merged$) {
