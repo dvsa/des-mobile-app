@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 // import { startsWith } from 'lodash';
 // import { end2endPracticeSlotId } from '../../../shared/mocks/test-slot-ids.mock';
 import { AppComponent } from '../../../app/app.component';
-// import { CANDIDATE_DETAILS_PAGE, FAKE_CANDIDATE_DETAILS_PAGE } from '../../../app/pages/page-names.constants';
+import { CANDIDATE_DETAILS_PAGE } from '../../../app/pages/page-names.constants';
 
 @Component({
   selector: 'candidate-link',
@@ -30,8 +30,8 @@ export class CandidateLinkComponent {
   constructor(public modalController: ModalController, private app: AppComponent) {
   }
 
-  openCandidateDetailsModal() {
-    // let pageToOpen = CANDIDATE_DETAILS_PAGE;
+  async openCandidateDetailsModal() {
+    const pageToOpen = CANDIDATE_DETAILS_PAGE;
 
     /* if (startsWith(this.slot.slotDetail.slotId.toString(), end2endPracticeSlotId)) {
       pageToOpen = FAKE_CANDIDATE_DETAILS_PAGE;
@@ -39,12 +39,15 @@ export class CandidateLinkComponent {
 
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
-    /* const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
-    const profileModal = this.modalController.create(
-      pageToOpen,
-      { slot: this.slot, slotChanged: this.slotChanged },
-      { cssClass: zoomClass },
-    );
-    profileModal.present(); */
+    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const profileModal = await this.modalController.create({
+      component: pageToOpen,
+      cssClass: zoomClass,
+      componentProps: {
+        slot: this.slot,
+        slotChanged: this.slotChanged,
+      },
+    });
+    await profileModal.present();
   }
 }
