@@ -29,7 +29,7 @@ import { JournalRefreshModes } from '../../../app/providers/analytics/analytics.
 // import journalSlotsDataMock from '../../../app/providers/journal/__mocks__/journal-slots-data.mock';
 import { AppConfig } from '../../../app/providers/app-config/app-config.model';
 
-fdescribe('Journal Effects', () => {
+describe('Journal Effects', () => {
 
   let effects: JournalEffects;
   let actions$: any;
