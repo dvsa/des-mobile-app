@@ -14,6 +14,9 @@ import { LoadAppVersion } from '../store/app-info/app-info.actions';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
+  textZoom: number = 100;
+
   constructor(
     private store$: Store<StoreModel>,
     private platform: Platform,
@@ -28,6 +31,17 @@ export class AppComponent {
       this.splashScreen.hide();
       await this.configureStatusBar();
     });
+  }
+
+  public getTextZoom(zoom: number): string {
+    if (!zoom) return 'regular';
+    if (zoom >= 131) return 'x-large';
+    if (zoom >= 106) return 'large';
+    return 'regular';
+  }
+
+  public getTextZoomClass(): string {
+    return `text-zoom-${this.getTextZoom(this.textZoom)}`;
   }
 
   configureStatusBar = async (): Promise<void> => {
