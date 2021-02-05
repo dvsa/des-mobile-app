@@ -13,6 +13,7 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { StoreModel } from '../../shared/models/store.model';
 import { DateTime } from '../../shared/helpers/date-time';
 import { LOGIN_PAGE } from '../page-names.constants';
+import { LogHelper } from '../../providers/logs/logs-helper';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -32,15 +33,16 @@ export class DashboardPage extends LogoutBasePageComponent {
   role: string;
 
   constructor(
+    protected platform: Platform,
+    protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
+    protected router: Router,
+    protected logHelper: LogHelper,
+    protected store$: Store<StoreModel>,
     private appConfigProvider: AppConfigProvider,
-    private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
-    authenticationProvider: AuthenticationProvider,
-    platform: Platform,
-    router: Router,
   ) {
-    super(platform, authenticationProvider, alertController, router);
+    super(platform, authenticationProvider, alertController, router, logHelper, store$);
     this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
     this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
     this.todaysDate = this.dateTimeProvider.now();

@@ -6,6 +6,7 @@ import { LOGIN_PAGE } from '../../pages/page-names.constants';
 import { SaveLog } from '../../../store/logs/logs.actions';
 import { LogType } from '../models/log.model';
 import { LogHelper } from '../../providers/logs/logs-helper';
+import { StoreModel } from '../models/store.model';
 
 export abstract class BasePageComponent {
 
@@ -13,8 +14,8 @@ export abstract class BasePageComponent {
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
-    private store$: Store,
-    private logHelper: LogHelper,
+    protected store$: Store<StoreModel>,
+    protected logHelper: LogHelper,
   ) {
 
   }

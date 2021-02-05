@@ -47,6 +47,7 @@ import { MesError } from '../../shared/models/mes-error.model';
 import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
+import { LogHelper } from '../../providers/logs/logs-helper';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -83,13 +84,14 @@ export class JournalPage extends BasePageComponent implements OnInit {
   completedTests: SearchResultTestSchema[];
 
   constructor(
+    protected platform: Platform,
+    protected router: Router,
+    protected authenticationProvider: AuthenticationProvider,
+    protected store$: Store<StoreModel>,
+    protected logHelper: LogHelper,
     public modalController: ModalController,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
     public navParams: NavParams,
     public loadingController: LoadingController,
-    public router: Router,
-    private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
     private resolver: ComponentFactoryResolver,
     public dateTimeProvider: DateTimeProvider,
@@ -99,7 +101,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     // public screenOrientation: ScreenOrientation,
     // public insomnia: Insomnia,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, router, store$, logHelper);
     this.employeeId = this.authenticationProvider.getEmployeeId();
     this.isUnauthenticated = this.authenticationProvider.isInUnAuthenticatedMode();
     this.store$.dispatch(journalActions.SetSelectedDate({ payload: this.dateTimeProvider.now().format('YYYY-MM-DD') }));

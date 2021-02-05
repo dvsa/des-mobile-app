@@ -15,6 +15,7 @@ import { LoadConfigSuccess, LoadEmployeeName } from '../../../store/app-info/app
 import { StoreModel } from '../../shared/models/store.model';
 import { StartSendingLogs } from '../../../store/logs/logs.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
+import { LogHelper } from '../../providers/logs/logs-helper';
 
 @Component({
   selector: 'app-login',
@@ -28,10 +29,11 @@ export class LoginPage extends BasePageComponent implements OnInit {
   hasDeviceTypeError = false;
 
   constructor(
-    platform: Platform,
-    authenticationProvider: AuthenticationProvider,
-    router: Router,
-    private store$: Store<StoreModel>,
+    protected platform: Platform,
+    protected authenticationProvider: AuthenticationProvider,
+    protected router: Router,
+    protected store$: Store<StoreModel>,
+    protected logHelper: LogHelper,
     private loadingController: LoadingController,
     private alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
@@ -40,7 +42,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     private networkStateProvider: NetworkStateProvider,
     private route: ActivatedRoute,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, router, store$, logHelper);
   }
 
   ngOnInit(): void {

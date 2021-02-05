@@ -1,7 +1,10 @@
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { BasePageComponent } from './base-page';
+import { LogHelper } from '../../providers/logs/logs-helper';
+import { StoreModel } from '../models/store.model';
 
 export abstract class LogoutBasePageComponent extends BasePageComponent {
 
@@ -9,9 +12,11 @@ export abstract class LogoutBasePageComponent extends BasePageComponent {
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
-    router: Router,
+    protected router: Router,
+    protected logHelper: LogHelper,
+    protected store$: Store<StoreModel>,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, router, store$, logHelper);
   }
 
   async openLogoutModal() {
