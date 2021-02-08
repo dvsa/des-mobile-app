@@ -1,7 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
+import { Store } from '@ngrx/store';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Details } from './candidate-details.page.model';
+import { StoreModel } from '../../shared/models/store.model';
+import {
+  getBusiness,
+  getCandidateName,
+  getDetails,
+  getTime,
+} from '../../../store/candidate-details/candidate-details.selector';
 
 interface CandidateDetailsPageState {
   name: string;
@@ -19,12 +28,48 @@ export class CandidateDetailsPage implements OnInit {
   pageState: CandidateDetailsPageState;
   slot: TestSlot;
   slotChanged: boolean = false;
+  testCategory: TestCategory = null;
 
   constructor(
     public modalController: ModalController,
-  ) { }
+    public navParams: NavParams,
+    private store$: Store<StoreModel>,
+  ) {
+    this.slot = navParams.get('slot');
+    this.slotChanged = navParams.get('slotChanged');
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    console.log('slot', this.slot);
+    console.log('slotChanged', this.slotChanged);
+
+    // this.store$.dispatch(new ClearChangedSlot(this.slot.slotDetail.slotId));
+
+    this.pageState = {
+      name: getCandidateName(this.slot),
+      time: getTime(this.slot),
+      details: getDetails(this.slot),
+      business: getBusiness(this.slot),
+    };
+
+    this.testCategory = this.pageState.details.testCategory as TestCategory;
+
+    console.log('pageState', this.pageState);
+    console.log('testCategory', this.testCategory);
+
+    if (this.slotChanged) {
+      // this.store$.dispatch(new CandidateDetailsSlotChangeViewed(this.slot.slotDetail.slotId));
+    }
+    // this.store$.dispatch(new ClearChangedSlot(this.slot.slotDetail.slotId));
+  }
+
+  ionViewDidEnter(): void {
+    // this.store$.dispatch(new CandidateDetailsViewDidEnter(this.slot));
+    // this.store$.dispatch(new CandidateDetailsSeen(this.slot.slotDetail.slotId));
+  }
+
+  public specialNeedsIsPopulated(specialNeeds: string | string[]): boolean {
+    return Array.isArray(specialNeeds);
   }
 
   dismiss() {
