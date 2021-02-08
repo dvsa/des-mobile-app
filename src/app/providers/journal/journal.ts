@@ -83,9 +83,7 @@ export class JournalProvider {
    * routine to save the retrieved journal data
    * only saves the data if we have retrieved the data
    * while online
-   * @returns Observable
    */
-
   saveJournalForOffline = (journalData: ExaminerWorkSchedule) => {
     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE) {
       const journalDataToStore: JournalCache = {
