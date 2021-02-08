@@ -5,20 +5,17 @@ import { DeviceAuthenticationProvider } from '../device-authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfig } from '../../app-config/app-config.model';
+import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
 
 describe('Device Authentication Provider', () => {
 
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
-  const platformMock = {
-    is: () => false,
-    ready: () => Promise.resolve(),
-  };
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       providers: [
         DeviceAuthenticationProvider,
-        { provide: Platform, useValue: platformMock },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
