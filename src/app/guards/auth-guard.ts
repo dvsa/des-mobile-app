@@ -13,10 +13,10 @@ export class AuthGuard implements CanActivate {
   }
 
   async canActivate(): Promise<boolean> {
-    if (this.isIos()) {
-      return Promise.resolve(true);
+    if (await this.isIos()) {
+      return this.authenticationProvider.isAuthenticated();
     }
-    return this.authenticationProvider.isAuthenticated();
+    return Promise.resolve(true);
   }
 
   async isIos(): Promise<boolean> {

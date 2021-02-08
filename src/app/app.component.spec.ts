@@ -8,6 +8,7 @@ import { Plugins } from '@capacitor/core';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  jasmine.getEnv().allowRespy(true);
 
   let splashScreenSpy;
   let platformReadySpy;
