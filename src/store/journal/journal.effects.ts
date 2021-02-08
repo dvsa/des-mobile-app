@@ -5,7 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith,
   // tap,
-  concatMap,
+  concatMap, tap,
 } from 'rxjs/operators';
 import { of, Observable, interval } from 'rxjs';
 // import { groupBy } from 'lodash';
@@ -91,8 +91,7 @@ export class JournalEffects {
         return this.journalProvider
           .getJournal(lastRefreshed)
           .pipe(
-            // TODO: Reinstate when implementing offline functionality
-            // tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
+            tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
             map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
               examiner: journalData.examiner as Required<Examiner>,
               slotItems: this.slotProvider.detectSlotChanges(slots, journalData),
