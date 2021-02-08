@@ -1,0 +1,14 @@
+<ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
+    <ion-col col-40>
+      <label>{{ label }}</label>
+      <img
+        alt="Exclamation Indicator"
+        src="assets/imgs/journal/exclamation-indicator.png"
+        class="exclamation-indicator"
+        *ngIf="shouldShowIndicator"
+      />
+    </ion-col>
+    <ion-col col-56>
+      <ng-content></ng-content>
+    </ion-col>
+  </ion-row>

@@ -5,13 +5,17 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CandidateDetailsPage } from './candidate-details.page';
+import { ComponentsModule } from '../../../components/common/common-components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
   ],
-  declarations: [CandidateDetailsPage],
+  declarations: [
+    CandidateDetailsPage,
+  ],
 })
 export class CandidateDetailsPageModule {}

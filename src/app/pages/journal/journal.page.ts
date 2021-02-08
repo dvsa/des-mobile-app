@@ -29,7 +29,7 @@ import {
 } from '../../../store/journal/journal.selector';
 import { getJournalState } from '../../../store/journal/journal.reducer';
 import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
-import { SlotComponent } from '../../components/test-slot/slot/slot';
+import { SlotComponent } from '../../../components/test-slot/slot/slot';
 import { SlotItem } from '../../providers/slot-selector/slot-item';
 // TODO Reintroduce this after MES-6419
 import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';

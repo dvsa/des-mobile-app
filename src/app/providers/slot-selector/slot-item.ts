@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestSlot, NonTestActivity, PersonalCommitment } from '@dvsa/mes-journal-schema';
-import { SlotComponent } from '../../components/test-slot/slot/slot';
+import { SlotComponent } from '../../../components/test-slot/slot/slot';
 
 export class SlotItem {
   constructor(
