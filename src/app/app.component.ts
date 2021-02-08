@@ -32,9 +32,10 @@ export class AppComponent {
 
   configureStatusBar = async (): Promise<void> => {
     if (Capacitor.isPluginAvailable('StatusBar')) {
-      await Plugins.StatusBar.setStyle({
-        style: StatusBarStyle.Dark,
-      });
+      const { StatusBar } = Plugins;
+      await StatusBar.setStyle({ style: StatusBarStyle.Dark });
+      await StatusBar.setOverlaysWebView({ overlay: false });
+      await StatusBar.setBackgroundColor({ color: '#000000' });
     }
   };
 }
