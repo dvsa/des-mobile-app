@@ -1,0 +1,12 @@
+<div class="container">
+  <div>
+    <h2 class="error-message">Sorry, something went wrong</h2>
+    <div>
+      <div class="link error-details-link" (click)="goBack()">
+        Return to {{redirectLinkText}}
+      </div>
+      <h3 class="error-details" *ngIf="additionalText">{{additionalText}}</h3>
+    </div>
+    <h3 class="additional-error-details" *ngIf="adviceToUsePaperTest">Use the paper form if the problem persists.</h3>
+  </div>
+</div>

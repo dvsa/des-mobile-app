@@ -224,7 +224,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   // TODO visually check this to see whats going on when unblocked
   showError = (error: MesError): void => {
-    if (error === undefined || error.message === '') return;
+    console.log(error);
+    // if (error === undefined || error.message === '') return;
 
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.

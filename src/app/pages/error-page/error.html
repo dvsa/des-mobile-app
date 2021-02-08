@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="openLogoutModal()">
+        <span>Logout</span>
+      </button>
+    </ion-buttons>
+    <ion-title>Driving Examiner Services</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <error-message class="error" returnTo="{{errorType}}" (exitModal)="goBack()">
+  </error-message>
+</ion-content>
