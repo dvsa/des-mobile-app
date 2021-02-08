@@ -64,6 +64,7 @@
     "@ngx-translate/core": "^13.0.0",
     "cordova-ios": "5.1.1",
     "cordova-plugin-app-version": "^0.1.12",
+    "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
     "cordova-plugin-emm-app-config": "^1.0.2",
     "cordova-plugin-is-debug": "^1.0.0",
     "cordova-plugin-network-information": "^2.0.2",
