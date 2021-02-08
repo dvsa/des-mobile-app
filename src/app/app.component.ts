@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Plugins, StatusBarStyle } from '@capacitor/core';
+import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -26,13 +26,15 @@ export class AppComponent {
     this.platform.ready().then(async () => {
       this.store$.dispatch(LoadAppVersion());
       this.splashScreen.hide();
-      this.configureStatusBar();
+      await this.configureStatusBar();
     });
   }
 
-  configureStatusBar() {
-    Plugins.StatusBar.setStyle({
-      style: StatusBarStyle.Dark,
-    });
-  }
+  configureStatusBar = async (): Promise<void> => {
+    if (Capacitor.isPluginAvailable('StatusBar')) {
+      await Plugins.StatusBar.setStyle({
+        style: StatusBarStyle.Dark,
+      });
+    }
+  };
 }
