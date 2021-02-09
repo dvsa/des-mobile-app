@@ -35,16 +35,16 @@ export class CandidateDetailsPage implements OnInit {
   constructor(
     public modalController: ModalController,
     public navParams: NavParams,
-    private store$: Store<StoreModel>,
+    public store$: Store<StoreModel>,
   ) {
-    this.slot = navParams.get('slot');
-    this.slotChanged = navParams.get('slotChanged');
   }
 
   ngOnInit(): void {
-
+    this.slot = this.navParams.get('slot');
+    this.slotChanged = this.navParams.get('slotChanged');
     this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
 
+    console.log('this.slot', this.slot);
     this.pageState = {
       name: getCandidateName(this.slot),
       time: getTime(this.slot),
