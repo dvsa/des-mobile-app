@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Details } from './candidate-details.page.model';
 import { StoreModel } from '../../shared/models/store.model';
+import * as journalActions from '../../../store/journal/journal.actions';
+import * as candidateDetailActions from '../../../store/candidate-details/candidate-details.actions';
 import {
   getBusiness,
   getCandidateName,
@@ -40,10 +42,8 @@ export class CandidateDetailsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('slot', this.slot);
-    console.log('slotChanged', this.slotChanged);
 
-    // this.store$.dispatch(new ClearChangedSlot(this.slot.slotDetail.slotId));
+    this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
 
     this.pageState = {
       name: getCandidateName(this.slot),
@@ -54,18 +54,17 @@ export class CandidateDetailsPage implements OnInit {
 
     this.testCategory = this.pageState.details.testCategory as TestCategory;
 
-    console.log('pageState', this.pageState);
-    console.log('testCategory', this.testCategory);
-
     if (this.slotChanged) {
-      // this.store$.dispatch(new CandidateDetailsSlotChangeViewed(this.slot.slotDetail.slotId));
+      this.store$.dispatch(candidateDetailActions.CandidateDetailsSlotChangeViewed(
+        { slotId: this.slot.slotDetail.slotId },
+      ));
     }
-    // this.store$.dispatch(new ClearChangedSlot(this.slot.slotDetail.slotId));
+    this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
   }
 
   ionViewDidEnter(): void {
-    // this.store$.dispatch(new CandidateDetailsViewDidEnter(this.slot));
-    // this.store$.dispatch(new CandidateDetailsSeen(this.slot.slotDetail.slotId));
+    this.store$.dispatch(candidateDetailActions.CandidateDetailsViewDidEnter({ slot: this.slot }));
+    this.store$.dispatch(journalActions.CandidateDetailsSeen({ slotId: this.slot.slotDetail.slotId }));
   }
 
   public specialNeedsIsPopulated(specialNeeds: string | string[]): boolean {
