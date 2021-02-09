@@ -10,18 +10,17 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
     <ion-grid>
         <ion-row>
-            <ion-col>
+            <ion-col size="10">
                 <h2>
                     {{ pageState.name }}
                 </h2>
             </ion-col>
-            <ion-col col-12>
+            <ion-col size="2">
                 <h2 class="test-start-time">
-                    {{ pageState.time }}
-<!--                    | date: "HH:mm"-->
+                    {{ pageState.time | date: "HH:mm"}}
                 </h2>
             </ion-col>
         </ion-row>
@@ -29,85 +28,86 @@
 
     <ion-card>
         <ion-card-header>
-            <h4>Candidate details</h4>
+            <h4 class="ion-padding-start">Candidate details</h4>
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content class="ion-padding">
             <ion-grid>
                 <data-row [label]="'Test category'" [value]="pageState.details.testCategory"></data-row>
-<!--                <data-row-->
-<!--                        [label]="'Slot type'"-->
-<!--                        [value]="pageState.details.slotType"-->
-<!--                        [shouldShowIndicator]="pageState.details.slotType !== 'Standard Test'">-->
-<!--                </data-row>-->
-<!--                <data-row-->
-<!--                        *ngIf="pageState.details.meetingPlace"-->
-<!--                        id="meetingPlace"-->
-<!--                        [label]="'Meeting place'"-->
-<!--                        [value]="pageState.details.meetingPlace">-->
-<!--                </data-row>-->
-<!--                <data-row [label]="'Driver number'" [value]="pageState.details.driverNumber"></data-row>-->
-<!--                <data-row [label]="'Application number'" [value]="pageState.details.applicationRef"></data-row>-->
-<!--                <data-row-custom [label]="'Special requirements'" [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)">-->
-<!--                    <div class="mes-data" *ngIf="!specialNeedsIsPopulated(pageState.details.specialNeeds)">-->
-<!--                        {{pageState.details.specialNeeds}}-->
-<!--                    </div>-->
-<!--                    <div *ngIf="specialNeedsIsPopulated(pageState.details.specialNeeds)">-->
-<!--                        <div *ngFor="let specialNeed of pageState.details.specialNeeds" class="mes-data">- -->
-<!--                            {{specialNeed}}</div>-->
-<!--                    </div>-->
-<!--                </data-row-custom>-->
-<!--                <data-row-->
-<!--                        [label]="'Entitlement check'"-->
-<!--                        [value]="'Entitlement check is required.'"-->
-<!--                        [shouldShowIndicator]="true"-->
-<!--                        *ngIf="pageState.details.entitlementCheck.show">-->
-<!--                </data-row>-->
-<!--                <data-row-custom [label]="'Additional information'" [shouldHaveSeperator]="false">-->
-<!--                    <div class="mes-data" *ngIf="pageState.details.candidateComments.isSectionEmpty">-->
-<!--                        None-->
-<!--                    </div>-->
-<!--                    <div *ngIf="!pageState.details.candidateComments.isSectionEmpty">-->
-<!--                        <div *ngIf="pageState.details.candidateComments.previousCancellations?.length > 0">-->
-<!--                            <div class="mes-data">Previous cancellations</div>-->
-<!--                            <div *ngFor="let previousCancellation of pageState.details.candidateComments.previousCancellations"-->
-<!--                                 class="mes-data">-->
-<!--                                - {{previousCancellation}}-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </data-row-custom>-->
+                <data-row
+                        [label]="'Slot type'"
+                        [value]="pageState.details.slotType"
+                        [shouldShowIndicator]="pageState.details.slotType !== 'Standard Test'">
+                </data-row>
+                <data-row
+                        *ngIf="pageState.details.meetingPlace"
+                        id="meetingPlace"
+                        [label]="'Meeting place'"
+                        [value]="pageState.details.meetingPlace">
+                </data-row>
+                <data-row [label]="'Driver number'" [value]="pageState.details.driverNumber"></data-row>
+                <data-row [label]="'Application number'" [value]="pageState.details.applicationRef"></data-row>
+                <data-row-custom [label]="'Special requirements'"
+                                 [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)">
+                    <div class="mes-data" *ngIf="!specialNeedsIsPopulated(pageState.details.specialNeeds)">
+                        {{pageState.details.specialNeeds}}
+                    </div>
+                    <div *ngIf="specialNeedsIsPopulated(pageState.details.specialNeeds)">
+                        <div *ngFor="let specialNeed of pageState.details.specialNeeds" class="mes-data">-
+                            {{specialNeed}}</div>
+                    </div>
+                </data-row-custom>
+                <data-row
+                        [label]="'Entitlement check'"
+                        [value]="'Entitlement check is required.'"
+                        [shouldShowIndicator]="true"
+                        *ngIf="pageState.details.entitlementCheck.show">
+                </data-row>
+                <data-row-custom [label]="'Additional information'" [shouldHaveSeperator]="false">
+                    <div class="mes-data" *ngIf="pageState.details.candidateComments.isSectionEmpty">
+                        None
+                    </div>
+                    <div *ngIf="!pageState.details.candidateComments.isSectionEmpty">
+                        <div *ngIf="pageState.details.candidateComments.previousCancellations?.length > 0">
+                            <div class="mes-data">Previous cancellations</div>
+                            <div *ngFor="let previousCancellation of pageState.details.candidateComments.previousCancellations"
+                                 class="mes-data">
+                                - {{previousCancellation}}
+                            </div>
+                        </div>
+                    </div>
+                </data-row-custom>
             </ion-grid>
         </ion-card-content>
     </ion-card>
-<!--    <ion-card>-->
-<!--        <ion-card-header>-->
-<!--            <h4>Contact details</h4>-->
-<!--        </ion-card-header>-->
-<!--        <ion-card-content>-->
-<!--            <ion-grid>-->
-<!--                <data-row [label]="'Phone number'" [value]="pageState.details.phoneNumber"></data-row>-->
-<!--                <data-row [label]="'Email'" [value]="pageState.details.email"></data-row>-->
-<!--                <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">-->
-<!--                    <display-address [address]="pageState.details.address"></display-address>-->
-<!--                </data-row-custom>-->
-<!--            </ion-grid>-->
-<!--        </ion-card-content>-->
-<!--    </ion-card>-->
-<!--    <ion-card *ngIf="pageState.business">-->
-<!--        <ion-card-header>-->
-<!--            <h4>Business contact details</h4>-->
-<!--        </ion-card-header>-->
-<!--        <ion-card-content>-->
-<!--            <ion-grid>-->
-<!--                <data-row *ngIf="pageState.business.businessName" [label]="'Business name'"-->
-<!--                          [value]="pageState.business.businessName">-->
-<!--                </data-row>-->
-<!--                <data-row *ngIf="pageState.business.telephone" [label]="'Phone number'" [value]="pageState.business.telephone">-->
-<!--                </data-row>-->
-<!--                <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false" *ngIf="pageState.business.businessAddress">-->
-<!--                    <display-address [address]="pageState.business.businessAddress"></display-address>-->
-<!--                </data-row-custom>-->
-<!--            </ion-grid>-->
-<!--        </ion-card-content>-->
-<!--    </ion-card>-->
+    <ion-card>
+        <ion-card-header>
+            <h4 class="ion-padding-start">Contact details</h4>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid>
+                <data-row [label]="'Phone number'" [value]="pageState.details.phoneNumber"></data-row>
+                <data-row [label]="'Email'" [value]="pageState.details.email"></data-row>
+                <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
+                    <display-address [address]="pageState.details.address"></display-address>
+                </data-row-custom>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="pageState.business">
+        <ion-card-header>
+            <h4 class="ion-padding-start">Business contact details</h4>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-grid>
+                <data-row *ngIf="pageState.business.businessName" [label]="'Business name'"
+                          [value]="pageState.business.businessName">
+                </data-row>
+                <data-row *ngIf="pageState.business.telephone" [label]="'Phone number'" [value]="pageState.business.telephone">
+                </data-row>
+                <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false" *ngIf="pageState.business.businessAddress">
+                    <display-address [address]="pageState.business.businessAddress"></display-address>
+                </data-row-custom>
+            </ion-grid>
+        </ion-card-content>
+    </ion-card>
 </ion-content>

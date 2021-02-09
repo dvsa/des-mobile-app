@@ -11,11 +11,12 @@ import { SlotProvider } from '../../providers/slot/slot';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 // import { TestsEffects } from '../../modules/tests/tests.effects';
 import { TestSlotComponentsModule } from '../../../components/test-slot/test-slot-components.module';
-// import { ComponentsModule } from '../../components/common/common-components.module';
 // import { JournalAnalyticsEffects } from './journal.analytics.effects';
 
 import { JournalPageRoutingModule } from './journal-routing.module';
 import { JournalComponentsModule } from './components/journal-components.module';
+import { ComponentsModule } from '../../../components/common/common-components.module';
+import { CandidateDetailsPageModule } from '../candidate-details/candidate-details.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { JournalComponentsModule } from './components/journal-components.module'
     ]),
     JournalPageRoutingModule,
     CommonModule,
-    // ComponentsModule,
+    ComponentsModule,
+    CandidateDetailsPageModule,
   ],
   entryComponents: [
     // ActivitySlotComponent,
