@@ -43,8 +43,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     super(platform, authenticationProvider, router);
   }
 
-  ngOnInit(): void {
-
+  async ngOnInit() {
     this.route.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
@@ -55,7 +54,14 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
     // Trigger Authentication if ios device
     if (!this.hasUserLoggedOut && this.isIos()) {
-      this.login();
+      await this.login();
+    }
+
+    if (!this.isIos()) {
+      await this.appConfigProvider.initialiseAppConfig();
+      await this.router.navigate([DASHBOARD_PAGE]);
+      // @TODO: Add hide function when splash screen is implemented
+      // this.splashScreen.hide();
     }
   }
 
@@ -96,7 +102,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
       this.store$.dispatch(LoadConfigSuccess());
 
       await this.handleLoadingUI(false);
-      this.validateDeviceType();
+      await this.validateDeviceType();
     } catch (error) {
 
       await this.handleLoadingUI(false);
@@ -148,7 +154,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
   /**
    * Check app is running on a supported device and navigate to app starting page
    */
-  validateDeviceType = (): void => {
+  validateDeviceType = async (): Promise<void> => {
     // @TODO: Update old implementation
     // const validDevice = this.deviceProvider.validDeviceType();
     // if (!validDevice) {
@@ -158,7 +164,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     // } else {
     //   this.navController.setRoot(DASHBOARD_PAGE);
     // }
-    this.router.navigate([DASHBOARD_PAGE]);
+    await this.router.navigate([DASHBOARD_PAGE]);
   };
 
   async showErrorDetails() {
@@ -182,8 +188,8 @@ export class LoginPage extends BasePageComponent implements OnInit {
     await this.loadingController.dismiss();
   }
 
-  goToDashboard() {
-    this.router.navigate([DASHBOARD_PAGE]);
+  async goToDashboard() {
+    await this.router.navigate([DASHBOARD_PAGE]);
   }
 
 }

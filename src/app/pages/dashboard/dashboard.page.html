@@ -1,12 +1,7 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-buttons slot="start">
-      <button class="logout-button" (click)="openLogoutModal()" *ngIf="isLogoutEnabled()">
-        <span>Logout</span>
-        <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
-      </button>
-      <h6 *ngIf="!isLogoutEnabled()" class="version-number">Version {{pageState.appVersion$
-        | async}}</h6>
+      <ion-menu-button color="light"></ion-menu-button>
       <input type="hidden" name="employeeId" id="employeeId" value="{{employeeId}}" />
     </ion-buttons>
     <ion-title>My dashboard</ion-title>
