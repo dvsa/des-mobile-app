@@ -8,7 +8,7 @@ import {
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Router } from '@angular/router';
@@ -35,7 +35,6 @@ import { SlotItem } from '../../providers/slot-selector/slot-item';
 import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
-import { ERROR_PAGE } from '../page-names.constants';
 // import { ErrorTypes } from '../../shared/models/error-message';
 // import { DeviceProvider } from '../../providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
@@ -47,6 +46,8 @@ import { MesError } from '../../shared/models/mes-error.model';
 import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
+import { ErrorPage } from '../error-page/error';
+import { ErrorTypes } from '../../shared/models/error-message';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -149,7 +150,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       // completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(map(this.createSlots)),
       error$.pipe(map(this.showError)),
-      isLoading$.pipe(mergeMap(async (r) => this.handleLoadingUI(r))),
+      isLoading$.pipe(switchMap(this.handleLoadingUI)),
     );
 
   }
@@ -224,20 +225,21 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   // TODO visually check this to see whats going on when unblocked
   showError = (error: MesError): void => {
-    console.log(error);
-    // if (error === undefined || error.message === '') return;
+    if (error === undefined || error.message === '') return;
 
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
 
     // TODO figure out what to do about zoom methods not existing in appComponent
-    // const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const zoomClass = 'modal-fullscreen';
+    // ${this.app.getTextZoomClass()}
 
     this.modalController.create({
-      component: ERROR_PAGE,
-      // TODO figure out where this error type is injected now that modal controller structure has changed
-      // type: ErrorTypes.JOURNAL_REFRESH,
-      // cssClass: zoomClass,
+      component: ErrorPage,
+      componentProps: {
+        errorType: ErrorTypes.JOURNAL_REFRESH,
+      },
+      cssClass: zoomClass,
     }).then((modal) => {
       modal.present();
     });

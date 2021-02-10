@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   AlertController, NavController, NavParams, Platform,
@@ -13,6 +13,7 @@ import { ErrorTypes } from '../../shared/models/error-message';
 })
 export class ErrorPage extends LogoutBasePageComponent {
 
+  @Input()
   public errorType: ErrorTypes;
 
   constructor(
@@ -24,10 +25,6 @@ export class ErrorPage extends LogoutBasePageComponent {
     public router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
-  }
-
-  ngOnInit(): void {
-    this.errorType = this.navParams.get('type');
   }
 
   goBack = (): void => {
