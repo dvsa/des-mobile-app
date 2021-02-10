@@ -208,19 +208,17 @@ export class JournalPage extends BasePageComponent implements OnInit {
   // TODO test that spinner dismisses on page change
   handleLoadingUI = async (isLoading: boolean): Promise<void> => {
     if (isLoading) {
-      this.loadingSpinner = await this.loadingController.create({
-        spinner: 'circles',
-      });
+      this.loadingSpinner = await this.loadingController.create({ spinner: 'circles' });
       await this.loadingSpinner.present();
-      // TODO: may need to be reintroduced at a later date
-      // return;
+      return;
     }
-    if (this.pageRefresher) await this.pageRefresher.complete();
+    if (this.pageRefresher) {
+      await this.pageRefresher.complete();
+    }
     if (this.loadingSpinner) {
       await this.loadingSpinner.dismiss();
       this.loadingSpinner = null;
     }
-    return Promise.resolve();
   };
 
   // TODO visually check this to see whats going on when unblocked
