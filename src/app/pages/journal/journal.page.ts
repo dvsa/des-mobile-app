@@ -31,7 +31,6 @@ import { getJournalState } from '../../../store/journal/journal.reducer';
 import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
 import { SlotComponent } from '../../../components/test-slot/slot/slot';
 import { SlotItem } from '../../providers/slot-selector/slot-item';
-// TODO Reintroduce this after MES-6419
 import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
@@ -205,7 +204,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.completedTests = completedTests;
   };
 
-  // TODO test that spinner dismisses on page change
   handleLoadingUI = async (isLoading: boolean): Promise<void> => {
     if (isLoading) {
       this.loadingSpinner = await this.loadingController.create({ spinner: 'circles' });
@@ -221,16 +219,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }
   };
 
-  // TODO visually check this to see whats going on when unblocked
   showError = (error: MesError): void => {
     if (error === undefined || error.message === '') return;
 
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
 
-    // TODO figure out what to do about zoom methods not existing in appComponent
     const zoomClass = 'modal-fullscreen';
-    // ${this.app.getTextZoomClass()}
 
     this.modalController.create({
       component: ErrorPage,
