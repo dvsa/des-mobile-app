@@ -44,7 +44,6 @@ export class CandidateDetailsPage implements OnInit {
     this.slotChanged = this.navParams.get('slotChanged');
     this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
 
-    console.log('this.slot', this.slot);
     this.pageState = {
       name: getCandidateName(this.slot),
       time: getTime(this.slot),
