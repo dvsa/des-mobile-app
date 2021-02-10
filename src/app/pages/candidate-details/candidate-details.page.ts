@@ -70,8 +70,8 @@ export class CandidateDetailsPage implements OnInit {
     return Array.isArray(specialNeeds);
   }
 
-  dismiss() {
-    this.modalController.dismiss();
+  async dismiss() {
+    await this.modalController.dismiss();
   }
 
 }
