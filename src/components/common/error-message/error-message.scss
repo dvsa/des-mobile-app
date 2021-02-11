@@ -14,7 +14,7 @@
 
 .link {
   text-decoration: underline;
-  color: map-get($colors-gds, 'gds-blue');
+  color: var(--gds-blue);
 }
 
 .error-details-link,
