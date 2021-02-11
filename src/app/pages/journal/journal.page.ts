@@ -36,7 +36,7 @@ import { SlotItem } from '../../providers/slot-selector/slot-item';
 import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
-// import { ErrorTypes } from '../../shared/models/error-message';
+import { ErrorTypes } from '../../shared/models/error-message';
 // import { DeviceProvider } from '../../providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
@@ -48,7 +48,6 @@ import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 import { ErrorPage } from '../error-page/error';
-import { ErrorTypes } from '../../shared/models/error-message';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
