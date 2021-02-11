@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { ErrorPage } from './error';
-import { ComponentsModule } from '../../../components/common/common-components.module';
+import { ErrorMessageModule } from '../../../components/common/error-message/error-message.module';
 
 @NgModule({
   declarations: [
     ErrorPage,
   ],
   imports: [
-    ComponentsModule,
+    // ComponentsModule,
     IonicModule,
+    ErrorMessageModule,
   ],
   exports: [
     ErrorPage,

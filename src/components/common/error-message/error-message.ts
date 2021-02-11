@@ -10,7 +10,8 @@ export enum additionalText {
 
 @Component({
   selector: 'error-message',
-  templateUrl: 'error-message.html',
+  templateUrl: './error-message.html',
+  styleUrls: ['./error-message.scss'],
 })
 export class ErrorMessageComponent {
 

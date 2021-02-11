@@ -17,6 +17,7 @@ import { JournalPageRoutingModule } from './journal-routing.module';
 import { JournalComponentsModule } from './components/journal-components.module';
 import { ComponentsModule } from '../../../components/common/common-components.module';
 import { CandidateDetailsPageModule } from '../candidate-details/candidate-details.module';
+import { ErrorPageModule } from '../error-page/error.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { CandidateDetailsPageModule } from '../candidate-details/candidate-detai
       // JournalAnalyticsEffects,
       // TestsEffects,
     ]),
+    ErrorPageModule,
     JournalPageRoutingModule,
     CommonModule,
     ComponentsModule,
