@@ -10,12 +10,12 @@ import { MockComponent } from 'ng-mocks';
 import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { CandidateDetailsPage } from './candidate-details.page';
-import { DisplayAddressComponent } from '../../../components/common/display-address/display-address';
-import { DataRowComponent } from '../../../components/common/data-row/data-row';
-import { DataRowCustomComponent } from '../../../components/common/data-row-custom/data-row-custom';
-import * as journalActions from '../../../store/journal/journal.actions';
-import * as candidateDetailActions from '../../../store/candidate-details/candidate-details.actions';
+import { CandidateDetailsPage } from '../candidate-details.page';
+import { DisplayAddressComponent } from '../../../../components/common/display-address/display-address';
+import { DataRowComponent } from '../../../../components/common/data-row/data-row';
+import { DataRowCustomComponent } from '../../../../components/common/data-row-custom/data-row-custom';
+import * as journalActions from '../../../../store/journal/journal.actions';
+import * as candidateDetailActions from '../../../../store/candidate-details/candidate-details.actions';
 
 describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
@@ -86,10 +86,9 @@ describe('CandidateDetailsPage', () => {
 
   describe('ngOnInit', () => {
     it('should test ngOnInit', () => {
-      spyOn(store$, 'dispatch').and.stub();
+      spyOn(window, 'setTimeout').and.callThrough();
       component.ngOnInit();
-      console.log('pageState', component.pageState);
-      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.ClearChangedSlot({ slotId: 123 }));
+      expect(setTimeout).toHaveBeenCalledTimes(2);
     });
   });
 

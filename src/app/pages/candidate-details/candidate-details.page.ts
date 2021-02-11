@@ -42,7 +42,9 @@ export class CandidateDetailsPage implements OnInit {
   ngOnInit(): void {
     this.slot = this.navParams.get('slot');
     this.slotChanged = this.navParams.get('slotChanged');
-    this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
+    setTimeout(() => {
+      this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
+    });
 
     this.pageState = {
       name: getCandidateName(this.slot),
@@ -58,7 +60,9 @@ export class CandidateDetailsPage implements OnInit {
         { slotId: this.slot.slotDetail.slotId },
       ));
     }
-    this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
+    setTimeout(() => {
+      this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
+    });
   }
 
   ionViewDidEnter(): void {
