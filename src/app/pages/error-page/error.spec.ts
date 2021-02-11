@@ -1,13 +1,14 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import {
-  NavControllerMock, NavParamsMock, ConfigMock, PlatformMock, AlertControllerMock,
+  NavParamsMock, ConfigMock, PlatformMock, AlertControllerMock,
 } from 'ionic-mocks';
 import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import {
-  AlertController, Config, IonicModule, NavController, NavParams, Platform,
+  AlertController, Config, IonicModule, NavParams, Platform,
 } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { ErrorPage } from './error';
 import { ErrorMessageComponent } from '../../../components/common/error-message/error-message';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -27,7 +28,7 @@ describe('ErrorPage', () => {
         IonicModule,
       ],
       providers: [
-        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: Router, useFactory: () => {} },
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -42,12 +43,13 @@ describe('ErrorPage', () => {
     component = fixture.componentInstance;
   }));
 
-  xit('should navigation back to the last page in the stack', () => {
+  it('should navigation back to the last page in the stack', () => {
+    spyOn(component.location, 'back');
     component.goBack();
-    expect(component.navController.pop).toHaveBeenCalled();
+    expect(component.location.back).toHaveBeenCalled();
   });
 
-  xdescribe('DOM', () => {
+  describe('DOM', () => {
     it('should display an error message', () => {
       expect(fixture.debugElement.query(By.css('.error'))).not.toBeNull();
     });
