@@ -7,7 +7,9 @@ import {
   NavParams, Platform, ModalController,
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription, merge } from 'rxjs';
+import {
+  Observable, Subscription, merge, from,
+} from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
@@ -55,6 +57,7 @@ interface JournalPageState {
   isLoading$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
   appVersion$: Observable<string>;
+  loadingSpinner$: Observable<HTMLIonLoadingElement>;
   // completedTests$: Observable<SearchResultTestSchema[]>;
 }
 
@@ -72,7 +75,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   pageState: JournalPageState;
   selectedDate: string;
-  loadingSpinner;
+  loadingSpinner$: Observable<HTMLIonLoadingElement>;
   pageRefresher: IonRefresher;
   isUnauthenticated: boolean;
   subscription: Subscription;
@@ -130,6 +133,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map(getLastRefreshedTime),
       ),
       appVersion$: this.store$.select(selectVersionNumber),
+      loadingSpinner$: from(this.loadingController.create({ spinner: 'circles' })),
       // completedTests$: this.store$.pipe(
       //   select(getJournalState),
       //   select(getCompletedTests),
@@ -141,6 +145,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       slots$,
       error$,
       isLoading$,
+      loadingSpinner$,
       // completedTests$,
     } = this.pageState;
 
@@ -149,7 +154,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
       // completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(map(this.createSlots)),
       error$.pipe(map(this.showError)),
-      isLoading$.pipe(switchMap(this.handleLoadingUI)),
+      isLoading$.pipe(switchMap((res) => {
+        return this.handleLoadingUI(res, loadingSpinner$);
+      })),
     );
 
   }
@@ -204,18 +211,17 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.completedTests = completedTests;
   };
 
-  handleLoadingUI = async (isLoading: boolean): Promise<void> => {
+  handleLoadingUI = async (isLoading: boolean, loadingSpinner$: Observable<HTMLIonLoadingElement>): Promise<void> => {
+    const spinner = await loadingSpinner$.toPromise();
     if (isLoading) {
-      this.loadingSpinner = await this.loadingController.create({ spinner: 'circles' });
-      await this.loadingSpinner.present();
+      await spinner.present();
       return;
     }
     if (this.pageRefresher) {
       await this.pageRefresher.complete();
     }
-    if (this.loadingSpinner) {
-      await this.loadingSpinner.dismiss();
-      this.loadingSpinner = null;
+    if (spinner) {
+      await spinner.dismiss();
     }
   };
 
