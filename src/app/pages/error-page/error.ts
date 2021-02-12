@@ -10,6 +10,7 @@ import { ErrorTypes } from '../../shared/models/error-message';
 @Component({
   selector: 'page-error',
   templateUrl: 'error.html',
+  styleUrls: ['error.scss'],
 })
 export class ErrorPage extends LogoutBasePageComponent {
 
