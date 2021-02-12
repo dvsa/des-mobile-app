@@ -42,7 +42,7 @@ export class ErrorMessageComponent {
     }
   }
 
-  goBack = (): void => {
+  dismiss = (): void => {
     this.exitModal.emit();
   };
 

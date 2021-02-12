@@ -1,11 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async, ComponentFixture, fakeAsync, TestBed,
+} from '@angular/core/testing';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 
 import {
   provideMockStore,
   MockStore,
 } from '@ngrx/store/testing';
-import { ModalControllerMock } from 'ionic-mocks';
 import { MockComponent } from 'ng-mocks';
 import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -16,6 +17,7 @@ import { DataRowComponent } from '../../../../components/common/data-row/data-ro
 import { DataRowCustomComponent } from '../../../../components/common/data-row-custom/data-row-custom';
 import * as journalActions from '../../../../store/journal/journal.actions';
 import * as candidateDetailActions from '../../../../store/candidate-details/candidate-details.actions';
+import { ModalControllerMock } from '../../../../../mock/ionic-mocks/modal-controller.mock';
 
 describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
@@ -65,7 +67,7 @@ describe('CandidateDetailsPage', () => {
         IonicModule,
       ],
       providers: [
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useValue: mockNavParams },
         provideMockStore({ initialState }),
       ],
@@ -126,6 +128,14 @@ describe('CandidateDetailsPage', () => {
       const result = component.specialNeedsIsPopulated(specialNeedsString);
       expect(result).toEqual(false);
     });
+  });
+
+  describe('dismiss', () => {
+    it('should dismiss open modal', fakeAsync(async () => {
+      spyOn(component.modalController, 'dismiss');
+      await component.dismiss();
+      expect(component.modalController.dismiss).toHaveBeenCalled();
+    }));
   });
 
 });
