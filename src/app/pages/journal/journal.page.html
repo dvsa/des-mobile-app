@@ -1,14 +1,15 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar mode="ios">
     <ion-title>Journal</ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="refreshJournal()">
-        <span>
-          <ion-icon name="md-sync" class="refresh-button-icon"></ion-icon>
-          <span>Refresh</span>
-        </span>
+    <ion-buttons slot="start">
+      <ion-back-button class="colour-white"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="refreshJournal()">
+          <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
+          <ion-label class="colour-white">Refresh</ion-label>
         <!-- <h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6> -->
-      </button>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
