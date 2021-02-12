@@ -9,8 +9,10 @@ import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-
 import { AppConfig } from '../../app-config/app-config.model';
 import { DataStoreProvider } from '../../data-store/data-store';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
+import { TestPersistenceProvider } from '../../test-persistence/test-persistence';
+import { TestPersistenceProviderMock } from '../../test-persistence/__mocks__/test-persistence.mock';
 
-describe('Authentication', () => {
+fdescribe('Authentication', () => {
   let authenticationProvider: AuthenticationProvider;
   let networkStateProvider: NetworkStateProvider;
   let appConfigProvider: AppConfigProvider;
@@ -23,6 +25,7 @@ describe('Authentication', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
+        { provide: TestPersistenceProvider, useClass: TestPersistenceProviderMock },
       ],
     });
   });

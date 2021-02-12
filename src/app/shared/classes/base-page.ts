@@ -9,8 +9,20 @@ export abstract class BasePageComponent {
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
+    protected loginRequired: boolean = true,
   ) {
 
+  }
+
+  ionViewWillEnter() {
+    if (this.loginRequired && this.isIos()) {
+      this.authenticationProvider.hasValidToken().then(async (hasValidToken) => {
+        this.authenticationProvider.determineAuthenticationMode();
+        if (!hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
+          await this.router.navigate([LOGIN_PAGE]);
+        }
+      });
+    }
   }
 
   isIos(): boolean {

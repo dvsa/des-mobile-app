@@ -21,7 +21,6 @@ import { DataStoreProvider } from './providers/data-store/data-store';
 import { NetworkStateProvider } from './providers/network-state/network-state';
 import { AppInfoProvider } from './providers/app-info/app-info';
 import { environment } from '../environments/environment';
-import { AuthGuard } from './guards/auth-guard';
 import { AppInfoStoreModule } from '../store/app-info/app-info.module';
 import { AuthInterceptor } from './providers/authentication/interceptor';
 import { JournalProvider } from './providers/journal/journal';
@@ -55,7 +54,6 @@ import { JournalModule } from '../store/journal/journal.module';
     AuthenticationProvider,
     AppInfoProvider,
     DateTimeProvider,
-    AuthGuard,
     SecureStorage,
     IsDebug,
     DataStoreProvider,
