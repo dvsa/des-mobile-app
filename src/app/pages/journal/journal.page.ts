@@ -7,8 +7,10 @@ import {
   NavParams, Platform, ModalController,
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  Observable, Subscription, merge, from,
+} from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Router } from '@angular/router';
@@ -31,12 +33,10 @@ import { getJournalState } from '../../../store/journal/journal.reducer';
 import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
 import { SlotComponent } from '../../../components/test-slot/slot/slot';
 import { SlotItem } from '../../providers/slot-selector/slot-item';
-// TODO Reintroduce this after MES-6419
 import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
-import { ERROR_PAGE } from '../page-names.constants';
-// import { ErrorTypes } from '../../shared/models/error-message';
+import { ErrorTypes } from '../../shared/models/error-message';
 // import { DeviceProvider } from '../../providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
@@ -47,6 +47,7 @@ import { MesError } from '../../shared/models/mes-error.model';
 import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
+import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -55,6 +56,7 @@ interface JournalPageState {
   isLoading$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
   appVersion$: Observable<string>;
+  loadingSpinner$: Observable<HTMLIonLoadingElement>;
   // completedTests$: Observable<SearchResultTestSchema[]>;
 }
 
@@ -72,7 +74,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   pageState: JournalPageState;
   selectedDate: string;
-  // loadingSpinner: Loading;
+  loadingSpinner$: Observable<HTMLIonLoadingElement>;
   pageRefresher: IonRefresher;
   isUnauthenticated: boolean;
   subscription: Subscription;
@@ -130,6 +132,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map(getLastRefreshedTime),
       ),
       appVersion$: this.store$.select(selectVersionNumber),
+      loadingSpinner$: from(this.loadingController.create({ spinner: 'circles' })),
       // completedTests$: this.store$.pipe(
       //   select(getJournalState),
       //   select(getCompletedTests),
@@ -140,7 +143,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
       selectedDate$,
       slots$,
       error$,
-      // isLoading$,
+      isLoading$,
+      loadingSpinner$,
       // completedTests$,
     } = this.pageState;
 
@@ -149,7 +153,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
       // completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(map(this.createSlots)),
       error$.pipe(map(this.showError)),
-      // isLoading$.pipe(map(this.handleLoadingUI)),
+      isLoading$.pipe(switchMap((res) => {
+        return this.handleLoadingUI(res, loadingSpinner$);
+      })),
     );
 
   }
@@ -204,36 +210,33 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.completedTests = completedTests;
   };
 
-  // handleLoadingUI = (isLoading: boolean): void => {
-  //   if (isLoading) {
-  //     this.loadingSpinner = this.loadingController.create({
-  //       dismissOnPageChange: true,
-  //       spinner: 'circles',
-  //     });
-  //     this.loadingSpinner.present();
-  //     return;
-  //   }
-  //   this.pageRefresher ? this.pageRefresher.complete() : null;
-  //   if (this.loadingSpinner) {
-  //     this.loadingSpinner.dismiss();
-  //     this.loadingSpinner = null;
-  //   }
-  // }
+  handleLoadingUI = async (isLoading: boolean, loadingSpinner$: Observable<HTMLIonLoadingElement>): Promise<void> => {
+    const spinner = await loadingSpinner$.toPromise();
+    if (isLoading) {
+      await spinner.present();
+      return;
+    }
+    if (this.pageRefresher) {
+      await this.pageRefresher.complete();
+    }
+    if (spinner) {
+      await spinner.dismiss();
+    }
+  };
 
   showError = (error: MesError): void => {
     if (error === undefined || error.message === '') return;
-
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
 
-    // TODO figure out what to do about zoom methods not existing in appComponent
-    // const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
 
     this.modalController.create({
-      component: ERROR_PAGE,
-      // TODO figure out where this error type is injected now that modal controller structure has changed
-      // type: ErrorTypes.JOURNAL_REFRESH,
-      // cssClass: zoomClass,
+      component: ErrorPage,
+      componentProps: {
+        errorType: ErrorTypes.JOURNAL_REFRESH,
+      },
+      cssClass: zoomClass,
     }).then((modal) => {
       modal.present();
     });

@@ -74,7 +74,7 @@ export class CandidateDetailsPage implements OnInit {
     return Array.isArray(specialNeeds);
   }
 
-  async dismiss() {
+  async dismiss(): Promise<void> {
     await this.modalController.dismiss();
   }
 

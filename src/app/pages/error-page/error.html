@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons start>
+      <ion-button (click)="openLogoutModal()">
+        <span class="colour-white">Logout</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Driving Examiner Services</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <error-message class="error" returnTo="{{errorType}}" (exitModal)="dismiss()">
+  </error-message>
+</ion-content>
