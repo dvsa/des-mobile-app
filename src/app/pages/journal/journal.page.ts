@@ -229,7 +229,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
 
-    const zoomClass = 'modal-fullscreen';
+    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
 
     this.modalController.create({
       component: ErrorPage,
