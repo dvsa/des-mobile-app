@@ -9,7 +9,7 @@ export abstract class BasePageComponent {
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
-    protected loginRequired: boolean = true,
+    public loginRequired: boolean = true,
   ) {
 
   }
