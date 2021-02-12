@@ -3,40 +3,42 @@
 
 module.exports = function (config) {
   config.set({
-    basePath: '',
+    basePath: '..',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
+      // eslint-disable-next-line global-require
       require('karma-jasmine'),
+      // eslint-disable-next-line global-require
       require('karma-chrome-launcher'),
+      // eslint-disable-next-line global-require
       require('karma-jasmine-html-reporter'),
+      // eslint-disable-next-line global-require
       require('karma-coverage-istanbul-reporter'),
+      // eslint-disable-next-line global-require
       require('@angular-devkit/build-angular/plugins/karma'),
+      // eslint-disable-next-line global-require
       require('karma-spec-reporter'),
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
-
     browserConsoleLogOptions: {
       level: 'log',
       format: '%b %T: %m',
-      terminal: true
+      terminal: true,
     },
-
     coverageIstanbulReporter: {
+      // eslint-disable-next-line global-require
       dir: require('path').join(__dirname, '../coverage'),
       reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true
+      fixWebpackSourcePaths: true,
     },
-    
     reporters: ['spec', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-
     browsers: ['ChromeHeadless'],
-
     customLaunchers: {
       ChromeHeadless: {
         base: 'Chrome',
@@ -44,11 +46,10 @@ module.exports = function (config) {
           '--headless',
           '--disable-gpu',
           // Without a remote debugging port, Google Chrome exits immediately.
-          '--remote-debugging-port=9222'
-        ]
-      }
+          '--remote-debugging-port=9222',
+        ],
+      },
     },
-
-    singleRun: false
+    singleRun: false,
   });
 };

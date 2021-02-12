@@ -100,6 +100,14 @@
             "karmaConfig": "karma.conf.js",
             "styles": [],
             "scripts": [],
+            "codeCoverage": true,
+            "codeCoverageExclude": [
+              "dist/org-angular-core/**/*",
+              "dist/attestation-lib/**/*",
+              "dist/product-lib/**/*",
+              "dist/profile-lib/**/*",
+              "dist/program-lib/**/*"
+            ],
             "assets": [
               {
                 "glob": "favicon.ico",
