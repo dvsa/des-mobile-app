@@ -5,7 +5,6 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "test": "ng test --no-watch --karma-config test-config/karma.conf.js",
-    "test:watch": "ng test",
     "test:coverage": "ng test --karma-config test-config/karma.conf.js",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "run-s update-mock-data copy-mock-data config:local && ionic serve",
