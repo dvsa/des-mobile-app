@@ -1,3 +1,3 @@
 export class ModalControllerMock {
-  dismiss = () => {}
+  dismiss = () => Promise.resolve(false)
 }
