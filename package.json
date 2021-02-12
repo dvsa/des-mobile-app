@@ -4,7 +4,7 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
-    "test": "ng test --no-watch",
+    "test": "ng test --no-watch --karma-config test-config/karma.conf.js",
     "test:watch": "ng test",
     "test:coverage": "ng test --karma-config test-config/karma.conf.js",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
