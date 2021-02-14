@@ -31,6 +31,7 @@ import { LogsProvider } from './providers/logs/logs';
 import { SchemaValidatorProvider } from './providers/schema-validator/schema-validator';
 import { LogHelper } from './providers/logs/logs-helper';
 import { JournalModule } from '../store/journal/journal.module';
+import { TestPersistenceProvider } from './providers/test-persistence/test-persistence';
 
 @NgModule({
   declarations: [AppComponent],
@@ -72,6 +73,7 @@ import { JournalModule } from '../store/journal/journal.module';
     LogHelper,
     SchemaValidatorProvider,
     EmmAppConfig,
+    TestPersistenceProvider,
   ],
   bootstrap: [AppComponent],
 })

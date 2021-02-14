@@ -31,9 +31,8 @@ export class AuthenticationProvider {
   private getAuthOptions = (): IonicAuthOptions => {
     const authSettings = this.appConfig.getAppConfig().authentication;
     return {
-      logLevel: 'DEBUG',
       authConfig: 'azure',
-      platform: 'cordova',
+      platform: 'capacitor',
       clientID: authSettings.clientId,
       discoveryUrl: `${authSettings.context}/v2.0/.well-known/openid-configuration?appid=${authSettings.clientId}`,
       redirectUri: authSettings.redirectUrl,
@@ -120,6 +119,12 @@ export class AuthenticationProvider {
     return token.exp && new Date(token.exp * 1000) < new Date();
   }
 
+  /**
+   * An extra check has been added here to work around potential issues with Ionic Auth Connect
+   * isAuthenticated() being unable to detect token expiry where user is offline and a token refresh
+   * is attempted. To guard this, we perform a manual token expiry check via hasValidToken() and
+   * manually expire tokens if required, prior to calling isAuthenticated()
+   */
   public getAuthenticationToken = async (): Promise<string> => {
     const hasValidToken: boolean = await this.hasValidToken();
     if (!hasValidToken) {
