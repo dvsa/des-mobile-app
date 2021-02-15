@@ -86,12 +86,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
   completedTests: SearchResultTestSchema[];
 
   constructor(
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
     public modalController: ModalController,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
     public navParams: NavParams,
     public loadingController: LoadingController,
-    public router: Router,
     private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
     private resolver: ComponentFactoryResolver,
