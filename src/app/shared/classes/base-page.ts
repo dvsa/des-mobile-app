@@ -9,8 +9,28 @@ export abstract class BasePageComponent {
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
+    public loginRequired: boolean = true,
   ) {
 
+  }
+
+  /**
+   * By calling authenticationProvider.determineAuthenticationMode(), we will set
+   * authenticationProvider.inUnAuthenticatedMode to true if the user is offline.
+   * This will then be used to prevent redirects to LOGIN_PAGE if the user is offline
+   * Otherwise - on view entry route the user to LOGIN_PAGE if their token is invalid
+   * and they are online
+   //
+   */
+  ionViewWillEnter() {
+    if (this.loginRequired && this.isIos()) {
+      this.authenticationProvider.hasValidToken().then(async (hasValidToken) => {
+        this.authenticationProvider.determineAuthenticationMode();
+        if (!hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
+          await this.router.navigate([LOGIN_PAGE]);
+        }
+      });
+    }
   }
 
   isIos(): boolean {

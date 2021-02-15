@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { AppConfigProvider } from '../app-config/app-config';
+import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
+import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
-import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 
 export enum Token {
   ID = 'idToken',
@@ -12,18 +13,19 @@ export enum Token {
 
 @Injectable()
 export class AuthenticationProvider {
+
   public authenticationSettings: any;
-  private inUnAuthenticatedMode: boolean;
-  public ionicAuth: IonicAuth;
   private employeeIdKey: string;
   private employeeId: string;
+  private inUnAuthenticatedMode: boolean;
+  public ionicAuth: IonicAuth;
 
   constructor(
-    private appConfig: AppConfigProvider,
     private dataStoreProvider: DataStoreProvider,
     private networkState: NetworkStateProvider,
+    private appConfig: AppConfigProvider,
+    private testPersistenceProvider: TestPersistenceProvider,
   ) {
-
   }
 
   private getAuthOptions = (): IonicAuthOptions => {
@@ -63,6 +65,12 @@ export class AuthenticationProvider {
   private async setToken(tokenName: Token, token: string): Promise<void> {
     await this.dataStoreProvider.setItem(tokenName, JSON.stringify(token));
     return Promise.resolve();
+  }
+
+  private async clearTokens(): Promise<void> {
+    await this.dataStoreProvider.removeItem(Token.ACCESS);
+    await this.dataStoreProvider.removeItem(Token.ID);
+    await this.dataStoreProvider.removeItem(Token.REFRESH);
   }
 
   public initialiseAuthentication = (): void => {
@@ -111,15 +119,23 @@ export class AuthenticationProvider {
     return token.exp && new Date(token.exp * 1000) < new Date();
   }
 
+  /**
+   * An extra check has been added here to work around potential issues with Ionic Auth Connect
+   * isAuthenticated() being unable to detect token expiry where user is offline and a token refresh
+   * is attempted. To guard this, we perform a manual token expiry check via hasValidToken() and
+   * manually expire tokens if required, prior to calling isAuthenticated()
+   */
   public getAuthenticationToken = async (): Promise<string> => {
-
-    // TODO - temporary code to manually check token expiry date, awaiting ionic fix
     const hasValidToken: boolean = await this.hasValidToken();
     if (!hasValidToken) {
       await this.expireTokens();
     }
     await this.isAuthenticated();
     return this.getToken(Token.ID);
+  };
+
+  public getEmployeeId = (): string => {
+    return this.employeeId || null;
   };
 
   public loadEmployeeName = async (): Promise<string> => {
@@ -129,12 +145,6 @@ export class AuthenticationProvider {
     }
     return '';
   };
-
-  private async clearTokens(): Promise<void> {
-    await this.dataStoreProvider.removeItem(Token.ACCESS);
-    await this.dataStoreProvider.removeItem(Token.ID);
-    await this.dataStoreProvider.removeItem(Token.REFRESH);
-  }
 
   public async login(): Promise<void> {
     if (this.isInUnAuthenticatedMode()) {
@@ -148,7 +158,9 @@ export class AuthenticationProvider {
   };
 
   public async logout(): Promise<void> {
-
+    if (this.appConfig.getAppConfig().logoutClearsTestPersistence) {
+      await this.testPersistenceProvider.clearPersistedTests();
+    }
     await this.clearTokens();
     await this.ionicAuth.logout();
   }
@@ -160,9 +172,5 @@ export class AuthenticationProvider {
     const numericEmployeeId = Number.parseInt(employeeIdClaim, 10);
     this.employeeId = numericEmployeeId.toString();
   }
-
-  public getEmployeeId = (): string => {
-    return this.employeeId || null;
-  };
 
 }

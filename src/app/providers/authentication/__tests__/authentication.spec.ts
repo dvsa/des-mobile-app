@@ -9,6 +9,8 @@ import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-
 import { AppConfig } from '../../app-config/app-config.model';
 import { DataStoreProvider } from '../../data-store/data-store';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
+import { TestPersistenceProvider } from '../../test-persistence/test-persistence';
+import { TestPersistenceProviderMock } from '../../test-persistence/__mocks__/test-persistence.mock';
 
 describe('Authentication', () => {
   let authenticationProvider: AuthenticationProvider;
@@ -23,6 +25,7 @@ describe('Authentication', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
+        { provide: TestPersistenceProvider, useClass: TestPersistenceProviderMock },
       ],
     });
   });
@@ -53,9 +56,17 @@ describe('Authentication', () => {
       expect(authenticationProvider.isInUnAuthenticatedMode()).toEqual(false);
     });
 
-    it('isAuthenticated() should return false when no login has happened', async () => {
+    it('isAuthenticated() should return true if in unauthenticated mode', async () => {
+      spyOn(authenticationProvider, 'isInUnAuthenticatedMode').and.returnValue(true);
+      const isAuthenticated = await authenticationProvider.isAuthenticated();
+      expect(isAuthenticated).toEqual(true);
+    });
+
+    it('isAuthenticated() call through to ionicAuth if not in unauthenticated mode', async () => {
+      spyOn(authenticationProvider, 'isInUnAuthenticatedMode').and.returnValue(false);
       spyOn(authenticationProvider.ionicAuth, 'isAuthenticated').and.returnValue(Promise.resolve(false));
       const isAuthenticated = await authenticationProvider.isAuthenticated();
+      expect(authenticationProvider.ionicAuth.isAuthenticated).toHaveBeenCalled();
       expect(isAuthenticated).toEqual(false);
     });
 
@@ -142,13 +153,18 @@ describe('Authentication', () => {
     });
 
     describe('loadEmployeeName', () => {
-      it('should load the employee name from the token', async () => {
+      it('should load the employee name from the token if available', async () => {
         const expectedName = 'A N Examiner';
         spyOn(authenticationProvider.ionicAuth, 'getIdToken').and.returnValue(Promise.resolve({
           localemployeenamekey: expectedName,
         }));
         const actualName = await authenticationProvider.loadEmployeeName();
         expect(actualName).toEqual(expectedName);
+      });
+      it('shoiuld return an empty string if token value unavailable', async () => {
+        spyOn(authenticationProvider.ionicAuth, 'getIdToken').and.returnValue(Promise.resolve(null));
+        const actualName = await authenticationProvider.loadEmployeeName();
+        expect(actualName).toEqual('');
       });
     });
 
@@ -159,5 +175,51 @@ describe('Authentication', () => {
         expect(authenticationProvider.ionicAuth.expire).toHaveBeenCalled();
       });
     });
+
+    describe('refreshTokenIfExpired', () => {
+      it('should call ionicAuth.refreshSession if token expired', async () => {
+        spyOn(authenticationProvider.ionicAuth, 'getIdToken').and.returnValue(Promise.resolve({
+          exp: 1,
+        }));
+        spyOn(authenticationProvider.ionicAuth, 'refreshSession');
+        await authenticationProvider.refreshTokenIfExpired();
+        expect(authenticationProvider.ionicAuth.refreshSession).toHaveBeenCalled();
+      });
+    });
+
+    describe('getAuthenticationToken', () => {
+      beforeEach(() => {
+        spyOn(authenticationProvider, 'hasValidToken').and.returnValue(Promise.resolve(false));
+        spyOn(authenticationProvider, 'expireTokens');
+        spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(true));
+      });
+      it('should expire the token if it is not valid before returning a new one', async () => {
+        const stringToken = '{ "exp": 123 }';
+        spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.resolve(stringToken));
+        const token = await authenticationProvider.getAuthenticationToken();
+        expect(authenticationProvider.expireTokens).toHaveBeenCalled();
+        expect(token).toEqual(JSON.parse(stringToken));
+        expect(dataStoreProvider.getItem).toHaveBeenCalledWith(Token.ID);
+      });
+      it('will return null if no valid token in storage', async () => {
+        spyOn(dataStoreProvider, 'getItem').and.returnValue(Promise.reject(new Error('some error')));
+        const token = await authenticationProvider.getAuthenticationToken();
+        expect(token).toEqual(null);
+        expect(dataStoreProvider.getItem).toHaveBeenCalledWith(Token.ID);
+      });
+    });
+
+    describe('logoutEnabled', () => {
+      it('should return the value from app config', () => {
+        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
+          journal: {
+            enableLogoutButton: true,
+          },
+        } as AppConfig);
+        const logoutEnabled: boolean = authenticationProvider.logoutEnabled();
+        expect(logoutEnabled).toEqual(true);
+      });
+    });
+
   });
 });
