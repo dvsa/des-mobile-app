@@ -50,6 +50,9 @@ module.exports = function (config) {
         ],
       },
     },
+    specReporter: {
+      suppressSkipped: true,
+    },
     singleRun: false,
   });
 };
