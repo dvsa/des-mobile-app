@@ -7,12 +7,12 @@ import { Observable } from 'rxjs';
 import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { ExaminerRole, ExaminerRoleDescription } from '../../providers/app-config/constants/examiner-role.constants';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { StoreModel } from '../../shared/models/store.model';
 import { DateTime } from '../../shared/helpers/date-time';
 import { LOGIN_PAGE } from '../page-names.constants';
+import { BasePageComponent } from '../../shared/classes/base-page';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -23,7 +23,7 @@ interface DashboardPageState {
   templateUrl: 'dashboard.page.html',
   styleUrls: ['dashboard.page.scss'],
 })
-export class DashboardPage extends LogoutBasePageComponent {
+export class DashboardPage extends BasePageComponent {
 
   pageState: DashboardPageState;
   todaysDateFormatted: string;
@@ -40,7 +40,7 @@ export class DashboardPage extends LogoutBasePageComponent {
     platform: Platform,
     router: Router,
   ) {
-    super(platform, authenticationProvider, alertController, router);
+    super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
     this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
     this.todaysDate = this.dateTimeProvider.now();
@@ -65,15 +65,9 @@ export class DashboardPage extends LogoutBasePageComponent {
     this.router.navigate([LOGIN_PAGE]);
   }
 
-  onLogout() {
-    this.openLogoutModal();
-  }
-
   showTestReportPracticeMode = ():boolean => this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;
 
   showEndToEndPracticeMode = (): boolean => this.appConfigProvider.getAppConfig().journal.enableEndToEndPracticeMode;
-
-  isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 
   showDelegatedExaminerRekey = (): boolean => this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
 }

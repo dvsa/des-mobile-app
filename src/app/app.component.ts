@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
-import { AlertController, Platform } from '@ionic/angular';
+import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Router } from '@angular/router';
 
@@ -24,6 +24,7 @@ export class AppComponent extends LogoutBasePageComponent {
     private splashScreen: SplashScreen,
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
+    protected menuController: MenuController,
     router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
@@ -35,6 +36,7 @@ export class AppComponent extends LogoutBasePageComponent {
       this.store$.dispatch(LoadAppVersion());
       this.splashScreen.hide();
       await this.configureStatusBar();
+      await this.disableMenuSwipe();
     });
   }
 
@@ -56,6 +58,10 @@ export class AppComponent extends LogoutBasePageComponent {
       await StatusBar.setOverlaysWebView({ overlay: false });
       await StatusBar.setBackgroundColor({ color: '#000000' });
     }
+  };
+
+  disableMenuSwipe = async (): Promise<void> => {
+    await this.menuController.swipeGesture(false);
   };
 
   onLogoutClick = async (): Promise<void> => {

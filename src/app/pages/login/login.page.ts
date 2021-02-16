@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, LoadingController, Platform } from '@ionic/angular';
+import {
+  AlertController, LoadingController, MenuController, Platform,
+} from '@ionic/angular';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -39,14 +41,19 @@ export class LoginPage extends BasePageComponent implements OnInit {
     private dataStore: DataStoreProvider,
     private networkStateProvider: NetworkStateProvider,
     private route: ActivatedRoute,
+    private menuController: MenuController,
   ) {
     super(platform, authenticationProvider, router);
   }
 
   async ngOnInit() {
-    this.route.queryParams.subscribe(() => {
+    this.route.queryParams.subscribe(async () => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
+
+        if (this.hasUserLoggedOut) {
+          await this.closeSideMenuIfOpen();
+        }
       }
     });
 
@@ -64,6 +71,12 @@ export class LoginPage extends BasePageComponent implements OnInit {
       // this.splashScreen.hide();
     }
   }
+
+  closeSideMenuIfOpen = async (): Promise<void> => {
+    if (await this.menuController.isOpen()) {
+      await this.menuController.close();
+    }
+  };
 
   isUserNotAuthorised = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_NOT_AUTHORISED;

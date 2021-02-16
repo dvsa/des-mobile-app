@@ -2,7 +2,7 @@ import {
   async, ComponentFixture, fakeAsync, flushMicrotasks, TestBed,
 } from '@angular/core/testing';
 import {
-  AlertController, IonicModule, LoadingController, Platform,
+  AlertController, IonicModule, LoadingController, MenuController, Platform,
 } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
@@ -43,6 +43,7 @@ describe('LoginPage', () => {
   let networkStateProvider: NetworkStateProvider;
   let alertController: AlertController;
   let loadingController: LoadingController;
+  let menuController: MenuController;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -67,6 +68,7 @@ describe('LoginPage', () => {
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: ActivatedRoute, useValue: mockActivateRoute },
+        MenuController,
         provideMockStore({ ...{} }),
       ],
     });
@@ -86,6 +88,7 @@ describe('LoginPage', () => {
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     alertController = TestBed.inject(AlertController);
     loadingController = TestBed.inject(LoadingController);
+    menuController = TestBed.inject(MenuController);
   }));
 
   it('should create', () => {
@@ -93,18 +96,40 @@ describe('LoginPage', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should initialise network and call login function when on ios', () => {
+    beforeEach(() => {
       spyOn(component, 'isIos').and.returnValue(true);
-      spyOn(component, 'login');
+      spyOn(component, 'login').and.returnValue(Promise.resolve());
+      spyOn(component, 'closeSideMenuIfOpen').and.returnValue(Promise.resolve());
       spyOn(networkStateProvider, 'initialiseNetworkState');
-      spyOn(routerSpy, 'getCurrentNavigation').and.returnValue({
-        extras: {
-          state: { hasLoggedOut: false },
-        },
-      });
+    });
+    it('should initialise network and call login function when on ios', fakeAsync(() => {
+      spyOn(routerSpy, 'getCurrentNavigation').and.returnValue({ extras: { state: { hasLoggedOut: false } } });
       component.ngOnInit();
+      flushMicrotasks();
       expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
       expect(component.login).toHaveBeenCalled();
+    }));
+    it('should not run login on hasLoggedOut', fakeAsync(() => {
+      spyOn(routerSpy, 'getCurrentNavigation').and.returnValue({ extras: { state: { hasLoggedOut: true } } });
+      component.ngOnInit();
+      flushMicrotasks();
+      expect(component.closeSideMenuIfOpen).toHaveBeenCalled();
+      expect(component.login).not.toHaveBeenCalled();
+    }));
+  });
+  describe('closeSideMenuIfOpen', () => {
+    beforeEach(() => {
+      spyOn(menuController, 'close');
+    });
+    it('should call menu close when isOpen', async () => {
+      spyOn(menuController, 'isOpen').and.returnValue(Promise.resolve(true));
+      await component.closeSideMenuIfOpen();
+      expect(menuController.close).toHaveBeenCalled();
+    });
+    it('should not call menu close when isOpen returns false', async () => {
+      spyOn(menuController, 'isOpen').and.returnValue(Promise.resolve(false));
+      await component.closeSideMenuIfOpen();
+      expect(menuController.close).not.toHaveBeenCalled();
     });
   });
   describe('login', () => {
