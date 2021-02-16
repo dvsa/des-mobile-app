@@ -44,7 +44,7 @@ describe('DashboardPage', () => {
             { path: '', component: DashboardPage },
           ],
         ),
-        IonicModule.forRoot(),
+        IonicModule,
         StoreModule.forRoot({ appInfo: appInfoReducer }),
       ],
       providers: [
