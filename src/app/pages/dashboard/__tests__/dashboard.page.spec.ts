@@ -26,7 +26,6 @@ describe('DashboardPage', () => {
   let fixture: ComponentFixture<DashboardPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
   let appConfigProvider: AppConfigProvider;
-  let authenticationProvider: AuthenticationProvider;
   let store$: MockStore;
   const initialState = {
     appInfo: {
@@ -44,7 +43,7 @@ describe('DashboardPage', () => {
             { path: '', component: DashboardPage },
           ],
         ),
-        IonicModule.forRoot(),
+        IonicModule,
         StoreModule.forRoot({ appInfo: appInfoReducer }),
       ],
       providers: [
@@ -65,7 +64,6 @@ describe('DashboardPage', () => {
     fixture.detectChanges();
 
     appConfigProvider = TestBed.inject(AppConfigProvider);
-    authenticationProvider = TestBed.inject(AuthenticationProvider);
     store$ = TestBed.inject(MockStore);
   }));
 
@@ -98,13 +96,6 @@ describe('DashboardPage', () => {
       expect(routerSpy.navigate).toHaveBeenCalledWith([LOGIN_PAGE]);
     });
   });
-  describe('onLogout', () => {
-    it('should should call openLogoutModal', () => {
-      spyOn(component, 'openLogoutModal');
-      component.onLogout();
-      expect(component.openLogoutModal).toHaveBeenCalled();
-    });
-  });
   describe('showTestReportPracticeMode', () => {
     it('should return true when enableTestReportPracticeMode is true', () => {
       expect(component.showTestReportPracticeMode()).toEqual(true);
@@ -129,16 +120,6 @@ describe('DashboardPage', () => {
         },
       } as AppConfig);
       expect(component.showEndToEndPracticeMode()).toEqual(false);
-    });
-  });
-  describe('isLogoutEnabled', () => {
-    it('should return true when logout is enabled', () => {
-      spyOn(authenticationProvider, 'logoutEnabled').and.returnValue(true);
-      expect(component.isLogoutEnabled()).toEqual(true);
-    });
-    it('should return false when logout is not enabled', () => {
-      spyOn(authenticationProvider, 'logoutEnabled').and.returnValue(false);
-      expect(component.isLogoutEnabled()).toEqual(false);
     });
   });
   describe('showDelegatedExaminerRekey', () => {

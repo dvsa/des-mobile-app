@@ -1,3 +1,22 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+    <ion-menu side="start" content-id="main-content">
+        <ion-header>
+            <ion-toolbar mode="ios">
+                <ion-title>Menu</ion-title>
+            </ion-toolbar>
+        </ion-header>
+
+        <ion-content>
+            <ion-list class="side-menu">
+                <ion-item class="menu-item"
+                          lines="none"
+                          *ngIf="isLogoutEnabled()"
+                          (click)="onLogoutClick()">
+                    <ion-label>Logout</ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

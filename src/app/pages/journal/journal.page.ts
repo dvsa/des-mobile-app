@@ -181,7 +181,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   ionViewWillLeave() {
-    // this.store$.dispatch(new journalActions.StopPolling());
+    this.store$.dispatch(journalActions.StopPolling());
   }
 
   ionViewDidEnter(): void {

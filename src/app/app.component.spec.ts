@@ -1,23 +1,32 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { configureTestSuite } from 'ng-bullet';
 import { StoreModule } from '@ngrx/store';
 import { Plugins } from '@capacitor/core';
+import { Router } from '@angular/router';
 import { AppComponent } from './app.component';
+import { AuthenticationProviderMock } from './providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from './providers/authentication/authentication';
+import { PlatformMock } from '../../mock/ionic-mocks/platform-mock';
+import { MenuControllerMock } from '../../mock/ionic-mocks/menu-controller';
 
 describe('AppComponent', () => {
   jasmine.getEnv().allowRespy(true);
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  let splashScreenSpy;
-  let platformReadySpy;
-  let platformSpy;
+  const splashScreenSpy = {
+    hide: () => {
+    },
+  } as SplashScreen;
+  let authenticationProvider: AuthenticationProvider;
+  let platform: Platform;
+  let menuController: MenuController;
 
   configureTestSuite(() => {
-    splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
-    platformReadySpy = Promise.resolve();
-    platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -27,23 +36,59 @@ describe('AppComponent', () => {
       ],
       providers: [
         { provide: SplashScreen, useValue: splashScreenSpy },
-        { provide: Platform, useValue: platformSpy },
+        { provide: Platform, useClass: PlatformMock },
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: Router, useValue: routerSpy },
+        { provide: MenuController, useClass: MenuControllerMock },
       ],
     });
   });
 
+  beforeEach(async(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    authenticationProvider = TestBed.inject(AuthenticationProvider);
+    platform = TestBed.inject(Platform);
+    menuController = TestBed.inject(MenuController);
+  }));
+
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
+  });
+
+  describe('disableMenuSwipe', () => {
+    it('should call swipeGesture with false to disable side menu swipe', async () => {
+      spyOn(menuController, 'swipeGesture');
+      await component.disableMenuSwipe();
+      expect(menuController.swipeGesture).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('onLogoutClick', () => {
+    it('should call through to openLogoutModal', async () => {
+      spyOn(component, 'openLogoutModal');
+      await component.onLogoutClick();
+      expect(component.openLogoutModal).toHaveBeenCalled();
+    });
+  });
+
+  describe('isLogoutEnabled', () => {
+    it('should call through to logoutEnabled', () => {
+      spyOn(authenticationProvider, 'logoutEnabled');
+      component.isLogoutEnabled();
+      expect(authenticationProvider.logoutEnabled).toHaveBeenCalled();
+    });
   });
 
   // TODO: spike on testing capacitor plugins
   xit('should initialize the app', async () => {
     spyOn(Plugins.prototype.StatusBar, 'setStyle').and.callThrough();
     TestBed.createComponent(AppComponent);
-    expect(platformSpy.ready).toHaveBeenCalled();
-    await platformReadySpy;
+    expect(platform.ready).toHaveBeenCalled();
+    await platform;
     expect(splashScreenSpy.hide).toHaveBeenCalled();
     expect(Plugins.StatusBar.setStyle).toHaveBeenCalled();
   });

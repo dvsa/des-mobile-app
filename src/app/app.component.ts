@@ -1,27 +1,33 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
-
-import { Platform } from '@ionic/angular';
+import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { Router } from '@angular/router';
 
 import { StoreModel } from './shared/models/store.model';
 import { LoadAppVersion } from '../store/app-info/app-info.actions';
+import { AuthenticationProvider } from './providers/authentication/authentication';
+import { LogoutBasePageComponent } from './shared/classes/logout-base-page';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
-
+export class AppComponent extends LogoutBasePageComponent {
   textZoom: number = 100;
 
   constructor(
     private store$: Store<StoreModel>,
-    private platform: Platform,
+    protected platform: Platform,
     private splashScreen: SplashScreen,
+    protected authenticationProvider: AuthenticationProvider,
+    protected alertController: AlertController,
+    protected menuController: MenuController,
+    router: Router,
   ) {
+    super(platform, authenticationProvider, alertController, router);
     this.initializeApp();
   }
 
@@ -30,6 +36,7 @@ export class AppComponent {
       this.store$.dispatch(LoadAppVersion());
       this.splashScreen.hide();
       await this.configureStatusBar();
+      await this.disableMenuSwipe();
     });
   }
 
@@ -52,4 +59,14 @@ export class AppComponent {
       await StatusBar.setBackgroundColor({ color: '#000000' });
     }
   };
+
+  disableMenuSwipe = async (): Promise<void> => {
+    await this.menuController.swipeGesture(false);
+  };
+
+  onLogoutClick = async (): Promise<void> => {
+    await this.openLogoutModal();
+  };
+
+  isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 }

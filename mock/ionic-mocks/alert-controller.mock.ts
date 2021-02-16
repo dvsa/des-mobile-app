@@ -1,7 +1,6 @@
-import { AlertController } from '@ionic/angular';
 import { AlertOptions } from '@capacitor/core';
 
-export class AlertControllerMock extends AlertController {
+export class AlertControllerMock {
 
   create(options: AlertOptions): Promise<HTMLIonAlertElement> {
     return Promise.resolve({
