@@ -188,11 +188,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
   ionViewDidEnter(): void {
     this.store$.dispatch(journalActions.JournalViewDidEnter());
 
-    if (super.isIos()) {
+    // if (super.isIos()) {
       // this.screenOrientation.unlock();
       // this.insomnia.allowSleepAgain();
       // this.deviceProvider.disableSingleAppMode();
-    }
+    // }
   }
 
   loadJournalManually() {
