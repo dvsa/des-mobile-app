@@ -46,7 +46,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
   ngOnInit(): void {
 
     this.route.queryParams.subscribe(() => {
-      if (this.router.getCurrentNavigation().extras.state) {
+      if (this.router.getCurrentNavigation()?.extras.state) {
         this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
       }
     });
@@ -116,7 +116,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
   };
 
   async initialisePersistentStorage(): Promise<void> {
-    if (this.platform.is('ios')) {
+    if (this.isIos()) {
       try {
         const storage = await this.secureStorage.create('DES');
         this.dataStore.setSecureContainer(storage);
@@ -149,6 +149,15 @@ export class LoginPage extends BasePageComponent implements OnInit {
    * Check app is running on a supported device and navigate to app starting page
    */
   validateDeviceType = (): void => {
+    // @TODO: Update old implementation
+    // const validDevice = this.deviceProvider.validDeviceType();
+    // if (!validDevice) {
+    //   this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
+    //   this.hasDeviceTypeError = true;
+    //   this.analytics.logException(`${this.deviceTypeError}-${this.deviceProvider.getDeviceType()}`, true);
+    // } else {
+    //   this.navController.setRoot(DASHBOARD_PAGE);
+    // }
     this.router.navigate([DASHBOARD_PAGE]);
   };
 
