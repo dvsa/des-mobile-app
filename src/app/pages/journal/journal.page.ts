@@ -3,7 +3,7 @@ import {
   Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef,
 } from '@angular/core';
 import {
-  LoadingController, IonRefresher,
+  LoadingController,
   NavParams, Platform, ModalController,
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
@@ -75,7 +75,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   pageState: JournalPageState;
   selectedDate: string;
   loadingSpinner$: Observable<HTMLIonLoadingElement>;
-  pageRefresher: IonRefresher;
+  pageRefresher;
   isUnauthenticated: boolean;
   subscription: Subscription;
   employeeId: string;
@@ -303,9 +303,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }
   };
 
-  public pullRefreshJournal = (refresher: IonRefresher) => {
+  public pullRefreshJournal = (event: CustomEvent) => {
     this.loadJournalManually();
-    this.pageRefresher = refresher;
+    this.pageRefresher = event.target;
   };
 
   public refreshJournal = () => {
