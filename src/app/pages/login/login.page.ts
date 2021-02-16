@@ -109,9 +109,10 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
       await this.authenticationProvider.setEmployeeId();
 
+      await this.appConfigProvider.loadRemoteConfig();
+
       this.store$.dispatch(LoadEmployeeName());
 
-      await this.appConfigProvider.loadRemoteConfig();
       this.store$.dispatch(LoadConfigSuccess());
 
       await this.handleLoadingUI(false);
