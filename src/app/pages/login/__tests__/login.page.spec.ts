@@ -27,6 +27,7 @@ import { AppConfigError } from '../../../providers/app-config/app-config.constan
 import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
 import { AlertControllerMock } from '../../../../../mock/ionic-mocks/alert-controller.mock';
 import { SecureStorageMock } from '../../../../../mock/ionic-mocks/secure-storage.mock';
+import { MenuControllerMock } from '../../../../../mock/ionic-mocks/menu-controller';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -68,7 +69,7 @@ describe('LoginPage', () => {
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: ActivatedRoute, useValue: mockActivateRoute },
-        MenuController,
+        { provide: MenuController, useClass: MenuControllerMock },
         provideMockStore({ ...{} }),
       ],
     });
