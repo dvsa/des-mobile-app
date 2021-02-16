@@ -1,4 +1,8 @@
-export class LoadingControllerMock {
+import { LoadingController } from '@ionic/angular';
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class LoadingControllerMock extends LoadingController {
 
   create(opts?: any): Promise<HTMLIonLoadingElement> {
     return Promise.resolve({
