@@ -80,7 +80,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   subscription: Subscription;
   employeeId: string;
   start = '2018-12-10T08:10:00+00:00';
-  merged$: Observable<void | number>;
+  merged$: Observable<void | number | Promise<void>>;
   todaysDate: DateTime;
   completedTests: SearchResultTestSchema[];
 
@@ -188,9 +188,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(journalActions.JournalViewDidEnter());
 
     // if (super.isIos()) {
-      // this.screenOrientation.unlock();
-      // this.insomnia.allowSleepAgain();
-      // this.deviceProvider.disableSingleAppMode();
+    // this.screenOrientation.unlock();
+    // this.insomnia.allowSleepAgain();
+    // this.deviceProvider.disableSingleAppMode();
     // }
   }
 
@@ -224,23 +224,21 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }
   };
 
-  showError = (error: MesError): void => {
+  async showError(error: MesError): Promise<void> {
     if (error === undefined || error.message === '') return;
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
 
     const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
-
-    this.modalController.create({
+    const errorModal = await this.modalController.create({
       component: ErrorPage,
+      cssClass: zoomClass,
       componentProps: {
         errorType: ErrorTypes.JOURNAL_REFRESH,
       },
-      cssClass: zoomClass,
-    }).then((modal) => {
-      modal.present();
     });
-  };
+    await errorModal.present();
+  }
 
   /**
    * Returns the activity code if the test has been completed already
