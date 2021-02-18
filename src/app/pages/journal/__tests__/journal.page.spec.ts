@@ -1,10 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, LoadingController, ModalController, NavParams, Platform } from '@ionic/angular';
+import {
+  async, ComponentFixture, fakeAsync, flushMicrotasks, TestBed,
+} from '@angular/core/testing';
+import {
+  IonicModule, LoadingController, ModalController, NavParams, Platform,
+} from '@ionic/angular';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFactoryResolver } from '@angular/core';
-// import { configureTestSuite } from 'ng-bullet';
 import { Subscription } from 'rxjs';
+import { MockComponent } from 'ng-mocks';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { JournalPage } from '../journal.page';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../../../providers/authentication/__mocks__/authentication.mock';
@@ -14,33 +19,24 @@ import { DateTimeProviderMock } from '../../../providers/date-time/__mocks__/dat
 import { AppConfigProvider } from '../../../providers/app-config/app-config';
 import { AppConfigProviderMock } from '../../../providers/app-config/__mocks__/app-config.mock';
 import { AppComponent } from '../../../app.component';
-import { ModalControllerMock } from '../../../../../mock/ionic-mocks/modal-controller.mock';
 import { StoreModel } from '../../../shared/models/store.model';
 import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
 import { MockAppComponent } from '../../../__mocks__/app.component.mock';
-import { MockComponent } from 'ng-mocks';
 import { JournalNavigationComponent } from '../components/journal-navigation/journal-navigation';
 import { selectVersionNumber } from '../../../../store/app-info/app-info.selectors';
 import { DateTime } from '../../../shared/helpers/date-time';
 import * as journalActions from '../../../../store/journal/journal.actions';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { MesError } from '../../../shared/models/mes-error.model';
 import { ErrorPage } from '../../error-page/error';
 import { ErrorTypes } from '../../../shared/models/error-message';
+import { MockBackButton } from './back-button.mock';
+import { MockPlatform } from './platform.mock';
 
-class MockBackButton {
-  subscribeWithPriority: jasmine.Spy<any>;
-}
-
-class MockPlatform {
-  ready: jasmine.Spy<any>;
-  backButton: any;
-}
-
-fdescribe('JournalPage', () => {
+describe('JournalPage', () => {
   let component: JournalPage;
   let fixture: ComponentFixture<JournalPage>;
-  let mockBackButton, mockPlatform;
+  let mockBackButton; let
+    mockPlatform;
   const platformReadySpy = jasmine.createSpy().and.returnValue(Promise.resolve());
   let store$: MockStore;
   const initialState = {
@@ -54,16 +50,20 @@ fdescribe('JournalPage', () => {
       return data[param];
     },
   };
-  // configureTestSuite(() => {
-  //
-  // });
+
   beforeEach(async(() => {
     mockBackButton = new MockBackButton();
-    mockBackButton.subscribeWithPriority = jasmine.createSpy('subscribeWithPriority', (priority, fn) => {
+    mockBackButton.subscribeWithPriority = jasmine.createSpy('subscribeWithPriority', () => {
     });
     mockPlatform = new MockPlatform();
     mockPlatform.backButton = mockBackButton;
     mockPlatform.ready = platformReadySpy;
+
+    const modalSpy = jasmine.createSpyObj('Modal', ['present']);
+    const modalControllerMock = jasmine.createSpyObj('ModalController', ['create']);
+    modalControllerMock.create.and.callFake(() => {
+      return modalSpy;
+    });
 
     TestBed.configureTestingModule({
       declarations: [
@@ -81,8 +81,7 @@ fdescribe('JournalPage', () => {
       providers: [
         { provide: Platform, useValue: mockPlatform },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        // { provide: Router },
-        { provide: ModalController, useClass: ModalControllerMock },
+        { provide: ModalController, useValue: modalControllerMock },
         { provide: NavParams, useValue: mockNavParams },
         { provide: LoadingController, useClass: LoadingControllerMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
@@ -121,9 +120,10 @@ fdescribe('JournalPage', () => {
     it('should call loadJournalManually, setupPolling and set todays date', () => {
       spyOn(component, 'loadJournalManually');
       spyOn(component, 'setupPolling');
+      component.merged$ = null;
       component.ionViewWillEnter();
-      expect(component.loadJournalManually).toHaveBeenCalled()
-      expect(component.setupPolling).toHaveBeenCalled()
+      expect(component.loadJournalManually).toHaveBeenCalled();
+      expect(component.setupPolling).toHaveBeenCalled();
       expect(component.todaysDate).toEqual(new DateTime('2019-02-01'));
     });
   });
@@ -170,39 +170,32 @@ fdescribe('JournalPage', () => {
   describe('setCompletedTests', () => {
     it('should set completedTests to passed in value', () => {
       component.setCompletedTests(
-        [{ costCode: 'abc' }] as SearchResultTestSchema[]
+        [{ costCode: 'abc' }] as SearchResultTestSchema[],
       );
       expect(component.completedTests).toEqual([{ costCode: 'abc' }] as SearchResultTestSchema[]);
     });
   });
 
-  // describe('handleLoadingUI', () => {
-  //   it('should create a loading spinner instance if loading is true', () => {
-  //     component.handleLoadingUI(true);
-  //     expect(component.loadingController.create).toHaveBeenCalledWith({
-  //       dismissOnPageChange: true,
-  //       spinner: 'circles',
-  //     });
-  //   });
-  // });
-
   describe('showError', () => {
-    it('should create a modal instance if there is an error', () => {
+    it('should create a modal instance if there is an error', fakeAsync(() => {
       const errorMessage: MesError = {
         message: 'Error',
         status: 500,
         statusText: 'Something went wrong',
       };
 
+      spyOn(component.modalController, 'create');
       component.showError(errorMessage);
+      flushMicrotasks();
+
       expect(component.modalController.create).toHaveBeenCalledWith({
         component: ErrorPage,
+        cssClass: 'modal-fullscreen text-zoom-regular',
         componentProps: {
           errorType: ErrorTypes.JOURNAL_REFRESH,
         },
-        cssClass: 'modal-fullscreen text-zoom-regular'
       });
-    });
+    }));
   });
 
 });
