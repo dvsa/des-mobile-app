@@ -132,6 +132,10 @@ $mes-toolbar-background: #212121;
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  /** app styles **/
+  --ion-background-color: var(--mes-background);
+  --ion-card-background: var(--mes-white);
 }
 
 @media (prefers-color-scheme: dark) {
