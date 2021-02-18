@@ -1,0 +1,21 @@
+<location *ngIf="showLocation"
+  [location]="slot.testCentre.centreName">
+</location>
+<ion-card class="transparent-bg" [ngClass]="{'empty-slot-portrait-mode': isPortrait()}">
+  <ion-row class="slot-row" align-items-center nowrap>
+    <ion-col class="time-column">
+      <div>
+        <time
+          [time]="slot.slotDetail.start"
+          [testComplete]="false"
+        >
+        </time>
+      </div>
+    </ion-col>
+    <ion-col class="available-column">
+      <h3 class="available">Available slot</h3>
+    </ion-col>
+    <ion-col class="spacing-column">
+    </ion-col>
+  </ion-row>
+</ion-card>

@@ -29,7 +29,7 @@ export const environment: LocalEnvironmentFile = {
   ],
   role: ExaminerRole.DE,
   journal: {
-    journalUrl: '/assets/mock/local-journal.json',
+    journalUrl: '/assets/mock/local-journal-non-test-activities.json',
     searchBookingUrl: 'dummy/search/booking/url',
     delegatedExaminerSearchBookingUrl: 'dummy/delegated-bookings/{applicationReference}',
     autoRefreshInterval: 1000 * 60 * 10,

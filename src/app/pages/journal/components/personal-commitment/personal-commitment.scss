@@ -1,0 +1,40 @@
+ion-card {
+  border: 1px solid var(--gds-grey-2);
+
+  .slot-row {
+    padding: 0.5em 0;
+    height: 50px;
+    background: var(--gds-grey-5);
+    min-height: 108px;
+    position: relative;
+  }
+
+  &.test-slot-portrait-mode {
+    min-height: 108px;
+  }
+
+  .inflate-row {
+    min-height: 108px;
+    border-top: none;
+    border-bottom: none;
+  }
+}
+
+.time-column {
+  max-width: 192px;
+  padding-left: 55px;
+}
+
+.title-column {
+  display: flex;
+  justify-content: center;
+}
+
+.activity-code-column {
+  max-width: 192px;
+  padding-right: 55px;
+
+  .activity-code {
+    float: right;
+  }
+}

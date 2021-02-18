@@ -48,6 +48,7 @@ import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 import { ErrorPage } from '../error-page/error';
+import { PersonalCommitmentSlotComponent } from './components/personal-commitment/personal-commitment';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -284,22 +285,22 @@ export class JournalPage extends BasePageComponent implements OnInit {
       (<SlotComponent>componentRef.instance).showLocation = (slot.slotData.testCentre.centreName !== lastLocation);
       lastLocation = slot.slotData.testCentre.centreName;
 
-      // if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
-      //   // if this is a personal commitment assign it to the component
-      //   (<PersonalCommitmentSlotComponent>componentRef.instance).personalCommitments = slot.personalCommitment;
-      // }
+      if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
+        // if this is a personal commitment assign it to the component
+        (<PersonalCommitmentSlotComponent>componentRef.instance).personalCommitments = slot.personalCommitment;
+      }
 
-      // if (componentRef.instance instanceof TestSlotComponent) {
-      const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
+      if (componentRef.instance instanceof TestSlotComponent) {
+        const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
 
-      // if (activityCode) {
-      (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
-      (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
-      // }
+        if (activityCode) {
+          (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
+          (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
+        }
 
-      // if this is a test slot assign hasSeenCandidateDetails separately
-      (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
-      // }
+        // if this is a test slot assign hasSeenCandidateDetails separately
+        (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
+      }
     }
   };
 

@@ -1,0 +1,38 @@
+ion-card {
+  &.transparent-bg {
+    background: transparent;
+  }
+
+  border: 2px dashed #4A4A4A;
+}
+
+ion-row {
+  &.slot-row {
+    min-height: 108px;
+    position: relative;
+
+    &.empty-slot-portrait-mode {
+      min-height: 108px;
+    }
+  }
+}
+
+.time-column {
+  max-width: 192px;
+  padding-left: 55px;
+}
+
+.available-column {
+  display: flex;
+  justify-content: center;
+}
+
+.spacing-column {
+  max-width: 192px;
+  display: flex;
+  justify-content: center;
+
+  .activity-code {
+    font-weight: bold;
+  }
+}
