@@ -1,5 +1,5 @@
 <ion-card class="personal-commitment personal-commitment-card">
-    <ion-row class="slot-row" *ngFor="let commitment of personalCommitments; let i = index;" align-items-center nowrap>
+    <ion-row class="slot-row" *ngFor="let commitment of personalCommitments; let i = index;">
         <ion-col class="time-column">
             <div>
                 <time [time]="transformSlotTime(slot.slotDetail.start, i)" [testComplete]="false">

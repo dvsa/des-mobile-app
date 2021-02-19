@@ -17,6 +17,7 @@ import { LogoutBasePageComponent } from './shared/classes/logout-base-page';
 })
 export class AppComponent extends LogoutBasePageComponent {
   textZoom: number = 100;
+  logoutEnabled: boolean = null;
 
   constructor(
     private store$: Store<StoreModel>,
@@ -37,6 +38,7 @@ export class AppComponent extends LogoutBasePageComponent {
       this.splashScreen.hide();
       await this.configureStatusBar();
       await this.disableMenuSwipe();
+      this.logoutEnabled = this.isLogoutEnabled();
     });
   }
 

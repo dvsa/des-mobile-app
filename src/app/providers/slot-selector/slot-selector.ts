@@ -86,22 +86,5 @@ export class SlotSelectorProvider {
 
     return TestSlotComponent;
   };
-  //
-  // private resolveComponentName = () => { // slot: SlotItem
-  //   // const { slotData, personalCommitment } = slot;
-  //
-  //   // if (!isEmpty(personalCommitment)) {
-  //   //   return PersonalCommitmentSlotComponent;
-  //   // }
-  //
-  //   // if (has(slotData, 'activityCode')) {
-  //   //   return ActivitySlotComponent;
-  //   // }
-  //
-  //   // if (this.isBookingEmptyOrNull(slot)) {
-  //   //   return EmptySlotComponent;
-  //   // }
-  //
-  //   return TestSlotComponent;
-  // };
+
 }

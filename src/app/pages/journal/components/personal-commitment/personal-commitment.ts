@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { isNil } from 'lodash';
-import { PersonalCommitment } from '@dvsa/mes-journal-schema';
-import { SlotItem } from '../../../../providers/slot-selector/slot-item';
+import { PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotComponent } from '../../../../../components/test-slot/slot/slot';
 
 @Component({
@@ -11,7 +10,7 @@ import { SlotComponent } from '../../../../../components/test-slot/slot/slot';
 })
 export class PersonalCommitmentSlotComponent implements SlotComponent {
   @Input()
-  slot: SlotItem;
+  slot: TestSlot;
 
   @Input()
   hasSlotChanged: boolean;

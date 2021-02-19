@@ -1,6 +1,8 @@
 ion-card.activity-slot {
   .slot-row {
     padding: 0.5em 0;
+    align-items: center;
+    flex-wrap: nowrap;
   }
 
   background: var(--nonTestActivitySlotBackground);

@@ -10,6 +10,8 @@ ion-row {
   &.slot-row {
     min-height: 108px;
     position: relative;
+    align-items: center;
+    flex-wrap: nowrap;
 
     &.empty-slot-portrait-mode {
       min-height: 108px;

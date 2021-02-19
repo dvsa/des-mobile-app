@@ -1,15 +1,16 @@
 import { Component, Input } from '@angular/core';
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotComponent } from '../../../../../components/test-slot/slot/slot';
-import { Slot } from '../../../../../store/journal/journal.model';
 
 @Component({
   selector: 'empty-slot',
   templateUrl: 'empty-slot.html',
+  styleUrls: ['empty-slot.scss'],
 })
 export class EmptySlotComponent implements SlotComponent {
   @Input()
-  slot: Slot;
+  slot: TestSlot;
 
   @Input()
   hasSlotChanged: boolean;

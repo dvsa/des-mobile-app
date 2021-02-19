@@ -1,13 +1,14 @@
 import { MockComponent } from 'ng-mocks';
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
-import { EmptySlotComponent } from '../empty-slot';
-import { IonicModule, Config } from 'ionic-angular';
+import { IonicModule, Config } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ConfigMock } from 'ionic-mocks';
 import { cloneDeep } from 'lodash';
 import { configureTestSuite } from 'ng-bullet';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { ScreenOrientationMock } from '../../../../../shared/mocks/screen-orientation.mock';
+import { TestSlot } from '@dvsa/mes-journal-schema';
+// import { ScreenOrientation } from '@ionic-native/screen-orientation';
+// import { ScreenOrientationMock } from '../../../../../shared/mocks/screen-orientation.mock';
+import { EmptySlotComponent } from '../empty-slot';
 import { TimeComponent } from '../../../../../../components/test-slot/time/time';
 import { LocationComponent } from '../../../../../../components/test-slot/location/location';
 
@@ -36,7 +37,7 @@ describe('EmptySlotComponent', () => {
           lastName: 'Pearson',
         },
         driverNumber: 'PEARS015220A99HC',
-        gender: 'Female',
+        gender: 'F',
         candidateAddress: {
           addressLine1: '1 Station Street',
           addressLine2: 'Someplace',
@@ -70,7 +71,7 @@ describe('EmptySlotComponent', () => {
         'Act of nature',
       ],
     },
-  };
+  } as TestSlot;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -82,7 +83,7 @@ describe('EmptySlotComponent', () => {
       imports: [IonicModule],
       providers: [
         { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
+        // { provide: ScreenOrientation, useClass: ScreenOrientationMock },
       ],
     });
   });
@@ -103,8 +104,8 @@ describe('EmptySlotComponent', () => {
       it('should pass something to sub-component location input', () => {
         component.showLocation = true;
         fixture.detectChanges();
-        const subByDirective = fixture.debugElement.query(
-          By.directive(MockComponent(LocationComponent))).componentInstance;
+        const subByDirective = fixture.debugElement
+          .query(By.directive(MockComponent(LocationComponent))).componentInstance;
         expect(subByDirective.location).toBe('Example Test Centre');
       });
     });

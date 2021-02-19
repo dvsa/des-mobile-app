@@ -154,7 +154,7 @@ export class AuthenticationProvider {
   }
 
   public logoutEnabled = (): boolean => {
-    return this.appConfig.getAppConfig().journal.enableLogoutButton;
+    return this.appConfig.getAppConfig()?.journal?.enableLogoutButton;
   };
 
   public async logout(): Promise<void> {
