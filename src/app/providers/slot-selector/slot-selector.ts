@@ -32,7 +32,7 @@ export class SlotSelectorProvider {
     return slotItems.map((slotItem) => {
       return {
         ...slotItem,
-        component: this.resolveComponentName(slotItem), // slotItem
+        component: this.resolveComponentName(slotItem),
       } as SlotItem;
     });
   };

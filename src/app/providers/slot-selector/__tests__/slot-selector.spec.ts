@@ -4,8 +4,8 @@ import { configureTestSuite } from 'ng-bullet';
 import { SlotSelectorProvider } from '../slot-selector';
 import { TestSlotComponent } from '../../../../components/test-slot/test-slot/test-slot';
 import { SlotItem } from '../slot-item';
-// import { ActivitySlotComponent } from '../../../pages/journal/components/activity-slot/activity-slot';
-// import { EmptySlotComponent } from '../../../pages/journal/components/empty-slot/empty-slot';
+import { ActivitySlotComponent } from '../../../pages/journal/components/activity-slot/activity-slot';
+import { EmptySlotComponent } from '../../../pages/journal/components/empty-slot/empty-slot';
 import { Slot } from '../../../../store/journal/journal.model';
 
 describe('Slot Selector', () => {
@@ -33,11 +33,11 @@ describe('Slot Selector', () => {
     return journalSlots;
   };
 
-  // const expectNonTestActivitySlotComponentResolvedForActivityCode = (code) => {
-  //   const journalSlots = singleSlotItemWithActivityCode(code);
-  //   const response = slotSelector.getSlotTypes(journalSlots);
-  //   expect(response[0].component).toBe(ActivitySlotComponent);
-  // };
+  const expectNonTestActivitySlotComponentResolvedForActivityCode = (code) => {
+    const journalSlots = singleSlotItemWithActivityCode(code);
+    const response = slotSelector.getSlotTypes(journalSlots);
+    expect(response[0].component).toBe(ActivitySlotComponent);
+  };
 
   const singleSlotItemWithVehicleTypeCode = (vehicleTypeCode: string): SlotItem[] => {
     const slot: TestSlot = {
@@ -100,12 +100,12 @@ describe('Slot Selector', () => {
         expectTestSlotComponentResolvedForVehicleSlotType('Sc');
       });
 
-      // it('should provide the NonTestActivitySlotComponent for NTA activity codes', () => {
-      //   expectNonTestActivitySlotComponentResolvedForActivityCode('091');
-      //   expectNonTestActivitySlotComponentResolvedForActivityCode('094');
-      //   expectNonTestActivitySlotComponentResolvedForActivityCode('096');
-      //   expectNonTestActivitySlotComponentResolvedForActivityCode('142');
-      // });
+      it('should provide the NonTestActivitySlotComponent for NTA activity codes', () => {
+        expectNonTestActivitySlotComponentResolvedForActivityCode('091');
+        expectNonTestActivitySlotComponentResolvedForActivityCode('094');
+        expectNonTestActivitySlotComponentResolvedForActivityCode('096');
+        expectNonTestActivitySlotComponentResolvedForActivityCode('142');
+      });
 
       it('should provide the EmptySlotComponent for slots that have no booking or activity code', () => {
         const slot = {};
@@ -115,7 +115,7 @@ describe('Slot Selector', () => {
         const response = slotSelector.getSlotTypes(journalSlots);
 
         expect(response.length).toBe(1);
-        // expect(response[0].component).toBe(EmptySlotComponent);
+        expect(response[0].component).toBe(EmptySlotComponent);
         expect(response[0].slotData).toBe(journalSlots[0].slotData);
         expect(response[0].hasSlotChanged).toBe(false);
       });
