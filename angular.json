@@ -106,7 +106,8 @@
               "dist/attestation-lib/**/*",
               "dist/product-lib/**/*",
               "dist/profile-lib/**/*",
-              "dist/program-lib/**/*"
+              "dist/program-lib/**/*",
+              "/**/*module*.ts"
             ],
             "assets": [
               {
