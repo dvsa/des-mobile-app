@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { SecureStorageMock } from '@ionic-native-mocks/secure-storage';
 import { SecureStorage } from '@ionic-native/secure-storage';
@@ -21,7 +21,7 @@ import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.moc
 import { DateTimeProvider } from '../../date-time/date-time';
 import { DateTimeProviderMock } from '../../date-time/__mocks__/date-time.mock';
 
-xdescribe('JournalProvider', () => {
+fdescribe('JournalProvider', () => {
 
   let journalProvider: JournalProvider;
   let httpMock: HttpTestingController;
@@ -29,7 +29,7 @@ xdescribe('JournalProvider', () => {
   let urlProviderMock: UrlProvider;
   let dataStoreMock: DataStoreProvider;
   let appConfigProviderMock: AppConfigProvider;
-  let cacheDays: number;
+  let cacheDays: number = 7;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -42,8 +42,8 @@ xdescribe('JournalProvider', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: SecureStorage, useClass: SecureStorageMock },
-        { provide: Network, useClass: NetworkMock },
+        // { provide: SecureStorage, useClass: SecureStorageMock },
+        // { provide: Network, useClass: NetworkMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
@@ -58,7 +58,6 @@ xdescribe('JournalProvider', () => {
     dataStoreMock = TestBed.inject(DataStoreProvider);
     appConfigProviderMock = TestBed.inject(AppConfigProvider);
     cacheDays = appConfigProviderMock.getAppConfig().journal.daysToCacheJournalData;
-
   });
 
   describe('isCacheTooOld', () => {
@@ -76,7 +75,10 @@ xdescribe('JournalProvider', () => {
   });
 
   describe('getAndConvertOfflineJournal', () => {
-    it('should empty cached data if cache is too old', () => {
+    beforeEach(() => {
+      spyOn(dataStoreMock, 'setItem').and.returnValue(Promise.resolve(''));
+    });
+    it('should empty cached data if cache is too old', fakeAsync(async () => {
       const exampleSchedule: ExaminerWorkSchedule = {
         examiner: { staffNumber: '1234' },
       };
@@ -84,19 +86,17 @@ xdescribe('JournalProvider', () => {
         dateStored: new DateTime().add(-(cacheDays + 1), Duration.DAY).format('YYYY/MM/DD'),
         data: exampleSchedule,
       };
-
       // override mock getItem as we need data to test
-      // @ts-ignore
-      dataStoreMock.getItem.and.callFake(() => Promise.resolve(JSON.stringify(agedCache)));
-
+      spyOn(dataStoreMock, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(agedCache)));
       spyOn(journalProvider, 'emptyCachedData').and.callThrough();
 
       journalProvider.getAndConvertOfflineJournal().then((data) => {
+        flushMicrotasks();
         expect(journalProvider.emptyCachedData).toHaveBeenCalled();
         expect(dataStoreMock.setItem).toHaveBeenCalled();
         expect(data).toEqual({} as ExaminerWorkSchedule);
       });
-    });
+    }));
 
     it('should return data without emptying cache if data is not too old', () => {
       const exampleSchedule: ExaminerWorkSchedule = {
@@ -108,18 +108,15 @@ xdescribe('JournalProvider', () => {
       };
 
       // override mock getItem as we need data to test
-      // @ts-ignore
-      dataStoreMock.getItem.and.callFake(() => Promise.resolve(JSON.stringify(dataWthinWindowCache)));
-
-      spyOn(journalProvider, 'emptyCachedData').and.callThrough();
+      spyOn(dataStoreMock, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(dataWthinWindowCache)));
+      spyOn(journalProvider, 'emptyCachedData');
 
       journalProvider.getAndConvertOfflineJournal().then((data) => {
-        expect(journalProvider.emptyCachedData).toHaveBeenCalledTimes(0);
+        expect(journalProvider.emptyCachedData).not.toHaveBeenCalled();
         expect(dataStoreMock.setItem).toHaveBeenCalledTimes(0);
         expect(data).toEqual(dataWthinWindowCache.data);
       });
     });
-
   });
 
   describe('getJournal', () => {
