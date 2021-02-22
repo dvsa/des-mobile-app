@@ -20,6 +20,8 @@ import { LOGIN_PAGE } from '../../page-names.constants';
 import { DateTime } from '../../../shared/helpers/date-time';
 import { selectEmployeeName, selectVersionNumber } from '../../../../store/app-info/app-info.selectors';
 import { StoreModel } from '../../../shared/models/store.model';
+import { DashboardPageRoutingModule } from '../dashboard-routing.module';
+import { DashboardComponentsModule } from '../components/dashboard-components.module';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -45,6 +47,8 @@ describe('DashboardPage', () => {
         ),
         IonicModule,
         StoreModule.forRoot({ appInfo: appInfoReducer }),
+        DashboardPageRoutingModule,
+        DashboardComponentsModule,
       ],
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },

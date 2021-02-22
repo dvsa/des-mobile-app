@@ -6,9 +6,11 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotItem } from './slot-item';
 import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 import { Slot } from '../../../store/journal/journal.model';
-// import { ActivitySlotComponent } from '../../pages/journal/components/activity-slot/activity-slot';
-// import { EmptySlotComponent } from '../../pages/journal/components/empty-slot/empty-slot';
-// import { PersonalCommitmentSlotComponent } from '../../pages/journal/personal-commitment/personal-commitment';
+import { ActivitySlotComponent } from '../../pages/journal/components/activity-slot/activity-slot';
+import { EmptySlotComponent } from '../../pages/journal/components/empty-slot/empty-slot';
+import {
+  PersonalCommitmentSlotComponent,
+} from '../../pages/journal/components/personal-commitment/personal-commitment';
 
 @Injectable()
 export class SlotSelectorProvider {
@@ -30,7 +32,7 @@ export class SlotSelectorProvider {
     return slotItems.map((slotItem) => {
       return {
         ...slotItem,
-        component: this.resolveComponentName(), // slotItem
+        component: this.resolveComponentName(slotItem),
       } as SlotItem;
     });
   };
@@ -67,21 +69,22 @@ export class SlotSelectorProvider {
 
   public isTestSlot = (slot: Slot) => has(slot, 'vehicleTypeCode');
 
-  private resolveComponentName = () => { // slot: SlotItem
-    // const { slotData, personalCommitment } = slot;
+  private resolveComponentName = (slot: SlotItem) => {
+    const { slotData, personalCommitment } = slot;
 
-    // if (!isEmpty(personalCommitment)) {
-    //   return PersonalCommitmentSlotComponent;
-    // }
+    if (!isEmpty(personalCommitment)) {
+      return PersonalCommitmentSlotComponent;
+    }
 
-    // if (has(slotData, 'activityCode')) {
-    //   return ActivitySlotComponent;
-    // }
+    if (has(slotData, 'activityCode')) {
+      return ActivitySlotComponent;
+    }
 
-    // if (this.isBookingEmptyOrNull(slot)) {
-    //   return EmptySlotComponent;
-    // }
+    if (this.isBookingEmptyOrNull(slot)) {
+      return EmptySlotComponent;
+    }
 
     return TestSlotComponent;
   };
+
 }

@@ -3,16 +3,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { IonicModule, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { JournalPage } from './journal.page';
-// import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
-// import { ActivitySlotComponent } from './components/activity-slot/activity-slot';
-// import { EmptySlotComponent } from './components/empty-slot/empty-slot';
+import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
 import { JournalProvider } from '../../providers/journal/journal';
 import { SlotProvider } from '../../providers/slot/slot';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
-// import { TestsEffects } from '../../modules/tests/tests.effects';
 import { TestSlotComponentsModule } from '../../../components/test-slot/test-slot-components.module';
-// import { JournalAnalyticsEffects } from './journal.analytics.effects';
-
 import { JournalPageRoutingModule } from './journal-routing.module';
 import { JournalComponentsModule } from './components/journal-components.module';
 import { ComponentsModule } from '../../../components/common/common-components.module';
@@ -37,15 +32,12 @@ import { ErrorPageModule } from '../error-page/error.module';
     ComponentsModule,
     CandidateDetailsPageModule,
   ],
-  entryComponents: [
-    // ActivitySlotComponent,
-    // EmptySlotComponent,
-  ],
+  entryComponents: [],
   providers: [
     JournalProvider,
     NavParams,
     SlotProvider,
-    // SlotSelectorProvider,
+    SlotSelectorProvider,
     DateTimeProvider,
   ],
 })

@@ -4,6 +4,7 @@
 $mes-white: #ffffff;
 $gds-black: #0b0c0c;
 $mes-toolbar-background: #212121;
+$card-ios-background-color: var(--mes-white);
 
 /** Ionic CSS Variables **/
 :root {
@@ -135,7 +136,6 @@ $mes-toolbar-background: #212121;
 
   /** app styles **/
   --ion-background-color: var(--mes-background);
-  --ion-card-background: var(--mes-white);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,5 +1,5 @@
 ion-card {
-
+  background: var(--mes-white);
   margin: 15px 10px;
 
   ion-grid {
@@ -29,7 +29,7 @@ ion-row {
 }
 ion-col {
   padding: 0;
-  
+
   &.time-exclamation-col {
     padding-left: 8px;
     max-width: 152px;
