@@ -3,8 +3,8 @@ import {
   Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef,
 } from '@angular/core';
 import {
-  LoadingController, IonRefresher,
-  NavParams, Platform, ModalController,
+  LoadingController,
+  NavParams, Platform, ModalController, IonRefresher,
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import {
@@ -218,7 +218,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       return;
     }
     if (this.pageRefresher) {
-      await this.pageRefresher.complete();
+      await this.pageRefresher['detail'].complete();
     }
     if (spinner) {
       await spinner.dismiss();

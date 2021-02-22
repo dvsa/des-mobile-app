@@ -16,6 +16,7 @@
     "no-useless-constructor": "off",
     "@typescript-eslint/lines-between-class-members": "off",
     "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/dot-notation": "off",
     "no-unused-expressions": "error",
     "class-methods-use-this": "off",
     "consistent-return": "off",
