@@ -57,4 +57,8 @@ export class JournalProviderMock {
     this.doTimeoutErrorNextCall = false;
     this.doHttpResponseError = false;
   }
+
+  emptyCachedData = () => ({}) as ExaminerWorkSchedule;
+
+  isCacheTooOld = () => true;
 }

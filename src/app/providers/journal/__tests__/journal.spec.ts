@@ -1,18 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { SecureStorageMock } from '@ionic-native-mocks/secure-storage';
-import { SecureStorage } from '@ionic-native/secure-storage';
-import { Network } from '@ionic-native/network';
-import { NetworkMock } from 'ionic-mocks';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { configureTestSuite } from 'ng-bullet';
+import { JournalData } from '@dvsa/mes-test-schema/categories/common';
+import { of } from 'rxjs';
 import { JournalProvider } from '../journal';
 import { AuthenticationProvider } from '../../authentication/authentication';
 import { AuthenticationProviderMock } from '../../authentication/__mocks__/authentication.mock';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { DataStoreProvider } from '../../data-store/data-store';
-import { NetworkStateProvider } from '../../network-state/network-state';
+import { ConnectionStatus, NetworkStateProvider } from '../../network-state/network-state';
 import { NetworkStateProviderMock } from '../../network-state/__mocks__/network-state.mock';
 import { DateTime, Duration } from '../../../shared/helpers/date-time';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
@@ -20,16 +18,19 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { DateTimeProvider } from '../../date-time/date-time';
 import { DateTimeProviderMock } from '../../date-time/__mocks__/date-time.mock';
+import { AppConfig } from '../../app-config/app-config.model';
 
-xdescribe('JournalProvider', () => {
-
+describe('JournalProvider', () => {
   let journalProvider: JournalProvider;
   let httpMock: HttpTestingController;
   let authProviderMock: AuthenticationProvider;
   let urlProviderMock: UrlProvider;
   let dataStoreMock: DataStoreProvider;
   let appConfigProviderMock: AppConfigProvider;
-  let cacheDays: number;
+  let networkStateProviderMock: NetworkStateProvider;
+  let dateTimeProviderMock: DateTimeProvider;
+  let cacheDays: number = 7;
+  const mockJournalUrl: string = 'https://www.example.com/api/v1/journals/12345678/personal';
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -42,8 +43,6 @@ xdescribe('JournalProvider', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: SecureStorage, useClass: SecureStorageMock },
-        { provide: Network, useClass: NetworkMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
@@ -57,8 +56,55 @@ xdescribe('JournalProvider', () => {
     urlProviderMock = TestBed.inject(UrlProvider);
     dataStoreMock = TestBed.inject(DataStoreProvider);
     appConfigProviderMock = TestBed.inject(AppConfigProvider);
+    networkStateProviderMock = TestBed.inject(NetworkStateProvider);
+    dateTimeProviderMock = TestBed.inject(DateTimeProvider);
     cacheDays = appConfigProviderMock.getAppConfig().journal.daysToCacheJournalData;
+  });
 
+  describe('getJournal', () => {
+    beforeEach(() => {
+      spyOn(journalProvider.urlProvider, 'getPersonalJournalUrl');
+      spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
+      spyOn(authProviderMock, 'getEmployeeId').and.returnValue('12345678');
+      spyOn(authProviderMock, 'isInUnAuthenticatedMode').and.returnValue(false);
+      spyOn(journalProvider, 'getOfflineJournal').and.returnValue(of({}));
+    });
+    it('should get the journal record using the url', () => {
+      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      journalProvider.getJournal(null).subscribe(() => {});
+      expect(authProviderMock.getEmployeeId).toHaveBeenCalled();
+      expect(journalProvider.urlProvider.getPersonalJournalUrl).toHaveBeenCalledWith('12345678');
+      expect(journalProvider.networkStateProvider.getNetworkState).toHaveBeenCalled();
+      const req = httpMock.expectOne((request) => request.url === mockJournalUrl);
+      expect(req.request.method).toBe('GET');
+      expect(req.request.headers.get('If-Modified-Since')).toBe(null);
+    });
+    it('should get the offline journal when lastRefreshed is null and ConnectionStatus is OFFLINE', () => {
+      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      journalProvider.getJournal(null).subscribe(() => {});
+      expect(authProviderMock.getEmployeeId).toHaveBeenCalled();
+      expect(journalProvider.urlProvider.getPersonalJournalUrl).toHaveBeenCalledWith('12345678');
+      expect(journalProvider.networkStateProvider.getNetworkState).toHaveBeenCalled();
+      expect(journalProvider.getOfflineJournal).toHaveBeenCalled();
+    });
+    it('should get the journal record with an `If-Modified-Since` header', () => {
+      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+      journalProvider.getJournal(new Date('2020-01-01')).subscribe(() => {});
+      expect(authProviderMock.getEmployeeId).toHaveBeenCalled();
+      expect(journalProvider.urlProvider.getPersonalJournalUrl).toHaveBeenCalledWith('12345678');
+      expect(journalProvider.networkStateProvider.getNetworkState).toHaveBeenCalled();
+      const req = httpMock.expectOne((request) => request.url === mockJournalUrl);
+      expect(req.request.method).toBe('GET');
+      expect(req.request.headers.get('If-Modified-Since')).toBeDefined();
+    });
+    it('should get the offline journal when lastRefreshed is defined but ConnectionStatus is OFFLINE', () => {
+      spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.OFFLINE);
+      journalProvider.getJournal(new Date('2020-01-01')).subscribe(() => {});
+      expect(authProviderMock.getEmployeeId).toHaveBeenCalled();
+      expect(journalProvider.urlProvider.getPersonalJournalUrl).toHaveBeenCalledWith('12345678');
+      expect(journalProvider.networkStateProvider.getNetworkState).toHaveBeenCalled();
+      expect(journalProvider.getOfflineJournal).toHaveBeenCalled();
+    });
   });
 
   describe('isCacheTooOld', () => {
@@ -76,29 +122,7 @@ xdescribe('JournalProvider', () => {
   });
 
   describe('getAndConvertOfflineJournal', () => {
-    it('should empty cached data if cache is too old', () => {
-      const exampleSchedule: ExaminerWorkSchedule = {
-        examiner: { staffNumber: '1234' },
-      };
-      const agedCache = {
-        dateStored: new DateTime().add(-(cacheDays + 1), Duration.DAY).format('YYYY/MM/DD'),
-        data: exampleSchedule,
-      };
-
-      // override mock getItem as we need data to test
-      // @ts-ignore
-      dataStoreMock.getItem.and.callFake(() => Promise.resolve(JSON.stringify(agedCache)));
-
-      spyOn(journalProvider, 'emptyCachedData').and.callThrough();
-
-      journalProvider.getAndConvertOfflineJournal().then((data) => {
-        expect(journalProvider.emptyCachedData).toHaveBeenCalled();
-        expect(dataStoreMock.setItem).toHaveBeenCalled();
-        expect(data).toEqual({} as ExaminerWorkSchedule);
-      });
-    });
-
-    it('should return data without emptying cache if data is not too old', () => {
+    it('should return data without emptying cache if data is not too old', async () => {
       const exampleSchedule: ExaminerWorkSchedule = {
         examiner: { staffNumber: '1234' },
       };
@@ -108,18 +132,39 @@ xdescribe('JournalProvider', () => {
       };
 
       // override mock getItem as we need data to test
-      // @ts-ignore
-      dataStoreMock.getItem.and.callFake(() => Promise.resolve(JSON.stringify(dataWthinWindowCache)));
+      spyOn(dataStoreMock, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(dataWthinWindowCache)));
+      spyOn(dataStoreMock, 'setItem').and.returnValue(Promise.resolve(''));
+      spyOn(journalProvider, 'emptyCachedData');
 
+      const data = await journalProvider.getAndConvertOfflineJournal();
+      expect(data).toEqual(dataWthinWindowCache.data);
+    });
+    it('should empty cached data if cache is too old', fakeAsync(async () => {
+      const exampleSchedule: ExaminerWorkSchedule = {
+        examiner: { staffNumber: '1234' },
+      };
+      const agedCache = {
+        dateStored: new DateTime().add(-(cacheDays + 1), Duration.DAY).format('YYYY/MM/DD'),
+        data: exampleSchedule,
+      };
+      // override mock getItem as we need data to test
+      spyOn(dataStoreMock, 'getItem').and.returnValue(Promise.resolve(JSON.stringify(agedCache)));
+      spyOn(dataStoreMock, 'setItem').and.returnValue(Promise.resolve(''));
       spyOn(journalProvider, 'emptyCachedData').and.callThrough();
 
       journalProvider.getAndConvertOfflineJournal().then((data) => {
-        expect(journalProvider.emptyCachedData).toHaveBeenCalledTimes(0);
-        expect(dataStoreMock.setItem).toHaveBeenCalledTimes(0);
-        expect(data).toEqual(dataWthinWindowCache.data);
+        flushMicrotasks();
+        expect(journalProvider.emptyCachedData).toHaveBeenCalled();
+        expect(dataStoreMock.setItem).toHaveBeenCalled();
+        expect(data).toEqual({} as ExaminerWorkSchedule);
       });
+    }));
+    it('should fall through catch and not run then code in then', async () => {
+      spyOn(dataStoreMock, 'getItem').and.callFake(() => Promise.reject(new Error('cannot get')));
+      spyOn(journalProvider, 'isCacheTooOld');
+      await journalProvider.getAndConvertOfflineJournal();
+      expect(journalProvider.isCacheTooOld).not.toHaveBeenCalled();
     });
-
   });
 
   describe('getJournal', () => {
@@ -130,6 +175,32 @@ xdescribe('JournalProvider', () => {
       expect(authProviderMock.getEmployeeId).toHaveBeenCalled();
       expect(authProviderMock.isInUnAuthenticatedMode).toHaveBeenCalled();
       expect(urlProviderMock.getPersonalJournalUrl).toHaveBeenCalledWith('12345678');
+    });
+  });
+
+  describe('saveJournalForOffline', () => {
+    beforeEach(() => {
+      spyOn(dateTimeProviderMock, 'now').and.returnValue(new DateTime('2021-01-01'));
+      spyOn(dataStoreMock, 'setItem').and.returnValue(Promise.resolve(''));
+      spyOn(networkStateProviderMock, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
+    });
+    it('should set the journalData param into data store', () => {
+      const journalDataToStore = { dateStored: '2021/01/01', data: {} };
+      journalProvider.saveJournalForOffline({} as JournalData);
+      expect(networkStateProviderMock.getNetworkState).toHaveBeenCalled();
+      expect(dataStoreMock.setItem).toHaveBeenCalledWith('JOURNAL', JSON.stringify(journalDataToStore));
+    });
+  });
+
+  describe('getOfflineJournal', () => {
+    beforeEach(() => {
+      spyOn(journalProvider, 'getAndConvertOfflineJournal').and.returnValue(Promise.resolve({}));
+    });
+    it('should convert the promise returned from getAndConvertOfflineJournal into an observable', () => {
+      journalProvider.getOfflineJournal().subscribe((response) => {
+        expect(response).toEqual({});
+      });
+      expect(journalProvider.getAndConvertOfflineJournal).toHaveBeenCalled();
     });
   });
 });
