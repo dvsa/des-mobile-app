@@ -1,11 +1,11 @@
+import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { merge } from 'rxjs';
-// import { Device } from '@capacitor/core';
-import { Injectable } from '@angular/core';
+import { from, merge } from 'rxjs';
+import { Device, DeviceInfo } from '@capacitor/core';
 
-import { LogType, Log } from '../../shared/models/log.model';
 import { selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
+import { LogType, Log } from '../../shared/models/log.model';
 import { StoreModel } from '../../shared/models/store.model';
 
 @Injectable()
@@ -13,9 +13,9 @@ export class LogHelper {
 
   private appVersion: string;
   private employeeId: string;
+  private deviceInfo: DeviceInfo;
 
   constructor(
-    // private device: Device,
     private store$: Store<StoreModel>,
   ) {
     const versionNumber$ = this.store$.pipe(
@@ -26,9 +26,13 @@ export class LogHelper {
       select(selectEmployeeId),
       map((employeeId) => { this.employeeId = employeeId; }),
     );
+    const device$ = from(Device.getInfo()).pipe(
+      map((deviceInfo: DeviceInfo) => { this.deviceInfo = deviceInfo; }),
+    );
     merge(
       versionNumber$,
       employeeId$,
+      device$,
     ).subscribe();
   }
 
@@ -39,8 +43,8 @@ export class LogHelper {
       timestamp: Date.now(),
       description: desc,
       appVersion: this.appVersion,
-      iosVersion: '12.3', // this.device.version,
-      deviceId: '12345456', // this.device.uuid,
+      iosVersion: this.deviceInfo?.osVersion,
+      deviceId: this.deviceInfo?.uuid,
       drivingExaminerId: this.employeeId,
     };
   }

@@ -13,10 +13,15 @@ import { NetworkStateProvider } from '../../providers/network-state/network-stat
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
 import { BasePageComponent } from '../../shared/classes/base-page';
-import { LoadConfigSuccess, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
+import { LoadConfigSuccess, LoadEmployeeName, LoadEmployeeId } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
-import { StartSendingLogs } from '../../../store/logs/logs.actions';
+import {
+  SaveLog, StartSendingLogs, SendLogs, LoadLog,
+} from '../../../store/logs/logs.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
+import { LogType } from '../../shared/models/log.model';
+import { LogHelper } from '../../providers/logs/logs-helper';
+// import { AnalyticsProvider } from '../../providers/analytics/analytics';
 
 @Component({
   selector: 'app-login',
@@ -42,6 +47,8 @@ export class LoginPage extends BasePageComponent implements OnInit {
     private networkStateProvider: NetworkStateProvider,
     private route: ActivatedRoute,
     private menuController: MenuController,
+    private logHelper: LogHelper,
+    // private analytics: AnalyticsProvider,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -95,6 +102,8 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
       this.store$.dispatch(StartSendingLogs());
 
+      this.appInitializedLog();
+
       this.initialiseAuthentication();
 
       await this.initialisePersistentStorage();
@@ -109,30 +118,66 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
       await this.authenticationProvider.setEmployeeId();
 
-      await this.appConfigProvider.loadRemoteConfig();
+      this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
 
-      this.store$.dispatch(LoadEmployeeName());
+      this.store$.dispatch(LoadLog());
+
+      await this.appConfigProvider.loadRemoteConfig();
 
       this.store$.dispatch(LoadConfigSuccess());
 
+      this.store$.dispatch(LoadEmployeeName());
+
+      // await this.analytics.initialiseAnalytics();
+
       await this.handleLoadingUI(false);
+
       await this.validateDeviceType();
     } catch (error) {
 
       await this.handleLoadingUI(false);
 
+      if (error === AuthenticationError.USER_CANCELLED) {
+        // this.analytics.logException(error, true);
+        this.dispatchLog('user cancelled login');
+      }
+
       if (error === AuthenticationError.USER_NOT_AUTHORISED) {
+        const token = await this.authenticationProvider.getAuthenticationToken();
+        const examiner = this.authenticationProvider.getEmployeeId() || 'unavailable';
+        if (token) {
+          this.dispatchLog(`user ${examiner} not authorised: TOKEN ${token}`);
+        } else {
+          this.dispatchLog(`user ${examiner} not authorised: Could not get token`);
+        }
         await this.authenticationProvider.logout();
       }
       this.appInitError = error;
-
-      // TODO: Send error through the logging service
+      console.log(error);
     }
+    this.hasUserLoggedOut = false;
   };
 
   initialiseAuthentication = (): void => {
     this.authenticationProvider.initialiseAuthentication();
     this.authenticationProvider.determineAuthenticationMode();
+  };
+
+  dispatchLog = (message: string): void => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(LogType.ERROR, 'User login', message),
+    }));
+    this.store$.dispatch(SendLogs());
+  };
+
+  appInitializedLog = (): void => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(
+        LogType.INFO,
+        'App has MDM provided config and is ready to proceed with authentication',
+        'App has initialised',
+      ),
+    }));
   };
 
   async initialisePersistentStorage(): Promise<void> {

@@ -8,6 +8,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
 
+import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { StoreModule } from '@ngrx/store';
@@ -58,6 +59,7 @@ import { CategoryWhitelistProvider } from './providers/category-whitelist/catego
     DateTimeProvider,
     SecureStorage,
     IsDebug,
+    GoogleAnalytics,
     DataStoreProvider,
     Network,
     NetworkStateProvider,
