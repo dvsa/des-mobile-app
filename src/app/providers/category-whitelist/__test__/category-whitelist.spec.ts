@@ -17,11 +17,11 @@ describe('CategoryWhitelistProvider', () => {
   });
 
   describe('isWhiteListed', () => {
-    it('should return true if category is white listed', () => {
-      expect(provider.isWhiteListed(TestCategory.B)).toEqual(true);
+    it('should return false if category is not white listed (B)', () => {
+      expect(provider.isWhiteListed(TestCategory.B)).toEqual(false);
     });
 
-    it('should return false if category is white listed', () => {
+    it('should return false if category is not white listed (CCPC)', () => {
       expect(provider.isWhiteListed(TestCategory.CCPC)).toEqual(false);
     });
   });
