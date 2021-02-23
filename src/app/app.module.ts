@@ -32,6 +32,7 @@ import { SchemaValidatorProvider } from './providers/schema-validator/schema-val
 import { LogHelper } from './providers/logs/logs-helper';
 import { JournalModule } from '../store/journal/journal.module';
 import { TestPersistenceProvider } from './providers/test-persistence/test-persistence';
+import { CategoryWhitelistProvider } from './providers/category-whitelist/category-whitelist';
 
 @NgModule({
   declarations: [AppComponent],
@@ -74,6 +75,7 @@ import { TestPersistenceProvider } from './providers/test-persistence/test-persi
     SchemaValidatorProvider,
     EmmAppConfig,
     TestPersistenceProvider,
+    CategoryWhitelistProvider,
   ],
   bootstrap: [AppComponent],
 })
