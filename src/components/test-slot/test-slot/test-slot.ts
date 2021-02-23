@@ -17,6 +17,9 @@ import { SlotTypes } from '../../../app/shared/models/slot-types';
 import { getSlotType } from '../../../app/shared/helpers/get-slot-type';
 import { SlotProvider } from '../../../app/providers/slot/slot';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
+import {
+  CategoryWhitelistProvider,
+} from '../../../app/providers/category-whitelist/category-whitelist';
 /* import { getTestStatus, getActivityCodeBySlotId, getTestById } from '../../../store/tests/tests.selector';
 import { getTests } from '../../../store/tests/tests.reducer';
 import { isRekey } from '../../../store/tests/rekey/rekey.selector';
@@ -65,6 +68,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     public dateTimeProvider: DateTimeProvider,
     public store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
+    public categoryWhitelist: CategoryWhitelistProvider,
   ) { }
 
   ngOnInit(): void {
@@ -117,7 +121,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   canStartTest(): boolean {
-    return this.slotProvider.canStartTest(this.slot);
+    return this.slotProvider.canStartTest(this.slot)
+      && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
   }
 
   canViewCandidateDetails(): boolean {
