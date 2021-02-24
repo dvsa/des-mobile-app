@@ -197,7 +197,6 @@ describe('LoginPage', () => {
         spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_CANCELLED));
         component.login();
         flushMicrotasks();
-        expect(authenticationProvider.logout).toHaveBeenCalled();
         expect(component.validateDeviceType).not.toHaveBeenCalled();
         expect(analytics.logException).toHaveBeenCalledWith(AuthenticationError.USER_CANCELLED, true);
         expect(component.dispatchLog).toHaveBeenCalledWith('user cancelled login');
