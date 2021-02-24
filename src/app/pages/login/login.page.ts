@@ -12,13 +12,13 @@ import { DataStoreProvider } from '../../providers/data-store/data-store';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
-import { BasePageComponent } from '../../shared/classes/base-page';
 import { LoadConfigSuccess, LoadEmployeeName, LoadEmployeeId } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
 import {
   SaveLog, StartSendingLogs, SendLogs, LoadLog,
 } from '../../../store/logs/logs.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
+import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { LogType } from '../../shared/models/log.model';
 import { LogHelper } from '../../providers/logs/logs-helper';
 import { AnalyticsProvider } from '../../providers/analytics/analytics';
@@ -28,7 +28,7 @@ import { AnalyticsProvider } from '../../providers/analytics/analytics';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage extends BasePageComponent implements OnInit {
+export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   appInitError: AuthenticationError | AppConfigError;
   hasUserLoggedOut = false;
@@ -40,7 +40,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     router: Router,
     private store$: Store<StoreModel>,
     private loadingController: LoadingController,
-    private alertController: AlertController,
+    protected alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
     private secureStorage: SecureStorage,
     private dataStore: DataStoreProvider,
@@ -50,7 +50,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, alertController, router);
   }
 
   async ngOnInit() {
@@ -245,10 +245,6 @@ export class LoginPage extends BasePageComponent implements OnInit {
       return;
     }
     await this.loadingController.dismiss();
-  }
-
-  async goToDashboard() {
-    await this.router.navigate([DASHBOARD_PAGE]);
   }
 
 }

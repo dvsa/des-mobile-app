@@ -169,6 +169,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   ionViewWillEnter() {
+    super.ionViewWillEnter();
     this.loadJournalManually();
     this.setupPolling();
 

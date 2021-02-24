@@ -23,10 +23,15 @@ export abstract class BasePageComponent {
    //
    */
   ionViewWillEnter() {
+    console.log('loginRequired', this.loginRequired);
+    console.log('isIos', this.isIos());
     if (this.loginRequired && this.isIos()) {
       this.authenticationProvider.hasValidToken().then(async (hasValidToken) => {
+        console.log('i get here');
+        // console.log('hasValidToken', hasValidToken);
         this.authenticationProvider.determineAuthenticationMode();
         if (!hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
+          console.log('redirect');
           await this.router.navigate([LOGIN_PAGE]);
         }
       });

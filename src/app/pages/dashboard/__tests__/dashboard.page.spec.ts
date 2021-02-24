@@ -16,12 +16,12 @@ import { DateTimeProvider } from '../../../providers/date-time/date-time';
 import { DateTimeProviderMock } from '../../../providers/date-time/__mocks__/date-time.mock';
 import { ExaminerRole } from '../../../providers/app-config/constants/examiner-role.constants';
 import { AppConfig } from '../../../providers/app-config/app-config.model';
-import { LOGIN_PAGE } from '../../page-names.constants';
 import { DateTime } from '../../../shared/helpers/date-time';
 import { selectEmployeeName, selectVersionNumber } from '../../../../store/app-info/app-info.selectors';
 import { StoreModel } from '../../../shared/models/store.model';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
+import { BasePageComponent } from '../../../shared/classes/base-page';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -88,18 +88,13 @@ describe('DashboardPage', () => {
   });
   describe('ionViewWillEnter', () => {
     it('should set todaysDate and todaysDateFormatted on view will enter', () => {
+      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
       component.ionViewWillEnter();
       expect(component.todaysDate).toEqual(new DateTime('2019-02-01'));
       expect(component.todaysDateFormatted).toEqual('Friday 1st February 2019');
     });
   });
-  describe('goToLogin', () => {
-    it('should navigate to login page', () => {
-      spyOn(routerSpy, 'navigate');
-      component.goToLogin();
-      expect(routerSpy.navigate).toHaveBeenCalledWith([LOGIN_PAGE]);
-    });
-  });
+
   describe('showTestReportPracticeMode', () => {
     it('should return true when enableTestReportPracticeMode is true', () => {
       expect(component.showTestReportPracticeMode()).toEqual(true);
@@ -113,6 +108,7 @@ describe('DashboardPage', () => {
       expect(component.showTestReportPracticeMode()).toEqual(false);
     });
   });
+
   describe('showEndToEndPracticeMode', () => {
     it('should return true when enableEndToEndPracticeMode is true', () => {
       expect(component.showEndToEndPracticeMode()).toEqual(true);
@@ -126,6 +122,7 @@ describe('DashboardPage', () => {
       expect(component.showEndToEndPracticeMode()).toEqual(false);
     });
   });
+
   describe('showDelegatedExaminerRekey', () => {
     it('should return false when role is not DLG', () => {
       expect(component.showDelegatedExaminerRekey()).toEqual(false);

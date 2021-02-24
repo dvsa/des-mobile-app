@@ -364,11 +364,4 @@ describe('LoginPage', () => {
       expect(loadingController.dismiss).toHaveBeenCalled();
     }));
   });
-  describe('goToDashboard', () => {
-    it('should navigate to dashboard page', () => {
-      spyOn(routerSpy, 'navigate');
-      component.goToDashboard();
-      expect(routerSpy.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE]);
-    });
-  });
 });
