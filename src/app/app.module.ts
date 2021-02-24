@@ -33,6 +33,8 @@ import { SchemaValidatorProvider } from './providers/schema-validator/schema-val
 import { LogHelper } from './providers/logs/logs-helper';
 import { JournalModule } from '../store/journal/journal.module';
 import { TestPersistenceProvider } from './providers/test-persistence/test-persistence';
+import { AnalyticsProvider } from './providers/analytics/analytics';
+import { DeviceProvider } from './providers/device/device';
 import { CategoryWhitelistProvider } from './providers/category-whitelist/category-whitelist';
 
 @NgModule({
@@ -66,6 +68,8 @@ import { CategoryWhitelistProvider } from './providers/category-whitelist/catego
     UrlProvider,
     DateTimeProvider,
     JournalProvider,
+    AnalyticsProvider,
+    DeviceProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

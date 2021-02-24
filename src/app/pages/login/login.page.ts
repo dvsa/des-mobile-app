@@ -21,7 +21,7 @@ import {
 import { DASHBOARD_PAGE } from '../page-names.constants';
 import { LogType } from '../../shared/models/log.model';
 import { LogHelper } from '../../providers/logs/logs-helper';
-// import { AnalyticsProvider } from '../../providers/analytics/analytics';
+import { AnalyticsProvider } from '../../providers/analytics/analytics';
 
 @Component({
   selector: 'app-login',
@@ -48,7 +48,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
     private route: ActivatedRoute,
     private menuController: MenuController,
     private logHelper: LogHelper,
-    // private analytics: AnalyticsProvider,
+    private analytics: AnalyticsProvider,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -128,7 +128,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
 
       this.store$.dispatch(LoadEmployeeName());
 
-      // await this.analytics.initialiseAnalytics();
+      await this.analytics.initialiseAnalytics();
 
       await this.handleLoadingUI(false);
 
@@ -138,7 +138,7 @@ export class LoginPage extends BasePageComponent implements OnInit {
       await this.handleLoadingUI(false);
 
       if (error === AuthenticationError.USER_CANCELLED) {
-        // this.analytics.logException(error, true);
+        this.analytics.logException(error, true);
         this.dispatchLog('user cancelled login');
       }
 

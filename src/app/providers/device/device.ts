@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Device } from '@ionic-native/device/ngx';
+import { Device, DeviceInfo } from '@capacitor/core';
 import { Store } from '@ngrx/store';
-import { timeout, retry, map } from 'rxjs/operators';
-import { defer, Observable } from 'rxjs';
+import { timeout, retry, map, tap } from 'rxjs/operators';
+import { defer, from, Observable } from 'rxjs';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { SaveLog } from '../../../store/logs/logs.actions';
@@ -19,13 +19,16 @@ export class DeviceProvider implements IDeviceProvider {
   private enableASAMRetryLimit: number = 3;
   private enableASAMTimeout: number = 10000;
   private enableASAMRetryFailureMessage: string = 'All retries to enable ASAM failed';
+  private deviceInfo: DeviceInfo;
 
   constructor(
     public appConfig: AppConfigProvider,
-    private device: Device, // TODO refactor to use new capacitor plugin
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
   ) {
+    from(Device.getInfo()).pipe(
+      map((deviceInfo: DeviceInfo) => { this.deviceInfo = deviceInfo; }),
+    ).subscribe();
   }
 
   validDeviceType = (): boolean => {
@@ -38,11 +41,11 @@ export class DeviceProvider implements IDeviceProvider {
   };
 
   getDeviceType = (): string => {
-    return this.device.model;
+    return this.deviceInfo?.model;
   };
 
   getUniqueDeviceId = (): string => {
-    return this.device.uuid;
+    return this.deviceInfo?.uuid;
   };
 
   /**
