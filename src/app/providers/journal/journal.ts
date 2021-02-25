@@ -30,6 +30,7 @@ export class JournalProvider {
   }
 
   getJournal(lastRefreshed: Date): Observable<ExaminerWorkSchedule> {
+    console.log('get journal');
     const staffNumber = this.authProvider.getEmployeeId();
     const journalUrl = this.urlProvider.getPersonalJournalUrl(staffNumber);
     const networkStatus = this.networkStateProvider.getNetworkState();
@@ -86,12 +87,13 @@ export class JournalProvider {
    * while online
    */
   saveJournalForOffline = (journalData: ExaminerWorkSchedule) => {
-    console.log(this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE ? 'Online' : 'Offline');
     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE) {
       const journalDataToStore: JournalCache = {
         dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
         data: journalData,
       };
+      console.log('journalDataToStore');
+      console.log(journalDataToStore);
       this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore)).then(() => {
       });
     }

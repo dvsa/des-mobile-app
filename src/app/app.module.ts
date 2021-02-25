@@ -11,7 +11,7 @@ import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
-import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -38,6 +38,10 @@ import { AnalyticsProvider } from './providers/analytics/analytics';
 import { DeviceProvider } from './providers/device/device';
 import { CategoryWhitelistProvider } from './providers/category-whitelist/category-whitelist';
 import { AppConfigStoreModule } from '../store/app-config/app-config.module';
+import { StoreModel } from './shared/models/store.model';
+import { appConfigReducer } from '../store/app-config/app-config.reducer';
+import { journalReducer } from '../store/journal/journal.reducer';
+import { appInfoReducer } from '../store/app-info/app-info.reducer';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
@@ -52,14 +56,19 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
   })(reducer);
 }
 
-const metaReducers: MetaReducer<any, any>[] = [];
+const reducers: ActionReducerMap<StoreModel> = {
+  journal: journalReducer,
+  appInfo: appInfoReducer,
+  appConfig: appConfigReducer,
+};
+
+const metaReducers: MetaReducer<any, any>[] = [localStorageSyncReducer];
 const enableDevTools = environment && environment.enableDevTools;
-const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
+// const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
 
-if (enableRehydrationPlugin) {
-  metaReducers.push(localStorageSyncReducer);
-}
-
+// if (enableRehydrationPlugin) {
+// metaReducers.push(localStorageSyncReducer);
+// }
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -68,7 +77,7 @@ if (enableRehydrationPlugin) {
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({}, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,

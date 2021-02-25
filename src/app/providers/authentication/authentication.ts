@@ -77,7 +77,9 @@ export class AuthenticationProvider {
     this.authenticationSettings = this.appConfig.getAppConfig().authentication;
     this.employeeIdKey = this.appConfig.getAppConfig().authentication.employeeIdKey;
     this.inUnAuthenticatedMode = false;
-    this.ionicAuth = new IonicAuth(this.getAuthOptions());
+    if (!this.ionicAuth) {
+      this.ionicAuth = new IonicAuth(this.getAuthOptions());
+    }
   };
 
   public isInUnAuthenticatedMode = (): boolean => {

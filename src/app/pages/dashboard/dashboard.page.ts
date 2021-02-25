@@ -43,7 +43,7 @@ export class DashboardPage extends BasePageComponent {
   ) {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
-    console.log(this.appConfigProvider.getAppConfig());
+    // console.log(this.appConfigProvider.getAppConfig());
     this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');

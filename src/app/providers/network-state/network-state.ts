@@ -49,9 +49,9 @@ export class NetworkStateProvider {
    */
   public getNetworkState(): ConnectionStatus {
     // if (!this.networkStatus$) {
-    if (!this.platform.is('cordova')) {
+    // if (!this.platform.is('cordova')) {
       return ConnectionStatus.ONLINE;
-    }
-    return this.networkStatus$.getValue();
+    // }
+    // return this.networkStatus$.getValue();
   }
 }

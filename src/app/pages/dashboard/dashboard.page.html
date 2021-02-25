@@ -31,9 +31,16 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <hr *ngIf="!showDelegatedExaminerRekey() && (showEndToEndPracticeMode() || showTestReportPracticeMode())" />
-    <practice-test-report-card id="testReportPracticeMode" *ngIf="showTestReportPracticeMode() && !showDelegatedExaminerRekey()"></practice-test-report-card>
-    <practice-end-to-end-card id="endToendPracticeMode" *ngIf="showEndToEndPracticeMode() && !showDelegatedExaminerRekey()"></practice-end-to-end-card>
+    <hr *ngIf="!showDelegatedExaminerRekey() &&
+     (appConfig?.journal?.enableEndToEndPracticeMode || appConfig?.journal?.enableTestReportPracticeMode)" />
+    <practice-test-report-card id="testReportPracticeMode"
+                               *ngIf="
+                               appConfig?.journal?.enableTestReportPracticeMode &&
+                               !showDelegatedExaminerRekey()"></practice-test-report-card>
+    <practice-end-to-end-card id="endToendPracticeMode"
+                              *ngIf="
+                              appConfig?.journal?.enableEndToEndPracticeMode &&
+                              !showDelegatedExaminerRekey()"></practice-end-to-end-card>
   </div>
 
 </ion-content>

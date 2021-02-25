@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
@@ -15,7 +15,7 @@ import { LogoutBasePageComponent } from './shared/classes/logout-base-page';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent extends LogoutBasePageComponent {
+export class AppComponent extends LogoutBasePageComponent implements OnInit {
   textZoom: number = 100;
   logoutEnabled: boolean = null;
 
@@ -29,16 +29,14 @@ export class AppComponent extends LogoutBasePageComponent {
     router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
-    this.initializeApp();
   }
 
-  initializeApp() {
+  ngOnInit() {
     this.platform.ready().then(async () => {
       this.store$.dispatch(LoadAppVersion());
       this.splashScreen.hide();
       await this.configureStatusBar();
       await this.disableMenuSwipe();
-      this.logoutEnabled = this.isLogoutEnabled();
     });
   }
 
