@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar mode="ios">
         <ion-buttons start>
-            <ion-button *ngIf=!isUserNotAuthorised() (click)="openLogoutModal()" id="logout-button">
+            <ion-button *ngIf="(!hasUserLoggedOut && !isUserCancelledError()) || isUnknownError()" (click)="openLogoutModal()" id="logout-button">
                 <span class="colour-white">Logout</span>
             </ion-button>
         </ion-buttons>
