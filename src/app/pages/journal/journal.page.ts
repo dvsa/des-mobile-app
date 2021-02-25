@@ -159,6 +159,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
       })),
     );
 
+    slots$.subscribe((s) => {
+      console.log(s);
+    });
   }
 
   ionViewDidLeave(): void {

@@ -22,6 +22,7 @@ import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { LogType } from '../../shared/models/log.model';
 import { LogHelper } from '../../providers/logs/logs-helper';
 import { AnalyticsProvider } from '../../providers/analytics/analytics';
+import { LoadAppConfig } from '../../../store/app-config/app-config.actions';
 
 @Component({
   selector: 'app-login',
@@ -73,6 +74,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
     if (!this.isIos()) {
       await this.appConfigProvider.initialiseAppConfig();
+      this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
       await this.router.navigate([DASHBOARD_PAGE]);
       // @TODO: Add hide function when splash screen is implemented
       // this.splashScreen.hide();
@@ -127,6 +129,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(LoadConfigSuccess());
 
       this.store$.dispatch(LoadEmployeeName());
+
+      this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
 
       await this.analytics.initialiseAnalytics();
 

@@ -91,6 +91,7 @@ export class JournalEffects {
         return this.journalProvider
           .getJournal(lastRefreshed)
           .pipe(
+            tap((journalData: ExaminerWorkSchedule) => console.log('journalData', journalData)),
             tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
             map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
               examiner: journalData.examiner as Required<Examiner>,

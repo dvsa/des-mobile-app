@@ -12,6 +12,7 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { StoreModel } from '../../shared/models/store.model';
 import { DateTime } from '../../shared/helpers/date-time';
 import { BasePageComponent } from '../../shared/classes/base-page';
+import { AppConfig } from '../../providers/app-config/app-config.model';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -29,10 +30,11 @@ export class DashboardPage extends BasePageComponent {
   employeeId: string;
   todaysDate: DateTime;
   role: string;
+  appConfig: AppConfig;
 
   constructor(
     protected alertController: AlertController,
-    private appConfigProvider: AppConfigProvider,
+    public appConfigProvider: AppConfigProvider,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     authenticationProvider: AuthenticationProvider,
@@ -41,6 +43,7 @@ export class DashboardPage extends BasePageComponent {
   ) {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
+    console.log(this.appConfigProvider.getAppConfig());
     this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');

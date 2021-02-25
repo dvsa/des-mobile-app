@@ -78,6 +78,7 @@
     "moment": "2.24.0",
     "ng-bullet": "^1.0.3",
     "ng-mocks": "^11.5.0",
+    "ngrx-store-localstorage": "^11.0.0",
     "protractor": "^7.0.0",
     "rxjs": "~6.5.5",
     "rxjs-compat": "^6.6.3",

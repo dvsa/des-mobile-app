@@ -48,7 +48,8 @@ export class NetworkStateProvider {
    * @returns ConnectionStatus
    */
   public getNetworkState(): ConnectionStatus {
-    if (!this.networkStatus$) {
+    // if (!this.networkStatus$) {
+    if (!this.platform.is('cordova')) {
       return ConnectionStatus.ONLINE;
     }
     return this.networkStatus$.getValue();
