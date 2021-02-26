@@ -8,6 +8,7 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
 
+import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { StoreModule } from '@ngrx/store';
@@ -32,6 +33,8 @@ import { SchemaValidatorProvider } from './providers/schema-validator/schema-val
 import { LogHelper } from './providers/logs/logs-helper';
 import { JournalModule } from '../store/journal/journal.module';
 import { TestPersistenceProvider } from './providers/test-persistence/test-persistence';
+import { AnalyticsProvider } from './providers/analytics/analytics';
+import { DeviceProvider } from './providers/device/device';
 import { CategoryWhitelistProvider } from './providers/category-whitelist/category-whitelist';
 
 @NgModule({
@@ -58,12 +61,15 @@ import { CategoryWhitelistProvider } from './providers/category-whitelist/catego
     DateTimeProvider,
     SecureStorage,
     IsDebug,
+    GoogleAnalytics,
     DataStoreProvider,
     Network,
     NetworkStateProvider,
     UrlProvider,
     DateTimeProvider,
     JournalProvider,
+    AnalyticsProvider,
+    DeviceProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

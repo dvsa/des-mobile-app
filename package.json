@@ -4,6 +4,7 @@
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
+    "postinstall": "node buildScripts/crypto-patch.js",
     "test": "ng test --no-watch --karma-config test-config/karma.conf.js",
     "test:coverage": "ng test --karma-config test-config/karma.conf.js",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
@@ -65,6 +66,7 @@
     "cordova-plugin-app-version": "^0.1.12",
     "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
     "cordova-plugin-emm-app-config": "^1.0.2",
+    "cordova-plugin-google-analytics": "^1.9.0",
     "cordova-plugin-is-debug": "^1.0.0",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-secure-storage-echo": "^5.1.1",
@@ -138,7 +140,8 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {}
+      "cordova-plugin-ionic-keyboard": {},
+      "cordova-plugin-google-analytics": {}
     },
     "platforms": [
       "ios"

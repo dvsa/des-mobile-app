@@ -28,6 +28,12 @@ import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-c
 import { AlertControllerMock } from '../../../../../mock/ionic-mocks/alert-controller.mock';
 import { SecureStorageMock } from '../../../../../mock/ionic-mocks/secure-storage.mock';
 import { MenuControllerMock } from '../../../../../mock/ionic-mocks/menu-controller';
+import { LogHelper } from '../../../providers/logs/logs-helper';
+import { AnalyticsProvider } from '../../../providers/analytics/analytics';
+import { LogHelperMock } from '../../../providers/logs/__mocks__/logs-helper.mock';
+import { AnalyticsProviderMock } from '../../../providers/analytics/__mocks__/analytics.mock';
+import { SaveLog, SendLogs } from '../../../../store/logs/logs.actions';
+import { Log, LogType } from '../../../shared/models/log.model';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -45,6 +51,8 @@ describe('LoginPage', () => {
   let alertController: AlertController;
   let loadingController: LoadingController;
   let menuController: MenuController;
+  let logHelper: LogHelper;
+  let analytics: AnalyticsProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -70,6 +78,8 @@ describe('LoginPage', () => {
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: ActivatedRoute, useValue: mockActivateRoute },
         { provide: MenuController, useClass: MenuControllerMock },
+        { provide: LogHelper, useClass: LogHelperMock },
+        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
         provideMockStore({ ...{} }),
       ],
     });
@@ -90,6 +100,8 @@ describe('LoginPage', () => {
     alertController = TestBed.inject(AlertController);
     loadingController = TestBed.inject(LoadingController);
     menuController = TestBed.inject(MenuController);
+    logHelper = TestBed.inject(LogHelper);
+    analytics = TestBed.inject(AnalyticsProvider);
   }));
 
   it('should create', () => {
@@ -142,33 +154,102 @@ describe('LoginPage', () => {
       spyOn(authenticationProvider, 'expireTokens').and.returnValue(Promise.resolve());
       spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(false));
       spyOn(authenticationProvider, 'setEmployeeId').and.returnValue(Promise.resolve());
+      spyOn(authenticationProvider, 'getEmployeeId').and.returnValue('123456');
       spyOn(authenticationProvider, 'login').and.returnValue(Promise.resolve());
       spyOn(authenticationProvider, 'logout').and.returnValue(Promise.resolve());
       spyOn(store$, 'dispatch');
+      spyOn(component, 'appInitializedLog');
+      spyOn(component, 'dispatchLog');
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
+      spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
+      spyOn(analytics, 'initialiseAnalytics').and.returnValue(Promise.resolve());
+      spyOn(analytics, 'logException');
     });
-    it('should ', fakeAsync(() => {
-      spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
-      component.login();
-      flushMicrotasks();
-      expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
-      expect(component.initialiseAuthentication).toHaveBeenCalled();
-      expect(component.initialisePersistentStorage).toHaveBeenCalled();
-      expect(authenticationProvider.expireTokens).toHaveBeenCalled();
-      expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
-      expect(authenticationProvider.setEmployeeId).toHaveBeenCalled();
-      expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
-      expect(component.handleLoadingUI).toHaveBeenCalled();
-      expect(component.validateDeviceType).toHaveBeenCalled();
-    }));
-    it('should not call any further methods in try when platform.ready() fails', fakeAsync(() => {
-      spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
-      component.login();
-      flushMicrotasks();
-      expect(authenticationProvider.logout).toHaveBeenCalled();
-      expect(component.validateDeviceType).not.toHaveBeenCalled();
-    }));
+    describe('Successful login flow', () => {
+      it('should run the login flow code', fakeAsync(() => {
+        spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
+        component.login();
+        flushMicrotasks();
+        expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
+        expect(component.appInitializedLog).toHaveBeenCalled();
+        expect(component.initialiseAuthentication).toHaveBeenCalled();
+        expect(component.initialisePersistentStorage).toHaveBeenCalled();
+        expect(authenticationProvider.expireTokens).toHaveBeenCalled();
+        expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
+        expect(authenticationProvider.setEmployeeId).toHaveBeenCalled();
+        expect(appConfigProvider.loadRemoteConfig).toHaveBeenCalled();
+        expect(component.handleLoadingUI).toHaveBeenCalled();
+        expect(analytics.initialiseAnalytics).toHaveBeenCalled();
+        expect(component.validateDeviceType).toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledTimes(5);
+      }));
+    });
+    describe('Unsuccessful login flow', () => {
+      it('should not call any further methods in try when platform.ready() fails', fakeAsync(() => {
+        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
+        component.login();
+        flushMicrotasks();
+        expect(authenticationProvider.logout).toHaveBeenCalled();
+        expect(component.validateDeviceType).not.toHaveBeenCalled();
+      }));
+      it('should log an exception and dispatch log when when rejection due to USER_CANCELLED', fakeAsync(() => {
+        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_CANCELLED));
+        component.login();
+        flushMicrotasks();
+        expect(component.validateDeviceType).not.toHaveBeenCalled();
+        expect(analytics.logException).toHaveBeenCalledWith(AuthenticationError.USER_CANCELLED, true);
+        expect(component.dispatchLog).toHaveBeenCalledWith('user cancelled login');
+        expect(component.hasUserLoggedOut).toEqual(false);
+      }));
+      it('should dispatch log when error is USER_NOT_AUTHORISED and a token is present', fakeAsync(() => {
+        spyOn(authenticationProvider, 'getAuthenticationToken').and.returnValue(Promise.resolve('token'));
+        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
+        component.login();
+        flushMicrotasks();
+        expect(authenticationProvider.getAuthenticationToken).toHaveBeenCalled();
+        expect(authenticationProvider.getEmployeeId).toHaveBeenCalled();
+        expect(component.dispatchLog).toHaveBeenCalledWith('user 123456 not authorised: TOKEN token');
+        expect(authenticationProvider.logout).toHaveBeenCalled();
+        expect(component.appInitError).toEqual(AuthenticationError.USER_NOT_AUTHORISED);
+        expect(component.hasUserLoggedOut).toEqual(false);
+      }));
+      it('should dispatch log when error is USER_NOT_AUTHORISED and no token is present', fakeAsync(() => {
+        spyOn(authenticationProvider, 'getAuthenticationToken').and.returnValue(Promise.resolve(null));
+        spyOn(platform, 'ready').and.returnValue(Promise.reject(AuthenticationError.USER_NOT_AUTHORISED));
+        component.login();
+        flushMicrotasks();
+        expect(authenticationProvider.getAuthenticationToken).toHaveBeenCalled();
+        expect(authenticationProvider.getEmployeeId).toHaveBeenCalled();
+        expect(component.dispatchLog).toHaveBeenCalledWith('user 123456 not authorised: Could not get token');
+        expect(authenticationProvider.logout).toHaveBeenCalled();
+        expect(component.appInitError).toEqual(AuthenticationError.USER_NOT_AUTHORISED);
+        expect(component.hasUserLoggedOut).toEqual(false);
+      }));
+    });
+  });
+  describe('dispatchLog', () => {
+    it('should dispatch two actions SaveLog/SendLogs with custom param', () => {
+      spyOn(store$, 'dispatch');
+      spyOn(logHelper, 'createLog').and.returnValue({} as Log);
+      component.dispatchLog('msg');
+      expect(store$.dispatch).toHaveBeenCalledWith(SaveLog({ payload: {} as Log }));
+      expect(store$.dispatch).toHaveBeenCalledWith(SendLogs());
+      expect(logHelper.createLog).toHaveBeenCalledWith(LogType.ERROR, 'User login', 'msg');
+    });
+  });
+  describe('appInitializedLog', () => {
+    it('should dispatch a SaveLog action indicating app has initialised', () => {
+      spyOn(store$, 'dispatch');
+      spyOn(logHelper, 'createLog').and.returnValue({} as Log);
+      component.appInitializedLog();
+      expect(store$.dispatch).toHaveBeenCalledWith(SaveLog({ payload: {} as Log }));
+      expect(logHelper.createLog).toHaveBeenCalledWith(
+        LogType.INFO,
+        'App has MDM provided config and is ready to proceed with authentication',
+        'App has initialised',
+      );
+    });
   });
   describe('initialiseAuthentication', () => {
     it('should call through to initialiseAuthentication and determineAuthenticationMode', () => {

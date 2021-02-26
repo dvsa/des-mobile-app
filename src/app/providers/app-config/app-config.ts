@@ -88,12 +88,9 @@ export class AppConfigProvider {
       if (!this.environmentFile.isRemote) {
         this.mapRemoteConfig(this.environmentFile);
       }
-
       return Promise.resolve();
     } catch (err) {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, 'Initializing App Config', err),
-      }));
+      return Promise.reject(AppConfigError.MDM_ERROR);
     }
   };
 
