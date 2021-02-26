@@ -1,18 +1,15 @@
 <ion-header>
     <ion-toolbar mode="ios">
+        <ion-buttons start>
+            <ion-button *ngIf="(!hasUserLoggedOut && !isUserCancelledError()) || isUnknownError()" (click)="openLogoutModal()" id="logout-button">
+                <span class="colour-white">Logout</span>
+            </ion-button>
+        </ion-buttons>
         <ion-title>Driver Examiner Services</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-    <div>
-        <ion-button (click)="goToDashboard()" color="dark" name="login-button">
-            <ion-icon name="log-in-outline"></ion-icon>
-            Dashboard
-        </ion-button>
-    </div>
-
     <div class="login-grid">
         <div *ngIf="hasUserLoggedOut">
             <h2>You've signed out</h2>

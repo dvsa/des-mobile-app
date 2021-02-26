@@ -11,7 +11,6 @@ import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { StoreModel } from '../../shared/models/store.model';
 import { DateTime } from '../../shared/helpers/date-time';
-import { LOGIN_PAGE } from '../page-names.constants';
 import { BasePageComponent } from '../../shared/classes/base-page';
 
 interface DashboardPageState {
@@ -55,14 +54,11 @@ export class DashboardPage extends BasePageComponent {
   }
 
   ionViewWillEnter(): boolean {
+    super.ionViewWillEnter();
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
 
     return true;
-  }
-
-  goToLogin() {
-    this.router.navigate([LOGIN_PAGE]);
   }
 
   showTestReportPracticeMode = ():boolean => this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;

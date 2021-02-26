@@ -105,12 +105,12 @@ export class AuthenticationProvider {
     await this.ionicAuth.isAuthenticated();
     await this.refreshTokenIfExpired();
     const token = await this.ionicAuth.getIdToken();
-    return token.exp && new Date(token.exp * 1000) > new Date();
+    return !!token && token.exp && new Date(token.exp * 1000) > new Date();
   }
 
   async refreshTokenIfExpired(): Promise<void> {
     const token = await this.ionicAuth.getIdToken();
-    if (this.isTokenExpired(token)) {
+    if (token && this.isTokenExpired(token)) {
       await this.ionicAuth.refreshSession();
     }
   }
