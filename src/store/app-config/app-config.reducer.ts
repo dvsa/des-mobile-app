@@ -52,8 +52,6 @@ export const initialState = {
 export const appConfigReducer = createReducer(
   initialState,
   on(LoadAppConfig, (state: AppConfig, { appConfig }) => {
-    console.log('state', state);
-    console.log('appConfig', appConfig);
     if (appConfig) {
       return {
         ...state,

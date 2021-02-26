@@ -5,10 +5,12 @@ import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Router } from '@angular/router';
 
+import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { StoreModel } from './shared/models/store.model';
 import { LoadAppVersion } from '../store/app-info/app-info.actions';
 import { AuthenticationProvider } from './providers/authentication/authentication';
 import { LogoutBasePageComponent } from './shared/classes/logout-base-page';
+import { DataStoreProvider } from './providers/data-store/data-store';
 
 @Component({
   selector: 'app-root',
@@ -26,18 +28,38 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
     protected menuController: MenuController,
+    protected secureStorage: SecureStorage,
+    protected dataStore: DataStoreProvider,
     router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
   }
 
-  ngOnInit() {
-    this.platform.ready().then(async () => {
-      this.store$.dispatch(LoadAppVersion());
-      this.splashScreen.hide();
-      await this.configureStatusBar();
-      await this.disableMenuSwipe();
-    });
+  async ngOnInit() {
+    await this.platform.ready();
+    this.initialiseAuthentication();
+    await this.initialisePersistentStorage();
+    this.store$.dispatch(LoadAppVersion());
+    this.splashScreen.hide();
+    await this.configureStatusBar();
+    await this.disableMenuSwipe();
+  }
+
+  public initialiseAuthentication = (): void => {
+    this.authenticationProvider.initialiseAuthentication();
+  };
+
+  async initialisePersistentStorage(): Promise<void> {
+    if (this.isIos()) {
+      try {
+        const storage = await this.secureStorage.create('DES');
+        this.dataStore.setSecureContainer(storage);
+
+        return Promise.resolve();
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    }
   }
 
   public getTextZoom(zoom: number): string {

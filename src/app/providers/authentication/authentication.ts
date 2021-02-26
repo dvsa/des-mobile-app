@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
+import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
 import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
+import { selectEmployeeId } from '../../../store/app-info/app-info.selectors';
 
 export enum Token {
   ID = 'idToken',
@@ -25,6 +28,7 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider,
     private appConfig: AppConfigProvider,
     private testPersistenceProvider: TestPersistenceProvider,
+    private store$: Store,
   ) {
   }
 
@@ -77,9 +81,7 @@ export class AuthenticationProvider {
     this.authenticationSettings = this.appConfig.getAppConfig().authentication;
     this.employeeIdKey = this.appConfig.getAppConfig().authentication.employeeIdKey;
     this.inUnAuthenticatedMode = false;
-    if (!this.ionicAuth) {
-      this.ionicAuth = new IonicAuth(this.getAuthOptions());
-    }
+    this.ionicAuth = new IonicAuth(this.getAuthOptions());
   };
 
   public isInUnAuthenticatedMode = (): boolean => {
@@ -137,6 +139,14 @@ export class AuthenticationProvider {
   };
 
   public getEmployeeId = (): string => {
+    if (!this.employeeId) {
+      this.store$.select(selectEmployeeId).pipe(
+        tap((employeeId) => {
+          console.log('employeeId', employeeId);
+          if (employeeId) this.employeeId = employeeId;
+        }),
+      ).subscribe();
+    }
     return this.employeeId || null;
   };
 

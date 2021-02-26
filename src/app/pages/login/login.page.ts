@@ -12,7 +12,7 @@ import { DataStoreProvider } from '../../providers/data-store/data-store';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
-import { LoadConfigSuccess, LoadEmployeeName, LoadEmployeeId } from '../../../store/app-info/app-info.actions';
+import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
 import {
   SaveLog, StartSendingLogs, SendLogs, LoadLog,
@@ -104,8 +104,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.store$.dispatch(StartSendingLogs());
 
-      this.appInitializedLog();
-
       this.initialiseAuthentication();
 
       await this.initialisePersistentStorage();
@@ -119,6 +117,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       }
 
       await this.authenticationProvider.setEmployeeId();
+
+      this.appInitializedLog();
 
       this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
 

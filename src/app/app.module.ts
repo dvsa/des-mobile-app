@@ -11,7 +11,9 @@ import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
-import { ActionReducer, ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
+import {
+  ActionReducer, ActionReducerMap, MetaReducer, StoreModule,
+} from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';
@@ -45,30 +47,32 @@ import { appInfoReducer } from '../store/app-info/app-info.reducer';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['appInfo', 'logs', 'tests', 'journal', 'appConfig'],
+    // keys: ['appInfo', 'logs', 'tests', 'journal', 'appConfig'],
+    keys: ['appInfo', 'logs', 'tests', 'appConfig'],
     rehydrate: true,
-    syncCondition: (state) => {
-      const { slots } = state.journal;
-      const slotDates = Object.keys(slots);
-
-      return !slotDates.every((date: string) => !slots[date].length);
-    },
+    // syncCondition: (state: StoreModel) => {
+    //   const { slots } = state.journal;
+    //   const slotDates = Object.keys(slots);
+    //   console.log('localStorageSyncReducer slots', slots);
+    //   return !slotDates.every((date: string) => !slots[date].length);
+    // },
   })(reducer);
 }
 
-const reducers: ActionReducerMap<StoreModel> = {
-  journal: journalReducer,
+const reducers: ActionReducerMap<any> = {
+  // journal: journalReducer,
   appInfo: appInfoReducer,
   appConfig: appConfigReducer,
 };
 
-const metaReducers: MetaReducer<any, any>[] = [localStorageSyncReducer];
+const metaReducers: MetaReducer<any, any>[] = [];
 const enableDevTools = environment && environment.enableDevTools;
 // const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
 
 // if (enableRehydrationPlugin) {
-// metaReducers.push(localStorageSyncReducer);
+metaReducers.push(localStorageSyncReducer);
 // }
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

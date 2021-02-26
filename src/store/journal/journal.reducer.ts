@@ -19,8 +19,6 @@ export const journalFeatureKey = 'journal';
 export const journalReducer = createReducer(
   initialState,
   on(journalActions.LoadJournal, (state: JournalModel) => {
-    console.log('state');
-    console.log(state);
     return {
       ...state,
       isLoading: true,
