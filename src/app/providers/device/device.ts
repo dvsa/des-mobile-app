@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Device, DeviceInfo } from '@capacitor/core';
 import { Store } from '@ngrx/store';
-import { timeout, retry, map, tap } from 'rxjs/operators';
+import { timeout, retry, map } from 'rxjs/operators';
 import { defer, from, Observable } from 'rxjs';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
