@@ -45,6 +45,7 @@ import { appConfigReducer } from '../store/app-config/app-config.reducer';
 import { journalReducer } from '../store/journal/journal.reducer';
 import { appInfoReducer } from '../store/app-info/app-info.reducer';
 
+// @TODO: Remove commented out code
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
     // keys: ['appInfo', 'logs', 'tests', 'journal', 'appConfig'],
@@ -69,6 +70,7 @@ const metaReducers: MetaReducer<any, any>[] = [];
 const enableDevTools = environment && environment.enableDevTools;
 // const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
 
+// @TODO: set enableRehydrationPlugin to true for DEV
 // if (enableRehydrationPlugin) {
 metaReducers.push(localStorageSyncReducer);
 // }

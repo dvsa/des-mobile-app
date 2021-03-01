@@ -30,11 +30,10 @@ export class DashboardPage extends BasePageComponent {
   employeeId: string;
   todaysDate: DateTime;
   role: string;
-  appConfig: AppConfig;
 
   constructor(
     protected alertController: AlertController,
-    public appConfigProvider: AppConfigProvider,
+    private appConfigProvider: AppConfigProvider,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     authenticationProvider: AuthenticationProvider,

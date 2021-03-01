@@ -18,13 +18,11 @@ export const journalFeatureKey = 'journal';
 
 export const journalReducer = createReducer(
   initialState,
-  on(journalActions.LoadJournal, (state: JournalModel) => {
-    return {
-      ...state,
-      isLoading: true,
-      error: { message: '', status: 0, statusText: '' },
-    };
-  }),
+  on(journalActions.LoadJournal, (state: JournalModel) => ({
+    ...state,
+    isLoading: true,
+    error: { message: '', status: 0, statusText: '' },
+  })),
   on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }) => ({
     ...state,
     slots: {

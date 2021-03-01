@@ -91,6 +91,7 @@ export class JournalEffects {
         return this.journalProvider
           .getJournal(lastRefreshed)
           .pipe(
+            // @TODO: Remove tap
             tap((journalData: ExaminerWorkSchedule) => console.log('journalData ', journalData)),
             tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
             map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
@@ -108,6 +109,7 @@ export class JournalEffects {
               lastRefreshed,
             })),
             catchError((err: HttpErrorResponse) => {
+              // @TODO: Remove err
               console.log('err ', err);
               // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
               if (err.status === HttpStatusCodes.NOT_MODIFIED) {
@@ -164,10 +166,12 @@ export class JournalEffects {
 
   loadJournal$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.LoadJournal),
+    // @TODO: Remove tap
     tap(() => console.log('loadJournal$')),
     switchMap(
       () => this.callJournalProvider$(JournalRefreshModes.MANUAL).pipe(
         catchError((err: HttpErrorResponse) => {
+          // @TODO: Remove err
           console.log('loadJournal$ error', err);
           return [
             journalActions.JournalRefreshError({ errorDescription: 'ManualJournalRefresh', errorMessage: err.message }),
