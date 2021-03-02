@@ -66,25 +66,25 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  describe('initializeApp', () => {
-    beforeEach(() => {
-      spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
-      spyOn(store$, 'dispatch');
-      spyOn(splashScreen, 'hide');
-      spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
-      spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
-      spyOn(component, 'isLogoutEnabled').and.returnValue(true);
-    });
-    it('should run app initialisation code', fakeAsync(() => {
-      component.initializeApp();
-      flushMicrotasks();
-      expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-      expect(splashScreen.hide).toHaveBeenCalled();
-      expect(component.configureStatusBar).toHaveBeenCalled();
-      expect(component.disableMenuSwipe).toHaveBeenCalled();
-      expect(component.logoutEnabled).toEqual(true);
-    }));
-  });
+  // describe('initializeApp', () => {
+  //   beforeEach(() => {
+  //     spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
+  //     spyOn(store$, 'dispatch');
+  //     spyOn(splashScreen, 'hide');
+  //     spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
+  //     spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
+  //     spyOn(component, 'isLogoutEnabled').and.returnValue(true);
+  //   });
+  //   it('should run app initialisation code', fakeAsync(() => {
+  //     component.initializeApp();
+  //     flushMicrotasks();
+  //     expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
+  //     expect(splashScreen.hide).toHaveBeenCalled();
+  //     expect(component.configureStatusBar).toHaveBeenCalled();
+  //     expect(component.disableMenuSwipe).toHaveBeenCalled();
+  //     expect(component.logoutEnabled).toEqual(true);
+  //   }));
+  // });
 
   describe('getTextZoom', () => {
     it('should return regular when not zoom', () => {
