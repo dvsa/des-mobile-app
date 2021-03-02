@@ -13,7 +13,7 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { StoreModel } from '../../shared/models/store.model';
 import { DateTime } from '../../shared/helpers/date-time';
 import { BasePageComponent } from '../../shared/classes/base-page';
-import { AppConfig } from '../../providers/app-config/app-config.model';
+import { map } from 'rxjs/operators';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -30,9 +30,7 @@ export class DashboardPage extends BasePageComponent {
 
   pageState: DashboardPageState;
   todaysDateFormatted: string;
-  // employeeId: string;
   todaysDate: DateTime;
-  // role: string;
 
   constructor(
     protected alertController: AlertController,
@@ -44,19 +42,18 @@ export class DashboardPage extends BasePageComponent {
     router: Router,
   ) {
     super(platform, authenticationProvider, router);
-    // this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
-    // this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
   }
 
   ngOnInit() {
     this.pageState = {
-
       appVersion$: this.store$.select(selectVersionNumber),
       employeeName$: this.store$.select(selectEmployeeName),
-      employeeId$: this.store$.select(selectEmployeeId),
+      employeeId$: this.store$.select(selectEmployeeId)
+        .pipe(map(role => this.getEmployeeNumberDisplayValue(role))),
       role$: this.store$.select(selectRole)
+        .pipe(map(role => this.getRoleDisplayValue(role))),
     };
   }
 
@@ -64,8 +61,15 @@ export class DashboardPage extends BasePageComponent {
     super.ionViewWillEnter();
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
-
     return true;
+  }
+
+  getRoleDisplayValue(role: string): string {
+    return ExaminerRoleDescription[role] || 'Unknown Role';
+  }
+
+  getEmployeeNumberDisplayValue(employeeNumber: string): string {
+    return employeeNumber || 'NOT_KNOWN'
   }
 
   showTestReportPracticeMode = ():boolean => this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;

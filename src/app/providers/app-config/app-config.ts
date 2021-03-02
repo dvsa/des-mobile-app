@@ -75,6 +75,7 @@ export class AppConfigProvider {
     private isDebug: IsDebug,
     private emmAppConfig: EmmAppConfig,
   ) {
+    this.setStoreSubscription();
   }
 
   public initialiseAppConfig = async (): Promise<void> => {
@@ -95,16 +96,15 @@ export class AppConfigProvider {
     }
   };
 
-  public getAppConfig = (): AppConfig => {
-    if (!this.appConfig) {
-      this.store$.select(getAppConfigState).pipe(
-        map((appConfig: AppConfig) => { this.appConfig = appConfig; }),
-      ).subscribe();
+  public setStoreSubscription(): void {
+    this.store$.select(getAppConfigState).pipe(
+      map((appConfig: AppConfig) => {
+        this.appConfig = appConfig;
+      }),
+    ).subscribe();
+  }
 
-      if (!this.appConfig) {
-        this.initialiseAppConfig();
-      }
-    }
+  public getAppConfig = (): AppConfig => {
     return this.appConfig;
   };
 
