@@ -5,7 +5,6 @@ import {
   AlertController, IonicModule, LoadingController, MenuController, Platform,
 } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
@@ -31,7 +30,7 @@ import { AnalyticsProviderMock } from '../../../providers/analytics/__mocks__/an
 import { SaveLog, SendLogs } from '../../../../store/logs/logs.actions';
 import { Log, LogType } from '../../../shared/models/log.model';
 
-describe('LoginPage', () => {
+fdescribe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate', 'getCurrentNavigation']);
@@ -40,7 +39,6 @@ describe('LoginPage', () => {
   let authenticationProvider: AuthenticationProvider;
   let appConfigProvider: AppConfigProvider;
   let platform: Platform;
-  let secureStorage: SecureStorage;
   let store$: MockStore;
   let alertController: AlertController;
   let loadingController: LoadingController;
@@ -67,7 +65,6 @@ describe('LoginPage', () => {
         { provide: LoadingController, useClass: LoadingControllerMock },
         { provide: AlertController, useClass: AlertControllerMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: SecureStorage, useClass: SecureStorageMock },
         { provide: ActivatedRoute, useValue: mockActivateRoute },
         { provide: MenuController, useClass: MenuControllerMock },
         { provide: LogHelper, useClass: LogHelperMock },
@@ -84,7 +81,6 @@ describe('LoginPage', () => {
 
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     platform = TestBed.inject(Platform);
-    secureStorage = TestBed.inject(SecureStorage);
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
     alertController = TestBed.inject(AlertController);

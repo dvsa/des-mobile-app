@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {
   AlertController, LoadingController, MenuController, Platform,
 } from '@ionic/angular';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -41,7 +40,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private loadingController: LoadingController,
     protected alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
-    private secureStorage: SecureStorage,
     private route: ActivatedRoute,
     private menuController: MenuController,
     private logHelper: LogHelper,

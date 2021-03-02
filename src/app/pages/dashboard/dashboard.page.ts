@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
-import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info/app-info.selectors';
+import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
+import { selectRole } from '../../../store/app-config/app-config.selectors';
 import { ExaminerRole, ExaminerRoleDescription } from '../../providers/app-config/constants/examiner-role.constants';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
@@ -17,6 +18,8 @@ import { AppConfig } from '../../providers/app-config/app-config.model';
 interface DashboardPageState {
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
+  employeeId$: Observable<string>;
+  role$: Observable<string>;
 }
 @Component({
   selector: 'app-dashboard',
@@ -27,9 +30,9 @@ export class DashboardPage extends BasePageComponent {
 
   pageState: DashboardPageState;
   todaysDateFormatted: string;
-  employeeId: string;
+  // employeeId: string;
   todaysDate: DateTime;
-  role: string;
+  // role: string;
 
   constructor(
     protected alertController: AlertController,
@@ -41,16 +44,19 @@ export class DashboardPage extends BasePageComponent {
     router: Router,
   ) {
     super(platform, authenticationProvider, router);
-    this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
-    this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
+    // this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
+    // this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
   }
 
   ngOnInit() {
     this.pageState = {
+
       appVersion$: this.store$.select(selectVersionNumber),
       employeeName$: this.store$.select(selectEmployeeName),
+      employeeId$: this.store$.select(selectEmployeeId),
+      role$: this.store$.select(selectRole)
     };
   }
 

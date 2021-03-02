@@ -13,7 +13,7 @@
 <ion-content [fullscreen]="true">
 
   <div>
-    <profile-header [employeeId]="employeeId" [name]="pageState.employeeName$ | async" [role]="role"></profile-header>
+    <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async" [role]="pageState.role$ | async"></profile-header>
     <hr/>
     <h4 class="date">{{todaysDateFormatted}}</h4>
     <ion-grid class="dashboard-grid">
