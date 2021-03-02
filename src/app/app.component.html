@@ -8,12 +8,9 @@
 
         <ion-content>
             <ion-list class="side-menu">
-<!--                <ion-item class="menu-item"-->
-<!--                          lines="none"-->
-<!--                          *ngIf="isLogoutEnabled()"-->
-<!--                          (click)="onLogoutClick()">-->
                 <ion-item class="menu-item"
                           lines="none"
+                          *ngIf="logoutEnabled"
                           (click)="onLogoutClick()">
                     <ion-label>Logout</ion-label>
                 </ion-item>

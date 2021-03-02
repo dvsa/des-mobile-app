@@ -11,6 +11,7 @@ import { LoadAppVersion } from '../store/app-info/app-info.actions';
 import { AuthenticationProvider } from './providers/authentication/authentication';
 import { LogoutBasePageComponent } from './shared/classes/logout-base-page';
 import { DataStoreProvider } from './providers/data-store/data-store';
+import { NetworkStateProvider } from './providers/network-state/network-state';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected menuController: MenuController,
     protected secureStorage: SecureStorage,
     protected dataStore: DataStoreProvider,
+    protected networkStateProvider: NetworkStateProvider,
     router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
@@ -37,8 +39,10 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     await this.platform.ready();
+    this.initialiseNetworkState();
     this.initialiseAuthentication();
     await this.initialisePersistentStorage();
+    this.logoutEnabled = this.isLogoutEnabled();
     this.store$.dispatch(LoadAppVersion());
     this.splashScreen.hide();
     await this.configureStatusBar();
@@ -47,6 +51,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   public initialiseAuthentication = (): void => {
     this.authenticationProvider.initialiseAuthentication();
+    this.authenticationProvider.determineAuthenticationMode();
+  };
+
+  public initialiseNetworkState = (): void => {
+    this.networkStateProvider.initialiseNetworkState();
   };
 
   async initialisePersistentStorage(): Promise<void> {
@@ -77,8 +86,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     if (Capacitor.isPluginAvailable('StatusBar')) {
       const { StatusBar } = Plugins;
       await StatusBar.setStyle({ style: StatusBarStyle.Dark });
-      // await StatusBar.setOverlaysWebView({ overlay: false });
-      // await StatusBar.setBackgroundColor({ color: '#000000' });
     }
   };
 

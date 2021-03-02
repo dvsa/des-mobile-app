@@ -5,7 +5,7 @@ import {
   AlertController, IonicModule, LoadingController, MenuController, Platform,
 } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
-import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
+import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
@@ -16,10 +16,6 @@ import { AppConfigProvider } from '../../../providers/app-config/app-config';
 import { AppConfigProviderMock } from '../../../providers/app-config/__mocks__/app-config.mock';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../../../providers/authentication/__mocks__/authentication.mock';
-import { DataStoreProvider } from '../../../providers/data-store/data-store';
-import { DataStoreProviderMock } from '../../../providers/data-store/__mocks__/data-store.mock';
-import { NetworkStateProvider } from '../../../providers/network-state/network-state';
-import { NetworkStateProviderMock } from '../../../providers/network-state/__mocks__/network-state.mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { AuthenticationError } from '../../../providers/authentication/authentication.constants';
 import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
@@ -43,11 +39,9 @@ describe('LoginPage', () => {
   const mockActivateRoute = { queryParams: of({}) } as ActivatedRoute;
   let authenticationProvider: AuthenticationProvider;
   let appConfigProvider: AppConfigProvider;
-  let dataStore: DataStoreProvider;
   let platform: Platform;
   let secureStorage: SecureStorage;
   let store$: MockStore;
-  let networkStateProvider: NetworkStateProvider;
   let alertController: AlertController;
   let loadingController: LoadingController;
   let menuController: MenuController;
@@ -74,8 +68,6 @@ describe('LoginPage', () => {
         { provide: AlertController, useClass: AlertControllerMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: SecureStorage, useClass: SecureStorageMock },
-        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: ActivatedRoute, useValue: mockActivateRoute },
         { provide: MenuController, useClass: MenuControllerMock },
         { provide: LogHelper, useClass: LogHelperMock },
@@ -91,12 +83,10 @@ describe('LoginPage', () => {
     fixture.detectChanges();
 
     authenticationProvider = TestBed.inject(AuthenticationProvider);
-    dataStore = TestBed.inject(DataStoreProvider);
     platform = TestBed.inject(Platform);
     secureStorage = TestBed.inject(SecureStorage);
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
-    networkStateProvider = TestBed.inject(NetworkStateProvider);
     alertController = TestBed.inject(AlertController);
     loadingController = TestBed.inject(LoadingController);
     menuController = TestBed.inject(MenuController);
@@ -113,13 +103,11 @@ describe('LoginPage', () => {
       spyOn(component, 'isIos').and.returnValue(true);
       spyOn(component, 'login').and.returnValue(Promise.resolve());
       spyOn(component, 'closeSideMenuIfOpen').and.returnValue(Promise.resolve());
-      spyOn(networkStateProvider, 'initialiseNetworkState');
     });
-    it('should initialise network and call login function when on ios', fakeAsync(() => {
+    it('should call login function when on ios', fakeAsync(() => {
       spyOn(routerSpy, 'getCurrentNavigation').and.returnValue({ extras: { state: { hasLoggedOut: false } } });
       component.ngOnInit();
       flushMicrotasks();
-      expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
       expect(component.login).toHaveBeenCalled();
     }));
     it('should not run login on hasLoggedOut', fakeAsync(() => {
@@ -160,9 +148,6 @@ describe('LoginPage', () => {
       spyOn(store$, 'dispatch');
       spyOn(component, 'appInitializedLog');
       spyOn(component, 'dispatchLog');
-      spyOn(component, 'initialiseAuthentication');
-      spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
-      spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
       spyOn(analytics, 'initialiseAnalytics').and.returnValue(Promise.resolve());
       spyOn(analytics, 'logException');
     });
@@ -173,8 +158,6 @@ describe('LoginPage', () => {
         flushMicrotasks();
         expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
         expect(component.appInitializedLog).toHaveBeenCalled();
-        expect(component.initialiseAuthentication).toHaveBeenCalled();
-        expect(component.initialisePersistentStorage).toHaveBeenCalled();
         expect(authenticationProvider.expireTokens).toHaveBeenCalled();
         expect(authenticationProvider.isAuthenticated).toHaveBeenCalled();
         expect(authenticationProvider.setEmployeeId).toHaveBeenCalled();
@@ -182,7 +165,7 @@ describe('LoginPage', () => {
         expect(component.handleLoadingUI).toHaveBeenCalled();
         expect(analytics.initialiseAnalytics).toHaveBeenCalled();
         expect(component.validateDeviceType).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledTimes(5);
+        expect(store$.dispatch).toHaveBeenCalledTimes(6);
       }));
     });
     describe('Unsuccessful login flow', () => {
@@ -249,36 +232,6 @@ describe('LoginPage', () => {
         'App has MDM provided config and is ready to proceed with authentication',
         'App has initialised',
       );
-    });
-  });
-  describe('initialiseAuthentication', () => {
-    it('should call through to initialiseAuthentication and determineAuthenticationMode', () => {
-      spyOn(authenticationProvider, 'initialiseAuthentication');
-      spyOn(authenticationProvider, 'determineAuthenticationMode');
-      component.initialiseAuthentication();
-      expect(authenticationProvider.initialiseAuthentication).toHaveBeenCalled();
-      expect(authenticationProvider.determineAuthenticationMode).toHaveBeenCalled();
-    });
-  });
-  describe('initialisePersistentStorage', () => {
-    beforeEach(() => {
-      spyOn(dataStore, 'setSecureContainer');
-    });
-    it('should call setSecureContainer when in ios', fakeAsync(() => {
-      spyOn(secureStorage, 'create').and.returnValue(Promise.resolve({} as SecureStorageObject));
-      spyOn(component, 'isIos').and.returnValue(true);
-      component.initialisePersistentStorage();
-      flushMicrotasks();
-      expect(secureStorage.create).toHaveBeenCalledWith('DES');
-      expect(dataStore.setSecureContainer).toHaveBeenCalledWith({} as SecureStorageObject);
-    }));
-    it('should resolve to error message', () => {
-      // eslint-disable-next-line prefer-promise-reject-errors
-      spyOn(secureStorage, 'create').and.returnValue(Promise.reject('Failed to create container'));
-      spyOn(component, 'isIos').and.returnValue(true);
-      component.initialisePersistentStorage().catch((err) => {
-        expect(err).toEqual('Failed to create container');
-      });
     });
   });
   describe('isInternetConnectionError', () => {

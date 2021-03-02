@@ -48,11 +48,9 @@ export class NetworkStateProvider {
    * @returns ConnectionStatus
    */
   public getNetworkState(): ConnectionStatus {
-    // @TODO: network check is failing
-    // if (!this.networkStatus$) {
-    // if (!this.platform.is('cordova')) {
-    return ConnectionStatus.ONLINE;
-    // }
-    // return this.networkStatus$.getValue();
+    if (!this.networkStatus$ || !this.platform.is('cordova')) {
+      return ConnectionStatus.ONLINE;
+    }
+    return this.networkStatus$.getValue();
   }
 }

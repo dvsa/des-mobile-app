@@ -8,8 +8,6 @@ import { Store } from '@ngrx/store';
 
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { DataStoreProvider } from '../../providers/data-store/data-store';
-import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
 import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
@@ -44,8 +42,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     protected alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
     private secureStorage: SecureStorage,
-    private dataStore: DataStoreProvider,
-    private networkStateProvider: NetworkStateProvider,
     private route: ActivatedRoute,
     private menuController: MenuController,
     private logHelper: LogHelper,
@@ -64,8 +60,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         }
       }
     });
-
-    this.networkStateProvider.initialiseNetworkState();
 
     // Trigger Authentication if ios device
     if (!this.hasUserLoggedOut && this.isIos()) {
@@ -103,10 +97,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       await this.appConfigProvider.initialiseAppConfig();
 
       this.store$.dispatch(StartSendingLogs());
-
-      this.initialiseAuthentication();
-
-      await this.initialisePersistentStorage();
 
       await this.authenticationProvider.expireTokens();
 
@@ -162,11 +152,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     this.hasUserLoggedOut = false;
   };
 
-  initialiseAuthentication = (): void => {
-    this.authenticationProvider.initialiseAuthentication();
-    this.authenticationProvider.determineAuthenticationMode();
-  };
-
   dispatchLog = (message: string): void => {
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(LogType.ERROR, 'User login', message),
@@ -183,19 +168,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       ),
     }));
   };
-
-  async initialisePersistentStorage(): Promise<void> {
-    if (this.isIos()) {
-      try {
-        const storage = await this.secureStorage.create('DES');
-        this.dataStore.setSecureContainer(storage);
-
-        return Promise.resolve();
-      } catch (err) {
-        return Promise.reject(err);
-      }
-    }
-  }
 
   isInternetConnectionError = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.NO_INTERNET;
