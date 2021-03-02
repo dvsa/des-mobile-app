@@ -33,7 +33,8 @@ export class AuthenticationProvider {
   }
 
   private getAuthOptions = (): IonicAuthOptions => {
-    const authSettings = this.appConfig.getAppConfig().authentication;
+    const authSettings = this.appConfig.getAppConfig()?.authentication;
+    console.log('authSettings', authSettings);
     return {
       authConfig: 'azure',
       platform: 'capacitor',
@@ -78,8 +79,8 @@ export class AuthenticationProvider {
   }
 
   public initialiseAuthentication = (): void => {
-    this.authenticationSettings = this.appConfig.getAppConfig().authentication;
-    this.employeeIdKey = this.appConfig.getAppConfig().authentication.employeeIdKey;
+    this.authenticationSettings = this.appConfig.getAppConfig()?.authentication;
+    this.employeeIdKey = this.appConfig.getAppConfig()?.authentication.employeeIdKey;
     this.inUnAuthenticatedMode = false;
     this.ionicAuth = new IonicAuth(this.getAuthOptions());
   };
@@ -153,7 +154,7 @@ export class AuthenticationProvider {
   public loadEmployeeName = async (): Promise<string> => {
     const idToken = await this.ionicAuth.getIdToken();
     if (idToken) {
-      return idToken[this.appConfig.getAppConfig().authentication.employeeNameKey];
+      return idToken[this.appConfig.getAppConfig()?.authentication.employeeNameKey];
     }
     return '';
   };
@@ -170,7 +171,7 @@ export class AuthenticationProvider {
   };
 
   public async logout(): Promise<void> {
-    if (this.appConfig.getAppConfig().logoutClearsTestPersistence) {
+    if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
       await this.testPersistenceProvider.clearPersistedTests();
     }
     await this.clearTokens();

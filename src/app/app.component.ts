@@ -77,8 +77,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     if (Capacitor.isPluginAvailable('StatusBar')) {
       const { StatusBar } = Plugins;
       await StatusBar.setStyle({ style: StatusBarStyle.Dark });
-      await StatusBar.setOverlaysWebView({ overlay: false });
-      await StatusBar.setBackgroundColor({ color: '#000000' });
+      // await StatusBar.setOverlaysWebView({ overlay: false });
+      // await StatusBar.setBackgroundColor({ color: '#000000' });
     }
   };
 
