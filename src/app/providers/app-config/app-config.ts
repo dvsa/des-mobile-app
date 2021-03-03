@@ -80,7 +80,7 @@ export class AppConfigProvider {
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
-      if (this.platform.is('ios')) {
+      if (this.platform.is('cordova')) {
         await this.getDebugMode();
         this.loadManagedConfig();
       }

@@ -34,7 +34,7 @@ export abstract class BasePageComponent {
   }
 
   isIos(): boolean {
-    return this.platform.is('ios');
+    return this.platform.is('cordova');
   }
 
   async logout() {
