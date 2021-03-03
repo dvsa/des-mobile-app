@@ -15,7 +15,7 @@
 </ion-header>
 
 <ion-content no-padding>
-  <div *ngIf="isUnauthenticated" id="unauthenticated-mode-indicator">
+  <div *ngIf="pageState.isOffline$ | async" id="unauthenticated-mode-indicator">
     <label id="unauth-text">You are offline. Some features may be unavailable.</label>
   </div>
 
