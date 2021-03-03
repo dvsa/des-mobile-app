@@ -6,9 +6,11 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="refreshJournal()">
+        <div>
           <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
-          <ion-label class="colour-white">Refresh</ion-label>
-        <!-- <h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6> -->
+          <span class="colour-white">Refresh</span>
+          <ion-label><h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6></ion-label>
+        </div>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
