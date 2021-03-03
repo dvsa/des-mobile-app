@@ -40,7 +40,6 @@ describe('AppComponent', () => {
   let splashScreen: SplashScreen;
   let secureStorage: SecureStorage;
   let dataStore: DataStoreProvider;
-  let networkState: NetworkStateProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({

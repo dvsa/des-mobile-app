@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged, map, switchMap, take, timeout } from 'rxjs/operators';
+import { map, timeout } from 'rxjs/operators';
 import { isEmpty, merge } from 'lodash';
 import { ValidationResult, ValidationError } from 'joi';
 

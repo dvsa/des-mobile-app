@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
-import { Store } from '@ngrx/store';
-import { tap } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
 import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
-import { selectEmployeeId } from '../../../store/app-info/app-info.selectors';
 
 export enum Token {
   ID = 'idToken',
@@ -28,13 +25,11 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider,
     private appConfig: AppConfigProvider,
     private testPersistenceProvider: TestPersistenceProvider,
-    private store$: Store,
   ) {
   }
 
   private getAuthOptions = (): IonicAuthOptions => {
     const authSettings = this.appConfig.getAppConfig()?.authentication;
-    console.log('authSettings', authSettings);
     return {
       authConfig: 'azure',
       platform: 'capacitor',
@@ -140,14 +135,6 @@ export class AuthenticationProvider {
   };
 
   public getEmployeeId = (): string => {
-    if (!this.employeeId) {
-      this.store$.select(selectEmployeeId).pipe(
-        tap((employeeId) => {
-          console.log('employeeId', employeeId);
-          if (employeeId) this.employeeId = employeeId;
-        }),
-      ).subscribe();
-    }
     return this.employeeId || null;
   };
 

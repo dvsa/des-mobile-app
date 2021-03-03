@@ -17,6 +17,7 @@
     "@typescript-eslint/lines-between-class-members": "off",
     "@typescript-eslint/naming-convention": "off",
     "@typescript-eslint/dot-notation": "off",
+    "implicit-arrow-linebreak": "off",
     "no-unused-expressions": "error",
     "class-methods-use-this": "off",
     "consistent-return": "off",

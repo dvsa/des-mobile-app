@@ -40,7 +40,6 @@ import { AnalyticsProvider } from './providers/analytics/analytics';
 import { DeviceProvider } from './providers/device/device';
 import { CategoryWhitelistProvider } from './providers/category-whitelist/category-whitelist';
 import { AppConfigStoreModule } from '../store/app-config/app-config.module';
-import { StoreModel } from './shared/models/store.model';
 import { appConfigReducer } from '../store/app-config/app-config.reducer';
 import { journalReducer } from '../store/journal/journal.reducer';
 import { appInfoReducer } from '../store/app-info/app-info.reducer';
@@ -51,29 +50,22 @@ export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionRedu
     // keys: ['appInfo', 'logs', 'tests', 'journal', 'appConfig'],
     keys: ['appInfo', 'logs', 'tests', 'appConfig'],
     rehydrate: true,
-    // syncCondition: (state: StoreModel) => {
-    //   const { slots } = state.journal;
-    //   const slotDates = Object.keys(slots);
-    //   console.log('localStorageSyncReducer slots', slots);
-    //   return !slotDates.every((date: string) => !slots[date].length);
-    // },
   })(reducer);
 }
 
 const reducers: ActionReducerMap<any> = {
-  // journal: journalReducer,
+  journal: journalReducer,
   appInfo: appInfoReducer,
   appConfig: appConfigReducer,
 };
 
 const metaReducers: MetaReducer<any, any>[] = [];
 const enableDevTools = environment && environment.enableDevTools;
-// const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
+const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
 
-// @TODO: set enableRehydrationPlugin to true for DEV
-// if (enableRehydrationPlugin) {
-metaReducers.push(localStorageSyncReducer);
-// }
+if (enableRehydrationPlugin) {
+  metaReducers.push(localStorageSyncReducer);
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -110,11 +102,7 @@ metaReducers.push(localStorageSyncReducer);
     AnalyticsProvider,
     DeviceProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     LogsProvider,
     LogHelper,
     SchemaValidatorProvider,

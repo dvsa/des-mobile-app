@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
 import { selectRole } from '../../../store/app-config/app-config.selectors';
@@ -13,7 +14,6 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { StoreModel } from '../../shared/models/store.model';
 import { DateTime } from '../../shared/helpers/date-time';
 import { BasePageComponent } from '../../shared/classes/base-page';
-import { map } from 'rxjs/operators';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -21,6 +21,7 @@ interface DashboardPageState {
   employeeId$: Observable<string>;
   role$: Observable<string>;
 }
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'dashboard.page.html',
@@ -50,10 +51,10 @@ export class DashboardPage extends BasePageComponent {
     this.pageState = {
       appVersion$: this.store$.select(selectVersionNumber),
       employeeName$: this.store$.select(selectEmployeeName),
-      employeeId$: this.store$.select(selectEmployeeId)
-        .pipe(map(role => this.getEmployeeNumberDisplayValue(role))),
-      role$: this.store$.select(selectRole)
-        .pipe(map(role => this.getRoleDisplayValue(role))),
+      employeeId$: this.store$.select(selectEmployeeId).pipe(
+        map(this.getEmployeeNumberDisplayValue),
+      ),
+      role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
     };
   }
 
@@ -69,12 +70,15 @@ export class DashboardPage extends BasePageComponent {
   }
 
   getEmployeeNumberDisplayValue(employeeNumber: string): string {
-    return employeeNumber || 'NOT_KNOWN'
+    return employeeNumber || 'NOT_KNOWN';
   }
 
-  showTestReportPracticeMode = ():boolean => this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;
+  showTestReportPracticeMode = (): boolean =>
+    this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;
 
-  showEndToEndPracticeMode = (): boolean => this.appConfigProvider.getAppConfig().journal.enableEndToEndPracticeMode;
+  showEndToEndPracticeMode = (): boolean =>
+    this.appConfigProvider.getAppConfig().journal.enableEndToEndPracticeMode;
 
-  showDelegatedExaminerRekey = (): boolean => this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
+  showDelegatedExaminerRekey = (): boolean =>
+    this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
 }

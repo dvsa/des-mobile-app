@@ -21,7 +21,6 @@ import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
 import { AppConfigError } from '../../../providers/app-config/app-config.constants';
 import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
 import { AlertControllerMock } from '../../../../../mock/ionic-mocks/alert-controller.mock';
-import { SecureStorageMock } from '../../../../../mock/ionic-mocks/secure-storage.mock';
 import { MenuControllerMock } from '../../../../../mock/ionic-mocks/menu-controller';
 import { LogHelper } from '../../../providers/logs/logs-helper';
 import { AnalyticsProvider } from '../../../providers/analytics/analytics';

@@ -3,9 +3,7 @@ import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith,
-  // tap,
-  concatMap, tap,
+  switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith, concatMap, tap,
 } from 'rxjs/operators';
 import { of, Observable, interval } from 'rxjs';
 // import { groupBy } from 'lodash';
@@ -35,11 +33,8 @@ import { DateTimeProvider } from '../../app/providers/date-time/date-time';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 
 import { SlotItem } from '../../app/providers/slot-selector/slot-item';
-// import { LogType } from '../../app/shared/models/log.model';
-// import { SaveLog } from '../logs/logs.actions';
 import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
-// import { SaveLog } from '../../modules/logs/logs.actions';
 import { LogHelper } from '../../app/providers/logs/logs-helper';
 // import { HttpStatusCodes } from '../../shared/models/http-status-codes';
 // import { SearchProvider } from '../../app/providers/search/search';
@@ -91,8 +86,6 @@ export class JournalEffects {
         return this.journalProvider
           .getJournal(lastRefreshed)
           .pipe(
-            // @TODO: Remove tap
-            tap((journalData: ExaminerWorkSchedule) => console.log('journalData ', journalData)),
             tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
             map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
               examiner: journalData.examiner as Required<Examiner>,
@@ -109,8 +102,6 @@ export class JournalEffects {
               lastRefreshed,
             })),
             catchError((err: HttpErrorResponse) => {
-              // @TODO: Remove err
-              console.log('err ', err);
               // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
               if (err.status === HttpStatusCodes.NOT_MODIFIED) {
                 return of(journalActions.LoadJournalSuccess({
@@ -166,13 +157,9 @@ export class JournalEffects {
 
   loadJournal$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.LoadJournal),
-    // @TODO: Remove tap
-    tap(() => console.log('loadJournal$')),
     switchMap(
       () => this.callJournalProvider$(JournalRefreshModes.MANUAL).pipe(
         catchError((err: HttpErrorResponse) => {
-          // @TODO: Remove err
-          console.log('loadJournal$ error', err);
           return [
             journalActions.JournalRefreshError({ errorDescription: 'ManualJournalRefresh', errorMessage: err.message }),
             journalActions.LoadJournalFailure(err),
