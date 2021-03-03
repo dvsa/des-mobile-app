@@ -1,0 +1,10 @@
+ion-refresher ion-refresher-content {
+  --color: #000000 !important;
+
+  .refresher-pulling-text,
+  .refresher-refreshing-text,
+  .refresher-refreshing-icon,
+  .refresher-pulling-icon {
+    color: #000000 !important;
+  }
+}

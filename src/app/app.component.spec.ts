@@ -3,7 +3,6 @@ import {
   async, ComponentFixture, fakeAsync, flushMicrotasks, TestBed,
 } from '@angular/core/testing';
 import { MenuController, Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { configureTestSuite } from 'ng-bullet';
 import { Store, StoreModule } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
@@ -21,16 +20,12 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
   Plugins.StatusBar = jasmine.createSpyObj('StatusBar', ['setStyle', 'setOverlaysWebView', 'setBackgroundColor']);
+  Plugins.SplashScreen = jasmine.createSpyObj('SplashScreen', ['hide']);
 
-  const splashScreenSpy = {
-    hide: () => {
-    },
-  } as SplashScreen;
   let authenticationProvider: AuthenticationProvider;
   let platform: Platform;
   let menuController: MenuController;
   let store$: Store;
-  let splashScreen: SplashScreen;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -40,7 +35,6 @@ describe('AppComponent', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: SplashScreen, useValue: splashScreenSpy },
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useValue: routerSpy },
@@ -58,7 +52,6 @@ describe('AppComponent', () => {
     platform = TestBed.inject(Platform);
     menuController = TestBed.inject(MenuController);
     store$ = TestBed.inject(Store);
-    splashScreen = TestBed.inject(SplashScreen);
   }));
 
   it('should create the app', () => {
@@ -70,7 +63,7 @@ describe('AppComponent', () => {
     beforeEach(() => {
       spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
       spyOn(store$, 'dispatch');
-      spyOn(splashScreen, 'hide');
+      spyOn(Plugins.SplashScreen, 'hide');
       spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
       spyOn(component, 'isLogoutEnabled').and.returnValue(true);
@@ -79,7 +72,7 @@ describe('AppComponent', () => {
       component.initializeApp();
       flushMicrotasks();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-      expect(splashScreen.hide).toHaveBeenCalled();
+      expect(Plugins.SplashScreen.hide).toHaveBeenCalled();
       expect(component.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
       expect(component.logoutEnabled).toEqual(true);
