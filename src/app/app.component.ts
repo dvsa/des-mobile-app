@@ -32,9 +32,8 @@ export class AppComponent extends LogoutBasePageComponent {
 
   initializeApp() {
     this.platform.ready().then(async () => {
-      const { SplashScreen } = Plugins;
       this.store$.dispatch(LoadAppVersion());
-      await SplashScreen.hide();
+      await this.hideSplashscreen();
       await this.configureStatusBar();
       await this.disableMenuSwipe();
       this.logoutEnabled = this.isLogoutEnabled();
@@ -58,6 +57,13 @@ export class AppComponent extends LogoutBasePageComponent {
       await StatusBar.setStyle({ style: StatusBarStyle.Dark });
       await StatusBar.setOverlaysWebView({ overlay: false });
       await StatusBar.setBackgroundColor({ color: '#000000' });
+    }
+  };
+
+  hideSplashscreen = async (): Promise<void> => {
+    if (Capacitor.isPluginAvailable('SplashScreen')) {
+      const { SplashScreen } = Plugins;
+      await SplashScreen.hide();
     }
   };
 
