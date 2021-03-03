@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Router } from '@angular/router';
 
 import { StoreModel } from './shared/models/store.model';
@@ -22,7 +21,6 @@ export class AppComponent extends LogoutBasePageComponent {
   constructor(
     private store$: Store<StoreModel>,
     protected platform: Platform,
-    private splashScreen: SplashScreen,
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
     protected menuController: MenuController,
@@ -34,8 +32,9 @@ export class AppComponent extends LogoutBasePageComponent {
 
   initializeApp() {
     this.platform.ready().then(async () => {
+      const { SplashScreen } = Plugins;
       this.store$.dispatch(LoadAppVersion());
-      this.splashScreen.hide();
+      await SplashScreen.hide();
       await this.configureStatusBar();
       await this.disableMenuSwipe();
       this.logoutEnabled = this.isLogoutEnabled();
