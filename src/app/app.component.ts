@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { Router } from '@angular/router';
-
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
+
 import { StoreModel } from './shared/models/store.model';
 import { LoadAppVersion } from '../store/app-info/app-info.actions';
 import { AuthenticationProvider } from './providers/authentication/authentication';
@@ -25,7 +24,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   constructor(
     private store$: Store<StoreModel>,
     protected platform: Platform,
-    private splashScreen: SplashScreen,
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
     protected menuController: MenuController,
@@ -39,14 +37,15 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     await this.platform.ready();
+    const { SplashScreen } = Plugins;
     this.initialiseNetworkState();
     this.initialiseAuthentication();
     await this.initialisePersistentStorage();
     this.logoutEnabled = this.isLogoutEnabled();
     this.store$.dispatch(LoadAppVersion());
-    this.splashScreen.hide();
     await this.configureStatusBar();
     await this.disableMenuSwipe();
+    await SplashScreen.hide();
   }
 
   public initialiseAuthentication = (): void => {
