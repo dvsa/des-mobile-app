@@ -98,6 +98,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.appInitializedLog();
 
+      this.initialiseAuthentication();
+
       await this.authenticationProvider.expireTokens();
 
       const isAuthenticated = await this.authenticationProvider.isAuthenticated();
@@ -148,6 +150,11 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       console.log(error);
     }
     this.hasUserLoggedOut = false;
+  };
+
+  initialiseAuthentication = (): void => {
+    this.authenticationProvider.initialiseAuthentication();
+    this.authenticationProvider.determineAuthenticationMode();
   };
 
   dispatchLog = (message: string): void => {

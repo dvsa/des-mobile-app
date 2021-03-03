@@ -229,6 +229,17 @@ describe('LoginPage', () => {
       );
     });
   });
+
+  describe('initialiseAuthentication', () => {
+    it('should call through to initialiseAuthentication and determineAuthenticationMode', () => {
+      spyOn(authenticationProvider, 'initialiseAuthentication');
+      spyOn(authenticationProvider, 'determineAuthenticationMode');
+      component.initialiseAuthentication();
+      expect(authenticationProvider.initialiseAuthentication).toHaveBeenCalled();
+      expect(authenticationProvider.determineAuthenticationMode).toHaveBeenCalled();
+    });
+  });
+
   describe('isInternetConnectionError', () => {
     it('should return false when appInitError is not connection error', () => {
       component.hasUserLoggedOut = false;
