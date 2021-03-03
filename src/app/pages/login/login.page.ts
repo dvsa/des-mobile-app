@@ -96,6 +96,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.store$.dispatch(StartSendingLogs());
 
+      this.appInitializedLog();
+
       await this.authenticationProvider.expireTokens();
 
       const isAuthenticated = await this.authenticationProvider.isAuthenticated();
@@ -105,8 +107,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       }
 
       await this.authenticationProvider.setEmployeeId();
-
-      this.appInitializedLog();
 
       this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
 

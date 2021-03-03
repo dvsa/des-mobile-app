@@ -44,10 +44,8 @@ import { appConfigReducer } from '../store/app-config/app-config.reducer';
 import { journalReducer } from '../store/journal/journal.reducer';
 import { appInfoReducer } from '../store/app-info/app-info.reducer';
 
-// @TODO: Remove commented out code
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    // keys: ['appInfo', 'logs', 'tests', 'journal', 'appConfig'],
     keys: ['appInfo', 'logs', 'tests', 'appConfig'],
     rehydrate: true,
   })(reducer);

@@ -40,6 +40,7 @@ describe('AppComponent', () => {
   let splashScreen: SplashScreen;
   let secureStorage: SecureStorage;
   let dataStore: DataStoreProvider;
+  let networkStateProvider: NetworkStateProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -74,6 +75,7 @@ describe('AppComponent', () => {
     splashScreen = TestBed.inject(SplashScreen);
     dataStore = TestBed.inject(DataStoreProvider);
     secureStorage = TestBed.inject(SecureStorage);
+    networkStateProvider = TestBed.inject(NetworkStateProvider);
   }));
 
   it('should create the app', () => {
@@ -108,8 +110,18 @@ describe('AppComponent', () => {
   describe('initialiseAuthentication', () => {
     it('should call through to initialiseAuthentication and determineAuthenticationMode', () => {
       spyOn(authenticationProvider, 'initialiseAuthentication');
+      spyOn(authenticationProvider, 'determineAuthenticationMode');
       component.initialiseAuthentication();
       expect(authenticationProvider.initialiseAuthentication).toHaveBeenCalled();
+      expect(authenticationProvider.determineAuthenticationMode).toHaveBeenCalled();
+    });
+  });
+
+  describe('initialiseNetworkState', () => {
+    it('should call through to initialiseNetworkState', () => {
+      spyOn(networkStateProvider, 'initialiseNetworkState');
+      component.initialiseNetworkState();
+      expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
     });
   });
 

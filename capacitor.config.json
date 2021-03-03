@@ -9,8 +9,5 @@
       "launchShowDuration": 0
     }
   },
-  "cordova": {},
-  "hideLogs": {
-    "ios": true
-  }
+  "cordova": {}
 }
