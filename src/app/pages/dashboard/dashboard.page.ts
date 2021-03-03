@@ -51,9 +51,7 @@ export class DashboardPage extends BasePageComponent {
     this.pageState = {
       appVersion$: this.store$.select(selectVersionNumber),
       employeeName$: this.store$.select(selectEmployeeName),
-      employeeId$: this.store$.select(selectEmployeeId).pipe(
-        map(this.getEmployeeNumberDisplayValue),
-      ),
+      employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
     };
   }

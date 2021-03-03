@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
+import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
 import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
+import { selectEmployeeId } from '../../../store/app-info/app-info.selectors';
+import { StoreModel } from '../../shared/models/store.model';
 
 export enum Token {
   ID = 'idToken',
@@ -25,7 +29,9 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider,
     private appConfig: AppConfigProvider,
     private testPersistenceProvider: TestPersistenceProvider,
+    private store$: Store<StoreModel>,
   ) {
+    this.setStoreSubscription();
   }
 
   private getAuthOptions = (): IonicAuthOptions => {
@@ -136,6 +142,14 @@ export class AuthenticationProvider {
 
   public getEmployeeId = (): string => {
     return this.employeeId || null;
+  };
+
+  private setStoreSubscription = (): void => {
+    this.store$.select(selectEmployeeId).pipe(
+      tap((employeeId: string) => {
+        if (employeeId) this.employeeId = employeeId;
+      }),
+    ).subscribe();
   };
 
   public loadEmployeeName = async (): Promise<string> => {

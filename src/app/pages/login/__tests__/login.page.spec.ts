@@ -29,7 +29,7 @@ import { AnalyticsProviderMock } from '../../../providers/analytics/__mocks__/an
 import { SaveLog, SendLogs } from '../../../../store/logs/logs.actions';
 import { Log, LogType } from '../../../shared/models/log.model';
 
-fdescribe('LoginPage', () => {
+describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate', 'getCurrentNavigation']);
