@@ -105,7 +105,7 @@ describe('Base Page', () => {
     it('should try to logout when platform is ios', fakeAsync(() => {
       authenticationProvider.logout = jasmine.createSpy('authenticationProvider.logout')
         .and.returnValue(Promise.resolve(false));
-      spyOn(platform, 'is').and.returnValue(true);
+      basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
       spyOn(router, 'navigate');
       basePageComponent.logout();
 
@@ -120,7 +120,8 @@ describe('Base Page', () => {
       });
     }));
     it('should not try to logout when platform is not ios', async () => {
-      spyOn(basePageComponent, 'isIos').and.returnValue(false);
+      // spyOn(basePageComponent, 'isIos').and.returnValue(false);
+      basePageComponent.isIos = jasmine.createSpy().and.returnValue(false);
       spyOn(router, 'navigate');
       await basePageComponent.logout();
       expect(authenticationProvider.logout).toHaveBeenCalledTimes(0);

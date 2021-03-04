@@ -213,17 +213,5 @@ describe('Authentication', () => {
       });
     });
 
-    describe('logoutEnabled', () => {
-      it('should return the value from app config', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
-          journal: {
-            enableLogoutButton: true,
-          },
-        } as AppConfig);
-        const logoutEnabled: boolean = authenticationProvider.logoutEnabled();
-        expect(logoutEnabled).toEqual(true);
-      });
-    });
-
   });
 });

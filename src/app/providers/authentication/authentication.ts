@@ -167,10 +167,6 @@ export class AuthenticationProvider {
     return this.ionicAuth.login();
   }
 
-  public logoutEnabled = (): boolean => {
-    return this.appConfig.getAppConfig()?.journal?.enableLogoutButton;
-  };
-
   public async logout(): Promise<void> {
     if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
       await this.testPersistenceProvider.clearPersistedTests();

@@ -43,7 +43,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.initialiseNetworkState();
     this.initialiseAuthentication();
     await this.initialisePersistentStorage();
-    // this.logoutEnabled = this.isLogoutEnabled();
     this.store$.dispatch(LoadAppVersion());
     await this.configureStatusBar();
     await this.disableMenuSwipe();
@@ -99,5 +98,4 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     await this.openLogoutModal();
   };
 
-  // isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 }

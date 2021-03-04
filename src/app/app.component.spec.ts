@@ -85,7 +85,6 @@ describe('AppComponent', () => {
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
       spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
-      spyOn(component, 'isLogoutEnabled').and.returnValue(true);
     });
     it('should run app initialisation code', fakeAsync(() => {
       component.ngOnInit();
@@ -96,7 +95,6 @@ describe('AppComponent', () => {
       expect(Plugins.SplashScreen.hide).toHaveBeenCalled();
       expect(component.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
-      expect(component.logoutEnabled).toEqual(true);
     }));
   });
 
@@ -187,14 +185,6 @@ describe('AppComponent', () => {
       spyOn(component, 'openLogoutModal');
       await component.onLogoutClick();
       expect(component.openLogoutModal).toHaveBeenCalled();
-    });
-  });
-
-  describe('isLogoutEnabled', () => {
-    it('should call through to logoutEnabled', () => {
-      spyOn(authenticationProvider, 'logoutEnabled');
-      component.isLogoutEnabled();
-      expect(authenticationProvider.logoutEnabled).toHaveBeenCalled();
     });
   });
 
