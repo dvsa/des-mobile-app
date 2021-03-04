@@ -49,6 +49,7 @@ import { AppComponent } from '../../app.component';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 import { ErrorPage } from '../error-page/error';
 import { PersonalCommitmentSlotComponent } from './components/personal-commitment/personal-commitment';
+import { NetworkStateProvider } from '../../providers/network-state/network-state';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -59,6 +60,7 @@ interface JournalPageState {
   appVersion$: Observable<string>;
   loadingSpinner$: Observable<HTMLIonLoadingElement>;
   // completedTests$: Observable<SearchResultTestSchema[]>;
+  isOffline$: Observable<boolean>;
 }
 
 @Component({
@@ -98,6 +100,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public dateTimeProvider: DateTimeProvider,
     public appConfigProvider: AppConfigProvider,
     private app: AppComponent,
+    private networkStateProvider: NetworkStateProvider,
     // private deviceProvider: DeviceProvider,
     // public screenOrientation: ScreenOrientation,
     // public insomnia: Insomnia,
@@ -134,6 +137,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       ),
       appVersion$: this.store$.select(selectVersionNumber),
       loadingSpinner$: from(this.loadingController.create({ spinner: 'circles' })),
+      isOffline$: this.networkStateProvider.isOffline$,
       // completedTests$: this.store$.pipe(
       //   select(getJournalState),
       //   select(getCompletedTests),
@@ -158,7 +162,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
         return this.handleLoadingUI(res, loadingSpinner$);
       })),
     );
-
   }
 
   ionViewDidLeave(): void {

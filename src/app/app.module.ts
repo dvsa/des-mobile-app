@@ -11,9 +11,12 @@ import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
-import { StoreModule } from '@ngrx/store';
+import {
+  ActionReducer, ActionReducerMap, MetaReducer, StoreModule,
+} from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { localStorageSync } from 'ngrx-store-localstorage';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppConfigProvider } from './providers/app-config/app-config';
@@ -36,6 +39,31 @@ import { TestPersistenceProvider } from './providers/test-persistence/test-persi
 import { AnalyticsProvider } from './providers/analytics/analytics';
 import { DeviceProvider } from './providers/device/device';
 import { CategoryWhitelistProvider } from './providers/category-whitelist/category-whitelist';
+import { AppConfigStoreModule } from '../store/app-config/app-config.module';
+import { appConfigReducer } from '../store/app-config/app-config.reducer';
+import { journalReducer } from '../store/journal/journal.reducer';
+import { appInfoReducer } from '../store/app-info/app-info.reducer';
+
+export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({
+    keys: ['appInfo', 'logs', 'tests', 'appConfig'],
+    rehydrate: true,
+  })(reducer);
+}
+
+const reducers: ActionReducerMap<any> = {
+  journal: journalReducer,
+  appInfo: appInfoReducer,
+  appConfig: appConfigReducer,
+};
+
+const metaReducers: MetaReducer<any, any>[] = [];
+const enableDevTools = environment && environment.enableDevTools;
+const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
+
+if (enableRehydrationPlugin) {
+  metaReducers.push(localStorageSyncReducer);
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,10 +73,11 @@ import { CategoryWhitelistProvider } from './providers/category-whitelist/catego
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(reducers, { metaReducers }),
     EffectsModule.forRoot(),
-    environment.enableDevTools ? [StoreDevtoolsModule.instrument()] : [],
+    ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,
+    AppConfigStoreModule,
     LogsStoreModule,
     JournalModule,
   ],
@@ -71,11 +100,7 @@ import { CategoryWhitelistProvider } from './providers/category-whitelist/catego
     AnalyticsProvider,
     DeviceProvider,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     LogsProvider,
     LogHelper,
     SchemaValidatorProvider,
@@ -85,4 +110,5 @@ import { CategoryWhitelistProvider } from './providers/category-whitelist/catego
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+}

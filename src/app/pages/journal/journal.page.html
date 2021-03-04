@@ -2,20 +2,22 @@
   <ion-toolbar mode="ios">
     <ion-title>Journal</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button class="colour-white"></ion-back-button>
+      <ion-back-button class="colour-white" defaultHref="DashboardPage"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="refreshJournal()">
+        <div>
           <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
-          <ion-label class="colour-white">Refresh</ion-label>
-        <!-- <h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6> -->
+          <span class="colour-white">Refresh</span>
+          <ion-label><h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6></ion-label>
+        </div>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
-  <div *ngIf="isUnauthenticated" id="unauthenticated-mode-indicator">
+  <div *ngIf="pageState.isOffline$ | async" id="unauthenticated-mode-indicator">
     <label id="unauth-text">You are offline. Some features may be unavailable.</label>
   </div>
 

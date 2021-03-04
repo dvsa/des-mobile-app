@@ -35,7 +35,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
   enableExceptionReporting(): void {
     this.platform.ready().then(() => {
-      if (this.platform.is('ios')) {
+      if (this.isIos()) {
         this.ga
           .startTrackerWithId(this.googleAnalyticsKey)
           .then(() => {
@@ -50,7 +50,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
   setCurrentPage(name: string): void {
     this.platform.ready().then(() => {
-      if (this.platform.is('ios')) {
+      if (this.isIos()) {
         this.ga
           .startTrackerWithId(this.googleAnalyticsKey)
           .then(() => {
@@ -65,7 +65,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
   logEvent(category: string, event: string, label ?: string, value? : number): void {
     this.platform.ready().then(() => {
-      if (this.platform.is('ios')) {
+      if (this.isIos()) {
         this.ga
           .startTrackerWithId(this.googleAnalyticsKey)
           .then(() => {
@@ -79,7 +79,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   }
 
   addCustomDimension(key: number, value: string): void {
-    if (this.platform.is('ios')) {
+    if (this.isIos()) {
       this.ga
         .startTrackerWithId(this.googleAnalyticsKey)
         .then(() => {
@@ -96,7 +96,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   }
 
   logException(message: string, fatal: boolean): void {
-    if (this.platform.is('ios')) {
+    if (this.isIos()) {
       this.ga
         .startTrackerWithId(this.googleAnalyticsKey)
         .then(() => {
@@ -109,7 +109,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   }
 
   setUserId(userId: string): void {
-    if (this.platform.is('ios')) {
+    if (this.isIos()) {
       this.uniqueUserId = createHash('sha256').update(userId || 'unavailable').digest('hex');
       this.ga
         .startTrackerWithId(this.googleAnalyticsKey)
@@ -154,4 +154,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
     }
     return ret;
   }
+
+  isIos = (): boolean => this.platform.is('cordova');
+
 }

@@ -1,9 +1,13 @@
-export const environment = {
+import { EnvironmentFile } from './models/environment.model';
+
+export const environment: EnvironmentFile = {
   production: false,
   isRemote: true,
   configUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/configuration/dev',
   enableDevTools: true,
+  enableRehydrationPlugin: true,
   logoutClearsTestPersistence: true,
+  daysToCacheLogs: 7,
   logsPostApiKey: '',
   logsApiUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/logs',
   logsAutoSendInterval: 6000,

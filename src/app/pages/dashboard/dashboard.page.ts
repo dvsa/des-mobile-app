@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { selectEmployeeName, selectVersionNumber } from '../../../store/app-info/app-info.selectors';
+import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
+import { selectRole } from '../../../store/app-config/app-config.selectors';
 import { ExaminerRole, ExaminerRoleDescription } from '../../providers/app-config/constants/examiner-role.constants';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { AppConfigProvider } from '../../providers/app-config/app-config';
@@ -16,7 +18,10 @@ import { BasePageComponent } from '../../shared/classes/base-page';
 interface DashboardPageState {
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
+  employeeId$: Observable<string>;
+  role$: Observable<string>;
 }
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: 'dashboard.page.html',
@@ -26,9 +31,7 @@ export class DashboardPage extends BasePageComponent {
 
   pageState: DashboardPageState;
   todaysDateFormatted: string;
-  employeeId: string;
   todaysDate: DateTime;
-  role: string;
 
   constructor(
     protected alertController: AlertController,
@@ -40,8 +43,6 @@ export class DashboardPage extends BasePageComponent {
     router: Router,
   ) {
     super(platform, authenticationProvider, router);
-    this.employeeId = this.authenticationProvider.getEmployeeId() || 'NOT_KNOWN';
-    this.role = ExaminerRoleDescription[this.appConfigProvider.getAppConfig().role] || 'Unknown Role';
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
   }
@@ -50,6 +51,8 @@ export class DashboardPage extends BasePageComponent {
     this.pageState = {
       appVersion$: this.store$.select(selectVersionNumber),
       employeeName$: this.store$.select(selectEmployeeName),
+      employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
+      role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
     };
   }
 
@@ -57,13 +60,23 @@ export class DashboardPage extends BasePageComponent {
     super.ionViewWillEnter();
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
-
     return true;
   }
 
-  showTestReportPracticeMode = ():boolean => this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;
+  getRoleDisplayValue(role: string): string {
+    return ExaminerRoleDescription[role] || 'Unknown Role';
+  }
 
-  showEndToEndPracticeMode = (): boolean => this.appConfigProvider.getAppConfig().journal.enableEndToEndPracticeMode;
+  getEmployeeNumberDisplayValue(employeeNumber: string): string {
+    return employeeNumber || 'NOT_KNOWN';
+  }
 
-  showDelegatedExaminerRekey = (): boolean => this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
+  showTestReportPracticeMode = (): boolean =>
+    this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;
+
+  showEndToEndPracticeMode = (): boolean =>
+    this.appConfigProvider.getAppConfig().journal.enableEndToEndPracticeMode;
+
+  showDelegatedExaminerRekey = (): boolean =>
+    this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
 }

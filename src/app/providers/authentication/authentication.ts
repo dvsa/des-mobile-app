@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
+import { Store } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import { AppConfigProvider } from '../app-config/app-config';
 import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
+import { selectEmployeeId } from '../../../store/app-info/app-info.selectors';
+import { StoreModel } from '../../shared/models/store.model';
 
 export enum Token {
   ID = 'idToken',
@@ -25,11 +29,13 @@ export class AuthenticationProvider {
     private networkState: NetworkStateProvider,
     private appConfig: AppConfigProvider,
     private testPersistenceProvider: TestPersistenceProvider,
+    private store$: Store<StoreModel>,
   ) {
+    this.setStoreSubscription();
   }
 
   private getAuthOptions = (): IonicAuthOptions => {
-    const authSettings = this.appConfig.getAppConfig().authentication;
+    const authSettings = this.appConfig.getAppConfig()?.authentication;
     return {
       authConfig: 'azure',
       platform: 'capacitor',
@@ -74,8 +80,8 @@ export class AuthenticationProvider {
   }
 
   public initialiseAuthentication = (): void => {
-    this.authenticationSettings = this.appConfig.getAppConfig().authentication;
-    this.employeeIdKey = this.appConfig.getAppConfig().authentication.employeeIdKey;
+    this.authenticationSettings = this.appConfig.getAppConfig()?.authentication;
+    this.employeeIdKey = this.appConfig.getAppConfig()?.authentication.employeeIdKey;
     this.inUnAuthenticatedMode = false;
     this.ionicAuth = new IonicAuth(this.getAuthOptions());
   };
@@ -138,10 +144,18 @@ export class AuthenticationProvider {
     return this.employeeId || null;
   };
 
+  private setStoreSubscription = (): void => {
+    this.store$.select(selectEmployeeId).pipe(
+      tap((employeeId: string) => {
+        if (employeeId) this.employeeId = employeeId;
+      }),
+    ).subscribe();
+  };
+
   public loadEmployeeName = async (): Promise<string> => {
     const idToken = await this.ionicAuth.getIdToken();
     if (idToken) {
-      return idToken[this.appConfig.getAppConfig().authentication.employeeNameKey];
+      return idToken[this.appConfig.getAppConfig()?.authentication.employeeNameKey];
     }
     return '';
   };
@@ -153,12 +167,8 @@ export class AuthenticationProvider {
     return this.ionicAuth.login();
   }
 
-  public logoutEnabled = (): boolean => {
-    return this.appConfig.getAppConfig()?.journal?.enableLogoutButton;
-  };
-
   public async logout(): Promise<void> {
-    if (this.appConfig.getAppConfig().logoutClearsTestPersistence) {
+    if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
       await this.testPersistenceProvider.clearPersistedTests();
     }
     await this.clearTokens();

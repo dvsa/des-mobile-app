@@ -28,7 +28,7 @@
     "update-mock-data": "npm run update-mock-data:journal && npm run update-mock-data:nta",
     "update-mock-data:journal": "ts-node -P tsconfig.scripts.json mock/generate-local-journal.ts",
     "update-mock-data:nta": "ts-node -P tsconfig.scripts.json mock/generate-local-journal-non-test-activities.ts",
-    "livereload": "npm run config:dev && ionic cap run ios -l --external"
+    "livereload": "npm run config:dev-tools && ionic cap run ios -l --external"
   },
   "private": true,
   "dependencies": {
@@ -78,6 +78,7 @@
     "moment": "2.24.0",
     "ng-bullet": "^1.0.3",
     "ng-mocks": "^11.5.0",
+    "ngrx-store-localstorage": "^11.0.0",
     "protractor": "^7.0.0",
     "rxjs": "~6.5.5",
     "rxjs-compat": "^6.6.3",

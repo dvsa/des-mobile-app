@@ -12,6 +12,7 @@ export enum ConnectionStatus {
 export class NetworkStateProvider {
 
   private networkStatus$: BehaviorSubject<ConnectionStatus> = new BehaviorSubject(ConnectionStatus.OFFLINE);
+  public isOffline$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
   constructor(private network: Network, private platform: Platform) {
   }
@@ -21,6 +22,7 @@ export class NetworkStateProvider {
       this.initialiseNetworkEvents();
       const status = this.network.type !== 'none' ? ConnectionStatus.ONLINE : ConnectionStatus.OFFLINE;
       this.networkStatus$.next(status);
+      this.isOffline$.next(status === ConnectionStatus.OFFLINE);
     });
   }
 
@@ -36,6 +38,7 @@ export class NetworkStateProvider {
 
   private updateNetworkStatus(status: ConnectionStatus) {
     this.networkStatus$.next(status);
+    this.isOffline$.next(status === ConnectionStatus.OFFLINE);
   }
 
   public onNetworkChange(): Observable<ConnectionStatus> {
@@ -48,7 +51,7 @@ export class NetworkStateProvider {
    * @returns ConnectionStatus
    */
   public getNetworkState(): ConnectionStatus {
-    if (!this.networkStatus$) {
+    if (!this.networkStatus$ || !this.platform.is('cordova')) {
       return ConnectionStatus.ONLINE;
     }
     return this.networkStatus$.getValue();

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { timeout } from 'rxjs/operators';
+import { map, timeout } from 'rxjs/operators';
 import { isEmpty, merge } from 'lodash';
 import { ValidationResult, ValidationError } from 'joi';
 
@@ -23,6 +23,7 @@ import { ConnectionStatus, NetworkStateProvider } from '../network-state/network
 import { AppInfoProvider } from '../app-info/app-info';
 import { DataStoreProvider } from '../data-store/data-store';
 import { EnvironmentFile } from '../../../environments/models/environment.model';
+import { getAppConfigState } from '../../../store/app-config/app-config.reducer';
 
 /**
  *  How Loading Config Works
@@ -74,11 +75,12 @@ export class AppConfigProvider {
     private isDebug: IsDebug,
     private emmAppConfig: EmmAppConfig,
   ) {
+    this.setStoreSubscription();
   }
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
-      if (this.platform.is('ios')) {
+      if (this.platform.is('cordova')) {
         await this.getDebugMode();
         this.loadManagedConfig();
       }
@@ -94,11 +96,15 @@ export class AppConfigProvider {
     }
   };
 
-  public getAppConfig = (): AppConfig => {
-    if (!this.appConfig) {
-      this.initialiseAppConfig();
-    }
+  public setStoreSubscription(): void {
+    this.store$.select(getAppConfigState).pipe(
+      map((appConfig: AppConfig) => {
+        this.appConfig = appConfig;
+      }),
+    ).subscribe();
+  }
 
+  public getAppConfig = (): AppConfig => {
     return this.appConfig;
   };
 

@@ -3,9 +3,7 @@ import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith,
-  // tap,
-  concatMap, tap,
+  switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith, concatMap, tap,
 } from 'rxjs/operators';
 import { of, Observable, interval } from 'rxjs';
 // import { groupBy } from 'lodash';
@@ -35,11 +33,8 @@ import { DateTimeProvider } from '../../app/providers/date-time/date-time';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 
 import { SlotItem } from '../../app/providers/slot-selector/slot-item';
-// import { LogType } from '../../app/shared/models/log.model';
-// import { SaveLog } from '../logs/logs.actions';
 import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
-// import { SaveLog } from '../../modules/logs/logs.actions';
 import { LogHelper } from '../../app/providers/logs/logs-helper';
 // import { HttpStatusCodes } from '../../shared/models/http-status-codes';
 // import { SearchProvider } from '../../app/providers/search/search';

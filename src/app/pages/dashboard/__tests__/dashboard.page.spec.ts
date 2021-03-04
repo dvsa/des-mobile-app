@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { configureTestSuite } from 'ng-bullet';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { of } from 'rxjs';
 import { DashboardPage } from '../dashboard.page';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
 import { appInfoReducer } from '../../../../store/app-info/app-info.reducer';
@@ -17,7 +18,12 @@ import { DateTimeProviderMock } from '../../../providers/date-time/__mocks__/dat
 import { ExaminerRole } from '../../../providers/app-config/constants/examiner-role.constants';
 import { AppConfig } from '../../../providers/app-config/app-config.model';
 import { DateTime } from '../../../shared/helpers/date-time';
-import { selectEmployeeName, selectVersionNumber } from '../../../../store/app-info/app-info.selectors';
+import {
+  selectEmployeeId,
+  selectEmployeeName,
+  selectVersionNumber,
+} from '../../../../store/app-info/app-info.selectors';
+import { selectRole } from '../../../../store/app-config/app-config.selectors';
 import { StoreModel } from '../../../shared/models/store.model';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
@@ -30,10 +36,8 @@ describe('DashboardPage', () => {
   let appConfigProvider: AppConfigProvider;
   let store$: MockStore;
   const initialState = {
-    appInfo: {
-      versionNumber: '4.0',
-      employeeName: 'Some One',
-    },
+    appInfo: { versionNumber: '4.0', employeeName: 'Some One', employeeId: '1234567' },
+    appConfig: { role: ExaminerRole.DE },
   } as StoreModel;
 
   configureTestSuite(() => {
@@ -77,12 +81,14 @@ describe('DashboardPage', () => {
 
   describe('ngOnInit', () => {
     it('should get the selectVersionNumber and selectEmployeeName from store on init', () => {
-      const spy = spyOn(store$, 'select');
+      const spy = spyOn(store$, 'select').and.returnValue(of());
       component.ngOnInit();
-      expect(spy).toHaveBeenCalledTimes(2);
+      expect(spy).toHaveBeenCalledTimes(4);
       expect(spy.calls.allArgs()).toEqual([
         [selectVersionNumber],
         [selectEmployeeName],
+        [selectEmployeeId],
+        [selectRole],
       ]);
     });
   });

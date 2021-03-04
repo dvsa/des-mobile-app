@@ -2,3 +2,4 @@ node_modules
 mock
 ngrx-devtool-proxy
 e2e
+plugins

@@ -1,6 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { provideMockStore } from '@ngrx/store/testing';
 import { AuthenticationProvider, Token } from '../authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -11,12 +12,14 @@ import { DataStoreProvider } from '../../data-store/data-store';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
 import { TestPersistenceProvider } from '../../test-persistence/test-persistence';
 import { TestPersistenceProviderMock } from '../../test-persistence/__mocks__/test-persistence.mock';
+import { StoreModel } from '../../../shared/models/store.model';
 
 describe('Authentication', () => {
   let authenticationProvider: AuthenticationProvider;
   let networkStateProvider: NetworkStateProvider;
   let appConfigProvider: AppConfigProvider;
   let dataStoreProvider: DataStoreProvider;
+  const initialState = { appInfo: { employeeId: '1234567' } } as StoreModel;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -26,6 +29,7 @@ describe('Authentication', () => {
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: TestPersistenceProvider, useClass: TestPersistenceProviderMock },
+        provideMockStore({ initialState }),
       ],
     });
   });
@@ -206,18 +210,6 @@ describe('Authentication', () => {
         const token = await authenticationProvider.getAuthenticationToken();
         expect(token).toEqual(null);
         expect(dataStoreProvider.getItem).toHaveBeenCalledWith(Token.ID);
-      });
-    });
-
-    describe('logoutEnabled', () => {
-      it('should return the value from app config', () => {
-        spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
-          journal: {
-            enableLogoutButton: true,
-          },
-        } as AppConfig);
-        const logoutEnabled: boolean = authenticationProvider.logoutEnabled();
-        expect(logoutEnabled).toEqual(true);
       });
     });
 

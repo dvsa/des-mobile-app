@@ -2,17 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import {
   AlertController, LoadingController, MenuController, Platform,
 } from '@ionic/angular';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { AppConfigProvider } from '../../providers/app-config/app-config';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { DataStoreProvider } from '../../providers/data-store/data-store';
-import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { AuthenticationError } from '../../providers/authentication/authentication.constants';
 import { AppConfigError } from '../../providers/app-config/app-config.constants';
-import { LoadConfigSuccess, LoadEmployeeName, LoadEmployeeId } from '../../../store/app-info/app-info.actions';
+import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
 import {
   SaveLog, StartSendingLogs, SendLogs, LoadLog,
@@ -22,6 +19,7 @@ import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { LogType } from '../../shared/models/log.model';
 import { LogHelper } from '../../providers/logs/logs-helper';
 import { AnalyticsProvider } from '../../providers/analytics/analytics';
+import { LoadAppConfig } from '../../../store/app-config/app-config.actions';
 
 @Component({
   selector: 'app-login',
@@ -42,9 +40,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private loadingController: LoadingController,
     protected alertController: AlertController,
     private appConfigProvider: AppConfigProvider,
-    private secureStorage: SecureStorage,
-    private dataStore: DataStoreProvider,
-    private networkStateProvider: NetworkStateProvider,
     private route: ActivatedRoute,
     private menuController: MenuController,
     private logHelper: LogHelper,
@@ -64,8 +59,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       }
     });
 
-    this.networkStateProvider.initialiseNetworkState();
-
     // Trigger Authentication if ios device
     if (!this.hasUserLoggedOut && this.isIos()) {
       await this.login();
@@ -73,6 +66,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
     if (!this.isIos()) {
       await this.appConfigProvider.initialiseAppConfig();
+      this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
       await this.router.navigate([DASHBOARD_PAGE]);
       // @TODO: Add hide function when splash screen is implemented
       // this.splashScreen.hide();
@@ -106,8 +100,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.initialiseAuthentication();
 
-      await this.initialisePersistentStorage();
-
       await this.authenticationProvider.expireTokens();
 
       const isAuthenticated = await this.authenticationProvider.isAuthenticated();
@@ -127,6 +119,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(LoadConfigSuccess());
 
       this.store$.dispatch(LoadEmployeeName());
+
+      this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
 
       await this.analytics.initialiseAnalytics();
 
@@ -179,19 +173,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       ),
     }));
   };
-
-  async initialisePersistentStorage(): Promise<void> {
-    if (this.isIos()) {
-      try {
-        const storage = await this.secureStorage.create('DES');
-        this.dataStore.setSecureContainer(storage);
-
-        return Promise.resolve();
-      } catch (err) {
-        return Promise.reject(err);
-      }
-    }
-  }
 
   isInternetConnectionError = (): boolean => {
     return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.NO_INTERNET;
