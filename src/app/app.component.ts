@@ -4,6 +4,7 @@ import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
+import { Observable } from 'rxjs';
 
 import { StoreModel } from './shared/models/store.model';
 import { LoadAppVersion } from '../store/app-info/app-info.actions';
@@ -11,6 +12,7 @@ import { AuthenticationProvider } from './providers/authentication/authenticatio
 import { LogoutBasePageComponent } from './shared/classes/logout-base-page';
 import { DataStoreProvider } from './providers/data-store/data-store';
 import { NetworkStateProvider } from './providers/network-state/network-state';
+import { selectLogoutEnabled } from '../store/app-config/app-config.selectors';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,7 @@ import { NetworkStateProvider } from './providers/network-state/network-state';
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   textZoom: number = 100;
-  logoutEnabled: boolean = null;
+  logoutEnabled$: Observable<boolean>;
 
   constructor(
     private store$: Store<StoreModel>,
@@ -41,11 +43,12 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.initialiseNetworkState();
     this.initialiseAuthentication();
     await this.initialisePersistentStorage();
-    this.logoutEnabled = this.isLogoutEnabled();
+    // this.logoutEnabled = this.isLogoutEnabled();
     this.store$.dispatch(LoadAppVersion());
     await this.configureStatusBar();
     await this.disableMenuSwipe();
     await SplashScreen.hide();
+    this.logoutEnabled$ = this.store$.select(selectLogoutEnabled);
   }
 
   public initialiseAuthentication = (): void => {
@@ -96,5 +99,5 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     await this.openLogoutModal();
   };
 
-  isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
+  // isLogoutEnabled = (): boolean => this.authenticationProvider.logoutEnabled();
 }

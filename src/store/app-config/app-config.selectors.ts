@@ -8,3 +8,8 @@ export const selectRole = createSelector(
   selectAppConfig,
   (appConfig: AppConfig): string => appConfig.role,
 );
+
+export const selectLogoutEnabled = createSelector(
+  selectAppConfig,
+  (appConfig: AppConfig): boolean => appConfig.journal.enableLogoutButton,
+);
