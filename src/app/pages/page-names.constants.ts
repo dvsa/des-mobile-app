@@ -2,6 +2,7 @@ export const CANDIDATE_DETAILS_PAGE = 'CandidateDetailsPage';
 export const FAKE_CANDIDATE_DETAILS_PAGE = 'FakeCandidateDetailsPage';
 export const FAKE_JOURNAL_PAGE = 'FakeJournalPage';
 export const JOURNAL_PAGE = 'JournalPage';
+export const TEST_CENTRE_JOURNAL_PAGE = 'TestCentreJournalPage';
 export const LOGIN_PAGE = 'LoginPage';
 export const JOURNAL_FORCE_CHECK_MODAL = 'JournalForceCheckModal';
 export const JOURNAL_EARLY_START_MODAL = 'JournalEarlyStartModal';

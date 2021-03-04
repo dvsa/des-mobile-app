@@ -7,6 +7,7 @@ import { GoToJournalCardComponent } from './go-to-journal-card/go-to-journal-car
 import { TestResultsSearchCardComponent } from './test-results-search-card/test-results-search-card';
 import { PracticeEndToEndCardComponent } from './practice-end-to-end-card/practice-end-to-end-card';
 import { PracticeTestReportCardComponent } from './practice-test-report-card/practice-test-report-card';
+import { TestCentreJournalCardComponent } from './test-centre-journal-card/test-centre-journal-card';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { PracticeTestReportCardComponent } from './practice-test-report-card/pra
     PracticeEndToEndCardComponent,
     TestResultsSearchCardComponent,
     PracticeTestReportCardComponent,
+    TestCentreJournalCardComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { PracticeTestReportCardComponent } from './practice-test-report-card/pra
     PracticeEndToEndCardComponent,
     TestResultsSearchCardComponent,
     PracticeTestReportCardComponent,
+    TestCentreJournalCardComponent,
   ],
 })
 
