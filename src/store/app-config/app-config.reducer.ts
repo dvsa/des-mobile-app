@@ -5,7 +5,7 @@ import { LoadAppConfig } from './app-config.actions';
 
 export const appConfigFeatureKey = 'appConfig';
 
-export const initialState = {
+export const initialState: AppConfig = {
   configUrl: null,
   googleAnalyticsId: null,
   daysToCacheLogs: null,
@@ -47,7 +47,7 @@ export const initialState = {
     findUserUrl: null,
   },
   requestTimeout: null,
-} as AppConfig;
+};
 
 export const appConfigReducer = createReducer(
   initialState,
