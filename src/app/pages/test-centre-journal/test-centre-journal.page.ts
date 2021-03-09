@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { BasePageComponent } from '../../shared/classes/base-page';
+import { AuthenticationProvider } from '../../providers/authentication/authentication';
 
 @Component({
   selector: 'app-test-centre-journal',
@@ -8,4 +11,11 @@ import { BasePageComponent } from '../../shared/classes/base-page';
 })
 export class TestCentreJournalPage extends BasePageComponent {
 
+  constructor(
+    public platform: Platform,
+    public authenticationProvider: AuthenticationProvider,
+    public router: Router,
+  ) {
+    super(platform, authenticationProvider, router);
+  }
 }
