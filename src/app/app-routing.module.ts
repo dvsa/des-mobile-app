@@ -24,7 +24,8 @@ const routes: Routes = [
   },
   {
     path: TEST_CENTRE_JOURNAL_PAGE,
-    loadChildren: () => import('./pages/test-centre-journal/test-centre-journal.module'),
+    loadChildren: () => import('./pages/test-centre-journal/test-centre-journal.module')
+      .then((m) => m.TestCentreJournalModule),
   },
 ];
 
