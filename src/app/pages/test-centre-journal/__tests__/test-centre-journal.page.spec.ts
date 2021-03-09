@@ -3,6 +3,8 @@ import { IonicModule, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PlatformMock } from 'ionic-mocks';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../../../providers/authentication/__mocks__/authentication.mock';
@@ -18,7 +20,13 @@ describe('TestCenterJournalPage', () => {
       declarations: [TestCentreJournalPage],
       imports: [
         IonicModule,
+        FormsModule,
         CommonModule,
+        RouterTestingModule.withRoutes(
+          [
+            { path: '', component: TestCentreJournalPage },
+          ],
+        ),
       ],
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
