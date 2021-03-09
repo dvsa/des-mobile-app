@@ -17,9 +17,12 @@
     <hr/>
     <h4 class="date">{{todaysDateFormatted}}</h4>
     <ion-grid class="dashboard-grid">
-      <ion-row>
+      <ion-row *ngIf="!showDelegatedExaminerRekey()">
         <ion-col>
-          <go-to-journal-card *ngIf="!showDelegatedExaminerRekey()"></go-to-journal-card>
+          <go-to-journal-card></go-to-journal-card>
+        </ion-col>
+        <ion-col>
+          <test-centre-journal-card></test-centre-journal-card>
         </ion-col>
       </ion-row>
       <ion-row>
