@@ -18,4 +18,8 @@ export class TestCentreJournalPage extends BasePageComponent {
   ) {
     super(platform, authenticationProvider, router);
   }
+
+  ionViewWillEnter() {
+    super.ionViewWillEnter();
+  }
 }
