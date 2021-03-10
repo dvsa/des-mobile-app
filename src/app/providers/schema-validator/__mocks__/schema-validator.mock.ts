@@ -1,12 +1,9 @@
-import { ValidationResult } from 'joi';
+import { ValidatorResult } from 'jsonschema';
 
 export class SchemaValidatorProviderMock {
-  validateRemoteConfig = (): ValidationResult => {
+  validateRemoteConfig = () => {
     return {
-      error: null,
-      value: {},
-      // then: jasmine.createSpy('then', () => {}),
-      // catch: jasmine.createSpy('catch', () => {}),
-    };
+      errors: [],
+    } as ValidatorResult;
   };
 }
