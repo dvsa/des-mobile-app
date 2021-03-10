@@ -13,3 +13,7 @@
 .menu-version-label {
   color: white;
 }
+
+body {
+  -webkit-text-size-adjust: 100% !important; // prevents the iOS text size config from adjusting webview zoom level
+}

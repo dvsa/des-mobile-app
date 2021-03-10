@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
-import { Observable } from 'rxjs';
+import { Observable, merge, Subscription } from 'rxjs';
 
 import { StoreModel } from './shared/models/store.model';
-import { LoadAppVersion } from '../store/app-info/app-info.actions';
+import { LoadAppVersion, AppResumed, AppSuspended } from '../store/app-info/app-info.actions';
 import { AuthenticationProvider } from './providers/authentication/authentication';
 import { LogoutBasePageComponent } from './shared/classes/logout-base-page';
 import { DataStoreProvider } from './providers/data-store/data-store';
 import { NetworkStateProvider } from './providers/network-state/network-state';
 import { selectLogoutEnabled } from '../store/app-config/app-config.selectors';
+
+declare let window: any;
 
 @Component({
   selector: 'app-root',
@@ -21,7 +24,11 @@ import { selectLogoutEnabled } from '../store/app-config/app-config.selectors';
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   textZoom: number = 100;
+  increasedContrast: boolean = false;
   logoutEnabled$: Observable<boolean>;
+
+  private platformSubscription: Subscription;
+  private subscription: Subscription;
 
   constructor(
     private store$: Store<StoreModel>,
@@ -45,9 +52,22 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     await this.initialisePersistentStorage();
     this.store$.dispatch(LoadAppVersion());
     await this.configureStatusBar();
+    if (this.platform.is('cordova')) {
+      this.configureAccessibility();
+      this.configurePlatformSubscriptions();
+    }
     await this.disableMenuSwipe();
     await SplashScreen.hide();
     this.logoutEnabled$ = this.store$.select(selectLogoutEnabled);
+  }
+
+  ionViewWillUnload() {
+    if (this.platformSubscription) {
+      this.platformSubscription.unsubscribe();
+    }
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public initialiseAuthentication = (): void => {
@@ -71,6 +91,43 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       }
     }
   }
+
+  configurePlatformSubscriptions(): void {
+    const merged$ = merge(
+      this.platform.resume.pipe(
+        map(this.onAppResumed),
+      ),
+      this.platform.pause.pipe(
+        map(this.onAppSuspended),
+      ),
+    );
+    this.platformSubscription = merged$.subscribe();
+  }
+
+  onAppResumed = (): void => {
+    this.store$.dispatch(AppResumed());
+    window.MobileAccessibility.usePreferredTextZoom(true);
+    window.MobileAccessibility.getTextZoom(this.getTextZoomCallback);
+  };
+
+  onAppSuspended = (): void => {
+    this.store$.dispatch(AppSuspended());
+  };
+
+  configureAccessibility = (): void => {
+    window.MobileAccessibility.updateTextZoom();
+    window.MobileAccessibility.getTextZoom(this.getTextZoomCallback);
+    window.MobileAccessibility.isDarkerSystemColorsEnabled(
+      // eslint-disable-next-line no-return-assign
+      (increasedContrast: boolean) => this.increasedContrast = increasedContrast,
+    );
+  };
+
+  getTextZoomCallback = (zoomLevel: number): void => {
+    // Default iOS zoom levels are: 88%, 94%, 100%, 106%, 119%, 131%, 144%
+    this.textZoom = zoomLevel;
+    window.MobileAccessibility.usePreferredTextZoom(false);
+  };
 
   public getTextZoom(zoom: number): string {
     if (!zoom) return 'regular';
