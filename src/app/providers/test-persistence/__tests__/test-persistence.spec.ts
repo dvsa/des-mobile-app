@@ -9,13 +9,13 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { DateTime } from '../../../shared/helpers/date-time';
 import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
+import { mockGenerateTestPersistenceState } from '../__mocks__/test-persistence.mock';
 
 describe('TestPersistenceProvider', () => {
   let testPersistenceProvider: TestPersistenceProvider;
   let dataStoreProvider;
   let testState: TestsModel;
   const todaysDate = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
-
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -23,90 +23,11 @@ describe('TestPersistenceProvider', () => {
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
-      imports: [
-        StoreModule.forRoot({
-          tests: () => testState,
-        }),
-      ],
     });
   });
 
   beforeEach(() => {
-    testState = {
-      currentTest: { slotId: '23456789' },
-      startedTests: {
-        12345678: {
-          rekey: false,
-          changeMarker: false,
-          examinerBooked: 1,
-          examinerConducted: 1,
-          examinerKeyed: 1,
-          version: '0.0.1',
-          category: 'B',
-          activityCode: '1',
-          journalData: {
-            examiner: {
-              staffNumber: '12345',
-            },
-            candidate: {},
-            testCentre: {
-              centreId: 12345,
-              costCode: '12345',
-            },
-            testSlotAttributes: {
-              slotId: 1,
-              welshTest: true,
-              specialNeeds: true,
-              extendedTest: true,
-              vehicleTypeCode: '12345',
-              start: '2019-01-05T18:20:58',
-            },
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 1,
-              checkDigit: 1,
-            },
-          },
-        },
-        23456789: {
-          rekey: false,
-          changeMarker: false,
-          examinerBooked: 1,
-          examinerConducted: 1,
-          examinerKeyed: 1,
-          version: '0.0.1',
-          category: 'B',
-          activityCode: '1',
-          journalData: {
-            examiner: {
-              staffNumber: '12345',
-            },
-            candidate: {},
-            testCentre: {
-              centreId: 12345,
-              costCode: '12345',
-            },
-            testSlotAttributes: {
-              slotId: 1,
-              welshTest: true,
-              specialNeeds: true,
-              extendedTest: true,
-              vehicleTypeCode: '12345',
-              start: todaysDate,
-            },
-            applicationReference: {
-              applicationId: 1,
-              bookingSequence: 1,
-              checkDigit: 1,
-            },
-          },
-        },
-      },
-      testStatus: {
-        12345678: TestStatus.Booked,
-        23456789: TestStatus.Booked,
-      },
-    };
+    testState = mockGenerateTestPersistenceState(todaysDate);
     testPersistenceProvider = TestBed.inject(TestPersistenceProvider);
     dataStoreProvider = TestBed.inject(DataStoreProvider);
   });
