@@ -4,8 +4,7 @@ import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { map, timeout } from 'rxjs/operators';
 import { isEmpty, merge } from 'lodash';
-import { ValidationResult, ValidationError } from 'joi';
-
+import { ValidatorResult, ValidationError } from 'jsonschema';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 
@@ -142,16 +141,14 @@ export class AppConfigProvider {
   public loadRemoteConfig = (): Promise<any> => this.getRemoteData()
     .then((data: any) => {
 
-      const result: ValidationResult = this.schemaValidatorProvider.validateRemoteConfig(data);
-
-      if (result.error !== null) {
-        return Promise.reject(result.error);
+      const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
+      if (result?.errors?.length > 0) {
+        return Promise.reject(result.errors);
       }
-
       return data;
     })
     .then((data) => this.mapRemoteConfig(data))
-    .catch((error: HttpErrorResponse | ValidationError) => {
+    .catch((error: HttpErrorResponse | ValidationError[]) => {
       if (error instanceof HttpErrorResponse) {
         this.store$.dispatch(SaveLog({
           payload: this.logHelper.createLog(LogType.ERROR, 'Loading remote config', error.message),
@@ -166,8 +163,10 @@ export class AppConfigProvider {
         return Promise.reject(AppConfigError.UNKNOWN_ERROR);
       }
 
+      const configError: string = (error || []).map((err: ValidationError) => err.message).join(', ');
+
       this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', error.details[0].message),
+        payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', configError),
       }));
       return Promise.reject(AppConfigError.VALIDATION_ERROR);
     });
