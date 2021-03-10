@@ -12,22 +12,23 @@ describe('TestCentreJournalCard', () => {
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   configureTestSuite(() => {
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        declarations: [TestCentreJournalCardComponent],
-        imports: [
-          CommonModule,
-          IonicModule,
-        ],
-        providers: [
-          { provide: Router, useValue: routerSpy },
-        ],
-      }).compileComponents();
-      fixture = TestBed.createComponent(TestCentreJournalCardComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    }));
+    TestBed.configureTestingModule({
+      declarations: [TestCentreJournalCardComponent],
+      imports: [
+        IonicModule,
+        CommonModule,
+      ],
+      providers: [
+        { provide: Router, useValue: routerSpy },
+      ],
+    });
   });
+
+  beforeEach(async(() => {
+    fixture = TestBed.createComponent(TestCentreJournalCardComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
