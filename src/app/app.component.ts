@@ -53,7 +53,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.store$.dispatch(LoadAppVersion());
     await this.configureStatusBar();
     if (this.platform.is('cordova')) {
-      this.configureAccessibility();
+      // @TODO MES-6268 enable this code
+      // this.configureAccessibility();
       this.configurePlatformSubscriptions();
     }
     await this.disableMenuSwipe();
