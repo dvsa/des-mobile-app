@@ -285,6 +285,7 @@ describe('LoginPage', () => {
       spyOn(routerSpy, 'navigate');
     });
     it('should navigate to dashboard page', () => {
+      spyOn(component.deviceProvider, 'validDeviceType').and.returnValue(true)
       component.validateDeviceType();
       expect(routerSpy.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE]);
     });

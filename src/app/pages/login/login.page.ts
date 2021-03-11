@@ -20,6 +20,8 @@ import { LogType } from '../../shared/models/log.model';
 import { LogHelper } from '../../providers/logs/logs-helper';
 import { AnalyticsProvider } from '../../providers/analytics/analytics';
 import { LoadAppConfig } from '../../../store/app-config/app-config.actions';
+import { DeviceProvider } from '../../providers/device/device';
+import { DeviceError } from '../../providers/device/device.constants';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +33,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   appInitError: AuthenticationError | AppConfigError;
   hasUserLoggedOut = false;
   hasDeviceTypeError = false;
+  deviceTypeError: DeviceError;
 
   constructor(
     platform: Platform,
@@ -44,6 +47,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private menuController: MenuController,
     private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
+    public deviceProvider: DeviceProvider
   ) {
     super(platform, authenticationProvider, alertController, router);
   }
@@ -195,16 +199,14 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
    * Check app is running on a supported device and navigate to app starting page
    */
   validateDeviceType = async (): Promise<void> => {
-    // @TODO: Update old implementation
-    // const validDevice = this.deviceProvider.validDeviceType();
-    // if (!validDevice) {
-    //   this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
-    //   this.hasDeviceTypeError = true;
-    //   this.analytics.logException(`${this.deviceTypeError}-${this.deviceProvider.getDeviceType()}`, true);
-    // } else {
-    //   this.navController.setRoot(DASHBOARD_PAGE);
-    // }
-    await this.router.navigate([DASHBOARD_PAGE]);
+    const validDevice = this.deviceProvider.validDeviceType();
+    if (!validDevice) {
+      this.deviceTypeError = DeviceError.UNSUPPORTED_DEVICE;
+      this.hasDeviceTypeError = true;
+      this.analytics.logException(`${this.deviceTypeError}-${this.deviceProvider.getDeviceType()}`, true);
+    } else {
+      await this.router.navigate([DASHBOARD_PAGE]);
+    }
   };
 
   async showErrorDetails() {

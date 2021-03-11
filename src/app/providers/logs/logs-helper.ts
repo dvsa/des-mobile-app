@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { from, merge } from 'rxjs';
-import { Device, DeviceInfo } from '@capacitor/core';
+import { merge } from 'rxjs';
+import { Device } from '@ionic-native/device/ngx';
 
 import { selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
 import { LogType, Log } from '../../shared/models/log.model';
@@ -13,10 +13,10 @@ export class LogHelper {
 
   private appVersion: string;
   private employeeId: string;
-  private deviceInfo: DeviceInfo;
 
   constructor(
     private store$: Store<StoreModel>,
+    private device: Device
   ) {
     const versionNumber$ = this.store$.pipe(
       select(selectVersionNumber),
@@ -26,13 +26,9 @@ export class LogHelper {
       select(selectEmployeeId),
       map((employeeId) => { this.employeeId = employeeId; }),
     );
-    const device$ = from(Device.getInfo()).pipe(
-      map((deviceInfo: DeviceInfo) => { this.deviceInfo = deviceInfo; }),
-    );
     merge(
       versionNumber$,
       employeeId$,
-      device$,
     ).subscribe();
   }
 
@@ -43,8 +39,8 @@ export class LogHelper {
       timestamp: Date.now(),
       description: desc,
       appVersion: this.appVersion,
-      iosVersion: this.deviceInfo?.osVersion,
-      deviceId: this.deviceInfo?.uuid,
+      iosVersion: this.device.version,
+      deviceId: this.device.uuid,
       drivingExaminerId: this.employeeId,
     };
   }
