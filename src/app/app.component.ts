@@ -28,7 +28,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   logoutEnabled$: Observable<boolean>;
 
   private platformSubscription: Subscription;
-  private subscription: Subscription;
 
   constructor(
     private store$: Store<StoreModel>,
@@ -65,9 +64,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   ionViewWillUnload() {
     if (this.platformSubscription) {
       this.platformSubscription.unsubscribe();
-    }
-    if (this.subscription) {
-      this.subscription.unsubscribe();
     }
   }
 
