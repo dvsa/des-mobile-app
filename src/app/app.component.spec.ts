@@ -80,6 +80,8 @@ describe('AppComponent', () => {
     beforeEach(() => {
       spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
       spyOn(store$, 'dispatch');
+      spyOn(component, 'configureAccessibility');
+      spyOn(component, 'configurePlatformSubscriptions');
       spyOn(Plugins.SplashScreen, 'hide');
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());

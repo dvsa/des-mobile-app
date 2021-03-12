@@ -51,7 +51,10 @@ export class AppInfoEffects {
 
   loadConfigSuccessEffect$ = createEffect(() => this.actions$.pipe(
     ofType(LoadConfigSuccess.type),
-    switchMap(() => of(SetDateConfigLoaded({ refreshDate: this.dateTimeProvider.now().format('YYYY-MM-DD') }))),
+    switchMap(() => {
+      console.log('Config loaded successfully');
+      return of(SetDateConfigLoaded({ refreshDate: this.dateTimeProvider.now().format('YYYY-MM-DD') }));
+    }),
   ));
 
   appResumedEffect$ = createEffect(() => this.actions$.pipe(
@@ -63,6 +66,7 @@ export class AppInfoEffects {
     )),
     filter(([, dateConfigLoaded]) => dateConfigLoaded !== this.dateTimeProvider.now().format('YYYY-MM-DD')),
     switchMap(() => {
+      console.log('App resumed after being suspended. Config was not loaded today... app will refresh');
       this.router.navigate([LOGIN_PAGE]);
       return of(RestartApp());
     }),
