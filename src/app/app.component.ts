@@ -51,7 +51,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     await this.initialisePersistentStorage();
     this.store$.dispatch(LoadAppVersion());
     await this.configureStatusBar();
-    if (this.platform.is('cordova')) {
+    if (this.isIos()) {
       this.configureAccessibility();
       this.configurePlatformSubscriptions();
     }
