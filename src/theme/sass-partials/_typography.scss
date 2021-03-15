@@ -22,7 +22,7 @@
   font-weight: 400;
 };
 
-// html .text-zoom-regular {
+html .text-zoom-regular {
   h1 {
     @extend .heavy-font-family;
     font-size: 40px;
@@ -91,18 +91,18 @@
     }
 
     .text-zoom-x-large & {
-     width: 36px;
-     height: 31px;
+      width: 36px;
+      height: 31px;
     }
+  }
+
+  img.green-tick-indicator {
+    height: 22px;
+    width: 22px;
+  }
 }
 
-img.green-tick-indicator {
-  height: 22px;
-  width: 22px;
-}
-// }
 
-/*
 .text-zoom-large {
   h1 {
     @extend .heavy-font-family;
@@ -221,4 +221,3 @@ img.green-tick-indicator {
     line-height: 32px;
   }
 }
-*/

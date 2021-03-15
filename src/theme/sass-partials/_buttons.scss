@@ -8,12 +8,11 @@
   --outline: none;
   h3 {
     color: var(--mes-white);
-    /* TODO: reinstate classes when working on text accessibility for iPad
     .text-zoom-regular &,
     .text-zoom-large &,
-    .text-zoom-x-large & { */
+    .text-zoom-x-large & {
       line-height: 2em;
-    // }
+    }
     min-height: 44px;
     padding-top: 1px
   }
@@ -28,11 +27,11 @@
   height: initial;
   h3 {
     color: var(--mes-white);
-    /* .text-zoom-regular &,
+    .text-zoom-regular &,
     .text-zoom-large &,
-    .text-zoom-x-large & { */
+    .text-zoom-x-large & {
       line-height: 2em;
-    // }
+    }
     min-height: 44px;
     padding-top: 1px
   }
@@ -51,11 +50,11 @@
   }
   h3 {
     color : var(--mes-black);
-    /* .text-zoom-regular &,
+    .text-zoom-regular &,
     .text-zoom-large &,
-    .text-zoom-x-large & { */
+    .text-zoom-x-large & {
       line-height: 2em;
-    // }
+    }
     min-height: 44px;
     padding-top: 1px
   }
@@ -234,12 +233,11 @@
   --outline: none;
   h3 {
     color: var(--mes-white);
-    /* TODO: reinstate classes when working on text accessibility for iPad
     .text-zoom-regular &,
     .text-zoom-large &,
-    .text-zoom-x-large & { */
+    .text-zoom-x-large & {
     line-height: 2em;
-    // }
+    }
     min-height: 44px;
     padding-top: 1px
   }

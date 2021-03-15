@@ -52,8 +52,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.store$.dispatch(LoadAppVersion());
     await this.configureStatusBar();
     if (this.platform.is('cordova')) {
-      // @TODO MES-6268 enable this code
-      // this.configureAccessibility();
+      this.configureAccessibility();
       this.configurePlatformSubscriptions();
     }
     await this.disableMenuSwipe();
@@ -135,6 +134,10 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   public getTextZoomClass(): string {
     return `text-zoom-${this.getTextZoom(this.textZoom)}`;
+  }
+
+  public getIncreasedContrastClass(): string {
+    return this.increasedContrast ? 'increased-contrast' : '';
   }
 
   configureStatusBar = async (): Promise<void> => {
