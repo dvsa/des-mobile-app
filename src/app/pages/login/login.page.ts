@@ -47,7 +47,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private menuController: MenuController,
     private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
-    public deviceProvider: DeviceProvider
+    public deviceProvider: DeviceProvider,
   ) {
     super(platform, authenticationProvider, alertController, router);
   }

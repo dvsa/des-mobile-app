@@ -17,6 +17,7 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';
+import { Device } from '@ionic-native/device/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppConfigProvider } from './providers/app-config/app-config';
@@ -43,7 +44,6 @@ import { AppConfigStoreModule } from '../store/app-config/app-config.module';
 import { appConfigReducer } from '../store/app-config/app-config.reducer';
 import { journalReducer } from '../store/journal/journal.reducer';
 import { appInfoReducer } from '../store/app-info/app-info.reducer';
-import { Device } from '@ionic-native/device/ngx';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({

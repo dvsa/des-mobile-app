@@ -16,7 +16,7 @@ export class LogHelper {
 
   constructor(
     private store$: Store<StoreModel>,
-    private device: Device
+    private device: Device,
   ) {
     const versionNumber$ = this.store$.pipe(
       select(selectVersionNumber),

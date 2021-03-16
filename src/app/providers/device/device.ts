@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-// import { Device, DeviceInfo } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 import { timeout, retry, map } from 'rxjs/operators';
-import { defer, from, Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
+import { Device } from '@ionic-native/device/ngx';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { SaveLog } from '../../../store/logs/logs.actions';
@@ -10,7 +10,6 @@ import { LogType } from '../../shared/models/log.model';
 import { StoreModel } from '../../shared/models/store.model';
 import { LogHelper } from '../logs/logs-helper';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
-import { Device } from '@ionic-native/device/ngx';
 
 declare let cordova: any;
 
@@ -20,7 +19,6 @@ export class DeviceProvider implements IDeviceProvider {
   private enableASAMRetryLimit: number = 3;
   private enableASAMTimeout: number = 10000;
   private enableASAMRetryFailureMessage: string = 'All retries to enable ASAM failed';
-  // private deviceInfo: DeviceInfo;
 
   constructor(
     public appConfig: AppConfigProvider,
@@ -28,14 +26,10 @@ export class DeviceProvider implements IDeviceProvider {
     private logHelper: LogHelper,
     private device: Device,
   ) {
-    // from(Device.getInfo()).pipe(
-    //   map((deviceInfo: DeviceInfo) => { this.deviceInfo = deviceInfo; }),
-    // ).subscribe();
   }
 
   validDeviceType = (): boolean => {
     const model = this.getDeviceType();
-    console.log('model', model);
     this.supportedDevices = this.appConfig.getAppConfig().approvedDeviceIdentifiers;
     if (this.supportedDevices.findIndex((device) => device === model) > -1) {
       return true;
