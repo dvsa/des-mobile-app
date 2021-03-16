@@ -1,7 +1,7 @@
 <location *ngIf="showLocation" [location]="slot.testCentre.centreName">
 </location>
 <ion-card> <!-- [ngClass]="{'test-slot-portrait-mode': isPortrait()}"  -->
-  <ion-row class="slot-row align-center">
+  <ion-row class="slot-row ion-align-items-center ion-nowrap">
     <div class="slot-changed-indicator" [ngClass]="{ 'slot-changed': hasSlotChanged }"></div>
     <ion-grid>
       <ion-row class="slot-header" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}">
