@@ -28,6 +28,8 @@ import { LogHelperMock } from '../../../providers/logs/__mocks__/logs-helper.moc
 import { AnalyticsProviderMock } from '../../../providers/analytics/__mocks__/analytics.mock';
 import { SaveLog, SendLogs } from '../../../../store/logs/logs.actions';
 import { Log, LogType } from '../../../shared/models/log.model';
+import { DeviceProvider } from '../../../providers/device/device';
+import { DeviceProviderMock } from '../../../providers/device/__mocks__/device.mock';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -68,6 +70,7 @@ describe('LoginPage', () => {
         { provide: MenuController, useClass: MenuControllerMock },
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
         provideMockStore({ ...{} }),
       ],
     });

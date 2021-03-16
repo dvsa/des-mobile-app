@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-// import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@ionic-native/device/ngx';
 import { Store, StoreModule } from '@ngrx/store';
-// import { DeviceMock } from '@ionic-native-mocks/device';
+import { DeviceMock } from '@ionic-native-mocks/device';
 import { configureTestSuite } from 'ng-bullet';
 import { LogHelper } from '../logs-helper';
 import { LogType } from '../../../shared/models/log.model';
@@ -21,7 +21,7 @@ describe('LogHelper', () => {
         }),
       ],
       providers: [
-        // { provide: Device, useClass: DeviceMock },
+        { provide: Device, useClass: DeviceMock },
         LogHelper,
         Store,
       ],
