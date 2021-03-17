@@ -14,14 +14,14 @@ import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { StoreModel } from '../../shared/models/store.model';
 import { DateTime } from '../../shared/helpers/date-time';
 import { BasePageComponent } from '../../shared/classes/base-page';
-// import { NetworkStateProvider } from '../../providers/network-state/network-state';
+import { NetworkStateProvider } from '../../providers/network-state/network-state';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
   employeeId$: Observable<string>;
   role$: Observable<string>;
-  // isOffline$: Observable<boolean>;
+  isOffline$: Observable<boolean>;
 }
 
 @Component({
@@ -40,7 +40,7 @@ export class DashboardPage extends BasePageComponent {
     private appConfigProvider: AppConfigProvider,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
-    // private networkStateProvider: NetworkStateProvider,
+    private networkStateProvider: NetworkStateProvider,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,
     router: Router,
@@ -56,7 +56,7 @@ export class DashboardPage extends BasePageComponent {
       employeeName$: this.store$.select(selectEmployeeName),
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
-      // isOffline$: this.networkStateProvider.isOffline$,
+      isOffline$: this.networkStateProvider.isOffline$,
     };
   }
 

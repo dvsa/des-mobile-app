@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { TestCentreJournalPage } from './test-centre-journal.page';
 import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.module';
+import { ComponentsModule } from '../../../components/common/common-components.module';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.mo
     FormsModule,
     IonicModule,
     TestCentreJournalRoutingModule,
+    ComponentsModule,
   ],
   declarations: [
     TestCentreJournalPage,
