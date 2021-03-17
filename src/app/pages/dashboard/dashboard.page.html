@@ -11,6 +11,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+<!--  <offline-banner [isOnline]="pageState.isOffline$ | async"></offline-banner>-->
 
   <div>
     <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async" [role]="pageState.role$ | async"></profile-header>
