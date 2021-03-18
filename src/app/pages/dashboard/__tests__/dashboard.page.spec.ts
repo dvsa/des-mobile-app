@@ -28,6 +28,8 @@ import { StoreModel } from '../../../shared/models/store.model';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { BasePageComponent } from '../../../shared/classes/base-page';
+import { NetworkStateProvider } from '../../../providers/network-state/network-state';
+import { NetworkStateProviderMock } from '../../../providers/network-state/__mocks__/network-state.mock';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -60,6 +62,7 @@ describe('DashboardPage', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: Router, useValue: routerSpy },
         provideMockStore({ initialState }),
       ],
