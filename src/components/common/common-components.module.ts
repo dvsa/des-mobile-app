@@ -5,6 +5,7 @@ import { DataRowComponent } from './data-row/data-row';
 import { DataRowCustomComponent } from './data-row-custom/data-row-custom';
 import { DisplayAddressComponent } from './display-address/display-address';
 import { ErrorMessageComponent } from './error-message/error-message';
+import { OfflineBannerComponent } from './offline-banner/offline-banner';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { ErrorMessageComponent } from './error-message/error-message';
     DataRowCustomComponent,
     DisplayAddressComponent,
     ErrorMessageComponent,
+    OfflineBannerComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +24,7 @@ import { ErrorMessageComponent } from './error-message/error-message';
     DataRowCustomComponent,
     DisplayAddressComponent,
     ErrorMessageComponent,
+    OfflineBannerComponent,
   ],
 })
 export class ComponentsModule { }
