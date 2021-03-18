@@ -6,4 +6,6 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+<ion-content>
+  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+</ion-content>
