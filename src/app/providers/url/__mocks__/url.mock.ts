@@ -18,4 +18,7 @@ export class UrlProviderMock {
   getRekeyFindUserUrl = jasmine.createSpy('getRekeyFindUserUrl')
     .and.returnValue('https://www.example.com/api/v1/users/search/1234567');
 
+  getTestCentreJournalUrl = jasmine.createSpy('getTestCentreJournalUrl')
+    .and.returnValue('https://www.example.com/api/v1/journals/testcentre');
+
 }

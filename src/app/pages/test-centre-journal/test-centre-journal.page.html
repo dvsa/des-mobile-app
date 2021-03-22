@@ -2,7 +2,7 @@
     <ion-toolbar mode="ios">
         <ion-title>Test Centre Journal</ion-title>
         <ion-buttons slot="start">
-            <ion-back-button class="colour-white"></ion-back-button>
+            <ion-back-button class="colour-white" defaultHref="DashboardPage"></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
             <ion-button (click)="getTestCentreData()">
@@ -20,7 +20,12 @@
 <ion-content>
     <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
-    {{testCentreResults | json}}
+    <ng-template [ngIf]="didError" [ngIfElse]="noError">
+        <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
+    </ng-template>
 
-    <error-message *ngIf="didError" class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
+    <ng-template #noError>
+        {{testCentreResults | json}}
+    </ng-template>
+
 </ion-content>

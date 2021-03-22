@@ -1,9 +1,18 @@
 import { Component } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Observable, of, Subscription } from 'rxjs';
+import {
+  merge,
+  Observable,
+  of,
+  Subscription,
+} from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { catchError, map, tap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  tap,
+} from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
@@ -15,13 +24,13 @@ import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-
 import { Log, LogType } from '../../shared/models/log.model';
 import { LogHelper } from '../../providers/logs/logs-helper';
 import { SaveLog } from '../../../store/logs/logs.actions';
-import { AppComponent } from '../../app.component';
 import {
   getLastRefreshed,
   getLastRefreshedTime,
 } from '../../../store/test-centre-journal/test-centre-journal.selector';
 import { getTestCentreJournalState } from '../../../store/test-centre-journal/test-centre-journal.reducer';
 import { SetLastRefreshed } from '../../../store/test-centre-journal/test-centre-journal.actions';
+import { ErrorTypes } from '../../shared/models/error-message';
 
 interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;
@@ -37,6 +46,8 @@ export class TestCentreJournalPage extends BasePageComponent {
 
   pageState: TestCentreJournalPageState;
   testCentreResults: TestCentreDetailResponse = null;
+  merged$: Observable<boolean>;
+  isOffline: boolean;
   hasSearched: boolean = false;
   showSearchSpinner: boolean = false;
   subscription: Subscription = Subscription.EMPTY;
@@ -50,8 +61,6 @@ export class TestCentreJournalPage extends BasePageComponent {
     private networkStateProvider: NetworkStateProvider,
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
-    private modalController: ModalController,
-    private app: AppComponent,
     private testCentreJournalProvider: TestCentreJournalProvider,
   ) {
     super(platform, authenticationProvider, router);
@@ -66,6 +75,14 @@ export class TestCentreJournalPage extends BasePageComponent {
         map(getLastRefreshedTime),
       ),
     };
+    const {
+      isOffline$,
+    } = this.pageState;
+
+    this.merged$ = merge(
+      isOffline$.pipe(map((isOffline) => this.isOffline = isOffline)),
+    );
+    this.merged$.subscribe();
   }
 
   ionViewDidEnter(): void {
@@ -76,6 +93,10 @@ export class TestCentreJournalPage extends BasePageComponent {
   getTestCentreData = (): void => {
     this.subscription.unsubscribe();
     this.store$.dispatch(TestCentreJournalGetData());
+    if (this.isOffline) {
+      this.setOfflineError();
+      return;
+    }
     this.store$.dispatch(SetLastRefreshed({ lastRefreshed: new Date() }));
     this.showSearchSpinner = true;
     this.subscription = this.testCentreJournalProvider.getTestCentreJournal()
@@ -116,6 +137,13 @@ export class TestCentreJournalPage extends BasePageComponent {
   private mapError = (error: string): void => {
     if (error === undefined || error === '') return;
     this.errorMessage = error;
+  };
+
+  private setOfflineError = (): void => {
+    this.didError = true;
+    this.testCentreResults = null;
+    this.showSearchSpinner = false;
+    this.mapError(ErrorTypes.TEST_CENTRE_OFFLINE);
   };
 
 }

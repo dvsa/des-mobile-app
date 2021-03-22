@@ -1,6 +1,7 @@
 import {
   Component, Output, EventEmitter, Input,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import { ErrorTypes } from '../../../app/shared/models/error-message';
 
 export enum additionalText {
@@ -30,6 +31,8 @@ export class ErrorMessageComponent {
   @Output()
   exitModal = new EventEmitter<void>();
 
+  constructor(private location: Location) {}
+
   ngOnInit(): void {
     switch (this.returnTo) {
       case ErrorTypes.JOURNAL_REFRESH:
@@ -48,11 +51,19 @@ export class ErrorMessageComponent {
         this.additionalText = additionalText.TRY_REFRESHING;
         this.redirectLinkText = 'Dashboard';
         break;
+      case ErrorTypes.TEST_CENTRE_OFFLINE:
+        this.defaultErrorStatement = 'To view the Test Centre Journal please refresh once you are back online.';
+        this.redirectLinkText = 'Dashboard';
+        break;
       default:
         this.additionalText = additionalText.STANDARD_TEXT;
         this.redirectLinkText = this.returnTo;
     }
   }
+
+  navigateBack = (): void => {
+    this.location.back();
+  };
 
   dismiss = (): void => {
     this.exitModal.emit();
