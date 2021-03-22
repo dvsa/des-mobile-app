@@ -49,6 +49,7 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
     journalUrl: 'https://www.example.com/api/v1/journals/{staffNumber}/personal',
     searchBookingUrl: 'https://www.example.com/api/v1/journals/{staffNumber}/search',
     delegatedExaminerSearchBookingUrl: 'https://www.example.com/api/v1/delegated-bookings/{applicationReference}',
+    teamJournalUrl: 'https://www.example.com/api/v1/testcentre',
     autoRefreshInterval: 1000 * 60 * 15,
     numberOfDaysToView: 7,
     daysToCacheJournalData: 14,

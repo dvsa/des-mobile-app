@@ -6,6 +6,7 @@ import { ErrorTypes } from '../../../app/shared/models/error-message';
 export enum additionalText {
   JOURNAL = 'and try again later.',
   STANDARD_TEXT = 'and try again.',
+  TRY_REFRESHING = 'or try refreshing.',
 }
 
 @Component({
@@ -18,9 +19,13 @@ export class ErrorMessageComponent {
   public additionalText: string;
   public redirectLinkText: string;
   public adviceToUsePaperTest: boolean = false;
+  defaultErrorStatement: string = 'Sorry, something went wrong';
 
   @Input()
   returnTo: string;
+
+  @Input()
+  displayAsModal: boolean = true;
 
   @Output()
   exitModal = new EventEmitter<void>();
@@ -35,6 +40,13 @@ export class ErrorMessageComponent {
         this.additionalText = additionalText.STANDARD_TEXT;
         this.redirectLinkText = 'Dashboard';
         this.adviceToUsePaperTest = true;
+        break;
+      case ErrorTypes.TEST_CENTRE_JOURNAL_NO_RESULT:
+        this.defaultErrorStatement = 'There are no test bookings at this location for today and tomorrow';
+        break;
+      case ErrorTypes.TEST_CENTRE_JOURNAL_ERROR:
+        this.additionalText = additionalText.TRY_REFRESHING;
+        this.redirectLinkText = 'Dashboard';
         break;
       default:
         this.additionalText = additionalText.STANDARD_TEXT;

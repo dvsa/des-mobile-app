@@ -256,6 +256,7 @@ export class AppConfigProvider {
         journalUrl: data.journal.journalUrl,
         searchBookingUrl: data.journal.searchBookingUrl,
         delegatedExaminerSearchBookingUrl: data.journal.delegatedExaminerSearchBookingUrl,
+        teamJournalUrl: data.journal.teamJournalUrl,
         autoRefreshInterval: data.journal.autoRefreshInterval || 15000,
         numberOfDaysToView: data.journal.numberOfDaysToView,
         daysToCacheJournalData: data.journal.daysToCacheJournalData,

@@ -29,6 +29,7 @@ export const initialState: AppConfig = {
     journalUrl: null,
     searchBookingUrl: null,
     delegatedExaminerSearchBookingUrl: null,
+    teamJournalUrl: null,
     autoRefreshInterval: null,
     numberOfDaysToView: null,
     daysToCacheJournalData: null,

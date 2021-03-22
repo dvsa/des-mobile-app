@@ -44,6 +44,8 @@ import { AppConfigStoreModule } from '../store/app-config/app-config.module';
 import { appConfigReducer } from '../store/app-config/app-config.reducer';
 import { journalReducer } from '../store/journal/journal.reducer';
 import { appInfoReducer } from '../store/app-info/app-info.reducer';
+import { TestCentreJournalProvider } from './providers/test-centre-journal/test-centre-journal';
+import { TestCentreJournalStoreModule } from '../store/test-centre-journal/test-centre-journal.module';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
@@ -80,9 +82,12 @@ if (enableRehydrationPlugin) {
     AppInfoStoreModule,
     AppConfigStoreModule,
     LogsStoreModule,
+    TestCentreJournalStoreModule,
     JournalModule,
   ],
   providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     SplashScreen,
     AppVersion,
     AppConfigProvider,
@@ -101,14 +106,13 @@ if (enableRehydrationPlugin) {
     JournalProvider,
     AnalyticsProvider,
     DeviceProvider,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     LogsProvider,
     LogHelper,
     SchemaValidatorProvider,
     EmmAppConfig,
     TestPersistenceProvider,
     CategoryWhitelistProvider,
+    TestCentreJournalProvider,
   ],
   bootstrap: [AppComponent],
 })
