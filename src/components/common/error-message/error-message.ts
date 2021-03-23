@@ -55,6 +55,9 @@ export class ErrorMessageComponent {
         this.defaultErrorStatement = 'To view the Test Centre Journal please refresh once you are back online.';
         this.redirectLinkText = 'Dashboard';
         break;
+      case ErrorTypes.TEST_CENTRE_UNKNOWN_ERROR:
+        this.redirectLinkText = 'Dashboard';
+        break;
       default:
         this.additionalText = additionalText.STANDARD_TEXT;
         this.redirectLinkText = this.returnTo;

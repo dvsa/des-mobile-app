@@ -1,16 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
   merge,
   Observable,
   of,
+  Subject,
   Subscription,
 } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import {
   catchError,
   map,
+  takeUntil,
   tap,
 } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -42,7 +44,7 @@ interface TestCentreJournalPageState {
   templateUrl: 'test-centre-journal.page.html',
   styleUrls: ['test-centre-journal.page.scss'],
 })
-export class TestCentreJournalPage extends BasePageComponent {
+export class TestCentreJournalPage extends BasePageComponent implements OnDestroy, OnInit {
 
   pageState: TestCentreJournalPageState;
   testCentreResults: TestCentreDetailResponse = null;
@@ -53,6 +55,7 @@ export class TestCentreJournalPage extends BasePageComponent {
   subscription: Subscription = Subscription.EMPTY;
   didError: boolean = false;
   errorMessage: string = null;
+  private destroy$ = new Subject<{}>();
 
   constructor(
     public platform: Platform,
@@ -66,7 +69,7 @@ export class TestCentreJournalPage extends BasePageComponent {
     super(platform, authenticationProvider, router);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.pageState = {
       isOffline$: this.networkStateProvider.isOffline$,
       lastRefreshedTime$: this.store$.pipe(
@@ -75,6 +78,7 @@ export class TestCentreJournalPage extends BasePageComponent {
         map(getLastRefreshedTime),
       ),
     };
+
     const {
       isOffline$,
     } = this.pageState;
@@ -82,12 +86,22 @@ export class TestCentreJournalPage extends BasePageComponent {
     this.merged$ = merge(
       isOffline$.pipe(map((isOffline) => this.isOffline = isOffline)),
     );
-    this.merged$.subscribe();
+    this.merged$.pipe(takeUntil(this.destroy$)).subscribe();
+  }
+
+  ionViewWillEnter(): void {
+    super.ionViewWillEnter();
+    this.getTestCentreData();
   }
 
   ionViewDidEnter(): void {
     this.store$.dispatch(TestCentreJournalViewDidEnter());
-    this.getTestCentreData();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getTestCentreData = (): void => {
@@ -101,6 +115,7 @@ export class TestCentreJournalPage extends BasePageComponent {
     this.showSearchSpinner = true;
     this.subscription = this.testCentreJournalProvider.getTestCentreJournal()
       .pipe(
+        takeUntil(this.destroy$),
         tap(() => { this.hasSearched = true; }),
         map((results: TestCentreDetailResponse) => {
           this.testCentreResults = results;
@@ -118,21 +133,24 @@ export class TestCentreJournalPage extends BasePageComponent {
           this.testCentreResults = null;
           this.showSearchSpinner = false;
 
-          if (err) {
+          if (err && this.isRecognisedError(err.error)) {
             this.mapError(err.error);
             this.hasSearched = false;
             return of();
           }
 
           this.hasSearched = true;
+          this.errorMessage = ErrorTypes.TEST_CENTRE_UNKNOWN_ERROR;
           return of(this.hasSearched);
         }),
       ).subscribe();
   };
 
-  ionViewWillEnter() {
-    super.ionViewWillEnter();
-  }
+  private isRecognisedError = (error: string) => {
+    return error === ErrorTypes.TEST_CENTRE_OFFLINE
+      || error === ErrorTypes.TEST_CENTRE_JOURNAL_NO_RESULT
+      || error === ErrorTypes.TEST_CENTRE_JOURNAL_ERROR;
+  };
 
   private mapError = (error: string): void => {
     if (error === undefined || error === '') return;
