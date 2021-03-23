@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { TestCentreJournalPage } from './test-centre-journal.page';
 import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.module';
 import { ComponentsModule } from '../../../components/common/common-components.module';
+import { TestCentreJournalComponentsModule } from './components/test-centre-journal-components.module';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { ComponentsModule } from '../../../components/common/common-components.m
     FormsModule,
     IonicModule,
     TestCentreJournalRoutingModule,
+    TestCentreJournalComponentsModule,
     ComponentsModule,
   ],
   declarations: [
