@@ -26,7 +26,7 @@
     "arrow-body-style": "off",
     "padded-blocks": "off",
     "array-callback-return": "off",
-    "no-console": "warn",
+    "no-console": "off",
     "import/prefer-default-export": "off",
     "quotes": ["error", "single"],
     "max-len": ["error", { "code": 120 }],
