@@ -5,7 +5,7 @@ import { getTodayAsIsoDate, getIsoDateDaysInFuture } from './mock-date-utils';
 
 const today = getTodayAsIsoDate();
 
-const localNonTestActivities = {
+export const localNonTestActivities = {
   examiner: {
     staffNumber: '01234567',
     individualId: 9000000,

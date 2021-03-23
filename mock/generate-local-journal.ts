@@ -9,7 +9,7 @@ const today = getTodayAsIsoDate();
 const nextWorkingDay = getNextWorkingDayAsIsoDate();
 const previousWorkingDay = getPreviousWorkingDayAsIsoDate();
 
-const localJournal: ExaminerWorkSchedule = {
+export const localJournal: ExaminerWorkSchedule = {
   examiner: {
     staffNumber: '01234567',
     individualId: 9000000,
