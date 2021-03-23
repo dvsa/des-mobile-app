@@ -1,17 +1,19 @@
 <ion-row>
-  <ion-col class="component-label">
+  <ion-col class="component-label" size="3">
     <label>Test Centres:</label>
   </ion-col>
-  <ion-col class="component-value">
+  <ion-col class="component-value" size="9">
     <label>Sample Centre</label>
   </ion-col>
 </ion-row>
 <ion-row>
-  <ion-col class="component-label">
+  <ion-col class="component-label" size="3">
     <label>Candidate Name:</label>
   </ion-col>
-  <ion-col class="component-value">
-    <ion-select placeholder="Select something" okText="Submit" cancelText="Cancel"></ion-select>
+  <ion-col class="component-value" size="9">
+    <ion-select placeholder="Select something" okText="Submit" cancelText="Cancel">
+      <ion-select-option *ngFor="let examiner of this.testCentreResults.examiners" [value]="examiner.name">{{examiner.name}}</ion-select-option>
+    </ion-select>
   </ion-col>
 </ion-row>
 <ion-row class="mes-full-width-card">
