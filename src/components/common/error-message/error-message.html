@@ -1,5 +1,5 @@
 <div class="container">
-  <div>
+  <div *ngIf="displayAsModal">
     <h2 class="error-message">Sorry, something went wrong</h2>
     <div>
       <div class="link error-details-link" (click)="dismiss()">
@@ -8,5 +8,15 @@
       <h3 class="error-details" *ngIf="additionalText">&nbsp;{{additionalText}}</h3>
     </div>
     <h3 class="additional-error-details" *ngIf="adviceToUsePaperTest">Use the paper form if the problem persists.</h3>
+  </div>
+
+  <div *ngIf="!displayAsModal">
+    <h2 class="error-message">{{defaultErrorStatement}}</h2>
+    <div>
+      <div *ngIf="redirectLinkText" class="link error-details-link" (click)="navigateBack()">
+        Return to {{redirectLinkText}}
+      </div>
+      <h3 class="error-details" *ngIf="additionalText">&nbsp;{{additionalText}}</h3>
+    </div>
   </div>
 </div>

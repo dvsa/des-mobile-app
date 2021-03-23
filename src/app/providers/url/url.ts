@@ -43,4 +43,8 @@ export class UrlProvider {
     return urlTemplate.replace('{staffNumber}', isNil(staffNumber) ? '00000000' : staffNumber);
   }
 
+  getTestCentreJournalUrl(): string {
+    return this.appConfigProvider.getAppConfig().journal.teamJournalUrl;
+  }
+
 }

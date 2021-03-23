@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ConnectionStatus } from '../network-state';
 
 export class NetworkStateProviderMock {
@@ -12,5 +12,7 @@ export class NetworkStateProviderMock {
   public getNetworkState(): ConnectionStatus {
     return ConnectionStatus.ONLINE;
   }
+
+  public isOffline$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
 }

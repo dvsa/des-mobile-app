@@ -32,6 +32,7 @@ export const environment: LocalEnvironmentFile = {
     journalUrl: '/assets/mock/local-journal.json',
     searchBookingUrl: 'dummy/search/booking/url',
     delegatedExaminerSearchBookingUrl: 'dummy/delegated-bookings/{applicationReference}',
+    teamJournalUrl: '/assets/mock/local-test-centre-journal.json',
     autoRefreshInterval: 1000 * 60 * 10,
     numberOfDaysToView: 7,
     daysToCacheJournalData: 14,

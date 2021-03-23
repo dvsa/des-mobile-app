@@ -24,6 +24,7 @@ export type AppConfig = {
     journalUrl: string,
     searchBookingUrl: string,
     delegatedExaminerSearchBookingUrl: string,
+    teamJournalUrl: string,
     autoRefreshInterval: number
     numberOfDaysToView: number,
     daysToCacheJournalData: number,
