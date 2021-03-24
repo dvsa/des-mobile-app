@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
 import { StoreModule } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
+
 import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../../../providers/authentication/__mocks__/authentication.mock';

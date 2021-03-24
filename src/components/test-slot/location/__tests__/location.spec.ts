@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { LocationComponent } from '../location';
 
@@ -10,6 +11,7 @@ describe('LocationComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [LocationComponent],
+      imports: [IonicModule],
       providers: [],
     });
   });

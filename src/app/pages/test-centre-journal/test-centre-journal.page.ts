@@ -10,7 +10,8 @@ import {
 } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import {
-  catchError, finalize,
+  catchError,
+  finalize,
   map,
   takeUntil,
   tap,
@@ -90,9 +91,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.merged$.pipe(takeUntil(this.destroy$)).subscribe();
   }
 
-  ionViewWillEnter(): void {
+  async ionViewWillEnter(): Promise<void> {
     super.ionViewWillEnter();
-    this.getTestCentreData();
+    await this.getTestCentreData();
   }
 
   ionViewDidEnter(): void {

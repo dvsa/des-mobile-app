@@ -8,7 +8,8 @@ import { TestCentre } from '../../../../shared/models/test-centre-journal.model'
 })
 export class TestCentreNameComponent {
 
-  @Input() testCentres: TestCentre[] = [];
+  @Input()
+  testCentres: TestCentre[] = [];
 
   get testCentreNames(): string {
     return this.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
