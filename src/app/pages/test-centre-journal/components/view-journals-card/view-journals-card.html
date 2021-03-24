@@ -1,0 +1,22 @@
+<test-centre-name [testCentres]="testCentreResults?.testCentres"></test-centre-name>
+
+<ion-row>
+    <ion-col class="component-label" size="3">
+        <label>Examiner:</label>
+    </ion-col>
+    <ion-col class="component-value" size="9">
+        <ion-select [interfaceOptions]="interfaceOptions">
+            <ion-select-option *ngFor="let examiner of testCentreResults?.examiners"
+                               [value]="examiner?.staffNumber">
+                {{examiner.name}}
+                <ion-item-option></ion-item-option>
+            </ion-select-option>
+        </ion-select>
+    </ion-col>
+</ion-row>
+
+<ion-row class="mes-full-width-card">
+    <ion-button mode="ios" class="mes-primary-button full-width">
+        <h3>Show journal</h3>
+    </ion-button>
+</ion-row>

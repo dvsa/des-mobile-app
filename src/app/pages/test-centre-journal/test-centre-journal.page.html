@@ -24,14 +24,16 @@
         <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
     </ng-template>
 
-  <ng-template #noError>
-    <div class="search-inputs">
-      <tabs>
-        <tab [tabTitle]="'Candidate search'">
-          <candidate-search-card [testCentreResults]="this.testCentreResults"></candidate-search-card>
-        </tab>
-      </tabs>
-    </div>
-  </ng-template>
-
+    <ng-template #noError>
+        <div class="search-inputs">
+            <tabs>
+                <tab [tabTitle]="'Candidate search'">
+                    <candidate-search-card [testCentreResults]="testCentreResults"></candidate-search-card>
+                </tab>
+                <tab [tabTitle]="'View Journals'">
+                    <view-journals-card [testCentreResults]="testCentreResults"></view-journals-card>
+                </tab>
+            </tabs>
+        </div>
+    </ng-template>
 </ion-content>
