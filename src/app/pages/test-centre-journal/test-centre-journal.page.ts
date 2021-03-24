@@ -16,11 +16,12 @@ import {
   tap,
 } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NonTestActivity, TestSlot } from '@dvsa/mes-journal-schema';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { TestCentreJournalProvider } from '../../providers/test-centre-journal/test-centre-journal';
-import { TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
+import { TestCentreDetailResponse, Examiner } from '../../shared/models/test-centre-journal.model';
 import { StoreModel } from '../../shared/models/store.model';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
 import { Log, LogType } from '../../shared/models/log.model';
@@ -33,6 +34,10 @@ import {
 import { getTestCentreJournalState } from '../../../store/test-centre-journal/test-centre-journal.reducer';
 import { SetLastRefreshed } from '../../../store/test-centre-journal/test-centre-journal.actions';
 import { ErrorTypes } from '../../shared/models/error-message';
+import { SlotItem } from '../../providers/slot-selector/slot-item';
+import { SlotComponent } from '../../../components/test-slot/slot/slot';
+import { PersonalCommitmentSlotComponent } from '../journal/components/personal-commitment/personal-commitment';
+import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
 
 interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;
@@ -122,6 +127,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
         tap(() => { this.hasSearched = true; }),
         map((results: TestCentreDetailResponse) => {
           this.testCentreResults = results;
+          if (results && results.examiners) {
+            this.createSlotArray(results.examiners);
+          }
           this.showSearchSpinner = false;
           this.didError = false;
         }),

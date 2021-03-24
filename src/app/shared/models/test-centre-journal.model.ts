@@ -1,13 +1,13 @@
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 
-type Examiner = {
+export type Examiner = {
   name: string;
   staffNumber: string;
   journal?: ExaminerWorkSchedule | null;
   error?: string;
 };
 
-type TestCentre = {
+export type TestCentre = {
   id: number;
   name: string;
 };
