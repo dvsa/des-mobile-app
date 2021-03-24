@@ -10,6 +10,7 @@ import { AppConfigProvider } from '../../../../../providers/app-config/app-confi
 import { AppConfigProviderMock } from '../../../../../providers/app-config/__mocks__/app-config.mock';
 import { TimeComponent } from '../../../../../../components/test-slot/time/time';
 import { LocationComponent } from '../../../../../../components/test-slot/location/location';
+import { CommonModule } from '@angular/common';
 
 describe('ActivitySlotComponent', () => {
   let fixture: ComponentFixture<ActivitySlotComponent>;
@@ -26,7 +27,7 @@ describe('ActivitySlotComponent', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
-      imports: [IonicModule],
+      imports: [IonicModule, CommonModule],
     });
   });
 

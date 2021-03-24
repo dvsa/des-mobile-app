@@ -30,6 +30,7 @@ import { DashboardComponentsModule } from '../components/dashboard-components.mo
 import { BasePageComponent } from '../../../shared/classes/base-page';
 import { NetworkStateProvider } from '../../../providers/network-state/network-state';
 import { NetworkStateProviderMock } from '../../../providers/network-state/__mocks__/network-state.mock';
+import { ComponentsModule } from '../../../../components/common/common-components.module';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -55,6 +56,7 @@ describe('DashboardPage', () => {
         StoreModule.forRoot({ appInfo: appInfoReducer }),
         DashboardPageRoutingModule,
         DashboardComponentsModule,
+        ComponentsModule,
       ],
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
