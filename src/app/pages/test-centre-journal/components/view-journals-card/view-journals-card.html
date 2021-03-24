@@ -5,18 +5,22 @@
         <label>Examiner:</label>
     </ion-col>
     <ion-col class="component-value" size="9">
-        <ion-select [interfaceOptions]="interfaceOptions">
+        <ion-select [interfaceOptions]="interfaceOptions"
+                    (ionChange)="examinerChanged($event.target.value)"
+                    okText="Select"
+                    cancelText="Cancel"
+                    class="select-text"
+                    placeholder="Select examiner">
             <ion-select-option *ngFor="let examiner of testCentreResults?.examiners"
-                               [value]="examiner?.staffNumber">
+                               [value]="examiner.staffNumber">
                 {{examiner.name}}
-                <ion-item-option></ion-item-option>
             </ion-select-option>
         </ion-select>
     </ion-col>
 </ion-row>
 
 <ion-row class="mes-full-width-card">
-    <ion-button mode="ios" class="mes-primary-button full-width">
+    <ion-button mode="ios" class="mes-primary-button full-width" (click)="onShowJournalClick()">
         <h3>Show journal</h3>
     </ion-button>
 </ion-row>
