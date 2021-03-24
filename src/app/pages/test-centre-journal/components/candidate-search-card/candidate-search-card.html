@@ -12,7 +12,9 @@
   </ion-col>
   <ion-col class="component-value" size="9">
     <ion-select placeholder="Select something" okText="Submit" cancelText="Cancel">
-      <ion-select-option *ngFor="let examiner of this.testCentreResults.examiners" [value]="examiner.name">{{examiner.name}}</ion-select-option>
+      <ion-select-option *ngFor="let examiner of testCentreResults?.examiners" [value]="examiner?.name">
+        {{examiner.name}}
+      </ion-select-option>
     </ion-select>
   </ion-col>
 </ion-row>

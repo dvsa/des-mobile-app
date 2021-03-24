@@ -7,7 +7,7 @@ type Examiner = {
   error?: string;
 };
 
-type TestCentre = {
+export type TestCentre = {
   id: number;
   name: string;
 };
