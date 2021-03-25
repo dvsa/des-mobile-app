@@ -55,10 +55,16 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   delegatedTest: boolean = false;
 
   @Input()
+  teamJournalCandidateResult: boolean = false;
+
+  @Input()
   derivedTestStatus: TestStatus | null = null;
 
   @Input()
   derivedActivityCode: ActivityCode | null = null;
+
+  @Input()
+  examinerName: string = null;
 
   componentState: TestSlotComponentState;
 

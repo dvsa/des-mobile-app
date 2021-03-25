@@ -32,6 +32,13 @@
         </tab>
       </tabs>
     </div>
+      <candidate-search-results [slots]="candidateTestSlots"
+                                *ngIf="candidateTestSlots && candidateTestSlots.length>0">
+      </candidate-search-results>
   </ng-template>
+
+
+
+
 
 </ion-content>

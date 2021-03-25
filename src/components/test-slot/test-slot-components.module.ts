@@ -14,6 +14,7 @@ import { DateComponent } from './date/date';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { LocationComponent } from './location/location';
 import { AdditionalCandidateDetailsComponent } from './additional-candidate-details/additional-candidate-details';
+import { ExaminerNameComponent } from './examiner-name/examiner-name';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AdditionalCandidateDetailsComponent } from './additional-candidate-deta
     DateComponent,
     VehicleDetailsComponent,
     LocationComponent,
+    ExaminerNameComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,7 @@ import { AdditionalCandidateDetailsComponent } from './additional-candidate-deta
     DateComponent,
     VehicleDetailsComponent,
     LocationComponent,
+    ExaminerNameComponent,
   ],
 })
 export class TestSlotComponentsModule { }

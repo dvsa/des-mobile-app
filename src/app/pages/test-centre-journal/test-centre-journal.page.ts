@@ -16,7 +16,6 @@ import {
   tap,
 } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NonTestActivity, TestSlot } from '@dvsa/mes-journal-schema';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
@@ -34,10 +33,11 @@ import {
 import { getTestCentreJournalState } from '../../../store/test-centre-journal/test-centre-journal.reducer';
 import { SetLastRefreshed } from '../../../store/test-centre-journal/test-centre-journal.actions';
 import { ErrorTypes } from '../../shared/models/error-message';
-import { SlotItem } from '../../providers/slot-selector/slot-item';
-import { SlotComponent } from '../../../components/test-slot/slot/slot';
-import { PersonalCommitmentSlotComponent } from '../journal/components/personal-commitment/personal-commitment';
+// import { SlotItem } from '../../providers/slot-selector/slot-item';
+// import { SlotComponent } from '../../../components/test-slot/slot/slot';
+// import { PersonalCommitmentSlotComponent } from '../journal/components/personal-commitment/personal-commitment';
 import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
+import { CandidateTestSlot } from './models/candidate-test-slot';
 
 interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;
@@ -61,6 +61,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   didError: boolean = false;
   errorMessage: string = null;
   private destroy$ = new Subject<{}>();
+  candidateTestSlots: CandidateTestSlot[] = [];
 
   constructor(
     public platform: Platform,
@@ -128,7 +129,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
         map((results: TestCentreDetailResponse) => {
           this.testCentreResults = results;
           if (results && results.examiners) {
-            this.createSlotArray(results.examiners);
+            this.getCandidateSLotsArray(results.examiners);
           }
           this.showSearchSpinner = false;
           this.didError = false;
@@ -176,4 +177,16 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.mapError(ErrorTypes.TEST_CENTRE_OFFLINE);
   };
 
+  private getCandidateSLotsArray(examinersData: Examiner[]): void {
+    examinersData.forEach((examiner) => {
+      if (examiner.journal && examiner.journal.testSlots && examiner.journal.testSlots.length > 0) {
+        examiner.journal.testSlots.forEach((testSlot) => {
+          this.candidateTestSlots.push({
+            slot: testSlot,
+            examinerName: examiner.name,
+          });
+        });
+      }
+    });
+  }
 }

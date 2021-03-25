@@ -42,7 +42,11 @@
           </ion-grid>
         </ion-col>
         <ion-col class="test-outcome-col">
-          <test-outcome
+
+          <examiner-name *ngIf="teamJournalCandidateResult"
+          [examinerName]="examinerName"></examiner-name>
+
+          <test-outcome *ngIf="!teamJournalCandidateResult"
             class="align-center"
             [slotDetail]="slot.slotDetail"
             [canStartTest]="canStartTest()"
@@ -58,13 +62,13 @@
       </ion-row>
       <ion-row class="slot-footer" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
         <ion-col class="progressive-access-col">
-          <date *ngIf="delegatedTest" id="del-ex-date" [date]="slot.slotDetail.start">
+          <date *ngIf="delegatedTest || teamJournalCandidateResult" id="del-ex-date" [date]="slot.slotDetail.start">
           </date>
           <progressive-access align-items-center [progressiveAccess]="slot.booking.application.progressiveAccess">
           </progressive-access>
         </ion-col>
         <ion-col class="vehicle-details-col" no-padding>
-          <h3 id="del-ex-driver-number" *ngIf="delegatedTest && slot.booking.candidate.driverNumber">{{slot.booking.candidate.driverNumber}}</h3>
+          <h3 id="del-ex-driver-number" *ngIf="(delegatedTest || teamJournalCandidateResult) && slot.booking.candidate.driverNumber">{{slot.booking.candidate.driverNumber}}</h3>
 
           <vehicle-details
             *ngIf="showVehicleDetails() && !delegatedTest"

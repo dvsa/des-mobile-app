@@ -1,0 +1,35 @@
+<div>
+    <ion-grid>
+        <ion-row>
+            <ion-col class="ion-text-center">
+                <h1>Today</h1>
+                <h3>{{today | date: 'EEEE d MMMM y'}}</h3>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>
+<ion-list *ngFor="let candidateSlot of todaySlots">
+    <test-slot
+            [slot]="candidateSlot.slot"
+            [teamJournalCandidateResult]="true"
+            [examinerName]="candidateSlot.examinerName"
+    ></test-slot>
+</ion-list>
+
+<div>
+    <ion-grid>
+        <ion-row>
+            <ion-col class="ion-text-center">
+                <h1>Tomorrow</h1>
+                <h3>{{tomorrow | date: 'EEEE d MMMM y'}}</h3>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>
+<ion-list *ngFor="let candidateSlot of tomorrowSlots">
+    <test-slot
+            [slot]="candidateSlot.slot"
+            [teamJournalCandidateResult]="true"
+            [examinerName]="candidateSlot.examinerName"
+    ></test-slot>
+</ion-list>
