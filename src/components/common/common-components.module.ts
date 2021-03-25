@@ -8,6 +8,7 @@ import { ErrorMessageComponent } from './error-message/error-message';
 import { OfflineBannerComponent } from './offline-banner/offline-banner';
 import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
+import { WarningBannerComponent } from './warning-banner/warning-banner';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { TabsComponent } from './tabs/tabs';
     OfflineBannerComponent,
     TabComponent,
     TabsComponent,
+    WarningBannerComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { TabsComponent } from './tabs/tabs';
     OfflineBannerComponent,
     TabComponent,
     TabsComponent,
+    WarningBannerComponent,
   ],
 })
 export class ComponentsModule { }

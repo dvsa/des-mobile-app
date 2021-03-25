@@ -9,7 +9,7 @@ import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
-import { TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
+import { TestCentre, TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '../../../../../store/journal/journal.model';
 import { SlotItem } from '../../../../providers/slot-selector/slot-item';
 import { SlotProvider } from '../../../../providers/slot/slot';
@@ -31,6 +31,7 @@ export class ViewJournalsCardComponent {
   hasSelectedExaminer: boolean = false;
   hasClickedShowJournal: boolean = false;
   journal: ExaminerWorkSchedule | null = null;
+  examinerName: string = null;
   examinerSlotItemsByDate: ExaminerSlotItemsByDate;
   completedTests: SearchResultTestSchema[];
   private dateFormat = 'YYYY-MM-DD';
@@ -53,21 +54,30 @@ export class ViewJournalsCardComponent {
     };
   }
 
+  get testCentreNames(): string {
+    return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
+  }
+
   examinerChanged = (staffNumber: string): void => {
-    const { journal } = this.testCentreResults?.examiners.find((examiner) => examiner.staffNumber === staffNumber);
+    const {
+      journal,
+      name,
+    } = this.testCentreResults?.examiners.find((examiner) => examiner.staffNumber === staffNumber);
     this.currentSelectedDate = this.today;
     this.journal = journal;
+    this.examinerName = name;
     this.hasSelectedExaminer = true;
     this.hasClickedShowJournal = false;
     this.slotContainer?.clear();
   };
 
   onShowJournalClick = (): void => {
+    this.hasClickedShowJournal = true;
     if (!this.journal) {
+      // if no journal, then dont try to pass value into slot creation method
       return;
     }
-    this.hasClickedShowJournal = true;
-    // createSlots with this.journal
+    // createSlots with the selected journal
     of(this.journal)
       .pipe(
         map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
@@ -92,7 +102,9 @@ export class ViewJournalsCardComponent {
 
   canNavigateToNextDay = (): boolean => {
     const nextDay = DateTime.at(this.currentSelectedDate).add(1, Duration.DAY).format(this.dateFormat);
-    return this.examinerSlotItemsByDate?.slotItemsByDate[nextDay]?.length > 0;
+    const today = DateTime.at(this.today);
+    const isInRange = DateTime.at(this.currentSelectedDate).daysDiff(today) === 0;
+    return (this.examinerSlotItemsByDate?.slotItemsByDate[nextDay]?.length > 0 || isInRange);
   };
 
   canNavigateToPreviousDay = (): boolean => {
@@ -111,4 +123,16 @@ export class ViewJournalsCardComponent {
     this.currentSelectedDate = new DateTime().add(1, Duration.DAY).format(this.dateFormat);
     this.onShowJournalClick();
   };
+
+  shouldShowBanner = (): boolean => {
+    return this.examinerName && this.examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate]?.length === 0;
+  };
+
+  get dayLabel(): string {
+    return this.isSelectedDateToday() ? 'today' : 'tomorrow';
+  }
+
+  get warningText(): string {
+    return `${this.examinerName} is not working at ${this.testCentreNames} ${this.dayLabel}`;
+  }
 }

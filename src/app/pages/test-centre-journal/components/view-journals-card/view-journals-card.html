@@ -1,4 +1,4 @@
-<test-centre-name [testCentres]="testCentreResults?.testCentres"></test-centre-name>
+<test-centre-name [testCentre]="testCentreNames"></test-centre-name>
 
 <ion-row>
     <ion-col class="component-label" size="3">
@@ -20,27 +20,38 @@
 </ion-row>
 
 <ion-row class="mes-full-width-card">
-    <ion-button mode="ios" class="mes-primary-button full-width" (click)="onShowJournalClick()">
+    <ion-button mode="ios"
+                class="mes-primary-button full-width"
+                (click)="onShowJournalClick()"
+                [disabled]="!hasSelectedExaminer">
         <h3>Show journal</h3>
     </ion-button>
 </ion-row>
 
-<ion-item *ngIf="!journal && hasSelectedExaminer">
-    Journal could not be retrieved
-</ion-item>
+<section *ngIf="hasSelectedExaminer">
+    <div *ngIf="journal; else noJournal">
+        <journal-navigation *ngIf="hasClickedShowJournal"
+                            [fromTestCentreJournal]="true"
+                            [canNavigateToNextDay]="canNavigateToNextDay()"
+                            [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
+                            [isSelectedDateToday]="isSelectedDateToday()"
+                            [selectedDate]="currentSelectedDate"
+                            (previousDayClicked)="onPreviousDayClick()"
+                            (nextDayClicked)="onNextDayClick()">
+        </journal-navigation>
 
-<section *ngIf="journal && hasSelectedExaminer">
-    <journal-navigation *ngIf="hasClickedShowJournal"
-            [fromTestCentreJournal]="true"
-            [canNavigateToNextDay]="canNavigateToNextDay()"
-            [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
-            [isSelectedDateToday]="isSelectedDateToday()"
-            [selectedDate]="currentSelectedDate"
-            (previousDayClicked)="onPreviousDayClick()"
-            (nextDayClicked)="onNextDayClick()">
-    </journal-navigation>
+        <warning-banner *ngIf="shouldShowBanner()" [warningText]="warningText"></warning-banner>
 
-    <ion-list>
-        <ng-template #slotContainer></ng-template>
-    </ion-list>
+        <ion-list>
+            <ng-template #slotContainer></ng-template>
+        </ion-list>
+    </div>
+
+    <ng-template #noJournal>
+        <div class="results-error" *ngIf="hasClickedShowJournal">
+            <p class="error-text">
+                This examiner does not have any journal information to display
+            </p>
+        </div>
+    </ng-template>
 </section>

@@ -5,6 +5,7 @@ import { CandidateSearchCardComponent } from './candidate-search-card/candidate-
 import { TestCentreNameComponent } from './test-centre-name/test-centre-name';
 import { ViewJournalsCardComponent } from './view-journals-card/view-journals-card';
 import { JournalComponentsModule } from '../../journal/components/journal-components.module';
+import { ComponentsModule } from '../../../../components/common/common-components.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { JournalComponentsModule } from '../../journal/components/journal-compon
     IonicModule,
     CommonModule,
     JournalComponentsModule,
+    ComponentsModule,
   ],
   exports: [
     CandidateSearchCardComponent,
