@@ -27,7 +27,7 @@ import * as journalActions from '../../../store/journal/journal.actions';
 import { StoreModel } from '../../shared/models/store.model';
 import {
   getError, getIsLoading, getSelectedDate, getLastRefreshed,
-  getLastRefreshedTime, getSlotsOnSelectedDate, // getCompletedTests,
+  getLastRefreshedTime, getSlotsOnSelectedDate, canNavigateToPreviousDay, canNavigateToNextDay, // getCompletedTests,
 } from '../../../store/journal/journal.selector';
 import { getJournalState } from '../../../store/journal/journal.reducer';
 import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
@@ -61,6 +61,10 @@ interface JournalPageState {
   loadingSpinner$: Observable<HTMLIonLoadingElement>;
   // completedTests$: Observable<SearchResultTestSchema[]>;
   isOffline$: Observable<boolean>;
+
+  canNavigateToPreviousDay$: Observable<boolean>;
+  canNavigateToNextDay$: Observable<boolean>;
+  isSelectedDateToday$: Observable<boolean>;
 }
 
 @Component({
@@ -138,6 +142,19 @@ export class JournalPage extends BasePageComponent implements OnInit {
       appVersion$: this.store$.select(selectVersionNumber),
       loadingSpinner$: from(this.loadingController.create({ spinner: 'circles' })),
       isOffline$: this.networkStateProvider.isOffline$,
+      canNavigateToPreviousDay$: this.store$.pipe(
+        select(getJournalState),
+        map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now())),
+      ),
+      canNavigateToNextDay$: this.store$.pipe(
+        select(getJournalState),
+        map(canNavigateToNextDay),
+      ),
+      isSelectedDateToday$: this.store$.pipe(
+        select(getJournalState),
+        map(getSelectedDate),
+        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD')),
+      ),
       // completedTests$: this.store$.pipe(
       //   select(getJournalState),
       //   select(getCompletedTests),
@@ -320,5 +337,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
   async logout() {
     this.store$.dispatch(journalActions.UnloadJournal());
     await super.logout();
+  }
+
+  onPreviousDayClick(): void {
+    this.store$.dispatch(journalActions.SelectPreviousDay());
+  }
+
+  onNextDayClick(): void {
+    this.store$.dispatch(journalActions.SelectNextDay());
   }
 }

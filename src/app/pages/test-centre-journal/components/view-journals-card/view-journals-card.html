@@ -24,3 +24,22 @@
         <h3>Show journal</h3>
     </ion-button>
 </ion-row>
+
+<ion-item *ngIf="!journal && hasSelectedExaminer">
+    Journal could not be retrieved
+</ion-item>
+
+<section *ngIf="journal && hasSelectedExaminer">
+    <journal-navigation *ngIf="hasClickedShowJournal"
+            [canNavigateToNextDay]="canNavigateToNextDay()"
+            [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
+            [isSelectedDateToday]="isSelectedDateToday()"
+            [selectedDate]="currentSelectedDate"
+            (previousDayClicked)="onPreviousDayClick()"
+            (nextDayClicked)="onNextDayClick()">
+    </journal-navigation>
+
+    <ion-list>
+        <ng-template #slotContainer></ng-template>
+    </ion-list>
+</section>
