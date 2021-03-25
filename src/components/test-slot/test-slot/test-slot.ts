@@ -52,7 +52,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   showLocation: boolean;
 
   @Input()
-  delegatedTest: boolean = true;
+  delegatedTest: boolean = false;
 
   @Input()
   derivedTestStatus: TestStatus | null = null;
@@ -61,7 +61,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   derivedActivityCode: ActivityCode | null = null;
 
   @Input()
-  isTeamJournal: boolean = true;
+  isTeamJournal: boolean = false;
 
   componentState: TestSlotComponentState;
 
