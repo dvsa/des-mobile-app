@@ -9,8 +9,8 @@
           <language [welshLanguage]="slot.booking.application.welshTest">
           </language>
         </ion-col>
-        <ion-col *ngIf=isTeamJournal class="test-centre-name-col">
-          <h6>{{slot.testCentre.centreName}}</h6>
+        <ion-col *ngIf=isTeamJournal>
+          <div class="team-journal-test-centre-name">{{slot.testCentre.centreName}}</div>
         </ion-col>
         <ion-col class="no-padding" *ngIf=!isTeamJournal>
           <submission-status float-end></submission-status> <!-- [testStatus]="componentState.testStatus$ | async" -->
@@ -61,8 +61,8 @@
         </ion-col>
       </ion-row>
       <ion-row *ngIf="isTeamJournal">
-        <ion-col class="team-journal-driver-number-col" no-padding>
-          <h6 id="team-journal-driver-number">{{slot.booking.candidate.driverNumber}}</h6>
+        <ion-col no-padding>
+          <div id="team-journal-driver-number" class="team-journal-driver-number">{{slot.booking.candidate.driverNumber}}</div>
         </ion-col>
       </ion-row>
       <ion-row *ngIf="!isTeamJournal" class="slot-footer" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
