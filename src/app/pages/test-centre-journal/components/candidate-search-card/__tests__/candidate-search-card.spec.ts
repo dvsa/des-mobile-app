@@ -78,7 +78,7 @@ describe('CandidateSearchCardComponent', () => {
       component.testCentreResults = mockData;
       expect(component.getCandidateList()).toEqual([
         {
-          name: 'Florence, Pearson',
+          name: 'Florence Pearson',
           slot: {
             booking: {
               application: {
