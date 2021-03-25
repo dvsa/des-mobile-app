@@ -13,7 +13,11 @@
   <div *ngIf="!displayAsModal">
     <h2 class="error-message">{{defaultErrorStatement}}</h2>
     <div>
+<<<<<<< HEAD
       <div *ngIf="redirectLinkText" class="link error-details-link" (click)="navigateBack()">
+=======
+      <div *ngIf="redirectLinkText" class="link error-details-link" (click)="dismiss()">
+>>>>>>> Implement logic to get test centre journal data; add new testCentre feature to store to house lastRefreshedTime can be extended to keep anything we deem necessary; amend current error-message component to allow for test centre journal changes;
         Return to {{redirectLinkText}}
       </div>
       <h3 class="error-details" *ngIf="additionalText">&nbsp;{{additionalText}}</h3>

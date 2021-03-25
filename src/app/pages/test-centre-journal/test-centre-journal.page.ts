@@ -115,7 +115,6 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     }
     const loading: HTMLIonLoadingElement = await this.loadingCtrl.create({ spinner: 'circles' });
     await loading.present();
-
     this.store$.dispatch(SetLastRefreshed({ lastRefreshed: new Date() }));
     this.showSearchSpinner = true;
     this.subscription = this.testCentreJournalProvider.getTestCentreJournal()

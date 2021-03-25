@@ -37,7 +37,6 @@ describe('TestCenterJournalPage', () => {
   const initialState = {
     testCentreJournal: { lastRefreshed: new Date('2021-03-22') },
   } as StoreModel;
-
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalPage],
@@ -63,23 +62,19 @@ describe('TestCenterJournalPage', () => {
       ],
     });
   });
-
   beforeEach(async(() => {
     fixture = TestBed.createComponent(TestCentreJournalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     testCentreJournalProvider = TestBed.inject(TestCentreJournalProvider);
     logHelper = TestBed.inject(LogHelper);
     store$ = TestBed.inject(MockStore);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     loadingController = TestBed.inject(LoadingController);
   }));
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
   describe('ngOnInit', () => {
     it('should set the isOffline$ property to a local isOffline', () => {
       spyOnProperty(networkStateProvider.isOffline$, 'value', 'get').and.returnValue(true);
