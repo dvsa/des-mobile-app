@@ -26,7 +26,7 @@ export class CandidateSearchCardComponent {
       examiner.journal?.testSlots.forEach((testSlot) => {
         const { candidate } = testSlot.booking;
         extractedData.push({
-          name: `${candidate.candidateName.firstName}, ${candidate.candidateName.lastName}`,
+          name: `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`,
           slot: testSlot,
         });
       });
