@@ -94,7 +94,7 @@ export class JournalEffects {
             })),
             map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
               examiner: examinerSlotItems.examiner,
-              slotItemsByDate: this.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
+              slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
             })),
             map((slotItemsByDate: ExaminerSlotItemsByDate) => journalActions.LoadJournalSuccess({
               payload: slotItemsByDate,
@@ -129,14 +129,6 @@ export class JournalEffects {
           );
       }),
     );
-  };
-
-  private getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
-    let slotItemsByDate: { [date: string]: SlotItem[] };
-    slotItemsByDate = groupBy(slotItems, this.slotProvider.getSlotDate);
-    slotItemsByDate = this.slotProvider.extendWithEmptyDays(slotItemsByDate);
-    slotItemsByDate = this.slotProvider.getRelevantSlots(slotItemsByDate);
-    return slotItemsByDate;
   };
 
   journal$ = createEffect(() => this.actions$.pipe(

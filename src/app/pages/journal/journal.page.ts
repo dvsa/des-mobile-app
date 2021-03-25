@@ -264,65 +264,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
     });
   };
 
-  /**
-   * Returns the activity code if the test has been completed already
-   * Returns null if test hasn't been completed yet
-   */
-  hasSlotBeenTested(slotData: TestSlot): ActivityCode | null {
-    if (isEmpty(this.completedTests)) {
-      return null;
-    }
-
-    const applicationReference: ApplicationReference = {
-      applicationId: slotData.booking.application.applicationId,
-      bookingSequence: slotData.booking.application.bookingSequence,
-      checkDigit: slotData.booking.application.checkDigit,
-    };
-
-    const completedTest = this.completedTests.find((compTest) => {
-      return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
-    });
-
-    return completedTest ? completedTest.activityCode : null;
-  }
-
   private createSlots = (emission: SlotItem[]) => {
-    // Clear any dynamically created slots before adding the latest
-    this.slotContainer.clear();
-
-    if (!Array.isArray(emission)) return;
-
-    if (emission.length === 0) return;
-
-    const slots = this.slotSelector.getSlotTypes(emission);
-
-    let lastLocation;
-    for (const slot of slots) {
-      const factory = this.resolver.resolveComponentFactory(slot.component);
-      const componentRef = this.slotContainer.createComponent(factory);
-
-      (<SlotComponent>componentRef.instance).slot = slot.slotData;
-      (<SlotComponent>componentRef.instance).hasSlotChanged = slot.hasSlotChanged;
-      (<SlotComponent>componentRef.instance).showLocation = (slot.slotData.testCentre.centreName !== lastLocation);
-      lastLocation = slot.slotData.testCentre.centreName;
-
-      if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
-        // if this is a personal commitment assign it to the component
-        (<PersonalCommitmentSlotComponent>componentRef.instance).personalCommitments = slot.personalCommitment;
-      }
-
-      if (componentRef.instance instanceof TestSlotComponent) {
-        const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
-
-        if (activityCode) {
-          (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
-          (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
-        }
-
-        // if this is a test slot assign hasSeenCandidateDetails separately
-        (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
-      }
-    }
+    this.slotSelector.createSlots(this.slotContainer, emission, this.completedTests);
   };
 
   public pullRefreshJournal = (refresher: IonRefresher) => {

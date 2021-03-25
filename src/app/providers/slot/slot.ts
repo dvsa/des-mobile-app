@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DeepDiff } from 'deep-diff';
 import {
-  flatten, times, isEmpty, get,
+  flatten, times, isEmpty, get, groupBy,
 } from 'lodash';
 import { Store } from '@ngrx/store';
 import { ExaminerWorkSchedule, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
@@ -137,5 +137,13 @@ export class SlotProvider {
       return true;
     }
     return this.dateDiffInDays(slotDate, new Date(periodTo)) >= 0;
+  };
+
+  getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
+    let slotItemsByDate: { [date: string]: SlotItem[] };
+    slotItemsByDate = groupBy(slotItems, this.getSlotDate);
+    slotItemsByDate = this.extendWithEmptyDays(slotItemsByDate);
+    slotItemsByDate = this.getRelevantSlots(slotItemsByDate);
+    return slotItemsByDate;
   };
 }
