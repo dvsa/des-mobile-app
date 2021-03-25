@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CandidateSearchCardComponent } from './candidate-search-card/candidate-search-card';
 import { TestCentreNameComponent } from './test-centre-name/test-centre-name';
 import { ViewJournalsCardComponent } from './view-journals-card/view-journals-card';
+import { JournalComponentsModule } from '../../journal/components/journal-components.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ViewJournalsCardComponent } from './view-journals-card/view-journals-ca
   imports: [
     IonicModule,
     CommonModule,
+    JournalComponentsModule,
   ],
   exports: [
     CandidateSearchCardComponent,
