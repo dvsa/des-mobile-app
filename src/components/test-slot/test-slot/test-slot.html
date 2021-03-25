@@ -1,4 +1,4 @@
-<location *ngIf="showLocation" [location]="slot.testCentre.centreName">
+<location *ngIf="showLocation && !isTeamJournal" [location]="slot.testCentre.centreName">
 </location>
 <ion-card> <!-- [ngClass]="{'test-slot-portrait-mode': isPortrait()}"  -->
   <ion-row class="slot-row ion-align-items-center ion-nowrap">
@@ -9,7 +9,10 @@
           <language [welshLanguage]="slot.booking.application.welshTest">
           </language>
         </ion-col>
-        <ion-col class="no-padding">
+        <ion-col *ngIf=isTeamJournal class="test-centre-name-col">
+          <h6>{{slot.testCentre.centreName}}</h6>
+        </ion-col>
+        <ion-col class="no-padding" *ngIf=!isTeamJournal>
           <submission-status float-end></submission-status> <!-- [testStatus]="componentState.testStatus$ | async" -->
         </ion-col>
       </ion-row>
@@ -57,7 +60,12 @@
           <!-- [isRekey]="componentState.isRekey$ | async" -->
         </ion-col>
       </ion-row>
-      <ion-row class="slot-footer" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
+      <ion-row *ngIf="isTeamJournal">
+        <ion-col class="team-journal-driver-number-col" no-padding>
+          <h6 id="team-journal-driver-number">{{slot.booking.candidate.driverNumber}}</h6>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="!isTeamJournal" class="slot-footer" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
         <ion-col class="progressive-access-col">
           <date *ngIf="delegatedTest" id="del-ex-date" [date]="slot.slotDetail.start">
           </date>
