@@ -15,12 +15,8 @@ import { map, switchMap } from 'rxjs/operators';
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Router } from '@angular/router';
 import {
-  ActivityCode,
   SearchResultTestSchema,
 } from '@dvsa/mes-search-schema';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
-import { isEmpty } from 'lodash';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import * as journalActions from '../../../store/journal/journal.actions';
@@ -31,7 +27,6 @@ import {
 } from '../../../store/journal/journal.selector';
 import { getJournalState } from '../../../store/journal/journal.reducer';
 import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
-import { SlotComponent } from '../../../components/test-slot/slot/slot';
 import { SlotItem } from '../../providers/slot-selector/slot-item';
 import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
@@ -40,15 +35,11 @@ import { ErrorTypes } from '../../shared/models/error-message';
 // import { DeviceProvider } from '../../providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
-import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 // import { IncompleteTestsBanner } from '../../components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { DateTime } from '../../shared/helpers/date-time';
 import { MesError } from '../../shared/models/mes-error.model';
-import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
-import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 import { ErrorPage } from '../error-page/error';
-import { PersonalCommitmentSlotComponent } from './components/personal-commitment/personal-commitment';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 
 interface JournalPageState {
