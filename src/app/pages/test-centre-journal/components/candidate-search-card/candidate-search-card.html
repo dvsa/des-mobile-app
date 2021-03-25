@@ -1,0 +1,21 @@
+<ion-row>
+  <ion-col size="3" class="component-row">
+    <label>Test Centre(s):</label>
+  </ion-col>
+  <ion-col size="9" class="component-row">
+    <!--TODO Introduce Test Centre Name Component Here -->
+  </ion-col>
+</ion-row>
+<ion-row>
+  <ion-col size="3" class="component-row">
+    <label>Candidate Name:</label>
+  </ion-col>
+  <ion-col size="9" class="component-row">
+    <typeahead-dropdown [listValues]="getCandidateList()" [property]="'name'"></typeahead-dropdown>
+  </ion-col>
+</ion-row>
+<ion-row class="mes-full-width-card">
+  <ion-button mode="ios" class="mes-primary-button full-width">
+    <h3>Show booking</h3>
+  </ion-button>
+</ion-row>

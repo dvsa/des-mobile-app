@@ -17,7 +17,6 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-
 <ion-content>
     <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
@@ -25,7 +24,14 @@
         <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
     </ng-template>
 
-    <ng-template #noError>
+  <ng-template #noError>
+    <div class="search-inputs">
+      <tabs>
+        <tab [tabTitle]="'Candidate search'">
+          <candidate-search-card [testCentreResults]="this.testCentreResults"></candidate-search-card>
+        </tab>
+      </tabs>
+    </div>
+  </ng-template>
 
-    </ng-template>
 </ion-content>
