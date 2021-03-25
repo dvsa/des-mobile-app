@@ -50,7 +50,8 @@
             [examinerId]="getExaminerId()"
             [specialRequirements]="isIndicatorNeededForSlot()"
             [hasSeenCandidateDetails]="hasSeenCandidateDetails"
-            [category]="slot.booking.application.testCategory">
+            [category]="slot.booking.application.testCategory"
+            [showTestActionButton]="!isTeamJournal">
           </test-outcome> <!-- [testStatus]="componentState.testStatus$ | async" -->
           <!-- [activityCode]="componentState.testActivityCode$ | async" -->
           <!-- [isRekey]="componentState.isRekey$ | async" -->

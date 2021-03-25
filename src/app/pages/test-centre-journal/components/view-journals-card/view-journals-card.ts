@@ -87,7 +87,7 @@ export class ViewJournalsCardComponent {
   };
 
   private createSlots = (emission: SlotItem[]): void => {
-    this.slotSelectorProvider.createSlots(this.slotContainer, emission, this.completedTests);
+    this.slotSelectorProvider.createSlots(this.slotContainer, emission, this.completedTests, true);
   };
 
   canNavigateToNextDay = (): boolean => {

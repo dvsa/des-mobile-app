@@ -60,6 +60,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   @Input()
   derivedActivityCode: ActivityCode | null = null;
 
+  @Input()
+  isTeamJournal: boolean = false;
+
   componentState: TestSlotComponentState;
 
   constructor(

@@ -117,6 +117,7 @@ export class SlotSelectorProvider {
     slotContainer: ViewContainerRef,
     emission: SlotItem[],
     completedTests: SearchResultTestSchema[],
+    isTeamJournal?: boolean,
   ): void => {
     // Clear any dynamically created slots before adding the latest
     slotContainer.clear();
@@ -137,6 +138,7 @@ export class SlotSelectorProvider {
       (<SlotComponent>componentRef.instance).hasSlotChanged = slot.hasSlotChanged;
       (<SlotComponent>componentRef.instance).showLocation = (slot.slotData.testCentre.centreName !== lastLocation);
       lastLocation = slot.slotData.testCentre.centreName;
+      if (isTeamJournal) (<SlotComponent>componentRef.instance).isTeamJournal = isTeamJournal
 
       if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
         // if this is a personal commitment assign it to the component
