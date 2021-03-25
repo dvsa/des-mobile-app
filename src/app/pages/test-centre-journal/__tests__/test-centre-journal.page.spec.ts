@@ -7,7 +7,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { StoreModule } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
-import { LoadingControllerMock } from 'ionic-mocks';
 import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../../../providers/authentication/__mocks__/authentication.mock';
@@ -25,6 +24,7 @@ import { LogType } from '../../../shared/models/log.model';
 import { BasePageComponent } from '../../../shared/classes/base-page';
 import { ErrorTypes } from '../../../shared/models/error-message';
 import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
+import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
 
 describe('TestCenterJournalPage', () => {
   let component: TestCentreJournalPage;
