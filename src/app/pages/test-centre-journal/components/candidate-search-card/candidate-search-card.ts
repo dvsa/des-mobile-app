@@ -14,7 +14,11 @@ type CandidateData = {
 })
 export class CandidateSearchCardComponent {
 
-  @Input() testCentreResults: TestCentreDetailResponse;
+  @Input()
+  testCentreResults: TestCentreDetailResponse;
+
+  @Input()
+  testCentreName: string;
 
   getCandidateList = (): CandidateData[] => {
     if (!this.testCentreResults) {

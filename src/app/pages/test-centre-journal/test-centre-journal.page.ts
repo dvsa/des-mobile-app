@@ -21,7 +21,7 @@ import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { TestCentreJournalProvider } from '../../providers/test-centre-journal/test-centre-journal';
-import { TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
+import { TestCentre, TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
 import { StoreModel } from '../../shared/models/store.model';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
 import { Log, LogType } from '../../shared/models/log.model';
@@ -168,5 +168,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.showSearchSpinner = false;
     this.mapError(ErrorTypes.TEST_CENTRE_OFFLINE);
   };
+
+  get testCentreNames(): string {
+    return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
+  }
 
 }
