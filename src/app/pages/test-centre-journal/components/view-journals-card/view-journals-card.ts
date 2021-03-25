@@ -9,7 +9,7 @@ import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
-import { TestCentre, TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
+import { TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '../../../../../store/journal/journal.model';
 import { SlotItem } from '../../../../providers/slot-selector/slot-item';
 import { SlotProvider } from '../../../../providers/slot/slot';
@@ -27,6 +27,9 @@ export class ViewJournalsCardComponent {
 
   @Input()
   testCentreResults: TestCentreDetailResponse;
+
+  @Input()
+  testCentreName: string;
 
   hasSelectedExaminer: boolean = false;
   hasClickedShowJournal: boolean = false;
@@ -52,10 +55,6 @@ export class ViewJournalsCardComponent {
       okText: 'Select',
       cancelText: 'Cancel',
     };
-  }
-
-  get testCentreNames(): string {
-    return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
   }
 
   examinerChanged = (staffNumber: string): void => {
@@ -133,6 +132,6 @@ export class ViewJournalsCardComponent {
   }
 
   get warningText(): string {
-    return `${this.examinerName} is not working at ${this.testCentreNames} ${this.dayLabel}`;
+    return `${this.examinerName} is not working at ${this.testCentreName} ${this.dayLabel}`;
   }
 }

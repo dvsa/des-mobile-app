@@ -28,10 +28,14 @@
         <div class="search-inputs">
             <tabs>
                 <tab [tabTitle]="'Candidate search'">
-                    <candidate-search-card [testCentreResults]="testCentreResults"></candidate-search-card>
+                    <candidate-search-card
+                            [testCentreName]="testCentreNames"
+                            [testCentreResults]="testCentreResults"></candidate-search-card>
                 </tab>
                 <tab [tabTitle]="'View Journals'">
-                    <view-journals-card [testCentreResults]="testCentreResults"></view-journals-card>
+                    <view-journals-card
+                            [testCentreName]="testCentreNames"
+                            [testCentreResults]="testCentreResults"></view-journals-card>
                 </tab>
             </tabs>
         </div>
