@@ -1,25 +1,20 @@
 import {
-  Component, ComponentFactoryResolver,
-  Input, ViewChild, ViewContainerRef,
+  Component,
+  Input,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
-import { Examiner, ExaminerWorkSchedule, TestSlot } from '@dvsa/mes-journal-schema';
-import { map } from 'rxjs/operators';
+import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
+import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { groupBy, isEmpty } from 'lodash';
-import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
-import moment from 'moment';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+
 import { TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '../../../../../store/journal/journal.model';
 import { SlotItem } from '../../../../providers/slot-selector/slot-item';
 import { SlotProvider } from '../../../../providers/slot/slot';
-import { SlotComponent } from '../../../../../components/test-slot/slot/slot';
-import { PersonalCommitmentSlotComponent } from '../../../journal/components/personal-commitment/personal-commitment';
-import { TestSlotComponent } from '../../../../../components/test-slot/test-slot/test-slot';
-import { TestStatus } from '../../../../../store/tests/test-status/test-status.model';
-import { formatApplicationReference } from '../../../../shared/helpers/formatters';
 import { SlotSelectorProvider } from '../../../../providers/slot-selector/slot-selector';
-import { DateTimeProvider } from '../../../../providers/date-time/date-time';
+import { DateTime, Duration } from '../../../../shared/helpers/date-time';
 
 @Component({
   selector: 'view-journals-card',
@@ -38,15 +33,13 @@ export class ViewJournalsCardComponent {
   journal: ExaminerWorkSchedule | null = null;
   examinerSlotItemsByDate: ExaminerSlotItemsByDate;
   completedTests: SearchResultTestSchema[];
-  private today = moment().format('YYYY-MM-DD');
-  private yesterday = moment().subtract(1, 'day').format('YYYY-MM-DD');
+  private dateFormat = 'YYYY-MM-DD';
+  private today = new DateTime().format(this.dateFormat);
   currentSelectedDate: string = this.today;
 
   constructor(
     private slotProvider: SlotProvider,
-    private slotSelector: SlotSelectorProvider,
-    private resolver: ComponentFactoryResolver,
-    private dateTimeProvider: DateTimeProvider,
+    private slotSelectorProvider: SlotSelectorProvider,
   ) {
   }
 
@@ -64,14 +57,12 @@ export class ViewJournalsCardComponent {
     const { journal } = this.testCentreResults?.examiners.find((examiner) => examiner.staffNumber === staffNumber);
     this.currentSelectedDate = this.today;
     this.journal = journal;
-    console.log(this.journal);
     this.hasSelectedExaminer = true;
     this.hasClickedShowJournal = false;
     this.slotContainer?.clear();
   };
 
   onShowJournalClick = (): void => {
-    // this.currentSelectedDate = this.today;
     if (!this.journal) {
       return;
     }
@@ -85,90 +76,27 @@ export class ViewJournalsCardComponent {
         })),
         map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
           examiner: examinerSlotItems.examiner,
-          slotItemsByDate: this.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
+          slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
         })),
-        map((slotItemsByDate: ExaminerSlotItemsByDate) => {
-          this.examinerSlotItemsByDate = slotItemsByDate;
+        tap((examinerSlotItemsByDate: ExaminerSlotItemsByDate) => {
+          this.examinerSlotItemsByDate = examinerSlotItemsByDate;
+          const slots: SlotItem[] | undefined = examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate];
+          this.createSlots(slots);
         }),
       ).subscribe();
-
-    const slots: SlotItem[] | undefined = this.examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate];
-    this.createSlots(slots);
   };
 
-  private createSlots = (emission: SlotItem[]) => {
-    // Clear any dynamically created slots before adding the latest
-    this.slotContainer.clear();
-
-    if (!Array.isArray(emission)) return;
-
-    if (emission.length === 0) return;
-
-    const slots = this.slotSelector.getSlotTypes(emission);
-
-    let lastLocation;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const slot of slots) {
-      const factory = this.resolver.resolveComponentFactory(slot.component);
-      const componentRef = this.slotContainer.createComponent(factory);
-
-      (<SlotComponent>componentRef.instance).slot = slot.slotData;
-      (<SlotComponent>componentRef.instance).hasSlotChanged = slot.hasSlotChanged;
-      (<SlotComponent>componentRef.instance).showLocation = (slot.slotData.testCentre.centreName !== lastLocation);
-      lastLocation = slot.slotData.testCentre.centreName;
-
-      if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
-        // if this is a personal commitment assign it to the component
-        (<PersonalCommitmentSlotComponent>componentRef.instance).personalCommitments = slot.personalCommitment;
-      }
-
-      if (componentRef.instance instanceof TestSlotComponent) {
-        const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
-
-        if (activityCode) {
-          (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
-          (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
-        }
-
-        // if this is a test slot assign hasSeenCandidateDetails separately
-        (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
-      }
-    }
-  };
-
-  hasSlotBeenTested(slotData: TestSlot): ActivityCode | null {
-    if (isEmpty(this.completedTests)) {
-      return null;
-    }
-
-    const applicationReference: ApplicationReference = {
-      applicationId: slotData.booking.application.applicationId,
-      bookingSequence: slotData.booking.application.bookingSequence,
-      checkDigit: slotData.booking.application.checkDigit,
-    };
-
-    const completedTest = this.completedTests.find((compTest) => {
-      return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
-    });
-
-    return completedTest ? completedTest.activityCode : null;
-  }
-
-  private getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
-    let slotItemsByDate: { [date: string]: SlotItem[] };
-    slotItemsByDate = groupBy(slotItems, this.slotProvider.getSlotDate);
-    slotItemsByDate = this.slotProvider.extendWithEmptyDays(slotItemsByDate);
-    slotItemsByDate = this.slotProvider.getRelevantSlots(slotItemsByDate);
-    return slotItemsByDate;
+  private createSlots = (emission: SlotItem[]): void => {
+    this.slotSelectorProvider.createSlots(this.slotContainer, emission, this.completedTests);
   };
 
   canNavigateToNextDay = (): boolean => {
-    const tomorrow = moment(this.currentSelectedDate).add(1, 'day').format('YYYY-MM-DD');
+    const tomorrow = DateTime.at(this.currentSelectedDate).add(1, Duration.DAY).format(this.dateFormat);
     return this.examinerSlotItemsByDate?.slotItemsByDate[tomorrow]?.length > 0;
   };
 
   canNavigateToPreviousDay = (): boolean => {
-    const yesterday = moment(this.currentSelectedDate).subtract(1, 'day').format('YYYY-MM-DD');
+    const yesterday = DateTime.at(this.currentSelectedDate).subtract(1, Duration.DAY).format(this.dateFormat);
     return this.examinerSlotItemsByDate?.slotItemsByDate[yesterday]?.length > 0;
   };
 
@@ -176,13 +104,11 @@ export class ViewJournalsCardComponent {
 
   onPreviousDayClick = (): void => {
     this.currentSelectedDate = this.today;
-    console.log('currentSelectedDate ', this.currentSelectedDate);
     this.onShowJournalClick();
   };
 
   onNextDayClick = (): void => {
-    this.currentSelectedDate = moment().add(1, 'day').format('YYYY-MM-DD');
-    console.log('currentSelectedDate ', this.currentSelectedDate);
+    this.currentSelectedDate = new DateTime().add(1, Duration.DAY).format(this.dateFormat);
     this.onShowJournalClick();
   };
 }
