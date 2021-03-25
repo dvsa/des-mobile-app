@@ -6,6 +6,7 @@
           <h2>{{activityCode}}</h2>
         </span>
       </ion-col>
+      <div *ngIf="showTestActionButton">
       <ion-col *ngIf="showRekeyButton(); else nonRekey">
         <span>
           <ion-button class="mes-secondary-button mes-rekey-button" (click)="rekeyTest()" [disabled]="!canStartTest">
@@ -43,6 +44,7 @@
           </span>
         </ion-col>
       </ng-template>
+      </div>
     </ion-row>
   </ion-grid>
 </div>
