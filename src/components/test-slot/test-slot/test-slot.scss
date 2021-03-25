@@ -61,16 +61,6 @@ ion-col {
       padding-left: 40px;
     }
   }
-  &.team-journal-driver-number-col {
-    margin-top: -10px;
-    padding-left: 168px;
-    .text-zoom-large & {
-      padding-left: 20px;
-    }
-    .text-zoom-x-large & {
-      padding-left: 40px;
-    }
-  }
   &.progressive-access-col {
     max-width: 152px;
     margin-top: -6px;
@@ -79,13 +69,19 @@ ion-col {
     padding-right: 8px;
     flex-grow: 0;
   }
-  &.test-centre-name-col {
-    //margin-left: -365px;
-    //margin-top: 50px;
-    position:absolute;
-    left: 168px;
-    top: 22px;
-  }
+}
+.team-journal-test-centre-name {
+  position:absolute;
+  left: -184px;
+  top: 10px;
+  font-size: 18px;
+  color: #000;
+}
+.team-journal-driver-number {
+  margin-top: -10px;
+  padding-left: 168px;
+  font-size: 18px;
+  color: #000;
 }
 .slot-changed-indicator {
   position: absolute;
