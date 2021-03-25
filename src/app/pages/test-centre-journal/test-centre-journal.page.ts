@@ -147,9 +147,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
           return of(this.hasSearched);
         }),
         finalize(async () => loading.dismiss()),
-      ).subscribe(() => {
-        console.log(this.testCentreResults);
-      });
+      ).subscribe();
   };
 
   private isRecognisedError = (error: string) => {

@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, LoadingController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -7,6 +7,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { StoreModule } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
+import { LoadingControllerMock } from 'ionic-mocks';
 import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../../../providers/authentication/__mocks__/authentication.mock';
@@ -23,18 +24,19 @@ import { TestCentreDetailResponse } from '../../../shared/models/test-centre-jou
 import { LogType } from '../../../shared/models/log.model';
 import { BasePageComponent } from '../../../shared/classes/base-page';
 import { ErrorTypes } from '../../../shared/models/error-message';
+import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 
 describe('TestCenterJournalPage', () => {
   let component: TestCentreJournalPage;
   let fixture: ComponentFixture<TestCentreJournalPage>;
   let testCentreJournalProvider: TestCentreJournalProvider;
   let networkStateProvider: NetworkStateProvider;
+  let loadingController: LoadingController;
   let logHelper: LogHelper;
   let store$: MockStore;
   const initialState = {
     testCentreJournal: { lastRefreshed: new Date('2021-03-22') },
   } as StoreModel;
-
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalPage],
@@ -42,6 +44,7 @@ describe('TestCenterJournalPage', () => {
         IonicModule,
         CommonModule,
         ComponentsModule,
+        TestCentreJournalComponentsModule,
         RouterTestingModule.withRoutes(
           [
             { path: '', component: TestCentreJournalPage },
@@ -54,26 +57,24 @@ describe('TestCenterJournalPage', () => {
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: TestCentreJournalProvider, useClass: TestCentreJournalMock },
+        { provide: LoadingController, useClass: LoadingControllerMock },
         provideMockStore({ initialState }),
       ],
     });
   });
-
   beforeEach(async(() => {
     fixture = TestBed.createComponent(TestCentreJournalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     testCentreJournalProvider = TestBed.inject(TestCentreJournalProvider);
     logHelper = TestBed.inject(LogHelper);
     store$ = TestBed.inject(MockStore);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
+    loadingController = TestBed.inject(LoadingController);
   }));
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
   describe('ngOnInit', () => {
     it('should set the isOffline$ property to a local isOffline', () => {
       spyOnProperty(networkStateProvider.isOffline$, 'value', 'get').and.returnValue(true);
@@ -114,29 +115,30 @@ describe('TestCenterJournalPage', () => {
       spyOn<any>(component, 'setOfflineError');
       spyOn<any>(component, 'mapError');
       spyOn(logHelper, 'createLog');
+      spyOn(loadingController, 'create').and.callThrough();
       component.isOffline = false;
     });
-    it('should set an offline error and not call getTestCentreJournal if in offline state', () => {
+    it('should set an offline error and not call getTestCentreJournal if in offline state', async () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal');
       component.isOffline = true;
-      component.getTestCentreData();
+      await component.getTestCentreData();
       expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalGetData());
       expect(testCentreJournalProvider.getTestCentreJournal).not.toHaveBeenCalled();
     });
-    it('should call getTestCentreJournal when online', () => {
+    it('should call getTestCentreJournal when online', async () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.returnValue(of({}));
-      component.getTestCentreData();
+      await component.getTestCentreData();
       expect(testCentreJournalProvider.getTestCentreJournal).toHaveBeenCalled();
       expect(component.hasSearched).toEqual(true);
       expect(component.testCentreResults).toEqual({} as TestCentreDetailResponse);
       expect(component.showSearchSpinner).toEqual(false);
       expect(component.didError).toEqual(false);
     });
-    it('should dispatch failure log and call map error when error is recognised', () => {
+    it('should dispatch failure log and call map error when error is recognised', async () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal').and.callFake(() => {
         return throwError({ statusCode: 400, message: 'Some error', error: ErrorTypes.TEST_CENTRE_JOURNAL_ERROR });
       });
-      component.getTestCentreData();
+      await component.getTestCentreData();
       expect(testCentreJournalProvider.getTestCentreJournal).toHaveBeenCalled();
       expect(logHelper.createLog).toHaveBeenCalledWith(
         LogType.ERROR,
