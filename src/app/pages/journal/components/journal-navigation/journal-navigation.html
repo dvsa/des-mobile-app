@@ -6,7 +6,7 @@
             class="navigation-button"
             (click)="onPreviousDayClick()">
           <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
-          <span id="previous-day">Previous day</span>
+          <span id="previous-day">{{previousDayLabel}}</span>
         </h5>
       </ion-col>
       <ion-col>
@@ -16,8 +16,14 @@
             <h3>{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
           </div>
           <ng-template #notToday>
-            <h1>{{ selectedDate | date:'EEEE' }}</h1>
-            <h3>{{ selectedDate | date:'d MMMM y' }}</h3>
+            <div *ngIf="fromTestCentreJournal; else journalView">
+              <h1>Tomorrow</h1>
+              <h3>{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+            </div>
+            <ng-template #journalView>
+              <h1>{{ selectedDate | date:'EEEE' }}</h1>
+              <h3>{{ selectedDate | date:'d MMMM y' }}</h3>
+            </ng-template>
           </ng-template>
         </div>
       </ion-col>
@@ -26,7 +32,7 @@
             *ngIf="canNavigateToNextDay"
             class="next-navigation-button"
             (click)="onNextDayClick()">
-          <span id="next-day">Next day</span>
+          <span id="next-day">{{nextDayLabel}}</span>
           <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
         </h5>
       </ion-col>
