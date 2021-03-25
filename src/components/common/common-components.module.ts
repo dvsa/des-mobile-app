@@ -11,6 +11,7 @@ import { OfflineBannerComponent } from './offline-banner/offline-banner';
 import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
 import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
+import { WarningBannerComponent } from './warning-banner/warning-banner';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropd
     OfflineBannerComponent,
     TabComponent,
     TabsComponent,
+    WarningBannerComponent,
     TypeaheadDropdownComponent,
   ],
   imports: [
@@ -38,6 +40,7 @@ import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropd
     TabComponent,
     TabsComponent,
     TypeaheadDropdownComponent,
+    WarningBannerComponent,
   ],
 })
 export class ComponentsModule { }
