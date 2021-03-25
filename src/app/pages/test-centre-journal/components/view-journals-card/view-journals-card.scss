@@ -23,6 +23,13 @@ label {
   color: black;
 }
 
-ion-list {
+ion-list, section {
   background-color: var(--ion-background-color);
+}
+
+section {
+  width: 95%;
+  height: 100%;
+  margin-top: 22px;
+  position: absolute;
 }

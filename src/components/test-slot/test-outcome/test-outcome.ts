@@ -77,7 +77,7 @@ export class TestOutcomeComponent implements OnInit {
   category: TestCategory;
 
   @Input()
-  showTestActionButton: boolean = true
+  showTestActionButton: boolean = true;
 
   // modal: Modal;
   startTestAsRekey: boolean = false;
