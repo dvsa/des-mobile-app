@@ -28,9 +28,6 @@ export class ViewJournalsCardComponent {
   @Input()
   testCentreResults: TestCentreDetailResponse;
 
-  @Input()
-  isTeamJournal: boolean = false;
-
   hasSelectedExaminer: boolean = false;
   hasClickedShowJournal: boolean = false;
   journal: ExaminerWorkSchedule | null = null;
@@ -90,7 +87,7 @@ export class ViewJournalsCardComponent {
   };
 
   private createSlots = (emission: SlotItem[]): void => {
-    this.slotSelectorProvider.createSlots(this.slotContainer, emission, this.completedTests, this.isTeamJournal);
+    this.slotSelectorProvider.createSlots(this.slotContainer, emission, this.completedTests, true);
   };
 
   canNavigateToNextDay = (): boolean => {
