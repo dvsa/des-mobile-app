@@ -1,0 +1,6 @@
+<input id="typeahead-prevent-manual-entry"  type="text"
+       [(ngModel)]="model"
+       [ngbTypeahead]="search"
+       [inputFormatter]="formatter"
+       [resultFormatter]="formatter"
+       [editable]='false' />

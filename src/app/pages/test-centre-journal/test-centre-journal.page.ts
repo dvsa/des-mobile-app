@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { LoadingController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
   merge,
@@ -10,7 +10,7 @@ import {
 } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import {
-  catchError,
+  catchError, finalize,
   map,
   takeUntil,
   tap,
@@ -65,6 +65,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private testCentreJournalProvider: TestCentreJournalProvider,
+    private loadingCtrl: LoadingController,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -104,13 +105,15 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.destroy$.complete();
   }
 
-  getTestCentreData = (): void => {
+  getTestCentreData = async (): Promise<void> => {
     this.subscription.unsubscribe();
     this.store$.dispatch(TestCentreJournalGetData());
     if (this.isOffline) {
       this.setOfflineError();
       return;
     }
+    const loading: HTMLIonLoadingElement = await this.loadingCtrl.create({ spinner: 'circles' });
+    await loading.present();
     this.store$.dispatch(SetLastRefreshed({ lastRefreshed: new Date() }));
     this.showSearchSpinner = true;
     this.subscription = this.testCentreJournalProvider.getTestCentreJournal()
@@ -143,7 +146,10 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
           this.errorMessage = ErrorTypes.TEST_CENTRE_UNKNOWN_ERROR;
           return of(this.hasSearched);
         }),
-      ).subscribe();
+        finalize(async () => loading.dismiss()),
+      ).subscribe(() => {
+        console.log(this.testCentreResults);
+      });
   };
 
   private isRecognisedError = (error: string) => {

@@ -292,3 +292,6 @@ $card-ios-background-color: var(--mes-white);
     --ion-card-background: #{$mes-white};
   }
 }
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
