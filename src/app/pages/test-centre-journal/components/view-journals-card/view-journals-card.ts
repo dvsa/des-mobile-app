@@ -91,13 +91,13 @@ export class ViewJournalsCardComponent {
   };
 
   canNavigateToNextDay = (): boolean => {
-    const tomorrow = DateTime.at(this.currentSelectedDate).add(1, Duration.DAY).format(this.dateFormat);
-    return this.examinerSlotItemsByDate?.slotItemsByDate[tomorrow]?.length > 0;
+    const nextDay = DateTime.at(this.currentSelectedDate).add(1, Duration.DAY).format(this.dateFormat);
+    return this.examinerSlotItemsByDate?.slotItemsByDate[nextDay]?.length > 0;
   };
 
   canNavigateToPreviousDay = (): boolean => {
-    const yesterday = DateTime.at(this.currentSelectedDate).subtract(1, Duration.DAY).format(this.dateFormat);
-    return this.examinerSlotItemsByDate?.slotItemsByDate[yesterday]?.length > 0;
+    const dayBefore = DateTime.at(this.currentSelectedDate).subtract(1, Duration.DAY).format(this.dateFormat);
+    return this.examinerSlotItemsByDate?.slotItemsByDate[dayBefore]?.length > 0;
   };
 
   isSelectedDateToday = (): boolean => this.currentSelectedDate === this.today;

@@ -11,7 +11,6 @@ import { of, Observable, interval } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 // import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { Store, select, Action } from '@ngrx/store';
-import { groupBy } from 'lodash';
 import * as journalActions from './journal.actions';
 import { JournalProvider } from '../../app/providers/journal/journal';
 import { StoreModel } from '../../app/shared/models/store.model';
@@ -32,7 +31,6 @@ import { AuthenticationProvider } from '../../app/providers/authentication/authe
 import { DateTimeProvider } from '../../app/providers/date-time/date-time';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 
-import { SlotItem } from '../../app/providers/slot-selector/slot-item';
 import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { LogHelper } from '../../app/providers/logs/logs-helper';
