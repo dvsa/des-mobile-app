@@ -74,7 +74,6 @@ export class JournalEffects {
         this.store$.pipe(
           select(getJournalState),
           map(getSlots),
-          tap((res) => console.log('getSlots', res)),
         ),
         this.store$.pipe(
           select(getJournalState),

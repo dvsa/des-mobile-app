@@ -91,7 +91,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public router: Router,
     private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
-    private resolver: ComponentFactoryResolver,
     public dateTimeProvider: DateTimeProvider,
     public appConfigProvider: AppConfigProvider,
     private app: AppComponent,

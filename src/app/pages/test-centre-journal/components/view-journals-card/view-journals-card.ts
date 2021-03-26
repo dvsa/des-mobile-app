@@ -38,7 +38,7 @@ export class ViewJournalsCardComponent {
   examinerSlotItemsByDate: ExaminerSlotItemsByDate;
   completedTests: SearchResultTestSchema[];
   private dateFormat = 'YYYY-MM-DD';
-  private today = new DateTime().format(this.dateFormat);
+  today: string = new DateTime().format(this.dateFormat);
   currentSelectedDate: string = this.today;
 
   constructor(

@@ -6,6 +6,8 @@ import { TestCentreJournalPage } from './test-centre-journal.page';
 import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.module';
 import { ComponentsModule } from '../../../components/common/common-components.module';
 import { TestCentreJournalComponentsModule } from './components/test-centre-journal-components.module';
+import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
+import { SlotProvider } from '../../providers/slot/slot';
 
 @NgModule({
   imports: [
@@ -18,6 +20,10 @@ import { TestCentreJournalComponentsModule } from './components/test-centre-jour
   ],
   declarations: [
     TestCentreJournalPage,
+  ],
+  providers: [
+    SlotSelectorProvider,
+    SlotProvider,
   ],
 })
 export class TestCentreJournalModule { }
