@@ -11,8 +11,6 @@ import {
   Observable, Subscription, merge, from,
 } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-
-// import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Router } from '@angular/router';
 import {
   SearchResultTestSchema,
@@ -41,6 +39,7 @@ import { MesError } from '../../shared/models/mes-error.model';
 import { AppComponent } from '../../app.component';
 import { ErrorPage } from '../error-page/error';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -96,7 +95,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private app: AppComponent,
     private networkStateProvider: NetworkStateProvider,
     // private deviceProvider: DeviceProvider,
-    // public screenOrientation: ScreenOrientation,
+    public screenOrientation: ScreenOrientation,
     // public insomnia: Insomnia,
   ) {
     super(platform, authenticationProvider, router);
@@ -200,7 +199,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(journalActions.JournalViewDidEnter());
 
     if (super.isIos()) {
-      // this.screenOrientation.unlock();
+      this.screenOrientation.unlock();
       // this.insomnia.allowSleepAgain();
       // this.deviceProvider.disableSingleAppMode();
     }
