@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax */
 import {
-  Component, ComponentFactoryResolver, OnInit, ViewChild, ViewContainerRef,
+  Component, OnInit, ViewChild, ViewContainerRef,
 } from '@angular/core';
 import {
   LoadingController,

@@ -1,11 +1,12 @@
 import {
   Component,
-  Input,
+  Input, OnChanges, ViewChild,
 } from '@angular/core';
 import { Candidate, TestSlot } from '@dvsa/mes-journal-schema';
 import { isEqual } from 'lodash';
 import { Examiner, TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
+import { TypeaheadDropdownComponent } from '../../../../../components/common/typeahead-dropdown/typeahead-dropdown';
 
 export type CandidateData = {
   name: string,
@@ -17,7 +18,12 @@ export type CandidateData = {
   templateUrl: 'candidate-search-card.html',
   styleUrls: ['candidate-search-card.scss'],
 })
-export class CandidateSearchCardComponent {
+export class CandidateSearchCardComponent implements OnChanges {
+
+  @ViewChild('typeAhead') typeAheadDropDown: TypeaheadDropdownComponent;
+
+  @Input()
+  manuallyRefreshed: boolean;
 
   @Input()
   testCentreResults: TestCentreDetailResponse;
@@ -33,6 +39,12 @@ export class CandidateSearchCardComponent {
   shouldShowCandidateResults: boolean;
   selectedCandidateName: string;
   enableShowBookingButton: boolean = false;
+
+  ngOnChanges(): void {
+    if (this.manuallyRefreshed) {
+      this.onManualRefresh();
+    }
+  }
 
   getCandidateList = (): CandidateData[] => {
     if (!this.testCentreResults) {
@@ -97,6 +109,13 @@ export class CandidateSearchCardComponent {
 
   showResults(): void {
     this.shouldShowCandidateResults = true;
+  }
+
+  onManualRefresh(): void {
+    // reset all values on refresh
+    this.shouldShowCandidateResults = false;
+    this.enableShowBookingButton = false;
+    this.typeAheadDropDown.clearInput();
   }
 
 }

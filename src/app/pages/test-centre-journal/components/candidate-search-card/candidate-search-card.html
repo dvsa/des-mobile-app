@@ -5,7 +5,7 @@
     <label>Candidate Name:</label>
   </ion-col>
   <ion-col size="9" class="component-row">
-    <typeahead-dropdown
+    <typeahead-dropdown #typeAhead
             [listValues]="getCandidateList()"
             [property]="'name'"
             (candidateChange)="onCandidateDidChange($event)"
@@ -41,6 +41,7 @@
             [slot]="candidateSlot.slot"
             [teamJournalCandidateResult]="true"
             [examinerName]="candidateSlot.examinerName"
+            [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
 
@@ -65,6 +66,7 @@
             [slot]="candidateSlot.slot"
             [teamJournalCandidateResult]="true"
             [examinerName]="candidateSlot.examinerName"
+            [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
 

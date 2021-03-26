@@ -36,4 +36,8 @@ export class TypeaheadDropdownComponent {
     this.candidateChange.emit(value);
   }
 
+  clearInput() {
+    this.model = null;
+  }
+
 }
