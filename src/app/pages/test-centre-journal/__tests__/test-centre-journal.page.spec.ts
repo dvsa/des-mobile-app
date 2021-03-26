@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
 import { StoreModule } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
+
 import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
 import { AuthenticationProviderMock } from '../../../providers/authentication/__mocks__/authentication.mock';
@@ -19,12 +19,12 @@ import { LogHelper } from '../../../providers/logs/logs-helper';
 import { StoreModel } from '../../../shared/models/store.model';
 import { ComponentsModule } from '../../../../components/common/common-components.module';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from '../test-centre-journal.actions';
-import { TestCentreDetailResponse } from '../../../shared/models/test-centre-journal.model';
+import { TestCentre, TestCentreDetailResponse } from '../../../shared/models/test-centre-journal.model';
 import { LogType } from '../../../shared/models/log.model';
 import { BasePageComponent } from '../../../shared/classes/base-page';
 import { ErrorTypes } from '../../../shared/models/error-message';
-import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
+import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 
 describe('TestCenterJournalPage', () => {
   let component: TestCentreJournalPage;
@@ -149,6 +149,18 @@ describe('TestCenterJournalPage', () => {
       expect(component.testCentreResults).toEqual(null);
       expect(component.showSearchSpinner).toEqual(false);
       expect(component['mapError']).toHaveBeenCalled();
+    });
+  });
+  describe('get testCentreNames', () => {
+    it('should concatenate all test centre names into a single string', () => {
+      component.testCentreResults = {
+        testCentres: [
+          { name: 'Centre A' },
+          { name: 'Centre B' },
+          { name: 'Centre C' },
+        ] as TestCentre[],
+      } as TestCentreDetailResponse;
+      expect(component.testCentreNames).toEqual('Centre A, Centre B, Centre C');
     });
   });
 });

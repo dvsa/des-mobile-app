@@ -32,7 +32,14 @@
     </ion-refresher-content>
   </ion-refresher>
 
-  <journal-navigation></journal-navigation>
+  <journal-navigation
+          [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
+          [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
+          [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
+          [selectedDate]="pageState.selectedDate$ | async"
+          (previousDayClicked)="onPreviousDayClick()"
+          (nextDayClicked)="onNextDayClick()"
+  ></journal-navigation>
 
   <ion-list>
     <ng-template #slotContainer></ng-template>

@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { get } from 'lodash';
 
 export const getTodayAsIsoDate = () => new Date().toISOString().split('T')[0];
 
@@ -26,4 +27,13 @@ export const getPreviousWorkingDayAsIsoDate = () => {
     previousWorkingDay = previousWorkingDay.add(-1, 'day');
   }
   return previousWorkingDay.toISOString().split('T')[0];
+};
+
+export const inNext2Days = <T>(section: T): boolean => {
+  const slotDate: string = get(section, 'slotDetail.start', '');
+
+  const today: boolean = moment(slotDate).isSame(moment(), 'day');
+  const tomorrow: boolean = moment(slotDate).isSame(moment().add(1, 'day'), 'day');
+
+  return today || tomorrow;
 };

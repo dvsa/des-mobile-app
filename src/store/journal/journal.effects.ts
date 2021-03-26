@@ -11,7 +11,6 @@ import { of, Observable, interval } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 // import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { Store, select, Action } from '@ngrx/store';
-import { groupBy } from 'lodash';
 import * as journalActions from './journal.actions';
 import { JournalProvider } from '../../app/providers/journal/journal';
 import { StoreModel } from '../../app/shared/models/store.model';
@@ -32,7 +31,6 @@ import { AuthenticationProvider } from '../../app/providers/authentication/authe
 import { DateTimeProvider } from '../../app/providers/date-time/date-time';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 
-import { SlotItem } from '../../app/providers/slot-selector/slot-item';
 import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { LogHelper } from '../../app/providers/logs/logs-helper';
@@ -93,7 +91,7 @@ export class JournalEffects {
             })),
             map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
               examiner: examinerSlotItems.examiner,
-              slotItemsByDate: this.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
+              slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
             })),
             map((slotItemsByDate: ExaminerSlotItemsByDate) => journalActions.LoadJournalSuccess({
               payload: slotItemsByDate,
@@ -128,14 +126,6 @@ export class JournalEffects {
           );
       }),
     );
-  };
-
-  private getRelevantSlotItemsByDate = (slotItems: SlotItem[]): { [date: string]: SlotItem[] } => {
-    let slotItemsByDate: { [date: string]: SlotItem[] };
-    slotItemsByDate = groupBy(slotItems, this.slotProvider.getSlotDate);
-    slotItemsByDate = this.slotProvider.extendWithEmptyDays(slotItemsByDate);
-    slotItemsByDate = this.slotProvider.getRelevantSlots(slotItemsByDate);
-    return slotItemsByDate;
   };
 
   journal$ = createEffect(() => this.actions$.pipe(

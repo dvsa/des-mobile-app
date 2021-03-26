@@ -76,6 +76,9 @@ export class TestOutcomeComponent implements OnInit {
   @Input()
   category: TestCategory;
 
+  @Input()
+  showTestActionButton: boolean = true;
+
   // modal: Modal;
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;

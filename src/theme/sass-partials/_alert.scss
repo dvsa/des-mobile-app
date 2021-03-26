@@ -34,6 +34,10 @@
   .alert-head, .alert-message {
     display: none;
   }
+  .sc-ion-alert-ios, .sc-ion-alert-md {
+    background-color: var(--gds-grey-5);
+    color: var(--dark);
+  }
   div.alert-radio-group {
     // Ensure the buttons in the radio group occupy all available space
     max-height: 100%;

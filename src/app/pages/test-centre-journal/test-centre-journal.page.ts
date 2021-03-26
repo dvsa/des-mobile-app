@@ -10,7 +10,8 @@ import {
 } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import {
-  catchError, finalize,
+  catchError,
+  finalize,
   map,
   takeUntil,
   tap,
@@ -20,7 +21,7 @@ import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { TestCentreJournalProvider } from '../../providers/test-centre-journal/test-centre-journal';
-import { TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
+import { TestCentre, TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
 import { StoreModel } from '../../shared/models/store.model';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
 import { Log, LogType } from '../../shared/models/log.model';
@@ -49,6 +50,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   pageState: TestCentreJournalPageState;
   testCentreResults: TestCentreDetailResponse = null;
   merged$: Observable<boolean>;
+  manuallyRefreshed: boolean = false;
   isOffline: boolean;
   hasSearched: boolean = false;
   showSearchSpinner: boolean = false;
@@ -90,9 +92,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.merged$.pipe(takeUntil(this.destroy$)).subscribe();
   }
 
-  ionViewWillEnter(): void {
+  async ionViewWillEnter(): Promise<void> {
     super.ionViewWillEnter();
-    this.getTestCentreData();
+    await this.getTestCentreData();
   }
 
   ionViewDidEnter(): void {
@@ -105,8 +107,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.destroy$.complete();
   }
 
-  getTestCentreData = async (): Promise<void> => {
+  getTestCentreData = async (manualRefresh: boolean = false): Promise<void> => {
     this.subscription.unsubscribe();
+    this.manuallyRefreshed = manualRefresh;
     this.store$.dispatch(TestCentreJournalGetData());
     if (this.isOffline) {
       this.setOfflineError();
@@ -167,5 +170,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.showSearchSpinner = false;
     this.mapError(ErrorTypes.TEST_CENTRE_OFFLINE);
   };
+
+  get testCentreNames(): string {
+    return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
+  }
 
 }

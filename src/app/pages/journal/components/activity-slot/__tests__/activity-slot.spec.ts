@@ -5,6 +5,7 @@ import { MockComponent } from 'ng-mocks';
 import { ConfigMock } from 'ionic-mocks';
 import { configureTestSuite } from 'ng-bullet';
 import { NonTestActivity } from '@dvsa/mes-journal-schema';
+import { CommonModule } from '@angular/common';
 import { ActivitySlotComponent } from '../activity-slot';
 import { AppConfigProvider } from '../../../../../providers/app-config/app-config';
 import { AppConfigProviderMock } from '../../../../../providers/app-config/__mocks__/app-config.mock';
@@ -26,7 +27,7 @@ describe('ActivitySlotComponent', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
-      imports: [IonicModule],
+      imports: [IonicModule, CommonModule],
     });
   });
 

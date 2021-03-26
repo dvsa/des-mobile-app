@@ -2,26 +2,37 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <h5 id="previous-day-container" *ngIf="pageState.canNavigateToPreviousDay$ | async" class="navigation-button" (click)="onPreviousDayClick()">
+        <h5 id="previous-day-container" *ngIf="canNavigateToPreviousDay"
+            class="navigation-button"
+            (click)="onPreviousDayClick()">
           <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
-          <span id="previous-day">Previous day</span>
+          <span id="previous-day">{{previousDayLabel}}</span>
         </h5>
       </ion-col>
       <ion-col>
         <div id="date-container">
-          <div *ngIf="pageState.isSelectedDateToday$ | async; else notToday">
+          <div *ngIf="isSelectedDateToday; else notToday">
             <h1>Today</h1>
-            <h3>{{ pageState.selectedDate$ | async | date:'EEEE d MMMM y' }}</h3>
+            <h3>{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
           </div>
           <ng-template #notToday>
-            <h1>{{ pageState.selectedDate$ | async | date:'EEEE' }}</h1>
-            <h3>{{ pageState.selectedDate$ | async | date:'d MMMM y' }}</h3>
+            <div *ngIf="fromTestCentreJournal; else journalView">
+              <h1>Tomorrow</h1>
+              <h3>{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+            </div>
+            <ng-template #journalView>
+              <h1>{{ selectedDate | date:'EEEE' }}</h1>
+              <h3>{{ selectedDate | date:'d MMMM y' }}</h3>
+            </ng-template>
           </ng-template>
         </div>
       </ion-col>
       <ion-col>
-        <h5 id="next-day-container" *ngIf="pageState.canNavigateToNextDay$ | async" class="next-navigation-button" (click)="onNextDayClick()">
-          <span id="next-day">Next day</span>
+        <h5 id="next-day-container"
+            *ngIf="canNavigateToNextDay"
+            class="next-navigation-button"
+            (click)="onNextDayClick()">
+          <span id="next-day">{{nextDayLabel}}</span>
           <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
         </h5>
       </ion-col>

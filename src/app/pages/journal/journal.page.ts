@@ -15,23 +15,18 @@ import { map, switchMap } from 'rxjs/operators';
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Router } from '@angular/router';
 import {
-  ActivityCode,
   SearchResultTestSchema,
 } from '@dvsa/mes-search-schema';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
-import { isEmpty } from 'lodash';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import * as journalActions from '../../../store/journal/journal.actions';
 import { StoreModel } from '../../shared/models/store.model';
 import {
   getError, getIsLoading, getSelectedDate, getLastRefreshed,
-  getLastRefreshedTime, getSlotsOnSelectedDate, // getCompletedTests,
+  getLastRefreshedTime, getSlotsOnSelectedDate, canNavigateToPreviousDay, canNavigateToNextDay, // getCompletedTests,
 } from '../../../store/journal/journal.selector';
 import { getJournalState } from '../../../store/journal/journal.reducer';
 import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
-import { SlotComponent } from '../../../components/test-slot/slot/slot';
 import { SlotItem } from '../../providers/slot-selector/slot-item';
 import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
 import { DateTimeProvider } from '../../providers/date-time/date-time';
@@ -40,15 +35,11 @@ import { ErrorTypes } from '../../shared/models/error-message';
 // import { DeviceProvider } from '../../providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
-import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 // import { IncompleteTestsBanner } from '../../components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { DateTime } from '../../shared/helpers/date-time';
 import { MesError } from '../../shared/models/mes-error.model';
-import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { AppComponent } from '../../app.component';
-import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 import { ErrorPage } from '../error-page/error';
-import { PersonalCommitmentSlotComponent } from './components/personal-commitment/personal-commitment';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 
 interface JournalPageState {
@@ -61,6 +52,10 @@ interface JournalPageState {
   loadingSpinner$: Observable<HTMLIonLoadingElement>;
   // completedTests$: Observable<SearchResultTestSchema[]>;
   isOffline$: Observable<boolean>;
+
+  canNavigateToPreviousDay$: Observable<boolean>;
+  canNavigateToNextDay$: Observable<boolean>;
+  isSelectedDateToday$: Observable<boolean>;
 }
 
 @Component({
@@ -96,7 +91,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public router: Router,
     private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
-    private resolver: ComponentFactoryResolver,
     public dateTimeProvider: DateTimeProvider,
     public appConfigProvider: AppConfigProvider,
     private app: AppComponent,
@@ -138,6 +132,19 @@ export class JournalPage extends BasePageComponent implements OnInit {
       appVersion$: this.store$.select(selectVersionNumber),
       loadingSpinner$: from(this.loadingController.create({ spinner: 'circles' })),
       isOffline$: this.networkStateProvider.isOffline$,
+      canNavigateToPreviousDay$: this.store$.pipe(
+        select(getJournalState),
+        map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now())),
+      ),
+      canNavigateToNextDay$: this.store$.pipe(
+        select(getJournalState),
+        map(canNavigateToNextDay),
+      ),
+      isSelectedDateToday$: this.store$.pipe(
+        select(getJournalState),
+        map(getSelectedDate),
+        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD')),
+      ),
       // completedTests$: this.store$.pipe(
       //   select(getJournalState),
       //   select(getCompletedTests),
@@ -247,65 +254,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
     });
   };
 
-  /**
-   * Returns the activity code if the test has been completed already
-   * Returns null if test hasn't been completed yet
-   */
-  hasSlotBeenTested(slotData: TestSlot): ActivityCode | null {
-    if (isEmpty(this.completedTests)) {
-      return null;
-    }
-
-    const applicationReference: ApplicationReference = {
-      applicationId: slotData.booking.application.applicationId,
-      bookingSequence: slotData.booking.application.bookingSequence,
-      checkDigit: slotData.booking.application.checkDigit,
-    };
-
-    const completedTest = this.completedTests.find((compTest) => {
-      return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
-    });
-
-    return completedTest ? completedTest.activityCode : null;
-  }
-
   private createSlots = (emission: SlotItem[]) => {
-    // Clear any dynamically created slots before adding the latest
-    this.slotContainer.clear();
-
-    if (!Array.isArray(emission)) return;
-
-    if (emission.length === 0) return;
-
-    const slots = this.slotSelector.getSlotTypes(emission);
-
-    let lastLocation;
-    for (const slot of slots) {
-      const factory = this.resolver.resolveComponentFactory(slot.component);
-      const componentRef = this.slotContainer.createComponent(factory);
-
-      (<SlotComponent>componentRef.instance).slot = slot.slotData;
-      (<SlotComponent>componentRef.instance).hasSlotChanged = slot.hasSlotChanged;
-      (<SlotComponent>componentRef.instance).showLocation = (slot.slotData.testCentre.centreName !== lastLocation);
-      lastLocation = slot.slotData.testCentre.centreName;
-
-      if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
-        // if this is a personal commitment assign it to the component
-        (<PersonalCommitmentSlotComponent>componentRef.instance).personalCommitments = slot.personalCommitment;
-      }
-
-      if (componentRef.instance instanceof TestSlotComponent) {
-        const activityCode = this.hasSlotBeenTested(slot.slotData as TestSlot);
-
-        if (activityCode) {
-          (<TestSlotComponent>componentRef.instance).derivedActivityCode = activityCode;
-          (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
-        }
-
-        // if this is a test slot assign hasSeenCandidateDetails separately
-        (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
-      }
-    }
+    this.slotSelector.createSlots(this.slotContainer, emission, this.completedTests);
   };
 
   public pullRefreshJournal = (refresher: IonRefresher) => {
@@ -320,5 +270,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
   async logout() {
     this.store$.dispatch(journalActions.UnloadJournal());
     await super.logout();
+  }
+
+  onPreviousDayClick(): void {
+    this.store$.dispatch(journalActions.SelectPreviousDay());
+  }
+
+  onNextDayClick(): void {
+    this.store$.dispatch(journalActions.SelectNextDay());
   }
 }

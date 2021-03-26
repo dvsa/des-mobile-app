@@ -1,0 +1,62 @@
+<test-centre-name [testCentre]="testCentreName"></test-centre-name>
+
+<ion-row>
+    <ion-col class="component-label" size="3">
+        <label>Examiner:</label>
+    </ion-col>
+    <ion-col class="component-value" size="9">
+        <ion-select [interfaceOptions]="interfaceOptions"
+                    #examinerSelect
+                    (ionChange)="examinerChanged($event.target.value)"
+                    okText="Select"
+                    cancelText="Cancel"
+                    class="select-text"
+                    placeholder="Select examiner">
+            <ion-select-option *ngFor="let examiner of testCentreResults?.examiners"
+                               [value]="examiner.staffNumber">
+                {{examiner.name}}
+            </ion-select-option>
+        </ion-select>
+    </ion-col>
+</ion-row>
+
+<ion-row class="mes-full-width-card">
+    <ion-button mode="ios"
+                class="mes-primary-button full-width"
+                (click)="onShowJournalClick()"
+                [disabled]="!hasSelectedExaminer">
+        <h3>Show journal</h3>
+    </ion-button>
+</ion-row>
+
+<section *ngIf="hasSelectedExaminer">
+    <div *ngIf="journal; else noJournal">
+        <journal-navigation *ngIf="hasClickedShowJournal"
+                            [fromTestCentreJournal]="true"
+                            [canNavigateToNextDay]="canNavigateToNextDay()"
+                            [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
+                            [isSelectedDateToday]="isSelectedDateToday()"
+                            [selectedDate]="currentSelectedDate"
+                            (previousDayClicked)="onPreviousDayClick()"
+                            (nextDayClicked)="onNextDayClick()">
+        </journal-navigation>
+
+        <div class="no-results" *ngIf="shouldShowBanner()">
+            <p class="no-results-text">
+                {{warningText}}
+            </p>
+        </div>
+
+        <ion-list>
+            <ng-template #slotContainer></ng-template>
+        </ion-list>
+    </div>
+
+    <ng-template #noJournal>
+        <div class="no-results" *ngIf="hasClickedShowJournal">
+            <p class="no-results-text">
+                This examiner does not have any journal information to display
+            </p>
+        </div>
+    </ng-template>
+</section>

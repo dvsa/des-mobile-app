@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CandidateSearchCardComponent } from '../candidate-search-card';
 import { ComponentsModule } from '../../../../../../components/common/common-components.module';
 import { TestCentreDetailResponse } from '../../../../../shared/models/test-centre-journal.model';
+import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
 
 describe('CandidateSearchCardComponent', () => {
   let component: CandidateSearchCardComponent;
@@ -17,6 +18,7 @@ describe('CandidateSearchCardComponent', () => {
         IonicModule,
         CommonModule,
         ComponentsModule,
+        TestCentreJournalComponentsModule,
       ],
     });
   });

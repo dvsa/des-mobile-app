@@ -1,68 +1,51 @@
-import { Component, OnInit } from '@angular/core';
 import {
-  Store,
-  select,
-} from '@ngrx/store';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { StoreModel } from '../../../../shared/models/store.model';
-import { getJournalState } from '../../../../../store/journal/journal.reducer';
-import {
-  canNavigateToNextDay,
-  canNavigateToPreviousDay,
-  getSelectedDate,
-} from '../../../../../store/journal/journal.selector';
-import { DateTimeProvider } from '../../../../providers/date-time/date-time';
-import * as journalActions from '../../../../../store/journal/journal.actions';
-
-interface JournalNavigationPageState {
-  selectedDate$: Observable<string>;
-  canNavigateToPreviousDay$: Observable<boolean>;
-  canNavigateToNextDay$: Observable<boolean>;
-  isSelectedDateToday$: Observable<boolean>;
-}
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'journal-navigation',
   templateUrl: 'journal-navigation.html',
   styleUrls: ['journal-navigation.scss'],
 })
-export class JournalNavigationComponent implements OnInit {
+export class JournalNavigationComponent {
 
-  pageState: JournalNavigationPageState;
+  @Input()
+  fromTestCentreJournal: boolean = false;
 
-  constructor(
-    private store$: Store<StoreModel>,
-    private dateTimeProvider: DateTimeProvider,
-  ) {}
+  @Input()
+  canNavigateToPreviousDay: boolean;
 
-  ngOnInit(): void {
-    this.pageState = {
-      selectedDate$: this.store$.pipe(
-        select(getJournalState),
-        map(getSelectedDate),
-      ),
-      canNavigateToPreviousDay$: this.store$.pipe(
-        select(getJournalState),
-        map((journal) => canNavigateToPreviousDay(journal, this.dateTimeProvider.now())),
-      ),
-      canNavigateToNextDay$: this.store$.pipe(
-        select(getJournalState),
-        map(canNavigateToNextDay),
-      ),
-      isSelectedDateToday$: this.store$.pipe(
-        select(getJournalState),
-        map(getSelectedDate),
-        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD')),
-      ),
-    };
-  }
+  @Input()
+  canNavigateToNextDay: boolean;
+
+  @Input()
+  isSelectedDateToday: boolean;
+
+  @Input()
+  selectedDate: string;
+
+  @Output()
+  previousDayClicked = new EventEmitter();
+
+  @Output()
+  nextDayClicked = new EventEmitter();
 
   onPreviousDayClick(): void {
-    this.store$.dispatch(journalActions.SelectPreviousDay());
+    this.previousDayClicked.emit();
   }
 
   onNextDayClick(): void {
-    this.store$.dispatch(journalActions.SelectNextDay());
+    this.nextDayClicked.emit();
+  }
+
+  get nextDayLabel(): string {
+    return this.fromTestCentreJournal ? 'Tomorrow' : 'Next day';
+  }
+
+  get previousDayLabel(): string {
+    return this.fromTestCentreJournal ? 'Today' : 'Previous day';
   }
 }
