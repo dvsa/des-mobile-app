@@ -139,7 +139,10 @@ export class SlotSelectorProvider {
       (<SlotComponent>componentRef.instance).showLocation = (slot.slotData.testCentre.centreName !== lastLocation);
       lastLocation = slot.slotData.testCentre.centreName;
 
-      if (isTeamJournal) (<SlotComponent>componentRef.instance).isTeamJournal = isTeamJournal;
+      if (isTeamJournal) {
+        (<SlotComponent>componentRef.instance).isTeamJournal = isTeamJournal;
+        (<SlotComponent>componentRef.instance).showLocation = false;
+      }
 
       if (componentRef.instance instanceof PersonalCommitmentSlotComponent) {
         // if this is a personal commitment assign it to the component
