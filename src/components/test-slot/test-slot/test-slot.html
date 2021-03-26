@@ -62,7 +62,7 @@
       </ion-row>
       <ion-row class="slot-footer" [ngClass]="{'vehicle-details-displayed': showVehicleDetails()}" align-items-center>
         <ion-col class="progressive-access-col">
-          <date *ngIf="delegatedTest || teamJournalCandidateResult" id="del-ex-date" [date]="slot.slotDetail.start">
+          <date *ngIf="delegatedTest" id="del-ex-date" [date]="slot.slotDetail.start">
           </date>
           <progressive-access align-items-center [progressiveAccess]="slot.booking.application.progressiveAccess">
           </progressive-access>

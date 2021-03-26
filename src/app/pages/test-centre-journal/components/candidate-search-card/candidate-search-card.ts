@@ -7,7 +7,7 @@ import { isEqual } from 'lodash';
 import { Examiner, TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 
-type CandidateData = {
+export type CandidateData = {
   name: string,
   slot: TestSlot,
 };
@@ -49,12 +49,6 @@ export class CandidateSearchCardComponent {
     return extractedData;
   };
 
-  ngOnChanges() {
-    if (this.testCentreResults && this.testCentreResults.examiners) {
-      this.createCandidateSlots(this.testCentreResults.examiners, this.selectedCandidateName);
-    }
-  }
-
   createCandidateSlots(examinersData: Examiner[], candidateName: string): void {
     this.candidateTestSlots = [];
     examinersData.forEach((examiner) => {
@@ -85,14 +79,13 @@ export class CandidateSearchCardComponent {
   getCandidateName = (candidate: Candidate): string =>
     `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`;
 
-  onCandidateDidChange(candidate: any): void {
+  onCandidateDidChange(candidate: CandidateData): void {
     this.shouldShowCandidateResults = false;
     const isValidCandidate: boolean = !!(candidate && candidate.name);
     this.enableShowBookingButton = isValidCandidate;
     if (isValidCandidate) {
       this.selectedCandidateName = candidate.name;
       this.createCandidateSlots(this.testCentreResults.examiners, this.selectedCandidateName);
-      this.selectedCandidateName = candidate.name;
     }
   }
 
