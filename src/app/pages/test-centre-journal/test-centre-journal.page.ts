@@ -16,6 +16,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Candidate } from '@dvsa/mes-journal-schema';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
@@ -36,7 +37,6 @@ import { ErrorTypes } from '../../shared/models/error-message';
 // import { SlotItem } from '../../providers/slot-selector/slot-item';
 // import { SlotComponent } from '../../../components/test-slot/slot/slot';
 // import { PersonalCommitmentSlotComponent } from '../journal/components/personal-commitment/personal-commitment';
-import { SlotSelectorProvider } from '../../providers/slot-selector/slot-selector';
 import { CandidateTestSlot } from './models/candidate-test-slot';
 
 interface TestCentreJournalPageState {
@@ -62,6 +62,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   errorMessage: string = null;
   private destroy$ = new Subject<{}>();
   candidateTestSlots: CandidateTestSlot[] = [];
+  enableShowCandidateBooking: boolean = false;
+  shouldShowCandidateResults: boolean = false;
+  selectedCandidateName: string;
 
   constructor(
     public platform: Platform,
@@ -128,13 +131,14 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
         tap(() => { this.hasSearched = true; }),
         map((results: TestCentreDetailResponse) => {
           this.testCentreResults = results;
-          if (results && results.examiners) {
-            this.getCandidateSLotsArray(results.examiners);
-          }
+          // if (results && results.examiners) {
+          //   this.getCandidateSlotsArray(results.examiners);
+          // }
           this.showSearchSpinner = false;
           this.didError = false;
         }),
         catchError((err: HttpErrorResponse) => {
+          console.log(err)
           const log: Log = this.logHelper.createLog(
             LogType.ERROR,
             'Getting test centre journal',
@@ -177,16 +181,35 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.mapError(ErrorTypes.TEST_CENTRE_OFFLINE);
   };
 
-  private getCandidateSLotsArray(examinersData: Examiner[]): void {
+  private getCandidateSlotsArray(examinersData: Examiner[], candidateName: string): void {
+    this.candidateTestSlots = [];
     examinersData.forEach((examiner) => {
       if (examiner.journal && examiner.journal.testSlots && examiner.journal.testSlots.length > 0) {
         examiner.journal.testSlots.forEach((testSlot) => {
-          this.candidateTestSlots.push({
-            slot: testSlot,
-            examinerName: examiner.name,
-          });
+          if (this.getCandidateName(testSlot.booking.candidate) === candidateName) {
+            this.candidateTestSlots.push({
+              slot: testSlot,
+              examinerName: examiner.name,
+            });
+          }
         });
       }
     });
   }
+
+  getCandidateName = (candidate: Candidate): string =>
+    `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`;
+
+  onCandidateDidChange(candidate: any): void {
+    this.shouldShowCandidateResults = false;
+    if (candidate && candidate.name) {
+      this.selectedCandidateName = candidate.name;
+    }
+  }
+
+  showResults(shouldShowResults): void {
+    this.getCandidateSlotsArray(this.testCentreResults.examiners, this.selectedCandidateName);
+    this.shouldShowCandidateResults = shouldShowResults;
+  }
+
 }

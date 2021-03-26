@@ -28,13 +28,19 @@
     <div class="search-inputs">
       <tabs>
         <tab [tabTitle]="'Candidate search'">
-          <candidate-search-card [testCentreResults]="this.testCentreResults"></candidate-search-card>
+          <candidate-search-card
+                  [testCentreResults]="this.testCentreResults"
+                  (onCandidateChange)="onCandidateDidChange($event)"
+                  (onShowResultsClick)="showResults($event)"
+          ></candidate-search-card>
+            <candidate-search-results [slots]="candidateTestSlots" [candidateName]="selectedCandidateName"
+                                      *ngIf="candidateTestSlots && candidateTestSlots.length>0 && shouldShowCandidateResults">
+            </candidate-search-results>
         </tab>
       </tabs>
+
     </div>
-      <candidate-search-results [slots]="candidateTestSlots"
-                                *ngIf="candidateTestSlots && candidateTestSlots.length>0">
-      </candidate-search-results>
+
   </ng-template>
 
 

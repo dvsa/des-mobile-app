@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
 
@@ -15,6 +15,14 @@ type CandidateData = {
 export class CandidateSearchCardComponent {
 
   @Input() testCentreResults: TestCentreDetailResponse;
+
+  @Output()
+  onCandidateChange = new EventEmitter<string>();
+
+  @Output()
+  onShowResultsClick = new EventEmitter<boolean>();
+
+  enableShowBookingButton: boolean = false;
 
   getCandidateList = (): CandidateData[] => {
     if (!this.testCentreResults) {
@@ -34,5 +42,11 @@ export class CandidateSearchCardComponent {
 
     return extractedData;
   };
+
+  onCandidateDidChange(candidateName: any) {
+    console.log(candidateName);
+    this.enableShowBookingButton = !!candidateName;
+    this.onCandidateChange.emit(candidateName);
+  }
 
 }

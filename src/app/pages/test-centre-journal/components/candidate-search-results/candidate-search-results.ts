@@ -10,12 +10,21 @@ import { CandidateTestSlot } from '../../models/candidate-test-slot';
 export class CandidateSearchResultsComponent implements OnInit {
   @Input()
   slots: CandidateTestSlot[];
+  @Input()
+  candidateName: string;
   today: Date = new Date();
   tomorrow: Date;
   todaySlots: CandidateTestSlot[];
   tomorrowSlots: CandidateTestSlot[];
 
   ngOnInit() {
+  }
+
+  ngOnChanges() {
+    this.updateSlots();
+  }
+
+  updateSlots(): void {
     this.tomorrow = new Date(this.today.getTime() + (24 * 60 * 60 * 1000));
     this.todaySlots = this.slots.filter((candidateTestSlot) => {
       return isEqual(candidateTestSlot.slot.slotDetail.start.substr(0, 10), this.today.toISOString().substr(0, 10));

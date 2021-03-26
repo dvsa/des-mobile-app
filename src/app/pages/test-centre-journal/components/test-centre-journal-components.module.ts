@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { CandidateSearchCardComponent } from './candidate-search-card/candidate-search-card';
 import { CandidateSearchResultsComponent } from './candidate-search-results/candidate-search-results';
 import { ComponentsModule } from '../../../../components/common/common-components.module';
+import { TestSlotComponentsModule } from '../../../../components/test-slot/test-slot-components.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ComponentsModule } from '../../../../components/common/common-component
     IonicModule,
     CommonModule,
     ComponentsModule,
+    TestSlotComponentsModule
   ],
   exports: [
     CandidateSearchCardComponent,

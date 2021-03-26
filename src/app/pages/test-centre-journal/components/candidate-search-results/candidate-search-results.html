@@ -1,3 +1,4 @@
+<!--TODAY'S SLOTS-->
 <div>
     <ion-grid>
         <ion-row>
@@ -8,6 +9,11 @@
         </ion-row>
     </ion-grid>
 </div>
+<div>
+    <h2 *ngIf="!todaySlots || todaySlots.length === 0 " class="ion-padding-top ion-text-center">
+        {{candidateName}} does not have a test today.
+    </h2>
+</div>
 <ion-list *ngFor="let candidateSlot of todaySlots">
     <test-slot
             [slot]="candidateSlot.slot"
@@ -16,6 +22,7 @@
     ></test-slot>
 </ion-list>
 
+<!--TOMORROW'S SLOTS-->
 <div>
     <ion-grid>
         <ion-row>
@@ -25,6 +32,11 @@
             </ion-col>
         </ion-row>
     </ion-grid>
+</div>
+<div>
+    <h2 *ngIf="!tomorrowSlots || tomorrowSlots.length === 0" class="ion-padding-top ion-text-center">
+        {{candidateName}} does not have a test tomorrow.
+    </h2>
 </div>
 <ion-list *ngFor="let candidateSlot of tomorrowSlots">
     <test-slot
