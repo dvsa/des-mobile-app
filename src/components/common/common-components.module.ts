@@ -10,8 +10,8 @@ import { ErrorMessageComponent } from './error-message/error-message';
 import { OfflineBannerComponent } from './offline-banner/offline-banner';
 import { TabComponent } from './tab/tab';
 import { TabsComponent } from './tabs/tabs';
-import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
+import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
 
 @NgModule({
   declarations: [
@@ -39,8 +39,8 @@ import { WarningBannerComponent } from './warning-banner/warning-banner';
     OfflineBannerComponent,
     TabComponent,
     TabsComponent,
-    TypeaheadDropdownComponent,
     WarningBannerComponent,
+    TypeaheadDropdownComponent,
   ],
 })
 export class ComponentsModule { }

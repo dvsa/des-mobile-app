@@ -27,13 +27,15 @@ export class CandidateSearchCardComponent {
     const extractedData: CandidateData[] = [];
 
     this.testCentreResults.examiners.forEach((examiner) => {
-      examiner.journal?.testSlots.forEach((testSlot) => {
-        const { candidate } = testSlot.booking;
-        extractedData.push({
-          name: `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`,
-          slot: testSlot,
+      examiner.journal?.testSlots
+        .filter((testSlot) => testSlot?.booking?.candidate)
+        .forEach((testSlot) => {
+          const { candidate } = testSlot.booking;
+          extractedData.push({
+            name: `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`,
+            slot: testSlot,
+          });
         });
-      });
     });
 
     return extractedData;

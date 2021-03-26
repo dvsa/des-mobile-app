@@ -40,7 +40,11 @@
                             (nextDayClicked)="onNextDayClick()">
         </journal-navigation>
 
-        <warning-banner *ngIf="shouldShowBanner()" [warningText]="warningText"></warning-banner>
+        <div class="no-results" *ngIf="shouldShowBanner()">
+            <p class="error-text">
+                {{warningText}}
+            </p>
+        </div>
 
         <ion-list>
             <ng-template #slotContainer></ng-template>

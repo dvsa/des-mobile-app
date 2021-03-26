@@ -23,8 +23,8 @@ import { TestCentre, TestCentreDetailResponse } from '../../../shared/models/tes
 import { LogType } from '../../../shared/models/log.model';
 import { BasePageComponent } from '../../../shared/classes/base-page';
 import { ErrorTypes } from '../../../shared/models/error-message';
-import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
+import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 
 describe('TestCenterJournalPage', () => {
   let component: TestCentreJournalPage;
