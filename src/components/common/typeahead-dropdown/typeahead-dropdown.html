@@ -1,5 +1,6 @@
 <input id="typeahead-prevent-manual-entry"  type="text" class="full-width-input"
        [(ngModel)]="model"
+       (ngModelChange)="onModelChanged($event)"
        [ngbTypeahead]="search"
        [inputFormatter]="formatter"
        [resultFormatter]="formatter"

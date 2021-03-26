@@ -26,13 +26,14 @@
 
     <ng-template #noError>
         <div class="search-inputs" *ngIf="testCentreResults">
-            <tabs>
-                <tab [tabTitle]="'Candidate search'">
-                    <candidate-search-card
-                            [testCentreName]="testCentreNames"
-                            [testCentreResults]="testCentreResults"></candidate-search-card>
-                </tab>
-                <tab [tabTitle]="'View Journals'">
+      <tabs>
+        <tab [tabTitle]="'Candidate search'">
+          <candidate-search-card
+                 [testCentreName]="testCentreNames"
+                            [testCentreResults]="testCentreResults">
+          </candidate-search-card>
+        </tab>
+      <tab [tabTitle]="'View Journals'">
                     <view-journals-card
                             [testCentreName]="testCentreNames"
                             [manuallyRefreshed]="manuallyRefreshed"

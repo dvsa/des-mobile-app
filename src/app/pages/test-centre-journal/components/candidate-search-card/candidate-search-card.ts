@@ -1,8 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
+import {
+  Component,
+  Input,
+} from '@angular/core';
+import { Candidate, TestSlot } from '@dvsa/mes-journal-schema';
+import { isEqual } from 'lodash';
+import { Examiner, TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
+import { CandidateTestSlot } from '../../models/candidate-test-slot';
 
-type CandidateData = {
+export type CandidateData = {
   name: string,
   slot: TestSlot,
 };
@@ -19,6 +24,15 @@ export class CandidateSearchCardComponent {
 
   @Input()
   testCentreName: string;
+
+  today: Date = new Date();
+  tomorrow: Date;
+  candidateTestSlots: CandidateTestSlot[] = [];
+  todaySlots: CandidateTestSlot[];
+  tomorrowSlots: CandidateTestSlot[];
+  shouldShowCandidateResults: boolean;
+  selectedCandidateName: string;
+  enableShowBookingButton: boolean = false;
 
   getCandidateList = (): CandidateData[] => {
     if (!this.testCentreResults) {
@@ -40,5 +54,49 @@ export class CandidateSearchCardComponent {
 
     return extractedData;
   };
+
+  createCandidateSlots(examinersData: Examiner[], candidateName: string): void {
+    this.candidateTestSlots = [];
+    examinersData.forEach((examiner) => {
+      if (examiner.journal && examiner.journal.testSlots && examiner.journal.testSlots.length > 0) {
+        examiner.journal.testSlots.forEach((testSlot) => {
+          if (this.getCandidateName(testSlot.booking.candidate) === candidateName) {
+            this.candidateTestSlots.push({
+              slot: testSlot,
+              examinerName: examiner.name,
+            });
+          }
+        });
+      }
+    });
+    this.createTodayTomorrowSlots();
+  }
+
+  createTodayTomorrowSlots(): void {
+    this.tomorrow = new Date(this.today.getTime() + (24 * 60 * 60 * 1000));
+    this.todaySlots = this.candidateTestSlots.filter((candidateTestSlot) => {
+      return isEqual(candidateTestSlot.slot.slotDetail.start.substr(0, 10), this.today.toISOString().substr(0, 10));
+    });
+    this.tomorrowSlots = this.candidateTestSlots.filter((candidateTestSlot) => {
+      return isEqual(candidateTestSlot.slot.slotDetail.start.substr(0, 10), this.tomorrow.toISOString().substr(0, 10));
+    });
+  }
+
+  getCandidateName = (candidate: Candidate): string =>
+    `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`;
+
+  onCandidateDidChange(candidate: CandidateData): void {
+    this.shouldShowCandidateResults = false;
+    const isValidCandidate: boolean = !!(candidate && candidate.name);
+    this.enableShowBookingButton = isValidCandidate;
+    if (isValidCandidate) {
+      this.selectedCandidateName = candidate.name;
+      this.createCandidateSlots(this.testCentreResults.examiners, this.selectedCandidateName);
+    }
+  }
+
+  showResults(): void {
+    this.shouldShowCandidateResults = true;
+  }
 
 }
