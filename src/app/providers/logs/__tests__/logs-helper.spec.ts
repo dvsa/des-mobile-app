@@ -21,7 +21,7 @@ describe('LogHelper', () => {
         }),
       ],
       providers: [
-        { provide: Device, useClass: DeviceMock },
+        { provide: Device, useValue: DeviceMock },
         LogHelper,
         Store,
       ],
