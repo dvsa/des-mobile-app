@@ -13,7 +13,7 @@ import { TestSlotComponentsModule } from '../../../../components/test-slot/test-
     IonicModule,
     CommonModule,
     ComponentsModule,
-    TestSlotComponentsModule
+    TestSlotComponentsModule,
   ],
   exports: [
     CandidateSearchCardComponent,

@@ -2,7 +2,9 @@ import { Observable } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, filter, map,
 } from 'rxjs/operators';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter,
+} from '@angular/core';
 
 @Component({
   selector: 'typeahead-dropdown',

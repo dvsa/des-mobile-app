@@ -7,7 +7,7 @@
   </ion-col>
 </ion-row>
 <ion-row>
-  <ion-col size="3" class="component-row">
+  <ion-col size="3" class="component-label">
     <label>Candidate Name:</label>
   </ion-col>
   <ion-col size="9" class="component-row">
@@ -38,9 +38,9 @@
     </ion-grid>
   </div>
   <div>
-    <h2 *ngIf="!todaySlots || todaySlots.length === 0 " class="ion-padding-top ion-text-center">
+    <p *ngIf="!todaySlots || todaySlots.length === 0 " class="ion-padding-top ion-text-center no-results">
       {{selectedCandidateName}} does not have a test today.
-    </h2>
+    </p>
   </div>
   <ion-list *ngFor="let candidateSlot of todaySlots">
     <test-slot
@@ -61,10 +61,10 @@
       </ion-row>
     </ion-grid>
   </div>
-  <div>
-    <h2 *ngIf="!tomorrowSlots || tomorrowSlots.length === 0" class="ion-padding-top ion-text-center">
+  <div class="no-results">
+    <p *ngIf="!tomorrowSlots || tomorrowSlots.length === 0" class="ion-padding-top ion-text-center no-results">
       {{selectedCandidateName}} does not have a test tomorrow.
-    </h2>
+    </p>
   </div>
   <ion-list *ngFor="let candidateSlot of tomorrowSlots">
     <test-slot

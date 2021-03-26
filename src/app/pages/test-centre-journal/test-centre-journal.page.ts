@@ -16,12 +16,11 @@ import {
   tap,
 } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Candidate } from '@dvsa/mes-journal-schema';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
 import { TestCentreJournalProvider } from '../../providers/test-centre-journal/test-centre-journal';
-import { TestCentreDetailResponse, Examiner } from '../../shared/models/test-centre-journal.model';
+import { TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
 import { StoreModel } from '../../shared/models/store.model';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
 import { Log, LogType } from '../../shared/models/log.model';
