@@ -50,6 +50,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   pageState: TestCentreJournalPageState;
   testCentreResults: TestCentreDetailResponse = null;
   merged$: Observable<boolean>;
+  manuallyRefreshed: boolean = false;
   isOffline: boolean;
   hasSearched: boolean = false;
   showSearchSpinner: boolean = false;
@@ -106,8 +107,9 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.destroy$.complete();
   }
 
-  getTestCentreData = async (): Promise<void> => {
+  getTestCentreData = async (manualRefresh: boolean = false): Promise<void> => {
     this.subscription.unsubscribe();
+    this.manuallyRefreshed = manualRefresh;
     this.store$.dispatch(TestCentreJournalGetData());
     if (this.isOffline) {
       this.setOfflineError();

@@ -1,8 +1,10 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, IonSelect } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { CommonModule } from '@angular/common';
+import { ViewContainerRef } from '@angular/core';
+
 import { ViewJournalsCardComponent } from '../view-journals-card';
 import { TestCentreDetailResponse } from '../../../../../shared/models/test-centre-journal.model';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
@@ -45,6 +47,37 @@ describe('ViewJournalsCardComponent', () => {
   }));
 
   describe('Class', () => {
+    describe('ngOnChanges', () => {
+      beforeEach(() => {
+        spyOn(component, 'onManualRefresh');
+      });
+      it('should not run onManualRefresh when manuallyRefreshed is false', () => {
+        component.manuallyRefreshed = false;
+        component.ngOnChanges();
+        expect(component.onManualRefresh).not.toHaveBeenCalled();
+      });
+      it('should run onManualRefresh when manuallyRefreshed is true', () => {
+        component.manuallyRefreshed = true;
+        component.ngOnChanges();
+        expect(component.onManualRefresh).toHaveBeenCalled();
+      });
+    });
+    describe('onManualRefresh', () => {
+      it('should reset page state', () => {
+        component.slotContainer = { clear: () => {} } as ViewContainerRef;
+        spyOn(component.slotContainer, 'clear');
+        component.examinerSelect = {
+          value: 'something',
+        } as IonSelect;
+        component.onManualRefresh();
+        expect(component.journal).toEqual(null);
+        expect(component.examinerName).toEqual(null);
+        expect(component.hasSelectedExaminer).toEqual(false);
+        expect(component.hasClickedShowJournal).toEqual(false);
+        expect(component.examinerSelect.value).toEqual(null);
+        expect(component.slotContainer.clear).toHaveBeenCalled();
+      });
+    });
     describe('interfaceOptions', () => {
       it('should return config for ion-select', () => {
         expect(component.interfaceOptions).toEqual({

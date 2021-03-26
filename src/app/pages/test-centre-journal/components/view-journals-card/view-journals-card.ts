@@ -1,6 +1,6 @@
 import {
   Component,
-  Input,
+  Input, OnChanges,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -8,6 +8,7 @@ import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+import { IonSelect } from '@ionic/angular';
 
 import { TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '../../../../../store/journal/journal.model';
@@ -21,15 +22,20 @@ import { DateTime, Duration } from '../../../../shared/helpers/date-time';
   templateUrl: 'view-journals-card.html',
   styleUrls: ['./view-journals-card.scss'],
 })
-export class ViewJournalsCardComponent {
+export class ViewJournalsCardComponent implements OnChanges {
 
   @ViewChild('slotContainer', { read: ViewContainerRef }) slotContainer;
+
+  @ViewChild('examinerSelect') examinerSelect: IonSelect;
 
   @Input()
   testCentreResults: TestCentreDetailResponse;
 
   @Input()
   testCentreName: string;
+
+  @Input()
+  manuallyRefreshed: boolean;
 
   hasSelectedExaminer: boolean = false;
   hasClickedShowJournal: boolean = false;
@@ -47,6 +53,12 @@ export class ViewJournalsCardComponent {
   ) {
   }
 
+  ngOnChanges(): void {
+    if (this.manuallyRefreshed) {
+      this.onManualRefresh();
+    }
+  }
+
   get interfaceOptions() {
     return {
       cssClass: 'mes-select',
@@ -57,7 +69,20 @@ export class ViewJournalsCardComponent {
     };
   }
 
+  onManualRefresh = (): void => {
+    this.journal = null;
+    this.examinerName = null;
+    this.hasSelectedExaminer = false;
+    this.hasClickedShowJournal = false;
+    if (this.examinerSelect) {
+      this.examinerSelect.value = null;
+    }
+    this.slotContainer?.clear();
+  };
+
   examinerChanged = (staffNumber: string): void => {
+    if (!staffNumber) return;
+
     const {
       journal,
       name,

@@ -6,6 +6,7 @@
     </ion-col>
     <ion-col class="component-value" size="9">
         <ion-select [interfaceOptions]="interfaceOptions"
+                    #examinerSelect
                     (ionChange)="examinerChanged($event.target.value)"
                     okText="Select"
                     cancelText="Cancel"
