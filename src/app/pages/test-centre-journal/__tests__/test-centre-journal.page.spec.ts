@@ -19,7 +19,7 @@ import { LogHelper } from '../../../providers/logs/logs-helper';
 import { StoreModel } from '../../../shared/models/store.model';
 import { ComponentsModule } from '../../../../components/common/common-components.module';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from '../test-centre-journal.actions';
-import { TestCentreDetailResponse } from '../../../shared/models/test-centre-journal.model';
+import { TestCentre, TestCentreDetailResponse } from '../../../shared/models/test-centre-journal.model';
 import { LogType } from '../../../shared/models/log.model';
 import { BasePageComponent } from '../../../shared/classes/base-page';
 import { ErrorTypes } from '../../../shared/models/error-message';
@@ -149,6 +149,18 @@ describe('TestCenterJournalPage', () => {
       expect(component.testCentreResults).toEqual(null);
       expect(component.showSearchSpinner).toEqual(false);
       expect(component['mapError']).toHaveBeenCalled();
+    });
+  });
+  describe('get testCentreNames', () => {
+    it('should concatenate all test centre names into a single string', () => {
+      component.testCentreResults = {
+        testCentres: [
+          { name: 'Centre A' },
+          { name: 'Centre B' },
+          { name: 'Centre C' },
+        ] as TestCentre[],
+      } as TestCentreDetailResponse;
+      expect(component.testCentreNames).toEqual('Centre A, Centre B, Centre C');
     });
   });
 });
