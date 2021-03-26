@@ -40,7 +40,7 @@
                             (nextDayClicked)="onNextDayClick()">
         </journal-navigation>
 
-        <div class="no-results" *ngIf="shouldShowBanner()">
+        <div class="no-results-text" *ngIf="shouldShowBanner()">
             <p class="error-text">
                 {{warningText}}
             </p>
@@ -52,7 +52,7 @@
     </div>
 
     <ng-template #noJournal>
-        <div class="no-results" *ngIf="hasClickedShowJournal">
+        <div class="no-results-text" *ngIf="hasClickedShowJournal">
             <p class="error-text">
                 This examiner does not have any journal information to display
             </p>
