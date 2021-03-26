@@ -29,22 +29,13 @@
       <tabs>
         <tab [tabTitle]="'Candidate search'">
           <candidate-search-card
-                  [testCentreResults]="this.testCentreResults"
-                  (onCandidateChange)="onCandidateDidChange($event)"
-                  (onShowResultsClick)="showResults($event)"
-          ></candidate-search-card>
-            <candidate-search-results [slots]="candidateTestSlots" [candidateName]="selectedCandidateName"
-                                      *ngIf="candidateTestSlots && candidateTestSlots.length>0 && shouldShowCandidateResults">
-            </candidate-search-results>
+                  [testCentreResults]="this.testCentreResults">
+          </candidate-search-card>
         </tab>
       </tabs>
 
     </div>
 
   </ng-template>
-
-
-
-
 
 </ion-content>

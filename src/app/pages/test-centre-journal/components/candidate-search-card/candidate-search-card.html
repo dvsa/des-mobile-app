@@ -21,6 +21,57 @@
 </ion-row>
 <ion-row class="mes-full-width-card">
   <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton">
-    <h3 (click)="onShowResultsClick.emit(true)">Show booking</h3>
+    <h3 (click)="showResults()">Show booking</h3>
   </ion-button>
 </ion-row>
+
+<section *ngIf="shouldShowCandidateResults">
+  <!--TODAY'S SLOTS-->
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <h1>Today</h1>
+          <h3>{{today | date: 'EEEE d MMMM y'}}</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div>
+    <h2 *ngIf="!todaySlots || todaySlots.length === 0 " class="ion-padding-top ion-text-center">
+      {{selectedCandidateName}} does not have a test today.
+    </h2>
+  </div>
+  <ion-list *ngFor="let candidateSlot of todaySlots">
+    <test-slot
+            [slot]="candidateSlot.slot"
+            [teamJournalCandidateResult]="true"
+            [examinerName]="candidateSlot.examinerName"
+    ></test-slot>
+  </ion-list>
+
+  <!--TOMORROW'S SLOTS-->
+  <div>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <h1>Tomorrow</h1>
+          <h3>{{tomorrow | date: 'EEEE d MMMM y'}}</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div>
+    <h2 *ngIf="!tomorrowSlots || tomorrowSlots.length === 0" class="ion-padding-top ion-text-center">
+      {{selectedCandidateName}} does not have a test tomorrow.
+    </h2>
+  </div>
+  <ion-list *ngFor="let candidateSlot of tomorrowSlots">
+    <test-slot
+            [slot]="candidateSlot.slot"
+            [teamJournalCandidateResult]="true"
+            [examinerName]="candidateSlot.examinerName"
+    ></test-slot>
+  </ion-list>
+
+</section>

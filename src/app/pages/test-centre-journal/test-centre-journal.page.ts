@@ -138,7 +138,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
           this.didError = false;
         }),
         catchError((err: HttpErrorResponse) => {
-          console.log(err)
+          console.log(err);
           const log: Log = this.logHelper.createLog(
             LogType.ERROR,
             'Getting test centre journal',
@@ -180,36 +180,4 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.showSearchSpinner = false;
     this.mapError(ErrorTypes.TEST_CENTRE_OFFLINE);
   };
-
-  private getCandidateSlotsArray(examinersData: Examiner[], candidateName: string): void {
-    this.candidateTestSlots = [];
-    examinersData.forEach((examiner) => {
-      if (examiner.journal && examiner.journal.testSlots && examiner.journal.testSlots.length > 0) {
-        examiner.journal.testSlots.forEach((testSlot) => {
-          if (this.getCandidateName(testSlot.booking.candidate) === candidateName) {
-            this.candidateTestSlots.push({
-              slot: testSlot,
-              examinerName: examiner.name,
-            });
-          }
-        });
-      }
-    });
-  }
-
-  getCandidateName = (candidate: Candidate): string =>
-    `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`;
-
-  onCandidateDidChange(candidate: any): void {
-    this.shouldShowCandidateResults = false;
-    if (candidate && candidate.name) {
-      this.selectedCandidateName = candidate.name;
-    }
-  }
-
-  showResults(shouldShowResults): void {
-    this.getCandidateSlotsArray(this.testCentreResults.examiners, this.selectedCandidateName);
-    this.shouldShowCandidateResults = shouldShowResults;
-  }
-
 }
