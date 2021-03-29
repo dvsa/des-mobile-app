@@ -1,12 +1,11 @@
 import {
-  Component,
-  Input, OnChanges, ViewChild,
+  Component, Input, OnChanges, ViewChild,
 } from '@angular/core';
 import { Candidate, TestSlot } from '@dvsa/mes-journal-schema';
-import { isEqual } from 'lodash';
 import { Examiner, TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 import { TypeaheadDropdownComponent } from '../../../../../components/common/typeahead-dropdown/typeahead-dropdown';
+import { DateTime, Duration } from '../../../../shared/helpers/date-time';
 
 export type CandidateData = {
   name: string,
@@ -31,8 +30,8 @@ export class CandidateSearchCardComponent implements OnChanges {
   @Input()
   testCentreName: string;
 
-  today: Date = new Date();
-  tomorrow: Date;
+  today: DateTime = new DateTime();
+  tomorrow: DateTime = new DateTime().add(1, Duration.DAY);
   candidateTestSlots: CandidateTestSlot[] = [];
   todaySlots: CandidateTestSlot[];
   tomorrowSlots: CandidateTestSlot[];
@@ -71,28 +70,32 @@ export class CandidateSearchCardComponent implements OnChanges {
     this.candidateTestSlots = [];
     examinersData.forEach((examiner) => {
       if (examiner.journal && examiner.journal.testSlots && examiner.journal.testSlots.length > 0) {
-        examiner.journal.testSlots.forEach((testSlot) => {
-          if (this.getCandidateName(testSlot.booking.candidate) === candidateName) {
-            this.candidateTestSlots.push({
-              slot: testSlot,
-              examinerName: examiner.name,
-            });
-          }
-        });
+        examiner.journal?.testSlots
+          .filter((testSlot) => testSlot?.booking?.candidate)
+          .forEach((testSlot) => {
+            const { candidate } = testSlot.booking;
+            if (this.getCandidateName(candidate) === candidateName) {
+              this.candidateTestSlots.push({
+                slot: testSlot,
+                examinerName: examiner.name,
+              });
+            }
+          });
       }
     });
     this.createTodayTomorrowSlots();
   }
 
   createTodayTomorrowSlots(): void {
-    this.tomorrow = new Date(this.today.getTime() + (24 * 60 * 60 * 1000));
-    this.todaySlots = this.candidateTestSlots.filter((candidateTestSlot) => {
-      return isEqual(candidateTestSlot.slot.slotDetail.start.substr(0, 10), this.today.toISOString().substr(0, 10));
-    });
-    this.tomorrowSlots = this.candidateTestSlots.filter((candidateTestSlot) => {
-      return isEqual(candidateTestSlot.slot.slotDetail.start.substr(0, 10), this.tomorrow.toISOString().substr(0, 10));
-    });
+    this.todaySlots = this.filterTestSlotsByDay(this.today);
+    this.tomorrowSlots = this.filterTestSlotsByDay(this.tomorrow);
   }
+
+  private filterTestSlotsByDay = (dateTime: DateTime): CandidateTestSlot[] => {
+    return this.candidateTestSlots.filter((candidateTestSlot: CandidateTestSlot) => {
+      return DateTime.at(candidateTestSlot.slot.slotDetail.start).daysDiff(dateTime) === 0;
+    });
+  };
 
   getCandidateName = (candidate: Candidate): string =>
     `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`;

@@ -21,7 +21,7 @@ export class TypeaheadDropdownComponent {
   property: string;
 
   @Output()
-  candidateChange = new EventEmitter<string>();
+  candidateChange = new EventEmitter();
 
   formatter = (state: object) => state[this.property];
 

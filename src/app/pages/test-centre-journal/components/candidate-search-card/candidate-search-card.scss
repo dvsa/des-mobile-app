@@ -5,27 +5,13 @@
   }
 }
 
-.component-row {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
 .component-label {
-  padding-top: 20px;
+  padding-top: 12px;
   width: 33%;
 }
 
 ion-list, section {
   background-color: var(--ion-background-color);
-}
-
-.no-results {
-  margin-top: 24px;
-  margin-bottom: 24px;
-  p.error-text {
-    margin: 4px 0;
-    text-align: center;
-  }
 }
 
 section {

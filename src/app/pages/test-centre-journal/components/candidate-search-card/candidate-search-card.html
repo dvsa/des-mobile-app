@@ -4,18 +4,17 @@
   <ion-col size="3" class="component-label">
     <label>Candidate Name:</label>
   </ion-col>
-  <ion-col size="9" class="component-row">
+  <ion-col size="9">
     <typeahead-dropdown #typeAhead
             [listValues]="getCandidateList()"
             [property]="'name'"
             (candidateChange)="onCandidateDidChange($event)"
-
     ></typeahead-dropdown>
   </ion-col>
 </ion-row>
 <ion-row class="mes-full-width-card">
-  <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton">
-    <h3 (click)="showResults()">Show booking</h3>
+  <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton" (click)="showResults()">
+    <h3>Show booking</h3>
   </ion-button>
 </ion-row>
 
