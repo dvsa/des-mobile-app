@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import {
   SearchResultTestSchema,
 } from '@dvsa/mes-search-schema';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { BasePageComponent } from '../../shared/classes/base-page';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
 import * as journalActions from '../../../store/journal/journal.actions';
@@ -39,7 +40,6 @@ import { MesError } from '../../shared/models/mes-error.model';
 import { AppComponent } from '../../app.component';
 import { ErrorPage } from '../error-page/error';
 import { NetworkStateProvider } from '../../providers/network-state/network-state';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
