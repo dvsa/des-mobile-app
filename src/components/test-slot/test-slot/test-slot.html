@@ -44,8 +44,12 @@
             </ion-row>
           </ion-grid>
         </ion-col>
-        <ion-col class="test-outcome-col">
-          <test-outcome
+        <ion-col class="test-outcome-col" [class.team-journal-examiner-name]="isTeamJournal">
+
+          <examiner-name *ngIf="teamJournalCandidateResult"
+          [examinerName]="examinerName"></examiner-name>
+
+          <test-outcome *ngIf="!teamJournalCandidateResult"
             class="align-center"
             [slotDetail]="slot.slotDetail"
             [canStartTest]="canStartTest()"

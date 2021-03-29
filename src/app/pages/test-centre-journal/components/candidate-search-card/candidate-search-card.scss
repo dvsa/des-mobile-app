@@ -1,11 +1,22 @@
 .mes-full-width-card {
-  padding: 24px 32px;
+  padding: 20px 0 0 0;
   .full-width {
     width: 100%;
   }
 }
 
-.component-row {
-  padding-top: 10px;
-  padding-bottom: 10px;
+.component-label {
+  padding-top: 12px;
+  width: 33%;
+}
+
+ion-list, section {
+  background-color: var(--ion-background-color);
+}
+
+section {
+  width: 95%;
+  height: 100%;
+  margin-top: 22px;
+  position: absolute;
 }

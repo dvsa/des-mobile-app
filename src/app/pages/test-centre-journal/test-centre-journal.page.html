@@ -30,7 +30,10 @@
                 <tab [tabTitle]="'Candidate search'">
                     <candidate-search-card
                             [testCentreName]="testCentreNames"
-                            [testCentreResults]="testCentreResults"></candidate-search-card>
+                            [testCentreResults]="testCentreResults"
+                            [manuallyRefreshed]="manuallyRefreshed"
+                    >
+                    </candidate-search-card>
                 </tab>
                 <tab [tabTitle]="'View Journals'">
                     <view-journals-card

@@ -2,7 +2,9 @@ import { Observable } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, filter, map,
 } from 'rxjs/operators';
-import { Component, Input } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter,
+} from '@angular/core';
 
 @Component({
   selector: 'typeahead-dropdown',
@@ -18,6 +20,9 @@ export class TypeaheadDropdownComponent {
   @Input()
   property: string;
 
+  @Output()
+  candidateChange = new EventEmitter();
+
   formatter = (state: object) => state[this.property];
 
   search = (text$: Observable<string>) => text$.pipe(
@@ -26,5 +31,13 @@ export class TypeaheadDropdownComponent {
     filter((term) => term.length >= 3),
     map((term) => this.listValues.filter((state) => new RegExp(term, 'mi').test(state[this.property])).slice(0, 10)),
   );
+
+  onModelChanged(value) {
+    this.candidateChange.emit(value);
+  }
+
+  clearInput() {
+    this.model = null;
+  }
 
 }

@@ -6,6 +6,7 @@ import { TestCentreNameComponent } from './test-centre-name/test-centre-name';
 import { ViewJournalsCardComponent } from './view-journals-card/view-journals-card';
 import { JournalComponentsModule } from '../../journal/components/journal-components.module';
 import { ComponentsModule } from '../../../../components/common/common-components.module';
+import { TestSlotComponentsModule } from '../../../../components/test-slot/test-slot-components.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ComponentsModule } from '../../../../components/common/common-component
     CommonModule,
     JournalComponentsModule,
     ComponentsModule,
+    TestSlotComponentsModule,
   ],
   exports: [
     CandidateSearchCardComponent,
