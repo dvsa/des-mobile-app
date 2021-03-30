@@ -7,6 +7,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
+import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 
 import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
@@ -91,6 +92,7 @@ if (enableRehydrationPlugin) {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     SplashScreen,
+    MobileAccessibility,
     AppVersion,
     AppConfigProvider,
     AuthenticationProvider,

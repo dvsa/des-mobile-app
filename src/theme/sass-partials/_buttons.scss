@@ -8,12 +8,13 @@
   --outline: none;
   h3 {
     color: var(--mes-white);
-    /* TODO: reinstate classes when working on text accessibility for iPad
+
     .text-zoom-regular &,
     .text-zoom-large &,
-    .text-zoom-x-large & { */
+    .text-zoom-x-large & {
       line-height: 2em;
-    // }
+    }
+
     min-height: 44px;
     padding-top: 1px
   }
@@ -28,11 +29,13 @@
   height: initial;
   h3 {
     color: var(--mes-white);
-    /* .text-zoom-regular &,
+
+    .text-zoom-regular &,
     .text-zoom-large &,
-    .text-zoom-x-large & { */
+    .text-zoom-x-large & {
       line-height: 2em;
-    // }
+    }
+
     min-height: 44px;
     padding-top: 1px
   }
@@ -46,16 +49,19 @@
   outline: none;
   border: none;
   height: initial;
+
   &.activated {
-    background:  var(--gds-grey-1);
+    background: var(--gds-grey-1);
   }
   h3 {
-    color : var(--mes-black);
-    /* .text-zoom-regular &,
+    color: var(--mes-black);
+
+    .text-zoom-regular &,
     .text-zoom-large &,
-    .text-zoom-x-large & { */
+    .text-zoom-x-large & {
       line-height: 2em;
-    // }
+    }
+
     min-height: 44px;
     padding-top: 1px
   }
@@ -87,7 +93,7 @@
   margin: 0 0.2rem;
   line-height: 2.6rem;
   &.activated {
-    background:  var(--gds-grey-1);
+    background: var(--gds-grey-1);
   }
 }
 
@@ -121,7 +127,7 @@
   width: 100%;
   height: 56px;
   &.activated, &:active {
-    background:  var(--gds-grey-2);
+    background: var(--gds-grey-2);
   }
   h3 {
     color: var(--gds-black);
@@ -232,14 +238,14 @@
   margin: 0 0.2rem;
   height: initial;
   --outline: none;
+
   h3 {
     color: var(--mes-white);
-    /* TODO: reinstate classes when working on text accessibility for iPad
     .text-zoom-regular &,
     .text-zoom-large &,
-    .text-zoom-x-large & { */
-    line-height: 2em;
-    // }
+    .text-zoom-x-large & {
+      line-height: 2em;
+    }
     min-height: 44px;
     padding-top: 1px
   }
