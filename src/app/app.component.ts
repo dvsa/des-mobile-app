@@ -24,7 +24,6 @@ declare let window: any;
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   textZoom: number = 100;
-  increasedContrast: boolean = false;
   logoutEnabled$: Observable<boolean>;
 
   private platformSubscription: Subscription;
@@ -113,9 +112,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   configureAccessibility = (): void => {
     window.MobileAccessibility.updateTextZoom();
     window.MobileAccessibility.getTextZoom(this.getTextZoomCallback);
-    window.MobileAccessibility.isDarkerSystemColorsEnabled(
-      (increasedContrast: boolean) => this.increasedContrast = increasedContrast,
-    );
   };
 
   getTextZoomCallback = (zoomLevel: number): void => {
@@ -133,10 +129,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   public getTextZoomClass(): string {
     return `text-zoom-${this.getTextZoom(this.textZoom)}`;
-  }
-
-  public getIncreasedContrastClass(): string {
-    return this.increasedContrast ? 'increased-contrast' : '';
   }
 
   configureStatusBar = async (): Promise<void> => {
