@@ -24,7 +24,6 @@ declare let window: any;
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   textZoom: number = 100;
-  increasedContrast: boolean = false;
   logoutEnabled$: Observable<boolean>;
 
   private platformSubscription: Subscription;
@@ -52,8 +51,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.store$.dispatch(LoadAppVersion());
     await this.configureStatusBar();
     if (this.platform.is('cordova')) {
-      // @TODO MES-6268 enable this code
-      // this.configureAccessibility();
+      this.configureAccessibility();
       this.configurePlatformSubscriptions();
     }
     await this.disableMenuSwipe();
@@ -114,10 +112,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   configureAccessibility = (): void => {
     window.MobileAccessibility.updateTextZoom();
     window.MobileAccessibility.getTextZoom(this.getTextZoomCallback);
-    window.MobileAccessibility.isDarkerSystemColorsEnabled(
-      // eslint-disable-next-line no-return-assign
-      (increasedContrast: boolean) => this.increasedContrast = increasedContrast,
-    );
   };
 
   getTextZoomCallback = (zoomLevel: number): void => {
