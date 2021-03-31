@@ -1,14 +1,17 @@
-
 import { ETA, Eco, TestData } from '@dvsa/mes-test-schema/categories/common';
 import { Competencies, ExaminerActions } from '../test-data.constants';
-import { OutcomeBehaviourMapProvider } from '../../../../providers/outcome-behaviour-map/outcome-behaviour-map';
-import { VehicleChecksQuestion } from '../../../../providers/question/vehicle-checks-question.model';
+import { VehicleChecksQuestion } from '../../../../app/providers/question/vehicle-checks-question.model';
+import { OutcomeBehaviourMapProvider } from '../../../../app/providers/outcome-behaviour-map/outcome-behaviour-map';
 
 export const hasSeriousFault = (
-  data: TestData, competency: Competencies) => data.seriousFaults[competency];
+  data: TestData,
+  competency: Competencies,
+) => data.seriousFaults[competency];
 
 export const hasDangerousFault = (
-  data: TestData, competency: Competencies) => data.dangerousFaults[competency];
+  data: TestData,
+  competency: Competencies,
+) => data.dangerousFaults[competency];
 
 export const getTestRequirements = (data: TestData) => data.testRequirements;
 
@@ -39,7 +42,8 @@ export const getEcoFaultText = (data: Eco) => {
 export const getShowMeQuestionOptions = (
   questions: VehicleChecksQuestion[],
   outcome: string,
-  provider: OutcomeBehaviourMapProvider) => {
+  provider: OutcomeBehaviourMapProvider,
+): VehicleChecksQuestion[] => {
   const filteredQuestions: VehicleChecksQuestion[] = [];
   const showNotApplicable = provider.showNotApplicable(outcome, 'showMeQuestion');
   questions.forEach((value) => {

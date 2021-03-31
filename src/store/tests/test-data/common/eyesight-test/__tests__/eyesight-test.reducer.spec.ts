@@ -12,7 +12,7 @@ describe('Eyesight Test Reducer', () => {
   describe('EYESIGHT_TEST_PASSED', () => {
     it('updates the complete status to true', () => {
       const state: EyesightTest = {};
-      const result = eyesightTestReducer(state, new EyesightTestPassed());
+      const result = eyesightTestReducer(state, EyesightTestPassed());
       expect(result.complete).toEqual(true);
     });
 
@@ -21,7 +21,7 @@ describe('Eyesight Test Reducer', () => {
         complete: true,
         seriousFault: true,
       };
-      const result = eyesightTestReducer(state, new EyesightTestPassed());
+      const result = eyesightTestReducer(state, EyesightTestPassed());
       expect(result.complete).toEqual(true);
       expect(result.seriousFault).toEqual(false);
     });
@@ -32,7 +32,7 @@ describe('Eyesight Test Reducer', () => {
       const state: EyesightTest = {
         complete: false,
       };
-      const result = eyesightTestReducer(state, new EyesightTestFailed());
+      const result = eyesightTestReducer(state, EyesightTestFailed());
       expect(result.complete).toBe(true);
       expect(result.seriousFault).toBe(true);
     });
@@ -43,7 +43,7 @@ describe('Eyesight Test Reducer', () => {
       const state: EyesightTest = {
         complete: true,
       };
-      const result = eyesightTestReducer(state, new EyesightTestReset());
+      const result = eyesightTestReducer(state, EyesightTestReset());
       expect(result).toBe(initialState);
     });
   });
@@ -54,7 +54,7 @@ describe('Eyesight Test Reducer', () => {
         complete: true,
         seriousFault: true,
       };
-      const result = eyesightTestReducer(state, new EyesightTestAddComment('Eyesight test comment'));
+      const result = eyesightTestReducer(state, EyesightTestAddComment({ payload: 'Eyesight test comment' }));
       expect(result.faultComments).toEqual('Eyesight test comment');
     });
   });

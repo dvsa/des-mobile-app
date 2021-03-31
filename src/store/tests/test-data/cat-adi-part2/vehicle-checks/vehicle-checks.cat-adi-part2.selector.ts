@@ -5,31 +5,22 @@ import { some } from 'lodash';
 
 export const getSelectedShowMeQuestions = (
   vehicleChecks: CatADI2UniqueTypes.VehicleChecks,
-): QuestionResult[] => {
-  return vehicleChecks.showMeQuestions;
-};
+): QuestionResult[] => vehicleChecks.showMeQuestions;
 
 export const getSelectedTellMeQuestions = (
   vehicleChecks: CatADI2UniqueTypes.VehicleChecks,
-): QuestionResult[] => {
-  return vehicleChecks.tellMeQuestions;
-};
+): QuestionResult[] => vehicleChecks.tellMeQuestions;
 
 export const getVehicleChecksSerious = (
   vehicleChecks: CatADI2UniqueTypes.VehicleChecks,
-): boolean => {
-  return vehicleChecks.seriousFault;
-};
+): boolean => vehicleChecks.seriousFault;
 
 export const getVehicleChecksDangerous = (
   vehicleChecks: CatADI2UniqueTypes.VehicleChecks,
-): boolean => {
-  return vehicleChecks.dangerousFault;
-};
+): boolean => vehicleChecks.dangerousFault;
 
 export const vehicleChecksExist = (vehicleChecks: CatADI2UniqueTypes.VehicleChecks): boolean => {
   return some([... vehicleChecks.tellMeQuestions], fault => fault.outcome != null);
 };
 
-export const getVehicleChecksCatADI2 =
-  createFeatureSelector<CatADI2UniqueTypes.VehicleChecks>('vehicleChecks');
+export const getVehicleChecksCatADI2 = createFeatureSelector<CatADI2UniqueTypes.VehicleChecks>('vehicleChecks');

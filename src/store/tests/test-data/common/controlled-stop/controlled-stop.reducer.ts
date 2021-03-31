@@ -1,50 +1,39 @@
-import { ControlledStopUnion } from '../../../../../shared/unions/test-schema-unions';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as controlledStopActions from './controlled-stop.actions';
-import { CompetencyOutcome } from '../../../../../shared/models/competency-outcome';
-import { createFeatureSelector } from '@ngrx/store';
+import { ControlledStopUnion } from '../../../../../app/shared/unions/test-schema-unions';
+import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 export const initialState: ControlledStopUnion = {};
 
-export function controlledStopReducer(
-  state = initialState,
-  action: controlledStopActions.Types,
-): ControlledStopUnion {
-  switch (action.type) {
-    case controlledStopActions.TOGGLE_CONTROLLED_STOP:
-      return {
-        ...state,
-        selected: !state.selected,
-      };
-    case controlledStopActions.CONTROLLED_STOP_ADD_DRIVING_FAULT:
-      return {
-        ...state,
-        fault: CompetencyOutcome.DF,
-        selected: true,
-      };
-    case controlledStopActions.CONTROLLED_STOP_ADD_SERIOUS_FAULT:
-      return {
-        ...state,
-        fault: CompetencyOutcome.S,
-        selected: true,
-      };
-    case controlledStopActions.CONTROLLED_STOP_ADD_DANGEROUS_FAULT:
-      return {
-        ...state,
-        fault: CompetencyOutcome.D,
-        selected: true,
-      };
-    case controlledStopActions.CONTROLLED_STOP_REMOVE_FAULT:
-      return {
-        selected: state.selected,
-      };
-    case controlledStopActions.ADD_CONTROLLED_STOP_COMMENT:
-      return {
-        ...state,
-        faultComments: action.comment,
-      };
-    default:
-      return state;
-  }
-}
+export const controlledStopReducer = createReducer(
+  initialState,
+  on(controlledStopActions.ToggleControlledStop, (state): ControlledStopUnion => ({
+    ...state,
+    selected: !state.selected,
+  })),
+  on(controlledStopActions.ControlledStopAddDrivingFault, (state): ControlledStopUnion => ({
+    ...state,
+    fault: CompetencyOutcome.DF,
+    selected: true,
+  })),
+  on(controlledStopActions.ControlledStopAddSeriousFault, (state): ControlledStopUnion => ({
+    ...state,
+    fault: CompetencyOutcome.S,
+    selected: true,
+  })),
+  on(controlledStopActions.ControlledStopAddDangerousFault, (state): ControlledStopUnion => ({
+    ...state,
+    fault: CompetencyOutcome.D,
+    selected: true,
+  })),
+  on(controlledStopActions.AddControlledStopComment, (state): ControlledStopUnion => ({
+    ...state,
+    selected: state.selected,
+  })),
+  on(controlledStopActions.AddControlledStopComment, (state, { payload }): ControlledStopUnion => ({
+    ...state,
+    faultComments: payload,
+  })),
+);
 
 export const getControlledStop = createFeatureSelector<ControlledStopUnion>('controlledStop');

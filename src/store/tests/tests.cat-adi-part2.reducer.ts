@@ -17,6 +17,7 @@ import { changeMarkerReducer } from './change-marker/change-marker.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { journalDataCatADIPart2Reducer } from './journal-data/cat-adi-part2/journal-data.cat-adi-part2.reducer';
 import { nullReducer } from '../../app/shared/classes/null.reducer';
+import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
 import { testDataCatADI2Reducer } from './test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import {
   vehicleDetailsCatADIPart2Reducer
@@ -24,7 +25,6 @@ import {
 import {
   trainerDetailsCatADIPart2Reducer,
 } from './trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.reducer';
-import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
 
 export function testsCatADIPart2Reducer(
   action: Action,

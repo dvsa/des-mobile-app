@@ -1,44 +1,32 @@
-import { HighwayCodeSafetyUnion } from '../../../../../shared/unions/test-schema-unions';
-
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as highwayCodeSafetyActions from './highway-code-safety.actions';
-import { createFeatureSelector } from '@ngrx/store';
+import { HighwayCodeSafetyUnion } from '../../../../../app/shared/unions/test-schema-unions';
 
 export const initialState: HighwayCodeSafetyUnion = {};
 
-export function highwayCodeSafetyReducer(
-  state = initialState,
-  action: highwayCodeSafetyActions.Types,
-): HighwayCodeSafetyUnion {
-  switch (action.type) {
-    case highwayCodeSafetyActions.TOGGLE_HIGHWAYCODE_SAFETY:
-      return {
-        ...state,
-        selected: !state.selected,
-      };
-    case highwayCodeSafetyActions.HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT:
-      return {
-        ...state,
-        drivingFault: true,
-        selected: true,
-      };
-    case highwayCodeSafetyActions.HIGHWAY_CODE_SAFETY_ADD_SERIOUS_FAULT:
-      return {
-        ...state,
-        seriousFault: true,
-        selected: true,
-      };
-    case highwayCodeSafetyActions.HIGHWAY_CODE_SAFETY_REMOVE_FAULT:
-      return {
-        selected: state.selected,
-      };
-    case highwayCodeSafetyActions.ADD_HIGHWAY_CODE_SAFETY_COMMENT:
-      return {
-        ...state,
-        faultComments: action.comment,
-      };
-    default:
-      return state;
-  }
-}
+export const highwayCodeSafetyReducer = createReducer(
+  initialState,
+  on(highwayCodeSafetyActions.ToggleHighwayCodeSafety, (state): HighwayCodeSafetyUnion => ({
+    ...state,
+    selected: !state.selected,
+  })),
+  on(highwayCodeSafetyActions.HighwayCodeSafetyAddDrivingFault, (state): HighwayCodeSafetyUnion => ({
+    ...state,
+    drivingFault: true,
+    selected: true,
+  })),
+  on(highwayCodeSafetyActions.HighwayCodeSafetyAddSeriousFault, (state): HighwayCodeSafetyUnion => ({
+    ...state,
+    seriousFault: true,
+    selected: true,
+  })),
+  on(highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault, (state): HighwayCodeSafetyUnion => ({
+    selected: state.selected,
+  })),
+  on(highwayCodeSafetyActions.HighwayCodeSafetyAddComment, (state, { payload }): HighwayCodeSafetyUnion => ({
+    ...state,
+    faultComments: payload,
+  })),
+);
 
 export const getHighwayCodeSafety = createFeatureSelector<HighwayCodeSafetyUnion>('highwayCodeSafety');

@@ -1,26 +1,17 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 import { Competencies } from '../../test-data.constants';
 
-export const ADD_SERIOUS_FAULT = '[Competency] Add Serious Fault';
-export const REMOVE_SERIOUS_FAULT = '[Competency] Remove Serious Fault';
-export const ADD_SERIOUS_FAULT_COMMENT = '[Office] Add Serious Fault Comment';
+export const AddSeriousFault = createAction(
+  '[Competency] Add Serious Fault',
+  props<{ payload: Competencies }>()
+);
 
-export class AddSeriousFault implements Action {
-  constructor(public payload: Competencies) { }
-  readonly type = ADD_SERIOUS_FAULT;
-}
+export const RemoveSeriousFault = createAction(
+  '[Competency] Remove Serious Fault',
+  props<{ payload: Competencies }>()
+);
 
-export class RemoveSeriousFault implements Action {
-  constructor(public payload: Competencies) { }
-  readonly type = REMOVE_SERIOUS_FAULT;
-}
-
-export class AddSeriousFaultComment implements Action {
-  constructor(public competencyName: string, public comment: string) { }
-  readonly type = ADD_SERIOUS_FAULT_COMMENT;
-}
-
-export type Types =
-  | AddSeriousFault
-  | RemoveSeriousFault
-  | AddSeriousFaultComment;
+export const AddSeriousFaultComment = createAction(
+  '[Office] Add Serious Fault Comment',
+  props<{ competencyName: string, comment: string }>()
+);

@@ -1,35 +1,28 @@
 import { DrivingFaults } from '@dvsa/mes-test-schema/categories/common';
+import { createReducer, on } from '@ngrx/store';
+import { omit } from 'lodash';
 import * as drivingFaultsActions from './driving-faults.actions';
 
 export const initialState: DrivingFaults = {};
 
-export function drivingFaultsReducer(
-  state = initialState,
-  action: drivingFaultsActions.Types,
-): DrivingFaults {
-  switch (action.type) {
-    case drivingFaultsActions.ADD_DRIVING_FAULT:
-      return {
-        ...state,
-        [action.payload.competency]: action.payload.newFaultCount,
-      };
-    case drivingFaultsActions.REMOVE_DRIVING_FAULT:
-      if (action.payload.newFaultCount === 0) {
-        const { [action.payload.competency]: removedDrivingFault, ...updatedDrivingFaults } = state;
-        return {
-          ...updatedDrivingFaults,
-        };
-      }
-      return {
-        ...state,
-        [action.payload.competency]: action.payload.newFaultCount,
-      };
-    case drivingFaultsActions.ADD_DRIVING_FAULT_COMMENT:
-      return {
-        ...state,
-        [`${action.competencyName}Comments`]: action.comment,
-      };
-    default:
-      return state;
-  }
-}
+export const drivingFaultsReducer = createReducer(
+  initialState,
+  on(drivingFaultsActions.AddDrivingFault, (state, { payload }): DrivingFaults => ({
+    ...state,
+    [payload.competency]: payload.newFaultCount,
+  })),
+  on(drivingFaultsActions.RemoveDrivingFault, (state, { payload }): DrivingFaults => {
+    if (payload.newFaultCount === 0) {
+      // not same as original implementation due to TS error
+      return { ...omit(state, payload.competency) };
+    }
+    return {
+      ...state,
+      [payload.competency]: payload.newFaultCount,
+    };
+  }),
+  on(drivingFaultsActions.AddDrivingFaultComment, (state, { competencyName, comment }): DrivingFaults => ({
+    ...state,
+    [`${competencyName}Comments`]: comment,
+  })),
+);

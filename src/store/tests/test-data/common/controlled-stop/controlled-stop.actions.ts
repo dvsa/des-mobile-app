@@ -1,40 +1,26 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-export const TOGGLE_CONTROLLED_STOP = '[ControlledStop] Toggle Controlled Stop';
-export const CONTROLLED_STOP_ADD_DRIVING_FAULT = '[ControlledStop] Add Driving Fault';
-export const CONTROLLED_STOP_ADD_SERIOUS_FAULT = '[ControlledStop] Add Serious Fault';
-export const CONTROLLED_STOP_ADD_DANGEROUS_FAULT = '[ControlledStop] Add Dangerous Fault';
-export const CONTROLLED_STOP_REMOVE_FAULT = '[ControlledStop] Remove Fault';
-export const ADD_CONTROLLED_STOP_COMMENT = '[ControlledStop] Add Comment';
+export const ToggleControlledStop = createAction(
+  '[ControlledStop] Toggle Controlled Stop',
+);
 
-export class ToggleControlledStop implements Action {
-  readonly type = TOGGLE_CONTROLLED_STOP;
-}
+export const ControlledStopAddDrivingFault = createAction(
+  '[ControlledStop] Add Driving Fault',
+);
 
-export class ControlledStopAddDrivingFault implements Action {
-  readonly type = CONTROLLED_STOP_ADD_DRIVING_FAULT;
-}
-export class ControlledStopAddSeriousFault implements Action {
-  readonly type = CONTROLLED_STOP_ADD_SERIOUS_FAULT;
-}
+export const ControlledStopAddSeriousFault = createAction(
+  '[ControlledStop] Add Serious Fault',
+);
 
-export class ControlledStopAddDangerousFault implements Action {
-  readonly type = CONTROLLED_STOP_ADD_DANGEROUS_FAULT;
-}
+export const ControlledStopAddDangerousFault = createAction(
+  '[ControlledStop] Add Dangerous Fault',
+);
 
-export class ControlledStopRemoveFault implements Action {
-  readonly type = CONTROLLED_STOP_REMOVE_FAULT;
-}
+export const ControlledStopRemoveFault = createAction(
+  '[ControlledStop] Remove Fault',
+);
 
-export class AddControlledStopComment implements Action {
-  readonly type = ADD_CONTROLLED_STOP_COMMENT;
-  constructor(public comment: string) { }
-}
-
-export type Types =
-  | ToggleControlledStop
-  | ControlledStopAddDrivingFault
-  | ControlledStopAddSeriousFault
-  | ControlledStopAddDangerousFault
-  | ControlledStopRemoveFault
-  | AddControlledStopComment;
+export const AddControlledStopComment = createAction(
+  '[ControlledStop] Add Comment',
+  props<{ payload: string }>()
+);

@@ -1,70 +1,52 @@
-import { Action } from '@ngrx/store';
-
+import { createAction, props } from '@ngrx/store';
 import {
   ManoeuvreTypes,
   ManoeuvreCompetencies,
 } from '../../test-data.constants';
-
-import { CompetencyOutcome } from '../../../../../shared/models/competency-outcome';
-
-export const RECORD_MANOEUVRES_SELECTION = '[Manoeuvres] [Cat ADI2] Record Manoeuvres Selection';
-export const RECORD_MANOEUVRES_DESELECTION = '[Manoeuvres] [Cat ADI2] Record Manoeuvre Deselection';
-export const ADD_MANOEUVRE_DRIVING_FAULT = '[Manoeuvres] [Cat ADI2] Add Manoeuvre Driving Fault';
-export const ADD_MANOEUVRE_SERIOUS_FAULT = '[Manoeuvres] [Cat ADI2] Add Manoeuvre Serious Fault';
-export const ADD_MANOEUVRE_DANGEROUS_FAULT = '[Manoeuvres] [Cat ADI2] Add Manoeuvre Dangerous Fault';
-export const ADD_MANOEUVRE_COMMENT = '[Manoeuvres] [Cat ADI2] Add Manoeuvre Comment';
-export const REMOVE_MANOEUVRE_FAULT = '[Manoeuvres] [Cat ADI2] Remove Manoeuvre Fault';
+import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 export interface ManoeuvrePayload {
   manoeuvre: ManoeuvreTypes;
   competency: ManoeuvreCompetencies;
 }
 
-export class RecordManoeuvresDeselection implements Action {
-  constructor(public manoeuvre: ManoeuvreTypes, public index: number) { }
-  readonly type = RECORD_MANOEUVRES_DESELECTION;
-}
+export const RecordManoeuvresDeselection = createAction(
+  '[Manoeuvres] [Cat ADI2] Record Manoeuvre Deselection',
+  props<{ manoeuvre: ManoeuvreTypes, index: number }>()
+);
 
-export class RecordManoeuvresSelection implements Action {
-  constructor(public manoeuvre: ManoeuvreTypes, public index: number) { }
-  readonly type = RECORD_MANOEUVRES_SELECTION;
-}
+export const RecordManoeuvresSelection = createAction(
+  '[Manoeuvres] [Cat ADI2] Record Manoeuvre Selection',
+  props<{ manoeuvre: ManoeuvreTypes, index: number }>()
+);
 
-export class AddManoeuvreDrivingFault implements Action {
-  constructor(public payload: ManoeuvrePayload, public index: number) { }
-  readonly type = ADD_MANOEUVRE_DRIVING_FAULT;
-}
+export const AddManoeuvreDrivingFault = createAction(
+  '[Manoeuvres] [Cat ADI2] Add Manoeuvre Driving Fault',
+  props<{ payload: ManoeuvrePayload, index: number }>()
+);
 
-export class AddManoeuvreSeriousFault implements Action {
-  constructor(public payload: ManoeuvrePayload, public index: number) { }
-  readonly type = ADD_MANOEUVRE_SERIOUS_FAULT;
-}
+export const AddManoeuvreSeriousFault = createAction(
+  '[Manoeuvres] [Cat ADI2] Add Manoeuvre Serious Fault',
+  props<{ payload: ManoeuvrePayload, index: number }>()
+);
 
-export class AddManoeuvreDangerousFault implements Action {
-  constructor(public payload: ManoeuvrePayload, public index: number) { }
-  readonly type = ADD_MANOEUVRE_DANGEROUS_FAULT;
-}
+export const AddManoeuvreDangerousFault = createAction(
+  '[Manoeuvres] [Cat ADI2] Add Manoeuvre Dangerous Fault',
+  props<{ payload: ManoeuvrePayload, index: number }>()
+);
 
-export class AddManoeuvreComment implements Action {
-  constructor(
-    public fieldName: string,
-    public faultType: CompetencyOutcome,
-    public controlOrObservation: string,  // 'Control' | 'Observation',
-    public comment: string,
-    public index: number) { }
-  readonly type = ADD_MANOEUVRE_COMMENT;
-}
+export const AddManoeuvreComment = createAction(
+  '[Manoeuvres] [Cat ADI2] Add Manoeuvre Comment',
+  props<{
+    fieldName: string,
+    faultType: CompetencyOutcome,
+    controlOrObservation: string,
+    comment: string,
+    index: number,
+  }>()
+);
 
-export class RemoveManoeuvreFault implements Action {
-  constructor(public payload: ManoeuvrePayload, public index: number) { }
-  readonly type = REMOVE_MANOEUVRE_FAULT;
-}
-
-export type Types =
-  | RecordManoeuvresDeselection
-  | RecordManoeuvresSelection
-  | AddManoeuvreDrivingFault
-  | AddManoeuvreSeriousFault
-  | AddManoeuvreDangerousFault
-  | AddManoeuvreComment
-  | RemoveManoeuvreFault;
+export const RemoveManoeuvreFault = createAction(
+  '[Manoeuvres] [Cat ADI2] Remove Manoeuvre Fault',
+  props<{ payload: ManoeuvrePayload, index: number }>()
+);

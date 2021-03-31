@@ -1,31 +1,24 @@
 import { EyesightTest } from '@dvsa/mes-test-schema/categories/common';
+import { createReducer, on } from '@ngrx/store';
 import * as eyesightTestActions from './eyesight-test.actions';
 
 export const initialState: EyesightTest = {};
 
-export function eyesightTestReducer(
-  state = initialState,
-  action: eyesightTestActions.Types,
-): EyesightTest {
-  switch (action.type) {
-    case eyesightTestActions.EYESIGHT_TEST_PASSED:
-      return {
-        complete: true,
-        seriousFault: false,
-      };
-    case eyesightTestActions.EYESIGHT_TEST_FAILED:
-      return {
-        complete: true,
-        seriousFault: true,
-      };
-    case eyesightTestActions.EYESIGHT_TEST_RESET:
-      return initialState;
-    case eyesightTestActions.EYESIGHT_TEST_ADD_COMMENT:
-      return {
-        ...state,
-        faultComments: action.comment,
-      };
-    default:
-      return state;
-  }
-}
+export const eyesightTestReducer = createReducer(
+  initialState,
+  on(eyesightTestActions.EyesightTestPassed, (): EyesightTest => ({
+    complete: true,
+    seriousFault: false,
+  })),
+  on(eyesightTestActions.EyesightTestFailed, (): EyesightTest => ({
+    complete: true,
+    seriousFault: true,
+  })),
+  on(eyesightTestActions.EyesightTestReset, (): EyesightTest => ({
+    ...initialState,
+  })),
+  on(eyesightTestActions.EyesightTestAddComment, (state, { payload }): EyesightTest => ({
+    ...state,
+    faultComments: payload,
+  })),
+);
