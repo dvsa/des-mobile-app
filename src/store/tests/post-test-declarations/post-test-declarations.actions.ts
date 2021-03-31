@@ -1,49 +1,32 @@
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-export const CLEAR_DECLARATIONS = '[HealthDeclarations] Clear declarations';
-export const TOGGLE_HEALTH_DECLARATION = '[HealthDeclarations] Health declaration toggled';
-export const HEALTH_DECLARATION_ACCEPTED = '[HealthDeclarations] Health declaration accepted';
-export const PASS_CERTIFICATE_RECIEVED = '[HealthDeclarations] Pass certificate recieved';
-export const TOGGLE_RECEIPT_DECLARATION = '[HealthDeclarations] Receipt declaration toggled';
-export const SIGNATURE_DATA_CHANGED = '[HealthDeclarations] Signature data changed';
-export const SIGNATURE_DATA_CLEARED = '[HealthDeclarations] Signature data cleared';
+export const ClearPostTestDeclarations = createAction(
+  '[HealthDeclarations] Clear declarations',
+);
 
-export class ClearPostTestDeclarations implements Action {
-  readonly type = CLEAR_DECLARATIONS;
-}
+export const ToggleHealthDeclaration = createAction(
+  '[HealthDeclarations] Health declaration toggled',
+);
 
-export class ToggleHealthDeclaration implements Action {
-  readonly type = TOGGLE_HEALTH_DECLARATION;
-}
+export const HealthDeclarationAccepted = createAction(
+  '[HealthDeclarations] Health declaration accepted',
+  props<{ payload: boolean; }>(),
+);
 
-export class HealthDeclarationAccepted implements Action {
-  readonly type = HEALTH_DECLARATION_ACCEPTED;
-  constructor(public payload: boolean) {}
-}
+export const ToggleReceiptDeclaration = createAction(
+  '[HealthDeclarations] Receipt declaration toggled',
+);
 
-export class ToggleReceiptDeclaration implements Action {
-  readonly type = TOGGLE_RECEIPT_DECLARATION;
-}
+export const PassCertificateNumberReceived = createAction(
+  '[HealthDeclarations] Health declaration accepted',
+  props<{ payload: boolean; }>(),
+);
 
-export class PassCertificateNumberRecieved implements Action {
-  readonly type = PASS_CERTIFICATE_RECIEVED;
-  constructor(public payload: boolean) {}
-}
+export const SignatureDataChanged = createAction(
+  '[HealthDeclarations] Signature data changed',
+  props<{ payload: string; }>(),
+);
 
-export class SignatureDataChanged implements Action {
-  constructor(public payload: string) { }
-  readonly type = SIGNATURE_DATA_CHANGED;
-}
-
-export class SignatureDataCleared implements Action {
-  readonly type = SIGNATURE_DATA_CLEARED;
-}
-
-export type Types =
-  | ClearPostTestDeclarations
-  | ToggleHealthDeclaration
-  | HealthDeclarationAccepted
-  | PassCertificateNumberRecieved
-  | ToggleReceiptDeclaration
-  | SignatureDataChanged
-  | SignatureDataCleared;
+export const SignatureDataCleared = createAction(
+  '[HealthDeclarations] Signature data cleared',
+);

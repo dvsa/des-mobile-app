@@ -1,3 +1,4 @@
+import { PostTestDeclarations } from '@dvsa/mes-test-schema/categories/common';
 import { postTestDeclarationsReducer, initialState } from '../post-test-declarations.reducer';
 import {
   ToggleHealthDeclaration,
@@ -6,21 +7,20 @@ import {
   SignatureDataCleared,
   ClearPostTestDeclarations,
 } from '../post-test-declarations.actions';
-import { PostTestDeclarations } from '@dvsa/mes-test-schema/categories/common';
 
 describe('PostTestDeclarations reducer', () => {
   it('should toggle the health declaration status when the toggle action is received', () => {
-    const result = postTestDeclarationsReducer(initialState, new ToggleHealthDeclaration());
+    const result = postTestDeclarationsReducer(initialState, ToggleHealthDeclaration());
     expect(result.healthDeclarationAccepted).toBe(true);
   });
 
   it('should toggle the certificate recieved status when the toggle action is received', () => {
-    const result = postTestDeclarationsReducer(initialState, new ToggleReceiptDeclaration);
+    const result = postTestDeclarationsReducer(initialState, ToggleReceiptDeclaration);
     expect(result.passCertificateNumberReceived).toBe(true);
   });
 
   it('should set the signature when the SignatureDataChanged action is received', () => {
-    const result = postTestDeclarationsReducer(initialState, new SignatureDataChanged('ImSomeNewSignatureData'));
+    const result = postTestDeclarationsReducer(initialState, SignatureDataChanged({ payload: 'ImSomeNewSignatureData' }));
     expect(result.postTestSignature).toEqual('ImSomeNewSignatureData');
   });
 
@@ -29,7 +29,7 @@ describe('PostTestDeclarations reducer', () => {
       ...initialState,
       postTestSignature: 'SomeSignatureData',
     };
-    const result = postTestDeclarationsReducer(state, new SignatureDataCleared());
+    const result = postTestDeclarationsReducer(state, SignatureDataCleared());
     expect(result.postTestSignature).toEqual('');
   });
 
@@ -40,7 +40,7 @@ describe('PostTestDeclarations reducer', () => {
       postTestSignature: 'somesig',
     };
 
-    const result = postTestDeclarationsReducer(dirtyState, new ClearPostTestDeclarations());
+    const result = postTestDeclarationsReducer(dirtyState, ClearPostTestDeclarations());
 
     expect(result).toBe(initialState);
   });

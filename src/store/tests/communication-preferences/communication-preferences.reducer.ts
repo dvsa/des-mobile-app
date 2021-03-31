@@ -1,6 +1,6 @@
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
 import * as communicationPrefActions from './communication-preferences.actions';
-import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 export const initialState: CommunicationPreferences = {
   updatedEmail: '',

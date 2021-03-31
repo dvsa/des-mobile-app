@@ -1,33 +1,26 @@
-import * as passCompletionActions from './pass-completion.actions';
-
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { PassCompletion } from '@dvsa/mes-test-schema/categories/common';
+import * as passCompletionActions from './pass-completion.actions';
 
 export const initialState: PassCompletion = {
   passCertificateNumber: null,
   provisionalLicenceProvided: null,
 };
 
-export const passCompletionReducer = (state = initialState, action: passCompletionActions.Types) => {
-  switch (action.type) {
-    case passCompletionActions.PASS_CERTIFICATE_NUMBER_CHANGED:
-      return {
-        ...state,
-        passCertificateNumber: action.passCertificateNumber,
-      };
-    case passCompletionActions.PROVISIONAL_LICENSE_RECEIVED:
-      return {
-        ...state,
-        provisionalLicenceProvided: true,
-      };
-    case passCompletionActions.PROVISIONAL_LICENSE_NOT_RECEIVED:
-      return {
-        ...state,
-        provisionalLicenceProvided: false,
-      };
-    default:
-      return state;
-  }
-};
+export const passCompletionReducer = createReducer(
+  initialState,
+  on(passCompletionActions.PassCertificateNumberChanged, (state, { payload }): PassCompletion => ({
+    ...state,
+    passCertificateNumber: payload,
+  })),
+  on(passCompletionActions.ProvisionalLicenseReceived, (state): PassCompletion => ({
+    ...state,
+    provisionalLicenceProvided: true,
+  })),
+  on(passCompletionActions.ProvisionalLicenseNotReceived, (state): PassCompletion => ({
+    ...state,
+    provisionalLicenceProvided: false,
+  })),
+);
 
 export const getPassCompletion = createFeatureSelector<PassCompletion>('passCompletion');
