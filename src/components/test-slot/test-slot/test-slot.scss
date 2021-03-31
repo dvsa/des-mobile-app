@@ -7,91 +7,148 @@ ion-card {
     padding: 0;
   }
 }
+
 ion-row {
   &.slot-row {
     min-height: 108px;
     position: relative;
+
     &.test-slot-portrait-mode {
-      min-height:108px;
+      min-height: 108px;
     }
   }
+
   &.slot-header,
   &.slot-footer {
     min-height: 22px;
     padding-right: 4px;
+
     &.vehicle-details-displayed {
       min-height: 34px;
     }
   }
+
   &.slot-main {
     min-height: 48px;
   }
 }
+
 ion-col {
   padding: 0;
 
   &.time-exclamation-col {
     padding-left: 8px;
     max-width: 152px;
+
     .text-zoom-large & {
       max-width: 172px;
     }
+
     .text-zoom-x-large & {
       max-width: 192px;
     }
   }
+
   &.exclamation-col {
     max-width: 48px;
   }
+
   &.test-outcome-col {
     max-width: 152px;
+
     .text-zoom-large & {
       max-width: 172px;
     }
+
     .text-zoom-x-large & {
       max-width: 192px;
     }
   }
+
   &.vehicle-details-col {
     margin-top: -10px;
+
     .text-zoom-large & {
       padding-left: 20px;
     }
+
     .text-zoom-x-large & {
       padding-left: 40px;
     }
   }
+
   &.progressive-access-col {
     max-width: 152px;
     margin-top: -6px;
   }
+
   &.category-col {
     padding-right: 8px;
     flex-grow: 0;
   }
+
+  &.team-journal-examiner-name {
+    max-height: 20px;
+    margin-top: -50px;
+    max-width: 152px;
+
+    .text-zoom-large & {
+      margin-top: -80px;
+      max-width: 172px;
+    }
+
+    .text-zoom-x-large & {
+      margin-top: -110px;
+      max-width: 192px;
+    }
+  }
 }
-.team-journal-examiner-name{
-  max-height: 20px;
-  margin-top: -50px;
-}
+
 .team-journal-test-centre-name {
-  position:absolute;
+  position: absolute;
   left: -215px;
-  top: 10px;
-  font-size: 18px;
   color: #000;
+
+  .text-zoom-regular & {
+    font-size: 18px;
+    top: 10px;
+  }
+
+  .text-zoom-large & {
+    font-size: 24px;
+    top: 20px;
+  }
+
+  .text-zoom-x-large & {
+    font-size: 28px;
+    top: 40px;
+  }
 }
+
 .team-journal-driver-number {
   margin-top: -10px;
   padding-left: 168px;
-  font-size: 18px;
   color: #000;
+
+  .text-zoom-regular & {
+    font-size: 18px;
+  }
+
+  .text-zoom-large & {
+    font-size: 24px;
+  }
+
+  .text-zoom-x-large & {
+    font-size: 28px;
+  }
 }
+
 .slot-changed-indicator {
   position: absolute;
   height: 100%;
   width: 8px;
 }
+
 .slot-changed {
   background: var(--journalSlotChangeIdentifier);
 }
