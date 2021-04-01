@@ -81,6 +81,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   merged$: Observable<void | number>;
   todaysDate: DateTime;
   completedTests: SearchResultTestSchema[];
+  displayNoDataMessage: boolean = false;
 
   constructor(
     public modalController: ModalController,
@@ -255,6 +256,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   private createSlots = (emission: SlotItem[]) => {
+    this.displayNoDataMessage = (emission && emission.length === 0);
     this.slotSelector.createSlots(this.slotContainer, emission, this.completedTests);
   };
 

@@ -45,4 +45,8 @@
     <ng-template #slotContainer></ng-template>
   </ion-list>
 
+  <div *ngIf="this.displayNoDataMessage" class="no-journal-data">
+    <h3>There is no journal data to display for this day.</h3>
+  </div>
+
 </ion-content>
