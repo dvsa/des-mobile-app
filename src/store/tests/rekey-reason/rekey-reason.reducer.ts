@@ -63,26 +63,26 @@ export const rekeyReasonReducer = createReducer(
       broken: true,
     },
   })),
-  on(rekeyReasonActions.TransferSelected, (state, { payload }) => ({
+  on(rekeyReasonActions.TransferSelected, (state, { transferSelected }) => ({
     ...state,
     transfer: {
       ...initialState.transfer,
-      selected: payload,
+      selected: transferSelected,
     },
   })),
-  on(rekeyReasonActions.OtherSelected, (state, { payload }) => ({
+  on(rekeyReasonActions.OtherSelected, (state, { otherSelected }) => ({
     ...state,
     other: {
       ...initialState.other,
-      selected: payload,
+      selected: otherSelected,
     },
   })),
-  on(rekeyReasonActions.OtherReasonUpdated, (state, { payload }) => ({
+  on(rekeyReasonActions.OtherReasonUpdated, (state, { reason }) => ({
     ...state,
     other: {
       ...initialState.other,
       selected: true,
-      reason: payload,
+      reason,
     },
   })),
 );

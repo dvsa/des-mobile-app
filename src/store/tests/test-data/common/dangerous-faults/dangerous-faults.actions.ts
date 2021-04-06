@@ -1,17 +1,17 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 import { Competencies } from '../../test-data.constants';
 
 export const AddDangerousFault = createAction(
   '[Competency] Add Dangerous Fault',
-  props<{ payload: Competencies }>(),
+  (competency: Competencies) => ({ competency }),
 );
 
 export const RemoveDangerousFault = createAction(
   '[Competency] Remove Dangerous Fault',
-  props<{ payload: Competencies }>(),
+  (competency: Competencies) => ({ competency }),
 );
 
 export const AddDangerousFaultComment = createAction(
   '[Office] Add Dangerous Fault Comment',
-  props<{ competencyName: string, comment: string }>(),
+  (competencyName: string, comment: string) => ({ competencyName, comment }),
 );

@@ -1,4 +1,4 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
 export const ToggleControlledStop = createAction(
   '[ControlledStop] Toggle Controlled Stop',
@@ -22,5 +22,5 @@ export const ControlledStopRemoveFault = createAction(
 
 export const AddControlledStopComment = createAction(
   '[ControlledStop] Add Comment',
-  props<{ payload: string }>()
+  (comment: string) => ({ comment }),
 );

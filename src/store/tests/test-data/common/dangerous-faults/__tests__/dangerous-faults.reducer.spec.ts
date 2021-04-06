@@ -8,14 +8,14 @@ describe('Dangerous Fault Reducer', () => {
   describe('ADD_DANGEROUS_FAULT', () => {
     it('should add a dangerous fault when none exist', () => {
       const state: DangerousFaults = {};
-      const result = dangerousFaultsReducer(state, AddDangerousFault({ payload: Competencies.followingDistance }));
+      const result = dangerousFaultsReducer(state, AddDangerousFault(Competencies.followingDistance));
       expect(result.followingDistance).toEqual(true);
     });
     it('should not remove an existing dangerous faults when a new one is added', () => {
       const state: DangerousFaults = {
         followingDistance: true,
       };
-      const result = dangerousFaultsReducer(state, AddDangerousFault({ payload: Competencies.judgementCrossing }));
+      const result = dangerousFaultsReducer(state, AddDangerousFault(Competencies.judgementCrossing));
       expect(result.followingDistance).toEqual(true);
       expect(result.judgementCrossing).toEqual(true);
     });
@@ -26,21 +26,21 @@ describe('Dangerous Fault Reducer', () => {
       const state: DangerousFaults = {
         controlsGears: true,
       };
-      const result = dangerousFaultsReducer(state, RemoveDangerousFault({ payload: Competencies.controlsGears }));
+      const result = dangerousFaultsReducer(state, RemoveDangerousFault(Competencies.controlsGears));
       expect(result.controlsGears).toBeUndefined();
     });
     it('should do nothing if there is not a dangerous fault for the comptency', () => {
       const state: DangerousFaults = {
         controlsGears: true,
       };
-      const result = dangerousFaultsReducer(state, RemoveDangerousFault({ payload: Competencies.ancillaryControls }));
+      const result = dangerousFaultsReducer(state, RemoveDangerousFault(Competencies.ancillaryControls));
       expect(result).toEqual(state);
     });
     it('should only remove the dangerous fault in the action', () => {
       const state: DangerousFaults = {
         followingDistance: true,
       };
-      const result = dangerousFaultsReducer(state, RemoveDangerousFault({ payload: Competencies.judgementCrossing }));
+      const result = dangerousFaultsReducer(state, RemoveDangerousFault(Competencies.judgementCrossing));
       expect(result.followingDistance).toEqual(true);
       expect(result.judgementCrossing).toBeUndefined();
     });
@@ -50,7 +50,7 @@ describe('Dangerous Fault Reducer', () => {
     it('should add the provided comment', () => {
       const state: DangerousFaults = {};
       const result = dangerousFaultsReducer(
-        state, AddDangerousFaultComment({ competencyName: Competencies.ancillaryControls, comment: 'Test' }),
+        state, AddDangerousFaultComment(Competencies.ancillaryControls, 'Test'),
       );
       expect(result.ancillaryControlsComments).toEqual('Test');
     });

@@ -7,18 +7,18 @@ export const initialState: DrivingFaults = {};
 
 export const drivingFaultsReducer = createReducer(
   initialState,
-  on(drivingFaultsActions.AddDrivingFault, (state, { payload }): DrivingFaults => ({
+  on(drivingFaultsActions.AddDrivingFault, (state, { faultPayload }): DrivingFaults => ({
     ...state,
-    [payload.competency]: payload.newFaultCount,
+    [faultPayload.competency]: faultPayload.newFaultCount,
   })),
-  on(drivingFaultsActions.RemoveDrivingFault, (state, { payload }): DrivingFaults => {
-    if (payload.newFaultCount === 0) {
+  on(drivingFaultsActions.RemoveDrivingFault, (state, { faultPayload }): DrivingFaults => {
+    if (faultPayload.newFaultCount === 0) {
       // not same as original implementation due to TS error
-      return { ...omit(state, payload.competency) };
+      return { ...omit(state, faultPayload.competency) };
     }
     return {
       ...state,
-      [payload.competency]: payload.newFaultCount,
+      [faultPayload.competency]: faultPayload.newFaultCount,
     };
   }),
   on(drivingFaultsActions.AddDrivingFaultComment, (state, { competencyName, comment }): DrivingFaults => ({

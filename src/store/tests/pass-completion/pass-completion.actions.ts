@@ -1,8 +1,8 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
 export const PassCertificateNumberChanged = createAction(
   '[Pass Completion] Pass certificate number changed',
-  props<{payload: string;}>(),
+  (passCertificateNumber: string) => ({ passCertificateNumber }),
 );
 
 export const ProvisionalLicenseReceived = createAction(

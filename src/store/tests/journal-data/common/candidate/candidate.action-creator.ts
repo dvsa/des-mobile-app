@@ -1,13 +1,19 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Booking } from '@dvsa/mes-journal-schema';
-import { get } from 'lodash';
+// import { get } from 'lodash';
 import { PopulateCandidateDetails } from './candidate.actions';
 // import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
 // import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 // import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
 // import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
 
-export const createPopulateCandidateDetailsAction = (testCategory: string, booking: Booking) => {
+type CandidateDetailsUnion =
+  ReturnType<typeof PopulateCandidateDetails>;
+
+export const createPopulateCandidateDetailsAction = (
+  testCategory: string,
+  booking: Booking,
+): CandidateDetailsUnion => {
   switch (testCategory) {
     case TestCategory.ADI2:
     case TestCategory.B:
@@ -21,7 +27,7 @@ export const createPopulateCandidateDetailsAction = (testCategory: string, booki
     case TestCategory.EUAM2:
     case TestCategory.CCPC:
     case TestCategory.DCPC:
-      return PopulateCandidateDetails({ payload: booking.candidate });
+      return PopulateCandidateDetails(booking.candidate);
     case TestCategory.BE:
       // @TODO: Implement during CAT BE development
       // return new PopulateCandidateDetailsCatBE({
@@ -30,7 +36,7 @@ export const createPopulateCandidateDetailsAction = (testCategory: string, booki
       //   businessName: get(booking, 'business.businessName'),
       //   businessTelephone: get(booking, 'business.telephone'),
       // });
-      return {};
+      return {} as CandidateDetailsUnion;
     case TestCategory.C1E:
     case TestCategory.CE:
     case TestCategory.C1:
@@ -42,7 +48,7 @@ export const createPopulateCandidateDetailsAction = (testCategory: string, booki
       //   businessName: get(booking, 'business.businessName'),
       //   businessTelephone: get(booking, 'business.telephone'),
       // });
-      return {};
+      return {} as CandidateDetailsUnion;
     case TestCategory.D:
     case TestCategory.D1:
     case TestCategory.D1E:
@@ -54,7 +60,7 @@ export const createPopulateCandidateDetailsAction = (testCategory: string, booki
       //   businessName: get(booking, 'business.businessName'),
       //   businessTelephone: get(booking, 'business.telephone'),
       // });
-      return {};
+      return {} as CandidateDetailsUnion;
     case TestCategory.F:
     case TestCategory.G:
     case TestCategory.H:
@@ -66,7 +72,7 @@ export const createPopulateCandidateDetailsAction = (testCategory: string, booki
       //   businessName: get(booking, 'business.businessName'),
       //   businessTelephone: get(booking, 'business.telephone'),
       // });
-      return {};
+      return {} as CandidateDetailsUnion;
     default:
       throw new Error('No testCategory has been defined');
   }

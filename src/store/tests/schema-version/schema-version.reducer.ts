@@ -5,7 +5,7 @@ export const initialState: string = '';
 
 export const schemaVersionReducer = createReducer(
   initialState,
-  on(schemaVersionActions.PopulateTestSchemaVersion, (_, { payload }) => payload),
+  on(schemaVersionActions.PopulateTestSchemaVersion, (_, { version }) => version),
 );
 
 export const getTestSchemaVersion = createFeatureSelector<string>('schemaVersion');

@@ -18,5 +18,5 @@ export const HighwayCodeSafetyRemoveFault = createAction(
 
 export const HighwayCodeSafetyAddComment = createAction(
   '[HighwayCodeSafety] Add Comment',
-  props<{ payload: string }>(),
+  (comment: string) => ({ comment }),
 );

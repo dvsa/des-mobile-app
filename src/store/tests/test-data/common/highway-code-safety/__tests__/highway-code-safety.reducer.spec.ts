@@ -45,7 +45,7 @@ describe('Highway Code Safety Reducer', () => {
   describe('ADD_HIGHWAY_CODE_SAFETY_COMMENT', () => {
     it('should add a fault comment', () => {
       const state: HighwayCodeSafetyUnion = {};
-      const result = highwayCodeSafetyReducer(state, HighwayCodeSafetyAddComment({ payload: 'Test' }));
+      const result = highwayCodeSafetyReducer(state, HighwayCodeSafetyAddComment('Test'));
       expect(result.faultComments).toEqual('Test');
     });
   });

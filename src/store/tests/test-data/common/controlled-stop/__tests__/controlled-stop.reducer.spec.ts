@@ -67,7 +67,7 @@ describe('Controlled Stop Reducer', () => {
   describe('ADD_CONTROLLED_STOP_COMMENT', () => {
     it('should add a fault comment', () => {
       const state: ControlledStopUnion = {};
-      const result = controlledStopReducer(state, AddControlledStopComment({ payload: 'Test' }));
+      const result = controlledStopReducer(state, AddControlledStopComment('Test'));
       expect(result.faultComments).toEqual('Test');
     });
   });

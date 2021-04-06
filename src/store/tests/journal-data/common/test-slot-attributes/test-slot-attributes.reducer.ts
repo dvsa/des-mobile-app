@@ -13,10 +13,10 @@ export const initialState: TestSlotAttributes = {
 
 export const testSlotsAttributesReducer = createReducer(
   initialState,
-  on(testSlotAttributesActions.PopulateTestSlotAttributes, (_, { payload }): TestSlotAttributes => payload),
-  on(testSlotAttributesActions.SetStartDate, (state, { payload }): TestSlotAttributes => ({
+  on(testSlotAttributesActions.PopulateTestSlotAttributes, (_, { testSlotAttributes }) => testSlotAttributes),
+  on(testSlotAttributesActions.SetStartDate, (state, { startDateTime }): TestSlotAttributes => ({
     ...state,
-    start: payload,
+    start: startDateTime,
   })),
 );
 

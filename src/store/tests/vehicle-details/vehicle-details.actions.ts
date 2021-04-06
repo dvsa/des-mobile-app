@@ -1,10 +1,10 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 
 export const VehicleRegistrationChanged = createAction(
   '[Vehicle Details] Registration changed',
-  props<{ payload: string }>(),
+  (registrationNumber: string) => ({ registrationNumber }),
 );
 
 export const SchoolCarToggled = createAction(
@@ -21,7 +21,7 @@ export const DualControlsToggled = createAction(
 
 export const GearboxCategoryChanged = createAction(
   '[Vehicle Details] Gearbox category changed',
-  props<{ payload: GearboxCategory }>(),
+  (gearboxCategory: GearboxCategory) => ({ gearboxCategory })
 );
 
 export const ClearGearboxCategory = createAction(
@@ -30,10 +30,10 @@ export const ClearGearboxCategory = createAction(
 
 export const PopulateVehicleDimensions = createAction(
   '[Vehicle Details] Populate Vehicle Dimensions',
-  props<{ vehicleWidth: number, vehicleLength: number }>(),
+  (vehicleWidth: number, vehicleLength: number) => ({ vehicleWidth, vehicleLength }),
 );
 
 export const PopulateVehicleConfiguration = createAction(
   '[Vehicle Details] Populate Vehicle Configuration',
-  props<{ payload: Configuration }>(),
+  (configuration: Configuration) => ({ configuration }),
 );

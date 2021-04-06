@@ -19,12 +19,12 @@ export const ToggleReceiptDeclaration = createAction(
 
 export const PassCertificateNumberReceived = createAction(
   '[HealthDeclarations] Health declaration accepted',
-  props<{ payload: boolean; }>(),
+  (passCertNumberReceived: boolean) => ({ passCertNumberReceived }),
 );
 
 export const SignatureDataChanged = createAction(
   '[HealthDeclarations] Signature data changed',
-  props<{ payload: string; }>(),
+  (signature: string) => ({ signature }),
 );
 
 export const SignatureDataCleared = createAction(

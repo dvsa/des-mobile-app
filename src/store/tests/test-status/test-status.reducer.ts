@@ -6,33 +6,33 @@ export const initialState = {};
 
 export const testStatusReducer = createReducer(
   initialState,
-  on(testStatusActions.SetTestStatusBooked, (state, { payload }) => ({
+  on(testStatusActions.SetTestStatusBooked, (state, { slotId }) => ({
     ...state,
-    [payload]: TestStatus.Booked,
+    [slotId]: TestStatus.Booked,
   })),
-  on(testStatusActions.SetTestStatusStarted, (state, { payload }) => ({
+  on(testStatusActions.SetTestStatusStarted, (state, { slotId }) => ({
     ...state,
-    [payload]: TestStatus.Started,
+    [slotId]: TestStatus.Started,
   })),
-  on(testStatusActions.SetTestStatusDecided, (state, { payload }) => ({
+  on(testStatusActions.SetTestStatusDecided, (state, { slotId }) => ({
     ...state,
-    [payload]: TestStatus.Decided,
+    [slotId]: TestStatus.Decided,
   })),
-  on(testStatusActions.SetTestStatusWriteUp, (state, { payload }) => ({
+  on(testStatusActions.SetTestStatusWriteUp, (state, { slotId }) => ({
     ...state,
-    [payload]: TestStatus.WriteUp,
+    [slotId]: TestStatus.WriteUp,
   })),
-  on(testStatusActions.SetTestStatusAutosaved, (state, { payload }) => ({
+  on(testStatusActions.SetTestStatusAutosaved, (state, { slotId }) => ({
     ...state,
-    [payload]: TestStatus.Autosaved,
+    [slotId]: TestStatus.Autosaved,
   })),
-  on(testStatusActions.SetTestStatusCompleted, (state, { payload }) => ({
+  on(testStatusActions.SetTestStatusCompleted, (state, { slotId }) => ({
     ...state,
-    [payload]: TestStatus.Completed,
+    [slotId]: TestStatus.Completed,
   })),
-  on(testStatusActions.SetTestStatusSubmitted, (state, { payload }) => ({
+  on(testStatusActions.SetTestStatusSubmitted, (state, { slotId }) => ({
     ...state,
-    [payload]: TestStatus.Submitted,
+    [slotId]: TestStatus.Submitted,
   })),
 );
 

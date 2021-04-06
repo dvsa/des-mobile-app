@@ -1,16 +1,16 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
 export const OrditTrainedChanged = createAction(
   '[WRTC] [CatADIPart2] Ordit Trained changed',
-  props<{ payload: boolean }>(),
+  (orditTrainedCandidate: boolean) => ({ orditTrainedCandidate }),
 );
 
 export const TrainingRecordsChanged = createAction(
   '[WRTC] [CatADIPart2] Training Records changed',
-  props<{ payload: boolean }>(),
+  (trainingRecords: boolean) => ({ trainingRecords }),
 );
 
 export const TrainerRegistrationNumberChanged = createAction(
   '[WRTC] Trainer registration number changed',
-  props<{ payload: number }>(),
+  (trainerRegistrationNumber: number) => ({ trainerRegistrationNumber }),
 );

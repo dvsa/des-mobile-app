@@ -1,4 +1,4 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
 export const EyesightTestPassed = createAction(
   '[EyesightTest] Set passed',
@@ -14,5 +14,5 @@ export const EyesightTestReset = createAction(
 
 export const EyesightTestAddComment = createAction(
   '[EyesightTest] Add comment',
-  props<{ payload: string }>(),
+  (comment: string) => ({ comment }),
 );

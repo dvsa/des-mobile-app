@@ -1,27 +1,27 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 import { CommunicationMethod, ConductedLanguage } from '@dvsa/mes-test-schema/categories/common';
 
 export const CandidateChoseEmailAsCommunicationPreference = createAction(
   '[Communication Preferences] Candidate confirmed communication preferences as email',
-  props<{ updatedEmail: string; communicationMethod: CommunicationMethod; }>(),
+  (updatedEmail: string, communicationMethod: CommunicationMethod) => ({ updatedEmail, communicationMethod }),
 );
 
 export const CandidateChosePostAsCommunicationPreference = createAction(
   '[Communication Preferences] Candidate confirmed communication preferences as post',
-  props<{ communicationMethod: CommunicationMethod; }>(),
+  (communicationMethod: CommunicationMethod) => ({ communicationMethod }),
 );
 
 export const CandidateChoseToProceedWithTestInEnglish = createAction(
   '[Communication Preferences] Candidate chose to proceed with test in English',
-  props<{ conductedLanguage: ConductedLanguage; }>(),
+  (conductedLanguage: ConductedLanguage) => ({ conductedLanguage }),
 );
 
 export const CandidateChoseToProceedWithTestInWelsh = createAction(
   '[Communication Preferences] Candidate chose to proceed with test in Welsh',
-  props<{ conductedLanguage: ConductedLanguage; }>(),
+  (conductedLanguage: ConductedLanguage) => ({ conductedLanguage }),
 );
 
 export const PopulateConductedLanguage = createAction(
   '[Communication Preferences] Populate Conducted Language',
-  props<{ conductedLanguage: ConductedLanguage; }>(),
+  (conductedLanguage: ConductedLanguage) => ({ conductedLanguage }),
 );

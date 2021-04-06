@@ -1,5 +1,5 @@
-import { DrivingFaults } from '@dvsa/mes-test-schema/categories/common';
 import { drivingFaultsReducer } from '../driving-faults.reducer';
+import { DrivingFaults } from '@dvsa/mes-test-schema/categories/common';
 import { AddDrivingFault, RemoveDrivingFault, AddDrivingFaultComment } from '../driving-faults.actions';
 import { Competencies } from '../../../test-data.constants';
 
@@ -9,10 +9,8 @@ describe('Driving Faults Reducer', () => {
     it('should add a driving fault when no driving faults exist', () => {
       const state: DrivingFaults = {};
       const result = drivingFaultsReducer(state, AddDrivingFault({
-        payload: {
-          competency: Competencies.controlsGears,
-          newFaultCount: 1,
-        }
+        competency: Competencies.controlsGears,
+        newFaultCount: 1,
       }));
       expect(result.controlsGears).toEqual(1);
     });
@@ -21,22 +19,18 @@ describe('Driving Faults Reducer', () => {
         controlsGears: 1,
       };
       const result = drivingFaultsReducer(state, AddDrivingFault({
-        payload: {
-          competency: Competencies.controlsGears,
-          newFaultCount: 2,
-        }
+        competency: Competencies.controlsGears,
+        newFaultCount: 2,
       }));
       expect(result.controlsGears).toEqual(2);
     });
-    it('should not remove an existing driving fault when a new one is added', () => {
+    it('should not remove an existing driving fault when a one is added', () => {
       const state: DrivingFaults = {
         controlsParkingBrake: 1,
       };
       const result = drivingFaultsReducer(state, AddDrivingFault({
-        payload: {
-          competency: Competencies.controlsGears,
-          newFaultCount: 1,
-        }
+        competency: Competencies.controlsGears,
+        newFaultCount: 1,
       }));
       expect(result.controlsGears).toEqual(1);
       expect(result.controlsParkingBrake).toEqual(1);
@@ -49,10 +43,8 @@ describe('Driving Faults Reducer', () => {
         awarenessPlanning: 2,
       };
       const result = drivingFaultsReducer(state, RemoveDrivingFault({
-        payload: {
-          competency: Competencies.awarenessPlanning,
-          newFaultCount: 1,
-        }
+        competency: Competencies.awarenessPlanning,
+        newFaultCount: 1,
       }));
       expect(result.awarenessPlanning).toEqual(1);
     });
@@ -61,10 +53,8 @@ describe('Driving Faults Reducer', () => {
         awarenessPlanning: 1,
       };
       const result = drivingFaultsReducer(state, RemoveDrivingFault({
-        payload: {
-          competency: Competencies.awarenessPlanning,
-          newFaultCount: 0,
-        }
+        competency: Competencies.awarenessPlanning,
+        newFaultCount: 0,
       }));
       expect(result.awarenessPlanning).toBeUndefined();
     });
@@ -74,10 +64,7 @@ describe('Driving Faults Reducer', () => {
     it('should add a comment for a particular driving fault', () => {
       const state: DrivingFaults = {};
       const result = drivingFaultsReducer(
-        state, AddDrivingFaultComment({
-          competencyName: Competencies.ancillaryControls,
-          comment: 'Test',
-        }),
+        state, AddDrivingFaultComment(Competencies.ancillaryControls , 'Test'),
       );
       expect(result.ancillaryControlsComments).toEqual('Test');
     });

@@ -1,19 +1,19 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 import { WeatherConditions, Identification, IndependentDriving } from '@dvsa/mes-test-schema/categories/common';
 
 export const AdditionalInformationChanged = createAction(
   '[Test Summary] Additional Information changed',
-  props<{ payload: string }>(),
+  (additionalInformation: string) => ({ additionalInformation }),
 );
 
 export const CandidateDescriptionChanged = createAction(
   '[Test Summary] Candidate description changed',
-  props<{ payload: string }>(),
+  (candidateDescription: string) => ({ candidateDescription }),
 );
 
 export const RouteNumberChanged = createAction(
   '[Test Summary] Route Number changed',
-  props<{ payload: number }>(),
+  (routeNumber: number) => ({ routeNumber }),
 );
 
 export const DebriefWitnessed = createAction(
@@ -26,12 +26,12 @@ export const DebriefUnWitnessed = createAction(
 
 export const IdentificationUsedChanged = createAction(
   '[Test Summary] Identification used changed',
-  props<{ payload: Identification }>(),
+  (identification: Identification) => ({ identification }),
 );
 
 export const IndependentDrivingTypeChanged = createAction(
   '[Test Summary] Independent driving changed',
-  props<{ payload: IndependentDriving }>(),
+  (independentDriving: IndependentDriving) => ({ independentDriving }),
 );
 
 export const D255Yes = createAction(
@@ -44,5 +44,5 @@ export const D255No = createAction(
 
 export const WeatherConditionsChanged = createAction(
   '[Test Summary] Weather conditions changed',
-  props<{ payload: WeatherConditions[] }>(),
+  (weatherConditions: WeatherConditions[]) => ({ weatherConditions }),
 );

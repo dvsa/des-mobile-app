@@ -9,9 +9,9 @@ export const initialState: PassCompletion = {
 
 export const passCompletionReducer = createReducer(
   initialState,
-  on(passCompletionActions.PassCertificateNumberChanged, (state, { payload }): PassCompletion => ({
+  on(passCompletionActions.PassCertificateNumberChanged, (state, { passCertificateNumber }): PassCompletion => ({
     ...state,
-    passCertificateNumber: payload,
+    passCertificateNumber,
   })),
   on(passCompletionActions.ProvisionalLicenseReceived, (state): PassCompletion => ({
     ...state,

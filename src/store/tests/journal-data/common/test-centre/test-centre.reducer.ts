@@ -9,7 +9,7 @@ export const initialState: TestCentre = {
 
 export const testCentreReducer = createReducer(
   initialState,
-  on(testCentreActions.PopulateTestCentre, (_, { payload }): TestCentre => payload),
+  on(testCentreActions.PopulateTestCentre, (_, { testCentre }): TestCentre => testCentre),
 );
 
 export const getTestCentre = createFeatureSelector<TestCentre>('testCentre');

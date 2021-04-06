@@ -1,7 +1,13 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 
 export const PopulateExaminer = createAction(
   '[ExaminerEffects] Populate Examiner',
-  props<{ payload: Examiner }>()
+  (examiner: Examiner) => ({ examiner }),
 );
+
+const actions = union({
+  PopulateExaminer,
+});
+
+export type PopulateExaminerActions = typeof actions;

@@ -23,15 +23,15 @@ export const IpadIssueBrokenSelected = createAction(
 
 export const TransferSelected = createAction(
   '[RekeyReasonPage] Rekey Reason Transfer Selected',
-  props<{ payload: boolean }>(),
+  (transferSelected: boolean) => ({ transferSelected }),
 );
 
 export const OtherSelected = createAction(
   '[RekeyReasonPage] Rekey Reason Other Selected',
-  props<{ payload: boolean }>(),
+  (otherSelected: boolean) => ({ otherSelected }),
 );
 
 export const OtherReasonUpdated = createAction(
   '[RekeyReasonPage] Rekey Reason Other Reason Updated',
-  props<{ payload: string }>(),
+  (reason: string) => ({ reason }),
 );

@@ -16,7 +16,7 @@ describe('testSlotAttributes reducer', () => {
   };
 
   it('should return the testSlotAttributes for populate test centre actions', () => {
-    const result = testSlotsAttributesReducer(null, PopulateTestSlotAttributes({ payload: mockTestSlotAttributes }));
+    const result = testSlotsAttributesReducer(null, PopulateTestSlotAttributes(mockTestSlotAttributes));
     expect(result).toBe(mockTestSlotAttributes);
   });
 
@@ -24,9 +24,9 @@ describe('testSlotAttributes reducer', () => {
     it('should return the testSlotAttributes with new start property', () => {
       mockTestSlotAttributes.start = '2021-01-15T08:10:00.000Z';
       const updatedDate = '2020-12-25T08:10:00.000Z';
-      const state = testSlotsAttributesReducer(null, PopulateTestSlotAttributes({ payload: mockTestSlotAttributes }));
+      const state = testSlotsAttributesReducer(null, PopulateTestSlotAttributes(mockTestSlotAttributes));
 
-      const result = testSlotsAttributesReducer(state, SetStartDate({ payload: updatedDate }));
+      const result = testSlotsAttributesReducer(state, SetStartDate(updatedDate));
 
       expect(result.start).toBe(updatedDate);
     });

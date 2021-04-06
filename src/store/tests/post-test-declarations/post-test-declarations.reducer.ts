@@ -25,13 +25,15 @@ export const postTestDeclarationsReducer = createReducer(
     ...state,
     passCertificateNumberReceived: !state.passCertificateNumberReceived,
   })),
-  on(postTestDeclarationActions.PassCertificateNumberReceived, (state, { payload }): PostTestDeclarations => ({
+  on(postTestDeclarationActions.PassCertificateNumberReceived, (state, {
+    passCertNumberReceived,
+  }): PostTestDeclarations => ({
     ...state,
-    passCertificateNumberReceived: payload,
+    passCertificateNumberReceived: passCertNumberReceived,
   })),
-  on(postTestDeclarationActions.SignatureDataChanged, (state, { payload }): PostTestDeclarations => ({
+  on(postTestDeclarationActions.SignatureDataChanged, (state, { signature }): PostTestDeclarations => ({
     ...state,
-    postTestSignature: payload,
+    postTestSignature: signature,
   })),
   on(postTestDeclarationActions.SignatureDataCleared, (state): PostTestDeclarations => ({
     ...state,

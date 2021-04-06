@@ -1,4 +1,4 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
 export const ClearPreTestDeclarations = createAction(
   '[PreTestDeclarations] Clear declarations',
@@ -14,7 +14,7 @@ export const ToggleResidencyDeclaration = createAction(
 
 export const SignatureDataChanged = createAction(
   '[PreTestDeclarations] Signature data changed',
-  props<{ payload: string; }>(),
+  (signature: string) => ({ signature }),
 );
 
 export const SignatureDataCleared = createAction(
@@ -27,5 +27,5 @@ export const CandidateDeclarationSigned = createAction(
 
 export const SetDeclarationStatus = createAction(
   '[PreTestDeclarations] Setting the residency and insurance declaration',
-  props<{ payload: boolean; }>(),
+  (declarationStatus: boolean) => ({ declarationStatus }),
 );

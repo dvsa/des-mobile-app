@@ -3,7 +3,7 @@ import { changeMarkerReducer } from '../change-marker.reducer';
 
 describe('changeMarkerReducer', () => {
   it('should return the correct value ', () => {
-    const result = changeMarkerReducer(null, SetChangeMarker({ payload: true }));
+    const result = changeMarkerReducer(null, SetChangeMarker(true));
     expect(result).toBe(true);
   });
 });

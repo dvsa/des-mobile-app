@@ -54,7 +54,7 @@ describe('Eyesight Test Reducer', () => {
         complete: true,
         seriousFault: true,
       };
-      const result = eyesightTestReducer(state, EyesightTestAddComment({ payload: 'Eyesight test comment' }));
+      const result = eyesightTestReducer(state, EyesightTestAddComment('Eyesight test comment'));
       expect(result.faultComments).toEqual('Eyesight test comment');
     });
   });

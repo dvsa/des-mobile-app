@@ -15,17 +15,17 @@ export const initialState: TestSummary = {
 
 export const testSummaryReducer = createReducer(
   initialState,
-  on(testSummaryActions.AdditionalInformationChanged, (state, { payload }): TestSummary => ({
+  on(testSummaryActions.AdditionalInformationChanged, (state, { additionalInformation }): TestSummary => ({
     ...state,
-    additionalInformation: payload,
+    additionalInformation,
   })),
-  on(testSummaryActions.CandidateDescriptionChanged, (state, { payload }): TestSummary => ({
+  on(testSummaryActions.CandidateDescriptionChanged, (state, { candidateDescription }): TestSummary => ({
     ...state,
-    candidateDescription: payload,
+    candidateDescription,
   })),
-  on(testSummaryActions.RouteNumberChanged, (state, { payload }): TestSummary => ({
+  on(testSummaryActions.RouteNumberChanged, (state, { routeNumber }): TestSummary => ({
     ...state,
-    routeNumber: payload,
+    routeNumber,
   })),
   on(testSummaryActions.DebriefWitnessed, (state): TestSummary => ({
     ...state,
@@ -35,13 +35,13 @@ export const testSummaryReducer = createReducer(
     ...state,
     debriefWitnessed: false,
   })),
-  on(testSummaryActions.IdentificationUsedChanged, (state, { payload }): TestSummary => ({
+  on(testSummaryActions.IdentificationUsedChanged, (state, { identification }): TestSummary => ({
     ...state,
-    identification: payload,
+    identification,
   })),
-  on(testSummaryActions.IndependentDrivingTypeChanged, (state, { payload }): TestSummary => ({
+  on(testSummaryActions.IndependentDrivingTypeChanged, (state, { independentDriving }): TestSummary => ({
     ...state,
-    independentDriving: payload,
+    independentDriving,
   })),
   on(testSummaryActions.D255Yes, (state): TestSummary => ({
     ...state,
@@ -51,9 +51,9 @@ export const testSummaryReducer = createReducer(
     ...state,
     D255: false,
   })),
-  on(testSummaryActions.WeatherConditionsChanged, (state, { payload }): TestSummary => ({
+  on(testSummaryActions.WeatherConditionsChanged, (state, { weatherConditions }): TestSummary => ({
     ...state,
-    weatherConditions: payload,
+    weatherConditions,
   })),
 );
 

@@ -7,17 +7,17 @@ export const initialState: SeriousFaults = {};
 
 export const seriousFaultsReducer = createReducer(
   initialState,
-  on(seriousFaultsActions.AddSeriousFault, (state, { payload }) => ({
+  on(seriousFaultsActions.AddSeriousFault, (state, { competency }) => ({
     ...state,
-    [payload]: true,
+    [competency]: true,
   })),
-  on(seriousFaultsActions.RemoveSeriousFault, (state, { payload }) => ({
+  on(seriousFaultsActions.RemoveSeriousFault, (state, { competency }) => ({
     // not same as original implementation due to TS error
-    ...omit(state, payload),
+    ...omit(state, competency),
   })),
   on(seriousFaultsActions.AddSeriousFaultComment, (state, {
     competencyName,
-    comment
+    comment,
   }) => ({
     ...state,
     [`${competencyName}Comments`]: comment,

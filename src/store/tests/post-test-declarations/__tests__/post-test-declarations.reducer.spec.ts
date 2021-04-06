@@ -20,7 +20,7 @@ describe('PostTestDeclarations reducer', () => {
   });
 
   it('should set the signature when the SignatureDataChanged action is received', () => {
-    const result = postTestDeclarationsReducer(initialState, SignatureDataChanged({ payload: 'ImSomeNewSignatureData' }));
+    const result = postTestDeclarationsReducer(initialState, SignatureDataChanged('ImSomeNewSignatureData'));
     expect(result.postTestSignature).toEqual('ImSomeNewSignatureData');
   });
 

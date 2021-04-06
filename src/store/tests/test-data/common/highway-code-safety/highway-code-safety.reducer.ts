@@ -23,9 +23,9 @@ export const highwayCodeSafetyReducer = createReducer(
   on(highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault, (state): HighwayCodeSafetyUnion => ({
     selected: state.selected,
   })),
-  on(highwayCodeSafetyActions.HighwayCodeSafetyAddComment, (state, { payload }): HighwayCodeSafetyUnion => ({
+  on(highwayCodeSafetyActions.HighwayCodeSafetyAddComment, (state, { comment }): HighwayCodeSafetyUnion => ({
     ...state,
-    faultComments: payload,
+    faultComments: comment,
   })),
 );
 

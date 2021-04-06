@@ -22,9 +22,9 @@ export const preTestDeclarationsReducer = createReducer(
     ...state,
     residencyDeclarationAccepted: !state.residencyDeclarationAccepted,
   })),
-  on(preTestDeclarationActions.SignatureDataChanged, (state, { payload }): PreTestDeclarations => ({
+  on(preTestDeclarationActions.SignatureDataChanged, (state, { signature }): PreTestDeclarations => ({
     ...state,
-    preTestSignature: payload,
+    preTestSignature: signature,
   })),
   on(preTestDeclarationActions.SignatureDataCleared, (state): PreTestDeclarations => ({
     ...state,
@@ -34,10 +34,10 @@ export const preTestDeclarationsReducer = createReducer(
     ...state,
     candidateDeclarationSigned: true,
   })),
-  on(preTestDeclarationActions.SetDeclarationStatus, (state, { payload }): PreTestDeclarations => ({
+  on(preTestDeclarationActions.SetDeclarationStatus, (state, { declarationStatus }): PreTestDeclarations => ({
     ...state,
-    insuranceDeclarationAccepted: payload,
-    residencyDeclarationAccepted: payload,
+    insuranceDeclarationAccepted: declarationStatus,
+    residencyDeclarationAccepted: declarationStatus,
   })),
 );
 

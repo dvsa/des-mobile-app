@@ -17,8 +17,8 @@ export const eyesightTestReducer = createReducer(
   on(eyesightTestActions.EyesightTestReset, (): EyesightTest => ({
     ...initialState,
   })),
-  on(eyesightTestActions.EyesightTestAddComment, (state, { payload }): EyesightTest => ({
+  on(eyesightTestActions.EyesightTestAddComment, (state, { comment }): EyesightTest => ({
     ...state,
-    faultComments: payload,
+    faultComments: comment,
   })),
 );

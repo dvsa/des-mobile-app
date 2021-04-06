@@ -102,7 +102,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
     this.isUnauthenticated = this.authenticationProvider.isInUnAuthenticatedMode();
-    this.store$.dispatch(journalActions.SetSelectedDate({ payload: this.dateTimeProvider.now().format('YYYY-MM-DD') }));
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
   }
 

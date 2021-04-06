@@ -20,7 +20,7 @@ describe('PreTestDeclarations reducer', () => {
   });
 
   it('should set the signature when the SignatureDataChanged action is received', () => {
-    const result = preTestDeclarationsReducer(initialState, SignatureDataChanged({ payload: 'ImSomeNewSignatureData' }));
+    const result = preTestDeclarationsReducer(initialState, SignatureDataChanged('ImSomeNewSignatureData'));
     expect(result.preTestSignature).toEqual('ImSomeNewSignatureData');
   });
 

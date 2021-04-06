@@ -8,7 +8,7 @@ export const initialState: Examiner = {
 
 export const examinerReducer = createReducer(
   initialState,
-  on(examinerActions.PopulateExaminer, (_, { payload }): Examiner => payload),
+  on(examinerActions.PopulateExaminer, (_, { examiner }) => examiner),
 );
 
 export const getExaminer = createFeatureSelector<Examiner>('examiner');

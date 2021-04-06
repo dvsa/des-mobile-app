@@ -1,6 +1,6 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-
 import { get } from 'lodash';
+
 import * as journalActions from './journal.actions';
 import { JournalModel } from './journal.model';
 import { ConnectionStatus } from '../../app/providers/network-state/network-state';
@@ -87,13 +87,16 @@ export const journalReducer = createReducer(
       },
     };
   }),
-  on(journalActions.SetSelectedDate, (state: JournalModel, { payload }) => ({
+  on(journalActions.SetSelectedDate, (state: JournalModel, { selectedDate }) => {
+    console.log('SetSelectedDate');
+    return {
+      ...state,
+      selectedDate,
+    }
+  }),
+  on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel, { completedTests }) => ({
     ...state,
-    selectedDate: payload,
-  })),
-  on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel, { payload }) => ({
-    ...state,
-    completedTests: payload,
+    completedTests,
   })),
 );
 

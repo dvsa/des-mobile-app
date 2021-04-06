@@ -1,4 +1,4 @@
-import { CommunicationPreferences } from '@dvsa/mes-test-schema/categories/common';
+import { CommunicationPreferences, ConductedLanguage } from '@dvsa/mes-test-schema/categories/common';
 import { get } from 'lodash';
 
 export const getCommunicationPreferenceUpdatedEmail = (
@@ -11,4 +11,4 @@ export const getCommunicationPreferenceType = (
 
 export const getConductedLanguage = (
   communicationPreferences: CommunicationPreferences,
-) => communicationPreferences.conductedLanguage;
+): ConductedLanguage => communicationPreferences.conductedLanguage;

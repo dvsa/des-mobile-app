@@ -6,7 +6,7 @@ export const initialState: ActivityCode = null;
 
 export const activityCodeReducer = createReducer(
   initialState,
-  on(activityCodeActions.SetActivityCode, (state, { payload }) => payload),
+  on(activityCodeActions.SetActivityCode, (_, { activityCode }) => activityCode),
 );
 
 export const getActivityCode = createFeatureSelector<ActivityCode>('activityCode');

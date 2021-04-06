@@ -8,13 +8,13 @@ const initialState: VehicleDetails = {
 
 export const vehicleDetailsReducer = createReducer(
   initialState,
-  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, { payload }): VehicleDetails => ({
+  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, { registrationNumber }): VehicleDetails => ({
     ...state,
-    registrationNumber: payload,
+    registrationNumber,
   })),
-  on(vehicleDetailsActions.GearboxCategoryChanged, (state, { payload }): VehicleDetails => ({
+  on(vehicleDetailsActions.GearboxCategoryChanged, (state, { gearboxCategory }): VehicleDetails => ({
     ...state,
-    gearboxCategory: payload,
+    gearboxCategory,
   })),
   on(vehicleDetailsActions.ClearGearboxCategory, (state): VehicleDetails => ({
     ...state,

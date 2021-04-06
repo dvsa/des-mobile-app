@@ -20,7 +20,7 @@ import { nullReducer } from '../../app/shared/classes/null.reducer';
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
 import { testDataCatADI2Reducer } from './test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import {
-  vehicleDetailsCatADIPart2Reducer
+  vehicleDetailsCatADIPart2Reducer,
 } from './vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
 import {
   trainerDetailsCatADIPart2Reducer,
@@ -53,7 +53,8 @@ export function testsCatADIPart2Reducer(
       testSummary: testSummaryReducer,
       trainerDetails: trainerDetailsCatADIPart2Reducer,
       vehicleDetails: vehicleDetailsCatADIPart2Reducer,
-    })(
+    },
+  )(
     state as Required<CatADI2UniqueTypes.TestResult>,
     action,
   );

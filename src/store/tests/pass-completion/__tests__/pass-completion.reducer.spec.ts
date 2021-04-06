@@ -7,7 +7,7 @@ import {
 
 describe('pass completion reducer', () => {
   it('should put the pass certificate number into the state on pass certificate number changed action', () => {
-    const result = passCompletionReducer(initialState, PassCertificateNumberChanged({ payload: 'ABC123' }));
+    const result = passCompletionReducer(initialState, PassCertificateNumberChanged('ABC123'));
     expect(result.passCertificateNumber).toBe('ABC123');
   });
 

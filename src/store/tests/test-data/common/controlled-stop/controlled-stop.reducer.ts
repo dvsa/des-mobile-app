@@ -26,13 +26,13 @@ export const controlledStopReducer = createReducer(
     fault: CompetencyOutcome.D,
     selected: true,
   })),
-  on(controlledStopActions.AddControlledStopComment, (state): ControlledStopUnion => ({
+  on(controlledStopActions.ControlledStopRemoveFault, (state): ControlledStopUnion => ({
     ...state,
     selected: state.selected,
   })),
-  on(controlledStopActions.AddControlledStopComment, (state, { payload }): ControlledStopUnion => ({
+  on(controlledStopActions.AddControlledStopComment, (state, { comment }): ControlledStopUnion => ({
     ...state,
-    faultComments: payload,
+    faultComments: comment,
   })),
 );
 

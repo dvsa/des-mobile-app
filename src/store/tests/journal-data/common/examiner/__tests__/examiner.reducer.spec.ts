@@ -7,7 +7,7 @@ describe('examiner reducer', () => {
     const mockExaminer: Examiner = {
       staffNumber: '1234',
     };
-    const result = examinerReducer(null, PopulateExaminer({ payload: mockExaminer }));
+    const result = examinerReducer(null, PopulateExaminer(mockExaminer));
 
     expect(result).toBe(mockExaminer);
   });

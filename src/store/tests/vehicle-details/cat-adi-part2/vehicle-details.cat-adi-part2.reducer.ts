@@ -8,9 +8,11 @@ const initialState: CatADI2UniqueTypes.VehicleDetails = {
 
 export const vehicleDetailsCatADIPart2Reducer = createReducer(
   initialState,
-  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, { payload }): CatADI2UniqueTypes.VehicleDetails => ({
+  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, {
+    registrationNumber,
+  }): CatADI2UniqueTypes.VehicleDetails => ({
     ...state,
-    registrationNumber: payload,
+    registrationNumber,
   })),
   on(vehicleDetailsActions.SchoolCarToggled, (state): CatADI2UniqueTypes.VehicleDetails => ({
     ...state,
@@ -20,9 +22,9 @@ export const vehicleDetailsCatADIPart2Reducer = createReducer(
     ...state,
     dualControls: !state.dualControls,
   })),
-  on(vehicleDetailsActions.GearboxCategoryChanged, (state, { payload }): CatADI2UniqueTypes.VehicleDetails => ({
+  on(vehicleDetailsActions.GearboxCategoryChanged, (state, { gearboxCategory }): CatADI2UniqueTypes.VehicleDetails => ({
     ...state,
-    gearboxCategory: payload,
+    gearboxCategory,
   })),
   on(vehicleDetailsActions.ClearGearboxCategory, (state): CatADI2UniqueTypes.VehicleDetails => ({
     ...state,

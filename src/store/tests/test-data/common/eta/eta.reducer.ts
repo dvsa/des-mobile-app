@@ -6,8 +6,8 @@ export const initialState: ETA = {};
 
 export const etaReducer = createReducer(
   initialState,
-  on(etaActions.ToggleETA, (state, { payload }) => ({
+  on(etaActions.ToggleETA, (state, { examinerAction }) => ({
     ...state,
-    [payload]: !state[payload],
+    [examinerAction]: !state[examinerAction],
   })),
 );

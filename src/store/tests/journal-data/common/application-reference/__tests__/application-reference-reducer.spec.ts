@@ -8,7 +8,7 @@ describe('application reference reducer', () => {
       bookingSequence: 8,
       checkDigit: 9,
     };
-    const result = applicationReferenceReducer(null, PopulateApplicationReference({ payload: mockApplication }));
+    const result = applicationReferenceReducer(null, PopulateApplicationReference(mockApplication));
 
     expect(result).toEqual(mockApplication);
   });

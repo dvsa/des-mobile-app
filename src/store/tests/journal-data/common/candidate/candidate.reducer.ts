@@ -20,7 +20,7 @@ export const initialState: Candidate = {
 
 export const candidateReducer = createReducer(
   initialState,
-  on(candidateActions.PopulateCandidateDetails, (_, { payload }) => payload),
+  on(candidateActions.PopulateCandidateDetails, (_, { candidate }) => candidate),
 );
 
 export const getCandidate = createFeatureSelector<Candidate>('candidate');

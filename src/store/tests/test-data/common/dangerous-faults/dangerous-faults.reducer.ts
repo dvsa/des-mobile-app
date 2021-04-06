@@ -7,17 +7,17 @@ export const initialState: DangerousFaults = {};
 
 export const dangerousFaultsReducer = createReducer(
   initialState,
-  on(dangerousFaultsActions.AddDangerousFault, (state, { payload }) => ({
+  on(dangerousFaultsActions.AddDangerousFault, (state, { competency }) => ({
     ...state,
-    [payload]: true,
+    [competency]: true,
   })),
-  on(dangerousFaultsActions.RemoveDangerousFault, (state, { payload }) => ({
+  on(dangerousFaultsActions.RemoveDangerousFault, (state, { competency }) => ({
     // not same as original implementation due to TS error
-    ...omit(state, payload),
+    ...omit(state, competency),
   })),
   on(dangerousFaultsActions.AddDangerousFaultComment, (state, {
     competencyName,
-    comment
+    comment,
   }) => ({
     ...state,
     [`${competencyName}Comments`]: comment,

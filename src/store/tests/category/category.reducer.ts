@@ -7,7 +7,7 @@ export const initialState: CategoryCode = null;
 
 export const categoryReducer = createReducer(
   initialState,
-  on(categoryActions.PopulateTestCategory, (state, { payload }) => payload),
+  on(categoryActions.PopulateTestCategory, (_, { categoryCode }) => categoryCode),
 );
 
 export const getTestCategory = createFeatureSelector<CategoryCode>('category');

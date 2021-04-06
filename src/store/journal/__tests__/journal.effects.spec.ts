@@ -9,7 +9,6 @@ import * as journalActions from '../journal.actions';
 import { JournalEffects } from '../journal.effects';
 import { JournalProvider } from '../../../app/providers/journal/journal';
 import { SlotProvider } from '../../../app/providers/slot/slot';
-// import { JournalModel } from '../journal.model';
 import { ConnectionStatus, NetworkStateProvider } from '../../../app/providers/network-state/network-state';
 import { AppConfigProvider } from '../../../app/providers/app-config/app-config';
 import { JournalProviderMock } from '../../../app/providers/journal/__mocks__/journal.mock';
@@ -209,22 +208,22 @@ describe('Journal Effects', () => {
     // ARRANGE
     const selectedDate: string = new DateTime().format('YYYY-MM-DD');
     const nextDay: string = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
-    store$.dispatch(journalActions.SetSelectedDate({ payload: selectedDate }));
-    store$.dispatch(journalActions.LoadJournalSuccess({
-      payload: { examiner: { staffNumber: '123', individualId: 456 }, slotItemsByDate: journalSlotsDataMock },
-      onlineOffline: ConnectionStatus.ONLINE,
-      unAuthenticatedMode: false,
-      lastRefreshed: new Date(), // Load in mock journal state
-    }));
+    store$.dispatch(journalActions.SetSelectedDate(selectedDate));
+    store$.dispatch(journalActions.LoadJournalSuccess(
+    { examiner: { staffNumber: '123', individualId: 456 }, slotItemsByDate: journalSlotsDataMock },
+      ConnectionStatus.ONLINE,
+      false,
+      new Date(), // Load in mock journal state
+    ));
     // ACT
     actions$.next(journalActions.SelectNextDay());
     // ASSERT
     effects.selectNextDayEffect$.subscribe((result) => {
       if (result.type === '[JournalEffects] Set Selected Day') {
-        expect(result).toEqual(journalActions.SetSelectedDate({ payload: nextDay }));
+        expect(result).toEqual(journalActions.SetSelectedDate(nextDay));
       }
       if (result.type === '[JournalPage] Navigate Day') {
-        expect(result).toEqual(journalActions.JournalNavigateDay({ day: nextDay }));
+        expect(result).toEqual(journalActions.JournalNavigateDay(nextDay));
       }
       done();
     });

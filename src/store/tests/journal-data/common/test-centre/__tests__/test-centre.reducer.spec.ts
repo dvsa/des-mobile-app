@@ -8,7 +8,7 @@ describe('testCentre reducer', () => {
       centreId: 1,
       costCode: '1234',
     };
-    const result = testCentreReducer(null, PopulateTestCentre({ payload: mockTestCentre }));
+    const result = testCentreReducer(null, PopulateTestCentre(mockTestCentre));
 
     expect(result).toBe(mockTestCentre);
   });
