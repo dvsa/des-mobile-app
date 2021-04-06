@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
 import { RekeySearchProvider } from '../../providers/rekey-search/rekey-search';
@@ -25,8 +25,7 @@ export class RekeySearchEffects {
   ) {
   }
 
-  @Effect()
-  getBooking$ = this.actions$.pipe(
+  getBooking$ = createEffect(() => this.actions$.pipe(
     ofType(SearchBookedTest),
     switchMap((action) => {
       return this.testSearchProvider.getTestResult(action.appRef, action.staffNumber)
@@ -55,6 +54,6 @@ export class RekeySearchEffects {
           }),
         );
     }),
-  );
+  ));
 
 }

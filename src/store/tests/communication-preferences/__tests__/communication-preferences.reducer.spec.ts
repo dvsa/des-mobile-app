@@ -13,7 +13,7 @@ describe('communicationPreferencesReducer', () => {
   describe('CANDIDATE_CONFIRMED_COMMUNICATION_PREFERENCE_AS_EMAIL', () => {
     it('should correctly set the communication preference as email and set the email address', () => {
       const emailAddress: string = 'example@example.com';
-      const action = CandidateChoseEmailAsCommunicationPreference(emailAddress, 'Post');
+      const action = CandidateChoseEmailAsCommunicationPreference(emailAddress, 'Email');
       const result: CommunicationPreferences = communicationPreferencesReducer(null, action);
       expect(result.communicationMethod).toEqual('Email');
       expect(result.updatedEmail).toEqual(emailAddress);

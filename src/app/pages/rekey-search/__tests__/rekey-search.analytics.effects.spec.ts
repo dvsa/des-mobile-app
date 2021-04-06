@@ -40,7 +40,7 @@ describe('Rekey Search Analytics Effects', () => {
       actions$.next(rekeySearchActions.RekeySearchViewDidEnter());
       // ASSERT
       effects.rekeySearchViewDidEnter$.subscribe((result) => {
-        expect(result instanceof AnalyticRecorded).toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });
@@ -52,7 +52,7 @@ describe('Rekey Search Analytics Effects', () => {
       actions$.next(rekeySearchActions.SearchBookedTest('', ''));
       // ASSERT
       effects.rekeySearchPerformed$.subscribe((result) => {
-        expect(result instanceof AnalyticRecorded).toBe(true);
+        expect(result?.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           AnalyticsEventCategories.REKEY_SEARCH,
           AnalyticsEvents.TEST_BOOKING_SEARCH,

@@ -1,3 +1,4 @@
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
   getTestTime,
   getSlotId,
@@ -26,6 +27,7 @@ describe('testSlotAttributes selector', () => {
   };
 
   describe('getTestTime', () => {
+    // @TODO: INVESTIGATE WHY THIS IS CAUSING A MOMENT DEPRECATION WARNING;
     it('should return the time of the test', () => {
       expect(getTestTime(testSlotAttributes)).toBe(formattedTime);
     });
@@ -33,17 +35,20 @@ describe('testSlotAttributes selector', () => {
 
   describe('getTestDate', () => {
     it('should return the date of the test', () => {
-      const startDateTime = '2021-01-15T08:10:00.000Z';
-      testSlotAttributes.start = startDateTime;
-      expect(getTestDate(testSlotAttributes)).toBe('15/01/2021');
+      expect(getTestDate({
+        ...testSlotAttributes,
+        start: '2021-01-15'
+      })).toBe('15/01/2021');
     });
   });
 
   describe('getTestStartDateTime', () => {
     it('should return the start date and time of the test as string', () => {
       const startDateTime = '2021-01-15T08:10:00.000Z';
-      testSlotAttributes.start = startDateTime;
-      expect(getTestStartDateTime(testSlotAttributes)).toBe(startDateTime);
+      expect(getTestStartDateTime({
+        ...testSlotAttributes,
+        start: '2021-01-15T08:10:00.000Z',
+      })).toBe(startDateTime);
     });
   });
 
@@ -94,7 +99,7 @@ describe('testSlotAttributes selector', () => {
       vehicleSlotTypeCode: 6,
       vehicleTypeCode: 'B',
       examinerVisiting: true,
-    };
+    } as TestSlot;
 
     it('should return a TestSlotAttributes object from slot data', () => {
       const testSlotAttributes = extractTestSlotAttributes(slotData);
@@ -115,8 +120,16 @@ describe('testSlotAttributes selector', () => {
 
     it('should populate specialNeedsArray with only one element: None', () => {
       const slotDataWithNoSpecialNeeds = slotData;
-      slotDataWithNoSpecialNeeds.booking.application.specialNeeds = null;
-      const testSlotAttributes = extractTestSlotAttributes(slotDataWithNoSpecialNeeds);
+      const testSlotAttributes = extractTestSlotAttributes({
+        ...slotDataWithNoSpecialNeeds,
+        booking: {
+          ...slotDataWithNoSpecialNeeds.booking,
+          application: {
+            ...slotDataWithNoSpecialNeeds.booking.application,
+            specialNeeds: null
+          },
+        },
+      });
       expect(testSlotAttributes.specialNeedsArray).toEqual(['None']);
     });
   });

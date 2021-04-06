@@ -1,4 +1,5 @@
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import moment from 'moment';
 import { getSlotType } from '../../../../../app/shared/helpers/get-slot-type';
 
@@ -10,14 +11,13 @@ export const isSpecialNeeds = (attributes: TestSlotAttributes) => attributes.spe
 export const getSlotId = (attributes: TestSlotAttributes) => attributes.slotId;
 export const isWelshTest = (attributes: TestSlotAttributes) => attributes.welshTest;
 
-export const extractTestSlotAttributes = (slotData): TestSlotAttributes => ({
+export const extractTestSlotAttributes = (slotData: TestSlot): TestSlotAttributes => ({
   welshTest: slotData.booking.application.welshTest,
   slotId: slotData.slotDetail.slotId,
   start: slotData.slotDetail.start,
   specialNeeds: !!slotData.booking.application.specialNeeds,
   specialNeedsCode: slotData.booking.application.specialNeedsCode,
-  specialNeedsArray:
-    slotData.booking.application.specialNeeds ? slotData.booking.application.specialNeeds.split(';') : ['None'],
+  specialNeedsArray: slotData.booking.application.specialNeeds?.split(';') ?? ['None'],
   vehicleTypeCode: slotData.vehicleTypeCode,
   extendedTest: slotData.booking.application.extendedTest,
   examinerVisiting: slotData.examinerVisiting,

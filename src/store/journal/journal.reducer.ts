@@ -88,7 +88,6 @@ export const journalReducer = createReducer(
     };
   }),
   on(journalActions.SetSelectedDate, (state: JournalModel, { selectedDate }) => {
-    console.log('SetSelectedDate');
     return {
       ...state,
       selectedDate,

@@ -118,21 +118,27 @@ describe('TestDataSelectors Cat ADI2', () => {
       expect(result).toBeUndefined();
     });
     it('should return `Physical and Verbal` if both ETA faults', () => {
-      state.ETA.physical = true;
-      state.ETA.verbal = true;
-      const result = getETAFaultText(state.ETA);
+      const result = getETAFaultText({
+        ...state.ETA,
+        physical: true,
+        verbal: true,
+      });
       expect(result).toEqual('Physical and Verbal');
     });
     it('should return `Physical` if just physical ETA fault', () => {
-      state.ETA.physical = true;
-      state.ETA.verbal = false;
-      const result = getETAFaultText(state.ETA);
+      const result = getETAFaultText({
+        ...state.ETA,
+        physical: true,
+        verbal: false,
+      });
       expect(result).toEqual('Physical');
     });
     it('should return `Verbal` if just verbal ETA fault', () => {
-      state.ETA.physical = false;
-      state.ETA.verbal = true;
-      const result = getETAFaultText(state.ETA);
+      const result = getETAFaultText({
+        ...state.ETA,
+        physical: false,
+        verbal: true,
+      });
       expect(result).toEqual('Verbal');
     });
   });
@@ -143,21 +149,27 @@ describe('TestDataSelectors Cat ADI2', () => {
       expect(result).toBeUndefined();
     });
     it('should return `Control and Planning` if both eco faults', () => {
-      state.eco.adviceGivenControl = true;
-      state.eco.adviceGivenPlanning = true;
-      const result = getEcoFaultText(state.eco);
+      const result = getEcoFaultText({
+        ...state.eco,
+        adviceGivenControl: true,
+        adviceGivenPlanning: true,
+      });
       expect(result).toEqual('Control and Planning');
     });
     it('should return `Control` if just control eco fault', () => {
-      state.eco.adviceGivenControl = true;
-      state.eco.adviceGivenPlanning = false;
-      const result = getEcoFaultText(state.eco);
+      const result = getEcoFaultText({
+        ...state.eco,
+        adviceGivenControl: true,
+        adviceGivenPlanning: false,
+      });
       expect(result).toEqual('Control');
     });
     it('should return `Planning` if just planning eco fault', () => {
-      state.eco.adviceGivenControl = false;
-      state.eco.adviceGivenPlanning = true;
-      const result = getEcoFaultText(state.eco);
+      const result = getEcoFaultText({
+        ...state.eco,
+        adviceGivenControl: false,
+        adviceGivenPlanning: true,
+      });
       expect(result).toEqual('Planning');
     });
   });

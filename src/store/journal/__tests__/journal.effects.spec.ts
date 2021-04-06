@@ -68,13 +68,13 @@ describe('Journal Effects', () => {
   beforeEach(() => {
     // ARRANGE
     actions$ = new ReplaySubject(1);
-    journalProvider = TestBed.get(JournalProvider);
+    journalProvider = TestBed.inject(JournalProvider);
     (journalProvider as any).resetErrors();
-    effects = TestBed.get(JournalEffects);
-    slotProvider = TestBed.get(SlotProvider);
-    store$ = TestBed.get(Store);
-    networkStateProvider = TestBed.get(NetworkStateProvider);
-    appConfigProvider = TestBed.get(AppConfigProvider);
+    effects = TestBed.inject(JournalEffects);
+    slotProvider = TestBed.inject(SlotProvider);
+    store$ = TestBed.inject(Store);
+    networkStateProvider = TestBed.inject(NetworkStateProvider);
+    appConfigProvider = TestBed.inject(AppConfigProvider);
   });
 
   it('should dispatch the success action when the journal loads successfully', (done) => {
@@ -142,9 +142,7 @@ describe('Journal Effects', () => {
       expect(slotProvider.extendWithEmptyDays).not.toHaveBeenCalled();
       expect(slotProvider.getRelevantSlots).not.toHaveBeenCalled();
       expect(result.type === '[JournalPage] Journal Refresh Error').toBe(true);
-      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh({
-        mode: JournalRefreshModes.MANUAL,
-      }));
+      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh(JournalRefreshModes.MANUAL));
       done();
     });
   });
@@ -168,9 +166,7 @@ describe('Journal Effects', () => {
       expect(slotProvider.extendWithEmptyDays).not.toHaveBeenCalled();
       expect(slotProvider.getRelevantSlots).not.toHaveBeenCalled();
       expect(result.type === '[JournalPage] Load Journal Success').toBe(false);
-      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh({
-        mode: JournalRefreshModes.MANUAL,
-      }));
+      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh(JournalRefreshModes.MANUAL));
       // expect(store$.dispatch).toHaveBeenCalledWith(jasmine.any(SaveLog));
       done();
     });
@@ -196,7 +192,7 @@ describe('Journal Effects', () => {
         expect(result.type === '[JournalPage] Journal Refresh Error').toEqual(true);
       } else if (result.type === '[JournalEffects] Load Journal Failure') {
         expect(result.type === '[JournalEffects] Load Journal Failure').toEqual(true);
-        expect((result as any).message).toBe('Http failure response for (unknown url): 403 Forbidden');
+        expect((result as any).error.message).toBe('Http failure response for (unknown url): 403 Forbidden');
       } else {
         fail('Unknown Action Sent');
       }

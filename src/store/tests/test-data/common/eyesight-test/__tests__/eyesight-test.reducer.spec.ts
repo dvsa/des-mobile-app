@@ -44,7 +44,7 @@ describe('Eyesight Test Reducer', () => {
         complete: true,
       };
       const result = eyesightTestReducer(state, EyesightTestReset());
-      expect(result).toBe(initialState);
+      expect(result).toEqual(initialState);
     });
   });
 

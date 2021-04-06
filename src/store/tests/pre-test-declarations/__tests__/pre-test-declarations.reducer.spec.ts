@@ -42,6 +42,6 @@ describe('PreTestDeclarations reducer', () => {
 
     const result = preTestDeclarationsReducer(dirtyState, ClearPreTestDeclarations());
 
-    expect(result).toBe(initialState);
+    expect(result).toEqual(initialState);
   });
 });

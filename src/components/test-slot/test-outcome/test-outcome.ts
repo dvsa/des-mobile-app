@@ -347,6 +347,7 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   clickStartOrResumeTest() {
+    // @TODO: Implement Start Test Logic
     // if (this.specialRequirements && !this.hasSeenCandidateDetails) {
     //   this.displayForceCheckModal();
     //   return;

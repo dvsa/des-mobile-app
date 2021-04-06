@@ -1,11 +1,11 @@
 import { async, TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
-import { rekeySearchReducer } from '../rekey-search.reducer';
 import { StoreModule, Store } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 import { ReplaySubject, defer } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 
+import { rekeySearchReducer } from '../rekey-search.reducer';
 import { RekeySearchProvider } from '../../../providers/rekey-search/rekey-search';
 import { RekeySearchProviderMock } from '../../../providers/rekey-search/__mocks__/rekey-search.mock';
 import * as rekeySearchActions from '../rekey-search.actions';
@@ -73,7 +73,7 @@ describe('Rekey Search Effects', () => {
 
     effects.getBooking$.subscribe((result) => {
       expect(compressionProvider.extractTestSlotResult).toHaveBeenCalled();
-      expect(result instanceof rekeySearchActions.SearchBookedTestSuccess).toBeTruthy();
+      expect(result.type === rekeySearchActions.SearchBookedTestSuccess.type).toBeTruthy();
       done();
     });
 
@@ -92,7 +92,7 @@ describe('Rekey Search Effects', () => {
     actions$.next(rekeySearchActions.SearchBookedTest(appRef, staffNumber));
 
     effects.getBooking$.subscribe((result) => {
-      expect(result instanceof rekeySearchActions.SearchBookedTestFailure).toBeTruthy();
+      expect(result.type === rekeySearchActions.SearchBookedTestFailure.type).toBeTruthy();
       done();
     });
 
@@ -142,7 +142,7 @@ describe('Rekey Search Effects', () => {
         staffNumber,
         applicationReference: appRef,
       });
-      expect(result instanceof rekeySearchActions.SearchBookedTestSuccess).toBeTruthy();
+      expect(result.type === rekeySearchActions.SearchBookedTestSuccess.type).toBeTruthy();
       done();
     });
 
@@ -158,7 +158,7 @@ describe('Rekey Search Effects', () => {
 
     effects.getBooking$.subscribe((result) => {
       expect(rekeySearchProvider.getBooking).not.toHaveBeenCalled();
-      expect(result instanceof rekeySearchActions.SearchBookedTestFailure).toBeTruthy();
+      expect(result.type === rekeySearchActions.SearchBookedTestFailure.type).toBeTruthy();
       done();
     });
 

@@ -8,14 +8,14 @@ describe('Serious Faults Reducer', () => {
   describe('ADD SERIOUS FAULT', () => {
     it('should add a serious fault when none exist', () => {
       const state: SeriousFaults = {};
-      const result = seriousFaultsReducer(state, AddSeriousFault({ payload: Competencies.followingDistance }));
+      const result = seriousFaultsReducer(state, AddSeriousFault(Competencies.followingDistance));
       expect(result.followingDistance).toEqual(true);
     });
     it('should not remove an existing serious fault when a  one is added', () => {
       const state: SeriousFaults = {
         followingDistance: true,
       };
-      const result = seriousFaultsReducer(state, AddSeriousFault({ payload: Competencies.judgementCrossing }));
+      const result = seriousFaultsReducer(state, AddSeriousFault(Competencies.judgementCrossing));
       expect(result.followingDistance).toEqual(true);
       expect(result.judgementCrossing).toEqual(true);
     });
@@ -26,7 +26,7 @@ describe('Serious Faults Reducer', () => {
       const state: SeriousFaults = {
         controlsGears: true,
       };
-      const result = seriousFaultsReducer(state, RemoveSeriousFault({ payload: Competencies.controlsGears }));
+      const result = seriousFaultsReducer(state, RemoveSeriousFault(Competencies.controlsGears));
       expect(result.controlsGears).toBeUndefined();
     });
   });
@@ -34,10 +34,7 @@ describe('Serious Faults Reducer', () => {
   describe('ADD_SERIOUS_FAULT_COMMENT', () => {
     it('should add a comment to the comptency', () => {
       const state: SeriousFaults = {};
-      const result = seriousFaultsReducer(state, AddSeriousFaultComment({
-        competencyName: Competencies.controlsGears,
-        comment: 'Test'
-      }));
+      const result = seriousFaultsReducer(state, AddSeriousFaultComment(Competencies.controlsGears, 'Test'));
       expect(result.controlsGearsComments).toEqual('Test');
     });
   });

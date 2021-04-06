@@ -27,7 +27,6 @@ export const controlledStopReducer = createReducer(
     selected: true,
   })),
   on(controlledStopActions.ControlledStopRemoveFault, (state): ControlledStopUnion => ({
-    ...state,
     selected: state.selected,
   })),
   on(controlledStopActions.AddControlledStopComment, (state, { comment }): ControlledStopUnion => ({

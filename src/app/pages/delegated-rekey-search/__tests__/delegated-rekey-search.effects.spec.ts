@@ -62,9 +62,9 @@ describe('Delegated Rekey Search Effects', () => {
 
   beforeEach(async(() => {
     actions$ = new ReplaySubject(1);
-    effects = TestBed.get(DelegatedRekeySearchEffects);
-    delegatedRekeySearchProvider = TestBed.get(DelegatedRekeySearchProvider);
-    searchProvider = TestBed.get(SearchProvider);
+    effects = TestBed.inject(DelegatedRekeySearchEffects);
+    delegatedRekeySearchProvider = TestBed.inject(DelegatedRekeySearchProvider);
+    searchProvider = TestBed.inject(SearchProvider);
   }));
 
   it('should dispatch the SearchBookedTestSuccess action when searched with success', (done) => {
@@ -76,7 +76,7 @@ describe('Delegated Rekey Search Effects', () => {
     actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest('12345678910'));
 
     effects.getBooking$.subscribe((result) => {
-      expect(result instanceof delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess).toBeTruthy();
+      expect(result.type === delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess.type).toBeTruthy();
       done();
     });
 
@@ -95,7 +95,7 @@ describe('Delegated Rekey Search Effects', () => {
     actions$.next(delegatedRekeySearchActions.SearchBookedDelegatedTest('12345678911'));
 
     effects.getBooking$.subscribe((result) => {
-      expect(result instanceof delegatedRekeySearchActions.SearchBookedDelegatedTestFailure).toBeTruthy();
+      expect(result.type === delegatedRekeySearchActions.SearchBookedDelegatedTestFailure.type).toBeTruthy();
       done();
     });
 

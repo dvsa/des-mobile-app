@@ -1,5 +1,5 @@
 // import { SingleFaultCompetencies, TestData } from '@dvsa/mes-test-schema/categories/AM1';
-// import { CompetencyOutcome } from '../../../../../../shared/models/competency-outcome';
+// import { CompetencyOutcome } from '../../../../../../app/shared/models/competency-outcome';
 // import {
 //   getSingleFaultCompetencies, hasCompetencyDrivingFault, hasCompetencySeriousFault, hasCompetencyDangerousFault,
 // } from '../single-fault-competencies.selector';

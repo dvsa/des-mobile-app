@@ -42,6 +42,6 @@ describe('PostTestDeclarations reducer', () => {
 
     const result = postTestDeclarationsReducer(dirtyState, ClearPostTestDeclarations());
 
-    expect(result).toBe(initialState);
+    expect(result).toEqual(initialState);
   });
 });
