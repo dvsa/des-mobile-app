@@ -44,18 +44,17 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     await this.platform.ready();
-    const { SplashScreen } = Plugins;
     this.initialiseNetworkState();
     this.initialiseAuthentication();
     await this.initialisePersistentStorage();
     this.store$.dispatch(LoadAppVersion());
+    await this.hideSplashscreen();
     await this.configureStatusBar();
     if (this.platform.is('cordova')) {
       this.configureAccessibility();
       this.configurePlatformSubscriptions();
     }
     await this.disableMenuSwipe();
-    await SplashScreen.hide();
     this.logoutEnabled$ = this.store$.select(selectLogoutEnabled);
   }
 
@@ -135,6 +134,13 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     if (Capacitor.isPluginAvailable('StatusBar')) {
       const { StatusBar } = Plugins;
       await StatusBar.setStyle({ style: StatusBarStyle.Dark });
+    }
+  };
+
+  hideSplashscreen = async (): Promise<void> => {
+    if (Capacitor.isPluginAvailable('SplashScreen')) {
+      const { SplashScreen } = Plugins;
+      await SplashScreen.hide();
     }
   };
 

@@ -85,6 +85,7 @@ describe('AppComponent', () => {
       spyOn(Plugins.SplashScreen, 'hide');
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
+      spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
       spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
     });
@@ -94,7 +95,7 @@ describe('AppComponent', () => {
       expect(component.initialiseAuthentication).toHaveBeenCalled();
       expect(component.initialisePersistentStorage).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-      expect(Plugins.SplashScreen.hide).toHaveBeenCalled();
+      expect(component.hideSplashscreen).toHaveBeenCalled();
       expect(component.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
     }));
@@ -171,6 +172,18 @@ describe('AppComponent', () => {
       component.configureStatusBar();
       flushMicrotasks();
       expect(Plugins.StatusBar.setStyle).toHaveBeenCalledWith({ style: StatusBarStyle.Dark });
+    }));
+  });
+
+  describe('hideSplashscreen', () => {
+    beforeEach(() => {
+      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
+      spyOn(Plugins.SplashScreen, 'hide');
+    });
+    it('should hide splashscreen if plugin is available', fakeAsync(() => {
+      component.hideSplashscreen();
+      flushMicrotasks();
+      expect(Plugins.SplashScreen.hide).toHaveBeenCalled();
     }));
   });
 
