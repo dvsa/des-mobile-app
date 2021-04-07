@@ -49,6 +49,7 @@ import { journalReducer } from '../store/journal/journal.reducer';
 import { appInfoReducer } from '../store/app-info/app-info.reducer';
 import { TestCentreJournalProvider } from './providers/test-centre-journal/test-centre-journal';
 import { TestCentreJournalStoreModule } from '../store/test-centre-journal/test-centre-journal.module';
+import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
@@ -66,6 +67,19 @@ const reducers: ActionReducerMap<any> = {
 const metaReducers: MetaReducer<any, any>[] = [];
 const enableDevTools = environment && environment.enableDevTools;
 const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
+
+// Register our remote devtools if we're on-device and not in a browser and dev tools enabled
+if (!window['devToolsExtension'] && !window['__REDUX_DEVTOOLS_EXTENSION__'] && enableDevTools) {
+  const remoteDevToolsProxy = new RemoteDevToolsProxy({
+    connectTimeout: 300000, // extend for pauses during debugging
+    ackTimeout: 120000, // extend for pauses during debugging
+    secure: false, // dev only
+  });
+
+  // support both the legacy and new keys, for now
+  window['devToolsExtension'] = remoteDevToolsProxy;
+  window['__REDUX_DEVTOOLS_EXTENSION__'] = remoteDevToolsProxy;
+}
 
 if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);

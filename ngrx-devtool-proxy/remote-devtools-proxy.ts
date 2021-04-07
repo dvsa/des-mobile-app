@@ -24,17 +24,13 @@ export class RemoteDevToolsProxy implements ReduxDevtoolsExtension {
     this.defaultOptions = Object.assign(this.defaultOptions, defaultOptions);
   }
 
-  connect(options: {
-    shouldStringify?: boolean;
-    instanceId: string;
-  }): ReduxDevtoolsExtensionConnection {
+  connect(options: ReduxDevtoolsExtensionConfig): ReduxDevtoolsExtensionConnection {
     const connectOptions = Object.assign(this.defaultOptions, options);
 
     this.remotedev = connect(connectOptions);
 
     const connectionProxy = new RemoteDevToolsConnectionProxy(
       this.remotedev,
-      connectOptions.instanceId,
     );
     return connectionProxy;
   }
