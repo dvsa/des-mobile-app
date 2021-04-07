@@ -7,6 +7,12 @@ import { testsReducer } from './tests.reducer';
 import { TestSubmissionProvider } from '../../app/providers/test-submission/test-submission';
 import { FaultCountProvider } from '../../app/providers/fault-count/fault-count';
 import { TestsEffects } from './tests.effects';
+import {
+  VehicleDetailsByCategoryProvider,
+} from '../../app/providers/vehicle-details-by-category/vehicle-details-by-category';
+import {
+  TestDataByCategoryProvider,
+} from '../../app/providers/test-data-by-category/test-data-by-category';
 
 @NgModule({
   imports: [
@@ -21,9 +27,9 @@ import { TestsEffects } from './tests.effects';
     FaultCountProvider,
     // NavigationProvider,
     // NavigationStateProvider,
-    // TestDataByCategoryProvider,
-    // ManoeuvresByCategoryProvider,
-    // VehicleDetailsByCategoryProvider,
+    TestDataByCategoryProvider,
+    // ManoeuvresByCategoryProvider @TODO: Not needed in ADI2, so bring over when required;
+    VehicleDetailsByCategoryProvider,
   ],
 })
 export class TestsModule {}

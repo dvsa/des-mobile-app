@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import {
+  Actions,
+  createEffect,
+  Effect,
+  ofType,
+} from '@ngrx/effects';
 import { from, of, interval } from 'rxjs';
 import { Store, select, Action } from '@ngrx/store';
 import {
@@ -77,9 +82,9 @@ import {
 } from '../../app/pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { StartTest, TestActionsTypes } from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
-import { AppResumed, RestartApp } from '../app-info/app-info.actions';
-import { selectDateConfigLoaded } from '../app-info/app-info.selectors';
-import { LOGIN_PAGE } from '../../app/pages/page-names.constants';
+// import { AppResumed, RestartApp } from '../app-info/app-info.actions';
+// import { selectDateConfigLoaded } from '../app-info/app-info.selectors';
+// import { LOGIN_PAGE } from '../../app/pages/page-names.constants';
 
 // import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 
@@ -97,8 +102,7 @@ export class TestsEffects {
   ) {
   }
 
-  @Effect({ dispatch: false })
-  persistTestsEffect$ = this.actions$.pipe(
+  persistTestsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.PersistTests),
     concatMap((action) => of(action)
       .pipe(
@@ -120,7 +124,7 @@ export class TestsEffects {
       console.log(`Error persisting tests: ${err}`);
       return of();
     }),
-  );
+  ), { dispatch: false });
 
   getSaveableTestsObject(tests: TestsModel): TestsModel {
     const testsNotToSave = Object.keys(tests.startedTests)
@@ -170,10 +174,9 @@ export class TestsEffects {
     switchMap(([action, journal, rekeySearch, delegatedRekeySearch]:
     [TestActionsTypes, JournalModel, RekeySearchModel, DelegatedRekeySearchModel]) => {
       const startTestAction = action as ReturnType<typeof StartTest>;
-      const isRekeySearch = false;
-      const isDelegatedRekeySearch = false;
-      // const isRekeySearch = this.navigationStateProvider.isRekeySearch();
-      // const isDelegatedRekeySearch = this.navigationStateProvider.isDelegatedExaminerRekeySearch();
+      // @TODO: NavigationStateProvider required for real implementation
+      const isRekeySearch = false; // this.navigationStateProvider.isRekeySearch();
+      const isDelegatedRekeySearch = false; // this.navigationStateProvider.isDelegatedExaminerRekeySearch();
       const employeeId = this.authenticationProvider.getEmployeeId() || journal.examiner.staffNumber;
 
       let slot: TestSlot;
@@ -203,7 +206,6 @@ export class TestsEffects {
       }
       const testSlotAttributes: TestSlotAttributes = extractTestSlotAttributes(slot);
       const conductedLanguage: ConductedLanguage = testSlotAttributes.welshTest ? Language.CYMRAEG : Language.ENGLISH;
-      // examiner.individualId;
 
       const arrayOfActions: Action[] = [
         PopulateTestCategory(startTestAction.category),
@@ -221,6 +223,7 @@ export class TestsEffects {
       ];
 
       if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
+        // @TODO: Not required for B/ADI2 so implement as soon as required
         // arrayOfActions.push(new PopulateVehicleDimensions(
         //   slot.booking.application.vehicleWidth,
         //   slot.booking.application.vehicleLength,
@@ -234,6 +237,7 @@ export class TestsEffects {
         arrayOfActions.push(OtherSelected(true));
         arrayOfActions.push(OtherReasonUpdated('Delegated Examiner'));
       }
+      // @TODO: Implement as part of CAT C development
       // if (
       //   startTestAction.category === TestCategory.C ||
       //   startTestAction.category === TestCategory.C1 ||
@@ -241,6 +245,7 @@ export class TestsEffects {
       //   startTestAction.category === TestCategory.CE) {
       //   arrayOfActions.push(new InitializeVehicleChecksCatC(startTestAction.category));
       // }
+      // @TODO: Implement as part of CAT D development
       // if (
       //   startTestAction.category === TestCategory.D ||
       //   startTestAction.category === TestCategory.D1 ||
@@ -248,6 +253,7 @@ export class TestsEffects {
       //   startTestAction.category === TestCategory.DE) {
       //   arrayOfActions.push(new InitializeVehicleChecksCatD(startTestAction.category));
       // }
+      // @TODO: Implement as part of CAT Home development
       // if (
       // startTestAction.category === TestCategory.F ||
       // startTestAction.category === TestCategory.G ||
@@ -261,8 +267,7 @@ export class TestsEffects {
     }),
   ));
 
-  @Effect()
-  activateTestEffect$ = this.actions$.pipe(
+  activateTestEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.ActivateTest),
     filter((action) => action.rekey),
     map((action) => {
@@ -271,10 +276,9 @@ export class TestsEffects {
         return MarkAsRekey();
       }
     }),
-  );
+  ));
 
-  @Effect()
-  startPracticeTestEffect$ = this.actions$.pipe(
+  startPracticeTestEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.StartTestReportPracticeTest),
     switchMap(() => {
       const slotData = {
@@ -287,10 +291,9 @@ export class TestsEffects {
         PopulateCandidateDetails(slotData.booking.candidate),
       ];
     }),
-  );
+  ));
 
-  @Effect()
-  startSendingCompletedTestsEffect$ = this.actions$.pipe(
+  startSendingCompletedTestsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.StartSendingCompletedTests),
     switchMap(() => {
       return interval(this.appConfigProvider.getAppConfig().tests.autoSendInterval)
@@ -298,13 +301,12 @@ export class TestsEffects {
           map(() => testActions.SendCompletedTests()),
         );
     }),
-  );
+  ));
 
-  @Effect()
-  sendPartialTest$ = this.actions$.pipe(
+  sendPartialTest$ = createEffect(() => this.actions$.pipe(
     ofType(testStatusActions.SetTestStatusWriteUp),
     map(() => testActions.SendCompletedTests()),
-  );
+  ));
 
   @Effect()
   sendCompletedTestsEffect$ = this.actions$.pipe(
@@ -357,8 +359,7 @@ export class TestsEffects {
     }),
   );
 
-  @Effect()
-  sendPartialTestSuccessEffect$ = this.actions$.pipe(
+  sendPartialTestSuccessEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendPartialTestSuccess),
     switchMap((action) => {
       return [
@@ -366,10 +367,9 @@ export class TestsEffects {
         testActions.PersistTests(),
       ];
     }),
-  );
+  ));
 
-  @Effect()
-  sendCompletedTestsSuccessEffect$ = this.actions$.pipe(
+  sendCompletedTestsSuccessEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendCompletedTestSuccess),
     switchMap((action) => {
       return [
@@ -377,10 +377,9 @@ export class TestsEffects {
         testActions.PersistTests(),
       ];
     }),
-  );
+  ));
 
-  @Effect()
-  setTestStatusCompletedEffect$ = this.actions$.pipe(
+  setTestStatusCompletedEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testStatusActions.SetTestStatusCompleted),
     concatMap((action) => of(action)
       .pipe(
@@ -391,13 +390,10 @@ export class TestsEffects {
           ),
         ),
       )),
-    map(([,]) => {
-      return testActions.SendCompletedTests();
-    }),
-  );
+    map(([,]) => testActions.SendCompletedTests()),
+  ));
 
-  @Effect()
-  sendCurrentTestEffect$ = this.actions$.pipe(
+  sendCurrentTestEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendCurrentTest),
     concatMap((action) => of(action)
       .pipe(
@@ -429,10 +425,9 @@ export class TestsEffects {
           }),
         );
     }),
-  );
+  ));
 
-  @Effect()
-  sendCurrentTestSuccessEffect$ = this.actions$.pipe(
+  sendCurrentTestSuccessEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendCurrentTestSuccess),
     concatMap((action) => of(action)
       .pipe(
@@ -449,6 +444,6 @@ export class TestsEffects {
         testActions.PersistTests(),
       ];
     }),
-  );
+  ));
 
 }

@@ -1,24 +1,24 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
 export const IpadIssueSelected = createAction(
   '[RekeyReasonPage] Rekey Reason Ipad Issue Selected',
-  props<{ payload: boolean }>(),
+  (payload: boolean) => ({ payload }),
 );
 
 export const IpadIssueTechFaultSelected = createAction(
-  '[RekeyReasonPage] Rekey Reason Ipad Issue Tech Fault Selected'
+  '[RekeyReasonPage] Rekey Reason Ipad Issue Tech Fault Selected',
 );
 
 export const IpadIssueLostSelected = createAction(
-  '[RekeyReasonPage] Rekey Reason Ipad Issue Lost Selected'
+  '[RekeyReasonPage] Rekey Reason Ipad Issue Lost Selected',
 );
 
 export const IpadIssueStolenSelected = createAction(
-  '[RekeyReasonPage] Rekey Reason Ipad Issue Stolen Selected'
+  '[RekeyReasonPage] Rekey Reason Ipad Issue Stolen Selected',
 );
 
 export const IpadIssueBrokenSelected = createAction(
-  '[RekeyReasonPage] Rekey Reason Ipad Issue Broken Selected'
+  '[RekeyReasonPage] Rekey Reason Ipad Issue Broken Selected',
 );
 
 export const TransferSelected = createAction(

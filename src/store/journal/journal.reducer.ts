@@ -87,12 +87,10 @@ export const journalReducer = createReducer(
       },
     };
   }),
-  on(journalActions.SetSelectedDate, (state: JournalModel, { selectedDate }) => {
-    return {
-      ...state,
-      selectedDate,
-    }
-  }),
+  on(journalActions.SetSelectedDate, (state: JournalModel, { selectedDate }) => ({
+    ...state,
+    selectedDate,
+  })),
   on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel, { completedTests }) => ({
     ...state,
     completedTests,

@@ -7,8 +7,8 @@ import { TestsModel } from './tests.model';
 
 import { testStatusReducer } from './test-status/test-status.reducer';
 import { testsReducerFactory } from './tests-reducer-factory';
-// import { testReportPracticeSlotId } from '../../app/shared/mocks/test-slot-ids.mock';
 import { LoadPersistedTestsSuccess } from './tests.actions';
+import { testReportPracticeSlotId } from '../../app/shared/mocks/test-slot-ids.mock';
 // import * as fakeJournalActions from '../../pages/fake-journal/fake-journal.actions';
 
 export const initialState: TestsModel = {
@@ -18,22 +18,18 @@ export const initialState: TestsModel = {
 };
 
 const deriveSlotId = (state: TestsModel, action: Action): string | null => {
-  // if (action instanceof testsActions?.StartTestReportPracticeTest) {
-  //   return testReportPracticeSlotId;
-  // }
+  if (action.type === testsActions.StartTestReportPracticeTest.type) {
+    return testReportPracticeSlotId;
+  }
 
   if (
     (action.type === testsActions.StartTest.type)
     || (action.type === testsActions.ActivateTest.type)
+    // @TODO: Implement when fakeJournalActions defined;
+    // || action.type instanceof fakeJournalActions.StartE2EPracticeTest.type
   ) {
     return `${(<ReturnType<typeof testsActions.StartTest>>action).slotId}`;
   }
-  // if (action instanceof testsActions?.StartTest
-  //   || action instanceof testsActions?.ActivateTest
-  //   // || action instanceof fakeJournalActions.StartE2EPracticeTest
-  // ) {
-  //   return `${(<ReturnType<typeof testsActions.StartTest>>action).slotId}`;
-  // }
 
   return (state.currentTest && state.currentTest.slotId) ? state.currentTest.slotId : null;
 };
@@ -42,20 +38,13 @@ const deriveCategory = (state: TestsModel, action: Action, slotId: string | null
   if (
     (action.type === testsActions.StartTest.type)
     || (action.type === testsActions.ActivateTest.type)
+    || (action.type === testsActions.StartTestReportPracticeTest.type)
+    // @TODO: Implement when fakeJournalActions defined;
+    // || (action instanceof fakeJournalActions.StartE2EPracticeTest)
   ) {
     return (<ReturnType<typeof testsActions.StartTest>>action).category;
   }
-  // if (action && 'category' in action) {
-  //   console.log('action from cat', action);
-  //   return (<ReturnType<typeof testsActions.StartTest>>action).category;
-  // }
-  // if (action instanceof testsActions.StartTest
-  //   || action instanceof testsActions.ActivateTest
-  //   || action instanceof testsActions.StartTestReportPracticeTest
-  //   // || action instanceof fakeJournalActions.StartE2EPracticeTest
-  // ) {
-  //   return (<ReturnType<typeof testsActions.StartTest>>action).category;
-  // }
+
   return get(state.startedTests[slotId], 'category', null);
 };
 
@@ -107,8 +96,7 @@ const removeTest = (state: TestsModel, slotId: string): TestsModel => {
  */
 export function testsReducer(
   state = initialState,
-  // action: testsActions.Types | fakeJournalActions.Types,
-  action: testsActions.TestActionsTypes,
+  action: testsActions.TestActionsTypes // | fakeJournalActions.Types @TODO: Implement when fakeJournalActions defined;
 ): TestsModel {
   const slotId = deriveSlotId(state, action);
   const category = deriveCategory(state, action, slotId);
@@ -117,6 +105,7 @@ export function testsReducer(
       return (<ReturnType<typeof LoadPersistedTestsSuccess>>action).tests;
     case testsActions.START_TEST_REPORT_PRACTICE_TEST:
       return slotId ? createStateObject(removeTest(state, slotId), action, slotId, category) : state;
+    // @TODO: Implement when fakeJournalActions defined;
     // case fakeJournalActions.START_E2E_PRACTICE_TEST:
     //   return slotId ? createStateObject(removeTest(state, slotId), action, slotId, category) : state;
     default:

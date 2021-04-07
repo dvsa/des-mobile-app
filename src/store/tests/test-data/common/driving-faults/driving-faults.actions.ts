@@ -1,4 +1,4 @@
-import { createAction } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 import { FaultPayload } from '../../test-data.models';
 
 export const AddDrivingFault = createAction(
@@ -20,3 +20,12 @@ export const AddDrivingFaultComment = createAction(
   '[Office] Add driving fault comment',
   (competencyName: string, comment: string) => ({ competencyName, comment }),
 );
+
+const actions = union({
+  AddDrivingFault,
+  ThrottleAddDrivingFault,
+  RemoveDrivingFault,
+  AddDrivingFaultComment,
+});
+
+export type DrivingFaultsActions = typeof actions;

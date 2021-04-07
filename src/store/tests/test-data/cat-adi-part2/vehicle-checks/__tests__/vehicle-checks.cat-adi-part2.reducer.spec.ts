@@ -20,10 +20,7 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
         description: 'desc',
       };
       const state: CatADI2UniqueTypes.VehicleChecks = cloneDeep(initialState);
-      const result = vehicleChecksCatADI2Reducer(state, TellMeQuestionSelected({
-        tellMeQuestion: newQuestionPayload,
-        index: 1
-      }));
+      const result = vehicleChecksCatADI2Reducer(state, TellMeQuestionSelected(newQuestionPayload, 1));
       expect(result.tellMeQuestions[1].code).toEqual('T01');
       expect(result.tellMeQuestions[1].description).toEqual('desc');
     });
@@ -37,10 +34,7 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
         description: 'desc',
         outcome: 'P',
       };
-      const result = vehicleChecksCatADI2Reducer(state, TellMeQuestionOutcomeChanged({
-        tellMeQuestionOutcome: 'DF',
-        index: 1
-      }));
+      const result = vehicleChecksCatADI2Reducer(state, TellMeQuestionOutcomeChanged('DF', 1));
       expect(result.tellMeQuestions[1].outcome).toEqual('DF');
     });
   });
@@ -48,7 +42,7 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
   describe('ADD_SHOW_ME_TELL_ME_COMMENT', () => {
     it('should update the vehicle checks comments', () => {
       const state: CatADI2UniqueTypes.VehicleChecks = cloneDeep(initialState);
-      const result = vehicleChecksCatADI2Reducer(state, AddShowMeTellMeComment({ payload: 'So many mistakes.' }));
+      const result = vehicleChecksCatADI2Reducer(state, AddShowMeTellMeComment('So many mistakes.'));
 
       expect(result.showMeTellMeComments).toEqual('So many mistakes.');
     });

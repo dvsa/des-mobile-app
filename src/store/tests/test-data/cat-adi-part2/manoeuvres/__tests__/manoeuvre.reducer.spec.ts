@@ -18,7 +18,7 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const state: CatADI2UniqueTypes.Manoeuvres[] = [{}, {}];
       const result = manoeuvresCatADI2Reducer(
         state,
-        RecordManoeuvresSelection({ manoeuvre: ManoeuvreTypes.reverseParkRoad, index: 0 }),
+        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad, 0),
       );
       expect(result[0][ManoeuvreTypes.reverseParkRoad]).toEqual({ selected: true });
     });
@@ -27,7 +27,7 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const state: CatADI2UniqueTypes.Manoeuvres[] = [{}, {}];
       const result = manoeuvresCatADI2Reducer(
         state,
-        RecordManoeuvresSelection({ manoeuvre: ManoeuvreTypes.reverseParkRoad, index: 1 }),
+        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad, 1),
       );
       expect(result[1][ManoeuvreTypes.reverseParkRoad]).toEqual({ selected: true });
     });
@@ -40,7 +40,7 @@ describe('ADI2 Manoeuvres Reducer', () => {
       }, {}];
       const result = manoeuvresCatADI2Reducer(
         state,
-        RecordManoeuvresSelection({ manoeuvre: ManoeuvreTypes.reverseParkRoad, index: 0 }),
+        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad, 0),
       );
       expect(result[0][ManoeuvreTypes.reverseParkRoad]).toEqual({ selected: true });
       expect(result[0].reverseParkCarpark).toBeUndefined();
@@ -54,7 +54,7 @@ describe('ADI2 Manoeuvres Reducer', () => {
       }];
       const result = manoeuvresCatADI2Reducer(
         state,
-        RecordManoeuvresSelection({ manoeuvre: ManoeuvreTypes.reverseParkRoad, index: 1 }),
+        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad, 1),
       );
       expect(result[1][ManoeuvreTypes.reverseParkRoad]).toEqual({ selected: true });
       expect(result[1].reverseParkCarpark).toBeUndefined();
@@ -69,7 +69,7 @@ describe('ADI2 Manoeuvres Reducer', () => {
       }, {}];
       const result = manoeuvresCatADI2Reducer(
         state,
-        RecordManoeuvresSelection({ manoeuvre: ManoeuvreTypes.reverseParkRoad, index: 0 }),
+        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad, 0),
       );
       expect(result[0][ManoeuvreTypes.reverseParkRoad]).toBeDefined();
       expect(result[0][ManoeuvreTypes.reverseParkRoad].selected).toEqual(true);
@@ -87,12 +87,9 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const result = manoeuvresCatADI2Reducer(
         state,
         AddManoeuvreDrivingFault({
-          payload: {
-            manoeuvre: ManoeuvreTypes.reverseParkRoad,
-            competency: ManoeuvreCompetencies.controlFault,
-          },
-          index: 0,
-        }),
+          manoeuvre: ManoeuvreTypes.reverseParkRoad,
+          competency: ManoeuvreCompetencies.controlFault,
+        }, 0),
       );
       expect(result[0].reverseParkRoad.controlFault).toEqual(CompetencyOutcome.DF);
       expect(result[1].reverseParkCarpark.controlFault).toBeUndefined();
@@ -107,12 +104,9 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const result = manoeuvresCatADI2Reducer(
         state,
         AddManoeuvreDrivingFault({
-          payload: {
-            manoeuvre: ManoeuvreTypes.reverseParkCarpark,
-            competency: ManoeuvreCompetencies.controlFault,
-          },
-          index: 1,
-        }),
+          manoeuvre: ManoeuvreTypes.reverseParkCarpark,
+          competency: ManoeuvreCompetencies.controlFault,
+        }, 1),
       );
       expect(result[0].reverseParkRoad.controlFault).toBeUndefined();
       expect(result[1].reverseParkCarpark.controlFault).toEqual(CompetencyOutcome.DF);
@@ -129,12 +123,9 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const result = manoeuvresCatADI2Reducer(
         state,
         AddManoeuvreSeriousFault({
-          payload: {
-            manoeuvre: ManoeuvreTypes.reverseParkRoad,
-            competency: ManoeuvreCompetencies.controlFault,
-          },
-          index: 0,
-        }),
+          manoeuvre: ManoeuvreTypes.reverseParkRoad,
+          competency: ManoeuvreCompetencies.controlFault,
+        }, 0),
       );
       expect(result[0].reverseParkRoad.controlFault).toEqual(CompetencyOutcome.S);
       expect(result[1].reverseParkCarpark.controlFault).toBeUndefined();
@@ -149,12 +140,9 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const result = manoeuvresCatADI2Reducer(
         state,
         AddManoeuvreSeriousFault({
-          payload: {
-            manoeuvre: ManoeuvreTypes.reverseParkCarpark,
-            competency: ManoeuvreCompetencies.controlFault,
-          },
-          index: 1,
-        }),
+          manoeuvre: ManoeuvreTypes.reverseParkCarpark,
+          competency: ManoeuvreCompetencies.controlFault,
+        }, 1),
       );
       expect(result[0].reverseParkRoad.controlFault).toBeUndefined();
       expect(result[1].reverseParkCarpark.controlFault).toEqual(CompetencyOutcome.S);
@@ -171,12 +159,9 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const result = manoeuvresCatADI2Reducer(
         state,
         AddManoeuvreDangerousFault({
-          payload: {
-            manoeuvre: ManoeuvreTypes.reverseParkRoad,
-            competency: ManoeuvreCompetencies.controlFault,
-          },
-          index: 0,
-        }),
+          manoeuvre: ManoeuvreTypes.reverseParkRoad,
+          competency: ManoeuvreCompetencies.controlFault,
+        }, 0),
       );
       expect(result[0].reverseParkRoad.controlFault).toEqual(CompetencyOutcome.D);
       expect(result[1].reverseParkCarpark.controlFault).toBeUndefined();
@@ -191,12 +176,9 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const result = manoeuvresCatADI2Reducer(
         state,
         AddManoeuvreDangerousFault({
-          payload: {
-            manoeuvre: ManoeuvreTypes.reverseParkCarpark,
-            competency: ManoeuvreCompetencies.controlFault,
-          },
-          index: 1,
-        }),
+          manoeuvre: ManoeuvreTypes.reverseParkCarpark,
+          competency: ManoeuvreCompetencies.controlFault,
+        }, 1),
       );
       expect(result[0].reverseParkRoad.controlFault).toBeUndefined();
       expect(result[1].reverseParkCarpark.controlFault).toEqual(CompetencyOutcome.D);
@@ -210,13 +192,13 @@ describe('ADI2 Manoeuvres Reducer', () => {
       }, {}];
       const result = manoeuvresCatADI2Reducer(
         state,
-        AddManoeuvreComment({
-          fieldName: ManoeuvreTypes.reverseParkRoad,
-          faultType: CompetencyOutcome.S,
-          controlOrObservation: 'control',
-          comment: 'comments',
-          index: 0,
-        }),
+        AddManoeuvreComment(
+          ManoeuvreTypes.reverseParkRoad,
+          CompetencyOutcome.S,
+          'control',
+          'comments',
+          0,
+        ),
       );
       expect(result[0].reverseParkRoad.controlFaultComments).toEqual('comments');
     });
@@ -230,12 +212,9 @@ describe('ADI2 Manoeuvres Reducer', () => {
         reverseParkCarpark: { selected: true, controlFault: CompetencyOutcome.DF },
       }];
       const result = manoeuvresCatADI2Reducer(state, RemoveManoeuvreFault({
-        payload: {
-          competency: ManoeuvreCompetencies.controlFault,
-          manoeuvre: ManoeuvreTypes.reverseParkRoad,
-        },
-        index: 0,
-      }));
+        competency: ManoeuvreCompetencies.controlFault,
+        manoeuvre: ManoeuvreTypes.reverseParkRoad,
+      }, 0));
       expect(result[0].reverseParkRoad.controlFault).toBeUndefined();
       expect(result[1].reverseParkCarpark.controlFault).toEqual(CompetencyOutcome.DF);
     });
@@ -247,12 +226,9 @@ describe('ADI2 Manoeuvres Reducer', () => {
         reverseParkCarpark: { selected: true, controlFault: CompetencyOutcome.DF },
       }];
       const result = manoeuvresCatADI2Reducer(state, RemoveManoeuvreFault({
-        payload: {
-          competency: ManoeuvreCompetencies.controlFault,
-          manoeuvre: ManoeuvreTypes.reverseParkCarpark,
-        },
-        index: 1,
-      }));
+        competency: ManoeuvreCompetencies.controlFault,
+        manoeuvre: ManoeuvreTypes.reverseParkCarpark,
+      }, 1));
       expect(result[0].reverseParkRoad.controlFault).toEqual(CompetencyOutcome.DF);
       expect(result[1].reverseParkCarpark.controlFault).toBeUndefined();
     });

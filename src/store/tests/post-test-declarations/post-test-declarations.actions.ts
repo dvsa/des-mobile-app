@@ -1,4 +1,4 @@
-import { createAction, props } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
 export const ClearPostTestDeclarations = createAction(
   '[HealthDeclarations] Clear declarations',
@@ -10,7 +10,7 @@ export const ToggleHealthDeclaration = createAction(
 
 export const HealthDeclarationAccepted = createAction(
   '[HealthDeclarations] Health declaration accepted',
-  props<{ payload: boolean; }>(),
+  (payload: boolean) => ({ payload }),
 );
 
 export const ToggleReceiptDeclaration = createAction(

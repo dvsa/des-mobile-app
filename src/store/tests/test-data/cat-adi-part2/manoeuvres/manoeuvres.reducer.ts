@@ -7,7 +7,10 @@ export const initialState: CatADI2UniqueTypes.Manoeuvres[] = [{}, {}];
 
 export const manoeuvresCatADI2Reducer = createReducer(
   initialState,
-  on(manoeuvresActions.RecordManoeuvresSelection, (state, { manoeuvre, index }): CatADI2UniqueTypes.Manoeuvres[] => ([
+  on(manoeuvresActions.RecordManoeuvresSelection, (state, {
+    manoeuvre,
+    index,
+  }): CatADI2UniqueTypes.Manoeuvres[] => ([
     ...state.slice(0, index),
     ...[{
       [manoeuvre]: {
@@ -17,12 +20,17 @@ export const manoeuvresCatADI2Reducer = createReducer(
     }],
     ...state.slice(index + 1),
   ])),
-  on(manoeuvresActions.RecordManoeuvresDeselection, (state, { manoeuvre, index }): CatADI2UniqueTypes.Manoeuvres[] => ([
+  on(manoeuvresActions.RecordManoeuvresDeselection, (state, {
+    index,
+  }): CatADI2UniqueTypes.Manoeuvres[] => ([
     ...state.slice(0, index),
     ...[{}],
     ...state.slice(index + 1),
   ])),
-  on(manoeuvresActions.AddManoeuvreDrivingFault, (state, { payload, index }): CatADI2UniqueTypes.Manoeuvres[] => ([
+  on(manoeuvresActions.AddManoeuvreDrivingFault, (state, {
+    payload,
+    index,
+  }): CatADI2UniqueTypes.Manoeuvres[] => ([
     ...state.slice(0, index),
     ...[{
       [payload.manoeuvre]: {
@@ -32,7 +40,10 @@ export const manoeuvresCatADI2Reducer = createReducer(
     }],
     ...state.slice(index + 1),
   ])),
-  on(manoeuvresActions.AddManoeuvreSeriousFault, (state, { payload, index }): CatADI2UniqueTypes.Manoeuvres[] => ([
+  on(manoeuvresActions.AddManoeuvreSeriousFault, (state, {
+    payload,
+    index,
+  }): CatADI2UniqueTypes.Manoeuvres[] => ([
     ...state.slice(0, index),
     ...[{
       [payload.manoeuvre]: {
@@ -42,7 +53,10 @@ export const manoeuvresCatADI2Reducer = createReducer(
     }],
     ...state.slice(index + 1),
   ])),
-  on(manoeuvresActions.AddManoeuvreDangerousFault, (state, { payload, index }): CatADI2UniqueTypes.Manoeuvres[] => ([
+  on(manoeuvresActions.AddManoeuvreDangerousFault, (state, {
+    payload,
+    index,
+  }): CatADI2UniqueTypes.Manoeuvres[] => ([
     ...state.slice(0, index),
     ...[{
       [payload.manoeuvre]: {
@@ -52,7 +66,10 @@ export const manoeuvresCatADI2Reducer = createReducer(
     }],
     ...state.slice(index + 1),
   ])),
-  on(manoeuvresActions.RemoveManoeuvreFault, (state, { payload, index }): CatADI2UniqueTypes.Manoeuvres[] => {
+  on(manoeuvresActions.RemoveManoeuvreFault, (state, {
+    payload,
+    index,
+  }): CatADI2UniqueTypes.Manoeuvres[] => {
     const {
       [payload.competency]: competencyToOmit, ...stateToPreserve
     } = state[index][payload.manoeuvre];
@@ -69,7 +86,6 @@ export const manoeuvresCatADI2Reducer = createReducer(
   }),
   on(manoeuvresActions.AddManoeuvreComment, (state, {
     fieldName,
-    faultType,
     controlOrObservation,
     comment,
     index,

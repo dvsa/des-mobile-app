@@ -1,75 +1,63 @@
-// import { Injectable } from '@angular/core';
-// import { Actions, Effect, ofType } from '@ngrx/effects';
-// import { AnalyticsProvider } from '../../../providers/analytics/analytics';
-// import * as testStatusActions from './test-status.actions';
-// import { concatMap } from 'rxjs/operators';
-// import { AnalyticRecorded } from '../../../providers/analytics/analytics.actions';
-// import { of } from 'rxjs';
-// import { AnalyticsEventCategories, AnalyticsEvents } from '../../../providers/analytics/analytics.model';
-//
-// @Injectable()
-// export class TestStatusAnalyticsEffects {
-//
-//   constructor(
-//     public analytics: AnalyticsProvider,
-//     private actions$: Actions,
-//   ) {
-//   }
-//
-//   @Effect()
-//   setTestStatusDecidedEffect$ = this.actions$.pipe(
-//     ofType(testStatusActions.SET_TEST_STATUS_DECIDED),
-//     concatMap((action: testStatusActions.SetTestStatusBooked) => {
-//
-//       this.analytics.logEvent(
-//         AnalyticsEventCategories.TEST_LIFECYCLE,
-//         AnalyticsEvents.TEST_DECIDED,
-//       );
-//
-//       return of(new AnalyticRecorded());
-//     }),
-//   );
-//
-//   @Effect()
-//   setTestStatusWriteUpEffect$ = this.actions$.pipe(
-//     ofType(testStatusActions.SET_TEST_STATUS_WRITE_UP),
-//     concatMap((action: testStatusActions.SetTestStatusBooked) => {
-//
-//       this.analytics.logEvent(
-//         AnalyticsEventCategories.TEST_LIFECYCLE,
-//         AnalyticsEvents.TEST_IN_WRITE_UP,
-//       );
-//
-//       return of(new AnalyticRecorded());
-//     }),
-//   );
-//
-//   @Effect()
-//   setTestStatusAutosavedEffect$ = this.actions$.pipe(
-//     ofType(testStatusActions.SET_TEST_STATUS_AUTOSAVED),
-//     concatMap((action: testStatusActions.SetTestStatusBooked) => {
-//
-//       this.analytics.logEvent(
-//         AnalyticsEventCategories.TEST_LIFECYCLE,
-//         AnalyticsEvents.TEST_AUTOSAVED,
-//       );
-//
-//       return of(new AnalyticRecorded());
-//     }),
-//   );
-//
-//   @Effect()
-//   setTestStatusSubmittedEffect$ = this.actions$.pipe(
-//     ofType(testStatusActions.SET_TEST_STATUS_SUBMITTED),
-//     concatMap((action: testStatusActions.SetTestStatusBooked) => {
-//
-//       this.analytics.logEvent(
-//         AnalyticsEventCategories.TEST_LIFECYCLE,
-//         AnalyticsEvents.TEST_SUBMITTED,
-//       );
-//
-//       return of(new AnalyticRecorded());
-//     }),
-//   );
-//
-// }
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
+import * as testStatusActions from './test-status.actions';
+import { AnalyticsProvider } from '../../../app/providers/analytics/analytics';
+import { AnalyticsEventCategories, AnalyticsEvents } from '../../../app/providers/analytics/analytics.model';
+import { AnalyticRecorded } from '../../../app/providers/analytics/analytics.actions';
+
+@Injectable()
+export class TestStatusAnalyticsEffects {
+
+  constructor(
+    public analytics: AnalyticsProvider,
+    private actions$: Actions,
+  ) {
+  }
+
+  setTestStatusDecidedEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(testStatusActions.SetTestStatusDecided),
+    concatMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.TEST_LIFECYCLE,
+        AnalyticsEvents.TEST_DECIDED,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  setTestStatusWriteUpEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(testStatusActions.SetTestStatusWriteUp),
+    concatMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.TEST_LIFECYCLE,
+        AnalyticsEvents.TEST_IN_WRITE_UP,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  setTestStatusAutosavedEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(testStatusActions.SetTestStatusAutosaved),
+    concatMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.TEST_LIFECYCLE,
+        AnalyticsEvents.TEST_AUTOSAVED,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  setTestStatusSubmittedEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(testStatusActions.SetTestStatusSubmitted),
+    concatMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.TEST_LIFECYCLE,
+        AnalyticsEvents.TEST_SUBMITTED,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+}

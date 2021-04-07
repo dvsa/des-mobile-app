@@ -1,4 +1,4 @@
-import { createAction } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 
 export const SetTestStatusBooked = createAction(
   '[JournalEffects] Set Test Status to Booked',
@@ -34,3 +34,15 @@ export const SetTestStatusSubmitted = createAction(
   '[JournalEffects] Set Test Status to Submitted',
   (slotId: string) => ({ slotId }),
 );
+
+const actions = union({
+  SetTestStatusBooked,
+  SetTestStatusStarted,
+  SetTestStatusDecided,
+  SetTestStatusWriteUp,
+  SetTestStatusAutosaved,
+  SetTestStatusCompleted,
+  SetTestStatusSubmitted,
+});
+
+export type TestStatusActions = typeof actions;

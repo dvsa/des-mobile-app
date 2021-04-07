@@ -12,41 +12,47 @@ export interface ManoeuvrePayload {
 
 export const RecordManoeuvresDeselection = createAction(
   '[Manoeuvres] [Cat ADI2] Record Manoeuvre Deselection',
-  props<{ manoeuvre: ManoeuvreTypes, index: number }>()
+  (manoeuvre: ManoeuvreTypes, index: number) => ({ manoeuvre, index }),
 );
 
 export const RecordManoeuvresSelection = createAction(
   '[Manoeuvres] [Cat ADI2] Record Manoeuvre Selection',
-  props<{ manoeuvre: ManoeuvreTypes, index: number }>()
+  (manoeuvre: ManoeuvreTypes, index: number) => ({ manoeuvre, index }),
 );
 
 export const AddManoeuvreDrivingFault = createAction(
   '[Manoeuvres] [Cat ADI2] Add Manoeuvre Driving Fault',
-  props<{ payload: ManoeuvrePayload, index: number }>()
+  (payload: ManoeuvrePayload, index: number) => ({ payload, index }),
 );
 
 export const AddManoeuvreSeriousFault = createAction(
   '[Manoeuvres] [Cat ADI2] Add Manoeuvre Serious Fault',
-  props<{ payload: ManoeuvrePayload, index: number }>()
+  (payload: ManoeuvrePayload, index: number) => ({ payload, index }),
 );
 
 export const AddManoeuvreDangerousFault = createAction(
   '[Manoeuvres] [Cat ADI2] Add Manoeuvre Dangerous Fault',
-  props<{ payload: ManoeuvrePayload, index: number }>()
+  (payload: ManoeuvrePayload, index: number) => ({ payload, index }),
 );
 
 export const AddManoeuvreComment = createAction(
   '[Manoeuvres] [Cat ADI2] Add Manoeuvre Comment',
-  props<{
+  (
     fieldName: string,
     faultType: CompetencyOutcome,
     controlOrObservation: string,
     comment: string,
     index: number,
-  }>()
+  ) => ({
+    fieldName,
+    faultType,
+    controlOrObservation,
+    comment,
+    index,
+  }),
 );
 
 export const RemoveManoeuvreFault = createAction(
   '[Manoeuvres] [Cat ADI2] Remove Manoeuvre Fault',
-  props<{ payload: ManoeuvrePayload, index: number }>()
+  (payload: ManoeuvrePayload, index: number) => ({ payload, index }),
 );
