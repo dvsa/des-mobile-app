@@ -20,6 +20,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { Device } from '@ionic-native/device/ngx';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppConfigProvider } from './providers/app-config/app-config';
@@ -117,6 +118,7 @@ if (enableRehydrationPlugin) {
     TestPersistenceProvider,
     CategoryWhitelistProvider,
     TestCentreJournalProvider,
+    ScreenOrientation,
   ],
   bootstrap: [AppComponent],
 })

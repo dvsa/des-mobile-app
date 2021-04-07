@@ -31,7 +31,6 @@ npm-debug.log*
 /platforms
 /plugins
 /www
-/ios
 /src/assets/mock
 
 src/environments/environment.ts
