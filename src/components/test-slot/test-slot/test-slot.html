@@ -13,7 +13,7 @@
           <div class="team-journal-test-centre-name">{{slot.testCentre.centreName}}</div>
         </ion-col>
         <ion-col class="no-padding" *ngIf=!isTeamJournal>
-          <submission-status float-end></submission-status> <!-- [testStatus]="componentState.testStatus$ | async" -->
+          <submission-status float-end [testStatus]="componentState.testStatus$ | async"></submission-status>
         </ion-col>
       </ion-row>
       <ion-row class="slot-main align-center">
@@ -21,7 +21,7 @@
           <ion-grid class="no-padding">
             <ion-row class="align-center">
               <ion-col class="exclamation-col">
-                <indicators [showExclamationIndicator]="isIndicatorNeededForSlot()"> <!-- [testStatus]="componentState.testStatus$ | async" -->
+                <indicators [showExclamationIndicator]="isIndicatorNeededForSlot()" [testStatus]="componentState.testStatus$ | async">
                 </indicators>
               </ion-col>
               <ion-col class="align-center">
@@ -44,11 +44,9 @@
             </ion-row>
           </ion-grid>
         </ion-col>
-
         <ion-col *ngIf="teamJournalCandidateResult" class="team-journal-examiner-name">
-          <examiner-name [examinerName]="examinerName"></examiner-name>
+          <examiner-name  [examinerName]="examinerName"></examiner-name>
         </ion-col>
-
         <ion-col *ngIf="!teamJournalCandidateResult" class="test-outcome-col">
           <test-outcome
             class="align-center"
@@ -56,13 +54,14 @@
             [canStartTest]="canStartTest()"
             [isDelegatedTest]="delegatedTest"
             [examinerId]="getExaminerId()"
+            [testStatus]="componentState.testStatus$ | async"
+            [activityCode]="componentState.testActivityCode$ | async"
             [specialRequirements]="isIndicatorNeededForSlot()"
             [hasSeenCandidateDetails]="hasSeenCandidateDetails"
+            [isRekey]="componentState.isRekey$ | async"
             [category]="slot.booking.application.testCategory"
             [showTestActionButton]="!isTeamJournal">
-          </test-outcome> <!-- [testStatus]="componentState.testStatus$ | async" -->
-          <!-- [activityCode]="componentState.testActivityCode$ | async" -->
-          <!-- [isRekey]="componentState.isRekey$ | async" -->
+          </test-outcome>
         </ion-col>
       </ion-row>
       <ion-row *ngIf="isTeamJournal">

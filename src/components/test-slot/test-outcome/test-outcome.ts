@@ -1,18 +1,13 @@
-import { Subscription, Observable, merge } from 'rxjs'; // merge
+import { Subscription, Observable, merge } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular'; // Modal
-import { select, Store } from '@ngrx/store'; // select
+// import { ModalController } from '@ionic/angular'; // Modal
+import { select, Store } from '@ngrx/store';
 import { isEmpty, startsWith } from 'lodash';
-import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema'; // TestSlot
+import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-/* import { StartTest, ActivateTest } from '../../../store/tests/tests.actions';
-import { EarlyStartModalDidEnter, ResumingWriteUp } from '../../../store/journal/journal.actions';
-import { TestStatus } from '../../../store/tests/test-status/test-status.model';
-import { StartE2EPracticeTest } from '../../../app/pages/fake-journal/fake-journal.actions';
-import { end2endPracticeSlotId } from '../../../app/shared/mocks/test-slot-ids.mock'; */
 import { DateTime, Duration } from '../../../app/shared/helpers/date-time';
 import { StoreModel } from '../../../app/shared/models/store.model';
 import {
@@ -35,19 +30,17 @@ import { ActivateTest, StartTest } from '../../../store/tests/tests.actions';
 import { SetExaminerConducted } from '../../../store/tests/examiner-conducted/examiner-conducted.actions';
 import { SetExaminerBooked } from '../../../store/tests/examiner-booked/examiner-booked.actions';
 import { ActivityCodes } from '../../../app/shared/models/activity-codes';
-import { ResumingWriteUp } from '../../../store/journal/journal.actions';
+import {
+  ResumingWriteUp,
+  // EarlyStartModalDidEnter
+} from '../../../store/journal/journal.actions';
 import { getBookedTestSlot } from '../../../app/pages/rekey-search/rekey-search.selector';
-
+// import { StartE2EPracticeTest } from '../../../app/pages/fake-journal/fake-journal.actions';
 /* import { ModalEvent } from '../../../app/pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
 import {
   ModalEvent as EarlyStartModalEvent,
 } from '../../../ap//pages/journal/components/journal-early-start-modal/journal-early-start-modal.constants';
-import { getRekeySearchState } from '../../../app/pages/rekey-search/rekey-search.reducer';
-import { getBookedTestSlot } from '../../../app/pages/rekey-search/rekey-search.selector';
-import { ActivityCodes } from '../../../app/shared/models/activity-codes';
-import { MarkAsNonRekey } from '../../../store/tests/rekey/rekey.actions';
-import { SetExaminerConducted } from '../../../store/tests/examiner-conducted/examiner-conducted.actions';
-import { SetExaminerBooked } from '../../../store/tests/examiner-booked/examiner-booked.actions'; */
+ */
 
 @Component({
   selector: 'test-outcome',
@@ -100,7 +93,7 @@ export class TestOutcomeComponent implements OnInit {
   constructor(
     private store$: Store<StoreModel>,
     private router: Router,
-    private modalController: ModalController,
+    // private modalController: ModalController,
   ) {
   }
 
@@ -164,19 +157,19 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   showStartTestButton(): boolean {
-    return true; // !this.isDelegatedTest && (this.testStatus === TestStatus.Booked);
+    return !this.isDelegatedTest && (this.testStatus === TestStatus.Booked);
   }
 
   showDelegatedExaminerRekeyButton(): boolean {
-    return false; // this.isDelegatedTest && !this.showResumeButton();
+    return this.isDelegatedTest && !this.showResumeButton();
   }
 
   showResumeButton(): boolean {
-    return false; // this.testStatus === TestStatus.Started || this.testStatus === TestStatus.Decided;
+    return this.testStatus === TestStatus.Started || this.testStatus === TestStatus.Decided;
   }
 
   showWriteUpButton(): boolean {
-    return false; // this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved;
+    return this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved;
   }
 
   writeUpTest() {
@@ -198,7 +191,7 @@ export class TestOutcomeComponent implements OnInit {
 
   startTest() {
     if (this.isE2EPracticeMode()) {
-      // this.store$.dispatch( StartE2EPracticeTest(this.slotDetail.slotId.toString()));
+      // this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString()));
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
@@ -288,15 +281,15 @@ export class TestOutcomeComponent implements OnInit {
     }
   }
 
-  displayRekeyModal = (): void => {
-    /* const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
+  /* displayRekeyModal = (): void => {
+    const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
     this.modal = this.modalController.create('JournalRekeyModal', {}, options);
     this.modal.onDidDismiss(this.onModalDismiss);
-    this.modal.present(); */
-  };
+    this.modal.present();
+  }; */
 
-  displayCheckStartModal = (): void => {
-    /* this.store$.dispatch(new EarlyStartModalDidEnter());
+  /* displayCheckStartModal = (): void => {
+    this.store$.dispatch(new EarlyStartModalDidEnter());
     const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
     this.modal = this.modalController.create(JOURNAL_EARLY_START_MODAL, { slotData: this.slotDetail }, options);
     this.modal.onDidDismiss((event: EarlyStartModalEvent) => {
@@ -314,15 +307,15 @@ export class TestOutcomeComponent implements OnInit {
         default:
       }
     });
-    this.modal.present(); */
-  };
+    this.modal.present();
+  }; */
 
-  displayForceCheckModal = (): void => {
-    /* const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
+  /* displayForceCheckModal = (): void => {
+    const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
     this.modal = this.modalController.create(JOURNAL_FORCE_CHECK_MODAL, {}, options);
     this.modal.onDidDismiss(this.onModalDismiss);
-    this.modal.present(); */
-  };
+    this.modal.present();
+  }; */
 
   /* onModalDismiss = (event: ModalEvent): void => {
     switch (event) {
@@ -390,12 +383,11 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   startOrResumeTestDependingOnStatus() {
-    // if (this.testStatus === TestStatus.Booked) {
-    //   this.startTest();
-    // } else {
-    //   this.resumeTest();
-    // }
-    this.startTest();
+    if (this.testStatus === TestStatus.Booked) {
+      this.startTest();
+    } else {
+      this.resumeTest();
+    }
   }
 
   getTestStartingPage(): [string] {
