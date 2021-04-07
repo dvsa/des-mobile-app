@@ -342,8 +342,11 @@ describe('Test Outcome', () => {
 
     describe('show start test button', () => {
       it('should show the start test button when the test status is Booked', () => {
+        spyOn(component, 'showRekeyButton').and.returnValue(false);
+
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Booked;
+        component.isDelegatedTest = false;
         fixture.detectChanges();
         const startButton = fixture.debugElement.queryAll(By.css('.mes-primary-button'));
         expect(startButton.length).toBe(1);
@@ -360,11 +363,15 @@ describe('Test Outcome', () => {
 
     describe('start a test', () => {
       it('should call the startTest method when `Start test` is clicked', () => {
+        spyOn(component, 'showRekeyButton').and.returnValue(false);
+
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Booked;
         component.isDelegatedTest = false;
         fixture.detectChanges();
         spyOn(component, 'startTest');
+
+        console.log(component.showStartTestButton());
 
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton?.triggerEventHandler('click', null);
