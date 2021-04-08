@@ -55,7 +55,7 @@ import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-pr
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['appInfo', 'logs', 'tests', 'appConfig'],
+    keys: ['appInfo', 'tests', 'appConfig'],
     rehydrate: true,
   })(reducer);
 }

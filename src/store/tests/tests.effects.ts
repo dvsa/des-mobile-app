@@ -52,10 +52,6 @@ import { SetExaminerBooked } from './examiner-booked/examiner-booked.actions';
 import { SetExaminerConducted } from './examiner-conducted/examiner-conducted.actions';
 import { SetExaminerKeyed } from './examiner-keyed/examiner-keyed.actions';
 import { MarkAsRekey } from './rekey/rekey.actions';
-// import { getRekeySearchState, RekeySearchModel } from '../../pages/rekey-search/rekey-search.reducer';
-// import { getBookedTestSlot, getStaffNumber } from '../../pages/rekey-search/rekey-search.selector';
-// import { AuthenticationProvider } from '../../providers/authentication/authentication';
-// import { NavigationStateProvider } from '../../providers/navigation-state/navigation-state';
 import { JournalModel } from '../journal/journal.model';
 import { PopulateConductedLanguage } from './communication-preferences/communication-preferences.actions';
 import { Language } from './communication-preferences/communication-preferences.model';
@@ -82,11 +78,6 @@ import {
 } from '../../app/pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { StartTest, TestActionsTypes } from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
-// import { AppResumed, RestartApp } from '../app-info/app-info.actions';
-// import { selectDateConfigLoaded } from '../app-info/app-info.selectors';
-// import { LOGIN_PAGE } from '../../app/pages/page-names.constants';
-
-// import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 
 @Injectable()
 export class TestsEffects {
