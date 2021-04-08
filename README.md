@@ -43,7 +43,7 @@ Run the following to switch between configurations
 ####Browser: 
 - Open ReduxDevTools
 ####Simulator: 
-- In one terminal: `npm run remote devtools server`
+- In one terminal: `npm run remote-devtools-server`
 - In another: `npm run serve:devtools`
 - Open remote devtools from redux devtools Chrome extension
 - Open `settings` (first use only) and set option for `Use custom (local) server`. `Host name: localhost Port: 8000`
