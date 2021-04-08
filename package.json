@@ -9,7 +9,8 @@
     "test:coverage": "ng test --karma-config test-config/karma.conf.js",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "run-s update-mock-data copy-mock-data config:local && ionic serve",
-    "serve:emulator": "npm run config:dev-tools && ionic cap run ios",
+    "serve:emulator": "npm run config:dev && ionic cap run ios",
+    "serve:devtools": "npm run config:dev-tools && ionic cap run ios -l --external",
     "serve:ipad:notworking": "npm run config:dev && npm run schema-version",
     "open:ios": "rm -rf ios && npm run config:dev && ionic build && ionic cap add ios & ionic cap copy ios && npm run copy-resources && ionic cap open ios",
     "build": "npm run copy-resources && ionic build",
@@ -28,8 +29,7 @@
     "update-mock-data": "npm run update-mock-data:journal && npm run update-mock-data:nta && npm run update-mock-data:tc-journal",
     "update-mock-data:journal": "ts-node -P tsconfig.scripts.json mock/generate-local-journal.ts",
     "update-mock-data:nta": "ts-node -P tsconfig.scripts.json mock/generate-local-journal-non-test-activities.ts",
-    "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts",
-    "livereload": "npm run config:dev-tools && ionic cap run ios -l --external"
+    "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts"
   },
   "private": true,
   "dependencies": {
@@ -136,6 +136,7 @@
     "karma-spec-reporter": "0.0.32",
     "npm-run-all": "^4.1.5",
     "protractor": "~7.0.0",
+    "remotedev": "^0.2.9",
     "rxjs-tslint-rules": "^4.34.7",
     "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0",

@@ -5,7 +5,8 @@ DVSA Driving Examiner Application
 
 - Node
 - npm
-- Ionic CLI: `npm install -g ionic`
+- Cordova (ionic-enterprise edition): `npm install -g @ionic-enterprise/cordova` (need to uninstall any other globally installed versions)
+- Ionic CLI: `npm install -g @ionic/cli`
 - Capacitor `npm install @capacitor/core @capacitor/cli` May need to be installed globally (with sudo)
 - Cocoapods `brew install cocoapods`
 - Security
@@ -33,16 +34,19 @@ Run the following to switch between configurations
 ### Running Application
 
 - For simulator (this will open xcode where you can select your device and click play)
-  - `ionic cap open ios`
-  - OR
-  - `ionic cap run ios -l --external` 
+  - `npm run serve:emulator`
 - For browser (open in default browser using local data)
   - `npm run serve:local`
 
 ### Accessing NGRX state
 
-- Browser: Open ReduxDevTools
-- Simulator: TBC
+####Browser: 
+- Open ReduxDevTools
+####Simulator: 
+- In one terminal: `npm run remote-devtools-server`
+- In another: `npm run serve:devtools`
+- Open remote devtools from redux devtools Chrome extension
+- Open `settings` (first use only) and set option for `Use custom (local) server`. `Host name: localhost Port: 8000`
 
 ### Unit Test suite
 

@@ -1,7 +1,7 @@
 import { ReduxDevtoolsExtensionConnection } from '@ngrx/store-devtools/src/extension';
 
 export class RemoteDevToolsConnectionProxy implements ReduxDevtoolsExtensionConnection {
-  constructor(public remotedev: any, public instanceId: string) {}
+  constructor(public remotedev: any) {}
   init() {}
   error() {}
 
@@ -19,7 +19,7 @@ export class RemoteDevToolsConnectionProxy implements ReduxDevtoolsExtensionConn
   unsubscribe(): any {
     // HACK fix bug in @ngrx/store-devtools that calls this instead of returning
     // a lambda that calls it when their Observable wrapper is unsubscribed.
-    return () => this.remotedev.unsubscribe(this.instanceId);
+    return () => this.remotedev.unsubscribe();
   }
 
   send(action: any, state: any): any {

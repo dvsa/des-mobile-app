@@ -37,3 +37,4 @@ src/environments/environment.ts
 mock/local-journal.json
 mock/local-journal-non-test-activities.json
 mock/local-test-centre-journal.json
+remotedev-server/
