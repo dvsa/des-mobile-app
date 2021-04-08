@@ -27,6 +27,7 @@ import {
   CAT_ADI_PART2,
   CAT_HOME_TEST,
   CAT_CPC,
+  WAITING_ROOM_PAGE,
 } from '../../../app/pages/page-names.constants';
 /* import { ModalEvent } from '../../../app/pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
 import {
@@ -384,6 +385,9 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.resumeTest();
     } */
+
+    // TODO - temp to allow test to start without data
+    this.router.navigate([WAITING_ROOM_PAGE]);
   }
 
   getTestStartingPage(): [string] {
