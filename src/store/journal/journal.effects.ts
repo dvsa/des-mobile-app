@@ -64,7 +64,7 @@ export class JournalEffects {
   }
 
   callJournalProvider$ = (mode: string): Observable<Action> => {
-    this.store$.dispatch(journalActions.JournalRefresh({ mode }));
+    this.store$.dispatch(journalActions.JournalRefresh(mode));
     return of(null).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -93,28 +93,25 @@ export class JournalEffects {
               examiner: examinerSlotItems.examiner,
               slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
             })),
-            map((slotItemsByDate: ExaminerSlotItemsByDate) => journalActions.LoadJournalSuccess({
-              payload: slotItemsByDate,
-              onlineOffline: this.networkStateProvider.getNetworkState(),
-              unAuthenticatedMode: this.authProvider.isInUnAuthenticatedMode(),
+            map((slotItemsByDate: ExaminerSlotItemsByDate) => journalActions.LoadJournalSuccess(
+              slotItemsByDate,
+              this.networkStateProvider.getNetworkState(),
+              this.authProvider.isInUnAuthenticatedMode(),
               lastRefreshed,
-            })),
+            )),
             catchError((err: HttpErrorResponse) => {
               // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
               if (err.status === HttpStatusCodes.NOT_MODIFIED) {
-                return of(journalActions.LoadJournalSuccess({
-                  payload: { examiner, slotItemsByDate: slots },
-                  onlineOffline: this.networkStateProvider.getNetworkState(),
-                  unAuthenticatedMode: this.authProvider.isInUnAuthenticatedMode(),
+                return of(journalActions.LoadJournalSuccess(
+                  { examiner, slotItemsByDate: slots },
+                  this.networkStateProvider.getNetworkState(),
+                  this.authProvider.isInUnAuthenticatedMode(),
                   lastRefreshed,
-                }));
+                ));
               }
 
               if (err.message === 'Timeout has occurred') {
-                return of(journalActions.JournalRefreshError({
-                  errorDescription: 'Retrieving Journal',
-                  errorMessage: err.message,
-                }));
+                return of(journalActions.JournalRefreshError('Retrieving Journal', err.message));
               }
 
               this.store$.dispatch(SaveLog({
@@ -134,10 +131,7 @@ export class JournalEffects {
       () => this.callJournalProvider$(JournalRefreshModes.AUTOMATIC).pipe(
         catchError((err: HttpErrorResponse) => {
           return [
-            journalActions.JournalRefreshError({
-              errorDescription: 'AutomaticJournalRefresh',
-              errorMessage: err.message,
-            }),
+            journalActions.JournalRefreshError('AutomaticJournalRefresh', err.message),
             journalActions.LoadJournalSilentFailure(err),
           ];
         }),
@@ -151,7 +145,7 @@ export class JournalEffects {
       () => this.callJournalProvider$(JournalRefreshModes.MANUAL).pipe(
         catchError((err: HttpErrorResponse) => {
           return [
-            journalActions.JournalRefreshError({ errorDescription: 'ManualJournalRefresh', errorMessage: err.message }),
+            journalActions.JournalRefreshError('ManualJournalRefresh', err.message),
             journalActions.LoadJournalFailure(err),
           ];
         }),
@@ -252,8 +246,8 @@ export class JournalEffects {
       const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
 
       return [
-        journalActions.SetSelectedDate({ payload: previousDay }),
-        journalActions.JournalNavigateDay({ day: previousDay }),
+        journalActions.SetSelectedDate(previousDay),
+        journalActions.JournalNavigateDay(previousDay),
       ];
     }),
   ));
@@ -279,8 +273,8 @@ export class JournalEffects {
       const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
 
       return [
-        journalActions.SetSelectedDate({ payload: nextDay }),
-        journalActions.JournalNavigateDay({ day: nextDay }),
+        journalActions.SetSelectedDate(nextDay),
+        journalActions.JournalNavigateDay(nextDay),
       ];
     }),
   ));

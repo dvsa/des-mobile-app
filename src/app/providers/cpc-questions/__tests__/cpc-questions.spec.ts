@@ -9,7 +9,7 @@ import {
   Combination,
   QuestionNumber,
 } from '../../../shared/constants/cpc-questions/cpc-question-combinations.constants';
-import { question, question5 } from '../../../../store/tests/test-data/cat-cpc/_tests_/test-data.cat-cpc.mock';
+import { question, question5 } from '../../../../store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
 
 describe('CPC Question Provider', () => {
   let cpcQuestionProvider: CPCQuestionProvider;

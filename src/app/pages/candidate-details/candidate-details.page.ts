@@ -43,7 +43,7 @@ export class CandidateDetailsPage implements OnInit {
     this.slot = this.navParams.get('slot');
     this.slotChanged = this.navParams.get('slotChanged');
     setTimeout(() => {
-      this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
+      this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
     });
 
     this.pageState = {
@@ -61,7 +61,7 @@ export class CandidateDetailsPage implements OnInit {
       ));
     }
     setTimeout(() => {
-      this.store$.dispatch(journalActions.ClearChangedSlot({ slotId: this.slot.slotDetail.slotId }));
+      this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
     });
   }
 

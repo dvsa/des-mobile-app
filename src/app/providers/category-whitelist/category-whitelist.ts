@@ -2,7 +2,9 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Injectable } from '@angular/core';
 
 // list all test categories that are able to be started by the users
-export const whiteList : TestCategory[] = [];
+export const whiteList : TestCategory[] = [
+  TestCategory.ADI2,
+];
 
 @Injectable()
 export class CategoryWhitelistProvider {

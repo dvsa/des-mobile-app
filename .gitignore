@@ -34,6 +34,8 @@ npm-debug.log*
 /src/assets/mock
 
 src/environments/environment.ts
+src/environments/test-schema-version.ts
+
 mock/local-journal.json
 mock/local-journal-non-test-activities.json
 mock/local-test-centre-journal.json

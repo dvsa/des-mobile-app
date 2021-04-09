@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { get, isNil } from 'lodash';
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { Store } from '@ngrx/store'; // select
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-// import { map, filter } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import * as moment from 'moment';
+
 import { SlotComponent } from '../slot/slot';
 import { vehicleDetails } from './test-slot.constants';
 import { AppConfigProvider } from '../../../app/providers/app-config/app-config';
@@ -20,12 +21,11 @@ import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 import {
   CategoryWhitelistProvider,
 } from '../../../app/providers/category-whitelist/category-whitelist';
-/* import { getTestStatus, getActivityCodeBySlotId, getTestById } from '../../../store/tests/tests.selector';
+import { getTestStatus, getActivityCodeBySlotId, getTestById } from '../../../store/tests/tests.selector';
 import { getTests } from '../../../store/tests/tests.reducer';
 import { isRekey } from '../../../store/tests/rekey/rekey.selector';
 import { getRekeyIndicator } from '../../../store/tests/rekey/rekey.reducer';
 import { DelegatedExaminerTestSlot } from '../../../app/providers/delegated-rekey-search/mock-data/delegated-mock-data';
-*/
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
@@ -81,8 +81,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   ) { }
 
   ngOnInit(): void {
-    // const { slotId } = this.slot.slotDetail;
-    /* this.componentState = {
+    const { slotId } = this.slot.slotDetail;
+    this.componentState = {
       testStatus$: this.store$.pipe(
         select(getTests),
         select((tests) => this.derivedTestStatus || getTestStatus(tests, slotId)),
@@ -98,7 +98,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
         select(getRekeyIndicator),
         select(isRekey),
       ),
-    }; */
+    };
   }
 
   isIndicatorNeededForSlot(): boolean {
@@ -162,8 +162,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   getExaminerId(): number {
     let returnValue = null;
     if (this.delegatedTest) {
-      // const slot = this.slot as DelegatedExaminerTestSlot;
-      returnValue = null; // slot.examinerId;
+      const slot = this.slot as DelegatedExaminerTestSlot;
+      returnValue = slot.examinerId;
     }
     return returnValue;
   }

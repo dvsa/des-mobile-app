@@ -39,6 +39,7 @@ import { LogsProvider } from './providers/logs/logs';
 import { SchemaValidatorProvider } from './providers/schema-validator/schema-validator';
 import { LogHelper } from './providers/logs/logs-helper';
 import { JournalModule } from '../store/journal/journal.module';
+import { TestsModule } from '../store/tests/tests.module';
 import { TestPersistenceProvider } from './providers/test-persistence/test-persistence';
 import { AnalyticsProvider } from './providers/analytics/analytics';
 import { DeviceProvider } from './providers/device/device';
@@ -47,13 +48,14 @@ import { AppConfigStoreModule } from '../store/app-config/app-config.module';
 import { appConfigReducer } from '../store/app-config/app-config.reducer';
 import { journalReducer } from '../store/journal/journal.reducer';
 import { appInfoReducer } from '../store/app-info/app-info.reducer';
+import { testsReducer } from '../store/tests/tests.reducer';
 import { TestCentreJournalProvider } from './providers/test-centre-journal/test-centre-journal';
 import { TestCentreJournalStoreModule } from '../store/test-centre-journal/test-centre-journal.module';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['appInfo', 'logs', 'tests', 'appConfig'],
+    keys: ['appInfo', 'tests', 'appConfig'],
     rehydrate: true,
   })(reducer);
 }
@@ -62,6 +64,7 @@ const reducers: ActionReducerMap<any> = {
   journal: journalReducer,
   appInfo: appInfoReducer,
   appConfig: appConfigReducer,
+  tests: testsReducer,
 };
 
 const metaReducers: MetaReducer<any, any>[] = [];
@@ -101,6 +104,7 @@ if (enableRehydrationPlugin) {
     LogsStoreModule,
     TestCentreJournalStoreModule,
     JournalModule,
+    TestsModule,
     NgbModule,
   ],
   providers: [

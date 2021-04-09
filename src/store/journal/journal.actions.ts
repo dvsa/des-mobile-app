@@ -26,22 +26,27 @@ export const LoadJournalSilent = createAction(
 
 export const LoadJournalSuccess = createAction(
   '[JournalPage] Load Journal Success',
-  props<{
+  (
     payload: ExaminerSlotItemsByDate,
     onlineOffline: ConnectionStatus,
     unAuthenticatedMode: boolean,
-    lastRefreshed: Date
-  }>(),
+    lastRefreshed: Date,
+  ) => ({
+    payload,
+    onlineOffline,
+    unAuthenticatedMode,
+    lastRefreshed,
+  }),
 );
 
 export const LoadJournalFailure = createAction(
   '[JournalEffects] Load Journal Failure',
-  props<{ error: MesError }>(),
+  (error: MesError) => ({ error }),
 );
 
 export const LoadJournalSilentFailure = createAction(
   '[JournalEffects] Load Journal Silent Failure',
-  props<{ error: MesError }>(),
+  (error: MesError) => ({ error }),
 );
 
 export const UnloadJournal = createAction(
@@ -54,12 +59,12 @@ export const LoadCompletedTests = createAction(
 
 export const LoadCompletedTestsSuccess = createAction(
   '[JournalEffect] Load Completed Tests Success',
-  props<{ payload: SearchResultTestSchema[] }>(),
+  (completedTests: SearchResultTestSchema[]) => ({ completedTests }),
 );
 
 export const LoadCompletedTestsFailure = createAction(
   '[JournalEffect] Load Completed Tests Failure',
-  props<{ error: MesError }>(),
+  (error: MesError) => ({ error }),
 );
 
 export const UnsetError = createAction(
@@ -68,7 +73,7 @@ export const UnsetError = createAction(
 
 export const ClearChangedSlot = createAction(
   '[JournalPage] Clear Changed Slot',
-  props<{ slotId: number }>(),
+  (slotId: number) => ({ slotId }),
 );
 
 export const SelectPreviousDay = createAction(
@@ -81,7 +86,7 @@ export const SelectNextDay = createAction(
 
 export const SetSelectedDate = createAction(
   '[JournalEffects] Set Selected Day',
-  props<{ payload: string }>(),
+  (selectedDate: string) => ({ selectedDate }),
 );
 
 export const SetupPolling = createAction(
@@ -98,22 +103,22 @@ export const JournalViewDidEnter = createAction(
 
 export const JournalNavigateDay = createAction(
   '[JournalPage] Navigate Day',
-  props<{ day: string }>(),
+  (day: string) => ({ day }),
 );
 
 export const ResumingWriteUp = createAction(
   '[JournalPage] Resuming write-up',
-  props<{ slotId: string }>(),
+  (slotId: string) => ({ slotId }),
 );
 
 export const JournalRefreshError = createAction(
   '[JournalPage] Journal Refresh Error',
-  props<{ errorDescription: string, errorMessage: string }>(),
+  (errorDescription: string, errorMessage: string) => ({ errorDescription, errorMessage }),
 );
 
 export const JournalRefresh = createAction(
   '[JournalPage] Journal Refresh',
-  props<{ mode: string }>(),
+  (mode: string) => ({ mode }),
 );
 
 export const CandidateDetailsSeen = createAction(
