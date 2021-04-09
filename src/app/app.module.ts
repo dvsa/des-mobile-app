@@ -53,6 +53,7 @@ import { AppComponent } from './app.component';
 import { TestsModule } from '../store/tests/tests.module';
 import { TestCentreJournalStoreModule } from '../store/test-centre-journal/test-centre-journal.module';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
+import { RouteByCategoryProvider } from './providers/route-by-category/route-by-category';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
@@ -137,6 +138,7 @@ if (enableRehydrationPlugin) {
     TestPersistenceProvider,
     CategoryWhitelistProvider,
     TestCentreJournalProvider,
+    RouteByCategoryProvider,
     ScreenOrientation,
   ],
   bootstrap: [AppComponent],

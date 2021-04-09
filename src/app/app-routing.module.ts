@@ -27,12 +27,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/test-centre-journal/test-centre-journal.module')
       .then((m) => m.TestCentreJournalModule),
   },
-  {
-    path: 'waiting_room_page',
-    loadChildren: () =>
-      import('./pages/waiting-room/cat-adi-part2/waiting-room.cat-adi-part2/waiting-room.cat-adi-part2.module')
-        .then((m) => m.WaitingRoomCatAdiPart2PageModule),
-  },
 ];
 
 @NgModule({
