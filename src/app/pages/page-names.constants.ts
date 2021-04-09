@@ -17,7 +17,7 @@ export const REKEY_UPLOAD_OUTCOME_PAGE = 'RekeyUploadOutcomePage';
 export const DELEGATED_REKEY_SEARCH_PAGE = 'DelegatedRekeySearchPage';
 export const DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE = 'DelegatedRekeyUploadOutcomePage';
 
-export const WAITING_ROOM_PAGE = 'waiting_room_page';
+export const WAITING_ROOM_PAGE = 'WaitingRoomPage';
 
 export const CAT_B = {
   REKEY_UPLOAD_OUTCOME_PAGE,

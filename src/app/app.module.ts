@@ -49,6 +49,7 @@ import { journalReducer } from '../store/journal/journal.reducer';
 import { appInfoReducer } from '../store/app-info/app-info.reducer';
 import { TestCentreJournalProvider } from './providers/test-centre-journal/test-centre-journal';
 import { TestCentreJournalStoreModule } from '../store/test-centre-journal/test-centre-journal.module';
+import { RouteByCategoryProvider } from './providers/route-by-category/route-by-category';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
@@ -118,6 +119,7 @@ if (enableRehydrationPlugin) {
     TestPersistenceProvider,
     CategoryWhitelistProvider,
     TestCentreJournalProvider,
+    RouteByCategoryProvider,
     ScreenOrientation,
   ],
   bootstrap: [AppComponent],

@@ -27,8 +27,8 @@ import {
   CAT_ADI_PART2,
   CAT_HOME_TEST,
   CAT_CPC,
-  WAITING_ROOM_PAGE,
 } from '../../../app/pages/page-names.constants';
+import { RouteByCategoryProvider } from '../../../app/providers/route-by-category/route-by-category';
 /* import { ModalEvent } from '../../../app/pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
 import {
   ModalEvent as EarlyStartModalEvent,
@@ -92,6 +92,7 @@ export class TestOutcomeComponent implements OnInit {
     private store$: Store<StoreModel>,
     private router: Router,
     private modalController: ModalController,
+    public routeByCat: RouteByCategoryProvider,
   ) {
   }
 
@@ -387,45 +388,46 @@ export class TestOutcomeComponent implements OnInit {
     } */
 
     // TODO - temp to allow test to start without data
-    this.router.navigate([WAITING_ROOM_PAGE]);
+    this.category = TestCategory.ADI2;
+    this.routeByCat.navToWaitingRoom(this.getTestStartingPage(), this.category);
   }
 
-  getTestStartingPage(): [string] {
+  getTestStartingPage(): string {
     switch (this.category as TestCategory) {
       case TestCategory.ADI2:
-        return [CAT_ADI_PART2.WAITING_ROOM_PAGE];
+        return CAT_ADI_PART2.WAITING_ROOM_PAGE;
       case TestCategory.B:
-        return [CAT_B.WAITING_ROOM_PAGE];
+        return CAT_B.WAITING_ROOM_PAGE;
       case TestCategory.BE:
-        return [CAT_BE.WAITING_ROOM_PAGE];
+        return CAT_BE.WAITING_ROOM_PAGE;
       case TestCategory.C1E:
       case TestCategory.CE:
       case TestCategory.C1:
       case TestCategory.C:
-        return [CAT_C.WAITING_ROOM_PAGE];
+        return CAT_C.WAITING_ROOM_PAGE;
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        return [CAT_CPC.WAITING_ROOM_PAGE];
+        return CAT_CPC.WAITING_ROOM_PAGE;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAMM1:
-        return [CAT_A_MOD1.WAITING_ROOM_PAGE];
+        return CAT_A_MOD1.WAITING_ROOM_PAGE;
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
-        return [CAT_A_MOD2.WAITING_ROOM_PAGE];
+        return CAT_A_MOD2.WAITING_ROOM_PAGE;
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-        return [CAT_D.WAITING_ROOM_PAGE];
+        return CAT_D.WAITING_ROOM_PAGE;
       case TestCategory.K:
       case TestCategory.H:
       case TestCategory.G:
       case TestCategory.F:
-        return [CAT_HOME_TEST.WAITING_ROOM_PAGE];
+        return CAT_HOME_TEST.WAITING_ROOM_PAGE;
       default:
     }
   }
