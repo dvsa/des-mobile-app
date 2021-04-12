@@ -27,7 +27,6 @@ import {
   CAT_ADI_PART2,
   CAT_HOME_TEST,
   CAT_CPC,
-  getPageNameByCategoryAndKey,
 } from '../../../app/pages/page-names.constants';
 import { RouteByCategoryProvider } from '../../../app/providers/route-by-category/route-by-category';
 /* import { ModalEvent } from '../../../app/pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
@@ -390,8 +389,8 @@ export class TestOutcomeComponent implements OnInit {
     } */
 
     // TODO - temp to allow test to start without data
-    this.category = TestCategory.ADI2;
-    await this.routeByCat.navigateToPage(getPageNameByCategoryAndKey(this.category, 'WAITING_ROOM_PAGE'), this.category);
+    this.category = TestCategory.B;
+    await this.routeByCat.navigateToPage('WAITING_ROOM_PAGE', this.category);
   }
 
   getTestStartingPage(): [string] {
