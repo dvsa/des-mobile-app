@@ -2,12 +2,12 @@ import { async, TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { configureTestSuite } from 'ng-bullet';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { AnalyticsProvider } from '../../../providers/analytics/analytics';
-import { AnalyticsProviderMock } from '../../../providers/analytics/__mocks__/analytics.mock';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
   AnalyticsScreenNames, AnalyticsEventCategories, AnalyticsEvents,
-} from '../../../providers/analytics/analytics.model';
-import { AnalyticRecorded } from '../../../providers/analytics/analytics.actions';
+} from '@providers/analytics/analytics.model';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { RekeySearchAnalyticsEffects } from '../rekey-search.analytics.effects';
 import * as rekeySearchActions from '../rekey-search.actions';
 

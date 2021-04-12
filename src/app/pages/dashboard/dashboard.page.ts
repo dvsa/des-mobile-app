@@ -5,16 +5,16 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
 import { selectRole } from '../../../store/app-config/app-config.selectors';
-import { ExaminerRole, ExaminerRoleDescription } from '../../providers/app-config/constants/examiner-role.constants';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { AppConfigProvider } from '../../providers/app-config/app-config';
-import { DateTimeProvider } from '../../providers/date-time/date-time';
 import { StoreModel } from '../../shared/models/store.model';
 import { DateTime } from '../../shared/helpers/date-time';
 import { BasePageComponent } from '../../shared/classes/base-page';
-import { NetworkStateProvider } from '../../providers/network-state/network-state';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;

@@ -17,15 +17,15 @@ import {
   tap,
 } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { BasePageComponent } from '../../shared/classes/base-page';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { NetworkStateProvider } from '../../providers/network-state/network-state';
-import { TestCentreJournalProvider } from '../../providers/test-centre-journal/test-centre-journal';
 import { TestCentre, TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
 import { StoreModel } from '../../shared/models/store.model';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
 import { Log, LogType } from '../../shared/models/log.model';
-import { LogHelper } from '../../providers/logs/logs-helper';
 import { SaveLog } from '../../../store/logs/logs.actions';
 import {
   getLastRefreshed,

@@ -4,16 +4,16 @@ import { switchMap, catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/delegated-rekey-search';
+import { SearchProvider } from '@providers/search/search';
+import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
 import {
   SearchBookedDelegatedTest,
   SearchBookedDelegatedTestSuccess,
   SearchBookedDelegatedTestFailure, DelegatedRekeySearchActions,
 } from './delegated-rekey-search.actions';
-import { DelegatedRekeySearchProvider } from '../../providers/delegated-rekey-search/delegated-rekey-search';
 import { HttpStatusCodes } from '../../shared/models/http-status-codes';
-import { SearchProvider } from '../../providers/search/search';
 import { DelegatedRekeySearchErrorMessages } from './delegated-rekey-search-error-model';
-import { DelegatedExaminerTestSlot } from '../../providers/delegated-rekey-search/mock-data/delegated-mock-data';
 
 @Injectable()
 export class DelegatedRekeySearchEffects {

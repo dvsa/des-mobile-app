@@ -9,36 +9,35 @@ import { of, Observable, interval } from 'rxjs';
 // import { groupBy } from 'lodash';
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { HttpErrorResponse } from '@angular/common/http';
-// import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { Store, select, Action } from '@ngrx/store';
-import * as journalActions from './journal.actions';
-import { JournalProvider } from '../../app/providers/journal/journal';
-import { StoreModel } from '../../app/shared/models/store.model';
-import { getJournalState } from './journal.reducer';
-import { AppConfigProvider } from '../../app/providers/app-config/app-config';
-import { SlotProvider } from '../../app/providers/slot/slot';
-import { JournalRefreshModes } from '../../app/providers/analytics/analytics.model';
+import { JournalProvider } from '@providers/journal/journal';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { SlotProvider } from '@providers/slot/slot';
+import { JournalRefreshModes } from '@providers/analytics/analytics.model';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+// import { Examiner } from '@dvsa/mes-test-schema/categories/common';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
+
+import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
+// import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
+import { DateTime, Duration } from '../../app/shared/helpers/date-time';
 import {
   getSelectedDate, getLastRefreshed, getSlots,
   canNavigateToPreviousDay, canNavigateToNextDay,
 // getCompletedTests,
 } from './journal.selector';
-import { ConnectionStatus, NetworkStateProvider } from '../../app/providers/network-state/network-state';
-import { DateTime, Duration } from '../../app/shared/helpers/date-time';
-import { DataStoreProvider } from '../../app/providers/data-store/data-store';
-import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
-// import { Examiner } from '@dvsa/mes-test-schema/categories/common';
-import { DateTimeProvider } from '../../app/providers/date-time/date-time';
-import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
-
-import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
-// import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
-import { LogHelper } from '../../app/providers/logs/logs-helper';
+import { getJournalState } from './journal.reducer';
+import { StoreModel } from '../../app/shared/models/store.model';
+import * as journalActions from './journal.actions';
 // import { HttpStatusCodes } from '../../shared/models/http-status-codes';
-// import { SearchProvider } from '../../app/providers/search/search';
+// import { SearchProvider } from '@providers/search/search';
 import { LogType } from '../../app/shared/models/log.model';
 import { SaveLog } from '../logs/logs.actions';
-// import { AdvancedSearchParams } from '../../providers/search/search.models';
+// import { AdvancedSearchParams } from '@providers/search/search.models';
 // import moment from 'moment';
 // import { removeLeadingZeros } from '../../shared/helpers/formatters';
 // import { getExaminer } from '../tests/journal-data/common/examiner/examiner.reducer';

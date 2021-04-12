@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import remoteConfigSchema from '@dvsa/mes-config-schema/remote-config.json';
+import * as remoteConfigSchema from '@dvsa/mes-config-schema/remote-config.json';
 import { validate, ValidatorResult } from 'jsonschema';
 
 @Injectable()

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { BasePageComponent } from '../../shared/classes/base-page';
 
 @Component({

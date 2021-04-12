@@ -1,5 +1,5 @@
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { LocalEnvironmentFile } from './models/environment.model';
-import { ExaminerRole } from '../app/providers/app-config/constants/examiner-role.constants';
 
 export const environment: LocalEnvironmentFile = {
   // this is required by main.ts so that Ionic knows when to enable production mode

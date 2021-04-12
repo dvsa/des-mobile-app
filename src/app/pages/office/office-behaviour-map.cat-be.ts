@@ -1,4 +1,4 @@
-import { OutcomeBehaviourMapping } from '../../providers/outcome-behaviour-map/outcome-behaviour-map.model';
+import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcome-behaviour-map.model';
 
 export const behaviourMap: OutcomeBehaviourMapping = {
   1: {

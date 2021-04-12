@@ -5,10 +5,14 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
-import { AppConfigProvider } from '../../providers/app-config/app-config';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { AuthenticationError } from '../../providers/authentication/authentication.constants';
-import { AppConfigError } from '../../providers/app-config/app-config.constants';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { AuthenticationError } from '@providers/authentication/authentication.constants';
+import { AppConfigError } from '@providers/app-config/app-config.constants';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceError } from '@providers/device/device.constants';
 import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
 import { StoreModel } from '../../shared/models/store.model';
 import {
@@ -17,11 +21,7 @@ import {
 import { DASHBOARD_PAGE } from '../page-names.constants';
 import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
 import { LogType } from '../../shared/models/log.model';
-import { LogHelper } from '../../providers/logs/logs-helper';
-import { AnalyticsProvider } from '../../providers/analytics/analytics';
 import { LoadAppConfig } from '../../../store/app-config/app-config.actions';
-import { DeviceProvider } from '../../providers/device/device';
-import { DeviceError } from '../../providers/device/device.constants';
 
 @Component({
   selector: 'app-login',

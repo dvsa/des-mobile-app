@@ -1,6 +1,6 @@
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { BasePageComponent } from './base-page';
 
 export abstract class LogoutBasePageComponent extends BasePageComponent {

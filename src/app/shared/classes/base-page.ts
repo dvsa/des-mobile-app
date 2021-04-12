@@ -1,6 +1,6 @@
 import { Platform } from '@ionic/angular';
 import { NavigationExtras, Router } from '@angular/router';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { LOGIN_PAGE } from '../../pages/page-names.constants';
 
 export abstract class BasePageComponent {

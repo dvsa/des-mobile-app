@@ -21,10 +21,10 @@ import { VehicleDetailsComponent } from '../../vehicle-details/vehicle-details';
 import { AdditionalCandidateDetailsComponent } from '../../additional-candidate-details/additional-candidate-details';
 // import { ScreenOrientationMock } from '../../../../shared/mocks/screen-orientation.mock';
 import { LanguageComponent } from '../../language/language';
-import { AppConfigProvider } from '../../../../app/providers/app-config/app-config';
-import { AppConfigProviderMock } from '../../../../app/providers/app-config/__mocks__/app-config.mock';
-import { DateTimeProvider } from '../../../../app/providers/date-time/date-time';
-import { DateTimeProviderMock } from '../../../../app/providers/date-time/__mocks__/date-time.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 /* import { testsReducer } from '../../../../store/tests/tests.reducer';
 import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
 import { StoreModel } from '../../../../shared/models/store.model';
@@ -32,7 +32,7 @@ import { SetTestStatusDecided } from '../../../../store/tests/test-status/test-s
 import { StartTest } from '../../../../store/tests/tests.actions';
 import { ActivityCodes } from '../../../../shared/models/activity-codes';
 import { SpecialNeedsCode } from '../../../../shared/helpers/get-slot-type';
-import { SlotProvider } from '../../../../app/providers/slot/slot'; */
+import { SlotProvider } from '@providers/slot/slot'; */
 import { SubmissionStatusComponent } from '../../submission-status/submission-status';
 import { ProgressiveAccessComponent } from '../../progressive-access/progressive-access';
 import { LocationComponent } from '../../location/location';

@@ -1,4 +1,4 @@
-import { BikeCategoryDetail, BikeTestType } from '../../../providers/bike-category-detail/bike-category-detail.model';
+import { BikeCategoryDetail, BikeTestType } from '@providers/bike-category-detail/bike-category-detail.model';
 
 export default [
   {

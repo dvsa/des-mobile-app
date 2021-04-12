@@ -3,8 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
-import { LogHelper } from '../../../../app/providers/logs/logs-helper';
-import { LogHelperMock } from '../../../../app/providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { TimeComponent } from '../time';
 
 describe('TimeComponent', () => {

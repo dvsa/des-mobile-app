@@ -1,6 +1,6 @@
 import { createReducer, createFeatureSelector, on } from '@ngrx/store';
 
-import { AppConfig } from '../../app/providers/app-config/app-config.model';
+import { AppConfig } from '@providers/app-config/app-config.model';
 import { LoadAppConfig } from './app-config.actions';
 
 export const appConfigFeatureKey = 'appConfig';

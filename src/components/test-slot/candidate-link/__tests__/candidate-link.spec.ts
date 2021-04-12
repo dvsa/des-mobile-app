@@ -16,8 +16,8 @@ import { configureTestSuite } from 'ng-bullet';
 import { CandidateLinkComponent } from '../candidate-link';
 // import { TranslateService } from '@ngx-translate/core';
 // import { AppComponent } from '../../../../app/app.component';
-import { DataStoreProvider } from '../../../../app/providers/data-store/data-store';
-import { DataStoreProviderMock } from '../../../../app/providers/data-store/__mocks__/data-store.mock';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
 // import { CANDIDATE_DETAILS_PAGE } from '../../../../app/pages/page-names.constants'; // FAKE_CANDIDATE_DETAILS_PAGE
 /* import { translateServiceMock } from '../../../../app/shared/__mocks__/translate';
 import { end2endPracticeSlotId } from '../../../../app/shared/mocks/test-slot-ids.mock';

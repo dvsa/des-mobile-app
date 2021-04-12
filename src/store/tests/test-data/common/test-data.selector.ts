@@ -1,7 +1,7 @@
 import { ETA, Eco, TestData } from '@dvsa/mes-test-schema/categories/common';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { Competencies, ExaminerActions } from '../test-data.constants';
-import { VehicleChecksQuestion } from '../../../../app/providers/question/vehicle-checks-question.model';
-import { OutcomeBehaviourMapProvider } from '../../../../app/providers/outcome-behaviour-map/outcome-behaviour-map';
 
 export const hasSeriousFault = (
   data: TestData,

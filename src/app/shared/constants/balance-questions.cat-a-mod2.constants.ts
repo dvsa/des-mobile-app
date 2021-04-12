@@ -1,4 +1,4 @@
-import { VehicleChecksQuestion } from '../../providers/question/vehicle-checks-question.model';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 export const NUMBER_OF_BALANCE_QUESTIONS = 1;
 

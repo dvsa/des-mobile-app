@@ -1,7 +1,7 @@
 import { Booking, SlotDetail, TestCentre } from '@dvsa/mes-journal-schema';
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { SlotItem } from '../../app/providers/slot-selector/slot-item';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 import { MesError } from '../../app/shared/models/mes-error.model';
 
 export type Slot = {

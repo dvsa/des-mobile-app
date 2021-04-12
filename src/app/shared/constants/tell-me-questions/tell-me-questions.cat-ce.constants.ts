@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { VehicleChecksQuestion } from '../../../providers/question/vehicle-checks-question.model';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 export const NUMBER_OF_TELL_ME_QUESTIONS = 1;
 

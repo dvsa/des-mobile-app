@@ -19,10 +19,15 @@ import {
   ConductedLanguage,
   CategoryCode,
 } from '@dvsa/mes-test-schema/categories/common';
-
 import {
   switchMap, catchError, filter, map, withLatestFrom, concatMap,
 } from 'rxjs/operators';
+
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { TestSubmissionProvider, TestToSubmit } from '@providers/test-submission/test-submission';
+import { TestPersistenceProvider } from '@providers/test-persistence/test-persistence';
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
@@ -61,11 +66,6 @@ import { OtherReasonUpdated, OtherSelected } from './rekey-reason/rekey-reason.a
 import { StoreModel } from '../../app/shared/models/store.model';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '../../app/shared/mocks/test-slot-ids.mock';
 import { getStaffNumber } from './journal-data/common/examiner/examiner.selector';
-import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
-import { TestSubmissionProvider, TestToSubmit } from '../../app/providers/test-submission/test-submission';
-import { TestPersistenceProvider } from '../../app/providers/test-persistence/test-persistence';
-import { AppConfigProvider } from '../../app/providers/app-config/app-config';
-import { ConnectionStatus, NetworkStateProvider } from '../../app/providers/network-state/network-state';
 import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 import { getRekeySearchState, RekeySearchModel } from '../../app/pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '../../app/pages/rekey-search/rekey-search.selector';

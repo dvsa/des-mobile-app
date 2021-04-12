@@ -3,9 +3,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
-import { RekeySearchProvider } from '../../providers/rekey-search/rekey-search';
-import { CompressionProvider } from '../../providers/compression/compression';
-import { SearchProvider } from '../../providers/search/search';
+import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
+import { CompressionProvider } from '@providers/compression/compression';
+import { SearchProvider } from '@providers/search/search';
 import {
   SearchBookedTest,
   SearchBookedTestSuccess,

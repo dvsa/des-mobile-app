@@ -11,10 +11,10 @@ import {
   AlertController, Config, IonicModule, ModalController, NavParams,
 } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { ErrorPage } from './error';
 import { ErrorMessageComponent } from '../../../components/common/error-message/error-message';
-import { AuthenticationProvider } from '../../providers/authentication/authentication';
-import { AuthenticationProviderMock } from '../../providers/authentication/__mocks__/authentication.mock';
 import { ModalControllerMock } from '../../../../mock/ionic-mocks/modal-controller.mock';
 
 describe('ErrorPage', () => {

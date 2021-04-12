@@ -4,29 +4,30 @@ import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { of, ReplaySubject } from 'rxjs';
 
+import { JournalProvider } from '@providers/journal/journal';
+import { SlotProvider } from '@providers/slot/slot';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { JournalProviderMock } from '@providers/journal/__mocks__/journal.mock';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { JournalRefreshModes } from '@providers/analytics/analytics.model';
+import journalSlotsDataMock from '@providers/journal/__mocks__/journal-slots-data.mock';
+import { AppConfig } from '@providers/app-config/app-config.model';
+
 import { journalReducer } from '../journal.reducer';
 import * as journalActions from '../journal.actions';
 import { JournalEffects } from '../journal.effects';
-import { JournalProvider } from '../../../app/providers/journal/journal';
-import { SlotProvider } from '../../../app/providers/slot/slot';
-import { ConnectionStatus, NetworkStateProvider } from '../../../app/providers/network-state/network-state';
-import { AppConfigProvider } from '../../../app/providers/app-config/app-config';
-import { JournalProviderMock } from '../../../app/providers/journal/__mocks__/journal.mock';
-import { AppConfigProviderMock } from '../../../app/providers/app-config/__mocks__/app-config.mock';
-import { NetworkStateProviderMock } from '../../../app/providers/network-state/__mocks__/network-state.mock';
-import { DataStoreProviderMock } from '../../../app/providers/data-store/__mocks__/data-store.mock';
-import { DataStoreProvider } from '../../../app/providers/data-store/data-store';
-import { AuthenticationProvider } from '../../../app/providers/authentication/authentication';
-import { AuthenticationProviderMock } from '../../../app/providers/authentication/__mocks__/authentication.mock';
-import { DateTimeProvider } from '../../../app/providers/date-time/date-time';
-import { DateTimeProviderMock } from '../../../app/providers/date-time/__mocks__/date-time.mock';
-import { LogHelperMock } from '../../../app/providers/logs/__mocks__/logs-helper.mock';
-import { LogHelper } from '../../../app/providers/logs/logs-helper';
 import { JournalModel } from '../journal.model';
-import { JournalRefreshModes } from '../../../app/providers/analytics/analytics.model';
 import { DateTime, Duration } from '../../../app/shared/helpers/date-time';
-import journalSlotsDataMock from '../../../app/providers/journal/__mocks__/journal-slots-data.mock';
-import { AppConfig } from '../../../app/providers/app-config/app-config.model';
 
 describe('Journal Effects', () => {
 

@@ -5,10 +5,11 @@ import {
 } from 'lodash';
 import { createSelector } from '@ngrx/store';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
+
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { SlotProvider } from '@providers/slot/slot';
 import { JournalModel } from './journal.model';
 import { DateTime, Duration } from '../../app/shared/helpers/date-time';
-import { SlotItem } from '../../app/providers/slot-selector/slot-item';
-import { SlotProvider } from '../../app/providers/slot/slot';
 import { StoreModel } from '../../app/shared/models/store.model';
 
 export const selectJournal = (state: StoreModel): JournalModel => state.journal;
