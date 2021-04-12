@@ -17,4 +17,4 @@ import { WaitingRoomCatAdiPart2Page } from './waiting-room.cat-adi-part2.page';
   ],
   declarations: [WaitingRoomCatAdiPart2Page]
 })
-export class WaitingRoomCatAdiPart2PageModule {}
+export class WaitingRoomCatADIPart2PageModule {}
