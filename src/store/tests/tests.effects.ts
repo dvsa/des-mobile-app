@@ -78,6 +78,10 @@ import {
 } from '../../app/pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { StartTest, TestActionsTypes } from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
+import { PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';
+import {
+  InitialiseVehicleChecks as InitialiseVehicleChecksCatC,
+} from './test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 
 @Injectable()
 export class TestsEffects {
@@ -214,11 +218,10 @@ export class TestsEffects {
       ];
 
       if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
-        // @TODO: Not required for B/ADI2 so implement as soon as required
-        // arrayOfActions.push(new PopulateVehicleDimensions(
-        //   slot.booking.application.vehicleWidth,
-        //   slot.booking.application.vehicleLength,
-        // ));
+        arrayOfActions.push(PopulateVehicleDimensions(
+          slot.booking.application.vehicleWidth,
+          slot.booking.application.vehicleLength,
+        ));
       }
       if (startTestAction.rekey) {
         arrayOfActions.push(MarkAsRekey());
@@ -228,14 +231,13 @@ export class TestsEffects {
         arrayOfActions.push(OtherSelected(true));
         arrayOfActions.push(OtherReasonUpdated('Delegated Examiner'));
       }
-      // @TODO: Implement as part of CAT C development
-      // if (
-      //   startTestAction.category === TestCategory.C ||
-      //   startTestAction.category === TestCategory.C1 ||
-      //   startTestAction.category === TestCategory.C1E ||
-      //   startTestAction.category === TestCategory.CE) {
-      //   arrayOfActions.push(new InitializeVehicleChecksCatC(startTestAction.category));
-      // }
+      if (
+        startTestAction.category === TestCategory.C
+        || startTestAction.category === TestCategory.C1
+        || startTestAction.category === TestCategory.C1E
+        || startTestAction.category === TestCategory.CE) {
+        arrayOfActions.push(InitialiseVehicleChecksCatC(startTestAction.category));
+      }
       // @TODO: Implement as part of CAT D development
       // if (
       //   startTestAction.category === TestCategory.D ||

@@ -1,6 +1,6 @@
-// import { get } from 'lodash';
-// import { ManoeuvreUnion } from '../../../../../shared/unions/test-schema-unions';
-//
-// export const getReverseLeftSelected = (manoeuvres: ManoeuvreUnion) => {
-//   return get(manoeuvres, 'reverseLeft.selected', false);
-// };
+import { get } from 'lodash';
+import { ManoeuvreUnion } from '../../../../../app/shared/unions/test-schema-unions';
+
+export const getReverseLeftSelected = (manoeuvres: ManoeuvreUnion) => {
+  return get(manoeuvres, 'reverseLeft.selected', false);
+};
