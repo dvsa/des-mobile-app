@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { TestSlot, NonTestActivity } from '@dvsa/mes-journal-schema';
 import { configureTestSuite } from 'ng-bullet';
+import { ActivitySlotComponent } from '@pages/journal/components/activity-slot/activity-slot';
+import { EmptySlotComponent } from '@pages/journal/components/empty-slot/empty-slot';
 import { SlotSelectorProvider } from '../slot-selector';
 import { TestSlotComponent } from '../../../../components/test-slot/test-slot/test-slot';
 import { SlotItem } from '../slot-item';
-import { ActivitySlotComponent } from '../../../pages/journal/components/activity-slot/activity-slot';
-import { EmptySlotComponent } from '../../../pages/journal/components/empty-slot/empty-slot';
 import { Slot } from '../../../../store/journal/journal.model';
 
 describe('Slot Selector', () => {

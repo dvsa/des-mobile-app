@@ -28,6 +28,16 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { TestSubmissionProvider, TestToSubmit } from '@providers/test-submission/test-submission';
 import { TestPersistenceProvider } from '@providers/test-persistence/test-persistence';
+import { getRekeySearchState, RekeySearchModel } from '@pages/rekey-search/rekey-search.reducer';
+import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
+import {
+  getBookedTestSlot as getDelegatedBookedTestSlot,
+} from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
+import {
+  DelegatedRekeySearchModel,
+  getDelegatedRekeySearchState,
+} from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
+
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
@@ -67,15 +77,6 @@ import { StoreModel } from '../../app/shared/models/store.model';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '../../app/shared/mocks/test-slot-ids.mock';
 import { getStaffNumber } from './journal-data/common/examiner/examiner.selector';
 import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
-import { getRekeySearchState, RekeySearchModel } from '../../app/pages/rekey-search/rekey-search.reducer';
-import { getBookedTestSlot } from '../../app/pages/rekey-search/rekey-search.selector';
-import {
-  getBookedTestSlot as getDelegatedBookedTestSlot,
-} from '../../app/pages/delegated-rekey-search/delegated-rekey-search.selector';
-import {
-  DelegatedRekeySearchModel,
-  getDelegatedRekeySearchState,
-} from '../../app/pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { StartTest, TestActionsTypes } from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 import { PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';

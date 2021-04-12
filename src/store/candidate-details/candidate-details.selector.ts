@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { Application } from '@dvsa/mes-journal-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
-import { Details } from '../../app/pages/candidate-details/candidate-details.page.model';
+import { Details } from '@pages/candidate-details/candidate-details.page.model';
 import { getSlotType } from '../../app/shared/helpers/get-slot-type';
 import { formatApplicationReference } from '../../app/shared/helpers/formatters';
 

@@ -5,14 +5,15 @@ import {
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
+import {
+  PersonalCommitmentSlotComponent,
+} from '@pages/journal/components/personal-commitment/personal-commitment';
+import { ActivitySlotComponent } from '@pages/journal/components/activity-slot/activity-slot';
+import { EmptySlotComponent } from '@pages/journal/components/empty-slot/empty-slot';
+
 import { SlotItem } from './slot-item';
 import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 import { Slot } from '../../../store/journal/journal.model';
-import { ActivitySlotComponent } from '../../pages/journal/components/activity-slot/activity-slot';
-import { EmptySlotComponent } from '../../pages/journal/components/empty-slot/empty-slot';
-import {
-  PersonalCommitmentSlotComponent,
-} from '../../pages/journal/components/personal-commitment/personal-commitment';
 import { formatApplicationReference } from '../../shared/helpers/formatters';
 import { SlotComponent } from '../../../components/test-slot/slot/slot';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';

@@ -6,8 +6,9 @@ import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { LOGIN_PAGE } from '@pages/page-names.constants';
+
 import { BasePageComponent } from '../base-page';
-import { LOGIN_PAGE } from '../../../pages/page-names.constants';
 import { RouterMock } from '../../../../../mock/angular-mocks/router-mock';
 import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
 

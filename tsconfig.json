@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@providers/*": ["src/app/providers/*"],
-    },
+      "@pages/*": ["src/app/pages/*"]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

@@ -6,13 +6,13 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 
-import { TestOutcomeComponent } from '../test-outcome';
-import { StoreModel } from '../../../../app/shared/models/store.model';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import {
   CAT_B, CAT_BE, CAT_C, CAT_D, CAT_A_MOD1, CAT_A_MOD2,
-} from '../../../../app/pages/page-names.constants';
+} from '@pages/page-names.constants';
+import { TestOutcomeComponent } from '../test-outcome';
+import { StoreModel } from '../../../../app/shared/models/store.model';
 import { DateTime, Duration } from '../../../../app/shared/helpers/date-time';
 import { StartTest, ActivateTest } from '../../../../store/tests/tests.actions';
 import { TestStatus } from '../../../../store/tests/test-status/test-status.model';

@@ -8,8 +8,6 @@ import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { DateTime, Duration } from '../../../app/shared/helpers/date-time';
-import { StoreModel } from '../../../app/shared/models/store.model';
 import {
   // JOURNAL_EARLY_START_MODAL,
   // JOURNAL_FORCE_CHECK_MODAL,
@@ -22,9 +20,13 @@ import {
   CAT_ADI_PART2,
   CAT_HOME_TEST,
   CAT_CPC,
-} from '../../../app/pages/page-names.constants';
+} from '@pages/page-names.constants';
+import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
+import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
+
+import { DateTime, Duration } from '../../../app/shared/helpers/date-time';
+import { StoreModel } from '../../../app/shared/models/store.model';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
-import { getRekeySearchState } from '../../../app/pages/rekey-search/rekey-search.reducer';
 import { end2endPracticeSlotId } from '../../../app/shared/mocks/test-slot-ids.mock';
 import { ActivateTest, StartTest } from '../../../store/tests/tests.actions';
 import { SetExaminerConducted } from '../../../store/tests/examiner-conducted/examiner-conducted.actions';
@@ -34,12 +36,11 @@ import {
   ResumingWriteUp,
   // EarlyStartModalDidEnter
 } from '../../../store/journal/journal.actions';
-import { getBookedTestSlot } from '../../../app/pages/rekey-search/rekey-search.selector';
-// import { StartE2EPracticeTest } from '../../../app/pages/fake-journal/fake-journal.actions';
-/* import { ModalEvent } from '../../../app/pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
+// import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
+/* import { ModalEvent } from '@pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
 import {
   ModalEvent as EarlyStartModalEvent,
-} from '../../../ap//pages/journal/components/journal-early-start-modal/journal-early-start-modal.constants';
+} from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal.constants';
  */
 
 @Component({
