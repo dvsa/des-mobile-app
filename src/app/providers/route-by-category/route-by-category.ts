@@ -68,6 +68,18 @@ export class RouteByCategoryProvider {
     switch (page) {
       case 'WAITING_ROOM_PAGE':
         return 'waiting-room';
+      case 'COMMUNICATION_PAGE':
+        return 'communication';
+      case 'WAITING_ROOM_TO_CAR_PAGE':
+        return 'waiting-room-to-car';
+      case 'TEST_REPORT_PAGE':
+        return 'test-report';
+      case 'DEBRIEF_PAGE':
+        return 'debrief';
+      case 'PASS_FINALISATION_PAGE':
+        return 'pass-finalisation';
+      case 'POST_DEBRIEF_HOLDING_PAGE':
+        return 'post-debrief-holding';
       default:
     }
   }
