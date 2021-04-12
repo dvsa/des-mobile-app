@@ -1,4 +1,4 @@
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import {
   hasSeriousFault,
   hasDangerousFault,
@@ -7,19 +7,17 @@ import {
 } from '../../common/test-data.selector';
 import {
   getDrivingFaultCount,
+  getManoeuvres,
+  hasManoeuvreBeenCompletedCatC,
   areTellMeQuestionsSelected,
   areTellMeQuestionsCorrect,
-  hasVehicleChecksBeenCompletedCatADI2,
-  hasEyesightTestGotSeriousFault,
-  hasEyesightTestBeenCompleted,
-  getManoeuvresADI2,
-  hasManoeuvreBeenCompletedCatADIPart2,
-} from '../test-data.cat-adi-part2.selector';
+  hasVehicleChecksBeenCompletedCatC,
+} from '../test-data.cat-c.selector';
 import { Competencies } from '../../test-data.constants';
 import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
-describe('TestDataSelectors Cat ADI2', () => {
-  const state: CatADI2UniqueTypes.TestData = {
+describe('TestDataSelectors - CatC', () => {
+  const state: CatCUniqueTypes.TestData = {
     drivingFaults: {
       controlsGears: 1,
     },
@@ -32,6 +30,7 @@ describe('TestDataSelectors Cat ADI2', () => {
     testRequirements: {
       normalStart1: true,
       normalStart2: true,
+      angledStartControlledStop: true,
       downhillStart: true,
       uphillStart: true,
     },
@@ -43,12 +42,12 @@ describe('TestDataSelectors Cat ADI2', () => {
       adviceGivenControl: false,
       adviceGivenPlanning: false,
     },
-    manoeuvres: [{
-      reverseRight: {
+    manoeuvres: {
+      reverseLeft: {
         selected: true,
         controlFault: CompetencyOutcome.DF,
       },
-    }],
+    },
     vehicleChecks: {
       tellMeQuestions: [
         {
@@ -56,34 +55,14 @@ describe('TestDataSelectors Cat ADI2', () => {
           outcome: CompetencyOutcome.DF,
         },
       ],
-    },
-    eyesightTest: {
-      complete: true,
-      seriousFault: false,
+      showMeQuestions: [
+        {
+          code: '',
+          outcome: CompetencyOutcome.DF,
+        },
+      ],
     },
   };
-
-  describe('hasEyesightTestBeenCompleted', () => {
-    it('should return true if the eyesight test is complete', () => {
-      expect(hasEyesightTestBeenCompleted(state)).toBe(true);
-    });
-
-    it('should return false if the eyesight test is not complete', () => {
-      const newState: CatADI2UniqueTypes.TestData = { ...state, eyesightTest: { complete: false } };
-      expect(hasEyesightTestBeenCompleted(newState)).toBe(false);
-    });
-  });
-
-  describe('hasEyesightTestGotSeriousFault', () => {
-    it('should return true if the eyesight test has a serious fault', () => {
-      const newState: CatADI2UniqueTypes.TestData = { ...state, eyesightTest: { seriousFault: true } };
-      expect(hasEyesightTestGotSeriousFault(newState)).toBe(true);
-    });
-
-    it('should return false if the eyesight test does not have a serious fault', () => {
-      expect(hasEyesightTestGotSeriousFault(state)).toBe(false);
-    });
-  });
 
   describe('getDrivingFaultCount', () => {
     it('should return the driving fault count', () => {
@@ -175,49 +154,33 @@ describe('TestDataSelectors Cat ADI2', () => {
   });
 
   describe('getManoeuvres', () => {
-    it('should retrieve the manoeuvres data when requested', () => {
-      const result = getManoeuvresADI2(state);
+    it('should retrive the manoeuvres data when requested', () => {
+      const result = getManoeuvres(state);
       expect(result).toEqual(state.manoeuvres);
     });
   });
 
   describe('hasManoeuvreBeenCompleted', () => {
     it('should return false when no manoeuvres have been completed', () => {
-      const mockState: CatADI2UniqueTypes.Manoeuvres[] = [{
-      }];
-      expect(hasManoeuvreBeenCompletedCatADIPart2(mockState)).toEqual(false);
+      const mockState: CatCUniqueTypes.TestData = {
+        manoeuvres: {},
+      };
+      expect(hasManoeuvreBeenCompletedCatC(mockState)).toBeFalsy();
     });
-    it('should return true when 2 manoeuvres have been completed', () => {
-      const mockState: CatADI2UniqueTypes.Manoeuvres[] = [
-        {
-          reverseRight: {
-            selected: true,
-          },
+    it('should return true when a manoeuvre has been completed', () => {
+      const mockState: CatCUniqueTypes.TestData = {
+        manoeuvres: {
+          reverseLeft: { selected: true },
         },
-        {
-          reverseParkRoad: {
-            selected: true,
-          },
-        },
-      ];
-      expect(hasManoeuvreBeenCompletedCatADIPart2(mockState)).toEqual(true);
-    });
-    it('should return false with only 1 manoeuvre completed', () => {
-      const mockState: CatADI2UniqueTypes.Manoeuvres[] = [
-        {
-          reverseRight: {
-            selected: true,
-          },
-        },
-      ];
-      expect(hasManoeuvreBeenCompletedCatADIPart2(mockState)).toEqual(false);
+      };
+      expect(hasManoeuvreBeenCompletedCatC(mockState)).toEqual(true);
     });
   });
 
   describe('vehicle checks selector', () => {
     describe('areTellMeQuestionsSelected', () => {
       it('should return true if there is a tell me question selected', () => {
-        const mockState: CatADI2UniqueTypes.VehicleChecks = {
+        const mockState: CatCUniqueTypes.VehicleChecks = {
           tellMeQuestions: [
             {
               code: 'T1',
@@ -233,7 +196,7 @@ describe('TestDataSelectors Cat ADI2', () => {
       });
     });
     describe('areTellMeQuestionsCorrect', () => {
-      const passedState: CatADI2UniqueTypes.VehicleChecks = {
+      const passedState: CatCUniqueTypes.VehicleChecks = {
         tellMeQuestions: [
           {
             code: 'T1',
@@ -247,7 +210,7 @@ describe('TestDataSelectors Cat ADI2', () => {
         expect(areTellMeQuestionsCorrect(passedState)).toBe(true);
       });
       it('should return false if the tell me question is marked as a driving fault', () => {
-        const failedState: CatADI2UniqueTypes.VehicleChecks = {
+        const failedState: CatCUniqueTypes.VehicleChecks = {
           tellMeQuestions: [
             {
               code: 'T1',
@@ -261,116 +224,131 @@ describe('TestDataSelectors Cat ADI2', () => {
     });
 
     describe('hasVehicleChecksBeenCompleted', () => {
-      it('should return true if vehicle checks have been completed with a pass & button has been selected', () => {
-        const mockState: CatADI2UniqueTypes.VehicleChecks = {
-          tellMeQuestions: [
-            {
-              outcome: CompetencyOutcome.P,
-            },
-            {
-              outcome: CompetencyOutcome.P,
-            },
-            {
-              outcome: CompetencyOutcome.P,
-            },
-          ],
-          vehicleChecksCompleted: true,
-        };
+      it('should return true if vehicle checks have been completed with a pass', () => {
+        const mockState = {
+          vehicleChecks: {
+            showMeQuestions: [
+              {
+                outcome: CompetencyOutcome.P,
+              },
+              {
+                outcome: CompetencyOutcome.P,
+              },
+              {
+                outcome: CompetencyOutcome.P,
+              },
+            ],
+            tellMeQuestions: [
+              {
+                outcome: CompetencyOutcome.P,
+              },
+              {
+                outcome: CompetencyOutcome.P,
+              },
+            ],
+          },
+        } as CatCUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatADI2(mockState)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatC(mockState)).toEqual(true);
       });
-      it('should return true if vehicle checks have been completed with driving faults', () => {
-        const mockState: CatADI2UniqueTypes.VehicleChecks = {
-          tellMeQuestions: [
-            {
-              outcome: CompetencyOutcome.DF,
-            },
-            {
-              outcome: CompetencyOutcome.DF,
-            },
-            {
-              outcome: CompetencyOutcome.DF,
-            },
-          ],
-          vehicleChecksCompleted: true,
-        };
+      it('should return true if vehicle checks have been completed with a driving fault', () => {
+        const mockState = {
+          vehicleChecks: {
+            showMeQuestions: [
+              {
+                outcome: CompetencyOutcome.DF,
+              },
+              {
+                outcome: CompetencyOutcome.DF,
+              },
+              {
+                outcome: CompetencyOutcome.DF,
+              },
+            ],
+            tellMeQuestions: [
+              {
+                outcome: CompetencyOutcome.DF,
+              },
+              {
+                outcome: CompetencyOutcome.DF,
+              },
+            ],
+          },
+        } as CatCUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatADI2(mockState)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatC(mockState)).toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a serious fault', () => {
-        const mockState: CatADI2UniqueTypes.VehicleChecks = {
-          tellMeQuestions: [
-            {
-              outcome: CompetencyOutcome.S,
-            },
-            {
-              outcome: CompetencyOutcome.S,
-            },
-            {
-              outcome: CompetencyOutcome.S,
-            },
-          ],
-          vehicleChecksCompleted: true,
-        };
+        const mockState = {
+          vehicleChecks: {
+            showMeQuestions: [
+              {
+                outcome: CompetencyOutcome.S,
+              },
+              {
+                outcome: CompetencyOutcome.S,
+              },
+              {
+                outcome: CompetencyOutcome.S,
+              },
+            ],
+            tellMeQuestions: [
+              {
+                outcome: CompetencyOutcome.S,
+              },
+              {
+                outcome: CompetencyOutcome.S,
+              },
+            ],
+          },
+        } as CatCUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatADI2(mockState)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatC(mockState)).toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a dangerous fault', () => {
-        const mockState : CatADI2UniqueTypes.VehicleChecks = {
-          tellMeQuestions: [
-            {
-              outcome: CompetencyOutcome.D,
-            },
-            {
-              outcome: CompetencyOutcome.D,
-            },
-            {
-              outcome: CompetencyOutcome.D,
-            },
-          ],
-          vehicleChecksCompleted: true,
-        };
+        const mockState = {
+          vehicleChecks: {
+            showMeQuestions: [
+              {
+                outcome: CompetencyOutcome.D,
+              },
+              {
+                outcome: CompetencyOutcome.D,
+              },
+              {
+                outcome: CompetencyOutcome.D,
+              },
+            ],
+            tellMeQuestions: [
+              {
+                outcome: CompetencyOutcome.D,
+              },
+              {
+                outcome: CompetencyOutcome.D,
+              },
+            ],
+          },
+        } as CatCUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatADI2(mockState)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatC(mockState)).toEqual(true);
       });
-      it('should return false if vehicleChecksCompleted is false', () => {
-        const mockState: CatADI2UniqueTypes.VehicleChecks = {
+      it('should return false if show me question outcome is not defined', () => {
+        const mockState = {
+          vehicleChecks: {
+            showMeQuestions: [
+            ],
+            tellMeQuestions: [
+              {
+                outcome: CompetencyOutcome.DF,
+              },
+              {
+                outcome: CompetencyOutcome.DF,
+              },
+            ],
+          },
+        } as CatCUniqueTypes.TestData;
 
-          tellMeQuestions: [
-            {
-              outcome: CompetencyOutcome.P,
-            },
-            {
-              outcome: CompetencyOutcome.P,
-            },
-            {
-              outcome: CompetencyOutcome.P,
-            },
-          ],
-          vehicleChecksCompleted: false,
-        };
-
-        expect(hasVehicleChecksBeenCompletedCatADI2(mockState)).toEqual(false);
-      });
-      it('should return false with an empty array as its parameter', () => {
-        const mockState: CatADI2UniqueTypes.VehicleChecks = {
-          tellMeQuestions: [],
-          vehicleChecksCompleted: true,
-        };
-
-        expect(hasVehicleChecksBeenCompletedCatADI2(mockState)).toEqual(false);
-      });
-      it('should return false with an array under 2 items', () => {
-        const mockState: CatADI2UniqueTypes.VehicleChecks = {
-          tellMeQuestions: [
-            {
-              outcome: CompetencyOutcome.P,
-            },
-          ],
-          vehicleChecksCompleted: true,
-        };
-
-        expect(hasVehicleChecksBeenCompletedCatADI2(mockState)).toEqual(false);
+        expect(hasVehicleChecksBeenCompletedCatC(mockState)).toEqual(false);
       });
     });
   });

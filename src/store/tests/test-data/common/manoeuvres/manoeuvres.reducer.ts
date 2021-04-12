@@ -1,76 +1,68 @@
-// import * as manoeuvresActions from '../../common/manoeuvres/manoeuvres.actions';
-// import { CompetencyOutcome } from '../../../../../shared/models/competency-outcome';
-// import { ManoeuvreTypes } from '../../test-data.constants';
-// import { ManoeuvreUnion } from '../../../../../shared/unions/test-schema-unions';
-//
-// export const initialState: ManoeuvreUnion = {
-//   reverseLeft: {},
-// };
-//
-// export function manoeuvresReducer(
-//   state = initialState,
-//   action: manoeuvresActions.Types,
-// ): ManoeuvreUnion {
-//   switch (action.type) {
-//     case manoeuvresActions.RECORD_MANOEUVRES_SELECTION:
-//       return {
-//         [action.manoeuvre]: {
-//           ...state[action.manoeuvre],
-//           selected: true,
-//         },
-//       };
-//     case manoeuvresActions.ADD_MANOEUVRE_DRIVING_FAULT:
-//       return {
-//         ...state,
-//         [action.payload.manoeuvre]: {
-//           ...state[action.payload.manoeuvre],
-//           selected: true,
-//           [action.payload.competency]: CompetencyOutcome.DF,
-//         },
-//       };
-//     case manoeuvresActions.ADD_MANOEUVRE_SERIOUS_FAULT:
-//       return {
-//         ...state,
-//         [action.payload.manoeuvre]: {
-//           ...state[action.payload.manoeuvre],
-//           selected: true,
-//           [action.payload.competency]: CompetencyOutcome.S,
-//         },
-//       };
-//     case manoeuvresActions.ADD_MANOEUVRE_DANGEROUS_FAULT:
-//       return {
-//         ...state,
-//         [action.payload.manoeuvre]: {
-//           ...state[action.payload.manoeuvre],
-//           selected: true,
-//           [action.payload.competency]: CompetencyOutcome.D,
-//         },
-//       };
-//     case manoeuvresActions.ADD_MANOEUVRE_COMMENT:
-//       return {
-//         ...state,
-//         [action.fieldName]: {
-//           ...state[action.fieldName],
-//           [`${action.controlOrObservation.toLocaleLowerCase()}FaultComments`]: action.comment,
-//         },
-//       };
-//     case manoeuvresActions.REMOVE_MANOEUVRE_FAULT:
-//       const {
-//         [action.payload.competency]: competencyToOmit, ...stateToPreserve
-//       } = state[action.payload.manoeuvre];
-//       return {
-//         ...state,
-//         [action.payload.manoeuvre]: stateToPreserve,
-//       };
-//     case manoeuvresActions.RECORD_MANOEUVRES_DESELECTION:
-//       return {
-//         ...state,
-//         [ManoeuvreTypes.reverseLeft]: {
-//           ...state[ManoeuvreTypes.reverseLeft],
-//           selected: false,
-//         },
-//       };
-//     default:
-//       return state;
-//   }
-// }
+import { createReducer, on } from '@ngrx/store';
+import * as manoeuvresActions from './manoeuvres.actions';
+import { ManoeuvreUnion } from '../../../../../app/shared/unions/test-schema-unions';
+import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
+
+export const initialState: ManoeuvreUnion = {
+  reverseLeft: {},
+};
+
+export const manoeuvresReducer = createReducer(
+  initialState,
+  on(manoeuvresActions.RecordManoeuvresSelection, (state, { manoeuvre }) => ({
+    [manoeuvre]: {
+      ...state[manoeuvre],
+      selected: true,
+    },
+  })),
+  on(manoeuvresActions.RecordManoeuvresDeselection, (state, { manoeuvre }) => ({
+    [manoeuvre]: {
+      ...state[manoeuvre],
+      selected: false,
+    },
+  })),
+  on(manoeuvresActions.AddManoeuvreDrivingFault, (state, { manoeuvrePayload }) => ({
+    ...state,
+    [manoeuvrePayload.manoeuvre]: {
+      ...state[manoeuvrePayload.manoeuvre],
+      selected: true,
+      [manoeuvrePayload.competency]: CompetencyOutcome.DF,
+    },
+  })),
+  on(manoeuvresActions.AddManoeuvreSeriousFault, (state, { manoeuvrePayload }) => ({
+    ...state,
+    [manoeuvrePayload.manoeuvre]: {
+      ...state[manoeuvrePayload.manoeuvre],
+      selected: true,
+      [manoeuvrePayload.competency]: CompetencyOutcome.S,
+    },
+  })),
+  on(manoeuvresActions.AddManoeuvreDangerousFault, (state, { manoeuvrePayload }) => ({
+    ...state,
+    [manoeuvrePayload.manoeuvre]: {
+      ...state[manoeuvrePayload.manoeuvre],
+      selected: true,
+      [manoeuvrePayload.competency]: CompetencyOutcome.D,
+    },
+  })),
+  on(manoeuvresActions.AddManoeuvreComment, (state, {
+    fieldName,
+    controlOrObservation,
+    comment,
+  }) => ({
+    ...state,
+    [fieldName]: {
+      ...state[fieldName],
+      [`${controlOrObservation.toLocaleLowerCase()}FaultComments`]: comment,
+    },
+  })),
+  on(manoeuvresActions.RemoveManoeuvreFault, (state, { payload }) => {
+    const {
+      [payload.competency]: competencyToOmit, ...stateToPreserve
+    } = state[payload.manoeuvre];
+    return {
+      ...state,
+      [payload.manoeuvre]: stateToPreserve,
+    };
+  }),
+);

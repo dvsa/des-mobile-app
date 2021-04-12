@@ -1,14 +1,15 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Booking } from '@dvsa/mes-journal-schema';
-// import { get } from 'lodash';
+import { get } from 'lodash';
 import { PopulateCandidateDetails } from './candidate.actions';
 // import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
-// import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
+import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 // import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
 // import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
 
 type CandidateDetailsUnion =
-  ReturnType<typeof PopulateCandidateDetails>;
+  ReturnType<typeof PopulateCandidateDetails>
+  | ReturnType<typeof PopulateCandidateDetailsCatC>;
 
 export const createPopulateCandidateDetailsAction = (
   testCategory: string,
@@ -41,14 +42,12 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.CE:
     case TestCategory.C1:
     case TestCategory.C:
-      // @TODO: Implement during CAT C development
-      // return new PopulateCandidateDetailsCatC({
-      //   ...booking.candidate,
-      //   businessAddress: get(booking, 'business.businessAddress'),
-      //   businessName: get(booking, 'business.businessName'),
-      //   businessTelephone: get(booking, 'business.telephone'),
-      // });
-      return {} as CandidateDetailsUnion;
+      return PopulateCandidateDetailsCatC({
+        ...booking.candidate,
+        businessAddress: get(booking, 'business.businessAddress'),
+        businessName: get(booking, 'business.businessName'),
+        businessTelephone: get(booking, 'business.telephone'),
+      });
     case TestCategory.D:
     case TestCategory.D1:
     case TestCategory.D1E:

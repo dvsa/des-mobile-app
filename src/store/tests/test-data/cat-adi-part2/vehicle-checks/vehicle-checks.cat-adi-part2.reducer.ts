@@ -1,10 +1,10 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { createReducer, on } from '@ngrx/store';
+import {
+  NUMBER_OF_TELL_ME_QUESTIONS as numberOfTellMeQuestions,
+} from 'src/app/shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
 import * as vehicleChecksCatADI2ActionTypes from './vehicle-checks.cat-adi-part2.action';
 import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
-import {
-  NUMBER_OF_TELL_ME_QUESTIONS as numberOfTellMeQuestions
-} from 'src/app/shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
 
 export const initialState: CatADI2UniqueTypes.VehicleChecks = {
   tellMeQuestions: Array(numberOfTellMeQuestions).fill({}),
@@ -29,44 +29,47 @@ export const vehicleChecksCatADI2Reducer = createReducer(
   initialState,
   on(vehicleChecksCatADI2ActionTypes.ShowMeQuestionSelected, (state, {
     showMeQuestion,
-    index
+    index,
   }): CatADI2UniqueTypes.VehicleChecks => ({
     ...state,
-    showMeQuestions: state.showMeQuestions.map((item, i) => i === index ? {
-        ...item,
-        code: showMeQuestion.code,
-        description: showMeQuestion.description,
-        outcome: showMeQuestion.outcome,
-      } : item,
-    ),
+    showMeQuestions: state.showMeQuestions.map((item, i) => (i === index ? {
+      ...item,
+      code: showMeQuestion.code,
+      description: showMeQuestion.description,
+      outcome: showMeQuestion.outcome,
+    } : item)),
   })),
   on(vehicleChecksCatADI2ActionTypes.TellMeQuestionSelected, (state, {
     tellMeQuestion,
-    index
+    index,
   }): CatADI2UniqueTypes.VehicleChecks => ({
     ...state,
-    tellMeQuestions: state.tellMeQuestions.map((item, i) => i === index ? tellMeQuestion : item),
+    tellMeQuestions: state.tellMeQuestions.map((item, i) => (i === index ? tellMeQuestion : item)),
   })),
   on(vehicleChecksCatADI2ActionTypes.TellMeQuestionOutcomeChanged, (state, {
     tellMeQuestionOutcome,
-    index
+    index,
   }): CatADI2UniqueTypes.VehicleChecks => ({
     ...state,
-    tellMeQuestions: state.tellMeQuestions.map((item, i) => i === index ? {
+    tellMeQuestions: state.tellMeQuestions.map((item, i) => (i === index ? {
       ...item,
       outcome: tellMeQuestionOutcome,
-    } : item),
+    } : item)),
   })),
-  on(vehicleChecksCatADI2ActionTypes.AddShowMeTellMeComment, (state, { payload }): CatADI2UniqueTypes.VehicleChecks => ({
+  on(vehicleChecksCatADI2ActionTypes.AddShowMeTellMeComment, (state, {
+    payload,
+  }): CatADI2UniqueTypes.VehicleChecks => ({
     ...state,
     showMeTellMeComments: payload,
   })),
-  on(vehicleChecksCatADI2ActionTypes.ShowMeQuestionRemoveDrivingFault, (state, { payload }): CatADI2UniqueTypes.VehicleChecks => ({
+  on(vehicleChecksCatADI2ActionTypes.ShowMeQuestionRemoveDrivingFault, (state, {
+    payload,
+  }): CatADI2UniqueTypes.VehicleChecks => ({
     ...state,
-    showMeQuestions: state.showMeQuestions.map((item, i) => i === payload ? {
+    showMeQuestions: state.showMeQuestions.map((item, i) => (i === payload ? {
       ...item,
       outcome: CompetencyOutcome.P,
-    } : item),
+    } : item)),
   })),
   on(vehicleChecksCatADI2ActionTypes.VehicleChecksAddSeriousFault, (state): CatADI2UniqueTypes.VehicleChecks => ({
     ...state,
