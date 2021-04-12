@@ -38,6 +38,8 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { DeviceProvider } from '@providers/device/device';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
+import { environment } from '@environments/environment';
+
 import { JournalModule } from '../store/journal/journal.module';
 import { AppConfigStoreModule } from '../store/app-config/app-config.module';
 import { appConfigReducer } from '../store/app-config/app-config.reducer';
@@ -46,7 +48,6 @@ import { appInfoReducer } from '../store/app-info/app-info.reducer';
 import { testsReducer } from '../store/tests/tests.reducer';
 import { LogsStoreModule } from '../store/logs/logs.module';
 import { AppInfoStoreModule } from '../store/app-info/app-info.module';
-import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TestsModule } from '../store/tests/tests.module';

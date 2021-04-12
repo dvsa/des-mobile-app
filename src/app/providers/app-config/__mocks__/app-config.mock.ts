@@ -1,4 +1,4 @@
-import { EnvironmentFile } from '../../../../environments/models/environment.model';
+import { EnvironmentFile } from '@environments/models/environment.model';
 import { localEnvironmentMock } from './environment.mock';
 import { AppConfig } from '../app-config.model';
 

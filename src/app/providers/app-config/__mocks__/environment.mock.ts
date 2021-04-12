@@ -1,4 +1,4 @@
-import { EnvironmentFile, LocalEnvironmentFile } from '../../../../environments/models/environment.model';
+import { EnvironmentFile, LocalEnvironmentFile } from '@environments/models/environment.model';
 import { ExaminerRole } from '../constants/examiner-role.constants';
 
 export const remoteEnvironmentMock: EnvironmentFile = {

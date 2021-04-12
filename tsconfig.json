@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@providers/*": ["src/app/providers/*"],
-      "@pages/*": ["src/app/pages/*"]
+      "@pages/*": ["src/app/pages/*"],
+      "@environments/*": ["src/environments/*"]
     }
   },
   "angularCompilerOptions": {
