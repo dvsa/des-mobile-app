@@ -1,4 +1,4 @@
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories/index';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestStatus } from './test-status/test-status.model';
 
 export interface CurrentTest {

@@ -1,8 +1,8 @@
 import {
   getShowMeQuestionOptions,
 } from '../common/test-data.selector';
-import { OutcomeBehaviourMapProvider } from '../../../../app/providers/outcome-behaviour-map/outcome-behaviour-map';
-import { VehicleChecksQuestion } from '../../../../app/providers/question/vehicle-checks-question.model';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { behaviourMap } from '../../../../app/pages/office/office-behaviour-map';
 
 describe('TestDataSelectors', () => {

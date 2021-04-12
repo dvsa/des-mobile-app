@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 
 import { TestOutcomeComponent } from '../test-outcome';
 import { StoreModel } from '../../../../app/shared/models/store.model';
-import { LogHelper } from '../../../../app/providers/logs/logs-helper';
-import { LogHelperMock } from '../../../../app/providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import {
   CAT_B, CAT_BE, CAT_C, CAT_D, CAT_A_MOD1, CAT_A_MOD2,
 } from '../../../../app/pages/page-names.constants';

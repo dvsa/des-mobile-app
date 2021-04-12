@@ -1,3 +1,6 @@
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { ConnectionStatus } from '@providers/network-state/network-state';
+import { searchResultsMock } from '@providers/search/__mocks__/search-results.mock';
 import { initialState, journalReducer } from '../journal.reducer';
 import {
   LoadJournal,
@@ -9,9 +12,6 @@ import {
   LoadCompletedTestsSuccess,
 } from '../journal.actions';
 import { JournalModel } from '../journal.model';
-import { ConnectionStatus } from '../../../app/providers/network-state/network-state';
-import { SlotItem } from '../../../app/providers/slot-selector/slot-item';
-import { searchResultsMock } from '../../../app/providers/search/__mocks__/search-results.mock';
 
 describe('Journal Reducer', () => {
 

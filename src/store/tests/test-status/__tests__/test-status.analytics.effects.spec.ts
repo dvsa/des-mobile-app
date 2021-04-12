@@ -4,13 +4,13 @@ import { ReplaySubject } from 'rxjs';
 import { configureTestSuite } from 'ng-bullet';
 import { provideMockActions } from '@ngrx/effects/testing';
 
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticsEventCategories, AnalyticsEvents } from '@providers/analytics/analytics.model';
 import { TestStatusAnalyticsEffects } from '../test-status.analytics.effects';
 import { testsReducer } from '../../tests.reducer';
 import * as testStatusActions from '../test-status.actions';
-import { AnalyticsProvider } from '../../../../app/providers/analytics/analytics';
-import { AnalyticsProviderMock } from '../../../../app/providers/analytics/__mocks__/analytics.mock';
-import { AnalyticRecorded } from '../../../../app/providers/analytics/analytics.actions';
-import { AnalyticsEventCategories, AnalyticsEvents } from '../../../../app/providers/analytics/analytics.model';
 
 describe('Test Status Analytics Effects', () => {
 

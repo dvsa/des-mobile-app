@@ -9,17 +9,17 @@ import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
 import { AlertControllerMock } from 'ionic-mocks';
-import { AppComponent } from './app.component';
-import { AuthenticationProviderMock } from './providers/authentication/__mocks__/authentication.mock';
-import { AuthenticationProvider } from './providers/authentication/authentication';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { PlatformMock } from '../../mock/ionic-mocks/platform-mock';
 import { MenuControllerMock } from '../../mock/ionic-mocks/menu-controller';
 import { LoadAppVersion } from '../store/app-info/app-info.actions';
-import { DataStoreProvider } from './providers/data-store/data-store';
 import { SecureStorageMock } from '../../mock/ionic-mocks/secure-storage.mock';
-import { DataStoreProviderMock } from './providers/data-store/__mocks__/data-store.mock';
-import { NetworkStateProvider } from './providers/network-state/network-state';
-import { NetworkStateProviderMock } from './providers/network-state/__mocks__/network-state.mock';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   jasmine.getEnv().allowRespy(true);

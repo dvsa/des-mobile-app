@@ -2,13 +2,13 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { get } from 'lodash';
 
-import { Competencies, LegalRequirements } from '../test-data.constants';
-import { QuestionProvider } from '../../../../app/providers/question/question';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { QuestionProvider } from '@providers/question/question';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS,
-} from 'src/app/shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
-import { VehicleChecksQuestion } from '../../../../app/providers/question/vehicle-checks-question.model';
+} from '../../../../app/shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
 import { CompetencyOutcome } from '../../../../app/shared/models/competency-outcome';
+import { Competencies, LegalRequirements } from '../test-data.constants';
 
 export const getDrivingFaultCount = (
   data: CatADI2UniqueTypes.TestData,
@@ -16,7 +16,7 @@ export const getDrivingFaultCount = (
 ) => data.drivingFaults[competency];
 
 export const getManoeuvresADI2 = (
-  data: CatADI2UniqueTypes.TestData
+  data: CatADI2UniqueTypes.TestData,
 ): CatADI2UniqueTypes.Manoeuvres[] => data.manoeuvres;
 
 export const hasManoeuvreBeenCompletedCatADIPart2 = (manoeuvres: CatADI2UniqueTypes.Manoeuvres[]) => {
@@ -24,10 +24,10 @@ export const hasManoeuvreBeenCompletedCatADIPart2 = (manoeuvres: CatADI2UniqueTy
 
   return manoeuvres.every((manoeuvre) => {
     return (
-      get(manoeuvre, 'forwardPark.selected') ||
-      get(manoeuvre, 'reverseParkCarpark.selected') ||
-      get(manoeuvre, 'reverseParkRoad.selected') ||
-      get(manoeuvre, 'reverseRight.selected')
+      get(manoeuvre, 'forwardPark.selected')
+      || get(manoeuvre, 'reverseParkCarpark.selected')
+      || get(manoeuvre, 'reverseParkRoad.selected')
+      || get(manoeuvre, 'reverseRight.selected')
     );
   });
 };
@@ -45,7 +45,7 @@ export const getTellMeQuestion = (state: CatADI2UniqueTypes.VehicleChecks): Vehi
   const questionProvider: QuestionProvider = new QuestionProvider();
   return questionProvider
     .getTellMeQuestions(TestCategory.ADI2)
-    .find(question => question.code === get(state, 'tellMeQuestion.code'));
+    .find((question) => question.code === get(state, 'tellMeQuestion.code'));
 };
 
 export const getVehicleChecksCatADIPart2 = (
@@ -76,9 +76,9 @@ export const areTellMeQuestionsCorrect = (state: CatADI2UniqueTypes.VehicleCheck
 export const hasVehicleChecksBeenCompletedCatADI2 = (vehicleChecks: CatADI2UniqueTypes.VehicleChecks): boolean => {
 
   if (
-    !(vehicleChecks && vehicleChecks.tellMeQuestions instanceof Array) ||
-    vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS ||
-    !vehicleChecks.vehicleChecksCompleted
+    !(vehicleChecks && vehicleChecks.tellMeQuestions instanceof Array)
+    || vehicleChecks.tellMeQuestions.length !== NUMBER_OF_TELL_ME_QUESTIONS
+    || !vehicleChecks.vehicleChecksCompleted
   ) {
     return false;
   }

@@ -7,16 +7,16 @@ import { configureTestSuite } from 'ng-bullet';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
-import { DashboardPage } from '../dashboard.page';
-import { AuthenticationProvider } from '../../../providers/authentication/authentication';
-import { appInfoReducer } from '../../../../store/app-info/app-info.reducer';
-import { AuthenticationProviderMock } from '../../../providers/authentication/__mocks__/authentication.mock';
-import { AppConfigProvider } from '../../../providers/app-config/app-config';
-import { AppConfigProviderMock } from '../../../providers/app-config/__mocks__/app-config.mock';
-import { DateTimeProvider } from '../../../providers/date-time/date-time';
-import { DateTimeProviderMock } from '../../../providers/date-time/__mocks__/date-time.mock';
-import { ExaminerRole } from '../../../providers/app-config/constants/examiner-role.constants';
-import { AppConfig } from '../../../providers/app-config/app-config.model';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { AppConfig } from '@providers/app-config/app-config.model';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { DateTime } from '../../../shared/helpers/date-time';
 import {
   selectEmployeeId,
@@ -28,8 +28,8 @@ import { StoreModel } from '../../../shared/models/store.model';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { BasePageComponent } from '../../../shared/classes/base-page';
-import { NetworkStateProvider } from '../../../providers/network-state/network-state';
-import { NetworkStateProviderMock } from '../../../providers/network-state/__mocks__/network-state.mock';
+import { appInfoReducer } from '../../../../store/app-info/app-info.reducer';
+import { DashboardPage } from '../dashboard.page';
 import { ComponentsModule } from '../../../../components/common/common-components.module';
 
 describe('DashboardPage', () => {

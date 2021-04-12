@@ -8,17 +8,16 @@ import {
   of, interval, Observable, from,
 } from 'rxjs';
 
-import { AppConfigProvider } from '../../app/providers/app-config/app-config';
+import { NetworkStateProvider, ConnectionStatus } from '@providers/network-state/network-state';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { LogsProvider } from '@providers/logs/logs';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { StoreModel } from '../../app/shared/models/store.model';
 import { Log } from '../../app/shared/models/log.model';
 
 import * as logsActions from './logs.actions';
 import { getLogsState } from './logs.reducer';
-
-import { NetworkStateProvider, ConnectionStatus } from '../../app/providers/network-state/network-state';
-import { DataStoreProvider } from '../../app/providers/data-store/data-store';
-import { DateTimeProvider } from '../../app/providers/date-time/date-time';
-import { LogsProvider } from '../../app/providers/logs/logs';
 
 import { DateTime } from '../../app/shared/helpers/date-time';
 

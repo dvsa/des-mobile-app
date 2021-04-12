@@ -9,22 +9,20 @@ import { Actions } from '@ngrx/effects';
 import { StoreModule, Store } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 
-import { LogsEffects } from '../logs.effects';
-import { AppConfigProvider } from '../../../app/providers/app-config/app-config';
-import { AppConfigProviderMock } from '../../../app/providers/app-config/__mocks__/app-config.mock';
-import { NetworkStateProvider } from '../../../app/providers/network-state/network-state';
-import { NetworkStateProviderMock } from '../../../app/providers/network-state/__mocks__/network-state.mock';
-import { DataStoreProvider } from '../../../app/providers/data-store/data-store';
-import { DataStoreProviderMock } from '../../../app/providers/data-store/__mocks__/data-store.mock';
-import { LogsProvider } from '../../../app/providers/logs/logs';
-import { LogsProviderMock } from '../../../app/providers/logs/__mocks__/logs.mock';
-import { DateTimeProvider } from '../../../app/providers/date-time/date-time';
-import { DateTimeProviderMock } from '../../../app/providers/date-time/__mocks__/date-time.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
+import { LogsProvider } from '@providers/logs/logs';
+import { LogsProviderMock } from '@providers/logs/__mocks__/logs.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 
 import { DateTime, Duration } from '../../../app/shared/helpers/date-time';
-
 import { Log, LogType } from '../../../app/shared/models/log.model';
-
+import { LogsEffects } from '../logs.effects';
 import * as logsActions from '../logs.actions';
 import { logsReducer } from '../logs.reducer';
 

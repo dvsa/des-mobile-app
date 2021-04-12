@@ -9,14 +9,17 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@providers/*": ["src/app/providers/*"],
+    },
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

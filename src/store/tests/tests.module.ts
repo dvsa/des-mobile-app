@@ -3,16 +3,16 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterModule } from '@angular/router';
 
-import { testsReducer } from './tests.reducer';
-import { TestSubmissionProvider } from '../../app/providers/test-submission/test-submission';
-import { FaultCountProvider } from '../../app/providers/fault-count/fault-count';
-import { TestsEffects } from './tests.effects';
+import { TestSubmissionProvider } from '@providers/test-submission/test-submission';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
   VehicleDetailsByCategoryProvider,
-} from '../../app/providers/vehicle-details-by-category/vehicle-details-by-category';
+} from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import {
   TestDataByCategoryProvider,
-} from '../../app/providers/test-data-by-category/test-data-by-category';
+} from '@providers/test-data-by-category/test-data-by-category';
+import { testsReducer } from './tests.reducer';
+import { TestsEffects } from './tests.effects';
 
 @NgModule({
   imports: [

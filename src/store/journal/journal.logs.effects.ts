@@ -4,9 +4,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
+import { AuthenticationProvider } from '@providers/authentication/authentication';
 import * as journalActions from './journal.actions';
 import * as logsActions from '../logs/logs.actions';
-import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
 import { Log, LogType } from '../../app/shared/models/log.model';
 
 @Injectable()

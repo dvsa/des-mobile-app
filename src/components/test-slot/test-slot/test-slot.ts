@@ -9,23 +9,23 @@ import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import * as moment from 'moment';
 
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { SlotProvider } from '@providers/slot/slot';
+import {
+  CategoryWhitelistProvider,
+} from '@providers/category-whitelist/category-whitelist';
+import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
 import { SlotComponent } from '../slot/slot';
 import { vehicleDetails } from './test-slot.constants';
-import { AppConfigProvider } from '../../../app/providers/app-config/app-config';
-import { DateTimeProvider } from '../../../app/providers/date-time/date-time';
 import { StoreModel } from '../../../app/shared/models/store.model';
 import { SlotTypes } from '../../../app/shared/models/slot-types';
 import { getSlotType } from '../../../app/shared/helpers/get-slot-type';
-import { SlotProvider } from '../../../app/providers/slot/slot';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
-import {
-  CategoryWhitelistProvider,
-} from '../../../app/providers/category-whitelist/category-whitelist';
 import { getTestStatus, getActivityCodeBySlotId, getTestById } from '../../../store/tests/tests.selector';
 import { getTests } from '../../../store/tests/tests.reducer';
 import { isRekey } from '../../../store/tests/rekey/rekey.selector';
 import { getRekeyIndicator } from '../../../store/tests/rekey/rekey.reducer';
-import { DelegatedExaminerTestSlot } from '../../../app/providers/delegated-rekey-search/mock-data/delegated-mock-data';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;

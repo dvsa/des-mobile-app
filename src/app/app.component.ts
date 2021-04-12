@@ -7,12 +7,12 @@ import { Router } from '@angular/router';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Observable, merge, Subscription } from 'rxjs';
 
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { StoreModel } from './shared/models/store.model';
-import { LoadAppVersion, AppResumed, AppSuspended } from '../store/app-info/app-info.actions';
-import { AuthenticationProvider } from './providers/authentication/authentication';
 import { LogoutBasePageComponent } from './shared/classes/logout-base-page';
-import { DataStoreProvider } from './providers/data-store/data-store';
-import { NetworkStateProvider } from './providers/network-state/network-state';
+import { LoadAppVersion, AppResumed, AppSuspended } from '../store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '../store/app-config/app-config.selectors';
 
 declare let window: any;

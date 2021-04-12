@@ -1,6 +1,6 @@
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { createAction, props } from '@ngrx/store';
-import { ConnectionStatus } from '../../app/providers/network-state/network-state';
+import { ConnectionStatus } from '@providers/network-state/network-state';
 import { ExaminerSlotItemsByDate } from './journal.model';
 import { MesError } from '../../app/shared/models/mes-error.model';
 

@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
+import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AnalyticsEventCategories, AnalyticsEvents } from '@providers/analytics/analytics.model';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import * as testStatusActions from './test-status.actions';
-import { AnalyticsProvider } from '../../../app/providers/analytics/analytics';
-import { AnalyticsEventCategories, AnalyticsEvents } from '../../../app/providers/analytics/analytics.model';
-import { AnalyticRecorded } from '../../../app/providers/analytics/analytics.actions';
 
 @Injectable()
 export class TestStatusAnalyticsEffects {

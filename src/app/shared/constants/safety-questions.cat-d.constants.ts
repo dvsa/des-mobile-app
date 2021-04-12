@@ -1,4 +1,4 @@
-import { SafetyQuestion } from '../../providers/question/safety-question.model';
+import { SafetyQuestion } from '@providers/question/safety-question.model';
 
 export const NUMBER_OF_SAFETY_QUESTIONS = 3;
 

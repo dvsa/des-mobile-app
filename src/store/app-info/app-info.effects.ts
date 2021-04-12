@@ -8,11 +8,11 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { of } from 'rxjs';
 
-import { LOGIN_PAGE } from '../../app/pages/page-names.constants';
+import { AppInfoProvider } from '@providers/app-info/app-info';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '../../app/shared/models/store.model';
-import { AppInfoProvider } from '../../app/providers/app-info/app-info';
-import { DateTimeProvider } from '../../app/providers/date-time/date-time';
-import { AuthenticationProvider } from '../../app/providers/authentication/authentication';
+import { LOGIN_PAGE } from '../../app/pages/page-names.constants';
 import {
   AppResumed,
   LoadAppVersion,

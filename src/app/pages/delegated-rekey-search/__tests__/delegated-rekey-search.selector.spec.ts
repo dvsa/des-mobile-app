@@ -1,5 +1,5 @@
 import { DelegatedRekeySearchModel, initialState } from '../delegated-rekey-search.reducer';
-import { getIsLoading, getHasSearched, getBookedTestSlot  } from '../delegated-rekey-search.selector';
+import { getIsLoading, getHasSearched, getBookedTestSlot } from '../delegated-rekey-search.selector';
 
 describe('Delegated Rekey Search Selector', () => {
   describe('getIsLoading', () => {

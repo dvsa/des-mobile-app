@@ -1,9 +1,9 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { get } from 'lodash';
 
+import { ConnectionStatus } from '@providers/network-state/network-state';
 import * as journalActions from './journal.actions';
 import { JournalModel } from './journal.model';
-import { ConnectionStatus } from '../../app/providers/network-state/network-state';
 
 export const initialState: JournalModel = {
   isLoading: false,
