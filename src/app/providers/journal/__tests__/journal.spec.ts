@@ -20,7 +20,7 @@ import { DateTimeProvider } from '../../date-time/date-time';
 import { DateTimeProviderMock } from '../../date-time/__mocks__/date-time.mock';
 import { AppConfig } from '../../app-config/app-config.model';
 
-describe('JournalProvider', () => {
+fdescribe('JournalProvider', () => {
   let journalProvider: JournalProvider;
   let httpMock: HttpTestingController;
   let authProviderMock: AuthenticationProvider;

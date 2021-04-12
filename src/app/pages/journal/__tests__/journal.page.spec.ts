@@ -10,13 +10,10 @@ import {
 
 import {
   ConfigMock,
-  LoadingControllerMock,
-  ModalControllerMock,
-  NavParamsMock,
-  PlatformMock,
+  NavParamsMock, PlatformMock,
 } from 'ionic-mocks';
 import { configureTestSuite } from 'ng-bullet';
-import { Subscription } from 'rxjs';
+import { from, Subscription } from 'rxjs';
 import { Store, StoreModule } from '@ngrx/store';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -35,12 +32,13 @@ import { AppConfigProvider } from '../../../providers/app-config/app-config';
 import { SlotProvider } from '../../../providers/slot/slot';
 import { AppConfigProviderMock } from '../../../providers/app-config/__mocks__/app-config.mock';
 import { ScreenOrientationMock } from '../../../shared/mocks/screen-orientation.mock';
-import { DeviceProvider } from '../../../providers/device/device';
+// import { DeviceProvider } from '../../../providers/device/device';
 import { MesError } from '../../../shared/models/mes-error.model';
 import { ErrorTypes } from '../../../shared/models/error-message';
 import { ConnectionStatus, NetworkStateProvider } from '../../../providers/network-state/network-state';
 import { BasePageComponent } from '../../../shared/classes/base-page';
 import { StoreModel } from '../../../shared/models/store.model';
+// import { Insomnia } from '@ionic-native/insomnia';
 // import { InsomniaMock } from '../../../shared/mocks/insomnia.mock';
 import * as journalActions from '../../../../store/journal/journal.actions';
 import { ErrorPage } from '../../error-page/error';
@@ -54,6 +52,8 @@ import { journalReducer } from '../../../../store/journal/journal.reducer';
 import { NetworkStateProviderMock } from '../../../providers/network-state/__mocks__/network-state.mock';
 import { SlotSelectorProviderMock } from '../../../providers/slot-selector/__mocks__/slot-selector.mock';
 import { SlotProviderMock } from '../../../providers/slot/__mocks__/slot.mock';
+import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
+import { ModalControllerMock } from '../../../../../mock/ionic-mocks/modal-controller.mock';
 
 fdescribe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -61,7 +61,7 @@ fdescribe('JournalPage', () => {
   let store$: Store<StoreModel>;
   let screenOrientation: ScreenOrientation;
   // let insomnia: Insomnia;
-  let deviceProvider: DeviceProvider;
+  // let deviceProvider: DeviceProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -70,7 +70,6 @@ fdescribe('JournalPage', () => {
         JournalComponentsModule,
         TestSlotComponentsModule,
         IonicModule.forRoot(),
-        // AppModule,
         StoreModule.forRoot({
           journal: journalReducer,
         }),
@@ -80,8 +79,8 @@ fdescribe('JournalPage', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
-        { provide: LoadingController, useFactory: () => LoadingControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
+        { provide: LoadingController, useClass: LoadingControllerMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: Config, useFactory: () => ConfigMock.instance() },
@@ -106,6 +105,7 @@ fdescribe('JournalPage', () => {
     fixture.detectChanges();
     component.subscription = new Subscription();
     screenOrientation = TestBed.inject(ScreenOrientation);
+    // insomnia = TestBed.inject(Insomnia);
     // deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
@@ -135,18 +135,25 @@ fdescribe('JournalPage', () => {
       });
     });
 
-    // xdescribe('handleLoadingUI', () => {
-    //   it('should create a loading spinner instance if loading is true', () => {
-    //     // component.handleLoadingUI(true);
-    //     expect(component.loadingController.create).toHaveBeenCalledWith({
-    //       dismissOnPageChange: true,
-    //       spinner: 'circles',
-    //     });
-    //   });
-    // });
+    describe('handleLoadingUI', () => {
+      let spinner$;
+
+      beforeEach(() => {
+        spinner$ = from(component.loadingController.create({ spinner: 'circles' }));
+      });
+
+      it('should call spinner.present if isLoading is true', async () => {
+        const promiseSpinner = await spinner$.toPromise();
+        spyOn(spinner$, 'toPromise').and.returnValue(promiseSpinner);
+        spyOn(promiseSpinner, 'present');
+        await component.handleLoadingUI(true, spinner$);
+        expect(promiseSpinner.present).toHaveBeenCalled();
+      });
+    });
 
     describe('showError', () => {
       it('should create a modal instance if there is an error', () => {
+        spyOn(component.modalController, 'create').and.callThrough();
         const errorMessage: MesError = {
           message: 'Error',
           status: 500,
@@ -166,14 +173,14 @@ fdescribe('JournalPage', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions', () => {
         component.ionViewDidEnter();
-        expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+        // expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
         expect(screenOrientation.unlock).toHaveBeenCalled();
         // expect(insomnia.allowSleepAgain).toHaveBeenCalled();
       });
     });
   });
 
-  xdescribe('DOM', () => {
+  describe('DOM', () => {
     // Unit tests for the components template
     let componentEl: DebugElement;
 
