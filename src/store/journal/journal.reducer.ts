@@ -18,33 +18,42 @@ export const journalFeatureKey = 'journal';
 
 export const journalReducer = createReducer(
   initialState,
-  on(journalActions.LoadJournal, (state: JournalModel) => ({
+  on(journalActions.LoadJournal, (state: JournalModel): JournalModel => ({
     ...state,
     isLoading: true,
-    error: { message: '', status: 0, statusText: '' },
-  })),
-  on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }) => ({
-    ...state,
-    slots: {
-      ...state.slots,
-      [state.selectedDate]: state.slots[state.selectedDate].map((slot) => {
-        if (get(slot, 'slotData.slotDetail.slotId') === slotId) {
-          return {
-            ...slot,
-            hasSeenCandidateDetails: true,
-          };
-        }
-        return slot;
-      }),
+    error: {
+      message: '',
+      status: 0,
+      statusText: '',
     },
   })),
+  on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }): JournalModel => {
+    if (!state.slots[state.selectedDate]) {
+      return { ...state };
+    }
+    return {
+      ...state,
+      slots: {
+        ...state.slots,
+        [state.selectedDate]: state.slots[state.selectedDate].map((slot) => {
+          if (get(slot, 'slotData.slotDetail.slotId') === slotId) {
+            return {
+              ...slot,
+              hasSeenCandidateDetails: true,
+            };
+          }
+          return slot;
+        }),
+      },
+    };
+  }),
   on(journalActions.LoadJournalSuccess, (state: JournalModel,
     {
       onlineOffline,
       lastRefreshed,
       unAuthenticatedMode,
       payload,
-    }) => ({
+    }): JournalModel => ({
     ...state,
 
     // TODO: The reducer has to get the lastRefreshed date from the action
@@ -55,19 +64,25 @@ export const journalReducer = createReducer(
     slots: payload.slotItemsByDate,
     examiner: payload.examiner,
   })),
-  on(journalActions.LoadJournalFailure, (state: JournalModel, { error }) => ({
+  on(journalActions.LoadJournalFailure, (state: JournalModel, { error }): JournalModel => ({
     ...state,
     ...error,
     isLoading: false,
   })),
-  on(journalActions.UnloadJournal, () => {
+  on(journalActions.UnloadJournal, (): JournalModel => {
     return initialState;
   }),
-  on(journalActions.UnsetError, (state: JournalModel) => {
-    const { error, ...stateWithoutError } = state;
+  on(journalActions.UnsetError, (state: JournalModel): JournalModel => {
+    const {
+      error,
+      ...stateWithoutError
+    } = state;
     return { ...stateWithoutError };
   }),
-  on(journalActions.ClearChangedSlot, (state: JournalModel, { slotId }) => {
+  on(journalActions.ClearChangedSlot, (state: JournalModel, { slotId }): JournalModel => {
+    if (!state.slots[state.selectedDate]) {
+      return { ...state };
+    }
     // TODO: This should be moved out to an effect
     const slots = state.slots[state.selectedDate].map((slot) => {
       if (get(slot, 'slotData.slotDetail.slotId') === slotId) {
@@ -87,11 +102,14 @@ export const journalReducer = createReducer(
       },
     };
   }),
-  on(journalActions.SetSelectedDate, (state: JournalModel, { selectedDate }) => ({
+  on(journalActions.SetSelectedDate, (state: JournalModel, { selectedDate }): JournalModel => ({
     ...state,
     selectedDate,
   })),
-  on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel, { completedTests }) => ({
+  on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel,
+    {
+      completedTests,
+    }): JournalModel => ({
     ...state,
     completedTests,
   })),
