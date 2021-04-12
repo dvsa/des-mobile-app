@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { getPageNameByCategoryAndKey } from '../../pages/page-names.constants';
 
 @Injectable()
 export class RouteByCategoryProvider {
@@ -11,132 +12,62 @@ export class RouteByCategoryProvider {
 
   async navigateToPage(page, category: TestCategory) {
     const { config } = this.router;
-    const { pageAlias } = this.categoryToPage(category);
-    const { pageName } = this.pagePath(category);
+    const categoryPage =  getPageNameByCategoryAndKey(category, page);
+    const pageAlias = this.categoryToPage(category);
+    const pageName = this.pagePath(page);
     config.push({
-      path: page,
+      path: categoryPage,
       loadChildren: () =>
-        import(`../../pages/${pageName}/${pageAlias}/${pageName}.${pageAlias}/${pageName}.${pageAlias}.module`)
-          .then((m) => m[`${page}Module`]),
+        import(`../../pages/${pageName}/${pageAlias}/${pageName}.${pageAlias}.module`)
+          .then((m) => m[`${categoryPage}Module`]),
     });
-
-    // './pages/waiting-room/cat-adi-part2/waiting-room.cat-adi-part2.module'
-
-    await this.router.navigate([page]);
+    await this.router.navigate([categoryPage]);
   }
 
-  categoryToPage(category: TestCategory) {
+  categoryToPage(category: TestCategory): string {
     switch (category as TestCategory) {
       case TestCategory.ADI2:
-        return {
-          pageAlias: 'cat-adi-part2',
-        };
+        return 'cat-adi-part2';
       case TestCategory.B:
-        return {
-          pageAlias: 'tbc',
-        };
+        return 'cat-b';
       case TestCategory.BE:
-        return {
-          pageAlias: 'tbc',
-        };
+        return 'cat-be';
       case TestCategory.C1E:
       case TestCategory.CE:
       case TestCategory.C1:
       case TestCategory.C:
-        return {
-          pageAlias: 'tbc',
-        };
+        return 'cat-c';
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        return {
-          pageAlias: 'tbc',
-        };
+        return 'cat-cpc';
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAMM1:
-        return {
-          pageAlias: 'tbc',
-        };
+        return 'cat-a-mod1';
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
-        return {
-          pageAlias: 'tbc',
-        };
+        return 'cat-a-mod2';
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-        return {
-          pageAlias: 'tbc',
-        };
+        return 'cat-d';
       case TestCategory.K:
       case TestCategory.H:
       case TestCategory.G:
       case TestCategory.F:
-        return {
-          pageAlias: 'tbc',
-        };
+        return 'cat-home-test';
       default:
     }
   }
 
-  pagePath(category: TestCategory) {
-    switch (category as TestCategory) {
-      case TestCategory.ADI2:
-        return {
-          pageName: 'waiting-room',
-        };
-      case TestCategory.B:
-        return {
-          pageName: 'tbc',
-        };
-      case TestCategory.BE:
-        return {
-          pageName: 'tbc',
-        };
-      case TestCategory.C1E:
-      case TestCategory.CE:
-      case TestCategory.C1:
-      case TestCategory.C:
-        return {
-          pageName: 'tbc',
-        };
-      case TestCategory.CCPC:
-      case TestCategory.DCPC:
-        return {
-          pageName: 'tbc',
-        };
-      case TestCategory.EUAM1:
-      case TestCategory.EUA1M1:
-      case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1:
-        return {
-          pageName: 'tbc',
-        };
-      case TestCategory.EUAM2:
-      case TestCategory.EUA1M2:
-      case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2:
-        return {
-          pageName: 'tbc',
-        };
-      case TestCategory.D:
-      case TestCategory.D1:
-      case TestCategory.D1E:
-      case TestCategory.DE:
-        return {
-          pageName: 'tbc',
-        };
-      case TestCategory.K:
-      case TestCategory.H:
-      case TestCategory.G:
-      case TestCategory.F:
-        return {
-          pageName: 'tbc',
-        };
+  pagePath(page: string): string {
+    switch (page) {
+      case 'WAITING_ROOM_PAGE':
+        return 'waiting-room';
       default:
     }
   }
