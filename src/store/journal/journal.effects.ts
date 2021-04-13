@@ -20,23 +20,23 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 // import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 
-import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
-import { DateTime, Duration } from '../../app/shared/helpers/date-time';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
+// import { HttpStatusCodes } from '../../shared/models/http-status-codes';
+// import { SearchProvider } from '@providers/search/search';
+import { LogType } from '@shared/models/log.model';
+import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
+import { SaveLog } from '../logs/logs.actions';
+import { getJournalState } from './journal.reducer';
+import * as journalActions from './journal.actions';
 import {
   getSelectedDate, getLastRefreshed, getSlots,
   canNavigateToPreviousDay, canNavigateToNextDay,
 // getCompletedTests,
 } from './journal.selector';
-import { getJournalState } from './journal.reducer';
-import { StoreModel } from '../../app/shared/models/store.model';
-import * as journalActions from './journal.actions';
-// import { HttpStatusCodes } from '../../shared/models/http-status-codes';
-// import { SearchProvider } from '@providers/search/search';
-import { LogType } from '../../app/shared/models/log.model';
-import { SaveLog } from '../logs/logs.actions';
 // import { AdvancedSearchParams } from '@providers/search/search.models';
 // import moment from 'moment';
 // import { removeLeadingZeros } from '../../shared/helpers/formatters';

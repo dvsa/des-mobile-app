@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
+import { ManoeuvreUnion } from '@shared/unions/test-schema-unions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as manoeuvresActions from './manoeuvres.actions';
-import { ManoeuvreUnion } from '../../../../../app/shared/unions/test-schema-unions';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 export const initialState: ManoeuvreUnion = {
   reverseLeft: {},

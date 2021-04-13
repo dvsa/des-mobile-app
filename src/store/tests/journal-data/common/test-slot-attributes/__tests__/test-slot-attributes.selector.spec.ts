@@ -1,5 +1,7 @@
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { Initiator, TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
+import { DateTime } from '@shared/helpers/date-time';
+import { SlotTypes } from '@shared/models/slot-types';
 import {
   getTestTime,
   getSlotId,
@@ -10,8 +12,6 @@ import {
   getTestDate,
   getTestStartDateTime,
 } from '../test-slot-attributes.selector';
-import { DateTime } from '../../../../../../app/shared/helpers/date-time';
-import { SlotTypes } from '../../../../../../app/shared/models/slot-types';
 
 const testTime = new DateTime().toString();
 const formattedTime = DateTime.at(testTime).format('HH:mm');

@@ -1,4 +1,5 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   hasSeriousFault,
   hasDangerousFault,
@@ -14,7 +15,6 @@ import {
   hasVehicleChecksBeenCompletedCatC,
 } from '../test-data.cat-c.selector';
 import { Competencies } from '../../test-data.constants';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 describe('TestDataSelectors - CatC', () => {
   const state: CatCUniqueTypes.TestData = {

@@ -1,18 +1,18 @@
 import { get } from 'lodash';
-import { CompetencyOutcome } from '../../../../app/shared/models/competency-outcome';
-import { Competencies, LegalRequirements } from '../test-data.constants';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   CatCManoeuvres,
   CatCTestData,
   CatCTestRequirements,
   CatCVehicleChecks,
-} from '../../../../app/shared/unions/test-schema-unions';
+} from '@shared/unions/test-schema-unions';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS,
-} from '../../../../app/shared/constants/show-me-questions/show-me-questions.cat-c.constants';
+} from '@shared/constants/show-me-questions/show-me-questions.cat-c.constants';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS,
-} from '../../../../app/shared/constants/tell-me-questions/tell-me-questions.cat-c.constants';
+} from '@shared/constants/tell-me-questions/tell-me-questions.cat-c.constants';
+import { Competencies, LegalRequirements } from '../test-data.constants';
 
 export const getDrivingFaultCount = (
   data: CatCTestData,

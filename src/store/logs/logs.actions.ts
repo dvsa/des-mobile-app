@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Log } from '../../app/shared/models/log.model';
+import { Log } from '@shared/models/log.model';
 
 export const SaveLog = createAction(
   '[GLOBAL] Save Log',

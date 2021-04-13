@@ -1,7 +1,7 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { ControlledStopUnion } from '@shared/unions/test-schema-unions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as controlledStopActions from './controlled-stop.actions';
-import { ControlledStopUnion } from '../../../../../app/shared/unions/test-schema-unions';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 export const initialState: ControlledStopUnion = {};
 

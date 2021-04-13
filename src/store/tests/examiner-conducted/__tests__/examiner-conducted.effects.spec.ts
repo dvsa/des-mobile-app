@@ -4,7 +4,7 @@ import { ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-
+import { StoreModel } from '@shared/models/store.model';
 import { ExaminerConductedEffects } from '../examiner-conducted.effects';
 import { SetExaminerConducted } from '../examiner-conducted.actions';
 import { testsReducer } from '../../tests.reducer';
@@ -12,7 +12,6 @@ import { SetChangeMarker } from '../../change-marker/change-marker.actions';
 import { StartTest } from '../../tests.actions';
 import { SetExaminerBooked } from '../../examiner-booked/examiner-booked.actions';
 import { journalReducer } from '../../../journal/journal.reducer';
-import { StoreModel } from '../../../../app/shared/models/store.model';
 
 describe('Examiner Conducted Effects', () => {
 

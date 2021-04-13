@@ -1,4 +1,5 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { ManoeuvreTypes, ManoeuvreCompetencies } from '../../../test-data.constants';
 import { manoeuvresCatADI2Reducer } from '../manoeuvres.reducer';
 import {
@@ -9,7 +10,6 @@ import {
   AddManoeuvreComment,
   RemoveManoeuvreFault,
 } from '../manoeuvres.actions';
-import { CompetencyOutcome } from '../../../../../../app/shared/models/competency-outcome';
 
 describe('ADI2 Manoeuvres Reducer', () => {
 

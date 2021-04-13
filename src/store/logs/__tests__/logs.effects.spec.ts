@@ -20,8 +20,8 @@ import { LogsProviderMock } from '@providers/logs/__mocks__/logs.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 
-import { DateTime, Duration } from '../../../app/shared/helpers/date-time';
-import { Log, LogType } from '../../../app/shared/models/log.model';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { Log, LogType } from '@shared/models/log.model';
 import { LogsEffects } from '../logs.effects';
 import * as logsActions from '../logs.actions';
 import { logsReducer } from '../logs.reducer';

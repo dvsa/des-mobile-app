@@ -1,6 +1,6 @@
 import { get } from 'lodash';
-import { ControlledStopUnion } from '../../../../../app/shared/unions/test-schema-unions';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
+import { ControlledStopUnion } from '@shared/unions/test-schema-unions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export const isControlledStopSelected = (
   data: ControlledStopUnion,

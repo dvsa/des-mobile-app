@@ -8,9 +8,9 @@ import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
 import { JournalModel } from './journal.model';
-import { DateTime, Duration } from '../../app/shared/helpers/date-time';
-import { StoreModel } from '../../app/shared/models/store.model';
 
 export const selectJournal = (state: StoreModel): JournalModel => state.journal;
 

@@ -1,8 +1,8 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { Location } from '@angular/common';
+import { ErrorTypes } from '@shared/models/error-message';
 import { ErrorMessageComponent, additionalText } from '../error-message';
-import { ErrorTypes } from '../../../../app/shared/models/error-message';
 
 describe('ErrorMessageComponent', () => {
   let fixture: ComponentFixture<ErrorMessageComponent>;

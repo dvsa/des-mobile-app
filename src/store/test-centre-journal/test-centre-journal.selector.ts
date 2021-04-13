@@ -1,5 +1,5 @@
 import { isNil } from 'lodash';
-import { DateTime } from '../../app/shared/helpers/date-time';
+import { DateTime } from '@shared/helpers/date-time';
 import { TestCentreJournalModel } from './test-centre-journal.model';
 
 export const getLastRefreshed = (journal: TestCentreJournalModel) => journal.lastRefreshed;

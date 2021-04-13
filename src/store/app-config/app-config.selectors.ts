@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppConfig } from '@providers/app-config/app-config.model';
-import { StoreModel } from '../../app/shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
 
 export const selectAppConfig = (state: StoreModel): AppConfig => state.appConfig;
 

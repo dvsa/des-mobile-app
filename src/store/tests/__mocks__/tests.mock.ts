@@ -1,5 +1,5 @@
 import { Application, Candidate } from '@dvsa/mes-journal-schema';
-import { end2endPracticeSlotId, testReportPracticeSlotId } from '../../../app/shared/mocks/test-slot-ids.mock';
+import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
 export const testApplicationMock: Application = {
   applicationId: 12345692,

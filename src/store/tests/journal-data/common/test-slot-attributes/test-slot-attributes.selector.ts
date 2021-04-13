@@ -1,7 +1,7 @@
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import * as moment from 'moment';
-import { getSlotType } from '../../../../../app/shared/helpers/get-slot-type';
+import { getSlotType } from '@shared/helpers/get-slot-type';
 
 export const getTestTime = (attributes: TestSlotAttributes) => moment(attributes.start).format('HH:mm');
 export const getTestDate = (attributes: TestSlotAttributes): string => moment(attributes.start).format('DD/MM/YYYY');

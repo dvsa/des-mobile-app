@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
 import { AppInfoStateModel } from './app-info.model';
-import { StoreModel } from '../../app/shared/models/store.model';
 
 export const selectAppInfo = (state: StoreModel): AppInfoStateModel => state.appInfo;
 

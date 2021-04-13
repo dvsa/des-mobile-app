@@ -2,7 +2,7 @@ import {
   Component, Output, EventEmitter, Input,
 } from '@angular/core';
 import { Location } from '@angular/common';
-import { ErrorTypes } from '../../../app/shared/models/error-message';
+import { ErrorTypes } from '@shared/models/error-message';
 
 export enum additionalText {
   JOURNAL = 'and try again later.',
