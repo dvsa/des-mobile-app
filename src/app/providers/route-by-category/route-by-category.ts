@@ -15,10 +15,6 @@ export class RouteByCategoryProvider {
     const categoryPage =  category ? getPageNameByCategoryAndKey(category, page) : page;
     const pageAlias = this.categoryToPage(category);
     const pageName = this.pagePath(page);
-    console.log('page', page);
-    console.log('categoryPage', categoryPage);
-    console.log('pageAlias', pageAlias);
-    console.log('pageName', pageName);
     const importPath = category ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}` : `${pageName}/${pageName}`;
     config.push({
       path: categoryPage,
