@@ -22,6 +22,8 @@ export function testsReducerFactory(
   switch (category) {
     case TestCategory.ADI2:
       return testsCatADIPart2Reducer(action, state as Required<CatADI2UniqueTypes.TestResult>);
+    // case TestCategory.B:
+    //   return test
     case TestCategory.C:
       return testsCatCReducer(action, state as Required<CatCUniqueTypes.TestResult>);
     case TestCategory.CE:
