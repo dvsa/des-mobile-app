@@ -6,8 +6,8 @@ import { HealthDeclarationCatBPage } from './health-declaration.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: HealthDeclarationCatBPage
-  }
+    component: HealthDeclarationCatBPage,
+  },
 ];
 
 @NgModule({

@@ -6,8 +6,8 @@ import { OfficeCatBPage } from './office.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: OfficeCatBPage
-  }
+    component: OfficeCatBPage,
+  },
 ];
 
 @NgModule({

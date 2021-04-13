@@ -13,8 +13,8 @@ import { HealthDeclarationCatBPage } from './health-declaration.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    HealthDeclarationCatBPageRoutingModule
+    HealthDeclarationCatBPageRoutingModule,
   ],
-  declarations: [HealthDeclarationCatBPage]
+  declarations: [HealthDeclarationCatBPage],
 })
 export class HealthDeclarationCatBPageModule {}

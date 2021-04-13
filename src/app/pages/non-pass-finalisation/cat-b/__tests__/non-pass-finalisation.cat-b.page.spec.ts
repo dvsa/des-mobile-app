@@ -9,8 +9,8 @@ describe('NonPassFinalisationCatBPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NonPassFinalisationCatBPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [NonPassFinalisationCatBPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NonPassFinalisationCatBPage);

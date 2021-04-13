@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { RouteByCategoryProvider } from '../../../providers/route-by-category/route-by-category';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 @Component({
   selector: 'app-non-pass-finalisation.cat-b',

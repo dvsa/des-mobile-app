@@ -13,8 +13,8 @@ import { WaitingRoomCatBPage } from './waiting-room.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    WaitingRoomCatBPageRoutingModule
+    WaitingRoomCatBPageRoutingModule,
   ],
-  declarations: [WaitingRoomCatBPage]
+  declarations: [WaitingRoomCatBPage],
 })
 export class WaitingRoomCatBPageModule {}

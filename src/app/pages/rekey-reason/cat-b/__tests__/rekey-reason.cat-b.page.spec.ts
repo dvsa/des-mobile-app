@@ -9,8 +9,8 @@ describe('RekeyReason.CatBPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RekeyReasonCatBPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [RekeyReasonCatBPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RekeyReasonCatBPage);

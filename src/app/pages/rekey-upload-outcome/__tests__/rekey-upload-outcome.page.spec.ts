@@ -9,8 +9,8 @@ describe('RekeyUploadOutcomePage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RekeyUploadOutcomePage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [RekeyUploadOutcomePage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RekeyUploadOutcomePage);

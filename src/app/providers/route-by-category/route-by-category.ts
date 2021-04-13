@@ -12,7 +12,7 @@ export class RouteByCategoryProvider {
 
   async navigateToPage(page, category?: TestCategory) {
     const { config } = this.router;
-    const categoryPage =  category ? getPageNameByCategoryAndKey(category, page) : page;
+    const categoryPage = category ? getPageNameByCategoryAndKey(category, page) : page;
     const pageAlias = this.categoryToPage(category);
     const pageName = this.pagePath(page);
     const importPath = category ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}` : `${pageName}/${pageName}`;

@@ -9,8 +9,8 @@ describe('HealthDeclaration.CatBPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HealthDeclarationCatBPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [HealthDeclarationCatBPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(HealthDeclarationCatBPage);

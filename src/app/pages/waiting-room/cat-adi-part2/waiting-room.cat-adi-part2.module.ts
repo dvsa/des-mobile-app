@@ -13,8 +13,8 @@ import { WaitingRoomCatAdiPart2Page } from './waiting-room.cat-adi-part2.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    WaitingRoomCatAdiPart2PageRoutingModule
+    WaitingRoomCatAdiPart2PageRoutingModule,
   ],
-  declarations: [WaitingRoomCatAdiPart2Page]
+  declarations: [WaitingRoomCatAdiPart2Page],
 })
 export class WaitingRoomCatADIPart2PageModule {}

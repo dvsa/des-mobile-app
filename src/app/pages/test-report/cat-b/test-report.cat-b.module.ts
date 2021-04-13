@@ -13,8 +13,8 @@ import { TestReportCatBPage } from './test-report.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    TestReportCatBPageRoutingModule
+    TestReportCatBPageRoutingModule,
   ],
-  declarations: [TestReportCatBPage]
+  declarations: [TestReportCatBPage],
 })
 export class TestReportCatBPageModule {}

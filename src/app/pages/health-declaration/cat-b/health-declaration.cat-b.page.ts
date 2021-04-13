@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { RouteByCategoryProvider } from '../../../providers/route-by-category/route-by-category';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 @Component({
   selector: 'app-health-declaration.cat-b',

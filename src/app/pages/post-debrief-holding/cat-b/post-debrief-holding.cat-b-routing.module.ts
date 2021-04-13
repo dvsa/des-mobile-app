@@ -6,8 +6,8 @@ import { PostDebriefHoldingCatBPage } from './post-debrief-holding.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: PostDebriefHoldingCatBPage
-  }
+    component: PostDebriefHoldingCatBPage,
+  },
 ];
 
 @NgModule({

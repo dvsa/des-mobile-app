@@ -6,8 +6,8 @@ import { NonPassFinalisationCatBPage } from './non-pass-finalisation.cat-b.page'
 const routes: Routes = [
   {
     path: '',
-    component: NonPassFinalisationCatBPage
-  }
+    component: NonPassFinalisationCatBPage,
+  },
 ];
 
 @NgModule({

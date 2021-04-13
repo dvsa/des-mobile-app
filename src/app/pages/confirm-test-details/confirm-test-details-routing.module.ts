@@ -6,8 +6,8 @@ import { ConfirmTestDetailsPage } from './confirm-test-details.page';
 const routes: Routes = [
   {
     path: '',
-    component: ConfirmTestDetailsPage
-  }
+    component: ConfirmTestDetailsPage,
+  },
 ];
 
 @NgModule({

@@ -6,8 +6,8 @@ import { WaitingRoomToCarCatBPage } from './waiting-room-to-car.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: WaitingRoomToCarCatBPage
-  }
+    component: WaitingRoomToCarCatBPage,
+  },
 ];
 
 @NgModule({

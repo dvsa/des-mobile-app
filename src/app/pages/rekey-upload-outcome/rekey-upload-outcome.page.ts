@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { JOURNAL_PAGE } from '../page-names.constants';
 import { Router } from '@angular/router';
+import { JOURNAL_PAGE } from '../page-names.constants';
 
 @Component({
   selector: 'app-rekey-upload-outcome.cat-b',

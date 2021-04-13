@@ -6,8 +6,8 @@ import { DebriefCatBPage } from './debrief.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: DebriefCatBPage
-  }
+    component: DebriefCatBPage,
+  },
 ];
 
 @NgModule({

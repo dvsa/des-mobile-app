@@ -6,8 +6,8 @@ import { CommunicationCatBPage } from './communication.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: CommunicationCatBPage
-  }
+    component: CommunicationCatBPage,
+  },
 ];
 
 @NgModule({

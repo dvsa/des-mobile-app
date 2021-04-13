@@ -243,5 +243,6 @@ export function getPageNameByCategoryAndKey(category: TestCategory, pageNameKey:
     case TestCategory.EUAM2:
     case TestCategory.EUAMM2:
       return CAT_A_MOD2[pageNameKey];
+    default:
   }
 }

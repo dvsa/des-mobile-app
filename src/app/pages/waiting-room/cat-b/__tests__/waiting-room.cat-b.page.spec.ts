@@ -9,8 +9,8 @@ describe('WaitingRoom.CatBPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WaitingRoomCatBPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [WaitingRoomCatBPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(WaitingRoomCatBPage);
