@@ -1,2 +1,1 @@
-
-export const isRekey = (isRekey: boolean) => isRekey;
+export const isRekey = (rekey: boolean) => rekey;

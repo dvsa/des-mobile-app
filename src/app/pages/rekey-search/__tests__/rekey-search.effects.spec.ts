@@ -17,6 +17,10 @@ import { RekeySearchErrorMessages } from '../rekey-search-error-model';
 import { HttpStatusCodes } from '../../../shared/models/http-status-codes';
 import { RekeySearchEffects } from '../rekey-search.effects';
 
+function asyncError(errorObject: any) {
+  return defer(() => Promise.reject(errorObject));
+}
+
 describe('Rekey Search Effects', () => {
 
   let effects: RekeySearchEffects;
@@ -104,7 +108,7 @@ describe('Rekey Search Effects', () => {
 
     actions$.next(rekeySearchActions.SearchBookedTest(appRef, staffNumber));
 
-    effects.getBooking$.subscribe((result) => {
+    effects.getBooking$.subscribe(() => {
       expect(testSearchProvider.getTestResult).toHaveBeenCalledWith(appRef, staffNumber);
       done();
     });
@@ -165,7 +169,3 @@ describe('Rekey Search Effects', () => {
   });
 
 });
-
-function asyncError(errorObject: any) {
-  return defer(() => Promise.reject(errorObject));
-}

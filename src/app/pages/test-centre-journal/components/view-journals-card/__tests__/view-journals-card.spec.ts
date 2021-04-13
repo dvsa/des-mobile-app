@@ -5,16 +5,16 @@ import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { CommonModule } from '@angular/common';
 import { ViewContainerRef } from '@angular/core';
 
+import { SlotProvider } from '@providers/slot/slot';
+import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
+import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { ViewJournalsCardComponent } from '../view-journals-card';
 import { TestCentreDetailResponse } from '../../../../../shared/models/test-centre-journal.model';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
-import { SlotProvider } from '@providers/slot/slot';
-import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { ExaminerSlotItemsByDate } from '../../../../../../store/journal/journal.model';
-import { SlotItem } from '@providers/slot-selector/slot-item';
 import { TestCentreJournalModule } from '../../../test-centre-journal.module';
-import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
-import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 
 describe('ViewJournalsCardComponent', () => {
   let fixture: ComponentFixture<ViewJournalsCardComponent>;

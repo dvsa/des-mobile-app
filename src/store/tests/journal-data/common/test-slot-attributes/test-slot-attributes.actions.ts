@@ -3,7 +3,7 @@ import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 
 export const PopulateTestSlotAttributes = createAction(
   '[TestSlotAttributesEffects] Populate Test slot attributes',
-  (testSlotAttributes: TestSlotAttributes) => ({ testSlotAttributes })
+  (testSlotAttributes: TestSlotAttributes) => ({ testSlotAttributes }),
 );
 
 export const SetStartDate = createAction(

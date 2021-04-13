@@ -18,9 +18,11 @@ describe('Test Requirements CAT C Reducer', () => {
     it('should toggle uphill start to incomplete(false) when dispatched second time', () => {
       const state: TestRequirements = {};
       const modifiedState = testRequirementsCatCReducer(
-        state, ToggleLegalRequirement(LegalRequirements.uphillStart));
+        state, ToggleLegalRequirement(LegalRequirements.uphillStart),
+      );
       const result = testRequirementsCatCReducer(
-        modifiedState, ToggleLegalRequirement(LegalRequirements.uphillStart));
+        modifiedState, ToggleLegalRequirement(LegalRequirements.uphillStart),
+      );
       expect(result[LegalRequirements.uphillStart]).toEqual(false);
     });
   });

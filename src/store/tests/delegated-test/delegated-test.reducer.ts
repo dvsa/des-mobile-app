@@ -1,5 +1,5 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import  * as delegatedTestActions from './delegated-test.actions';
+import * as delegatedTestActions from './delegated-test.actions';
 
 export const initialState: boolean = false;
 

@@ -1,5 +1,5 @@
-import { drivingFaultsReducer } from '../driving-faults.reducer';
 import { DrivingFaults } from '@dvsa/mes-test-schema/categories/common';
+import { drivingFaultsReducer } from '../driving-faults.reducer';
 import { AddDrivingFault, RemoveDrivingFault, AddDrivingFaultComment } from '../driving-faults.actions';
 import { Competencies } from '../../../test-data.constants';
 
@@ -64,7 +64,7 @@ describe('Driving Faults Reducer', () => {
     it('should add a comment for a particular driving fault', () => {
       const state: DrivingFaults = {};
       const result = drivingFaultsReducer(
-        state, AddDrivingFaultComment(Competencies.ancillaryControls , 'Test'),
+        state, AddDrivingFaultComment(Competencies.ancillaryControls, 'Test'),
       );
       expect(result.ancillaryControlsComments).toEqual('Test');
     });

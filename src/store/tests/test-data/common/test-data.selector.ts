@@ -22,7 +22,7 @@ export const getETAFaultText = (data: ETA) => {
   if (data.physical && !data.verbal) return 'Physical';
   if (!data.physical && data.verbal) return 'Verbal';
   if (data.physical && data.verbal) return 'Physical and Verbal';
-  return;
+
 };
 
 export const hasExaminerTakenAction = (data: ETA, action: ExaminerActions) => {
@@ -36,7 +36,7 @@ export const getEcoFaultText = (data: Eco) => {
   if (data.adviceGivenControl && !data.adviceGivenPlanning) return 'Control';
   if (!data.adviceGivenControl && data.adviceGivenPlanning) return 'Planning';
   if (data.adviceGivenControl && data.adviceGivenPlanning) return 'Control and Planning';
-  return;
+
 };
 
 export const getShowMeQuestionOptions = (

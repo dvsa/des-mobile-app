@@ -1,7 +1,7 @@
 import { isControlledStopSelected, getControlledStopFault } from '../controlled-stop.selectors';
 import { CompetencyOutcome } from '../../../../../../app/shared/models/competency-outcome';
 
-describe('Controlled Stop Selector' , () => {
+describe('Controlled Stop Selector', () => {
   describe('isControlledStopSelected', () => {
     it('should return true if controlled stop has been selected', () => {
       expect(isControlledStopSelected({ selected: true })).toEqual(true);

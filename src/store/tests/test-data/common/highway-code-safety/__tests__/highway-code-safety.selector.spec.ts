@@ -4,7 +4,7 @@ import {
   getHighwayCodeSafetyDrivingFault,
 } from '../highway-code-safety.selectors';
 
-describe('Highway Code Safety Selector' , () => {
+describe('Highway Code Safety Selector', () => {
   describe('isHighwayCodeSafetySelected', () => {
     it('should return true if highway code safety has been selected', () => {
       expect(isHighwayCodeSafetySelected({ selected: true })).toEqual(true);

@@ -10,7 +10,10 @@ export const initialState: CommunicationPreferences = {
 
 export const communicationPreferencesReducer = createReducer(
   initialState,
-  on(communicationPrefActions.CandidateChoseEmailAsCommunicationPreference, (state, { communicationMethod, updatedEmail }) => ({
+  on(communicationPrefActions.CandidateChoseEmailAsCommunicationPreference, (state, {
+    communicationMethod,
+    updatedEmail,
+  }) => ({
     ...state,
     communicationMethod,
     updatedEmail,
@@ -29,8 +32,10 @@ export const communicationPreferencesReducer = createReducer(
   })),
   on(communicationPrefActions.PopulateConductedLanguage, (state, { conductedLanguage }) => ({
     ...state,
-    conductedLanguage: state.conductedLanguage === initialState.conductedLanguage ? conductedLanguage : state.conductedLanguage,
+    conductedLanguage: (
+      state.conductedLanguage === initialState.conductedLanguage ? conductedLanguage : state.conductedLanguage
+    ),
   })),
-)
+);
 
 export const getCommunicationPreference = createFeatureSelector<CommunicationPreferences>('communicationPreferences');
