@@ -10,15 +10,20 @@ export class RouteByCategoryProvider {
   ) {
   }
 
-  async navigateToPage(page, category: TestCategory) {
+  async navigateToPage(page, category?: TestCategory) {
     const { config } = this.router;
-    const categoryPage =  getPageNameByCategoryAndKey(category, page);
+    const categoryPage =  category ? getPageNameByCategoryAndKey(category, page) : page;
     const pageAlias = this.categoryToPage(category);
     const pageName = this.pagePath(page);
+    console.log('page', page);
+    console.log('categoryPage', categoryPage);
+    console.log('pageAlias', pageAlias);
+    console.log('pageName', pageName);
+    const importPath = category ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}` : `${pageName}/${pageName}`;
     config.push({
       path: categoryPage,
       loadChildren: () =>
-        import(`../../pages/${pageName}/${pageAlias}/${pageName}.${pageAlias}.module`)
+        import(`../../pages/${importPath}.module`)
           .then((m) => m[`${categoryPage}Module`]),
     });
     await this.router.navigate([categoryPage]);
@@ -78,8 +83,22 @@ export class RouteByCategoryProvider {
         return 'debrief';
       case 'PASS_FINALISATION_PAGE':
         return 'pass-finalisation';
+      case 'NON_PASS_FINALISATION_PAGE':
+        return 'non-pass-finalisation';
       case 'POST_DEBRIEF_HOLDING_PAGE':
         return 'post-debrief-holding';
+      case 'HEALTH_DECLARATION_PAGE':
+        return 'health-declaration';
+      case 'ConfirmTestDetailsPage':
+        return 'confirm-test-details';
+      case 'BACK_TO_OFFICE_PAGE':
+        return 'back-to-office';
+      case 'OFFICE_PAGE':
+        return 'office';
+      case 'REKEY_REASON_PAGE':
+        return 'rekey-reason';
+      case 'RekeyUploadOutcomePage':
+        return 'rekey-upload-outcome';
       default:
     }
   }
