@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {
   DASHBOARD_PAGE, LOGIN_PAGE, JOURNAL_PAGE, TEST_CENTRE_JOURNAL_PAGE,
-} from './pages/page-names.constants';
+} from '@pages/page-names.constants';
 
 const routes: Routes = [
   {

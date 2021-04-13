@@ -9,7 +9,7 @@ import { testStatusReducer } from './test-status/test-status.reducer';
 import { testsReducerFactory } from './tests-reducer-factory';
 import { LoadPersistedTestsSuccess } from './tests.actions';
 import { testReportPracticeSlotId } from '../../app/shared/mocks/test-slot-ids.mock';
-// import * as fakeJournalActions from '../../pages/fake-journal/fake-journal.actions';
+// import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 
 export const initialState: TestsModel = {
   currentTest: { slotId: null },
@@ -96,7 +96,7 @@ const removeTest = (state: TestsModel, slotId: string): TestsModel => {
  */
 export function testsReducer(
   state = initialState,
-  action: testsActions.TestActionsTypes // | fakeJournalActions.Types @TODO: Implement when fakeJournalActions defined;
+  action: testsActions.TestActionsTypes, // | fakeJournalActions.Types @TODO: Implement when fakeJournalActions defined;
 ): TestsModel {
   const slotId = deriveSlotId(state, action);
   const category = deriveCategory(state, action, slotId);
