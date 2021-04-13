@@ -255,7 +255,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   private createSlots = (emission: SlotItem[]) => {
-    this.displayNoDataMessage = (emission && emission.length === 0);
+    this.displayNoDataMessage = (!emission || (emission && emission.length === 0));
     this.slotSelector.createSlots(this.slotContainer, emission, this.completedTests);
   };
 
