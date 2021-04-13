@@ -38,6 +38,7 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { DeviceProvider } from '@providers/device/device';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { environment } from '@environments/environment';
 
 import { JournalModule } from '../store/journal/journal.module';
@@ -53,6 +54,7 @@ import { AppComponent } from './app.component';
 import { TestsModule } from '../store/tests/tests.module';
 import { TestCentreJournalStoreModule } from '../store/test-centre-journal/test-centre-journal.module';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
+
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
@@ -137,6 +139,7 @@ if (enableRehydrationPlugin) {
     TestPersistenceProvider,
     CategoryWhitelistProvider,
     TestCentreJournalProvider,
+    RouteByCategoryProvider,
     ScreenOrientation,
   ],
   bootstrap: [AppComponent],
