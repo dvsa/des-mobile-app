@@ -5,7 +5,7 @@ export const initialState: number | string = null;
 
 export const examinerBookedReducer = createReducer(
   initialState,
-  on(examinerBookedActions.SetExaminerBooked, (state, { examinerBooked }) => examinerBooked),
+  on(examinerBookedActions.SetExaminerBooked, (_, { examinerBooked }) => examinerBooked),
 );
 
 export const getExaminerBooked = createFeatureSelector<number>('examinerBooked');
