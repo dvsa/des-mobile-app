@@ -22,22 +22,22 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { BasePageComponent } from '../../shared/classes/base-page';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { StoreModel } from '@shared/models/store.model';
+import { ErrorTypes } from '@shared/models/error-message';
+import { DateTime } from '@shared/helpers/date-time';
+import { MesError } from '@shared/models/mes-error.model';
 import * as journalActions from '../../../store/journal/journal.actions';
-import { StoreModel } from '../../shared/models/store.model';
 import {
   getError, getIsLoading, getSelectedDate, getLastRefreshed,
   getLastRefreshedTime, getSlotsOnSelectedDate, canNavigateToPreviousDay, canNavigateToNextDay, // getCompletedTests,
 } from '../../../store/journal/journal.selector';
 import { getJournalState } from '../../../store/journal/journal.reducer';
 import { selectVersionNumber } from '../../../store/app-info/app-info.selectors';
-import { ErrorTypes } from '../../shared/models/error-message';
 // import { DeviceProvider } from '@providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
 // import { IncompleteTestsBanner } from '../../components/common/incomplete-tests-banner/incomplete-tests-banner';
-import { DateTime } from '../../shared/helpers/date-time';
-import { MesError } from '../../shared/models/mes-error.model';
 import { AppComponent } from '../../app.component';
 import { ErrorPage } from '../error-page/error';
 

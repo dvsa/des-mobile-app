@@ -6,8 +6,8 @@ import { TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/A
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
-import { ActivityCodes } from '../../shared/models/activity-codes';
-import { CatCTestData, CatDTestData, CatHomeTestData } from '../../shared/unions/test-schema-unions';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { CatCTestData, CatDTestData, CatHomeTestData } from '@shared/unions/test-schema-unions';
 import { TestResultProvider } from '../test-result/test-result';
 
 @Injectable()

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { SecureStorageObject } from '@ionic-native/secure-storage/ngx';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
 import { LogHelper } from '../logs/logs-helper';
-import { LogType } from '../../shared/models/log.model';
-import { StoreModel } from '../../shared/models/store.model';
 import { SaveLog } from '../../../store/logs/logs.actions';
 
 @Injectable()

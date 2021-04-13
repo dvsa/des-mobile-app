@@ -15,14 +15,14 @@ import { TestCentreJournalMock } from '@providers/test-centre-journal/__mocks__/
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { TestCentreJournalPage } from '../test-centre-journal.page';
-import { StoreModel } from '../../../shared/models/store.model';
-import { ComponentsModule } from '../../../../components/common/common-components.module';
+import { StoreModel } from '@shared/models/store.model';
+import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { LogType } from '@shared/models/log.model';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { ErrorTypes } from '@shared/models/error-message';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from '../test-centre-journal.actions';
-import { TestCentre, TestCentreDetailResponse } from '../../../shared/models/test-centre-journal.model';
-import { LogType } from '../../../shared/models/log.model';
-import { BasePageComponent } from '../../../shared/classes/base-page';
-import { ErrorTypes } from '../../../shared/models/error-message';
+import { ComponentsModule } from '../../../../components/common/common-components.module';
+import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
 import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 

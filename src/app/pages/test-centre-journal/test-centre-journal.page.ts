@@ -21,11 +21,12 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { LogHelper } from '@providers/logs/logs-helper';
-import { BasePageComponent } from '../../shared/classes/base-page';
-import { TestCentre, TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
-import { StoreModel } from '../../shared/models/store.model';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { StoreModel } from '@shared/models/store.model';
+import { Log, LogType } from '@shared/models/log.model';
+import { ErrorTypes } from '@shared/models/error-message';
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
-import { Log, LogType } from '../../shared/models/log.model';
 import { SaveLog } from '../../../store/logs/logs.actions';
 import {
   getLastRefreshed,
@@ -33,7 +34,6 @@ import {
 } from '../../../store/test-centre-journal/test-centre-journal.selector';
 import { getTestCentreJournalState } from '../../../store/test-centre-journal/test-centre-journal.reducer';
 import { SetLastRefreshed } from '../../../store/test-centre-journal/test-centre-journal.actions';
-import { ErrorTypes } from '../../shared/models/error-message';
 
 interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;

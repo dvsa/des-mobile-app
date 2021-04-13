@@ -1,4 +1,4 @@
-import { LogType } from '../../../shared/models/log.model';
+import { LogType } from '@shared/models/log.model';
 
 export class LogHelperMock {
 

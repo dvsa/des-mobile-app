@@ -5,10 +5,10 @@ import {
 } from 'lodash';
 import { Store } from '@ngrx/store';
 import { ExaminerWorkSchedule, PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
-import { StoreModel } from '../../shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { SlotItem } from '../slot-selector/slot-item';
 import { AppConfigProvider } from '../app-config/app-config';
-import { DateTime, Duration } from '../../shared/helpers/date-time';
 import { SlotHasChanged } from './slot.actions';
 import { DateTimeProvider } from '../date-time/date-time';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';

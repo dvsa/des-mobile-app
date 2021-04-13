@@ -7,16 +7,16 @@ import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '../../../shared/models/fault-marking.model';
-import { CompetencyDisplayName } from '../../../shared/models/competency-display-name';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
-import { getCompetencyFaults, getCompetencyComment } from '../../../shared/helpers/get-competency-faults';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
 import {
   manoeuvreCompetencyLabelsCatC,
   manoeuvreTypeLabelsCatC,
-} from '../../../shared/constants/competencies/catc-manoeuvres';
-import { VehicleChecksScore } from '../../../shared/models/vehicle-checks-score.model';
+} from '@shared/constants/competencies/catc-manoeuvres';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
 
 export class FaultSummaryCatCHelper {
 

@@ -1,7 +1,7 @@
 import { groupBy } from 'lodash';
+import { DateTime } from '@shared/helpers/date-time';
 import { JournalModel } from '../../../../store/journal/journal.model';
 
-import { DateTime } from '../../../shared/helpers/date-time';
 import { SlotItem } from '../../slot-selector/slot-item';
 
 const localJournalJson = require('../../../../../mock/local-journal.json');

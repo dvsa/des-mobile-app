@@ -2,34 +2,34 @@ import { TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { QuestionProvider } from '../question';
 
 import tellMeQuestionsCatBConstants
-  from '../../../shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
 import showMeQuestionsCatBConstants
-  from '../../../shared/constants/show-me-questions/show-me-questions.cat-b.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-b.constants';
 import tellMeQuestionsCatBeConstants
-  from '../../../shared/constants/tell-me-questions/tell-me-questions.cat-be.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-be.constants';
 import showMeQuestionsCatBeConstants
-  from '../../../shared/constants/show-me-questions/show-me-questions.cat-be.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-be.constants';
 import tellMeQuestionsCatCConstants
-  from '../../../shared/constants/tell-me-questions/tell-me-questions.cat-c.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-c.constants';
 import showMeQuestionsCatCConstants
-  from '../../../shared/constants/show-me-questions/show-me-questions.cat-c.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-c.constants';
 import tellMeQuestionsCatCeConstants
-  from '../../../shared/constants/tell-me-questions/tell-me-questions.cat-ce.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-ce.constants';
 import showMeQuestionsCatCeConstants
-  from '../../../shared/constants/show-me-questions/show-me-questions.cat-ce.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-ce.constants';
 import tellMeQuestionsCatDConstants
-  from '../../../shared/constants/tell-me-questions/tell-me-questions.cat-d.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-d.constants';
 import showMeQuestionsCatDConstants
-  from '../../../shared/constants/show-me-questions/show-me-questions.cat-d.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-d.constants';
 import tellMeQuestionsCatDeConstants
-  from '../../../shared/constants/tell-me-questions/tell-me-questions.cat-de.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-de.constants';
 import showMeQuestionsCatDeConstants
-  from '../../../shared/constants/show-me-questions/show-me-questions.cat-de.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-de.constants';
 import safetyQuestionsCatDConstants
-  from '../../../shared/constants/safety-questions.cat-d.constants';
+  from '@shared/constants/safety-questions.cat-d.constants';
+import { QuestionProvider } from '../question';
 
 describe('question provider', () => {
 

@@ -2,6 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideMockStore } from '@ngrx/store/testing';
+import { StoreModel } from '@shared/models/store.model';
 import { AuthenticationProvider, Token } from '../authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -12,7 +13,6 @@ import { DataStoreProvider } from '../../data-store/data-store';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
 import { TestPersistenceProvider } from '../../test-persistence/test-persistence';
 import { TestPersistenceProviderMock } from '../../test-persistence/__mocks__/test-persistence.mock';
-import { StoreModel } from '../../../shared/models/store.model';
 
 describe('Authentication', () => {
   let authenticationProvider: AuthenticationProvider;

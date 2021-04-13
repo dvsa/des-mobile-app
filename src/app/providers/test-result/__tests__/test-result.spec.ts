@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestResultProvider } from '../test-result';
-import { ActivityCodes } from '../../../shared/models/activity-codes';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import * as mocks from '../__mocks__/test-result-data.mock';
 

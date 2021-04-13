@@ -3,7 +3,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { VehicleChecks } from '@dvsa/mes-test-schema/categories/BE/partial';
 import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
-import { VehicleChecksScore } from '../../../shared/models/vehicle-checks-score.model';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { VehicleChecksQuestion } from '../vehicle-checks-question.model';
 
 function generateQuestionResult(code: string, description: string, outcome: QuestionOutcome) {

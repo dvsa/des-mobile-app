@@ -6,13 +6,13 @@ import { of, Observable } from 'rxjs';
 import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { SearchProvider } from '@providers/search/search';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import {
   SearchBookedTest,
   SearchBookedTestSuccess,
   SearchBookedTestFailure, RekeySearchActions,
 } from './rekey-search.actions';
 import { RekeySearchErrorMessages } from './rekey-search-error-model';
-import { HttpStatusCodes } from '../../shared/models/http-status-codes';
 
 @Injectable()
 export class RekeySearchEffects {

@@ -25,7 +25,7 @@ import { HttpStatusCodes } from '@shared/models/http-status-codes';
 // import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
-// import { HttpStatusCodes } from '../../shared/models/http-status-codes';
+// import { HttpStatusCodes } from '@shared/models/http-status-codes';
 // import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
@@ -39,7 +39,7 @@ import {
 } from './journal.selector';
 // import { AdvancedSearchParams } from '@providers/search/search.models';
 // import moment from 'moment';
-// import { removeLeadingZeros } from '../../shared/helpers/formatters';
+// import { removeLeadingZeros } from '@shared/helpers/formatters';
 // import { getExaminer } from '../tests/journal-data/common/examiner/examiner.reducer';
 // import { getStaffNumber } from '../tests/journal-data/common/examiner/examiner.selector';
 // import { hasStartedTests } from '../tests/tests.selector';

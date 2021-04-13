@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isEmpty } from 'lodash';
-import { DateTime } from '../../shared/helpers/date-time';
+import { DateTime } from '@shared/helpers/date-time';
 import { AppConfigProvider } from '../app-config/app-config';
 
 @Injectable()

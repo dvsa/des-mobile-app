@@ -4,10 +4,10 @@ import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { getCompetencyFaults } from '../../../shared/helpers/get-competency-faults';
-import { VehicleChecksScore } from '../../../shared/models/vehicle-checks-score.model';
-import { sumManoeuvreFaults } from '../../../shared/helpers/faults';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { sumManoeuvreFaults } from '@shared/helpers/faults';
 
 type HomeTestData = CatFUniqueTypes.TestData
 | CatGUniqueTypes.TestData

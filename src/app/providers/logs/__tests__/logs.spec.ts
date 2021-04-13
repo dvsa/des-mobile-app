@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { LogType } from '@shared/models/log.model';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock, LOGS_SERVICE_URL } from '../../url/__mocks__/url.mock';
 import { LogsProvider } from '../logs';
-import { LogType } from '../../../shared/models/log.model';
 import { AuthenticationProvider } from '../../authentication/authentication';
 import { AuthenticationProviderMock } from '../../authentication/__mocks__/authentication.mock';
 

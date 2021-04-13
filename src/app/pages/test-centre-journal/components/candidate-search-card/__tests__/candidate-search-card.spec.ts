@@ -2,10 +2,10 @@ import { configureTestSuite } from 'ng-bullet';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { CandidateData, CandidateSearchCardComponent } from '../candidate-search-card';
 import { ComponentsModule } from '../../../../../../components/common/common-components.module';
 import * as mockData from './mock-data/mock-data';
-import { TestCentreDetailResponse } from '../../../../../shared/models/test-centre-journal.model';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
 
 describe('CandidateSearchCardComponent', () => {
