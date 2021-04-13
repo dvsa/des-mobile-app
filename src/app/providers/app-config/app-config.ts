@@ -8,7 +8,8 @@ import { ValidatorResult, ValidationError } from 'jsonschema';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '@environments/environment';
+import { EnvironmentFile } from '@environments/models/environment.model';
 import { StoreModel } from '../../shared/models/store.model';
 import { AppConfig } from './app-config.model';
 
@@ -21,7 +22,6 @@ import { AppConfigError } from './app-config.constants';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { AppInfoProvider } from '../app-info/app-info';
 import { DataStoreProvider } from '../data-store/data-store';
-import { EnvironmentFile } from '../../../environments/models/environment.model';
 import { getAppConfigState } from '../../../store/app-config/app-config.reducer';
 
 /**

@@ -11,6 +11,7 @@
     "serve:local": "run-s update-mock-data copy-mock-data schema-version config:local && ionic serve",
     "serve:emulator": "npm run schema-version && npm run config:dev && ionic cap run ios",
     "serve:devtools": "npm run schema-version && npm run config:dev-tools && ionic cap run ios -l --external",
+    "serve:livereload": "npm run schema-version && npm run config:dev && ionic cap run ios -l --external",
     "serve:ipad:notworking": "npm run config:dev && npm run schema-version",
     "open:ios": "rm -rf ios && npm run config:dev && ionic build && ionic cap add ios & ionic cap copy ios && npm run copy-resources && ionic cap open ios",
     "build": "npm run copy-resources && ionic build",

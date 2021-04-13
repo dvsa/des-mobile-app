@@ -37,6 +37,7 @@ import {
   DelegatedRekeySearchModel,
   getDelegatedRekeySearchState,
 } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
+import { version } from '@environments/test-schema-version';
 
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
@@ -70,7 +71,6 @@ import { MarkAsRekey } from './rekey/rekey.actions';
 import { JournalModel } from '../journal/journal.model';
 import { PopulateConductedLanguage } from './communication-preferences/communication-preferences.actions';
 import { Language } from './communication-preferences/communication-preferences.model';
-import { version } from '../../environments/test-schema-version';
 import { StartDelegatedTest } from './delegated-test/delegated-test.actions';
 import { OtherReasonUpdated, OtherSelected } from './rekey-reason/rekey-reason.actions';
 import { StoreModel } from '../../app/shared/models/store.model';
