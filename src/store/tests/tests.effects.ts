@@ -302,8 +302,7 @@ export class TestsEffects {
     map(() => testActions.SendCompletedTests()),
   ));
 
-  @Effect()
-  sendCompletedTestsEffect$ = this.actions$.pipe(
+  sendCompletedTestsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendCompletedTests),
     concatMap((action) => of(action)
       .pipe(
@@ -315,7 +314,6 @@ export class TestsEffects {
       )),
     filter(() => this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE),
     switchMap(([, tests]) => {
-
       const completedTestKeys = Object.keys(tests.testStatus)
         .filter((slotId: string) =>
           slotId !== testReportPracticeSlotId
@@ -331,7 +329,7 @@ export class TestsEffects {
       }));
 
       if (completedTests.length === 0) {
-        return of();
+        return of({} as Action);
       }
 
       return this.testSubmissionProvider.submitTests(completedTests)
@@ -351,7 +349,7 @@ export class TestsEffects {
           }),
         );
     }),
-  );
+  ));
 
   sendPartialTestSuccessEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendPartialTestSuccess),
