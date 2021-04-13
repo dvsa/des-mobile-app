@@ -2,13 +2,13 @@ import { configureTestSuite } from 'ng-bullet';
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
-import { CPCQuestionProvider } from '../cpc-questions';
-import { lgvQuestion5 } from '../../../shared/constants/cpc-questions/cpc-lgv-questions.constants';
-import { pcvQuestion5 } from '../../../shared/constants/cpc-questions/cpc-pcv-questions.constants';
+import { lgvQuestion5 } from '@shared/constants/cpc-questions/cpc-lgv-questions.constants';
+import { pcvQuestion5 } from '@shared/constants/cpc-questions/cpc-pcv-questions.constants';
 import {
   Combination,
   QuestionNumber,
-} from '../../../shared/constants/cpc-questions/cpc-question-combinations.constants';
+} from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
+import { CPCQuestionProvider } from '../cpc-questions';
 import { question, question5 } from '../../../../store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
 
 describe('CPC Question Provider', () => {

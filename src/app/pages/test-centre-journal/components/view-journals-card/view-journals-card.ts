@@ -13,9 +13,9 @@ import { IonSelect } from '@ionic/angular';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '../../../../../store/journal/journal.model';
-import { TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
-import { DateTime, Duration } from '../../../../shared/helpers/date-time';
 
 @Component({
   selector: 'view-journals-card',

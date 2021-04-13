@@ -4,10 +4,10 @@ import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
-import { sumManoeuvreFaults } from '../../../shared/helpers/faults';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { VehicleChecksScore } from '../../../shared/models/vehicle-checks-score.model';
-import { getCompetencyFaults } from '../../../shared/helpers/get-competency-faults';
+import { sumManoeuvreFaults } from '@shared/helpers/faults';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 
 export class FaultCountDHelper {
 

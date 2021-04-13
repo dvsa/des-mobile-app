@@ -1,8 +1,8 @@
 import { get, pickBy } from 'lodash';
 import { TestData, SafetyAndBalanceQuestions, QuestionResult } from '@dvsa/mes-test-schema/categories/AM2';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { SafetyQuestionsScore } from '../../../shared/models/safety-questions-score.model';
-import { getCompetencyFaults } from '../../../shared/helpers/get-competency-faults';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 
 export class FaultCountAM2Helper {
   public static getSafetyAndBalanceFaultCountCatAM2 = (

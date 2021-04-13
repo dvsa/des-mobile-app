@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { Examiner, TestCentreDetailResponse } from '../../../../../../shared/models/test-centre-journal.model';
+import { Examiner, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 
 const dummyTodayTestSlot = {
   slotDetail: {

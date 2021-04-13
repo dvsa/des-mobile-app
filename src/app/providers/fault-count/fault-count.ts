@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { VehicleChecks } from '@dvsa/mes-test-schema/categories/ADI2/partial';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { CompetencyOutcome } from '../../shared/models/competency-outcome';
-import { VehicleChecksScore } from '../../shared/models/vehicle-checks-score.model';
-import { SafetyQuestionsScore } from '../../shared/models/safety-questions-score.model';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 
+import { sumManoeuvreFaults } from '@shared/helpers/faults';
 import { FaultCountBHelper } from './cat-b/fault-count.cat-b';
 import { FaultCountBEHelper } from './cat-be/fault-count.cat-be';
 import { FaultCountCHelper } from './cat-c/fault-count.cat-c';
 import { FaultCountDHelper } from './cat-d/fault-count.cat-d';
 
-import { sumManoeuvreFaults } from '../../shared/helpers/faults';
 import { FaultCountAM1Helper } from './cat-a-mod1/fault-count.cat-a-mod1';
 import { FaultCountAM2Helper } from './cat-a-mod2/fault-count.cat-a-mod2';
 import { FaultCountHomeTestHelper } from './cat-home-test/fault-count.cat-home-test';

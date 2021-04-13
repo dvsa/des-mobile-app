@@ -4,8 +4,8 @@ import {
 } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
-import { ErrorTypes } from '../../shared/models/error-message';
+import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
+import { ErrorTypes } from '@shared/models/error-message';
 
 @Component({
   selector: 'page-error',

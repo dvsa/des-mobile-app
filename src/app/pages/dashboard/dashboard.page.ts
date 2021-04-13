@@ -10,11 +10,11 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
+import { StoreModel } from '@shared/models/store.model';
+import { DateTime } from '@shared/helpers/date-time';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { selectRole } from '../../../store/app-config/app-config.selectors';
-import { StoreModel } from '../../shared/models/store.model';
-import { DateTime } from '../../shared/helpers/date-time';
-import { BasePageComponent } from '../../shared/classes/base-page';
+import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;

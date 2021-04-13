@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { VehicleDetailsUnion } from '../../shared/unions/test-schema-unions';
+import { VehicleDetailsUnion } from '@shared/unions/test-schema-unions';
 import { ReversingLengths } from './reversing-lengths.model';
 
 interface VehicleMultipliers {

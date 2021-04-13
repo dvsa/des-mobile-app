@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { gzipSync } from 'zlib';
 import { configureTestSuite } from 'ng-bullet';
-import { categoryBTestResultMock } from '../../../shared/mocks/cat-b-test-result.mock';
+import { categoryBTestResultMock } from '@shared/mocks/cat-b-test-result.mock';
 import { CompressionProvider } from '../compression';
 
 describe('Compression Provider', () => {

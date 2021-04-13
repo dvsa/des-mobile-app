@@ -19,8 +19,8 @@ import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
 // TODO: reinstate pages & selector when they have been implemented
 // import { HomeTestData } from '@pages/office/cat-home-test/office.cat-home-test.page';
 // import { getSpeedRequirementNotMet } from '../../modules/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { FaultCountProvider } from '../fault-count/fault-count';
-import { ActivityCodes } from '../../shared/models/activity-codes';
 
 @Injectable()
 export class TestResultProvider {

@@ -1,15 +1,15 @@
 import { endsWith, forOwn, transform } from 'lodash';
 import { EyesightTest } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '../../../shared/models/fault-marking.model';
-import { CompetencyDisplayName } from '../../../shared/models/competency-display-name';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   manoeuvreCompetencyLabels as manoeuvreCompetencyLabelsCatB,
   manoeuvreTypeLabels as manoeuvreTypeLabelsCatB,
-} from '../../../shared/constants/competencies/catb-manoeuvres';
-import { getCompetencyFaults, getCompetencyComment } from '../../../shared/helpers/get-competency-faults';
+} from '@shared/constants/competencies/catb-manoeuvres';
+import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
+import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
 
 export class FaultSummaryCatBHelper {
 

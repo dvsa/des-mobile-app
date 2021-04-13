@@ -4,8 +4,8 @@ import { Device } from '@ionic-native/device/ngx';
 import { Store, StoreModule } from '@ngrx/store';
 import { DeviceMock } from '@ionic-native-mocks/device';
 import { configureTestSuite } from 'ng-bullet';
+import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '../logs-helper';
-import { LogType } from '../../../shared/models/log.model';
 
 describe('LogHelper', () => {
   let logHelper: LogHelper;

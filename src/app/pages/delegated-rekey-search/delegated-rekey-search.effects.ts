@@ -7,12 +7,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { SearchProvider } from '@providers/search/search';
 import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import {
   SearchBookedDelegatedTest,
   SearchBookedDelegatedTestSuccess,
   SearchBookedDelegatedTestFailure, DelegatedRekeySearchActions,
 } from './delegated-rekey-search.actions';
-import { HttpStatusCodes } from '../../shared/models/http-status-codes';
 import { DelegatedRekeySearchErrorMessages } from './delegated-rekey-search-error-model';
 
 @Injectable()

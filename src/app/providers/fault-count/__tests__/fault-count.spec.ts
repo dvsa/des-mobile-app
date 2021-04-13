@@ -4,7 +4,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountProvider } from '../fault-count';
 
 import { catAM1TestDataStateObject } from '../__mocks__/cat-AM1-test-data-state-object';

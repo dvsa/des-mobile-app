@@ -4,14 +4,14 @@
 
 // import { SlotProvider } from '../slot';
 // import { Store, StoreModule } from '@ngrx/store';
-// import { StoreModel } from '../../../shared/models/store.model';
+// import { StoreModel } from '@shared/models/store.model';
 // import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 // import { AppConfigProvider } from '../../app-config/app-config';
 // import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 // import { DateTimeProvider } from '../../date-time/date-time';
-// // import { SpecialNeedsCode } from '../../../shared/helpers/get-slot-type';
+// // import { SpecialNeedsCode } from '@shared/helpers/get-slot-type';
 // import { TestSlot } from '@dvsa/mes-journal-schema';
-// import { DateTime, Duration } from '../../../shared/helpers/date-time';
+// import { DateTime, Duration } from '@shared/helpers/date-time';
 // import { DateTimeProviderMock } from '../../date-time/__mocks__/date-time.mock';
 // import { configureTestSuite } from 'ng-bullet';
 

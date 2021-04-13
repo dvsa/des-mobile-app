@@ -7,16 +7,16 @@ import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '../../../shared/models/fault-marking.model';
-import { CompetencyDisplayName } from '../../../shared/models/competency-display-name';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
-import { getCompetencyFaults, getCompetencyComment } from '../../../shared/helpers/get-competency-faults';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
 import {
   manoeuvreCompetencyLabelsCatD,
   manoeuvreTypeLabelsCatD,
-} from '../../../shared/constants/competencies/catd-manoeuvres';
-import { VehicleChecksScore } from '../../../shared/models/vehicle-checks-score.model';
+} from '@shared/constants/competencies/catd-manoeuvres';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
 
 export type PcvDoorExerciseTypes =
 | CatDUniqueTypes.PcvDoorExercise

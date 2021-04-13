@@ -3,16 +3,16 @@ import {
 } from 'lodash';
 import { EyesightTest, QuestionResult, Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '../../../shared/models/fault-marking.model';
-import { CompetencyDisplayName } from '../../../shared/models/competency-display-name';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   manoeuvreCompetencyLabels as manoeuvreCompetencyLabelsCatAdiPart2,
   manoeuvreTypeLabels as manoeuvreTypeLabelsCatAdiPart2,
-} from '../../../shared/constants/competencies/catadi2-manoeuvres';
-import { getCompetencyFaults } from '../../../shared/helpers/get-competency-faults'; // getCompetencyComment
-import { VehicleChecksScore } from '../../../shared/models/vehicle-checks-score.model';
+} from '@shared/constants/competencies/catadi2-manoeuvres';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults'; // getCompetencyComment
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
 
 export class FaultSummaryCatAdiPart2Helper {
 

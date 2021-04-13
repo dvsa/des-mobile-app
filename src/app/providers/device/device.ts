@@ -3,11 +3,11 @@ import { Store } from '@ngrx/store';
 import { timeout, retry, map } from 'rxjs/operators';
 import { defer, Observable } from 'rxjs';
 import { Device } from '@ionic-native/device/ngx';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { SaveLog } from '../../../store/logs/logs.actions';
-import { LogType } from '../../shared/models/log.model';
-import { StoreModel } from '../../shared/models/store.model';
 import { LogHelper } from '../logs/logs-helper';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 

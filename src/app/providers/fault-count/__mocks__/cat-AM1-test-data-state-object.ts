@@ -1,5 +1,5 @@
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export const catAM1TestDataStateObject: TestData = {
   singleFaultCompetencies: {

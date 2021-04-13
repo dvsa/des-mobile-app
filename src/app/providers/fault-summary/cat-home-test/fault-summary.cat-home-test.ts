@@ -6,15 +6,15 @@ import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { CompetencyDisplayName } from '../../../shared/models/competency-display-name';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '../../../shared/models/fault-marking.model';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
 import {
   manoeuvreCompetencyLabels as manoeuvreCompetencyLabelsCatHomeTest,
   manoeuvreTypeLabels as manoeuvreTypeLabelsCatHomeTest,
-} from '../../../shared/constants/competencies/catb-manoeuvres';
-import { getCompetencyFaults, getCompetencyComment } from '../../../shared/helpers/get-competency-faults';
+} from '@shared/constants/competencies/catb-manoeuvres';
+import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
+import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
 
 type HomeTestData = CatFUniqueTypes.TestData
 | CatGUniqueTypes.TestData

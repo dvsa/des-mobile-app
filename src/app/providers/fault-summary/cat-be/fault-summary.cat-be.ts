@@ -3,16 +3,16 @@ import {
 } from 'lodash';
 import { EyesightTest, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '../../../shared/models/fault-marking.model';
-import { CompetencyDisplayName } from '../../../shared/models/competency-display-name';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   manoeuvreCompetencyLabels as manoeuvreCompetencyLabelsCatBe,
   manoeuvreTypeLabels as manoeuvreTypeLabelsCatBe,
-} from '../../../shared/constants/competencies/catbe-manoeuvres';
-import { getCompetencyFaults, getCompetencyComment } from '../../../shared/helpers/get-competency-faults';
-import { VehicleChecksScore } from '../../../shared/models/vehicle-checks-score.model';
+} from '@shared/constants/competencies/catbe-manoeuvres';
+import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
 
 export class FaultSummaryCatBEHelper {
 

@@ -1,4 +1,4 @@
-// import { ManoeuvreUnion } from '../../../../../../shared/unions/test-schema-unions';
+// import { ManoeuvreUnion } from '@shared/unions/test-schema-unions';
 // import { getReverseLeftSelected } from '../../../common/manoeuvres/manoeuvres.selectors';
 //
 // describe('Manoeuvres Selectors', () => {

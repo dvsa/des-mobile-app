@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountADIPart2Helper } from '../fault-count.cat-adi-part2';
 import {
   catADI2TestDataStateObjectControlledStopDrivingFaults,
@@ -10,7 +11,6 @@ import {
   catADI2TestDataStateObjectDangerousFaults,
   catADI2TestDataStateObjectShowMeFaults,
 } from '../../__mocks__/cat-ADI2-test-data-state-object';
-import { CompetencyOutcome } from '../../../../shared/models/competency-outcome';
 
 describe('FaultCountADIPart2Helper', () => {
 
