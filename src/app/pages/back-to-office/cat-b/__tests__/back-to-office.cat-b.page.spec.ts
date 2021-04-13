@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { BackToOfficeCatBPage } from '../back-to-office.cat-b.page';
 
-describe('BackToOfficeCatBPage', () => {
+fdescribe('BackToOfficeCatBPage', () => {
   let component: BackToOfficeCatBPage;
   let fixture: ComponentFixture<BackToOfficeCatBPage>;
 

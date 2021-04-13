@@ -36,8 +36,16 @@
     <param name="ios-package" value="CDVConnection"/>
   </feature>
 
+  <feature name="CDVOrientation">
+    <param name="ios-package" value="CDVOrientation"/>
+  </feature>
+
   <feature name="SecureStorage">
     <param name="ios-package" value="SecureStorage"/>
+  </feature>
+
+  <feature name="MobileAccessibility">
+    <param name="ios-package" value="CDVMobileAccessibility" onload="true"/>
   </feature>
 
   <feature name="Device">
