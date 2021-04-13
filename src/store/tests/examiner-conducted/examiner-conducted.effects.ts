@@ -21,7 +21,7 @@ export class ExaminerConductedEffects {
 
   setExaminerConductedEffect$ = createEffect(() => this.actions$.pipe(
     ofType(SetExaminerConducted),
-    concatMap(action => of(action).pipe(
+    concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
           select(getTests),

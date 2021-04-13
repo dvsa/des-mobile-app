@@ -21,7 +21,7 @@ export class ExaminerBookedEffects {
 
   setExaminerBookedEffect$ = createEffect(() => this.actions$.pipe(
     ofType(SetExaminerBooked),
-    concatMap(action => of(action).pipe(
+    concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
           select(getTests),

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import  * as rekeyActions from '../rekey/rekey.actions';
+import * as rekeyActions from './rekey.actions';
 
 export const initialState: boolean = false;
 

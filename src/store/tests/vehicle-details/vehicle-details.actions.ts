@@ -21,7 +21,7 @@ export const DualControlsToggled = createAction(
 
 export const GearboxCategoryChanged = createAction(
   '[Vehicle Details] Gearbox category changed',
-  (gearboxCategory: GearboxCategory) => ({ gearboxCategory })
+  (gearboxCategory: GearboxCategory) => ({ gearboxCategory }),
 );
 
 export const ClearGearboxCategory = createAction(

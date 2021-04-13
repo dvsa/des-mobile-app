@@ -20,7 +20,7 @@ export const getVehicleChecksDangerous = (
 ): boolean => vehicleChecks.dangerousFault;
 
 export const vehicleChecksExist = (vehicleChecks: CatADI2UniqueTypes.VehicleChecks): boolean => {
-  return some([... vehicleChecks.tellMeQuestions], fault => fault.outcome != null);
+  return some([...vehicleChecks.tellMeQuestions], (fault) => fault.outcome != null);
 };
 
 export const getVehicleChecksCatADI2 = createFeatureSelector<CatADI2UniqueTypes.VehicleChecks>('vehicleChecks');

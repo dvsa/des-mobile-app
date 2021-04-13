@@ -207,7 +207,7 @@ describe('Journal Effects', () => {
     const nextDay: string = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
     store$.dispatch(journalActions.SetSelectedDate(selectedDate));
     store$.dispatch(journalActions.LoadJournalSuccess(
-    { examiner: { staffNumber: '123', individualId: 456 }, slotItemsByDate: journalSlotsDataMock },
+      { examiner: { staffNumber: '123', individualId: 456 }, slotItemsByDate: journalSlotsDataMock },
       ConnectionStatus.ONLINE,
       false,
       new Date(), // Load in mock journal state
