@@ -1,3 +1,5 @@
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+
 export const CANDIDATE_DETAILS_PAGE = 'CandidateDetailsPage';
 export const FAKE_CANDIDATE_DETAILS_PAGE = 'FakeCandidateDetailsPage';
 export const FAKE_JOURNAL_PAGE = 'FakeJournalPage';
@@ -16,8 +18,9 @@ export const REVERSE_DIAGRAM_PAGE = 'ReverseDiagramPage';
 export const REKEY_UPLOAD_OUTCOME_PAGE = 'RekeyUploadOutcomePage';
 export const DELEGATED_REKEY_SEARCH_PAGE = 'DelegatedRekeySearchPage';
 export const DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE = 'DelegatedRekeyUploadOutcomePage';
+export const CONFIRM_TEST_DETAILS = 'ConfirmTestDetailsPage';
 
-export const CAT_B = {
+export const CAT_B: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatBPage',
   COMMUNICATION_PAGE: 'CommunicationCatBPage',
@@ -52,7 +55,7 @@ export const CAT_BE = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatBEPage',
 };
 
-export const CAT_C = {
+export const CAT_C: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatCPage',
   COMMUNICATION_PAGE: 'CommunicationCatCPage',
@@ -70,7 +73,7 @@ export const CAT_C = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatCPage',
 };
 
-export const CAT_A_MOD1 = {
+export const CAT_A_MOD1: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatAMod1Page',
   COMMUNICATION_PAGE: 'CommunicationCatAMod1Page',
@@ -89,7 +92,7 @@ export const CAT_A_MOD1 = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatAMod1Page',
 };
 
-export const CAT_A_MOD2 = {
+export const CAT_A_MOD2: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatAMod2Page',
   COMMUNICATION_PAGE: 'CommunicationCatAMod2Page',
@@ -107,7 +110,7 @@ export const CAT_A_MOD2 = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatAMod2Page',
 };
 
-export const CAT_D = {
+export const CAT_D: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatDPage',
   COMMUNICATION_PAGE: 'CommunicationCatDPage',
@@ -125,7 +128,7 @@ export const CAT_D = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatDPage',
 };
 
-export const CAT_HOME_TEST = {
+export const CAT_HOME_TEST: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatHomeTestPage',
   COMMUNICATION_PAGE: 'CommunicationCatHomeTestPage',
@@ -143,7 +146,7 @@ export const CAT_HOME_TEST = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatHomeTestPage',
 };
 
-export const CAT_ADI_PART2 = {
+export const CAT_ADI_PART2: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatADIPart2Page',
   COMMUNICATION_PAGE: 'CommunicationCatADIPart2Page',
@@ -160,7 +163,7 @@ export const CAT_ADI_PART2 = {
   POST_DEBRIEF_HOLDING_PAGE: 'PostDebriefHoldingCatADIPart2Page',
 };
 
-export const CAT_CPC = {
+export const CAT_CPC: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatCPCPage',
   COMMUNICATION_PAGE: 'CommunicationCatCPCPage',
@@ -176,3 +179,69 @@ export const CAT_CPC = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatCPCPage',
   POST_DEBRIEF_HOLDING_PAGE: 'PostDebriefHoldingCatCPCPage',
 };
+
+type BasePageNames = {
+  [key in PageNameKeys]?: string;
+};
+
+export type PageNameKeys =
+  'REKEY_UPLOAD_OUTCOME_PAGE' |
+  'BACK_TO_OFFICE_PAGE' |
+  'COMMUNICATION_PAGE' |
+  'DEBRIEF_PAGE' |
+  'HEALTH_DECLARATION_PAGE' |
+  'OFFICE_PAGE' |
+  'TEST_REPORT_PAGE' |
+  'WAITING_ROOM_PAGE' |
+  'WAITING_ROOM_TO_CAR_PAGE' |
+  'REKEY_REASON_PAGE' |
+  'PASS_FINALISATION_PAGE' |
+  'NON_PASS_FINALISATION_PAGE' |
+  'VIEW_TEST_RESULT_PAGE' |
+  'POST_DEBRIEF_HOLDING_PAGE' |
+  'VEHICLE_CHECKS_MODAL' |
+  'REVERSE_DIAGRAM_PAGE';
+
+/**
+ * Return correct page constant based upon category
+ * @param category
+ * @param pageNameKey
+ */
+export function getPageNameByCategoryAndKey(category: TestCategory, pageNameKey: PageNameKeys): string {
+  switch (category) {
+    case TestCategory.ADI2:
+      return CAT_ADI_PART2[pageNameKey];
+    case TestCategory.B:
+      return CAT_B[pageNameKey];
+    case TestCategory.BE:
+      return CAT_BE[pageNameKey];
+    case TestCategory.C:
+    case TestCategory.C1:
+    case TestCategory.CE:
+    case TestCategory.C1E:
+      return CAT_C[pageNameKey];
+    case TestCategory.CCPC:
+    case TestCategory.DCPC:
+      return CAT_CPC[pageNameKey];
+    case TestCategory.D:
+    case TestCategory.D1:
+    case TestCategory.DE:
+    case TestCategory.D1E:
+      return CAT_D[pageNameKey];
+    case TestCategory.F:
+    case TestCategory.G:
+    case TestCategory.H:
+    case TestCategory.K:
+      return CAT_HOME_TEST[pageNameKey];
+    case TestCategory.EUA1M1:
+    case TestCategory.EUA2M1:
+    case TestCategory.EUAM1:
+    case TestCategory.EUAMM1:
+      return CAT_A_MOD1[pageNameKey];
+    case TestCategory.EUA1M2:
+    case TestCategory.EUA2M2:
+    case TestCategory.EUAM2:
+    case TestCategory.EUAMM2:
+      return CAT_A_MOD2[pageNameKey];
+  }
+}
