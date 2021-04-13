@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { RouteByCategoryProvider } from '../../../providers/route-by-category/route-by-category';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 @Component({
   selector: 'app-waiting-room.cat-b',
@@ -9,7 +9,6 @@ import { RouteByCategoryProvider } from '../../../providers/route-by-category/ro
   styleUrls: ['./waiting-room.cat-b.page.scss'],
 })
 export class WaitingRoomCatBPage implements OnInit {
-
 
   constructor(
     private navController: NavController,

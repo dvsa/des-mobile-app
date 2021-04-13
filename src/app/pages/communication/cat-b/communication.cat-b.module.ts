@@ -13,8 +13,8 @@ import { CommunicationCatBPage } from './communication.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    CommunicationCatBPageRoutingModule
+    CommunicationCatBPageRoutingModule,
   ],
-  declarations: [CommunicationCatBPage]
+  declarations: [CommunicationCatBPage],
 })
 export class CommunicationCatBPageModule {}

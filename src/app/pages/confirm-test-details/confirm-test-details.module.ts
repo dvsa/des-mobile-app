@@ -13,8 +13,8 @@ import { ConfirmTestDetailsPage } from './confirm-test-details.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ConfirmTestDetailsPageRoutingModule
+    ConfirmTestDetailsPageRoutingModule,
   ],
-  declarations: [ConfirmTestDetailsPage]
+  declarations: [ConfirmTestDetailsPage],
 })
 export class ConfirmTestDetailsPageModule {}

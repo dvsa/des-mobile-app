@@ -13,8 +13,8 @@ import { OfficeCatBPage } from './office.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    OfficeCatBPageRoutingModule
+    OfficeCatBPageRoutingModule,
   ],
-  declarations: [OfficeCatBPage]
+  declarations: [OfficeCatBPage],
 })
 export class OfficeCatBPageModule {}

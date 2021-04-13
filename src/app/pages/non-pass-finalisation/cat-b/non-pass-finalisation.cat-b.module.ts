@@ -13,8 +13,8 @@ import { NonPassFinalisationCatBPage } from './non-pass-finalisation.cat-b.page'
     CommonModule,
     FormsModule,
     IonicModule,
-    NonPassFinalisationCatBPageRoutingModule
+    NonPassFinalisationCatBPageRoutingModule,
   ],
-  declarations: [NonPassFinalisationCatBPage]
+  declarations: [NonPassFinalisationCatBPage],
 })
 export class NonPassFinalisationCatBPageModule {}

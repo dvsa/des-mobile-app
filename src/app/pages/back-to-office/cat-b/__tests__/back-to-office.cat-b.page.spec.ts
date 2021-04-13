@@ -9,8 +9,8 @@ describe('BackToOfficeCatBPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BackToOfficeCatBPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [BackToOfficeCatBPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BackToOfficeCatBPage);

@@ -9,8 +9,8 @@ describe('PostDebriefHolding.CatBPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PostDebriefHoldingCatBPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [PostDebriefHoldingCatBPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PostDebriefHoldingCatBPage);

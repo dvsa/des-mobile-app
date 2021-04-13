@@ -6,8 +6,8 @@ import { PassFinalisationCatBPage } from './pass-finalisation.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: PassFinalisationCatBPage
-  }
+    component: PassFinalisationCatBPage,
+  },
 ];
 
 @NgModule({

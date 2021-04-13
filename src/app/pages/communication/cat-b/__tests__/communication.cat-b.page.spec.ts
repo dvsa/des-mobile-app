@@ -9,8 +9,8 @@ describe('Communication.CatBPage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommunicationCatBPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [CommunicationCatBPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CommunicationCatBPage);

@@ -55,7 +55,6 @@ import { TestsModule } from '../store/tests/tests.module';
 import { TestCentreJournalStoreModule } from '../store/test-centre-journal/test-centre-journal.module';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 
-
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
     keys: ['appInfo', 'tests', 'appConfig'],

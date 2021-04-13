@@ -13,8 +13,8 @@ import { RekeyReasonCatBPage } from './rekey-reason.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    RekeyReasonCatBPageRoutingModule
+    RekeyReasonCatBPageRoutingModule,
   ],
-  declarations: [RekeyReasonCatBPage]
+  declarations: [RekeyReasonCatBPage],
 })
 export class RekeyReasonCatBPageModule {}

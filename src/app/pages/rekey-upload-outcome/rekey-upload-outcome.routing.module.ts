@@ -6,8 +6,8 @@ import { RekeyUploadOutcomePage } from './rekey-upload-outcome.page';
 const routes: Routes = [
   {
     path: '',
-    component: RekeyUploadOutcomePage
-  }
+    component: RekeyUploadOutcomePage,
+  },
 ];
 
 @NgModule({

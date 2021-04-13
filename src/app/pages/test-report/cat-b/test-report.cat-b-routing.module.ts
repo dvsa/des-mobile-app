@@ -6,8 +6,8 @@ import { TestReportCatBPage } from './test-report.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: TestReportCatBPage
-  }
+    component: TestReportCatBPage,
+  },
 ];
 
 @NgModule({

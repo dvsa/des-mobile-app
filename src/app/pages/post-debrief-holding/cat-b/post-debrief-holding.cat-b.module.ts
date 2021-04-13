@@ -13,8 +13,8 @@ import { PostDebriefHoldingCatBPage } from './post-debrief-holding.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PostDebriefHoldingCatBPageRoutingModule
+    PostDebriefHoldingCatBPageRoutingModule,
   ],
-  declarations: [PostDebriefHoldingCatBPage]
+  declarations: [PostDebriefHoldingCatBPage],
 })
 export class PostDebriefHoldingCatBPageModule {}

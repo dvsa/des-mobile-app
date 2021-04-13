@@ -13,8 +13,8 @@ import { DebriefCatBPage } from './debrief.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DebriefCatBPageRoutingModule
+    DebriefCatBPageRoutingModule,
   ],
-  declarations: [DebriefCatBPage]
+  declarations: [DebriefCatBPage],
 })
 export class DebriefCatBPageModule {}

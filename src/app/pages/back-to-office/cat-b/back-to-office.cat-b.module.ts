@@ -13,8 +13,8 @@ import { BackToOfficeCatBPage } from './back-to-office.cat-b.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    BackToOfficeCatBPageRoutingModule
+    BackToOfficeCatBPageRoutingModule,
   ],
-  declarations: [BackToOfficeCatBPage]
+  declarations: [BackToOfficeCatBPage],
 })
 export class BackToOfficeCatBPageModule {}

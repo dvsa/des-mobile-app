@@ -6,8 +6,8 @@ import { RekeyReasonCatBPage } from './rekey-reason.cat-b.page';
 const routes: Routes = [
   {
     path: '',
-    component: RekeyReasonCatBPage
-  }
+    component: RekeyReasonCatBPage,
+  },
 ];
 
 @NgModule({

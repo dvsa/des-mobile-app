@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { TestReport.CatBPage } from './test-report.cat-b.page';
+import { TestReportCatBPage } from './test-report.cat-b.page';
 
-describe('TestReport.CatBPage', () => {
-  let component: TestReport.CatBPage;
-  let fixture: ComponentFixture<TestReport.CatBPage>;
+describe('TestReportCatBPage', () => {
+  let component: TestReportCatBPage;
+  let fixture: ComponentFixture<TestReportCatBPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TestReport.CatBPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [TestReportCatBPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestReport.CatBPage);
+    fixture = TestBed.createComponent(TestReportCatBPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -7,8 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WaitingRoomCatAdiPart2Page implements OnInit {
 
-  constructor() { }
-
   ngOnInit() {
   }
 

@@ -13,8 +13,8 @@ import { RekeyUploadOutcomePage } from './rekey-upload-outcome.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    RekeyUploadOutcomePageRoutingModule
+    RekeyUploadOutcomePageRoutingModule,
   ],
-  declarations: [RekeyUploadOutcomePage]
+  declarations: [RekeyUploadOutcomePage],
 })
 export class RekeyUploadOutcomePageModule {}
