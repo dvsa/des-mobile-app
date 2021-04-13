@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { TestReportCatBPage } from '@pages/test-report/cat-b/test-report.cat-b.page';
 
-import { TestReportCatBPage } from './test-report.cat-b.page';
 
 describe('TestReportCatBPage', () => {
   let component: TestReportCatBPage;
