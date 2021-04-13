@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { DebriefCatBPage } from './debrief.cat-b.page';
+import { PostDebriefHoldingCatBPage } from '../post-debrief-holding.cat-b.page';
 
-describe('Debrief.CatBPage', () => {
-  let component: DebriefCatBPage;
-  let fixture: ComponentFixture<DebriefCatBPage>;
+describe('PostDebriefHolding.CatBPage', () => {
+  let component: PostDebriefHoldingCatBPage;
+  let fixture: ComponentFixture<PostDebriefHoldingCatBPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DebriefCatBPage ],
+      declarations: [ PostDebriefHoldingCatBPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DebriefCatBPage);
+    fixture = TestBed.createComponent(PostDebriefHoldingCatBPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

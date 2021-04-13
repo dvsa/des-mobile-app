@@ -18,6 +18,7 @@ export const REVERSE_DIAGRAM_PAGE = 'ReverseDiagramPage';
 export const REKEY_UPLOAD_OUTCOME_PAGE = 'RekeyUploadOutcomePage';
 export const DELEGATED_REKEY_SEARCH_PAGE = 'DelegatedRekeySearchPage';
 export const DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE = 'DelegatedRekeyUploadOutcomePage';
+export const CONFIRM_TEST_DETAILS = 'ConfirmTestDetailsPage';
 
 export const CAT_B: BasePageNames = {
   REKEY_UPLOAD_OUTCOME_PAGE,
