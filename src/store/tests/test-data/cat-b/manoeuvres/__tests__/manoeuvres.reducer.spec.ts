@@ -11,7 +11,7 @@ import {
   RemoveManoeuvreFault,
 } from '../../../common/manoeuvres/manoeuvres.actions';
 
-fdescribe('Manoeuvres Reducer', () => {
+describe('Manoeuvres Reducer', () => {
 
   describe('RECORD_MANOEUVRES_SELECTION', () => {
     it('should add selected manoeuvre', () => {

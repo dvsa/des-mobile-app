@@ -45,7 +45,8 @@ export const isTellMeQuestionSelected = (
   state: CatBUniqueTypes.VehicleChecks,
 ) => get(state, 'tellMeQuestion.code') !== undefined;
 
-export const isTellMeQuestionCorrect = (state: CatBUniqueTypes.VehicleChecks) => get(state, 'tellMeQuestion.outcome') === CompetencyOutcome.P;
+export const isTellMeQuestionCorrect = (state: CatBUniqueTypes.VehicleChecks) =>
+  get(state, 'tellMeQuestion.outcome') === CompetencyOutcome.P;
 
 export const isTellMeQuestionDrivingFault = (state: CatBUniqueTypes.VehicleChecks) =>
   get(state, 'tellMeQuestion.outcome') === CompetencyOutcome.DF;
@@ -74,8 +75,8 @@ export const getShowMeQuestion = (state: CatBUniqueTypes.VehicleChecks) => {
 
 // TODO - We should really pass a Vehicle Checks object here and not Test Data
 export const hasVehicleChecksBeenCompletedCatB = (data: CatBUniqueTypes.TestData): boolean => {
-  const showMeQuestionOutcome = get(data, 'vehicleChecks.showMeQuestion.outcome', null);
-  const tellMeQuestionOutcome = get(data, 'vehicleChecks.tellMeQuestion.outcome', null);
+  const showMeQuestionOutcomeResult = get(data, 'vehicleChecks.showMeQuestion.outcome', null);
+  const tellMeQuestionOutcomeResult = get(data, 'vehicleChecks.tellMeQuestion.outcome', null);
 
-  return (showMeQuestionOutcome != null && tellMeQuestionOutcome != null);
+  return (showMeQuestionOutcomeResult != null && tellMeQuestionOutcomeResult != null);
 };

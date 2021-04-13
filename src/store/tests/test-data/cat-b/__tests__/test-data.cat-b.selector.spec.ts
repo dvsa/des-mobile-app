@@ -227,32 +227,32 @@ describe('TestDataSelectors', () => {
 
   describe('hasManoeuvreBeenCompleted', () => {
     it('should return false when no manoeuvres have been completed', () => {
-      const state: CatBUniqueTypes.TestData = {
+      const mockState: CatBUniqueTypes.TestData = {
         manoeuvres: {},
       };
-      expect(hasManoeuvreBeenCompletedCatB(state)).toBeFalsy();
+      expect(hasManoeuvreBeenCompletedCatB(mockState)).toBeFalsy();
     });
     it('should return true when a manoeuvre has been completed', () => {
-      const state: CatBUniqueTypes.TestData = {
+      const mockState: CatBUniqueTypes.TestData = {
         manoeuvres: {
           forwardPark: { selected: true },
         },
       };
-      expect(hasManoeuvreBeenCompletedCatB(state)).toEqual(true);
+      expect(hasManoeuvreBeenCompletedCatB(mockState)).toEqual(true);
     });
   });
 
   describe('vehicle checks selector', () => {
     describe('isTellMeQuestionSelected', () => {
       it('should return true if there is a tell me question selected', () => {
-        const state: CatBUniqueTypes.VehicleChecks = {
+        const mockState: CatBUniqueTypes.VehicleChecks = {
           tellMeQuestion: {
             code: 'T1',
             description: 'desc',
             outcome: CompetencyOutcome.P,
           },
         };
-        expect(isTellMeQuestionSelected(state)).toBe(true);
+        expect(isTellMeQuestionSelected(mockState)).toBe(true);
       });
       it('should return false if there is no tell me question selected', () => {
         expect(isTellMeQuestionSelected({})).toBe(false);
@@ -305,7 +305,7 @@ describe('TestDataSelectors', () => {
 
     describe('hasVehicleChecksBeenCompleted', () => {
       it('should return true if vehicle checks have been completed with a pass', () => {
-        const state = {
+        const mockState = {
           vehicleChecks: {
             showMeQuestion: {
               outcome: CompetencyOutcome.P,
@@ -316,10 +316,10 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(state)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a driving fault', () => {
-        const state = {
+        const mockState = {
           vehicleChecks: {
             showMeQuestion: {
               outcome: CompetencyOutcome.DF,
@@ -330,10 +330,10 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(state)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a serious fault', () => {
-        const state = {
+        const mockState = {
           vehicleChecks: {
             showMeQuestion: {
               outcome: CompetencyOutcome.S,
@@ -344,10 +344,10 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(state)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(true);
       });
       it('should return true if vehicle checks have been completed with a dangerous fault', () => {
-        const state = {
+        const mockState = {
           vehicleChecks: {
             showMeQuestion: {
               outcome: CompetencyOutcome.D,
@@ -358,10 +358,10 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(state)).toEqual(true);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(true);
       });
       it('should return false if show me question outcome is not defined', () => {
-        const state = {
+        const mockState = {
           vehicleChecks: {
             showMeQuestion: {
             },
@@ -371,7 +371,7 @@ describe('TestDataSelectors', () => {
           },
         } as CatBUniqueTypes.TestData;
 
-        expect(hasVehicleChecksBeenCompletedCatB(state)).toEqual(false);
+        expect(hasVehicleChecksBeenCompletedCatB(mockState)).toEqual(false);
       });
     });
   });
