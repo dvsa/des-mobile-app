@@ -6,7 +6,8 @@ import { BasePageComponent } from '../../shared/classes/base-page';
 
 @Component({
   selector: 'page-delegated-rekey-search',
-  templateUrl: 'delegated-rekey-search.html',
+  templateUrl: './delegated-rekey-search.html',
+  styleUrls: ['./delegated-rekey-search.scss'],
 })
 export class DelegatedRekeySearchPage extends BasePageComponent {
   constructor(
