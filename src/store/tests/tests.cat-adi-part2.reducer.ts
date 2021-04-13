@@ -1,5 +1,6 @@
 import { Action, combineReducers } from '@ngrx/store';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { nullReducer } from '@shared/classes/null.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
 import { preTestDeclarationsReducer } from './pre-test-declarations/pre-test-declarations.reducer';
@@ -16,7 +17,6 @@ import { examinerKeyedReducer } from './examiner-keyed/examiner-keyed.reducer';
 import { changeMarkerReducer } from './change-marker/change-marker.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { journalDataCatADIPart2Reducer } from './journal-data/cat-adi-part2/journal-data.cat-adi-part2.reducer';
-import { nullReducer } from '../../app/shared/classes/null.reducer';
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
 import { testDataCatADI2Reducer } from './test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import {

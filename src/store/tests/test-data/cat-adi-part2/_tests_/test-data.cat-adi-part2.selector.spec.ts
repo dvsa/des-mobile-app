@@ -1,4 +1,5 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   hasSeriousFault,
   hasDangerousFault,
@@ -16,7 +17,6 @@ import {
   hasManoeuvreBeenCompletedCatADIPart2,
 } from '../test-data.cat-adi-part2.selector';
 import { Competencies } from '../../test-data.constants';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 describe('TestDataSelectors Cat ADI2', () => {
   const state: CatADI2UniqueTypes.TestData = {

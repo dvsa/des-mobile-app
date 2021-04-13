@@ -1,6 +1,6 @@
 import { createReducer, on, createFeatureSelector } from '@ngrx/store';
 
-import { Log } from '../../app/shared/models/log.model';
+import { Log } from '@shared/models/log.model';
 import { LogsModel } from './logs.model';
 import * as logsActions from './logs.actions';
 

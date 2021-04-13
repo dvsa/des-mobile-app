@@ -13,13 +13,12 @@ import { DataStoreProvider } from '@providers/data-store/data-store';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogsProvider } from '@providers/logs/logs';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { StoreModel } from '../../app/shared/models/store.model';
-import { Log } from '../../app/shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { Log } from '@shared/models/log.model';
+import { DateTime } from '@shared/helpers/date-time';
 
 import * as logsActions from './logs.actions';
 import { getLogsState } from './logs.reducer';
-
-import { DateTime } from '../../app/shared/helpers/date-time';
 
 type LogCache = {
   dateStored: string,

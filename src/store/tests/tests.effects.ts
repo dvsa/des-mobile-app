@@ -38,7 +38,9 @@ import {
   getDelegatedRekeySearchState,
 } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { version } from '@environments/test-schema-version';
-
+import { StoreModel } from '@shared/models/store.model';
+import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
@@ -73,10 +75,7 @@ import { PopulateConductedLanguage } from './communication-preferences/communica
 import { Language } from './communication-preferences/communication-preferences.model';
 import { StartDelegatedTest } from './delegated-test/delegated-test.actions';
 import { OtherReasonUpdated, OtherSelected } from './rekey-reason/rekey-reason.actions';
-import { StoreModel } from '../../app/shared/models/store.model';
-import { end2endPracticeSlotId, testReportPracticeSlotId } from '../../app/shared/mocks/test-slot-ids.mock';
 import { getStaffNumber } from './journal-data/common/examiner/examiner.selector';
-import { HttpStatusCodes } from '../../app/shared/models/http-status-codes';
 import { StartTest, TestActionsTypes } from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 import { PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';

@@ -4,8 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { map, withLatestFrom, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-
-import { StoreModel } from '../../../app/shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '../tests.reducer';
 import { getCurrentTest } from '../tests.selector';
 import { SetChangeMarker } from '../change-marker/change-marker.actions';

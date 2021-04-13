@@ -4,6 +4,7 @@ import { ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { StoreModel } from '@shared/models/store.model';
 
 import { TestDataEffects } from '../test-data.effects';
 import * as drivingFaultsActions from '../common/driving-faults/driving-faults.actions';
@@ -11,7 +12,6 @@ import * as testsActions from '../../tests.actions';
 import { testsReducer } from '../../tests.reducer';
 import { Competencies } from '../test-data.constants';
 import { FaultPayload } from '../test-data.models';
-import { StoreModel } from '../../../../app/shared/models/store.model';
 // import * as ecoActions from '../common/eco/eco.actions';
 
 describe('Test Data Effects', () => {

@@ -2,7 +2,7 @@ import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { createHash } from 'crypto';
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { DateTime } from '../../shared/helpers/date-time';
+import { DateTime } from '@shared/helpers/date-time';
 import { DeviceProvider } from '../device/device';
 import { AppConfigProvider } from '../app-config/app-config';
 import { IAnalyticsProvider, AnalyticsEventCategories, AnalyticsDimensionIndices } from './analytics.model';

@@ -3,11 +3,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-
+import { Log, LogType } from '@shared/models/log.model';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import * as journalActions from './journal.actions';
 import * as logsActions from '../logs/logs.actions';
-import { Log, LogType } from '../../app/shared/models/log.model';
 
 @Injectable()
 export class JournalLogsEffects {

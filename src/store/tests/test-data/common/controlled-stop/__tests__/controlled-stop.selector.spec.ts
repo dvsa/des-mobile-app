@@ -1,5 +1,5 @@
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { isControlledStopSelected, getControlledStopFault } from '../controlled-stop.selectors';
-import { CompetencyOutcome } from '../../../../../../app/shared/models/competency-outcome';
 
 describe('Controlled Stop Selector', () => {
   describe('isControlledStopSelected', () => {

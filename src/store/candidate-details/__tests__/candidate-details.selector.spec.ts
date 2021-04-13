@@ -1,3 +1,5 @@
+import { getSlotType, SpecialNeedsCode } from '@shared/helpers/get-slot-type';
+import { SlotTypes } from '@shared/models/slot-types';
 import {
   getTime,
   getCandidateName,
@@ -10,8 +12,6 @@ import {
   processSpecialNeeds,
   getBusiness,
 } from '../candidate-details.selector';
-import { getSlotType, SpecialNeedsCode } from '../../../app/shared/helpers/get-slot-type';
-import { SlotTypes } from '../../../app/shared/models/slot-types';
 
 describe('Candidate Details Selector', () => {
   describe('processSpecialNeeds', () => {

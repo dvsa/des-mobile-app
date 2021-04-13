@@ -22,12 +22,12 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { JournalRefreshModes } from '@providers/analytics/analytics.model';
 import journalSlotsDataMock from '@providers/journal/__mocks__/journal-slots-data.mock';
 import { AppConfig } from '@providers/app-config/app-config.model';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 
 import { journalReducer } from '../journal.reducer';
 import * as journalActions from '../journal.actions';
 import { JournalEffects } from '../journal.effects';
 import { JournalModel } from '../journal.model';
-import { DateTime, Duration } from '../../../app/shared/helpers/date-time';
 
 describe('Journal Effects', () => {
 

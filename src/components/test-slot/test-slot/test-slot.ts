@@ -16,11 +16,11 @@ import {
   CategoryWhitelistProvider,
 } from '@providers/category-whitelist/category-whitelist';
 import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
+import { StoreModel } from '@shared/models/store.model';
+import { SlotTypes } from '@shared/models/slot-types';
+import { getSlotType } from '@shared/helpers/get-slot-type';
 import { SlotComponent } from '../slot/slot';
 import { vehicleDetails } from './test-slot.constants';
-import { StoreModel } from '../../../app/shared/models/store.model';
-import { SlotTypes } from '../../../app/shared/models/slot-types';
-import { getSlotType } from '../../../app/shared/helpers/get-slot-type';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 import { getTestStatus, getActivityCodeBySlotId, getTestById } from '../../../store/tests/tests.selector';
 import { getTests } from '../../../store/tests/tests.reducer';

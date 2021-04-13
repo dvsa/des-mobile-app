@@ -6,8 +6,8 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 import { QuestionProvider } from '@providers/question/question';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS,
-} from '../../../../app/shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
-import { CompetencyOutcome } from '../../../../app/shared/models/competency-outcome';
+} from '@shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { Competencies, LegalRequirements } from '../test-data.constants';
 
 export const getDrivingFaultCount = (

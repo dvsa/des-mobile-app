@@ -1,7 +1,6 @@
+import { LogType } from '@shared/models/log.model';
 import { initialState, logsReducer } from '../logs.reducer';
-
 import * as logsActions from '../logs.actions';
-import { LogType } from '../../../app/shared/models/log.model';
 
 describe('Logs Reducer', () => {
   describe('undefined action', () => {

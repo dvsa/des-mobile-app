@@ -37,7 +37,7 @@ import { SubmissionStatusComponent } from '../../submission-status/submission-st
 import { ProgressiveAccessComponent } from '../../progressive-access/progressive-access';
 import { LocationComponent } from '../../location/location';
 import { DateComponent } from '../../date/date';
-// import { StoreModel } from '../../../../app/shared/models/store.model';
+// import { StoreModel } from '@shared/models/store.model';
 
 xdescribe('TestSlotComponent', () => {
   let fixture: ComponentFixture<TestSlotComponent>;
