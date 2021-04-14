@@ -11,7 +11,7 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 export class BackToOfficeCatBPage implements OnInit {
 
   constructor(
-    private navController: NavController,
+    public navController: NavController,
     public routeByCat: RouteByCategoryProvider,
   ) { }
 

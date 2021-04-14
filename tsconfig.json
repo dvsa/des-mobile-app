@@ -22,7 +22,8 @@
       "@pages/*": ["src/app/pages/*"],
       "@environments/*": ["src/environments/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@store/*": ["src/store/*"]
+      "@store/*": ["src/store/*"],
+      "@mocks/*": ["mock/*"],
     }
   },
   "angularCompilerOptions": {
