@@ -13,6 +13,8 @@ import { testsCatCReducer } from './tests.cat-c.reducer';
 import { testsCatCEReducer } from './tests.cat-ce.reducer';
 import { testsCatC1Reducer } from './tests.cat-c1.reducer';
 import { testsCatC1EReducer } from './tests.cat-c1e.reducer';
+import { testsCatBReducer } from '@store/tests/tests.cat-b.reducer';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 
 export function testsReducerFactory(
   category: TestCategory | null,
@@ -22,8 +24,8 @@ export function testsReducerFactory(
   switch (category) {
     case TestCategory.ADI2:
       return testsCatADIPart2Reducer(action, state as Required<CatADI2UniqueTypes.TestResult>);
-    // case TestCategory.B:
-    //   return test
+    case TestCategory.B:
+      return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>)
     case TestCategory.C:
       return testsCatCReducer(action, state as Required<CatCUniqueTypes.TestResult>);
     case TestCategory.CE:
@@ -33,7 +35,6 @@ export function testsReducerFactory(
     case TestCategory.C1E:
       return testsCatC1EReducer(action, state as Required<CatC1EUniqueTypes.TestResult>);
     default:
-      // IN DES3 CATB is default
-      return testsCatADIPart2Reducer(action, state as Required<CatADI2UniqueTypes.TestResult>);
+      return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
   }
 }
