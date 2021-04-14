@@ -9,3 +9,5 @@
 /remotedev-server
 /resources
 /test-config
+/www
+/src/assets/*

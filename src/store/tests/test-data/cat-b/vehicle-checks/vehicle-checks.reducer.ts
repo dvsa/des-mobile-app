@@ -1,5 +1,5 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { createReducer, on } from '@ngrx/store';
 import * as vehicleChecksActions from './vehicle-checks.actions';
 

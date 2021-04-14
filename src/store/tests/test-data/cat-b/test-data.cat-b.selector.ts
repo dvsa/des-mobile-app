@@ -12,7 +12,6 @@ export const getDrivingFaultCount = (
 
 export const getManoeuvres = (data: CatBUniqueTypes.TestData): CatBUniqueTypes.Manoeuvres => data.manoeuvres;
 
-// TODO - We should pass a Manoeuvre object here instead of TestData
 export const hasManoeuvreBeenCompletedCatB = (data: CatBUniqueTypes.TestData) => {
   return (
     get(data.manoeuvres, 'forwardPark.selected')

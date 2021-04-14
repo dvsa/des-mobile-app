@@ -8,13 +8,13 @@ import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
+import { testsCatBReducer } from '@store/tests/tests.cat-b.reducer';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { testsCatADIPart2Reducer } from './tests.cat-adi-part2.reducer';
 import { testsCatCReducer } from './tests.cat-c.reducer';
 import { testsCatCEReducer } from './tests.cat-ce.reducer';
 import { testsCatC1Reducer } from './tests.cat-c1.reducer';
 import { testsCatC1EReducer } from './tests.cat-c1e.reducer';
-import { testsCatBReducer } from '@store/tests/tests.cat-b.reducer';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 
 export function testsReducerFactory(
   category: TestCategory | null,
@@ -25,7 +25,7 @@ export function testsReducerFactory(
     case TestCategory.ADI2:
       return testsCatADIPart2Reducer(action, state as Required<CatADI2UniqueTypes.TestResult>);
     case TestCategory.B:
-      return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>)
+      return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
     case TestCategory.C:
       return testsCatCReducer(action, state as Required<CatCUniqueTypes.TestResult>);
     case TestCategory.CE:

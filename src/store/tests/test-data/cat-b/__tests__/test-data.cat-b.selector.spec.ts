@@ -4,6 +4,7 @@ import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
 import { OutcomeBehaviourMapProvider } from 'src/app/providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from 'src/app/pages/office/office-behaviour-map';
 import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
+import { cloneDeep } from 'lodash';
 import {
   hasSeriousFault,
   getTestRequirements,
@@ -24,7 +25,6 @@ import {
   hasEyesightTestBeenCompleted,
 } from '../test-data.cat-b.selector';
 import { Competencies } from '../../test-data.constants';
-import { cloneDeep } from 'lodash';
 
 describe('TestDataSelectors', () => {
   const state: CatBUniqueTypes.TestData = {

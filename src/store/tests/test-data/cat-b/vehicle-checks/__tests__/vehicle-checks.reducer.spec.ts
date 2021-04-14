@@ -1,6 +1,6 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
-import { VehicleChecksQuestion } from 'src/app/providers/question/vehicle-checks-question.model';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { vehicleChecksReducer } from '../vehicle-checks.reducer';
 import {
   TellMeQuestionSelected,
