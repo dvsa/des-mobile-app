@@ -20,6 +20,7 @@ import {
   CAT_ADI_PART2,
   CAT_HOME_TEST,
   CAT_CPC,
+  TestFlowPageNames,
 } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
@@ -198,9 +199,7 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
-    // TODO - temp to allow test to start without data
-    this.category = TestCategory.B;
-    await this.routeByCat.navigateToPage('WAITING_ROOM_PAGE', this.category);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
   }
 
   rekeyTest() {

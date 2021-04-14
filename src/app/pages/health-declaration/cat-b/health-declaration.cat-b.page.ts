@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 
 @Component({
-  selector: 'app-health-declaration.cat-b',
+  selector: 'app-health-declaration-cat-b',
   templateUrl: './health-declaration.cat-b.page.html',
   styleUrls: ['./health-declaration.cat-b.page.scss'],
 })
@@ -22,7 +23,7 @@ export class HealthDeclarationCatBPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage('ConfirmTestDetailsPage');
+    await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
   }
 
 }
