@@ -3,8 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { ComponentsModule } from '@components/common/common-components.module';
+
 import { CandidateData, CandidateSearchCardComponent } from '../candidate-search-card';
-import { ComponentsModule } from '../../../../../../components/common/common-components.module';
 import * as mockData from './mock-data/mock-data';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
 

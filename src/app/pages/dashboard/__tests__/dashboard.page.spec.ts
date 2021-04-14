@@ -20,6 +20,8 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { ComponentsModule } from '@components/common/common-components.module';
+
 import {
   selectEmployeeId,
   selectEmployeeName,
@@ -30,7 +32,6 @@ import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { appInfoReducer } from '../../../../store/app-info/app-info.reducer';
 import { DashboardPage } from '../dashboard.page';
-import { ComponentsModule } from '../../../../components/common/common-components.module';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;

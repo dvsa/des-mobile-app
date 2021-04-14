@@ -4,8 +4,9 @@ import {
 import { Candidate, TestSlot } from '@dvsa/mes-journal-schema';
 import { Examiner, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
+import { TypeaheadDropdownComponent } from '@components/common/typeahead-dropdown/typeahead-dropdown';
+
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
-import { TypeaheadDropdownComponent } from '../../../../../components/common/typeahead-dropdown/typeahead-dropdown';
 
 export type CandidateData = {
   name: string,

@@ -20,8 +20,9 @@ import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre
 import { LogType } from '@shared/models/log.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ErrorTypes } from '@shared/models/error-message';
+import { ComponentsModule } from '@components/common/common-components.module';
+
 import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from '../test-centre-journal.actions';
-import { ComponentsModule } from '../../../../components/common/common-components.module';
 import { TestCentreJournalPage } from '../test-centre-journal.page';
 import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
 import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
