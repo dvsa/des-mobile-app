@@ -24,6 +24,7 @@ import {
   hasEyesightTestBeenCompleted,
 } from '../test-data.cat-b.selector';
 import { Competencies } from '../../test-data.constants';
+import { cloneDeep } from 'lodash';
 
 describe('TestDataSelectors', () => {
   const state: CatBUniqueTypes.TestData = {
@@ -174,21 +175,24 @@ describe('TestDataSelectors', () => {
       expect(result).toBeUndefined();
     });
     it('should return `Physical and Verbal` if both ETA faults', () => {
-      state.ETA.physical = true;
-      state.ETA.verbal = true;
-      const result = getETAFaultText(state.ETA);
+      const updatedState = cloneDeep(state);
+      updatedState.ETA.physical = true;
+      updatedState.ETA.verbal = true;
+      const result = getETAFaultText(updatedState.ETA);
       expect(result).toEqual('Physical and Verbal');
     });
     it('should return `Physical` if just physical ETA fault', () => {
-      state.ETA.physical = true;
-      state.ETA.verbal = false;
-      const result = getETAFaultText(state.ETA);
+      const updatedState = cloneDeep(state);
+      updatedState.ETA.physical = true;
+      updatedState.ETA.verbal = false;
+      const result = getETAFaultText(updatedState.ETA);
       expect(result).toEqual('Physical');
     });
     it('should return `Verbal` if just verbal ETA fault', () => {
-      state.ETA.physical = false;
-      state.ETA.verbal = true;
-      const result = getETAFaultText(state.ETA);
+      const updatedState = cloneDeep(state);
+      updatedState.ETA.physical = false;
+      updatedState.ETA.verbal = true;
+      const result = getETAFaultText(updatedState.ETA);
       expect(result).toEqual('Verbal');
     });
   });
@@ -199,21 +203,24 @@ describe('TestDataSelectors', () => {
       expect(result).toBeUndefined();
     });
     it('should return `Control and Planning` if both eco faults', () => {
-      state.eco.adviceGivenControl = true;
-      state.eco.adviceGivenPlanning = true;
-      const result = getEcoFaultText(state.eco);
+      const updatedState = cloneDeep(state);
+      updatedState.eco.adviceGivenControl = true;
+      updatedState.eco.adviceGivenPlanning = true;
+      const result = getEcoFaultText(updatedState.eco);
       expect(result).toEqual('Control and Planning');
     });
     it('should return `Control` if just control eco fault', () => {
-      state.eco.adviceGivenControl = true;
-      state.eco.adviceGivenPlanning = false;
-      const result = getEcoFaultText(state.eco);
+      const updatedState = cloneDeep(state);
+      updatedState.eco.adviceGivenControl = true;
+      updatedState.eco.adviceGivenPlanning = false;
+      const result = getEcoFaultText(updatedState.eco);
       expect(result).toEqual('Control');
     });
     it('should return `Planning` if just planning eco fault', () => {
-      state.eco.adviceGivenControl = false;
-      state.eco.adviceGivenPlanning = true;
-      const result = getEcoFaultText(state.eco);
+      const updatedState = cloneDeep(state);
+      updatedState.eco.adviceGivenControl = false;
+      updatedState.eco.adviceGivenPlanning = true;
+      const result = getEcoFaultText(updatedState.eco);
       expect(result).toEqual('Planning');
     });
   });

@@ -8,7 +8,7 @@ export const testRequirementsReducer = createReducer(
   initialState,
   on(testRequirementsActions.ToggleLegalRequirement, (state, { legalRequirement }) => ({
     ...state,
-    [legalRequirement]: !legalRequirement,
+    [legalRequirement]: !state[legalRequirement],
   })),
 );
 

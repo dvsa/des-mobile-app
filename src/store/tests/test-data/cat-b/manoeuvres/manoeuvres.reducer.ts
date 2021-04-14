@@ -10,8 +10,10 @@ export const manoeuvresReducer = createReducer(
   on(
     manoeuvresActions.RecordManoeuvresSelection,
     (state, { manoeuvre }) => ({
-      ...state,
-      [manoeuvre]: manoeuvre,
+      [manoeuvre]: {
+        ...state[manoeuvre],
+        selected: true,
+      },
     }),
   ),
   on(

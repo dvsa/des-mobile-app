@@ -1,5 +1,11 @@
-node_modules
-mock
-ngrx-devtool-proxy
-e2e
-plugins
+/node_modules
+/mock
+/ngrx-devtool-proxy
+/e2e
+/plugins
+/ios
+/buildscripts
+/fastlane
+/remotedev-server
+/resources
+/test-config

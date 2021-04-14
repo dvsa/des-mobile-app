@@ -18,11 +18,10 @@ export const getTestRequirements = (data: TestData) => data.testRequirements;
 export const getETA = (data: TestData) => data.ETA;
 
 export const getETAFaultText = (data: ETA) => {
-  if (!data) return;
+  if (!data || (!data.physical && !data.verbal)) return;
   if (data.physical && !data.verbal) return 'Physical';
   if (!data.physical && data.verbal) return 'Verbal';
   if (data.physical && data.verbal) return 'Physical and Verbal';
-
 };
 
 export const hasExaminerTakenAction = (data: ETA, action: ExaminerActions) => {
@@ -32,11 +31,10 @@ export const hasExaminerTakenAction = (data: ETA, action: ExaminerActions) => {
 export const getEco = (data: TestData) => data.eco;
 
 export const getEcoFaultText = (data: Eco) => {
-  if (!data) return;
+  if (!data || (!data.adviceGivenControl && !data.adviceGivenPlanning)) return;
   if (data.adviceGivenControl && !data.adviceGivenPlanning) return 'Control';
   if (!data.adviceGivenControl && data.adviceGivenPlanning) return 'Planning';
   if (data.adviceGivenControl && data.adviceGivenPlanning) return 'Control and Planning';
-
 };
 
 export const getShowMeQuestionOptions = (
