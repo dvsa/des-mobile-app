@@ -21,7 +21,8 @@
       "@providers/*": ["src/app/providers/*"],
       "@pages/*": ["src/app/pages/*"],
       "@environments/*": ["src/environments/*"],
-      "@shared/*": ["src/app/shared/*"]
+      "@shared/*": ["src/app/shared/*"],
+      "@components/*": ["src/components/*"]
     }
   },
   "angularCompilerOptions": {

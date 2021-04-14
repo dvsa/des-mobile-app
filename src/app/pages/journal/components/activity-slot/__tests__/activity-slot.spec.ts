@@ -8,9 +8,10 @@ import { NonTestActivity } from '@dvsa/mes-journal-schema';
 import { CommonModule } from '@angular/common';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { TimeComponent } from '@components/test-slot/time/time';
+import { LocationComponent } from '@components/test-slot/location/location';
+
 import { ActivitySlotComponent } from '../activity-slot';
-import { TimeComponent } from '../../../../../../components/test-slot/time/time';
-import { LocationComponent } from '../../../../../../components/test-slot/location/location';
 
 describe('ActivitySlotComponent', () => {
   let fixture: ComponentFixture<ActivitySlotComponent>;

@@ -5,7 +5,7 @@
 // import { SlotProvider } from '../slot';
 // import { Store, StoreModule } from '@ngrx/store';
 // import { StoreModel } from '@shared/models/store.model';
-// import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
+// import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 // import { AppConfigProvider } from '../../app-config/app-config';
 // import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 // import { DateTimeProvider } from '../../date-time/date-time';

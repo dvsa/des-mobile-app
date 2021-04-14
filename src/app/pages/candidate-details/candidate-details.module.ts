@@ -4,8 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { ComponentsModule } from '@components/common/common-components.module';
+
 import { CandidateDetailsPage } from './candidate-details.page';
-import { ComponentsModule } from '../../../components/common/common-components.module';
 
 @NgModule({
   imports: [

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { SlotComponent } from '../../../../../components/test-slot/slot/slot';
+import { SlotComponent } from '@components/test-slot/slot/slot';
 
 @Component({
   selector: 'empty-slot',

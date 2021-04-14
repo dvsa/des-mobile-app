@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { isNil } from 'lodash';
 import { PersonalCommitment, TestSlot } from '@dvsa/mes-journal-schema';
-import { SlotComponent } from '../../../../../components/test-slot/slot/slot';
+import { SlotComponent } from '@components/test-slot/slot/slot';
 
 @Component({
   selector: 'personal-commitment',
