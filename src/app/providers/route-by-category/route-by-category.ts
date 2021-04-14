@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { getPageNameByCategoryAndKey } from '../../pages/page-names.constants';
+import { getPageNameByCategoryAndKey } from '@pages/page-names.constants';
 
 @Injectable()
 export class RouteByCategoryProvider {
   constructor(
-    private router: Router,
+    public router: Router,
   ) {
   }
 
