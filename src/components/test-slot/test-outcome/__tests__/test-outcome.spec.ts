@@ -112,13 +112,13 @@ describe('Test Outcome', () => {
 
         expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
       });
-      // it('should dispatch a start test action with the slot', () => {
-      //   component.slotDetail = testSlotDetail;
-      //   component.category = TestCategory.C;
-      //   component.startTest();
-      //
-      //   expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
-      // });
+      it('should dispatch a start test action with the slot', () => {
+        component.slotDetail = testSlotDetail;
+        component.category = TestCategory.C;
+        component.startTest();
+
+        expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
+      });
     });
     // describe('earlyStart', () => {
     //   it('should create and present the early start modal', () => {

@@ -3,10 +3,10 @@ import { NavController } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { JOURNAL_PAGE } from '../../page-names.constants';
+import { JOURNAL_PAGE, TestFlowPageNames } from '../../page-names.constants';
 
 @Component({
-  selector: 'app-office.cat-b',
+  selector: 'app-office-cat-b',
   templateUrl: './office.cat-b.page.html',
   styleUrls: ['./office.cat-b.page.scss'],
 })
@@ -26,7 +26,7 @@ export class OfficeCatBPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage('REKEY_REASON_PAGE', TestCategory.B);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.REKEY_REASON_PAGE, TestCategory.B);
   }
 
   async navigateJournal(): Promise<void> {

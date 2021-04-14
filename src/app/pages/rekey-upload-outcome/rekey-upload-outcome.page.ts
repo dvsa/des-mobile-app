@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { JOURNAL_PAGE } from '../page-names.constants';
 
 @Component({
-  selector: 'app-rekey-upload-outcome.cat-b',
+  selector: 'app-rekey-upload-outcome-cat-b',
   templateUrl: './rekey-upload-outcome.page.html',
   styleUrls: ['./rekey-upload-outcome.page.scss'],
 })

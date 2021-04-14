@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { getPageNameByCategoryAndKey } from '@pages/page-names.constants';
+import { getPageNameByCategoryAndKey, PageNameKeys } from '@pages/page-names.constants';
 
 @Injectable()
 export class RouteByCategoryProvider {
@@ -10,7 +10,7 @@ export class RouteByCategoryProvider {
   ) {
   }
 
-  async navigateToPage(page, category?: TestCategory) {
+  async navigateToPage(page: PageNameKeys, category?: TestCategory): Promise<void> {
     const { config } = this.router;
     const categoryPage = category ? getPageNameByCategoryAndKey(category, page) : page;
     const pageAlias = this.categoryToPage(category);

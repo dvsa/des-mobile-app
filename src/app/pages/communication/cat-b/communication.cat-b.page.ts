@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 
 @Component({
-  selector: 'app-communication.cat-b',
+  selector: 'app-communication-cat-b',
   templateUrl: './communication.cat-b.page.html',
   styleUrls: ['./communication.cat-b.page.scss'],
 })
@@ -23,7 +24,7 @@ export class CommunicationCatBPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage('WAITING_ROOM_TO_CAR_PAGE', TestCategory.B);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, TestCategory.B);
   }
 
 }
