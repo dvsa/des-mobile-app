@@ -13,14 +13,14 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceError } from '@providers/device/device.constants';
+import { StoreModel } from '@shared/models/store.model';
+import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
+import { LogType } from '@shared/models/log.model';
 import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
-import { StoreModel } from '../../shared/models/store.model';
 import {
   SaveLog, StartSendingLogs, SendLogs, LoadLog,
 } from '../../../store/logs/logs.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
-import { LogoutBasePageComponent } from '../../shared/classes/logout-base-page';
-import { LogType } from '../../shared/models/log.model';
 import { LoadAppConfig } from '../../../store/app-config/app-config.actions';
 
 @Component({

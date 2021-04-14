@@ -1,5 +1,5 @@
 import { SafetyAndBalanceQuestions, TestData } from '@dvsa/mes-test-schema/categories/AM2';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export const catAM2TestDataStateObject: TestData = {
   drivingFaults: {

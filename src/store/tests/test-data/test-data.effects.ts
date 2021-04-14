@@ -6,9 +6,9 @@ import {
   concatMap, throttleTime, withLatestFrom, switchMap,
 } from 'rxjs/operators';
 import { Eco } from '@dvsa/mes-test-schema/categories/common';
+import { StoreModel } from '@shared/models/store.model';
 
 import * as drivingFaultsActions from './common/driving-faults/driving-faults.actions';
-import { StoreModel } from '../../../app/shared/models/store.model';
 import * as ecoActions from './common/eco/eco.actions';
 import { getTests } from '../tests.reducer';
 import { getCurrentTest } from '../tests.selector';

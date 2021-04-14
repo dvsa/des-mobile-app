@@ -1,7 +1,7 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { createReducer, on } from '@ngrx/store';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as manoeuvresActions from './manoeuvres.actions';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 export const initialState: CatADI2UniqueTypes.Manoeuvres[] = [{}, {}];
 

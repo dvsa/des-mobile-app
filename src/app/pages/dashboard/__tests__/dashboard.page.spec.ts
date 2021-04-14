@@ -17,17 +17,17 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { DateTime } from '../../../shared/helpers/date-time';
+import { DateTime } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
+import { BasePageComponent } from '@shared/classes/base-page';
 import {
   selectEmployeeId,
   selectEmployeeName,
   selectVersionNumber,
 } from '../../../../store/app-info/app-info.selectors';
 import { selectRole } from '../../../../store/app-config/app-config.selectors';
-import { StoreModel } from '../../../shared/models/store.model';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
-import { BasePageComponent } from '../../../shared/classes/base-page';
 import { appInfoReducer } from '../../../../store/app-info/app-info.reducer';
 import { DashboardPage } from '../dashboard.page';
 import { ComponentsModule } from '../../../../components/common/common-components.module';

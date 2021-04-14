@@ -3,13 +3,13 @@ import { Device } from '@ionic-native/device/ngx';
 import { DeviceMock } from '@ionic-native-mocks/device';
 import { StoreModule, Store } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
+import { LogType } from '@shared/models/log.model';
 import { DeviceProvider } from '../device';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '../../logs/logs-helper';
 import { SaveLog } from '../../../../store/logs/logs.actions';
-import { LogType } from '../../../shared/models/log.model';
 
 // TODO reinstate after mes-6488
 xdescribe('Device Provider', () => {

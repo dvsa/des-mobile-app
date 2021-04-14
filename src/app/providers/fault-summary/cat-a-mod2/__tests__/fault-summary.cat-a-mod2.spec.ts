@@ -1,8 +1,8 @@
-import { FaultSummaryCatAM2Helper } from '../fault-summary.cat-a-mod2';
+import { CommentSource, CompetencyIdentifiers } from '@shared/models/fault-marking.model';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
 import { catAM2TestDataStateObject } from './cat-AM2-test-data-mock';
-import { CommentSource, CompetencyIdentifiers } from '../../../../shared/models/fault-marking.model';
-import { CompetencyOutcome } from '../../../../shared/models/competency-outcome';
-import { CompetencyDisplayName } from '../../../../shared/models/competency-display-name';
+import { FaultSummaryCatAM2Helper } from '../fault-summary.cat-a-mod2';
 
 describe('FaultSummaryCatAM2Helper', () => {
 

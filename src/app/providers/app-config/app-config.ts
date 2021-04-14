@@ -10,13 +10,13 @@ import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 
 import { environment } from '@environments/environment';
 import { EnvironmentFile } from '@environments/models/environment.model';
-import { StoreModel } from '../../shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
+import { LogType } from '@shared/models/log.model';
 import { AppConfig } from './app-config.model';
 
 import { SchemaValidatorProvider } from '../schema-validator/schema-validator';
 import { SaveLog } from '../../../store/logs/logs.actions';
 import { LogHelper } from '../logs/logs-helper';
-import { LogType } from '../../shared/models/log.model';
 import { AuthenticationError } from '../authentication/authentication.constants';
 import { AppConfigError } from './app-config.constants';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';

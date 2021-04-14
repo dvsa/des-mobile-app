@@ -7,7 +7,7 @@ import { cloneDeep } from 'lodash';
 import { configureTestSuite } from 'ng-bullet';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 // import { ScreenOrientation } from '@ionic-native/screen-orientation';
-// import { ScreenOrientationMock } from '../../../../../shared/mocks/screen-orientation.mock';
+// import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { EmptySlotComponent } from '../empty-slot';
 import { TimeComponent } from '../../../../../../components/test-slot/time/time';
 import { LocationComponent } from '../../../../../../components/test-slot/location/location';

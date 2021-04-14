@@ -4,8 +4,8 @@ import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { createReducer, on } from '@ngrx/store';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as uncoupleRecoupleActions from './uncouple-recouple.actions';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 // TODO - We should make a common type in the schema for Uncouple Recouple;
 export type UncoupleRecouple =

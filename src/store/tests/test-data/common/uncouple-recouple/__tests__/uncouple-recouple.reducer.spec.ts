@@ -1,3 +1,4 @@
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { UncoupleRecouple, uncoupleRecoupleReducer } from '../uncouple-recouple.reducer';
 import {
   ToggleUncoupleRecouple,
@@ -7,7 +8,6 @@ import {
   UncoupleRecoupleRemoveFault,
   AddUncoupleRecoupleComment,
 } from '../uncouple-recouple.actions';
-import { CompetencyOutcome } from '../../../../../../app/shared/models/competency-outcome';
 
 describe('uncoupleRecoupleReducer', () => {
 

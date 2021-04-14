@@ -1,3 +1,5 @@
+import { ControlledStopUnion } from '@shared/unions/test-schema-unions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { controlledStopReducer } from '../controlled-stop.reducer';
 import {
   ToggleControlledStop,
@@ -7,8 +9,6 @@ import {
   ControlledStopRemoveFault,
   AddControlledStopComment,
 } from '../controlled-stop.actions';
-import { ControlledStopUnion } from '../../../../../../app/shared/unions/test-schema-unions';
-import { CompetencyOutcome } from '../../../../../../app/shared/models/competency-outcome';
 
 describe('Controlled Stop Reducer', () => {
 

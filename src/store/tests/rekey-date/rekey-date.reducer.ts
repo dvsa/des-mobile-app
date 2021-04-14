@@ -1,5 +1,5 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import { DateTime } from '../../../app/shared/helpers/date-time';
+import { DateTime } from '@shared/helpers/date-time';
 import * as rekeyDateActions from './rekey-date.actions';
 
 export const initialState: string = null;

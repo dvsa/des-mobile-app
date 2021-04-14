@@ -2,11 +2,11 @@ import {
   TestData, SingleFaultCompetencies, Avoidance, EmergencyStop,
 } from '@dvsa/mes-test-schema/categories/AM1';
 import { get, pickBy, startsWith } from 'lodash';
-import { FaultSummary, CommentSource } from '../../../shared/models/fault-marking.model';
-import { getCompetencyFaults } from '../../../shared/helpers/get-competency-faults';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
+import { FaultSummary, CommentSource } from '@shared/models/fault-marking.model';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { fullCompetencyLabels } from '@shared/constants/competencies/competencies';
 import { Competencies } from '../../../../store/tests/test-data/test-data.constants';
-import { fullCompetencyLabels } from '../../../shared/constants/competencies/competencies';
 
 export class FaultSummaryCatAM1Helper {
 

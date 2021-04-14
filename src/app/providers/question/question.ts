@@ -1,39 +1,39 @@
 import { Injectable } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { VehicleChecksQuestion } from './vehicle-checks-question.model';
-import { SafetyQuestion } from './safety-question.model';
 
 import tellMeQuestionsCatAdiPart2Constants
-  from '../../shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
 import showMeQuestionsCatAdiPart2Constants
-  from '../../shared/constants/show-me-questions/show-me-questions.cat-adi-part2.constants';
-import tellMeQuestionsCatBConstants from '../../shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
-import showMeQuestionsCatBConstants from '../../shared/constants/show-me-questions/show-me-questions.cat-b.constants';
-import tellMeQuestionsCatBeConstants from '../../shared/constants/tell-me-questions/tell-me-questions.cat-be.constants';
-import showMeQuestionsCatBeConstants from '../../shared/constants/show-me-questions/show-me-questions.cat-be.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-adi-part2.constants';
+import tellMeQuestionsCatBConstants from '@shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
+import showMeQuestionsCatBConstants from '@shared/constants/show-me-questions/show-me-questions.cat-b.constants';
+import tellMeQuestionsCatBeConstants from '@shared/constants/tell-me-questions/tell-me-questions.cat-be.constants';
+import showMeQuestionsCatBeConstants from '@shared/constants/show-me-questions/show-me-questions.cat-be.constants';
 import tellMeQuestionsCatCConstants
-  from '../../shared/constants/tell-me-questions/tell-me-questions.cat-c.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-c.constants';
 import showMeQuestionsCatCConstants
-  from '../../shared/constants/show-me-questions/show-me-questions.cat-c.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-c.constants';
 import tellMeQuestionsCatCeConstants
-  from '../../shared/constants/tell-me-questions/tell-me-questions.cat-ce.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-ce.constants';
 import showMeQuestionsCatCeConstants
-  from '../../shared/constants/show-me-questions/show-me-questions.cat-ce.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-ce.constants';
 import tellMeQuestionsCatDConstants
-  from '../../shared/constants/tell-me-questions/tell-me-questions.cat-d.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-d.constants';
 import showMeQuestionsCatDConstants
-  from '../../shared/constants/show-me-questions/show-me-questions.cat-d.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-d.constants';
 import tellMeQuestionsCatDeConstants
-  from '../../shared/constants/tell-me-questions/tell-me-questions.cat-de.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-de.constants';
 import showMeQuestionsCatDeConstants
-  from '../../shared/constants/show-me-questions/show-me-questions.cat-de.constants';
-import safetyQuestionsCatAMod2Constants from '../../shared/constants/safety-questions.cat-a-mod2.constants';
-import balanceQuestionsCatAMod2Constants from '../../shared/constants/balance-questions.cat-a-mod2.constants';
-import safetyQuestionsCatDConstants from '../../shared/constants/safety-questions.cat-d.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-de.constants';
+import safetyQuestionsCatAMod2Constants from '@shared/constants/safety-questions.cat-a-mod2.constants';
+import balanceQuestionsCatAMod2Constants from '@shared/constants/balance-questions.cat-a-mod2.constants';
+import safetyQuestionsCatDConstants from '@shared/constants/safety-questions.cat-d.constants';
 import showMeQuestionsCatHomeTestConstants
-  from '../../shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
+  from '@shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
 import tellMeQuestionsCatHomeTestConstants
-  from '../../shared/constants/tell-me-questions/tell-me-questions.cat-home-test.constants';
+  from '@shared/constants/tell-me-questions/tell-me-questions.cat-home-test.constants';
+import { SafetyQuestion } from './safety-question.model';
+import { VehicleChecksQuestion } from './vehicle-checks-question.model';
 
 @Injectable()
 export class QuestionProvider {

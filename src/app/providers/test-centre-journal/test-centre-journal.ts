@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { UrlProvider } from '../url/url';
-import { TestCentreDetailResponse } from '../../shared/models/test-centre-journal.model';
 
 @Injectable()
 export class TestCentreJournalProvider {

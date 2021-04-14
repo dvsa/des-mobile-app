@@ -1,6 +1,6 @@
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export const catBTestDataStateObject: CatBUniqueTypes.TestData = {
   drivingFaults: {

@@ -3,7 +3,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 import { configureTestSuite } from 'ng-bullet';
 import { of } from 'rxjs';
-import { ActivityCodes } from '../../../shared/models/activity-codes';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import { TestResultProvider } from '../../test-result/test-result';
 import { ActivityCodeFinalisationProvider } from '../activity-code-finalisation';

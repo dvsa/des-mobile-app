@@ -1,5 +1,5 @@
 import { get } from 'lodash';
-import { HighwayCodeSafetyUnion } from '../../../../../app/shared/unions/test-schema-unions';
+import { HighwayCodeSafetyUnion } from '@shared/unions/test-schema-unions';
 
 export const isHighwayCodeSafetySelected = (
   data: HighwayCodeSafetyUnion,

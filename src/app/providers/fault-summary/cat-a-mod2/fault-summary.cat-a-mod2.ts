@@ -3,10 +3,10 @@ import {
   EyesightTest,
   SafetyAndBalanceQuestions,
 } from '@dvsa/mes-test-schema/categories/AM2';
-import { CommentSource, CompetencyIdentifiers, FaultSummary } from '../../../shared/models/fault-marking.model';
-import { CompetencyDisplayName } from '../../../shared/models/competency-display-name';
-import { getCompetencyFaults } from '../../../shared/helpers/get-competency-faults';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
+import { CompetencyDisplayName } from '@shared/models/competency-display-name';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export class FaultSummaryCatAM2Helper {
 

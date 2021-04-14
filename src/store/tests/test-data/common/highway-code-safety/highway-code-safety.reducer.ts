@@ -1,6 +1,6 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { HighwayCodeSafetyUnion } from '@shared/unions/test-schema-unions';
 import * as highwayCodeSafetyActions from './highway-code-safety.actions';
-import { HighwayCodeSafetyUnion } from '../../../../../app/shared/unions/test-schema-unions';
 
 export const initialState: HighwayCodeSafetyUnion = {};
 

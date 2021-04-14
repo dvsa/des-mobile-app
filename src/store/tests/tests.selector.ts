@@ -4,17 +4,17 @@ import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
 import { startsWith } from 'lodash';
-import { TestStatus } from './test-status/test-status.model';
-import { TestsModel } from './tests.model';
-import { TestOutcome } from './tests.constants';
 import {
   ActivityCodeModel,
   activityCodeModelList,
   activityCodeModelListDelegatedExaminer,
-} from '../../app/shared/constants/activity-code/activity-code.constants';
-import { DateTime } from '../../app/shared/helpers/date-time';
-import { ActivityCodes } from '../../app/shared/models/activity-codes';
-import { end2endPracticeSlotId, testReportPracticeSlotId } from '../../app/shared/mocks/test-slot-ids.mock';
+} from '@shared/constants/activity-code/activity-code.constants';
+import { DateTime } from '@shared/helpers/date-time';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { TestStatus } from './test-status/test-status.model';
+import { TestsModel } from './tests.model';
+import { TestOutcome } from './tests.constants';
 
 export const getCurrentTestSlotId = (tests: TestsModel): string => tests.currentTest.slotId;
 

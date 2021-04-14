@@ -2,13 +2,13 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { get } from 'lodash';
 
 import { Action, createFeatureSelector } from '@ngrx/store';
+import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import * as testsActions from './tests.actions';
 import { TestsModel } from './tests.model';
 
 import { testStatusReducer } from './test-status/test-status.reducer';
 import { testsReducerFactory } from './tests-reducer-factory';
 import { LoadPersistedTestsSuccess } from './tests.actions';
-import { testReportPracticeSlotId } from '../../app/shared/mocks/test-slot-ids.mock';
 // import * as fakeJournalActions from '@pages/fake-journal/fake-journal.actions';
 
 export const initialState: TestsModel = {

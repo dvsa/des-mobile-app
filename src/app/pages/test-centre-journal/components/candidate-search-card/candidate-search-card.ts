@@ -2,10 +2,10 @@ import {
   Component, Input, OnChanges, ViewChild,
 } from '@angular/core';
 import { Candidate, TestSlot } from '@dvsa/mes-journal-schema';
-import { Examiner, TestCentreDetailResponse } from '../../../../shared/models/test-centre-journal.model';
+import { Examiner, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { DateTime, Duration } from '@shared/helpers/date-time';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 import { TypeaheadDropdownComponent } from '../../../../../components/common/typeahead-dropdown/typeahead-dropdown';
-import { DateTime, Duration } from '../../../../shared/helpers/date-time';
 
 export type CandidateData = {
   name: string,

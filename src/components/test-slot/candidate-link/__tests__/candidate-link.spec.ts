@@ -19,10 +19,10 @@ import { DataStoreProvider } from '@providers/data-store/data-store';
 import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
 import { CandidateLinkComponent } from '../candidate-link';
 // import { CANDIDATE_DETAILS_PAGE } from '@pages/page-names.constants'; // FAKE_CANDIDATE_DETAILS_PAGE
-/* import { translateServiceMock } from '../../../../app/shared/__mocks__/translate';
-import { end2endPracticeSlotId } from '../../../../app/shared/mocks/test-slot-ids.mock';
+/* import { translateServiceMock } from '@shared/__mocks__/translate';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { MockAppComponent } from '../../../../app/__mocks__/app.component.mock';
-import { bookedTestSlotMock } from '../../../../app/shared/mocks/test-slot-data.mock'; */
+import { bookedTestSlotMock } from '@shared/mocks/test-slot-data.mock'; */
 
 class MockStore {
 }

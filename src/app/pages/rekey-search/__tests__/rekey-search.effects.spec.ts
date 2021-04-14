@@ -11,10 +11,10 @@ import { CompressionProvider } from '@providers/compression/compression';
 import { CompressionProviderMock } from '@providers/compression/__mocks__/compression.mock';
 import { SearchProvider } from '@providers/search/search';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import * as rekeySearchActions from '../rekey-search.actions';
 import { rekeySearchReducer } from '../rekey-search.reducer';
 import { RekeySearchErrorMessages } from '../rekey-search-error-model';
-import { HttpStatusCodes } from '../../../shared/models/http-status-codes';
 import { RekeySearchEffects } from '../rekey-search.effects';
 
 function asyncError(errorObject: any) {

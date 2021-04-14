@@ -12,7 +12,7 @@ import { AppInfoProvider } from '@providers/app-info/app-info';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
-import { StoreModel } from '../../app/shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
 import {
   AppResumed,
   LoadAppVersion,

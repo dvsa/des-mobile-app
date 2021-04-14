@@ -23,15 +23,15 @@ import {
 } from '@pages/page-names.constants';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { DateTime, Duration } from '@shared/helpers/date-time';
+import { StoreModel } from '@shared/models/store.model';
 
-import { DateTime, Duration } from '../../../app/shared/helpers/date-time';
-import { StoreModel } from '../../../app/shared/models/store.model';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
-import { end2endPracticeSlotId } from '../../../app/shared/mocks/test-slot-ids.mock';
 import { ActivateTest, StartTest } from '../../../store/tests/tests.actions';
 import { SetExaminerConducted } from '../../../store/tests/examiner-conducted/examiner-conducted.actions';
 import { SetExaminerBooked } from '../../../store/tests/examiner-booked/examiner-booked.actions';
-import { ActivityCodes } from '../../../app/shared/models/activity-codes';
 import {
   ResumingWriteUp,
   // EarlyStartModalDidEnter

@@ -1,9 +1,9 @@
 import { pickBy } from 'lodash';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
-import { getCompetencyFaults } from '../../../shared/helpers/get-competency-faults';
-import { sumManoeuvreFaults } from '../../../shared/helpers/faults';
-import { VehicleChecksScore } from '../../../shared/models/vehicle-checks-score.model';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { sumManoeuvreFaults } from '@shared/helpers/faults';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 
 export class FaultCountADIPart2Helper {
 

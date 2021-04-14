@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { StoreModel } from '../../../../shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
 
 @Component({
   selector: 'practice-test-report-card',

@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
+import { StoreModel } from '@shared/models/store.model';
 
 import { testsReducer } from '../../tests.reducer';
 import { ExaminerBookedEffects } from '../examiner-booked.effects';
@@ -11,7 +12,6 @@ import { SetExaminerBooked } from '../examiner-booked.actions';
 import { SetChangeMarker } from '../../change-marker/change-marker.actions';
 import { StartTest } from '../../tests.actions';
 import { SetExaminerConducted } from '../../examiner-conducted/examiner-conducted.actions';
-import { StoreModel } from '../../../../app/shared/models/store.model';
 
 describe('Examiner Booked Effects', () => {
 

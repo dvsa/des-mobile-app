@@ -1,3 +1,3 @@
-import { Log } from '../../app/shared/models/log.model';
+import { Log } from '@shared/models/log.model';
 
 export type LogsModel = Log[];

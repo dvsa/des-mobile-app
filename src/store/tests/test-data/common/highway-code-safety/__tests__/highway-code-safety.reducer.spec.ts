@@ -1,3 +1,4 @@
+import { HighwayCodeSafetyUnion } from '@shared/unions/test-schema-unions';
 import { highwayCodeSafetyReducer } from '../highway-code-safety.reducer';
 import {
   ToggleHighwayCodeSafety,
@@ -6,7 +7,6 @@ import {
   HighwayCodeSafetyRemoveFault,
   HighwayCodeSafetyAddComment,
 } from '../highway-code-safety.actions';
-import { HighwayCodeSafetyUnion } from '../../../../../../app/shared/unions/test-schema-unions';
 
 describe('Highway Code Safety Reducer', () => {
 

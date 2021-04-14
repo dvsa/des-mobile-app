@@ -4,12 +4,12 @@ import {
   CombinationCodes, Question, Question5, TestData,
 } from '@dvsa/mes-test-schema/categories/CPC';
 
-import { lgvQuestion5, lgvQuestions } from '../../shared/constants/cpc-questions/cpc-lgv-questions.constants';
-import { pcvQuestion5, pcvQuestions } from '../../shared/constants/cpc-questions/cpc-pcv-questions.constants';
+import { lgvQuestion5, lgvQuestions } from '@shared/constants/cpc-questions/cpc-lgv-questions.constants';
+import { pcvQuestion5, pcvQuestions } from '@shared/constants/cpc-questions/cpc-pcv-questions.constants';
 import {
   Combination,
   questionCombinations, QuestionNumber,
-} from '../../shared/constants/cpc-questions/cpc-question-combinations.constants';
+} from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 
 @Injectable()
 export class CPCQuestionProvider {

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountHomeTestHelper } from '../fault-count.cat-home-test';
 
 import {
@@ -11,7 +12,6 @@ import {
 import { catGTestDataStateObject, catGTestDataVCStateObject } from '../../__mocks__/cat-G-test-data-state-object';
 import { catHTestDataStateObject, catHTestDataVCStateObject } from '../../__mocks__/cat-H-test-data-state-object';
 import { catKTestDataStateObject, catKTestDataVCStateObject } from '../../__mocks__/cat-K-test-data-state-object';
-import { CompetencyOutcome } from '../../../../shared/models/competency-outcome';
 
 describe('FaultCountHomeTestHelper', () => {
 

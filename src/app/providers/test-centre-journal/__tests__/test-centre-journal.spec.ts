@@ -1,12 +1,12 @@
 import { configureTestSuite } from 'ng-bullet';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { TestCentreJournalProvider } from '../test-centre-journal';
-import { TestCentreDetailResponse } from '../../../shared/models/test-centre-journal.model';
 import { AppConfig } from '../../app-config/app-config.model';
 
 describe('TestCentreJournalProvider', () => {

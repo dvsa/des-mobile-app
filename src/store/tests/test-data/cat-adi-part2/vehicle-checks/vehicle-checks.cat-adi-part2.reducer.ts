@@ -2,9 +2,9 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { createReducer, on } from '@ngrx/store';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS as numberOfTellMeQuestions,
-} from 'src/app/shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
+} from '@shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as vehicleChecksCatADI2ActionTypes from './vehicle-checks.cat-adi-part2.action';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 export const initialState: CatADI2UniqueTypes.VehicleChecks = {
   tellMeQuestions: Array(numberOfTellMeQuestions).fill({}),

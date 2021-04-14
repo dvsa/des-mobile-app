@@ -1,10 +1,10 @@
 import { createAction } from '@ngrx/store';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 import {
   ManoeuvreTypes,
   ManoeuvreCompetencies,
 } from '../../test-data.constants';
-import { CompetencyOutcome } from '../../../../../app/shared/models/competency-outcome';
 
 export interface ManoeuvrePayload {
   manoeuvre: ManoeuvreTypes;
