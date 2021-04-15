@@ -20,7 +20,9 @@ import {
   CAT_ADI_PART2,
   CAT_HOME_TEST,
   CAT_CPC,
+  TestFlowPageNames,
 } from '@pages/page-names.constants';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
@@ -28,14 +30,14 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 
-import { TestStatus } from '../../../store/tests/test-status/test-status.model';
-import { ActivateTest, StartTest } from '../../../store/tests/tests.actions';
-import { SetExaminerConducted } from '../../../store/tests/examiner-conducted/examiner-conducted.actions';
-import { SetExaminerBooked } from '../../../store/tests/examiner-booked/examiner-booked.actions';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { ActivateTest, StartTest } from '@store/tests/tests.actions';
+import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
+import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
 import {
   ResumingWriteUp,
   // EarlyStartModalDidEnter
-} from '../../../store/journal/journal.actions';
+} from '@store/journal/journal.actions';
 // import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
 /* import { ModalEvent } from '@pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
 import {
@@ -94,6 +96,7 @@ export class TestOutcomeComponent implements OnInit {
   constructor(
     private store$: Store<StoreModel>,
     private router: Router,
+    private routeByCat: RouteByCategoryProvider,
     // private modalController: ModalController,
   ) {
   }
@@ -190,13 +193,13 @@ export class TestOutcomeComponent implements OnInit {
     }
   }
 
-  startTest() {
+  async startTest() {
     if (this.isE2EPracticeMode()) {
       // this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString()));
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
-    // this.router.navigate(this.getTestStartingPage());
+    await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
   }
 
   rekeyTest() {
@@ -340,7 +343,7 @@ export class TestOutcomeComponent implements OnInit {
     return this.isTestIncomplete() && this.isTodaysDate() && this.hasTestTimeFinished();
   }
 
-  clickStartOrResumeTest() {
+  async clickStartOrResumeTest() {
     // @TODO: Implement Start Test Logic
     // if (this.specialRequirements && !this.hasSeenCandidateDetails) {
     //   this.displayForceCheckModal();
@@ -354,7 +357,7 @@ export class TestOutcomeComponent implements OnInit {
     //   this.displayCheckStartModal();
     //   return;
     // }
-    this.startOrResumeTestDependingOnStatus();
+    await this.startOrResumeTestDependingOnStatus();
   }
 
   shouldDisplayCheckStartModal(): boolean {
@@ -383,9 +386,9 @@ export class TestOutcomeComponent implements OnInit {
     return new DateTime() > cutOffTime;
   }
 
-  startOrResumeTestDependingOnStatus() {
+  async startOrResumeTestDependingOnStatus() {
     if (this.testStatus === TestStatus.Booked) {
-      this.startTest();
+      await this.startTest();
     } else {
       this.resumeTest();
     }

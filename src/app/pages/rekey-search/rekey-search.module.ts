@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { IonicModule } from '@ionic/angular';
 
 import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
 import { CompressionProvider } from '@providers/compression/compression';
@@ -25,6 +26,7 @@ import { ComponentsModule } from '../../../components/common/common-components.m
     ]),
     ComponentsModule,
     TestSlotComponentsModule,
+    IonicModule,
   ],
   providers: [
     RekeySearchProvider,

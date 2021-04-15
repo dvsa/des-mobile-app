@@ -38,20 +38,21 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { DeviceProvider } from '@providers/device/device';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { environment } from '@environments/environment';
 
-import { JournalModule } from '../store/journal/journal.module';
-import { AppConfigStoreModule } from '../store/app-config/app-config.module';
-import { appConfigReducer } from '../store/app-config/app-config.reducer';
-import { journalReducer } from '../store/journal/journal.reducer';
-import { appInfoReducer } from '../store/app-info/app-info.reducer';
-import { testsReducer } from '../store/tests/tests.reducer';
-import { LogsStoreModule } from '../store/logs/logs.module';
-import { AppInfoStoreModule } from '../store/app-info/app-info.module';
+import { JournalModule } from '@store/journal/journal.module';
+import { AppConfigStoreModule } from '@store/app-config/app-config.module';
+import { appConfigReducer } from '@store/app-config/app-config.reducer';
+import { journalReducer } from '@store/journal/journal.reducer';
+import { appInfoReducer } from '@store/app-info/app-info.reducer';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { LogsStoreModule } from '@store/logs/logs.module';
+import { AppInfoStoreModule } from '@store/app-info/app-info.module';
+import { TestsModule } from '@store/tests/tests.module';
+import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-centre-journal.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TestsModule } from '../store/tests/tests.module';
-import { TestCentreJournalStoreModule } from '../store/test-centre-journal/test-centre-journal.module';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -137,6 +138,7 @@ if (enableRehydrationPlugin) {
     TestPersistenceProvider,
     CategoryWhitelistProvider,
     TestCentreJournalProvider,
+    RouteByCategoryProvider,
     ScreenOrientation,
   ],
   bootstrap: [AppComponent],
