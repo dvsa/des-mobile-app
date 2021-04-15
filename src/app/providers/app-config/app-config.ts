@@ -12,17 +12,17 @@ import { environment } from '@environments/environment';
 import { EnvironmentFile } from '@environments/models/environment.model';
 import { StoreModel } from '@shared/models/store.model';
 import { LogType } from '@shared/models/log.model';
+import { SaveLog } from '@store/logs/logs.actions';
+import { getAppConfigState } from '@store/app-config/app-config.reducer';
 import { AppConfig } from './app-config.model';
 
 import { SchemaValidatorProvider } from '../schema-validator/schema-validator';
-import { SaveLog } from '../../../store/logs/logs.actions';
 import { LogHelper } from '../logs/logs-helper';
 import { AuthenticationError } from '../authentication/authentication.constants';
 import { AppConfigError } from './app-config.constants';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { AppInfoProvider } from '../app-info/app-info';
 import { DataStoreProvider } from '../data-store/data-store';
-import { getAppConfigState } from '../../../store/app-config/app-config.reducer';
 
 /**
  *  How Loading Config Works

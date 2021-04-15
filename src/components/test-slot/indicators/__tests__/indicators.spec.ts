@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
-import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { IndicatorsComponent } from '../indicators';
 
 xdescribe('IndicatorsComponent', () => {

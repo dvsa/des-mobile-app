@@ -17,7 +17,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 // import { getTestData as getTestDataCatB } from '../../modules/tests/test-data/cat-b/test-data.reducer';
 import {
   getTestData as getTestDataCatADI2,
-} from '../../../store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
+} from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 
 @Injectable()
 export class TestDataByCategoryProvider {

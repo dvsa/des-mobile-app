@@ -16,7 +16,7 @@ import {
   manoeuvreTypeLabelsCatD,
 } from '@shared/constants/competencies/catd-manoeuvres';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
+import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 export type PcvDoorExerciseTypes =
 | CatDUniqueTypes.PcvDoorExercise

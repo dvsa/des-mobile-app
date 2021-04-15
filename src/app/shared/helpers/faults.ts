@@ -1,7 +1,7 @@
 import { pickBy, endsWith, sumBy } from 'lodash';
 import { Manoeuvres, Manoeuvre } from '@dvsa/mes-test-schema/categories/ADI2/partial';
+import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { CompetencyOutcome } from '../models/competency-outcome';
-import { ManoeuvreTypes } from '../../../store/tests/test-data/test-data.constants';
 
 export const sumManoeuvreFaults = (manoeuvres: Object | Manoeuvres[], faultType: CompetencyOutcome): number => {
   if (!manoeuvres) {

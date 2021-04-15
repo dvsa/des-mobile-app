@@ -1,7 +1,7 @@
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { FaultSummaryCatAM1Helper } from '../fault-summary.cat-a-mod1';
 import { catAM1TestDataStateObject } from './cat-AM1-test-data-mock';
-import { Competencies } from '../../../../../store/tests/test-data/test-data.constants';
 
 describe('FaultSummaryCatAM1Helper', () => {
 

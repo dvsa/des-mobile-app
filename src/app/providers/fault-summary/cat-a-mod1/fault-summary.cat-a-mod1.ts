@@ -6,7 +6,7 @@ import { FaultSummary, CommentSource } from '@shared/models/fault-marking.model'
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { fullCompetencyLabels } from '@shared/constants/competencies/competencies';
-import { Competencies } from '../../../../store/tests/test-data/test-data.constants';
+import { Competencies } from '@store/tests/test-data/test-data.constants';
 
 export class FaultSummaryCatAM1Helper {
 

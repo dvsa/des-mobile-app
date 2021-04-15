@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { Injectable } from '@angular/core';
 import { DateTime } from '@shared/helpers/date-time';
+import { TestsModel } from '@store/tests/tests.model';
 import { DataStoreProvider } from '../data-store/data-store';
-import { TestsModel } from '../../../store/tests/tests.model';
 import { AppConfigProvider } from '../app-config/app-config';
 
 @Injectable()

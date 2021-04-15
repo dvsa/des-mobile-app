@@ -12,7 +12,7 @@ import {
 } from '@shared/constants/competencies/catbe-manoeuvres';
 import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
+import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 export class FaultSummaryCatBEHelper {
 

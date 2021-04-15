@@ -1,8 +1,8 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as testActions from '@store/tests/tests.actions';
 import * as delegatedRekeySearchActions from './delegated-rekey-search.actions';
-import * as testActions from '../../../store/tests/tests.actions';
 import { DelegatedRekeySearchError, DelegatedRekeySearchErrorMessages } from './delegated-rekey-search-error-model';
 
 export type DelegatedRekeySearchModel = {

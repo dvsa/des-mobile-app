@@ -11,7 +11,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 // import { getVehicleDetails as getVehicleDetailsB }
 //   from '../../modules/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getVehicleDetails as getVehicleDetailsADI2 }
-  from '../../../store/tests/vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
+  from '@store/tests/vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
 // import { getVehicleDetails as getVehicleDetailsAM1 }
 //   from '../../modules/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.reducer';
 // import { getVehicleDetails as getVehicleDetailsAM2 }

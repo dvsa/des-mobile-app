@@ -6,7 +6,7 @@ import { Device } from '@ionic-native/device/ngx';
 
 import { LogType, Log } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
-import { selectVersionNumber, selectEmployeeId } from '../../../store/app-info/app-info.selectors';
+import { selectVersionNumber, selectEmployeeId } from '@store/app-info/app-info.selectors';
 
 @Injectable()
 export class LogHelper {

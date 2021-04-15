@@ -2,13 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 import { DateTime } from '@shared/helpers/date-time';
+import { TestsModel } from '@store/tests/tests.model';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { DataStoreProvider } from '../../data-store/data-store';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
 import { TestPersistenceProvider } from '../test-persistence';
-import { TestsModel } from '../../../../store/tests/tests.model';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
-import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
 
 describe('TestPersistenceProvider', () => {
   let testPersistenceProvider: TestPersistenceProvider;

@@ -16,12 +16,12 @@ import { DeviceError } from '@providers/device/device.constants';
 import { StoreModel } from '@shared/models/store.model';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LogType } from '@shared/models/log.model';
-import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '../../../store/app-info/app-info.actions';
+import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
 import {
   SaveLog, StartSendingLogs, SendLogs, LoadLog,
-} from '../../../store/logs/logs.actions';
+} from '@store/logs/logs.actions';
+import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
-import { LoadAppConfig } from '../../../store/app-config/app-config.actions';
 
 @Component({
   selector: 'app-login',

@@ -12,7 +12,7 @@ import {
 } from '@shared/constants/competencies/catadi2-manoeuvres';
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults'; // getCompetencyComment
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
+import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 export class FaultSummaryCatAdiPart2Helper {
 

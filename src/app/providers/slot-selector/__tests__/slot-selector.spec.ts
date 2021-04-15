@@ -5,9 +5,9 @@ import { ActivitySlotComponent } from '@pages/journal/components/activity-slot/a
 import { EmptySlotComponent } from '@pages/journal/components/empty-slot/empty-slot';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 
+import { Slot } from '@store/journal/journal.model';
 import { SlotSelectorProvider } from '../slot-selector';
 import { SlotItem } from '../slot-item';
-import { Slot } from '../../../../store/journal/journal.model';
 
 describe('Slot Selector', () => {
   let slotSelector: SlotSelectorProvider;
