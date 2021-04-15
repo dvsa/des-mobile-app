@@ -5,11 +5,11 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
-  selector: 'app-debrief-cat-be',
-  templateUrl: './debrief.cat-be.page.html',
-  styleUrls: ['./debrief.cat-be.page.scss'],
+  selector: 'app-waiting-room-to-car-cat-be',
+  templateUrl: './waiting-room-to-car.cat-be.page.html',
+  styleUrls: ['./waiting-room-to-car.cat-be.page.scss'],
 })
-export class DebriefCatBePage implements OnInit {
+export class WaitingRoomToCarCatBePage implements OnInit {
 
   constructor(
     private navController: NavController,
@@ -23,12 +23,8 @@ export class DebriefCatBePage implements OnInit {
     this.navController.back();
   }
 
-  async navigatePassFinal(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, TestCategory.BE);
-  }
-
-  async navigatePostDebriefHolding(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.POST_DEBRIEF_HOLDING_PAGE, TestCategory.B);
+  async navigateForward(): Promise<void> {
+    await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.BE);
   }
 
 }

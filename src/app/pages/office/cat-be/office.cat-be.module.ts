@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { DebriefCatBePageRoutingModule } from './debrief.cat-be-routing.module';
+import { OfficeCatBePageRoutingModule } from './office.cat-be-routing.module';
 
-import { DebriefCatBePage } from './debrief.cat-be.page';
+import { OfficeCatBePage } from './office.cat-be.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DebriefCatBePageRoutingModule,
+    OfficeCatBePageRoutingModule,
   ],
-  declarations: [DebriefCatBePage],
+  declarations: [OfficeCatBePage],
 })
-export class DebriefCatBePageModule {}
+export class OfficeCatBePageModule {}

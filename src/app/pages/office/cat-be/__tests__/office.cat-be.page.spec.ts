@@ -4,23 +4,27 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { DebriefCatBePage } from '../debrief.cat-be.page';
+import { Router } from '@angular/router';
+import { OfficeCatBePage } from '../office.cat-be.page';
 
-describe('DebriefCatBePage', () => {
-  let component: DebriefCatBePage;
-  let fixture: ComponentFixture<DebriefCatBePage>;
+describe('Office.CatBePage', () => {
+  let component: OfficeCatBePage;
+  let fixture: ComponentFixture<OfficeCatBePage>;
+  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DebriefCatBePage],
+      declarations: [OfficeCatBePage],
       imports: [IonicModule.forRoot()],
       providers: [
         { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        { provide: Router, useValue: routerSpy },
       ],
+
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DebriefCatBePage);
+    fixture = TestBed.createComponent(OfficeCatBePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
