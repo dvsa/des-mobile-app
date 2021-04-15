@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { IonicModule } from '@ionic/angular';
 import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { SlotProvider } from '@providers/slot/slot';
 import { SearchProvider } from '@providers/search/search';
+
 import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
 import { DelegatedRekeySearchEffects } from './delegated-rekey-search.effects';
 import { TestSlotComponentsModule } from '../../../components/test-slot/test-slot-components.module';
@@ -22,6 +24,7 @@ import { DelegatedRekeySearchPage } from './delegated-rekey-search';
     ]),
     ComponentsModule,
     TestSlotComponentsModule,
+    IonicModule,
   ],
   providers: [
     DelegatedRekeySearchProvider,

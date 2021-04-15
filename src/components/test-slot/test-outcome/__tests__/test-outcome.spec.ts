@@ -8,16 +8,18 @@ import { Router } from '@angular/router';
 
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import {
   CAT_B, CAT_BE, CAT_C, CAT_D, CAT_A_MOD1, CAT_A_MOD2,
 } from '@pages/page-names.constants';
 import { StoreModel } from '@shared/models/store.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { StartTest, ActivateTest } from '@store/tests/tests.actions';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { JournalModel } from '@store/journal/journal.model';
 import { TestOutcomeComponent } from '../test-outcome';
-import { StartTest, ActivateTest } from '../../../../store/tests/tests.actions';
-import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
-import { JournalModel } from '../../../../store/journal/journal.model';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 
 describe('Test Outcome', () => {
@@ -89,6 +91,7 @@ describe('Test Outcome', () => {
       providers: [
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: Router, useValue: routerSpy },
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     });
   });
