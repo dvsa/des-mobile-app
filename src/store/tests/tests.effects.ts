@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   Actions,
   createEffect,
-  Effect,
   ofType,
 } from '@ngrx/effects';
 import { from, of, interval } from 'rxjs';
@@ -136,8 +135,7 @@ export class TestsEffects {
     };
   }
 
-  @Effect()
-  loadPersistedTestsEffect$ = this.actions$.pipe(
+  loadPersistedTestsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.LoadPersistedTests),
     switchMap(() => from(this.testPersistenceProvider.loadPersistedTests())
       .pipe(
@@ -145,10 +143,10 @@ export class TestsEffects {
         map((testsModel) => testActions.LoadPersistedTestsSuccess(testsModel)),
         catchError((err) => {
           console.log(`Error reading persisted tests: ${err}`);
-          return of();
+          return of(null);
         }),
       )),
-  );
+  ));
 
   startTestEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.StartTest.type),
@@ -301,8 +299,7 @@ export class TestsEffects {
     map(() => testActions.SendCompletedTests()),
   ));
 
-  @Effect()
-  sendCompletedTestsEffect$ = this.actions$.pipe(
+  sendCompletedTestsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendCompletedTests),
     concatMap((action) => of(action)
       .pipe(
@@ -330,7 +327,7 @@ export class TestsEffects {
       }));
 
       if (completedTests.length === 0) {
-        return of();
+        return of(null);
       }
 
       return this.testSubmissionProvider.submitTests(completedTests)
@@ -350,7 +347,7 @@ export class TestsEffects {
           }),
         );
     }),
-  );
+  ));
 
   sendPartialTestSuccessEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendPartialTestSuccess),
