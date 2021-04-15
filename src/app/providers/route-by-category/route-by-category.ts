@@ -12,10 +12,10 @@ export class RouteByCategoryProvider {
 
   async navigateToPage(page: PageNameKeys, category?: TestCategory): Promise<void> {
     const { config } = this.router;
-    const categoryPage = category ? getPageNameByCategoryAndKey(category, page) : page;
-    const pageAlias = this.categoryToPage(category);
-    const pageName = this.pagePath(page);
-    const importPath = category ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}` : `${pageName}/${pageName}`;
+    const categoryPage: string = category ? getPageNameByCategoryAndKey(category, page) : page;
+    const pageAlias: string = this.getPageAliasByCategory(category);
+    const pageName: string = this.getBasePagePathByCategory(page);
+    const importPath: string = category ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}` : `${pageName}/${pageName}`;
     config.push({
       path: categoryPage,
       loadChildren: () =>
@@ -25,7 +25,7 @@ export class RouteByCategoryProvider {
     await this.router.navigate([categoryPage]);
   }
 
-  categoryToPage(category: TestCategory): string {
+  getPageAliasByCategory(category: TestCategory): string {
     switch (category as TestCategory) {
       case TestCategory.ADI2:
         return 'cat-adi-part2';
@@ -65,7 +65,7 @@ export class RouteByCategoryProvider {
     }
   }
 
-  pagePath(page: string): string {
+  getBasePagePathByCategory(page: string): string {
     switch (page) {
       case 'WAITING_ROOM_PAGE':
         return 'waiting-room';

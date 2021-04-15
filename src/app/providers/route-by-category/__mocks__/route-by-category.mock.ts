@@ -1,3 +1,3 @@
 export class RouteByCategoryProviderMock {
-  navigateToPage() {}
+  navigateToPage = () => Promise.resolve();
 }

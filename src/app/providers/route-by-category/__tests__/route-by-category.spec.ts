@@ -36,22 +36,22 @@ describe('RouteByCategoryProvider', () => {
     it('should call router.navigate', async () => {
       provider.router.config = [];
       spyOn(pageConstants, 'getPageNameByCategoryAndKey').and.returnValue('WaitingRoomToCarCatBPage');
-      spyOn(provider, 'categoryToPage').and.returnValue('cat-b');
-      spyOn(provider, 'pagePath').and.returnValue('waiting-room-to-car');
+      spyOn(provider, 'getPageAliasByCategory').and.returnValue('cat-b');
+      spyOn(provider, 'getBasePagePathByCategory').and.returnValue('waiting-room-to-car');
       await provider.navigateToPage('WAITING_ROOM_TO_CAR_PAGE', TestCategory.B);
       expect(routerSpy.navigate).toHaveBeenCalledWith(['WaitingRoomToCarCatBPage']);
     });
   });
 
-  describe('categoryToPage', () => {
+  describe('getPageAliasByCategory', () => {
     it('should return correct path based upon category', () => {
-      expect(provider.categoryToPage(TestCategory.ADI2)).toEqual('cat-adi-part2');
+      expect(provider.getPageAliasByCategory(TestCategory.ADI2)).toEqual('cat-adi-part2');
     });
   });
 
-  describe('pagePath', () => {
+  describe('getBasePagePathByCategory', () => {
     it('should return correct path based upon page', () => {
-      expect(provider.pagePath('WAITING_ROOM_TO_CAR_PAGE')).toEqual('waiting-room-to-car');
+      expect(provider.getBasePagePathByCategory('WAITING_ROOM_TO_CAR_PAGE')).toEqual('waiting-room-to-car');
     });
   });
 });
