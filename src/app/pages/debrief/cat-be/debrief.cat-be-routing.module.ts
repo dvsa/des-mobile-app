@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { Debrief.CatBePage } from './debrief.cat-be.page';
+import { DebriefCatBePage } from './debrief.cat-be.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: Debrief.CatBePage
+    component: DebriefCatBePage
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class Debrief.CatBePageRoutingModule {}
+export class DebriefCatBePageRoutingModule {}

@@ -37,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: 'debrief.cat-be',
-    loadChildren: () => import('./pages/debrief/cat-be/debrief.cat-be/debrief.cat-be.module').then((m) => m.Debrief.CatBePageModule),
+    loadChildren: () => import('@pages/debrief/cat-be/debrief.cat-be.module').then((m) => m.Debrief.CatBePageModule),
   },
   {
     path: 'health-declaration.cat-be',
