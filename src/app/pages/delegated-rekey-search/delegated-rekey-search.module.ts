@@ -6,11 +6,11 @@ import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/
 import { CompressionProvider } from '@providers/compression/compression';
 import { SlotProvider } from '@providers/slot/slot';
 import { SearchProvider } from '@providers/search/search';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 
 import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
 import { DelegatedRekeySearchEffects } from './delegated-rekey-search.effects';
-import { TestSlotComponentsModule } from '../../../components/test-slot/test-slot-components.module';
-import { ComponentsModule } from '../../../components/common/common-components.module';
 import { DelegatedRekeySearchPage } from './delegated-rekey-search';
 
 @NgModule({

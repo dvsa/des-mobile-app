@@ -7,12 +7,13 @@ import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { SlotProvider } from '@providers/slot/slot';
 import { SearchProvider } from '@providers/search/search';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
+
 import { rekeySearchReducer } from './rekey-search.reducer';
 import { RekeySearchEffects } from './rekey-search.effects';
 import { RekeySearchAnalyticsEffects } from './rekey-search.analytics.effects';
-import { TestSlotComponentsModule } from '../../../components/test-slot/test-slot-components.module';
 import { RekeySearchPage } from './rekey-search';
-import { ComponentsModule } from '../../../components/common/common-components.module';
 
 @NgModule({
   declarations: [

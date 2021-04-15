@@ -10,12 +10,12 @@ import {
 } from '@pages/journal/components/personal-commitment/personal-commitment';
 import { ActivitySlotComponent } from '@pages/journal/components/activity-slot/activity-slot';
 import { EmptySlotComponent } from '@pages/journal/components/empty-slot/empty-slot';
-
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
+import { SlotComponent } from '@components/test-slot/slot/slot';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+
 import { SlotItem } from './slot-item';
-import { TestSlotComponent } from '../../../components/test-slot/test-slot/test-slot';
 import { Slot } from '../../../store/journal/journal.model';
-import { SlotComponent } from '../../../components/test-slot/slot/slot';
 import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 
 @Injectable()

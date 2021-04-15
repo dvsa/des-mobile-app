@@ -3,7 +3,7 @@ import { isNil, has } from 'lodash';
 import { NonTestActivity, TestSlot } from '@dvsa/mes-journal-schema';
 import { Activity, activities } from '@providers/slot-selector/activity.constants';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
-import { SlotComponent } from '../../../../../components/test-slot/slot/slot';
+import { SlotComponent } from '@components/test-slot/slot/slot';
 
 @Component({
   selector: 'activity-slot',
