@@ -11,9 +11,9 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
+import { ExaminerSlotItemsByDate } from '@store/journal/journal.model';
 import { ViewJournalsCardComponent } from '../view-journals-card';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
-import { ExaminerSlotItemsByDate } from '../../../../../../store/journal/journal.model';
 import { TestCentreJournalModule } from '../../../test-centre-journal.module';
 
 describe('ViewJournalsCardComponent', () => {

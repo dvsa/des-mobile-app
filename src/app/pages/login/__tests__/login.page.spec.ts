@@ -23,7 +23,7 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { Log, LogType } from '@shared/models/log.model';
-import { SaveLog, SendLogs } from '../../../../store/logs/logs.actions';
+import { SaveLog, SendLogs } from '@store/logs/logs.actions';
 import { MenuControllerMock } from '../../../../../mock/ionic-mocks/menu-controller';
 import { AlertControllerMock } from '../../../../../mock/ionic-mocks/alert-controller.mock';
 import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';

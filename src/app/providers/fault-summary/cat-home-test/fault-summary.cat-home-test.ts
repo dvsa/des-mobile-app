@@ -14,7 +14,7 @@ import {
   manoeuvreTypeLabels as manoeuvreTypeLabelsCatHomeTest,
 } from '@shared/constants/competencies/catb-manoeuvres';
 import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
-import { ManoeuvreTypes } from '../../../../store/tests/test-data/test-data.constants';
+import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 type HomeTestData = CatFUniqueTypes.TestData
 | CatGUniqueTypes.TestData

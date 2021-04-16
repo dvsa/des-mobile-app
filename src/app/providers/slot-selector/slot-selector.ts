@@ -14,9 +14,9 @@ import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { SlotComponent } from '@components/test-slot/slot/slot';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 
+import { Slot } from '@store/journal/journal.model';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { SlotItem } from './slot-item';
-import { Slot } from '../../../store/journal/journal.model';
-import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 
 @Injectable()
 export class SlotSelectorProvider {

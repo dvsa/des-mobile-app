@@ -2,7 +2,7 @@ import { Question } from '@dvsa/mes-test-schema/categories/CPC';
 import { lgvQuestion5 } from '@shared/constants/cpc-questions/cpc-lgv-questions.constants';
 import { pcvQuestion5 } from '@shared/constants/cpc-questions/cpc-pcv-questions.constants';
 import { Combination } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
-import { question, question5 } from '../../../../store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
+import { question, question5 } from '@store/tests/test-data/cat-cpc/__tests__/test-data.cat-cpc.mock';
 
 export class CpcQuestionsMock {
 

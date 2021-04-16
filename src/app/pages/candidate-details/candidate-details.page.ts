@@ -4,15 +4,15 @@ import { ModalController, NavParams } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
-import { Details } from './candidate-details.page.model';
-import * as journalActions from '../../../store/journal/journal.actions';
-import * as candidateDetailActions from '../../../store/candidate-details/candidate-details.actions';
+import * as journalActions from '@store/journal/journal.actions';
+import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import {
   getBusiness,
   getCandidateName,
   getDetails,
   getTime,
-} from '../../../store/candidate-details/candidate-details.selector';
+} from '@store/candidate-details/candidate-details.selector';
+import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
   name: string;

@@ -3,11 +3,11 @@ import { IonicAuth, IonicAuthOptions } from '@ionic-enterprise/auth';
 import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
+import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { AppConfigProvider } from '../app-config/app-config';
 import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
-import { selectEmployeeId } from '../../../store/app-info/app-info.selectors';
 
 export enum Token {
   ID = 'idToken',

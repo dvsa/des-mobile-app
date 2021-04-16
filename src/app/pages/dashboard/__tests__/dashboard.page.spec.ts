@@ -26,11 +26,11 @@ import {
   selectEmployeeId,
   selectEmployeeName,
   selectVersionNumber,
-} from '../../../../store/app-info/app-info.selectors';
-import { selectRole } from '../../../../store/app-config/app-config.selectors';
+} from '@store/app-info/app-info.selectors';
+import { selectRole } from '@store/app-config/app-config.selectors';
+import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
-import { appInfoReducer } from '../../../../store/app-info/app-info.reducer';
 import { DashboardPage } from '../dashboard.page';
 
 describe('DashboardPage', () => {

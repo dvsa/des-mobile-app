@@ -12,10 +12,10 @@ import { gzipSync } from 'zlib';
 import { StoreModel } from '@shared/models/store.model';
 import { LogType } from '@shared/models/log.model';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { SaveLog } from '../../../store/logs/logs.actions';
+import { SaveLog } from '@store/logs/logs.actions';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LogHelper } from '../logs/logs-helper';
 import { AppConfigProvider } from '../app-config/app-config';
-import { TestStatus } from '../../../store/tests/test-status/test-status.model';
 import { UrlProvider } from '../url/url';
 
 export interface TestToSubmit {

@@ -25,11 +25,11 @@ import { VehicleDetailsComponent } from '../../vehicle-details/vehicle-details';
 import { AdditionalCandidateDetailsComponent } from '../../additional-candidate-details/additional-candidate-details';
 // import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { LanguageComponent } from '../../language/language';
-/* import { testsReducer } from '../../../../store/tests/tests.reducer';
-import { TestStatus } from '../../../../store/tests/test-status/test-status.model';
+/* import { testsReducer } from '@store/tests/tests.reducer';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { StoreModel } from '@shared/models/store.model';
-import { SetTestStatusDecided } from '../../../../store/tests/test-status/test-status.actions';
-import { StartTest } from '../../../../store/tests/tests.actions';
+import { SetTestStatusDecided } from '@store/tests/test-status/test-status.actions';
+import { StartTest } from '@store/tests/tests.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { SpecialNeedsCode } from '@shared/helpers/get-slot-type';
 import { SlotProvider } from '@providers/slot/slot'; */

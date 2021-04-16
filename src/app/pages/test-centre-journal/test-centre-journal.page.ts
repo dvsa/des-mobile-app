@@ -26,14 +26,14 @@ import { TestCentre, TestCentreDetailResponse } from '@shared/models/test-centre
 import { StoreModel } from '@shared/models/store.model';
 import { Log, LogType } from '@shared/models/log.model';
 import { ErrorTypes } from '@shared/models/error-message';
-import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
-import { SaveLog } from '../../../store/logs/logs.actions';
+import { SaveLog } from '@store/logs/logs.actions';
 import {
   getLastRefreshed,
   getLastRefreshedTime,
-} from '../../../store/test-centre-journal/test-centre-journal.selector';
-import { getTestCentreJournalState } from '../../../store/test-centre-journal/test-centre-journal.reducer';
-import { SetLastRefreshed } from '../../../store/test-centre-journal/test-centre-journal.actions';
+} from '@store/test-centre-journal/test-centre-journal.selector';
+import { getTestCentreJournalState } from '@store/test-centre-journal/test-centre-journal.reducer';
+import { SetLastRefreshed } from '@store/test-centre-journal/test-centre-journal.actions';
+import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
 
 interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;

@@ -19,13 +19,13 @@ import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/moc
 import { StoreModel } from '@shared/models/store.model';
 import { SlotTypes } from '@shared/models/slot-types';
 import { getSlotType } from '@shared/helpers/get-slot-type';
-import { SlotComponent } from '../slot/slot';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { getTestStatus, getActivityCodeBySlotId, getTestById } from '@store/tests/tests.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { vehicleDetails } from './test-slot.constants';
-import { TestStatus } from '../../../store/tests/test-status/test-status.model';
-import { getTestStatus, getActivityCodeBySlotId, getTestById } from '../../../store/tests/tests.selector';
-import { getTests } from '../../../store/tests/tests.reducer';
-import { isRekey } from '../../../store/tests/rekey/rekey.selector';
-import { getRekeyIndicator } from '../../../store/tests/rekey/rekey.reducer';
+import { SlotComponent } from '../slot/slot';
 
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;

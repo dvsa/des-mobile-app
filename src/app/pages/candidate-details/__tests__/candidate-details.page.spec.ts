@@ -14,9 +14,9 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
+import * as journalActions from '@store/journal/journal.actions';
+import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import { CandidateDetailsPage } from '../candidate-details.page';
-import * as journalActions from '../../../../store/journal/journal.actions';
-import * as candidateDetailActions from '../../../../store/candidate-details/candidate-details.actions';
 import { ModalControllerMock } from '../../../../../mock/ionic-mocks/modal-controller.mock';
 
 describe('CandidateDetailsPage', () => {
