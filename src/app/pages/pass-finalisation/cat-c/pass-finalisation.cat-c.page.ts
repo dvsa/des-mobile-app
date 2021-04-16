@@ -24,7 +24,7 @@ export class PassFinalisationCatCPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE, TestCategory.B);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE, TestCategory.C);
   }
 
 }
