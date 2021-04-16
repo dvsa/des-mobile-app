@@ -9,9 +9,9 @@ import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 
-import { testsCatBReducer } from './tests.cat-b.reducer';
 import { testsCatDReducer } from '@store/tests/tests.cat-d.reducer';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { testsCatBReducer } from './tests.cat-b.reducer';
 import { testsCatADIPart2Reducer } from './tests.cat-adi-part2.reducer';
 import { testsCatCReducer } from './tests.cat-c.reducer';
 import { testsCatCEReducer } from './tests.cat-ce.reducer';
@@ -43,6 +43,7 @@ export function testsReducerFactory(
     case TestCategory.D:
     case TestCategory.DE:
     case TestCategory.D1E:
+    case TestCategory.D1:
       return testsCatDReducer(action, state as Required<CatDUniqueTypes.TestResult>);
     default:
       return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
