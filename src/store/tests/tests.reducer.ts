@@ -17,6 +17,8 @@ export const initialState: TestsModel = {
   testStatus: {},
 };
 
+export const testsFeatureKey = 'tests';
+
 const deriveSlotId = (state: TestsModel, action: Action): string | null => {
   if (action.type === testsActions.StartTestReportPracticeTest.type) {
     return testReportPracticeSlotId;
