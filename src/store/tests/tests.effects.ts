@@ -81,6 +81,10 @@ import { PopulateVehicleDimensions } from './vehicle-details/vehicle-details.act
 import {
   InitialiseVehicleChecks as InitialiseVehicleChecksCatC,
 } from './test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
+import {
+  InitializeVehicleChecks as InitializeVehicleChecksCatD,
+}
+  from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 
 @Injectable()
 export class TestsEffects {
@@ -236,14 +240,13 @@ export class TestsEffects {
         || startTestAction.category === TestCategory.CE) {
         arrayOfActions.push(InitialiseVehicleChecksCatC(startTestAction.category));
       }
-      // @TODO: Implement as part of CAT D development
-      // if (
-      //   startTestAction.category === TestCategory.D ||
-      //   startTestAction.category === TestCategory.D1 ||
-      //   startTestAction.category === TestCategory.D1E ||
-      //   startTestAction.category === TestCategory.DE) {
-      //   arrayOfActions.push(new InitializeVehicleChecksCatD(startTestAction.category));
-      // }
+      if (
+        startTestAction.category === TestCategory.D
+        || startTestAction.category === TestCategory.D1
+        || startTestAction.category === TestCategory.D1E
+        || startTestAction.category === TestCategory.DE) {
+        arrayOfActions.push(InitializeVehicleChecksCatD(startTestAction.category));
+      }
       // @TODO: Implement as part of CAT Home development
       // if (
       // startTestAction.category === TestCategory.F ||

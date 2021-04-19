@@ -4,12 +4,14 @@ import { get } from 'lodash';
 import { PopulateCandidateDetails } from './candidate.actions';
 // import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
 import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
-// import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
+import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
 // import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
 
 type CandidateDetailsUnion =
-  ReturnType<typeof PopulateCandidateDetails>
-  | ReturnType<typeof PopulateCandidateDetailsCatC>;
+  ReturnType<typeof PopulateCandidateDetails> |
+  ReturnType<typeof PopulateCandidateDetailsCatC> |
+  ReturnType<typeof PopulateCandidateDetailsCatD>
+  ;
 
 export const createPopulateCandidateDetailsAction = (
   testCategory: string,
