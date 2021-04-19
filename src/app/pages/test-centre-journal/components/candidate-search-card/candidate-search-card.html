@@ -31,8 +31,8 @@
     </ion-grid>
   </div>
   <div>
-    <p *ngIf="!todaySlots || todaySlots.length === 0 " class="ion-padding-top ion-text-center no-results">
-      {{selectedCandidateName}} does not have a test today.
+    <p *ngIf="!todaySlots || todaySlots.length === 0" class="ion-padding-top ion-text-center no-results">
+      This candidate does not have a booking at {{slashSeperatedTestCentres}} for today.
     </p>
   </div>
   <ion-list *ngFor="let candidateSlot of todaySlots">
@@ -57,7 +57,7 @@
   </div>
   <div class="no-results">
     <p *ngIf="!tomorrowSlots || tomorrowSlots.length === 0" class="ion-padding-top ion-text-center no-results">
-      {{selectedCandidateName}} does not have a test tomorrow.
+      This candidate does not have a booking at {{slashSeperatedTestCentres}} for tomorrow.
     </p>
   </div>
   <ion-list *ngFor="let candidateSlot of tomorrowSlots">

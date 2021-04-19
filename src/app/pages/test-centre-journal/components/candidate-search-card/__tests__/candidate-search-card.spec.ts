@@ -103,4 +103,15 @@ describe('CandidateSearchCardComponent', () => {
     });
   });
 
+  describe('get slashSeperatedTestCentres', () => {
+    it('should replace the commas in the string with slashes', () => {
+      component.testCentreName = 'TEST CENTRE A, TEST CENTRE B, TEST CENTRE C';
+      expect(component.slashSeperatedTestCentres).toEqual('TEST CENTRE A / TEST CENTRE B / TEST CENTRE C');
+    });
+    it('should use default if not defined', () => {
+      component.testCentreName = null;
+      expect(component.slashSeperatedTestCentres).toEqual('test centre');
+    });
+  });
+
 });
