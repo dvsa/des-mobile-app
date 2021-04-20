@@ -9,6 +9,7 @@ import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.ca
 
 type CandidateDetailsUnion =
   ReturnType<typeof PopulateCandidateDetails> |
+  ReturnType<typeof PopulateCandidateDetailsCatBE> |
   ReturnType<typeof PopulateCandidateDetailsCatC> |
   ReturnType<typeof PopulateCandidateDetailsCatD>
   ;
