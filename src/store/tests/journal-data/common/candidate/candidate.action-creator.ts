@@ -2,7 +2,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Booking } from '@dvsa/mes-journal-schema';
 import { get } from 'lodash';
 import { PopulateCandidateDetails } from './candidate.actions';
-// import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
+import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
 import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
 // import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
@@ -32,7 +32,7 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.DCPC:
       return PopulateCandidateDetails(booking.candidate);
     case TestCategory.BE:
-      return new PopulateCandidateDetailsCatBE({
+      return PopulateCandidateDetailsCatBE({
         ...booking.candidate,
         businessAddress: get(booking, 'business.businessAddress'),
         businessName: get(booking, 'business.businessName'),
@@ -53,7 +53,7 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.D1:
     case TestCategory.D1E:
     case TestCategory.DE:
-      return new PopulateCandidateDetailsCatD({
+      return PopulateCandidateDetailsCatD({
         ...booking.candidate,
         businessAddress: get(booking, 'business.businessAddress'),
         businessName: get(booking, 'business.businessName'),
