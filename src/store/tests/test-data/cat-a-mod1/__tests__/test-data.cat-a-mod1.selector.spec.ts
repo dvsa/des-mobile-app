@@ -58,22 +58,11 @@ describe('TestDataSelectors', () => {
       const result = getETAFaultText(state.ETA);
       expect(result).toBeUndefined();
     });
-    it('should return `Physical and Verbal` if both ETA faults', () => {
-      state.ETA.physical = true;
-      state.ETA.verbal = true;
-      const result = getETAFaultText(state.ETA);
-      expect(result).toEqual('Physical and Verbal');
-    });
-    it('should return `Physical` if just physical ETA fault', () => {
-      state.ETA.physical = true;
-      state.ETA.verbal = false;
-      const result = getETAFaultText(state.ETA);
-      expect(result).toEqual('Physical');
-    });
     it('should return `Verbal` if just verbal ETA fault', () => {
-      state.ETA.physical = false;
-      state.ETA.verbal = true;
-      const result = getETAFaultText(state.ETA);
+      const result = getETAFaultText({
+        ...state,
+        verbal: true,
+      });
       expect(result).toEqual('Verbal');
     });
   });

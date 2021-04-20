@@ -13,18 +13,18 @@ export const singleFaultCompetenciesReducer = createReducer(
     ...state,
     [competencyName]: outcome,
   })),
-  on(singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome, (state, {
-    competencyName,
-  }): SingleFaultCompetencies => (
-    {
-      const: { [competencyName]: removedCompetencyOutcome, ...updatedCompetencyOutcome } = initialState,
-      ...updatedCompetencyOutcome,
-
-    })),
+  on(singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome,
+    singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome,
+    singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome, (state, {
+      competencyName,
+    }): SingleFaultCompetencies => {
+      delete state[competencyName];
+      return { ...state };
+    }),
   on(singleFaultCompetencyActions.AddSingleFaultCompetencyComment, (state, {
     competencyName,
     comment,
-  }): SingleFaultCompentencies => ({
+  }): SingleFaultCompetencies => ({
     ...state,
     [`${competencyName}Comments`]: comment,
   })),
