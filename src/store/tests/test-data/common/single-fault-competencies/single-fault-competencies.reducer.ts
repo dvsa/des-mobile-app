@@ -1,5 +1,6 @@
 import { SingleFaultCompetencies } from '@dvsa/mes-test-schema/categories/AM1';
 import { createReducer, on } from '@ngrx/store';
+
 import * as singleFaultCompetencyActions from './single-fault-competencies.actions';
 
 export const initialState: SingleFaultCompetencies = {};
