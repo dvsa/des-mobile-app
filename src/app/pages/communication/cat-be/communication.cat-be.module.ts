@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CommunicationCatBePageRoutingModule } from './communication.cat-be-routing.module';
+import { CommunicationCatBEPageRoutingModule } from './communication.cat-be-routing.module';
 
-import { CommunicationCatBePage } from './communication.cat-be.page';
+import { CommunicationCatBEPage } from './communication.cat-be.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CommunicationCatBePageRoutingModule,
+    CommunicationCatBEPageRoutingModule,
   ],
-  declarations: [CommunicationCatBePage],
+  declarations: [CommunicationCatBEPage],
 })
-export class CommunicationCatBePageModule {}
+export class CommunicationCatBEPageModule {}

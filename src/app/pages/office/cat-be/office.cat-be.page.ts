@@ -10,7 +10,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   templateUrl: './office.cat-be.page.html',
   styleUrls: ['./office.cat-be.page.scss'],
 })
-export class OfficeCatBePage implements OnInit {
+export class OfficeCatBEPage implements OnInit {
 
   constructor(
     private navController: NavController,

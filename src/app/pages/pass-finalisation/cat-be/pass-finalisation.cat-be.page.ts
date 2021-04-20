@@ -9,7 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   templateUrl: './pass-finalisation.cat-be.page.html',
   styleUrls: ['./pass-finalisation.cat-be.page.scss'],
 })
-export class PassFinalisationCatBePage implements OnInit {
+export class PassFinalisationCatBEPage implements OnInit {
 
   constructor(
     private navController: NavController,

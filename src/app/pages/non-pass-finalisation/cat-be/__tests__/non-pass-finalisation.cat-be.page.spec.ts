@@ -4,15 +4,15 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { NonPassFinalisationCatBePage } from '../non-pass-finalisation.cat-be.page';
+import { NonPassFinalisationCatBEPage } from '../non-pass-finalisation.cat-be.page';
 
-describe('NonPassFinalisation.CatBePage', () => {
-  let component: NonPassFinalisationCatBePage;
-  let fixture: ComponentFixture<NonPassFinalisationCatBePage>;
+describe('NonPassFinalisation.CatBEPage', () => {
+  let component: NonPassFinalisationCatBEPage;
+  let fixture: ComponentFixture<NonPassFinalisationCatBEPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [NonPassFinalisationCatBePage],
+      declarations: [NonPassFinalisationCatBEPage],
       imports: [IonicModule.forRoot()],
       providers: [
         { provide: NavController, useClass: NavMock },
@@ -20,7 +20,7 @@ describe('NonPassFinalisation.CatBePage', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NonPassFinalisationCatBePage);
+    fixture = TestBed.createComponent(NonPassFinalisationCatBEPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

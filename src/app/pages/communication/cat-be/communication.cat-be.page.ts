@@ -9,7 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   templateUrl: './communication.cat-be.page.html',
   styleUrls: ['./communication.cat-be.page.scss'],
 })
-export class CommunicationCatBePage implements OnInit {
+export class CommunicationCatBEPage implements OnInit {
 
   constructor(
     private navController: NavController,

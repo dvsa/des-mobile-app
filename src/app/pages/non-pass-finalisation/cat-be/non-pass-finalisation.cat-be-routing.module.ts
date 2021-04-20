@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NonPassFinalisationCatBePage } from './non-pass-finalisation.cat-be.page';
+import { NonPassFinalisationCatBEPage } from './non-pass-finalisation.cat-be.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: NonPassFinalisationCatBePage,
+    component: NonPassFinalisationCatBEPage,
   },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class NonPassFinalisationCatBePageRoutingModule {}
+export class NonPassFinalisationCatBEPageRoutingModule {}

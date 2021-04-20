@@ -11,6 +11,8 @@ export class RouteByCategoryProvider {
   }
 
   async navigateToPage(page: PageNameKeys, category?: TestCategory): Promise<void> {
+    console.log('page', page);
+    console.log('category', category);
     const { config } = this.router;
     const categoryPage: string = category ? getPageNameByCategoryAndKey(category, page) : page;
     const pageAlias: string = this.getPageAliasByCategory(category);
@@ -18,7 +20,8 @@ export class RouteByCategoryProvider {
     const importPath: string = category
       ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}`
       : `${pageName}/${pageName}`;
-
+    console.log('importPath', importPath);
+    console.log('categoryPage', categoryPage);
     config.push({
       path: categoryPage,
       loadChildren: () =>

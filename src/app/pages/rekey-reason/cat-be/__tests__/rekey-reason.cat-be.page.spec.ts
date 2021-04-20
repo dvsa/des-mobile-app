@@ -4,15 +4,15 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { RekeyReasonCatBePage } from '../rekey-reason.cat-be.page';
+import { RekeyReasonCatBEPage } from '../rekey-reason.cat-be.page';
 
-describe('RekeyReasonCatBePage', () => {
-  let component: RekeyReasonCatBePage;
-  let fixture: ComponentFixture<RekeyReasonCatBePage>;
+describe('RekeyReasonCatBEPage', () => {
+  let component: RekeyReasonCatBEPage;
+  let fixture: ComponentFixture<RekeyReasonCatBEPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RekeyReasonCatBePage],
+      declarations: [RekeyReasonCatBEPage],
       imports: [IonicModule.forRoot()],
       providers: [
         { provide: NavController, useClass: NavMock },
@@ -20,7 +20,7 @@ describe('RekeyReasonCatBePage', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(RekeyReasonCatBePage);
+    fixture = TestBed.createComponent(RekeyReasonCatBEPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

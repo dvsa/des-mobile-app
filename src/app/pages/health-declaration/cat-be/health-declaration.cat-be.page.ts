@@ -8,7 +8,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
   templateUrl: './health-declaration.cat-be.page.html',
   styleUrls: ['./health-declaration.cat-be.page.scss'],
 })
-export class HealthDeclarationCatBePage implements OnInit {
+export class HealthDeclarationCatBEPage implements OnInit {
 
   constructor(
     private navController: NavController,

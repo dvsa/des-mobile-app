@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HealthDeclarationCatBePageRoutingModule } from './health-declaration.cat-be-routing.module';
+import { HealthDeclarationCatBEPageRoutingModule } from './health-declaration.cat-be-routing.module';
 
-import { HealthDeclarationCatBePage } from './health-declaration.cat-be.page';
+import { HealthDeclarationCatBEPage } from './health-declaration.cat-be.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HealthDeclarationCatBePageRoutingModule,
+    HealthDeclarationCatBEPageRoutingModule,
   ],
-  declarations: [HealthDeclarationCatBePage],
+  declarations: [HealthDeclarationCatBEPage],
 })
-export class HealthDeclarationCatBePageModule {}
+export class HealthDeclarationCatBEPageModule {}

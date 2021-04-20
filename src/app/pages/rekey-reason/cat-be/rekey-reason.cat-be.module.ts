@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RekeyReasonCatBePageRoutingModule } from './rekey-reason.cat-be-routing.module';
+import { RekeyReasonCatBEPageRoutingModule } from './rekey-reason.cat-be-routing.module';
 
-import { RekeyReasonCatBePage } from './rekey-reason.cat-be.page';
+import { RekeyReasonCatBEPage } from './rekey-reason.cat-be.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RekeyReasonCatBePageRoutingModule,
+    RekeyReasonCatBEPageRoutingModule,
   ],
-  declarations: [RekeyReasonCatBePage],
+  declarations: [RekeyReasonCatBEPage],
 })
-export class RekeyReasonCatBePageModule {}
+export class RekeyReasonCatBEPageModule {}

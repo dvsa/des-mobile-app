@@ -4,15 +4,15 @@ import { IonicModule, NavController } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { CommunicationCatBePage } from '../communication.cat-be.page';
+import { CommunicationCatBEPage } from '../communication.cat-be.page';
 
-describe('Communication.CatBePage', () => {
-  let component: CommunicationCatBePage;
-  let fixture: ComponentFixture<CommunicationCatBePage>;
+describe('Communication.CatBEPage', () => {
+  let component: CommunicationCatBEPage;
+  let fixture: ComponentFixture<CommunicationCatBEPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CommunicationCatBePage],
+      declarations: [CommunicationCatBEPage],
       imports: [IonicModule.forRoot()],
       providers: [
         { provide: NavController, useClass: NavMock },
@@ -20,7 +20,7 @@ describe('Communication.CatBePage', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CommunicationCatBePage);
+    fixture = TestBed.createComponent(CommunicationCatBEPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

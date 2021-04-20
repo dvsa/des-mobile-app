@@ -9,7 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   templateUrl: './waiting-room-to-car.cat-be.page.html',
   styleUrls: ['./waiting-room-to-car.cat-be.page.scss'],
 })
-export class WaitingRoomToCarCatBePage implements OnInit {
+export class WaitingRoomToCarCatBEPage implements OnInit {
 
   constructor(
     private navController: NavController,

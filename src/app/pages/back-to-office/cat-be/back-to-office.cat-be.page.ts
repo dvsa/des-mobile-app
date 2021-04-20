@@ -9,7 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   templateUrl: './back-to-office.cat-be.page.html',
   styleUrls: ['./back-to-office.cat-be.page.scss'],
 })
-export class BackToOfficeCatBePage implements OnInit {
+export class BackToOfficeCatBEPage implements OnInit {
 
   constructor(
     public navController: NavController,

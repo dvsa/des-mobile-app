@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { WaitingRoomToCarCatBePageRoutingModule } from './waiting-room-to-car.cat-be-routing.module';
+import { WaitingRoomToCarCatBEPageRoutingModule } from './waiting-room-to-car.cat-be-routing.module';
 
-import { WaitingRoomToCarCatBePage } from './waiting-room-to-car.cat-be.page';
+import { WaitingRoomToCarCatBEPage } from './waiting-room-to-car.cat-be.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    WaitingRoomToCarCatBePageRoutingModule,
+    WaitingRoomToCarCatBEPageRoutingModule,
   ],
-  declarations: [WaitingRoomToCarCatBePage],
+  declarations: [WaitingRoomToCarCatBEPage],
 })
-export class WaitingRoomToCarCatBePageModule {}
+export class WaitingRoomToCarCatBEPageModule {}

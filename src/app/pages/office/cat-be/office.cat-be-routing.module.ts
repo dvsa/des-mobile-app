@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { OfficeCatBePage } from './office.cat-be.page';
+import { OfficeCatBEPage } from './office.cat-be.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: OfficeCatBePage,
+    component: OfficeCatBEPage,
   },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class OfficeCatBePageRoutingModule {}
+export class OfficeCatBEPageRoutingModule {}

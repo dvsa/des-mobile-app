@@ -8,7 +8,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
   templateUrl: './non-pass-finalisation.cat-be.page.html',
   styleUrls: ['./non-pass-finalisation.cat-be.page.scss'],
 })
-export class NonPassFinalisationCatBePage implements OnInit {
+export class NonPassFinalisationCatBEPage implements OnInit {
 
   constructor(
     private navController: NavController,

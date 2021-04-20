@@ -5,16 +5,16 @@ import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { Router } from '@angular/router';
-import { OfficeCatBePage } from '../office.cat-be.page';
+import { OfficeCatBEPage } from '../office.cat-be.page';
 
-describe('Office.CatBePage', () => {
-  let component: OfficeCatBePage;
-  let fixture: ComponentFixture<OfficeCatBePage>;
+describe('Office.CatBEPage', () => {
+  let component: OfficeCatBEPage;
+  let fixture: ComponentFixture<OfficeCatBEPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OfficeCatBePage],
+      declarations: [OfficeCatBEPage],
       imports: [IonicModule.forRoot()],
       providers: [
         { provide: NavController, useClass: NavMock },
@@ -24,7 +24,7 @@ describe('Office.CatBePage', () => {
 
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OfficeCatBePage);
+    fixture = TestBed.createComponent(OfficeCatBEPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

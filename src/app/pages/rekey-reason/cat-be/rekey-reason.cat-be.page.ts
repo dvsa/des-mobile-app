@@ -8,7 +8,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
   templateUrl: './rekey-reason.cat-be.page.html',
   styleUrls: ['./rekey-reason.cat-be.page.scss'],
 })
-export class RekeyReasonCatBePage implements OnInit {
+export class RekeyReasonCatBEPage implements OnInit {
 
   constructor(
     private navController: NavController,

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TestReportCatBePageRoutingModule } from './test-report.cat-be-routing.module';
+import { TestReportCatBEPageRoutingModule } from './test-report.cat-be-routing.module';
 
-import { TestReportCatBePage } from './test-report.cat-be.page';
+import { TestReportCatBEPage } from './test-report.cat-be.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TestReportCatBePageRoutingModule,
+    TestReportCatBEPageRoutingModule,
   ],
-  declarations: [TestReportCatBePage],
+  declarations: [TestReportCatBEPage],
 })
-export class TestReportCatBePageModule {}
+export class TestReportCatBEPageModule {}

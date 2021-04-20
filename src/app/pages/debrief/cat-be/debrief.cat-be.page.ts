@@ -9,7 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
   templateUrl: './debrief.cat-be.page.html',
   styleUrls: ['./debrief.cat-be.page.scss'],
 })
-export class DebriefCatBePage implements OnInit {
+export class DebriefCatBEPage implements OnInit {
 
   constructor(
     private navController: NavController,

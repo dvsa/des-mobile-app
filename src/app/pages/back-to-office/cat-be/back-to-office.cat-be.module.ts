@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BackToOfficeCatBePageRoutingModule } from './back-to-office.cat-be-routing.module';
+import { BackToOfficeCatBEPageRoutingModule } from './back-to-office.cat-be-routing.module';
 
-import { BackToOfficeCatBePage } from './back-to-office.cat-be.page';
+import { BackToOfficeCatBEPage } from './back-to-office.cat-be.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BackToOfficeCatBePageRoutingModule,
+    BackToOfficeCatBEPageRoutingModule,
   ],
-  declarations: [BackToOfficeCatBePage],
+  declarations: [BackToOfficeCatBEPage],
 })
-export class BackToOfficeCatBePageModule {}
+export class BackToOfficeCatBEPageModule {}

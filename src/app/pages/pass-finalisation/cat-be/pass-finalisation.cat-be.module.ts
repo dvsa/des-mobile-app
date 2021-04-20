@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PassFinalisationCatBePageRoutingModule } from './pass-finalisation.cat-be-routing.module';
+import { PassFinalisationCatBEPageRoutingModule } from './pass-finalisation.cat-be-routing.module';
 
-import { PassFinalisationCatBePage } from './pass-finalisation.cat-be.page';
+import { PassFinalisationCatBEPage } from './pass-finalisation.cat-be.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    PassFinalisationCatBePageRoutingModule,
+    PassFinalisationCatBEPageRoutingModule,
   ],
-  declarations: [PassFinalisationCatBePage],
+  declarations: [PassFinalisationCatBEPage],
 })
-export class PassFinalisationCatBePageModule {}
+export class PassFinalisationCatBEPageModule {}

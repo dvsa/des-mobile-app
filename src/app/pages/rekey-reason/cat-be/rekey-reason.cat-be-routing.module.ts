@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RekeyReasonCatBePage } from './rekey-reason.cat-be.page';
+import { RekeyReasonCatBEPage } from './rekey-reason.cat-be.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RekeyReasonCatBePage,
+    component: RekeyReasonCatBEPage,
   },
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RekeyReasonCatBePageRoutingModule {}
+export class RekeyReasonCatBEPageRoutingModule {}
