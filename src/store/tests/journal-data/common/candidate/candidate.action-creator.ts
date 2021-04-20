@@ -2,13 +2,14 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Booking } from '@dvsa/mes-journal-schema';
 import { get } from 'lodash';
 import { PopulateCandidateDetails } from './candidate.actions';
-// import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
+import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
 import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
 // import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
 
 type CandidateDetailsUnion =
   ReturnType<typeof PopulateCandidateDetails> |
+  ReturnType<typeof PopulateCandidateDetailsCatBE> |
   ReturnType<typeof PopulateCandidateDetailsCatC> |
   ReturnType<typeof PopulateCandidateDetailsCatD>
   ;
@@ -32,14 +33,12 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.DCPC:
       return PopulateCandidateDetails(booking.candidate);
     case TestCategory.BE:
-      // @TODO: Implement during CAT BE development
-      // return new PopulateCandidateDetailsCatBE({
-      //   ...booking.candidate,
-      //   businessAddress: get(booking, 'business.businessAddress'),
-      //   businessName: get(booking, 'business.businessName'),
-      //   businessTelephone: get(booking, 'business.telephone'),
-      // });
-      return {} as CandidateDetailsUnion;
+      return PopulateCandidateDetailsCatBE({
+        ...booking.candidate,
+        businessAddress: get(booking, 'business.businessAddress'),
+        businessName: get(booking, 'business.businessName'),
+        businessTelephone: get(booking, 'business.telephone'),
+      });
     case TestCategory.C1E:
     case TestCategory.CE:
     case TestCategory.C1:
@@ -54,14 +53,12 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.D1:
     case TestCategory.D1E:
     case TestCategory.DE:
-      // @TODO: Implement during CAT D development
-      // return new PopulateCandidateDetailsCatD({
-      //   ...booking.candidate,
-      //   businessAddress: get(booking, 'business.businessAddress'),
-      //   businessName: get(booking, 'business.businessName'),
-      //   businessTelephone: get(booking, 'business.telephone'),
-      // });
-      return {} as CandidateDetailsUnion;
+      return PopulateCandidateDetailsCatD({
+        ...booking.candidate,
+        businessAddress: get(booking, 'business.businessAddress'),
+        businessName: get(booking, 'business.businessName'),
+        businessTelephone: get(booking, 'business.telephone'),
+      });
     case TestCategory.F:
     case TestCategory.G:
     case TestCategory.H:
