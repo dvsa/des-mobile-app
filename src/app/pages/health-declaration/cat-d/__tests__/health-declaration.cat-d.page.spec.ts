@@ -4,15 +4,15 @@ import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 
-import { HealthDeclarationCatCPage } from '../health-declaration.cat-c.page';
+import { HealthDeclarationCatDPage } from '../health-declaration.cat-d.page';
 
-describe('HealthDeclarationCatCPage', () => {
-  let component: HealthDeclarationCatCPage;
-  let fixture: ComponentFixture<HealthDeclarationCatCPage>;
+describe('HealthDeclarationCatDPage', () => {
+  let component: HealthDeclarationCatDPage;
+  let fixture: ComponentFixture<HealthDeclarationCatDPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HealthDeclarationCatCPage],
+      declarations: [HealthDeclarationCatDPage],
       imports: [IonicModule.forRoot()],
       providers: [
         { provide: NavController, useClass: NavMock },
@@ -20,7 +20,7 @@ describe('HealthDeclarationCatCPage', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HealthDeclarationCatCPage);
+    fixture = TestBed.createComponent(HealthDeclarationCatDPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
