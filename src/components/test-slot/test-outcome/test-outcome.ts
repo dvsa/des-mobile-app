@@ -199,7 +199,6 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
-    console.log('here');
     await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
   }
 
