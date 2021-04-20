@@ -10,12 +10,12 @@ export const RemoveEmergencyStopSeriousFault = createAction(
 
 export const RecordEmergencyStopFirstAttempt = createAction(
   '[SpeedCheck] [CatAMod1] Record Emergency Stop First Attempt',
-  (attemptedSpeed: string) => ({ attemptedSpeed }),
+  (attemptedSpeed: number) => ({ attemptedSpeed }),
 );
 
 export const RecordEmergencyStopSecondAttempt = createAction(
   '[SpeedCheck] [CatAMod1] Record Emergency Stop Second Attempt',
-  (attemptedSpeed: string) => ({ attemptedSpeed }),
+  (attemptedSpeed: number) => ({ attemptedSpeed }),
 );
 
 export const AddAnEmergencyStopComment = createAction(

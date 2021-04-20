@@ -1,17 +1,17 @@
 import { EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
-import * as emergencyStopActions from './emergency-stop.actions';
-import { CompetencyOutcome } from '../../../../../shared/models/competency-outcome';
 import { createReducer, on } from '@ngrx/store';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import * as emergencyStopActions from './emergency-stop.actions';
 
 export const initialState: EmergencyStop = {};
 
 export const emergencyStopReducer = createReducer(
   initialState,
-  on(emergencyStopActions.RecordEmergencyStopFirstAttempt, (state): EmergencyStop => ({
+  on(emergencyStopActions.RecordEmergencyStopFirstAttempt, (state, { attemptedSpeed }): EmergencyStop => ({
     ...state,
     firstAttempt: attemptedSpeed,
   })),
-  on(emergencyStopActions.RecordEmergencyStopSecondAttempt, (state): EmergencyStop => ({
+  on(emergencyStopActions.RecordEmergencyStopSecondAttempt, (state, { attemptedSpeed }): EmergencyStop => ({
     ...state,
     secondAttempt: attemptedSpeed,
   })),
@@ -23,8 +23,8 @@ export const emergencyStopReducer = createReducer(
     ...state,
     outcome: null,
   })),
-  on(emergencyStopActions.AddAnEmergencyStopComment, (state): EmergencyStop => ({
+  on(emergencyStopActions.AddAnEmergencyStopComment, (state, { comment }): EmergencyStop => ({
     ...state,
     comments: comment,
   })),
-)
+);

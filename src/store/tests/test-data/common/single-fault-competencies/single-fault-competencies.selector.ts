@@ -1,10 +1,10 @@
 import { SingleFaultCompetencies, TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import { SingleFaultCompetencyNames } from '../../test-data.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { SingleFaultCompetencyNames } from '../../test-data.constants';
 
 export const getSingleFaultCompetencies = (
   testData: TestData,
-): SingleFaultCompetencies => testData.singleFaultCompetencies
+): SingleFaultCompetencies => testData.singleFaultCompetencies;
 
 export const hasCompetencyDrivingFault = (
   singleFaultCompetencies: SingleFaultCompetencies,

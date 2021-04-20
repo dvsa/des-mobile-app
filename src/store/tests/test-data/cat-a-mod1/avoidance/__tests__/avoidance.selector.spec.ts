@@ -1,6 +1,5 @@
-
-import { getAvoidance, getAvoidanceAttempted } from '../avoidance.selector';
 import { TestData, Avoidance } from '@dvsa/mes-test-schema/categories/AM1';
+import { getAvoidance, getAvoidanceAttempted } from '../avoidance.selector';
 
 describe('emergency stop selector', () => {
   describe('getEmergencyStop', () => {

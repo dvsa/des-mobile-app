@@ -1,5 +1,5 @@
-import { getCBTNumberStatus } from '../pre-test-declarations.cat-a-mod1.selector';
 import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/AM1';
+import { getCBTNumberStatus } from '../pre-test-declarations.cat-a-mod1.selector';
 
 describe('PreTestDeclarations selector', () => {
   const state: PreTestDeclarations = {

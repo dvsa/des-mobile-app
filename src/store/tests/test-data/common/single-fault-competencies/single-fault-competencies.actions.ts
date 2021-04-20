@@ -4,11 +4,11 @@ import { SingleFaultCompetencyNames } from '../../test-data.constants';
 
 export const SetSingleFaultCompetencyOutcome = createAction(
   '[Single Fault Competency] Set Outcome',
-  (SingleFaultCompetencyNames: SingleFaultCompetencyNames,
-   SingleFaultCompetencyOutcome: SingleFaultCompetencyOutcome) =>
+  (competencyName: SingleFaultCompetencyNames,
+    outcome: SingleFaultCompetencyOutcome) =>
     ({
-      SingleFaultCompetencyNames,
-      SingleFaultCompetencyOutcome,
+      competencyName,
+      outcome,
     }),
 );
 
@@ -30,7 +30,7 @@ export const RemoveSingleDangerousFaultCompetencyOutcome = createAction(
 export const AddSingleFaultCompetencyComment = createAction(
   '[Single Fault Competency] Add Comment',
   (competencyName: SingleFaultCompetencyNames,
-   comment: string) =>
+    comment: string) =>
     ({
       SingleFaultCompetencyNames,
       comment,

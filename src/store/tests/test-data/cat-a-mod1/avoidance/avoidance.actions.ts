@@ -10,15 +10,15 @@ export const RemoveAvoidanceSeriousFault = createAction(
 
 export const RecordAvoidanceFirstAttempt = createAction(
   '[SpeedCheck] [CatAMod1] Record Avoidance First Attempt',
-  (attemptedSpeed: string) => ({ attemptedSpeed: string })
+  (attemptedSpeed: number) => ({ attemptedSpeed }),
 );
 
 export const RecordAvoidanceSecondAttempt = createAction(
   '[SpeedCheck] [CatAMod1] Record Avoidance Second Attempt',
-  (attemptedSpeed: string) => ({ attemptedSpeed: string })
+  (attemptedSpeed: number) => ({ attemptedSpeed }),
 );
 
 export const AddAvoidanceComment = createAction(
   '[SpeedCheck] [CatAMod1] Add Avoidance Comment',
-  (comment: string) => ({ comment: string })
+  (comment: string) => ({ comment }),
 );
