@@ -121,6 +121,8 @@ describe('TestDataSelectors', () => {
 
   describe('getETAFaultText', () => {
     it('should return null if no ETA faults', () => {
+      state.ETA.physical = false;
+      state.ETA.verbal = false;
       const result = getETAFaultText(state.ETA);
       expect(result).toBeUndefined();
     });
@@ -146,6 +148,8 @@ describe('TestDataSelectors', () => {
 
   describe('getEcoFaultText', () => {
     it('should return null if no eco faults', () => {
+      state.eco.adviceGivenControl = false;
+      state.eco.adviceGivenPlanning = false;
       const result = getEcoFaultText(state.eco);
       expect(result).toBeUndefined();
     });
