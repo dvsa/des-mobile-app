@@ -122,4 +122,8 @@ export class CandidateSearchCardComponent implements OnChanges {
     this.typeAheadDropDown.clearInput();
   }
 
+  get slashSeperatedTestCentres(): string {
+    return this.testCentreName?.replace(/,/gi, ' /') ?? 'test centre';
+  }
+
 }
