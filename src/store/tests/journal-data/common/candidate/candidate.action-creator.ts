@@ -39,7 +39,6 @@ export const createPopulateCandidateDetailsAction = (
         businessName: get(booking, 'business.businessName'),
         businessTelephone: get(booking, 'business.telephone'),
       });
-      return {} as CandidateDetailsUnion;
     case TestCategory.C1E:
     case TestCategory.CE:
     case TestCategory.C1:
@@ -60,7 +59,6 @@ export const createPopulateCandidateDetailsAction = (
         businessName: get(booking, 'business.businessName'),
         businessTelephone: get(booking, 'business.telephone'),
       });
-      return {} as CandidateDetailsUnion;
     case TestCategory.F:
     case TestCategory.G:
     case TestCategory.H:
