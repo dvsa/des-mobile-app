@@ -1,41 +1,24 @@
-import { Action } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
-export const ADD_EMERGENCY_STOP_SERIOUS_FAULT = '[SpeedCheck] [CatAMod1] Add Emergency Stop Speed Req Serious Fault';
-export const REMOVE_EMERGENCY_STOP_SERIOUS_FAULT =
-  '[SpeedCheck] [CatAMod1] Remove Emergency Stop Speed Req Serious Fault';
-export const RECORD_EMERGENCY_STOP_FIRST_ATTEMPT = '[SpeedCheck] [CatAMod1] Record Emergency Stop First Attempt';
-export const RECORD_EMERGENCY_STOP_SECOND_ATTEMPT = '[SpeedCheck] [CatAMod1] Record Emergency Stop Second Attempt';
+export const AddEmergencyStopSeriousFault = createAction(
+  '[SpeedCheck] [CatAMod1] Add Emergency Stop Speed Req Serious Fault',
+);
 
-export const ADD_EMERGENCY_STOP_COMMENT = '[SpeedCheck] [CatAMod1] Add Emergency Stop Comment';
+export const RemoveEmergencyStopSeriousFault = createAction(
+  '[SpeedCheck] [CatAMod1] Remove Emergency Stop Speed Req Serious Fault',
+);
 
-export class AddEmergencyStopSeriousFault implements Action {
-  readonly type = ADD_EMERGENCY_STOP_SERIOUS_FAULT;
-}
+export const RecordEmergencyStopFirstAttempt = createAction(
+  '[SpeedCheck] [CatAMod1] Record Emergency Stop First Attempt',
+  (attemptedSpeed: string) => ({ attemptedSpeed }),
+);
 
-export class RemoveEmergencyStopSeriousFault implements Action {
-  readonly type = REMOVE_EMERGENCY_STOP_SERIOUS_FAULT;
-}
+export const RecordEmergencyStopSecondAttempt = createAction(
+  '[SpeedCheck] [CatAMod1] Record Emergency Stop Second Attempt',
+  (attemptedSpeed: string) => ({ attemptedSpeed }),
+);
 
-export class RecordEmergencyStopFirstAttempt implements Action {
-  readonly type = RECORD_EMERGENCY_STOP_FIRST_ATTEMPT;
-  constructor(public attemptedSpeed: number) {}
-}
-
-export class RecordEmergencyStopSecondAttempt implements Action {
-  readonly type = RECORD_EMERGENCY_STOP_SECOND_ATTEMPT;
-  constructor(public attemptedSpeed: number) {}
-}
-
-export class AddAnEmergencyStopComment implements Action {
-  constructor(public comment: string) {
-  }
-
-  readonly type = ADD_EMERGENCY_STOP_COMMENT;
-}
-
-export type Types =
-  | AddEmergencyStopSeriousFault
-  | RemoveEmergencyStopSeriousFault
-  | RecordEmergencyStopFirstAttempt
-  | RecordEmergencyStopSecondAttempt
-  | AddAnEmergencyStopComment;
+export const AddAnEmergencyStopComment = createAction(
+  '[SpeedCheck] [CatAMod1] Add Emergency Stop Comment',
+  (comment: string) => ({ comment }),
+);
