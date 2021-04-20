@@ -32,13 +32,12 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.DCPC:
       return PopulateCandidateDetails(booking.candidate);
     case TestCategory.BE:
-      // @TODO: Implement during CAT BE development
-      // return new PopulateCandidateDetailsCatBE({
-      //   ...booking.candidate,
-      //   businessAddress: get(booking, 'business.businessAddress'),
-      //   businessName: get(booking, 'business.businessName'),
-      //   businessTelephone: get(booking, 'business.telephone'),
-      // });
+      return new PopulateCandidateDetailsCatBE({
+        ...booking.candidate,
+        businessAddress: get(booking, 'business.businessAddress'),
+        businessName: get(booking, 'business.businessName'),
+        businessTelephone: get(booking, 'business.telephone'),
+      });
       return {} as CandidateDetailsUnion;
     case TestCategory.C1E:
     case TestCategory.CE:
@@ -54,13 +53,12 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.D1:
     case TestCategory.D1E:
     case TestCategory.DE:
-      // @TODO: Implement during CAT D development
-      // return new PopulateCandidateDetailsCatD({
-      //   ...booking.candidate,
-      //   businessAddress: get(booking, 'business.businessAddress'),
-      //   businessName: get(booking, 'business.businessName'),
-      //   businessTelephone: get(booking, 'business.telephone'),
-      // });
+      return new PopulateCandidateDetailsCatD({
+        ...booking.candidate,
+        businessAddress: get(booking, 'business.businessAddress'),
+        businessName: get(booking, 'business.businessName'),
+        businessTelephone: get(booking, 'business.telephone'),
+      });
       return {} as CandidateDetailsUnion;
     case TestCategory.F:
     case TestCategory.G:
