@@ -32,7 +32,7 @@ export const AddSingleFaultCompetencyComment = createAction(
   (competencyName: SingleFaultCompetencyNames,
     comment: string) =>
     ({
-      SingleFaultCompetencyNames,
+      competencyName,
       comment,
     }),
 );
