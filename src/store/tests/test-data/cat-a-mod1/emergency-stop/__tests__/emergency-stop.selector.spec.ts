@@ -1,6 +1,5 @@
-
-import { getEmergencyStop } from '../emergency-stop.selector';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
+import { getEmergencyStop } from '../emergency-stop.selector';
 
 describe('emergency stop selector', () => {
   describe('getEmergencyStop', () => {

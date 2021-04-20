@@ -10,7 +10,7 @@ export const initialState : TestSummary = {
   weatherConditions: [],
   debriefWitnessed: null,
   D255: null,
-  identification:  'Licence',
+  identification: 'Licence',
 };
 
 export const testSummaryMod1Reducer = createReducer(
@@ -45,12 +45,12 @@ export const testSummaryMod1Reducer = createReducer(
   })),
   on(fromTestSummaryActions.WeatherConditionsChanged, (state, { weatherConditions }): TestSummary => ({
     ...state,
-    weatherConditions: weatherConditions,
+    weatherConditions,
   })),
   on(fromMod1TestSummaryActions.CircuitTypeChanged, (state, { circuitType }): TestSummary => ({
     ...state,
     circuit: circuitType,
   })),
-)
+);
 
 export const getTestSummary = createFeatureSelector<TestSummary>('testSummary');

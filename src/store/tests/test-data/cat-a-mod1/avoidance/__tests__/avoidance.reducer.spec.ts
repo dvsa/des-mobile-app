@@ -1,14 +1,13 @@
-
+import { Avoidance } from '@dvsa/mes-test-schema/categories/AM1';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { initialState, avoidanceReducer } from '../avoidance.reducer';
 import * as avoidanceActions from '../avoidance.actions';
-import { Avoidance } from '@dvsa/mes-test-schema/categories/AM1';
-import { CompetencyOutcome } from '../../../../../../shared/models/competency-outcome';
 
 describe('avoidance reducer', () => {
   describe('handle ToggleEmergencyStopSpeedReq', () => {
     it('should set outcome to S', () => {
       const state = { ...initialState };
-      const action = new avoidanceActions.AddAvoidanceSeriousFault();
+      const action = avoidanceActions.AddAvoidanceSeriousFault();
       const result = avoidanceReducer(state, action);
       expect(result).toEqual({
         ...initialState,
@@ -21,7 +20,7 @@ describe('avoidance reducer', () => {
         ...initialState,
         outcome: CompetencyOutcome.S,
       };
-      const action = new avoidanceActions.RemoveAvoidanceSeriousFault();
+      const action = avoidanceActions.RemoveAvoidanceSeriousFault();
       const result = avoidanceReducer(state, action);
       expect(result).toEqual({
         ...initialState,
@@ -34,7 +33,7 @@ describe('avoidance reducer', () => {
     it('should set the firstAttempt to attemptedSpeed', () => {
       const state = { ...initialState };
       const attemptedSpeed = 48;
-      const action = new avoidanceActions.RecordAvoidanceFirstAttempt(attemptedSpeed);
+      const action = avoidanceActions.RecordAvoidanceFirstAttempt(attemptedSpeed);
       const result = avoidanceReducer(state, action);
       expect(result).toEqual({
         ...initialState,
@@ -47,7 +46,7 @@ describe('avoidance reducer', () => {
     it('should set the secondAttempt to attemptedSpeed', () => {
       const state = { ...initialState };
       const attemptedSpeed = 48;
-      const action = new avoidanceActions.RecordAvoidanceSecondAttempt(attemptedSpeed);
+      const action = avoidanceActions.RecordAvoidanceSecondAttempt(attemptedSpeed);
       const result = avoidanceReducer(state, action);
       expect(result).toEqual({
         ...initialState,

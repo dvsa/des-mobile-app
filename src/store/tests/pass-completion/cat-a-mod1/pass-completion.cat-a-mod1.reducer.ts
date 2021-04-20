@@ -1,7 +1,6 @@
-import * as passCompletionActions from '../pass-completion.actions';
-
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { PassCompletion } from '@dvsa/mes-test-schema/categories/AM1';
+import * as passCompletionActions from '../pass-completion.actions';
 
 export const initialState: PassCompletion = {
   passCertificateNumber: null,
