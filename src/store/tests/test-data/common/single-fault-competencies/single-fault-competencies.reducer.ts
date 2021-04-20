@@ -15,33 +15,20 @@ export const singleFaultCompetenciesReducer = createReducer(
     }),
   ),
   on(singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome, (state, {
-    competencyName
-  }): SingleFaultCompetencies => ({
-    const { [competencyName]: removedCompetencyOutcome, ...updatedCompetencyOutcome } = initialState;
-  ...state,
+      competencyName,
+    }): SingleFaultCompetencies => (
+      {
+        const: { [competencyName]: removedCompetencyOutcome, ...updatedCompetencyOutcome } = initialState,
+      ...updatedCompetencyOutcome,
 
-}))
+    }),
+  ),
+  on(singleFaultCompetencyActions.AddSingleFaultCompetencyComment, (state, {
+      competencyName,
+      comment,
+    }): SingleFaultCompentencies => ({
+      ...state,
+      [`${competencyName}Comments`]: comment,
+    }),
+  ),
 )
-
-// export function singleFaultCompetenciesReducer(
-//   state: SingleFaultCompetencies = initialState,
-//   action: singleFaultCompetencyActions.Types,
-// ): SingleFaultCompetencies {
-//   switch (action.type) {
-//     case singleFaultCompetencyActions.REMOVE_SINGLE_FAULT_COMPETENCY_OUTCOME:
-//     case singleFaultCompetencyActions.REMOVE_SINGLE_DANGEROUS_FAULT_COMPETENCY_OUTCOME:
-//     case singleFaultCompetencyActions.REMOVE_SINGLE_SERIOUS_FAULT_COMPETENCY_OUTCOME:
-//       const { [action.competencyName]: removedCompetencyOutcome, ...updatedCompetencyOutcome } = state;
-//       return {
-//         ...updatedCompetencyOutcome,
-//       };
-//     case singleFaultCompetencyActions.ADD_SINGLE_FAULT_COMPETENCY_COMMENT:
-//       return {
-//         ...state,
-//         [`${action.competencyName}Comments`]: action.comment,
-//       };
-//     default:
-//       return state;
-//   }
-//
-// }

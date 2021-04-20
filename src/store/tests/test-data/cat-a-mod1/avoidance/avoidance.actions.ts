@@ -1,40 +1,24 @@
-import { Action } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
-export const ADD_AVOIDANCE_SERIOUS_FAULT = '[SpeedCheck] [CatAMod1] Add Avoidance Speed Req Serious Fault';
-export const REMOVE_AVOIDANCE_SERIOUS_FAULT = '[SpeedCheck] [CatAMod1] Remove Avoidance Speed Req Serious Fault';
-export const RECORD_AVOIDANCE_FIRST_ATTEMPT = '[SpeedCheck] [CatAMod1] Record Avoidance First Attempt';
-export const RECORD_AVOIDANCE_SECOND_ATTEMPT = '[SpeedCheck] [CatAMod1] Record Avoidace Second Attempt';
+export const AddAvoidanceSeriousFault = createAction(
+  '[SpeedCheck] [CatAMod1] Add Avoidance Speed Req Serious Fault',
+);
 
-export const ADD_AVOIDANCE_SPEED_REQUIREMENT_COMMENT = '[SpeedCheck] [CatAMod1] Add Avoidance Comment';
+export const RemoveAvoidanceSeriousFault = createAction(
+  '[SpeedCheck] [CatAMod1] Remove Avoidance Speed Req Serious Fault',
+);
 
-export class AddAvoidanceSeriousFault implements Action {
-  readonly type = ADD_AVOIDANCE_SERIOUS_FAULT;
-}
+export const RecordAvoidanceFirstAttempt = createAction(
+  '[SpeedCheck] [CatAMod1] Record Avoidance First Attempt',
+  (attemptedSpeed: string) => ({ attemptedSpeed: string })
+);
 
-export class RemoveAvoidanceSeriousFault implements Action {
-  readonly type = REMOVE_AVOIDANCE_SERIOUS_FAULT;
-}
+export const RecordAvoidanceSecondAttempt = createAction(
+  '[SpeedCheck] [CatAMod1] Record Avoidance Second Attempt',
+  (attemptedSpeed: string) => ({ attemptedSpeed: string })
+);
 
-export class RecordAvoidanceFirstAttempt implements Action {
-  readonly type = RECORD_AVOIDANCE_FIRST_ATTEMPT;
-  constructor(public attemptedSpeed: number) {}
-}
-
-export class RecordAvoidanceSecondAttempt implements Action {
-  readonly type = RECORD_AVOIDANCE_SECOND_ATTEMPT;
-  constructor(public attemptedSpeed: number) {}
-}
-
-export class AddAvoidanceComment implements Action {
-  constructor(public comment: string) {
-  }
-
-  readonly type = ADD_AVOIDANCE_SPEED_REQUIREMENT_COMMENT;
-}
-
-export type Types =
-  | AddAvoidanceSeriousFault
-  | RemoveAvoidanceSeriousFault
-  | RecordAvoidanceFirstAttempt
-  | RecordAvoidanceSecondAttempt
-  | AddAvoidanceComment;
+export const AddAvoidanceComment = createAction(
+  '[SpeedCheck] [CatAMod1] Add Avoidance Comment',
+  (comment: string) => ({ comment: string })
+);
