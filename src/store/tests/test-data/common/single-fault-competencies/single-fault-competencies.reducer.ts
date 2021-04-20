@@ -1,6 +1,7 @@
 import { SingleFaultCompetencies } from '@dvsa/mes-test-schema/categories/AM1';
 import { createReducer, on } from '@ngrx/store';
 
+import { omit } from 'lodash';
 import * as singleFaultCompetencyActions from './single-fault-competencies.actions';
 
 export const initialState: SingleFaultCompetencies = {};
@@ -18,10 +19,9 @@ export const singleFaultCompetenciesReducer = createReducer(
     singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome,
     singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome, (state, {
       competencyName,
-    }): SingleFaultCompetencies => {
-      delete state[competencyName];
-      return { ...state };
-    }),
+    }): SingleFaultCompetencies => ({
+      ...omit(state, competencyName),
+    })),
   on(singleFaultCompetencyActions.AddSingleFaultCompetencyComment, (state, {
     competencyName,
     comment,
