@@ -34,7 +34,7 @@ export const CAT_B: BasePageNames = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatBPage',
 };
 
-export const CAT_BE = {
+export const CAT_BE: BasePageNames = {
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatBEPage',
   COMMUNICATION_PAGE: 'CommunicationCatBEPage',
   DEBRIEF_PAGE: 'DebriefCatBEPage',
