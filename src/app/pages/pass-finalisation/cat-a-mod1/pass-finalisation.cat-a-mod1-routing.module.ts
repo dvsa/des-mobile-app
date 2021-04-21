@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { PassFinalisationCatAMod1Page } from './pass-finalisation.cat-a-mod1.page';
 
 const routes: Routes = [
