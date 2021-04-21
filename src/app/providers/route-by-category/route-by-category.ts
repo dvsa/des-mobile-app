@@ -18,7 +18,6 @@ export class RouteByCategoryProvider {
     const importPath: string = category
       ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}`
       : `${pageName}/${pageName}`;
-
     config.push({
       path: categoryPage,
       loadChildren: () =>

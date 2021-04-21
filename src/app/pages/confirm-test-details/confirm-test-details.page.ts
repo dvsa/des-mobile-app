@@ -10,7 +10,6 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
   styleUrls: ['./confirm-test-details.page.scss'],
 })
 export class ConfirmTestDetailsPage implements OnInit {
-
   constructor(
     private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
