@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PassFinalisationCatDPage } from './pass-finalisation.cat-a-mod2.page';
+import { PassFinalisationCatAMod2Page } from './pass-finalisation.cat-a-mod2.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: PassFinalisationCatDPage,
+    component: PassFinalisationCatAMod2Page,
   },
 ];
 
