@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { PassFinalisationCatAMod1PageRoutingModule } from './pass-finalisation.cat-a-mod1-routing.module';
-
 import { PassFinalisationCatAMod1Page } from './pass-finalisation.cat-a-mod1.page';
 
 @NgModule({
