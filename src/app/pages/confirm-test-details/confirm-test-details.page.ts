@@ -24,11 +24,11 @@ export class ConfirmTestDetailsPage implements OnInit {
   }
 
   async navigateDebrief(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.DEBRIEF_PAGE, TestCategory.EUAM1);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.DEBRIEF_PAGE, TestCategory.B);
   }
 
   async navigateBackToOffice(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.BACK_TO_OFFICE_PAGE, TestCategory.EUAM1);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.BACK_TO_OFFICE_PAGE, TestCategory.B);
   }
 
 }
