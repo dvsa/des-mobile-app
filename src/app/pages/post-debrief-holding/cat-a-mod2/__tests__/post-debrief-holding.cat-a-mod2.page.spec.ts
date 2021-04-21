@@ -4,7 +4,7 @@ import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 
-import { PostDebriefHoldingCatAMod2Page } from '../post-debrief-holding.cat-d.page';
+import { PostDebriefHoldingCatAMod2Page } from '../post-debrief-holding.cat-a-mod2.page';
 
 describe('PostDebriefHoldingCatDPage', () => {
   let component: PostDebriefHoldingCatAMod2Page;
