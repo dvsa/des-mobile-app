@@ -7,7 +7,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 @Component({
   selector: 'app-back-to-office-cat-a-mod2',
   templateUrl: './back-to-office.cat-a-mod2.page.html',
-  styleUrls: ['./back-to-office.cat-a-mod-2.page.scss'],
+  styleUrls: ['./back-to-office.cat-a-mod2.page.scss'],
 })
 export class BackToOfficeCatAMod2Page implements OnInit {
 
