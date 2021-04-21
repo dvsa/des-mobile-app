@@ -54,6 +54,6 @@ export class WaitingRoomCatAMod2Page extends WaitingRoomBasePageComponent implem
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.COMMUNICATION_PAGE, TestCategory.D);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.COMMUNICATION_PAGE, TestCategory.EUA1M2);
   }
 }
