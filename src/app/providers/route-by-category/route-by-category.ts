@@ -11,20 +11,26 @@ export class RouteByCategoryProvider {
   }
 
   async navigateToPage(page: PageNameKeys, category?: TestCategory): Promise<void> {
-    const { config } = this.router;
+
     const categoryPage: string = category ? getPageNameByCategoryAndKey(category, page) : page;
-    const pageAlias: string = this.getPageAliasByCategory(category);
-    const pageName: string = this.getBasePagePathByCategory(page);
-    const importPath: string = category
-      ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}`
-      : `${pageName}/${pageName}`;
-    config.push({
-      path: categoryPage,
-      loadChildren: () =>
-        import(`../../pages/${importPath}.module`)
-          .then((m) => m[`${categoryPage}Module`]),
-    });
     await this.router.navigate([categoryPage]);
+    // const { config } = this.router;
+    // const categoryPage: string = category ? getPageNameByCategoryAndKey(category, page) : page;
+    // const pageAlias: string = this.getPageAliasByCategory(category);
+    // const pageName: string = this.getBasePagePathByCategory(page);
+    // const importPath: string = category
+    //   ? `${pageName}/${pageAlias}/${pageName}.${pageAlias}`
+    //   : `${pageName}/${pageName}`;
+    // config.push({
+    //   path: categoryPage,
+    //   loadChildren: () =>
+    //     import(`../../pages/${importPath}.module`)
+    //       .then((m) => m[`${categoryPage}Module`]),
+    // });
+    // console.log('categoryPage', categoryPage);
+    // console.log('importPath', importPath);
+    //
+    // await this.router.navigate([categoryPage]);
   }
 
   getPageAliasByCategory(category: TestCategory): string {
