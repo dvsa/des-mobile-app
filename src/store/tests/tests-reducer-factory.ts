@@ -11,6 +11,10 @@ import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestResultCatAM2Schema } from '@dvsa/mes-test-schema/categories/AM2';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
+import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
+import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
+import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { testsCatBReducer } from './tests.cat-b.reducer';
 import { testsCatBEReducer } from './tests.cat-be.reducer';
 import { testsCatADIPart2Reducer } from './tests.cat-adi-part2.reducer';
@@ -21,6 +25,10 @@ import { testsCatC1EReducer } from './tests.cat-c1e.reducer';
 import { testsCatCPCReducer } from './tests.cat-cpc.reducer';
 import { testsCatDReducer } from './tests.cat-d.reducer';
 import { testsCatAMod2Reducer } from './tests.cat-a-mod2.reducer';
+import { testsCatKReducer } from './tests.cat-k.reducer';
+import { testsCatFReducer } from './tests.cat-f.reducer';
+import { testsCatGReducer } from './tests.cat-g.reducer';
+import { testsCatHReducer } from './tests.cat-h.reducer';
 
 export function testsReducerFactory(
   category: TestCategory | null,
@@ -55,6 +63,14 @@ export function testsReducerFactory(
     case TestCategory.EUA2M2:
     case TestCategory.EUAM2:
       return testsCatAMod2Reducer(action, state as Required<TestResultCatAM2Schema>);
+    case TestCategory.F:
+      return testsCatFReducer(action, state as Required<CatFUniqueTypes.TestResult>);
+    case TestCategory.G:
+      return testsCatGReducer(action, state as Required<CatGUniqueTypes.TestResult>);
+    case TestCategory.H:
+      return testsCatHReducer(action, state as Required<CatHUniqueTypes.TestResult>);
+    case TestCategory.K:
+      return testsCatKReducer(action, state as Required<CatKUniqueTypes.TestResult>);
     default:
       return testsCatBReducer(action, state as Required<CatBUniqueTypes.TestResult>);
   }
