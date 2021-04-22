@@ -3,6 +3,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {
   DASHBOARD_PAGE, LOGIN_PAGE, JOURNAL_PAGE, TEST_CENTRE_JOURNAL_PAGE,
 } from '@pages/page-names.constants';
+import { Waiting_Room_Route } from './routing/waiting_room-route';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/test-centre-journal/test-centre-journal.module')
       .then((m) => m.TestCentreJournalModule),
   },
+  ...Waiting_Room_Route,
 ];
 
 @NgModule({
