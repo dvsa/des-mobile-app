@@ -24,7 +24,7 @@ export class BackToOfficeCatCPCPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, TestCategory.B);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, TestCategory.CCPC);
   }
 
 }
