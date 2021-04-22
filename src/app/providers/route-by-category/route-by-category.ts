@@ -24,7 +24,6 @@ export class RouteByCategoryProvider {
         import(`../../pages/${importPath}.module`)
           .then((m) => m[`${categoryPage}Module`]),
     });
-    console.log('importPath', importPath);
     await this.router.navigate([categoryPage]);
   }
 
