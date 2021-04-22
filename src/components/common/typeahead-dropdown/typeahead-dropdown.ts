@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 enum TypeaheadFail {
-  NO_RESULTS = 'No results',
+  NO_RESULTS = 'No Results Found',
 }
 
 @Component({
