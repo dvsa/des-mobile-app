@@ -5,14 +5,14 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { TestFlowPageNames } from '@pages/page-names.constants';
 
 @Component({
-  selector: 'app-back-to-office-cat-home-test',
-  templateUrl: './back-to-office.cat-home-test.page.html',
-  styleUrls: ['./back-to-office.cat-home-test.page.scss'],
+  selector: 'app-pass-finalisation-cat-home-test',
+  templateUrl: './pass-finalisation.cat-home-test.page.html',
+  styleUrls: ['./pass-finalisation.cat-home-test.page.scss'],
 })
-export class BackToOfficeCatHomeTestPage implements OnInit {
+export class PassFinalisationCatHomeTestPage implements OnInit {
 
   constructor(
-    public navController: NavController,
+    private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
   ) { }
 
@@ -24,7 +24,7 @@ export class BackToOfficeCatHomeTestPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, TestCategory.H);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE, TestCategory.H);
   }
 
 }
