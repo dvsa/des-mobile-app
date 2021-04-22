@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController, Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
@@ -11,13 +11,16 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 
+import {
+  WaitingRoomToCarBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { WaitingRoomToCarCatBPage } from '../waiting-room-to-car.cat-b.page';
 
-describe('WaitingRoomToCar.CatBPage', () => {
+describe('WaitingRoomToCarCatBPage', () => {
   let component: WaitingRoomToCarCatBPage;
   let fixture: ComponentFixture<WaitingRoomToCarCatBPage>;
 
-  beforeEach(async(() => {
+  beforeEach((() => {
     TestBed.configureTestingModule({
       declarations: [WaitingRoomToCarCatBPage],
       imports: [IonicModule],
@@ -36,7 +39,20 @@ describe('WaitingRoomToCar.CatBPage', () => {
     fixture.detectChanges();
   }));
 
+  afterEach(() => {
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('ngOnInit', () => {
+    it('should call through to the base page init method', () => {
+      spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
+      component.ngOnInit();
+      expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+    });
+  });
+
 });

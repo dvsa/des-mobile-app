@@ -72,9 +72,9 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     basePageComponent = new BasePageClass(store$, platform, authenticationProvider, router);
   }));
 
-  describe('ngOnInit', () => {
+  describe('onInitialisation', () => {
     it('should resolve state variables', () => {
-      basePageComponent.ngOnInit();
+      basePageComponent.onInitialisation();
       basePageComponent.commonPageState.candidateName$
         .subscribe((res) => expect(res).toEqual('Marge Simpson'));
     });

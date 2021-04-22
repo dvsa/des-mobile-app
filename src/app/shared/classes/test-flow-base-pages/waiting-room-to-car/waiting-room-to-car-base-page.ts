@@ -1,5 +1,4 @@
 import { select, Store } from '@ngrx/store';
-import { Injectable, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -19,8 +18,7 @@ export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
 }
 
-@Injectable()
-export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponent implements OnInit {
+export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponent {
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
@@ -35,7 +33,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
     super(platform, authenticationProvider, router);
   }
 
-  ngOnInit(): void {
+  onInitialisation(): void {
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
