@@ -24,7 +24,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRo
 })
 export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent implements OnInit {
 
-  pageState = { ...this.commonPageState } as WaitingRoomToCarPageState;
+  pageState: WaitingRoomToCarPageState;
 
   constructor(
     private navController: NavController,
@@ -38,7 +38,10 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   }
 
   ngOnInit() {
-    super.ngOnInit();
+    super.onInitialisation();
+    this.pageState = {
+      ...this.commonPageState,
+    };
   }
 
   ionViewDidEnter(): void {
