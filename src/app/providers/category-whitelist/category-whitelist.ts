@@ -24,6 +24,10 @@ export const whiteList: TestCategory[] = [
   TestCategory.EUA1M2,
   TestCategory.EUA2M2,
   TestCategory.EUAM2,
+  TestCategory.F,
+  TestCategory.G,
+  TestCategory.H,
+  TestCategory.K,
 ];
 
 @Injectable()
