@@ -40,6 +40,7 @@ import { version } from '@environments/test-schema-version';
 import { StoreModel } from '@shared/models/store.model';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { IndependentDrivingTypeChanged, RouteNumberChanged } from '@store/tests/test-summary/test-summary.actions';
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
@@ -77,7 +78,7 @@ import { OtherReasonUpdated, OtherSelected } from './rekey-reason/rekey-reason.a
 import { getStaffNumber } from './journal-data/common/examiner/examiner.selector';
 import { StartTest, TestActionsTypes } from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
-import { PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';
+import { GearboxCategoryChanged, PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';
 import {
   InitialiseVehicleChecks as InitialiseVehicleChecksCatC,
 } from './test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
@@ -247,16 +248,15 @@ export class TestsEffects {
         || startTestAction.category === TestCategory.DE) {
         arrayOfActions.push(InitializeVehicleChecksCatD(startTestAction.category));
       }
-      // @TODO: Implement as part of CAT Home development
-      // if (
-      // startTestAction.category === TestCategory.F ||
-      // startTestAction.category === TestCategory.G ||
-      // startTestAction.category === TestCategory.H ||
-      // startTestAction.category === TestCategory.K) {
-      // arrayOfActions.push(new GearboxCategoryChanged('Manual'));
-      // arrayOfActions.push(new RouteNumberChanged(88));
-      // arrayOfActions.push(new IndependentDrivingTypeChanged('N/A'));
-      // }
+      if (
+        startTestAction.category === TestCategory.F
+        || startTestAction.category === TestCategory.G
+        || startTestAction.category === TestCategory.H
+        || startTestAction.category === TestCategory.K) {
+        arrayOfActions.push(GearboxCategoryChanged('Manual'));
+        arrayOfActions.push(RouteNumberChanged(88));
+        arrayOfActions.push(IndependentDrivingTypeChanged('N/A'));
+      }
       return arrayOfActions;
     }),
   ));
