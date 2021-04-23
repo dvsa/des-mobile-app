@@ -16,6 +16,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { StoreModel } from '@shared/models/store.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { OfficeBasePageComponent } from '../office-base-page';
 
 describe('OfficeBasePageComponent', () => {
@@ -71,7 +72,7 @@ describe('OfficeBasePageComponent', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
       basePageComponent.commonPageState.activityCode$
-        .subscribe((res) => expect(res).toEqual('1'));
+        .subscribe((res: ActivityCodeModel) => expect(res.activityCode).toEqual('1'));
     });
   });
 
