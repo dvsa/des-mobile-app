@@ -37,6 +37,10 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
   }
 
   ngOnInit() {
+    super.onInitialisation();
+    this.pageState = {
+      ...this.commonPageState,
+    };
   }
 
   navigateBack(): void {
