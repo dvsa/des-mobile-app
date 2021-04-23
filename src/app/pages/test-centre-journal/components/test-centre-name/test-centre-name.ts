@@ -1,13 +1,18 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 
 @Component({
   selector: 'test-centre-name',
   templateUrl: 'test-centre-name.html',
   styleUrls: ['test-centre-name.scss'],
 })
-export class TestCentreNameComponent {
+export class TestCentreNameComponent implements OnInit {
 
   @Input()
-  testCentre: string;
+  testCentreResults: TestCentreDetailResponse;
+
+  ngOnInit(): void {
+    console.log(this.testCentreResults);
+  }
 
 }

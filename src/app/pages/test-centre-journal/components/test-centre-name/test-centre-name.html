@@ -4,6 +4,6 @@
     </ion-col>
     <ion-col class="component-value" size="9">
         <ion-icon name="location-sharp" class="test-centre-location-icon"></ion-icon>
-        <label>{{testCentre}}</label>
+        <label *ngFor="let testCentre of testCentreResults?.testCentres">{{testCentre.name}}</label>
     </ion-col>
 </ion-row>
