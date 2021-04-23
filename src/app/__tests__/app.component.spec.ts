@@ -9,6 +9,8 @@ import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
 import { AlertControllerMock } from 'ionic-mocks';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DataStoreProvider } from '@providers/data-store/data-store';
@@ -16,10 +18,12 @@ import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-stor
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { LoadAppVersion } from '@store/app-info/app-info.actions';
-import { PlatformMock } from '../../mock/ionic-mocks/platform-mock';
-import { MenuControllerMock } from '../../mock/ionic-mocks/menu-controller';
-import { SecureStorageMock } from '../../mock/ionic-mocks/secure-storage.mock';
-import { AppComponent } from './app.component';
+import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
+import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
+import { translateServiceMock } from '@shared/helpers/__mocks__/translate';
+
+import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
   jasmine.getEnv().allowRespy(true);
@@ -36,6 +40,7 @@ describe('AppComponent', () => {
   let secureStorage: SecureStorage;
   let dataStore: DataStoreProvider;
   let networkStateProvider: NetworkStateProvider;
+  let translate: TranslateService;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -43,6 +48,7 @@ describe('AppComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       imports: [
         StoreModule.forRoot({}),
+        TranslateModule.forRoot(),
       ],
       providers: [
         { provide: Platform, useClass: PlatformMock },
@@ -53,6 +59,7 @@ describe('AppComponent', () => {
         { provide: SecureStorage, useClass: SecureStorageMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
+        { provide: TranslateService, useValue: translateServiceMock },
       ],
     });
   });
@@ -69,6 +76,7 @@ describe('AppComponent', () => {
     dataStore = TestBed.inject(DataStoreProvider);
     secureStorage = TestBed.inject(SecureStorage);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
+    translate = TestBed.inject(TranslateService);
   }));
 
   it('should create the app', () => {
@@ -84,6 +92,7 @@ describe('AppComponent', () => {
       spyOn(component, 'configurePlatformSubscriptions');
       spyOn(Plugins.SplashScreen, 'hide');
       spyOn(component, 'initialiseAuthentication');
+      spyOn(component, 'configureLocale');
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
       spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
       spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
@@ -98,6 +107,7 @@ describe('AppComponent', () => {
       expect(component.hideSplashscreen).toHaveBeenCalled();
       expect(component.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
+      expect(component.configureLocale).toHaveBeenCalled();
     }));
   });
 
@@ -200,6 +210,14 @@ describe('AppComponent', () => {
       spyOn(component, 'openLogoutModal');
       await component.onLogoutClick();
       expect(component.openLogoutModal).toHaveBeenCalled();
+    });
+  });
+
+  describe('configureLocale', () => {
+    it('should configure the locale to be English by default', () => {
+      spyOn(translate, 'setDefaultLang');
+      component.configureLocale();
+      expect(translate.setDefaultLang).toHaveBeenCalledWith('en');
     });
   });
 
