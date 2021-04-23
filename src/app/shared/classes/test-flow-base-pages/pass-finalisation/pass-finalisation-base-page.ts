@@ -8,7 +8,7 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getCandidateName } from '@store/candidate-details/candidate-details.selector';
+import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
 import { BasePageComponent } from '../../base-page';
 
