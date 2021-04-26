@@ -6,6 +6,7 @@ import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Observable, merge, Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DataStoreProvider } from '@providers/data-store/data-store';
@@ -37,6 +38,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected secureStorage: SecureStorage,
     protected dataStore: DataStoreProvider,
     protected networkStateProvider: NetworkStateProvider,
+    protected translate: TranslateService,
     router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
@@ -50,6 +52,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.store$.dispatch(LoadAppVersion());
     await this.hideSplashscreen();
     await this.configureStatusBar();
+    this.configureLocale();
     if (this.platform.is('cordova')) {
       this.configureAccessibility();
       this.configurePlatformSubscriptions();
@@ -151,5 +154,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   onLogoutClick = async (): Promise<void> => {
     await this.openLogoutModal();
   };
+
+  configureLocale(): void {
+    this.translate.setDefaultLang('en');
+  }
 
 }
