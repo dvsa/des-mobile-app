@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 
 @Component({
@@ -6,13 +6,9 @@ import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.mod
   templateUrl: 'test-centre-name.html',
   styleUrls: ['test-centre-name.scss'],
 })
-export class TestCentreNameComponent implements OnInit {
+export class TestCentreNameComponent {
 
   @Input()
   testCentreResults: TestCentreDetailResponse;
-
-  ngOnInit(): void {
-    console.log(this.testCentreResults);
-  }
 
 }
