@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 
 @Component({
   selector: 'test-centre-name',
@@ -8,6 +9,6 @@ import { Component, Input } from '@angular/core';
 export class TestCentreNameComponent {
 
   @Input()
-  testCentre: string;
+  testCentreResults: TestCentreDetailResponse;
 
 }
