@@ -247,7 +247,7 @@ describe('ViewJournalsCardComponent', () => {
         spyOnProperty(component, 'dayLabel', 'get').and.returnValue('today');
         component.testCentreName = 'Some centre';
         component.examinerName = 'Some name';
-        expect(component.warningText).toEqual('Some name is not working at Some centre today');
+        expect(component.warningText).toEqual('Some name does not have any test bookings at Some centre today');
       });
     });
   });

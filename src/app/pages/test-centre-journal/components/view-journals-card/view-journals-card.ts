@@ -158,6 +158,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   }
 
   get warningText(): string {
-    return `${this.examinerName} is not working at ${this.testCentreName.replace(/,/g, '/')} ${this.dayLabel}`;
+    return `${this.examinerName} does not have any 
+    test bookings at ${this.testCentreName.replace(/,/g, '/')} ${this.dayLabel}`;
   }
 }
