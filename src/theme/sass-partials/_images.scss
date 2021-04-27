@@ -1,0 +1,20 @@
+img.exclamation-indicator {
+  width: 29px;
+  height: 25px;
+  float: right;
+
+  .text-zoom-large & {
+    width: 33px;
+    height: 28.5px;
+  }
+
+  .text-zoom-x-large & {
+    width: 36px;
+    height: 31px;
+  }
+}
+
+img.green-tick-indicator {
+  height: 22px;
+  width: 22px;
+}

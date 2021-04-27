@@ -37,33 +37,14 @@ describe('CandidateSearchCardComponent', () => {
 
   describe('getCandidateList', () => {
     it('should return the correct data', () => {
-      component.testCentreResults = mockData.mockExaminerData;
-      expect(component.getCandidateList()).toEqual([
+      const expectedCandidateList = [
         {
           name: 'Florence Pearson',
-          slot: {
-            booking: {
-              application: {
-                applicationId: 1234567,
-                bookingSequence: 3,
-                checkDigit: 1,
-              },
-              candidate: {
-                candidateName: {
-                  firstName: 'Florence',
-                  lastName: 'Pearson',
-                  title: 'Miss',
-                },
-              },
-            },
-            examinerVisiting: false,
-            slotDetail: {},
-            testCentre: {},
-            vehicleSlotTypeCode: 7,
-            vehicleTypeCode: 'C',
-          },
         },
-      ]);
+      ] as CandidateData[];
+      component.testCentreResults = mockData.mockExaminerData;
+      const candidateList = component.getCandidateList();
+      expect(candidateList).toEqual(expectedCandidateList);
     });
   });
 

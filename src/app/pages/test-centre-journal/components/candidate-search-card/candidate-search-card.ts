@@ -50,21 +50,24 @@ export class CandidateSearchCardComponent implements OnChanges {
     if (!this.testCentreResults) {
       return null;
     }
-    const extractedData: CandidateData[] = [];
+    const candidateNames: CandidateData[] = [];
 
     this.testCentreResults.examiners.forEach((examiner) => {
       examiner.journal?.testSlots
         .filter((testSlot) => testSlot?.booking?.candidate)
         .forEach((testSlot) => {
           const { candidate } = testSlot.booking;
-          extractedData.push({
-            name: `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`,
-            slot: testSlot,
-          });
+          const candidateName: string = `${candidate.candidateName.firstName} ${candidate.candidateName.lastName}`;
+          // only push distinct names to array
+          if (!candidateNames.some((item) => item.name === candidateName)) {
+            candidateNames.push({
+              name: candidateName,
+            } as CandidateData);
+          }
         });
     });
 
-    return extractedData;
+    return candidateNames;
   };
 
   createCandidateSlots(examinersData: Examiner[], candidateName: string): void {

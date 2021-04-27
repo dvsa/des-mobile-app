@@ -81,25 +81,6 @@ html .text-zoom-regular {
     line-height: 26px;
   }
 
-  img.exclamation-indicator {
-    width: 29px;
-    height: 25px;
-
-    .text-zoom-large & {
-      width: 33px;
-      height: 28.5px;
-    }
-
-    .text-zoom-x-large & {
-      width: 36px;
-      height: 31px;
-    }
-  }
-
-  img.green-tick-indicator {
-    height: 22px;
-    width: 22px;
-  }
 }
 
 .text-zoom-large {
@@ -150,6 +131,7 @@ html .text-zoom-regular {
     @extend .regular-font-family;
     font-size: 22px;
     line-height: 30px;
+    color: black;
   }
   div {
     font-size: 22px;
@@ -210,6 +192,7 @@ html .text-zoom-regular {
     @extend .regular-font-family;
     font-size: 28px;
     line-height: 36px;
+    color: black;
   }
   div {
     font-size: 24px;
