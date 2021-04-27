@@ -1,0 +1,14 @@
+img.exclamation-indicator {
+  width: 29px;
+  height: 25px;
+
+  .text-zoom-large & {
+    width: 33px;
+    height: 28.5px;
+  }
+
+  .text-zoom-x-large & {
+    width: 36px;
+    height: 31px;
+  }
+}

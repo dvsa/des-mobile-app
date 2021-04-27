@@ -117,15 +117,15 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   };
 
   getTextZoomCallback = (zoomLevel: number): void => {
-    // Default iOS zoom levels are: 88%, 94%, 100%, 106%, 119%, 131%, 144%
+    // Default iOS zoom levels are: 88%, 94%, 100%, 106%, 119%, 131%, 144% - 106% is default / normal zoom for ipad
     this.textZoom = zoomLevel;
     window.MobileAccessibility.usePreferredTextZoom(false);
   };
 
   public getTextZoom(zoom: number): string {
     if (!zoom) return 'regular';
-    if (zoom >= 131) return 'x-large';
-    if (zoom >= 106) return 'large';
+    if (zoom > 131) return 'x-large';
+    if (zoom > 106) return 'large';
     return 'regular';
   }
 
