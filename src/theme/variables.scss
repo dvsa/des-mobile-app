@@ -136,6 +136,11 @@ $card-ios-background-color: var(--mes-white);
 
   /** app styles **/
   --ion-background-color: var(--mes-background);
+
+  ion-card {
+    --ion-background-color: var(--mes-white);
+  }
+
 }
 
 @media (prefers-color-scheme: dark) {
