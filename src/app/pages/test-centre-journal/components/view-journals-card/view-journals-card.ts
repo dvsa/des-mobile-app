@@ -158,7 +158,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   }
 
   get warningText(): string {
-    return `${this.examinerName} does not have any 
-    test bookings at ${this.testCentreName.replace(/,/g, '/')} ${this.dayLabel}`;
+    const message = 'does not have any test bookings at';
+    return `${this.examinerName} ${message} ${this.testCentreName.replace(/,/g, '/')} ${this.dayLabel}`;
   }
 }
