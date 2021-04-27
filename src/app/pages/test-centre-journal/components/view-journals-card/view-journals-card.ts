@@ -133,7 +133,8 @@ export class ViewJournalsCardComponent implements OnChanges {
 
   canNavigateToPreviousDay = (): boolean => {
     const dayBefore = DateTime.at(this.currentSelectedDate).subtract(1, Duration.DAY).format(this.dateFormat);
-    return this.examinerSlotItemsByDate?.slotItemsByDate[dayBefore]?.length > 0;
+    return this.examinerSlotItemsByDate?.slotItemsByDate[dayBefore]?.length > 0
+      || this.currentSelectedDate > this.today;
   };
 
   isSelectedDateToday = (): boolean => this.currentSelectedDate === this.today;
@@ -157,6 +158,6 @@ export class ViewJournalsCardComponent implements OnChanges {
   }
 
   get warningText(): string {
-    return `${this.examinerName} is not working at ${this.testCentreName} ${this.dayLabel}`;
+    return `${this.examinerName} is not working at ${this.testCentreName.replace(/,/g, '/')} ${this.dayLabel}`;
   }
 }
