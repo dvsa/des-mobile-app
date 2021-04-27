@@ -41,7 +41,7 @@
                             (nextDayClicked)="onNextDayClick()">
         </journal-navigation>
 
-        <div class="no-results" *ngIf="shouldShowBanner()">
+        <div class="no-results" *ngIf="shouldShowBanner() && hasClickedShowJournal">
             <p class="no-results-text">
                 {{warningText}}
             </p>
