@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -33,6 +32,6 @@ export class WaitingRoomCatAMod1Page implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.COMMUNICATION_PAGE, TestCategory.EUAM1);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.COMMUNICATION_PAGE);
   }
 }

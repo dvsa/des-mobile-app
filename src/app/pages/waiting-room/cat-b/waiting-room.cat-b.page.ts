@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, merge, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -90,6 +89,6 @@ export class WaitingRoomCatBPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.COMMUNICATION_PAGE, TestCategory.B);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.COMMUNICATION_PAGE);
   }
 }

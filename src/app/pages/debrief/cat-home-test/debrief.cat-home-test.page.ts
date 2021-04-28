@@ -28,7 +28,7 @@ export class DebriefCatHomeTestPage implements OnInit {
   }
 
   async navigatePostDebriefHolding(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.POST_DEBRIEF_HOLDING_PAGE, TestCategory.H);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.POST_DEBRIEF_HOLDING_PAGE);
   }
 
 }

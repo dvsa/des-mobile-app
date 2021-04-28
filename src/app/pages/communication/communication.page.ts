@@ -1,29 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+
 @Component({
-  selector: 'app-waiting-room-cat-cpc',
-  templateUrl: './waiting-room.cat-cpc.page.html',
-  styleUrls: ['./waiting-room.cat-cpc.page.scss'],
+  selector: 'app-communication',
+  templateUrl: './communication.page.html',
+  styleUrls: ['./communication.page.scss'],
 })
-export class WaitingRoomCatCPCPage implements OnInit {
+export class CommunicationPage implements OnInit {
 
   constructor(
     private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
-  }
-
-  ionViewWillEnter(): boolean {
-    return true;
-  }
-
-  ionViewDidLeave() {
   }
 
   navigateBack(): void {
@@ -31,6 +24,7 @@ export class WaitingRoomCatCPCPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.COMMUNICATION_PAGE);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, TestCategory.B);
   }
+
 }
