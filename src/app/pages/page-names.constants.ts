@@ -17,6 +17,7 @@ export const SPECIAL_REQUIREMENT_MODAL = 'SpecialLegalRequirementModal';
 export const REVERSE_DIAGRAM_PAGE = 'ReverseDiagramPage';
 export const DELEGATED_REKEY_SEARCH_PAGE = 'DelegatedRekeySearchPage';
 export const DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE = 'DelegatedRekeyUploadOutcomePage';
+// export const WAITING_ROOM_PAGE = 'WaitingRoomPage';
 
 export const CAT_B: BasePageNames = {
   BACK_TO_OFFICE_PAGE: 'BackToOfficeCatBPage',
