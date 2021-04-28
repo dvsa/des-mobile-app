@@ -12,6 +12,7 @@ import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
 import { Test_Report_Route } from './routing/test-report-route';
 import { Debrief_Route } from './routing/debrief-route';
 import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
+import { Office_Route } from './routing/office-route';
 
 const routes: Routes = [
   {
@@ -61,11 +62,27 @@ const routes: Routes = [
     loadChildren: () => import('./pages/non-pass-finalisation/non-pass-finalisation.module')
       .then((m) => m.NonPassFinalisationPageModule),
   },
+  {
+    path: TestFlowPageNames.BACK_TO_OFFICE_PAGE,
+    loadChildren: () => import('./pages/back-to-office/back-to-office.module')
+      .then((m) => m.BackToOfficePageModule),
+  },
+  {
+    path: TestFlowPageNames.REKEY_REASON_PAGE,
+    loadChildren: () => import('./pages/rekey-reason/rekey-reason.module')
+      .then((m) => m.RekeyReasonPageModule),
+  },
+  {
+    path: TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE,
+    loadChildren: () => import('./pages/rekey-upload-outcome/rekey-upload-outcome.module')
+      .then((m) => m.RekeyUploadOutcomePageModule),
+  },
   ...Waiting_Room_Route,
   ...Waiting_Room_To_Car_Route,
   ...Test_Report_Route,
   ...Debrief_Route,
   ...Pass_Finalisation_Route,
+  ...Office_Route,
 ];
 
 @NgModule({

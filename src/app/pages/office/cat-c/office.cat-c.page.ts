@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { JOURNAL_PAGE, TestFlowPageNames } from '../../page-names.constants';
@@ -26,7 +25,7 @@ export class OfficeCatCPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.REKEY_REASON_PAGE, TestCategory.C);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.REKEY_REASON_PAGE);
   }
 
   async navigateJournal(): Promise<void> {

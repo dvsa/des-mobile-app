@@ -331,14 +331,6 @@ describe('Test Outcome', () => {
         });
       });
     });
-    describe('getNonPassFinalisationPage', () => {
-      categoryPages.forEach((cat) => {
-        it(`should return the correct value for a Category ${cat.category} Test`, () => {
-          component.category = cat.category;
-          expect(component.getNonPassFinalisationPage()).toEqual([cat.pageConstant.NON_PASS_FINALISATION_PAGE]);
-        });
-      });
-    });
   });
 
   describe('DOM', () => {

@@ -4,11 +4,11 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { TestFlowPageNames } from '@pages/page-names.constants';
 
 @Component({
-  selector: 'app-post-debrief-holding',
-  templateUrl: './post-debrief-holding.page.html',
-  styleUrls: ['./post-debrief-holding.page.scss'],
+  selector: 'app-rekey-reason',
+  templateUrl: './rekey-reason.page.html',
+  styleUrls: ['./rekey-reason.page.scss'],
 })
-export class PostDebriefHoldingPage implements OnInit {
+export class RekeyReasonPage implements OnInit {
 
   constructor(
     private navController: NavController,
@@ -23,7 +23,7 @@ export class PostDebriefHoldingPage implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE);
   }
 
 }

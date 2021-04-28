@@ -5,13 +5,14 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { TestFlowPageNames } from '@pages/page-names.constants';
 
 @Component({
-  selector: 'app-confirm-test-details',
-  templateUrl: './confirm-test-details.page.html',
-  styleUrls: ['./confirm-test-details.page.scss'],
+  selector: 'app-back-to-office',
+  templateUrl: './back-to-office.page.html',
+  styleUrls: ['./back-to-office.page.scss'],
 })
-export class ConfirmTestDetailsPage implements OnInit {
+export class BackToOfficePage implements OnInit {
+
   constructor(
-    private navController: NavController,
+    public navController: NavController,
     public routeByCat: RouteByCategoryProvider,
   ) { }
 
@@ -22,12 +23,8 @@ export class ConfirmTestDetailsPage implements OnInit {
     this.navController.back();
   }
 
-  async navigateDebrief(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.DEBRIEF_PAGE, TestCategory.B);
-  }
-
-  async navigateBackToOffice(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.BACK_TO_OFFICE_PAGE);
+  async navigateForward(): Promise<void> {
+    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, TestCategory.B);
   }
 
 }
