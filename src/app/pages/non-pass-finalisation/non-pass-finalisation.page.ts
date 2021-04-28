@@ -4,7 +4,7 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { TestFlowPageNames } from '@pages/page-names.constants';
 
 @Component({
-  selector: 'app-non-pass-finalisation-cat-b',
+  selector: 'app-non-pass-finalisation',
   templateUrl: './non-pass-finalisation.page.html',
   styleUrls: ['./non-pass-finalisation.page.scss'],
 })
