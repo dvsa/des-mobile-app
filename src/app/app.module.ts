@@ -58,6 +58,7 @@ import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-ce
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
+import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -155,6 +156,7 @@ if (enableRehydrationPlugin) {
     TestCentreJournalProvider,
     RouteByCategoryProvider,
     ScreenOrientation,
+    DeviceAuthenticationProvider,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,10 @@
+#candidate-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  #continue-button {
+    min-height: 56px;
+    min-width: 132px;
+  }
+}

@@ -1,0 +1,11 @@
+<ion-row class="mes-full-width-card" id="candidate-section">
+  <ion-col>
+    <h2 id="candidate-name">{{ candidateName }}</h2>
+    <h3 id="candidate-driver-number">{{ candidateDriverNumber }}</h3>
+  </ion-col>
+  <ion-col class="ion-align-self-end">
+    <ion-button (click)="proceed()" id="continue-button" class="mes-primary-button ion-float-right">
+      <h3>{{ 'common.continue' | translate }}</h3>
+    </ion-button>
+  </ion-col>
+</ion-row>

@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
-import { HealthDeclarationSignedComponent }
-  from '@components/common/health-declaration-signed/health-declaration-signed';
+import {
+  HealthDeclarationSignedComponent,
+} from '@components/common/health-declaration-signed/health-declaration-signed';
 import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
@@ -15,7 +18,6 @@ import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lo
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
-import { TranslateModule } from '@ngx-translate/core';
 import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
@@ -25,13 +27,23 @@ import { ErrorMessageComponent } from './error-message/error-message';
 import { DisplayAddressComponent } from './display-address/display-address';
 import { DataRowCustomComponent } from './data-row-custom/data-row-custom';
 import { DataRowComponent } from './data-row/data-row';
+import { BikeCategoryTypeComponent } from './bike-category-type/bike-category-type';
+import { CandidateSectionComponent } from './candidate-section/candidate-section';
+import { DangerousFaultBadgeComponent } from './dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faults-badge';
+import { EndTestLinkComponent } from './end-test-link/end-test-link';
 
 @NgModule({
   declarations: [
     SignatureAreaComponent,
+    BikeCategoryTypeComponent,
+    CandidateSectionComponent,
+    DangerousFaultBadgeComponent,
     DataRowComponent,
     DataRowCustomComponent,
     DisplayAddressComponent,
+    DrivingFaultsBadgeComponent,
+    EndTestLinkComponent,
     ErrorMessageComponent,
     OfflineBannerComponent,
     TabComponent,
@@ -59,9 +71,14 @@ import { DataRowComponent } from './data-row/data-row';
   ],
   exports: [
     SignatureAreaComponent,
+    BikeCategoryTypeComponent,
+    CandidateSectionComponent,
+    DangerousFaultBadgeComponent,
     DataRowComponent,
     DataRowCustomComponent,
     DisplayAddressComponent,
+    DrivingFaultsBadgeComponent,
+    EndTestLinkComponent,
     ErrorMessageComponent,
     OfflineBannerComponent,
     TabComponent,
