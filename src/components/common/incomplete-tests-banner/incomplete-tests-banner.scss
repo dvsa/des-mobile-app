@@ -1,0 +1,26 @@
+incomplete-tests-banner {
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gds-yellow);
+    height: 70px;
+    img {
+      padding-right: 10px;
+      height: 37px;
+      vertical-align: middle;
+    }
+    animation-name: expand;
+    animation-duration: 0.1s;
+  }
+}
+
+@keyframes expand {
+  from {
+    margin-top: -70px;
+  }
+
+  to {
+    margin-top: 0px;
+  }
+}
