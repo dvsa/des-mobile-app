@@ -182,14 +182,14 @@ export class TestOutcomeComponent implements OnInit {
     this.router.navigate(this.getOfficePage());
   }
 
-  resumeTest() {
+  async resumeTest() {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     if (this.testStatus === TestStatus.Started) {
       this.router.navigate(this.getTestStartingPage());
     } else if (this.activityCode === ActivityCodes.PASS) {
       this.router.navigate(this.getPassFinalisationPage());
     } else {
-      this.router.navigate(this.getNonPassFinalisationPage());
+      await this.routeByCat.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
     }
   }
 
@@ -390,7 +390,7 @@ export class TestOutcomeComponent implements OnInit {
     if (this.testStatus === TestStatus.Booked) {
       await this.startTest();
     } else {
-      this.resumeTest();
+      await this.resumeTest();
     }
   }
 
@@ -470,46 +470,6 @@ export class TestOutcomeComponent implements OnInit {
       case TestCategory.G:
       case TestCategory.F:
         return [CAT_HOME_TEST.PASS_FINALISATION_PAGE];
-      default:
-    }
-  }
-
-  getNonPassFinalisationPage(): [string] {
-    switch (this.category as TestCategory) {
-      case TestCategory.ADI2:
-        return [CAT_ADI_PART2.NON_PASS_FINALISATION_PAGE];
-      case TestCategory.B:
-        return [CAT_B.NON_PASS_FINALISATION_PAGE];
-      case TestCategory.BE:
-        return [CAT_BE.NON_PASS_FINALISATION_PAGE];
-      case TestCategory.C1E:
-      case TestCategory.CE:
-      case TestCategory.C1:
-      case TestCategory.C:
-        return [CAT_C.NON_PASS_FINALISATION_PAGE];
-      case TestCategory.CCPC:
-      case TestCategory.DCPC:
-        return [CAT_CPC.NON_PASS_FINALISATION_PAGE];
-      case TestCategory.EUAM1:
-      case TestCategory.EUA1M1:
-      case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1:
-        return [CAT_A_MOD1.NON_PASS_FINALISATION_PAGE];
-      case TestCategory.EUAM2:
-      case TestCategory.EUA1M2:
-      case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2:
-        return [CAT_A_MOD2.NON_PASS_FINALISATION_PAGE];
-      case TestCategory.D:
-      case TestCategory.D1:
-      case TestCategory.D1E:
-      case TestCategory.DE:
-        return [CAT_D.NON_PASS_FINALISATION_PAGE];
-      case TestCategory.K:
-      case TestCategory.H:
-      case TestCategory.G:
-      case TestCategory.F:
-        return [CAT_HOME_TEST.NON_PASS_FINALISATION_PAGE];
       default:
     }
   }

@@ -27,7 +27,7 @@ export class ConfirmTestDetailsPage implements OnInit {
   }
 
   async navigateBackToOffice(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.BACK_TO_OFFICE_PAGE, TestCategory.B);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.BACK_TO_OFFICE_PAGE);
   }
 
 }
