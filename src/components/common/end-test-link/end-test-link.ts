@@ -38,8 +38,9 @@ export class EndTestLinkComponent {
     public router: Router) {
   }
 
-  async openEndTestModal() {
+  openEndTestModal = async (): Promise<void> => {
     this.terminateTestModal = await this.modalController.create({
+      id: 'TerminateTestModal',
       component: TerminateTestModal,
       componentProps: {
         onCancel: this.onCancel,
@@ -51,85 +52,86 @@ export class EndTestLinkComponent {
     await this.terminateTestModal.present();
   }
 
-  onCancel = () => {
-    this.terminateTestModal.dismiss();
+  onCancel = async (): Promise<void> => {
+    await this.terminateTestModal.dismiss();
   };
 
-  onTerminate = () => {
-    this.terminateTestModal.dismiss();
+  onTerminate = async (): Promise<void> => {
+    await this.terminateTestModal.dismiss();
+
     if (this.isDelegated) {
-      this.navigateToOfficePage();
+      await this.navigateToOfficePage();
       return;
     }
     switch (this.category) {
       case TestCategory.ADI2:
-        this.router.navigate([CAT_ADI_PART2.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_ADI_PART2.DEBRIEF_PAGE]);
         break;
       case TestCategory.B:
-        this.router.navigate([CAT_B.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_B.DEBRIEF_PAGE]);
         break;
       case TestCategory.BE:
-        this.router.navigate([CAT_BE.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_BE.DEBRIEF_PAGE]);
         break;
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:
       case TestCategory.C1E:
-        this.router.navigate([CAT_C.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_C.DEBRIEF_PAGE]);
         break;
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        this.router.navigate([CAT_CPC.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_CPC.DEBRIEF_PAGE]);
         break;
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.DE:
       case TestCategory.D1E:
-        this.router.navigate([CAT_D.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_D.DEBRIEF_PAGE]);
         break;
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
       case TestCategory.K:
-        this.router.navigate([CAT_HOME_TEST.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_HOME_TEST.DEBRIEF_PAGE]);
         break;
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAM1:
       case TestCategory.EUAMM1:
-        this.router.navigate([CAT_A_MOD1.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_A_MOD1.DEBRIEF_PAGE]);
         break;
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAM2:
       case TestCategory.EUAMM2:
-        this.router.navigate([CAT_A_MOD2.DEBRIEF_PAGE]);
+        await this.router.navigate([CAT_A_MOD2.DEBRIEF_PAGE]);
         break;
       default:
         break;
     }
   };
 
-  navigateToOfficePage = () => {
+  navigateToOfficePage = async (): Promise<void> => {
     switch (this.category) {
       case TestCategory.BE:
-        this.router.navigate([CAT_BE.OFFICE_PAGE]);
+        await this.router.navigate([CAT_BE.OFFICE_PAGE]);
         break;
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:
       case TestCategory.C1E:
-        this.router.navigate([CAT_C.OFFICE_PAGE]);
+        await this.router.navigate([CAT_C.OFFICE_PAGE]);
         break;
       case TestCategory.CCPC:
       case TestCategory.DCPC:
-        this.router.navigate([CAT_CPC.OFFICE_PAGE]);
+        await this.router.navigate([CAT_CPC.OFFICE_PAGE]);
         break;
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.DE:
       case TestCategory.D1E:
-        this.router.navigate([CAT_D.OFFICE_PAGE]);
+        await this.router.navigate([CAT_D.OFFICE_PAGE]);
         break;
       default:
         break;
