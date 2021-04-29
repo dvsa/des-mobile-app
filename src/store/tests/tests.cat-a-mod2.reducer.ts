@@ -2,6 +2,7 @@ import { Action, combineReducers } from '@ngrx/store';
 import { TestResultCatAM2Schema } from '@dvsa/mes-test-schema/categories/AM2';
 import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
 
+import { appVersionReducer } from '@store/tests/app-version/app-version.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
 import { passCompletionReducer } from './pass-completion/pass-completion.reducer';
@@ -31,6 +32,7 @@ export function testsCatAMod2Reducer(
     {
       activityCode: activityCodeReducer,
       accompaniment: accompanimentReducer,
+      appVersion: appVersionReducer,
       category: categoryReducer,
       changeMarker: changeMarkerReducer,
       communicationPreferences: communicationPreferencesReducer,

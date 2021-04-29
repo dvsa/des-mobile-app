@@ -46,7 +46,7 @@
     "@dvsa/mes-config-schema": "^1.2.0",
     "@dvsa/mes-journal-schema": "1.2.0",
     "@dvsa/mes-search-schema": "1.1.2",
-    "@dvsa/mes-test-schema": "^3.29.0",
+    "@dvsa/mes-test-schema": "3.33.1",
     "@ionic-enterprise/auth": "^3.3.1",
     "@ionic-native-mocks/secure-storage": "^2.0.12",
     "@ionic-native/app-version": "^5.30.0",

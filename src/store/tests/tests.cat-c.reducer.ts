@@ -20,6 +20,7 @@ import { vehicleDetailsCatCReducer } from './vehicle-details/cat-c/vehicle-detai
 import { passCompletionCatCReducer } from './pass-completion/cat-c/pass-completion.cat-c.reducer';
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
 import { changeMarkerReducer } from './change-marker/change-marker.reducer';
+import { appVersionReducer } from './app-version/app-version.reducer';
 
 export function testsCatCReducer(
   action: Action,
@@ -29,6 +30,7 @@ export function testsCatCReducer(
     {
       accompaniment: accompanimentReducer,
       activityCode: activityCodeReducer,
+      appVersion: appVersionReducer,
       category: categoryReducer,
       changeMarker: changeMarkerReducer,
       communicationPreferences: communicationPreferencesReducer,

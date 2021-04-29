@@ -20,11 +20,15 @@ import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { journalDataCatHomeReducer } from './journal-data/cat-home/journal-data.cat-home.reducer';
 import { passCompletionReducer } from './pass-completion/pass-completion.reducer';
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
+import { appVersionReducer } from './app-version/app-version.reducer';
 
-export function testsCatHReducer(action: Action, state: CatHUniqueTypes.TestResult)
-  : Required<CatHUniqueTypes.TestResult> {
+export function testsCatHReducer(
+  action: Action,
+  state: CatHUniqueTypes.TestResult,
+): Required<CatHUniqueTypes.TestResult> {
   return combineReducers(
     {
+      appVersion: appVersionReducer,
       version: schemaVersionReducer,
       category: categoryReducer,
       activityCode: activityCodeReducer,

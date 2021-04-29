@@ -21,6 +21,7 @@ import { accompanimentCatCPCReducer } from './accompaniment/cat-cpc/accompanimen
 import { vehicleDetailsCatCPCReducer } from './vehicle-details/cat-cpc/vehicle-details.cat-cpc.reducer';
 import { passCompletionCatCPCReducer } from './pass-completion/cat-cpc/pass-completion.cat-cpc.reducer';
 import { testSummaryCPCReducer } from './test-summary/cat-cpc/test-summary.cat-cpc.reducer';
+import { appVersionReducer } from './app-version/app-version.reducer';
 
 export function testsCatCPCReducer(
   action: Action,
@@ -28,6 +29,7 @@ export function testsCatCPCReducer(
 ): Required<TestResultCatCPCSchema> {
   return combineReducers(
     {
+      appVersion: appVersionReducer,
       accompaniment: accompanimentCatCPCReducer,
       activityCode: activityCodeReducer,
       category: categoryReducer,

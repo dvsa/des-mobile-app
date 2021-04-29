@@ -8,13 +8,17 @@ import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
+import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
+import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
 import { TestResultCatAM2Schema } from '@dvsa/mes-test-schema/categories/AM2';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
+
 import { testsCatBReducer } from './tests.cat-b.reducer';
 import { testsCatBEReducer } from './tests.cat-be.reducer';
 import { testsCatADIPart2Reducer } from './tests.cat-adi-part2.reducer';
@@ -24,6 +28,9 @@ import { testsCatC1Reducer } from './tests.cat-c1.reducer';
 import { testsCatC1EReducer } from './tests.cat-c1e.reducer';
 import { testsCatCPCReducer } from './tests.cat-cpc.reducer';
 import { testsCatDReducer } from './tests.cat-d.reducer';
+import { testsCatDEReducer } from './tests.cat-de.reducer';
+import { testsCatD1Reducer } from './tests.cat-d1.reducer';
+import { testsCatD1EReducer } from './tests.cat-d1e.reducer';
 import { testsCatAMod2Reducer } from './tests.cat-a-mod2.reducer';
 import { testsCatKReducer } from './tests.cat-k.reducer';
 import { testsCatFReducer } from './tests.cat-f.reducer';
@@ -54,10 +61,13 @@ export function testsReducerFactory(
     case TestCategory.DCPC:
       return testsCatCPCReducer(action, state as Required<TestResultCatCPCSchema>);
     case TestCategory.D:
-    case TestCategory.DE:
-    case TestCategory.D1E:
-    case TestCategory.D1:
       return testsCatDReducer(action, state as Required<CatDUniqueTypes.TestResult>);
+    case TestCategory.DE:
+      return testsCatDEReducer(action, state as Required<CatDEUniqueTypes.TestResult>);
+    case TestCategory.D1:
+      return testsCatD1Reducer(action, state as Required<CatD1UniqueTypes.TestResult>);
+    case TestCategory.D1E:
+      return testsCatD1EReducer(action, state as Required<CatD1EUniqueTypes.TestResult>);
     case TestCategory.EUAMM2:
     case TestCategory.EUA1M2:
     case TestCategory.EUA2M2:
