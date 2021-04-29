@@ -1,0 +1,28 @@
+tick-indicator {
+  div {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    .tick-background {
+      background-color: var(--gds-grey-3);
+      color: var(mes-white);
+      border-radius: 13px;
+      &.ticked{
+        background-color: var(--gds-green);
+      }
+      span {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+        .tick-icon {
+          &.icon-ios {
+            margin: 2px 0 0 2px;
+          }
+          font-size: 25px;
+          font-weight: 700;
+          align-self: center;
+        }
+      }
+    }
+  }
+}

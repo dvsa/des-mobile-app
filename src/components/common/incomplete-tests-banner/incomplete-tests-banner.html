@@ -1,0 +1,6 @@
+<div *ngIf="(componentState.count$ | async) > 0">
+  <img src="/assets/imgs/exclamation-black.png" />
+  <label>
+    <span>You have {{componentState.count$ | async}} incomplete {{(componentState.count$ | async)>1 ? 'tests' : 'test'}}</span>
+  </label>
+</div>

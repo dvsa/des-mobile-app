@@ -1,0 +1,9 @@
+.screen-lock-indicator {
+  text-align: center;
+  padding: 16px 0;
+  background: var(--gds-yellow);
+  .lock-icon {
+    height: 20px;
+    margin-right: 16px;
+  }
+}

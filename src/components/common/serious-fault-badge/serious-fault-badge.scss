@@ -1,0 +1,19 @@
+serious-fault-badge {
+  div {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    .background {
+      display: flex;
+      justify-content: center;
+      background: var(--gds-yellow);
+      color: var(--gds-black);
+      border-radius: 13px;
+      .label {
+        font-size: 15px;
+        font-weight: bold;
+        align-self: center;
+      }
+    }
+  }
+}
