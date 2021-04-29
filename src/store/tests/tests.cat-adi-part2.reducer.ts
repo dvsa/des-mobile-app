@@ -25,6 +25,7 @@ import {
 import {
   trainerDetailsCatADIPart2Reducer,
 } from './trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.reducer';
+import { appVersionReducer } from './app-version/app-version.reducer';
 
 export function testsCatADIPart2Reducer(
   action: Action,
@@ -34,6 +35,7 @@ export function testsCatADIPart2Reducer(
     {
       accompaniment: accompanimentReducer,
       activityCode: activityCodeReducer,
+      appVersion: appVersionReducer,
       category: categoryReducer,
       changeMarker: changeMarkerReducer,
       communicationPreferences: communicationPreferencesReducer,

@@ -1,10 +1,10 @@
 import { Action, combineReducers } from '@ngrx/store';
-import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
-import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
+import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { preTestDeclarationsReducer } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
+import { passCompletionCatDReducer } from '@store/tests/pass-completion/cad-d/pass-completion.cat-d.reducer';
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';
-import { testDataCatKReducer } from '@store/tests/test-data/cat-home/test-data.cat-k.reducer';
-import { vehicleDetailsReducer } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
+import { appVersionReducer } from '@store/tests/app-version/app-version.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
@@ -17,41 +17,41 @@ import { examinerBookedReducer } from './examiner-booked/examiner-booked.reducer
 import { examinerConductedReducer } from './examiner-conducted/examiner-conducted.reducer';
 import { examinerKeyedReducer } from './examiner-keyed/examiner-keyed.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
-import { journalDataCatHomeReducer } from './journal-data/cat-home/journal-data.cat-home.reducer';
-import { passCompletionReducer } from './pass-completion/pass-completion.reducer';
+import { journalDataCatDReducer } from './journal-data/cat-d/journal-data.cat-d.reducer';
+import { vehicleDetailsCatDReducer } from './vehicle-details/cat-d/vehicle-details.cat-d.reducer';
+import { testDataCatD1Reducer } from './test-data/cat-d/test-data.cat-d1.reducer';
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
-import { appVersionReducer } from './app-version/app-version.reducer';
 
-export function testsCatKReducer(
+export function testsCatD1Reducer(
   action: Action,
-  state: CatKUniqueTypes.TestResult,
-): Required<CatKUniqueTypes.TestResult> {
+  state: CatD1UniqueTypes.TestResult,
+): Required<CatD1UniqueTypes.TestResult> {
   return combineReducers(
     {
-      appVersion: appVersionReducer,
-      version: schemaVersionReducer,
-      category: categoryReducer,
-      activityCode: activityCodeReducer,
-      journalData: journalDataCatHomeReducer,
-      preTestDeclarations: preTestDeclarationsReducer,
       accompaniment: accompanimentReducer,
-      vehicleDetails: vehicleDetailsReducer,
-      testData: testDataCatKReducer,
-      passCompletion: passCompletionReducer,
-      postTestDeclarations: postTestDeclarationsReducer,
-      testSummary: testSummaryReducer,
+      activityCode: activityCodeReducer,
+      appVersion: appVersionReducer,
+      category: categoryReducer,
+      changeMarker: changeMarkerReducer,
       communicationPreferences: communicationPreferencesReducer,
-      rekey: rekeyReducer,
-      rekeyDate: rekeyDateReducer,
-      rekeyReason: rekeyReasonReducer,
       delegatedTest: delegatedTestReducer,
       examinerBooked: examinerBookedReducer,
       examinerConducted: examinerConductedReducer,
       examinerKeyed: examinerKeyedReducer,
-      changeMarker: changeMarkerReducer,
+      journalData: journalDataCatDReducer,
+      passCompletion: passCompletionCatDReducer,
+      postTestDeclarations: postTestDeclarationsReducer,
+      preTestDeclarations: preTestDeclarationsReducer,
+      rekey: rekeyReducer,
+      rekeyDate: rekeyDateReducer,
+      rekeyReason: rekeyReasonReducer,
+      testData: testDataCatD1Reducer,
+      testSummary: testSummaryReducer,
+      version: schemaVersionReducer,
+      vehicleDetails: vehicleDetailsCatDReducer,
     },
   )(
-    state as Required<CatKUniqueTypes.TestResult>,
+    state as Required<CatD1UniqueTypes.TestResult>,
     action,
   );
 }

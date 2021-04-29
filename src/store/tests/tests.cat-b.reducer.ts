@@ -21,12 +21,15 @@ import { instructorDetailsReducer } from './instructor-details/instructor-detail
 import { testDataReducer } from './test-data/cat-b/test-data.reducer';
 import { journalDataReducer } from './journal-data/cat-b/journal-data.reducer';
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
+import { appVersionReducer } from './app-version/app-version.reducer';
 
 export function testsCatBReducer(
-  action: Action, state: CatBUniqueTypes.TestResult,
+  action: Action,
+  state: CatBUniqueTypes.TestResult,
 ): Required<CatBUniqueTypes.TestResult> {
   return combineReducers(
     {
+      appVersion: appVersionReducer,
       version: schemaVersionReducer,
       category: categoryReducer,
       activityCode: activityCodeReducer,

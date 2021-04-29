@@ -20,12 +20,15 @@ import { examinerKeyedReducer } from './examiner-keyed/examiner-keyed.reducer';
 import { activityCodeReducer } from './activity-code/activity-code.reducer';
 import { testDataCatBEReducer } from './test-data/cat-be/test-data.cat-be.reducer';
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
+import { appVersionReducer } from './app-version/app-version.reducer';
 
 export function testsCatBEReducer(
-  action: Action, state: CatBEUniqueTypes.TestResult,
+  action: Action,
+  state: CatBEUniqueTypes.TestResult,
 ): Required<CatBEUniqueTypes.TestResult> {
   return combineReducers(
     {
+      appVersion: appVersionReducer,
       version: schemaVersionReducer,
       category: categoryReducer,
       activityCode: activityCodeReducer,

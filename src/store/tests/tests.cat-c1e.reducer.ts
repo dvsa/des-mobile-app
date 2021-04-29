@@ -20,6 +20,7 @@ import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
 import { preTestDeclarationsReducer } from './pre-test-declarations/pre-test-declarations.reducer';
 import { testSummaryReducer } from './test-summary/test-summary.reducer';
 import { changeMarkerReducer } from './change-marker/change-marker.reducer';
+import { appVersionReducer } from './app-version/app-version.reducer';
 
 export function testsCatC1EReducer(
   action: Action,
@@ -29,6 +30,7 @@ export function testsCatC1EReducer(
     {
       accompaniment: accompanimentReducer,
       activityCode: activityCodeReducer,
+      appVersion: appVersionReducer,
       category: categoryReducer,
       changeMarker: changeMarkerReducer,
       communicationPreferences: communicationPreferencesReducer,

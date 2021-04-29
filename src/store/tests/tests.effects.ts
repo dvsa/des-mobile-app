@@ -40,6 +40,7 @@ import { version } from '@environments/test-schema-version';
 import { StoreModel } from '@shared/models/store.model';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { IndependentDrivingTypeChanged, RouteNumberChanged } from '@store/tests/test-summary/test-summary.actions';
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
@@ -70,6 +71,7 @@ import { SetExaminerBooked } from './examiner-booked/examiner-booked.actions';
 import { SetExaminerConducted } from './examiner-conducted/examiner-conducted.actions';
 import { SetExaminerKeyed } from './examiner-keyed/examiner-keyed.actions';
 import { MarkAsRekey } from './rekey/rekey.actions';
+import { PopulateAppVersion } from './app-version/app-version.actions';
 import { JournalModel } from '../journal/journal.model';
 import { PopulateConductedLanguage } from './communication-preferences/communication-preferences.actions';
 import { Language } from './communication-preferences/communication-preferences.model';
@@ -167,10 +169,13 @@ export class TestsEffects {
           this.store$.pipe(
             select(getDelegatedRekeySearchState),
           ),
+          this.store$.pipe(
+            select(selectVersionNumber),
+          ),
         ),
       )),
-    switchMap(([action, journal, rekeySearch, delegatedRekeySearch]:
-    [TestActionsTypes, JournalModel, RekeySearchModel, DelegatedRekeySearchModel]) => {
+    switchMap(([action, journal, rekeySearch, delegatedRekeySearch, appVersion]:
+    [TestActionsTypes, JournalModel, RekeySearchModel, DelegatedRekeySearchModel, string]) => {
       const startTestAction = action as ReturnType<typeof StartTest>;
       // @TODO: NavigationStateProvider required for real implementation
       const isRekeySearch = false; // this.navigationStateProvider.isRekeySearch();
@@ -218,6 +223,7 @@ export class TestsEffects {
         SetExaminerKeyed(parseInt(examinerKeyed, 10) ? parseInt(examinerKeyed, 10) : null),
         PopulateConductedLanguage(conductedLanguage),
         PopulateTestSchemaVersion(version),
+        PopulateAppVersion(appVersion),
       ];
 
       if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
