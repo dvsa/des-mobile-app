@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -33,7 +31,7 @@ import {
 } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { configureI18N } from '@shared/helpers/translation.helpers';
-import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+// import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 
 interface CommunicationPageState {
   candidateName$: Observable<string>;
@@ -51,7 +49,7 @@ interface CommunicationPageState {
   templateUrl: './communication.page.html',
   styleUrls: ['./communication.page.scss'],
 })
-export class CommunicationPage extends PracticeableBasePageComponent  implements OnInit {
+export class CommunicationPage extends PracticeableBasePageComponent implements OnInit {
 
   static readonly providedEmail: string = 'Provided';
   static readonly updatedEmail: string = 'Updated';
@@ -79,7 +77,7 @@ export class CommunicationPage extends PracticeableBasePageComponent  implements
     store$: Store<StoreModel>,
     private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
-    private deviceAuthenticationProvider: DeviceAuthenticationProvider,
+    // public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
   ) {
     super(platform, router, authenticationProvider, store$);
@@ -145,10 +143,10 @@ export class CommunicationPage extends PracticeableBasePageComponent  implements
     } = this.pageState;
 
     this.merged$ = merge(
-      candidateProvidedEmail$.pipe(map(value => this.candidateProvidedEmail = value)),
-      communicationEmail$.pipe(map(value => this.communicationEmail = value)),
-      communicationType$.pipe(map(value => this.communicationType = value as CommunicationMethod)),
-      conductedLanguage$.pipe(tap(value => configureI18N(value as Language, this.translate))),
+      candidateProvidedEmail$.pipe(map((value) => this.candidateProvidedEmail = value)),
+      communicationEmail$.pipe(map((value) => this.communicationEmail = value)),
+      communicationType$.pipe(map((value) => this.communicationType = value as CommunicationMethod)),
+      conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
 
     );
 
@@ -185,7 +183,7 @@ export class CommunicationPage extends PracticeableBasePageComponent  implements
   //         this.store$.dispatch(new CommunicationSubmitInfo());
   //         this.navController.push(CAT_B.WAITING_ROOM_TO_CAR_PAGE)
   //           .then(() => {
-  //             const waitingRoomPage = this.navController.getViews().find(view => view.id === CAT_B.WAITING_ROOM_PAGE);
+  //           const waitingRoomPage = this.navController.getViews().find(view => view.id === CAT_B.WAITING_ROOM_PAGE);
   //             if (waitingRoomPage) {
   //               this.navController.removeView(waitingRoomPage);
   //             }
@@ -210,17 +208,17 @@ export class CommunicationPage extends PracticeableBasePageComponent  implements
 
   dispatchCandidateChoseProvidedEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.providedEmail);
-    this.store$.dispatch(
-      new CandidateChoseEmailAsCommunicationPreference(
-        this.candidateProvidedEmail, CommunicationPage.email),
-    );
+    // this.store$.dispatch(
+    //   new CandidateChoseEmailAsCommunicationPreference(
+    //     this.candidateProvidedEmail, CommunicationPage.email),
+    // );
   }
 
   dispatchCandidateChoseNewEmail(communicationEmail: string): void {
-    this.store$.dispatch(
-      new CandidateChoseEmailAsCommunicationPreference(
-        communicationEmail, CommunicationPage.email),
-    );
+    // this.store$.dispatch(
+    //   new CandidateChoseEmailAsCommunicationPreference(
+    //     communicationEmail, CommunicationPage.email),
+    // );
   }
 
   setCommunicationType(communicationChoice: CommunicationMethod, emailType: string = null) {
@@ -245,9 +243,9 @@ export class CommunicationPage extends PracticeableBasePageComponent  implements
 
   dispatchCandidateChosePost(): void {
     this.setCommunicationType(CommunicationPage.post);
-    this.store$.dispatch(
-      new CandidateChosePostAsCommunicationPreference(CommunicationPage.post),
-    );
+    // this.store$.dispatch(
+    //   new CandidateChosePostAsCommunicationPreference(CommunicationPage.post),
+    // );
   }
 
   getFormValidation(): { [key: string]: FormControl } {
@@ -288,7 +286,7 @@ export class CommunicationPage extends PracticeableBasePageComponent  implements
     if (this.candidateProvidedEmail !== this.communicationEmail) {
       this.selectNewEmail = true;
       this.selectProvidedEmail = false;
-      this.emailType = CommunicationCatBPage.updatedEmail;
+      this.emailType = CommunicationPage.updatedEmail;
     }
   }
 
@@ -363,14 +361,14 @@ export class CommunicationPage extends PracticeableBasePageComponent  implements
     return this.candidateProvidedEmail === this.communicationEmail ? '' : this.communicationEmail;
   }
 
-  ////////
-
-  navigateBack(): void {
-    this.navController.back();
-  }
-
-  async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, TestCategory.B);
-  }
+  // ////////
+  //
+  // navigateBack(): void {
+  //   this.navController.back();
+  // }
+  //
+  // async navigateForward(): Promise<void> {
+  //   await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, TestCategory.B);
+  // }
 
 }

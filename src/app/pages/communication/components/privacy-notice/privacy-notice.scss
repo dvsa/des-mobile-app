@@ -1,0 +1,20 @@
+privacy-notice {
+  .container {
+    margin: 40px 32px 0px 32px;
+    background-color: #f3f3f3;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.42px;
+    line-height: 25px;
+    border-left: 10px solid map-get($colors-gds, "gds-black");
+    ion-row {
+      padding-top: 16px;
+      padding-bottom: 16px;
+      padding-right: 32px;
+    }
+    ion-icon.alert-icon {
+      font-size: 52px;
+      padding-left: 32px;
+    }
+  }
+}
