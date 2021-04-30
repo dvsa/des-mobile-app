@@ -1,0 +1,17 @@
+<ion-card class="modal-alert">
+  <modal-alert-title>Candidate has special requirements</modal-alert-title>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="80">
+      <div class="modal-alert-message">
+        <div class="mes-data">You cannot start this test until you've checked the candidate details.</div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="mes-align-content-center ion-no-padding" size="72">
+      <modal-return-button (click)="onCancel()" id="force-check-return-button">
+        Return to journal
+      </modal-return-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

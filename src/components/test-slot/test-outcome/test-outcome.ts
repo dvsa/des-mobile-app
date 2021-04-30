@@ -1,7 +1,7 @@
 import { Subscription, Observable, merge } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-// import { ModalController } from '@ionic/angular'; // Modal
+import { ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { isEmpty, startsWith } from 'lodash';
 import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
@@ -35,15 +35,18 @@ import { ActivateTest, StartTest } from '@store/tests/tests.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
 import {
-  ResumingWriteUp,
+  ResumingWriteUp, EarlyStartModalDidEnter,
   // EarlyStartModalDidEnter
 } from '@store/journal/journal.actions';
 // import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
-/* import { ModalEvent } from '@pages/journal/journal-rekey-modal/journal-rekey-modal.constants';
+import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 import {
   ModalEvent as EarlyStartModalEvent,
 } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal.constants';
- */
+import { MarkAsNonRekey } from '@store/tests/rekey/rekey.actions';
+import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
+import { JournalForceCheckModal } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal';
+import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
 
 @Component({
   selector: 'test-outcome',
@@ -85,7 +88,7 @@ export class TestOutcomeComponent implements OnInit {
   @Input()
   showTestActionButton: boolean = true;
 
-  // modal: Modal;
+  modal: HTMLIonModalElement;
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
 
@@ -97,7 +100,7 @@ export class TestOutcomeComponent implements OnInit {
     private store$: Store<StoreModel>,
     private router: Router,
     private routeByCat: RouteByCategoryProvider,
-    // private modalController: ModalController,
+    private modalController: ModalController,
   ) {
   }
 
@@ -185,9 +188,9 @@ export class TestOutcomeComponent implements OnInit {
   async resumeTest() {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     if (this.testStatus === TestStatus.Started) {
-      this.router.navigate(this.getTestStartingPage());
+      await this.router.navigate(this.getTestStartingPage());
     } else if (this.activityCode === ActivityCodes.PASS) {
-      this.router.navigate(this.getPassFinalisationPage());
+      await this.router.navigate(this.getPassFinalisationPage());
     } else {
       await this.routeByCat.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
     }
@@ -285,49 +288,62 @@ export class TestOutcomeComponent implements OnInit {
     }
   }
 
-  /* displayRekeyModal = (): void => {
-    const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
-    this.modal = this.modalController.create('JournalRekeyModal', {}, options);
-    this.modal.onDidDismiss(this.onModalDismiss);
-    this.modal.present();
-  }; */
-
-  /* displayCheckStartModal = (): void => {
-    this.store$.dispatch(new EarlyStartModalDidEnter());
-    const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
-    this.modal = this.modalController.create(JOURNAL_EARLY_START_MODAL, { slotData: this.slotDetail }, options);
-    this.modal.onDidDismiss((event: EarlyStartModalEvent) => {
-      switch (event) {
-        case ModalEvent.START:
-          this.startTestAsRekey = false;
-          this.isRekey = false;
-          if (this.testStatus !== null) {
-            this.store$.dispatch(new MarkAsNonRekey());
-          }
-          this.startOrResumeTestDependingOnStatus();
-          break;
-        case ModalEvent.CANCEL:
-          break;
-        default:
-      }
+  displayRekeyModal = async (): Promise<void> => {
+    const modal = await this.modalController.create({
+      component: JournalRekeyModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
     });
-    this.modal.present();
-  }; */
+    const dismissed = await modal.onDidDismiss();
+    console.log('dismissed', dismissed);
+    // this.onModalDismiss(res);
+    return await modal.present();
+  };
 
-  /* displayForceCheckModal = (): void => {
-    const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
-    this.modal = this.modalController.create(JOURNAL_FORCE_CHECK_MODAL, {}, options);
-    this.modal.onDidDismiss(this.onModalDismiss);
-    this.modal.present();
-  }; */
+  displayCheckStartModal = async (): Promise<void> => {
+    this.store$.dispatch(EarlyStartModalDidEnter());
+    const modal = await this.modalController.create({
+      component: JournalEarlyStartModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
+      componentProps: { slotData: this.slotDetail, },
+    });
+    const dismissed = await modal.onDidDismiss();
+    switch (dismissed) {
+      case ModalEvent.START:
+        this.startTestAsRekey = false;
+        this.isRekey = false;
+        if (this.testStatus !== null) {
+          this.store$.dispatch(MarkAsNonRekey());
+        }
+        await this.startOrResumeTestDependingOnStatus();
+        break;
+      case ModalEvent.CANCEL:
+        break;
+      default:
+        break;
+    }
+    return await this.modal.present();
+  };
 
-  /* onModalDismiss = (event: ModalEvent): void => {
+  displayForceCheckModal = async (): Promise<void> => {
+    const modal = await this.modalController.create({
+      component: JournalForceCheckModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
+    });
+    await modal.present();
+    console.log(modal);
+    // const dismissed = await modal.onDidDismiss();
+    // console.log('dismissed', dismissed);
+    // this.onModalDismiss(res);
+    // return await modal.present();
+  };
+
+  onModalDismiss = (event: ModalEvent): void => {
     switch (event) {
       case ModalEvent.START:
         this.startTestAsRekey = false;
         this.isRekey = false;
         if (this.testStatus !== null) {
-          this.store$.dispatch(new MarkAsNonRekey());
+          this.store$.dispatch(MarkAsNonRekey());
         }
         this.startOrResumeTestDependingOnStatus();
         break;
@@ -337,27 +353,27 @@ export class TestOutcomeComponent implements OnInit {
         break;
       default:
     }
-  }; */
+  };
 
   shouldDisplayRekeyModal(): boolean {
     return this.isTestIncomplete() && this.isTodaysDate() && this.hasTestTimeFinished();
   }
 
-  async clickStartOrResumeTest() {
-    // @TODO: Implement Start Test Logic
+  clickStartOrResumeTest = async () => {
+    console.log('clicked');
     // if (this.specialRequirements && !this.hasSeenCandidateDetails) {
-    //   this.displayForceCheckModal();
-    //   return;
+      await this.displayForceCheckModal();
+      // return;
     // }
     // if (this.shouldDisplayRekeyModal() && !this.isE2EPracticeMode()) {
-    //   this.displayRekeyModal();
+    //   await this.displayRekeyModal();
     //   return;
     // }
     // if (this.shouldDisplayCheckStartModal()) {
-    //   this.displayCheckStartModal();
+    //   await this.displayCheckStartModal();
     //   return;
     // }
-    await this.startOrResumeTestDependingOnStatus();
+    // await this.startOrResumeTestDependingOnStatus();
   }
 
   shouldDisplayCheckStartModal(): boolean {

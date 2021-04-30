@@ -1,0 +1,17 @@
+@import "../../../../../theme/sass-partials/modal";
+
+ion-card {
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    width: 450px;
+  }
+
+  .modal-alert-message {
+    margin-bottom: 25px;
+  }
+
+  .cancel-button {
+    color: var(--gds-black);
+  }
+}
