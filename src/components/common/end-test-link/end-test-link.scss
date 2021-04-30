@@ -1,0 +1,10 @@
+.end-test-link-button {
+  background: transparent;
+  &.activated {
+    background: transparent;
+  }
+}
+
+.end-test-text {
+  color: var(--gds-grey-5);
+}

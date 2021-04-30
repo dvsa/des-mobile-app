@@ -1,0 +1,29 @@
+.cpc-line-break {
+  border-bottom: 1px solid;
+  border-bottom-color: var(--gds-grey-3);
+  margin-top: 2em;
+  padding-bottom: 2em;
+}
+
+.cpc-total-padding {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.cpc-percentage {
+  margin-left: 1em;
+}
+
+.cpc-answer-icon {
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+
+  .text-zoom-large & {
+    padding-top: 4px;
+  }
+
+  .text-zoom-x-large & {
+    padding-top: 6px;
+  }
+}

@@ -1,0 +1,49 @@
+<ion-row class="mes-validated-row mes-row-separator" id="category-type" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col size="32" class="component-label ion-align-self-center">
+    <label>Confirm cat type</label>
+  </ion-col>
+  <ion-col class="ion-padding-left ion-align-self-center">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48" *ngIf="!categoryConfirmed">
+        <input
+          *ngIf="!categoryConfirmed"
+          type="button"
+          formControlName="categoryTypeSelectCategory"
+          class="mes-return-button"
+          (click)="openCategorySelector()"
+        >
+      </ion-col>
+      <ion-col size="48" class="selected-category-code ion-align-self-center" *ngIf="categoryConfirmed">
+        {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory).displayId}}
+        -
+        {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory).displayName}}
+      </ion-col>
+      <ion-col size="47" class="select-category-link-container ion-padding-right" *ngIf="categoryConfirmed">
+        <ion-button type="button" class="mes-link-button category-selector-link" (click)="openCategorySelector()">
+          <span>
+            Select cat type
+            <ion-icon name="arrow-forward"></ion-icon>
+          </span>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-category-type-validation-text">
+        Confirm the category type
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>
+
+<ion-select
+  #categorySelect hidden="true" okText="Confirm" cancelText="Cancel"
+  [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+  (ionChange)="categoryCodeChanged($event)">
+  <ion-select-option *ngFor="let category of bikeCategoryDetails"
+              class="category-option"
+              [value]="category.categoryCode">
+    {{category.displayId}}
+  </ion-select-option>
+</ion-select>

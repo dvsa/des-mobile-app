@@ -1,0 +1,57 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>
+      <h4>{{getCardHeader()}}</h4>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+      <ion-grid>
+        <ion-list *ngFor="let question of questions; let first = first; let last = last">
+          <ion-row *ngIf="first && isDetailedTestView" class="cpc-line-break">
+            <ion-col size="32">
+              <h3>Combination</h3>
+            </ion-col>
+            <ion-col>
+              <span>{{combination}}</span>
+            </ion-col>
+          </ion-row>
+          <ion-row class="cpc-line-break ion-align-items-start" *ngIf="combination !== null">
+            <ion-col size="78">
+              <h3>{{getFormattedQuestion(question)}}</h3>
+            </ion-col>
+            <ion-col size="10" class="cpc-percentage">
+              <span>{{getQuestionPercentage(question)}}%</span>
+            </ion-col>
+            <ion-col size="5" class="ion-align-items-end">
+              <div class="cpc-answer-icon">
+                <img *ngIf="shouldTickBox(question)" src="assets/imgs/greenCorrectAnswer.png" alt="Correct Answer"
+                     class="correct-icon icon-image" />
+                <img *ngIf="!shouldTickBox(question)" src="assets/imgs/redWrongAnswer.png" alt="Wrong Answer"
+                     class="wrong-icon icon-image" />
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="last && combination !== null" class="cpc-total-padding">
+            <ion-col size="78">
+              <h3>Total</h3>
+            </ion-col>
+            <ion-col size="10" class="cpc-percentage">
+              <span>
+                {{overallScore}}%
+              </span>
+            </ion-col>
+            <ion-col size="5" class="align-items-end">
+              <div class="cpc-answer-icon">
+                <img *ngIf="isPass()" src="assets/imgs/greenCorrectAnswer.png"
+                     alt="Correct Answer"
+                     class="correct-icon icon-image"/>
+                <img *ngIf="!isPass()" src="assets/imgs/redWrongAnswer.png"
+                     alt="Wrong Answer"
+                     class="wrong-icon icon-image"/>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+      </ion-grid>
+  </ion-card-content>
+</ion-card>

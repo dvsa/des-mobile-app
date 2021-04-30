@@ -1,0 +1,32 @@
+@import "src/theme/sass-partials/modal";
+
+#terminate-test-modal-card {
+  padding: 0 0 0 0;
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    --width: 400px;
+  }
+
+  .center-icon {
+    text-align: center;
+  }
+
+  .terminate-icon {
+    color: var(--gds-black);
+    margin: 40px 0 16px;
+    font-size: 96px;
+  }
+
+  .modal-alert-header {
+    margin: 0 0 36px;
+  }
+
+  .terminate-button {
+    color: var(--gds-red);
+  }
+
+  .return-button {
+    color: var(--gds-black);
+  }
+}
