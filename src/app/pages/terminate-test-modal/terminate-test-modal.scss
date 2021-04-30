@@ -1,52 +1,7 @@
-.modal-alert-wrapper {
-  padding: 0 100px;
-
-  .modal-alert {
-    margin: 0;
-    --border-radius: 14px;
-    --width: 100%;
-  }
-
-  .modal-alert-header {
-    font-size: 28px;
-    letter-spacing: 0.27px;
-    line-height: 40px;
-    text-align: center;
-    margin-top: 25px;
-    html .text-zoom-regular & {
-      font-weight: bold;
-    }
-  }
-
-  .modal-alert-message {
-    font-size: 20px;
-    letter-spacing: 0.27px;
-    line-height: 28px;
-    text-align: center;
-    margin-bottom: 25px;
-  }
-
-  .button-clear {
-    margin: 0;
-    padding: 1px 7px 2px;
-    --width: 100%;
-    font-size: 20px;
-    --background: transparent;
-    &:active {
-      --background: inherit;
-    }
-  }
-
-  .column-border-top {
-    border-top: 1px solid lightgrey;
-  }
-
-  .column-border-right {
-    border-right: 1px solid lightgrey;
-  }
-}
+@import "src/theme/sass-partials/modal";
 
 #terminate-test-modal-card {
+  padding: 0 0 0 0;
   @extend .modal-alert-wrapper;
 
   .modal-alert {
@@ -58,6 +13,7 @@
   }
 
   .terminate-icon {
+    color: var(--gds-black);
     margin: 40px 0 16px;
     font-size: 96px;
   }
