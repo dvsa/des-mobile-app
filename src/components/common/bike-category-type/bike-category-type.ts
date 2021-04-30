@@ -1,4 +1,6 @@
-import { Component, OnChanges, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import {
+  Component, OnChanges, Input, ViewChild, Output, EventEmitter,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { IonSelect } from '@ionic/angular';
@@ -49,14 +51,14 @@ export class BikeCategoryTypeComponent implements OnChanges {
   }
 
   loadImages(): void {
-    setTimeout(() =>  {
+    setTimeout(() => {
       const options = document.getElementsByClassName('alert-radio-label');
       Array.from(options).forEach((option, index) => {
         const element = options[index];
         const category = this.bikeCategoryDetails[index].categoryCode;
         const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
         element.innerHTML = `<span class="bike-code">${element.innerHTML}</span>`
-            .concat(`${bike.displayName}<img class="bike-image" src="${bike.imageUrl}" />`);
+          .concat(`${bike.displayName}<img class="bike-image" src="${bike.imageUrl}" />`);
       });
     }, 20);
   }
@@ -67,8 +69,7 @@ export class BikeCategoryTypeComponent implements OnChanges {
         value: 'Select cat type..',
         disabled: false,
       },
-        [this.validateCategorySelection.bind(this)],
-      );
+      [this.validateCategorySelection.bind(this)]);
       this.formGroup.addControl('categoryTypeSelectCategory', this.formControl);
     }
     this.formControl.patchValue('Select cat type..');
@@ -81,8 +82,8 @@ export class BikeCategoryTypeComponent implements OnChanges {
 
   ngOnInit(): void {
     // default to MOD1 if any input other than MOD1 or MOD2 provided
-    this.testType  = (this.testType === BikeTestType.MOD1 || this.testType === BikeTestType.MOD2) ?
-      this.testType : BikeTestType.MOD1;
+    this.testType = (this.testType === BikeTestType.MOD1 || this.testType === BikeTestType.MOD2)
+      ? this.testType : BikeTestType.MOD1;
     this.bikeCategoryDetails = this.bikeCategoryDetailProvider.getAllDetailsByTestType(this.testType);
   }
 

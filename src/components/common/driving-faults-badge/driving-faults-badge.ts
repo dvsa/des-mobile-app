@@ -14,5 +14,5 @@ export class DrivingFaultsBadgeComponent {
 
   shouldDisplay = () => {
     return this.showOnZero || this.count > 0;
-  }
+  };
 }

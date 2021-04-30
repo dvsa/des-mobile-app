@@ -33,7 +33,7 @@ export class TerminateTestModal {
       return this.deviceAuthenticationProvider.triggerLockScreen()
         .then(() => {
           this.onTerminate();
-        }).catch(err => console.error(err));
+        }).catch((err) => console.error(err));
     }
     this.onTerminate();
     return Promise.resolve();

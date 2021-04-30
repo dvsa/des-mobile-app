@@ -1,4 +1,6 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import {
+  Component, Output, EventEmitter, Input,
+} from '@angular/core';
 
 @Component({
   selector: 'candidate-section',

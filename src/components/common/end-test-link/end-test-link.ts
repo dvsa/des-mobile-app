@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestFlowPageNames, } from '@pages/page-names.constants';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TerminateTestModal } from '@pages/terminate-test-modal/terminate-test-modal';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
@@ -28,7 +28,7 @@ export class EndTestLinkComponent {
     public modalController: ModalController,
     public router: Router,
     public routerByCategory: RouteByCategoryProvider,
-    ) {
+  ) {
   }
 
   openEndTestModal = async (): Promise<void> => {
@@ -45,7 +45,7 @@ export class EndTestLinkComponent {
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
     await this.terminateTestModal.present();
-  }
+  };
 
   onCancel = async (): Promise<void> => {
     await this.terminateTestModal.dismiss();

@@ -14,8 +14,6 @@ import { EndTestLinkComponent } from '../end-test-link';
 describe('EndTestLinkComponent', () => {
   let fixture: ComponentFixture<EndTestLinkComponent>;
   let component: EndTestLinkComponent;
-  let modalController: ModalController;
-  let router: Router;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -32,8 +30,6 @@ describe('EndTestLinkComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(EndTestLinkComponent);
     component = fixture.componentInstance;
-    modalController = TestBed.inject(ModalController);
-    router = TestBed.inject(Router);
   }));
 
   describe('Class', () => {
