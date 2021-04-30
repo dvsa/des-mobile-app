@@ -1,0 +1,30 @@
+<ion-row>
+    <ion-col>
+      <ul>
+        <li>
+          <p>{{ 'waitingRoom.residencyDeclaration' | translate }}</p>
+        </li>
+      </ul>
+    </ion-col>
+  </ion-row>
+  <ion-row [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
+    <ion-col>
+      <ion-row>
+        <ion-col class="declaration-checkbox-row">
+          <input formControlName="residencyCheckbox" type="checkbox" class="gds-checkbox"
+            [class.ng-invalid]="isInvalid()" id="residency-declaration-checkbox"
+            [checked]="selected" (click)="residencyDeclarationChanged()">
+          <label for="residency-declaration-checkbox">{{ 'waitingRoom.confirm' | translate }}</label>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="isInvalid()">
+        <ion-col>
+          <div id="waiting-room-residency-validation-text" class="validation-text-with-row-spacing"
+            [class.ng-invalid.withRowMargin]="isInvalid()">
+            {{ 'waitingRoom.residencyDeclarationValidation' | translate }}
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>

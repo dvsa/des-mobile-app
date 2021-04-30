@@ -24,7 +24,8 @@
       "@shared/*": ["src/app/shared/*"],
       "@store/*": ["src/store/*"],
       "@mocks/*": ["mock/*"],
-      "@components/*": ["src/components/*"]
+      "@components/*": ["src/components/*"],
+      "@directives/*": ["src/directives/*"]
     }
   },
   "angularCompilerOptions": {

@@ -1,0 +1,26 @@
+conducted-language {
+  > ion-row {
+    margin-bottom: -36px;
+  }
+  .col {
+    text-align: right;
+    padding-right: 48px;
+  }
+  button {
+    &.conducted-language-link {
+      background: transparent;
+      margin-top: 12px;
+      font-size: 23px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    &.focused {
+      color: #3572b0;
+      text-decoration: underline;
+      text-underline-position: under;
+      font-weight: 500;
+      line-height: 20px;
+      padding-bottom: 3px;
+    }
+  }
+}
