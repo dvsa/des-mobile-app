@@ -366,8 +366,6 @@ describe('Test Outcome', () => {
         fixture.detectChanges();
         spyOn(component, 'startTest');
 
-        console.log(component.showStartTestButton());
-
         const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
         startButton?.triggerEventHandler('click', null);
 
