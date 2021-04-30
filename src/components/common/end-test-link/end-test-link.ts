@@ -13,7 +13,7 @@ import {
 } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { TerminateTestModal } from '@components/common/terminate-test-modal/terminate-test-modal';
+import { TerminateTestModal } from '@pages/terminate-test-modal/terminate-test-modal';
 
 @Component({
   selector: 'end-test-link',
@@ -47,7 +47,7 @@ export class EndTestLinkComponent {
         onTerminate: this.onTerminate,
         shouldAuthenticate: this.shouldAuthenticate,
       },
-      cssClass: 'mes-modal-alert text-zoom-regular',
+      // cssClass: 'mes-modal-alert text-zoom-regular',
     });
     await this.terminateTestModal.present();
   }

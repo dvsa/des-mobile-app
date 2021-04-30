@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TerminateTestModal } from '@components/common/terminate-test-modal/terminate-test-modal';
+import { TerminateTestModal } from '@pages/terminate-test-modal/terminate-test-modal';
 
 const routes: Routes = [
   {
