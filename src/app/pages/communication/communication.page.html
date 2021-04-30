@@ -1,6 +1,7 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>communication</ion-title>
+  <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios">
+    <ion-title>{{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
   </ion-toolbar>
 </ion-header>
 

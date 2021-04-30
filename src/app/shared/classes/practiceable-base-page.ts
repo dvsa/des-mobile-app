@@ -73,7 +73,7 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
   }
 
   exitPracticeMode = (): void => {
-    // TODO enable once practice mode added
+    // @TODO enable once practice mode added (MES-6867)
     // this.router.navigate([PRACTICE_JOURNAL_PAGE]);
   };
 

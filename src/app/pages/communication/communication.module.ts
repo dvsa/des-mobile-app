@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { CommunicationPageRoutingModule } from './communication-routing.module';
 
 import { CommunicationPage } from './communication.page';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +16,8 @@ import { CommunicationPage } from './communication.page';
     FormsModule,
     IonicModule,
     CommunicationPageRoutingModule,
+    ComponentsModule,
+    TranslateModule,
   ],
   declarations: [CommunicationPage],
 })
