@@ -30,7 +30,7 @@ import { MesError } from '@shared/models/mes-error.model';
 import * as journalActions from '@store/journal/journal.actions';
 import {
   getError, getIsLoading, getSelectedDate, getLastRefreshed,
-  getLastRefreshedTime, getSlotsOnSelectedDate, canNavigateToPreviousDay, canNavigateToNextDay, // getCompletedTests,
+  getLastRefreshedTime, getSlotsOnSelectedDate, canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests, // getCompletedTests,
 } from '@store/journal/journal.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
@@ -39,6 +39,7 @@ import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 // import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { AppComponent } from '../../app.component';
 import { ErrorPage } from '../error-page/error';
+import { LoadCompletedTests } from '@store/journal/journal.actions';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -48,7 +49,7 @@ interface JournalPageState {
   lastRefreshedTime$: Observable<string>;
   appVersion$: Observable<string>;
   loadingSpinner$: Observable<HTMLIonLoadingElement>;
-  // completedTests$: Observable<SearchResultTestSchema[]>;
+  completedTests$: Observable<SearchResultTestSchema[]>;
   isOffline$: Observable<boolean>;
 
   canNavigateToPreviousDay$: Observable<boolean>;
@@ -144,10 +145,10 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map(getSelectedDate),
         map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD')),
       ),
-      // completedTests$: this.store$.pipe(
-      //   select(getJournalState),
-      //   select(getCompletedTests),
-      // ),
+      completedTests$: this.store$.pipe(
+        select(getJournalState),
+        select(getCompletedTests),
+      ),
     };
 
     const {
@@ -156,12 +157,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
       error$,
       isLoading$,
       loadingSpinner$,
-      // completedTests$,
+      completedTests$,
     } = this.pageState;
 
     this.merged$ = merge(
       selectedDate$.pipe(map(this.setSelectedDate)),
-      // completedTests$.pipe(map(this.setCompletedTests)),
+      completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(map(this.createSlots)),
       error$.pipe(map(this.showError)),
       isLoading$.pipe(switchMap((res) => {
@@ -182,7 +183,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.loadJournalManually();
     this.setupPolling();
 
-    // this.store$.dispatch(new journalActions.LoadCompletedTests());
+    this.store$.dispatch(LoadCompletedTests());
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }

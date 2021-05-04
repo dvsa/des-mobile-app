@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
+import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith, concatMap, tap,
 } from 'rxjs/operators';
 import { of, Observable, interval } from 'rxjs';
-// import { groupBy } from 'lodash';
-// import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { groupBy } from 'lodash';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store, select, Action } from '@ngrx/store';
 import { JournalProvider } from '@providers/journal/journal';
@@ -17,16 +16,14 @@ import { JournalRefreshModes } from '@providers/analytics/analytics.model';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { DataStoreProvider } from '@providers/data-store/data-store';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-// import { Examiner } from '@dvsa/mes-test-schema/categories/common';
+import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogHelper } from '@providers/logs/logs-helper';
 
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
-// import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
-// import { HttpStatusCodes } from '@shared/models/http-status-codes';
-// import { SearchProvider } from '@providers/search/search';
+import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
@@ -34,16 +31,16 @@ import { getJournalState } from './journal.reducer';
 import * as journalActions from './journal.actions';
 import {
   getSelectedDate, getLastRefreshed, getSlots,
-  canNavigateToPreviousDay, canNavigateToNextDay,
-// getCompletedTests,
+  canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests,
 } from './journal.selector';
-// import { AdvancedSearchParams } from '@providers/search/search.models';
-// import moment from 'moment';
-// import { removeLeadingZeros } from '@shared/helpers/formatters';
-// import { getExaminer } from '../tests/journal-data/common/examiner/examiner.reducer';
-// import { getStaffNumber } from '../tests/journal-data/common/examiner/examiner.selector';
-// import { hasStartedTests } from '../tests/tests.selector';
-// import { getTests } from '../tests/tests.reducer';
+import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
+import { getTests } from '@store/tests/tests.reducer';
+import { AdvancedSearchParams } from '@providers/search/search.models';
+import { removeLeadingZeros } from '@shared/helpers/formatters';
+import { hasStartedTests } from '@store/tests/tests.selector';
+import moment from 'moment';
+import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
+import { LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
 
 @Injectable()
 export class JournalEffects {
@@ -57,7 +54,7 @@ export class JournalEffects {
     public dataStoreprovider: DataStoreProvider,
     public authProvider: AuthenticationProvider,
     public dateTimeProvider: DateTimeProvider,
-    // public searchProvider: SearchProvider,
+    public searchProvider: SearchProvider,
     private logHelper: LogHelper,
   ) {
   }
@@ -179,50 +176,47 @@ export class JournalEffects {
     }),
   ));
 
-  // TODO Re-introduce at later date
-  // @Effect()
-  // loadCompletedTests$ = this.actions$.pipe(
-  //   ofType(journalActions.LOAD_COMPLETED_TESTS),
-  //
-  //   withLatestFrom(
-  //     this.store$.pipe(
-  //       select(getJournalState),
-  //       select(getExaminer),
-  //       select(getStaffNumber),
-  //     ),
-  //     this.store$.pipe(
-  //       select(getTests),
-  //       select(hasStartedTests),
-  //     ),
-  //     this.store$.pipe(
-  //       select(getJournalState),
-  //       select(getCompletedTests),
-  //     ),
-  //   ),
-  //
-  //   filter(([action, staffNumber, hasStartedTests, completedTests]) =>
-  //     !hasStartedTests && completedTests && completedTests.length === 0),
-  //
-  //   switchMap(([action, staffNumber]) => {
-  //     const numberOfDaysToView = this.appConfig.getAppConfig().journal.numberOfDaysToView;
-  //     const advancedSearchParams: AdvancedSearchParams = {
-  //       startDate: moment().subtract(numberOfDaysToView, 'days').format('YYYY-MM-DD'),
-  //       endDate: moment().format('YYYY-MM-DD'),
-  //       staffNumber: removeLeadingZeros(staffNumber),
-  //       costCode: '',
-  //     };
-  //
-  //     return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
-  //       map((searchResults) => {
-  //         return new journalActions.LoadCompletedTestsSuccess(searchResults);
-  //       }),
-  //       catchError((err) => {
-  //         return of(new journalActions.LoadCompletedTestsFailure(err));
-  //       }),
-  //     );
-  //
-  //   }),
-  // );
+  loadCompletedTests$ = createEffect(() => this.actions$.pipe(
+    ofType(journalActions.LoadCompletedTests.type),
+    withLatestFrom(
+      this.store$.pipe(
+        select(getJournalState),
+        select(getExaminer),
+        select(getStaffNumber),
+      ),
+      this.store$.pipe(
+        select(getTests),
+        select(hasStartedTests),
+      ),
+      this.store$.pipe(
+        select(getJournalState),
+        select(getCompletedTests),
+      ),
+    ),
+
+    filter(([action, staffNumber, hasStartedTests, completedTests]) =>
+      !hasStartedTests && completedTests && completedTests.length === 0),
+
+    switchMap(([action, staffNumber]) => {
+      const numberOfDaysToView = this.appConfig.getAppConfig().journal.numberOfDaysToView;
+      const advancedSearchParams: AdvancedSearchParams = {
+        startDate: moment().subtract(numberOfDaysToView, 'days').format('YYYY-MM-DD'),
+        endDate: moment().format('YYYY-MM-DD'),
+        staffNumber: removeLeadingZeros(staffNumber),
+        costCode: '',
+      };
+
+      return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
+        map((searchResults) => {
+          return LoadCompletedTestsSuccess(searchResults);
+        }),
+        catchError((err) => {
+          return of(LoadCompletedTestsFailure(err));
+        }),
+      );
+
+    }),
+  ));
 
   selectPreviousDayEffect$ = createEffect(() => this.actions$.pipe(
     ofType(journalActions.SelectPreviousDay),
@@ -239,7 +233,7 @@ export class JournalEffects {
       ),
     )),
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    filter(([,, canNavigateToPreviousDay]) => canNavigateToPreviousDay),
+    filter(([, , canNavigateToPreviousDay]) => canNavigateToPreviousDay),
     // eslint-disable-next-line @typescript-eslint/no-shadow
     switchMap(([, selectedDate]) => {
       const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
@@ -266,7 +260,7 @@ export class JournalEffects {
       ),
     )),
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    filter(([,, canNavigateToNextDay]) => canNavigateToNextDay),
+    filter(([, , canNavigateToNextDay]) => canNavigateToNextDay),
     // eslint-disable-next-line @typescript-eslint/no-shadow
     switchMap(([, selectedDate]) => {
       const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
