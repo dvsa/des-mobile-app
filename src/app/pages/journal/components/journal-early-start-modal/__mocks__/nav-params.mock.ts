@@ -1,6 +1,6 @@
 export class NavParamsMock {
 
-  public get(value): any {
+  public get(): any {
     return 'default';
   }
 }

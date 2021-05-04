@@ -15,5 +15,5 @@ export class JournalForceCheckModal {
 
   onCancel = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.CANCEL);
-  }
+  };
 }

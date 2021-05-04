@@ -14,14 +14,14 @@ export class JournalRekeyModal {
 
   onCancel = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.CANCEL);
-  }
+  };
 
   onStartTest = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.START);
-  }
+  };
 
   onRekeyTest = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.REKEY);
-  }
+  };
 
 }

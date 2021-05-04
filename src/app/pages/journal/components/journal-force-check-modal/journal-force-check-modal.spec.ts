@@ -1,11 +1,10 @@
-import { JournalForceCheckModal } from './journal-force-check-modal';
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { AppModule } from '../../../../app/app.module';
-import { IonicModule, NavParams, ViewController } from 'ionic-angular';
-import { NavParamsMock, ViewControllerMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
-import { ComponentsModule } from '../../../../components/common/common-components.module';
 import { configureTestSuite } from 'ng-bullet';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { JournalForceCheckModal } from './journal-force-check-modal';
 
 describe('JournalForceCheckModal', () => {
   let fixture: ComponentFixture<JournalForceCheckModal>;
@@ -17,13 +16,11 @@ describe('JournalForceCheckModal', () => {
         JournalForceCheckModal,
       ],
       imports: [
-        AppModule,
         IonicModule,
         ComponentsModule,
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
   });
@@ -31,8 +28,7 @@ describe('JournalForceCheckModal', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(JournalForceCheckModal);
     component = fixture.componentInstance;
-    component.onCancel = () => {
-    };
+    component.onCancel = async () => {};
   }));
 
   describe('Class', () => {

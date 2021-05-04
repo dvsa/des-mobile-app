@@ -1,6 +1,6 @@
-@import "../../../../../theme/sass-partials/modal";
+@import "src/theme/sass-partials/modal";
 
-ion-card {
+:host {
   @extend .modal-alert-wrapper;
 
   .modal-alert {

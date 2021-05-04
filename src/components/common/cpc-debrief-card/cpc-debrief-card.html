@@ -19,10 +19,10 @@
             <ion-col size="78">
               <h3>{{getFormattedQuestion(question)}}</h3>
             </ion-col>
-            <ion-col size="10" class="cpc-percentage">
+            <ion-col size="80" class="cpc-percentage">
               <span>{{getQuestionPercentage(question)}}%</span>
             </ion-col>
-            <ion-col size="5" class="ion-align-items-end">
+            <ion-col size="40" class="ion-align-items-end">
               <div class="cpc-answer-icon">
                 <img *ngIf="shouldTickBox(question)" src="assets/imgs/greenCorrectAnswer.png" alt="Correct Answer"
                      class="correct-icon icon-image" />
@@ -35,12 +35,12 @@
             <ion-col size="78">
               <h3>Total</h3>
             </ion-col>
-            <ion-col size="10" class="cpc-percentage">
+            <ion-col size="80" class="cpc-percentage">
               <span>
                 {{overallScore}}%
               </span>
             </ion-col>
-            <ion-col size="5" class="align-items-end">
+            <ion-col size="40" class="align-items-end">
               <div class="cpc-answer-icon">
                 <img *ngIf="isPass()" src="assets/imgs/greenCorrectAnswer.png"
                      alt="Correct Answer"

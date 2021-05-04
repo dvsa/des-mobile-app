@@ -34,12 +34,12 @@ export class JournalEarlyStartModal implements OnInit {
   onCancel = async () => {
     this.store$.dispatch(EarlyStartDidReturn());
     await this.modalController.dismiss(ModalEvent.CANCEL);
-  }
+  };
 
   onStart = async () => {
     this.store$.dispatch(EarlyStartDidContinue());
     await this.modalController.dismiss(ModalEvent.START);
-  }
+  };
 
   getStartTime() {
     return moment(this.slotData.start).format('kk:mm');

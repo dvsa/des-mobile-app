@@ -315,22 +315,22 @@ describe('Test Outcome', () => {
         expect(component.showRekeyButton()).toEqual(false);
       });
     });
-    describe('getTestStartingPage', () => {
-      categoryPages.forEach((cat) => {
-        it(`should return the correct value for a Category ${cat.category} Test`, () => {
-          component.category = cat.category;
-          expect(component.getTestStartingPage()).toEqual([cat.pageConstant.WAITING_ROOM_PAGE]);
-        });
-      });
-    });
-    describe('getPassFinalisationPage', () => {
-      categoryPages.forEach((cat) => {
-        it(`should return the correct value for a Category ${cat.category} Test`, () => {
-          component.category = cat.category;
-          expect(component.getPassFinalisationPage()).toEqual([cat.pageConstant.PASS_FINALISATION_PAGE]);
-        });
-      });
-    });
+    // describe('getTestStartingPage', () => {
+    //   categoryPages.forEach((cat) => {
+    //     it(`should return the correct value for a Category ${cat.category} Test`, () => {
+    //       component.category = cat.category;
+    //       expect(component.getTestStartingPage()).toEqual([cat.pageConstant.WAITING_ROOM_PAGE]);
+    //     });
+    //   });
+    // });
+    // describe('getPassFinalisationPage', () => {
+    //   categoryPages.forEach((cat) => {
+    //     it(`should return the correct value for a Category ${cat.category} Test`, () => {
+    //       component.category = cat.category;
+    //       expect(component.getPassFinalisationPage()).toEqual([cat.pageConstant.PASS_FINALISATION_PAGE]);
+    //     });
+    //   });
+    // });
   });
 
   describe('DOM', () => {

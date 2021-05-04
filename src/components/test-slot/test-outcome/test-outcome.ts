@@ -8,20 +8,7 @@ import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  // JOURNAL_EARLY_START_MODAL,
-  // JOURNAL_FORCE_CHECK_MODAL,
-  CAT_B,
-  CAT_BE,
-  CAT_C,
-  CAT_A_MOD1,
-  CAT_A_MOD2,
-  CAT_D,
-  CAT_ADI_PART2,
-  CAT_HOME_TEST,
-  CAT_CPC,
-  TestFlowPageNames,
-} from '@pages/page-names.constants';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
@@ -35,18 +22,15 @@ import { ActivateTest, StartTest } from '@store/tests/tests.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
 import {
-  ResumingWriteUp, EarlyStartModalDidEnter,
-  // EarlyStartModalDidEnter
+  ResumingWriteUp,
+  EarlyStartModalDidEnter,
 } from '@store/journal/journal.actions';
 // import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
-import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
-import {
-  ModalEvent as EarlyStartModalEvent,
-} from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal.constants';
 import { MarkAsNonRekey } from '@store/tests/rekey/rekey.actions';
-import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
 import { JournalForceCheckModal } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal';
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
+import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
+import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 
 @Component({
   selector: 'test-outcome',
@@ -88,10 +72,8 @@ export class TestOutcomeComponent implements OnInit {
   @Input()
   showTestActionButton: boolean = true;
 
-  modal: HTMLIonModalElement;
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
-
   candidateDetailsViewed: boolean;
   subscription: Subscription;
   seenCandidateDetails$: Observable<boolean>;
@@ -182,15 +164,16 @@ export class TestOutcomeComponent implements OnInit {
   writeUpTest() {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId.toString()));
-    this.router.navigate(this.getOfficePage());
+    this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category);
   }
 
   async resumeTest() {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
+
     if (this.testStatus === TestStatus.Started) {
-      await this.router.navigate(this.getTestStartingPage());
+      await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
     } else if (this.activityCode === ActivityCodes.PASS) {
-      await this.router.navigate(this.getPassFinalisationPage());
+      await this.routeByCat.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.category);
     } else {
       await this.routeByCat.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
     }
@@ -211,103 +194,51 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));
     }
-    switch (this.category) {
-      case TestCategory.ADI2:
-        this.router.navigate([CAT_ADI_PART2.WAITING_ROOM_PAGE]);
-        break;
-      // case TestCategory.B:
-      //   this.router.navigate([CAT_B.WAITING_ROOM_PAGE]);
-      //   break;
-      // case TestCategory.BE:
-      //   this.router.navigate([CAT_BE.WAITING_ROOM_PAGE]);
-      //   break;
-      // case TestCategory.CE:
-      // case TestCategory.C1E:
-      // case TestCategory.C1:
-      // case TestCategory.C:
-      //   this.router.navigate([CAT_C.WAITING_ROOM_PAGE]);
-      //   break;
-      // case TestCategory.CCPC:
-      // case TestCategory.DCPC:
-      //   this.router.navigate([CAT_CPC.WAITING_ROOM_PAGE]);
-      //   break;
-      // case TestCategory.DE:
-      // case TestCategory.D1E:
-      // case TestCategory.D1:
-      // case TestCategory.D:
-      //   this.router.navigate([CAT_D.WAITING_ROOM_PAGE]);
-      //   break;
-      // case TestCategory.EUAM1:
-      // case TestCategory.EUA1M1:
-      // case TestCategory.EUA2M1:
-      // case TestCategory.EUAMM1:
-      //   this.router.navigate([CAT_A_MOD1.WAITING_ROOM_PAGE]);
-      //   break;
-      // case TestCategory.EUAM2:
-      // case TestCategory.EUA1M2:
-      // case TestCategory.EUA2M2:
-      // case TestCategory.EUAMM2:
-      //   this.router.navigate([CAT_A_MOD2.WAITING_ROOM_PAGE]);
-      //   break;
-      // case TestCategory.K:
-      // case TestCategory.H:
-      // case TestCategory.G:
-      // case TestCategory.F:
-      //   this.router.navigate([CAT_HOME_TEST.WAITING_ROOM_PAGE]);
-      //   break;
-      default:
-    }
+    this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
   }
 
   rekeyDelegatedTest(): void {
     this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, true));
     this.store$.dispatch(SetExaminerConducted(this.examinerId));
     this.store$.dispatch(SetExaminerBooked(this.examinerId));
-
-    switch (this.category) {
-      case TestCategory.BE:
-        this.router.navigate([CAT_BE.WAITING_ROOM_TO_CAR_PAGE]);
-        break;
-      case TestCategory.CE:
-      case TestCategory.C1E:
-      case TestCategory.C1:
-      case TestCategory.C:
-        this.router.navigate([CAT_C.WAITING_ROOM_TO_CAR_PAGE]);
-        break;
-      case TestCategory.CCPC:
-      case TestCategory.DCPC:
-        this.router.navigate([CAT_CPC.WAITING_ROOM_TO_CAR_PAGE]);
-        break;
-      case TestCategory.DE:
-      case TestCategory.D1E:
-      case TestCategory.D1:
-      case TestCategory.D:
-        this.router.navigate([CAT_D.WAITING_ROOM_TO_CAR_PAGE]);
-        break;
-      default:
-    }
+    this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.category);
   }
 
   displayRekeyModal = async (): Promise<void> => {
-    const modal = await this.modalController.create({
+    const modal: HTMLIonModalElement = await this.modalController.create({
       component: JournalRekeyModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
-    const dismissed = await modal.onDidDismiss();
-    console.log('dismissed', dismissed);
-    // this.onModalDismiss(res);
-    return await modal.present();
+    await modal.present();
+    const { data } = await modal.onDidDismiss<ModalEvent>();
+    await this.onModalDismiss(data);
   };
 
   displayCheckStartModal = async (): Promise<void> => {
     this.store$.dispatch(EarlyStartModalDidEnter());
-    const modal = await this.modalController.create({
+
+    const modal: HTMLIonModalElement = await this.modalController.create({
       component: JournalEarlyStartModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
-      componentProps: { slotData: this.slotDetail, },
+      componentProps: { slotData: this.slotDetail },
     });
-    const dismissed = await modal.onDidDismiss();
-    switch (dismissed) {
+    await modal.present();
+    const { data } = await modal.onDidDismiss<ModalEvent>();
+    await this.onModalDismiss(data);
+  };
+
+  displayForceCheckModal = async (): Promise<void> => {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: JournalForceCheckModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss<ModalEvent>();
+    await this.onModalDismiss(data);
+  };
+
+  onModalDismiss = async (event: ModalEvent): Promise<void> => {
+    switch (event) {
       case ModalEvent.START:
         this.startTestAsRekey = false;
         this.isRekey = false;
@@ -316,40 +247,9 @@ export class TestOutcomeComponent implements OnInit {
         }
         await this.startOrResumeTestDependingOnStatus();
         break;
-      case ModalEvent.CANCEL:
-        break;
-      default:
-        break;
-    }
-    return await this.modal.present();
-  };
-
-  displayForceCheckModal = async (): Promise<void> => {
-    const modal = await this.modalController.create({
-      component: JournalForceCheckModal,
-      cssClass: 'mes-modal-alert text-zoom-regular',
-    });
-    await modal.present();
-    console.log(modal);
-    // const dismissed = await modal.onDidDismiss();
-    // console.log('dismissed', dismissed);
-    // this.onModalDismiss(res);
-    // return await modal.present();
-  };
-
-  onModalDismiss = (event: ModalEvent): void => {
-    switch (event) {
-      case ModalEvent.START:
-        this.startTestAsRekey = false;
-        this.isRekey = false;
-        if (this.testStatus !== null) {
-          this.store$.dispatch(MarkAsNonRekey());
-        }
-        this.startOrResumeTestDependingOnStatus();
-        break;
       case ModalEvent.REKEY:
         this.startTestAsRekey = true;
-        this.startOrResumeTestDependingOnStatus();
+        await this.startOrResumeTestDependingOnStatus();
         break;
       default:
     }
@@ -359,22 +259,21 @@ export class TestOutcomeComponent implements OnInit {
     return this.isTestIncomplete() && this.isTodaysDate() && this.hasTestTimeFinished();
   }
 
-  clickStartOrResumeTest = async () => {
-    console.log('clicked');
-    // if (this.specialRequirements && !this.hasSeenCandidateDetails) {
+  clickStartOrResumeTest = async (): Promise<void> => {
+    if (this.specialRequirements && !this.hasSeenCandidateDetails) {
       await this.displayForceCheckModal();
-      // return;
-    // }
-    // if (this.shouldDisplayRekeyModal() && !this.isE2EPracticeMode()) {
-    //   await this.displayRekeyModal();
-    //   return;
-    // }
-    // if (this.shouldDisplayCheckStartModal()) {
-    //   await this.displayCheckStartModal();
-    //   return;
-    // }
-    // await this.startOrResumeTestDependingOnStatus();
-  }
+      return;
+    }
+    if (this.shouldDisplayRekeyModal() && !this.isE2EPracticeMode()) {
+      await this.displayRekeyModal();
+      return;
+    }
+    if (this.shouldDisplayCheckStartModal()) {
+      await this.displayCheckStartModal();
+      return;
+    }
+    await this.startOrResumeTestDependingOnStatus();
+  };
 
   shouldDisplayCheckStartModal(): boolean {
     const minsUntilTest = new DateTime().compareDuration(this.slotDetail.start, Duration.MINUTE);
@@ -410,123 +309,4 @@ export class TestOutcomeComponent implements OnInit {
     }
   }
 
-  getTestStartingPage(): [string] {
-    switch (this.category as TestCategory) {
-      case TestCategory.ADI2:
-        return [CAT_ADI_PART2.WAITING_ROOM_PAGE];
-      case TestCategory.B:
-        return [CAT_B.WAITING_ROOM_PAGE];
-      case TestCategory.BE:
-        return [CAT_BE.WAITING_ROOM_PAGE];
-      case TestCategory.C1E:
-      case TestCategory.CE:
-      case TestCategory.C1:
-      case TestCategory.C:
-        return [CAT_C.WAITING_ROOM_PAGE];
-      case TestCategory.CCPC:
-      case TestCategory.DCPC:
-        return [CAT_CPC.WAITING_ROOM_PAGE];
-      case TestCategory.EUAM1:
-      case TestCategory.EUA1M1:
-      case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1:
-        return [CAT_A_MOD1.WAITING_ROOM_PAGE];
-      case TestCategory.EUAM2:
-      case TestCategory.EUA1M2:
-      case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2:
-        return [CAT_A_MOD2.WAITING_ROOM_PAGE];
-      case TestCategory.D:
-      case TestCategory.D1:
-      case TestCategory.D1E:
-      case TestCategory.DE:
-        return [CAT_D.WAITING_ROOM_PAGE];
-      case TestCategory.K:
-      case TestCategory.H:
-      case TestCategory.G:
-      case TestCategory.F:
-        return [CAT_HOME_TEST.WAITING_ROOM_PAGE];
-      default:
-    }
-  }
-
-  getPassFinalisationPage(): [string] {
-    switch (this.category as TestCategory) {
-      case TestCategory.ADI2:
-        return [CAT_ADI_PART2.PASS_FINALISATION_PAGE];
-      case TestCategory.B:
-        return [CAT_B.PASS_FINALISATION_PAGE];
-      case TestCategory.BE:
-        return [CAT_BE.PASS_FINALISATION_PAGE];
-      case TestCategory.C1E:
-      case TestCategory.CE:
-      case TestCategory.C1:
-      case TestCategory.C:
-        return [CAT_C.PASS_FINALISATION_PAGE];
-      case TestCategory.CCPC:
-      case TestCategory.DCPC:
-        return [CAT_CPC.PASS_FINALISATION_PAGE];
-      case TestCategory.EUAM1:
-      case TestCategory.EUA1M1:
-      case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1:
-        return [CAT_A_MOD1.PASS_FINALISATION_PAGE];
-      case TestCategory.EUAM2:
-      case TestCategory.EUA1M2:
-      case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2:
-        return [CAT_A_MOD2.PASS_FINALISATION_PAGE];
-      case TestCategory.D:
-      case TestCategory.D1:
-      case TestCategory.D1E:
-      case TestCategory.DE:
-        return [CAT_D.PASS_FINALISATION_PAGE];
-      case TestCategory.K:
-      case TestCategory.H:
-      case TestCategory.G:
-      case TestCategory.F:
-        return [CAT_HOME_TEST.PASS_FINALISATION_PAGE];
-      default:
-    }
-  }
-
-  getOfficePage(): [string] {
-    switch (this.category as TestCategory) {
-      case TestCategory.ADI2:
-        return [CAT_ADI_PART2.OFFICE_PAGE];
-      case TestCategory.B:
-        return [CAT_B.OFFICE_PAGE];
-      case TestCategory.BE:
-        return [CAT_BE.OFFICE_PAGE];
-      case TestCategory.C1E:
-      case TestCategory.CE:
-      case TestCategory.C1:
-      case TestCategory.C:
-        return [CAT_C.OFFICE_PAGE];
-      case TestCategory.CCPC:
-      case TestCategory.DCPC:
-        return [CAT_CPC.OFFICE_PAGE];
-      case TestCategory.EUAM1:
-      case TestCategory.EUA1M1:
-      case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1:
-        return [CAT_A_MOD1.OFFICE_PAGE];
-      case TestCategory.EUAM2:
-      case TestCategory.EUA1M2:
-      case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2:
-        return [CAT_A_MOD2.OFFICE_PAGE];
-      case TestCategory.D:
-      case TestCategory.D1:
-      case TestCategory.D1E:
-      case TestCategory.DE:
-        return [CAT_D.OFFICE_PAGE];
-      case TestCategory.K:
-      case TestCategory.H:
-      case TestCategory.G:
-      case TestCategory.F:
-        return [CAT_HOME_TEST.OFFICE_PAGE];
-      default:
-    }
-  }
 }
