@@ -1,4 +1,6 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture, async, TestBed,
+} from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
@@ -120,32 +122,32 @@ describe('Test Outcome', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(StartTest(component.slotDetail.slotId, component.category));
       });
     });
-    // describe('earlyStart', () => {
-    //   it('should create and present the early start modal', () => {
-    //     component.slotDetail = testSlotDetail;
-    //     const dateTime = new DateTime();
-    //     dateTime.add(8, Duration.MINUTE);
-    //     component.slotDetail.start = dateTime.toString();
-    //     component.testStatus = TestStatus.Booked;
-    //     spyOn(component, 'displayCheckStartModal');
-    //     fixture.detectChanges();
-    //     const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
-    //     startButton.triggerEventHandler('click', null);
-    //     expect(component.displayCheckStartModal).toHaveBeenCalled();
-    //   });
-    //   it('should not create and present the early start modal', () => {
-    //     component.slotDetail = testSlotDetail;
-    //     const dateTime = new DateTime();
-    //     dateTime.add(2, Duration.MINUTE);
-    //     component.slotDetail.start = dateTime.toString();
-    //     component.testStatus = TestStatus.Booked;
-    //     spyOn(component, 'displayCheckStartModal');
-    //     fixture.detectChanges();
-    //     const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
-    //     startButton.triggerEventHandler('click', null);
-    //     expect(component.displayCheckStartModal).not.toHaveBeenCalled();
-    //   });
-    // });
+    describe('earlyStart', () => {
+      it('should create and present the early start modal', () => {
+        component.slotDetail = testSlotDetail;
+        const dateTime = new DateTime();
+        dateTime.add(8, Duration.MINUTE);
+        component.slotDetail.start = dateTime.toString();
+        component.testStatus = TestStatus.Booked;
+        spyOn(component, 'displayCheckStartModal');
+        fixture.detectChanges();
+        const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
+        startButton.triggerEventHandler('click', null);
+        expect(component.displayCheckStartModal).toHaveBeenCalled();
+      });
+      it('should not create and present the early start modal', () => {
+        component.slotDetail = testSlotDetail;
+        const dateTime = new DateTime();
+        dateTime.add(2, Duration.MINUTE);
+        component.slotDetail.start = dateTime.toString();
+        component.testStatus = TestStatus.Booked;
+        spyOn(component, 'displayCheckStartModal');
+        fixture.detectChanges();
+        const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
+        startButton.triggerEventHandler('click', null);
+        expect(component.displayCheckStartModal).not.toHaveBeenCalled();
+      });
+    });
 
     describe('writeUpTest', () => {
       categoryPages.forEach((cat) => {
@@ -315,22 +317,6 @@ describe('Test Outcome', () => {
         expect(component.showRekeyButton()).toEqual(false);
       });
     });
-    // describe('getTestStartingPage', () => {
-    //   categoryPages.forEach((cat) => {
-    //     it(`should return the correct value for a Category ${cat.category} Test`, () => {
-    //       component.category = cat.category;
-    //       expect(component.getTestStartingPage()).toEqual([cat.pageConstant.WAITING_ROOM_PAGE]);
-    //     });
-    //   });
-    // });
-    // describe('getPassFinalisationPage', () => {
-    //   categoryPages.forEach((cat) => {
-    //     it(`should return the correct value for a Category ${cat.category} Test`, () => {
-    //       component.category = cat.category;
-    //       expect(component.getPassFinalisationPage()).toEqual([cat.pageConstant.PASS_FINALISATION_PAGE]);
-    //     });
-    //   });
-    // });
   });
 
   describe('DOM', () => {
@@ -417,6 +403,7 @@ describe('Test Outcome', () => {
 
     describe('debrief a test', () => {
       it('should call the resumeTest method when `Resume` is clicked', () => {
+        spyOn(component, 'showResumeButton').and.returnValue(true);
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Decided;
         fixture.detectChanges();
@@ -445,6 +432,7 @@ describe('Test Outcome', () => {
 
     describe('resume a test', () => {
       it('should call the resumeTest method when `Resume` is clicked', () => {
+        spyOn(component, 'showResumeButton').and.returnValue(true);
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Started;
         fixture.detectChanges();
@@ -476,73 +464,60 @@ describe('Test Outcome', () => {
       });
     });
 
-    // describe('rekey modal', () => {
-    //   it('should display the rekey modal for a test today that has ended', () => {
-    //     component.slotDetail = testSlotDetail;
-    //
-    //     const dateTime = new DateTime();
-    //     dateTime.subtract(2, Duration.HOUR);
-    //
-    //     component.slotDetail.start = dateTime.toString();
-    //     component.testStatus = TestStatus.Booked;
-    //     spyOn(component, 'displayRekeyModal');
-    //     fixture.detectChanges();
-    //
-    //     const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
-    //     startButton.triggerEventHandler('click', null);
-    //
-    //     expect(component.displayRekeyModal).toHaveBeenCalled();
-    //   });
-    //
-    //   describe('showOutcome (DOM)', () => {
-    //     it('should display the activity code if one is available', () => {
-    //       component.slotDetail = testSlotDetail;
-    //       component.testStatus = TestStatus.Submitted;
-    //       fixture.detectChanges();
-    //       const outcomeCode = fixture.debugElement.query(By.css('.outcome'));
-    //       expect(outcomeCode).not.toBeNull();
-    //     });
-    //     it('should hide the activity code if none available', () => {
-    //       component.slotDetail = testSlotDetail;
-    //       component.slotDetail.slotId = null;
-    //       fixture.detectChanges();
-    //       const outcomeCode = fixture.debugElement.query(By.css('.outcome'));
-    //       expect(outcomeCode).toBeNull();
-    //     });
-    //   });
-    //
-    //   describe('show force detail check modal', () => {
-    //     it('should display the force detail check modal', () => {
-    //       component.specialRequirements = true;
-    //       component.slotDetail = testSlotDetail;
-    //       component.testStatus = TestStatus.Booked;
-    //       component.hasSeenCandidateDetails = false;
-    //       spyOn(component, 'displayForceCheckModal');
-    //       fixture.detectChanges();
-    //
-    //       const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
-    //       startButton.triggerEventHandler('click', null);
-    //
-    //       expect(component.displayForceCheckModal).toHaveBeenCalled();
-    //     });
-    //   });
-    //
-    //   describe('candidate details seen, force detail check modal should not be seen', () => {
-    //     it('should not display the force detail check modal', () => {
-    //       component.specialRequirements = true;
-    //       component.slotDetail = testSlotDetail;
-    //       component.testStatus = TestStatus.Booked;
-    //       component.slotDetail.slotId = 123456;
-    //       component.hasSeenCandidateDetails = true;
-    //       spyOn(component, 'displayForceCheckModal');
-    //       fixture.detectChanges();
-    //
-    //       const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
-    //       startButton.triggerEventHandler('click', null);
-    //
-    //       expect(component.displayForceCheckModal).toHaveBeenCalledTimes(0);
-    //     });
-    //   });
-    // });
+    describe('rekey modal', () => {
+      describe('showOutcome (DOM)', () => {
+        it('should display the activity code if one is available', () => {
+          component.slotDetail = testSlotDetail;
+          component.testStatus = TestStatus.Submitted;
+          fixture.detectChanges();
+          const outcomeCode = fixture.debugElement.query(By.css('.outcome'));
+          expect(outcomeCode).not.toBeNull();
+        });
+        it('should hide the activity code if none available', () => {
+          component.slotDetail = testSlotDetail;
+          component.slotDetail.slotId = null;
+          fixture.detectChanges();
+          const outcomeCode = fixture.debugElement.query(By.css('.outcome'));
+          expect(outcomeCode).toBeNull();
+        });
+      });
+
+      describe('show force detail check modal', () => {
+        it('should display the force detail check modal', () => {
+          spyOn(component, 'showRekeyButton').and.returnValue(false);
+
+          component.specialRequirements = true;
+          component.slotDetail = testSlotDetail;
+          component.testStatus = TestStatus.Booked;
+          component.hasSeenCandidateDetails = false;
+          spyOn(component, 'displayForceCheckModal');
+          fixture.detectChanges();
+
+          const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
+          startButton?.triggerEventHandler('click', null);
+
+          expect(component.displayForceCheckModal).toHaveBeenCalled();
+        });
+      });
+
+      describe('candidate details seen, force detail check modal should not be seen', () => {
+        it('should not display the force detail check modal', () => {
+          spyOn(component, 'showRekeyButton').and.returnValue(false);
+
+          component.specialRequirements = true;
+          component.slotDetail = testSlotDetail;
+          component.testStatus = TestStatus.Booked;
+          component.slotDetail.slotId = 123456;
+          component.hasSeenCandidateDetails = true;
+          spyOn(component, 'displayForceCheckModal');
+          fixture.detectChanges();
+
+          const startButton = fixture.debugElement.query(By.css('.mes-primary-button'));
+          startButton?.triggerEventHandler('click', null);
+
+          expect(component.displayForceCheckModal).toHaveBeenCalledTimes(0);
+        });
+      });
+    });
   });
 });

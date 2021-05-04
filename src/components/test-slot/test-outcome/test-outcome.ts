@@ -163,7 +163,7 @@ export class TestOutcomeComponent implements OnInit {
 
   writeUpTest() {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
-    this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId.toString()));
+    this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
     this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category);
   }
 
@@ -281,7 +281,7 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   isE2EPracticeMode(): boolean {
-    return startsWith(this.slotDetail.slotId.toString(), end2endPracticeSlotId);
+    return startsWith(this.slotDetail.slotId?.toString(), end2endPracticeSlotId);
   }
 
   isDateInPast() {
