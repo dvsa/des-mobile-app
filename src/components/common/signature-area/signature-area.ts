@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 @Component({
   selector: 'signature-area',
   templateUrl: 'signature-area.html',
+  styleUrls: ['signature-area.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -28,9 +29,7 @@ export class SignatureAreaComponent implements ControlValueAccessor {
   public clearAction: string;
   public actionLess: boolean;
 
-  // @TODO - MES-6277 - Fix any issues with this component when implementing Waiting Room Screen
-  // @ViewChild(SignaturePad) signaturePad: SignaturePad;
-  @ViewChild('signatureCanvas', { static: true }) signaturePad: SignaturePad;
+  @ViewChild(SignaturePad, {static: false}) public signaturePad: SignaturePad;
 
   @Input()
   public retryButtonText: string;
@@ -66,15 +65,22 @@ export class SignatureAreaComponent implements ControlValueAccessor {
     this.propagateChange(this.signature);
   }
 
-  initialiseSignaturePad() {
-    const canvas = this.elRef.nativeElement.querySelector('canvas');
-    this.signaturePad = new SignaturePad(canvas);
-    this.signaturePad.set('minWidth', 1); // set szimek/signature_pad options at runtime
+  initialiseSignatureArea() {
+    // this.signaturePad.set('minWidth', 1); // set szimek/signature_pad options at runtime
+    this.canvasResize();
     this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
-    this.signaturePad.resizeCanvas();
+    // this.signaturePad.resizeCanvas();
     if (this.signature) {
       this.setSignature(this.signature);
     }
+  }
+
+  canvasResize() {
+    let canvas = document.querySelector('canvas');
+    // const canvas: any = this.elRef.nativeElement.querySelector('canvas');
+    this.signaturePad.set('minWidth', 1);
+    // this.signaturePad.set('canvasWidth', canvas.offsetWidth);
+    // this.signaturePad.set('canvasHeight', canvas.offsetHeight);
   }
 
   clear() {
@@ -96,6 +102,7 @@ export class SignatureAreaComponent implements ControlValueAccessor {
       this.store$.dispatch({ payload: signatureData, type: this.drawCompleteAction });
     }
   }
+
   signatureDataClearedDispatch() {
     if (!this.actionLess) {
       this.store$.dispatch({ type: this.clearAction });

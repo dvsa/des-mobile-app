@@ -5,8 +5,9 @@ import { SignatureAreaComponent } from '@components/common/signature-area/signat
 @Component({
   selector: 'signature',
   templateUrl: 'signature.html',
+  styleUrls: ['signature.scss']
 })
-export class SignatureComponent implements OnInit, OnChanges {
+export class SignatureComponent implements OnChanges {
 
   @ViewChild(SignatureAreaComponent)
   signatureArea: SignatureAreaComponent;
@@ -26,7 +27,8 @@ export class SignatureComponent implements OnInit, OnChanges {
   formControl: FormControl;
   static readonly fieldName: string = 'signature';
 
-  ngOnInit(): void {
+  initialiseSignature(): void {
+    this.signatureArea.initialiseSignatureArea();
     this.signatureArea.drawCompleteAction = this.drawCompleteAction;
     this.signatureArea.clearAction = this.clearAction;
   }

@@ -53,6 +53,11 @@ import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
+import {
+  SIGNATURE_DATA_CHANGED,
+  SIGNATURE_DATA_CLEARED,
+} from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import { SignatureComponent } from '@pages/waiting-room/components/signature/signature';
 
 interface WaitingRoomPageState {
   insuranceDeclarationAccepted$: Observable<boolean>;
@@ -68,12 +73,15 @@ interface WaitingRoomPageState {
 @Component({
   selector: '.waiting-room-cat-b-page',
   templateUrl: 'waiting-room.cat-b.page.html',
+  styleUrls: ['waiting-room.cat-b.page.scss'],
 })
 export class WaitingRoomCatBPage extends PracticeableBasePageComponent implements OnInit {
 
   // @ViewChild(Navbar) navBar: Navbar;
 
-  @ViewChild(SignatureAreaComponent) signatureComponent: SignatureAreaComponent
+  @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent
+
+  @ViewChild(SignatureComponent) signatureComponent: SignatureComponent;
 
   pageState: WaitingRoomPageState;
 
@@ -101,17 +109,17 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
     this.formGroup = new FormGroup({});
   }
 
-  ionViewDidEnter(): void {
+  async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(waitingRoomActions.WaitingRoomViewDidEnter());
 
-    this.signatureComponent.initialiseSignaturePad();
+    this.signatureComponent.initialiseSignature();
 
     if (super.isIos()) {
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
-      this.insomnia.keepAwake();
+      await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+      await this.insomnia.keepAwake();
 
       if (!this.isPracticeMode) {
-        this.deviceProvider.enableSingleAppMode();
+        await this.deviceProvider.enableSingleAppMode();
       }
     }
 
@@ -213,12 +221,12 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
       (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber));
   }
 
-  getSignatureDrawCompleteAction() {
-    return preTestDeclarationsActions.SignatureDataChanged;
+  getSignatureDrawCompleteAction(): string {
+    return SIGNATURE_DATA_CHANGED;
   }
 
   getSignatureClearAction() {
-    return preTestDeclarationsActions.SignatureDataCleared;
+    return SIGNATURE_DATA_CLEARED;
   }
 
   insuranceDeclarationChanged(): void {

@@ -1,5 +1,8 @@
 import { createAction } from '@ngrx/store';
 
+export const SIGNATURE_DATA_CHANGED = '[PreTestDeclarations] Signature data changed';
+export const SIGNATURE_DATA_CLEARED = '[PreTestDeclarations] Signature data cleared';
+
 export const ClearPreTestDeclarations = createAction(
   '[PreTestDeclarations] Clear declarations',
 );
@@ -13,12 +16,12 @@ export const ToggleResidencyDeclaration = createAction(
 );
 
 export const SignatureDataChanged = createAction(
-  '[PreTestDeclarations] Signature data changed',
+  SIGNATURE_DATA_CHANGED,
   (signature: string) => ({ signature }),
 );
 
 export const SignatureDataCleared = createAction(
-  '[PreTestDeclarations] Signature data cleared',
+  SIGNATURE_DATA_CLEARED,
 );
 
 export const CandidateDeclarationSigned = createAction(

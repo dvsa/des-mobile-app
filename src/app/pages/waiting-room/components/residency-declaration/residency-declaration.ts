@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'residency-declaration',
   templateUrl: 'residency-declaration.html',
+  styleUrls: ['residency-declaration.scss'],
 })
 export class ResidencyDeclarationComponent implements OnChanges {
 
