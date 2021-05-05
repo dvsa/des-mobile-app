@@ -1,0 +1,17 @@
+<ion-row [formGroup]="formGroup">
+    <ion-col size="58">
+        <ion-select value="tellMeQuestion"
+                    id="tell-me-selector"
+                    okText="Submit"
+                    cancelText="Cancel"
+                    placeholder="Select a question"
+                    (ionChange)="tellMeQuestionChanged($event)"
+                    formControlName="tellMeQuestion"
+                    [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
+            <ion-select-option *ngFor="let currentTellMeQuestion of tellMeQuestions"
+                               [value]="currentTellMeQuestion">
+                {{currentTellMeQuestion.code}} - {{currentTellMeQuestion.shortName}}
+            </ion-select-option>
+        </ion-select>
+    </ion-col>
+</ion-row>

@@ -1,0 +1,42 @@
+<ion-row class="mes-validated-row mes-row-separator" id="candidate-declaration-card" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Candidate declaration</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-left">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <input type="radio"
+                       formControlName="candidateDeclarationCtrl"
+                       name="candidateDeclarationCtrl"
+                       id="declaration-signed"
+                       class="gds-radio-button"
+                       (change)="candidateDeclarationChanged($event.target.value)"
+                       [checked]="declarationSelected && candidateSigned"
+                       [class.ng-invalid]="invalid"
+                       value="Y">
+                <label for="declaration-signed" class="radio-label">Signed</label>
+            </ion-col>
+            <ion-col size="48">
+                <input type="radio"
+                       formControlName="candidateDeclarationCtrl"
+                       name="candidateDeclarationCtrl"
+                       id="declaration-not-signed"
+                       class="gds-radio-button"
+                       (change)="candidateDeclarationChanged($event.target.value)"
+                       [checked]="!declarationSelected && candidateSigned"
+                       [class.ng-invalid]="invalid"
+                       value="N">
+                <label for="declaration-not-signed" class="radio-label">Not Signed</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"
+                 [class.ng-invalid]="invalid"
+                 id="waiting-room-to-car-candidate-declaration-validation-text">
+                Select the candidate declaration
+            </div>
+        </ion-row>
+    </ion-col>
+</ion-row>

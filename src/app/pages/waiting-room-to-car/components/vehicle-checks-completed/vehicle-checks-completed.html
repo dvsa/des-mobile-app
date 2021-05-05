@@ -1,0 +1,63 @@
+<ion-row class="mes-validated-row mes-row-separator"
+         id="vehicle-checks-toggle-card"
+         [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Vehicle checks</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-left">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <input type="radio"
+                       formControlName="vehicleChecksToggleCtrl"
+                       name="vehicleChecksToggleCtrl"
+                       id="vehicle-checks-toggle-completed"
+                       class="gds-radio-button"
+                       [class.ng-invalid]="invalid"
+                       (change)="vehicleChecksToggleResultChanged($event.target.value)"
+                       [checked]="vehicleChecksCompleted === true"
+                       value="Completed">
+                <label for="vehicle-checks-toggle-completed" class="radio-label">Completed</label>
+            </ion-col>
+            <ion-col size="48">
+                <input type="radio"
+                       formControlName="vehicleChecksToggleCtrl"
+                       name="vehicleChecksToggleCtrl"
+                       id="vehicle-checks-toggle-non-completed"
+                       class="gds-radio-button"
+                       [class.ng-invalid]="invalid"
+                       (change)="vehicleChecksToggleResultChanged($event.target.value)"
+                       [checked]="vehicleChecksCompleted === false"
+                       value="Not completed">
+                <label for="vehicle-checks-toggle-non-completed" class="radio-label">Not completed</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"
+                 [class.ng-invalid]="invalid"
+                 id="waiting-room-to-car-vehicle-checks-toggle-validation-text">
+                Select the vehicle checks completed outcome
+            </div>
+        </ion-row>
+        <ion-row class="spacing-row ion-margin-bottom">
+            <ion-col size="48">
+                <ion-select id="vehicle-checks-driving-fault-selector"
+                            class="vehicle-checks-fault-selector"
+                            placeholder="Driving faults"
+                            okText="Submit"
+                            cancelText="Cancel"
+                            formControlName="vehicleChecksDrivingFaultsNumber"
+                            (ionChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
+                            [interfaceOptions]="{
+                                cssClass:'mes-select vehicle-checks-question-select',
+                                enableBackdropDismiss:false,
+                            }">
+                    <ion-select-option *ngFor="let number of drivingFaultsNumberOptions" [value]="number">
+                        {{number}} {{number === 1 ? 'driving fault' : 'driving faults'}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-col>
+        </ion-row>
+    </ion-col>
+</ion-row>

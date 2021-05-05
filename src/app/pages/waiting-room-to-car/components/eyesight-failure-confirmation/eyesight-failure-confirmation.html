@@ -1,0 +1,26 @@
+<ion-grid>
+  <ion-row>
+    <ion-col id="eyesight-failure-confirmation">
+      <ion-row>
+        <ion-col size="auto"></ion-col>
+        <img id="eyesight-failure-icon" src="/assets/imgs/exclamation.png" alt=""/>
+        <ion-col>
+          <ion-row>
+            <h2 id="eyesight-failure-title">The candidate failed the eyesight test</h2>
+          </ion-row>
+          <ion-row>
+            <label id="eyesight-failure-subtitle">Do you want to continue?</label>
+          </ion-row>
+          <ion-row class="ion-justify-content-between">
+            <ion-button id="confirm-eyesight-failure" class="mes-neutral-button" (click)="onContinue()">
+              <label>Continue to debrief</label>
+            </ion-button>
+            <button id="cancel-eyesight-failure" class="mes-neutral-button" (click)="onCancel()">
+              <label>Cancel</label>
+            </button>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-grid>

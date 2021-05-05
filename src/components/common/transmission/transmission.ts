@@ -3,7 +3,6 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
-import { TransmissionType } from '@shared/models/transmission-type';
 
 @Component({
   selector: 'transmission',
@@ -12,7 +11,7 @@ import { TransmissionType } from '@shared/models/transmission-type';
 export class TransmissionComponent implements OnChanges {
 
   @Input()
-  transmission: TransmissionType;
+  transmission: GearboxCategory;
 
   @Input()
   hideTransmissionLabel: boolean = false;

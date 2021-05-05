@@ -1,0 +1,40 @@
+<ion-row class="mes-validated-row mes-row-separator" id="eyesight-test-card" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label>Eyesight test</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="eyesightCtrl"
+               name="eyesightCtrl"
+               id="eyesight-pass"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="eyesightTestResultChanged($event.target.value)"
+               [checked]="testPassed"
+               value="P">
+        <label for="eyesight-pass" class="radio-label">Pass</label>
+      </ion-col>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="eyesightCtrl"
+               name="eyesightCtrl"
+               id="eyesight-fail"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="eyesightTestResultChanged($event.target.value)"
+               [checked]="testFailed"
+               value="F">
+        <label for="eyesight-fail" class="radio-label">Fail</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-eyesight-validation-text">
+        Select the eyesight test outcome
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>
