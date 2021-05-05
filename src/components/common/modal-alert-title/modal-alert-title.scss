@@ -1,6 +1,7 @@
-modal-alert-title {
+:host {
   .alert-icon {
-    margin: 40px 0px 16px;
+    color: var(--gds-black);
+    margin: 40px 0 16px;
     font-size: 96px;
   }
 

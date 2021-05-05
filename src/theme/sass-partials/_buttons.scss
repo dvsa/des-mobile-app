@@ -119,16 +119,14 @@
 }
 
 .mes-return-button {
-  background: var(--gds-grey-3);
-  box-shadow: inset 0 -2px 0 0 var(--gds-grey-1);
-  border-radius: 10px;
+  --background: var(--gds-grey-3);
+  --background-activated: var(--gds-grey-2);
+  --box-shadow: inset 0 -2px 0 0 var(--gds-grey-1);
+  --border-radius: 10px;
   margin: 0 0.2rem;
   margin-bottom: 36px;
   width: 100%;
   height: 56px;
-  &.activated, &:active {
-    background: var(--gds-grey-2);
-  }
   h3 {
     color: var(--gds-black);
     .text-zoom-regular &,

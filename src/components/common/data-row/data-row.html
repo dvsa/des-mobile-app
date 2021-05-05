@@ -1,5 +1,5 @@
 <ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
-    <ion-col size="5">
+    <ion-col size="40">
     <label class="ion-padding-start">{{ label }}</label>
     <img
       alt="Exclamation Indicator"
@@ -9,7 +9,7 @@
       *ngIf="shouldShowIndicator"
     />
   </ion-col>
-  <ion-col size="7">
+  <ion-col size="56">
     <span class="mes-data">{{ value }}</span>
   </ion-col>
 </ion-row>
