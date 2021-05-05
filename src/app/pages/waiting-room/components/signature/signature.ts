@@ -1,11 +1,15 @@
-import { Component, Input, ViewChild, OnInit, OnChanges } from '@angular/core';
+import {
+  Component, Input,
+  ViewChild, OnChanges,
+  Output, EventEmitter,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
 @Component({
   selector: 'signature',
-  templateUrl: 'signature.html',
-  styleUrls: ['signature.scss']
+  templateUrl: './signature.html',
+  styleUrls: ['./signature.scss'],
 })
 export class SignatureComponent implements OnChanges {
 
@@ -18,25 +22,18 @@ export class SignatureComponent implements OnChanges {
   @Input()
   formGroup: FormGroup;
 
-  @Input()
-  drawCompleteAction: string ;
+  @Output()
+  signatureDataChange = new EventEmitter<string>();
 
-  @Input()
-  clearAction: string;
+  @Output()
+  signatureCleared = new EventEmitter();
 
   formControl: FormControl;
   static readonly fieldName: string = 'signature';
 
-  initialiseSignature(): void {
-    this.signatureArea.initialiseSignatureArea();
-    this.signatureArea.drawCompleteAction = this.drawCompleteAction;
-    this.signatureArea.clearAction = this.clearAction;
-  }
-
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl('', [Validators.required]);
-
       this.formGroup.addControl(SignatureComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.signature);
@@ -45,5 +42,13 @@ export class SignatureComponent implements OnChanges {
   isInvalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
+
+  onClear = (): void => {
+    this.signatureCleared.emit();
+  };
+
+  onChange = (event: string): void => {
+    this.signatureDataChange.emit(event);
+  };
 
 }

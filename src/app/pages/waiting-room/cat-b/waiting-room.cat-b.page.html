@@ -34,8 +34,10 @@
                                (residencyDeclarationChange)="residencyDeclarationChanged()">
         </residency-declaration>
       </div>
-      <signature [formGroup]="formGroup" [signature]="pageState.signature$ | async"
-                 [drawCompleteAction]="getSignatureDrawCompleteAction()" [clearAction]="getSignatureClearAction()">
+      <signature [formGroup]="formGroup"
+                 [signature]="pageState.signature$ | async"
+                 (signatureDataChange)="signatureChanged($event)"
+                 (signatureCleared)="signatureCleared()">
       </signature>
     </div>
   </form>

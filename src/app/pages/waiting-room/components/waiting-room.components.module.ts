@@ -7,6 +7,7 @@ import { ResidencyDeclarationComponent } from './residency-declaration/residency
 import { SignatureComponent } from './signature/signature';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { CBTNumberComponent } from './cbt-number/cbt-number';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CBTNumberComponent } from './cbt-number/cbt-number';
     IonicModule,
     TranslateModule,
     ComponentsModule,
+    ReactiveFormsModule,
   ],
   exports: [
     ConductedLanguageComponent,

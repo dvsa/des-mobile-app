@@ -5,7 +5,6 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import * as waitingRoomActions from '../waiting-room.actions';
 import { Observable, merge, Subscription } from 'rxjs';
 import {
   getPreTestDeclarations,
@@ -37,7 +36,6 @@ import {
 import {
   getConductedLanguage,
 } from '@store/tests/communication-preferences/communication-preferences.selector';
-import { CAT_B, ERROR_PAGE, LOGIN_PAGE } from '../../page-names.constants';
 import {
   CandidateChoseToProceedWithTestInWelsh,
   CandidateChoseToProceedWithTestInEnglish,
@@ -49,15 +47,12 @@ import { DeviceProvider } from '@providers/device/device';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { isEmpty } from 'lodash';
-import { ErrorTypes } from '@shared/models/error-message';
-import { AppComponent } from '../../../app.component';
 import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
-import {
-  SIGNATURE_DATA_CHANGED,
-  SIGNATURE_DATA_CLEARED,
-} from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import { SignatureComponent } from '@pages/waiting-room/components/signature/signature';
+
+import * as waitingRoomActions from '../waiting-room.actions';
+import { AppComponent } from '../../../app.component';
 
 interface WaitingRoomPageState {
   insuranceDeclarationAccepted$: Observable<boolean>;
@@ -79,7 +74,7 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
 
   // @ViewChild(Navbar) navBar: Navbar;
 
-  @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent
+  @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
 
   @ViewChild(SignatureComponent) signatureComponent: SignatureComponent;
 
@@ -111,8 +106,6 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(waitingRoomActions.WaitingRoomViewDidEnter());
-
-    this.signatureComponent.initialiseSignature();
 
     if (super.isIos()) {
       await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
@@ -197,7 +190,7 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
         }),
       ),
       welshTest$,
-      conductedLanguage$.pipe(tap(value => configureI18N(value as Language, this.translate))),
+      conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
     );
   }
 
@@ -217,16 +210,16 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
   }
 
   isJournalDataInvalid = (journalData: JournalData): boolean => {
-    return isEmpty(journalData.examiner.staffNumber) ||
-      (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber));
+    return isEmpty(journalData.examiner.staffNumber)
+      || (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber));
+  };
+
+  signatureChanged(signature: string): void {
+    this.store$.dispatch(preTestDeclarationsActions.SignatureDataChanged(signature));
   }
 
-  getSignatureDrawCompleteAction(): string {
-    return SIGNATURE_DATA_CHANGED;
-  }
-
-  getSignatureClearAction() {
-    return SIGNATURE_DATA_CLEARED;
+  signatureCleared(): void {
+    this.store$.dispatch(preTestDeclarationsActions.SignatureDataCleared());
   }
 
   insuranceDeclarationChanged(): void {
@@ -246,9 +239,9 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
   }
 
   onSubmit() {
-    Object.keys(this.formGroup.controls).forEach(controlName => this.formGroup.controls[controlName].markAsDirty());
+    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
     if (this.formGroup.valid) {
-      //@TODO
+      // @TODO
       // this.navController.push(CAT_B.COMMUNICATION_PAGE);
     } else {
       Object.keys(this.formGroup.controls).forEach((controlName) => {
