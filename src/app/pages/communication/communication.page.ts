@@ -6,7 +6,9 @@ import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { Address, CommunicationMethod, ConductedLanguage } from '@dvsa/mes-test-schema/categories/common';
+import {
+  Address, CategoryCode, CommunicationMethod, ConductedLanguage,
+} from '@dvsa/mes-test-schema/categories/common';
 import { Observable } from 'rxjs/observable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription, merge } from 'rxjs';
@@ -31,7 +33,17 @@ import {
 } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { configureI18N } from '@shared/helpers/translation.helpers';
-// import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+import * as communicationPreferencesActions
+  from '@store/tests/communication-preferences/communication-preferences.actions';
+import {
+  CommunicationSubmitInfo,
+  CommunicationSubmitInfoError,
+  CommunicationValidationError,
+} from '@pages/communication/communication.actions';
+import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 
 interface CommunicationPageState {
   candidateName$: Observable<string>;
@@ -42,6 +54,7 @@ interface CommunicationPageState {
   communicationType$: Observable<string>;
   candidateAddress$: Observable<Address>;
   conductedLanguage$: Observable<string>;
+  testCategory$: Observable<CategoryCode>;
 }
 
 @Component({
@@ -66,9 +79,8 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   candidateProvidedEmail: string;
   communicationEmail: string;
   communicationType: CommunicationMethod;
-  selectProvidedEmail: boolean;
-  selectNewEmail: boolean;
   merged$: Observable<string | boolean>;
+  testCategory: CategoryCode;
 
   constructor(
     public platform: Platform,
@@ -77,7 +89,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     store$: Store<StoreModel>,
     private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
-    // public deviceAuthenticationProvider: DeviceAuthenticationProvider,
+    public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
   ) {
     super(platform, router, authenticationProvider, store$);
@@ -133,6 +145,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
         select(getCommunicationPreference),
         select(getConductedLanguage),
       ),
+      testCategory$: currentTest$.pipe(
+        select(getTestCategory),
+        map((result) => this.testCategory = result),
+      ),
     };
 
     const {
@@ -140,6 +156,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       communicationEmail$,
       communicationType$,
       conductedLanguage$,
+      testCategory$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -147,14 +164,12 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       communicationEmail$.pipe(map((value) => this.communicationEmail = value)),
       communicationType$.pipe(map((value) => this.communicationType = value as CommunicationMethod)),
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
-
+      testCategory$.pipe(map((result) => this.testCategory = result)),
     );
 
     this.subscription = this.merged$.subscribe();
 
-    if (this.shouldPreselectADefaultValue()) {
-      this.initialiseDefaultSelections();
-    }
+    this.initialiseDefaultSelections();
 
     this.restoreRadiosFromState();
     this.restoreRadioValidators();
@@ -175,50 +190,41 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
   }
 
-  // onSubmit() {
-  //   Object.keys(this.form.controls).forEach(controlName => this.form.controls[controlName].markAsDirty());
-  //   if (this.form.valid) {
-  //     this.deviceAuthenticationProvider.triggerLockScreen()
-  //       .then(() => {
-  //         this.store$.dispatch(new CommunicationSubmitInfo());
-  //         this.navController.push(CAT_B.WAITING_ROOM_TO_CAR_PAGE)
-  //           .then(() => {
-  //           const waitingRoomPage = this.navController.getViews().find(view => view.id === CAT_B.WAITING_ROOM_PAGE);
-  //             if (waitingRoomPage) {
-  //               this.navController.removeView(waitingRoomPage);
-  //             }
-  //             const communicationPage =
-  //               this.navController.getViews().find(view => view.id === CAT_B.COMMUNICATION_PAGE);
-  //             if (communicationPage) {
-  //               this.navController.removeView(communicationPage);
-  //             }
-  //           });
-  //       })
-  //       .catch((err) => {
-  //         this.store$.dispatch(new CommunicationSubmitInfoError(err));
-  //       });
-  //   } else {
-  //     Object.keys(this.form.controls).forEach((controlName) => {
-  //       if (this.form.controls[controlName].invalid) {
-  //         this.store$.dispatch(new CommunicationValidationError(`${controlName} is blank`));
-  //       }
-  //     });
-  //   }
-  // }
+  onSubmit() {
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    if (this.form.valid) {
+      this.deviceAuthenticationProvider.triggerLockScreen()
+        .then(async () => {
+          this.store$.dispatch(CommunicationSubmitInfo());
+          await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE,
+            this.testCategory as TestCategory);
+        })
+        .catch((err) => {
+          this.store$.dispatch(CommunicationSubmitInfoError(err));
+        });
+    } else {
+      Object.keys(this.form.controls)
+        .forEach((controlName) => {
+          if (this.form.controls[controlName].invalid) {
+            this.store$.dispatch(CommunicationValidationError(`${controlName} is blank`));
+          }
+        });
+    }
+  }
 
   dispatchCandidateChoseProvidedEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.providedEmail);
-    // this.store$.dispatch(
-    //   new CandidateChoseEmailAsCommunicationPreference(
-    //     this.candidateProvidedEmail, CommunicationPage.email),
-    // );
+    this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
+      this.candidateProvidedEmail, CommunicationPage.email,
+    ));
   }
 
   dispatchCandidateChoseNewEmail(communicationEmail: string): void {
-    // this.store$.dispatch(
-    //   new CandidateChoseEmailAsCommunicationPreference(
-    //     communicationEmail, CommunicationPage.email),
-    // );
+    this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
+    this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
+      communicationEmail, CommunicationPage.email,
+    ));
   }
 
   setCommunicationType(communicationChoice: CommunicationMethod, emailType: string = null) {
@@ -227,12 +233,12 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     this.verifyNewEmailFormControl(communicationChoice);
   }
 
-  isProvidedEmailSelected() {
+  isProvidedEmailSelected(): boolean {
     return (this.communicationType === CommunicationPage.email
       && this.emailType === CommunicationPage.providedEmail);
   }
 
-  isNewEmailSelected() {
+  isNewEmailSelected(): boolean {
     return (this.communicationType === CommunicationPage.email
       && this.emailType === CommunicationPage.updatedEmail);
   }
@@ -243,9 +249,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   dispatchCandidateChosePost(): void {
     this.setCommunicationType(CommunicationPage.post);
-    // this.store$.dispatch(
-    //   new CandidateChosePostAsCommunicationPreference(CommunicationPage.post),
-    // );
+    this.store$.dispatch(
+      communicationPreferencesActions.CandidateChosePostAsCommunicationPreference(CommunicationPage.post),
+    );
   }
 
   getFormValidation(): { [key: string]: FormControl } {
@@ -256,7 +262,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   /**
    * Facade function which dictates which radio value to reselect when rehydrating from state.
-   *
    * No current schema properties allow for the capture of radio selection for emails on the communication page.
    */
   restoreRadiosFromState() {
@@ -278,14 +283,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
    */
   assertEmailType() {
     if (this.candidateProvidedEmail !== '' && this.candidateProvidedEmail === this.communicationEmail) {
-      this.selectProvidedEmail = true;
-      this.selectNewEmail = false;
       this.emailType = CommunicationPage.providedEmail;
     }
 
     if (this.candidateProvidedEmail !== this.communicationEmail) {
-      this.selectNewEmail = true;
-      this.selectProvidedEmail = false;
       this.emailType = CommunicationPage.updatedEmail;
     }
   }
@@ -309,15 +310,12 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     this.communicationType = CommunicationPage.email;
     if (this.candidateProvidedEmail) {
       this.emailType = CommunicationPage.providedEmail;
-      this.selectProvidedEmail = true;
       this.form.controls['radioCtrl'].setValue(true);
       this.dispatchCandidateChoseProvidedEmail();
     }
 
     if (!this.candidateProvidedEmail) {
       this.emailType = CommunicationPage.updatedEmail;
-      this.selectNewEmail = true;
-      this.selectProvidedEmail = false;
       this.form.controls['radioCtrl'].setValue(true);
     }
   }
@@ -325,18 +323,13 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   verifyNewEmailFormControl(communicationChoice: string) {
     const newEmailCtrl = this.form.get('newEmailCtrl');
     if (newEmailCtrl !== null) {
-      if (communicationChoice !== CommunicationPage.email
-        || this.emailType === CommunicationPage.providedEmail) {
+      if (communicationChoice !== CommunicationPage.email || this.emailType === CommunicationPage.providedEmail) {
         newEmailCtrl.clearValidators();
       } else {
         newEmailCtrl.setValidators(Validators.email);
       }
       newEmailCtrl.updateValueAndValidity();
     }
-  }
-
-  shouldPreselectADefaultValue(): boolean {
-    return this.communicationType === CommunicationPage.notProvided;
   }
 
   /**
@@ -360,15 +353,5 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   getNewEmailAddressValue() {
     return this.candidateProvidedEmail === this.communicationEmail ? '' : this.communicationEmail;
   }
-
-  // ////////
-  //
-  // navigateBack(): void {
-  //   this.navController.back();
-  // }
-  //
-  // async navigateForward(): Promise<void> {
-  //   await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, TestCategory.B);
-  // }
 
 }

@@ -6,6 +6,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'provided-email',
   templateUrl: 'provided-email.html',
+  styleUrls: ['provided-email.scss'],
 })
 export class ProvidedEmailComponent {
 

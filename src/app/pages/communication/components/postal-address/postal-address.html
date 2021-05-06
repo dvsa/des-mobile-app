@@ -1,18 +1,23 @@
 <ion-row class="communication-option">
     <div class="validation-bar communication-validation-bar" [class.ng-invalid]="invalid"></div>
-    <input type="radio" id="postalAddress" class="gds-radio-button" name="radioCtrl"
-      (click)="postalRadioSelected()" [checked]="isPostalAddressChosen">
+    <input type="radio"
+           id="postalAddress"
+           class="gds-radio-button"
+           name="radioCtrl"
+           (click)="postalRadioSelected()"
+           [checked]="isPostalAddressChosen">
     <label for="postalAddress" class="radio-label">{{ 'communication.byPostLabel' | translate }}</label>
 </ion-row>
 
 <ion-row *ngIf="isPostalAddressChosen" class="communication-box">
-    <ion-col col-6></ion-col>
+    <ion-col size="6">
+    </ion-col>
     <ion-col>
         <ion-row>
-          <span class="communication-text">{{ 'communication.byPostDescription' | translate }}:</span>
+            <span class="communication-text">{{ 'communication.byPostDescription' | translate }}:</span>
         </ion-row>
         <ion-row>
-            <display-address [address]="postalAddress"></display-address>
+            <display-address class="display-address" [address]="postalAddress"></display-address>
         </ion-row>
     </ion-col>
 </ion-row>

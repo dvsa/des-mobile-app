@@ -6,12 +6,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'new-email',
   templateUrl: 'new-email.html',
+  styleUrls: ['new-email.scss'],
 })
 export class NewEmailComponent implements OnChanges {
 
   static readonly newEmail: string = 'newEmail';
   static readonly newEmailCtrl: string = 'newEmailCtrl';
   static readonly radioCtrl: string = 'radioCtrl';
+  maximumCallStackHandler = { emitEvent: false, onlySelf: true };
 
   @Input()
   formGroup: FormGroup;
@@ -21,6 +23,9 @@ export class NewEmailComponent implements OnChanges {
 
   @Input()
   isNewEmailAddressChosen: boolean;
+
+  @Input()
+  test: boolean;
 
   @Output()
   newEmailRadioSelect = new EventEmitter<string>();
@@ -38,9 +43,9 @@ export class NewEmailComponent implements OnChanges {
     }
 
     if (!this.formControl) {
-      this.formControl = new FormControl('');
+      this.formControl = new FormControl('', Validators.required);
       if (this.isNewEmailAddressChosen) {
-        this.formControl.setValidators(Validators.email);
+        this.formControl.setValidators(Validators.compose([Validators.required, Validators.email]));
       }
       this.formGroup.addControl(NewEmailComponent.newEmailCtrl, this.formControl);
     }

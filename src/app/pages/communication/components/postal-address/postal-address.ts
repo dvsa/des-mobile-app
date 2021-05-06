@@ -7,6 +7,7 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'postal-address',
   templateUrl: 'postal-address.html',
+  styleUrls: ['postal-address.scss'],
 })
 export class PostalAddressComponent {
 

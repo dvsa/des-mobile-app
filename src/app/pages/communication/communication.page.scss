@@ -1,0 +1,51 @@
+:host {
+  //ion-content > div {
+  //  --ion-background-color: var(--mes-white);
+  //}
+
+  .communication-option {
+    padding: 10px 5px;
+  }
+
+  .communication-box {
+    margin: 10px 0px 10px 44px;
+    border-left: 4px solid;
+    border-color: var(--gds-grey-2);
+  }
+
+  .communication-text-container {
+    margin-bottom: 30px;
+  }
+
+  .communication-text {
+    font-size: 23px;
+    color: var(--gds-grey-1);
+  }
+
+  .provided-email-textbox {
+    width: auto;
+    border: 1px solid var(--gds-lavendar);
+    height: 48px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: var(--gds-lavendar);
+    font-weight: bold;
+    pointer-events: none;
+    color: var(--gds-black) !important;
+  }
+
+  .new-email-textbox {
+    border-radius: 6px;
+    border: 2px solid var(--gds-black);
+    height: 48px;
+    --padding-start: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-transform: lowercase;
+  }
+
+  .communication-validation-bar {
+    margin-right: 10px;
+  }
+}

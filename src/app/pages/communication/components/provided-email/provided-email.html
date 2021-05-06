@@ -1,22 +1,29 @@
 <div *ngIf="shouldRender" [formGroup]="formGroup">
-  <ion-row class="communication-option">
-    <div class="validation-bar communication-validation-bar" [class.ng-invalid]="invalid"></div>
-    <input type="radio" id="providedEmail" formControlName="radioCtrl" name="radioCtrl"
-      class="gds-radio-button communication-radio" (click)="providedEmailRadioSelected()"
-      [checked]="isProvidedEmailAddressChosen" [value]="isProvidedEmailAddressChosen">
-    <label for="providedEmail" class="radio-label">{{ 'communication.byEmailLabel' | translate }}</label>
-  </ion-row>
-  <ion-row *ngIf="isProvidedEmailAddressChosen" class="communication-box">
-    <ion-col col-6></ion-col>
-    <ion-col>
-      <ion-row>
-        <span class="communication-text">
-          {{ 'communication.bookingEmail' | translate }}:
-        </span>
-      </ion-row>
-      <ion-row>
-        <div id="providedEmailInput" class="provided-email-textbox">{{ providedEmailAddress }}</div>
-      </ion-row>
-    </ion-col>
-  </ion-row>
+        <ion-row class="communication-option">
+            <div class="validation-bar communication-validation-bar" [class.ng-invalid]="invalid"></div>
+            <input type="radio"
+                   id="providedEmail"
+                   formControlName="radioCtrl"
+                   name="radioCtrl"
+                   class="gds-radio-button communication-radio"
+                   (click)="providedEmailRadioSelected()"
+                   [checked]="isProvidedEmailAddressChosen"
+                   [value]="isProvidedEmailAddressChosen">
+            <label for="providedEmail" class="radio-label">{{ 'communication.byEmailLabel' | translate }}</label>
+        </ion-row>
+        <ion-row *ngIf="isProvidedEmailAddressChosen" class="communication-box">
+            <ion-col size="6"></ion-col>
+            <ion-col>
+                <ion-row>
+                    <ion-col>
+                         <span class="communication-text">
+                            {{ 'communication.bookingEmail' | translate }}:
+                        </span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <span id="providedEmailInput" class="provided-email-textbox">{{ providedEmailAddress }}</span>
+                </ion-row>
+            </ion-col>
+        </ion-row>
 </div>

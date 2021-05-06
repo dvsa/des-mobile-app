@@ -6,6 +6,7 @@ import { Language } from '@store/tests/communication-preferences/communication-p
 @Component({
   selector: 'privacy-notice',
   templateUrl: 'privacy-notice.html',
+  styleUrls: ['./privacy-notice.scss'],
 })
 export class PrivacyNoticeComponent implements OnInit {
 

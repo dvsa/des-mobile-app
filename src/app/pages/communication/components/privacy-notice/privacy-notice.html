@@ -1,16 +1,16 @@
 <div class="container">
-  <ion-row>
-    <ion-col col-13>
-      <ion-icon class="alert-icon" ios="md-alert"></ion-icon>
-    </ion-col>
-    <ion-col>
-      <div>
-        {{'communication.privacyNotice' | translate:{
-          drivingOrRiding: isRider ?
-            ('common.riding' | translate) :
-            ('common.driving' | translate)}
-        }}
-      </div>
-    </ion-col>
-  </ion-row>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="13" class="ion-padding-vertical">
+                <ion-icon class="alert-icon" name="alert-circle"></ion-icon>
+            </ion-col>
+            <ion-col size="83">
+                <p class="privacy-text">
+                    {{'communication.privacyNotice' | translate:{
+                        drivingOrRiding: isRider ? ('common.riding' | translate) : ('common.driving' | translate)}
+                    }}
+                </p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </div>

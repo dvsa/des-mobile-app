@@ -1,10 +1,10 @@
-postal-address {
-  display-address{
-    background: map-get($colors-gds, "gds-red");
-    width: 554px;
-    font-weight: bold;
-    background-color: map-get($colors-gds, "gds-lavendar");
-    padding: 12px 15px;
-    margin-top: 8px;
-  }
+@import 'src/app/pages/communication/communication.page.scss';
+
+.display-address {
+  background: var(--gds-red);
+  width: 554px;
+  font-weight: bold;
+  background-color: var(--gds-lavendar);
+  padding: 12px 15px;
+  margin-top: 8px;
 }
