@@ -7,6 +7,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotProvider } from '@providers/slot/slot';
 import { JournalProvider } from '@providers/journal/journal';
+import { SearchProvider } from '@providers/search/search';
 import { JournalLogsEffects } from './journal.logs.effects';
 import { journalReducer } from './journal.reducer';
 import { JournalEffects } from './journal.effects';
@@ -25,6 +26,7 @@ import { JournalEffects } from './journal.effects';
     SlotProvider,
     SlotSelectorProvider,
     DateTimeProvider,
+    SearchProvider,
   ],
 })
 export class JournalModule {}

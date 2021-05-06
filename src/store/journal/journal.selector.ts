@@ -86,5 +86,6 @@ export const getPermittedSlotIdsBeforeToday = (
 };
 
 export const getCompletedTests = (journalModel: JournalModel): SearchResultTestSchema[] => {
+  console.log('Completed Tests', journalModel.completedTests);
   return journalModel.completedTests;
 };

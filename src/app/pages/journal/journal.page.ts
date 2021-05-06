@@ -30,7 +30,7 @@ import { MesError } from '@shared/models/mes-error.model';
 import * as journalActions from '@store/journal/journal.actions';
 import {
   getError, getIsLoading, getSelectedDate, getLastRefreshed,
-  getLastRefreshedTime, getSlotsOnSelectedDate, canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests, // getCompletedTests,
+  getLastRefreshedTime, getSlotsOnSelectedDate, canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests,
 } from '@store/journal/journal.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
@@ -39,7 +39,6 @@ import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 // import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { AppComponent } from '../../app.component';
 import { ErrorPage } from '../error-page/error';
-import { LoadCompletedTests } from '@store/journal/journal.actions';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -182,8 +181,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
     super.ionViewWillEnter();
     this.loadJournalManually();
     this.setupPolling();
-
-    this.store$.dispatch(LoadCompletedTests());
+    console.log('test');
+    this.store$.dispatch(journalActions.LoadCompletedTests());
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
@@ -261,11 +260,22 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   public pullRefreshJournal = (refresher: IonRefresher) => {
     this.loadJournalManually();
+    this.loadCompletedTestsWithCallThrough();
     this.pageRefresher = refresher;
   };
 
   public refreshJournal = () => {
     this.loadJournalManually();
+    this.loadCompletedTestsWithCallThrough();
+  };
+
+  private loadCompletedTestsWithCallThrough = () => {
+    // When manually refreshing the journal we want to check
+    // if any of the tests have already been submitted by another device
+    // So we must make the Load Completed Tests request
+    // And that's why we set the callThrough property to true
+    const callThrough = true;
+    this.store$.dispatch(journalActions.LoadCompletedTests(callThrough));
   };
 
   async logout() {
