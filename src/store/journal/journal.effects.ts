@@ -6,7 +6,7 @@ import {
   switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith, concatMap, tap,
 } from 'rxjs/operators';
 import { of, Observable, interval } from 'rxjs';
-import { groupBy } from 'lodash';
+// import { groupBy } from 'lodash';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store, select, Action } from '@ngrx/store';
 import { JournalProvider } from '@providers/journal/journal';
@@ -25,6 +25,14 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { SearchProvider } from '@providers/search/search';
 import { LogType } from '@shared/models/log.model';
+import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
+import { getTests } from '@store/tests/tests.reducer';
+import { AdvancedSearchParams } from '@providers/search/search.models';
+import { removeLeadingZeros } from '@shared/helpers/formatters';
+import { hasStartedTests } from '@store/tests/tests.selector';
+import * as moment from 'moment';
+import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
@@ -33,13 +41,6 @@ import {
   getSelectedDate, getLastRefreshed, getSlots,
   canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests,
 } from './journal.selector';
-import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { AdvancedSearchParams } from '@providers/search/search.models';
-import { removeLeadingZeros } from '@shared/helpers/formatters';
-import { hasStartedTests } from '@store/tests/tests.selector';
-import moment from 'moment';
-import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
 import { LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
 
 @Injectable()
@@ -56,6 +57,7 @@ export class JournalEffects {
     public dateTimeProvider: DateTimeProvider,
     public searchProvider: SearchProvider,
     private logHelper: LogHelper,
+    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
   ) {
   }
 
@@ -177,28 +179,33 @@ export class JournalEffects {
   ));
 
   loadCompletedTests$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.LoadCompletedTests.type),
-    withLatestFrom(
-      this.store$.pipe(
-        select(getJournalState),
-        select(getExaminer),
-        select(getStaffNumber),
+    ofType(journalActions.LoadCompletedTests),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getJournalState),
+          select(getExaminer),
+          select(getStaffNumber),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(hasStartedTests),
+        ),
+        this.store$.pipe(
+          select(getJournalState),
+          select(getCompletedTests),
+        ),
       ),
-      this.store$.pipe(
-        select(getTests),
-        select(hasStartedTests),
-      ),
-      this.store$.pipe(
-        select(getJournalState),
-        select(getCompletedTests),
-      ),
-    ),
+    )),
+    filter(([action, , hasStartedTestsVal, completedTests]) => {
+      if (action.callThrough) {
+        return true;
+      }
+      return !hasStartedTestsVal && completedTests && completedTests.length === 0;
+    }),
 
-    filter(([action, staffNumber, hasStartedTests, completedTests]) =>
-      !hasStartedTests && completedTests && completedTests.length === 0),
-
-    switchMap(([action, staffNumber]) => {
-      const numberOfDaysToView = this.appConfig.getAppConfig().journal.numberOfDaysToView;
+    switchMap(([, staffNumber]) => {
+      const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
       const advancedSearchParams: AdvancedSearchParams = {
         startDate: moment().subtract(numberOfDaysToView, 'days').format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
@@ -207,6 +214,10 @@ export class JournalEffects {
       };
 
       return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
+        tap((searchResults) => {
+          this.completedTestPersistenceProvider.persistCompletedTests(searchResults);
+          console.log('searchResults', searchResults);
+        }),
         map((searchResults) => {
           return LoadCompletedTestsSuccess(searchResults);
         }),
