@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-// import { NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 
@@ -11,7 +11,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 export class PassFinalisationCatAMod2Page implements OnInit {
 
   constructor(
-    // private navController: NavController,
+    private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
   ) { }
 
@@ -19,7 +19,7 @@ export class PassFinalisationCatAMod2Page implements OnInit {
   }
 
   navigateBack(): void {
-    // this.navController.back();
+    this.navController.back();
   }
 
   async navigateForward(): Promise<void> {

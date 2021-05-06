@@ -15,7 +15,7 @@ describe('WaitingRoomToCar.CatCPCPage', () => {
       declarations: [WaitingRoomToCarCatCPCPage],
       imports: [IonicModule.forRoot()],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     }).compileComponents();

@@ -15,7 +15,7 @@ describe('TestReportCatAMod2Page', () => {
       declarations: [TestReportCatAMod2Page],
       imports: [IonicModule.forRoot()],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     }).compileComponents();

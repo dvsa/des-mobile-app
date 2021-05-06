@@ -15,7 +15,7 @@ describe('WaitingRoomToCar.CatAMod1Page', () => {
       declarations: [WaitingRoomToCarCatAMod1Page],
       imports: [IonicModule.forRoot()],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     }).compileComponents();

@@ -27,7 +27,7 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   pageState: WaitingRoomToCarPageState;
 
   constructor(
-    // private navController: NavController,
+    private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
     store$: Store<StoreModel>,
     platform: Platform,
@@ -53,7 +53,7 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   }
 
   navigateBack(): void {
-    // this.navController.back();
+    this.navController.back();
   }
 
   async navigateForward(): Promise<void> {

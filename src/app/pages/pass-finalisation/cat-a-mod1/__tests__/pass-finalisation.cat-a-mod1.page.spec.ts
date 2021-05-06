@@ -15,7 +15,7 @@ describe('PassFinalisation.CatAMod1Page', () => {
       declarations: [PassFinalisationCatAMod1Page],
       imports: [IonicModule.forRoot()],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     }).compileComponents();

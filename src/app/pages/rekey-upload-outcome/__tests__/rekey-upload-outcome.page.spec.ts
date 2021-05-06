@@ -15,7 +15,7 @@ describe('RekeyUploadOutcomePage', () => {
       declarations: [RekeyUploadOutcomePage],
       imports: [IonicModule.forRoot()],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: Router, useValue: routerSpy },
       ],
     }).compileComponents();

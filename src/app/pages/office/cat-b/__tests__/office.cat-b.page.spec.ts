@@ -22,7 +22,7 @@ describe('OfficeCatBPage', () => {
       declarations: [OfficeCatBPage],
       imports: [IonicModule],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },

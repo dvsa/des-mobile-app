@@ -17,7 +17,7 @@ describe('Office.CatBEPage', () => {
       declarations: [OfficeCatBEPage],
       imports: [IonicModule.forRoot()],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: Router, useValue: routerSpy },
       ],

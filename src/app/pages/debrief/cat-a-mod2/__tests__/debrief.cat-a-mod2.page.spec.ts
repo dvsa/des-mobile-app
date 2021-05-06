@@ -15,7 +15,7 @@ describe('DebriefCatAMod2Page', () => {
       declarations: [DebriefCatAMod2Page],
       imports: [IonicModule.forRoot()],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     }).compileComponents();

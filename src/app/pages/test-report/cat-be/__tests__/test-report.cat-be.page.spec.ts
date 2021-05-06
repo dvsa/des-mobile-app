@@ -15,7 +15,7 @@ describe('TestReport.CatBEPage', () => {
       declarations: [TestReportCatBEPage],
       imports: [IonicModule.forRoot()],
       providers: [
-        // { provide: NavController, useClass: NavMock },
+        { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     }).compileComponents();
