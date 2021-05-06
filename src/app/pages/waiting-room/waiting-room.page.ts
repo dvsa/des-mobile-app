@@ -105,6 +105,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async ionViewDidEnter(): Promise<void> {
+
     this.store$.dispatch(waitingRoomActions.WaitingRoomViewDidEnter());
 
     if (super.isIos()) {

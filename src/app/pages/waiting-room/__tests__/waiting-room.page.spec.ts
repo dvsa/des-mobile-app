@@ -1,6 +1,6 @@
 
 import { ComponentFixture, async, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { IonicModule, NavParams, Config, Platform } from '@ionic/angular';
+import { NavParams, Config, Platform } from '@ionic/angular';
 import { NavParamsMock, ConfigMock, PlatformMock } from 'ionic-mocks';
 
 import { AppModule } from 'src/app/app.module';
@@ -30,9 +30,9 @@ import * as communicationPreferenceActions
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
-import { Insomnia } from '@ionic-native/insomnia';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { MockComponent } from 'ng-mocks';
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
@@ -51,8 +51,11 @@ import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
 import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 
-fdescribe('WaitingRoomPage', () => {
+describe('WaitingRoomPage', () => {
   let fixture: ComponentFixture<WaitingRoomPage>;
   let component: WaitingRoomPage;
   let store$: Store<StoreModel>;
@@ -65,6 +68,7 @@ fdescribe('WaitingRoomPage', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         WaitingRoomPage,
         MockComponent(PracticeModeBanner),
@@ -78,7 +82,6 @@ fdescribe('WaitingRoomPage', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        IonicModule,
         AppModule,
         TranslateModule,
         StoreModule.forFeature('tests', () => ({
@@ -110,7 +113,7 @@ fdescribe('WaitingRoomPage', () => {
         })),
       ],
       providers: [
-        // { provide: Router, useValue: routerSpy },
+        { provide: Router, useValue: routerSpy },
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -135,7 +138,7 @@ fdescribe('WaitingRoomPage', () => {
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     component.subscription = new Subscription();
   }));
@@ -148,6 +151,7 @@ fdescribe('WaitingRoomPage', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(ToggleResidencyDeclaration());
       });
     });
+
 
     describe('insuranceDeclarationChanged', () => {
       it('should emit an insurance declaration toggle action when changed', () => {
@@ -176,26 +180,38 @@ fdescribe('WaitingRoomPage', () => {
     });
 
     describe('ionViewDidEnter', () => {
-      it('should enable single app mode if on ios and not in practice mode', () => {
-        component.isPracticeMode = false;
-        component.ionViewDidEnter();
+      // beforeEach(async() => {
+      //   PracticeableBasePageComponent.prototype.isPracticeMode = false;
+      // });
+
+      it('should enable single app mode if on ios and not in practice mode', async() => {
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        // component.isPracticeMode = false;
+        PracticeableBasePageComponent.prototype.isPracticeMode = false;
+        spyOnProperty(PracticeableBasePageComponent.prototype, 'isPracticeMode').and.returnValue(false);
+        await component.ionViewDidEnter();
         expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
       });
 
-      it('should note enable single app mode if on ios and in practice mode', () => {
-        component.isPracticeMode = true;
-        component.ionViewDidEnter();
+      it('should note enable single app mode if on ios and in practice mode', async() => {
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        // component.isPracticeMode = true;
+        spyOnProperty(PracticeableBasePageComponent.prototype, 'isPracticeMode').and.returnValue(true);
+        await component.ionViewDidEnter();
         expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
       });
 
-      it('should lock the screen orientation to Portrait Primary', () => {
-        component.ionViewDidEnter();
+      it('should lock the screen orientation to Portrait Primary', async() => {
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        spyOnProperty(PracticeableBasePageComponent.prototype, 'isPracticeMode').and.returnValue(false)
+        await component.ionViewDidEnter();
         expect(screenOrientation.lock)
           .toHaveBeenCalledWith(screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
       });
 
-      it('should keep the device awake', () => {
-        component.ionViewDidEnter();
+      it('should keep the device awake', async() => {
+        spyOnProperty(PracticeableBasePageComponent.prototype, 'isPracticeMode').and.returnValue(true);
+        await component.ionViewDidEnter();
         expect(insomnia.keepAwake).toHaveBeenCalled();
       });
 
@@ -207,8 +223,7 @@ fdescribe('WaitingRoomPage', () => {
         formGroup.addControl('insuranceCheckbox', new FormControl('', [Validators.requiredTrue]));
         formGroup.get('insuranceCheckbox').setValue(true);
         component.onSubmit();
-        // @TODO -tohavebeencalledwith
-        expect(routerSpy.navigate).toHaveBeenCalled()
+        expect(routerSpy.navigate).toHaveBeenCalledWith( [ 'CommunicationPage' ])
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
         const formGroup = component.formGroup;

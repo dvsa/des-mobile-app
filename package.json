@@ -5,7 +5,7 @@
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "postinstall": "node buildScripts/crypto-patch.js && node buildScripts/eslint-alloc-patch.js",
-    "test": "ng test --no-watch --karma-config test-config/karma.conf.js",
+    "test": "ng test --watch --karma-config test-config/karma.conf.js",
     "test:coverage": "ng test --karma-config test-config/karma.conf.js",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "run-s update-mock-data copy-mock-data schema-version config:local && ionic serve",
