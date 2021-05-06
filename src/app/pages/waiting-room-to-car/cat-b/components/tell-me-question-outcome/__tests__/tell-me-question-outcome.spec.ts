@@ -1,10 +1,10 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { IonicModule } from 'ionic-angular';
+import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { TellMeQuestionOutcomeComponent } from '../tell-me-question-outcome';
-import { AppModule } from '../../../../../../app/app.module';
+import { AppModule } from '../../../../../../app.module';
 
 describe('TellMeQuestionOutcomeComponent', () => {
   let fixture: ComponentFixture<TellMeQuestionOutcomeComponent>;

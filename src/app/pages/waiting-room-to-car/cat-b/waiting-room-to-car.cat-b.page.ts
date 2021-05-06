@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { FormGroup } from '@angular/forms';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  CommonWaitingRoomToCarPageState,
-  WaitingRoomToCarBasePageComponent,
+  CommonWaitingRoomToCarPageState, WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import {
-  EyesightTestFailed,
-  EyesightTestPassed, EyesightTestReset,
-} from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import {
-  QuestionOutcomes,
-  TellMeQuestionCorrect, TellMeQuestionDrivingFault, TellMeQuestionSelected,
+  QuestionOutcomes, TellMeQuestionCorrect, TellMeQuestionDrivingFault, TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -28,10 +26,11 @@ import {
   getVehicleChecks, isTellMeQuestionSelected,
   tellMeQuestionOutcome,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs/observable';
 import { getInstructorDetails } from '@store/tests/instructor-details/instructor-details.reducer';
 import { getInstructorRegistrationNumber } from '@store/tests/instructor-details/instructor-details.selector';
+import { QuestionProvider } from '@providers/question/question';
+import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 
 interface CatBWaitingRoomToCarPageState {
   tellMeQuestion$: Observable<VehicleChecksQuestion>;
@@ -50,17 +49,12 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRo
 export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent implements OnInit {
 
   isPracticeMode: boolean = false; // @TODO - Remove this and read directly from practice base page
-
   pageState: WaitingRoomToCarPageState;
-
   form: FormGroup;
-
-  showEyesightFailureConfirmation: boolean = false;
-
   tellMeQuestions: VehicleChecksQuestion[];
 
   constructor(
-    private navController: NavController,
+    private questionProvider: QuestionProvider,
     routeByCat: RouteByCategoryProvider,
     store$: Store<StoreModel>,
     platform: Platform,
@@ -68,15 +62,18 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     router: Router,
   ) {
     super(store$, platform, authenticationProvider, router, routeByCat);
+    this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.B);
+    this.form = new FormGroup({});
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    super.onInitialisation();
+
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
     );
 
-    super.onInitialisation();
     this.pageState = {
       ...this.commonPageState,
       tellMeQuestion$: currentTest$.pipe(
@@ -109,12 +106,19 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     super.ionViewWillLeave();
   }
 
-  async onSubmit() {
-    await super.onSubmitLogic(this.form);
-  }
+  onSubmit = async (): Promise<void> => {
+    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
-  setEyesightFailureVisibility(show: boolean) {
-    this.showEyesightFailureConfirmation = show;
+    if (this.form.valid) {
+      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
+      // @TODO: We previously removed the WRTC page from the stack, do we need to this?
+    } else {
+      Object.keys(this.form.controls).forEach((controlName: string) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+        }
+      });
+    }
   }
 
   eyesightFailCancelled = (): void => {
@@ -136,10 +140,6 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
       return;
     }
     this.store$.dispatch(TellMeQuestionDrivingFault());
-  }
-
-  eyesightTestResultChanged(passed: boolean): void {
-    this.store$.dispatch(passed ? EyesightTestPassed() : EyesightTestFailed());
   }
 
 }

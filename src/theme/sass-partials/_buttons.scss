@@ -49,10 +49,6 @@
   outline: none;
   border: none;
   height: initial;
-
-  &.activated {
-    background: var(--gds-grey-1);
-  }
   h3 {
     color: var(--mes-black);
 
@@ -85,16 +81,14 @@
 }
 
 .mes-grey-button {
-  background: var(--gds-grey-3);
+  --background: var(--gds-grey-3);
+  --background-activated: var(--gds-grey-1);
   color: var(--gds-black);
-  box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
+  --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.5);
+  --border-radius: 10px;
   padding: 0 0.8rem;
   margin: 0 0.2rem;
   line-height: 2.6rem;
-  &.activated {
-    background: var(--gds-grey-1);
-  }
 }
 
 .mes-link-button {
@@ -251,4 +245,8 @@
 
 .close-btn {
   color: white
+}
+
+ion-back-button {
+  --color: var(--mes-white);
 }

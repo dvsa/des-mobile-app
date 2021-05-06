@@ -12,6 +12,7 @@ import {
 @Component({
   selector: 'vehicle-registration',
   templateUrl: './vehicle-registration.html',
+  styleUrls: ['./vehicle-registration.scss'],
 })
 export class VehicleRegistrationComponent implements OnChanges {
 

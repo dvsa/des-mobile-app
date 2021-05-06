@@ -1,9 +1,9 @@
 <ion-header>
   <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
-  <ion-toolbar> <!--hideBackButton -->
+  <ion-toolbar>
     <ion-title>{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons slot="end">
-      <end-test-link [shouldAuthenticate]="false" [category]="testCategory"></end-test-link>
+      <end-test-link [shouldAuthenticate]="false" [category]="pageState.category$ | async"></end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -76,9 +76,25 @@
 </ion-content>
 
 <ion-footer [hidden]="pageState.eyesightTestFailed$ | async">
-  <ion-row class="mes-full-width-card box-shadow">
-    <ion-button type="submit" class="mes-primary-button" id="continue-to-test-report-button" (click)="onSubmit()">
-      <h3>Continue to test report</h3>
-    </ion-button>
-  </ion-row>
+    <ion-row class="mes-full-width-card box-shadow">
+        <ion-col size="45" class="ion-text-center">
+            <ion-button
+                    type="submit"
+                    shape="round"
+                    class="mes-grey-button full-button-widths"
+                    (click)="onViewTestCentreJournal()">
+                <h3>View test centre journal</h3>
+            </ion-button>
+        </ion-col>
+        <ion-col size="6"></ion-col>
+        <ion-col size="45" class="ion-text-center">
+            <ion-button
+                    type="submit"
+                    shape="round"
+                    class="mes-primary-button full-button-widths"
+                    id="continue-to-test-report-button" (click)="onSubmit()">
+                <h3>Continue to test report</h3>
+            </ion-button>
+        </ion-col>
+    </ion-row>
 </ion-footer>

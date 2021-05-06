@@ -6,7 +6,8 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 
 @Component({
   selector: 'tell-me-question',
-  templateUrl: 'tell-me-question.html',
+  templateUrl: './tell-me-question.html',
+  styleUrls: ['./tell-me-question.scss'],
 })
 export class TellMeQuestionComponent implements OnChanges {
 

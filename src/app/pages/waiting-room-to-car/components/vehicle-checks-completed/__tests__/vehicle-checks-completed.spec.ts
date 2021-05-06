@@ -1,12 +1,12 @@
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { IonicModule } from 'ionic-angular';
+import { IonicModule } from '@ionic/angular';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { AppModule } from '../../../../../app/app.module';
 import { VehicleChecksToggleComponent } from '../vehicle-checks-completed';
+import { AppModule } from '../../../../../app.module';
 
 describe('VehicleChecksToggleComponent', () => {
   let fixture: ComponentFixture<VehicleChecksToggleComponent>;

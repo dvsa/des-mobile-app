@@ -2,8 +2,10 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 import { CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { StoreModel } from '@shared/models/store.model';
 import { JournalDataUnion } from '@shared/unions/journal-union';
@@ -13,19 +15,11 @@ import { getTests } from '@store/tests/tests.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
-
-import { TestFlowPageNames } from '@pages/page-names.constants';
+import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { FormGroup } from '@angular/forms';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  WaitingRoomToCarValidationError,
-  WaitingRoomToCarViewDidEnter,
-} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import { map } from 'rxjs/operators';
+import { WaitingRoomToCarViewDidEnter } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
   DualControlsToggled,
@@ -54,6 +48,10 @@ import {
   getSupervisorAccompaniment,
 } from '@store/tests/accompaniment/accompaniment.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import {
+  EyesightTestFailed,
+  EyesightTestPassed
+} from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { BasePageComponent } from '../../base-page';
 
 export interface CommonWaitingRoomToCarPageState {
@@ -61,14 +59,11 @@ export interface CommonWaitingRoomToCarPageState {
   registrationNumber$: Observable<string>;
   transmission$: Observable<GearboxCategory>;
   category$: Observable<CategoryCode>;
-
   showEyesight$: Observable<boolean>;
   eyesightTestComplete$: Observable<boolean>;
   eyesightTestFailed$: Observable<boolean>;
-
   schoolCar$: Observable<boolean>;
   dualControls$: Observable<boolean>;
-
   instructorAccompaniment$: Observable<boolean>;
   supervisorAccompaniment$: Observable<boolean>;
   otherAccompaniment$: Observable<boolean>;
@@ -163,6 +158,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
     };
   }
 
+  ionViewDidLeave(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   ionViewDidEnter(): void {
     this.store$.dispatch(WaitingRoomToCarViewDidEnter());
   }
@@ -199,7 +200,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
     this.store$.dispatch(OtherAccompanimentToggled());
   }
 
-  vehicleRegistrationChanged(vehicleRegistration: string) {
+  vehicleRegistrationChanged(vehicleRegistration: string): void {
     this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
   }
 
@@ -211,27 +212,12 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
     this.store$.dispatch(InstructorRegistrationNumberChanged(instructorRegistration));
   }
 
-  onSubmitLogic = async (form: FormGroup) => {
-    Object.keys(form.controls)
-      .forEach((controlName: string) => form.controls[controlName].markAsDirty());
+  eyesightTestResultChanged(passed: boolean): void {
+    this.store$.dispatch(passed ? EyesightTestPassed() : EyesightTestFailed());
+  }
 
-    if (form.valid) {
-      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
-      // this.navController.push(CAT_B.TEST_REPORT_PAGE).then(() => {
-      //   // remove Waiting Room To Car Page
-      //   const view = this.navController.getViews().find(view => view.id === CAT_B.WAITING_ROOM_TO_CAR_PAGE);
-      //   if (view) {
-      //     this.navController.removeView(view);
-      //   }
-      // });
-    } else {
-      Object.keys(form.controls)
-        .forEach((controlName: string) => {
-          if (form.controls[controlName].invalid) {
-            this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-          }
-        });
-    }
-  };
+  async onViewTestCentreJournal(): Promise<void> {
+    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
+  }
 
 }

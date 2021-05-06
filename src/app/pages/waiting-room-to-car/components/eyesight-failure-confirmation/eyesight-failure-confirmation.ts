@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'eyesight-failure-confirmation',
-  templateUrl: 'eyesight-failure-confirmation.html',
+  templateUrl: './eyesight-failure-confirmation.html',
+  styleUrls: ['./eyesight-failure-confirmation.scss'],
 })
 export class EyesightFailureConfirmationComponent {
 

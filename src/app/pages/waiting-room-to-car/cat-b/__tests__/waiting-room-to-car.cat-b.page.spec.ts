@@ -54,5 +54,29 @@ describe('WaitingRoomToCarCatBPage', () => {
       expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
     });
   });
+  describe('ionViewDidEnter', () => {
+    it('should call through to the base page ionViewDidEnter', () => {
+      spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewDidEnter');
+      component.ionViewDidEnter();
+      expect(WaitingRoomToCarBasePageComponent.prototype.ionViewDidEnter).toHaveBeenCalled();
+    });
+  });
+  describe('ionViewWillLeave', () => {
+    it('should call through to the base page ionViewWillLeave', () => {
+      spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewWillLeave');
+      component.ionViewWillLeave();
+      expect(WaitingRoomToCarBasePageComponent.prototype.ionViewWillLeave).toHaveBeenCalled();
+    });
+  });
+  // describe('onSubmit', () => {
+  //   beforeEach(() => {
+  //     spyOn(component.routeByCategoryProvider, 'navigateToPage')
+  //   });
+  //   it('should ', () => {
+  //     spyOn(WaitingRoomToCarBasePageComponent.prototype, 'ionViewWillLeave');
+  //     component.ionViewWillLeave();
+  //     expect(WaitingRoomToCarBasePageComponent.prototype.ionViewWillLeave).toHaveBeenCalled();
+  //   });
+  // });
 
 });

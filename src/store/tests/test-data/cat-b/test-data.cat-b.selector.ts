@@ -21,9 +21,11 @@ export const hasManoeuvreBeenCompletedCatB = (data: CatBUniqueTypes.TestData) =>
   );
 };
 
-export const hasEyesightTestGotSeriousFault = (data: CatBUniqueTypes.TestData) => data?.eyesightTest.seriousFault;
+export const hasEyesightTestGotSeriousFault = (
+  data: CatBUniqueTypes.TestData,
+) => data?.eyesightTest?.seriousFault ?? false;
 
-export const hasEyesightTestBeenCompleted = (data: CatBUniqueTypes.TestData) => data?.eyesightTest.complete;
+export const hasEyesightTestBeenCompleted = (data: CatBUniqueTypes.TestData) => data?.eyesightTest?.complete ?? false;
 
 export const hasLegalRequirementBeenCompleted = (
   data: CatBUniqueTypes.TestRequirements, legalRequirement: LegalRequirements,

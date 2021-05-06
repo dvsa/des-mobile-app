@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IonicModule } from 'ionic-angular';
+import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
-import { AppModule } from '../../../../../app/app.module';
 import {
   mockBlankRegistrationNumber,
   mockInvalidRegistrationNumber,
   mockValidRegistrationNumber,
 } from './vehicle-registration.mock';
+import { AppModule } from '../../../../../app.module';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;

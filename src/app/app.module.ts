@@ -43,6 +43,8 @@ import { DeviceProvider } from '@providers/device/device';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { QuestionProvider } from '@providers/question/question';
+
 import { environment } from '@environments/environment';
 
 import { JournalModule } from '@store/journal/journal.module';
@@ -157,6 +159,7 @@ if (enableRehydrationPlugin) {
     RouteByCategoryProvider,
     ScreenOrientation,
     DeviceAuthenticationProvider,
+    QuestionProvider,
   ],
   bootstrap: [AppComponent],
 })
