@@ -2,7 +2,10 @@
   <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
   <ion-toolbar>
     <ion-title>{{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
-    <ion-buttons end>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
       <end-test-link category="B"></end-test-link>
     </ion-buttons>
   </ion-toolbar>

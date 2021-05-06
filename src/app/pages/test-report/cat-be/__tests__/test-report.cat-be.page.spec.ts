@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -15,7 +15,7 @@ describe('TestReport.CatBEPage', () => {
       declarations: [TestReportCatBEPage],
       imports: [IonicModule.forRoot()],
       providers: [
-        { provide: NavController, useClass: NavMock },
+        // { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     }).compileComponents();

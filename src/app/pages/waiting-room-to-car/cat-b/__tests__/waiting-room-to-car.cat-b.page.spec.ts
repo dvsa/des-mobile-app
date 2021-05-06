@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController, Platform } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
@@ -25,7 +25,7 @@ describe('WaitingRoomToCarCatBPage', () => {
       declarations: [WaitingRoomToCarCatBPage],
       imports: [IonicModule],
       providers: [
-        { provide: NavController, useClass: NavMock },
+        // { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },

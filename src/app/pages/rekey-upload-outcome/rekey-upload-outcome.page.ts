@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+// import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { JOURNAL_PAGE } from '../page-names.constants';
 
@@ -11,7 +11,7 @@ import { JOURNAL_PAGE } from '../page-names.constants';
 export class RekeyUploadOutcomePage implements OnInit {
 
   constructor(
-    private navController: NavController,
+    // private navController: NavController,
     private router: Router,
   ) { }
 
@@ -19,7 +19,7 @@ export class RekeyUploadOutcomePage implements OnInit {
   }
 
   navigateBack(): void {
-    this.navController.back();
+    // this.navController.back();
   }
 
   async navigateJournal(): Promise<void> {

@@ -5,10 +5,13 @@ import {
   forwardRef,
   Input,
   Output,
-  EventEmitter,
+  EventEmitter, ElementRef, AfterViewInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SignaturePad } from 'angular2-signaturepad';
+
+const defaultSignatureHeight: number = 256;
+const defaultSignatureWidth: number = 706;
 
 @Component({
   selector: 'signature-area',
@@ -22,19 +25,23 @@ import { SignaturePad } from 'angular2-signaturepad';
     },
   ],
 })
-export class SignatureAreaComponent implements ControlValueAccessor {
+export class SignatureAreaComponent implements ControlValueAccessor, AfterViewInit {
   @Input()
   public signature: string;
 
-  public isvalid: boolean;
+  public isValid: boolean;
   public retryImage: string;
   public signHereImage: string;
   public drawCompleteAction: string;
   public clearAction: string;
   public actionLess: boolean;
+  public showSignaturePad: boolean = false;
 
   @ViewChild(SignaturePad, { static: false })
   public signaturePad: SignaturePad;
+
+  @ViewChild('signaturePadElement', {read: ElementRef, static: false})
+  signaturePadElement: ElementRef;
 
   @Input()
   public retryButtonText: string;
@@ -56,7 +63,7 @@ export class SignatureAreaComponent implements ControlValueAccessor {
 
   constructor() {
     this.signature = null;
-    this.isvalid = null;
+    this.isValid = null;
     this.actionLess = false;
     this.signHereImage = '/assets/imgs/waiting-room/sign-here.png';
     this.retryImage = '/assets/imgs/waiting-room/retry.png';
@@ -67,7 +74,7 @@ export class SignatureAreaComponent implements ControlValueAccessor {
   }
 
   public setSignature(initialValue: string) {
-    this.signaturePad.fromDataURL(initialValue);
+    this.signaturePad.fromDataURL(initialValue, {width: this.getSignatureWidth(), height: this.getSignatureHeight()});
     // loading the signature from initial value does not set the internal signature structure, so setting here.
     this.signature = initialValue;
     this.signatureDataChangedDispatch(initialValue);
@@ -75,29 +82,37 @@ export class SignatureAreaComponent implements ControlValueAccessor {
   }
 
   ngAfterViewInit() {
-    // this.signaturePad.set('minWidth', 1);
-    this.signaturePad.clear();
-    this.resizeCanvas();
-    if (this.signature) {
-      this.setSignature(this.signature);
-    }
+    setTimeout(() => {
+      this.signaturePad.clear();
+      this.resizeSignaturePad();
+      if (this.signature) {
+        this.setSignature(this.signature);
+      }
+    })
   }
 
-  resizeCanvas(): void {
-    // 706 and 250 are the width and height of canvas, can they be deduced dynamically?
-    this.signaturePad.queryPad()._canvas.width = 706;
-    this.signaturePad.queryPad()._canvas.height = 250;
+  getSignatureHeight(): number {
+    return this.signaturePadElement.nativeElement?.offsetHeight ?? defaultSignatureHeight;
   }
 
-  clear() {
+  getSignatureWidth(): number {
+    return this.signaturePadElement.nativeElement?.offsetWidth ?? defaultSignatureWidth;
+  }
+
+  resizeSignaturePad(): void {
+    this.signaturePad.queryPad()._canvas.width = this.getSignatureWidth();
+    this.signaturePad.queryPad()._canvas.height = this.getSignatureHeight();
+  }
+
+  clear(): void {
     this.signaturePad.clear();
     this.signature = null;
     this.signatureDataClearedDispatch();
     this.propagateChange(this.signature);
   }
 
-  drawComplete() {
-    this.signature = this.signaturePad.toDataURL('image/svg+xml');
+  drawComplete(): void {
+    this.signature = this.signaturePad.toDataURL();
     this.signatureDataChangedDispatch(this.signature);
     this.propagateChange(this.signature);
     this.touchChange(null);

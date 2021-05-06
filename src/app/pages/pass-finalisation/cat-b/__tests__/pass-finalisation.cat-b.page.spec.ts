@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController, Platform } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -22,7 +22,7 @@ describe('PassFinalisation.CatBPage', () => {
       declarations: [PassFinalisationCatBPage],
       imports: [IonicModule.forRoot()],
       providers: [
-        { provide: NavController, useClass: NavMock },
+        // { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },

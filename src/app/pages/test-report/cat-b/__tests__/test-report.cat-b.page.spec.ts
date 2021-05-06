@@ -21,7 +21,7 @@ describe('TestReportCatBPage', () => {
       declarations: [TestReportCatBPage],
       imports: [IonicModule.forRoot()],
       providers: [
-        { provide: NavController, useClass: NavMock },
+        // { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },

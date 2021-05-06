@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { NavController, Platform, ModalController } from '@ionic/angular';
+import { Platform, ModalController } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Store, select } from '@ngrx/store';
@@ -51,8 +51,10 @@ import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { SignatureComponent } from '@pages/waiting-room/components/signature/signature';
 
-import * as waitingRoomActions from '../waiting-room.actions';
-import { AppComponent } from '../../../app.component';
+import * as waitingRoomActions from './waiting-room.actions';
+import { AppComponent } from '../../app.component';
+import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { ErrorTypes } from '@shared/models/error-message';
 
 interface WaitingRoomPageState {
   insuranceDeclarationAccepted$: Observable<boolean>;
@@ -67,12 +69,10 @@ interface WaitingRoomPageState {
 
 @Component({
   selector: '.waiting-room-cat-b-page',
-  templateUrl: 'waiting-room.cat-b.page.html',
-  styleUrls: ['waiting-room.cat-b.page.scss'],
+  templateUrl: './waiting-room.page.html',
+  styleUrls: ['./waiting-room.page.scss'],
 })
-export class WaitingRoomCatBPage extends PracticeableBasePageComponent implements OnInit {
-
-  // @ViewChild(Navbar) navBar: Navbar;
+export class WaitingRoomPage extends PracticeableBasePageComponent implements OnInit {
 
   @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
 
@@ -86,6 +86,7 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
 
   merged$: Observable<boolean | string | JournalData>;
 
+
   constructor(
     store$: Store<StoreModel>,
     public router: Router,
@@ -98,7 +99,6 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
     private translate: TranslateService,
     private modalController: ModalController,
     private app: AppComponent,
-    public navController: NavController,
   ) {
     super(platform, router, authenticationProvider, store$);
     this.formGroup = new FormGroup({});
@@ -116,20 +116,6 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
       }
     }
 
-    // @TODO - update this
-    // this.navBar.backButtonClick = (e: UIEvent) => {
-    //   this.clickBack();
-    // };
-  }
-
-  clickBack(): void {
-    this.deviceAuthenticationProvider.triggerLockScreen()
-      .then(() => {
-        this.navController.pop();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   ngOnInit(): void {
@@ -238,11 +224,10 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
     this.store$.dispatch(CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH));
   }
 
-  onSubmit() {
+  async onSubmit() {
     Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
     if (this.formGroup.valid) {
-      // @TODO
-      // this.navController.push(CAT_B.COMMUNICATION_PAGE);
+      await this.router.navigate([TestFlowPageNames.COMMUNICATION_PAGE]);
     } else {
       Object.keys(this.formGroup.controls).forEach((controlName) => {
         if (this.formGroup.controls[controlName].invalid) {
@@ -252,16 +237,25 @@ export class WaitingRoomCatBPage extends PracticeableBasePageComponent implement
     }
   }
 
-  showCandidateDataMissingError() {
+  async showCandidateDataMissingError() {
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
-    // const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
-    //
-    // const errorModal = this.modalController.create(
-    //   ERROR_PAGE,
-    //   { type: ErrorTypes.JOURNAL_DATA_MISSING },
-    //   { cssClass: zoomClass });
-    // errorModal.present();
-    // errorModal.onDidDismiss(() => this.navController.setRoot(LOGIN_PAGE));
+    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+
+    const errorModal = await this.modalController.create(
+      {
+        component: ERROR_PAGE,
+        cssClass: zoomClass,
+        componentProps: {
+          type: ErrorTypes.JOURNAL_DATA_MISSING
+        }
+      }
+    );
+
+    errorModal.onDidDismiss().then(async() => {
+      await this.router.navigate([LOGIN_PAGE], {replaceUrl: true});
+    })
+
+    await errorModal.present();
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+// import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { JOURNAL_PAGE, TestFlowPageNames } from '../../page-names.constants';
@@ -12,7 +12,7 @@ import { JOURNAL_PAGE, TestFlowPageNames } from '../../page-names.constants';
 export class OfficeCatAMod2Page implements OnInit {
 
   constructor(
-    private navController: NavController,
+    // private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
     private router: Router,
   ) { }
@@ -21,7 +21,7 @@ export class OfficeCatAMod2Page implements OnInit {
   }
 
   navigateBack(): void {
-    this.navController.back();
+    // this.navController.back();
   }
 
   async navigateForward(): Promise<void> {

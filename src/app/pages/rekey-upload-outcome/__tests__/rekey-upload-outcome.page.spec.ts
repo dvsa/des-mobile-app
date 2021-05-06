@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ describe('RekeyUploadOutcomePage', () => {
       declarations: [RekeyUploadOutcomePage],
       imports: [IonicModule.forRoot()],
       providers: [
-        { provide: NavController, useClass: NavMock },
+        // { provide: NavController, useClass: NavMock },
         { provide: Router, useValue: routerSpy },
       ],
     }).compileComponents();

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
@@ -26,7 +26,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;
 
   constructor(
-    private navController: NavController,
+    // private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
     store$: Store<StoreModel>,
     platform: Platform,
@@ -44,7 +44,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent implements OnInit {
   }
 
   navigateBack(): void {
-    this.navController.back();
+    // this.navController.back();
   }
 
   async navigateForward(): Promise<void> {

@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, NavController, Platform } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { Router } from '@angular/router';
 import { PlatformMock } from 'ionic-mocks';
@@ -22,7 +22,7 @@ describe('OfficeCatBPage', () => {
       declarations: [OfficeCatBPage],
       imports: [IonicModule],
       providers: [
-        { provide: NavController, useClass: NavMock },
+        // { provide: NavController, useClass: NavMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },

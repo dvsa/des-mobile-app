@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
@@ -25,7 +25,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   pageState: PassFinalisationPageState;
 
   constructor(
-    private navController: NavController,
+    // private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
     store$: Store<StoreModel>,
     platform: Platform,
@@ -43,7 +43,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   }
 
   navigateBack(): void {
-    this.navController.back();
+    // this.navController.back();
   }
 
   async navigateForward(): Promise<void> {

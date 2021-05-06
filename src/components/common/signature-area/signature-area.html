@@ -18,7 +18,7 @@
         </ion-col>
     </ion-row>
     <ion-row class="signature-wrapper ion-align-items-center">
-        <signature-pad id="signature-pad" (onEndEvent)="drawComplete()" [class.ng-invalid]="showValidText"></signature-pad>
+        <signature-pad  #signaturePadElement id="signature-pad" (onEndEvent)="drawComplete()" [class.ng-invalid]="showValidText"></signature-pad>
         <div class="signature-line"></div>
     </ion-row>
 </div>
