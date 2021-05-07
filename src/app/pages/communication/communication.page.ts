@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { Router } from '@angular/router';
@@ -86,7 +86,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     public router: Router,
     public authenticationProvider: AuthenticationProvider,
     store$: Store<StoreModel>,
-    private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
