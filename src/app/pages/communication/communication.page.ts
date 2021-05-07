@@ -9,9 +9,8 @@ import { StoreModel } from '@shared/models/store.model';
 import {
   Address, CategoryCode, CommunicationMethod, ConductedLanguage,
 } from '@dvsa/mes-test-schema/categories/common';
-import { Observable } from 'rxjs/observable';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription, merge } from 'rxjs';
+import { Subscription, merge, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';

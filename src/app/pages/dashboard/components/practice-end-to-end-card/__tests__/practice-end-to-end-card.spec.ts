@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { configureTestSuite } from 'ng-bullet';
+import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { PracticeEndToEndCardComponent } from '../practice-end-to-end-card';
-import { FAKE_JOURNAL_PAGE } from '../../../../page-names.constants';
 
 describe('PracticeEndToEndCard ', () => {
   let component: PracticeEndToEndCardComponent;
