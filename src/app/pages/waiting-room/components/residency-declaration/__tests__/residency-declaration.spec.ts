@@ -1,4 +1,3 @@
-
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
@@ -9,8 +8,8 @@ import {
   TranslateParser,
 } from '@ngx-translate/core';
 import { FormGroup } from '@angular/forms';
-import { ResidencyDeclarationComponent } from '../residency-declaration';
 import { configureTestSuite } from 'ng-bullet';
+import { ResidencyDeclarationComponent } from '../residency-declaration';
 
 describe('ResidencyDeclarationComponent', () => {
   let fixture: ComponentFixture<ResidencyDeclarationComponent>;

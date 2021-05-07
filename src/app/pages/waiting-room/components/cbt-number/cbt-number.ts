@@ -1,4 +1,6 @@
-import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import {
+  Component, Input, EventEmitter, Output, OnChanges,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-validators/field-validators';
 

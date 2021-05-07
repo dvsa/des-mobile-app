@@ -1,10 +1,10 @@
 import { Component, DebugElement } from '@angular/core';
-import { InputRestrictionUppercaseAlphanumDirective } from '../input-restriction-uppercasealphanum.directive';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { InputRestrictionUppercaseAlphanumDirective } from '../input-restriction-uppercasealphanum.directive';
 
 @Component({
-  template: `<input type="text" uppercaseAlphanumOnly>`,
+  template: '<input type="text" uppercaseAlphanumOnly>',
 })
 class TestAlphaNumComponent {
 }

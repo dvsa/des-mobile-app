@@ -1,12 +1,11 @@
-
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormGroup } from '@angular/forms';
-import { SignatureComponent } from '../signature';
 import { MockComponent } from 'ng-mocks';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { configureTestSuite } from 'ng-bullet';
+import { SignatureComponent } from '../signature';
 
 describe('SignatureComponent', () => {
   let fixture: ComponentFixture<SignatureComponent>;

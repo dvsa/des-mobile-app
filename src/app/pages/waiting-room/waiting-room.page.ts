@@ -51,10 +51,10 @@ import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { SignatureComponent } from '@pages/waiting-room/components/signature/signature';
 
-import * as waitingRoomActions from './waiting-room.actions';
-import { AppComponent } from '../../app.component';
 import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
+import * as waitingRoomActions from './waiting-room.actions';
+import { AppComponent } from '../../app.component';
 
 interface WaitingRoomPageState {
   insuranceDeclarationAccepted$: Observable<boolean>;
@@ -85,7 +85,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   subscription: Subscription;
 
   merged$: Observable<boolean | string | JournalData>;
-
 
   constructor(
     store$: Store<StoreModel>,
@@ -248,14 +247,14 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         component: ERROR_PAGE,
         cssClass: zoomClass,
         componentProps: {
-          type: ErrorTypes.JOURNAL_DATA_MISSING
-        }
-      }
+          type: ErrorTypes.JOURNAL_DATA_MISSING,
+        },
+      },
     );
 
-    errorModal.onDidDismiss().then(async() => {
-      await this.router.navigate([LOGIN_PAGE], {replaceUrl: true});
-    })
+    errorModal.onDidDismiss().then(async () => {
+      await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
+    });
 
     await errorModal.present();
   }

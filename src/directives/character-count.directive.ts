@@ -31,8 +31,10 @@
  * }
  * ```
  *
- **/
-import { Directive, Output, ElementRef, EventEmitter, AfterViewInit } from '@angular/core';
+ * */
+import {
+  Directive, Output, ElementRef, EventEmitter, AfterViewInit,
+} from '@angular/core';
 
 @Directive({
   selector: '[charCount]',

@@ -1,9 +1,8 @@
-
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { ConductedLanguageComponent } from '../conducted-language';
 import { EventEmitter } from '@angular/core';
 import { configureTestSuite } from 'ng-bullet';
+import { ConductedLanguageComponent } from '../conducted-language';
 
 describe('ConductedLanguageComponent', () => {
   let fixture: ComponentFixture<ConductedLanguageComponent>;

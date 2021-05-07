@@ -1,10 +1,9 @@
-
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from 'src/app/app.module';
 import { FormGroup } from '@angular/forms';
-import { CBTNumberComponent } from '../cbt-number';
 import { configureTestSuite } from 'ng-bullet';
+import { CBTNumberComponent } from '../cbt-number';
 
 describe('CBTNumberComponent', () => {
   let fixture: ComponentFixture<CBTNumberComponent>;

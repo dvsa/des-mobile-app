@@ -1,13 +1,13 @@
-
-import { ComponentFixture, async, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import {
+  ComponentFixture, async, TestBed, fakeAsync, tick,
+} from '@angular/core/testing';
 import { NavParams, Config, Platform } from '@ionic/angular';
 import { NavParamsMock, ConfigMock, PlatformMock } from 'ionic-mocks';
 
 import { AppModule } from 'src/app/app.module';
-import { WaitingRoomPage } from '../waiting-room.page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { select, Store, StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
   ToggleResidencyDeclaration,
@@ -22,9 +22,8 @@ import {
 } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { WaitingRoomValidationError } from '../waiting-room.actions';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import * as communicationPreferenceActions
   from '@store/tests/communication-preferences/communication-preferences.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
@@ -35,10 +34,6 @@ import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { MockComponent } from 'ng-mocks';
-import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
-import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
-import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
-import { SignatureComponent } from '../components/signature/signature';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
@@ -54,13 +49,18 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { SignatureComponent } from '../components/signature/signature';
+import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
+import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
+import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
+import { WaitingRoomValidationError } from '../waiting-room.actions';
+import { WaitingRoomPage } from '../waiting-room.page';
 
 describe('WaitingRoomPage', () => {
   let fixture: ComponentFixture<WaitingRoomPage>;
   let component: WaitingRoomPage;
   let store$: Store<StoreModel>;
   let deviceProvider: DeviceProvider;
-  let deviceAuthenticationProvider: DeviceAuthenticationProvider;
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
   let translate: TranslateService;
@@ -129,14 +129,12 @@ describe('WaitingRoomPage', () => {
 
   });
 
-
   beforeEach(async(() => {
     fixture = TestBed.createComponent(WaitingRoomPage);
     component = fixture.componentInstance;
     deviceProvider = TestBed.inject(DeviceProvider);
     screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
-    deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
     store$ = TestBed.inject(Store);
@@ -166,7 +164,8 @@ describe('WaitingRoomPage', () => {
         component.dispatchCandidateChoseToProceedInWelsh();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(communicationPreferenceActions.CandidateChoseToProceedWithTestInWelsh(
-            Language.CYMRAEG));
+            Language.CYMRAEG,
+          ));
       });
     });
 
@@ -175,17 +174,17 @@ describe('WaitingRoomPage', () => {
         component.dispatchCandidateChoseToProceedInEnglish();
         expect(store$.dispatch)
           .toHaveBeenCalledWith(communicationPreferenceActions.CandidateChoseToProceedWithTestInEnglish(
-            Language.ENGLISH));
+            Language.ENGLISH,
+          ));
       });
     });
 
     describe('ionViewDidEnter', () => {
-      beforeEach(async() => {
+      beforeEach(async () => {
         PracticeableBasePageComponent.prototype.isPracticeMode = false;
       });
 
-
-      it('should enable single app mode if on ios and not in practice mode', async() => {
+      it('should enable single app mode if on ios and not in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         PracticeableBasePageComponent.prototype.isPracticeMode = false;
         await component.ionViewDidEnter();
@@ -193,14 +192,14 @@ describe('WaitingRoomPage', () => {
       });
 
       // @TODO - MES-6277 - fix failing test
-      xit('should note enable single app mode if on ios and in practice mode', async() => {
+      xit('should note enable single app mode if on ios and in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         PracticeableBasePageComponent.prototype.isPracticeMode = true;
         await component.ionViewDidEnter();
         expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
       });
 
-      it('should lock the screen orientation to Portrait Primary', async() => {
+      it('should lock the screen orientation to Portrait Primary', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         PracticeableBasePageComponent.prototype.isPracticeMode = false;
         await component.ionViewDidEnter();
@@ -208,7 +207,7 @@ describe('WaitingRoomPage', () => {
           .toHaveBeenCalledWith(screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
       });
 
-      it('should keep the device awake', async() => {
+      it('should keep the device awake', async () => {
         PracticeableBasePageComponent.prototype.isPracticeMode = false;
         await component.ionViewDidEnter();
         expect(insomnia.keepAwake).toHaveBeenCalled();
@@ -218,14 +217,14 @@ describe('WaitingRoomPage', () => {
 
     describe('onSubmit', () => {
       it('should navigate to the COMMUNICATION_PAGE if the form is valid', () => {
-        const formGroup = component.formGroup;
+        const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new FormControl('', [Validators.requiredTrue]));
         formGroup.get('insuranceCheckbox').setValue(true);
         component.onSubmit();
-        expect(routerSpy.navigate).toHaveBeenCalledWith( [ 'CommunicationPage' ])
+        expect(routerSpy.navigate).toHaveBeenCalledWith(['CommunicationPage']);
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
-        const formGroup = component.formGroup;
+        const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new FormControl('', [Validators.requiredTrue]));
         formGroup.get('insuranceCheckbox').setValue(false);
         component.onSubmit();

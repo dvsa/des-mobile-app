@@ -40,7 +40,7 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   @ViewChild(SignaturePad, { static: false })
   public signaturePad: SignaturePad;
 
-  @ViewChild('signaturePadElement', {read: ElementRef, static: false})
+  @ViewChild('signaturePadElement', { read: ElementRef, static: false })
   signaturePadElement: ElementRef;
 
   @Input()
@@ -74,7 +74,7 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   }
 
   public setSignature(initialValue: string) {
-    this.signaturePad.fromDataURL(initialValue, {width: this.getSignatureWidth(), height: this.getSignatureHeight()});
+    this.signaturePad.fromDataURL(initialValue, { width: this.getSignatureWidth(), height: this.getSignatureHeight() });
     // loading the signature from initial value does not set the internal signature structure, so setting here.
     this.signature = initialValue;
     this.signatureDataChangedDispatch(initialValue);
@@ -88,15 +88,15 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
       if (this.signature) {
         this.setSignature(this.signature);
       }
-    })
+    });
   }
 
   getSignatureHeight(): number {
-    return this.signaturePadElement.nativeElement?.offsetHeight ?? defaultSignatureHeight;
+    return this.signaturePadElement?.nativeElement?.offsetHeight ?? defaultSignatureHeight;
   }
 
   getSignatureWidth(): number {
-    return this.signaturePadElement.nativeElement?.offsetWidth ?? defaultSignatureWidth;
+    return this.signaturePadElement?.nativeElement?.offsetWidth ?? defaultSignatureWidth;
   }
 
   resizeSignaturePad(): void {
