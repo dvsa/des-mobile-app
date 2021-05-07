@@ -50,7 +50,7 @@ import {
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
   EyesightTestFailed,
-  EyesightTestPassed
+  EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { BasePageComponent } from '../../base-page';
 

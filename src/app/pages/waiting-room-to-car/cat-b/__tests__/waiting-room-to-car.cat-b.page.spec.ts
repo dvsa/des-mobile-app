@@ -1,4 +1,6 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  async, ComponentFixture, fakeAsync, TestBed, tick,
+} from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
@@ -9,7 +11,9 @@ import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl, FormGroup, ReactiveFormsModule, Validators,
+} from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
@@ -17,30 +21,46 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { WaitingRoomToCarBasePageComponent, } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import {
+  WaitingRoomToCarBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import {
   QuestionOutcomes,
   TellMeQuestionCorrect,
   TellMeQuestionDrivingFault,
-  TellMeQuestionSelected
+  TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { StoreModel } from '@shared/models/store.model';
-import { EyesightTestComponent, } from '@pages/waiting-room-to-car/components/eyesight-test/eyesight-test';
-import { EyesightFailureConfirmationComponent, } from '@pages/waiting-room-to-car/components/eyesight-failure-confirmation/eyesight-failure-confirmation';
-import { EndTestLinkComponent, } from '@components/common/end-test-link/end-test-link';
-import { TellMeQuestionCardComponent, } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-card/tell-me-question-card';
-import { TellMeQuestionComponent, } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question/tell-me-question';
-import { TellMeQuestionOutcomeComponent, } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-outcome/tell-me-question-outcome';
-import { VehicleRegistrationComponent, } from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
-import { InstructorRegistrationComponent, } from '@pages/waiting-room-to-car/cat-b/components/instructor-registration/instructor-registration';
-import { TransmissionComponent, } from '@components/common/transmission/transmission';
-import { VehicleDetailsCardComponent, } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
-import { VehicleDetailsComponent, } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
-import { AccompanimentCardComponent, } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
-import { AccompanimentComponent, } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
-import { PracticeModeBanner, } from '@components/common/practice-mode-banner/practice-mode-banner';
+import { EyesightTestComponent } from '@pages/waiting-room-to-car/components/eyesight-test/eyesight-test';
+import {
+  EyesightFailureConfirmationComponent,
+} from '@pages/waiting-room-to-car/components/eyesight-failure-confirmation/eyesight-failure-confirmation';
+import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
+import {
+  TellMeQuestionCardComponent,
+} from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-card/tell-me-question-card';
+import { TellMeQuestionComponent } from '@pages/waiting-room-to-car/cat-b/components/tell-me-question/tell-me-question';
+import {
+  TellMeQuestionOutcomeComponent,
+} from '@pages/waiting-room-to-car/cat-b/components/tell-me-question-outcome/tell-me-question-outcome';
+import {
+  VehicleRegistrationComponent,
+} from '@pages/waiting-room-to-car/components/vehicle-registration/vehicle-registration';
+import {
+  InstructorRegistrationComponent,
+} from '@pages/waiting-room-to-car/cat-b/components/instructor-registration/instructor-registration';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
+import {
+  VehicleDetailsCardComponent,
+} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
+import {
+  AccompanimentCardComponent,
+} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -58,7 +78,7 @@ describe('WaitingRoomToCarCatBPage', () => {
   const initialState = {
     appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
     tests: {
-      currentTest: { slotId: '123', },
+      currentTest: { slotId: '123' },
       testStatus: {},
       startedTests: {
         123: {
@@ -67,13 +87,13 @@ describe('WaitingRoomToCarCatBPage', () => {
           instructorDetails: { registrationNumber: 237489 },
           testData: {
             vehicleChecks: {
-              tellMeQuestion: { code: 'T1', description: 'desc', outcome: CompetencyOutcome.P, },
+              tellMeQuestion: { code: 'T1', description: 'desc', outcome: CompetencyOutcome.P },
             },
             eyesightTest: {},
             seriousFaults: {},
           },
           journalData: {
-            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs', } },
+            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs' } },
           },
         } as TestResultSchemasUnion,
       },
@@ -156,9 +176,9 @@ describe('WaitingRoomToCarCatBPage', () => {
     });
     describe('onSubmit', () => {
       beforeEach(() => {
-        spyOn(routeByCategoryProvider, 'navigateToPage')
+        spyOn(routeByCategoryProvider, 'navigateToPage');
       });
-      it('should ', fakeAsync(async () => {
+      it('should recongnise a valid form and navigate to test report', fakeAsync(async () => {
         component.form = new FormGroup({
           notRequiredControl: new FormControl(null),
         });
@@ -166,7 +186,8 @@ describe('WaitingRoomToCarCatBPage', () => {
         await component.onSubmit();
         tick();
         expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B);
+          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.B,
+        );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new FormGroup({
@@ -218,6 +239,7 @@ describe('WaitingRoomToCarCatBPage', () => {
   });
   describe('DOM', () => {
     describe('eyesight failure confirmation', () => {
+      // eslint-disable-next-line max-len
       it('should hide the rest of the form and show eyesight failure confirmation when page state indicates fail is selected', () => {
         fixture.detectChanges();
         component.pageState.eyesightTestComplete$ = of(true);
@@ -228,6 +250,7 @@ describe('WaitingRoomToCarCatBPage', () => {
         expect(eyesightFailureConfirmation).not.toBeNull();
         expect(formAfterEyesight.nativeElement.hidden).toEqual(true);
       });
+      // eslint-disable-next-line max-len
       it('should show the rest of the form and not render eyesight failure confirmation when page state indicates pass is selected', () => {
         fixture.detectChanges();
         component.pageState.eyesightTestComplete$ = of(true);

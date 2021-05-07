@@ -70,8 +70,8 @@ export class VehicleChecksToggleComponent implements OnChanges {
 
   get interfaceOptions() {
     return {
-      cssClass:'mes-select vehicle-checks-question-select',
-      enableBackdropDismiss:false,
+      cssClass: 'mes-select vehicle-checks-question-select',
+      enableBackdropDismiss: false,
     };
   }
 }

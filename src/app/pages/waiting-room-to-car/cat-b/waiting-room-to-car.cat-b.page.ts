@@ -119,7 +119,7 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
         }
       });
     }
-  }
+  };
 
   eyesightFailCancelled = (): void => {
     this.form.get('eyesightCtrl')?.reset();

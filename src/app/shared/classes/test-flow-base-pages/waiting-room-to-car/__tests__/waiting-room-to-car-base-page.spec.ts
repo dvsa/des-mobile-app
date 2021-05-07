@@ -1,4 +1,4 @@
-import { async, TestBed, } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
@@ -19,15 +19,15 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { WaitingRoomToCarViewDidEnter } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
-  DualControlsToggled, GearboxCategoryChanged, SchoolCarToggled, VehicleRegistrationChanged
+  DualControlsToggled, GearboxCategoryChanged, SchoolCarToggled, VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   InstructorAccompanimentToggled, InterpreterAccompanimentToggled, OtherAccompanimentToggled,
-  SupervisorAccompanimentToggled
+  SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
 import { InstructorRegistrationNumberChanged } from '@store/tests/instructor-details/instructor-details.actions';
 import {
-  EyesightTestFailed, EyesightTestPassed
+  EyesightTestFailed, EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
@@ -52,7 +52,9 @@ describe('WaitingRoomToCarBasePageComponent', () => {
           },
           category: TestCategory.B,
           testData: {},
-          accompaniment: { interpreter: true, ADI: false, supervisor: true, other: false, },
+          accompaniment: {
+            interpreter: true, ADI: false, supervisor: true, other: false,
+          },
           vehicleDetails: {
             registrationNumber: 'ABC123',
             gearboxCategory: 'Manual',
@@ -92,9 +94,9 @@ describe('WaitingRoomToCarBasePageComponent', () => {
         plat: Platform,
         auth: AuthenticationProvider,
         rout: Router,
-        routeByCat: RouteByCategoryProvider,
+        routeByCategory: RouteByCategoryProvider,
       ) {
-        super(sto$, plat, auth, rout, routeByCat);
+        super(sto$, plat, auth, rout, routeByCategory);
       }
     }
 

@@ -160,7 +160,8 @@ describe('Test Outcome', () => {
           component.writeUpTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
-            TestFlowPageNames.OFFICE_PAGE, component.category);
+            TestFlowPageNames.OFFICE_PAGE, component.category,
+          );
         });
       });
     });
@@ -174,7 +175,8 @@ describe('Test Outcome', () => {
           component.resumeTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
-            TestFlowPageNames.WAITING_ROOM_PAGE, component.category);
+            TestFlowPageNames.WAITING_ROOM_PAGE, component.category,
+          );
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
          navigate to the Pass Finalisation page`, () => {
@@ -185,7 +187,8 @@ describe('Test Outcome', () => {
           component.resumeTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
-            TestFlowPageNames.PASS_FINALISATION_PAGE, component.category);
+            TestFlowPageNames.PASS_FINALISATION_PAGE, component.category,
+          );
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Non Pass Finalisation page`, () => {
@@ -196,7 +199,8 @@ describe('Test Outcome', () => {
           component.resumeTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
-            TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
+            TestFlowPageNames.NON_PASS_FINALISATION_PAGE,
+          );
         });
       });
     });
@@ -380,7 +384,8 @@ describe('Test Outcome', () => {
           component.category = cat.category;
           component.rekeyTest();
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
-            TestFlowPageNames.WAITING_ROOM_PAGE, component.category);
+            TestFlowPageNames.WAITING_ROOM_PAGE, component.category,
+          );
         });
       });
     });

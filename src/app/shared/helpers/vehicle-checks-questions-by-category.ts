@@ -35,5 +35,7 @@ export const vehicleChecksQuestionsByCategory = (category: TestCategory): number
     case TestCategory.DE:
     case TestCategory.D1E:
       return NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER + NUMBER_OF_TELL_ME_QUESTIONS_TRAILER;
+    default:
+      return null;
   }
 };
