@@ -5,14 +5,14 @@ import { PopulateCandidateDetails } from './candidate.actions';
 import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
 import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
-// import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
+import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
 
 type CandidateDetailsUnion =
   ReturnType<typeof PopulateCandidateDetails> |
   ReturnType<typeof PopulateCandidateDetailsCatBE> |
   ReturnType<typeof PopulateCandidateDetailsCatC> |
-  ReturnType<typeof PopulateCandidateDetailsCatD>
-  ;
+  ReturnType<typeof PopulateCandidateDetailsCatD> |
+  ReturnType<typeof PopulateCandidateDetailsCatHome>;
 
 export const createPopulateCandidateDetailsAction = (
   testCategory: string,
@@ -63,14 +63,12 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.G:
     case TestCategory.H:
     case TestCategory.K:
-      // @TODO: Implement during CAT Home development
-      // return new PopulateCandidateDetailsCatHome({
-      //   ...booking.candidate,
-      //   businessAddress: get(booking, 'business.businessAddress'),
-      //   businessName: get(booking, 'business.businessName'),
-      //   businessTelephone: get(booking, 'business.telephone'),
-      // });
-      return {} as CandidateDetailsUnion;
+      return PopulateCandidateDetailsCatHome({
+        ...booking.candidate,
+        businessAddress: get(booking, 'business.businessAddress'),
+        businessName: get(booking, 'business.businessName'),
+        businessTelephone: get(booking, 'business.telephone'),
+      });
     default:
       throw new Error('No testCategory has been defined');
   }

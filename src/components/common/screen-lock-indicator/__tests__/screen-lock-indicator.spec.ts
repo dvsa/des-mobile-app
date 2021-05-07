@@ -27,7 +27,6 @@ describe('LockScreenIndicator', () => {
     component = fixture.componentInstance;
   }));
   describe('Class', () => {
-    // Unit tests for the components TypeScript class
     it('should create', () => {
       expect(component).toBeDefined();
     });
