@@ -79,7 +79,7 @@ const routes: Routes = [
   {
     path: TestFlowPageNames.WAITING_ROOM_PAGE,
     loadChildren: () => import('./pages/waiting-room/waiting-room.module')
-      .then((m) => m.WaitingRoomPageModule)
+      .then((m) => m.WaitingRoomPageModule),
   },
   ...Waiting_Room_To_Car_Route,
   ...Test_Report_Route,

@@ -68,7 +68,7 @@ interface WaitingRoomPageState {
 }
 
 @Component({
-  selector: '.waiting-room-cat-b-page',
+  selector: '.waiting-room-page',
   templateUrl: './waiting-room.page.html',
   styleUrls: ['./waiting-room.page.scss'],
 })

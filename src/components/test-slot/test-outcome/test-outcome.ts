@@ -171,7 +171,7 @@ export class TestOutcomeComponent implements OnInit {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
 
     if (this.testStatus === TestStatus.Started) {
-      await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
+      await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
     } else if (this.activityCode === ActivityCodes.PASS) {
       await this.routeByCat.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.category);
     } else {
@@ -185,16 +185,16 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
-    await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
+    await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
   }
 
-  rekeyTest() {
+  async rekeyTest() {
     if (this.testStatus === null || this.testStatus === TestStatus.Booked) {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, false));
     } else {
       this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));
     }
-    this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
+    await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
   }
 
   rekeyDelegatedTest(): void {
@@ -309,4 +309,83 @@ export class TestOutcomeComponent implements OnInit {
     }
   }
 
+  getPassFinalisationPage(): [string] {
+    switch (this.category as TestCategory) {
+      case TestCategory.ADI2:
+        return [CAT_ADI_PART2.PASS_FINALISATION_PAGE];
+      case TestCategory.B:
+        return [CAT_B.PASS_FINALISATION_PAGE];
+      case TestCategory.BE:
+        return [CAT_BE.PASS_FINALISATION_PAGE];
+      case TestCategory.C1E:
+      case TestCategory.CE:
+      case TestCategory.C1:
+      case TestCategory.C:
+        return [CAT_C.PASS_FINALISATION_PAGE];
+      case TestCategory.CCPC:
+      case TestCategory.DCPC:
+        return [CAT_CPC.PASS_FINALISATION_PAGE];
+      case TestCategory.EUAM1:
+      case TestCategory.EUA1M1:
+      case TestCategory.EUA2M1:
+      case TestCategory.EUAMM1:
+        return [CAT_A_MOD1.PASS_FINALISATION_PAGE];
+      case TestCategory.EUAM2:
+      case TestCategory.EUA1M2:
+      case TestCategory.EUA2M2:
+      case TestCategory.EUAMM2:
+        return [CAT_A_MOD2.PASS_FINALISATION_PAGE];
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.D1E:
+      case TestCategory.DE:
+        return [CAT_D.PASS_FINALISATION_PAGE];
+      case TestCategory.K:
+      case TestCategory.H:
+      case TestCategory.G:
+      case TestCategory.F:
+        return [CAT_HOME_TEST.PASS_FINALISATION_PAGE];
+      default:
+    }
+  }
+
+  getOfficePage(): [string] {
+    switch (this.category as TestCategory) {
+      case TestCategory.ADI2:
+        return [CAT_ADI_PART2.OFFICE_PAGE];
+      case TestCategory.B:
+        return [CAT_B.OFFICE_PAGE];
+      case TestCategory.BE:
+        return [CAT_BE.OFFICE_PAGE];
+      case TestCategory.C1E:
+      case TestCategory.CE:
+      case TestCategory.C1:
+      case TestCategory.C:
+        return [CAT_C.OFFICE_PAGE];
+      case TestCategory.CCPC:
+      case TestCategory.DCPC:
+        return [CAT_CPC.OFFICE_PAGE];
+      case TestCategory.EUAM1:
+      case TestCategory.EUA1M1:
+      case TestCategory.EUA2M1:
+      case TestCategory.EUAMM1:
+        return [CAT_A_MOD1.OFFICE_PAGE];
+      case TestCategory.EUAM2:
+      case TestCategory.EUA1M2:
+      case TestCategory.EUA2M2:
+      case TestCategory.EUAMM2:
+        return [CAT_A_MOD2.OFFICE_PAGE];
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.D1E:
+      case TestCategory.DE:
+        return [CAT_D.OFFICE_PAGE];
+      case TestCategory.K:
+      case TestCategory.H:
+      case TestCategory.G:
+      case TestCategory.F:
+        return [CAT_HOME_TEST.OFFICE_PAGE];
+      default:
+    }
+  }
 }
