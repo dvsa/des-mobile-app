@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { Store } from '@ngrx/store';
 import { LoadCompletedTestsSuccess } from '@store/journal/journal.actions';
+import { StoreModel } from '@shared/models/store.model';
 import { DataStoreProvider } from '../data-store/data-store';
-import { StoreModel } from '../../shared/models/store.model';
 
 @Injectable()
 export class CompletedTestPersistenceProvider {
@@ -16,7 +16,6 @@ export class CompletedTestPersistenceProvider {
   private completedTestKeychainKey = 'COMPLETED_TESTS';
 
   async persistCompletedTests(completedTests: SearchResultTestSchema[]): Promise<void> {
-    console.log('persistCompletedTests CompletedTests', completedTests);
     await this.dataStoreProvider.setItem(this.completedTestKeychainKey, JSON.stringify(completedTests));
   }
 

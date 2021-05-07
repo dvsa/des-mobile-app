@@ -30,6 +30,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { hasStartedTests } from '@store/tests/tests.selector';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import * as moment from 'moment';
 import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -41,7 +42,7 @@ import {
   getSelectedDate, getLastRefreshed, getSlots,
   canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests,
 } from './journal.selector';
-import { LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
+import { LoadCompletedTests, LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
 
 @Injectable()
 export class JournalEffects {
@@ -75,7 +76,7 @@ export class JournalEffects {
         ),
         this.store$.pipe(
           select(getJournalState),
-          map((journal) => journal.examiner),
+          map(getExaminer),
         ),
       ),
       switchMap(([, lastRefreshed, slots, examiner]) => {
@@ -197,13 +198,13 @@ export class JournalEffects {
         ),
       ),
     )),
-    filter(([action, , hasStartedTestsVal, completedTests]) => {
+    filter(([action, , hasStarted, completedTests]:
+              [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
       if (action.callThrough) {
         return true;
       }
-      return !hasStartedTestsVal && completedTests && completedTests.length === 0;
+      return !hasStarted && completedTests && completedTests.length === 0;
     }),
-
     switchMap(([, staffNumber]) => {
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
       const advancedSearchParams: AdvancedSearchParams = {
@@ -214,18 +215,10 @@ export class JournalEffects {
       };
 
       return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
-        tap((searchResults) => {
-          this.completedTestPersistenceProvider.persistCompletedTests(searchResults);
-          console.log('searchResults', searchResults);
-        }),
-        map((searchResults) => {
-          return LoadCompletedTestsSuccess(searchResults);
-        }),
-        catchError((err) => {
-          return of(LoadCompletedTestsFailure(err));
-        }),
+        tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
+        map((searchResults) => LoadCompletedTestsSuccess(searchResults)),
+        catchError((err) => of(LoadCompletedTestsFailure(err))),
       );
-
     }),
   ));
 

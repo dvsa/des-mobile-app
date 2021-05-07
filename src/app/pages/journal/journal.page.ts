@@ -39,6 +39,7 @@ import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 // import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { AppComponent } from '../../app.component';
 import { ErrorPage } from '../error-page/error';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -94,6 +95,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public appConfigProvider: AppConfigProvider,
     private app: AppComponent,
     private networkStateProvider: NetworkStateProvider,
+    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     // private deviceProvider: DeviceProvider,
     public screenOrientation: ScreenOrientation,
     // public insomnia: Insomnia,
@@ -177,12 +179,15 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }
   }
 
-  ionViewWillEnter() {
+  async ionViewWillEnter(): Promise<boolean> {
     super.ionViewWillEnter();
     this.loadJournalManually();
     this.setupPolling();
-    console.log('test');
-    this.store$.dispatch(journalActions.LoadCompletedTests());
+    await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
+
+    // encapsulated in setTimeout to defer call due to race condition with LoadJournalSuccess
+    setTimeout(() => this.store$.dispatch(journalActions.LoadCompletedTests()), 0);
+
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
