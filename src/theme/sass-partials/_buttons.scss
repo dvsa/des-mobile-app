@@ -49,6 +49,10 @@
   outline: none;
   border: none;
   height: initial;
+
+  &.activated {
+    background: var(--gds-grey-1);
+  }
   h3 {
     color: var(--mes-black);
 
