@@ -7,7 +7,6 @@ import {
   TEST_CENTRE_JOURNAL_PAGE,
   TestFlowPageNames,
 } from '@pages/page-names.constants';
-import { Waiting_Room_Route } from './routing/waiting-room-route';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
 import { Test_Report_Route } from './routing/test-report-route';
 import { Debrief_Route } from './routing/debrief-route';
@@ -77,7 +76,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/rekey-upload-outcome/rekey-upload-outcome.module')
       .then((m) => m.RekeyUploadOutcomePageModule),
   },
-  ...Waiting_Room_Route,
+  {
+    path: TestFlowPageNames.WAITING_ROOM_PAGE,
+    loadChildren: () => import('./pages/waiting-room/waiting-room.module')
+      .then((m) => m.WaitingRoomPageModule)
+  },
   ...Waiting_Room_To_Car_Route,
   ...Test_Report_Route,
   ...Debrief_Route,
