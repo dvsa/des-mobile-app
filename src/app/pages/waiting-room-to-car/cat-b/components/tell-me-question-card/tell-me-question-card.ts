@@ -6,7 +6,8 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 
 @Component({
   selector: 'tell-me-question-card',
-  templateUrl: 'tell-me-question-card.html',
+  templateUrl: './tell-me-question-card.html',
+  styleUrls: ['./tell-me-question-card.scss'],
 })
 export class TellMeQuestionCardComponent {
 

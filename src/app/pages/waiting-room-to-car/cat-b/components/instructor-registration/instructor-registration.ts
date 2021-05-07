@@ -11,7 +11,7 @@ import {
 
 @Component({
   selector: 'instructor-registration',
-  templateUrl: 'instructor-registration.html',
+  templateUrl: './instructor-registration.html',
 })
 export class InstructorRegistrationComponent implements OnChanges {
 

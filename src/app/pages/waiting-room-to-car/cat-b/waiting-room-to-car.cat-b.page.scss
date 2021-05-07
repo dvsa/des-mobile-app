@@ -1,4 +1,21 @@
+@import "src/app/pages/waiting-room-to-car/waiting-room-to-car.page";
+
+ion-content {
+  @extend ion-content.content-ios;
+}
+
+ion-footer {
+  background-color: var(--mes-white);
+
+  button {
+    width: 100%;
+    min-height: 56px;
+  }
+}
+
 :host {
+  @extend .waiting-room-to-car-common-style;
+
   .mes-full-width-card {
     padding: 15px 15px 15px 15px;
 

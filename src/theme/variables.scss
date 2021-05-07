@@ -5,6 +5,7 @@ $mes-white: #ffffff;
 $gds-black: #0b0c0c;
 $mes-toolbar-background: #212121;
 $card-ios-background-color: var(--mes-white);
+$alert-min-width: 400px;
 
 /** Ionic CSS Variables **/
 :root {
@@ -138,6 +139,10 @@ $card-ios-background-color: var(--mes-white);
   --ion-background-color: var(--mes-background);
 
   --ion-grid-columns: 96;
+
+  ion-select {
+    --min-width: 400px;
+  }
 
   ion-card {
     --ion-background-color: var(--mes-white);
