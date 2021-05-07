@@ -26,7 +26,7 @@
         </ion-row>
 
         <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
-          <ion-col class="no-padding">
+          <ion-col class="ion-no-padding">
             <tell-me-question-card [formGroup]="form"
                                    [tellMeQuestion]="pageState.tellMeQuestion$ | async"
                                    [tellMeQuestions]="tellMeQuestions"

@@ -305,6 +305,10 @@ $alert-min-width: 400px;
   }
 }
 
+.alert-wrapper.sc-ion-alert-ios {
+  min-width: 400px;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
