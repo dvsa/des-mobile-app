@@ -171,7 +171,7 @@ export class TestOutcomeComponent implements OnInit {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
 
     if (this.testStatus === TestStatus.Started) {
-      await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
+      await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
     } else if (this.activityCode === ActivityCodes.PASS) {
       await this.routeByCat.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.category);
     } else {
@@ -185,16 +185,16 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
-    await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
+    await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
   }
 
-  rekeyTest() {
+  async rekeyTest() {
     if (this.testStatus === null || this.testStatus === TestStatus.Booked) {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, false));
     } else {
       this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));
     }
-    this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_PAGE, this.category);
+    await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
   }
 
   rekeyDelegatedTest(): void {

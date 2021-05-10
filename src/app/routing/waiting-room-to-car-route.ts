@@ -47,7 +47,7 @@ export const Waiting_Room_To_Car_Route: Routes = [
       .then((m) => m.WaitingRoomToCarCatDPageModule),
   },
   {
-    path: CAT_HOME_TEST.WAITING_ROOM_PAGE,
+    path: CAT_HOME_TEST.WAITING_ROOM_TO_CAR_PAGE,
     loadChildren: () => import('@pages/waiting-room-to-car/cat-home-test/waiting-room-to-car.cat-home-test.module')
       .then((m) => m.WaitingRoomToCarCatHomeTestPageModule),
   },

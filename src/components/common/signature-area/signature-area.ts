@@ -1,14 +1,22 @@
+/* eslint-disable no-underscore-dangle */
 import {
-  Component, ViewChild, forwardRef, Input, ElementRef,
+  Component,
+  ViewChild,
+  forwardRef,
+  Input,
+  Output,
+  EventEmitter, ElementRef, AfterViewInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { SignaturePad } from 'angular2-signaturepad';
-import { StoreModel } from '@shared/models/store.model';
-import { Store } from '@ngrx/store';
+
+const defaultSignatureHeight: number = 256;
+const defaultSignatureWidth: number = 706;
 
 @Component({
   selector: 'signature-area',
   templateUrl: 'signature-area.html',
+  styleUrls: ['signature-area.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -17,20 +25,23 @@ import { Store } from '@ngrx/store';
     },
   ],
 })
-export class SignatureAreaComponent implements ControlValueAccessor {
+export class SignatureAreaComponent implements ControlValueAccessor, AfterViewInit {
   @Input()
   public signature: string;
 
-  public isvalid: boolean;
+  public isValid: boolean;
   public retryImage: string;
   public signHereImage: string;
   public drawCompleteAction: string;
   public clearAction: string;
   public actionLess: boolean;
+  public showSignaturePad: boolean = false;
 
-  // @TODO - MES-6277 - Fix any issues with this component when implementing Waiting Room Screen
-  // @ViewChild(SignaturePad) signaturePad: SignaturePad;
-  @ViewChild('signatureCanvas', { static: true }) signaturePad: SignaturePad;
+  @ViewChild(SignaturePad, { static: false })
+  public signaturePad: SignaturePad;
+
+  @ViewChild('signaturePadElement', { read: ElementRef, static: false })
+  signaturePadElement: ElementRef;
 
   @Input()
   public retryButtonText: string;
@@ -44,12 +55,15 @@ export class SignatureAreaComponent implements ControlValueAccessor {
   @Input()
   public showValidText: boolean;
 
-  constructor(
-    private store$: Store<StoreModel>,
-    private elRef: ElementRef,
-  ) {
+  @Output()
+  signatureDataChange = new EventEmitter<string>();
+
+  @Output()
+  signatureCleared = new EventEmitter();
+
+  constructor() {
     this.signature = null;
-    this.isvalid = null;
+    this.isValid = null;
     this.actionLess = false;
     this.signHereImage = '/assets/imgs/waiting-room/sign-here.png';
     this.retryImage = '/assets/imgs/waiting-room/retry.png';
@@ -58,53 +72,68 @@ export class SignatureAreaComponent implements ControlValueAccessor {
   public getSignature() {
     return this.signature;
   }
+
   public setSignature(initialValue: string) {
-    this.signaturePad.fromDataURL(initialValue);
-    // loading the signature from initial value does not set the internal signature stucture, so setting here.
+    this.signaturePad.fromDataURL(initialValue, { width: this.getSignatureWidth(), height: this.getSignatureHeight() });
+    // loading the signature from initial value does not set the internal signature structure, so setting here.
     this.signature = initialValue;
     this.signatureDataChangedDispatch(initialValue);
     this.propagateChange(this.signature);
   }
 
-  initialiseSignaturePad() {
-    const canvas = this.elRef.nativeElement.querySelector('canvas');
-    this.signaturePad = new SignaturePad(canvas);
-    this.signaturePad.set('minWidth', 1); // set szimek/signature_pad options at runtime
-    this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
-    this.signaturePad.resizeCanvas();
-    if (this.signature) {
-      this.setSignature(this.signature);
-    }
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.signaturePad.clear();
+      this.resizeSignaturePad();
+      if (this.signature) {
+        this.setSignature(this.signature);
+      }
+    });
   }
 
-  clear() {
+  getSignatureHeight(): number {
+    return this.signaturePadElement?.nativeElement?.offsetHeight ?? defaultSignatureHeight;
+  }
+
+  getSignatureWidth(): number {
+    return this.signaturePadElement?.nativeElement?.offsetWidth ?? defaultSignatureWidth;
+  }
+
+  resizeSignaturePad(): void {
+    this.signaturePad.queryPad()._canvas.width = this.getSignatureWidth();
+    this.signaturePad.queryPad()._canvas.height = this.getSignatureHeight();
+  }
+
+  clear(): void {
     this.signaturePad.clear();
     this.signature = null;
     this.signatureDataClearedDispatch();
     this.propagateChange(this.signature);
   }
 
-  drawComplete() {
-    this.signature = this.signaturePad.toDataURL('image/svg+xml');
+  drawComplete(): void {
+    this.signature = this.signaturePad.toDataURL();
     this.signatureDataChangedDispatch(this.signature);
     this.propagateChange(this.signature);
     this.touchChange(null);
   }
 
-  signatureDataChangedDispatch(signatureData: string) {
+  signatureDataChangedDispatch(signatureData: string): void {
     if (!this.actionLess) {
-      this.store$.dispatch({ payload: signatureData, type: this.drawCompleteAction });
+      this.signatureDataChange.emit(signatureData);
     }
   }
-  signatureDataClearedDispatch() {
+
+  signatureDataClearedDispatch(): void {
     if (!this.actionLess) {
-      this.store$.dispatch({ type: this.clearAction });
+      this.signatureCleared.emit();
     }
   }
+
   // we use it to emit changes back to the form
   /* eslint-disable */
-  private propagateChange = (_: any) => { };
-  private touchChange = (_: any) => { };
+  private propagateChange = (_: any) => {};
+  private touchChange = (_: any) => {};
   /* eslint-enable */
 
   public writeValue(value: any) {
@@ -116,9 +145,11 @@ export class SignatureAreaComponent implements ControlValueAccessor {
   registerOnChange(fn: any) {
     this.propagateChange = fn;
   }
+
   onTouched() {
     this.touchChange(null);
   }
+
   registerOnTouched(fn: any) {
     this.touchChange = fn;
   }

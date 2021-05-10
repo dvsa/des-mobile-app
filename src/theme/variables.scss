@@ -136,6 +136,9 @@ $card-ios-background-color: var(--mes-white);
 
   /** app styles **/
   --ion-background-color: var(--mes-background);
+  ion-content {
+    --ion-background-color: var(--mes-background);
+  }
 
   --ion-grid-columns: 96;
 
