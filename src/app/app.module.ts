@@ -57,7 +57,9 @@ import { LogsStoreModule } from '@store/logs/logs.module';
 import { AppInfoStoreModule } from '@store/app-info/app-info.module';
 import { TestsModule } from '@store/tests/tests.module';
 import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-centre-journal.module';
+import { DirectivesModule } from 'src/directives/directives.module';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -105,6 +107,7 @@ if (enableRehydrationPlugin) {
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    DirectivesModule,
     BrowserModule,
     IonicModule.forRoot({ swipeBackEnabled: false }),
     AppRoutingModule,
@@ -159,6 +162,7 @@ if (enableRehydrationPlugin) {
     RouteByCategoryProvider,
     ScreenOrientation,
     DeviceAuthenticationProvider,
+    Insomnia,
     QuestionProvider,
   ],
   bootstrap: [AppComponent],

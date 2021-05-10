@@ -22,8 +22,8 @@ import * as applicationReferenceActions
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
-// import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-// import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
+import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
 import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analytics.effects';
 
@@ -87,10 +87,9 @@ describe('WaitingRoomToCar Analytics Effects', () => {
         done();
       });
     });
-    xit('should call setCurrentPage with practice mode prefix, addCustomDimension and test category', (done) => {
+    it('should call setCurrentPage with practice mode prefix, addCustomDimension and test category', (done) => {
       // ARRANGE
-      // @TODO: Enable when fakeJournalActions are defined;
-      // store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId, TestCategory.B));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId, TestCategory.B));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
@@ -134,10 +133,9 @@ describe('WaitingRoomToCar Analytics Effects', () => {
         done();
       });
     });
-    xit('should call logError, prefixed with practice mode', (done) => {
+    it('should call logError, prefixed with practice mode', (done) => {
       // ARRANGE
-      // @TODO: Enable when fakeJournalActions are defined;
-      // store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       // ACT
@@ -175,10 +173,9 @@ describe('WaitingRoomToCar Analytics Effects', () => {
         done();
       });
     });
-    xit('should call logError, prefixed with practice mode', (done) => {
+    it('should call logError, prefixed with practice mode', (done) => {
       // ARRANGE
-      // @TODO: Enable when fakeJournalActions are defined;
-      // store$.dispatch(new fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
+      store$.dispatch(fakeJournalActions.StartE2EPracticeTest(end2endPracticeSlotId));
       store$.dispatch(PopulateTestCategory(TestCategory.B));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
       // ACT

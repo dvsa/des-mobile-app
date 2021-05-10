@@ -174,9 +174,7 @@ describe('Test Outcome', () => {
           component.category = cat.category;
           component.resumeTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
-            TestFlowPageNames.WAITING_ROOM_PAGE, component.category,
-          );
+          expect(routerSpy.navigate).toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
          navigate to the Pass Finalisation page`, () => {
@@ -383,9 +381,7 @@ describe('Test Outcome', () => {
           component.slotDetail = testSlotDetail;
           component.category = cat.category;
           component.rekeyTest();
-          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
-            TestFlowPageNames.WAITING_ROOM_PAGE, component.category,
-          );
+          expect(routerSpy.navigate).toHaveBeenCalledWith([TestFlowPageNames.WAITING_ROOM_PAGE]);
         });
       });
     });

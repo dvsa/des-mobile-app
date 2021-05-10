@@ -1,0 +1,17 @@
+<ion-row class="signature-validation-row" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
+    <ion-col class="ion-no-padding">
+        <ion-row class="declaration-signature-row ion-no-padding">
+            <ion-col class="declaration-signature-col ion-no-padding">
+                <signature-area formControlName="signature" [signature]="signature"
+                                retryButtonText="{{ 'waitingRoom.signatureRetry' | translate }}"
+                                signHereText="{{ 'waitingRoom.signaturePrompt' | translate}}"
+                                validationErrorText="{{ 'waitingRoom.signatureValidation' | translate}}"
+                                [showValidText]="isInvalid()"
+                                (signatureCleared)="onClear()"
+                                (signatureDataChange)="onChange($event)">
+                </signature-area>
+            </ion-col>
+        </ion-row>
+    </ion-col>
+</ion-row>
