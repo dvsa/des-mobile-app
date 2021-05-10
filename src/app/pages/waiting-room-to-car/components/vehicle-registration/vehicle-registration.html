@@ -1,0 +1,27 @@
+<ion-row class="mes-validated-row mes-row-separator" id="registration-card" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Vehicle registration number</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center mes-padding-left">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col size="32">
+                <input type="text"
+                       id="registration"
+                       formControlName="vehicleRegistration"
+                       class="input-styling-background"
+                       [class.ng-invalid]="invalid"
+                       [value]="vehicleRegistration"
+                       (input)="vehicleRegistrationChanged($event)"
+                       [maxlength]="registrationNumberValidator.maxLength">
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text" [class.ng-invalid]="invalid"
+                 id="waiting-room-to-car-registration-validation-text">
+                Enter the registration number
+            </div>
+        </ion-row>
+    </ion-col>
+</ion-row>

@@ -6,8 +6,12 @@ const initialState: CatBUniqueTypes.InstructorDetails = {};
 
 export const instructorDetailsReducer = createReducer(
   initialState,
-  on(instructorDetailsActions.InstructorRegistrationNumberChanged,
-    (state, { registrationNumber }) => ({ registrationNumber })),
+  on(instructorDetailsActions.InstructorRegistrationNumberChanged, (state, {
+    registrationNumber,
+  }): CatBUniqueTypes.InstructorDetails => ({
+    ...state,
+    registrationNumber,
+  })),
 );
 
 export const getInstructorDetails = createFeatureSelector<CatBUniqueTypes.InstructorDetails>('instructorDetails');

@@ -36,7 +36,6 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 // import { DeviceProvider } from '@providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
-// import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
 // import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { AppComponent } from '../../app.component';
 import { ErrorPage } from '../error-page/error';

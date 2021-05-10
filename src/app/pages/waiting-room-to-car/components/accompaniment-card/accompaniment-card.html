@@ -1,0 +1,38 @@
+<ion-row class="mes-extended-component-row mes-row-separator"
+         id="accompaniment-card" [formGroup]="formGroup">
+    <div class="validation-bar-spacer"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Accompanied by (optional)</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center mes-padding-left">
+        <ion-row>
+            <ion-col size="48">
+                <accompaniment [formGroup]="formGroup"
+                               [accompaniment]="instructorAccompaniment"
+                               accompanimentType="Instructor"
+                               (accompanimentChange)="instructorAccompanimentChanged()"></accompaniment>
+            </ion-col>
+            <ion-col size="48">
+                <accompaniment [formGroup]="formGroup"
+                               [accompaniment]="supervisorAccompaniment"
+                               accompanimentType="Supervisor"
+                               (accompanimentChange)="supervisorAccompanimentChanged()"></accompaniment>
+            </ion-col>
+        </ion-row>
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <accompaniment [formGroup]="formGroup"
+                               [accompaniment]="interpreterAccompaniment"
+                               accompanimentType="Interpreter"
+                               (accompanimentChange)="interpreterAccompanimentChanged()"></accompaniment>
+            </ion-col>
+            <ion-col size="48">
+                <accompaniment [formGroup]="formGroup"
+                               [accompaniment]="otherAccompaniment"
+                               accompanimentType="Other"
+                               (accompanimentChange)="otherAccompanimentChanged()"></accompaniment>
+            </ion-col>
+        </ion-row>
+    </ion-col>
+</ion-row>

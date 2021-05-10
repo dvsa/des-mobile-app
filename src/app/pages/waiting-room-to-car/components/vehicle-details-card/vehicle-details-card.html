@@ -1,0 +1,33 @@
+<ion-row class="mes-component-row mes-row-separator" id="vehicle-details-card" [formGroup]="formGroup">
+    <div class="validation-bar-spacer"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Vehicle details (optional)</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center mes-padding-left">
+        <ion-row [hidden]="hideSchoolVehicleAndDualControlRow">
+            <ion-col size="48">
+                <vehicle-details [formGroup]="formGroup"
+                                 [vehicleDetails]="schoolVehicleDetails"
+                                 vehicleDetailsType="School car"
+                                 (vehicleDetailsChange)="schoolVehicleDetailsChanged()">
+                </vehicle-details>
+            </ion-col>
+            <ion-col size="48">
+                <vehicle-details [formGroup]="formGroup"
+                                 [vehicleDetails]="dualVehicleDetails"
+                                 vehicleDetailsType="Dual control"
+                                 (vehicleDetailsChange)="dualVehicleDetailsChanged()">
+                </vehicle-details>
+            </ion-col>
+        </ion-row>
+        <ion-row [hidden]="hideSchoolBikeRow">
+            <ion-col size="48">
+                <vehicle-details [formGroup]="formGroup"
+                                 [vehicleDetails]="schoolBikeDetails"
+                                 vehicleDetailsType="School bike"
+                                 (vehicleDetailsChange)="schoolBikeVehicleDetailsChanged()">
+                </vehicle-details>
+            </ion-col>
+        </ion-row>
+    </ion-col>
+</ion-row>

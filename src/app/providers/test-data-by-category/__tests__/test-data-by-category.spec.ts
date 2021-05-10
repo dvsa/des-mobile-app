@@ -10,22 +10,21 @@ describe('TestDataByCategoryProvider', () => {
   });
 
   describe('getTestDataByCategoryCode()', () => {
-
     const categories = [
-      // { category: TestCategory.B },
-      // { category: TestCategory.BE },
-      // { category: TestCategory.C },
-      // { category: TestCategory.C1 },
-      // { category: TestCategory.CE },
-      // { category: TestCategory.C1E },
-      // { category: TestCategory.D },
-      // { category: TestCategory.D1 },
-      // { category: TestCategory.DE },
-      // { category: TestCategory.D1E },
-      // { category: TestCategory.F },
-      // { category: TestCategory.G },
-      // { category: TestCategory.H },
-      // { category: TestCategory.K },
+      { category: TestCategory.B },
+      { category: TestCategory.BE },
+      { category: TestCategory.C },
+      { category: TestCategory.C1 },
+      { category: TestCategory.CE },
+      { category: TestCategory.C1E },
+      { category: TestCategory.D },
+      { category: TestCategory.D1 },
+      { category: TestCategory.DE },
+      { category: TestCategory.D1E },
+      { category: TestCategory.F },
+      { category: TestCategory.G },
+      { category: TestCategory.H },
+      { category: TestCategory.K },
       { category: TestCategory.ADI2 },
     ];
 

@@ -139,6 +139,10 @@ $card-ios-background-color: var(--mes-white);
 
   --ion-grid-columns: 96;
 
+  ion-select {
+    --min-width: 400px;
+  }
+
   ion-card {
     --ion-background-color: var(--mes-white);
   }
@@ -298,6 +302,10 @@ $card-ios-background-color: var(--mes-white);
 
     --ion-card-background: #{$mes-white};
   }
+}
+
+.alert-wrapper.sc-ion-alert-ios {
+  min-width: 400px;
 }
 
 /* Importing Bootstrap SCSS file. */

@@ -1,14 +1,100 @@
 <ion-header>
+  <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
   <ion-toolbar>
-    <ion-title>waiting-room-to-car.cat-b</ion-title>
+    <ion-title>{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons slot="end">
+      <end-test-link [shouldAuthenticate]="false" [category]="pageState.category$ | async"></end-test-link>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Test Report</ion-button>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ion-grid>
+        <eyesight-test [formGroup]="form"
+                       *ngIf="pageState.showEyesight$ | async"
+                       [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+                       [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
+                       (eyesightTestResultChange)="eyesightTestResultChanged($event)">
+        </eyesight-test>
 
-  <ion-item>
-    candidateName$ - {{pageState.candidateName$ | async}}
-  </ion-item>
+        <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
+          <eyesight-failure-confirmation [nextPageOnFail]="getDebriefPage()"
+                                         [cancelFn]="eyesightFailCancelled">
+          </eyesight-failure-confirmation>
+        </ion-row>
+
+        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
+          <ion-col class="ion-no-padding">
+            <tell-me-question-card [formGroup]="form"
+                                   [tellMeQuestion]="pageState.tellMeQuestion$ | async"
+                                   [tellMeQuestions]="tellMeQuestions"
+                                   [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
+                                   [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
+                                   (tellMeQuestionChange)="tellMeQuestionChanged($event)"
+                                   (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)">
+            </tell-me-question-card>
+
+            <vehicle-registration [formGroup]="form"
+                                  [vehicleRegistration]="pageState.registrationNumber$ | async"
+                                  (vehicleRegistrationChange)="vehicleRegistrationChanged($event)">
+            </vehicle-registration>
+
+            <transmission [formGroup]="form"
+                          [transmission]="pageState.transmission$ | async"
+                          (transmissionChange)="transmissionChanged($event)">
+            </transmission>
+
+            <instructor-registration [formGroup]="form"
+                                     [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
+                                     (instructorRegistrationChange)="instructorRegistrationChanged($event)">
+            </instructor-registration>
+
+            <accompaniment-card [formGroup]="form"
+                                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                                (otherAccompanimentChange)="otherAccompanimentToggled()"
+                                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+            </accompaniment-card>
+
+            <vehicle-details-card [formGroup]="form"
+                                  [schoolVehicleDetails]="pageState.schoolCar$ | async"
+                                  [dualVehicleDetails]="pageState.dualControls$ | async"
+                                  (schoolVehicleDetailsChange)="schoolCarToggled()"
+                                  (dualVehicleDetailsChange)="dualControlsToggled()">
+            </vehicle-details-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
+
+<ion-footer [hidden]="pageState.eyesightTestFailed$ | async">
+    <ion-row class="mes-full-width-card box-shadow">
+        <ion-col size="45" class="ion-text-center">
+            <ion-button
+                    type="submit"
+                    shape="round"
+                    class="mes-grey-button full-button-widths"
+                    (click)="onViewTestCentreJournal()">
+                <h3>View test centre journal</h3>
+            </ion-button>
+        </ion-col>
+        <ion-col size="6"></ion-col>
+        <ion-col size="45" class="ion-text-center">
+            <ion-button
+                    type="submit"
+                    shape="round"
+                    class="mes-primary-button full-button-widths"
+                    id="continue-to-test-report-button" (click)="onSubmit()">
+                <h3>Continue to test report</h3>
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

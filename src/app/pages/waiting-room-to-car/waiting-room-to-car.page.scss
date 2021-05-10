@@ -1,0 +1,35 @@
+ion-content.content-ios {
+  --ion-background-color: var(--mes-white);
+}
+
+ion-content > div {
+  --ion-background-color: var(--mes-white);
+}
+
+ion-footer {
+  background-color: var(--mes-white);
+
+  button {
+    width: 100%;
+    min-height: 56px;
+  }
+}
+
+.waiting-room-to-car-common-style {
+  background-color: var(--mes-white);
+
+  .manual-label-top-spacing {
+    label {
+      display: block;
+      margin-top: 42px;
+    }
+  }
+
+  .banner-space {
+    margin: 0 0 10px 0;
+  }
+
+  .mes-component-row::before {
+    width: 0;
+  }
+}

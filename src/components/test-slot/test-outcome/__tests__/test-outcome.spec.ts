@@ -13,7 +13,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import {
-  CAT_B, CAT_BE, CAT_C, CAT_D, CAT_A_MOD1, CAT_A_MOD2,
+  CAT_B, CAT_BE, CAT_C, CAT_D, CAT_A_MOD1, CAT_A_MOD2, TestFlowPageNames,
 } from '@pages/page-names.constants';
 import { StoreModel } from '@shared/models/store.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
@@ -27,6 +27,7 @@ import { TestSlotComponentsModule } from '../../test-slot-components.module';
 describe('Test Outcome', () => {
   let fixture: ComponentFixture<TestOutcomeComponent>;
   let component: TestOutcomeComponent;
+  let routeByCategory: RouteByCategoryProvider;
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
@@ -102,7 +103,9 @@ describe('Test Outcome', () => {
     fixture = TestBed.createComponent(TestOutcomeComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
+    routeByCategory = TestBed.inject(RouteByCategoryProvider);
     spyOn(store$, 'dispatch');
+    spyOn(routeByCategory, 'navigateToPage');
   }));
 
   describe('Class', () => {
@@ -155,10 +158,10 @@ describe('Test Outcome', () => {
           component.slotDetail = testSlotDetail;
           component.category = cat.category;
           component.writeUpTest();
-
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          // const { calls } = navController.push as jasmine.Spy;
-          // expect(calls.argsFor(0)[0]).toBe(cat.pageConstant.OFFICE_PAGE);
+          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.OFFICE_PAGE, component.category,
+          );
         });
       });
     });
@@ -170,10 +173,10 @@ describe('Test Outcome', () => {
           component.slotDetail = testSlotDetail;
           component.category = cat.category;
           component.resumeTest();
-
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          // const { calls } = navController.push as jasmine.Spy;
-          // expect(calls.argsFor(0)[0]).toBe(cat.pageConstant.WAITING_ROOM_PAGE);
+          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.WAITING_ROOM_PAGE, component.category,
+          );
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
          navigate to the Pass Finalisation page`, () => {
@@ -182,10 +185,10 @@ describe('Test Outcome', () => {
           component.activityCode = ActivityCodes.PASS;
           component.category = cat.category;
           component.resumeTest();
-
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          // const { calls } = navController.push as jasmine.Spy;
-          // expect(calls.argsFor(0)[0]).toBe(cat.pageConstant.PASS_FINALISATION_PAGE);
+          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.PASS_FINALISATION_PAGE, component.category,
+          );
         });
         it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Non Pass Finalisation page`, () => {
@@ -194,10 +197,10 @@ describe('Test Outcome', () => {
           component.activityCode = ActivityCodes.FAIL;
           component.category = cat.category;
           component.resumeTest();
-
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
-          // const { calls } = navController.push as jasmine.Spy;
-          // expect(calls.argsFor(0)[0]).toBe(cat.pageConstant.NON_PASS_FINALISATION_PAGE);
+          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.NON_PASS_FINALISATION_PAGE,
+          );
         });
       });
     });
@@ -375,15 +378,16 @@ describe('Test Outcome', () => {
 
         expect(component.rekeyTest).toHaveBeenCalled();
       });
-      // categoryPages.forEach((cat) => {
-      //   it(`should navigate to cat ${cat.category} waiting room page when "Rekey" is clicked`, () => {
-      //     component.slotDetail = testSlotDetail;
-      //     component.category = cat.category;
-      //     component.rekeyTest();
-      //     const { calls } = navController.push as jasmine.Spy;
-      //     expect(calls.argsFor(0)[0]).toBe(cat.pageConstant.WAITING_ROOM_PAGE);
-      //   });
-      // });
+      categoryPages.forEach((cat) => {
+        it(`should navigate to cat ${cat.category} waiting room page when "Rekey" is clicked`, () => {
+          component.slotDetail = testSlotDetail;
+          component.category = cat.category;
+          component.rekeyTest();
+          expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
+            TestFlowPageNames.WAITING_ROOM_PAGE, component.category,
+          );
+        });
+      });
     });
 
     describe('rekeyDelegatedTest', () => {
