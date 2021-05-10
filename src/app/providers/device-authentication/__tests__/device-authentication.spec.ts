@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
+import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { DeviceAuthenticationProvider } from '../device-authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfig } from '../../app-config/app-config.model';
-import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 
 describe('Device Authentication Provider', () => {
 
