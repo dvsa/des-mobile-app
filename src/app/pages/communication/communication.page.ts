@@ -177,7 +177,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     if (this.subscription.closed && this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
-
     return true;
   }
 
@@ -225,6 +224,13 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     ));
   }
 
+  dispatchCandidateChosePost(): void {
+    this.setCommunicationType(CommunicationPage.post);
+    this.store$.dispatch(
+      communicationPreferencesActions.CandidateChosePostAsCommunicationPreference(CommunicationPage.post),
+    );
+  }
+
   setCommunicationType(communicationChoice: CommunicationMethod, emailType: string = null) {
     this.communicationType = communicationChoice;
     this.emailType = emailType;
@@ -243,13 +249,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   isPostSelected() {
     return this.communicationType === CommunicationPage.post;
-  }
-
-  dispatchCandidateChosePost(): void {
-    this.setCommunicationType(CommunicationPage.post);
-    this.store$.dispatch(
-      communicationPreferencesActions.CandidateChosePostAsCommunicationPreference(CommunicationPage.post),
-    );
   }
 
   getFormValidation(): { [key: string]: FormControl } {
