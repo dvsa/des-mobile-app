@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <access origin="*" />
-  
+
   <feature name="SecureWebView">
     <param name="ios-package" value="SecureWebView"/>
   </feature>
@@ -28,10 +28,6 @@
     <param name="ios-package" value="UniversalAnalyticsPlugin"/>
   </feature>
 
-  <feature name="Insomnia">
-    <param name="ios-package" value="Insomnia"/>
-  </feature>
-
   <feature name="IsDebug">
     <param name="ios-package" value="IsDebug"/>
   </feature>
@@ -56,5 +52,5 @@
     <param name="ios-package" value="CDVDevice"/>
   </feature>
 
-  
+
 </widget>
