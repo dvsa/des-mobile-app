@@ -1,8 +1,8 @@
 import {
   ComponentFixture, async, TestBed, fakeAsync, tick,
 } from '@angular/core/testing';
-import { NavParams, Config, Platform } from '@ionic/angular';
-import { NavParamsMock, ConfigMock, PlatformMock } from 'ionic-mocks';
+import { Platform } from '@ionic/angular';
+import { PlatformMock } from 'ionic-mocks';
 
 import { AppModule } from 'src/app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -114,8 +114,6 @@ describe('WaitingRoomPage', () => {
       ],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },

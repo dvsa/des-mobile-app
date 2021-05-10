@@ -118,7 +118,7 @@ export type PageNameKeys =
   'HealthDeclarationPage' |
   'OFFICE_PAGE' |
   'TEST_REPORT_PAGE' |
-  'WAITING_ROOM_PAGE' |
+  'WaitingRoomPage' |
   'WAITING_ROOM_TO_CAR_PAGE' |
   'RekeyReasonPage' |
   'PASS_FINALISATION_PAGE' |
@@ -141,7 +141,7 @@ export enum TestFlowPageNames {
   POST_DEBRIEF_HOLDING_PAGE = 'PostDebriefHoldingPage',
   REKEY_REASON_PAGE = 'RekeyReasonPage',
   TEST_REPORT_PAGE = 'TEST_REPORT_PAGE',
-  WAITING_ROOM_PAGE = 'WAITING_ROOM_PAGE',
+  WAITING_ROOM_PAGE = 'WaitingRoomPage',
   WAITING_ROOM_TO_CAR_PAGE = 'WAITING_ROOM_TO_CAR_PAGE',
   CONFIRM_TEST_DETAILS_PAGE = 'ConfirmTestDetailsPage',
   REKEY_UPLOAD_OUTCOME_PAGE = 'RekeyUploadOutcomePage',
