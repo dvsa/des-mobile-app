@@ -37,9 +37,9 @@ import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 // import { DeviceProvider } from '@providers/device/device';
 // import { Insomnia } from '@ionic-native/insomnia';
 // import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { AppComponent } from '../../app.component';
 import { ErrorPage } from '../error-page/error';
-import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;

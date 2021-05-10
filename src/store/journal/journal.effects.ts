@@ -199,7 +199,7 @@ export class JournalEffects {
       ),
     )),
     filter(([action, , hasStarted, completedTests]:
-              [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
+    [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
       if (action.callThrough) {
         return true;
       }
