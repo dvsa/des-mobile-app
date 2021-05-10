@@ -10,7 +10,7 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content no-bounce>
+<ion-content force-overscroll="false">
   <lock-screen-indicator></lock-screen-indicator>
   <form [formGroup]="formGroup">
     <candidate-section [candidateName]="pageState.candidateName$ | async"
