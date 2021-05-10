@@ -100,8 +100,10 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   }
 
   resizeSignaturePad(): void {
-    this.signaturePad.queryPad()._canvas.width = this.getSignatureWidth();
-    this.signaturePad.queryPad()._canvas.height = this.getSignatureHeight();
+    if (!!this.signaturePad.queryPad() && !!this.signaturePad.queryPad()._canvas) {
+      this.signaturePad.queryPad()._canvas.width = this.getSignatureWidth();
+      this.signaturePad.queryPad()._canvas.height = this.getSignatureHeight();
+    }
   }
 
   clear(): void {
