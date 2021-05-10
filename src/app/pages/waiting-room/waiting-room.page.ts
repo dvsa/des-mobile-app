@@ -89,8 +89,8 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   constructor(
     store$: Store<StoreModel>,
     public router: Router,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
     private deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private deviceProvider: DeviceProvider,
     private screenOrientation: ScreenOrientation,
