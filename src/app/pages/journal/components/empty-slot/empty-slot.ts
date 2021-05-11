@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-// import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotComponent } from '@components/test-slot/slot/slot';
 
@@ -18,14 +18,11 @@ export class EmptySlotComponent implements SlotComponent {
   @Input()
   showLocation: boolean;
 
-  // constructor(public screenOrientation: ScreenOrientation) {}
+  constructor(public screenOrientation: ScreenOrientation) {}
 
-  // isPortrait() : boolean {
-  //   return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY ||
-  //     this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
-  // }
-  // @TODO: Update with real implementation
   isPortrait() : boolean {
-    return true;
+    return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
+      || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
   }
+
 }

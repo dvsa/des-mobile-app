@@ -4,7 +4,7 @@ import { IonicModule, Config } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ConfigMock } from 'ionic-mocks';
 import { cloneDeep } from 'lodash';
-// import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { StoreModule } from '@ngrx/store'; // Store
 // import { of } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
@@ -15,6 +15,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { TestSlotComponent } from '../test-slot';
 import { IndicatorsComponent } from '../../indicators/indicators';
 import { TimeComponent } from '../../time/time';
@@ -23,7 +24,6 @@ import { CandidateLinkComponent } from '../../candidate-link/candidate-link';
 import { TestCategoryComponent } from '../../test-category/test-category';
 import { VehicleDetailsComponent } from '../../vehicle-details/vehicle-details';
 import { AdditionalCandidateDetailsComponent } from '../../additional-candidate-details/additional-candidate-details';
-// import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { LanguageComponent } from '../../language/language';
 /* import { testsReducer } from '@store/tests/tests.reducer';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -129,7 +129,7 @@ xdescribe('TestSlotComponent', () => {
       ],
       providers: [
         { provide: Config, useFactory: () => ConfigMock.instance() },
-        // { provide: ScreenOrientation, useClass: ScreenOrientationMock },
+        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         // { provide: SlotProvider, useClass: SlotProvider },
@@ -232,16 +232,20 @@ xdescribe('TestSlotComponent', () => {
         expect(component.showVehicleDetails()).toEqual(true);
       });
       it('should return true for isPortrait() if device is portrait', () => {
-      /* component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY;
-        expect(component.isPortrait()).toEqual(true);
+        component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY;
+        expect(component.isPortrait())
+          .toEqual(true);
         component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.PORTRAIT;
-        expect(component.isPortrait()).toEqual(true); */
+        expect(component.isPortrait())
+          .toEqual(true);
       });
       it('should return false for isPortrait() if device is landscape', () => {
-      /* component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY;
-        expect(component.isPortrait()).toEqual(false);
+        component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY;
+        expect(component.isPortrait())
+          .toEqual(false);
         component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.LANDSCAPE;
-        expect(component.isPortrait()).toEqual(false); */
+        expect(component.isPortrait())
+          .toEqual(false);
       });
     });
 

@@ -8,8 +8,8 @@ import { configureTestSuite } from 'ng-bullet';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';
-// import { ScreenOrientation } from '@ionic-native/screen-orientation';
-// import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { EmptySlotComponent } from '../empty-slot';
 
 describe('EmptySlotComponent', () => {
@@ -83,7 +83,7 @@ describe('EmptySlotComponent', () => {
       imports: [IonicModule],
       providers: [
         { provide: Config, useFactory: () => ConfigMock.instance() },
-        // { provide: ScreenOrientation, useClass: ScreenOrientationMock },
+        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
       ],
     });
   });
