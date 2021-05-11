@@ -236,9 +236,7 @@ export class JournalEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    filter(([, , canNavigateToPreviousDay]) => canNavigateToPreviousDay),
-    // eslint-disable-next-line @typescript-eslint/no-shadow
+    filter(([, , canNavigateToPreviousDayVal]) => canNavigateToPreviousDayVal),
     switchMap(([, selectedDate]) => {
       const previousDay = DateTime.at(selectedDate).add(-1, Duration.DAY).format('YYYY-MM-DD');
 
@@ -263,9 +261,7 @@ export class JournalEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    filter(([, , canNavigateToNextDay]) => canNavigateToNextDay),
-    // eslint-disable-next-line @typescript-eslint/no-shadow
+    filter(([, , canNavigateToNextDayVal]) => canNavigateToNextDayVal),
     switchMap(([, selectedDate]) => {
       const nextDay = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
 
