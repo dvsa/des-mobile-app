@@ -46,6 +46,7 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { QuestionProvider } from '@providers/question/question';
 
 import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 
 import { JournalModule } from '@store/journal/journal.module';
 import { AppConfigStoreModule } from '@store/app-config/app-config.module';
@@ -109,7 +110,10 @@ if (enableRehydrationPlugin) {
   imports: [
     DirectivesModule,
     BrowserModule,
-    IonicModule.forRoot({ swipeBackEnabled: false }),
+    IonicModule.forRoot({
+      swipeBackEnabled: false,
+      animated: !(environment as TestersEnvironmentFile)?.isTest ?? true,
+    }),
     AppRoutingModule,
     HttpClientModule,
     StoreModule.forRoot(reducers, { metaReducers }),
