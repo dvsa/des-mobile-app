@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  Actions, createEffect, Effect, ofType,
+  Actions, createEffect, ofType,
 } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
@@ -40,8 +40,7 @@ export class CommunicationAnalyticsEffects {
   ) {
   }
 
-  @Effect()
-  communicationViewDidEnter$ = this.actions$.pipe(
+  communicationViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(CommunicationViewDidEnter),
     concatMap((action) => of(action)
       .pipe(
@@ -82,7 +81,7 @@ export class CommunicationAnalyticsEffects {
       );
       return of(AnalyticRecorded());
     }),
-  );
+  ));
 
   communicationValidationError$ = createEffect(() => this.actions$.pipe(
     ofType(CommunicationValidationError),

@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { configureTestSuite } from 'ng-bullet';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { createTranslateLoader } from '@app-module/app.module';
+import { createTranslateLoader } from '@app/app.module';
 import { ProvidedEmailComponent } from '../provided-email';
 
 describe('ProvidedEmailComponent', () => {

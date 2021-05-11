@@ -23,7 +23,7 @@ import {
   getPostalAddress,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import {
   getCommunicationPreferenceType,
@@ -82,9 +82,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   testCategory: CategoryCode;
 
   constructor(
-    public platform: Platform,
-    public router: Router,
-    public authenticationProvider: AuthenticationProvider,
+    platform: Platform,
+    router: Router,
+    authenticationProvider: AuthenticationProvider,
     store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
@@ -122,7 +122,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
         select(getJournalData),
         select(getCandidate),
         select(getCandidateEmailAddress),
-        take(1),
+        // take(1),
       ),
       communicationEmail$: this.store$.pipe(
         select(getTests),
@@ -257,27 +257,12 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     };
   }
 
-  /**
-   * Facade function which dictates which radio value to reselect when rehydrating from state.
-   * No current schema properties allow for the capture of radio selection for emails on the communication page.
-   */
   restoreRadiosFromState() {
     if (this.communicationType === CommunicationPage.email) {
       this.assertEmailType();
     }
   }
 
-  /**
-   * Called by restoreRadiosFromState() when communicationType is 'Email'.
-   *
-   * If candidate provided an email at time of booking and this email is the same as the 'updatedEmail' in the
-   * 'CommunicationPreferences' object stored in state then we select the relevant properties, to ensure that the
-   * appropriate radio button is rehydrated.
-   *
-   * If the candidate did not provided an email at the time of booking and the 'CommunicationPreferences' object
-   * contains one in state, we select the relevant properties, to ensure that the appropriate radio button is
-   * rehydrated.
-   */
   assertEmailType() {
     if (this.candidateProvidedEmail !== '' && this.candidateProvidedEmail === this.communicationEmail) {
       this.emailType = CommunicationPage.providedEmail;
@@ -292,17 +277,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     this.form.controls['radioCtrl'].setValue(true);
   }
 
-  /**
-   * Initialise a default radio selection on the communication page
-   *
-   * If 'communicationEmail' it implies the candidate is entering the form for the first time and
-   * setting default values will not impact rehydration.
-   *
-   * If there is a candidate email provided at the time of booking, this will be chosen as
-   * the default selection. If there is not then the new email radio selection will be chosen
-   * as the default selection.
-   *
-   */
   initialiseDefaultSelections() {
     this.communicationType = CommunicationPage.email;
     if (this.candidateProvidedEmail) {
@@ -329,16 +303,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
   }
 
-  /**
-   * Function to conditionally dispatch 'dispatchCandidateChoseNewEmail' action
-   * to cover edge case candidate action.
-   *
-   * Candidate selects new email -> app crashes -> candidate selects Post ->
-   * app crashes -> candidate selects new email (previous state value exists so examiner clicks continue)
-   *
-   * As state change for new email happens on text input, the expected action
-   * (CandidateChoseEmailAsCommunicationPreference) would not be dispatched.
-   */
   conditionalDispatchCandidateChoseNewEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
 

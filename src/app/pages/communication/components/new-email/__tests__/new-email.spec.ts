@@ -5,7 +5,7 @@ import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-transla
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { configureTestSuite } from 'ng-bullet';
-import { createTranslateLoader } from '@app-module/app.module';
+import { createTranslateLoader } from '@app/app.module';
 import { NewEmailComponent } from '../new-email';
 
 describe('NewEmailComponent', () => {
@@ -57,7 +57,6 @@ describe('NewEmailComponent', () => {
   });
 
   describe('DOM', () => {
-
     describe('i18n', () => {
       it('should render in English by default', (done) => {
         translate.use('en').subscribe(() => {

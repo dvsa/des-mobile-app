@@ -1,7 +1,6 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ConfigMock } from 'ionic-mocks';
 import { configureTestSuite } from 'ng-bullet';
 import { translateServiceMock } from '@shared/mocks/translate';
 import { PrivacyNoticeComponent } from '../privacy-notice';
@@ -21,7 +20,6 @@ describe('PrivacyNoticeComponent', () => {
       ],
       providers: [
         { provide: TranslateService, useValue: translateServiceMock },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
   });

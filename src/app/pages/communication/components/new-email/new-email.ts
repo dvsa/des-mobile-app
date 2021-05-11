@@ -13,7 +13,6 @@ export class NewEmailComponent implements OnChanges {
   static readonly newEmail: string = 'newEmail';
   static readonly newEmailCtrl: string = 'newEmailCtrl';
   static readonly radioCtrl: string = 'radioCtrl';
-  maximumCallStackHandler = { emitEvent: false, onlySelf: true };
 
   @Input()
   formGroup: FormGroup;
