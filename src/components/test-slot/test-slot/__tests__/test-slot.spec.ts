@@ -4,46 +4,48 @@ import { IonicModule, Config } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ConfigMock } from 'ionic-mocks';
 import { cloneDeep } from 'lodash';
-// import { ScreenOrientation } from '@ionic-native/screen-orientation';
-import { StoreModule } from '@ngrx/store'; // Store
-// import { of } from 'rxjs';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-// import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
 import * as moment from 'moment';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { TestSlotComponent } from '../test-slot';
-import { IndicatorsComponent } from '../../indicators/indicators';
-import { TimeComponent } from '../../time/time';
-import { TestOutcomeComponent } from '../../test-outcome/test-outcome';
-import { CandidateLinkComponent } from '../../candidate-link/candidate-link';
-import { TestCategoryComponent } from '../../test-category/test-category';
-import { VehicleDetailsComponent } from '../../vehicle-details/vehicle-details';
-import { AdditionalCandidateDetailsComponent } from '../../additional-candidate-details/additional-candidate-details';
-// import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
-import { LanguageComponent } from '../../language/language';
-/* import { testsReducer } from '@store/tests/tests.reducer';
+import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
+import { testsReducer } from '@store/tests/tests.reducer';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SetTestStatusDecided } from '@store/tests/test-status/test-status.actions';
 import { StartTest } from '@store/tests/tests.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { SpecialNeedsCode } from '@shared/helpers/get-slot-type';
-import { SlotProvider } from '@providers/slot/slot'; */
-import { SubmissionStatusComponent } from '../../submission-status/submission-status';
-import { ProgressiveAccessComponent } from '../../progressive-access/progressive-access';
-import { LocationComponent } from '../../location/location';
-import { DateComponent } from '../../date/date';
-// import { StoreModel } from '@shared/models/store.model';
+import { SlotProvider } from '@providers/slot/slot';
+import { AppConfig } from '@providers/app-config/app-config.model';
+import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
+import { IndicatorsComponent } from '@components/test-slot/indicators/indicators';
+import { TimeComponent } from '@components/test-slot/time/time';
+import { TestOutcomeComponent } from '@components/test-slot/test-outcome/test-outcome';
+import { CandidateLinkComponent } from '@components/test-slot/candidate-link/candidate-link';
+import { TestCategoryComponent } from '@components/test-slot/test-category/test-category';
+import { VehicleDetailsComponent } from '@components/test-slot/vehicle-details/vehicle-details';
+import { LanguageComponent } from '@components/test-slot/language/language';
+import { SubmissionStatusComponent } from '@components/test-slot/submission-status/submission-status';
+import { ProgressiveAccessComponent } from '@components/test-slot/progressive-access/progressive-access';
+import { LocationComponent } from '@components/test-slot/location/location';
+import { DateComponent } from '@components/test-slot/date/date';
+import { AdditionalCandidateDetailsComponent }
+  from '@components/test-slot/additional-candidate-details/additional-candidate-details';
 
-xdescribe('TestSlotComponent', () => {
+describe('TestSlotComponent', () => {
   let fixture: ComponentFixture<TestSlotComponent>;
   let component: TestSlotComponent;
   const startTime = '2019-02-01T11:22:33+00:00';
-  // let store$: Store<StoreModel>;
+  let store$: Store<StoreModel>;
   const mockSlot: TestSlot = {
     slotDetail: {
       slotId: 1001,
@@ -89,7 +91,7 @@ xdescribe('TestSlotComponent', () => {
         meetingPlace: '',
         progressiveAccess: false,
         specialNeeds: 'Candidate has dyslexia',
-        // specialNeedsCode: SpecialNeedsCode.NONE,
+        specialNeedsCode: SpecialNeedsCode.NONE,
         entitlementCheck: false,
         vehicleSeats: 5,
         vehicleHeight: 4,
@@ -124,15 +126,16 @@ xdescribe('TestSlotComponent', () => {
       imports: [
         IonicModule,
         StoreModule.forRoot({
-          // tests: testsReducer,
+          tests: testsReducer,
         }),
       ],
       providers: [
         { provide: Config, useFactory: () => ConfigMock.instance() },
-        // { provide: ScreenOrientation, useClass: ScreenOrientationMock },
+        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        // { provide: SlotProvider, useClass: SlotProvider },
+        { provide: SlotProvider, useClass: SlotProvider },
+        CategoryWhitelistProvider,
       ],
     });
   });
@@ -142,7 +145,7 @@ xdescribe('TestSlotComponent', () => {
     component = fixture.componentInstance;
     component.slot = cloneDeep(mockSlot);
     component.showLocation = true;
-    // store$ = TestBed.inject(Store);
+    store$ = TestBed.inject(Store);
   }));
 
   afterAll(() => {
@@ -154,13 +157,13 @@ xdescribe('TestSlotComponent', () => {
   describe('Class', () => {
     describe('isIndicatorNeededForSlot', () => {
       it('should return true if specialNeeds is a non-blank string', () => {
-        // expect(component.isIndicatorNeededForSlot()).toBe(true);
+        expect(component.isIndicatorNeededForSlot()).toBe(true);
       });
       it('should return false if specialNeeds is blank (entitlementCheck is false, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = false;
-        // component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        // expect(component.isIndicatorNeededForSlot()).toBe(false);
+        component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
+        expect(component.isIndicatorNeededForSlot()).toBe(false);
       });
       it('should return false if specialNeeds is missing', () => {
         delete component.slot.booking.application;
@@ -169,32 +172,32 @@ xdescribe('TestSlotComponent', () => {
       it('should return true if entitlementCheck is true (specialNeeds is blank, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = true;
-        // component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        // expect(component.isIndicatorNeededForSlot()).toBe(true);
+        component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
+        expect(component.isIndicatorNeededForSlot()).toBe(true);
       });
       it('should return false if entitlementCheck is missing (specialNeeds is blank, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
         delete component.slot.booking.application.entitlementCheck;
-        // component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        // expect(component.isIndicatorNeededForSlot()).toBe(false);
+        component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
+        expect(component.isIndicatorNeededForSlot()).toBe(false);
       });
       it('should return false if entitlementCheck is false (specialNeeds is blank, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = false;
-        // component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        // expect(component.isIndicatorNeededForSlot()).toBe(false);
+        component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
+        expect(component.isIndicatorNeededForSlot()).toBe(false);
       });
       it('should return true if slotType is not Standard (specialNeeds is blank, entitlementCheck is false)', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = false;
-        // component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.EXTRA;
-        // expect(component.isIndicatorNeededForSlot()).toBe(true);
+        component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.EXTRA;
+        expect(component.isIndicatorNeededForSlot()).toBe(true);
       });
       it('should return false if slotType is Standard (specialNeeds is blank, entitlementCheck is false )', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = false;
-        // component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        // expect(component.isIndicatorNeededForSlot()).toBe(false);
+        component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
+        expect(component.isIndicatorNeededForSlot()).toBe(false);
       });
 
       it('should return correct value for showing vehicle details', () => {
@@ -232,16 +235,20 @@ xdescribe('TestSlotComponent', () => {
         expect(component.showVehicleDetails()).toEqual(true);
       });
       it('should return true for isPortrait() if device is portrait', () => {
-      /* component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY;
-        expect(component.isPortrait()).toEqual(true);
+        component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY;
+        expect(component.isPortrait())
+          .toEqual(true);
         component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.PORTRAIT;
-        expect(component.isPortrait()).toEqual(true); */
+        expect(component.isPortrait())
+          .toEqual(true);
       });
       it('should return false for isPortrait() if device is landscape', () => {
-      /* component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY;
-        expect(component.isPortrait()).toEqual(false);
+        component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY;
+        expect(component.isPortrait())
+          .toEqual(false);
         component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.LANDSCAPE;
-        expect(component.isPortrait()).toEqual(false); */
+        expect(component.isPortrait())
+          .toEqual(false);
       });
     });
 
@@ -288,7 +295,7 @@ xdescribe('TestSlotComponent', () => {
       it('should return true if slot date is after latest viewable date and user IS whitelisted for ADI', () => {
         jasmine.clock().mockDate(new Date('2020-07-25'));
         spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
-        /* spyOn(component.appConfig, 'getAppConfig').and.returnValue({
+        spyOn(component.appConfig, 'getAppConfig').and.returnValue({
           journal: {
             testPermissionPeriods: [{
               testCategory: TestCategory.ADI3,
@@ -296,7 +303,7 @@ xdescribe('TestSlotComponent', () => {
               to: null,
             }],
           },
-        }); */
+        } as AppConfig);
         component.slot.slotDetail.start = '2020-07-25T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
         expect(canViewCandidateDetails).toEqual(true);
@@ -308,7 +315,7 @@ xdescribe('TestSlotComponent', () => {
         mockDate.setTime(now.getTime());
         jasmine.clock().mockDate(mockDate);
         spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
-        /* spyOn(component.appConfig, 'getAppConfig').and.returnValue({
+        spyOn(component.appConfig, 'getAppConfig').and.returnValue({
           journal: {
             testPermissionPeriods: [{
               testCategory: TestCategory.ADI2,
@@ -316,7 +323,7 @@ xdescribe('TestSlotComponent', () => {
               to: '2020-07-25',
             }],
           },
-        }); */
+        } as AppConfig);
         component.slot.slotDetail.start = '2020-07-25T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
         expect(canViewCandidateDetails).toEqual(true);
@@ -325,7 +332,7 @@ xdescribe('TestSlotComponent', () => {
       it('should return false if slot date is after latest viewable date and user IS NOT whitelisted for ADI', () => {
         jasmine.clock().mockDate(new Date('2020-07-25'));
         spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
-        /* spyOn(component.appConfig, 'getAppConfig').and.returnValue({
+        spyOn(component.appConfig, 'getAppConfig').and.returnValue({
           journal: {
             testPermissionPeriods: [{
               testCategory: TestCategory.B,
@@ -333,7 +340,7 @@ xdescribe('TestSlotComponent', () => {
               to: null,
             }],
           },
-        }); */
+        } as AppConfig);
         component.slot.slotDetail.start = '2020-07-25T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
         expect(canViewCandidateDetails).toEqual(false);
@@ -381,7 +388,6 @@ xdescribe('TestSlotComponent', () => {
         expect(subByDirective.name.title).toBe('Miss');
         expect(subByDirective.name.firstName).toBe('Florence');
         expect(subByDirective.name.lastName).toBe('Pearson');
-        expect(subByDirective.isPortrait).toEqual(false);
       });
 
       it('should pass something to sub-component test-category input', () => {
@@ -394,11 +400,11 @@ xdescribe('TestSlotComponent', () => {
 
       it('should pass something to sub-component test-outcome input', () => {
         fixture.detectChanges();
-        /* component.componentState = {
+        component.componentState = {
           testStatus$: of(TestStatus.Booked),
           testActivityCode$: of(ActivityCodes.PASS),
           isRekey$: of(false),
-        }; */
+        };
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(TestOutcomeComponent)),
@@ -410,18 +416,18 @@ xdescribe('TestSlotComponent', () => {
       });
 
       it('should pass test status decided to the test-outcome component when the outcome observable changes', () => {
-        /* fixture.detectChanges();
+        fixture.detectChanges();
         store$.dispatch(
-          new StartTest(mockSlot.slotDetail.slotId, mockSlot.booking.application.testCategory as TestCategory),
+          StartTest(mockSlot.slotDetail.slotId, mockSlot.booking.application.testCategory as TestCategory),
         );
-        store$.dispatch(new SetTestStatusDecided(mockSlot.slotDetail.slotId.toString()));
+        store$.dispatch(SetTestStatusDecided(mockSlot.slotDetail.slotId.toString()));
         fixture.detectChanges();
 
         const testOutcomeSubComponent = fixture.debugElement.query(
           By.directive(MockComponent(TestOutcomeComponent)),
         ).componentInstance;
 
-        expect(testOutcomeSubComponent.testStatus).toBe(TestStatus.Decided); */
+        expect(testOutcomeSubComponent.testStatus).toBe(TestStatus.Decided);
       });
 
       it('should pass something to sub-component vehicle-details input', () => {

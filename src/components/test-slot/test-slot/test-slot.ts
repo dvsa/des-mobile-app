@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { get, isNil } from 'lodash';
-// import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
@@ -72,7 +72,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   componentState: TestSlotComponentState;
 
   constructor(
-    // public screenOrientation: ScreenOrientation,
+    public screenOrientation: ScreenOrientation,
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
     public store$: Store<StoreModel>,
@@ -114,12 +114,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     return !isNil(specialNeeds) && specialNeeds.length > 0;
   }
 
-  /*
   isPortrait(): boolean {
     return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
       || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
   }
-  */
 
   showVehicleDetails(): boolean {
     return vehicleDetails[this.slot.booking.application.testCategory as TestCategory];
