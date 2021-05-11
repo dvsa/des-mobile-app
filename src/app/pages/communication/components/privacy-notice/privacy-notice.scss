@@ -1,0 +1,20 @@
+.container {
+  background-color: #e6e6e6;
+  border-left: 10px solid var(--gds-black);
+  margin-top: 30px;
+
+
+  ion-row {
+    padding-top: 20px;
+  }
+
+  ion-icon.alert-icon {
+    font-size: 52px;
+    color: var(--gds-black);
+  }
+
+  .privacy-text {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}

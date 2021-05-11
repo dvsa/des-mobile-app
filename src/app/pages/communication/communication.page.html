@@ -1,10 +1,63 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>communication</ion-title>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons slot="end">
+      <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Waiting Room To Car</ion-button>
+  <lock-screen-indicator></lock-screen-indicator>
+  <div>
+    <form [formGroup]="form">
+      <candidate-section [candidateName]="pageState.candidateName$ | async"
+                         [candidateDriverNumber]="pageState.candidateDriverNumber$ | async" (continueClickEvent)="onSubmit()">
+      </candidate-section>
+
+      <div class="mes-full-width-card-separator"></div>
+
+      <privacy-notice [language]="pageState.conductedLanguage$ | async"></privacy-notice>
+
+      <div class="mes-full-width-card" id="declaration-section">
+
+        <ion-row class="mes-validated-row">
+          <ion-col>
+            <div class="communication-text-container">
+              <h4>{{ 'communication.instructionHeader' | translate }}</h4>
+            </div>
+            <div class="validation-bar"></div>
+            <ion-col>
+
+              <provided-email [formGroup]="form"
+                              [shouldRender]="pageState.candidateProvidedEmail$ | async"
+                              [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
+                              [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
+                              (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()">
+              </provided-email>
+
+              <new-email [formGroup]="form"
+                         [newEmailAddress]="getNewEmailAddressValue()"
+                         [isNewEmailAddressChosen]="isNewEmailSelected()"
+                         (newEmailRadioSelect)="conditionalDispatchCandidateChoseNewEmail()"
+                         (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)">
+              </new-email>
+
+              <postal-address [formGroup]="form" [postalAddress]="pageState.candidateAddress$ | async"
+                              [isPostalAddressChosen]="isPostSelected()" (postalRadioSelect)="dispatchCandidateChosePost($event)">
+              </postal-address>
+
+              <ion-row class="validation-message-row">
+                <div class="validation-text"></div>
+              </ion-row>
+            </ion-col>
+          </ion-col>
+        </ion-row>
+      </div>
+    </form>
+  </div>
 </ion-content>

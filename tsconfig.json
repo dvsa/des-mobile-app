@@ -25,7 +25,9 @@
       "@store/*": ["src/store/*"],
       "@mocks/*": ["mock/*"],
       "@components/*": ["src/components/*"],
-      "@directives/*": ["src/directives/*"]
+      "@directives/*": ["src/directives/*"],
+      "@assets/*": ["src/assets/*"],
+      "@app/*": ["src/app/*"],
     }
   },
   "angularCompilerOptions": {
