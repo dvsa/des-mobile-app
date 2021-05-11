@@ -8,9 +8,9 @@ import {
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import {
-  Observable, Subscription, merge, from,
+  Observable, Subscription, merge,
 } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {
   SearchResultTestSchema,
@@ -48,10 +48,8 @@ interface JournalPageState {
   isLoading$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
   appVersion$: Observable<string>;
-  loadingSpinner$: Observable<HTMLIonLoadingElement>;
   completedTests$: Observable<SearchResultTestSchema[]>;
   isOffline$: Observable<boolean>;
-
   canNavigateToPreviousDay$: Observable<boolean>;
   canNavigateToNextDay$: Observable<boolean>;
   isSelectedDateToday$: Observable<boolean>;
@@ -71,7 +69,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   pageState: JournalPageState;
   selectedDate: string;
-  loadingSpinner$: Observable<HTMLIonLoadingElement>;
+  loadingSpinner: HTMLIonLoadingElement;
   pageRefresher: IonRefresher;
   isUnauthenticated: boolean;
   subscription: Subscription;
@@ -131,7 +129,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
         map(getLastRefreshedTime),
       ),
       appVersion$: this.store$.select(selectVersionNumber),
-      loadingSpinner$: from(this.loadingController.create({ spinner: 'circles' })),
       isOffline$: this.networkStateProvider.isOffline$,
       canNavigateToPreviousDay$: this.store$.pipe(
         select(getJournalState),
@@ -157,7 +154,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
       slots$,
       error$,
       isLoading$,
-      loadingSpinner$,
       completedTests$,
     } = this.pageState;
 
@@ -166,9 +162,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(map(this.createSlots)),
       error$.pipe(map(this.showError)),
-      isLoading$.pipe(switchMap((res) => {
-        return this.handleLoadingUI(res, loadingSpinner$);
-      })),
+      isLoading$.pipe(map(this.handleLoadingUI)),
     );
   }
 
@@ -184,10 +178,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.loadJournalManually();
     this.setupPolling();
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-
     // encapsulated in setTimeout to defer call due to race condition with LoadJournalSuccess
     setTimeout(() => this.store$.dispatch(journalActions.LoadCompletedTests()), 0);
-
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
@@ -226,17 +218,20 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.completedTests = completedTests;
   };
 
-  handleLoadingUI = async (isLoading: boolean, loadingSpinner$: Observable<HTMLIonLoadingElement>): Promise<void> => {
-    const spinner = await loadingSpinner$.toPromise();
+  handleLoadingUI = (isLoading: boolean): void => {
     if (isLoading) {
-      await spinner.present();
+      this.loadingController.create({ spinner: 'circles' }).then(async (spinner) => {
+        this.loadingSpinner = spinner;
+        await this.loadingSpinner.present();
+      });
       return;
     }
     if (this.pageRefresher) {
-      await this.pageRefresher['detail'].complete();
+      this.pageRefresher['detail'].complete();
     }
-    if (spinner) {
-      await spinner.dismiss();
+    if (this.loadingSpinner) {
+      this.loadingSpinner.dismiss();
+      this.loadingSpinner = null;
     }
   };
 
