@@ -33,12 +33,13 @@ import { TestOutcomeComponent } from '@components/test-slot/test-outcome/test-ou
 import { CandidateLinkComponent } from '@components/test-slot/candidate-link/candidate-link';
 import { TestCategoryComponent } from '@components/test-slot/test-category/test-category';
 import { VehicleDetailsComponent } from '@components/test-slot/vehicle-details/vehicle-details';
-import { AdditionalCandidateDetailsComponent } from '../../additional-candidate-details/additional-candidate-details';
 import { LanguageComponent } from '@components/test-slot/language/language';
 import { SubmissionStatusComponent } from '@components/test-slot/submission-status/submission-status';
 import { ProgressiveAccessComponent } from '@components/test-slot/progressive-access/progressive-access';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { DateComponent } from '@components/test-slot/date/date';
+import { AdditionalCandidateDetailsComponent }
+  from '@components/test-slot/additional-candidate-details/additional-candidate-details';
 
 describe('TestSlotComponent', () => {
   let fixture: ComponentFixture<TestSlotComponent>;
