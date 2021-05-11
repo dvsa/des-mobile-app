@@ -18,8 +18,11 @@
       <candidate-section [candidateName]="pageState.candidateName$ | async"
                          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async" (continueClickEvent)="onSubmit()">
       </candidate-section>
+
       <div class="mes-full-width-card-separator"></div>
+
       <privacy-notice [language]="pageState.conductedLanguage$ | async"></privacy-notice>
+
       <div class="mes-full-width-card" id="declaration-section">
 
         <ion-row class="mes-validated-row">
