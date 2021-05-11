@@ -117,9 +117,9 @@ describe('WaitingRoomToCarBasePageComponent', () => {
       basePageComponent.commonPageState.showEyesight$
         .subscribe((res) => expect(res).toEqual(true));
       basePageComponent.commonPageState.eyesightTestComplete$
-        .subscribe((res) => expect(res).toEqual(false));
+        .subscribe((res) => expect(res).toEqual(undefined));
       basePageComponent.commonPageState.eyesightTestFailed$
-        .subscribe((res) => expect(res).toEqual(false));
+        .subscribe((res) => expect(res).toEqual(undefined));
       basePageComponent.commonPageState.schoolCar$
         .subscribe((res) => expect(res).toEqual(true));
       basePageComponent.commonPageState.dualControls$
