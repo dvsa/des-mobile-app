@@ -23,7 +23,7 @@ import {
   getPostalAddress,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import {
   getCommunicationPreferenceType,
@@ -122,11 +122,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
         select(getJournalData),
         select(getCandidate),
         select(getCandidateEmailAddress),
-        // take(1),
+        take(1),
       ),
-      communicationEmail$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
+      communicationEmail$: currentTest$.pipe(
         select(getCommunicationPreference),
         select(getCommunicationPreferenceUpdatedEmail),
       ),
