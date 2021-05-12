@@ -295,7 +295,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       if (communicationChoice !== CommunicationPage.email || this.emailType === CommunicationPage.providedEmail) {
         newEmailCtrl.clearValidators();
       } else {
-        newEmailCtrl.setValidators(Validators.email);
+        newEmailCtrl.setValidators(Validators.compose([
+          Validators.required,
+          Validators.email,
+        ]));
       }
       newEmailCtrl.updateValueAndValidity();
     }
