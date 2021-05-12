@@ -155,6 +155,36 @@ describe('TestSlotComponent', () => {
   });
 
   describe('Class', () => {
+    describe('showAdditionalCandidateDetails', () => {
+      const categories = [
+        { category: TestCategory.B },
+        { category: TestCategory.BE },
+        { category: TestCategory.C },
+        { category: TestCategory.C1 },
+        { category: TestCategory.CE },
+        { category: TestCategory.C1E },
+        { category: TestCategory.D },
+        { category: TestCategory.D1 },
+        { category: TestCategory.DE },
+        { category: TestCategory.D1E },
+        { category: TestCategory.F },
+        { category: TestCategory.G },
+        { category: TestCategory.H },
+        { category: TestCategory.K },
+        { category: TestCategory.ADI2 },
+      ];
+      it('should only return true for ADI2, ADI3 and SC test categories', () => {
+        categories.forEach((category) => {
+          if (category.category === TestCategory.ADI2
+            || category.category === TestCategory.ADI3
+            || category.category === TestCategory.SC) {
+            expect(component.showAdditionalCandidateDetails()).toEqual(true);
+          } else {
+            expect(component.showAdditionalCandidateDetails()).toEqual(false);
+          }
+        });
+      });
+    });
     describe('isIndicatorNeededForSlot', () => {
       it('should return true if specialNeeds is a non-blank string', () => {
         expect(component.isIndicatorNeededForSlot()).toBe(true);

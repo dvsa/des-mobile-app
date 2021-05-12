@@ -124,7 +124,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   showAdditionalCandidateDetails(): boolean {
-    return this.slot.booking.application.testCategory === TestCategory.ADI2;
+    const categoryVal = this.slot.booking.application.testCategory;
+    return categoryVal === TestCategory.ADI2
+    || categoryVal === TestCategory.ADI3
+    || categoryVal === TestCategory.SC;
   }
 
   canStartTest(): boolean {
