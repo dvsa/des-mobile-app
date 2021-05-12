@@ -55,6 +55,7 @@ export const UnloadJournal = createAction(
 
 export const LoadCompletedTests = createAction(
   '[JournalEffect] Load Completed Tests',
+  (callThrough: boolean = false) => ({ callThrough }),
 );
 
 export const LoadCompletedTestsSuccess = createAction(

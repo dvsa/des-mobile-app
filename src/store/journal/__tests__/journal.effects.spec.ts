@@ -24,6 +24,11 @@ import journalSlotsDataMock from '@providers/journal/__mocks__/journal-slots-dat
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 
+import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
+import { SearchProvider } from '@providers/search/search';
+import { CompletedTestPersistenceProviderMock }
+  from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { journalReducer } from '../journal.reducer';
 import * as journalActions from '../journal.actions';
 import { JournalEffects } from '../journal.effects';
@@ -58,8 +63,9 @@ describe('Journal Effects', () => {
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        // { provide: SearchProvider, useClass: SearchProviderMock },
+        { provide: SearchProvider, useClass: SearchProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
+        { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
         Store,
         SlotProvider,
       ],

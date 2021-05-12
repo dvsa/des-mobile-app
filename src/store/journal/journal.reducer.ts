@@ -21,11 +21,7 @@ export const journalReducer = createReducer(
   on(journalActions.LoadJournal, (state: JournalModel): JournalModel => ({
     ...state,
     isLoading: true,
-    error: {
-      message: '',
-      status: 0,
-      statusText: '',
-    },
+    error: { message: '', status: 0, statusText: '' },
   })),
   on(journalActions.CandidateDetailsSeen, (state: JournalModel, { slotId }): JournalModel => {
     if (!state.slots[state.selectedDate]) {
@@ -47,15 +43,13 @@ export const journalReducer = createReducer(
       },
     };
   }),
-  on(journalActions.LoadJournalSuccess, (state: JournalModel,
-    {
-      onlineOffline,
-      lastRefreshed,
-      unAuthenticatedMode,
-      payload,
-    }): JournalModel => ({
+  on(journalActions.LoadJournalSuccess, (state: JournalModel, {
+    onlineOffline,
+    lastRefreshed,
+    unAuthenticatedMode,
+    payload,
+  }): JournalModel => ({
     ...state,
-
     // TODO: The reducer has to get the lastRefreshed date from the action
     // And should not do any logic
     lastRefreshed: (onlineOffline
@@ -66,18 +60,15 @@ export const journalReducer = createReducer(
   })),
   on(journalActions.LoadJournalFailure, (state: JournalModel, { error }): JournalModel => ({
     ...state,
-    ...error,
+    error,
     isLoading: false,
   })),
-  on(journalActions.UnloadJournal, (): JournalModel => {
-    return initialState;
-  }),
+  on(journalActions.UnloadJournal, (): JournalModel => initialState),
   on(journalActions.UnsetError, (state: JournalModel): JournalModel => {
-    const {
-      error,
-      ...stateWithoutError
-    } = state;
-    return { ...stateWithoutError };
+    const { error, ...stateWithoutError } = state;
+    return {
+      ...stateWithoutError,
+    };
   }),
   on(journalActions.ClearChangedSlot, (state: JournalModel, { slotId }): JournalModel => {
     if (!state.slots[state.selectedDate]) {
@@ -106,10 +97,9 @@ export const journalReducer = createReducer(
     ...state,
     selectedDate,
   })),
-  on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel,
-    {
-      completedTests,
-    }): JournalModel => ({
+  on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel, {
+    completedTests,
+  }): JournalModel => ({
     ...state,
     completedTests,
   })),
