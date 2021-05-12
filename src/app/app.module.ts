@@ -113,7 +113,7 @@ if (enableRehydrationPlugin) {
     BrowserModule,
     IonicModule.forRoot({
       swipeBackEnabled: false,
-      animated: !(environment as TestersEnvironmentFile)?.isTest ?? true,
+      animated: !(environment as unknown as TestersEnvironmentFile)?.isTest ?? true,
     }),
     AppRoutingModule,
     HttpClientModule,
