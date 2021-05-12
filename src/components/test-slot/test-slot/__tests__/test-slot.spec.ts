@@ -172,9 +172,12 @@ describe('TestSlotComponent', () => {
         { category: TestCategory.H },
         { category: TestCategory.K },
         { category: TestCategory.ADI2 },
+        { category: TestCategory.ADI3 },
+        { category: TestCategory.SC },
       ];
       it('should only return true for ADI2, ADI3 and SC test categories', () => {
         categories.forEach((category) => {
+          component.slot.booking.application.testCategory = category.category;
           if (category.category === TestCategory.ADI2
             || category.category === TestCategory.ADI3
             || category.category === TestCategory.SC) {
