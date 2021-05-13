@@ -34,11 +34,12 @@ import {
 } from '@store/journal/journal.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
-// import { DeviceProvider } from '@providers/device/device';
-// import { Insomnia } from '@ionic-native/insomnia';
+import { DeviceProvider } from '@providers/device/device';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
+// @TODO - Reintroduce with MES-6271
 // import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { AppComponent } from '../../app.component';
+import { AppComponent } from '@app/app.component';
 import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
@@ -64,6 +65,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   @ViewChild('slotContainer', { read: ViewContainerRef }) slotContainer;
 
+  // @TODO - Reintroduce with MES-6271
   // @ViewChild(IncompleteTestsBanner)
   // incompleteTestsBanner: IncompleteTestsBanner;
 
@@ -94,9 +96,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private app: AppComponent,
     private networkStateProvider: NetworkStateProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
-    // private deviceProvider: DeviceProvider,
+    private deviceProvider: DeviceProvider,
     public screenOrientation: ScreenOrientation,
-    // public insomnia: Insomnia,
+    public insomnia: Insomnia,
   ) {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
@@ -197,8 +199,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
     if (super.isIos()) {
       this.screenOrientation.unlock();
-      // this.insomnia.allowSleepAgain();
-      // this.deviceProvider.disableSingleAppMode();
+      this.insomnia.allowSleepAgain();
+      this.deviceProvider.disableSingleAppMode();
     }
   }
 
