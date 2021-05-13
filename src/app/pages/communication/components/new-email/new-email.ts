@@ -23,9 +23,6 @@ export class NewEmailComponent implements OnChanges {
   @Input()
   isNewEmailAddressChosen: boolean;
 
-  @Input()
-  test: boolean;
-
   @Output()
   newEmailRadioSelect = new EventEmitter<string>();
 
@@ -44,11 +41,13 @@ export class NewEmailComponent implements OnChanges {
     if (!this.formControl) {
       this.formControl = new FormControl('', Validators.required);
       if (this.isNewEmailAddressChosen) {
-        this.formControl.setValidators(Validators.compose([Validators.required, Validators.email]));
+        this.formControl.setValidators(Validators.compose([
+          Validators.required,
+          Validators.email,
+        ]));
       }
       this.formGroup.addControl(NewEmailComponent.newEmailCtrl, this.formControl);
     }
-
     this.formControl.patchValue(this.newEmailAddress);
     this.radioButtonControl.patchValue(!!this.isNewEmailAddressChosen);
   }
