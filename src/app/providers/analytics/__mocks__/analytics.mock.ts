@@ -8,7 +8,7 @@ export class AnalyticsProviderMock implements IAnalyticsProvider {
 
   initialiseAnalytics = jasmine.createSpy('initialiseAnalytics').and.returnValue(Promise.resolve());
 
-  logEvent = jasmine.createSpy('logEvent');
+  logEvent = () => {};
 
   addCustomDimension = jasmine.createSpy('addCustomDimension');
 

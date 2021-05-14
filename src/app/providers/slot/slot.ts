@@ -47,7 +47,7 @@ export class SlotProvider {
         hasSeenCandidateDetails = replacedJournalSlot.hasSeenCandidateDetails;
         const differenceToSlot = DeepDiff(replacedJournalSlot.slotData, newSlot);
         if (Array.isArray(differenceToSlot) && differenceToSlot.some((change) => change.kind === 'E')) {
-          this.store$.dispatch(new SlotHasChanged(newSlotId));
+          this.store$.dispatch(SlotHasChanged(newSlotId));
           differenceFound = true;
         }
       }

@@ -38,6 +38,7 @@ describe('Test Status Analytics Effects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestStatusAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
+    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('setTestStatusDecidedEffect', () => {

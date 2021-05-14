@@ -32,6 +32,7 @@ describe('Rekey Search Analytics Effects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(RekeySearchAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
+    spyOn(analyticsProviderMock, 'logEvent');
   }));
 
   describe('rekeySearchViewDidEnter', () => {
