@@ -1,0 +1,103 @@
+<ng-container *ngIf="{
+    manoeuvres: manoeuvres$ | async
+  } as asyncData">
+    <ion-grid class="popover-content">
+      <ion-row>
+        <ion-col col-36>
+          <ion-row>
+            <ion-col>
+              <input type="radio" name="manoeuvres" 
+              [attr.disabled]="(shouldManoeuvreDisable('reverseRight') | async) ? 'disabled' : null"
+              [checked]="asyncData.manoeuvres.selectedReverseRight" 
+              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseRight)" 
+              id="manoeuvres-reverse-right-radio" class="gds-radio-button">
+              <label for="manoeuvres-reverse-right-radio" class="radio-label">Reverse/ Right</label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <input type="radio" name="manoeuvres" 
+              [attr.disabled]="(shouldManoeuvreDisable('reverseParkRoad') | async) ? 'disabled' : null"
+              [checked]="asyncData.manoeuvres.selectedReverseParkRoad" 
+              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkRoad)" 
+              id="manoeuvres-reverse-park-road-radio" class="gds-radio-button">
+              <label for="manoeuvres-reverse-park-road-radio" class="radio-label">Reverse park (Road)</label>
+            </ion-col>
+  
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <input type="radio" name="manoeuvres" 
+              [attr.disabled]="(shouldManoeuvreDisable('reverseParkCarpark') | async) ? 'disabled' : null"
+              [checked]="asyncData.manoeuvres.selectedReverseParkCarpark" 
+              (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkCarpark)" 
+              id="manoeuvres-reverse-park-carpark-radio" class="gds-radio-button">
+              <label for="manoeuvres-reverse-park-carpark-radio" class="radio-label">Reverse park (Car park)</label>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <input type="radio" name="manoeuvres" 
+              [attr.disabled]="(shouldManoeuvreDisable('forwardPark') | async) ? 'disabled' : null"
+              [checked]="asyncData.manoeuvres.selectedForwardPark" 
+              (click)="recordManoeuvreSelection(manoeuvreTypes.forwardPark)" 
+              id="manoeuvres-forward-park-radio" class="gds-radio-button">
+              <label for="manoeuvres-forward-park-radio" class="radio-label">Forward park</label>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col class="manoeuvre-competencies-container" col-8 *ngIf="asyncData.manoeuvres.reverseRight?.selected">
+          <manoeuvre-competency 
+            [manoeuvre]="manoeuvreTypes.reverseRight"
+            [competency]="competencies.controlFault"
+            [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.controlFault)"
+          ></manoeuvre-competency>
+          <manoeuvre-competency
+            class="second"
+            [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.observationFault)"
+            [manoeuvre]="manoeuvreTypes.reverseRight"
+            [competency]="competencies.observationFault"
+            ></manoeuvre-competency>
+        </ion-col>
+        <ion-col class="manoeuvre-competencies-container" col-8 *ngIf="asyncData.manoeuvres.forwardPark?.selected">
+          <manoeuvre-competency 
+            [manoeuvre]="manoeuvreTypes.forwardPark"
+            [competency]="competencies.controlFault"
+            [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.controlFault)"
+          ></manoeuvre-competency>
+          <manoeuvre-competency 
+            class="second"
+            [manoeuvre]="manoeuvreTypes.forwardPark"
+            [competency]="competencies.observationFault"
+            [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.observationFault)"
+          ></manoeuvre-competency>
+        </ion-col>
+          <ion-col class="manoeuvre-competencies-container" col-8 *ngIf="asyncData.manoeuvres.reverseParkCarpark?.selected">
+            <manoeuvre-competency 
+              [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
+              [competency]="competencies.controlFault"
+              [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.controlFault)"
+            ></manoeuvre-competency>
+            <manoeuvre-competency 
+              class="second"
+              [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
+              [competency]="competencies.observationFault"
+              [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.observationFault)"
+            ></manoeuvre-competency>
+          </ion-col>
+        <ion-col class="manoeuvre-competencies-container" col-8 *ngIf="asyncData.manoeuvres.reverseParkRoad?.selected">
+          <manoeuvre-competency 
+            [manoeuvre]="manoeuvreTypes.reverseParkRoad"
+            [competency]="competencies.controlFault"
+            [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.controlFault)"
+          ></manoeuvre-competency>
+          <manoeuvre-competency 
+            class="second" 
+            [manoeuvre]="manoeuvreTypes.reverseParkRoad"
+            [competency]="competencies.observationFault"
+            [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.observationFault)"
+          ></manoeuvre-competency>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>

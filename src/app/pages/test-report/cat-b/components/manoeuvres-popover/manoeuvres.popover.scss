@@ -1,0 +1,36 @@
+
+    .gds-radio-button {
+      & + label {
+        font-size:16px;
+        font-weight:normal;
+      }
+      & + label:before {
+        min-width: 36px;
+        height: 36px;
+        margin-right:15px;
+      }
+      &:checked + label {
+        font-weight:600;
+      }
+      &:checked + label:before {
+        background-color: black;
+        box-shadow: inset 0 0 0 6px white;
+      }
+      &:disabled + label {
+        color: var(--gds-grey-2);
+      }
+      &:disabled + label:before {
+        border-color: var(--gds-grey-2);
+      }
+    }
+    .popover-content {
+      margin-left: 68px;
+      border: 0 none var(--mes-white);
+    }
+    .manoeuvre-competencies-container {
+      margin-top: 40px;
+      .manoeuvre-competency-button {
+        margin-bottom: 10px;
+      }
+    }
+  

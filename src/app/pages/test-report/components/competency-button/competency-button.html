@@ -1,0 +1,12 @@
+<div class="competency-button"
+  (tap)="onTapEvent()"
+  (press)="onPressEvent()"
+  (touchstart)="onTouchStart()"
+  (touchend)="onTouchEnd()"
+  [ngClass]="{
+    'activated': touchState,
+    'ripple-effect': rippleState
+  }"
+>
+  <ng-content></ng-content>
+</div>
