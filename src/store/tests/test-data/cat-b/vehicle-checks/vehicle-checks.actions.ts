@@ -1,4 +1,4 @@
-import { createAction } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 export const TellMeQuestionSelected = createAction(
@@ -48,3 +48,18 @@ export enum QuestionOutcomes {
   Pass = 'P',
   DrivingFault = 'DF',
 }
+
+const actions = union({
+  TellMeQuestionSelected,
+  TellMeQuestionCorrect,
+  TellMeQuestionDrivingFault,
+  AddShowMeTellMeComment,
+  ShowMeQuestionSelected,
+  ShowMeQuestionPassed,
+  ShowMeQuestionDrivingFault,
+  ShowMeQuestionSeriousFault,
+  ShowMeQuestionDangerousFault,
+  ShowMeQuestionRemoveFault,
+});
+
+export type VehicleChecksTypes = typeof actions;

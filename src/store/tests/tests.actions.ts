@@ -62,7 +62,7 @@ export const ActivateTest = createAction(
 
 export const StartTestReportPracticeTest = createAction(
   START_TEST_REPORT_PRACTICE_TEST,
-  (slotId: number, category: TestCategory = TestCategory.B) => ({
+  (slotId: number | string, category: TestCategory = TestCategory.B) => ({
     slotId,
     category,
   }),
