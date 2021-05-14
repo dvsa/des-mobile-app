@@ -57,7 +57,7 @@ export class TestReportEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line
     switchMap(([, currentTest]) => {
       return this.testResultProvider.calculateTestResult(currentTest.category, currentTest.testData)
         .pipe(
@@ -134,7 +134,7 @@ export class TestReportEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line
     filter(([, isTestReportPracticeTestValue]) => !isTestReportPracticeTestValue),
     delay(1000), // Added a 1 second delay to allow other action to complete/effects to fire
     map(() => testsActions.PersistTests()),
