@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, max-len  */
+/* eslint-disable max-len  */
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
