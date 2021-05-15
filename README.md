@@ -21,9 +21,7 @@ DVSA Driving Examiner Application
 Run the following commands after cloning the project
 - `npm i`
 - `ionic build`
-- `ionic cap add ios`
-- `ionic cap copy ios`
-- `npm run copy-resources`
+- `ionic cap sync`
 
 ### Config
 
