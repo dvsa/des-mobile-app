@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'competency-button',
   templateUrl: './competency-button.html',
+  styleUrls: ['./competency-button.scss'],
 })
 export class CompetencyButtonComponent {
 
