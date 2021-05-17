@@ -3,7 +3,7 @@
   } as asyncData">
   <ion-grid class="popover-content">
     <ion-row>
-      <ion-col col-36>
+      <ion-col size="36">
         <ion-row>
           <ion-col>
             <input type="radio" name="manoeuvres" 
@@ -45,7 +45,7 @@
           </ion-col>
         </ion-row>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" col-8 *ngIf="asyncData.manoeuvres.reverseRight?.selected">
+      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData.manoeuvres.reverseRight?.selected">
         <manoeuvre-competency 
           [manoeuvre]="manoeuvreTypes.reverseRight"
           [competency]="competencies.controlFault"
@@ -58,7 +58,7 @@
           [competency]="competencies.observationFault"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" col-8 *ngIf="asyncData.manoeuvres.forwardPark?.selected">
+      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData.manoeuvres.forwardPark?.selected">
         <manoeuvre-competency 
           [manoeuvre]="manoeuvreTypes.forwardPark"
           [competency]="competencies.controlFault"
@@ -71,7 +71,7 @@
           [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.observationFault)"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" col-8 *ngIf="asyncData.manoeuvres.reverseParkCarpark?.selected">
+      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData.manoeuvres.reverseParkCarpark?.selected">
         <manoeuvre-competency 
           [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
           [competency]="competencies.controlFault"
@@ -84,7 +84,7 @@
           [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.observationFault)"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" col-8 *ngIf="asyncData.manoeuvres.reverseParkRoad?.selected">
+      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData.manoeuvres.reverseParkRoad?.selected">
         <manoeuvre-competency 
           [manoeuvre]="manoeuvreTypes.reverseParkRoad"
           [competency]="competencies.controlFault"

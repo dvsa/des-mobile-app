@@ -3,9 +3,9 @@ import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { CompetencyButtonComponent } from '../competency-button';
-import { DateTimeProvider } from '../../../../../providers/date-time/date-time';
-import { DateTimeProviderMock } from '../../../../../providers/date-time/__mocks__/date-time.mock';
 
 describe('CompetencyButtonComponent', () => {
   let fixture: ComponentFixture<CompetencyButtonComponent>;

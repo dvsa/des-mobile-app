@@ -18,6 +18,7 @@ import { OverlayCallback } from '@pages/test-report/test-report.model';
 @Component({
   selector: 'manoeuvres',
   templateUrl: 'manoeuvres.html',
+  styleUrls: ['./manoeuvres.scss'],
 })
 export class ManoeuvresComponent implements OnInit, OnDestroy {
 

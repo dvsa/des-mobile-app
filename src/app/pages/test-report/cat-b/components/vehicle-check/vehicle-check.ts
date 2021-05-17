@@ -24,6 +24,7 @@ import { getTestReportState } from '../../../test-report.reducer';
 @Component({
   selector: 'vehicle-check',
   templateUrl: 'vehicle-check.html',
+  styleUrls: ['./vehicle-check.scss'],
 })
 export class VehicleCheckComponent implements OnInit, OnDestroy {
 
