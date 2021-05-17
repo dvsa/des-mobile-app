@@ -1,5 +1,5 @@
 @import "src/theme/sass-partials/_buttons";
-:host() {
+:host {
   div.competency-button {
     @extend .mes-test-report-button;
     @extend .mes-test-report-button-ripple-effect;
