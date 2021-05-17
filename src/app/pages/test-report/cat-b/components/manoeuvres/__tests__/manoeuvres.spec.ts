@@ -7,10 +7,11 @@ import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-bad
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
+import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { configureTestSuite } from 'ng-bullet';
 import { MockComponent } from 'ng-mocks';
-import { DateTimeProvider } from '../../../../../../providers/date-time/date-time';
-import { DateTimeProviderMock } from '../../../../../../providers/date-time/__mocks__/date-time.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { ManoeuvresComponent } from '../manoeuvres';
 
 describe('ManoeuvresComponent', () => {
@@ -73,8 +74,7 @@ describe('ManoeuvresComponent', () => {
               },
             },
           }),
-          // @TODO introduce this once Cat B NGRX introduced
-        //   testReport: testReportReducer,
+          testReport: testReportReducer,
         }),
       ],
       providers: [
