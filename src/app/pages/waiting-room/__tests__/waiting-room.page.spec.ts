@@ -61,6 +61,7 @@ describe('WaitingRoomPage', () => {
   let component: WaitingRoomPage;
   let store$: Store<StoreModel>;
   let deviceProvider: DeviceProvider;
+  let deviceAuthenticationProvider: DeviceAuthenticationProvider;
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
   let translate: TranslateService;
@@ -122,6 +123,7 @@ describe('WaitingRoomPage', () => {
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
         { provide: AppComponent, useClass: MockAppComponent },
+        // { provide: location, useClass: Location },
       ],
     });
 
@@ -133,6 +135,7 @@ describe('WaitingRoomPage', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
+    deviceAuthenticationProvider = TestBed.get(DeviceAuthenticationProvider);
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
     store$ = TestBed.inject(Store);
@@ -211,6 +214,13 @@ describe('WaitingRoomPage', () => {
         expect(insomnia.keepAwake).toHaveBeenCalled();
       });
 
+    });
+
+    describe('clickBack', () => {
+      it('should should trigger the lock screen', () => {
+        component.clickBack();
+        expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
+      });
     });
 
     describe('onSubmit', () => {

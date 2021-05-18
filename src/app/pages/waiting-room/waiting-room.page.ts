@@ -53,8 +53,9 @@ import { SignatureComponent } from '@pages/waiting-room/components/signature/sig
 
 import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
+import { AppComponent } from '@app/app.component';
 import * as waitingRoomActions from './waiting-room.actions';
-import { AppComponent } from '../../app.component';
+import { Location } from '@angular/common'
 
 interface WaitingRoomPageState {
   insuranceDeclarationAccepted$: Observable<boolean>;
@@ -75,7 +76,6 @@ interface WaitingRoomPageState {
 export class WaitingRoomPage extends PracticeableBasePageComponent implements OnInit {
 
   @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
-
   @ViewChild(SignatureComponent) signatureComponent: SignatureComponent;
 
   pageState: WaitingRoomPageState;
@@ -98,6 +98,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private translate: TranslateService,
     private modalController: ModalController,
     private app: AppComponent,
+    private location: Location,
   ) {
     super(platform, router, authenticationProvider, store$);
     this.formGroup = new FormGroup({});
@@ -193,6 +194,16 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  clickBack(): void {
+    this.deviceAuthenticationProvider.triggerLockScreen()
+      .then(() => {
+        this.location.back();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   isJournalDataInvalid = (journalData: JournalData): boolean => {
