@@ -134,7 +134,7 @@ describe('WaitingRoomPage', () => {
     deviceProvider = TestBed.inject(DeviceProvider);
     screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
-    deviceAuthenticationProvider = TestBed.get(DeviceAuthenticationProvider);
+    deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
     store$ = TestBed.inject(Store);
