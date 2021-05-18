@@ -19,7 +19,7 @@ import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagr
 import { ReverseDiagramPage } from '../reverse-diagram-modal';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from '../reverse-diagram-modal.actions';
 
-fdescribe('reverseDiagramModal', () => {
+describe('reverseDiagramModal', () => {
   let fixture: ComponentFixture<ReverseDiagramPage>;
   let component: ReverseDiagramPage;
   let store$: Store<StoreModel>;
