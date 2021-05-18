@@ -54,8 +54,8 @@ import { SignatureComponent } from '@pages/waiting-room/components/signature/sig
 import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '@app/app.component';
+import { Location } from '@angular/common';
 import * as waitingRoomActions from './waiting-room.actions';
-import { Location } from '@angular/common'
 
 interface WaitingRoomPageState {
   insuranceDeclarationAccepted$: Observable<boolean>;

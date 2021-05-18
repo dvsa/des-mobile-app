@@ -123,7 +123,6 @@ describe('WaitingRoomPage', () => {
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
         { provide: AppComponent, useClass: MockAppComponent },
-        // { provide: location, useClass: Location },
       ],
     });
 
