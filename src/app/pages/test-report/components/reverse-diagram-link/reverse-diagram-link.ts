@@ -9,11 +9,11 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { REVERSE_DIAGRAM_PAGE } from '@pages/page-names.constants';
+import { AppComponent } from 'src/app/app.component';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,
 } from '../reverse-diagram-modal/reverse-diagram-modal.actions';
-import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'reverse-diagram-link',
@@ -34,12 +34,12 @@ export class ReverseDiagramLinkComponent implements OnInit {
       select(getCurrentTest),
     );
     const testCategory$ = currentTest$.pipe(select(getTestCategory));
-    this.subscription = testCategory$.pipe(map(result => this.testCategory = result)).subscribe();
+    this.subscription = testCategory$.pipe(map((result) => this.testCategory = result)).subscribe();
   }
 
   async openReverseDiagramModal() {
     const diagramPage = REVERSE_DIAGRAM_PAGE;
-    this.store$.dispatch(new ReverseDiagramOpened());
+    this.store$.dispatch(ReverseDiagramOpened());
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
     const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
@@ -47,13 +47,13 @@ export class ReverseDiagramLinkComponent implements OnInit {
       {
         component: diagramPage,
         cssClass: zoomClass,
-      }
+      },
     );
     reverseDiagramModal.onDidDismiss().then(() => this.closeReverseDiagramModal());
-    return await reverseDiagramModal.present();
+    return reverseDiagramModal.present();
   }
 
   closeReverseDiagramModal() {
-    this.store$.dispatch(new ReverseDiagramClosed());
+    this.store$.dispatch(ReverseDiagramClosed());
   }
 }

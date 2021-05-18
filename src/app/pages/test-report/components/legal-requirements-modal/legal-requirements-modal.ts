@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { NavParams, ModalController } from '@ionic/angular';
+import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import { ModalEvent } from '../../test-report.constants';
-import { legalRequirementsLabels } from '../../../../shared/constants/legal-requirements/legal-requirements.constants';
 
-@IonicPage()
 @Component({
   selector: 'legal-requirements-modal',
   templateUrl: 'legal-requirements-modal.html',
+  styleUrls: ['legal-requirements-modal.scss'],
 })
 export class LegalRequirementsModal {
 
@@ -14,23 +14,23 @@ export class LegalRequirementsModal {
   isDelegated: boolean;
 
   constructor(
-    private viewCtrl: ViewController,
+    private modalCtrl: ModalController,
     private navParams: NavParams,
   ) {
     this.legalRequirements = this.navParams.get('legalRequirements');
     this.isDelegated = this.navParams.get('isDelegated') === null ? false : this.navParams.get('isDelegated');
   }
 
-  onContinue() {
-    this.viewCtrl.dismiss(ModalEvent.CONTINUE);
+  async onContinue() {
+    await this.modalCtrl.dismiss(ModalEvent.CONTINUE);
   }
 
-  onCancel() {
-    this.viewCtrl.dismiss(ModalEvent.CANCEL);
+  async onCancel() {
+    await this.modalCtrl.dismiss(ModalEvent.CANCEL);
   }
 
-  onTerminate() {
-    this.viewCtrl.dismiss(ModalEvent.TERMINATE);
+  async onTerminate() {
+    await this.modalCtrl.dismiss(ModalEvent.TERMINATE);
   }
 
 }

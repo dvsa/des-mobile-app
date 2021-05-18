@@ -1,5 +1,4 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { DrivingFaultSummaryComponent } from '../driving-fault-summary';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { IonicModule, Config } from '@ionic/angular';
@@ -15,6 +14,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { configureTestSuite } from 'ng-bullet';
+import { DrivingFaultSummaryComponent } from '../driving-fault-summary';
 
 describe('DrivingFaultSummary', () => {
   let fixture: ComponentFixture<DrivingFaultSummaryComponent>;
@@ -41,7 +41,7 @@ describe('DrivingFaultSummary', () => {
     fixture = TestBed.createComponent(DrivingFaultSummaryComponent);
     component = fixture.componentInstance;
     component.subscription = new Subscription();
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
   }));
 
   describe('DOM', () => {

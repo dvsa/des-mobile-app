@@ -1,8 +1,8 @@
-toolbar {
+:host {
   #wrapper {
     height: 68px;
     padding: 12px 24px;
-    background: map-get($colors, "mes-white");
+    background: var(--mes-white);
   }
   .button-wrapper {
     display: flex;
@@ -13,9 +13,9 @@ toolbar {
     min-width: 96px;
     padding: 0 6px;
     height: 43px;
-    border: 3.5px solid map-get($colors-gds, "gds-black");
+    border: 3.5px solid var(--gds-black);
     border-radius: 10px;
-    background-color: map-get($colors, "mes-white");
+    background-color: var(--mes-white);
     margin: 0;
     align-self: center;
     .button-inner {
@@ -26,28 +26,28 @@ toolbar {
       line-height: 25px;
     }
     &.inactive {
-      background-color: map-get($colors, "mes-white");
-      color: map-get($colors-gds, "gds-black");
-      box-shadow: 0 1px 0 0 map-get($colors-gds, "gds-grey-1");
+      background-color: var(--mes-white);
+      color: var(--gds-black);
+      box-shadow: 0 1px 0 0 var(--gds-grey-1);
     }
     &.active {
-      background-color: map-get($colors-gds, "gds-black");
-      color: map-get($colors, "mes-white");
+      background-color: var(--gds-black);
+      color: var(--mes-white);
     }
   }
   #serious-button {
     width: 88px;
     height: 43px;
-    border: 3.5px solid map-get($colors-gds, "gds-yellow");
+    border: 3.5px solid var(--gds-yellow);
     border-radius: 10px;
     margin: 0;
     align-self: center;
     &.inactive {
-      background-color: map-get($colors, "mes-white");
-      box-shadow: 0 1px 0 0 map-get($colors-gds, "gds-grey-1");
+      background-color: var(--mes-white);
+      box-shadow: 0 1px 0 0 var(--gds-grey-1);
     }
     &.active {
-      background: map-get($colors-gds, "gds-yellow");
+      background: var(--gds-yellow);
     }
     span {
       font-size: 24px;
@@ -61,18 +61,18 @@ toolbar {
   #dangerous-button {
     width: 88px;
     height: 43px;
-    border: 3.5px solid map-get($colors-gds, "gds-red");
+    border: 3.5px solid var(--gds-red);
     border-radius: 10px;
     margin: 0;
     align-self: center;
     &.inactive {
-      background-color: map-get($colors, "mes-white");
-      box-shadow: 0 1px 0 0 map-get($colors-gds, "gds-grey-1");
-      color: map-get($colors-gds, "gds-black");
+      background-color: var(--mes-white);
+      box-shadow: 0 1px 0 0 var(--gds-grey-1);
+      color: var(--gds-black);
     }
     &.active {
-      background-color: map-get($colors-gds, "gds-red");
-      color: map-get($colors, "mes-white");
+      background-color: var(--gds-red);
+      color: var(--mes-white);
     }
     span {
       font-size: 24px;

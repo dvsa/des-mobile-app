@@ -1,4 +1,3 @@
-import { ManoeuvresByCategoryProvider } from '../manoeuvres-by-category';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getManoeuvres as getManoeuvresBE } from '@store/tests/test-data/cat-be/test-data.cat-be.selector';
 import {
@@ -10,6 +9,7 @@ import {
 import {
   getManoeuvres as getManoeuvresHomeTest,
 } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
+import { ManoeuvresByCategoryProvider } from '../manoeuvres-by-category';
 
 describe('ManoeuvresByCategoryProvider', () => {
   let provider: ManoeuvresByCategoryProvider;

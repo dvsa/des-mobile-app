@@ -1,10 +1,10 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { EndTestModal } from '../end-test-modal';
-import { IonicModule, NavParams, ViewController } from 'ionic-angular';
-import { NavParamsMock, ViewControllerMock } from 'ionic-mocks';
-import { AppModule } from '../../../../../app/app.module';
+import { IonicModule, NavParams, ModalController } from '@ionic/angular';
+import { NavParamsMock, ModalControllerMock } from 'ionic-mocks';
+import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
+import { EndTestModal } from '../end-test-modal';
 
 describe('EndTestModal', () => {
   let fixture: ComponentFixture<EndTestModal>;
@@ -21,7 +21,7 @@ describe('EndTestModal', () => {
       ],
       providers: [
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: ViewController, useFactory: () => ViewControllerMock.instance() },
+        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
       ],
     });
   });
@@ -29,16 +29,16 @@ describe('EndTestModal', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(EndTestModal);
     component = fixture.componentInstance;
-    component.onContinue = () => {};
-    component.onCancel = () => {};
-    component.onTerminate = () => {};
+    component.onContinue = () => Promise.resolve();
+    component.onCancel = () => Promise.resolve();
+    component.onTerminate = () => Promise.resolve();
   }));
 
   describe('DOM', () => {
     it('should call onContinue when the Continue to debrief button is clicked', () => {
       fixture.detectChanges();
       spyOn(component, 'onContinue');
-      const button = fixture.debugElement.query(By.css('button.mes-primary-button'));
+      const button = fixture.debugElement.query(By.css('ion-button.mes-primary-button'));
       button.triggerEventHandler('click', null);
 
       fixture.detectChanges();
@@ -48,7 +48,7 @@ describe('EndTestModal', () => {
     it('should call onCancel when the Return to test button is clicked', () => {
       fixture.detectChanges();
       spyOn(component, 'onCancel');
-      const button = fixture.debugElement.query(By.css('button.return-button'));
+      const button = fixture.debugElement.query(By.css('ion-button.return-button'));
       button.triggerEventHandler('click', null);
 
       fixture.detectChanges();
@@ -58,7 +58,7 @@ describe('EndTestModal', () => {
     it('should call onTerminate when the Terminate test button is clicked', () => {
       fixture.detectChanges();
       spyOn(component, 'onTerminate');
-      const button = fixture.debugElement.query(By.css('button.terminate-button'));
+      const button = fixture.debugElement.query(By.css('ion-button.terminate-button'));
       button.triggerEventHandler('click', null);
 
       fixture.detectChanges();

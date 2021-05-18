@@ -12,8 +12,6 @@ import {
 import {
   DangerousFaultBadgeComponent,
 } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { testReportReducer } from '../../../test-report.reducer';
-import { ManoeuvreCompetencyComponent } from '../manoeuvre-competency';
 import {
   AddManoeuvreDrivingFault,
   AddManoeuvreDangerousFault,
@@ -26,12 +24,14 @@ import { MockComponent } from 'ng-mocks';
 import { StoreModule, Store } from '@ngrx/store';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { configureTestSuite } from 'ng-bullet';
 import {
   ToggleDangerousFaultMode,
   ToggleSeriousFaultMode,
   ToggleRemoveFaultMode,
 } from '../../../test-report.actions';
-import { configureTestSuite } from 'ng-bullet';
+import { ManoeuvreCompetencyComponent } from '../manoeuvre-competency';
+import { testReportReducer } from '../../../test-report.reducer';
 
 describe('ManoeuvreCompetencyComponent', () => {
   let fixture: ComponentFixture<ManoeuvreCompetencyComponent>;
@@ -101,7 +101,7 @@ describe('ManoeuvreCompetencyComponent', () => {
               },
             },
           }),
-          testReport : testReportReducer,
+          testReport: testReportReducer,
         }),
       ],
       providers: [
@@ -124,7 +124,7 @@ describe('ManoeuvreCompetencyComponent', () => {
       const result = component.hasDrivingFault();
       fixture.detectChanges();
       const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
-      .componentInstance;
+        .componentInstance;
       expect(drivingFaultsBadge).toBeDefined();
       expect(result).toEqual(1);
     });

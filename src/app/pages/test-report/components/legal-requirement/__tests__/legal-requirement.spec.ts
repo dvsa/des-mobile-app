@@ -1,7 +1,5 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { LegalRequirementComponent } from '../legal-requirement';
 import { MockComponent } from 'ng-mocks';
-import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { IonicModule } from '@ionic/angular';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -12,6 +10,8 @@ import {
 } from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
 import { configureTestSuite } from 'ng-bullet';
+import { CompetencyButtonComponent } from '../../competency-button/competency-button';
+import { LegalRequirementComponent } from '../legal-requirement';
 
 describe('LegalRequirementComponent', () => {
   let fixture: ComponentFixture<LegalRequirementComponent>;

@@ -1,26 +1,27 @@
-import { ReverseLeftComponent } from '../reverse-left';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { configureTestSuite } from 'ng-bullet';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { DrivingFaultsBadgeComponent }
- from '@components/common/driving-faults-badge/driving-faults-badge';
+  from '@components/common/driving-faults-badge/driving-faults-badge';
 import { MockComponent } from 'ng-mocks';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { DangerousFaultBadgeComponent }
- from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { CompetencyButtonComponent } from '../../competency-button/competency-button';
-import { testReportReducer } from '../../../test-report.reducer';
+  from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { AppModule } from 'src/app/app.module';
 import { IonicModule } from '@ionic/angular';
-import { ReverseLeftPopoverClosed, ReverseLeftPopoverOpened } from '../reverse-left.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   RecordManoeuvresDeselection,
   RecordManoeuvresSelection,
 } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { ManoeuvresByCategoryProvider } from '@providers/manoeuvres-by-category/manoeuvres-by-category';
+import { ReverseLeftPopoverClosed, ReverseLeftPopoverOpened } from '../reverse-left.actions';
+import { testReportReducer } from '../../../test-report.reducer';
+import { CompetencyButtonComponent } from '../../competency-button/competency-button';
+import { ReverseLeftComponent } from '../reverse-left';
 
 describe('reverseLeftComponent', () => {
   let fixture: ComponentFixture<ReverseLeftComponent>;
@@ -89,6 +90,9 @@ describe('reverseLeftComponent', () => {
           testReport: testReportReducer,
         }),
       ],
+      providers: [
+        ManoeuvresByCategoryProvider,
+      ],
     });
   });
 
@@ -134,14 +138,14 @@ describe('reverseLeftComponent', () => {
       it('should dispatch ReverseLeftPopoverClosed and set displayPopover to false', () => {
         component.displayPopover = true;
         component.togglePopoverDisplay();
-        expect(storeDispatchSpy).toHaveBeenCalledWith(new ReverseLeftPopoverClosed());
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReverseLeftPopoverClosed());
         expect(component.displayPopover).toEqual(false);
         expect(toggleOverlaySpy).toHaveBeenCalled();
       });
       it('should dispatch ReverseLeftPopoverOpened and set displayPopover to true', () => {
         component.displayPopover = false;
         component.togglePopoverDisplay();
-        expect(storeDispatchSpy).toHaveBeenCalledWith(new ReverseLeftPopoverOpened());
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ReverseLeftPopoverOpened());
         expect(component.displayPopover).toEqual(true);
         expect(toggleOverlaySpy).toHaveBeenCalled();
       });

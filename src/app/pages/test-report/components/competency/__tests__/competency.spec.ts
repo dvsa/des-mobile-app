@@ -1,5 +1,4 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { CompetencyComponent } from '../competency';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
@@ -19,7 +18,6 @@ import {
   RemoveDangerousFault,
 } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { MockComponent } from 'ng-mocks';
-import { CompetencyButtonComponent } from '../../../components/competency-button/competency-button';
 import {
   DrivingFaultsBadgeComponent,
 } from '@components/common/driving-faults-badge/driving-faults-badge';
@@ -30,9 +28,11 @@ import { IonicModule } from '@ionic/angular';
 import {
   DangerousFaultBadgeComponent,
 } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { configureTestSuite } from 'ng-bullet';
 import { testReportReducer } from '../../../test-report.reducer';
 import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
-import { configureTestSuite } from 'ng-bullet';
+import { CompetencyButtonComponent } from '../../competency-button/competency-button';
+import { CompetencyComponent } from '../competency';
 
 describe('CompetencyComponent', () => {
   let fixture: ComponentFixture<CompetencyComponent>;
@@ -103,7 +103,7 @@ describe('CompetencyComponent', () => {
               },
             },
           }),
-          testReport : testReportReducer,
+          testReport: testReportReducer,
         }),
       ],
       providers: [

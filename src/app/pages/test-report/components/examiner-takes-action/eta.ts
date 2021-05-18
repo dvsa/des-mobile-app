@@ -38,7 +38,7 @@ export class EtaComponent implements OnInit {
         select(getCurrentTest),
         select(getTestData),
         select(getETA),
-        select(eta => hasExaminerTakenAction(eta, this.eta)),
+        select((eta) => hasExaminerTakenAction(eta, this.eta)),
       ),
     };
   }
@@ -47,6 +47,6 @@ export class EtaComponent implements OnInit {
 
   toggleETA = (): void => {
     this.store$.dispatch(ToggleETA(this.eta));
-  }
+  };
 
 }

@@ -1,15 +1,15 @@
 import { createAction, union } from '@ngrx/store';
 
 export const ReverseDiagramViewDidEnter = createAction(
-  '[ReverseDiagramPage] Reverse Diagram Did Enter'
+  '[ReverseDiagramPage] Reverse Diagram Did Enter',
 );
 
 export const ReverseDiagramOpened = createAction(
-  '[ReverseDiagramPage] Reverse Diagram Opened'
+  '[ReverseDiagramPage] Reverse Diagram Opened',
 );
 
 export const ReverseDiagramClosed = createAction(
-  '[ReverseDiagramPage] Reverse Diagram Closed'
+  '[ReverseDiagramPage] Reverse Diagram Closed',
 );
 
 export const ReverseDiagramLengthChanged = createAction(

@@ -1,4 +1,4 @@
-single-fault-competency {
+:host {
   display: flex;       // this styling is neccessary to ensure z-index
   flex-flow: column;   // works on competency buttons
   competency-button {

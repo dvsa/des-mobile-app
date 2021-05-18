@@ -1,6 +1,6 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { SeriousTooltipComponent } from '../serious-tooltip';
 import { configureTestSuite } from 'ng-bullet';
+import { SeriousTooltipComponent } from '../serious-tooltip';
 
 describe('SeriousTooltipComponenet', () => {
   let fixture: ComponentFixture<SeriousTooltipComponent>;

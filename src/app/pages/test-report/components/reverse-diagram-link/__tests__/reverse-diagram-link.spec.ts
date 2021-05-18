@@ -1,20 +1,20 @@
-import { ReverseDiagramLinkComponent } from '../reverse-diagram-link';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ModalController } from '@ionic/angular';
 import { StoreModel } from '@shared/models/store.model';
 import { configureTestSuite } from 'ng-bullet';
-import { testReportReducer } from '../../../test-report.reducer';
 import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
 import { AppModule } from 'src/app/app.module';
 import { ModalControllerMock } from 'ionic-mocks';
 import { AppComponent } from 'src/app/app.component';
+import { REVERSE_DIAGRAM_PAGE } from '@pages/page-names.constants';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,
 } from '../../reverse-diagram-modal/reverse-diagram-modal.actions';
-import { REVERSE_DIAGRAM_PAGE } from '@pages/page-names.constants';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { testReportReducer } from '../../../test-report.reducer';
+import { ReverseDiagramLinkComponent } from '../reverse-diagram-link';
 
 describe('reverseDiagramLink', () => {
   let fixture: ComponentFixture<ReverseDiagramLinkComponent>;
@@ -102,15 +102,16 @@ describe('reverseDiagramLink', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.openReverseDiagramModal();
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          new ReverseDiagramOpened(),
+          ReverseDiagramOpened(),
         );
       });
       it('should create an instance of the modal with the correct properties', () => {
         component.openReverseDiagramModal();
         expect(modalController.create).toHaveBeenCalledWith(
-          REVERSE_DIAGRAM_PAGE,
-          { onClose: component.closeReverseDiagramModal },
-          { cssClass: 'modal-fullscreen text-zoom-regular' },
+          {
+            component: REVERSE_DIAGRAM_PAGE,
+            cssClass: 'modal-fullscreen text-zoom-regular',
+          },
         );
       });
 
@@ -119,7 +120,7 @@ describe('reverseDiagramLink', () => {
           const storeDispatchSpy = spyOn(store$, 'dispatch');
           component.closeReverseDiagramModal();
           expect(storeDispatchSpy).toHaveBeenCalledWith(
-            new ReverseDiagramClosed(),
+            ReverseDiagramClosed(),
           );
         });
       });

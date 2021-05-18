@@ -1,4 +1,6 @@
-eta-invalid-modal {
+@import "src/theme/sass-partials/modal";
+
+:host {
   @extend .modal-alert-wrapper;
 
   .modal-alert {

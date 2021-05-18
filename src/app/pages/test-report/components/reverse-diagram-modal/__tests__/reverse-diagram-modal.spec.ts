@@ -1,23 +1,25 @@
+/* eslint-disable */
+
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReverseDiagramPage } from '../reverse-diagram-modal';
 import { configureTestSuite } from 'ng-bullet';
-import { AppModule } from '../../../../../app/app.module';
-import { Config, IonicModule, NavController, NavParams, Platform } from 'ionic-angular';
-import { ConfigMock, NavControllerMock, NavParamsMock, PlatformMock } from 'ionic-mocks';
-import { ReversingDistancesProvider } from '../../../../../providers/reversing-distances/reversing-distances';
-import { MockAppComponent } from '../../../../../app/__mocks__/app.component.mock';
-import { App } from '../../../../../app/app.component';
+import { AppModule } from 'src/app/app.module';
+import {
+  Config, IonicModule, NavController, NavParams, Platform,
+} from '@ionic/angular';
+import {
+  ConfigMock, NavControllerMock, NavParamsMock, PlatformMock,
+} from 'ionic-mocks';
+import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
+import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
+import { AppComponent } from 'src/app/app.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagram-modal.mock';
-import { NavigationProvider } from '../../../../../providers/navigation/navigation';
-import { NavigationProviderMock } from '../../../../../providers/navigation/__mocks__/navigation.mock';
-import { NavigationStateProvider } from '../../../../../providers/navigation-state/navigation-state';
-import { NavigationStateProviderMock } from '../../../../../providers/navigation-state/__mocks__/navigation-state.mock';
 import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '../../../../../shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
+import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagram-modal.mock';
+import { ReverseDiagramPage } from '../reverse-diagram-modal';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from '../reverse-diagram-modal.actions';
 
-describe('reverseDiagramModal', () => {
+fdescribe('reverseDiagramModal', () => {
   let fixture: ComponentFixture<ReverseDiagramPage>;
   let component: ReverseDiagramPage;
   let store$: Store<StoreModel>;
@@ -84,9 +86,7 @@ describe('reverseDiagramModal', () => {
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
-        { provide: App, useClass: MockAppComponent },
-        { provide: NavigationProvider, useClass: NavigationProviderMock },
-        { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
+        { provide: AppComponent, useClass: MockAppComponent },
         ReversingDistancesProvider,
       ],
     });
@@ -94,7 +94,7 @@ describe('reverseDiagramModal', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(ReverseDiagramPage);
     component = fixture.componentInstance;
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
   }));
   describe('Class', () => {
@@ -105,7 +105,7 @@ describe('reverseDiagramModal', () => {
       const value = vehicleDetails.get(testCategory);
       const cappedStartDistanceCategories = mockFile.getCappedStartDistanceCategories();
       describe(`Category ${testCategory}`, () => {
-        describe(`ngOnInit`, () => {
+        describe('ngOnInit', () => {
           it('should set the distance based on booked in vehicle length', (done: DoneFn) => {
             component.category = testCategory;
             component.ngOnInit();
@@ -129,7 +129,7 @@ describe('reverseDiagramModal', () => {
             component.category = testCategory;
             component.onLengthKeyup(value.vLength);
             expect(store$.dispatch).toHaveBeenCalledWith(
-              new ReverseDiagramLengthChanged(undefined, value.vLength),
+              ReverseDiagramLengthChanged(undefined, value.vLength),
             );
             expect(component.calculateReversingLengths).toHaveBeenCalledWith(value.vLength);
             const result = component.reversingLengthStart;
@@ -148,7 +148,7 @@ describe('reverseDiagramModal', () => {
             component.category = testCategory;
             component.onLengthKeyup(value.vLength);
             expect(store$.dispatch).toHaveBeenCalledWith(
-              new ReverseDiagramLengthChanged(undefined, value.vLength),
+              ReverseDiagramLengthChanged(undefined, value.vLength),
             );
             expect(component.calculateReversingLengths).toHaveBeenCalledWith(value.vLength);
             const result = component.reversingLengthMiddle;
@@ -162,7 +162,7 @@ describe('reverseDiagramModal', () => {
             component.category = testCategory;
             component.onWidthKeyup(value.vWidth);
             expect(store$.dispatch).toHaveBeenCalledWith(
-              new ReverseDiagramWidthChanged(undefined, value.vWidth),
+              ReverseDiagramWidthChanged(undefined, value.vWidth),
             );
             expect(component.calculateReversingWidth).toHaveBeenCalledWith(value.vWidth);
             const result = component.reversingWidth;
@@ -213,3 +213,5 @@ describe('reverseDiagramModal', () => {
     });
   });
 });
+
+/* eslint-enable */

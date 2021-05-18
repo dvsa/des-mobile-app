@@ -1,12 +1,9 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { EcoComponent } from '../eco';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule, Store } from '@ngrx/store';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { testReportReducer } from '../../../test-report.reducer';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { StartTest } from '@store/tests/tests.actions';
 import {
@@ -14,9 +11,12 @@ import {
   TogglePlanningEco,
   ToggleControlEco,
 }
-from '@store/tests/test-data/common/eco/eco.actions';
+  from '@store/tests/test-data/common/eco/eco.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
+import { CompetencyButtonComponent } from '../../competency-button/competency-button';
+import { testReportReducer } from '../../../test-report.reducer';
+import { EcoComponent } from '../eco';
 
 describe('Eco component', () => {
   let fixture: ComponentFixture<EcoComponent>;
@@ -33,7 +33,7 @@ describe('Eco component', () => {
       ],
       imports: [
         IonicModule,
-        StoreModule.forRoot({ tests: testsReducer, testReport : testReportReducer }),
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
     });
   });

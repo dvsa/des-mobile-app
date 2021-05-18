@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, Input,
+} from '@angular/core';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -8,9 +10,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import * as highwayCodeSafetyAction
   from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
-import { getTestReportState } from '../../test-report.reducer';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
-import { ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
@@ -21,6 +20,10 @@ import {
   getHighwayCodeSafetySeriousFault,
   getHighwayCodeSafetyDrivingFault,
 } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.selectors';
+import { ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
+import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
+import { getTestReportState } from '../../test-report.reducer';
+
 interface HighwayCodeSafetyComponentState {
   isRemoveFaultMode$: Observable<boolean>;
   isSeriousMode$: Observable<boolean>;
@@ -55,7 +58,7 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
   constructor(
     private store$: Store<StoreModel>,
     private testDataByCategoryProvider : TestDataByCategoryProvider,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     const currentTest$ = this.store$.pipe(
@@ -66,25 +69,28 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
     this.componentState = {
       isRemoveFaultMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isRemoveFaultMode)),
+        select(isRemoveFaultMode),
+      ),
       isSeriousMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isSeriousMode)),
+        select(isSeriousMode),
+      ),
       isDangerousMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isDangerousMode)),
+        select(isDangerousMode),
+      ),
       selectedHighwayCodeSafety$: currentTest$.pipe(
-        map(data => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
+        map((data) => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
         select(getHighwayCodeSafety),
         select(isHighwayCodeSafetySelected),
       ),
       highwayCodeSafetySeriousFault$: currentTest$.pipe(
-        map(data => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
+        map((data) => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
         select(getHighwayCodeSafety),
         select(getHighwayCodeSafetySeriousFault),
       ),
       highwayCodeSafetyDrivingFault$: currentTest$.pipe(
-        map(data => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
+        map((data) => this.testDataByCategoryProvider.getTestDataByCategoryCode(this.testCategory)(data)),
         select(getHighwayCodeSafety),
         select(getHighwayCodeSafetyDrivingFault),
       ),
@@ -100,12 +106,12 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
     } = this.componentState;
 
     this.subscription = merge(
-      isRemoveFaultMode$.pipe(map(toggle => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map(toggle => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map(toggle => this.isDangerousMode = toggle)),
-      selectedHighwayCodeSafety$.pipe(map(value => this.selectedHighwayCodeSafety = value)),
-      highwayCodeSafetySeriousFault$.pipe(map(value => this.highwayCodeSafetySeriousFault = value)),
-      highwayCodeSafetyDrivingFault$.pipe(map(value => this.highwayCodeSafetyDrivingFault = value)),
+      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
+      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
+      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
+      selectedHighwayCodeSafety$.pipe(map((value) => this.selectedHighwayCodeSafety = value)),
+      highwayCodeSafetySeriousFault$.pipe(map((value) => this.highwayCodeSafetySeriousFault = value)),
+      highwayCodeSafetyDrivingFault$.pipe(map((value) => this.highwayCodeSafetyDrivingFault = value)),
     ).subscribe();
 
   }
@@ -118,11 +124,11 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
 
   onTap = () => {
     this.addOrRemoveFault();
-  }
+  };
 
   onPress = () => {
     this.addOrRemoveFault(true);
-  }
+  };
 
   canButtonRipple = (): boolean => {
     if (this.isRemoveFaultMode) {
@@ -140,14 +146,14 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
       return false;
     }
     return !(this.hasDangerousFault() || this.hasSeriousFault() || this.faultCount() > 0);
-  }
+  };
 
   toggleHighwayCodeSafety = (): void => {
     if (this.hasSeriousFault() || this.faultCount() > 0) {
       return;
     }
     this.store$.dispatch(highwayCodeSafetyAction.ToggleHighwayCodeSafety());
-  }
+  };
 
   addOrRemoveFault = (wasPress: boolean = false): void => {
     if (this.isRemoveFaultMode) {
@@ -155,7 +161,7 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
     } else {
       this.addFault(wasPress);
     }
-  }
+  };
 
   addFault = (wasPress: boolean): void => {
     if (this.hasDangerousFault() || this.hasSeriousFault() || this.faultCount() > 0) {
@@ -175,7 +181,7 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
     if (wasPress) {
       this.store$.dispatch(highwayCodeSafetyAction.HighwayCodeSafetyAddDrivingFault());
     }
-  }
+  };
 
   removeFault = (): void => {
 
@@ -189,7 +195,7 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
       this.store$.dispatch(highwayCodeSafetyAction.HighwayCodeSafetyRemoveFault());
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
-  }
+  };
 
   faultCount = (): number => this.highwayCodeSafetyDrivingFault ? 1 : 0;
 

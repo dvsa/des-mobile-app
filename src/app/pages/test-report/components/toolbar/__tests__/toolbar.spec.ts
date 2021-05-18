@@ -1,20 +1,20 @@
-import { IonicModule, Config, NavController } from 'ionic-angular';
+import { IonicModule, Config, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
 import { ConfigMock, NavControllerMock } from 'ionic-mocks';
 import { MockComponent } from 'ng-mocks';
 
+import { testsReducer } from '@store/tests/tests.reducer';
+import { StoreModel } from '@shared/models/store.model';
+import { configureTestSuite } from 'ng-bullet';
 import { ToolbarComponent } from '../toolbar';
 import { DrivingFaultSummaryComponent } from '../../driving-fault-summary/driving-fault-summary';
-import { testsReducer } from '../../../../../modules/tests/tests.reducer';
 import { SeriousTooltipComponent } from '../../serious-tooltip/serious-tooltip';
-import { StoreModel } from '../../../../../shared/models/store.model';
 import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../../test-report.actions';
 import { testReportReducer } from '../../../test-report.reducer';
 import { DangerousTooltipComponent } from '../../dangerous-tooltip/dangerous-tooltip';
 import { TimerComponent } from '../../timer/timer';
-import { configureTestSuite } from 'ng-bullet';
 
 describe('ToolbarComponent', () => {
   let fixture: ComponentFixture<ToolbarComponent>;
@@ -33,7 +33,7 @@ describe('ToolbarComponent', () => {
       ],
       imports: [
         IonicModule,
-        StoreModule.forRoot({ tests: testsReducer, testReport : testReportReducer }),
+        StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
       providers: [
         { provide: Config, useFactory: () => ConfigMock.instance() },
@@ -45,7 +45,7 @@ describe('ToolbarComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(ToolbarComponent);
     component = fixture.componentInstance;
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
     storeDispatchSpy = spyOn(store$, 'dispatch');
   }));
 
@@ -54,20 +54,20 @@ describe('ToolbarComponent', () => {
       it('should dispatch a TOGGLE_REMOVE_FAULT_MODE action', () => {
         component.toggleRemoveFaultMode();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(new ToggleRemoveFaultMode(true));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode(true));
       });
     });
     describe('toggleSeriousMode', () => {
       it('should dispatch a TOGGLE_SERIOUS_FAULT_MODE action', () => {
         component.toggleSeriousMode();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(new ToggleSeriousFaultMode(true));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode(true));
       });
       it('should dispatch a TOGGLE_DANGEROUS_FAULT_MODE action if dangerous mode is active', () => {
         component.isDangerousMode = true;
         component.toggleSeriousMode();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(new ToggleDangerousFaultMode());
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
 
     });
@@ -76,7 +76,7 @@ describe('ToolbarComponent', () => {
       it('should dispatch a TOGGLE_DANGEROUS_FAULT_MODE action', () => {
         component.toggleDangerousMode();
 
-        expect(storeDispatchSpy).toHaveBeenCalledWith(new ToggleDangerousFaultMode(true));
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode(true));
       });
     });
   });

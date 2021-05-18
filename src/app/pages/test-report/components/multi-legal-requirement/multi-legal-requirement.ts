@@ -44,5 +44,5 @@ export class MultiLegalRequirementComponent {
       this.store$.dispatch(ToggleLegalRequirement(this.legalRequirement1));
       this.store$.dispatch(ToggleLegalRequirement(this.legalRequirement2));
     }
-  }
+  };
 }

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
 import { Store, select } from '@ngrx/store';
-import { StoreModel } from '../../../../shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
 import { Observable, Subscription, merge } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { getTestReportState } from '../../test-report.reducer';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
-import { map } from 'rxjs/operators';
+import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
 
 interface ToolbarComponentState {
   isSeriousMode$: Observable<boolean>;
@@ -16,6 +16,7 @@ interface ToolbarComponentState {
 @Component({
   selector: 'toolbar',
   templateUrl: 'toolbar.html',
+  styleUrls: ['toolbar.scss'],
 })
 export class ToolbarComponent {
 
@@ -47,9 +48,9 @@ export class ToolbarComponent {
     const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$ } = this.componentState;
 
     const merged$ = merge(
-      isRemoveFaultMode$.pipe(map(result => this.isRemoveFaultMode = result)),
-      isSeriousMode$.pipe(map(result => this.isSeriousMode = result)),
-      isDangerousMode$.pipe(map(result => this.isDangerousMode = result)),
+      isRemoveFaultMode$.pipe(map((result) => this.isRemoveFaultMode = result)),
+      isSeriousMode$.pipe(map((result) => this.isSeriousMode = result)),
+      isDangerousMode$.pipe(map((result) => this.isDangerousMode = result)),
     );
 
     this.subscription = merged$.subscribe();
@@ -62,21 +63,21 @@ export class ToolbarComponent {
   }
 
   toggleRemoveFaultMode(): void {
-    this.store$.dispatch(new ToggleRemoveFaultMode(true));
+    this.store$.dispatch(ToggleRemoveFaultMode(true));
   }
 
   toggleSeriousMode(): void {
     if (this.isDangerousMode) {
-      this.store$.dispatch(new ToggleDangerousFaultMode());
+      this.store$.dispatch(ToggleDangerousFaultMode());
     }
-    this.store$.dispatch(new ToggleSeriousFaultMode(true));
+    this.store$.dispatch(ToggleSeriousFaultMode(true));
   }
 
   toggleDangerousMode(): void {
     if (this.isSeriousMode) {
-      this.store$.dispatch(new ToggleSeriousFaultMode());
+      this.store$.dispatch(ToggleSeriousFaultMode());
     }
-    this.store$.dispatch(new ToggleDangerousFaultMode(true));
+    this.store$.dispatch(ToggleDangerousFaultMode(true));
   }
 
 }

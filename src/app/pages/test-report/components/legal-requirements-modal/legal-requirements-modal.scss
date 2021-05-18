@@ -1,4 +1,6 @@
-legal-requirements-modal {
+@import "src/theme/sass-partials/modal";
+
+:host {
   @extend .modal-alert-wrapper;
 
   .modal-alert {
@@ -6,7 +8,7 @@ legal-requirements-modal {
   }
 
   .modal-alert-message {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 
   .modal-alert-message > ul {
@@ -25,11 +27,11 @@ legal-requirements-modal {
   }
 
   .terminate-button {
-    color: map-get($colors-gds, gds-red);
+    color: var(--gds-red);
   }
 
   .return-button {
-    color: map-get($colors-gds, gds-black);
+    color: var(--gds-black);
   }
 
 }

@@ -12,7 +12,7 @@
     min-width: 37px;
     border-radius: 30px;
     background-color: var(--gds-black);
-    color: map-get($colors, "mes-white");
+    color: var(--mes-white);
     margin-left: 4px;
     .summary-label {
       align-self: center;

@@ -1,31 +1,32 @@
-
 import { Observable, Subscription, merge } from 'rxjs';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { SingleFaultCompetencyNames } from '../../../../modules/tests/test-data/test-data.constants';
+import {
+  Component, Input, OnInit, OnDestroy,
+} from '@angular/core';
+import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { Store, select } from '@ngrx/store';
 import { map, tap } from 'rxjs/operators';
 
-import { StoreModel } from '../../../../shared/models/store.model';
-import { getTestReportState } from '../../test-report.reducer';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
-import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
+import { StoreModel } from '@shared/models/store.model';
 import {
   RemoveSingleFaultCompetencyOutcome,
   SetSingleFaultCompetencyOutcome,
   RemoveSingleDangerousFaultCompetencyOutcome,
   RemoveSingleSeriousFaultCompetencyOutcome,
-} from '../../../../modules/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
-import { CompetencyOutcome } from '../../../../shared/models/competency-outcome';
-import { getTests } from '../../../../modules/tests/tests.reducer';
-import { getCurrentTest } from '../../../../modules/tests/tests.selector';
-import { getTestData } from '../../../../modules/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
+} from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { getTestData } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
 import {
   getSingleFaultCompetencies,
   hasCompetencyDrivingFault,
   hasCompetencySeriousFault,
   hasCompetencyDangerousFault,
-} from '../../../../modules/tests/test-data/common/single-fault-competencies/single-fault-competencies.selector';
-import { competencyLabels } from '../../../../shared/constants/competencies/competencies';
+} from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.selector';
+import { competencyLabels } from '@shared/constants/competencies/competencies';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
+import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
+import { getTestReportState } from '../../test-report.reducer';
 
 interface SingleFaultCompetencyState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -40,6 +41,7 @@ interface SingleFaultCompetencyState {
 @Component({
   selector: 'single-fault-competency',
   templateUrl: 'single-fault-competency.html',
+  styleUrls: ['single-fault-competency.scss'],
 })
 export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
   @Input()
@@ -74,19 +76,25 @@ export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
     this.singleFaultCompetencyState = {
       isRemoveFaultMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isRemoveFaultMode)),
+        select(isRemoveFaultMode),
+      ),
       isSeriousMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isSeriousMode)),
+        select(isSeriousMode),
+      ),
       isDangerousMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isDangerousMode)),
+        select(isDangerousMode),
+      ),
       hasDrivingFault$: singleFaultCompetencies$.pipe(
-        select(singleFaultCompetencies => hasCompetencyDrivingFault(singleFaultCompetencies, this.competency))),
+        select((singleFaultCompetencies) => hasCompetencyDrivingFault(singleFaultCompetencies, this.competency)),
+      ),
       hasSeriousFault$: singleFaultCompetencies$.pipe(
-        select(singleFaultCompetencies => hasCompetencySeriousFault(singleFaultCompetencies, this.competency))),
+        select((singleFaultCompetencies) => hasCompetencySeriousFault(singleFaultCompetencies, this.competency)),
+      ),
       hasDangerousFault$: singleFaultCompetencies$.pipe(
-        select(singleFaultCompetencies => hasCompetencyDangerousFault(singleFaultCompetencies, this.competency))),
+        select((singleFaultCompetencies) => hasCompetencyDangerousFault(singleFaultCompetencies, this.competency)),
+      ),
     };
 
     const {
@@ -99,12 +107,12 @@ export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
     } = this.singleFaultCompetencyState;
 
     const merged$ = merge(
-      isRemoveFaultMode$.pipe(map(toggle => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map(toggle => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map(toggle => this.isDangerousMode = toggle)),
-      hasDrivingFault$.pipe(map(hasfault => this.hasDrivingFault = hasfault)),
-      hasSeriousFault$.pipe(map(hasfault => this.hasSeriousFault = hasfault)),
-      hasDangerousFault$.pipe(map(hasfault => this.hasDangerousFault = hasfault)),
+      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
+      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
+      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
+      hasDrivingFault$.pipe(map((hasfault) => this.hasDrivingFault = hasfault)),
+      hasSeriousFault$.pipe(map((hasfault) => this.hasSeriousFault = hasfault)),
+      hasDangerousFault$.pipe(map((hasfault) => this.hasDangerousFault = hasfault)),
     ).pipe(tap(this.canButtonRipple));
 
     this.subscription = merged$.subscribe();
@@ -118,11 +126,11 @@ export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
 
   onTap = () => {
     this.addOrRemoveFault();
-  }
+  };
 
   onPress = () => {
     this.addOrRemoveFault(true);
-  }
+  };
 
   canButtonRipple = (): void => {
     if (this.isRemoveFaultMode) {
@@ -151,7 +159,7 @@ export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
     }
 
     this.allowRipple = true;
-  }
+  };
 
   getLabel = (): string => competencyLabels[this.competency];
 
@@ -161,28 +169,28 @@ export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
     } else {
       this.addFault(wasPress);
     }
-  }
+  };
 
   removeFault = (): void => {
     if (this.hasDangerousFault && this.isDangerousMode) {
-      this.store$.dispatch(new RemoveSingleDangerousFaultCompetencyOutcome(this.competency));
-      this.store$.dispatch(new ToggleDangerousFaultMode());
-      this.store$.dispatch(new ToggleRemoveFaultMode());
+      this.store$.dispatch(RemoveSingleDangerousFaultCompetencyOutcome(this.competency));
+      this.store$.dispatch(ToggleDangerousFaultMode());
+      this.store$.dispatch(ToggleRemoveFaultMode());
       return;
     }
 
     if (this.hasSeriousFault && this.isSeriousMode) {
-      this.store$.dispatch(new RemoveSingleSeriousFaultCompetencyOutcome(this.competency));
-      this.store$.dispatch(new ToggleSeriousFaultMode());
-      this.store$.dispatch(new ToggleRemoveFaultMode());
+      this.store$.dispatch(RemoveSingleSeriousFaultCompetencyOutcome(this.competency));
+      this.store$.dispatch(ToggleSeriousFaultMode());
+      this.store$.dispatch(ToggleRemoveFaultMode());
       return;
     }
 
     if (!this.isSeriousMode && !this.isDangerousMode && this.hasDrivingFault) {
-      this.store$.dispatch(new RemoveSingleFaultCompetencyOutcome(this.competency));
-      this.store$.dispatch(new ToggleRemoveFaultMode());
+      this.store$.dispatch(RemoveSingleFaultCompetencyOutcome(this.competency));
+      this.store$.dispatch(ToggleRemoveFaultMode());
     }
-  }
+  };
 
   addFault = (wasPress: boolean): void => {
     if (this.competencyHasFault()) {
@@ -190,27 +198,27 @@ export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
     }
 
     if (this.isDangerousMode) {
-      this.store$.dispatch(new SetSingleFaultCompetencyOutcome(this.competency, CompetencyOutcome.D));
-      this.store$.dispatch(new ToggleDangerousFaultMode());
+      this.store$.dispatch(SetSingleFaultCompetencyOutcome(this.competency, CompetencyOutcome.D));
+      this.store$.dispatch(ToggleDangerousFaultMode());
       return;
     }
 
     if (this.isSeriousMode) {
-      this.store$.dispatch(new SetSingleFaultCompetencyOutcome(this.competency, CompetencyOutcome.S));
-      this.store$.dispatch(new ToggleSeriousFaultMode());
+      this.store$.dispatch(SetSingleFaultCompetencyOutcome(this.competency, CompetencyOutcome.S));
+      this.store$.dispatch(ToggleSeriousFaultMode());
       return;
     }
 
     if (wasPress) {
-      this.store$.dispatch(new SetSingleFaultCompetencyOutcome(this.competency, CompetencyOutcome.DF));
+      this.store$.dispatch(SetSingleFaultCompetencyOutcome(this.competency, CompetencyOutcome.DF));
     }
-  }
+  };
 
   competencyHasFault = (): boolean => {
     return this.hasDangerousFault || this.hasSeriousFault || this.hasDrivingFault;
-  }
+  };
 
   getFaultCount = (): number => {
     return this.hasDrivingFault ? 1 : 0;
-  }
+  };
 }

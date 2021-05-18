@@ -1,11 +1,10 @@
-
-import { IonicModule } from 'ionic-angular';
-import { TimerComponent } from '../timer';
+import { IonicModule } from '@ionic/angular';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
-import { StoreModel } from '../../../../../shared/models/store.model';
+import { StoreModel } from '@shared/models/store.model';
 import { Store, StoreModule } from '@ngrx/store';
-import { testsReducer } from '../../../../../modules/tests/tests.reducer';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { TimerComponent } from '../timer';
 import { testReportReducer } from '../../../test-report.reducer';
 import { StartTimer } from '../../../test-report.actions';
 
@@ -29,7 +28,7 @@ describe('TimerComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(TimerComponent);
     component = fixture.componentInstance;
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
   }));
 
   describe('Class', () => {
@@ -37,7 +36,7 @@ describe('TimerComponent', () => {
       it('should dispatch the start timer action, hide the start test button and set up an interval', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.startTimer();
-        expect(storeDispatchSpy).toHaveBeenCalledWith(new StartTimer());
+        expect(storeDispatchSpy).toHaveBeenCalledWith(StartTimer());
         expect(component.showStartTimerButton).toEqual(false);
         expect(component.interval).not.toBeUndefined();
       });

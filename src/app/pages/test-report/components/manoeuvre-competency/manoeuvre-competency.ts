@@ -11,18 +11,20 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { getManoeuvres } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { getTestReportState } from '../../test-report.reducer';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
 import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component, Input, OnInit, OnDestroy,
+} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../test-report.actions';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../test-report.actions';
+import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
+import { getTestReportState } from '../../test-report.reducer';
 
 interface ManoeuvreCompetencyComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -76,13 +78,16 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     this.componentState = {
       isRemoveFaultMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isRemoveFaultMode)),
+        select(isRemoveFaultMode),
+      ),
       isSeriousMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isSeriousMode)),
+        select(isSeriousMode),
+      ),
       isDangerousMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isDangerousMode)),
+        select(isDangerousMode),
+      ),
       manoeuvreCompetencyOutcome$: currentTest$.pipe(
         select(getTestData),
         select(getManoeuvres),
@@ -111,11 +116,11 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     } = this.componentState;
 
     const merged$ = merge(
-      isRemoveFaultMode$.pipe(map(toggle => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map(toggle => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map(toggle => this.isDangerousMode = toggle)),
-      delegatedTest$.pipe(map(toggle => this.isDelegated = toggle)),
-      manoeuvreCompetencyOutcome$.pipe(map(outcome => this.manoeuvreCompetencyOutcome = outcome)),
+      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
+      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
+      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
+      delegatedTest$.pipe(map((toggle) => this.isDelegated = toggle)),
+      manoeuvreCompetencyOutcome$.pipe(map((outcome) => this.manoeuvreCompetencyOutcome = outcome)),
     );
 
     this.subscription = merged$.subscribe();
@@ -141,7 +146,7 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     } else {
       this.addFault(wasPress);
     }
-  }
+  };
 
   addFault = (wasPress: boolean): void => {
     if (this.hasDrivingFault() || this.hasSeriousFault() || this.hasDangerousFault()) {
@@ -167,9 +172,9 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
 
     if (wasPress) {
       this.store$.dispatch(AddManoeuvreDrivingFault(payload));
-      return;
+
     }
-  }
+  };
 
   removeFault = (): void => {
     // Toggle modes off appropariately if competency outcome doesn't exist, then exit
@@ -200,15 +205,15 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     }
 
     if (
-      !this.isSeriousMode &&
-      !this.isDangerousMode &&
-      this.isRemoveFaultMode &&
-      this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF
+      !this.isSeriousMode
+      && !this.isDangerousMode
+      && this.isRemoveFaultMode
+      && this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF
     ) {
       this.store$.dispatch(RemoveManoeuvreFault(payload));
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
-  }
+  };
 
   hasDrivingFault = (): number => this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF ? 1 : 0;
 
@@ -223,12 +228,12 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
   applyRippleEffect = (): any => {
     this.rippleState = true;
     this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
-  }
+  };
 
   removeRippleEffect = (): any => {
     this.rippleState = false;
     clearTimeout(this.rippleTimeout);
-  }
+  };
 
   onTouchStart(): void {
     clearTimeout(this.touchTimeout);

@@ -3,13 +3,10 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule, Store } from '@ngrx/store';
 import { testsReducer } from '@store/tests/tests.reducer';
-import { testReportReducer } from '../../../test-report.reducer';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import {
-  DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import {
   SeriousFaultBadgeComponent,
 } from '@components/common/serious-fault-badge/serious-fault-badge';
@@ -20,11 +17,13 @@ import { StartTest } from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
-import { HighwayCodeSafetyComponent } from '../highway-code-safety';
 import {
   HighwayCodeSafetyAddDrivingFault,
   HighwayCodeSafetyRemoveFault,
 } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
+import { HighwayCodeSafetyComponent } from '../highway-code-safety';
+import { CompetencyButtonComponent } from '../../competency-button/competency-button';
+import { testReportReducer } from '../../../test-report.reducer';
 
 describe('HighwayCodeSafetyComponent', () => {
   let fixture: ComponentFixture<HighwayCodeSafetyComponent>;
@@ -54,7 +53,7 @@ describe('HighwayCodeSafetyComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(HighwayCodeSafetyComponent);
     component = fixture.componentInstance;
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.F));
   }));
 
@@ -66,7 +65,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          HighwayCodeSafetyAddDrivingFault());
+          HighwayCodeSafetyAddDrivingFault(),
+        );
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action for tap', () => {
 
@@ -74,7 +74,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          HighwayCodeSafetyAddDrivingFault());
+          HighwayCodeSafetyAddDrivingFault(),
+        );
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if already a driving fault', () => {
         component.highwayCodeSafetyDrivingFault = true;
@@ -83,7 +84,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          HighwayCodeSafetyAddDrivingFault());
+          HighwayCodeSafetyAddDrivingFault(),
+        );
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if there is a serious fault', () => {
         component.highwayCodeSafetySeriousFault = true;
@@ -92,7 +94,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          HighwayCodeSafetyAddDrivingFault());
+          HighwayCodeSafetyAddDrivingFault(),
+        );
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if serious mode is active', () => {
         component.isSeriousMode = true;
@@ -101,7 +104,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          HighwayCodeSafetyAddDrivingFault());
+          HighwayCodeSafetyAddDrivingFault(),
+        );
       });
       it('should not dispatch an HIGHWAY_CODE_SAFETY_ADD_DRIVING_FAULT action if dangerous mode is active', () => {
         component.isDangerousMode = true;
@@ -110,7 +114,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          HighwayCodeSafetyAddDrivingFault());
+          HighwayCodeSafetyAddDrivingFault(),
+        );
       });
     });
 
@@ -123,7 +128,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          HighwayCodeSafetyRemoveFault());
+          HighwayCodeSafetyRemoveFault(),
+        );
 
       });
       it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action for tap', () => {
@@ -134,7 +140,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          HighwayCodeSafetyRemoveFault());
+          HighwayCodeSafetyRemoveFault(),
+        );
       });
       it('should not dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action if in the wrong mode', () => {
         component.isRemoveFaultMode = true;
@@ -145,7 +152,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault();
 
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          HighwayCodeSafetyRemoveFault());
+          HighwayCodeSafetyRemoveFault(),
+        );
       });
 
       it('should dispatch a HIGHWAY_CODE_SAFETY_REMOVE_FAULT action if there is a serious fault', () => {
@@ -157,7 +165,8 @@ describe('HighwayCodeSafetyComponent', () => {
         component.addOrRemoveFault(true);
 
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          HighwayCodeSafetyRemoveFault());
+          HighwayCodeSafetyRemoveFault(),
+        );
       });
     });
   });

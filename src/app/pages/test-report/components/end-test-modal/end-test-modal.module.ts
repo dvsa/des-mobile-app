@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import { IonicModule } from '@ionic/angular';
 import { EndTestModal } from './end-test-modal';
 
 @NgModule({
@@ -7,7 +7,7 @@ import { EndTestModal } from './end-test-modal';
     EndTestModal,
   ],
   imports: [
-    IonicPageModule.forChild(EndTestModal),
+    IonicModule,
   ],
   exports: [
     EndTestModal,

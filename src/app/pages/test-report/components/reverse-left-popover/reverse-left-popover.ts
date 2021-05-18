@@ -15,13 +15,11 @@ export class ReverseLeftPopoverComponent {
   manoeuvreTypes = ManoeuvreTypes;
   competencies = ManoeuvreCompetencies;
 
-  constructor() { }
-
   getId = (competency: ManoeuvreCompetencies) => `${ManoeuvreTypes.reverseLeft}-${competency}`;
 
   shouldShowReverseDiagramLink = (): boolean =>
-    this.testCategory !== TestCategory.F &&
-    this.testCategory !== TestCategory.G &&
-    this.testCategory !== TestCategory.H &&
-    this.testCategory !== TestCategory.K
+    this.testCategory !== TestCategory.F
+    && this.testCategory !== TestCategory.G
+    && this.testCategory !== TestCategory.H
+    && this.testCategory !== TestCategory.K;
 }

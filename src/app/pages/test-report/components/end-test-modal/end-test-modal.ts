@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
-import { IonicPage, ViewController } from 'ionic-angular';
+import { ModalController } from '@ionic/angular';
 import { ModalEvent } from '../../test-report.constants';
 
-@IonicPage()
 @Component({
   selector: 'end-test-modal',
   templateUrl: 'end-test-modal.html',
+  styleUrls: ['end-test-modal.scss'],
 })
 export class EndTestModal {
 
   constructor(
-    private viewCtrl: ViewController,
+    private modalCtrl: ModalController,
   ) {}
 
-  onCancel() {
-    this.viewCtrl.dismiss(ModalEvent.CANCEL);
+  async onCancel() {
+    await this.modalCtrl.dismiss(ModalEvent.CANCEL);
   }
 
-  onContinue() {
-    this.viewCtrl.dismiss(ModalEvent.CONTINUE);
+  async onContinue() {
+    await this.modalCtrl.dismiss(ModalEvent.CONTINUE);
   }
 
-  onTerminate() {
-    this.viewCtrl.dismiss(ModalEvent.TERMINATE);
+  async onTerminate() {
+    await this.modalCtrl.dismiss(ModalEvent.TERMINATE);
   }
 
 }

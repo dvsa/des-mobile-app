@@ -1,4 +1,4 @@
-timer {
+:host {
   min-width: 116px;
   height: 43px;
 
@@ -22,9 +22,9 @@ timer {
   }
   #timer-text {
     padding: 5px 3px;
-    color: map-get($colors-gds, 'gds-blue');
+    color: var(--gds-blue);
     &.paused {
-      color: map-get($colors-gds, 'gds-light-blue');
+      color: var(--gds-light-blue);
     }
     font-size: 20px;
     position: absolute;

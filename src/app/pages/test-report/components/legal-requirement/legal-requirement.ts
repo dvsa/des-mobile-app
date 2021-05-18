@@ -29,7 +29,7 @@ export class LegalRequirementComponent {
 
   toggleLegalRequirement = (): void => {
     this.store$.dispatch(ToggleLegalRequirement(this.legalRequirement));
-  }
+  };
 
   /**
    * Function to check if a legal requirement should use the normal-start-label class

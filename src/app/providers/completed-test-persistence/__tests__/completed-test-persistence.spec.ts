@@ -33,9 +33,9 @@ describe('TestPersistenceProvider', () => {
   ] as SearchResultTestSchema[];
 
   beforeEach(() => {
-    dataStoreProvider = TestBed.get(DataStoreProvider);
-    completedTestPersistenceProvider = TestBed.get(CompletedTestPersistenceProvider);
-    store$ = TestBed.get(Store);
+    dataStoreProvider = TestBed.inject(DataStoreProvider);
+    completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
+    store$ = TestBed.inject(Store);
   });
 
   describe('persistCompletedTests', () => {

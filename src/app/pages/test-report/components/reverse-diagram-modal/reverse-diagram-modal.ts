@@ -7,14 +7,14 @@ import { ReversingDistancesProvider } from '@providers/reversing-distances/rever
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestCategory } from '@store/tests/category/category.reducer';
+import { getCurrentTest } from '@store//tests/tests.selector';
+import { getTestCategory } from '@store//tests/category/category.reducer';
 import { map } from 'rxjs/operators';
-import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
 import {
   CategorySpecificVehicleDetails,
   VehicleDetailsByCategoryProvider,
 } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
+import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from './reverse-diagram-modal.actions';
 
 interface ReverseDiagramPageState {
   vehicleLength$: Observable<number>;
@@ -27,6 +27,7 @@ type OnCloseFunc = () => void;
 @Component({
   selector: 'reverse-diagram-modal',
   templateUrl: 'reverse-diagram-modal.html',
+  styleUrls: ['reverse-diagram-modal.scss'],
 })
 export class ReverseDiagramPage implements OnInit {
   @Input()
@@ -83,9 +84,9 @@ export class ReverseDiagramPage implements OnInit {
     const { vehicleLength$, vehicleWidth$, category$ } = this.componentState;
 
     this.merged$ = merge(
-      vehicleLength$.pipe(map(val => this.vehicleLength = val)),
-      vehicleWidth$.pipe(map(val => this.vehicleWidth = val)),
-      category$.pipe(map(val => this.category = val as TestCategory)),
+      vehicleLength$.pipe(map((val) => this.vehicleLength = val)),
+      vehicleWidth$.pipe(map((val) => this.vehicleWidth = val)),
+      category$.pipe(map((val) => this.category = val as TestCategory)),
     );
   }
 
@@ -102,8 +103,10 @@ export class ReverseDiagramPage implements OnInit {
       case TestCategory.D:
       case TestCategory.D1:
         return 'rigid';
+      default:
+        return 'rigid';
     }
-  }
+  };
 
   calculateReversingLengths(vehicleLength: number): void {
     const vehicleDetails = {
@@ -161,7 +164,7 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   onLengthKeyup(vehicleLength: number) : void {
-    this.store$.dispatch(ReverseDiagramLengthChanged(this.vehicleLength , vehicleLength));
+    this.store$.dispatch(ReverseDiagramLengthChanged(this.vehicleLength, vehicleLength));
     this.calculateReversingLengths(vehicleLength);
   }
 

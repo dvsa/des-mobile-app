@@ -1,6 +1,6 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { DangerousTooltipComponent } from '../dangerous-tooltip';
 import { configureTestSuite } from 'ng-bullet';
+import { DangerousTooltipComponent } from '../dangerous-tooltip';
 
 describe('DangerousTooltipComponent', () => {
   let fixture: ComponentFixture<DangerousTooltipComponent>;

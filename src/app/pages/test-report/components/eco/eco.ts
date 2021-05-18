@@ -47,13 +47,13 @@ export class EcoComponent implements OnInit {
 
     this.componentState = {
       completed$: eco$.pipe(
-        map(eco => eco.completed),
+        map((eco) => eco.completed),
       ),
       adviceGivenPlanning$: eco$.pipe(
-        map(eco => eco.adviceGivenPlanning),
+        map((eco) => eco.adviceGivenPlanning),
       ),
       adviceGivenControl$: eco$.pipe(
-        map(eco => eco.adviceGivenControl),
+        map((eco) => eco.adviceGivenControl),
       ),
     };
 
@@ -61,8 +61,8 @@ export class EcoComponent implements OnInit {
 
     const merged$ = merge(
       completed$,
-      adviceGivenPlanning$.pipe(map(toggle => this.adviceGivenPlanning = toggle)),
-      adviceGivenControl$.pipe(map(toggle => this.adviceGivenControl = toggle)),
+      adviceGivenPlanning$.pipe(map((toggle) => this.adviceGivenPlanning = toggle)),
+      adviceGivenControl$.pipe(map((toggle) => this.adviceGivenControl = toggle)),
     );
 
     this.subscription = merged$.subscribe();
@@ -79,13 +79,13 @@ export class EcoComponent implements OnInit {
       return;
     }
     this.store$.dispatch(ToggleEco());
-  }
+  };
 
   toggleEcoPlanning = (): void => {
     this.store$.dispatch(TogglePlanningEco());
-  }
+  };
 
   toggleEcoControl = (): void => {
     this.store$.dispatch(ToggleControlEco());
-  }
+  };
 }

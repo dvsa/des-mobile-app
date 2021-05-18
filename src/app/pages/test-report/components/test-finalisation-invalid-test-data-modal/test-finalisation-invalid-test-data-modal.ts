@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams } from 'ionic-angular';
+import { NavParams } from '@ionic/angular';
 
-@IonicPage()
 @Component({
   selector: 'test-finalisation-invalid-test-data-modal',
   templateUrl: 'test-finalisation-invalid-test-data-modal.html',

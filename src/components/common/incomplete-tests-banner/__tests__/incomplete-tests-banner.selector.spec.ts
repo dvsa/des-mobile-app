@@ -30,7 +30,7 @@ describe('IncompleteTestsBannerSelector', () => {
   });
 
   beforeEach(() => {
-    slotProvider = TestBed.get(SlotProvider);
+    slotProvider = TestBed.inject(SlotProvider);
   });
 
   describe('getIncompleteTestsCount', () => {

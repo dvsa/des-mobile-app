@@ -1,14 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReverseLeftPopoverComponent } from '../reverse-left-popover';
 import { configureTestSuite } from 'ng-bullet';
-import { ManoeuvreCompetencyComponent }
- from '../../manoeuvre-competency/manoeuvre-competency';
-import { ReverseDiagramLinkComponent } from '../../reverse-diagram-link/reverse-diagram-link';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ManoeuvreCompetencies } from '@store/tests/test-data/test-data.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ReverseDiagramLinkComponent } from '../../reverse-diagram-link/reverse-diagram-link';
+import { ManoeuvreCompetencyComponent }
+  from '../../manoeuvre-competency/manoeuvre-competency';
+import { ReverseLeftPopoverComponent } from '../reverse-left-popover';
 
 describe('reverseLeftComponent', () => {
   let fixture: ComponentFixture<ReverseLeftPopoverComponent>;

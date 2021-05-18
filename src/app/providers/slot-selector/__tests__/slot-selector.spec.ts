@@ -21,7 +21,7 @@ describe('Slot Selector', () => {
   });
 
   beforeEach(() => {
-    slotSelector = TestBed.get(SlotSelectorProvider);
+    slotSelector = TestBed.inject(SlotSelectorProvider);
   });
 
   const singleSlotItemWithActivityCode = (code) => {

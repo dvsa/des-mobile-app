@@ -1,33 +1,33 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { StoreModel } from '../../../../../shared/models/store.model';
-import { IonicModule } from 'ionic-angular';
+import { StoreModel } from '@shared/models/store.model';
+import { IonicModule } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TickIndicatorComponent } from '../../../../../components/common/tick-indicator/tick-indicator';
+import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import {
   DrivingFaultsBadgeComponent,
-} from '../../../../../components/common/driving-faults-badge/driving-faults-badge';
-import { testsReducer } from '../../../../../modules/tests/tests.reducer';
+} from '@components/common/driving-faults-badge/driving-faults-badge';
+import { testsReducer } from '@store/tests/tests.reducer';
 import {
   DangerousFaultBadgeComponent,
-} from '../../../../../components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { CompetencyButtonComponent } from '../../../components/competency-button/competency-button';
-import { testReportReducer } from '../../../test-report.reducer';
+} from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { CompetencyButtonComponent } from '@pages/test-report/components/competency-button/competency-button';
+import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { MockComponent } from 'ng-mocks';
 import {
   SeriousFaultBadgeComponent,
-} from '../../../../../components/common/serious-fault-badge/serious-fault-badge';
-import { StartTest } from '../../../../../modules/tests/tests.actions';
-import { UncoupleRecoupleComponent } from '../uncouple-recouple';
-import { CompetencyOutcome } from '../../../../../shared/models/competency-outcome';
+} from '@components/common/serious-fault-badge/serious-fault-badge';
+import { StartTest } from '@store/tests/tests.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
   UncoupleRecoupleAddDrivingFault,
   UncoupleRecoupleRemoveFault,
-} from '../../../../../modules/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-import { ToggleSeriousFaultMode } from '../../../test-report.actions';
+} from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
-import { TestDataByCategoryProvider } from '../../../../../providers/test-data-by-category/test-data-by-category';
+import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { ToggleSeriousFaultMode } from '../../../test-report.actions';
+import { UncoupleRecoupleComponent } from '../uncouple-recouple';
 
 describe('UncoupleRecoupleComponent', () => {
   let fixture: ComponentFixture<UncoupleRecoupleComponent>;
@@ -57,8 +57,8 @@ describe('UncoupleRecoupleComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(UncoupleRecoupleComponent);
     component = fixture.componentInstance;
-    store$ = TestBed.get(Store);
-    store$.dispatch(new StartTest(105, TestCategory.BE));
+    store$ = TestBed.inject(Store);
+    store$.dispatch(StartTest(105, TestCategory.BE));
   }));
 
   describe('Class', () => {
@@ -69,14 +69,16 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          new UncoupleRecoupleAddDrivingFault());
+          UncoupleRecoupleAddDrivingFault(),
+        );
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action for tap', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          new UncoupleRecoupleAddDrivingFault());
+          UncoupleRecoupleAddDrivingFault(),
+        );
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if there is already a driving fault',
@@ -85,7 +87,8 @@ describe('UncoupleRecoupleComponent', () => {
           const storeDispatchSpy = spyOn(store$, 'dispatch');
           component.addOrRemoveFault(true);
           expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-            new UncoupleRecoupleAddDrivingFault());
+            UncoupleRecoupleAddDrivingFault(),
+          );
         });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if there is a serious fault', () => {
@@ -93,7 +96,8 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          new UncoupleRecoupleAddDrivingFault());
+          UncoupleRecoupleAddDrivingFault(),
+        );
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if serious mode is active', () => {
@@ -101,7 +105,8 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          new UncoupleRecoupleAddDrivingFault());
+          UncoupleRecoupleAddDrivingFault(),
+        );
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if there is a dangerous fault', () => {
@@ -109,7 +114,8 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          new UncoupleRecoupleAddDrivingFault());
+          UncoupleRecoupleAddDrivingFault(),
+        );
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action if dangerous mode is active', () => {
@@ -117,7 +123,8 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          new UncoupleRecoupleAddDrivingFault());
+          UncoupleRecoupleAddDrivingFault(),
+        );
       });
     });
 
@@ -129,7 +136,8 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          new UncoupleRecoupleRemoveFault());
+          UncoupleRecoupleRemoveFault(),
+        );
       });
 
       it('should dispatch an UNCOUPLE_RECOUPLE_REMOVE_FAULT action for tap', () => {
@@ -138,7 +146,8 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          new UncoupleRecoupleRemoveFault());
+          UncoupleRecoupleRemoveFault(),
+        );
       });
 
       it('should not dispatch an UNCOUPLE_RECOUPLE_REMOVE_FAULT action if in the wrong mode', () => {
@@ -148,7 +157,8 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).not.toHaveBeenCalledWith(
-          new UncoupleRecoupleRemoveFault());
+          UncoupleRecoupleRemoveFault(),
+        );
       });
 
       it('should dispatch a UNCOUPLE_RECOUPLE_REMOVE_FAULT action if there is a serious fault', () => {
@@ -158,9 +168,11 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          new UncoupleRecoupleRemoveFault());
+          UncoupleRecoupleRemoveFault(),
+        );
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          new ToggleSeriousFaultMode());
+          ToggleSeriousFaultMode(),
+        );
       });
 
       it('should dispatch a UNCOUPLE_RECOUPLE_REMOVE_FAULT action if there is a dangerous fault', () => {
@@ -170,7 +182,8 @@ describe('UncoupleRecoupleComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault();
         expect(storeDispatchSpy).toHaveBeenCalledWith(
-          new UncoupleRecoupleRemoveFault());
+          UncoupleRecoupleRemoveFault(),
+        );
       });
     });
   });

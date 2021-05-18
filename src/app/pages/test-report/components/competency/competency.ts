@@ -24,13 +24,13 @@ import {
   hasDangerousFault,
 } from '@store/tests/test-data/common/test-data.selector';
 import { getDrivingFaultCount } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { getTestReportState } from '../../test-report.reducer';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
-import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
+import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
+import { getTestReportState } from '../../test-report.reducer';
 
 interface CompetencyState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -80,22 +80,27 @@ export class CompetencyComponent {
     this.competencyState = {
       isRemoveFaultMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isRemoveFaultMode)),
+        select(isRemoveFaultMode),
+      ),
       isSeriousMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isSeriousMode)),
+        select(isSeriousMode),
+      ),
       isDangerousMode$: this.store$.pipe(
         select(getTestReportState),
-        select(isDangerousMode)),
+        select(isDangerousMode),
+      ),
       drivingFaultCount$: currentTest$.pipe(
         select(getTestData),
-        select(testData => getDrivingFaultCount(testData, this.competency))),
+        select((testData) => getDrivingFaultCount(testData, this.competency)),
+      ),
       hasSeriousFault$: currentTest$.pipe(
         select(getTestData),
-        select(testData => hasSeriousFault(testData, this.competency))),
+        select((testData) => hasSeriousFault(testData, this.competency)),
+      ),
       hasDangerousFault$: currentTest$.pipe(
         select(getTestData),
-        select(testData => hasDangerousFault(testData, this.competency)),
+        select((testData) => hasDangerousFault(testData, this.competency)),
       ),
       isDelegated$: currentTest$.pipe(
         select(getDelegatedTestIndicator),
@@ -114,13 +119,13 @@ export class CompetencyComponent {
     } = this.competencyState;
 
     const merged$ = merge(
-      drivingFaultCount$.pipe(map(count => this.faultCount = count)),
-      isRemoveFaultMode$.pipe(map(toggle => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map(toggle => this.isSeriousMode = toggle)),
-      hasSeriousFault$.pipe(map(toggle => this.hasSeriousFault = toggle)),
-      isDangerousMode$.pipe(map(toggle => this.isDangerousMode = toggle)),
-      hasDangerousFault$.pipe(map(toggle => this.hasDangerousFault = toggle)),
-      isDelegated$.pipe(map(toggle => this.isDelegated = toggle)),
+      drivingFaultCount$.pipe(map((count) => this.faultCount = count)),
+      isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
+      isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
+      hasSeriousFault$.pipe(map((toggle) => this.hasSeriousFault = toggle)),
+      isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
+      hasDangerousFault$.pipe(map((toggle) => this.hasDangerousFault = toggle)),
+      isDelegated$.pipe(map((toggle) => this.isDelegated = toggle)),
     ).pipe(tap(this.canButtonRipple));
 
     this.subscription = merged$.subscribe();
@@ -135,11 +140,11 @@ export class CompetencyComponent {
 
   onTap = () => {
     this.addOrRemoveFault(this.isDelegated);
-  }
+  };
 
   onPress = () => {
     this.addOrRemoveFault(true);
-  }
+  };
 
   canButtonRipple = (): void => {
     if (this.isRemoveFaultMode) {
@@ -183,14 +188,14 @@ export class CompetencyComponent {
     }
 
     this.allowRipple = true;
-  }
+  };
 
   getLabel = (): string => {
     if (this.labelOverride) {
       return competencyLabels[this.labelOverride];
     }
     return competencyLabels[this.competency];
-  }
+  };
 
   addOrRemoveFault = (wasPress: boolean = false): void => {
     if (this.isRemoveFaultMode) {
@@ -198,7 +203,7 @@ export class CompetencyComponent {
     } else {
       this.addFault(wasPress);
     }
-  }
+  };
 
   addFault = (wasPress: boolean): void => {
     if (this.hasDangerousFault) {
@@ -222,13 +227,13 @@ export class CompetencyComponent {
     }
 
     if (wasPress) {
-      const competency = this.competency;
+      const { competency } = this;
       return this.store$.dispatch(ThrottleAddDrivingFault({
         competency,
         newFaultCount: this.faultCount ? this.faultCount + 1 : 1,
       }));
     }
-  }
+  };
 
   removeFault = (): void => {
     if (this.hasDangerousFault && this.isDangerousMode && this.isRemoveFaultMode) {
@@ -252,13 +257,13 @@ export class CompetencyComponent {
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
 
-  }
+  };
 
   competencyHasFault = (): boolean => {
     return this.hasDangerousFault || this.hasSeriousFault || this.hasDrivingFault();
-  }
+  };
 
   hasDrivingFault = (): boolean => {
     return this.faultCount !== undefined;
-  }
+  };
 }

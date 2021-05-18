@@ -56,7 +56,7 @@ import {
     EtaInvalidModalModule,
     TestFinalisationInvalidTestDataModalModule,
   ],
-  exports:[
+  exports: [
     EtaComponent,
     CompetencyComponent,
     SingleFaultCompetencyComponent,

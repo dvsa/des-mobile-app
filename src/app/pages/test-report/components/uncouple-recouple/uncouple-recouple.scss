@@ -1,4 +1,4 @@
-uncouple-recouple {
+:host {
   competency-button {
     position: relative;
   }
@@ -16,7 +16,7 @@ uncouple-recouple {
     }
 
     &.checked .competency-button {
-      border: 2px solid map-get($colors-gds, "gds-dark-green");
+      border: 2px solid var(--gds-dark-green);
     }
   }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -9,7 +9,6 @@ import {
   AnalyticsEventCategories,
   AnalyticsEvents,
 } from '@providers/analytics/analytics.model';
-import * as reverseDiagramActions from './reverse-diagram-modal.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { Store, select } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
@@ -27,6 +26,7 @@ import {
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import * as reverseDiagramActions from './reverse-diagram-modal.actions';
 
 @Injectable()
 export class ReverseDiagramModalAnalyticsEffects {
@@ -40,7 +40,7 @@ export class ReverseDiagramModalAnalyticsEffects {
 
   reverseDiagramViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(reverseDiagramActions.ReverseDiagramViewDidEnter),
-    concatMap(action => of(action).pipe(
+    concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
           select(getTests),
@@ -68,7 +68,7 @@ export class ReverseDiagramModalAnalyticsEffects {
     )),
     switchMap((
       [, tests, applicationReference, candidateId, category]:
-        [ReturnType <typeof reverseDiagramActions.ReverseDiagramViewDidEnter>, TestsModel, string, number, CategoryCode],
+      [ReturnType <typeof reverseDiagramActions.ReverseDiagramViewDidEnter>, TestsModel, string, number, CategoryCode],
     ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
@@ -82,7 +82,7 @@ export class ReverseDiagramModalAnalyticsEffects {
 
   reverseDiagramOpened$ = createEffect(() => this.actions$.pipe(
     ofType(reverseDiagramActions.ReverseDiagramOpened),
-    concatMap(action => of(action).pipe(
+    concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
           select(getTests),
@@ -100,7 +100,7 @@ export class ReverseDiagramModalAnalyticsEffects {
 
   reverseDiagramClosed$ = createEffect(() => this.actions$.pipe(
     ofType(reverseDiagramActions.ReverseDiagramClosed),
-    concatMap(action => of(action).pipe(
+    concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
           select(getTests),
@@ -118,14 +118,15 @@ export class ReverseDiagramModalAnalyticsEffects {
 
   reverseDiagramLengthChanged$ = createEffect(() => this.actions$.pipe(
     ofType(reverseDiagramActions.ReverseDiagramLengthChanged),
-    concatMap(action => of(action).pipe(
+    concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
           select(getTests),
         ),
       ),
     )),
-    concatMap(([action, tests]: [ReturnType <typeof reverseDiagramActions.ReverseDiagramLengthChanged>, TestsModel]) => {
+    concatMap(([action, tests]:
+    [ReturnType<typeof reverseDiagramActions.ReverseDiagramLengthChanged>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REVERSE_DIAGRAM_LENGTH_CHANGED, tests),
@@ -137,7 +138,7 @@ export class ReverseDiagramModalAnalyticsEffects {
 
   reverseDiagramWidthChanged$ = createEffect(() => this.actions$.pipe(
     ofType(reverseDiagramActions.ReverseDiagramWidthChanged),
-    concatMap(action => of(action).pipe(
+    concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
           select(getTests),
