@@ -201,9 +201,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   async clickBack(): Promise<void> {
     try {
-      if (await this.deviceAuthenticationProvider.triggerLockScreen()) this.location.back();
+      await this.deviceAuthenticationProvider.triggerLockScreen();
+      this.location.back();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
 
