@@ -1,0 +1,27 @@
+test-finalisation-invalid-test-data-modal {
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    width: 400px;
+  }
+
+  .modal-alert-header {
+    margin: 20px 0 20px 0;
+  }
+
+  .mes-primary-button {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    width: 100%;
+    height: 56px;
+  }
+
+  .terminate-button {
+    color: map-get($colors-gds, gds-red);
+  }
+
+  .return-button {
+    color: map-get($colors-gds, gds-black);
+  }
+
+}

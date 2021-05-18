@@ -1,0 +1,36 @@
+<ion-row>
+  <ion-col col-20 no-padding>
+    <competency-button class="uncouple-recouple-tick"
+      [onTap]="toggleUncoupleRecouple"
+      [onPress]="toggleUncoupleRecouple"
+      [ripple]="false"
+      [ngClass]="{
+        'checked': selectedUncoupleRecouple
+      }"
+    >
+      <span class='tickwrapper'>
+        <tick-indicator [ticked]="selectedUncoupleRecouple"></tick-indicator>
+      </span>
+    </competency-button>
+  </ion-col>
+  <ion-col no-padding>
+    <competency-button class="uncouple-recouple-competency"
+     [onTap]="onTap"
+     [onPress]="onPress"
+     [ripple]="canButtonRipple()"
+     [ngClass]="{
+        'checked': selectedUncoupleRecouple,
+        'fault': faultCount() > 0,
+        'serious-fault': hasSeriousFault(),
+        'dangerous-fault': hasDangerousFault()
+      }"
+    >
+      <driving-faults-badge class="driving-faults" [count]="faultCount()"></driving-faults-badge>
+      <div class='competency-label'>Uncouple/Rec...</div>
+      <div class="fault-wrapper">
+        <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
+        <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
+      </div>
+    </competency-button>
+  </ion-col>
+</ion-row>

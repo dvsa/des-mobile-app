@@ -1,0 +1,22 @@
+<ion-card class="modal-alert">
+  <ion-row justify-content-center>
+    <ion-col no-padding >
+      <h2 class="modal-alert-header">End test</h2>
+    </ion-col>
+  </ion-row>
+  <ion-row justify-content-center>
+    <ion-col no-padding col-84>
+      <button ion-button class="mes-primary-button" (click)="onContinue()">
+        <h3>Continue to debrief</h3>
+      </button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col no-padding class="column-border-top column-border-right">
+      <button ion-button clear class="terminate-button" (click)="onTerminate()">Terminate test</button>
+    </ion-col>
+    <ion-col no-padding class="column-border-top">
+      <button ion-button clear class="return-button" (click)="onCancel()">Return to test</button>
+    </ion-col>
+  </ion-row>
+</ion-card>

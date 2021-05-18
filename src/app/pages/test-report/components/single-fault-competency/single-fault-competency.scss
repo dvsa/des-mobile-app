@@ -1,0 +1,18 @@
+single-fault-competency {
+  display: flex;       // this styling is neccessary to ensure z-index
+  flex-flow: column;   // works on competency buttons
+  competency-button {
+
+    .label {
+      width: 100%;
+      justify-content: center;
+    }
+    .competency-label {
+      margin-left: 20px;
+    }
+
+    .fault-wrapper {
+      display: flex;
+    }
+  }
+}

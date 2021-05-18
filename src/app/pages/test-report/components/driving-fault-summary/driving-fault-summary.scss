@@ -1,0 +1,27 @@
+:host {
+  display: flex;
+  .summary-label{
+    align-self: center;
+    font-size: 19px;
+  }
+  #summary-count-badge {
+    display:flex;
+    justify-content: center;
+    width: 37px;
+    height: 37px;
+    min-width: 37px;
+    border-radius: 30px;
+    background-color: var(--gds-black);
+    color: map-get($colors, "mes-white");
+    margin-left: 4px;
+    .summary-label {
+      align-self: center;
+    }
+    #summary-count {
+      align-self: center;
+      font-size: 21px;
+      font-weight: 600;
+      line-height: 20px;
+    }
+  }
+}

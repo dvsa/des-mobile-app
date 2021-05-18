@@ -1,0 +1,36 @@
+<ion-row>
+  <ion-col size="20" class="ion-no-padding">
+    <competency-button class="controlled-stop-tick"
+      [onTap]="toggleControlledStop"
+      [onPress]="toggleControlledStop"
+      [ripple]="false"
+      [ngClass]="{
+        'checked': selectedControlledStop
+      }"
+    >
+      <span class='tickwrapper'>
+        <tick-indicator [ticked]="selectedControlledStop"></tick-indicator>
+      </span>
+    </competency-button>
+  </ion-col>
+  <ion-col class="ion-no-padding">
+    <competency-button class="controlled-stop-competency"
+      [onTap]="onTap"
+      [onPress]="onPress"
+      [ripple]="canButtonRipple()"
+      [ngClass]="{
+        'checked': selectedControlledStop,
+        'fault': faultCount() > 0,
+        'serious-fault': hasSeriousFault(),
+        'dangerous-fault': hasDangerousFault()
+      }"
+    >
+      <driving-faults-badge class="driving-faults" [count]="faultCount()"></driving-faults-badge>
+      <div class='competency-label'>Controlled stop</div>
+      <div class="fault-wrapper">
+        <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
+        <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
+      </div>
+    </competency-button>
+  </ion-col>
+</ion-row>

@@ -1,0 +1,30 @@
+special-legal-requirement-modal {
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    width: 500px;
+  }
+
+  .alert-icon {
+    font-size: 72px;
+  }
+
+  .modal-alert-message {
+    margin-bottom: 0px;
+  }
+
+  .mes-primary-button {
+    margin-top: 16px;
+    margin-bottom: 24px;
+    width: 100%;
+    height: 56px;
+  }
+
+  .terminate-button {
+    color: map-get($colors-gds, gds-red);
+  }
+
+  .return-button {
+    color: map-get($colors-gds, gds-black);
+  }
+}

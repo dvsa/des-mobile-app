@@ -1,0 +1,21 @@
+:host {
+  competency-button {
+
+    &.complete {
+      .competency-button {
+        background-color:	#F2E8E7;
+        border:2px solid var(--gds-red);
+        .competency-label {
+          // font-weight: bold;
+        }
+      }
+    }
+
+    .label {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+  }
+}

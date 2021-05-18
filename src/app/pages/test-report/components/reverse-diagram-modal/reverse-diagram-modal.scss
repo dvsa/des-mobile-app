@@ -1,0 +1,122 @@
+:host {
+  .exclamation-indicator {
+    width: 26px;
+    height: 26px;
+    float: right;
+  }
+
+  .nav-close ion-icon {
+    margin: -1px 0 0;
+    display: inherit;
+    min-width: 28px;
+    font-size: 3.4rem;
+  }
+
+  .diagram {
+    background: var(--mes-white);
+
+    img {
+      height: 1038px;
+    }
+  }
+
+  .content-container  {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  h2.cones-header {
+    font-size: 23px;
+  }
+
+  h3.sub-header {
+    font-size: 14px;
+    font-weight: normal;
+  }
+
+  .distances {
+    margin-top: 40px;
+
+    .input-label {
+      text-align: right;
+    }
+
+    .calculations {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #979797;
+
+      .label {
+        font-weight: bold;
+        text-align: right;
+      }
+
+      .result {
+        min-width: 77px;
+        width: 77px;
+        padding: 8px 0;
+        text-align: center;
+        background-color: var(--reverseLightBlue);
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .cones {
+    margin-top: 60px;
+
+    ul {
+      margin-left: 20px;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+
+  .markers {
+    margin-top: 80px;
+
+    .marker {
+      width: 100%;
+      margin-bottom: 30px;
+
+      .marker-text {
+        float: left;
+        width: 80%;
+      }
+
+      .icon-cone-marker, .icon-cone-marker-pole {
+        float: left;
+        margin-right: 20px;
+      }
+
+      .icon-cone-marker {
+        img {
+          width: 23px;
+          height: 23px;
+        }
+      }
+
+      .icon-cone-marker-pole {
+        img {
+          width: 23px;
+          height: 53px;
+        }
+      }
+    }
+  }
+
+  .vehicle-length-input, .vehicle-width-input {
+    width: 77px;
+    height: 48px;
+    background-color: var(--reverseLightBlue);
+  }
+}

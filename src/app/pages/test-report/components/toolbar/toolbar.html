@@ -1,0 +1,52 @@
+<div id="wrapper">
+  <ion-row no-padding>
+    <ion-col col-32 no-padding>
+      <button
+      id="remove-button"
+      ion-button
+      no-padding
+      (click)="toggleRemoveFaultMode()"
+      [ngClass]="{
+        'active': isRemoveFaultMode,
+        'inactive': !isRemoveFaultMode
+      }"
+        >
+        Remove
+      </button>
+    </ion-col>
+    <ion-col col-12 no-padding class="button-wrapper padding-right-16">
+        <button
+        id="serious-button"
+        ion-button
+        no-padding
+        (click)="toggleSeriousMode()"
+        [ngClass]="isSeriousMode ? 'active' : 'inactive'"
+          >
+          S
+        </button>
+    </ion-col>
+    <ion-col col-12 no-padding class="button-wrapper padding-right-16">
+        <button
+        id="dangerous-button"
+        ion-button
+        no-padding
+        (click)="toggleDangerousMode()"
+        [ngClass]="isDangerousMode ? 'active' : 'inactive'"
+          >
+          D
+        </button>
+    </ion-col>
+    <ion-col class="fault-summary" col-12 *ngIf="!isSeriousMode && !isDangerousMode">
+        <driving-fault-summary></driving-fault-summary>
+    </ion-col>
+    <ion-col no-padding [hidden]="isSeriousMode || isDangerousMode">
+      <timer float-end></timer>
+    </ion-col>
+    <ion-col *ngIf="isSeriousMode" no-padding>
+      <serious-tooltip [class.remove-mode]="isRemoveFaultMode" [isRemoveMode]="isRemoveFaultMode"></serious-tooltip>
+    </ion-col>
+    <ion-col *ngIf="isDangerousMode" no-padding>
+      <dangerous-tooltip [class.remove-mode]="isRemoveFaultMode" [isRemoveMode]="isRemoveFaultMode"></dangerous-tooltip>
+    </ion-col>
+  </ion-row>
+</div>

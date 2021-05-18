@@ -1,0 +1,12 @@
+<competency-button class="eta-button"
+  [onTap]="toggleETA"
+  [onPress]="toggleETA"
+  [ripple]="false"
+  [ngClass]="{
+    'complete': componentState.actionTaken$ | async
+  }"
+>
+  <div class="label">  
+    <span class='competency-label'>{{ getLabel() }}</span>
+  </div>
+</competency-button>
