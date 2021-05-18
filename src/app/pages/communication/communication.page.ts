@@ -165,16 +165,17 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
     this.subscription = this.merged$.subscribe();
 
-    this.initialiseDefaultSelections();
 
-    this.restoreRadiosFromState();
-    this.restoreRadioValidators();
   }
 
   ionViewWillEnter(): boolean {
     if (this.subscription.closed && this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
+
+    this.initialiseDefaultSelections();
+    this.restoreRadiosFromState();
+    this.restoreRadioValidators();
     return true;
   }
 
