@@ -18,7 +18,7 @@
     "open:ios": "rm -rf ios && npm run config:dev && ionic build && ionic cap add ios & ionic cap copy ios && npm run copy-resources && ionic cap open ios",
     "build": "npm run copy-resources && ionic build",
     "lint": "node buildScripts/eslint-alloc-patch.js && eslint . --ext .ts",
-    "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint . --fix --quiet --ext .ts",
+    "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint . --fix --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
     "gitSecrets": "git secrets --scan",
     "scanRepo": "git log -p -n 15 | scanrepo",
