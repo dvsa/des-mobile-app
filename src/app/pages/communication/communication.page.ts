@@ -102,7 +102,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     );
 
     this.pageState = {
-      candidateName$: currentTest$.pipe(
+      candidateName$: this.store$.pipe(
+        select(getTests),
+        select(getCurrentTest),
         select(getJournalData),
         select(getCandidate),
         select(getCandidateName),
