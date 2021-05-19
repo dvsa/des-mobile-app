@@ -45,7 +45,7 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { DeviceProvider } from '@providers/device/device';
 import { configureI18N } from '@shared/helpers/translation.helpers';
-import { JournalData } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { isEmpty } from 'lodash';
 import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
@@ -55,6 +55,7 @@ import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.con
 import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '@app/app.component';
 import { Location } from '@angular/common';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -66,6 +67,7 @@ interface WaitingRoomPageState {
   candidateDriverNumber$: Observable<string>;
   welshTest$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
+  testCategory$: Observable<CategoryCode>;
 }
 
 @Component({
@@ -164,6 +166,9 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       conductedLanguage$: currentTest$.pipe(
         select(getCommunicationPreference),
         select(getConductedLanguage),
+      ),
+      testCategory$: currentTest$.pipe(
+        select(getTestCategory),
       ),
     };
     const {
