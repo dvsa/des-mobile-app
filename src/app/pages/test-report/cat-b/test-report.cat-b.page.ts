@@ -26,14 +26,14 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
   pageState: TestReportPageState;
 
   constructor(
-    private navController: NavController,
-    public routeByCat: RouteByCategoryProvider,
     store$: Store<StoreModel>,
+    public router: Router,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
-    router: Router,
+    private navController: NavController,
+    public routeByCat: RouteByCategoryProvider,
   ) {
-    super(store$, platform, authenticationProvider, router);
+    super(store$, router, platform, authenticationProvider);
   }
 
   ngOnInit() {
@@ -41,6 +41,9 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
     this.pageState = {
       ...this.commonPageState,
     };
+  }
+
+  onEndTestClick = (): void => {
   }
 
   navigateBack(): void {

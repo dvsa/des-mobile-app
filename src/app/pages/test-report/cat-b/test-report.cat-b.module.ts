@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TestReportCatBPageRoutingModule } from './test-report.cat-b-routing.module';
 
 import { TestReportCatBPage } from './test-report.cat-b.page';
+import { ComponentsModule } from '@components/common/common-components.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { TestReportCatBPage } from './test-report.cat-b.page';
     FormsModule,
     IonicModule,
     TestReportCatBPageRoutingModule,
+    ComponentsModule,
   ],
   declarations: [TestReportCatBPage],
 })
