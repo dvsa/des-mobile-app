@@ -53,8 +53,9 @@ import { SignatureComponent } from '@pages/waiting-room/components/signature/sig
 
 import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
+import { AppComponent } from '@app/app.component';
+import { Location } from '@angular/common';
 import * as waitingRoomActions from './waiting-room.actions';
-import { AppComponent } from '../../app.component';
 
 interface WaitingRoomPageState {
   insuranceDeclarationAccepted$: Observable<boolean>;
@@ -75,7 +76,6 @@ interface WaitingRoomPageState {
 export class WaitingRoomPage extends PracticeableBasePageComponent implements OnInit {
 
   @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
-
   @ViewChild(SignatureComponent) signatureComponent: SignatureComponent;
 
   pageState: WaitingRoomPageState;
@@ -98,6 +98,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private translate: TranslateService,
     private modalController: ModalController,
     private app: AppComponent,
+    private location: Location,
   ) {
     super(platform, router, authenticationProvider, store$);
     this.formGroup = new FormGroup({});
@@ -165,7 +166,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         select(getConductedLanguage),
       ),
     };
-    const { welshTest$, conductedLanguage$ } = this.pageState;
+    const {
+      welshTest$,
+      conductedLanguage$,
+    } = this.pageState;
     this.merged$ = merge(
       currentTest$.pipe(
         select(getJournalData),
@@ -192,6 +196,15 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     super.ionViewDidLeave();
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  async clickBack(): Promise<void> {
+    try {
+      await this.deviceAuthenticationProvider.triggerLockScreen();
+      this.location.back();
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -225,15 +238,17 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async onSubmit() {
-    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
+    Object.keys(this.formGroup.controls)
+      .forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
     if (this.formGroup.valid) {
       await this.router.navigate([TestFlowPageNames.COMMUNICATION_PAGE]);
     } else {
-      Object.keys(this.formGroup.controls).forEach((controlName) => {
-        if (this.formGroup.controls[controlName].invalid) {
-          this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is blank`));
-        }
-      });
+      Object.keys(this.formGroup.controls)
+        .forEach((controlName) => {
+          if (this.formGroup.controls[controlName].invalid) {
+            this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is blank`));
+          }
+        });
     }
   }
 
@@ -252,9 +267,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       },
     );
 
-    errorModal.onDidDismiss().then(async () => {
-      await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
-    });
+    errorModal.onDidDismiss()
+      .then(async () => {
+        await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
+      });
 
     await errorModal.present();
   }
