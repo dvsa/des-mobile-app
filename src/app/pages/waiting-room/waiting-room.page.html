@@ -9,7 +9,7 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <end-test-link category="B"></end-test-link>
+      <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
