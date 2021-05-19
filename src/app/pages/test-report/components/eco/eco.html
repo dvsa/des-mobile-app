@@ -1,0 +1,40 @@
+<ion-row>
+  <ion-col size="20" class="ion-no-padding">
+    <competency-button class="eco-tick"
+      [onTap]="toggleEco"
+      [onPress]="toggleEco"
+      [ripple]="false"
+      [ngClass]="{
+        'checked': componentState.completed$ | async
+      }"
+    >
+      <span class='tickwrapper'>
+        <tick-indicator [ticked]="componentState.completed$ | async"></tick-indicator>
+      </span>
+    </competency-button>
+  </ion-col>
+  <ion-col class="ion-no-padding">
+    <competency-button class="eco-control"
+      [onTap]="toggleEcoControl"
+      [onPress]="toggleEcoControl"
+      [ripple]="false"
+      [ngClass]="{
+        'complete': componentState.adviceGivenControl$ | async
+      }"
+    >
+      <div class='competency-label'>ECO: C</div>
+    </competency-button>
+  </ion-col>
+  <ion-col class="ion-no-padding">
+    <competency-button class="eco-planning"
+      [onTap]="toggleEcoPlanning"
+      [onPress]="toggleEcoPlanning"
+      [ripple]="false"
+      [ngClass]="{
+        'complete': componentState.adviceGivenPlanning$ | async
+      }"
+    >
+      <div class='competency-label'>ECO: P</div>
+    </competency-button>
+  </ion-col>
+</ion-row>

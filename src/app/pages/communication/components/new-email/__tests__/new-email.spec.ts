@@ -36,7 +36,7 @@ describe('NewEmailComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(NewEmailComponent);
     component = fixture.componentInstance;
-    translate = TestBed.get(TranslateService);
+    translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
     component.formGroup = new FormGroup({});
     const radioCtrl = new FormControl('radioCtrl');

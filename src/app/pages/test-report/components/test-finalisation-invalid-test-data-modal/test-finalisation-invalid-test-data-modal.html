@@ -1,0 +1,15 @@
+<ion-card class="modal-alert">
+  <ion-row class="ion-justify-content-center">
+    <ion-col>
+      <h3 class="modal-alert-header">The level of faults on this practical test does not meet the requirement for code 4 or 5.</h3>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-button fill="clear" class="return-button" (click)="onCancel()">Change termination code</ion-button>
+    </ion-col>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-button fill="clear" class="terminate-button" (click)="onReturnToTestReport()">Return to test report</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

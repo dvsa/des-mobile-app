@@ -3,7 +3,7 @@ import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { of, Observable } from 'rxjs';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
-const localJournalJson = require('../../../../../mock/local-journal.json');
+const localJournalJson = require('src/assets/mock/local-journal.json');
 
 export class JournalProviderMock {
 

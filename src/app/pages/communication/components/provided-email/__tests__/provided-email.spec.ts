@@ -40,7 +40,7 @@ describe('ProvidedEmailComponent', () => {
     component.formGroup.addControl('radioCtrl', new FormControl());
     component.shouldRender = true;
     component.isProvidedEmailAddressChosen = true;
-    translate = TestBed.get(TranslateService);
+    translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
   }));
 

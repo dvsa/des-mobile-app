@@ -1,0 +1,35 @@
+:host {
+  competency-button {
+    position: relative;
+
+    .label {
+      padding-right: 17%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .tickwrapper {
+      display: flex;
+      justify-content: center;
+      padding-right: 15px;
+    }
+
+    &.disabled {
+      .competency-button {
+        border: none;
+        box-shadow: none;
+      }
+    }
+    &.complete {
+      .competency-button {
+        border: 2px solid var(--gds-green);
+        color: var(--gds-green);
+
+        .competency-label {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+}

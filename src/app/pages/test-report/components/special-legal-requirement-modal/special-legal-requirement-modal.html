@@ -1,0 +1,27 @@
+<ion-card class="modal-alert">
+  <modal-alert-title>You've not completed the<br />reverse manoeuvre</modal-alert-title>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="80">
+      <div class="modal-alert-message mes-data">
+        <div class="mes-data">A manoeuvre involving the use of reverse gear should be carried out.</div>
+        <div class="mes-data">If the vehicle is not fitted with a means of reversing, you can end the test now.</div>
+        <ul></ul>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="84">
+      <ion-button type="submit" class="mes-primary-button" id="continue-to-test-report-button" (click)="onProceed()">
+        <h3>End test and continue to debrief</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-no-padding column-border-top column-border-right">
+      <ion-button fill="clear" class="return-button" (click)="onCancel()">Return to test</ion-button>
+    </ion-col>
+    <ion-col class="ion-no-padding column-border-top column-border-right">
+      <ion-button fill="clear" class="terminate-button" (click)="onTerminate()">Terminate test</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>
