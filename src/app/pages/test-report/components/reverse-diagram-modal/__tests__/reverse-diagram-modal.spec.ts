@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from 'src/app/app.module';
@@ -100,6 +98,7 @@ describe('reverseDiagramModal', () => {
   describe('Class', () => {
     const vehicleDetails: Map<TestCategory, VehicleData> = mockFile.getVehicleDetails();
     const vehicleDetailsKeys = Array.from(vehicleDetails.keys());
+    /* eslint-disable */
     for (const index in vehicleDetailsKeys) {
       const testCategory = vehicleDetailsKeys[index];
       const value = vehicleDetails.get(testCategory);
@@ -179,6 +178,7 @@ describe('reverseDiagramModal', () => {
         });
       });
     }
+    /* eslint-enable */
 
     describe('ionViewWillEnter', () => {
       it('should calculate the distances if vehicle dimensions are populated', () => {
@@ -213,5 +213,3 @@ describe('reverseDiagramModal', () => {
     });
   });
 });
-
-/* eslint-enable */

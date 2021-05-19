@@ -18,6 +18,7 @@ import {
 @Component({
   selector: 'reverse-diagram-link',
   templateUrl: 'reverse-diagram-link.html',
+  styleUrls: ['reverse-diagram-link.scss'],
 })
 export class ReverseDiagramLinkComponent implements OnInit {
   subscription: Subscription;

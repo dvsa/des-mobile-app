@@ -22,6 +22,7 @@ interface EcoComponentState {
 @Component({
   selector: 'eco',
   templateUrl: 'eco.html',
+  styleUrls: ['eco.scss'],
 })
 export class EcoComponent implements OnInit {
 
