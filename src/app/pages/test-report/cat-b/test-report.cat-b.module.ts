@@ -4,10 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { ComponentsModule } from '@components/common/common-components.module';
 import { TestReportCatBPageRoutingModule } from './test-report.cat-b-routing.module';
 
 import { TestReportCatBPage } from './test-report.cat-b.page';
-import { ComponentsModule } from '@components/common/common-components.module';
 
 @NgModule({
   imports: [
