@@ -9,7 +9,7 @@ import { TestReportValidatorProvider } from '../test-report-validator';
 import { SpeedCheckState } from '../test-report-validator.constants';
 import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
 
-describe('TestReportValidator', () => {
+xdescribe('TestReportValidator', () => {
   const categories = [
     { category: TestCategory.EUAM2, validTest: mocks.validTestCatAMod2, legalReqs: mocks.legalRequirementsAMod2 },
     { category: TestCategory.B, validTest: mocks.validTestCatB, legalReqs: mocks.legalRequirementsB },

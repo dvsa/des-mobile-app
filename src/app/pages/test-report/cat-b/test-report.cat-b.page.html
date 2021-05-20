@@ -1,6 +1,6 @@
 <ion-header>
   <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
-  <ion-toolbar>
+  <ion-toolbar mode="ios">
     <ion-title>Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>

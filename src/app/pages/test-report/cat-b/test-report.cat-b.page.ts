@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Platform,
   ModalController,
@@ -7,7 +7,6 @@ import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
@@ -35,6 +34,7 @@ import {
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import { Router } from '@angular/router';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { OverlayCallback } from '../test-report.model';
 import { ModalEvent } from '../test-report.constants';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../test-report.selector';
@@ -61,7 +61,8 @@ interface TestReportPageState {
   templateUrl: 'test-report.cat-b.page.html',
   styleUrls: ['test-report.cat-b.page.scss'],
 })
-export class TestReportCatBPage extends PracticeableBasePageComponent {
+export class TestReportCatBPage extends TestReportBasePageComponent implements OnInit {
+
   pageState: TestReportPageState;
   subscription: Subscription;
   competencies = Competencies;
@@ -80,17 +81,17 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
   missingLegalRequirements: legalRequirementsLabels[] = [];
 
   constructor(
-    store$: Store<StoreModel>,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
     router: Router,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
+    store$: Store<StoreModel>,
     private modalController: ModalController,
     public testReportValidatorProvider: TestReportValidatorProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     public statusBar: StatusBar,
   ) {
-    super(platform, router, authenticationProvider, store$);
+    super(platform, authenticationProvider, router, store$);
     this.displayOverlay = false;
   }
 
@@ -101,8 +102,12 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
       },
     };
   }
+
   ngOnInit(): void {
-    super.ngOnInit();
+    super.onInitialisation();
+    // this.pageState = {
+    //   ...this.commonPageState,
+    // };
 
     const currentTest$ = this.store$.pipe(
       select(getTests),
@@ -182,6 +187,7 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
       this.subscription.unsubscribe();
     }
   }
+
   setupSubscription() {
     const {
       candidateUntitledName$,
@@ -200,10 +206,14 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
       manoeuvres$.pipe(map((result) => (this.manoeuvresCompleted = result))),
       testData$.pipe(map((data) => {
         this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(data, TestCategory.B);
-        this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(data, TestCategory.B);
+        this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
+          data,
+          TestCategory.B,
+        );
         this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, TestCategory.B);
       })),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   onEndTestClick = async (): Promise<void> => {
@@ -242,6 +252,8 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
       case ModalEvent.TERMINATE:
         this.store$.dispatch(TerminateTestFromTestReport());
         await this.router.navigate([CAT_B.DEBRIEF_PAGE]);
+        break;
+      default:
         break;
     }
   };
