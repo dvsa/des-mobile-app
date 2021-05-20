@@ -25,14 +25,14 @@ import { hasManoeuvreBeenCompletedCatBE } from '@store/tests/test-data/cat-be/te
 import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { FaultCountProvider } from '../fault-count/fault-count';
-import { SpeedCheckState } from './test-report-validator.constants';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 // import { HomeTestData } from '../../pages/view-test-result/cat-home-test/components/debrief-card/debrief-card';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
+import { SpeedCheckState } from './test-report-validator.constants';
+import { FaultCountProvider } from '../fault-count/fault-count';
 
 @Injectable()
 export class TestReportValidatorProvider {

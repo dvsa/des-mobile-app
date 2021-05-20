@@ -21,12 +21,12 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   commonPageState: CommonTestReportPageState;
 
   protected constructor(
-    store$: Store<StoreModel>,
-    public router: Router,
-    public platform: Platform,
+    platform: Platform,
     authenticationProvider: AuthenticationProvider,
+    router: Router,
+    store$: Store<StoreModel>,
   ) {
-    super(platform, router, authenticationProvider, store$);
+    super(platform, authenticationProvider, router, store$);
   }
 
   onInitialisation(): void {
