@@ -34,6 +34,8 @@ npm-debug.log*
 /www
 /src/assets/mock
 /build
+test/e2e/test.config.ts
+test-reports/
 
 src/environments/environment.ts
 src/environments/test-schema-version.ts

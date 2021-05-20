@@ -5,7 +5,7 @@ exports.config = {
   allScriptsTimeout: 30000,
   capabilities: {
     platformName: 'iOS',
-    platformVersion: '13.7',
+    platformVersion: '12.4',
     deviceName: 'iPad Pro (10.5-inch)',
     browserName: '',
     autoWebview: true,
@@ -19,7 +19,7 @@ exports.config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
-    compiler: 'ts:ts-node/register',
+    // compiler: 'ts:ts-node/register',
     format: ['json:./test-reports/cucumber-report.json', 'node_modules/cucumber-pretty'],
     require: ['./test/e2e/step-definitions/*.ts'],
     'fail-fast': true,
