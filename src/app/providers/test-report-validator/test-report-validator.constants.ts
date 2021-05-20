@@ -1,4 +1,3 @@
-
 export enum SpeedCheckState {
   VALID = 'valid',
   NOT_MET = 'not met',

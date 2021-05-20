@@ -59,6 +59,7 @@ interface TestReportPageState {
 @Component({
   selector: '.test-report-cat-b-page',
   templateUrl: 'test-report.cat-b.page.html',
+  styleUrls: ['test-report.cat-b.page.scss'],
 })
 export class TestReportCatBPage extends PracticeableBasePageComponent {
   pageState: TestReportPageState;
@@ -205,17 +206,16 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
     ).subscribe();
   }
 
-  onEndTestClick = async(): Promise<void> => {
+  onEndTestClick = async (): Promise<void> => {
     const modalCssClass: string = 'mes-modal-alert text-zoom-regular';
     if (!this.isTestReportValid) {
       this.modal = await this.modalController.create({
-            component: LEGAL_REQUIREMENTS_MODAL,
-            componentProps: {
-              legalRequirements: this.missingLegalRequirements,
-            },
-            cssClass: modalCssClass,
-          }
-      );
+        component: LEGAL_REQUIREMENTS_MODAL,
+        componentProps: {
+          legalRequirements: this.missingLegalRequirements,
+        },
+        cssClass: modalCssClass,
+      });
     } else if (!this.isEtaValid) {
       this.modal = await this.modalController.create({
         component: 'EtaInvalidModal',
@@ -228,11 +228,12 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
       });
     }
     const { data } = await this.modal.onDidDismiss();
-    if (data) {await this.onModalDismiss(data)}
+    if (data) { await this.onModalDismiss(data); }
     await this.modal.present();
   };
 
-  onModalDismiss = async(event: ModalEvent): Promise<void> => {
+  onModalDismiss = async (event: ModalEvent): Promise<void> => {
+    // eslint-disable-next-line default-case
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(CalculateTestResult());
@@ -245,17 +246,17 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
     }
   };
 
-  onCancel = async(): Promise<void> => {
+  onCancel = async (): Promise<void> => {
     await this.modal.dismiss();
   };
 
-  onContinue = async(): Promise<void> => {
-    await this.modal.dismiss()
+  onContinue = async (): Promise<void> => {
+    await this.modal.dismiss();
     await this.router.navigate([CAT_B.DEBRIEF_PAGE]);
   };
 
-  onTerminate = async(): Promise<void> => {
-    await this.modal.dismiss()
+  onTerminate = async (): Promise<void> => {
+    await this.modal.dismiss();
     await this.router.navigate([CAT_B.DEBRIEF_PAGE]);
   };
 }
