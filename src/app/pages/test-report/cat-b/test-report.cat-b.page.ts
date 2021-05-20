@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import {
-  NavController,
-  NavParams,
   Platform,
   ModalController,
-  Modal,
 } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subscription } from 'rxjs';
@@ -78,13 +75,12 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
   isTestReportValid: boolean = false;
   isEtaValid: boolean = true;
 
-  modal: Modal;
+  modal: HTMLIonModalElement;
   missingLegalRequirements: legalRequirementsLabels[] = [];
 
   constructor(
     store$: Store<StoreModel>,
     router: Router,
-    public navParams: NavParams,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
     private modalController: ModalController,
@@ -166,7 +162,7 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
     if (!this.subscription || this.subscription.closed) {
       this.setupSubscription();
     }
-    this.store$.dispatch(new TestReportViewDidEnter());
+    this.store$.dispatch(TestReportViewDidEnter());
   }
 
   ionViewWillLeave() {
@@ -209,47 +205,57 @@ export class TestReportCatBPage extends PracticeableBasePageComponent {
     ).subscribe();
   }
 
-  onEndTestClick = (): void => {
-    const options = { cssClass: 'mes-modal-alert text-zoom-regular' };
+  onEndTestClick = async(): Promise<void> => {
+    const modalCssClass: string = 'mes-modal-alert text-zoom-regular';
     if (!this.isTestReportValid) {
-      this.modal = this.modalController.create(
-        LEGAL_REQUIREMENTS_MODAL,
-        {
-          legalRequirements: this.missingLegalRequirements,
-        },
-        options,
+      this.modal = await this.modalController.create({
+            component: LEGAL_REQUIREMENTS_MODAL,
+            componentProps: {
+              legalRequirements: this.missingLegalRequirements,
+            },
+            cssClass: modalCssClass,
+          }
       );
     } else if (!this.isEtaValid) {
-      this.modal = this.modalController.create('EtaInvalidModal', {}, options);
+      this.modal = await this.modalController.create({
+        component: 'EtaInvalidModal',
+        cssClass: modalCssClass,
+      });
     } else {
-      this.modal = this.modalController.create('EndTestModal', {}, options);
+      this.modal = await this.modalController.create({
+        component: 'EndTestModal',
+        cssClass: modalCssClass,
+      });
     }
-    this.modal.onDidDismiss(this.onModalDismiss);
-    this.modal.present();
+    const { data } = await this.modal.onDidDismiss();
+    if (data) {await this.onModalDismiss(data)}
+    await this.modal.present();
   };
 
-  onModalDismiss = (event: ModalEvent): void => {
+  onModalDismiss = async(event: ModalEvent): Promise<void> => {
     switch (event) {
       case ModalEvent.CONTINUE:
-        this.store$.dispatch(new CalculateTestResult());
-        this.navController.push(CAT_B.DEBRIEF_PAGE);
+        this.store$.dispatch(CalculateTestResult());
+        await this.router.navigate([CAT_B.DEBRIEF_PAGE]);
         break;
       case ModalEvent.TERMINATE:
-        this.store$.dispatch(new TerminateTestFromTestReport());
-        this.navController.push(CAT_B.DEBRIEF_PAGE);
+        this.store$.dispatch(TerminateTestFromTestReport());
+        await this.router.navigate([CAT_B.DEBRIEF_PAGE]);
         break;
     }
   };
 
-  onCancel = (): void => {
-    this.modal.dismiss();
+  onCancel = async(): Promise<void> => {
+    await this.modal.dismiss();
   };
 
-  onContinue = (): void => {
-    this.modal.dismiss().then(() => this.navController.push(CAT_B.DEBRIEF_PAGE));
+  onContinue = async(): Promise<void> => {
+    await this.modal.dismiss()
+    await this.router.navigate([CAT_B.DEBRIEF_PAGE]);
   };
 
-  onTerminate = (): void => {
-    this.modal.dismiss().then(() => this.navController.push(CAT_B.DEBRIEF_PAGE));
+  onTerminate = async(): Promise<void> => {
+    await this.modal.dismiss()
+    await this.router.navigate([CAT_B.DEBRIEF_PAGE]);
   };
 }

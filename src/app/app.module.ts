@@ -65,6 +65,8 @@ import { CompletedTestPersistenceProvider } from '@providers/completed-test-pers
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { CommonModule } from '@angular/common';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -170,6 +172,8 @@ if (enableRehydrationPlugin) {
     DeviceAuthenticationProvider,
     Insomnia,
     QuestionProvider,
+    StatusBar,
+    CommonModule,
   ],
   bootstrap: [AppComponent],
 })
