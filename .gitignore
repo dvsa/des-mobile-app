@@ -33,6 +33,7 @@ npm-debug.log*
 /plugins
 /www
 /src/assets/mock
+/build
 
 src/environments/environment.ts
 src/environments/test-schema-version.ts
