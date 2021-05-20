@@ -1,3 +1,11 @@
 .title-text {
-  color: var(--mes-white);
+  color: white;
+}
+
+#end-test-button {
+  --color: var(--gds-grey-5);
+  --background: transparent;
+  &.activated {
+    --background: transparent;
+  }
 }

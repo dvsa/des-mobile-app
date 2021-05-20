@@ -12,7 +12,8 @@ import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { provideMockStore } from '@ngrx/store/testing';
 
-describe('TestReportCatBPage', () => {
+// @TODO - MES-6883 - enable unit tests
+xdescribe('TestReportCatBPage', () => {
   let component: TestReportCatBPage;
   let fixture: ComponentFixture<TestReportCatBPage>;
 

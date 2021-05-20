@@ -59,6 +59,7 @@ interface TestReportPageState {
 @Component({
   selector: '.test-report-cat-b-page',
   templateUrl: 'test-report.cat-b.page.html',
+  styleUrls: ['test-report.cat-b.page.scss'],
 })
 export class TestReportCatBPage extends TestReportBasePageComponent implements OnInit {
 
@@ -237,13 +238,12 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
       });
     }
     const { data } = await this.modal.onDidDismiss();
-    if (data) {
-      await this.onModalDismiss(data);
-    }
+    if (data) { await this.onModalDismiss(data); }
     await this.modal.present();
   };
 
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
+    // eslint-disable-next-line default-case
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(CalculateTestResult());
