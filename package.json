@@ -22,7 +22,8 @@
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
     "gitSecrets": "git secrets --scan",
     "scanRepo": "git log -p -n 15 | scanrepo",
-    "e2e": "protractor e2e-simulator-bdd.conf.js",
+    "test:e2e": "protractor e2e-simulator-bdd.conf.js",
+    "test:generate-report": "node generateTestReport.js",
     "e2e-build": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App -sdk iphonesimulator SYMROOT=$(PWD)/build",
     "config:dev-tools": "cp src/environments/environment.dev.dev-tools.ts src/environments/environment.ts",
     "config:dev": "cp src/environments/environment.dev.ts src/environments/environment.ts",
@@ -157,7 +158,8 @@
     "stylelint": "^13.8.0",
     "stylelint-config-standard": "^20.0.0",
     "ts-node": "~8.3.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.5",
+    "xml2js": "^0.4.19"
   },
   "description": "An Ionic project",
   "cordova": {
