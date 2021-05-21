@@ -45,53 +45,50 @@
           </ion-col>
         </ion-row>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData.manoeuvres.reverseRight?.selected">
+
+      <ion-col class="manoeuvre-competencies-container-column" size="8" *ngIf="asyncData.manoeuvres.reverseRight?.selected">
         <manoeuvre-competency
           [manoeuvre]="manoeuvreTypes.reverseRight"
           [competency]="competencies.controlFault"
           [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.controlFault)"
         ></manoeuvre-competency>
         <manoeuvre-competency
-          class="second"
           [attr.id]="getId(manoeuvreTypes.reverseRight, competencies.observationFault)"
           [manoeuvre]="manoeuvreTypes.reverseRight"
           [competency]="competencies.observationFault"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData.manoeuvres.forwardPark?.selected">
+      <ion-col class="manoeuvre-competencies-container-column" size="8" *ngIf="asyncData.manoeuvres.forwardPark?.selected">
         <manoeuvre-competency
           [manoeuvre]="manoeuvreTypes.forwardPark"
           [competency]="competencies.controlFault"
           [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.controlFault)"
         ></manoeuvre-competency>
         <manoeuvre-competency
-          class="second"
           [manoeuvre]="manoeuvreTypes.forwardPark"
           [competency]="competencies.observationFault"
           [attr.id]="getId(manoeuvreTypes.forwardPark, competencies.observationFault)"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData.manoeuvres.reverseParkCarpark?.selected">
+      <ion-col class="manoeuvre-competencies-container-column" size="8" *ngIf="asyncData.manoeuvres.reverseParkCarpark?.selected">
         <manoeuvre-competency
           [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
           [competency]="competencies.controlFault"
           [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.controlFault)"
         ></manoeuvre-competency>
         <manoeuvre-competency
-          class="second"
           [manoeuvre]="manoeuvreTypes.reverseParkCarpark"
           [competency]="competencies.observationFault"
           [attr.id]="getId(manoeuvreTypes.reverseParkCarpark, competencies.observationFault)"
         ></manoeuvre-competency>
       </ion-col>
-      <ion-col class="manoeuvre-competencies-container" size="8" *ngIf="asyncData.manoeuvres.reverseParkRoad?.selected">
+      <ion-col class="manoeuvre-competencies-container-column" size="8" *ngIf="asyncData.manoeuvres.reverseParkRoad?.selected">
         <manoeuvre-competency
           [manoeuvre]="manoeuvreTypes.reverseParkRoad"
           [competency]="competencies.controlFault"
           [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.controlFault)"
         ></manoeuvre-competency>
         <manoeuvre-competency
-          class="second"
           [manoeuvre]="manoeuvreTypes.reverseParkRoad"
           [competency]="competencies.observationFault"
           [attr.id]="getId(manoeuvreTypes.reverseParkRoad, competencies.observationFault)"
