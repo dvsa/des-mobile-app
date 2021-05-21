@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
-  concatMap, throttleTime, withLatestFrom, switchMap, tap,
+  concatMap, throttleTime, withLatestFrom, switchMap,
 } from 'rxjs/operators';
 import { Eco } from '@dvsa/mes-test-schema/categories/common';
 import { StoreModel } from '@shared/models/store.model';
@@ -20,15 +20,10 @@ export class TestDataEffects {
   constructor(
     private actions$: Actions,
     private store$: Store<StoreModel>,
-  ) {
-  }
+  ) {}
 
   throttleAddDrivingFaultEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(drivingFaultsActions.ThrottleAddDrivingFault.type),
-    tap((fault) => {
-      console.log(fault);
-
-    }),
+    ofType(drivingFaultsActions.ThrottleAddDrivingFault),
     throttleTime(250),
     concatMap((action: ReturnType<typeof drivingFaultsActions.ThrottleAddDrivingFault>) => {
       return of(drivingFaultsActions.AddDrivingFault(action.faultPayload));
@@ -37,17 +32,16 @@ export class TestDataEffects {
 
   setEcoControlCompletedEffect$ = createEffect(() => this.actions$.pipe(
     ofType(ecoActions.ToggleControlEco),
-    concatMap((action) => of(action)
-      .pipe(
-        withLatestFrom(
-          this.store$.pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getTestData),
-            select(getEco),
-          ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestData),
+          select(getEco),
         ),
-      )),
+      ),
+    )),
     switchMap(([action, eco]: [ReturnType<typeof ecoActions.ToggleControlEco>, Eco]) => {
       if (action && eco.adviceGivenControl && !eco.completed) {
         return of(ecoActions.ToggleEco());
@@ -58,17 +52,16 @@ export class TestDataEffects {
 
   setEcoPlanningCompletedEffect$ = createEffect(() => this.actions$.pipe(
     ofType(ecoActions.TogglePlanningEco),
-    concatMap((action) => of(action)
-      .pipe(
-        withLatestFrom(
-          this.store$.pipe(
-            select(getTests),
-            select(getCurrentTest),
-            select(getTestData),
-            select(getEco),
-          ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestData),
+          select(getEco),
         ),
-      )),
+      ),
+    )),
     switchMap(([action, eco]: [ReturnType<typeof ecoActions.TogglePlanningEco>, Eco]) => {
       if (action && eco.adviceGivenPlanning && !eco.completed) {
         return of(ecoActions.ToggleEco());

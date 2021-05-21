@@ -31,7 +31,6 @@ describe('Tests Analytics Effects', () => {
 
   let effects: TestsAnalyticsEffects;
   let analyticsProviderMock;
-  // let navigationStateProviderMock;
   let actions$: any;
   let store$: Store<StoreModel>;
   const mockApplication: Application = {
@@ -60,7 +59,6 @@ describe('Tests Analytics Effects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-    // navigationStateProviderMock = TestBed.inject(NavigationStateProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
   });
