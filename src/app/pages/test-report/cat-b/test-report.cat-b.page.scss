@@ -1,6 +1,6 @@
 $report-mode-border-width: 4px;
 $toolbar-height: 68px;
-:host /deep/ {
+:host ::ng-deep {
 
   // ensure the content on the test report page doesn't grow with larger accessibility text
   ion-content {
