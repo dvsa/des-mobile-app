@@ -32,6 +32,7 @@ import { CandidateSectionComponent } from './candidate-section/candidate-section
 import { DangerousFaultBadgeComponent } from './dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faults-badge';
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
+import { MesBackButtonComponent } from './back-button/back-button';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { EndTestLinkComponent } from './end-test-link/end-test-link';
     SeriousFaultBadgeComponent,
     TickIndicatorComponent,
     TransmissionComponent,
+    MesBackButtonComponent,
   ],
   imports: [
     SignaturePadModule,
@@ -94,6 +96,7 @@ import { EndTestLinkComponent } from './end-test-link/end-test-link';
     SeriousFaultBadgeComponent,
     TickIndicatorComponent,
     TransmissionComponent,
+    MesBackButtonComponent,
   ],
 })
 export class ComponentsModule { }
