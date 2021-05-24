@@ -3,8 +3,8 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'mes-back-button',
-  templateUrl: 'back-button.html',
-  styleUrls: ['./back-button.scss'],
+  templateUrl: 'mes-back-button.html',
+  styleUrls: ['./mes-back-button.scss'],
 })
 export class MesBackButtonComponent {
 

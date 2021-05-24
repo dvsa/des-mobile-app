@@ -32,7 +32,7 @@ import { CandidateSectionComponent } from './candidate-section/candidate-section
 import { DangerousFaultBadgeComponent } from './dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faults-badge';
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
-import { MesBackButtonComponent } from './back-button/back-button';
+import { MesBackButtonComponent } from './mes-back-button/mes-back-button';
 
 @NgModule({
   declarations: [
