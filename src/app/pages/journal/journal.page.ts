@@ -185,6 +185,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       this.subscription = this.merged$.subscribe();
     }
     this.todaysDate = this.dateTimeProvider.now();
+
     return true;
   }
 
