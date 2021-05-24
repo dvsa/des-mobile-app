@@ -4,7 +4,7 @@ $toolbar-height: 68px;
 
   // ensure the content on the test report page doesn't grow with larger accessibility text
   ion-content {
-    div, span {
+    div, span, .grid-layout {
       .text-zoom-regular &,
       .text-zoom-large &,
       .text-zoom-x-large & {
@@ -42,7 +42,7 @@ $toolbar-height: 68px;
   }
 
   .first-row-adjust {
-    margin: -6px 0;
+    margin: -12px 0;
   }
 
   .section-header {
