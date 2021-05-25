@@ -23,8 +23,8 @@
 
     &.complete {
       .competency-button {
-        border: 2px solid var(--gds-green);
-        color: var(--gds-green);
+        border: 2px solid var(--gds-green) !important;
+        color: var(--gds-green) !important;
 
         .competency-label {
           font-weight: bold;
