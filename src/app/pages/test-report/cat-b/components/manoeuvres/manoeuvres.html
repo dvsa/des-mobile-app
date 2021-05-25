@@ -11,7 +11,7 @@
   <driving-faults-badge class="driving-faults" [count]="drivingFaults"></driving-faults-badge>
 
   <div class="label-wrapper">
-    <ion-icon class="popover-arrow" [class.arrow-down]="displayPopover" name="md-arrow-dropright"></ion-icon>
+    <ion-icon class="popover-arrow" [class.arrow-down]="displayPopover" name="caret-forward"></ion-icon>
     <span class='label'>{{controlLabel}}</span>
   </div>
 
@@ -20,7 +20,7 @@
     <dangerous-fault-badge [showBadge]="hasDangerousFault"></dangerous-fault-badge>
   </div>
 </button>
-<div class="popover" *ngIf="displayPopover">
+<div class="manoeuvres-popover" *ngIf="displayPopover">
   <ion-grid>
     <ion-row>
       <ion-col>

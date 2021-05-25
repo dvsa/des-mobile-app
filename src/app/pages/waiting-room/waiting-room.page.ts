@@ -89,10 +89,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   merged$: Observable<boolean | string | JournalData>;
 
   constructor(
-    store$: Store<StoreModel>,
-    public router: Router,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
+    router: Router,
+    store$: Store<StoreModel>,
     private deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private deviceProvider: DeviceProvider,
     private screenOrientation: ScreenOrientation,
@@ -102,7 +102,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private app: AppComponent,
     private location: Location,
   ) {
-    super(platform, router, authenticationProvider, store$);
+    super(platform, authenticationProvider, router, store$);
     this.formGroup = new FormGroup({});
   }
 

@@ -156,7 +156,7 @@ export class TestsEffects {
   ));
 
   startTestEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(testActions.StartTest.type),
+    ofType(testActions.StartTest),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(

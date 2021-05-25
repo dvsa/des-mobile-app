@@ -1,13 +1,16 @@
-<ion-button
-  id="start-timer-button"
-  (tap)="toggleTimer()"
-  *ngIf="showStartTimerButton"
+<ion-button tappable="true"
+        strong="true"
+        fill="clear"
+        id="start-timer-button"
+        (click)="toggleTimer()"
+        *ngIf="showStartTimerButton"
 >
   Start Timer
 </ion-button>
 <div
   id="timer-text"
-  (tap)="toggleTimer()"
+  tappable="true"
+  (click)="toggleTimer()"
   [ngClass]="{
     'paused': isPaused
   }"

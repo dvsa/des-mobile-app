@@ -1,7 +1,7 @@
 <div id="wrapper">
   <ion-row class="ion-no-padding">
     <ion-col size="32" class="ion-no-padding">
-      <ion-button
+      <ion-button fill="clear"
       id="remove-button"
       class="ion-no-padding"
       (click)="toggleRemoveFaultMode()"
@@ -14,7 +14,7 @@
       </ion-button>
     </ion-col>
     <ion-col size="12" class="ion-no-padding button-wrapper padding-right-16">
-        <ion-button
+        <ion-button fill="clear"
         id="serious-button"
         class="ion-no-padding"
         (click)="toggleSeriousMode()"
@@ -24,7 +24,7 @@
         </ion-button>
     </ion-col>
     <ion-col size="12"  class="ion-no-padding button-wrapper padding-right-16">
-        <ion-button class="ion-no-padding"
+        <ion-button fill="clear" class="ion-no-padding"
         id="dangerous-button"
         (click)="toggleDangerousMode()"
         [ngClass]="isDangerousMode ? 'active' : 'inactive'"
@@ -36,7 +36,7 @@
         <driving-fault-summary></driving-fault-summary>
     </ion-col>
     <ion-col class="ion-no-padding" [hidden]="isSeriousMode || isDangerousMode">
-      <timer float-end></timer>
+      <timer class="ion-float-end"></timer>
     </ion-col>
     <ion-col *ngIf="isSeriousMode" class="ion-no-padding">
       <serious-tooltip [class.remove-mode]="isRemoveFaultMode" [isRemoveMode]="isRemoveFaultMode"></serious-tooltip>

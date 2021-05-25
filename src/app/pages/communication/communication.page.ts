@@ -83,14 +83,14 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   constructor(
     platform: Platform,
-    router: Router,
     authenticationProvider: AuthenticationProvider,
+    router: Router,
     store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
   ) {
-    super(platform, router, authenticationProvider, store$);
+    super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup(this.getFormValidation());
   }
 

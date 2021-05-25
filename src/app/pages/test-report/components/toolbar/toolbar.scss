@@ -49,14 +49,12 @@
     &.active {
       background: var(--gds-yellow);
     }
-    span {
       font-size: 24px;
       font-weight: 900;
       text-align: center;
       letter-spacing: -0.26px;
       line-height: 25px;
-      color: #0b0c0c;
-    }
+      --color: #0b0c0c;
   }
   #dangerous-button {
     width: 88px;
@@ -74,12 +72,10 @@
       background-color: var(--gds-red);
       color: var(--mes-white);
     }
-    span {
       font-size: 24px;
       font-weight: 900;
       text-align: center;
       letter-spacing: -0.33px;
       line-height: 25px;
-    }
   }
 }

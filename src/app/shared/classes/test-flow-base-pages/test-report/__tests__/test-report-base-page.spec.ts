@@ -60,15 +60,15 @@ describe('TestReportBasePageComponent', () => {
 
     class BasePageClass extends TestReportBasePageComponent {
       constructor(
-        sto$: Store<StoreModel>,
         plat: Platform,
         auth: AuthenticationProvider,
         rout: Router,
+        sto$: Store<StoreModel>,
       ) {
-        super(sto$, plat, auth, rout);
+        super(plat, auth, rout, sto$);
       }
     }
-    basePageComponent = new BasePageClass(store$, platform, authenticationProvider, router);
+    basePageComponent = new BasePageClass(platform, authenticationProvider, router, store$);
   }));
 
   describe('onInitialisation', () => {
