@@ -83,11 +83,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
     public navParams: NavParams,
     public loadingController: LoadingController,
-    public router: Router,
+    router: Router,
     private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
     public dateTimeProvider: DateTimeProvider,

@@ -18,7 +18,7 @@ export class MesBackButtonComponent {
 
   public async onClick(event: Event) {
     this.buttonDisabled = true;
-    this.router.navigate([this.routerLink]);
+    await this.router.navigate([this.routerLink]);
     event.preventDefault();
   }
 
