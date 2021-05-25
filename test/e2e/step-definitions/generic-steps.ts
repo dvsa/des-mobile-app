@@ -1,4 +1,3 @@
-import { Before } from 'cucumber';
 import {
   browser,
 } from 'protractor';
