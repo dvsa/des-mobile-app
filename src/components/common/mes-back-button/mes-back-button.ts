@@ -16,10 +16,11 @@ export class MesBackButtonComponent {
     private router: Router,
   ) { }
 
-  public async onClick(event: Event) {
+  public async onClick(event: Event): Promise<void> {
     this.buttonDisabled = true;
     await this.router.navigate([this.routerLink]);
     event.preventDefault();
+    return Promise.resolve();
   }
 
 }
