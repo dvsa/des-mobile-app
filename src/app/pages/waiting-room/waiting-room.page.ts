@@ -51,10 +51,11 @@ import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { SignatureComponent } from '@pages/waiting-room/components/signature/signature';
 
-import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import {
+  ERROR_PAGE, JOURNAL_PAGE, LOGIN_PAGE, TestFlowPageNames,
+} from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '@app/app.component';
-import { Location } from '@angular/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import * as waitingRoomActions from './waiting-room.actions';
 
@@ -100,7 +101,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private translate: TranslateService,
     private modalController: ModalController,
     private app: AppComponent,
-    private location: Location,
   ) {
     super(platform, router, authenticationProvider, store$);
     this.formGroup = new FormGroup({});
@@ -207,7 +207,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   async clickBack(): Promise<void> {
     try {
       await this.deviceAuthenticationProvider.triggerLockScreen();
-      this.location.back();
+      await this.router.navigate([JOURNAL_PAGE]);
     } catch (err) {
       console.error(err);
     }
