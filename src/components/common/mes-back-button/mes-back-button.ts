@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mes-back-button',
@@ -8,15 +8,17 @@ import { Location } from '@angular/common';
 })
 export class MesBackButtonComponent {
 
+  @Input()
+  public routerLink: string;
   public buttonDisabled = false;
 
   constructor(
-    private location: Location,
+    private router: Router,
   ) { }
 
   public async onClick(event: Event) {
     this.buttonDisabled = true;
-    this.location.back();
+    this.router.navigate([this.routerLink]);
     event.preventDefault();
   }
 
