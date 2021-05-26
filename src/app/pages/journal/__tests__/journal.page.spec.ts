@@ -16,7 +16,6 @@ import { Subscription } from 'rxjs';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { configureTestSuite } from 'ng-bullet';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { JournalPage } from '@pages/journal/journal.page';
@@ -51,6 +50,8 @@ import { DeviceProvider } from '@providers/device/device';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { MesBackButtonComponent } from '@components/common/mes-back-button/mes-back-button';
+import { MockComponent } from 'ng-mocks';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -59,13 +60,13 @@ describe('JournalPage', () => {
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         JournalPage,
+        MockComponent(MesBackButtonComponent),
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
@@ -81,7 +82,6 @@ describe('JournalPage', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: LoadingController, useClass: LoadingControllerMock },
-        { provide: Router, useValue: routerSpy },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: SlotProvider, useClass: SlotProviderMock },
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
