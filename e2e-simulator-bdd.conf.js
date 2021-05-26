@@ -19,7 +19,7 @@ exports.config = {
   framework: 'custom',
   frameworkPath: require.resolve('protractor-cucumber-framework'),
   cucumberOpts: {
-    // compiler: 'ts:ts-node/register',
+    compiler: 'ts:ts-node/register',
     format: ['json:./test-reports/cucumber-report.json', 'node_modules/cucumber-pretty'],
     require: ['./test/e2e/step-definitions/*.ts'],
     'fail-fast': true,
