@@ -91,7 +91,7 @@
     "joi-browser": "^13.4.0",
     "jsonschema": "^1.4.0",
     "lodash": "^4.17.20",
-    "moment": "2.24.0",
+    "moment": "2.29.1",
     "ng-bullet": "^1.0.3",
     "ng-mocks": "^11.10.1",
     "ngrx-store-localstorage": "^11.0.0",
