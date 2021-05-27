@@ -251,8 +251,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
         errorType: ErrorTypes.JOURNAL_REFRESH,
       },
       cssClass: zoomClass,
-    })
-      .then((modal) => {
+    }).then((modal) => {
         modal.present();
       });
   };
