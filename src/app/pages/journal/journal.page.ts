@@ -102,7 +102,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
     this.isUnauthenticated = this.authenticationProvider.isInUnAuthenticatedMode();
-    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
+      .format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
   }
 
@@ -142,7 +143,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
       isSelectedDateToday$: this.store$.pipe(
         select(getJournalState),
         map(getSelectedDate),
-        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD')),
+        map((selectedDate) => selectedDate === this.dateTimeProvider.now()
+          .format('YYYY-MM-DD')),
       ),
       completedTests$: this.store$.pipe(
         select(getJournalState),
@@ -250,8 +252,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
       },
       cssClass: zoomClass,
     }).then((modal) => {
-      modal.present();
-    });
+        modal.present();
+      });
   };
 
   private createSlots = (emission: SlotItem[]) => {
@@ -260,8 +262,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   public pullRefreshJournal = (refresher: IonRefresher) => {
-    this.loadJournalManually();
-    this.loadCompletedTestsWithCallThrough();
+    this.refreshJournal();
     this.pageRefresher = refresher;
   };
 
