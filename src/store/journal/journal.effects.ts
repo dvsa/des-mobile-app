@@ -153,7 +153,7 @@ export class JournalEffects {
   ));
 
   pollingSetup$ = createEffect(() => this.actions$.pipe(
-    ofType(journalActions.SetupPolling.type),
+    ofType(journalActions.SetupPolling),
     switchMap(() => {
       // Switch map the manual refreshes so they restart the timer.
       const manualRefreshes$ = this.actions$.pipe(
