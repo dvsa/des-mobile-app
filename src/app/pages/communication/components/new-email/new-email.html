@@ -29,7 +29,7 @@
                            formControlName="newEmailCtrl"
                            name="newEmailCtrl"
                            [value]="newEmailAddress"
-                           (change)="newEmailTextChanged($event.target.value)"
+                           (ionChange)="newEmailTextChanged($event.target.value)"
                            [class.ng-invalid]="invalid"></ion-input>
             </ion-row>
             <ion-row class="validation-message-row ion-align-items-center">
