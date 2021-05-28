@@ -32,7 +32,7 @@ platform :ios do
    update_project_provisioning(
     xcodeproj: "ios/App/App.xcodeproj",
     profile: "/Users/mes/certs/Mobile_Examiner_App.mobileprovision", 
-    target_filter: ".*DrivingExaminerService.*", # matches name or type of a target, see https://medium.com/@andersongusmao/xcode-targets-with-multiples-build-configuration-90a575ddc687 for an explanation 
+    target_filter: ".*App.*", # matches name or type of a target, see https://medium.com/@andersongusmao/xcode-targets-with-multiples-build-configuration-90a575ddc687 for an explanation 
     build_configuration: "Release",
     code_signing_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
   )
@@ -45,7 +45,7 @@ platform :ios do
       }
     },
     project:  "ios/App/App.xcodeproj",
-        scheme: "DrivingExaminerService",
+        scheme: "App",
         configuration: "Release",
         output_directory: "build",
         silent: false,
