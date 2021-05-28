@@ -49,3 +49,21 @@ Run the following to switch between configurations
 ### Unit Test suite
 
 - `npm run test`
+
+### E2E Test suite
+
+- To start running the E2E automation test you will need to have a build folder first:
+  - `npm run e2e-build`
+  - The build command will not work with Xcode version 12.0> as it is not a supported version.
+- Next you will need to run appium using:
+  - `appium`
+  - or `npx appium` if you do not have appium installed locally
+- To run the test you will need to use:
+  - `npm run test:e2e`
+  - To run specific tests using the tags use `npm run test:e2e -- --cucumberOpts.tags='<insert test tag here>'`
+    - Example `npm run test:e2e -- --cucumberOpts.tags='@catb'`
+  - Another way of running specific test is using `npm run test:e2e -- --specs="<insert folder directory here>"`
+    - Example `npm run test:e2e -- --specs="test/e2e/features/cat-b/test1.feature" `
+- Once all test have been ran, to get the reports you can use:
+  - `npm run test:generate-report`  
+
