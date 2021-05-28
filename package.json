@@ -45,7 +45,7 @@
     "@angular/platform-browser-dynamic": "~10.2.5",
     "@angular/router": "~10.2.5",
     "@capacitor/core": "2.4.2",
-    "@capacitor/ios": "^2.4.2",
+    "@capacitor/ios": "^2.4.7",
     "@dvsa/mes-config-schema": "^1.2.0",
     "@dvsa/mes-journal-schema": "1.2.0",
     "@dvsa/mes-search-schema": "1.1.2",
