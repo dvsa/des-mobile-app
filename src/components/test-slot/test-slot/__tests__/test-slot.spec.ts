@@ -145,6 +145,7 @@ describe('TestSlotComponent', () => {
     component = fixture.componentInstance;
     component.slot = cloneDeep(mockSlot);
     component.showLocation = true;
+    spyOn(component.categoryWhitelist, 'isWhiteListed').and.returnValue(true);
     store$ = TestBed.inject(Store);
   }));
 
