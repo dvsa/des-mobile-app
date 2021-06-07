@@ -223,7 +223,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   handleLoadingUI = (isLoading: boolean): void => {
     if (isLoading) {
-      this.loadingController.create({ spinner: 'circles' }).then(async (spinner) => {
+      this.loadingController.create({
+        spinner: 'circles',
+        backdropDismiss: true,
+        translucent: false,
+      }).then(async (spinner) => {
         this.loadingSpinner = spinner;
         await this.loadingSpinner.present();
       });
@@ -234,8 +238,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
       this.pageRefresher = null;
     }
     if (this.loadingSpinner) {
-      this.loadingSpinner.dismiss();
-      this.loadingSpinner = null;
+      this.loadingSpinner.dismiss().then(() => {
+        this.loadingSpinner = null;
+      });
     }
   };
 
