@@ -5,7 +5,7 @@
       <mes-back-button routerLink="DashboardPage"></mes-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="refreshJournal()">
+      <ion-button (click)="refreshJournal()" [disabled]="pageState.isLoading$ | async">
         <div>
           <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
           <span class="colour-white">Refresh</span>

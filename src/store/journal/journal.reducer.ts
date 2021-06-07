@@ -101,6 +101,7 @@ export const journalReducer = createReducer(
     completedTests,
   }): JournalModel => ({
     ...state,
+    isLoading: false,
     completedTests,
   })),
 );
