@@ -62,7 +62,7 @@
     "@ionic-native/insomnia": "^5.32.1",
     "@ionic-native/is-debug": "^5.30.0",
     "@ionic-native/mobile-accessibility": "^5.31.1",
-    "@ionic-native/network": "^5.29.0",
+    "@ionic-native/network": "^5.33.0",
     "@ionic-native/screen-orientation": "^5.31.1",
     "@ionic-native/secure-storage": "^5.29.0",
     "@ionic-native/splash-screen": "^5.0.0",
