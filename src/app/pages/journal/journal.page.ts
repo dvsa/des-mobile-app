@@ -83,11 +83,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
     public navParams: NavParams,
     public loadingController: LoadingController,
-    public router: Router,
+    router: Router,
     private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
     public dateTimeProvider: DateTimeProvider,
@@ -102,7 +102,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
     this.isUnauthenticated = this.authenticationProvider.isInUnAuthenticatedMode();
-    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
+      .format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
   }
 
@@ -142,7 +143,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
       isSelectedDateToday$: this.store$.pipe(
         select(getJournalState),
         map(getSelectedDate),
-        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD')),
+        map((selectedDate) => selectedDate === this.dateTimeProvider.now()
+          .format('YYYY-MM-DD')),
       ),
       completedTests$: this.store$.pipe(
         select(getJournalState),
@@ -221,7 +223,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   handleLoadingUI = (isLoading: boolean): void => {
     if (isLoading) {
-      this.loadingController.create({ spinner: 'circles' }).then(async (spinner) => {
+      this.loadingController.create({
+        spinner: 'circles',
+        backdropDismiss: true,
+        translucent: false,
+      }).then(async (spinner) => {
         this.loadingSpinner = spinner;
         await this.loadingSpinner.present();
       });
@@ -229,10 +235,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }
     if (this.pageRefresher) {
       this.pageRefresher['detail'].complete();
+      this.pageRefresher = null;
     }
     if (this.loadingSpinner) {
-      this.loadingSpinner.dismiss();
-      this.loadingSpinner = null;
+      this.loadingSpinner.dismiss().then(() => {
+        this.loadingSpinner = null;
+      });
     }
   };
 
@@ -260,8 +268,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   public pullRefreshJournal = (refresher: IonRefresher) => {
-    this.loadJournalManually();
-    this.loadCompletedTestsWithCallThrough();
+    this.refreshJournal();
     this.pageRefresher = refresher;
   };
 
