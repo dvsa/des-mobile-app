@@ -231,6 +231,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }
     if (this.pageRefresher) {
       this.pageRefresher['detail'].complete();
+      this.pageRefresher = null;
     }
     if (this.loadingSpinner) {
       this.loadingSpinner.dismiss();
@@ -252,8 +253,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
       },
       cssClass: zoomClass,
     }).then((modal) => {
-        modal.present();
-      });
+      modal.present();
+    });
   };
 
   private createSlots = (emission: SlotItem[]) => {
