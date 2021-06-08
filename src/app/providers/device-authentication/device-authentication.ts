@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 
@@ -14,7 +16,7 @@ export class DeviceAuthenticationProvider {
   ) { }
 
   triggerLockScreen = async (): Promise<boolean> => {
-    if (this.appConfig.getAppConfig().role === ExaminerRole.DLG) {
+    if (this.appConfig.getAppConfig().role === ExaminerRole.DLG || (environment as TestersEnvironmentFile)?.isTest) {
       return Promise.resolve(false);
     }
 
