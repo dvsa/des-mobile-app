@@ -1,0 +1,15 @@
+<ion-card id="vrn-capture-modal-card" class="modal-alert">
+    <ion-row>
+        <ion-col>
+            <ion-input (ionChange)="vrnChanged($event.target.value)"></ion-input>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-button (click)="this.onCancel">Cancel</ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button (click)="this.onSave(this.vrnNumber)">Save</ion-button>
+        </ion-col>
+    </ion-row>
+</ion-card>
