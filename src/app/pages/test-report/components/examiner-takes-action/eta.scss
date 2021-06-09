@@ -1,10 +1,10 @@
-:host {
+:host ::ng-deep {
   competency-button {
 
     &.complete {
       .competency-button {
-        background-color:	#F2E8E7;
-        border:2px solid var(--gds-red);
+        background-color:	#F2E8E7 !important;
+        border:2px solid var(--gds-red) !important;
         .competency-label {
           // font-weight: bold;
         }

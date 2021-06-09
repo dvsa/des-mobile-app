@@ -13,12 +13,22 @@ import {
 } from '@providers/test-data-by-category/test-data-by-category';
 import { testsReducer } from './tests.reducer';
 import { TestsEffects } from './tests.effects';
+import { TestDataEffects } from '@store/tests/test-data/test-data.effects';
+import { TestsAnalyticsEffects } from '@store/tests/tests.analytics.effects';
+import { ExaminerBookedEffects } from '@store/tests/examiner-booked/examiner-booked.effects';
+import { ExaminerConductedEffects } from '@store/tests/examiner-conducted/examiner-conducted.effects';
+import { TestStatusAnalyticsEffects } from '@store/tests/test-status/test-status.analytics.effects';
 
 @NgModule({
   imports: [
     StoreModule.forFeature('tests', testsReducer),
     EffectsModule.forFeature([
       TestsEffects,
+      TestsAnalyticsEffects,
+      TestDataEffects,
+      ExaminerBookedEffects,
+      ExaminerConductedEffects,
+      TestStatusAnalyticsEffects,
     ]),
     RouterModule,
   ],
