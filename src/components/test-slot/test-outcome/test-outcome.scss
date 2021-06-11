@@ -1,18 +1,35 @@
-test-outcome {
-  .button-ios {
-    margin: 0;
-  }
+:host {
   .write-up-label {
     color: inherit;
   }
+
   .mes-rekey-button {
     --background: var(--gds-blue);
     --color: var(--mes-white);
     --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.5);
   }
+
   .mes-delegated-button {
     --background: var(--gds-blue);
     --color: var(--mes-white);
     --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.5);
+  }
+
+  .outcome-position {
+    .text-zoom-large & {
+      position: relative;
+      left: -10px;
+    }
+
+    .text-zoom-x-large & {
+      position: relative;
+      left: -15px;
+    }
+  }
+
+  .activity-alignment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }

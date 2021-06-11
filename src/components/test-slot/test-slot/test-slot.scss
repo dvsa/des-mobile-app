@@ -4,140 +4,39 @@ ion-card {
 
   ion-grid {
     height: 100%;
-    padding: 0;
+    padding: 10px;
   }
 }
 
 ion-row {
-  &.slot-row {
-    min-height: 108px;
-    position: relative;
-
-    &.test-slot-portrait-mode {
-      min-height: 108px;
-    }
-  }
-
-  &.slot-header,
-  &.slot-footer {
-    min-height: 22px;
-    padding-right: 4px;
-
-    &.vehicle-details-displayed {
-      min-height: 34px;
-    }
-  }
-
-  &.slot-main {
-    min-height: 48px;
-  }
+  min-height: 30px;
 }
 
 ion-col {
   padding: 0;
-
-  &.time-exclamation-col {
-    padding-left: 8px;
-    max-width: 152px;
-
-    .text-zoom-large & {
-      max-width: 172px;
-    }
-
-    .text-zoom-x-large & {
-      max-width: 192px;
-    }
-  }
-
-  &.exclamation-col {
-    max-width: 48px;
-  }
-
-  &.test-outcome-col {
-    max-width: 152px;
-
-    .text-zoom-large & {
-      max-width: 172px;
-    }
-
-    .text-zoom-x-large & {
-      max-width: 192px;
-    }
-  }
-
-  &.vehicle-details-col {
-    margin-top: -10px;
-
-    .text-zoom-large & {
-      padding-left: 20px;
-    }
-
-    .text-zoom-x-large & {
-      padding-left: 40px;
-    }
-  }
-
-  &.progressive-access-col {
-    max-width: 152px;
-    margin-top: -6px;
-  }
-
-  &.category-col {
-    padding-right: 8px;
-    flex-grow: 0;
-  }
-
-  &.team-journal-examiner-name {
-    max-height: 20px;
-    margin-top: -50px;
-    max-width: 152px;
-
-    .text-zoom-large & {
-      margin-top: -80px;
-      max-width: 172px;
-    }
-
-    .text-zoom-x-large & {
-      margin-top: -110px;
-      max-width: 192px;
-    }
-  }
 }
 
 .team-journal-test-centre-name {
-  position: absolute;
-  left: -215px;
   color: #000;
-
   .text-zoom-regular & {
     font-size: 18px;
-    top: 10px;
   }
-
   .text-zoom-large & {
     font-size: 24px;
-    top: 20px;
   }
-
   .text-zoom-x-large & {
     font-size: 28px;
-    top: 40px;
   }
 }
 
 .team-journal-driver-number {
-  margin-top: -10px;
-  padding-left: 168px;
   color: #000;
-
   .text-zoom-regular & {
     font-size: 18px;
   }
-
   .text-zoom-large & {
     font-size: 24px;
   }
-
   .text-zoom-x-large & {
     font-size: 28px;
   }
@@ -163,12 +62,7 @@ ion-col {
   align-items: center;
 }
 
-#del-ex-driver-number {
-  padding: 0px 10px;
-}
-
-#del-ex-date {
-  position: relative;
-  left: 125px;
-  bottom: 5px;
+.vertical-align-center {
+  display: flex;
+  align-items: center;
 }

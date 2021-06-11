@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Name } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
-import { AppComponent } from '../../../app/app.component';
+import { AppComponent } from '@app/app.component';
 
 @Component({
   selector: 'candidate-link',

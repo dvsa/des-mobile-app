@@ -1,9 +1,7 @@
-<div>
-  <button class="mes-transparent-button" ion-button (click)="openCandidateDetailsModal()">
+<ion-button expand="full" fill="clear" class="candidate-position" (click)="openCandidateDetailsModal()">
     <h3 class="candidate-name" [ngClass]="{
-      'candidate-name-short': isPortrait,
-      'candidate-name-long': !isPortrait
+      'candidate-name-portrait': isPortrait,
+      'candidate-name-landscape': !isPortrait
     }">{{name.title}} {{name.firstName}} {{name.lastName}}</h3>
-    <ion-icon name="chevron-forward"></ion-icon>
-  </button>
-</div>
+    <ion-icon class="candidate-icon" name="chevron-forward"></ion-icon>
+</ion-button>
