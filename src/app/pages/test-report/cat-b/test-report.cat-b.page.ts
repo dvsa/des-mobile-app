@@ -35,6 +35,10 @@ import { legalRequirementsLabels } from '@shared/constants/legal-requirements/le
 import { Router } from '@angular/router';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+// eslint-disable-next-line max-len
+import { LegalRequirementsModal } from '@pages/test-report/components/legal-requirements-modal/legal-requirements-modal';
+import { EtaInvalidModal } from '@pages/test-report/components/eta-invalid-modal/eta-invalid-modal';
+import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
 import { OverlayCallback } from '../test-report.model';
 import { ModalEvent } from '../test-report.constants';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../test-report.selector';
@@ -44,7 +48,7 @@ import {
   CalculateTestResult,
   TerminateTestFromTestReport,
 } from '../test-report.actions';
-import { CAT_B, LEGAL_REQUIREMENTS_MODAL } from '../../page-names.constants';
+import { CAT_B } from '../../page-names.constants';
 
 interface TestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -220,7 +224,7 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
     const modalCssClass: string = 'mes-modal-alert text-zoom-regular';
     if (!this.isTestReportValid) {
       this.modal = await this.modalController.create({
-        component: LEGAL_REQUIREMENTS_MODAL,
+        component: LegalRequirementsModal,
         componentProps: {
           legalRequirements: this.missingLegalRequirements,
         },
@@ -228,18 +232,19 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
       });
     } else if (!this.isEtaValid) {
       this.modal = await this.modalController.create({
-        component: 'EtaInvalidModal',
+        component: EtaInvalidModal,
         cssClass: modalCssClass,
       });
     } else {
       this.modal = await this.modalController.create({
-        component: 'EndTestModal',
+        component: EndTestModal,
         cssClass: modalCssClass,
       });
     }
-    const { data } = await this.modal.onDidDismiss();
-    if (data) { await this.onModalDismiss(data); }
+
     await this.modal.present();
+    const { data } = await this.modal.onWillDismiss();
+    if (data) { await this.onModalDismiss(data); }
   };
 
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
