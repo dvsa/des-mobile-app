@@ -1,0 +1,37 @@
+@import "src/theme/sass-partials/modal";
+
+#vrn-capture-modal-card {
+  padding: 0 0 0 0;
+  width: 450px;
+  @extend .modal-alert-wrapper;
+
+  .modal-alert-header {
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+
+  .modal-text {
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+  }
+
+  .input-field {
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+  }
+
+  .cancel-button {
+    color: var(--gds-black);
+  }
+
+  .save-button {
+    color: var(--gds-black);
+  }
+
+  input[type="text"] {
+    font-size: 18px;
+  }
+}
