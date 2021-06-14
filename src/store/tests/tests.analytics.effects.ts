@@ -15,17 +15,14 @@ import { of } from 'rxjs';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { Router } from '@angular/router';
+import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { TestsModel } from './tests.model';
 import {
-  SEND_COMPLETED_TESTS_FAILURE,
-  TEST_OUTCOME_CHANGED,
   TestOutcomeChanged,
-  SEND_PARTIAL_TESTS_FAILURE,
-  // @TODO - enable when test below fixed
-  // SendCompletedTestsFailure,
-  // START_TEST,
-  // StartTest,
-  // SendPartialTestsFailure,
+  SendCompletedTestsFailure,
+  StartTest,
+  SendPartialTestsFailure,
 } from './tests.actions';
 import { getTestById, isPassed, getCurrentTest } from './tests.selector';
 import { getTests } from './tests.reducer';
@@ -37,6 +34,8 @@ export class TestsAnalyticsEffects {
     private analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
+    public router: Router,
+    private navigationStateProvider: NavigationStateProvider,
   ) {
   }
 
@@ -74,7 +73,7 @@ export class TestsAnalyticsEffects {
   ));
 
   sendCompletedTestsFailureEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(SEND_COMPLETED_TESTS_FAILURE),
+    ofType(SendCompletedTestsFailure),
     switchMap(() => {
       this.analytics.logError('Error connecting to microservice (test submission)', 'No message');
       return of(AnalyticRecorded());
@@ -82,7 +81,7 @@ export class TestsAnalyticsEffects {
   ));
 
   sendPartialTestsFailureEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(SEND_PARTIAL_TESTS_FAILURE),
+    ofType(SendPartialTestsFailure),
     switchMap(() => {
       this.analytics.logError('Error connecting to microservice (partial test submission)', 'No message');
       return of(AnalyticRecorded());
@@ -90,7 +89,7 @@ export class TestsAnalyticsEffects {
   ));
 
   testOutcomeChangedEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(TEST_OUTCOME_CHANGED),
+    ofType(TestOutcomeChanged),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -120,22 +119,20 @@ export class TestsAnalyticsEffects {
     }),
   ));
 
-  // @TODO - enable this effect without navigation state provider
-  // startTestAnalyticsEffect$ = createEffect(() => this.actions$.pipe(
-  //   ofType(START_TEST),
-  //   switchMap((action: typeof StartTest) => {
-  //
-  //     const category: AnalyticsEventCategories = this.navigationStateProvider.isRekeySearch() ?
-  //       AnalyticsEventCategories.REKEY_SEARCH :
-  //       AnalyticsEventCategories.JOURNAL;
-  //
-  //     this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
-  //     this.analytics.logEvent(
-  //       category,
-  //       AnalyticsEvents.START_TEST,
-  //     );
-  //
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // ));
+  startTestAnalyticsEffect$ = createEffect(() => this.actions$.pipe(
+    ofType(StartTest),
+    switchMap((action: ReturnType<typeof StartTest>) => {
+      const category: AnalyticsEventCategories = this.navigationStateProvider.isRekeySearch()
+        ? AnalyticsEventCategories.REKEY_SEARCH
+        : AnalyticsEventCategories.JOURNAL;
+
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
+      this.analytics.logEvent(
+        category,
+        AnalyticsEvents.START_TEST,
+      );
+
+      return of(AnalyticRecorded());
+    }),
+  ));
 }

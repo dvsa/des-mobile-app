@@ -15,6 +15,10 @@ import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
+import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { Router } from '@angular/router';
 import { testsReducer } from '../tests.reducer';
 import { TestsAnalyticsEffects } from '../tests.analytics.effects';
 import * as testsActions from '../tests.actions';
@@ -31,6 +35,7 @@ describe('Tests Analytics Effects', () => {
 
   let effects: TestsAnalyticsEffects;
   let analyticsProviderMock;
+  let navigationStateProviderMock;
   let actions$: any;
   let store$: Store<StoreModel>;
   const mockApplication: Application = {
@@ -49,8 +54,10 @@ describe('Tests Analytics Effects', () => {
       providers: [
         TestsAnalyticsEffects,
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
         provideMockActions(() => actions$),
         Store,
+        { provide: Router, useClass: RouterMock },
       ],
     });
   });
@@ -59,6 +66,7 @@ describe('Tests Analytics Effects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
+    navigationStateProviderMock = TestBed.inject(NavigationStateProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
   });
@@ -160,47 +168,46 @@ describe('Tests Analytics Effects', () => {
       });
     });
   });
-  // @TODO - enable this spec for navigation state
-  // describe('startTestAnalyticsEffect', () => {
-  //   it('should log the correct event if it triggered from the journal page', (done) => {
-  //     // ARRANGE
-  //     spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(false);
-  //     // ACT
-  //     actions$.next(testsActions.StartTest(12345, TestCategory.BE));
-  //     // ASSERT
-  //     effects.startTestAnalyticsEffect$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-  //         AnalyticsDimensionIndices.TEST_CATEGORY,
-  //         TestCategory.BE,
-  //       );
-  //       expect(analyticsProviderMock.logEvent)
-  //         .toHaveBeenCalledWith(
-  //           AnalyticsEventCategories.JOURNAL,
-  //           AnalyticsEvents.START_TEST,
-  //         );
-  //       done();
-  //     });
-  //   });
-  //   it('should log the correct event if it is triggered from the Rekey Search page', (done) => {
-  //     // ARRANGE
-  //     spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
-  //     // ACT
-  //     actions$.next(testsActions.StartTest(12345, TestCategory.B));
-  //     // ASSERT
-  //     effects.startTestAnalyticsEffect$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
-  //         AnalyticsDimensionIndices.TEST_CATEGORY,
-  //         TestCategory.B,
-  //       );
-  //       expect(analyticsProviderMock.logEvent)
-  //         .toHaveBeenCalledWith(
-  //           AnalyticsEventCategories.REKEY_SEARCH,
-  //           AnalyticsEvents.START_TEST,
-  //         );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('startTestAnalyticsEffect', () => {
+    it('should log the correct event if it triggered from the journal page', (done) => {
+      // ARRANGE
+      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(false);
+      // ACT
+      actions$.next(testsActions.StartTest(12345, TestCategory.BE));
+      // ASSERT
+      effects.startTestAnalyticsEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.TEST_CATEGORY,
+          TestCategory.BE,
+        );
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.JOURNAL,
+            AnalyticsEvents.START_TEST,
+          );
+        done();
+      });
+    });
+    it('should log the correct event if it is triggered from the Rekey Search page', (done) => {
+      // ARRANGE
+      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
+      // ACT
+      actions$.next(testsActions.StartTest(12345, TestCategory.B));
+      // ASSERT
+      effects.startTestAnalyticsEffect$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
+          AnalyticsDimensionIndices.TEST_CATEGORY,
+          TestCategory.B,
+        );
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.REKEY_SEARCH,
+            AnalyticsEvents.START_TEST,
+          );
+        done();
+      });
+    });
+  });
 });

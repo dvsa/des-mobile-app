@@ -152,16 +152,15 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
 
   }
 
-  ionViewWillEnter(): boolean {
+  async ionViewWillEnter(): Promise<boolean> {
     // ionViewWillEnter lifecylce event used to ensure screen orientation is correct before page transition
     if (super.isIos() && this.isPracticeMode) {
-      this.screenOrientation.lock(
+      await this.screenOrientation.lock(
         this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY,
       );
-      this.insomnia.keepAwake();
+      await this.insomnia.keepAwake();
       this.statusBar.hide();
     }
-
     return true;
   }
 
