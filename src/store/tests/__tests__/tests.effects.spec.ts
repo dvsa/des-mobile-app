@@ -24,6 +24,11 @@ import { bufferCount } from 'rxjs/operators';
 import * as appInfoActions from '@store/app-info/app-info.actions';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { PopulateAppVersion } from '@store/tests/app-version/app-version.actions';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
+import * as rekeySearchActions from '@pages/rekey-search/rekey-search.actions';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestsEffects } from '../tests.effects';
 import * as testsActions from '../tests.actions';
 import * as testStatusActions from '../test-status/test-status.actions';
@@ -44,11 +49,7 @@ import { SetExaminerConducted } from '../examiner-conducted/examiner-conducted.a
 import { SetExaminerKeyed } from '../examiner-keyed/examiner-keyed.actions';
 import { OtherReasonUpdated, OtherSelected } from '../rekey-reason/rekey-reason.actions';
 import { StartDelegatedTest } from '../delegated-test/delegated-test.actions';
-// @TODO MES-6883 enable
-// import { PopulateTestCategory } from '../category/category.actions';
-// import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-// import * as rekeySearchActions from '@pages/rekey-search/rekey-search.actions';
-// import { TestSlot } from '@dvsa/mes-journal-schema';
+import { PopulateTestCategory } from '../category/category.actions';
 
 describe('Tests Effects', () => {
 
@@ -56,6 +57,7 @@ describe('Tests Effects', () => {
   let actions$: any;
   let testPersistenceProviderMock;
   let store$: Store<StoreModel>;
+  let navigationStateProviderMock: NavigationStateProviderMock;
   let authenticationProviderMock: AuthenticationProvider;
 
   configureTestSuite(() => {
@@ -75,6 +77,7 @@ describe('Tests Effects', () => {
         { provide: TestSubmissionProvider, useClass: TestSubmissionProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
         Store,
       ],
     });
@@ -263,48 +266,48 @@ describe('Tests Effects', () => {
     });
 
     // @TODO - MES-6883 - enable this spec
-    // it('should get the slot from booked slots when this is a rekey test started from the rekey search', (done) => {
-    //   spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
-    //   const testSlot: TestSlot = {
-    //     slotDetail: {
-    //       slotId: 4363463,
-    //     },
-    //     testCentre: {
-    //       centreId: 54321,
-    //       centreName: 'Example Test Centre',
-    //       costCode: 'EXTC1',
-    //     },
-    //     booking: {
-    //       application: {
-    //         applicationId: 12345,
-    //         bookingSequence: 11,
-    //         checkDigit: 1,
-    //         testCategory: TestCategory.B,
-    //       },
-    //     },
-    //   };
-    //   const staffNumber = '654321';
-    //   store$.dispatch(rekeySearchActions.SearchBookedTestSuccess(testSlot, staffNumber));
-    //   // ACT
-    //   actions$.next(testsActions.StartTest(1001, testSlot.booking.application.testCategory as TestCategory, true));
-    //   // ASSERT
-    //   effects.startTestEffect$
-    //     .pipe(
-    //       bufferCount(13),
-    //     )
-    //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    //     .subscribe(([res0, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12]) => {
-    //       expect(res0).toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
-    //       expect(res1).toEqual(PopulateExaminer({ staffNumber })),
-    //       expect(res2).toEqual(PopulateApplicationReference(testSlot.booking.application)),
-    //       expect(res3).toEqual(PopulateCandidateDetails(testSlot.booking.candidate)),
-    //       expect(res7).toEqual(SetExaminerBooked(parseInt(staffNumber, 10))),
-    //       expect(res8).toEqual(SetExaminerConducted(parseInt(staffNumber, 10))),
-    //       expect(res9).toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10))),
-    //       expect(res12).toEqual(rekeyActions.MarkAsRekey()),
-    //       done();
-    //     });
-    // });
+    it('should get the slot from booked slots when this is a rekey test started from the rekey search', (done) => {
+      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
+      const testSlot: TestSlot = {
+        slotDetail: {
+          slotId: 4363463,
+        },
+        testCentre: {
+          centreId: 54321,
+          centreName: 'Example Test Centre',
+          costCode: 'EXTC1',
+        },
+        booking: {
+          application: {
+            applicationId: 12345,
+            bookingSequence: 11,
+            checkDigit: 1,
+            testCategory: TestCategory.B,
+          },
+        },
+      };
+      const staffNumber = '654321';
+      store$.dispatch(rekeySearchActions.SearchBookedTestSuccess(testSlot, staffNumber));
+      // ACT
+      actions$.next(testsActions.StartTest(1001, testSlot.booking.application.testCategory as TestCategory, true));
+      // ASSERT
+      effects.startTestEffect$
+        .pipe(
+          bufferCount(13),
+        )
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .subscribe(([res0, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12]) => {
+          expect(res0).toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
+          expect(res1).toEqual(PopulateExaminer({ staffNumber }));
+          expect(res2).toEqual(PopulateApplicationReference(testSlot.booking.application));
+          expect(res3).toEqual(PopulateCandidateDetails(testSlot.booking.candidate));
+          expect(res7).toEqual(SetExaminerBooked(parseInt(staffNumber, 10)));
+          expect(res8).toEqual(SetExaminerConducted(parseInt(staffNumber, 10)));
+          expect(res9).toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+          expect(res12).toEqual(rekeyActions.MarkAsRekey());
+          done();
+        });
+    });
 
     it('should set the rekey reason and reason correctly when it is a delegated examiner test', (done) => {
       const selectedDate: string = new DateTime().format('YYYY-MM-DD');
