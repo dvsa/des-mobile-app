@@ -10,23 +10,23 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 
-import { BasePageComponent } from '../../base-page';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
 }
 
-export abstract class TestReportBasePageComponent extends BasePageComponent {
+export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
 
   commonPageState: CommonTestReportPageState;
 
   protected constructor(
-    protected store$: Store<StoreModel>,
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected router: Router,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
+    store$: Store<StoreModel>,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, router, store$);
   }
 
   onInitialisation(): void {

@@ -27,8 +27,8 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
 
   constructor(
     public platform: Platform,
-    public router: Router,
     public authenticationProvider: AuthenticationProvider,
+    public router: Router,
     public store$: Store<StoreModel>,
     public loginRequired: boolean = true,
   ) {
