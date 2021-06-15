@@ -225,27 +225,6 @@
   }
 }
 
-//.mes-blue-button {
-//  --background: var(--gds-blue);
-//  --background-activated: var(--gds-blue-darken);
-//  --box-shadow: inset 0 -2px 0 0 var(--gds-blue);
-//  --border-radius: 10px;
-//  margin: 0 0.2rem;
-//  height: initial;
-//  --outline: none;
-//
-//  h3 {
-//    color: var(--mes-white);
-//    .text-zoom-regular &,
-//    .text-zoom-large &,
-//    .text-zoom-x-large & {
-//      line-height: 2em;
-//    }
-//    min-height: 44px;
-//    padding-top: 1px
-//  }
-//}
-
 .mes-primary-blue-button {
   @extend .mes-primary-button;
   --background: var(--gds-blue);
