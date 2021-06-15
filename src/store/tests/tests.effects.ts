@@ -42,6 +42,7 @@ import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/t
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { IndependentDrivingTypeChanged, RouteNumberChanged } from '@store/tests/test-summary/test-summary.actions';
+import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
@@ -99,7 +100,7 @@ export class TestsEffects {
     private networkStateProvider: NetworkStateProvider,
     private store$: Store<StoreModel>,
     public authenticationProvider: AuthenticationProvider,
-    // private navigationStateProvider: NavigationStateProvider,
+    private navigationStateProvider: NavigationStateProvider,
   ) {
   }
 
@@ -156,7 +157,7 @@ export class TestsEffects {
   ));
 
   startTestEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(testActions.StartTest.type),
+    ofType(testActions.StartTest),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -177,9 +178,8 @@ export class TestsEffects {
     switchMap(([action, journal, rekeySearch, delegatedRekeySearch, appVersion]:
     [TestActionsTypes, JournalModel, RekeySearchModel, DelegatedRekeySearchModel, string]) => {
       const startTestAction = action as ReturnType<typeof StartTest>;
-      // @TODO: NavigationStateProvider required for real implementation
-      const isRekeySearch = false; // this.navigationStateProvider.isRekeySearch();
-      const isDelegatedRekeySearch = false; // this.navigationStateProvider.isDelegatedExaminerRekeySearch();
+      const isRekeySearch = this.navigationStateProvider.isRekeySearch();
+      const isDelegatedRekeySearch = this.navigationStateProvider.isDelegatedExaminerRekeySearch();
       const employeeId = this.authenticationProvider.getEmployeeId() || journal.examiner.staffNumber;
 
       let slot: TestSlot;

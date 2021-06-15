@@ -11,14 +11,25 @@ import {
 import {
   TestDataByCategoryProvider,
 } from '@providers/test-data-by-category/test-data-by-category';
-import { testsReducer } from './tests.reducer';
+import { TestDataEffects } from '@store/tests/test-data/test-data.effects';
+import { TestsAnalyticsEffects } from '@store/tests/tests.analytics.effects';
+import { ExaminerBookedEffects } from '@store/tests/examiner-booked/examiner-booked.effects';
+import { ExaminerConductedEffects } from '@store/tests/examiner-conducted/examiner-conducted.effects';
+import { TestStatusAnalyticsEffects } from '@store/tests/test-status/test-status.analytics.effects';
+import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { TestsEffects } from './tests.effects';
+import { testsReducer } from './tests.reducer';
 
 @NgModule({
   imports: [
     StoreModule.forFeature('tests', testsReducer),
     EffectsModule.forFeature([
       TestsEffects,
+      TestsAnalyticsEffects,
+      TestDataEffects,
+      ExaminerBookedEffects,
+      ExaminerConductedEffects,
+      TestStatusAnalyticsEffects,
     ]),
     RouterModule,
   ],
@@ -26,7 +37,7 @@ import { TestsEffects } from './tests.effects';
     TestSubmissionProvider,
     FaultCountProvider,
     // NavigationProvider,
-    // NavigationStateProvider,
+    NavigationStateProvider,
     TestDataByCategoryProvider,
     // ManoeuvresByCategoryProvider @TODO: Not needed in ADI2, so bring over when required;
     VehicleDetailsByCategoryProvider,
