@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavParams } from '@ionic/angular';
-import { FieldValidators, getRegistrationNumberValidator } from '@shared/constants/field-validators/field-validators';
+import {
+  FieldValidators,
+  getRegistrationNumberValidator,
+  nonAlphaNumericValues,
+} from '@shared/constants/field-validators/field-validators';
+import { isEmpty } from 'lodash';
 
 @Component({
   selector: 'vrn-capture-modal',
@@ -30,25 +35,25 @@ export class VRNCaptureModal {
     this.onCancel = this.navParams.get('onCancel');
     this.onSave = this.navParams.get('onSave');
     this.formGroup = new FormGroup({});
+    this.formControl = new FormControl(null, [Validators.required]);
+    this.formGroup.addControl('vehicleRegistration', this.formControl);
   }
 
-  ngOnChanges(): void {
-    if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
-      this.formGroup.addControl('vehicleRegistration', this.formControl);
+  vehicleRegistrationNumberChanged(vehicleRegistration: string): void {
+    if (!this.registrationNumberValidator.pattern.test(vehicleRegistration)) {
+      const value = vehicleRegistration.replace(nonAlphaNumericValues, '');
+
+      if (isEmpty(value)) {
+        this.formControl.setErrors({ value });
+      }
     }
     this.formControl.patchValue(this.vehicleRegistration);
   }
 
   async validateThenSave() {
-    console.log('regTest 1');
-    if (!this.registrationNumberValidator.pattern.test(this.vehicleRegistration)) {
-      console.log('regTest 2');
-      this.isValid = false;
-      return;
+    if (this.registrationNumberValidator.pattern.test(this.vehicleRegistration)) {
+      await this.onSave(this.vehicleRegistration);
     }
-    console.log('regTest 3');
-    await this.onSave(this.vehicleRegistration);
   }
 
   get invalid(): boolean {
