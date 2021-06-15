@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { VRNCaptureModal } from './vrn-capture-modal';
 
@@ -9,6 +9,7 @@ import { VRNCaptureModal } from './vrn-capture-modal';
     CommonModule,
     IonicModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     VRNCaptureModal,

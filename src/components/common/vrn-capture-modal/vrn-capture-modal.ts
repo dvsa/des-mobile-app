@@ -32,10 +32,6 @@ export class VRNCaptureModal {
     this.formGroup = new FormGroup({});
   }
 
-  vrnChanged(value: string) {
-    this.vehicleRegistration = value;
-  }
-
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl(null, [Validators.required]);
@@ -45,10 +41,13 @@ export class VRNCaptureModal {
   }
 
   async validateThenSave() {
+    console.log('regTest 1');
     if (!this.registrationNumberValidator.pattern.test(this.vehicleRegistration)) {
+      console.log('regTest 2');
       this.isValid = false;
       return;
     }
+    console.log('regTest 3');
     await this.onSave(this.vehicleRegistration);
   }
 
