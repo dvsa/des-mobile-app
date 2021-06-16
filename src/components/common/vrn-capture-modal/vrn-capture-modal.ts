@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NavParams } from '@ionic/angular';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
-import { isEmpty } from 'lodash';
 
 @Component({
   selector: 'vrn-capture-modal',
@@ -21,11 +20,13 @@ export class VRNCaptureModal {
 
   vehicleRegistration: string;
 
-  isValid: boolean;
+  isValid: boolean = true;
 
   formGroup: FormGroup;
 
-  formControl: FormControl;
+  vehicleRegistrationFormControlName: string = 'vehicleRegistration';
+
+  formInvalid: boolean = false;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
@@ -35,19 +36,34 @@ export class VRNCaptureModal {
     this.onCancel = this.navParams.get('onCancel');
     this.onSave = this.navParams.get('onSave');
     this.formGroup = new FormGroup({});
-    this.formControl = new FormControl(null, [Validators.required]);
-    this.formGroup.addControl('vehicleRegistration', this.formControl);
+    this.formGroup.addControl(
+      this.vehicleRegistrationFormControlName, new FormControl(
+        null, [
+          Validators.required,
+          Validators.pattern(/[A-Z0-9]{1,7}$/gi),
+          Validators.maxLength(parseInt(getRegistrationNumberValidator().maxLength, 10)),
+        ],
+      ),
+    );
+    this.vehicleRegistrationFormControl.valueChanges.subscribe(value => {
+      this.updateVehicleRegistrationNumber(value);
+    });
   }
 
-  vehicleRegistrationNumberChanged(vehicleRegistration: string): void {
-    if (!this.registrationNumberValidator.pattern.test(vehicleRegistration)) {
-      const value = vehicleRegistration.replace(nonAlphaNumericValues, '');
+  inputChange(value) {
+    this.updateVehicleRegistrationNumber(value);
+  }
 
-      if (isEmpty(value)) {
-        this.formControl.setErrors({ value });
-      }
+  updateVehicleRegistrationNumber(value) {
+    const newValue = value.replace(nonAlphaNumericValues, '')
+      .toUpperCase();
+      // .substr(0, 7);
+    if (this.registrationNumberValidator.pattern.test(newValue)) {
+      this.vehicleRegistrationFormControl.patchValue(newValue);
+      this.vehicleRegistrationFormControl.updateValueAndValidity();
     }
-    this.formControl.patchValue(this.vehicleRegistration);
+    this.formInvalid = this.vehicleRegistrationFormControl.dirty && this.vehicleRegistrationFormControl.invalid;
+    this.getFormValidationErrors();
   }
 
   async validateThenSave() {
@@ -57,7 +73,25 @@ export class VRNCaptureModal {
   }
 
   get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
+    // return true;
+    this.getFormValidationErrors();
+    return this.vehicleRegistrationFormControl.dirty && !this.vehicleRegistrationFormControl.valid;
+  }
+
+  get vehicleRegistrationFormControl(): AbstractControl {
+    return this.formGroup.get('vehicleRegistration');
+  }
+
+  getFormValidationErrors() {
+    Object.keys(this.formGroup.controls).forEach(key => {
+
+      const controlErrors: ValidationErrors = this.formGroup.get(key).errors;
+      if (controlErrors != null) {
+        Object.keys(controlErrors).forEach(keyError => {
+          console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
+        });
+      }
+    });
   }
 
 }
