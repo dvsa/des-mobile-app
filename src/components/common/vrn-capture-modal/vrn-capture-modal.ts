@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl, FormControl, FormGroup, Validators,
+} from '@angular/forms';
 import { NavParams } from '@ionic/angular';
 import {
   FieldValidators,
@@ -18,7 +20,7 @@ export class VRNCaptureModal {
 
   onSave: Function;
 
-  vehicleRegistration: string;
+  vehicleRegistrationNumber: string;
 
   isValid: boolean = true;
 
@@ -40,58 +42,34 @@ export class VRNCaptureModal {
       this.vehicleRegistrationFormControlName, new FormControl(
         null, [
           Validators.required,
-          Validators.pattern(/[A-Z0-9]{1,7}$/gi),
+          Validators.pattern('^[A-Z0-9]{1,7}$'),
           Validators.maxLength(parseInt(getRegistrationNumberValidator().maxLength, 10)),
         ],
       ),
     );
-    this.vehicleRegistrationFormControl.valueChanges.subscribe(value => {
-      this.updateVehicleRegistrationNumber(value);
-    });
   }
 
-  inputChange(value) {
-    this.updateVehicleRegistrationNumber(value);
-  }
-
-  updateVehicleRegistrationNumber(value) {
-    const newValue = value.replace(nonAlphaNumericValues, '')
-      .toUpperCase();
-      // .substr(0, 7);
-    if (this.registrationNumberValidator.pattern.test(newValue)) {
-      this.vehicleRegistrationFormControl.patchValue(newValue);
-      this.vehicleRegistrationFormControl.updateValueAndValidity();
+  inputChange(input: any) {
+    if (typeof input === 'string') {
+      input = input.toUpperCase()
+        .replace(nonAlphaNumericValues, '');
+      this.vehicleRegistrationNumber = input;
+      this.vehicleRegistrationFormControl.patchValue(input, {
+        emitEvent: false,
+        emitViewToModelChange: false,
+      });
     }
     this.formInvalid = this.vehicleRegistrationFormControl.dirty && this.vehicleRegistrationFormControl.invalid;
-    this.getFormValidationErrors();
   }
 
   async validateThenSave() {
-    if (this.registrationNumberValidator.pattern.test(this.vehicleRegistration)) {
-      await this.onSave(this.vehicleRegistration);
+    if (this.registrationNumberValidator.pattern.test(this.vehicleRegistrationNumber)) {
+      await this.onSave(this.vehicleRegistrationNumber);
     }
-  }
-
-  get invalid(): boolean {
-    // return true;
-    this.getFormValidationErrors();
-    return this.vehicleRegistrationFormControl.dirty && !this.vehicleRegistrationFormControl.valid;
   }
 
   get vehicleRegistrationFormControl(): AbstractControl {
     return this.formGroup.get('vehicleRegistration');
-  }
-
-  getFormValidationErrors() {
-    Object.keys(this.formGroup.controls).forEach(key => {
-
-      const controlErrors: ValidationErrors = this.formGroup.get(key).errors;
-      if (controlErrors != null) {
-        Object.keys(controlErrors).forEach(keyError => {
-          console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
-        });
-      }
-    });
   }
 
 }
