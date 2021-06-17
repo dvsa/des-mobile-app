@@ -54,7 +54,7 @@ fdescribe('VRNCaptureModal', () => {
         component.vehicleRegistrationNumber = 'X123456X';
         component.validateThenSave();
         expect(component.onSave).not.toHaveBeenCalled();
-      })
+      });
     });
     describe('inputChange', () => {
       it('should mark the form as invalid if passed an invalid vrn', () => {
