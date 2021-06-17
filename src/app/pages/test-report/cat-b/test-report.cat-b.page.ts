@@ -65,6 +65,7 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
 
     this.pageState = {
       ...this.commonPageState,
+      testData$: this.commonPageState.testData$ as Observable<CatBUniqueTypes.TestData>,
     };
     this.setupSubscription();
   }

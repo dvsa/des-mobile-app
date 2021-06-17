@@ -12,7 +12,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '@pages/test-report/test-report.selector';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { hasManoeuvreBeenCompletedCatB } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
@@ -37,6 +37,17 @@ import { EtaInvalidModal } from '@pages/test-report/components/eta-invalid-modal
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
 import { LegalRequirementsModal } from
   '@pages/test-report/components/legal-requirements-modal/legal-requirements-modal';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { hasManoeuvreBeenCompletedCatBE } from '@store/tests/test-data/cat-be/test-data.cat-be.selector';
+import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
+import { hasManoeuvreBeenCompletedCatD } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
+import { hasManoeuvreBeenCompletedCatHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
+import {
+  hasManoeuvreBeenCompletedCatADIPart2
+} from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
+import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
+import { TestDataUnion } from '@shared/unions/test-schema-unions';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -44,8 +55,9 @@ export interface CommonTestReportPageState {
   isSeriousMode$: Observable<boolean>;
   isDangerousMode$: Observable<boolean>;
   manoeuvres$: Observable<boolean>;
-  testData$: Observable<CatBUniqueTypes.TestData>;
+  testData$: Observable<TestDataUnion>;
   testRequirements$: Observable<CatBUniqueTypes.TestRequirements>;
+  category$: Observable<CategoryCode>;
 }
 
 export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
@@ -63,6 +75,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   manoeuvresCompleted: boolean = false;
   isTestReportValid: boolean = false;
   isEtaValid: boolean = true;
+  testCategory: TestCategory;
 
   missingLegalRequirements: legalRequirementsLabels[] = [];
   modal: HTMLIonModalElement;
@@ -118,13 +131,44 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       ),
       manoeuvres$: currentTest$.pipe(
         select(getTestData),
-        select(hasManoeuvreBeenCompletedCatB),
+        select(this.getHasManoeuvreBeenCompleted),
       ),
       testRequirements$: currentTest$.pipe(
         select(getTestData),
         select(getTestRequirementsCatB),
       ),
+      category$: currentTest$.pipe(
+        select(getTestCategory),
+        map((result) => this.testCategory = result as TestCategory),
+      ),
     };
+  }
+
+  getHasManoeuvreBeenCompleted(data: TestDataUnion) {
+    switch (this.testCategory) {
+      case TestCategory.B:
+        return hasManoeuvreBeenCompletedCatB(data as CatBUniqueTypes.TestData);
+      case TestCategory.BE:
+        return hasManoeuvreBeenCompletedCatBE(data as CatBEUniqueTypes.TestData);
+      case TestCategory.C:
+      case TestCategory.C1:
+      case TestCategory.C1E:
+        return hasManoeuvreBeenCompletedCatC;
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return hasManoeuvreBeenCompletedCatD;
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+      case TestCategory.K:
+        return hasManoeuvreBeenCompletedCatHomeTest;
+      case TestCategory.ADI2:
+        return hasManoeuvreBeenCompletedCatADIPart2;
+      default:
+        return null;
+    }
   }
 
   async ionViewWillEnter(): Promise<void> {
