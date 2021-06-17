@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import {
   AbstractControl, FormControl, FormGroup, Validators,
 } from '@angular/forms';
-import { NavParams } from '@ionic/angular';
 import {
   FieldValidators,
   getRegistrationNumberValidator,
@@ -16,8 +15,10 @@ import {
 })
 export class VRNCaptureModal {
 
+  @Input()
   onCancel: Function;
 
+  @Input()
   onSave: Function;
 
   vehicleRegistrationNumber: string;
@@ -31,10 +32,7 @@ export class VRNCaptureModal {
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
-    private navParams: NavParams,
   ) {
-    this.onCancel = this.navParams.get('onCancel');
-    this.onSave = this.navParams.get('onSave');
     this.formGroup = new FormGroup({});
     this.formGroup.addControl(
       this.vehicleRegistrationFormControlName, new FormControl(
