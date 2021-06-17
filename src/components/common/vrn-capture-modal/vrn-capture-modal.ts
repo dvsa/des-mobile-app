@@ -22,8 +22,6 @@ export class VRNCaptureModal {
 
   vehicleRegistrationNumber: string;
 
-  isValid: boolean = true;
-
   formGroup: FormGroup;
 
   vehicleRegistrationFormControlName: string = 'vehicleRegistration';
