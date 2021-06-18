@@ -33,6 +33,7 @@ import { DangerousFaultBadgeComponent } from './dangerous-fault-badge/dangerous-
 import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faults-badge';
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { MesBackButtonComponent } from './mes-back-button/mes-back-button';
+import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { MesBackButtonComponent } from './mes-back-button/mes-back-button';
     FormsModule,
     TranslateModule,
     ReactiveFormsModule,
+    VRNCaptureModalModule,
   ],
   exports: [
     SignatureAreaComponent,
