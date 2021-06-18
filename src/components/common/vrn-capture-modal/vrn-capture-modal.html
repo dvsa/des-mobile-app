@@ -32,10 +32,10 @@
         </ion-row>
         <ion-row>
             <ion-col class="column-border-top column-border-right ion-no-padding">
-                <ion-button fill="clear" class="cancel-button" (click)="this.onCancel()">Cancel</ion-button>
+                <ion-button fill="clear" class="cancel-button" (click)="this.modalController.dismiss()">Cancel</ion-button>
             </ion-col>
             <ion-col class="column-border-top ion-no-padding">
-                <ion-button fill="clear" class="save-button" (click)="this.validateThenSave()"><h3>Save</h3></ion-button>
+                <ion-button fill="clear" class="save-button" (click)="this.validateThenDismiss()"><h3>Save</h3></ion-button>
             </ion-col>
         </ion-row>
     </form>

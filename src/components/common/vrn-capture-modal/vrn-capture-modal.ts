@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AbstractControl, FormControl, FormGroup, Validators,
 } from '@angular/forms';
@@ -7,6 +7,7 @@ import {
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'vrn-capture-modal',
@@ -14,12 +15,6 @@ import {
   styleUrls: ['./vrn-capture-modal.scss'],
 })
 export class VRNCaptureModal {
-
-  @Input()
-  onCancel: Function;
-
-  @Input()
-  onSave: Function;
 
   vehicleRegistrationNumber: string;
 
@@ -32,6 +27,7 @@ export class VRNCaptureModal {
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
+    public modalController: ModalController,
   ) {
     this.formGroup = new FormGroup({});
     this.formGroup.addControl(
@@ -58,9 +54,9 @@ export class VRNCaptureModal {
     this.formInvalid = this.vehicleRegistrationFormControl.dirty && this.vehicleRegistrationFormControl.invalid;
   }
 
-  async validateThenSave() {
+  async validateThenDismiss() {
     if (this.registrationNumberValidator.pattern.test(this.vehicleRegistrationNumber)) {
-      await this.onSave(this.vehicleRegistrationNumber);
+      this.modalController.dismiss({ vehicleRegNumber: this.vehicleRegistrationNumber });
     }
   }
 

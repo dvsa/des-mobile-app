@@ -34,26 +34,24 @@ fdescribe('VRNCaptureModal', () => {
 
   describe('class', () => {
 
-    describe('validateThenSave', () => {
+    describe('validateThenDismiss', () => {
       it('should test the parameter against the validation before saving', () => {
         spyOn(component.registrationNumberValidator.pattern, 'test');
         component.vehicleRegistrationNumber = 'X12345X';
-        component.validateThenSave();
+        component.validateThenDismiss();
         expect(component.registrationNumberValidator.pattern.test).toHaveBeenCalledWith('X12345X');
       });
-      it('should save after being passed a valid parameter', () => {
-        component.onSave = (): void => {};
-        spyOn(component, 'onSave');
+      it('should call modalController.dismiss after being passed a valid parameter', () => {
+        spyOn(component.modalController, 'dismiss');
         component.vehicleRegistrationNumber = 'X12345X';
-        component.validateThenSave();
-        expect(component.onSave).toHaveBeenCalled();
+        component.validateThenDismiss();
+        expect(component.modalController.dismiss).toHaveBeenCalledWith({ vehicleRegNumber: 'X12345X' });
       });
-      it('should not save when passed an invalid parameter', () => {
-        component.onSave = (): void => {};
-        spyOn(component, 'onSave');
+      it('should not call modalController.dismiss when passed an invalid parameter', () => {
+        spyOn(component.modalController, 'dismiss');
         component.vehicleRegistrationNumber = 'X123456X';
-        component.validateThenSave();
-        expect(component.onSave).not.toHaveBeenCalled();
+        component.validateThenDismiss();
+        expect(component.modalController.dismiss).not.toHaveBeenCalled();
       });
     });
     describe('inputChange', () => {

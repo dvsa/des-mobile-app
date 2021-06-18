@@ -44,21 +44,12 @@ export class CandidateSectionComponent {
       component: VRNCaptureModal,
       backdropDismiss: false,
       showBackdrop: true,
-      componentProps: {
-        onCancel: this.onCancel,
-        onSave: this.onSave,
-      },
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
     await this.vrnModal.present();
+    const { data } = await this.vrnModal.onDidDismiss();
+    if (data.vehicleRegNumber) {
+      this.store$.dispatch(VehicleRegistrationChanged(data.vehicleRegNumber));
+    }
   }
-
-  onCancel = async (): Promise<void> => {
-    await this.vrnModal.dismiss();
-  };
-
-  onSave = async (value): Promise<void> => {
-    this.store$.dispatch(VehicleRegistrationChanged(value));
-    await this.vrnModal.dismiss();
-  };
 }
