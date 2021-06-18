@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl, FormControl, FormGroup, Validators,
 } from '@angular/forms';
@@ -8,13 +8,20 @@ import {
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
 import { ModalController } from '@ionic/angular';
+import { select, Store } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'vrn-capture-modal',
   templateUrl: './vrn-capture-modal.html',
   styleUrls: ['./vrn-capture-modal.scss'],
 })
-export class VRNCaptureModal {
+export class VRNCaptureModal implements OnInit {
 
   vehicleRegistrationNumber: string;
 
@@ -28,6 +35,7 @@ export class VRNCaptureModal {
 
   constructor(
     public modalController: ModalController,
+    private store$: Store<StoreModel>,
   ) {
     this.formGroup = new FormGroup({});
     this.formGroup.addControl(
@@ -39,6 +47,18 @@ export class VRNCaptureModal {
         ],
       ),
     );
+  }
+
+  ngOnInit() {
+    const currentTest$ = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+    );
+    currentTest$.pipe(
+      select(getVehicleDetails),
+      select(getRegistrationNumber),
+      map((registrationNumber) => this.vehicleRegistrationNumber = registrationNumber),
+    ).subscribe();
   }
 
   inputChange(input: any) {

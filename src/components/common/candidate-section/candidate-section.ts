@@ -48,7 +48,7 @@ export class CandidateSectionComponent {
     });
     await this.vrnModal.present();
     const { data } = await this.vrnModal.onDidDismiss();
-    if (data.vehicleRegNumber) {
+    if (data?.vehicleRegNumber) {
       this.store$.dispatch(VehicleRegistrationChanged(data.vehicleRegNumber));
     }
   }
