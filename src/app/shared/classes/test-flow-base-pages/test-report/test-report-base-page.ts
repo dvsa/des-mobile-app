@@ -251,6 +251,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       isDangerousMode$,
       manoeuvres$,
       testData$,
+      category$,
     } = this.commonPageState;
 
     this.subscription = merge(
@@ -259,14 +260,17 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       isSeriousMode$.pipe(map((result) => (this.isSeriousMode = result))),
       isDangerousMode$.pipe(map((result) => (this.isDangerousMode = result))),
       manoeuvres$.pipe(map((result) => (this.manoeuvresCompleted = result))),
-      testData$.pipe(map((data) => {
-        this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(data, TestCategory.B);
-        this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
-          data,
-          TestCategory.B,
-        );
-        this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, TestCategory.B);
-      })),
+      testData$.pipe(
+        withLatestFrom(category$),
+        map(([data, category]) => {
+          this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(data, category as TestCategory);
+          this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
+            data,
+            category as TestCategory,
+          );
+          this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
+        }),
+      ),
     )
       .subscribe();
   }
