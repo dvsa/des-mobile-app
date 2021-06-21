@@ -15,6 +15,7 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Router } from '@angular/router';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 interface TestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -24,6 +25,7 @@ interface TestReportPageState {
   manoeuvres$: Observable<boolean>;
   testData$: Observable<CatBUniqueTypes.TestData>;
   testRequirements$: Observable<CatBUniqueTypes.TestRequirements>;
+  category$: Observable<CategoryCode>;
 }
 
 @Component({

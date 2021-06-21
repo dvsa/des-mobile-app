@@ -120,6 +120,7 @@ describe('TestReportCatBPage', () => {
   describe('Class', () => {
     describe('onModalDismiss', () => {
       it('should navigate to debrief page when passed a CONTINUE event', () => {
+        component.debriefPageName = 'DebriefCatBPage';
         spyOn(component.router, 'navigate');
         component.onModalDismiss(ModalEvent.CONTINUE);
         expect(component.router.navigate).toHaveBeenCalledWith([CAT_B.DEBRIEF_PAGE]);
