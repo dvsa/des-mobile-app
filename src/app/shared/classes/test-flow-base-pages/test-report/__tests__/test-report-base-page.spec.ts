@@ -2,7 +2,7 @@ import {
   async,
   TestBed,
 } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { PlatformMock } from 'ionic-mocks';
@@ -16,6 +16,10 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { StoreModel } from '@shared/models/store.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TestReportBasePageComponent } from '../test-report-base-page';
 
 describe('TestReportBasePageComponent', () => {
@@ -23,6 +27,11 @@ describe('TestReportBasePageComponent', () => {
   let authenticationProvider: AuthenticationProvider;
   let router: Router;
   let store$: Store<StoreModel>;
+  let modalController: ModalController;
+  let testReportValidatorProvider: TestReportValidatorProvider;
+  let screenOrientation: ScreenOrientation;
+  let insomnia: Insomnia;
+  let statusBar: StatusBar;
 
   let basePageComponent: TestReportBasePageComponent;
   const initialState = {
@@ -64,11 +73,27 @@ describe('TestReportBasePageComponent', () => {
         auth: AuthenticationProvider,
         rout: Router,
         sto$: Store<StoreModel>,
+        modal: ModalController,
+        trValidator: TestReportValidatorProvider,
+        screenOri: ScreenOrientation,
+        insom: Insomnia,
+        status: StatusBar,
       ) {
-        super(plat, auth, rout, sto$);
+        // eslint-disable-next-line max-len
+        super(plat, auth, rout, sto$, modal, trValidator, screenOri, insom, status);
       }
     }
-    basePageComponent = new BasePageClass(platform, authenticationProvider, router, store$);
+
+    basePageComponent = new BasePageClass(
+      platform,
+      authenticationProvider,
+      router, store$,
+      modalController,
+      testReportValidatorProvider,
+      screenOrientation,
+      insomnia,
+      statusBar,
+    );
   }));
 
   describe('onInitialisation', () => {

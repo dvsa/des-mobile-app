@@ -1,5 +1,6 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import { TestRequirementsUnion } from '@shared/unions/test-schema-unions';
 import * as testRequirementsActions from '../../common/test-requirements/test-requirements.actions';
 
 export const initialState: CatBUniqueTypes.TestRequirements = {};
@@ -12,4 +13,4 @@ export const testRequirementsReducer = createReducer(
   })),
 );
 
-export const getTestRequirementsCatB = createFeatureSelector<CatBUniqueTypes.TestRequirements>('testRequirements');
+export const getTestRequirementsCatB = createFeatureSelector<TestRequirementsUnion>('testRequirements');

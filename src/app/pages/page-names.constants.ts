@@ -107,7 +107,7 @@ export const CAT_CPC: BasePageNames = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatCPCPage',
 };
 
-type BasePageNames = {
+export type BasePageNames = {
   [key in PageNameKeys]?: string;
 };
 

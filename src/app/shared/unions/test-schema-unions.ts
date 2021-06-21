@@ -130,6 +130,13 @@ export type TestDataUnion =
   | CatDTestData
   | CatHomeTestData;
 
+export type TestRequirementsUnion =
+  | CatCUniqueTypes.TestRequirements
+  | CatBEUniqueTypes.TestRequirements
+  | CatCUniqueTypes.TestRequirements
+  | CatDUniqueTypes.TestRequirements
+  | CatHUniqueTypes.TestRequirements;
+
 export type CatCTestData =
   | CatCUniqueTypes.TestData
   | CatC1UniqueTypes.TestData
