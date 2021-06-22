@@ -165,19 +165,19 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
     this.subscription = this.merged$.subscribe();
 
-    if (this.shouldPreselectADefaultValue()) {
-      this.initialiseDefaultSelections();
-    }
-
-    this.restoreRadiosFromState();
-    this.restoreRadioValidators();
-
   }
 
-  ionViewWillEnter(): void {
+  ionViewWillEnter(): boolean {
     if (this.subscription.closed && this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
+
+    if (this.shouldPreselectADefaultValue()) {
+      this.initialiseDefaultSelections();
+    }
+    this.restoreRadiosFromState();
+    this.restoreRadioValidators();
+    return true;
   }
 
   ionViewDidLeave(): void {
@@ -211,7 +211,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   dispatchCandidateChoseProvidedEmail() {
+    console.log('dispatchCandidateChoseProvidedEmail');
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.providedEmail);
+    this.isProvidedEmailSelected();
     this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
       this.candidateProvidedEmail, CommunicationPage.email,
     ));
@@ -238,6 +240,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   isProvidedEmailSelected(): boolean {
+    console.log('isProvidedEmailSelected');
+    console.log('this.communicationType', this.communicationType);
+    console.log('this.emailType', this.emailType);
     return (this.communicationType === CommunicationPage.email
       && this.emailType === CommunicationPage.providedEmail);
   }
