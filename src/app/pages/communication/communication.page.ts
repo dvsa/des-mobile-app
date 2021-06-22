@@ -165,17 +165,19 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
     this.subscription = this.merged$.subscribe();
 
+    if (this.shouldPreselectADefaultValue()) {
+      this.initialiseDefaultSelections();
+    }
+
+    this.restoreRadiosFromState();
+    this.restoreRadioValidators();
+
   }
 
-  ionViewWillEnter(): boolean {
+  ionViewWillEnter(): void {
     if (this.subscription.closed && this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
-
-    this.initialiseDefaultSelections();
-    this.restoreRadiosFromState();
-    this.restoreRadioValidators();
-    return true;
   }
 
   ionViewDidLeave(): void {
@@ -304,6 +306,20 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
   }
 
+  shouldPreselectADefaultValue(): boolean {
+    return this.communicationType === CommunicationPage.notProvided;
+  }
+
+  /**
+   * Function to conditionally dispatch 'dispatchCandidateChoseNewEmail' action
+   * to cover edge case candidate action.
+   *
+   * Candidate selects new email -> app crashes -> candidate selects Post ->
+   * app crashes -> candidate selects new email (previous state value exists so examiner clicks continue)
+   *
+   * As state change for new email happens on text input, the expected action
+   * (CandidateChoseEmailAsCommunicationPreference) would not be dispatched.
+   */
   conditionalDispatchCandidateChoseNewEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
 
