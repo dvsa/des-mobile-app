@@ -33,7 +33,8 @@
                         <time [time]="slot.slotDetail.start" [testComplete]="testComplete">
                         </time>
                     </ion-col>
-                    <ion-col size="46" class="vertical-align-center">
+                    <ion-col size="2"></ion-col>
+                    <ion-col size="44" class="vertical-align-center">
                         <ng-content *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate">
                         </ng-content>
                     </ion-col>
@@ -50,7 +51,8 @@
                         <progressive-access [progressiveAccess]="slot.booking.application.progressiveAccess">
                         </progressive-access>
                     </ion-col>
-                    <ion-col size="70">
+                    <ion-col size="2"></ion-col>
+                    <ion-col size="68">
                         <div *ngIf="isTeamJournal" id="team-journal-driver-number"
                              class="team-journal-driver-number">{{slot.booking.candidate.driverNumber}}</div>
                         <h3 id="del-ex-driver-number"

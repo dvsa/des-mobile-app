@@ -9,10 +9,14 @@ ion-card {
 }
 
 ion-row {
+  //turn on for debugging of test-slot card
+  //border: 1px solid black;
   min-height: 30px;
 }
 
 ion-col {
+  //turn on for debugging of test-slot card
+  //border: 1px solid black;
   padding: 0;
 }
 
