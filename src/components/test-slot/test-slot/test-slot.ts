@@ -116,6 +116,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   isPortrait(): boolean {
     return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
+      || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_SECONDARY
       || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
   }
 

@@ -1,22 +1,24 @@
-div.welsh-language-indicator {
+.welsh-language-indicator {
   display: flex;
-  position: relative;
-  top: 10px;
-  left: 20px;
+  justify-content: left;
+  align-items: center;
+}
 
-  img {
-    height: 19px;
-    width: 30px;
-    .text-zoom-large & {
-      height: 22px;
-      width: 35px;
-    }
-    .text-zoom-x-large & {
-      height: 24px;
-      width: 38px;
-    }
+.dragon {
+  height: 19px;
+  width: 30px;
+
+  .text-zoom-large & {
+    height: 22px;
+    width: 35px;
   }
-  .language-description {
-    padding-left: 10px;
+
+  .text-zoom-x-large & {
+    height: 24px;
+    width: 38px;
   }
+}
+
+.language-padding {
+  padding-left: 5px;
 }

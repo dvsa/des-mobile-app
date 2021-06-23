@@ -1,27 +1,24 @@
-div {
-
-  button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+:host {
+  .candidate-position{
+    position: relative;
+    left: -20px;
   }
-
-  h3.candidate-name {
+  .candidate-name {
+    white-space: nowrap;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
-    &.candidate-name-short {
-      max-width: 300px;
+
+    &.candidate-name-portrait {
+      max-width: 285px;
     }
-    &.candidate-name-long {
-      max-width: 420px;
+
+    &.candidate-name-landscape {
+      max-width: 350px;
     }
   }
-  ion-icon {
-    padding-left: 6px;
-    padding-right: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    margin-top: 3px;
-  }
+}
+
+.candidate-icon {
+  color: var(--gds-black);
 }

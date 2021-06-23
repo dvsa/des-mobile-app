@@ -1,12 +1,13 @@
-.bold {
-  font-weight: bold;
-}
+:host {
+  .bold {
+    font-weight: bold;
+  }
 
-span {
-  padding-left: 0.25rem;
-}
+  span {
+    padding-left: 0.25rem;
+  }
 
-.vehicle-details-row {
-  padding-left: 5px;
-  color: var(--gds-black);
+  .vehicle-details-row {
+    color: var(--gds-black);
+  }
 }

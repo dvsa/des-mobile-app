@@ -1,4 +1,12 @@
 .examiner-name {
-  font-size: 23px;
   color: black;
+  .text-zoom-regular & {
+    font-size: 18px;
+  }
+  .text-zoom-large & {
+    font-size: 24px;
+  }
+  .text-zoom-x-large & {
+    font-size: 28px;
+  }
 }
