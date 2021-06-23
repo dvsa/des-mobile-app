@@ -14,7 +14,6 @@
                class="gds-radio-button"
                [class.ng-invalid]="invalid"
                (change)="eyesightTestResultChanged($event.target.value)"
-               [checked]="testPassed"
                value="P">
         <label for="eyesight-pass" class="radio-label">Pass</label>
       </ion-col>
@@ -26,7 +25,6 @@
                class="gds-radio-button"
                [class.ng-invalid]="invalid"
                (change)="eyesightTestResultChanged($event.target.value)"
-               [checked]="testFailed"
                value="F">
         <label for="eyesight-fail" class="radio-label">Fail</label>
       </ion-col>
