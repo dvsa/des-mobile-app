@@ -33,7 +33,9 @@ export class EyesightTestComponent implements OnChanges {
       this.formControl = new FormControl('', [Validators.required]);
       this.formGroup.addControl('eyesightCtrl', this.formControl);
     }
-    this.formControl.patchValue(this.eyesightPassRadioChecked);
+    if (this.eyesightPassRadioChecked || this.eyesightFailRadioChecked) {
+      this.formControl.patchValue(this.eyesightPassRadioChecked ? EyesightTestResult.Pass : EyesightTestResult.Fail);
+    }
   }
 
   eyesightTestResultChanged(result: string): void {
