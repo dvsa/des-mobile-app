@@ -56,6 +56,12 @@ interface CommunicationPageState {
   testCategory$: Observable<CategoryCode>;
 }
 
+export enum userActions {
+  provided = 'provided',
+  newEmail = 'newEmail',
+  post = 'post',
+}
+
 @Component({
   selector: 'app-communication',
   templateUrl: './communication.page.html',
@@ -80,6 +86,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   communicationType: CommunicationMethod;
   merged$: Observable<string | boolean>;
   testCategory: CategoryCode;
+  userAction: userActions;
 
   constructor(
     platform: Platform,
@@ -211,17 +218,20 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   dispatchCandidateChoseProvidedEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.providedEmail);
-    this.isProvidedEmailSelected();
     this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
       this.candidateProvidedEmail, CommunicationPage.email,
     ));
   }
 
   dispatchCandidateChoseNewEmail(communicationEmail: string): void {
-    this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
-    this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
-      communicationEmail, CommunicationPage.email,
-    ));
+    console.log('this.candidateProvidedEmail', this.candidateProvidedEmail);
+    console.log('this.communicationEmail', this.communicationEmail)
+    if(this.userAction !== userActions.provided) {
+      this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
+      this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
+        communicationEmail, CommunicationPage.email,
+      ));
+    }
   }
 
   dispatchCandidateChosePost(): void {
@@ -310,16 +320,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     return this.communicationType === CommunicationPage.notProvided;
   }
 
-  /**
-   * Function to conditionally dispatch 'dispatchCandidateChoseNewEmail' action
-   * to cover edge case candidate action.
-   *
-   * Candidate selects new email -> app crashes -> candidate selects Post ->
-   * app crashes -> candidate selects new email (previous state value exists so examiner clicks continue)
-   *
-   * As state change for new email happens on text input, the expected action
-   * (CandidateChoseEmailAsCommunicationPreference) would not be dispatched.
-   */
   conditionalDispatchCandidateChoseNewEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
 
@@ -329,7 +329,13 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   getNewEmailAddressValue() {
+    console.log('getNewEmailAddressValue');
     return this.candidateProvidedEmail === this.communicationEmail ? '' : this.communicationEmail;
+  }
+
+  setUserAction(action: userActions) {
+    this.userAction = action
+    console.log('lastClicked', action);
   }
 
 }
