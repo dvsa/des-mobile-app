@@ -217,7 +217,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   dispatchCandidateChoseNewEmail(communicationEmail: string): void {
-    if(this.isNewEmailSelected()) {
+    if (this.isNewEmailSelected()) {
       this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
       this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
         communicationEmail, CommunicationPage.email,

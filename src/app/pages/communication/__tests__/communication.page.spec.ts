@@ -146,7 +146,7 @@ describe('CommunicationPage', () => {
 
     describe('dispatchCandidateChoseNewEmail', () => {
       it('should dispatch a CandidateChoseEmailAsCommunicationPreference action', () => {
-        spyOn(component, 'isNewEmailSelected').and.returnValue(true)
+        spyOn(component, 'isNewEmailSelected').and.returnValue(true);
         component.dispatchCandidateChoseNewEmail(candidateMock.emailAddress);
         expect(store$.dispatch)
           .toHaveBeenCalledWith(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
