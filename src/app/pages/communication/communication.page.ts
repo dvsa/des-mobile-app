@@ -56,12 +56,6 @@ interface CommunicationPageState {
   testCategory$: Observable<CategoryCode>;
 }
 
-export enum userActions {
-  provided = 'provided',
-  newEmail = 'newEmail',
-  post = 'post',
-}
-
 @Component({
   selector: 'app-communication',
   templateUrl: './communication.page.html',
@@ -86,7 +80,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   communicationType: CommunicationMethod;
   merged$: Observable<string | boolean>;
   testCategory: CategoryCode;
-  userAction: userActions;
 
   constructor(
     platform: Platform,
@@ -224,9 +217,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   dispatchCandidateChoseNewEmail(communicationEmail: string): void {
-    console.log('this.candidateProvidedEmail', this.candidateProvidedEmail);
-    console.log('this.communicationEmail', this.communicationEmail)
-    if(this.userAction !== userActions.provided) {
+    if(this.isNewEmailSelected()) {
       this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
       this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
         communicationEmail, CommunicationPage.email,
@@ -329,13 +320,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   getNewEmailAddressValue() {
-    console.log('getNewEmailAddressValue');
     return this.candidateProvidedEmail === this.communicationEmail ? '' : this.communicationEmail;
   }
-
-  setUserAction(action: userActions) {
-    this.userAction = action
-    console.log('lastClicked', action);
-  }
-
 }

@@ -37,23 +37,20 @@
                               [shouldRender]="pageState.candidateProvidedEmail$ | async"
                               [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
                               [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
-                              (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()"
-                              (click)="setUserAction('provided')">
+                              (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()">
               </provided-email>
 
               <new-email [formGroup]="form"
                          [newEmailAddress]="getNewEmailAddressValue()"
                          [isNewEmailAddressChosen]="isNewEmailSelected()"
                          (newEmailRadioSelect)="conditionalDispatchCandidateChoseNewEmail()"
-                         (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)"
-                         (click)="setUserAction('newEmail')">
+                         (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)">
               </new-email>
 
               <postal-address [formGroup]="form"
                               [postalAddress]="pageState.candidateAddress$ | async"
                               [isPostalAddressChosen]="isPostSelected()"
-                              (postalRadioSelect)="dispatchCandidateChosePost($event)"
-                              (click)="setUserAction('post')">
+                              (postalRadioSelect)="dispatchCandidateChosePost($event)">
               </postal-address>
 
               <ion-row class="validation-message-row">
