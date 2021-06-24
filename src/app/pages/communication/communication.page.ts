@@ -167,15 +167,16 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   }
 
-  ionViewWillEnter(): boolean {
+  ionViewWillEnter(): void {
     if (this.subscription.closed && this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
 
-    this.initialiseDefaultSelections();
+    if (this.shouldPreselectADefaultValue()) {
+      this.initialiseDefaultSelections();
+    }
     this.restoreRadiosFromState();
     this.restoreRadioValidators();
-    return true;
   }
 
   ionViewDidLeave(): void {
@@ -216,10 +217,12 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   dispatchCandidateChoseNewEmail(communicationEmail: string): void {
-    this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
-    this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
-      communicationEmail, CommunicationPage.email,
-    ));
+    if (this.isNewEmailSelected()) {
+      this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
+      this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
+        communicationEmail, CommunicationPage.email,
+      ));
+    }
   }
 
   dispatchCandidateChosePost(): void {
@@ -304,6 +307,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
   }
 
+  shouldPreselectADefaultValue(): boolean {
+    return this.communicationType === CommunicationPage.notProvided;
+  }
+
   conditionalDispatchCandidateChoseNewEmail() {
     this.setCommunicationType(CommunicationPage.email, CommunicationPage.updatedEmail);
 
@@ -315,5 +322,4 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   getNewEmailAddressValue() {
     return this.candidateProvidedEmail === this.communicationEmail ? '' : this.communicationEmail;
   }
-
 }

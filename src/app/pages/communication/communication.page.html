@@ -47,8 +47,10 @@
                          (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)">
               </new-email>
 
-              <postal-address [formGroup]="form" [postalAddress]="pageState.candidateAddress$ | async"
-                              [isPostalAddressChosen]="isPostSelected()" (postalRadioSelect)="dispatchCandidateChosePost($event)">
+              <postal-address [formGroup]="form"
+                              [postalAddress]="pageState.candidateAddress$ | async"
+                              [isPostalAddressChosen]="isPostSelected()"
+                              (postalRadioSelect)="dispatchCandidateChosePost($event)">
               </postal-address>
 
               <ion-row class="validation-message-row">
