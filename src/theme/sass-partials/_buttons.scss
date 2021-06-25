@@ -257,7 +257,7 @@
 }
 
 .refresh-button {
-  --height: auto;
+  height: auto !important;
 }
 
 ion-back-button {
