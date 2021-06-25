@@ -2,7 +2,7 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button class="back-btn-text"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons slot="end">

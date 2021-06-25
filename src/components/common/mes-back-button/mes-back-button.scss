@@ -3,6 +3,12 @@
     color: var(--mes-white);
     font-size: 18px;
     margin-left: -5px;
+    .text-zoom-large & {
+      font-size: 20px
+    }
+    .text-zoom-x-large & {
+      font-size: 22px
+    }
   }
   .back-button-icon {
     color: var(--mes-white);

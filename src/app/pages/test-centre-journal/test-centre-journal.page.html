@@ -4,8 +4,8 @@
         <ion-buttons slot="start">
           <mes-back-button routerLink="DashboardPage"></mes-back-button>
         </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-button (click)="getTestCentreData(true)">
+        <ion-buttons slot="end" >
+            <ion-button class="refresh-button" (click)="getTestCentreData(true)">
                 <div>
                     <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
                     <span class="colour-white">Refresh</span>
