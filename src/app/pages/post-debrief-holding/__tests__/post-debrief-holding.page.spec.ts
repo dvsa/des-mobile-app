@@ -54,7 +54,6 @@ describe('PostDebriefHoldingPage', () => {
     store$ = TestBed.inject(Store);
     routeByCat = TestBed.inject(RouteByCategoryProvider);
     spyOn(store$, 'dispatch');
-    // fixture.detectChanges();
   }));
 
   describe('Class', () => {
