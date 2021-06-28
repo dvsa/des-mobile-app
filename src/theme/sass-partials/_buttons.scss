@@ -236,6 +236,30 @@
   color: white
 }
 
+.back-btn-text {
+  color: var(--mes-white);
+  margin-left: -5px;
+  .text-zoom-regular & {
+    font-size: 18px;
+  }
+  .text-zoom-large & {
+    font-size: 20px
+  }
+  .text-zoom-x-large & {
+    font-size: 22px
+  }
+}
+
+.back-btn-icon {
+  color: var(--mes-white);
+  font-size: 30px;
+  margin-left: -10px;
+}
+
+.refresh-button {
+  height: auto !important;
+}
+
 ion-back-button {
   --color: var(--mes-white);
 }

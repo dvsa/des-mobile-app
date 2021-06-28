@@ -1,4 +1,14 @@
 ion-toolbar {
   --background: var(--mes-toolbar-background);
   --color: var(--mes-white);
+
+  ion-title {
+    font-size: 20px;
+    .text-zoom-large & {
+      font-size: 22px
+    }
+    .text-zoom-x-large & {
+      font-size: 24px
+    }
+  }
 }
