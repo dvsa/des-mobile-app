@@ -95,6 +95,7 @@ export class DeviceProvider implements IDeviceProvider {
       if (cordova && cordova.plugins && cordova.plugins.ASAM) {
         cordova.plugins.ASAM.toggle(enabled, (didSucceed: boolean) => {
           const logMessage = `Call to ${enabled ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
+          alert(logMessage);
           if (!didSucceed) {
             const logError = `${enabled ? 'Enabling' : 'Disabling'} ASAM`;
             this.store$.dispatch(SaveLog({
