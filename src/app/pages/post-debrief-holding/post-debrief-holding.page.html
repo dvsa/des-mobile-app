@@ -1,10 +1,16 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>post-debrief-holding</ion-title>
-  </ion-toolbar>
+    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
 </ion-header>
 
-<ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Non-pass finalisation</ion-button>
+<ion-content id="post-debrief-holding-cat-b-page" class="background-colour">
+    <div class="container">
+        <img id='dvsa-logo' src='../../../assets/imgs/back-to-office/logo.png' />
+    </div>
+    <div class="container">
+        <ion-button id="continue-to-non-pass-finalisation"
+                    class="mes-neutral-button office-button top-button"
+                    (click)="continueButton()">Continue
+        </ion-button>
+    </div>
 </ion-content>
+
