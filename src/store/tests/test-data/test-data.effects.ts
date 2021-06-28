@@ -46,7 +46,6 @@ export class TestDataEffects {
       if (action && eco.adviceGivenControl && !eco.completed) {
         return of(ecoActions.ToggleEco());
       }
-      return of(null);
     }),
   ));
 
@@ -66,7 +65,6 @@ export class TestDataEffects {
       if (action && eco.adviceGivenPlanning && !eco.completed) {
         return of(ecoActions.ToggleEco());
       }
-      return of(null);
     }),
   ));
 
