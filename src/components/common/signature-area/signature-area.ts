@@ -82,6 +82,11 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   }
 
   ngAfterViewInit() {
+    this.initialiseSignature();
+    window.addEventListener('orientationchange', () => this.initialiseSignature());
+  }
+
+  initialiseSignature() {
     setTimeout(() => {
       this.signaturePad.clear();
       this.resizeSignaturePad();
