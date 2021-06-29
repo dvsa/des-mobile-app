@@ -1,0 +1,27 @@
+<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="d255-card" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid">
+  </div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label>D255</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio" id="d255-yes" class="gds-radio-button" name="d255" formControlName="d255" value="Yes"
+         [class.ng-invalid]="invalid" [checked]="d255 === true" (change)="d255Changed($event.target.value)">
+        <label for="d255-yes" class="radio-label">Yes</label>
+      </ion-col>
+      <ion-col>
+        <input type="radio" id="d255-no" class="gds-radio-button" name="d255" formControlName="d255" value="No"
+         [class.ng-invalid]="invalid" [checked]="d255 === false" (change)="d255Changed($event.target.value)">
+        <label for="d255-no" class="radio-label">No</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="office-d255-validation-text">
+        Select D255
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>
