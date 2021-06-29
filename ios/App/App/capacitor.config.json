@@ -1,5 +1,5 @@
 {
-  "appId": "des.mobile.app",
+  "appId": "uk.gov.dvsa.drivingexaminerservices",
   "appName": "DES 4",
   "bundledWebRuntime": false,
   "npmClient": "npm",
