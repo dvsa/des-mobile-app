@@ -1,16 +1,13 @@
 {
-	"appId": "uk.gov.dvsa.drivingexaminerservices",
-	"appName": "DES 4",
-	"bundledWebRuntime": false,
-	"npmClient": "npm",
-	"webDir": "www",
-	"plugins": {
-		"SplashScreen": {
-			"launchAutoHide": false
-		}
-	},
-	"cordova": {},
-	"server": {
-		"url": "http://192.168.1.159:8100"
-	}
+  "appId": "uk.gov.dvsa.drivingexaminerservices",
+  "appName": "DES 4",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  },
+  "cordova": {}
 }
