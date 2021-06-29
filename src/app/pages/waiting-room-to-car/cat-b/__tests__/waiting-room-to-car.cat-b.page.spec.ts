@@ -67,8 +67,8 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TestsModel } from '@store/tests/tests.model';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 
+import { AppModule } from '@app/app.module';
 import { WaitingRoomToCarCatBPage } from '../waiting-room-to-car.cat-b.page';
-import { AppModule } from '../../../../app.module';
 
 describe('WaitingRoomToCarCatBPage', () => {
   let component: WaitingRoomToCarCatBPage;
