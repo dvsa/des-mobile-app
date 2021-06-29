@@ -4,7 +4,7 @@
     <ion-col class="ion-no-padding" size="80">
       <div class="modal-alert-message mes-data">
         <div class="mes-data">To end this test, complete:</div>
-        <ul *ngIf="legalRequirements.length > 0">
+        <ul *ngIf="legalRequirements.length > 0" class="ion-padding-top">
           <li *ngFor="let requirement of legalRequirements">{{requirement}}</li>
         </ul>
       </div>
