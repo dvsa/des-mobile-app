@@ -76,6 +76,7 @@ interface PassFinalisationPageState {
 @Component({
   selector: '.pass-finalisation-cat-b-page',
   templateUrl: 'pass-finalisation.cat-b.page.html',
+  styleUrls: ['pass-finalisation.cat-b.page.scss'],
 })
 export class PassFinalisationCatBPage extends PracticeableBasePageComponent {
   pageState: PassFinalisationPageState;

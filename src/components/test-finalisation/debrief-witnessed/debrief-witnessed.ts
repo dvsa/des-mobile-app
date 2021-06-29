@@ -15,6 +15,7 @@ enum ValidWitnessedValues {
 @Component({
   selector: 'debrief-witnessed',
   templateUrl: 'debrief-witnessed.html',
+  styleUrls: ['debrief-witnessed.scss'],
 })
 export class DebriefWitnessedComponent implements OnChanges {
   @Input()

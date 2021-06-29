@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'language-preferences',
   templateUrl: 'language-preference.html',
+  styleUrls: ['language-preference.scss'],
 })
 export class LanguagePreferencesComponent implements OnChanges {
 

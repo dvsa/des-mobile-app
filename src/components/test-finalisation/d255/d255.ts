@@ -15,6 +15,7 @@ export enum ValidD255Values {
 @Component({
   selector: 'd255',
   templateUrl: 'd255.html',
+  styleUrls: ['d255.scss'],
 })
 export class D255Component implements OnChanges {
   @Input()
