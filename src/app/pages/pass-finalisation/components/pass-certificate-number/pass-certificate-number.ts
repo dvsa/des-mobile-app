@@ -12,8 +12,8 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constant
 
 @Component({
   selector: 'pass-certificate-number',
-  templateUrl: 'pass-certificate-number.html',
-  styleUrls: ['pass-certificate-number.scss'],
+  templateUrl: './pass-certificate-number.html',
+  styleUrls: ['./pass-certificate-number.scss'],
 })
 export class PassCertificateNumberComponent implements OnChanges {
 

@@ -23,8 +23,8 @@ enum ValidLicenceProvidedValues {
 
 @Component({
   selector: 'license-provided',
-  templateUrl: 'license-provided.html',
-  styleUrls: ['license-provided.scss'],
+  templateUrl: './license-provided.html',
+  styleUrls: ['./license-provided.scss'],
 })
 
 export class LicenseProvidedComponent implements OnChanges {

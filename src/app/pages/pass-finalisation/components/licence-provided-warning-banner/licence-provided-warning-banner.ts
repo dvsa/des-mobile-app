@@ -2,8 +2,8 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'licence-provided-warning-banner',
-  templateUrl: 'licence-provided-warning-banner.html',
-  styleUrls: ['license-provided-warning-banner.scss'],
+  templateUrl: './licence-provided-warning-banner.html',
+  styleUrls: ['./license-provided-warning-banner.scss'],
 })
 
 export class LicenceProvidedWarningBannerComponent {

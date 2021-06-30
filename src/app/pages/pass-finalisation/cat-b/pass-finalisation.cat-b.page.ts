@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
@@ -75,10 +75,10 @@ interface PassFinalisationPageState {
 
 @Component({
   selector: 'app-pass-finalisation-cat-b-page',
-  templateUrl: 'pass-finalisation.cat-b.page.html',
-  styleUrls: ['pass-finalisation.cat-b.page.scss'],
+  templateUrl: './pass-finalisation.cat-b.page.html',
+  styleUrls: ['./pass-finalisation.cat-b.page.scss'],
 })
-export class PassFinalisationCatBPage extends PassFinalisationPageComponent {
+export class PassFinalisationCatBPage extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;
   @ViewChild('passCertificateNumberInput')
   passCertificateNumberInput: ElementRef;
