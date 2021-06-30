@@ -47,7 +47,7 @@ import {
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { PassFinalisationPageComponent }
- from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+  from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 import { TransmissionType } from '../../../shared/models/transmission-type';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
