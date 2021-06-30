@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-test-report-cat-a-mod1',
@@ -14,6 +14,7 @@ export class TestReportCatAMod1Page implements OnInit {
   constructor(
     private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -24,7 +25,7 @@ export class TestReportCatAMod1Page implements OnInit {
   }
 
   async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.DEBRIEF_PAGE, TestCategory.EUAM1);
+    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   }
 
 }

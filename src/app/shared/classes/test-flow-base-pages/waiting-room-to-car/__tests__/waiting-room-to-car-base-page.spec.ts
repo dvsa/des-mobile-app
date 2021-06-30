@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
@@ -29,7 +29,7 @@ import { InstructorRegistrationNumberChanged } from '@store/tests/instructor-det
 import {
   EyesightTestFailed, EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
+import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
 
 describe('WaitingRoomToCarBasePageComponent', () => {
@@ -79,7 +79,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);
@@ -227,8 +227,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   });
   describe('getDebriefPage', () => {
     it('should call through to getNextPage and return value', () => {
-      spyOn(routeByCat, 'getNextPage').and.returnValue('Some page');
-      expect(basePageComponent.getDebriefPage()).toEqual('Some page');
+      expect(basePageComponent.getDebriefPage()).toEqual(TestFlowPageNames.DEBRIEF_PAGE);
     });
   });
 });

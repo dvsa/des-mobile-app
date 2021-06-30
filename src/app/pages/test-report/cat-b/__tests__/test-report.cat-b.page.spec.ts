@@ -32,7 +32,7 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { configureTestSuite } from 'ng-bullet';
-import { CAT_B } from '@pages/page-names.constants';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ModalEvent } from '../../test-report.constants';
 import { VehicleCheckComponent } from '../components/vehicle-check/vehicle-check';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
@@ -120,10 +120,9 @@ describe('TestReportCatBPage', () => {
   describe('Class', () => {
     describe('onModalDismiss', () => {
       it('should navigate to debrief page when passed a CONTINUE event', () => {
-        component.debriefPageName = 'DebriefCatBPage';
         spyOn(component.router, 'navigate');
         component.onModalDismiss(ModalEvent.CONTINUE);
-        expect(component.router.navigate).toHaveBeenCalledWith([CAT_B.DEBRIEF_PAGE]);
+        expect(component.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
       });
     });
 

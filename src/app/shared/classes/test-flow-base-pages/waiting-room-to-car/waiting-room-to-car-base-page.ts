@@ -173,7 +173,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
   }
 
   getDebriefPage = (): string => {
-    return this.routeByCategoryProvider.getNextPage(TestFlowPageNames.DEBRIEF_PAGE, this.testCategory);
+    return TestFlowPageNames.DEBRIEF_PAGE;
   };
 
   dualControlsToggled(): void {

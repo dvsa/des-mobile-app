@@ -1,0 +1,25 @@
+<ion-card id="dangerous-fault" *ngIf="dangerousFaults.length > 0">
+  <ion-card-header>
+    <ion-card-title>
+      <h1 class="fault-heading">{{dangerousFaults.length}}</h1>
+      <h4 class="fault-heading">{{ 'debrief.dangerousFaultsCardDescription' | translate }}</h4>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row *ngFor="let dangerousFault of dangerousFaults" class="mes-data ion-align-items-center">
+        <ion-col size="32" no-padding></ion-col>
+        <ion-col size="2" no-padding class="ion-align-items-start">
+          <div class="counter-icon">
+            <dangerous-fault-badge [showBadge]="true"></dangerous-fault-badge>
+          </div>
+        </ion-col>
+        <ion-col size="3" class="ion-no-padding"></ion-col>
+        <ion-col no-padding>
+          <div
+            class="counter-label">{{'debrief.competencies.' + dangerousFault | translate | modifyCompetencyLabel:testCategory:dangerousFault}}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>
