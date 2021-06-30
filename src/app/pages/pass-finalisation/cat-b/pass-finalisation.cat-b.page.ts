@@ -5,11 +5,10 @@ import { Observable, Subscription, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { Router } from '@angular/router';
-import { NavParams, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData, getTestOutcomeText } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import { getCandidateName } from '@store/candidate-details/candidate-details.selector';
 import {
   formatDriverNumber,
   getCandidateDriverNumber,
@@ -47,10 +46,11 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
+import { PassFinalisationPageComponent }
+ from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 import { TransmissionType } from '../../../shared/models/transmission-type';
 import { AuthenticationProvider } from '../../../providers/authentication/authentication';
-import { PracticeableBasePageComponent } from '../../../shared/classes/practiceable-base-page';
 import { ActivityCodes } from '../../../shared/models/activity-codes';
 import { behaviourMap } from '../../office/office-behaviour-map';
 import { OutcomeBehaviourMapProvider } from '../../../providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -74,13 +74,12 @@ interface PassFinalisationPageState {
 }
 
 @Component({
-  selector: '.pass-finalisation-cat-b-page',
+  selector: 'app-pass-finalisation-cat-b-page',
   templateUrl: 'pass-finalisation.cat-b.page.html',
   styleUrls: ['pass-finalisation.cat-b.page.scss'],
 })
-export class PassFinalisationCatBPage extends PracticeableBasePageComponent {
+export class PassFinalisationCatBPage extends PassFinalisationPageComponent {
   pageState: PassFinalisationPageState;
-  passCertificateCtrl: string = PASS_CERTIFICATE_NUMBER_CTRL;
   @ViewChild('passCertificateNumberInput')
   passCertificateNumberInput: ElementRef;
   testOutcome: string = ActivityCodes.PASS;
@@ -91,30 +90,25 @@ export class PassFinalisationCatBPage extends PracticeableBasePageComponent {
 
   constructor(
     store$: Store<StoreModel>,
-    public router: Router,
-    public navParams: NavParams,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
+    router: Router,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(store$, platform, authenticationProvider, router);
     this.form = new FormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
+    super.onInitialisation();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
     );
 
     this.pageState = {
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateName),
-      ),
+      ...this.commonPageState,
       candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
@@ -182,7 +176,6 @@ export class PassFinalisationCatBPage extends PracticeableBasePageComponent {
   }
 
   ionViewDidLeave(): void {
-    super.ionViewDidLeave();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
