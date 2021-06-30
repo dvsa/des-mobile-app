@@ -1,4 +1,6 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import {
+  Component, ViewChild, ElementRef, OnInit,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
@@ -46,7 +48,7 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
-import { PassFinalisationPageComponent }
+import { CommonPassFinalisationPageState, PassFinalisationPageComponent }
   from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 import { TransmissionType } from '../../../shared/models/transmission-type';
@@ -57,8 +59,7 @@ import { OutcomeBehaviourMapProvider } from '../../../providers/outcome-behaviou
 import { CAT_B } from '../../page-names.constants';
 import { StoreModel } from '../../../shared/models/store.model';
 
-interface PassFinalisationPageState {
-  candidateName$: Observable<string>;
+interface PassFinalisationCatBPageState {
   candidateUntitledName$: Observable<string>;
   candidateDriverNumber$: Observable<string>;
   testOutcomeText$: Observable<string>;
@@ -72,6 +73,8 @@ interface PassFinalisationPageState {
   debriefWitnessed$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
 }
+
+type PassFinalisationPageState = CommonPassFinalisationPageState & PassFinalisationCatBPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-b-page',
