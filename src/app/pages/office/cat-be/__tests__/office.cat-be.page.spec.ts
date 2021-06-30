@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
@@ -12,7 +12,7 @@ describe('Office.CatBEPage', () => {
   let fixture: ComponentFixture<OfficeCatBEPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [OfficeCatBEPage],
       imports: [IonicModule.forRoot()],

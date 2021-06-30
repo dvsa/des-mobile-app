@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
@@ -58,7 +58,7 @@ describe('Rekey Search Effects', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(RekeySearchEffects);
     testSearchProvider = TestBed.inject(SearchProvider);

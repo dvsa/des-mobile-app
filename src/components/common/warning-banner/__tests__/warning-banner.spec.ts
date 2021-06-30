@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { ConfigMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
@@ -21,7 +21,7 @@ describe('WarningBanner', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WarningBannerComponent);
     component = fixture.componentInstance;
   }));

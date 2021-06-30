@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { FormGroup } from '@angular/forms';
 import { TransmissionType } from '@shared/models/transmission-type';
@@ -22,7 +22,7 @@ describe('transmissionComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TransmissionComponent);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});

@@ -1,4 +1,4 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ConfigMock } from 'ionic-mocks';
@@ -39,7 +39,7 @@ describe('EyesightFailureConfirmationComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EyesightFailureConfirmationComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);

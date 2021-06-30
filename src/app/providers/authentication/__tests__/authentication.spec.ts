@@ -1,4 +1,4 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideMockStore } from '@ngrx/store/testing';
@@ -34,7 +34,7 @@ describe('Authentication', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     appConfigProvider = TestBed.inject(AppConfigProvider);

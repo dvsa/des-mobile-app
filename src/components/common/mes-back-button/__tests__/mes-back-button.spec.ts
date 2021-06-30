@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
@@ -23,7 +23,7 @@ describe('MesBackButtonComponent', () => {
       ],
     });
   });
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(MesBackButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

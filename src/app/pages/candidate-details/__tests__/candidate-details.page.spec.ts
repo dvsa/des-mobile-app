@@ -1,5 +1,5 @@
 import {
-  async, ComponentFixture, fakeAsync, TestBed,
+  ComponentFixture, fakeAsync, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 
@@ -74,7 +74,7 @@ describe('CandidateDetailsPage', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateDetailsPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);

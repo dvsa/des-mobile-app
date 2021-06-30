@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
@@ -21,7 +21,7 @@ describe('HealthDeclarationSignedComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HealthDeclarationSignedComponent);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});

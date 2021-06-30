@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
 import { NavParamsMock, ModalControllerMock } from 'ionic-mocks';
 import { AppModule } from 'src/app/app.module';
@@ -26,7 +26,7 @@ describe('EndTestModal', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EndTestModal);
     component = fixture.componentInstance;
     component.onContinue = () => Promise.resolve();

@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
@@ -112,7 +112,7 @@ describe('CompetencyComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CompetencyComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
-  async, ComponentFixture, fakeAsync, flushMicrotasks, TestBed,
+  ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
@@ -64,7 +64,7 @@ describe('AppComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

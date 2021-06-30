@@ -1,5 +1,5 @@
 import { IonicModule } from '@ionic/angular';
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { StoreModel } from '@shared/models/store.model';
 import { Store, StoreModule } from '@ngrx/store';
@@ -25,7 +25,7 @@ describe('TimerComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TimerComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

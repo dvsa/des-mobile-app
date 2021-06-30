@@ -1,5 +1,5 @@
 import {
-  async, ComponentFixture, fakeAsync, flushMicrotasks, TestBed,
+  ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import {
   AlertController, IonicModule, LoadingController, MenuController, Platform,
@@ -76,7 +76,7 @@ describe('LoginPage', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

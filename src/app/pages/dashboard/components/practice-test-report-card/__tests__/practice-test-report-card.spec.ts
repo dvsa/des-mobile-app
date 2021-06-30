@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import {
   AlertController, ModalController,
 } from '@ionic/angular';
@@ -22,7 +22,7 @@ describe('PracticeTestReportCard ', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
   }));
 
   // TODO: tests will be reinstated when practice test report mode is implemented

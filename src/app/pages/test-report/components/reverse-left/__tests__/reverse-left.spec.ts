@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { configureTestSuite } from 'ng-bullet';
@@ -96,7 +96,7 @@ describe('reverseLeftComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ReverseLeftComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

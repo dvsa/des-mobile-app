@@ -1,7 +1,7 @@
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { JournalForceCheckModal } from './journal-force-check-modal';
@@ -25,7 +25,7 @@ describe('JournalForceCheckModal', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(JournalForceCheckModal);
     component = fixture.componentInstance;
     component.onCancel = async () => {};

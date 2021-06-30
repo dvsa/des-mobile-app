@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import { DangerousFaultBadgeComponent } from '../dangerous-fault-badge';
@@ -15,7 +15,7 @@ describe('DangerousFaultBadgeComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DangerousFaultBadgeComponent);
     component = fixture.componentInstance;
   }));

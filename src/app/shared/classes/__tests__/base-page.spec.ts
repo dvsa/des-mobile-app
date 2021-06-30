@@ -1,5 +1,5 @@
 import {
-  async, fakeAsync, flushMicrotasks, TestBed,
+  waitForAsync, fakeAsync, flushMicrotasks, TestBed,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
@@ -30,7 +30,7 @@ describe('Base Page', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
 
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
@@ -26,7 +26,7 @@ describe('VehicleRegistrationComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleRegistrationComponent);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});

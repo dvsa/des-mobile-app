@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import {
   ReplaySubject, Observable, EMPTY, of,
 } from 'rxjs';
@@ -54,7 +54,7 @@ describe('Test Report Effects', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     testResultProvider = TestBed.inject(TestResultProvider);
     effects = TestBed.inject(TestReportEffects);

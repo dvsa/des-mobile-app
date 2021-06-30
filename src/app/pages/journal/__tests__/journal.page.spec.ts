@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, async, TestBed,
+  ComponentFixture, waitForAsync, TestBed,
 } from '@angular/core/testing';
 import {
   LoadingController,
@@ -97,7 +97,7 @@ describe('JournalPage', () => {
 
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(JournalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

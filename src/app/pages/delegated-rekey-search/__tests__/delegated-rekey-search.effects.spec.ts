@@ -1,5 +1,5 @@
 import { defer, of, ReplaySubject } from 'rxjs';
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -60,7 +60,7 @@ describe('Delegated Rekey Search Effects', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(DelegatedRekeySearchEffects);
     delegatedRekeySearchProvider = TestBed.inject(DelegatedRekeySearchProvider);

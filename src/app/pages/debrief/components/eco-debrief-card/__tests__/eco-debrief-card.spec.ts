@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { StoreModule } from '@ngrx/store';
@@ -27,7 +27,7 @@ describe('EcoDebriefCardComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EcoDebriefCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

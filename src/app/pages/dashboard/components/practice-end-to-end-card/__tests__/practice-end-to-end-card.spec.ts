@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { configureTestSuite } from 'ng-bullet';
 import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
@@ -15,7 +15,7 @@ describe('PracticeEndToEndCard ', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PracticeEndToEndCardComponent);
     component = fixture.componentInstance;
   }));

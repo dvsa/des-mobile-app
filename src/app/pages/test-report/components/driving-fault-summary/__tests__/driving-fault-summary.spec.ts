@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { IonicModule, Config } from '@ionic/angular';
@@ -37,7 +37,7 @@ describe('DrivingFaultSummary', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DrivingFaultSummaryComponent);
     component = fixture.componentInstance;
     component.subscription = new Subscription();

@@ -22,7 +22,7 @@ import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { StoreModule, Store } from '@ngrx/store';
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { configureTestSuite } from 'ng-bullet';
 import {
@@ -110,7 +110,7 @@ describe('ManoeuvreCompetencyComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ManoeuvreCompetencyComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

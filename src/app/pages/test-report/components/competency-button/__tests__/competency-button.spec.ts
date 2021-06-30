@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
@@ -26,7 +26,7 @@ describe('CompetencyButtonComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CompetencyButtonComponent);
     component = fixture.componentInstance;
   }));

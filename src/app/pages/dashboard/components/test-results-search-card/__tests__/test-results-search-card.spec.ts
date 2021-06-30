@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { configureTestSuite } from 'ng-bullet';
 import { TestResultsSearchCardComponent } from '../test-results-search-card';
@@ -17,7 +17,7 @@ describe('TestResultsSearchCard ', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestResultsSearchCardComponent);
     component = fixture.componentInstance;
   }));

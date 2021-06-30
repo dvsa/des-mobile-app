@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { GoToJournalCardComponent } from '../go-to-journal-card';
 import { JOURNAL_PAGE } from '../../../../page-names.constants';
@@ -27,7 +27,7 @@ describe('GoToJournalCard ', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(GoToJournalCardComponent);
     component = fixture.componentInstance;
   }));
