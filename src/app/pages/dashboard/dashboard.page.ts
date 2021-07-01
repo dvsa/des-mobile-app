@@ -83,4 +83,7 @@ export class DashboardPage extends BasePageComponent {
 
   showDelegatedExaminerRekey = (): boolean =>
     this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
+
+  testResultColSize = (): string =>
+    this.showDelegatedExaminerRekey() ? '96' : '48';
 }
