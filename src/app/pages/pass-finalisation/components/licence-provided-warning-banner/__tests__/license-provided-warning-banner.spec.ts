@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from 'ionic-angular';
 import { configureTestSuite } from 'ng-bullet';
 import { By } from '@angular/platform-browser';
-import { LicenceProvidedWarningBannerComponent } from '../licence-provided-warning-banner';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { LicenceProvidedWarningBannerComponent } from '../licence-provided-warning-banner';
 
 describe('LicenceProvidedWarningBannerComponent', () => {
   let fixture: ComponentFixture<LicenceProvidedWarningBannerComponent>;
