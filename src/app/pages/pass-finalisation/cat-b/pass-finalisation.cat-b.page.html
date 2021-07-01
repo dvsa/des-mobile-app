@@ -1,8 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons slot="start">
+      <mes-back-button routerLink="DashboardPage"></mes-back-button>
+    </ion-buttons>
   </ion-toolbar>
-  <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
+<!--  <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>-->
 </ion-header>
 
 <ion-content>
@@ -61,7 +64,7 @@
 </ion-content>
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
-    <ion-button class="mes-primary-button" (click)="onSubmit()">
+    <ion-button class="mes-primary-button" id="pass-finalisation-continue-button" (click)="onSubmit()">
       <h3>Continue</h3>
     </ion-button>
   </ion-row>

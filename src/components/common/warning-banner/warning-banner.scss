@@ -1,41 +1,43 @@
-div {
-  display: flex;
-  align-items: center;
-  justify-content: left;
-  padding-left: 28px;
-  background: var(--mes-light-yellow);
-  height: 80px;
-  border-left: 10px solid var(--gds-yellow);
-
-  span {
-    margin-left: 8px;
-    font-size: 40px;
-    width: 333px;
-    font-weight: normal;
-    height: 28px;
-    letter-spacing: 0.39px;
-    align-content: center;
-    vertical-align: middle;
-    display: inline-flex;
+:host {
+  div {
+    display: flex;
     align-items: center;
+    justify-content: left;
+    padding-left: 28px;
+    background: var(--mes-light-yellow);
+    height: 80px;
+    border-left: 10px solid var(--gds-yellow);
+
+    span {
+      margin-left: 8px;
+      font-size: 40px;
+      width: 333px;
+      font-weight: normal;
+      height: 28px;
+      letter-spacing: 0.39px;
+      align-content: center;
+      vertical-align: middle;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    img {
+      padding-right: 10px;
+      height: 30px;
+      vertical-align: middle;
+    }
+
+    animation-name: expand;
+    animation-duration: 0.1s;
   }
 
-  img {
-    padding-right: 10px;
-    height: 30px;
-    vertical-align: middle;
-  }
+  @keyframes expand {
+    from {
+      margin-top: -70px;
+    }
 
-  animation-name: expand;
-  animation-duration: 0.1s;
-}
-
-@keyframes expand {
-  from {
-    margin-top: -70px;
-  }
-
-  to {
-    margin-top: 0px;
+    to {
+      margin-top: 0px;
+    }
   }
 }
