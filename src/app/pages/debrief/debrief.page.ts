@@ -4,7 +4,6 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { DebriefViewDidEnter, EndDebrief } from '@pages/debrief/debrief.actions';
 import { merge, Observable, Subscription } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
