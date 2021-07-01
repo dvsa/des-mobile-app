@@ -52,9 +52,10 @@ describe('HighwayCodeSafetyComponent', () => {
 
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HighwayCodeSafetyComponent);
-    component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.F));
+    component = fixture.componentInstance;
+    // component.ngOnInit();
   }));
 
   describe('Class', () => {
