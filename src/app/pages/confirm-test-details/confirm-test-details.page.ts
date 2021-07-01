@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ConfirmTestDetailsPage implements OnInit {
   constructor(
+    private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
     private router: Router,
   ) { }
