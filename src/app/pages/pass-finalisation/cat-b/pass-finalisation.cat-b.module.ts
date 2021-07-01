@@ -8,6 +8,8 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { PassFinalisationCatBPageRoutingModule }
   from '@pages/pass-finalisation/cat-b/pass-finalisation.cat-b-routing.module';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PassFinalisationCatBPage } from './pass-finalisation.cat-b.page';
 import { PassFinalisationComponentsModule } from '../components/pass-finalisation-components.module';
 
@@ -21,6 +23,10 @@ import { PassFinalisationComponentsModule } from '../components/pass-finalisatio
     PassFinalisationComponentsModule,
     PassFinalisationCatBPageRoutingModule,
     ReactiveFormsModule,
+  ],
+  providers: [
+    OutcomeBehaviourMapProvider,
+    PassCertificateValidationProvider,
   ],
   declarations: [PassFinalisationCatBPage],
 })
