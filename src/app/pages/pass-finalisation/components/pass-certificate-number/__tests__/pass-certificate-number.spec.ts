@@ -2,9 +2,9 @@ import {
   PassCertificateValidationProvider,
 } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule } from 'ionic-angular';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { IonicModule } from '@ionic/angular';
 import { PassCertificateNumberComponent } from '../pass-certificate-number';
 
 describe('passCertificateNumberComponent', () => {
