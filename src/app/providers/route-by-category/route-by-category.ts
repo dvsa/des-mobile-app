@@ -12,8 +12,6 @@ export class RouteByCategoryProvider {
 
   async navigateToPage(page: PageNameKeys, category?: TestCategory): Promise<void> {
     const categoryPage: string = category ? getPageNameByCategoryAndKey(category, page) : page;
-    alert(category);
-    alert(categoryPage);
     await this.router.navigate([categoryPage]);
   }
 
