@@ -1,0 +1,12 @@
+:host {
+  ion-content > div {
+    background-color: var(--mes-white);
+  }
+  ion-footer {
+    background-color: var(--mes-white);
+    ion-button {
+      width: 100%;
+      min-height: 56px;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+:host {
+  .header-card {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .top-row {
+    padding-top: 24px;
+  }
+  .bottom-row {
+    padding-bottom: 24px;
+  }
+  .pass {
+    color: var(--gds-dark-green-3);
+  }
+  .fail {
+    color: var(--gds-red);
+  }
+  .terminated {
+    color: var(--gds-grey-1);
+  }
+  div {
+    display:inline;
+  }
+  .align-col-right {
+    text-align: right;
+  }
+}

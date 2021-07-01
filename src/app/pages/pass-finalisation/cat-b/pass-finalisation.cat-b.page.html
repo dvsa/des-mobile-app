@@ -1,10 +1,71 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>pass-finalisation.cat-b</ion-title>
+    <ion-title>Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons slot="start">
+      <mes-back-button routerLink="DashboardPage"></mes-back-button>
+    </ion-buttons>
   </ion-toolbar>
+<!--  <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>-->
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Health Declaration</ion-button>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ion-grid>
+
+        <finalisation-header [candidateName]="pageState.candidateName$ | async"
+                             [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                             [outcomeText]="pageState.testOutcomeText$ | async"></finalisation-header>
+
+        <ion-row class="mes-component-row mes-row-separator ion-align-items-center" id="application-reference-card">
+          <ion-col class="component-label" size="32">
+            <label>Application reference</label>
+          </ion-col>
+          <ion-col class="mes-padding-left">
+            <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
+          </ion-col>
+        </ion-row>
+
+        <license-provided
+        [form]="form"
+        [license]="pageState.provisionalLicense$ | async"
+        [licenseReceivedLabel] = "'Provisional licence Received'"
+        (licenseReceived)="provisionalLicenseReceived()"
+        (licenseNotReceived)="provisionalLicenseNotReceived()">
+        </license-provided>
+
+        <licence-provided-warning-banner [licenceProvided]="pageState.provisionalLicense$ | async"></licence-provided-warning-banner>
+
+        <transmission [formGroup]="form" (transmissionChange)="transmissionChanged($event)"></transmission>
+
+        <warning-banner *ngIf="displayTransmissionBanner()" warningText="An automatic licence will be issued.">
+        </warning-banner>
+
+        <pass-certificate-number
+        [form]="form"
+        [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+        (passCertificateNumberChange)="passCertificateNumberChanged($event)">
+        </pass-certificate-number>
+
+        <d255 [display]=true [d255]="pageState.d255$ | async" [outcome]="testOutcome" [formGroup]="form"
+              (d255Change)="d255Changed($event)"></d255>
+        <warning-banner *ngIf="pageState.d255$ | async" warningText="By selecting Yes you are confirming a D255 is required."></warning-banner>
+
+        <language-preferences [formGroup]="form" [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+                              (welshChanged)="isWelshChanged($event)"></language-preferences>
+
+        <debrief-witnessed [display]=true [formGroup]="form" [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+                           [outcome]="testOutcome" (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+        </debrief-witnessed>
+
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
+<ion-footer>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-button class="mes-primary-button" id="pass-finalisation-continue-button" (click)="onSubmit()">
+      <h3>Continue</h3>
+    </ion-button>
+  </ion-row>
+</ion-footer>
