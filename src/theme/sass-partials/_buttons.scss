@@ -41,28 +41,16 @@
 }
 
 .mes-neutral-button {
+  @extend .mes-primary-button;
   --background: var(--mes-white);
-  --border-radius: 10px;
-  --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.5);
-  margin: 0 0.2em;
-  outline: none;
-  border: none;
-  height: initial;
+  --box-shadow: 0 0px 0 0 rgba(0, 0, 0, 0.5);
+  --background-activated: var(--gds-grey-1);
 
   &.activated {
     background: var(--gds-grey-1);
   }
   h3 {
     color: var(--mes-black);
-
-    .text-zoom-regular &,
-    .text-zoom-large &,
-    .text-zoom-x-large & {
-      line-height: 2em;
-    }
-
-    min-height: 44px;
-    padding-top: 1px
   }
 }
 

@@ -21,12 +21,6 @@ button[clear] {
     align-items: center;
   }
 
-  .row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
-
   .icon-row {
     height: 92px;
     justify-content: center;
@@ -54,7 +48,6 @@ button[clear] {
     display: flex;
     align-items: center;
     height: 240px;
-    padding: 24px;
     background: var(--gds-grey-2); // var(--gds-dark-green);
     width: 100%;
   }
