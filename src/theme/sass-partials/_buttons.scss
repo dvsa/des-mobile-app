@@ -43,7 +43,7 @@
 .mes-neutral-button {
   @extend .mes-primary-button;
   --background: var(--mes-white);
-  --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.5);
+  --box-shadow: 0 0px 0 0 rgba(0, 0, 0, 0.5);
   --background-activated: var(--gds-grey-1);
 
   &.activated {
