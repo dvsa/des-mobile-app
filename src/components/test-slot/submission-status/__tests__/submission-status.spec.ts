@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing'; // ComponentFixture
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing'; // ComponentFixture
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
@@ -21,7 +21,7 @@ xdescribe('PracticeTestModal', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SubmissionStatusComponent);
     component = fixture.componentInstance;
   }));

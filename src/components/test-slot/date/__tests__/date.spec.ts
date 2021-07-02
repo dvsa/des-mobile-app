@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -21,7 +21,7 @@ xdescribe('TimeComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DateComponent);
     component = fixture.componentInstance;
     component.date = '2018-12-31T10:04:00+00:00';

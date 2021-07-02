@@ -1,5 +1,5 @@
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
@@ -25,7 +25,7 @@ describe('CPCDebriefCardComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CPCDebriefCardComponent);
     component = fixture.componentInstance;
     question = {

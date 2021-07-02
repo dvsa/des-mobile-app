@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from 'src/app/app.module';
 import { FormGroup } from '@angular/forms';
@@ -21,7 +21,7 @@ describe('CBTNumberComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CBTNumberComponent);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});

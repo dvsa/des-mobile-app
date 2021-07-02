@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { AppModule } from 'src/app/app.module';
 import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { StoreModule, Store } from '@ngrx/store';
@@ -58,7 +58,7 @@ describe('SingleFaultCompetencyComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SingleFaultCompetencyComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

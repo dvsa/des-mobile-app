@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -32,7 +32,7 @@ describe('PostalAddressComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PostalAddressComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

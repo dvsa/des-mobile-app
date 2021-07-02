@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController, Platform } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { Router } from '@angular/router';
@@ -17,7 +17,7 @@ describe('OfficeCatBPage', () => {
   let component: OfficeCatBPage;
   let fixture: ComponentFixture<OfficeCatBPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [OfficeCatBPage],
       imports: [IonicModule],

@@ -19,7 +19,6 @@ export const DELEGATED_REKEY_SEARCH_PAGE = 'DelegatedRekeySearchPage';
 export const DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE = 'DelegatedRekeyUploadOutcomePage';
 
 export const CAT_B: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatBPage',
   OFFICE_PAGE: 'OfficeCatBPage',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatBPage',
   TEST_REPORT_PAGE: 'TestReportCatBPage',
@@ -28,7 +27,6 @@ export const CAT_B: BasePageNames = {
 };
 
 export const CAT_BE: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatBEPage',
   OFFICE_PAGE: 'OfficeCatBEPage',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatBEPage',
   TEST_REPORT_PAGE: 'TestReportCatBEPage',
@@ -38,7 +36,6 @@ export const CAT_BE: BasePageNames = {
 };
 
 export const CAT_C: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatCPage',
   OFFICE_PAGE: 'OfficeCatCPage',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatCPage',
   TEST_REPORT_PAGE: 'TestReportCatCPage',
@@ -48,7 +45,6 @@ export const CAT_C: BasePageNames = {
 };
 
 export const CAT_A_MOD1: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatAMod1Page',
   OFFICE_PAGE: 'OfficeCatAMod1Page',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatAMod1Page',
   REVERSE_DIAGRAM_PAGE: 'ReverseDiagramCatAMod1Page',
@@ -59,7 +55,6 @@ export const CAT_A_MOD1: BasePageNames = {
 };
 
 export const CAT_A_MOD2: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatAMod2Page',
   OFFICE_PAGE: 'OfficeCatAMod2Page',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatAMod2Page',
   TEST_REPORT_PAGE: 'TestReportCatAMod2Page',
@@ -69,7 +64,6 @@ export const CAT_A_MOD2: BasePageNames = {
 };
 
 export const CAT_D: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatDPage',
   OFFICE_PAGE: 'OfficeCatDPage',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatDPage',
   TEST_REPORT_PAGE: 'TestReportCatDPage',
@@ -79,7 +73,6 @@ export const CAT_D: BasePageNames = {
 };
 
 export const CAT_HOME_TEST: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatHomeTestPage',
   OFFICE_PAGE: 'OfficeCatHomeTestPage',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatHomeTestPage',
   TEST_REPORT_PAGE: 'TestReportCatHomeTestPage',
@@ -89,7 +82,6 @@ export const CAT_HOME_TEST: BasePageNames = {
 };
 
 export const CAT_ADI_PART2: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatADIPart2Page',
   OFFICE_PAGE: 'OfficeCatADIPart2Page',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatADIPart2Page',
   TEST_REPORT_PAGE: 'TestReportCatADIPart2Page',
@@ -99,7 +91,6 @@ export const CAT_ADI_PART2: BasePageNames = {
 };
 
 export const CAT_CPC: BasePageNames = {
-  DEBRIEF_PAGE: 'DebriefCatCPCPage',
   OFFICE_PAGE: 'OfficeCatCPCPage',
   TEST_REPORT_PAGE: 'TestReportCatCPCPage',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatCPCPage',
@@ -131,9 +122,9 @@ export type PageNameKeys =
   'RekeyUploadOutcomePage';
 
 export enum TestFlowPageNames {
+  DEBRIEF_PAGE = 'DebriefPage',
   BACK_TO_OFFICE_PAGE = 'BackToOfficePage',
   COMMUNICATION_PAGE = 'CommunicationPage',
-  DEBRIEF_PAGE = 'DEBRIEF_PAGE',
   HEALTH_DECLARATION_PAGE = 'HealthDeclarationPage',
   NON_PASS_FINALISATION_PAGE = 'NonPassFinalisationPage',
   OFFICE_PAGE = 'OFFICE_PAGE',

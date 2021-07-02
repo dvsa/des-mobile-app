@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { MockComponent } from 'ng-mocks';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { IonicModule } from '@ionic/angular';
@@ -35,7 +35,7 @@ describe('MultiLegalRequirementComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(MultiLegalRequirementComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

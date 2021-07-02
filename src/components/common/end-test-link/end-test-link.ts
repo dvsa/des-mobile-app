@@ -58,7 +58,7 @@ export class EndTestLinkComponent {
       await this.routerByCategory.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category as TestCategory);
       return;
     }
-    await this.routerByCategory.navigateToPage(TestFlowPageNames.DEBRIEF_PAGE, this.category as TestCategory);
+    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   };
 
 }

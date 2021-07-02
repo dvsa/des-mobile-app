@@ -1,5 +1,5 @@
 import {
-  async,
+  waitForAsync,
   TestBed,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
@@ -49,7 +49,7 @@ describe('OfficeBasePageComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);

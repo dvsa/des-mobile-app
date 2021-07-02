@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { ConfigMock } from 'ionic-mocks';
 import { configureTestSuite } from 'ng-bullet';
@@ -23,7 +23,7 @@ describe('PracticeModeBanner', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PracticeModeBanner);
     component = fixture.componentInstance;
   }));

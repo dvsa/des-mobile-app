@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirm-test-details',
@@ -13,6 +13,7 @@ export class ConfirmTestDetailsPage implements OnInit {
   constructor(
     private navController: NavController,
     public routeByCat: RouteByCategoryProvider,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -23,7 +24,7 @@ export class ConfirmTestDetailsPage implements OnInit {
   }
 
   async navigateDebrief(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.DEBRIEF_PAGE, TestCategory.B);
+    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   }
 
   async navigateBackToOffice(): Promise<void> {

@@ -1,5 +1,5 @@
 import { configureTestSuite } from 'ng-bullet';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
@@ -25,7 +25,7 @@ describe('CandidateSearchCardComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateSearchCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

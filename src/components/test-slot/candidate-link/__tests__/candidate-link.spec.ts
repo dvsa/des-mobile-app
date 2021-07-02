@@ -1,5 +1,5 @@
 import {
-  async,
+  waitForAsync,
   ComponentFixture,
   TestBed,
   fakeAsync,
@@ -49,7 +49,7 @@ xdescribe('CandidateLinkComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     // fixture = TestBed.createComponent(CandidateLinkComponent);
     component = fixture.componentInstance;
     component.name = { title: '', firstName: '', lastName: '' };

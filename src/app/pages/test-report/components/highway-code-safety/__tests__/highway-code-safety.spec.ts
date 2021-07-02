@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule, Store } from '@ngrx/store';
@@ -21,6 +21,7 @@ import {
   HighwayCodeSafetyAddDrivingFault,
   HighwayCodeSafetyRemoveFault,
 } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
+import { getTestData as getTestDataCatF } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
 import { HighwayCodeSafetyComponent } from '../highway-code-safety';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { testReportReducer } from '../../../test-report.reducer';
@@ -29,6 +30,7 @@ describe('HighwayCodeSafetyComponent', () => {
   let fixture: ComponentFixture<HighwayCodeSafetyComponent>;
   let component: HighwayCodeSafetyComponent;
   let store$: Store<StoreModel>;
+  let testDataByCategoryProvider: TestDataByCategoryProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -50,11 +52,13 @@ describe('HighwayCodeSafetyComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HighwayCodeSafetyComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.F));
+    testDataByCategoryProvider = TestBed.inject(TestDataByCategoryProvider);
+    spyOn(testDataByCategoryProvider, 'getTestDataByCategoryCode').and.returnValue(getTestDataCatF);
   }));
 
   describe('Class', () => {
@@ -202,6 +206,7 @@ describe('HighwayCodeSafetyComponent', () => {
 
       it('should have added a checked class to the tick button', () => {
         const tickButton = fixture.debugElement.query(By.css('competency-button.highway-code-safety-tick'));
+        fixture.detectChanges();
         component.selectedHighwayCodeSafety = true;
         fixture.detectChanges();
         console.log(tickButton.nativeElement);

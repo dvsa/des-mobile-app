@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, async, TestBed, fakeAsync,
+  ComponentFixture, waitForAsync, TestBed, fakeAsync,
 } from '@angular/core/testing';
 import {
   NavParamsMock, ConfigMock, AlertControllerMock,
@@ -41,7 +41,7 @@ describe('ErrorPage', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ErrorPage);
     component = fixture.componentInstance;
   }));

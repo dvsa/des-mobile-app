@@ -29,7 +29,7 @@ import {
 import { Competencies, ExaminerActions, LegalRequirements } from '@store/tests/test-data/test-data.constants';
 import { OverlayCallback } from '@pages/test-report/test-report.model';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
-import { getPageNameByCategoryAndKey } from '@pages/page-names.constants';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { EtaInvalidModal } from '@pages/test-report/components/eta-invalid-modal/eta-invalid-modal';
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
 import { LegalRequirementsModal } from
@@ -90,7 +90,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   isTestReportValid: boolean = false;
   isEtaValid: boolean = true;
   testCategory: TestCategory;
-  debriefPageName: string;
 
   missingLegalRequirements: legalRequirementsLabels[] = [];
   modal: HTMLIonModalElement;
@@ -148,7 +147,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
         map(([testData, category]) => {
-          this.debriefPageName = getPageNameByCategoryAndKey(category as TestCategory, 'DEBRIEF_PAGE');
           return this.hasManoeuvreBeenCompleted(testData, category);
         }),
       ),
@@ -313,11 +311,11 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(CalculateTestResult());
-        await this.router.navigate([this.debriefPageName]);
+        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
         break;
       case ModalEvent.TERMINATE:
         this.store$.dispatch(TerminateTestFromTestReport());
-        await this.router.navigate([this.debriefPageName]);
+        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
         break;
       default:
         break;
@@ -330,12 +328,12 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   onContinue = async (): Promise<void> => {
     await this.modal.dismiss();
-    await this.router.navigate([this.debriefPageName]);
+    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   };
 
   onTerminate = async (): Promise<void> => {
     await this.modal.dismiss();
-    await this.router.navigate([this.debriefPageName]);
+    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   };
 
 }

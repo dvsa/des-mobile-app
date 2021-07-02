@@ -1,5 +1,5 @@
 import {
-  async, ComponentFixture, fakeAsync, TestBed, tick,
+  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
@@ -134,7 +134,7 @@ describe('WaitingRoomToCarCatBPage', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WaitingRoomToCarCatBPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -1,0 +1,27 @@
+<ion-card id="vehicle-checks" *ngIf="tellMeShowMeQuestions.length > 0; let questions">
+  <ion-card-header>
+    <ion-card-title>
+      <h4 class="fault-heading">{{ 'debrief.vehicleChecks' | translate }}</h4>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row *ngFor="let question of tellMeShowMeQuestions" class="mes-data ion-align-items-center">
+          <ion-col size="32" no-padding></ion-col>
+          <ion-col size="2" no-padding class="ion-align-self-start">
+            <div class="counter-icon">
+              <img *ngIf="!questionHasFault(question)" src="assets/imgs/greenCorrectAnswer.png" alt="Correct Answer" class="correct-icon"/>
+              <img *ngIf="questionHasFault(question)" src="assets/imgs/redWrongAnswer.png" alt="Wrong Answer" class="wrong-icon"/>
+            </div>
+          </ion-col>
+          <ion-col size="3" class="ion-no-padding"></ion-col>
+          <ion-col no-padding>
+            <div class="counter-label">
+              <span *ngIf="isHomeTest()">{{question.code}} - {{ 'debrief.showMeTellMeQuestions.FGHK.' + question.code | translate }}</span>
+              <span *ngIf="!isHomeTest()">{{question.code}} - {{ 'debrief.showMeTellMeQuestions.' + this.category + '.' + question.code | translate }}</span>
+            </div>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

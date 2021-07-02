@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, async, TestBed, fakeAsync, tick,
+  ComponentFixture, waitForAsync, TestBed, fakeAsync, tick,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
@@ -96,7 +96,7 @@ describe('CommunicationPage', () => {
 
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CommunicationPage);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

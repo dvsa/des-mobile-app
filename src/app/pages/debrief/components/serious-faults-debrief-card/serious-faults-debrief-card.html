@@ -1,0 +1,24 @@
+<ion-card id="serious-fault" *ngIf="seriousFaults.length > 0">
+  <ion-card-header>
+    <ion-card-title>
+      <h1 class="fault-heading">{{seriousFaults.length}}</h1>
+      <h4 class="fault-heading">{{ 'debrief.seriousFaultsCardDescription' | translate }}</h4>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row *ngFor="let seriousFault of seriousFaults" class="mes-data ion-align-items-center">
+        <ion-col size="32" no-padding></ion-col>
+        <ion-col size="2" no-padding class="ion-align-self-start">
+          <div class="counter-icon">
+            <serious-fault-badge [showBadge]="true"></serious-fault-badge>
+          </div>
+        </ion-col>
+        <ion-col size="3" no-padding></ion-col>
+        <ion-col no-padding>
+          <div class="counter-label">{{ 'debrief.competencies.' + seriousFault | translate | modifyCompetencyLabel:testCategory:seriousFault }}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

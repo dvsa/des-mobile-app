@@ -1,5 +1,5 @@
 import { SignaturePad } from 'angular2-signaturepad';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -29,7 +29,7 @@ describe('SignatureAreaComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SignatureAreaComponent);
     component = fixture.componentInstance;
     /* eslint-disable*/

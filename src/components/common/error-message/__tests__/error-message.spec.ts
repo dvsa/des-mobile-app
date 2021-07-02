@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { Location } from '@angular/common';
 import { ErrorTypes } from '@shared/models/error-message';
@@ -19,7 +19,7 @@ describe('ErrorMessageComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ErrorMessageComponent);
     component = fixture.componentInstance;
 

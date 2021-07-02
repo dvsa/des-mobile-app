@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
@@ -10,7 +10,7 @@ describe('PassFinalisation.CatBEPage', () => {
   let component: PassFinalisationCatBEPage;
   let fixture: ComponentFixture<PassFinalisationCatBEPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PassFinalisationCatBEPage],
       imports: [IonicModule.forRoot()],

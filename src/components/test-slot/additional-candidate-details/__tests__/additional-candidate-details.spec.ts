@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { AdditionalCandidateDetailsComponent } from '../additional-candidate-details';
@@ -16,7 +16,7 @@ describe('VehicleDetailsComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AdditionalCandidateDetailsComponent);
     component = fixture.componentInstance;
   }));

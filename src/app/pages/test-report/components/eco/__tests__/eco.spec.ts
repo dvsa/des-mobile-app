@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule, Store } from '@ngrx/store';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -38,7 +38,7 @@ describe('Eco component', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EcoComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

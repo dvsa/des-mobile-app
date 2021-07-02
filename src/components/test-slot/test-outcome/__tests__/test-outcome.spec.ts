@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, async, TestBed,
+  ComponentFixture, waitForAsync, TestBed,
 } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
@@ -99,7 +99,7 @@ describe('Test Outcome', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestOutcomeComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

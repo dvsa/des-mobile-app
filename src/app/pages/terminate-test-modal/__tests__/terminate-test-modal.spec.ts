@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import {
   IonicModule, NavController, NavParams, Config, Platform,
 } from '@ionic/angular';
@@ -41,7 +41,7 @@ describe('TerminateTestModal', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TerminateTestModal);
     component = fixture.componentInstance;
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);

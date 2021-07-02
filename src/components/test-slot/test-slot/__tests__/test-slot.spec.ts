@@ -1,5 +1,5 @@
 import { MockComponent } from 'ng-mocks';
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ConfigMock } from 'ionic-mocks';
@@ -140,7 +140,7 @@ describe('TestSlotComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestSlotComponent);
     component = fixture.componentInstance;
     component.slot = cloneDeep(mockSlot);

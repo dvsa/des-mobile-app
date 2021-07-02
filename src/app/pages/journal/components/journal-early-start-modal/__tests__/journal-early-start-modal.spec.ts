@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import { CommonModule } from '@angular/common';
@@ -38,7 +38,7 @@ describe('JournalEarlyStartModal', () => {
       ],
     });
   });
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     const mockValue = mockFile.mockSlotDetail();
     spyOn(navMock, 'get').and.returnValue(mockValue);
     modalFixture = TestBed.createComponent(JournalEarlyStartModal);

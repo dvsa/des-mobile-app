@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -9,7 +9,7 @@ describe('WaitingRoomToCarCatCPage', () => {
   let component: WaitingRoomToCarCatCPage;
   let fixture: ComponentFixture<WaitingRoomToCarCatCPage>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [WaitingRoomToCarCatCPage],
       imports: [IonicModule.forRoot()],

@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { configureTestSuite } from 'ng-bullet';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -28,7 +28,7 @@ describe('Rekey Search Analytics Effects', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(RekeySearchAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

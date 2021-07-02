@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, async, TestBed, fakeAsync, tick,
+  ComponentFixture, waitForAsync, TestBed, fakeAsync, tick,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
@@ -128,7 +128,7 @@ describe('WaitingRoomPage', () => {
 
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WaitingRoomPage);
     component = fixture.componentInstance;
     deviceProvider = TestBed.inject(DeviceProvider);

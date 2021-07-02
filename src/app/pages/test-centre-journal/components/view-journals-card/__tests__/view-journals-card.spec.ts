@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, IonSelect } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
@@ -39,7 +39,7 @@ describe('ViewJournalsCardComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ViewJournalsCardComponent);
     component = fixture.componentInstance;
 

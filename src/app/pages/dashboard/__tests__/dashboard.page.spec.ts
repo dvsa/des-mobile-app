@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule, Platform } from '@ionic/angular';
 import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -72,7 +72,7 @@ describe('DashboardPage', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DashboardPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

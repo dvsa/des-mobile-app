@@ -1,5 +1,5 @@
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { ConfigMock } from 'ionic-mocks';
@@ -32,7 +32,7 @@ describe('ActivitySlotComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ActivitySlotComponent);
     component = fixture.componentInstance;
   }));

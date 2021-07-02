@@ -1,4 +1,4 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
+import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { translateServiceMock } from '@shared/mocks/translate';
 import { configureTestSuite } from 'ng-bullet';
@@ -22,7 +22,7 @@ describe('LockScreenIndicator', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LockScreenIndicator);
     component = fixture.componentInstance;
   }));

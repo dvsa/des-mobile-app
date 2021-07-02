@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ModalController } from '@ionic/angular';
 import { StoreModel } from '@shared/models/store.model';
@@ -84,7 +84,7 @@ describe('reverseDiagramLink', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ReverseDiagramLinkComponent);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);

@@ -9,7 +9,6 @@ import {
 } from '@pages/page-names.constants';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
 import { Test_Report_Route } from './routing/test-report-route';
-import { Debrief_Route } from './routing/debrief-route';
 import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
 import { Office_Route } from './routing/office-route';
 
@@ -35,6 +34,14 @@ const routes: Routes = [
     path: TEST_CENTRE_JOURNAL_PAGE,
     loadChildren: () => import('./pages/test-centre-journal/test-centre-journal.module')
       .then((m) => m.TestCentreJournalModule),
+  },
+  {
+    path: DASHBOARD_PAGE,
+    loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardPageModule),
+  },
+  {
+    path: TestFlowPageNames.DEBRIEF_PAGE,
+    loadChildren: () => import('./pages/debrief/debrief.module').then((m) => m.DebriefPageModule),
   },
   {
     path: TestFlowPageNames.COMMUNICATION_PAGE,
@@ -83,7 +90,6 @@ const routes: Routes = [
   },
   ...Waiting_Room_To_Car_Route,
   ...Test_Report_Route,
-  ...Debrief_Route,
   ...Pass_Finalisation_Route,
   ...Office_Route,
 ];

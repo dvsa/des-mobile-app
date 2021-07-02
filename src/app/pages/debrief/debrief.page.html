@@ -1,0 +1,26 @@
+<ion-header>
+    <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button class="back-btn-text"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title>
+    </ion-toolbar>
+    <test-outcome-debrief-card [outcome]="outcome"></test-outcome-debrief-card>
+</ion-header>
+
+<ion-content>
+    <eta-debrief-card [hasPhysicalEta]="hasPhysicalEta" [hasVerbalEta]="hasVerbalEta"></eta-debrief-card>
+    <dangerous-faults-debrief-card [dangerousFaults]="pageState.dangerousFaults$ | async"></dangerous-faults-debrief-card>
+    <serious-faults-debrief-card [seriousFaults]="pageState.seriousFaults$ | async"></serious-faults-debrief-card>
+    <driving-faults-debrief-card [drivingFaults]="pageState.drivingFaults$ | async" [drivingFaultCount]="pageState.drivingFaultCount$ | async"></driving-faults-debrief-card>
+    <eco-debrief-card [adviceGivenControl]="adviceGivenControl" [adviceGivenPlanning]="adviceGivenPlanning"></eco-debrief-card>
+    <vehicle-checks-card-cat-b *ngIf="isCategoryBTest()"></vehicle-checks-card-cat-b>
+</ion-content>
+<ion-footer>
+    <div id="end-debrief-background">
+        <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">
+            <h3>{{ 'debrief.end' | translate }}</h3>
+        </ion-button>
+    </div>
+</ion-footer>
