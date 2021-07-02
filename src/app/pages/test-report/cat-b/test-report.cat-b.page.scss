@@ -4,6 +4,7 @@ $toolbar-height: 68px;
 
   // ensure the content on the test report page doesn't grow with larger accessibility text
   ion-content {
+    --ion-background-color: var(--gds-grey-3);
     div, span, .grid-layout {
       .text-zoom-regular &,
       .text-zoom-large &,
@@ -12,10 +13,6 @@ $toolbar-height: 68px;
         line-height: 26px;
       }
     }
-  }
-
-  .content-ios {
-    background-color: var(--gds-grey-3);
   }
 
   .grid-layout {
