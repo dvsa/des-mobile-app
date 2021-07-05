@@ -22,6 +22,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { getTestData as getTestDataCatF } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
 import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { testReportReducer } from '../../../test-report.reducer';
@@ -31,6 +32,7 @@ describe('ControlledStopComponent', () => {
   let fixture: ComponentFixture<ControlledStopComponent>;
   let component: ControlledStopComponent;
   let store$: Store<StoreModel>;
+  let testDataByCategoryProvider: TestDataByCategoryProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -60,6 +62,8 @@ describe('ControlledStopComponent', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.B));
+    testDataByCategoryProvider = TestBed.inject(TestDataByCategoryProvider);
+    spyOn(testDataByCategoryProvider, 'getTestDataByCategoryCode').and.returnValue(getTestDataCatF);
   }));
 
   describe('Class', () => {

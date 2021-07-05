@@ -213,7 +213,6 @@ describe('HighwayCodeSafetyComponent', () => {
         fixture.detectChanges();
         component.selectedHighwayCodeSafety = true;
         fixture.detectChanges();
-        console.log(tickButton.nativeElement);
         expect(tickButton.nativeElement.className).toEqual('highway-code-safety-tick checked');
       });
 
