@@ -50,14 +50,14 @@ import {
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { CommonPassFinalisationPageState, PassFinalisationPageComponent }
   from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
-import { TransmissionType } from '../../../shared/models/transmission-type';
-import { AuthenticationProvider } from '../../../providers/authentication/authentication';
-import { ActivityCodes } from '../../../shared/models/activity-codes';
+import { TransmissionType } from '@shared/models/transmission-type';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { StoreModel } from '@shared/models/store.model';
 import { behaviourMap } from '../../office/office-behaviour-map';
-import { OutcomeBehaviourMapProvider } from '../../../providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CAT_B } from '../../page-names.constants';
-import { StoreModel } from '../../../shared/models/store.model';
+import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
 interface PassFinalisationCatBPageState {
   candidateUntitledName$: Observable<string>;
@@ -204,6 +204,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   }
 
   onSubmit() {
+    console.log('pageState', this.pageState);
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());

@@ -7,8 +7,12 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row [formGroup]="form">
       <ion-col>
-        <input formControlName="passCertificateNumberCtrl" [class.ng-invalid]="isInvalid()" type="text"
-         id="pass-certificate-number" class="pass-cert-input" maxlength="8"
+        <input formControlName="passCertificateNumberCtrl"
+               [class.ng-invalid]="isInvalid()"
+               type="text"
+               id="pass-certificate-number"
+               class="pass-cert-input"
+               maxlength="8"
          (change)="passCertificateNumberChanged($event.target.value)">
       </ion-col>
     </ion-row>
