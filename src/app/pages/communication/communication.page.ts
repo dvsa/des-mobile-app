@@ -80,6 +80,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   communicationType: CommunicationMethod;
   merged$: Observable<string | boolean>;
   testCategory: CategoryCode;
+  maximumCallStackHandler: { emitEvent: false, onlySelf: true };
 
   constructor(
     platform: Platform,
@@ -167,41 +168,19 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   }
 
-  // ionViewWillEnter(): void {
-  //   if (this.subscription.closed && this.merged$) {
-  //     this.subscription = this.merged$.subscribe();
-  //   }
-  //
-  //   if (this.shouldPreselectADefaultValue()) {
-  //     this.initialiseDefaultSelections();
-  //   }
-  //   this.restoreRadiosFromState();
-  //   this.restoreRadioValidators();
-  // }
-
   ionViewWillEnter(): void {
     if (this.subscription.closed && this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
 
     if (this.shouldPreselectADefaultValue()) {
-      console.log('shouldPreselectADefaultValue');
       this.initialiseDefaultSelections();
-    } else {
-      this.temp();
+    } else if (this.emailType !== CommunicationPage.updatedEmail) {
+      this.form.controls['newEmailCtrl'].clearValidators();
+      this.form.controls['newEmailCtrl'].updateValueAndValidity(this.maximumCallStackHandler);
     }
     this.restoreRadiosFromState();
     this.restoreRadioValidators();
-  }
-
-  temp() {
-    if (this.emailType !== CommunicationPage.updatedEmail) {
-      console.log('hello world');
-      this.form.controls['newEmailCtrl'].clearValidators();
-      // this.form.controls['newEmailCtrl'].valid;
-      this.form.controls['newEmailCtrl'].updateValueAndValidity({ onlySelf: true });
-      console.log('form', this.form);
-    }
   }
 
   ionViewDidLeave(): void {
@@ -225,11 +204,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
           this.store$.dispatch(CommunicationSubmitInfoError(err));
         });
     } else {
-      console.log('Form:', this.form);
       Object.keys(this.form.controls)
         .forEach((controlName) => {
           if (this.form.controls[controlName].invalid) {
-            console.log(`this.form.controls[${controlName}]:`, this.form.controls[controlName]);
             this.store$.dispatch(CommunicationValidationError(`${controlName} is blank`));
           }
         });
@@ -321,7 +298,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   verifyNewEmailFormControl(communicationChoice: string) {
     const newEmailCtrl = this.form.get('newEmailCtrl');
-    console.log('Communication Choice:', communicationChoice);
     if (newEmailCtrl !== null) {
       if (communicationChoice !== CommunicationPage.email || this.emailType === CommunicationPage.providedEmail) {
         newEmailCtrl.clearValidators();
