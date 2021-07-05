@@ -22,6 +22,7 @@ import {
   HighwayCodeSafetyRemoveFault,
 } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import { getTestData as getTestDataCatF } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
+import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
 import { HighwayCodeSafetyComponent } from '../highway-code-safety';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { testReportReducer } from '../../../test-report.reducer';
@@ -43,7 +44,10 @@ describe('HighwayCodeSafetyComponent', () => {
         MockComponent(CompetencyButtonComponent),
       ],
       providers: [
-        TestDataByCategoryProvider,
+        {
+          provide: TestDataByCategoryProvider,
+          useClass: TestDataByCategoryProviderMock,
+        },
       ],
       imports: [
         IonicModule,

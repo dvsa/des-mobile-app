@@ -48,7 +48,7 @@
     "@angular/router": "~10.2.5",
     "@capacitor/core": "2.4.7",
     "@capacitor/ios": "^2.4.7",
-    "@dvsa/mes-config-schema": "^1.2.0",
+    "@dvsa/mes-config-schema": "^1.2.1",
     "@dvsa/mes-journal-schema": "1.2.0",
     "@dvsa/mes-search-schema": "1.1.2",
     "@dvsa/mes-test-schema": "3.33.1",
@@ -75,6 +75,8 @@
     "@ngrx/store-devtools": "^10.1.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@sentry/angular": "^6.8.0",
+    "@sentry/capacitor": "^0.2.1",
     "angular2-signaturepad": "^3.0.4",
     "bootstrap": "^4.5.0",
     "cordova-ios": "5.1.1",
@@ -104,6 +106,7 @@
     "protractor": "^7.0.0",
     "rxjs": "~6.6.7",
     "rxjs-compat": "^6.6.3",
+    "sentry-cordova": "^1.0.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
@@ -120,8 +123,8 @@
     "@ionic/angular-toolkit": "^2.3.0",
     "@ionic/app-scripts": "3.2.4",
     "@ngrx/schematics": "^10.1.0",
-    "@types/hammerjs": "^2.0.39",
     "@types/chai": "^4.2.18",
+    "@types/hammerjs": "^2.0.39",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.165",
@@ -175,7 +178,8 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-google-analytics": {},
-      "cordova-plugin-autonomous-single-app-mode": {}
+      "cordova-plugin-autonomous-single-app-mode": {},
+      "sentry-cordova": {}
     },
     "platforms": [
       "ios"
@@ -186,5 +190,8 @@
       "pre-commit": "npm run lint:fix",
       "pre-push": "run-s test gitSecrets scanRepo"
     }
+  },
+  "config": {
+    "ionic_generate_source_map": "true"
   }
 }

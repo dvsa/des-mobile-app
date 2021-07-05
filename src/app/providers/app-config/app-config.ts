@@ -125,6 +125,10 @@ export class AppConfigProvider {
         redirectUrl: this.emmAppConfig.getValue('redirectUrl'),
         resourceUrl: this.emmAppConfig.getValue('resourceUrl'),
       },
+      sentry: {
+        dsn: this.emmAppConfig.getValue('dsn'),
+        environment: this.emmAppConfig.getValue('environment'),
+      },
     } as EnvironmentFile;
 
     // Check to see if we have any config
@@ -239,6 +243,10 @@ export class AppConfigProvider {
         clientId: data.authentication.clientId,
         logoutUrl: data.authentication.logoutUrl,
         employeeIdKey: data.authentication.employeeIdKey,
+      },
+      sentry: {
+        dsn: data.sentry.dsn,
+        environment: data.sentry.environment,
       },
     } as AppConfig);
   };
