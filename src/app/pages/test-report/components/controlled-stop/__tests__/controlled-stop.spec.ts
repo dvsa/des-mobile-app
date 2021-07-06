@@ -22,6 +22,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { testReportReducer } from '../../../test-report.reducer';
 import { ControlledStopComponent } from '../controlled-stop';
@@ -42,7 +43,10 @@ describe('ControlledStopComponent', () => {
         MockComponent(CompetencyButtonComponent),
       ],
       providers: [
-        TestDataByCategoryProvider,
+        {
+          provide: TestDataByCategoryProvider,
+          useClass: TestDataByCategoryProviderMock,
+        },
       ],
       imports: [
         IonicModule,
