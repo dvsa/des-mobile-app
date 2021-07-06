@@ -56,6 +56,10 @@
     <param name="ios-package" value="CDVMobileAccessibility" onload="true"/>
   </feature>
 
+  <feature name="Sentry">
+    <param name="ios-package" value="SentryCordova" onload="true"/>
+  </feature>
+
   <feature name="Device">
     <param name="ios-package" value="CDVDevice"/>
   </feature>

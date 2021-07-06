@@ -23,6 +23,10 @@ export const environment: LocalEnvironmentFile = {
     logoutUrl: 'mesmobileappscheme://callback?logout=true',
     employeeIdKey: 'employeeid',
   },
+  sentry: {
+    dsn: null,
+    environment: 'dev',
+  },
   approvedDeviceIdentifiers: [
     'iPad7,4',
     'x86_64',

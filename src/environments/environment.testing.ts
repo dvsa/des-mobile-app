@@ -19,4 +19,8 @@ export const environment: TestersEnvironmentFile = {
     logoutUrl: 'mesmobileappscheme://callback?logout=true',
     employeeIdKey: 'employeeid',
   },
+  sentry: {
+    dsn: null,
+    environment: 'dev',
+  },
 };
