@@ -18,8 +18,4 @@ export const environment: EnvironmentFile = {
     logoutUrl: 'mesmobileappscheme://callback?logout=true',
     employeeIdKey: 'employeeid',
   },
-  sentry: {
-    dsn: null,
-    environment: 'dev',
-  },
 };

@@ -21,8 +21,6 @@ import {
   SaveLog, StartSendingLogs, SendLogs, LoadLog,
 } from '@store/logs/logs.actions';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
-import * as Sentry from 'sentry-cordova';
-import { AppConfig } from '@providers/app-config/app-config.model';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -122,8 +120,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       await this.appConfigProvider.loadRemoteConfig();
 
-      this.initialiseSentryErrorLogging();
-
       this.store$.dispatch(LoadConfigSuccess());
 
       this.store$.dispatch(LoadEmployeeName());
@@ -163,16 +159,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   initialiseAuthentication = (): void => {
     this.authenticationProvider.initialiseAuthentication();
     this.authenticationProvider.determineAuthenticationMode();
-  };
-
-  initialiseSentryErrorLogging = (): void => {
-    const config: AppConfig = this.appConfigProvider.getAppConfig();
-    if (config && config.sentry && config.sentry.dsn) {
-      Sentry.init({
-        dsn: config.sentry.dsn,
-        environment: config.sentry.environment,
-      });
-    }
   };
 
   dispatchLog = (message: string): void => {

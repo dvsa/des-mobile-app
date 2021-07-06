@@ -24,10 +24,10 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
-import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
-import { AlertControllerMock } from '@mocks/ionic-mocks/alert-controller.mock';
-import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
-import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+import { MenuControllerMock } from '../../../../../mock/ionic-mocks/menu-controller';
+import { AlertControllerMock } from '../../../../../mock/ionic-mocks/alert-controller.mock';
+import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
+import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
 
@@ -148,7 +148,6 @@ describe('LoginPage', () => {
       spyOn(component, 'dispatchLog');
       spyOn(analytics, 'initialiseAnalytics').and.returnValue(Promise.resolve());
       spyOn(analytics, 'logException');
-      spyOn(component, 'initialiseSentryErrorLogging');
     });
     describe('Successful login flow', () => {
       it('should run the login flow code', fakeAsync(() => {
@@ -165,7 +164,6 @@ describe('LoginPage', () => {
         expect(analytics.initialiseAnalytics).toHaveBeenCalled();
         expect(component.validateDeviceType).toHaveBeenCalled();
         expect(store$.dispatch).toHaveBeenCalledTimes(6);
-        expect(component.initialiseSentryErrorLogging).toHaveBeenCalled();
       }));
     });
     describe('Unsuccessful login flow', () => {

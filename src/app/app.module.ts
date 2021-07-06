@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
@@ -64,7 +64,6 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CommonModule } from '@angular/common';
-import { SentryIonicErrorHandler } from '@shared/classes/sentry-ionic-error-handler';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -178,7 +177,6 @@ if (enableRehydrationPlugin) {
     StatusBar,
     CommonModule,
     { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
-    { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
   ],
   bootstrap: [AppComponent],
 })

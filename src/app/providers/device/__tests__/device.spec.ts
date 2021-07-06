@@ -115,7 +115,6 @@ xdescribe('Device Provider', () => {
         logsAutoSendInterval: 1,
         logsPostApiKey: '',
         authentication: undefined,
-        sentry: undefined,
         approvedDeviceIdentifiers: [],
         role: 'DLG',
         journal: undefined,

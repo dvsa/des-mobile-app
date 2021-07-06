@@ -22,7 +22,6 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
-import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { testReportReducer } from '../../../test-report.reducer';
 import { ControlledStopComponent } from '../controlled-stop';
@@ -43,10 +42,7 @@ describe('ControlledStopComponent', () => {
         MockComponent(CompetencyButtonComponent),
       ],
       providers: [
-        {
-          provide: TestDataByCategoryProvider,
-          useClass: TestDataByCategoryProviderMock,
-        },
+        TestDataByCategoryProvider,
       ],
       imports: [
         IonicModule,
@@ -229,7 +225,6 @@ describe('ControlledStopComponent', () => {
 
       it('should have added a checked class to the tick button', () => {
         const tickButton = fixture.debugElement.query(By.css('competency-button.controlled-stop-tick'));
-        fixture.detectChanges();
         component.selectedControlledStop = true;
         fixture.detectChanges();
         expect(tickButton.nativeElement.className).toEqual('controlled-stop-tick checked');

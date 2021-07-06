@@ -22,10 +22,6 @@ export const initialState: AppConfig = {
     employeeIdKey: null,
     employeeNameKey: null,
   },
-  sentry: {
-    dsn: null,
-    environment: null,
-  },
   approvedDeviceIdentifiers: [],
   timeTravelDate: null,
   role: null,
