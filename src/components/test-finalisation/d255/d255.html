@@ -8,14 +8,30 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col size="48">
-        <input type="radio" id="d255-yes" class="gds-radio-button" name="d255" formControlName="d255" value="Yes"
-         [class.ng-invalid]="invalid" [checked]="d255 === true" (change)="d255Changed($event.target.value)">
-        <label for="d255-yes" class="radio-label">Yes</label>
+        <input type="radio"
+               id="d255-yes"
+               class="gds-radio-button"
+               name="d255"
+               formControlName="d255"
+               [value]=true
+               [class.ng-invalid]="invalid"
+               (change)="d255Changed($event.target.value)">
+        <label for="d255-yes"
+               class="radio-label">Yes
+        </label>
       </ion-col>
       <ion-col>
-        <input type="radio" id="d255-no" class="gds-radio-button" name="d255" formControlName="d255" value="No"
-         [class.ng-invalid]="invalid" [checked]="d255 === false" (change)="d255Changed($event.target.value)">
-        <label for="d255-no" class="radio-label">No</label>
+        <input type="radio"
+               id="d255-no"
+               class="gds-radio-button"
+               name="d255"
+               formControlName="d255"
+               [value]=false
+               [class.ng-invalid]="invalid"
+               (change)="d255Changed($event.target.value)">
+        <label for="d255-no"
+               class="radio-label">No
+        </label>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">

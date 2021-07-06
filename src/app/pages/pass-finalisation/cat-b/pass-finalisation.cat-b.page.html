@@ -1,11 +1,11 @@
 <ion-header>
+    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
     <ion-toolbar>
         <ion-title>Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
         <ion-buttons slot="start">
             <mes-back-button routerLink="DashboardPage"></mes-back-button>
         </ion-buttons>
     </ion-toolbar>
-    <!--  <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>-->
 </ion-header>
 
 <ion-content>
@@ -41,6 +41,7 @@
                 </licence-provided-warning-banner>
 
                 <transmission [formGroup]="form"
+                              [transmission]="pageState.transmission$ | async"
                               (transmissionChange)="transmissionChanged($event)">
                 </transmission>
                 <warning-banner *ngIf="displayTransmissionBanner()"
@@ -55,12 +56,13 @@
 
                 <d255 [display]=true
                       [d255]="pageState.d255$ | async"
+                      [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
                       [outcome]="testOutcome"
                       [formGroup]="form"
                       (d255Change)="d255Changed($event)">
                 </d255>
                 <warning-banner *ngIf="pageState.d255$ | async"
-                                warningText="By selecting Yes you are confirming a D255 is required.">
+                                warningText="DVLA will not process the result until a D255 is received">
                 </warning-banner>
 
                 <language-preferences [formGroup]="form"

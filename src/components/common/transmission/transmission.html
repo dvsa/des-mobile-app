@@ -2,28 +2,39 @@
     <div class="validation-bar" [class.ng-invalid]="isInvalid()">
     </div>
     <ion-col class="component-label ion-align-self-center" size="32">
-      <label [hidden]="hideTransmissionLabel">Transmission</label>
-      <label [hidden]="hideConfirmTransmissionLabel">Confirm transmission</label>
+        <label [hidden]="hideTransmissionLabel">Transmission</label>
+        <label [hidden]="hideConfirmTransmissionLabel">Confirm transmission</label>
     </ion-col>
     <ion-col class="ion-align-self-center ion-padding-start">
-      <ion-row class="spacing-row"></ion-row>
-      <ion-row [formGroup]="formGroup">
-        <ion-col size="48">
-          <input type="radio" id="transmission-manual" formControlName="transmissionCtrl" name="transmissionCtrl"
-            class="gds-radio-button" [class.ng-invalid]="isInvalid()" (change)="transmissionChanged($event.target.value)" value='Manual'>
-          <label for="transmission-manual" class="radio-label">Manual</label>
-        </ion-col>
-        <ion-col>
-          <input type="radio" id="transmission-automatic" formControlName="transmissionCtrl" name="transmissionCtrl"
-            class="gds-radio-button" [class.ng-invalid]="isInvalid()" (change)="transmissionChanged($event.target.value)" value='Automatic'>
-          <label for="transmission-automatic" class="radio-label">Automatic</label>
-        </ion-col>
-      </ion-row>
-      <ion-row class="validation-message-row ion-align-items-center">
-        <div class="validation-text" id="transmission-validation-text"
-          [class.ng-invalid]="isInvalid()">
-          Select the transmission of the vehicle
-        </div>
-      </ion-row>
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row [formGroup]="formGroup">
+            <ion-col size="48">
+                <input type="radio" id="transmission-manual"
+                       formControlName="transmissionCtrl"
+                       name="transmissionCtrl"
+                       class="gds-radio-button"
+                       [class.ng-invalid]="isInvalid()"
+                       (change)="transmissionChanged($event.target.value)"
+                       value='Manual'>
+                <label for="transmission-manual" class="radio-label">Manual</label>
+            </ion-col>
+            <ion-col>
+                <input type="radio" id="transmission-automatic"
+                       formControlName="transmissionCtrl"
+                       name="transmissionCtrl"
+                       class="gds-radio-button"
+                       [class.ng-invalid]="isInvalid()"
+                       (change)="transmissionChanged($event.target.value)"
+                       value='Automatic'>
+                <label for="transmission-automatic" class="radio-label">Automatic</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"
+                 id="transmission-validation-text"
+                 [class.ng-invalid]="isInvalid()">
+                Select the transmission of the vehicle
+            </div>
+        </ion-row>
     </ion-col>
-  </ion-row>
+</ion-row>

@@ -28,6 +28,9 @@ export class D255Component implements OnChanges {
   d255: boolean;
 
   @Input()
+  eyesightTestFailed: boolean = false;
+
+  @Input()
   formGroup: FormGroup;
 
   @Output()
@@ -53,26 +56,28 @@ export class D255Component implements OnChanges {
     this.formControl.patchValue(this.getD255OrDefault());
   }
 
-  d255Changed(d255FormValue: string): void {
+  d255Changed(d255FormValue: boolean): void {
     if (this.formControl.valid) {
-      this.d255Change.emit(d255FormValue === ValidD255Values.YES);
+      this.d255Change.emit(d255FormValue);
     }
   }
 
-  getD255OrDefault(): string | null {
+  getD255OrDefault(): string | boolean {
     if (this.d255 !== null) {
-      return this.d255 ? ValidD255Values.YES : ValidD255Values.NO;
+      return this.d255;
     }
     if (this.outcomeBehaviourProvider.hasDefault(this.outcome, D255Component.fieldName)) {
       const defaultValue = this.outcomeBehaviourProvider.getDefault(this.outcome, D255Component.fieldName);
-      this.d255Changed(defaultValue);
+      this.d255Changed(defaultValue === ValidD255Values.YES);
       return defaultValue;
     }
-    return null;
+    // set default to false unless eyesight test failed
+    this.d255 = !!this.eyesightTestFailed;
+    return this.d255;
   }
 
   get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
+    return this.formControl.invalid && this.formControl.dirty;
   }
 
 }
