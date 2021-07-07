@@ -80,6 +80,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   communicationType: CommunicationMethod;
   merged$: Observable<string | boolean>;
   testCategory: CategoryCode;
+  maximumCallStackHandler: { emitEvent: false, onlySelf: true };
 
   constructor(
     platform: Platform,
@@ -174,6 +175,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
     if (this.shouldPreselectADefaultValue()) {
       this.initialiseDefaultSelections();
+    } else if (this.emailType !== CommunicationPage.updatedEmail) {
+      this.form.controls['newEmailCtrl'].clearValidators();
+      this.form.controls['newEmailCtrl'].updateValueAndValidity(this.maximumCallStackHandler);
     }
     this.restoreRadiosFromState();
     this.restoreRadioValidators();
