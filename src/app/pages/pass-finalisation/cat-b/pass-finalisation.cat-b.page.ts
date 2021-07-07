@@ -53,13 +53,11 @@ import { CommonPassFinalisationPageState, PassFinalisationPageComponent }
 import { TransmissionType } from '@shared/models/transmission-type';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { StoreModel } from '@shared/models/store.model';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { behaviourMap } from '../../office/office-behaviour-map';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
 interface PassFinalisationCatBPageState {
@@ -100,12 +98,10 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     authenticationProvider: AuthenticationProvider,
     router: Router,
     store$: Store<StoreModel>,
-    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public routeByCat: RouteByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
-    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
   ngOnInit(): void {
@@ -213,7 +209,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   }
 
   async onSubmit() {
-    console.log('pageState', this.pageState);
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
