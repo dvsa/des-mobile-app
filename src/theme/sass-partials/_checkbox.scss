@@ -48,7 +48,6 @@
 
   &:checked + label:after {
     $checkmark-size: 24px;
-    $checkmark-offset: 14px;
     content: "";
     background: url("/assets/imgs/checkmark.png") no-repeat;
     background-size: $checkmark-size $checkmark-size;
