@@ -15,7 +15,7 @@
                formControlName="d255"
                [value]=true
                [class.ng-invalid]="invalid"
-               (change)="d255Changed($event.target.value)">
+               (change)="d255Changed($event.target.id)">
         <label for="d255-yes"
                class="radio-label">Yes
         </label>
@@ -28,7 +28,7 @@
                formControlName="d255"
                [value]=false
                [class.ng-invalid]="invalid"
-               (change)="d255Changed($event.target.value)">
+               (change)="d255Changed($event.target.id)">
         <label for="d255-no"
                class="radio-label">No
         </label>

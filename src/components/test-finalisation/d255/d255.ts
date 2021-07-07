@@ -7,11 +7,6 @@ import {
   VisibilityType,
 } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
-export enum ValidD255Values {
-  YES = 'Yes',
-  NO = 'No',
-}
-
 @Component({
   selector: 'd255',
   templateUrl: './d255.html',
@@ -39,7 +34,8 @@ export class D255Component implements OnChanges {
   formControl: FormControl;
   static readonly fieldName: string = 'd255';
 
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {
+  }
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -48,17 +44,19 @@ export class D255Component implements OnChanges {
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome, D255Component.fieldName);
     if (visibilityType === VisibilityType.NotVisible) {
-      this.formGroup.get(D255Component.fieldName).clearValidators();
+      this.formGroup.get(D255Component.fieldName)
+        .clearValidators();
     } else {
-      this.formGroup.get(D255Component.fieldName).setValidators([Validators.required]);
+      this.formGroup.get(D255Component.fieldName)
+        .setValidators([Validators.required]);
     }
 
     this.formControl.patchValue(this.getD255OrDefault());
   }
 
-  d255Changed(d255FormValue: boolean): void {
+  d255Changed(d255FormId: string): void {
     if (this.formControl.valid) {
-      this.d255Change.emit(d255FormValue);
+      this.d255Change.emit(d255FormId === 'd255-yes');
     }
   }
 
@@ -66,11 +64,7 @@ export class D255Component implements OnChanges {
     if (this.d255 !== null) {
       return this.d255;
     }
-    if (this.outcomeBehaviourProvider.hasDefault(this.outcome, D255Component.fieldName)) {
-      const defaultValue = this.outcomeBehaviourProvider.getDefault(this.outcome, D255Component.fieldName);
-      this.d255Changed(defaultValue === ValidD255Values.YES);
-      return defaultValue;
-    }
+
     // set default to false unless eyesight test failed
     this.d255 = !!this.eyesightTestFailed;
     return this.d255;
