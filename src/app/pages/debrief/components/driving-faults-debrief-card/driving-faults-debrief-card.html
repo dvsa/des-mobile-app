@@ -8,14 +8,14 @@
   <ion-card-content>
     <ion-grid>
       <ion-row *ngFor="let drivingFault of drivingFaults" class="mes-data ion-align-items-center">
-        <ion-col size="32" no-padding></ion-col>
-        <ion-col size="2" no-padding class="ion-align-items-start">
+        <ion-col size="32" class="ion-no-padding"></ion-col>
+        <ion-col size="2" class="ion-align-self-start ion-no-padding">
           <div class="counter-icon">
             <driving-faults-badge class="counter driving-faults" [count]="drivingFault.faultCount">
             </driving-faults-badge>
           </div>
         </ion-col>
-        <ion-col size="3" no-padding></ion-col>
+        <ion-col size="3" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
           <div class="counter-label">{{'debrief.competencies.' + drivingFault.competencyIdentifier | translate  | modifyCompetencyLabel:testCategory:drivingFault.competencyIdentifier}}</div>
         </ion-col>
