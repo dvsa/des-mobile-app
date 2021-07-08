@@ -10,7 +10,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content no-padding>
     <ion-grid>
         <ion-row>
             <ion-col size="80">
@@ -30,7 +30,7 @@
         <ion-card-header>
             <h4>Candidate details</h4>
         </ion-card-header>
-        <ion-card-content class="ion-padding">
+        <ion-card-content no-padding>
             <ion-grid>
                 <data-row [label]="'Test category'" [value]="pageState.details.testCategory"></data-row>
                 <data-row
@@ -83,7 +83,7 @@
         <ion-card-header>
             <h4>Contact details</h4>
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content no-padding>
             <ion-grid>
                 <data-row [label]="'Phone number'" [value]="pageState.details.phoneNumber"></data-row>
                 <data-row [label]="'Email'" [value]="pageState.details.email"></data-row>
@@ -97,7 +97,7 @@
         <ion-card-header>
             <h4>Business contact details</h4>
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content no-padding>
             <ion-grid>
                 <data-row *ngIf="pageState.business.businessName" [label]="'Business name'"
                           [value]="pageState.business.businessName">
