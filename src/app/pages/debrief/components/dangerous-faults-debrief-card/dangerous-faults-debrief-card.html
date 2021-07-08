@@ -8,14 +8,14 @@
   <ion-card-content>
     <ion-grid>
       <ion-row *ngFor="let dangerousFault of dangerousFaults" class="mes-data ion-align-items-center">
-        <ion-col size="32" no-padding></ion-col>
-        <ion-col size="2" no-padding class="ion-align-items-start">
+        <ion-col size="32" class="ion-no-padding"></ion-col>
+        <ion-col size="2" class="ion-align-self-start ion-no-padding">
           <div class="counter-icon">
             <dangerous-fault-badge [showBadge]="true"></dangerous-fault-badge>
           </div>
         </ion-col>
         <ion-col size="3" class="ion-no-padding"></ion-col>
-        <ion-col no-padding>
+        <ion-col class="ion-no-padding">
           <div
             class="counter-label">{{'debrief.competencies.' + dangerousFault | translate | modifyCompetencyLabel:testCategory:dangerousFault}}</div>
         </ion-col>
