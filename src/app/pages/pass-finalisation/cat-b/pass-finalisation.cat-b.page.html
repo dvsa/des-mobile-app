@@ -3,7 +3,10 @@
     <ion-toolbar>
         <ion-title>Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
         <ion-buttons slot="start">
-            <ion-back-button class="back-btn-text"></ion-back-button>
+            <ion-button (click)="clickBack()">
+                <ion-icon class="back-btn-icon" name="chevron-back"></ion-icon>
+                <span class="back-btn-text">Back</span>
+            </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>

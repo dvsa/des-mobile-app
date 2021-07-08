@@ -9,41 +9,10 @@ import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData, getTestOutcomeText } from '@store/tests/tests.selector';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import {
-  formatDriverNumber,
-  getCandidateDriverNumber,
-  getUntitledCandidateName,
-} from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getApplicationNumber }
-  from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import { getApplicationReference }
-  from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
-import {
-  getPassCertificateNumber,
-  isProvisionalLicenseProvided,
-} from '@store/tests/pass-completion/pass-completion.selector';
+import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
-import { getGearboxCategory, isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
-import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
-import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
-import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
-import {
-  PassCertificateNumberChanged, ProvisionalLicenseNotReceived,
-  ProvisionalLicenseReceived,
-} from '@store/tests/pass-completion/pass-completion.actions';
-import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { PersistTests } from '@store/tests/tests.actions';
-import {
-  D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
-} from '@store/tests/test-summary/test-summary.actions';
-import {
-  CandidateChoseToProceedWithTestInEnglish,
-  CandidateChoseToProceedWithTestInWelsh,
-} from '@store/tests/communication-preferences/communication-preferences.actions';
 import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
@@ -56,8 +25,6 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
 interface PassFinalisationCatBPageState {
@@ -113,37 +80,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
 
     this.pageState = {
       ...this.commonPageState,
-      candidateUntitledName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName),
-      ),
-      candidateDriverNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber),
-        map(formatDriverNumber),
-      ),
-      testOutcomeText$: currentTest$.pipe(
-        select(getTestOutcomeText),
-      ),
-      applicationNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getApplicationReference),
-        select(getApplicationNumber),
-      ),
-      provisionalLicense$: currentTest$.pipe(
-        select(getPassCompletion),
-        map(isProvisionalLicenseProvided),
-      ),
-      passCertificateNumber$: currentTest$.pipe(
-        select(getPassCompletion),
-        select(getPassCertificateNumber),
-      ),
-      transmission$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getGearboxCategory),
-      ),
       transmissionAutomaticRadioChecked$: currentTest$.pipe(
         select(getVehicleDetails),
         map(isAutomatic),
@@ -157,22 +93,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
         tap((val) => {
           if (val) this.form.controls['transmissionCtrl'].setValue('Manual');
         }),
-      ),
-      debriefWitnessed$: currentTest$.pipe(
-        select(getTestSummary),
-        select(isDebriefWitnessed),
-      ),
-      d255$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getD255),
-      ),
-      conductedLanguage$: currentTest$.pipe(
-        select(getCommunicationPreference),
-        select(getConductedLanguage),
-      ),
-      eyesightTestFailed$: currentTest$.pipe(
-        select(getTestData),
-        select(hasEyesightTestGotSeriousFault),
       ),
     };
     const { transmission$ } = this.pageState;
@@ -197,15 +117,43 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   }
 
   provisionalLicenseReceived(): void {
-    this.store$.dispatch(ProvisionalLicenseReceived());
+    super.provisionalLicenseReceived();
   }
 
   provisionalLicenseNotReceived(): void {
-    this.store$.dispatch(ProvisionalLicenseNotReceived());
+    super.provisionalLicenseNotReceived();
   }
 
   transmissionChanged(transmission: GearboxCategory): void {
-    this.store$.dispatch(GearboxCategoryChanged(transmission));
+    super.transmissionChanged(transmission);
+  }
+
+  passCertificateNumberChanged(passCertificateNumber: string): void {
+    super.passCertificateNumberChanged(passCertificateNumber);
+  }
+
+  d255Changed(d255: boolean): void {
+    super.d255Changed(d255);
+  }
+
+  debriefWitnessedChanged(debriefWitnessed: boolean) {
+    super.debriefWitnessedChanged(debriefWitnessed);
+  }
+
+  isWelshChanged(isWelsh: boolean) {
+    super.isWelshChanged(isWelsh);
+  }
+
+  async clickBack(): Promise<void> {
+    try {
+      await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  displayTransmissionBanner(): boolean {
+    return !this.form.controls['transmissionCtrl'].pristine && this.transmission === TransmissionType.Automatic;
   }
 
   async onSubmit() {
@@ -224,29 +172,5 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
         this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
       }
     });
-  }
-
-  passCertificateNumberChanged(passCertificateNumber: string): void {
-    this.store$.dispatch(PassCertificateNumberChanged(passCertificateNumber));
-  }
-
-  d255Changed(d255: boolean): void {
-    this.store$.dispatch(d255 ? D255Yes() : D255No());
-  }
-
-  debriefWitnessedChanged(debriefWitnessed: boolean) {
-    this.store$.dispatch(debriefWitnessed ? DebriefWitnessed() : DebriefUnWitnessed());
-  }
-
-  isWelshChanged(isWelsh: boolean) {
-    this.store$.dispatch(
-      isWelsh
-        ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
-        : CandidateChoseToProceedWithTestInEnglish('English'),
-    );
-  }
-
-  displayTransmissionBanner(): boolean {
-    return !this.form.controls['transmissionCtrl'].pristine && this.transmission === TransmissionType.Automatic;
   }
 }

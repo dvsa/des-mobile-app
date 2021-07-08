@@ -2,12 +2,10 @@ import {
   ComponentFixture, TestBed, fakeAsync, tick, waitForAsync,
 } from '@angular/core/testing';
 import {
-  NavControllerMock, NavParamsMock, ConfigMock, PlatformMock,
+  PlatformMock,
 } from 'ionic-mocks';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
@@ -27,27 +25,17 @@ import { LicenseProvidedComponent }
 import { LicenceProvidedWarningBannerComponent }
   from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import {
-  Config, IonicModule, NavController, NavParams, Platform,
+  IonicModule, Platform,
 } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
-import {
-  PassCertificateNumberChanged,
-  ProvisionalLicenseNotReceived,
-  ProvisionalLicenseReceived,
-} from '@store/tests/pass-completion/pass-completion.actions';
-import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
-import {
-  D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
-} from '@store/tests/test-summary/test-summary.actions';
-import {
-  CandidateChoseToProceedWithTestInEnglish,
-  CandidateChoseToProceedWithTestInWelsh,
-} from '@store/tests/communication-preferences/communication-preferences.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { PASS_CERTIFICATE_NUMBER_CTRL }
   from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { D255Component } from '@components/test-finalisation/d255/d255';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
 import {
   PassFinalisationViewDidEnter,
@@ -58,9 +46,11 @@ describe('PassFinalisationCatBPage', () => {
   let fixture: ComponentFixture<PassFinalisationCatBPage>;
   let component: PassFinalisationCatBPage;
   let store$: Store<StoreModel>;
+  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         PassFinalisationCatBPage,
         MockComponent(PracticeModeBanner),
@@ -74,15 +64,15 @@ describe('PassFinalisationCatBPage', () => {
         MockComponent(WarningBannerComponent),
         MockComponent(LicenceProvidedWarningBannerComponent),
       ],
-      imports: [IonicModule, AppModule],
+      imports: [
+        RouterTestingModule.withRoutes([]),
+        IonicModule,
+        AppModule,
+      ],
       providers: [
-        { provide: NavController, useFactory: () => NavControllerMock.instance() },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        OutcomeBehaviourMapProvider,
       ],
     });
   });
@@ -90,8 +80,9 @@ describe('PassFinalisationCatBPage', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassFinalisationCatBPage);
     component = fixture.componentInstance;
-    component.subscription = new Subscription(); store$ = TestBed.inject(Store);
+    store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
+    component.subscription = new Subscription();
   }));
 
   describe('Class', () => {
@@ -99,70 +90,6 @@ describe('PassFinalisationCatBPage', () => {
       it('should dispatch the VIEW_DID_ENTER action when the function is run', () => {
         component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-    });
-    describe('provisionalLicenseReceived', () => {
-      it('should dispatch the correct action when called', () => {
-        component.provisionalLicenseReceived();
-        expect(store$.dispatch).toHaveBeenCalledWith(ProvisionalLicenseReceived());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-    });
-    describe('provisionalLicenseNotReceived', () => {
-      it('should dispatch the correct action when called', () => {
-        component.provisionalLicenseNotReceived();
-        expect(store$.dispatch).toHaveBeenCalledWith(ProvisionalLicenseNotReceived());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-    });
-    describe('transmissionChanged', () => {
-      it('should dispatch the correct action when called', () => {
-        component.transmissionChanged('Manual');
-        expect(store$.dispatch).toHaveBeenCalledWith(GearboxCategoryChanged('Manual'));
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-    });
-    describe('passCertificateNumberChanged', () => {
-      it('should dispatch the correct action when called', () => {
-        component.passCertificateNumberChanged('1e3f5y64');
-        expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberChanged('1e3f5y64'));
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-    });
-    describe('d255Changed', () => {
-      it('should dispatch the correct action if the inputted value is true', () => {
-        component.d255Changed(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(D255Yes());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-      it('should dispatch the correct action if the inputted value is false', () => {
-        component.d255Changed(false);
-        expect(store$.dispatch).toHaveBeenCalledWith(D255No());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-    });
-    describe('debriefWitnessedChanged', () => {
-      it('should dispatch the correct action if the inputted value is true', () => {
-        component.debriefWitnessedChanged(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(DebriefWitnessed());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-      it('should dispatch the correct action if the inputted value is false', () => {
-        component.debriefWitnessedChanged(false);
-        expect(store$.dispatch).toHaveBeenCalledWith(DebriefUnWitnessed());
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-    });
-    describe('isWelshChanged', () => {
-      it('should dispatch the correct action if the isWelsh flag is true', () => {
-        component.isWelshChanged(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(CandidateChoseToProceedWithTestInWelsh('Cymraeg'));
-        expect(store$.dispatch).toHaveBeenCalledTimes(1);
-      });
-      it('should dispatch the correct action if the isWelsh flag is false', () => {
-        component.isWelshChanged(false);
-        expect(store$.dispatch).toHaveBeenCalledWith(CandidateChoseToProceedWithTestInEnglish('English'));
         expect(store$.dispatch).toHaveBeenCalledTimes(1);
       });
     });
@@ -194,5 +121,13 @@ describe('PassFinalisationCatBPage', () => {
           .toHaveBeenCalledWith(PassFinalisationValidationError('notRequiredControl is blank'));
       }));
     });
+
+    describe('clickBack', () => {
+      it('should call navigate function with correct parameter', () => {
+        component.clickBack();
+        expect(routerSpy.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
+      });
+    });
+
   });
 });
