@@ -13,7 +13,6 @@ import { PassCertificateNumberComponent } from './pass-certificate-number/pass-c
   declarations: [
     LicenseProvidedComponent,
     PassCertificateNumberComponent,
-    // Code78Component,
     LicenceProvidedWarningBannerComponent,
   ],
   imports: [
@@ -26,7 +25,6 @@ import { PassCertificateNumberComponent } from './pass-certificate-number/pass-c
   exports: [
     LicenseProvidedComponent,
     PassCertificateNumberComponent,
-    // Code78Component,
     LicenceProvidedWarningBannerComponent,
   ],
 })
