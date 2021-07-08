@@ -19,7 +19,6 @@ import { TransmissionComponent } from '@components/common/transmission/transmiss
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { D255Component } from '@components/test-finalisation/d255/d255';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { PassCertificateNumberComponent }
   from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
@@ -48,6 +47,7 @@ import { PersistTests } from '@store/tests/tests.actions';
 import { PASS_CERTIFICATE_NUMBER_CTRL }
   from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { D255Component } from '@components/test-finalisation/d255/d255';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
 import {
   PassFinalisationViewDidEnter,
