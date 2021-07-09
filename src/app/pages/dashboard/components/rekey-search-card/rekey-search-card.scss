@@ -4,8 +4,6 @@ button[clear] {
   outline: none;
   border: none;
   background-color: initial;
-  overflow-x: hidden !important;
-  white-space: pre-wrap !important;
   &.activated {
     .rekey-search-card #card-content-wrapper {
       background: var(--gds-blue-darken);
