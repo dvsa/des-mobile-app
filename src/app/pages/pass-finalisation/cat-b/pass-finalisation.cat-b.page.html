@@ -44,7 +44,6 @@
                 </licence-provided-warning-banner>
 
                 <transmission [formGroup]="form"
-                              [transmission]="pageState.transmission$ | async"
                               (transmissionChange)="transmissionChanged($event)">
                 </transmission>
                 <warning-banner *ngIf="displayTransmissionBanner()"
