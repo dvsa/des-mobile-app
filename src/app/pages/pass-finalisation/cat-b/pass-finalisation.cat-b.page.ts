@@ -116,34 +116,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     }
   }
 
-  provisionalLicenseReceived(): void {
-    super.provisionalLicenseReceived();
-  }
-
-  provisionalLicenseNotReceived(): void {
-    super.provisionalLicenseNotReceived();
-  }
-
-  transmissionChanged(transmission: GearboxCategory): void {
-    super.transmissionChanged(transmission);
-  }
-
-  passCertificateNumberChanged(passCertificateNumber: string): void {
-    super.passCertificateNumberChanged(passCertificateNumber);
-  }
-
-  d255Changed(d255: boolean): void {
-    super.d255Changed(d255);
-  }
-
-  debriefWitnessedChanged(debriefWitnessed: boolean) {
-    super.debriefWitnessedChanged(debriefWitnessed);
-  }
-
-  isWelshChanged(isWelsh: boolean) {
-    super.isWelshChanged(isWelsh);
-  }
-
   async clickBack(): Promise<void> {
     try {
       await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
