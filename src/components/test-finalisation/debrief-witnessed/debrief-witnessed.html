@@ -1,0 +1,31 @@
+<ion-row *ngIf="display" class="mes-validated-row"
+         [ngClass]="{ 'mes-row-separator' : isDelegated }"
+         id="debrief-card" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid">
+  </div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label>Debrief witnessed</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio" formControlName="debriefWitnessed" id="debrief-witnessed-yes" name="debriefWitnessed"
+         formControlName="debriefWitnessed" class="gds-radio-button" [class.ng-invalid]="invalid" value="Yes"
+         [checked]="debriefWitnessed === true" (change)="debriefWitnessedChanged($event.target.value)">
+        <label for="debrief-witnessed-yes" class="radio-label">Yes</label>
+      </ion-col>
+      <ion-col>
+        <input type="radio" formControlName="debriefWitnessed" id="debrief-witnessed-no" name="debriefWitnessed"
+         formControlName="debriefWitnessed" class="gds-radio-button" [class.ng-invalid]="invalid" value="No"
+         [checked]="debriefWitnessed === false" (change)="debriefWitnessedChanged($event.target.value)">
+        <label for="debrief-witnessed-no" class="radio-label">No</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="office-debrief-witnessed-validation-text">
+        Was the debrief witnessed?
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>
