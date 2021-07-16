@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'transmission',
@@ -24,8 +25,14 @@ export class TransmissionComponent implements OnChanges {
   @Output()
   transmissionChange = new EventEmitter<GearboxCategory>();
 
+  uniqueId: string;
+
   formControl: FormControl;
   static readonly fieldName: string = 'transmissionCtrl';
+
+  ngOnInit() {
+    this.uniqueId = uuidv4();
+  }
 
   ngOnChanges(): void {
     if (!this.formControl) {
