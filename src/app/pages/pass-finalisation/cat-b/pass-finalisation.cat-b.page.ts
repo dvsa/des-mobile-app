@@ -116,14 +116,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     }
   }
 
-  async clickBack(): Promise<void> {
-    try {
-      await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   displayTransmissionBanner(): boolean {
     return !this.form.controls['transmissionCtrl'].pristine && this.transmission === TransmissionType.Automatic;
   }

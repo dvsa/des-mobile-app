@@ -311,11 +311,11 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(CalculateTestResult());
-        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE], { replaceUrl: true });
         break;
       case ModalEvent.TERMINATE:
         this.store$.dispatch(TerminateTestFromTestReport());
-        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE], { replaceUrl: true });
         break;
       default:
         break;

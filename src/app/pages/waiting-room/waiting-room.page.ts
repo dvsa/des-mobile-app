@@ -52,7 +52,7 @@ import { SignatureAreaComponent } from '@components/common/signature-area/signat
 import { SignatureComponent } from '@pages/waiting-room/components/signature/signature';
 
 import {
-  ERROR_PAGE, JOURNAL_PAGE, LOGIN_PAGE, TestFlowPageNames,
+  ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames,
 } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '@app/app.component';
@@ -204,12 +204,12 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     }
   }
 
-  async clickBack(): Promise<void> {
+  async canDeActivate() {
     try {
       await this.deviceAuthenticationProvider.triggerLockScreen();
-      await this.router.navigate([JOURNAL_PAGE]);
-    } catch (err) {
-      console.error(err);
+      return true;
+    } catch {
+      return false;
     }
   }
 
