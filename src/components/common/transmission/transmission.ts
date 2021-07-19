@@ -42,17 +42,15 @@ export class TransmissionComponent implements OnChanges {
     this.formControl.patchValue(this.transmission);
   }
 
+  getId(): string {
+    return Math.random()
+      .toString(36)
+      .substring(2);
+  }
+
   transmissionChanged(transmission: GearboxCategory): void {
     this.transmissionChange.emit(transmission);
   }
-
-  getId(): string {
-    return Math.random().toString(36).substring(2);
-  }
-
-  // transmissionChanged(transmission: GearboxCategory): void {
-  //   this.transmissionChange.emit(transmission);
-  // }
 
   isInvalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
