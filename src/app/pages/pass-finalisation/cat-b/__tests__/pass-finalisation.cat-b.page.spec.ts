@@ -2,6 +2,7 @@ import {
   ComponentFixture, TestBed, fakeAsync, tick, waitForAsync,
 } from '@angular/core/testing';
 import {
+  NavControllerMock,
   PlatformMock,
 } from 'ionic-mocks';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -25,7 +26,7 @@ import { LicenseProvidedComponent }
 import { LicenceProvidedWarningBannerComponent }
   from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import {
-  IonicModule, Platform,
+  IonicModule, NavController, Platform,
 } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { PersistTests } from '@store/tests/tests.actions';
@@ -35,7 +36,6 @@ import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
 import {
   PassFinalisationViewDidEnter,
@@ -73,6 +73,7 @@ describe('PassFinalisationCatBPage', () => {
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: NavController, useClass: NavControllerMock },
       ],
     });
   });
@@ -120,13 +121,6 @@ describe('PassFinalisationCatBPage', () => {
           .not
           .toHaveBeenCalledWith(PassFinalisationValidationError('notRequiredControl is blank'));
       }));
-    });
-
-    describe('clickBack', () => {
-      it('should call navigate function with correct parameter', () => {
-        component.clickBack();
-        expect(routerSpy.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
-      });
     });
 
   });
