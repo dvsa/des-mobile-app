@@ -1,0 +1,27 @@
+<ion-row class="mes-validated-row mes-row-separator" id="provisional-license-card">
+  <div class="validation-bar" [class.ng-invalid]="isInvalid()">
+  </div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label>{{ licenseReceivedLabel }}</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row [formGroup]="form">
+      <ion-col size="48">
+        <input formControlName="provisionalLicenseProvidedCtrl" type="radio" id="license-received" value="yes"
+         class="gds-radio-button" (click)="provisionalLicenseReceived()">
+        <label for="license-received" class="radio-label">Yes</label>
+      </ion-col>
+      <ion-col>
+        <input formControlName="provisionalLicenseProvidedCtrl" type="radio" id="license-not-received" value="no"
+         class="gds-radio-button" (click)="provisionalLicenseNotReceived()">
+        <label for="license-not-received" class="radio-label">No</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="isInvalid()" id="pass-finalisation-licence-received-validation-text">
+        Select a response
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

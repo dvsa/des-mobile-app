@@ -37,7 +37,7 @@ describe('RouteByCategoryProvider', () => {
       provider.router.config = [];
       spyOn(pageConstants, 'getPageNameByCategoryAndKey').and.returnValue('WaitingRoomToCarCatBPage');
       await provider.navigateToPage('WAITING_ROOM_TO_CAR_PAGE', TestCategory.B);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['WaitingRoomToCarCatBPage']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['WaitingRoomToCarCatBPage'], { replaceUrl: true });
     });
   });
 });
