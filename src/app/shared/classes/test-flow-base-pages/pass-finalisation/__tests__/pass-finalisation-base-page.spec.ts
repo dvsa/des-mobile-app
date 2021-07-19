@@ -30,7 +30,6 @@ import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('PassFinalisationPageComponent', () => {
   let platform: Platform;
@@ -62,7 +61,6 @@ describe('PassFinalisationPageComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
