@@ -73,7 +73,7 @@
       </ion-grid>
     </form>
   </div>
-    <ion-row class="mes-full-width-card box-shadow">
+    <ion-row class="mes-full-width-card box-shadow" [hidden]="pageState.eyesightTestFailed$ | async">
         <ion-col size="45" class="ion-text-center">
             <ion-button
                     shape="round"
