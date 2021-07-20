@@ -1,53 +1,54 @@
 <ion-header>
-  <ion-toolbar mode="ios">
-    <ion-title>Journal</ion-title>
-    <ion-buttons slot="start">
-      <mes-back-button routerLink="DashboardPage"></mes-back-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button class="refresh-button" (click)="refreshJournal()" [disabled]="pageState.isLoading$ | async">
-        <div>
-          <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
-          <span class="colour-white">Refresh</span>
-          <ion-label><h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6></ion-label>
-        </div>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar mode="ios">
+        <ion-title>Journal</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button class="refresh-button" (click)="refreshJournal()" [disabled]="pageState.isLoading$ | async">
+                <div>
+                    <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
+                    <span class="colour-white">Refresh</span>
+                    <ion-label><h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6>
+                    </ion-label>
+                </div>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content no-padding>
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
-  <!--  @TODO - Reintroduce with MES-6271-->
-  <!-- <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner> -->
+    <!--  @TODO - Reintroduce with MES-6271-->
+    <!-- <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner> -->
 
-  <ion-refresher slot="fixed" (ionRefresh)="pullRefreshJournal($event)">
-    <ion-refresher-content
-      pullingIcon="arrow-down"
-      pullingText="Pull to refresh"
-      refreshingSpinner="circles"
-      refreshingText="Refreshing Journal..."
-      pullMin=70
-      pullMax=500>
-    </ion-refresher-content>
-  </ion-refresher>
+    <ion-refresher slot="fixed" (ionRefresh)="pullRefreshJournal($event)">
+        <ion-refresher-content
+                pullingIcon="arrow-down"
+                pullingText="Pull to refresh"
+                refreshingSpinner="circles"
+                refreshingText="Refreshing Journal..."
+                pullMin=70
+                pullMax=500>
+        </ion-refresher-content>
+    </ion-refresher>
 
-  <journal-navigation
-          [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
-          [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
-          [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
-          [selectedDate]="pageState.selectedDate$ | async"
-          (previousDayClicked)="onPreviousDayClick()"
-          (nextDayClicked)="onNextDayClick()"
-  ></journal-navigation>
+    <journal-navigation
+            [canNavigateToNextDay]="pageState.canNavigateToNextDay$ | async"
+            [canNavigateToPreviousDay]="pageState.canNavigateToPreviousDay$ | async"
+            [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
+            [selectedDate]="pageState.selectedDate$ | async"
+            (previousDayClicked)="onPreviousDayClick()"
+            (nextDayClicked)="onNextDayClick()"
+    ></journal-navigation>
 
-  <ion-list>
-    <ng-template #slotContainer></ng-template>
-  </ion-list>
+    <ion-list>
+        <ng-template #slotContainer></ng-template>
+    </ion-list>
 
-  <div *ngIf="displayNoDataMessage" class="no-results ion-text-center">
-    <p>There is no journal data to display for this day</p>
-  </div>
+    <div *ngIf="displayNoDataMessage" class="no-results ion-text-center">
+        <p>There is no journal data to display for this day</p>
+    </div>
 
 </ion-content>

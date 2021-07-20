@@ -7,6 +7,7 @@ import {
   TEST_CENTRE_JOURNAL_PAGE,
   TestFlowPageNames,
 } from '@pages/page-names.constants';
+import { CanWaitingRoomDeactivateGuard } from '@pages/waiting-room/can-waiting-room-deactiviate';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
 import { Test_Report_Route } from './routing/test-report-route';
 import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
@@ -99,5 +100,6 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
   exports: [RouterModule],
+  providers: [CanWaitingRoomDeactivateGuard],
 })
 export class AppRoutingModule { }
