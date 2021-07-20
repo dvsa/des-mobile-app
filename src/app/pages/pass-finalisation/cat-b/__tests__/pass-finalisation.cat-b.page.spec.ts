@@ -36,6 +36,7 @@ import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
 import {
   PassFinalisationViewDidEnter,
@@ -74,6 +75,7 @@ describe('PassFinalisationCatBPage', () => {
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
+        OutcomeBehaviourMapProvider,
       ],
     });
   });

@@ -37,9 +37,10 @@ export class DebriefWitnessedComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new FormControl('', [Validators.required]);
       this.formGroup.addControl(DebriefWitnessedComponent.fieldName, this.formControl);
     }
+
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
       DebriefWitnessedComponent.fieldName);
 
