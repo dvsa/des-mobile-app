@@ -9,7 +9,7 @@ import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 
 import { environment } from '@environments/environment';
-import { EnvironmentFile } from '@environments/models/environment.model';
+import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
 import { StoreModel } from '@shared/models/store.model';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -282,7 +282,7 @@ export class AppConfigProvider {
     return new Promise((resolve, reject) => {
       this.isDebug.getIsDebug()
         .then((isDebug) => {
-          this.isDebugMode = isDebug;
+          this.isDebugMode = (environment as unknown as TestersEnvironmentFile)?.isTest ? true : isDebug;
           resolve();
         })
         .catch((err) => reject(err));

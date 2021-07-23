@@ -215,9 +215,9 @@ describe('WaitingRoomPage', () => {
 
     });
 
-    describe('clickBack', () => {
-      it('should should trigger the lock screen', () => {
-        component.clickBack();
+    describe('canDeActivate', () => {
+      it('should should trigger the lock screen', async () => {
+        await component.canDeActivate();
         expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
       });
     });

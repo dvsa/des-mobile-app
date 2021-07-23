@@ -10,15 +10,25 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col size="48">
-        <input type="radio" formControlName="debriefWitnessed" id="debrief-witnessed-yes" name="debriefWitnessed"
-         formControlName="debriefWitnessed" class="gds-radio-button" [class.ng-invalid]="invalid" value="Yes"
-         [checked]="debriefWitnessed === true" (change)="debriefWitnessedChanged($event.target.value)">
+        <input type="radio"
+               formControlName="debriefWitnessed"
+               id="debrief-witnessed-yes"
+               name="debriefWitnessed"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               [value]=true
+               (change)="debriefWitnessedChanged($event.target.id)">
         <label for="debrief-witnessed-yes" class="radio-label">Yes</label>
       </ion-col>
       <ion-col>
-        <input type="radio" formControlName="debriefWitnessed" id="debrief-witnessed-no" name="debriefWitnessed"
-         formControlName="debriefWitnessed" class="gds-radio-button" [class.ng-invalid]="invalid" value="No"
-         [checked]="debriefWitnessed === false" (change)="debriefWitnessedChanged($event.target.value)">
+        <input type="radio"
+               formControlName="debriefWitnessed"
+               id="debrief-witnessed-no"
+               name="debriefWitnessed"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               [value]=false
+               (change)="debriefWitnessedChanged($event.target.id)">
         <label for="debrief-witnessed-no" class="radio-label">No</label>
       </ion-col>
     </ion-row>
