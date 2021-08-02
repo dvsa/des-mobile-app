@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar mode="ios">
-    <ion-buttons slot="start">
+    <ion-buttons id="burger-menu" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
       <ion-buttons slot="end">
           <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
       </ion-buttons>
-    <ion-title>My dashboard</ion-title>
+    <ion-title id="page-title">My dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +16,7 @@
   <div>
     <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async" [role]="pageState.role$ | async"></profile-header>
     <hr/>
-    <h4 class="date">{{todaysDateFormatted}}</h4>
+    <h4 id="date-field" class="date">{{todaysDateFormatted}}</h4>
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
         <ion-col size="48">
