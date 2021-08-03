@@ -1,8 +1,8 @@
 <ion-header>
     <ion-toolbar mode="ios">
-        <ion-title id="title" class="ion-text-center">Test details - {{ pageState.name }}</ion-title>
+        <ion-title id="test-details-title" class="ion-text-center">Test details - {{ pageState.name }}</ion-title>
         <ion-buttons slot="start">
-            <ion-button id="close" (click)="dismiss()">
+            <ion-button id="close-button" (click)="dismiss()">
                 <ion-icon class="close-btn" name="close-outline"></ion-icon>
                 <ion-label class="close-btn">Close</ion-label>
             </ion-button>
@@ -19,7 +19,7 @@
                 </h2>
             </ion-col>
             <ion-col size="16">
-                <h2 id="time" class="test-start-time">
+                <h2 id="test-start-time" class="test-start-time">
                     {{ pageState.time | date: "HH:mm"}}
                 </h2>
             </ion-col>
