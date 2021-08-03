@@ -1,8 +1,8 @@
 <ion-header>
     <ion-toolbar mode="ios">
-        <ion-title class="ion-text-center">Test details - {{ pageState.name }}</ion-title>
+        <ion-title id="test-details-title" class="ion-text-center">Test details - {{ pageState.name }}</ion-title>
         <ion-buttons slot="start">
-            <ion-button (click)="dismiss()">
+            <ion-button id="close-button" (click)="dismiss()">
                 <ion-icon class="close-btn" name="close-outline"></ion-icon>
                 <ion-label class="close-btn">Close</ion-label>
             </ion-button>
@@ -14,12 +14,12 @@
     <ion-grid>
         <ion-row>
             <ion-col size="80">
-                <h2>
+                <h2 id="candidates-name">
                     {{ pageState.name }}
                 </h2>
             </ion-col>
             <ion-col size="16">
-                <h2 class="test-start-time">
+                <h2 id="test-start-time" class="test-start-time">
                     {{ pageState.time | date: "HH:mm"}}
                 </h2>
             </ion-col>
@@ -32,8 +32,9 @@
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
-                <data-row [label]="'Test category'" [value]="pageState.details.testCategory"></data-row>
+                <data-row id="test-category" [label]="'Test category'" [value]="pageState.details.testCategory"></data-row>
                 <data-row
+                        id="slot-type"
                         [label]="'Slot type'"
                         [value]="pageState.details.slotType"
                         [shouldShowIndicator]="pageState.details.slotType !== 'Standard Test'">
@@ -44,10 +45,12 @@
                         [label]="'Meeting place'"
                         [value]="pageState.details.meetingPlace">
                 </data-row>
-                <data-row [label]="'Driver number'" [value]="pageState.details.driverNumber"></data-row>
-                <data-row [label]="'Application number'" [value]="pageState.details.applicationRef"></data-row>
-                <data-row-custom [label]="'Special requirements'"
-                                 [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)">
+                <data-row id="driver-number" [label]="'Driver number'" [value]="pageState.details.driverNumber"></data-row>
+                <data-row id="application-number" [label]="'Application number'" [value]="pageState.details.applicationRef"></data-row>
+                <data-row-custom
+                        id="special-requirements"
+                        [label]="'Special requirements'"
+                        [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)">
                     <div class="mes-data" *ngIf="!specialNeedsIsPopulated(pageState.details.specialNeeds)">
                         {{pageState.details.specialNeeds}}
                     </div>
@@ -57,12 +60,17 @@
                     </div>
                 </data-row-custom>
                 <data-row
+                        id="entitlement-check"
                         [label]="'Entitlement check'"
                         [value]="'Entitlement check is required.'"
                         [shouldShowIndicator]="true"
                         *ngIf="pageState.details.entitlementCheck.show">
                 </data-row>
-                <data-row-custom [label]="'Additional information'" [shouldHaveSeperator]="false">
+                <data-row-custom
+                        [label]="'Additional information'"
+                        [shouldHaveSeperator]="false"
+                        id="additional-information"
+                >
                     <div class="mes-data" *ngIf="pageState.details.candidateComments.isSectionEmpty">
                         None
                     </div>
@@ -85,9 +93,9 @@
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
-                <data-row [label]="'Phone number'" [value]="pageState.details.phoneNumber"></data-row>
-                <data-row [label]="'Email'" [value]="pageState.details.email"></data-row>
-                <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
+                <data-row id="phone-number" [label]="'Phone number'" [value]="pageState.details.phoneNumber"></data-row>
+                <data-row id="email" [label]="'Email'" [value]="pageState.details.email"></data-row>
+                <data-row-custom id="address" [label]="'Address'" [shouldHaveSeperator]="false">
                     <display-address [address]="pageState.details.address"></display-address>
                 </data-row-custom>
             </ion-grid>
