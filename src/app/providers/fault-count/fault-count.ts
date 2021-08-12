@@ -17,8 +17,6 @@ import { FaultCountAM2Helper } from './cat-a-mod2/fault-count.cat-a-mod2';
 import { FaultCountHomeTestHelper } from './cat-home-test/fault-count.cat-home-test';
 import { FaultCountADIPart2Helper } from './cat-adi-part2/fault-count.cat-adi-part2';
 
-// TODO: Remove category from helper functions as the name of the helper class already contains the category
-
 @Injectable()
 export class FaultCountProvider {
 

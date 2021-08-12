@@ -74,7 +74,6 @@ export const journalReducer = createReducer(
     if (!state.slots[state.selectedDate]) {
       return { ...state };
     }
-    // TODO: This should be moved out to an effect
     const slots = state.slots[state.selectedDate].map((slot) => {
       if (get(slot, 'slotData.slotDetail.slotId') === slotId) {
         return {
