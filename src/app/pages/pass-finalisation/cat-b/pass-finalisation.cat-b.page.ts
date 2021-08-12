@@ -25,6 +25,8 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
 interface PassFinalisationCatBPageState {
@@ -66,9 +68,11 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     router: Router,
     store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
+    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
   ngOnInit(): void {
@@ -113,14 +117,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     this.store$.dispatch(PassFinalisationViewDidEnter());
     if (this.subscription.closed && this.merged$) {
       this.subscription = this.merged$.subscribe();
-    }
-  }
-
-  async clickBack(): Promise<void> {
-    try {
-      await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
-    } catch (err) {
-      console.error(err);
     }
   }
 

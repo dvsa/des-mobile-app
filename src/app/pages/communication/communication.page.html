@@ -1,11 +1,11 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios">
-    <ion-buttons slot="start">
-      <ion-back-button class="back-btn-text"></ion-back-button>
+    <ion-buttons id="back-button" slot="start">
+      <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
-    <ion-buttons slot="end">
+    <ion-title id="page-title">{{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons id="end-button" slot="end">
       <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
     </ion-buttons>
   </ion-toolbar>

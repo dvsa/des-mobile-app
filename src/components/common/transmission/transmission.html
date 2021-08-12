@@ -9,24 +9,24 @@
         <ion-row class="spacing-row"></ion-row>
         <ion-row [formGroup]="formGroup">
             <ion-col size="48">
-                <input type="radio" id="transmission-manual"
+                <input type="radio" [id]="'transmission-manual-'+uniqueId"
                        formControlName="transmissionCtrl"
                        name="transmissionCtrl"
                        class="gds-radio-button"
                        [class.ng-invalid]="isInvalid()"
                        (change)="transmissionChanged($event.target.value)"
                        value='Manual'>
-                <label for="transmission-manual" class="radio-label">Manual</label>
+                <label [for]="'transmission-manual-'+uniqueId" class="radio-label">Manual</label>
             </ion-col>
             <ion-col>
-                <input type="radio" id="transmission-automatic"
+                <input type="radio" [id]="'transmission-automatic-'+uniqueId"
                        formControlName="transmissionCtrl"
                        name="transmissionCtrl"
                        class="gds-radio-button"
                        [class.ng-invalid]="isInvalid()"
                        (change)="transmissionChanged($event.target.value)"
                        value='Automatic'>
-                <label for="transmission-automatic" class="radio-label">Automatic</label>
+                <label [for]="'transmission-automatic-'+uniqueId" class="radio-label">Automatic</label>
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">

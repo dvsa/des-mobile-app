@@ -7,11 +7,6 @@ import {
   VisibilityType,
 } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
-enum ValidWitnessedValues {
-  YES = 'Yes',
-  NO = 'No',
-}
-
 @Component({
   selector: 'debrief-witnessed',
   templateUrl: './debrief-witnessed.html',
@@ -42,9 +37,10 @@ export class DebriefWitnessedComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new FormControl('', [Validators.required]);
       this.formGroup.addControl(DebriefWitnessedComponent.fieldName, this.formControl);
     }
+
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
       DebriefWitnessedComponent.fieldName);
 
@@ -54,8 +50,7 @@ export class DebriefWitnessedComponent implements OnChanges {
       this.formGroup.get(DebriefWitnessedComponent.fieldName).setValidators([Validators.required]);
     }
     if (this.debriefWitnessed !== null) {
-      this.formControl.patchValue(this.debriefWitnessed
-        ? ValidWitnessedValues.YES : ValidWitnessedValues.NO);
+      this.formControl.patchValue(this.debriefWitnessed);
     } else {
       this.formControl.patchValue(null);
     }
@@ -63,14 +58,12 @@ export class DebriefWitnessedComponent implements OnChanges {
 
   debriefWitnessedChanged(debriefWitnessedFormValue: string): void {
     if (this.formControl.valid) {
-      this.debriefWitnessedChange.emit(
-        debriefWitnessedFormValue === ValidWitnessedValues.YES,
-      );
+      this.debriefWitnessedChange.emit(debriefWitnessedFormValue === 'debrief-witnessed-yes');
     }
   }
 
   get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
+    return this.formControl.invalid && this.formControl.dirty;
   }
 
 }

@@ -1,14 +1,11 @@
 <ion-header>
   <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
   <ion-toolbar>
-    <ion-title>{{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
-    <ion-buttons slot="start">
-      <ion-button (click)="clickBack()">
-        <ion-icon class="back-btn-icon" name="chevron-back"></ion-icon>
-        <span class="back-btn-text">Back</span>
-      </ion-button>
+    <ion-title id="page-title">{{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons id="back-button" slot="start">
+        <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
+    <ion-buttons id="end-button" slot="end">
       <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
     </ion-buttons>
   </ion-toolbar>

@@ -73,14 +73,11 @@
       </ion-grid>
     </form>
   </div>
-</ion-content>
-
-<ion-footer [hidden]="pageState.eyesightTestFailed$ | async">
-    <ion-row class="mes-full-width-card box-shadow">
+    <ion-row class="mes-full-width-card box-shadow" [hidden]="pageState.eyesightTestFailed$ | async">
         <ion-col size="45" class="ion-text-center">
             <ion-button
                     shape="round"
-                    class="mes-grey-button full-button-widths"
+                    class="mes-grey-button wrtc-footer-btn"
                     (click)="onViewTestCentreJournal()">
                 <h3>View test centre journal</h3>
             </ion-button>
@@ -89,10 +86,10 @@
         <ion-col size="45" class="ion-text-center">
             <ion-button
                     shape="round"
-                    class="mes-primary-button full-button-widths"
+                    class="mes-primary-button wrtc-footer-btn"
                     id="continue-to-test-report-button" (click)="onSubmit()">
                 <h3>Continue to test report</h3>
             </ion-button>
         </ion-col>
     </ion-row>
-</ion-footer>
+</ion-content>
