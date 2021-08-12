@@ -1,11 +1,11 @@
 <ion-header>
     <ion-toolbar mode="ios">
-        <ion-title>Journal</ion-title>
-        <ion-buttons slot="start">
+        <ion-title id="page-title">Journal</ion-title>
+        <ion-buttons id="back-button" slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-button class="refresh-button" (click)="refreshJournal()" [disabled]="pageState.isLoading$ | async">
+            <ion-button id="refresh-button" class="refresh-button" (click)="refreshJournal()" [disabled]="pageState.isLoading$ | async">
                 <div>
                     <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
                     <span class="colour-white">Refresh</span>
