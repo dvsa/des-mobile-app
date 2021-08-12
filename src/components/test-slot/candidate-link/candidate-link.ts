@@ -20,7 +20,7 @@ export class CandidateLinkComponent {
   name: Name;
 
   @Input()
-  applicationId: string;
+  applicationId: number;
 
   @Input()
   testComplete: boolean;
