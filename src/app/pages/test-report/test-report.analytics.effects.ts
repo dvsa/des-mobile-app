@@ -1128,7 +1128,7 @@ export class TestReportAnalyticsEffects {
     }),
   ));
 
-  // @TODO - MES-6879 - enable once component migrated
+  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
   // reverseLeftPopoverOpened$ = this.actions$.pipe(
   //   ofType(reverseLeftActions.REVERSE_LEFT_POPOVER_OPENED),
   //   concatMap(action => of(action).pipe(
@@ -1147,7 +1147,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // );
 
-  // @TODO - MES-6879 - enable once component migrated
+  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
   // reverseLeftPopoverClosed$ = this.actions$.pipe(
   //   ofType(reverseLeftActions.REVERSE_LEFT_POPOVER_CLOSED),
   //   concatMap(action => of(action).pipe(
@@ -1166,7 +1166,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // );
   //
-  // @TODO - MES-6879 - enable once component migrated
+  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
   // toggleAvoidanceSpeedReq$ = this.actions$.pipe(
   //   ofType(
   //     avoidanceActions.ADD_AVOIDANCE_SERIOUS_FAULT,
@@ -1193,7 +1193,7 @@ export class TestReportAnalyticsEffects {
   //   ),
   // );
   //
-  // @TODO - MES-6879 - enable once component migrated
+  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
   // recordAvoidanceFirstAttempt$ = this.actions$.pipe(
   //   ofType(
   //     avoidanceActions.RECORD_AVOIDANCE_FIRST_ATTEMPT,
@@ -1225,7 +1225,7 @@ export class TestReportAnalyticsEffects {
   //   ),
   // );
   //
-  // @TODO - MES-6879 - enable once component migrated
+  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
   // recordAvoidanceSecondAttempt$ = this.actions$.pipe(
   //   ofType(
   //     avoidanceActions.RECORD_AVOIDANCE_SECOND_ATTEMPT,

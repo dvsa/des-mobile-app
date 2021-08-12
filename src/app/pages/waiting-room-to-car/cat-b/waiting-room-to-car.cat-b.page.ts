@@ -111,7 +111,6 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
 
     if (this.form.valid) {
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
-      // @TODO: We previously removed the WRTC page from the stack, do we need to this?
     } else {
       Object.keys(this.form.controls).forEach((controlName: string) => {
         if (this.form.controls[controlName].invalid) {
