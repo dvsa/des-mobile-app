@@ -16,8 +16,8 @@ export class DeviceAuthenticationProvider {
   ) { }
 
   triggerLockScreen = async (): Promise<boolean> => {
-    if (this.appConfig.getAppConfig().role === ExaminerRole.DLG ||
-        (environment as unknown as TestersEnvironmentFile)?.isTest) {
+    if (this.appConfig.getAppConfig().role === ExaminerRole.DLG
+        || (environment as unknown as TestersEnvironmentFile)?.isTest) {
       return Promise.resolve(false);
     }
 

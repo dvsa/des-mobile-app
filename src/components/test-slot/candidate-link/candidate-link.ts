@@ -20,6 +20,9 @@ export class CandidateLinkComponent {
   name: Name;
 
   @Input()
+  applicationId: number;
+
+  @Input()
   testComplete: boolean;
 
   @Input()

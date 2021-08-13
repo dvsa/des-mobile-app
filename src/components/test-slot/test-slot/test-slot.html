@@ -7,7 +7,6 @@
     <ion-grid>
         <ion-row>
             <ion-col size="79">
-
                 <ion-row>
                     <ion-col size="2"></ion-col>
                     <ion-col size="24" class="no-padding">
@@ -31,7 +30,7 @@
                         </indicators>
                     </ion-col>
                     <ion-col size="17" class="align-center">
-                        <time [time]="slot.slotDetail.start" [testComplete]="testComplete">
+                        <time id="time-{{slot.booking.application.applicationId}}" [time]="slot.slotDetail.start" [testComplete]="testComplete">
                         </time>
                     </ion-col>
                     <ion-col size="2"></ion-col>
@@ -40,7 +39,10 @@
                         </ng-content>
                     </ion-col>
                     <ion-col size="24" class="align-center">
-                        <test-category [category]="slot.booking.application.testCategory"></test-category>
+                        <test-category
+                                [category]="slot.booking.application.testCategory"
+                                [applicationId]="slot.booking.application.applicationId">
+                        </test-category>
                     </ion-col>
                 </ion-row>
 
@@ -84,6 +86,7 @@
                         [canStartTest]="canStartTest()"
                         [isDelegatedTest]="delegatedTest"
                         [examinerId]="getExaminerId()"
+                        [applicationId]="slot.booking.application.applicationId"
                         [testStatus]="componentState.testStatus$ | async"
                         [activityCode]="componentState.testActivityCode$ | async"
                         [specialRequirements]="isIndicatorNeededForSlot()"
@@ -105,6 +108,7 @@
 <ng-template #candidateLink>
     <candidate-link *ngIf="canViewCandidateDetails()" [slot]="slot" [slotChanged]="hasSlotChanged"
                     [name]="slot.booking.candidate.candidateName"
+                    [applicationId]="slot.booking.application.applicationId"
                     [isPortrait]="isPortrait()">
     </candidate-link>
     <ion-button *ngIf="!canViewCandidateDetails()" class="mes-transparent-button" disabled>
