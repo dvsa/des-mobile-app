@@ -1,7 +1,7 @@
 import {
   endsWith, forOwn, get, transform,
 } from 'lodash';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
@@ -112,8 +112,7 @@ export class FaultSummaryCatDHelper {
     : FaultSummary[] {
     const faultsEncountered: FaultSummary[] = [];
 
-    // TODO: Replace any with Manoeuvres and change the transform function
-    forOwn(manoeuvres, (manoeuvre: any, type: ManoeuvreTypes) => {
+    forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
       const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
 
         if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
