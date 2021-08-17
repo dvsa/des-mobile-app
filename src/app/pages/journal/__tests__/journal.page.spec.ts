@@ -180,6 +180,12 @@ describe('JournalPage', () => {
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
       });
     });
+    describe('setScrollTop', () => {
+      it('should set scrollTop value', () => {
+        component.setScrollTop(1000);
+        expect(component.scrollTop).toEqual(1000);
+      });
+    });
   });
 
   describe('DOM', () => {
