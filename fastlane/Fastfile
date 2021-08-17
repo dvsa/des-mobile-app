@@ -19,20 +19,20 @@ platform :ios do
   desc "Signs and builds the app with the DVSA production distribution certificate & provisioning profile"
   lane :build do
    upgrade_super_old_xcode_project(
-    path: "platforms/ios/DrivingExaminerService.xcodeproj",
+    path: "ios/App/App.xcodeproj",
     team_id: "K84TL26V3P"
   )
   disable_automatic_code_signing(path: "platforms/ios/DrivingExaminerService.xcodeproj")
   # Make sure the XCode project is using the VOSA/DVSA team
   update_project_team(
-   path: "platforms/ios/DrivingExaminerService.xcodeproj",
+   path: "ios/App/App.xcodeproj",
    teamid: "K84TL26V3P")
 
    # Update the project's provisioning settings to use our distribution cert
    update_project_provisioning(
-    xcodeproj: "platforms/ios/DrivingExaminerService.xcodeproj",
-    profile: "/Users/mes/certs/Mobile_Examiner_App.mobileprovision", 
-    target_filter: ".*DrivingExaminerService.*", # matches name or type of a target, see https://medium.com/@andersongusmao/xcode-targets-with-multiples-build-configuration-90a575ddc687 for an explanation 
+    xcodeproj: "ios/App/App.xcodeproj",
+    profile: "/Users/des/certs/Driving_Examiner_Services.mobileprovision", 
+    target_filter: ".*App.*", # matches name or type of a target, see https://medium.com/@andersongusmao/xcode-targets-with-multiples-build-configuration-90a575ddc687 for an explanation 
     build_configuration: "Release",
     code_signing_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
   )
@@ -41,11 +41,11 @@ platform :ios do
    build_ios_app(
     export_options: {
       provisioningProfiles: {
-        "uk.gov.dvsa.mobile-examiner-app" => "Mobile Examiner App",
+        "uk.gov.dvsa.drivingexaminerservices" => "DrivingExaminerServices",
       }
     },
-    project:  "platforms/ios/DrivingExaminerService.xcodeproj",
-        scheme: "DrivingExaminerService",
+   workspace:  "ios/App/App.xcworkspace",
+        scheme: "App",
         configuration: "Release",
         output_directory: "build",
         silent: false,
