@@ -7,7 +7,7 @@
     "postinstall": "node buildScripts/crypto-patch.js && node buildScripts/eslint-alloc-patch.js",
     "test": "npm run config:dev && ng test --no-watch --karma-config test-config/karma.conf.js",
     "test:reload": "npm run config:dev && ng test --watch --karma-config test-config/karma.conf.js",
-    "test:coverage": "npm run config:dev && ng test --karma-config test-config/karma.conf.js",
+    "test:coverage": "npm run config:dev && ng test --no-watch --karma-config test-config/karma.conf.js",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "run-s update-mock-data copy-mock-data schema-version config:local && ionic serve",
     "serve:emulator": "npm run schema-version && npm run config:dev && ionic cap run ios",
