@@ -40,6 +40,9 @@ import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journa
 export class TestOutcomeComponent implements OnInit {
 
   @Input()
+  applicationId: number;
+
+  @Input()
   slotDetail: SlotDetail;
 
   @Input()
