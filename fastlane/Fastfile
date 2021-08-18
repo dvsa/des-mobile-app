@@ -22,7 +22,7 @@ platform :ios do
     path: "ios/App/App.xcodeproj",
     team_id: "K84TL26V3P"
   )
-  disable_automatic_code_signing(path: "platforms/ios/DrivingExaminerService.xcodeproj")
+  disable_automatic_code_signing(path: "ios/App/App.xcodeproj")
   # Make sure the XCode project is using the VOSA/DVSA team
   update_project_team(
    path: "ios/App/App.xcodeproj",
