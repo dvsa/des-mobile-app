@@ -50,7 +50,7 @@ export const journalReducer = createReducer(
     payload,
   }): JournalModel => ({
     ...state,
-    // TODO: The reducer has to get the lastRefreshed date from the action
+    // @TODO MES-7134: The reducer has to get the lastRefreshed date from the action
     // And should not do any logic
     lastRefreshed: (onlineOffline
       === ConnectionStatus.ONLINE && !unAuthenticatedMode) ? new Date() : lastRefreshed,

@@ -179,7 +179,7 @@ describe('Journal Reducer', () => {
     });
   });
 
-  // @TODO: Enable when action is used, to be reintroduced in MES-6985
+  // @TODO MES-7134: Enable when action is used, to be reintroduced in MES-6985
   xdescribe('[JournalEffect] Load Completed Tests Success', () => {
     it('should save competed test details and also set loading state to false', () => {
       const state: JournalModel = {
