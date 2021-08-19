@@ -96,8 +96,7 @@ describe('Journal Effects', () => {
     // ASSERT
     effects.loadJournal$.subscribe((result) => {
       expect(journalProvider.getJournal).toHaveBeenCalled();
-      // @TODO MES-7134: Reinstate when offline functionality is done
-      // expect(journalProvider.saveJournalForOffline).toHaveBeenCalled();
+      expect(journalProvider.saveJournalForOffline).toHaveBeenCalled();
       expect(slotProvider.detectSlotChanges).toHaveBeenCalled();
       expect(slotProvider.extendWithEmptyDays).toHaveBeenCalled();
       expect(slotProvider.getRelevantSlots).toHaveBeenCalled();
@@ -120,8 +119,7 @@ describe('Journal Effects', () => {
     // ASSERT
     effects.loadJournal$.subscribe((result) => {
       expect(journalProvider.getJournal).toHaveBeenCalled();
-      // @TODO MES-7134: Reinstate when offline functionality is done
-      // expect(journalProvider.saveJournalForOffline).not.toHaveBeenCalled();
+      expect(journalProvider.saveJournalForOffline).not.toHaveBeenCalled();
       expect(slotProvider.detectSlotChanges).not.toHaveBeenCalled();
       expect(slotProvider.extendWithEmptyDays).not.toHaveBeenCalled();
       expect(slotProvider.getRelevantSlots).not.toHaveBeenCalled();
