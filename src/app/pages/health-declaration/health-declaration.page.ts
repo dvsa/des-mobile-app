@@ -5,7 +5,7 @@ import {
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
 import { Observable, Subscription, merge } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { select, Store } from '@ngrx/store';
@@ -77,6 +77,8 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   subscription: Subscription;
   inputSubscriptions: Subscription[] = [];
   merged$: Observable<boolean | string>;
+  formControl: FormControl;
+  static readonly fieldName: string = 'healthCheckbox';
 
   constructor(
     platform: Platform,
@@ -96,6 +98,18 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
 
   ionViewDidEnter() {
     this.store$.dispatch(new HealthDeclarationViewDidEnter());
+  }
+
+  ngOnChanges(): void {
+    if (!this.formControl) {
+      this.formControl = new FormControl('', []);
+      this.form.addControl(HealthDeclarationPage.fieldName, this.formControl);
+    }
+    this.formControl.patchValue(this.healthDeclarationAccepted);
+  }
+
+  isInvalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
   }
 
   ngOnInit() {

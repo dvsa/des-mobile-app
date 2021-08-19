@@ -4,12 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HealthDeclarationPageRoutingModule } from './health-declaration-routing.module';
-
-import { HealthDeclarationPage } from './health-declaration.page';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { WaitingRoomComponentsModule } from '@pages/waiting-room/components/waiting-room.components.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { HealthDeclarationPageRoutingModule } from './health-declaration-routing.module';
+import { HealthDeclarationPage } from './health-declaration.page';
 
 @NgModule({
   imports: [
