@@ -40,26 +40,26 @@ import { getEco, getTestRequirements, getETA } from '@store/tests/test-data/comm
 import { Eco, TestRequirements, ETA } from '@dvsa/mes-test-schema/categories/common';
 import * as uncoupleRecoupleActions
   from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-// @TODO - need to import components
+// @TODO MES-7130: need to import components
 // import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
 import { getTestData as getCatAmod1TestData } from
   '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
-// @ TODO - Cat A Mod 1
+// @TODO MES-7149: Cat A Mod 1
 // import { getAvoidance } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
 import { EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 import { speedCheckToggleValues } from '@shared/constants/competencies/cata-mod1-speed-checks';
 import { getEmergencyStop } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
 import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
-// @ TODO - Cat A Mod 1
+// @TODO MES-7149: Cat A Mod 1
 // import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
 // import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import * as singleFaultCompetencyActions from
   '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
-// @ TODO - Cat A Mod 1
+// @TODO MES-7149: Cat A Mod 1
 // import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
-// @TODO - Cat D
+// @TODO MES-7148 - Cat D
 // import * as pcvDoorExerciseActions from
 //   '../../modules/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
 import {
@@ -1128,7 +1128,7 @@ export class TestReportAnalyticsEffects {
     }),
   ));
 
-  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
+  // @TODO - MES-7149 - enable once component migrated
   // reverseLeftPopoverOpened$ = this.actions$.pipe(
   //   ofType(reverseLeftActions.REVERSE_LEFT_POPOVER_OPENED),
   //   concatMap(action => of(action).pipe(
@@ -1147,7 +1147,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // );
 
-  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
+  // @TODO - MES-7149 - enable once component migrated
   // reverseLeftPopoverClosed$ = this.actions$.pipe(
   //   ofType(reverseLeftActions.REVERSE_LEFT_POPOVER_CLOSED),
   //   concatMap(action => of(action).pipe(
@@ -1166,7 +1166,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // );
   //
-  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
+  // @TODO - MES-7149 - enable once component migrated
   // toggleAvoidanceSpeedReq$ = this.actions$.pipe(
   //   ofType(
   //     avoidanceActions.ADD_AVOIDANCE_SERIOUS_FAULT,
@@ -1193,7 +1193,7 @@ export class TestReportAnalyticsEffects {
   //   ),
   // );
   //
-  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
+  // @TODO - MES-7149 - enable once component migrated
   // recordAvoidanceFirstAttempt$ = this.actions$.pipe(
   //   ofType(
   //     avoidanceActions.RECORD_AVOIDANCE_FIRST_ATTEMPT,
@@ -1225,7 +1225,7 @@ export class TestReportAnalyticsEffects {
   //   ),
   // );
   //
-  // @TODO - MES-6879 - enable once component migrated | Cat B Dependency
+  // @TODO - MES-7149 - enable once component migrated
   // recordAvoidanceSecondAttempt$ = this.actions$.pipe(
   //   ofType(
   //     avoidanceActions.RECORD_AVOIDANCE_SECOND_ATTEMPT,
@@ -1367,7 +1367,7 @@ export class TestReportAnalyticsEffects {
     }),
   ));
 
-  // @TODO - enable with Cat A Mod 1
+  // @TODO MES-7149 - enable with Cat A Mod 1
   // @Effect()
   // speedRequirementNotMetModalOpened$ = this.actions$.pipe(
   //   ofType(
@@ -1393,7 +1393,7 @@ export class TestReportAnalyticsEffects {
   //   ),
   // );
 
-  // @TODO - enable with Cat A Mod 1
+  // @TODO MES-7149 - enable with Cat A Mod 1
   // emergencyStopDangerousFaultModelOpened$ = this.actions$.pipe(
   //   ofType(
   //     testReportCatAMod1Actions.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED,
@@ -1418,7 +1418,7 @@ export class TestReportAnalyticsEffects {
   //   ),
   // );
   //
-  // @TODO - enable with Cat A Mod 1
+  // @TODO MES-7149 - enable with Cat A Mod 1
   // emergencyStopSeriousFaultModelOpened$ = this.actions$.pipe(
   //   ofType(
   //     testReportCatAMod1Actions.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED,
@@ -1544,7 +1544,7 @@ export class TestReportAnalyticsEffects {
     ),
   ));
 
-  // @TODO - Cat D - enable this effect
+  // @TODO MES-7148- Cat D - enable this effect
   // pcvDoorExerciseAddDrivingFault$ = createEffect(() => this.actions$.pipe(
   //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT),
   //   concatMap(action => of(action).pipe(
@@ -1564,7 +1564,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // ));
 
-  // @TODO - Cat D - enable this effect
+  // @TODO MES-7148- Cat D - enable this effect
   // pcvDoorExerciseAddSeriousFault$ = this.actions$.pipe(
   //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT),
   //   concatMap(action => of(action).pipe(
@@ -1584,7 +1584,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // );
   //
-  // @TODO - Cat D - enable this effect
+  // @TODO MES-7148- Cat D - enable this effect
   // pcvDoorExerciseAddDangerousFault$ = this.actions$.pipe(
   //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT),
   //   concatMap(action => of(action).pipe(
@@ -1604,7 +1604,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // );
   //
-  // @TODO - Cat D - enable this effect
+  // @TODO MES-7148- Cat D - enable this effect
   // pcvDoorExerciseRemoveDrivingFault$ = this.actions$.pipe(
   //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT),
   //   concatMap(action => of(action).pipe(
@@ -1624,7 +1624,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // );
   //
-  // @TODO - Cat D - enable this effect
+  // @TODO MES-7148 - Cat D - enable this effect
   // pcvDoorExerciseRemoveSeriousFault$ = this.actions$.pipe(
   //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT),
   //   concatMap(action => of(action).pipe(
@@ -1644,7 +1644,7 @@ export class TestReportAnalyticsEffects {
   //   }),
   // );
   //
-  // @TODO - Cat D - enable this effect
+  // @TODO MES-7148 - Cat D - enable this effect
   // pcvDoorExerciseRemoveDangerousFault$ = this.actions$.pipe(
   //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT),
   //   concatMap(action => of(action).pipe(

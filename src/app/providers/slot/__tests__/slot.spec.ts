@@ -1,4 +1,3 @@
-// TODO reintroduce in MES-6242
 import { TestBed } from '@angular/core/testing';
 import { cloneDeep } from 'lodash';
 

@@ -35,7 +35,7 @@ import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { SpeedCheckState } from './test-report-validator.constants';
 import { FaultCountProvider } from '../fault-count/fault-count';
 
-// @TODO - fix linting errors in this file
+// @TODO - MES-7147 fix linting errors in this file
 /* eslint-disable */
 @Injectable()
 export class TestReportValidatorProvider {
@@ -71,7 +71,7 @@ export class TestReportValidatorProvider {
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
         return this.validateLegalRequirementsCatEUAM2(data);
-        // @TODO - Enable with Home Tests
+        // @TODO - MES-7147 Enable with Home Tests
 
         // case TestCategory.F:
       // case TestCategory.G:
@@ -114,7 +114,7 @@ export class TestReportValidatorProvider {
       case TestCategory.EUAM2:
       case TestCategory.EUAMM2:
         return this.getMissingLegalRequirementsCatEUAM2(data);
-        // @TODO - Enable with Home Tests
+        // @TODO - MES-7147 Enable with Home Tests
         // case TestCategory.F:
       // case TestCategory.G:
       // case TestCategory.H:
@@ -603,7 +603,7 @@ export class TestReportValidatorProvider {
     return result;
   }
 
-  // @TODO - Enable with Home Tests
+  // @TODO - MES-7147 Enable with Home Tests
   // private validateLegalRequirementsCatHomeTest(data: HomeTestData): boolean {
   //   const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
   //   const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);

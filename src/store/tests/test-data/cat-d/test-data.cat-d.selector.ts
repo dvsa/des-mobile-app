@@ -20,7 +20,7 @@ export const getDrivingFaultCount = (
 
 export const getManoeuvres = (data: CatDTestData): CatDManoeuvres => data.manoeuvres;
 
-// TODO - We should pass a Manoeuvre object here instead of TestData
+// @TODO: MES-7135 - We should pass a Manoeuvre object here instead of TestData
 export const hasManoeuvreBeenCompletedCatD = (data: CatDTestData) => {
   return (
     get(data.manoeuvres, 'reverseLeft.selected')
