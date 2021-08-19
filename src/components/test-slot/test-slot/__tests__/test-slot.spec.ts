@@ -411,7 +411,7 @@ describe('TestSlotComponent', () => {
         ).componentInstance;
 
         expect(subByDirective.slotDetail.slotId).toEqual(mockSlot.slotDetail.slotId);
-        expect(subByDirective.canStartTest).toEqual(true);
+        expect(subByDirective.canStartTest).toEqual(false);
         // expect(subByDirective.testStatus).toBe(TestStatus.Booked);
       });
 
