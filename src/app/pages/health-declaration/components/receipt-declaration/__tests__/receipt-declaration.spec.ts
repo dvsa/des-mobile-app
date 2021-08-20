@@ -1,13 +1,12 @@
-
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { IonicModule } from 'ionic-angular';
 import { EventEmitter } from '@angular/core';
-import { ReceiptDeclarationComponent } from '../receipt-declaration';
 import {
   TranslateModule,
 } from '@ngx-translate/core';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { IonicModule } from '@ionic/angular';
+import { ReceiptDeclarationComponent } from '../receipt-declaration';
 
 describe('ReceiptDeclarationComponent', () => {
   let fixture: ComponentFixture<ReceiptDeclarationComponent>;

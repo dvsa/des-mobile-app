@@ -1,8 +1,5 @@
-
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { IonicModule } from 'ionic-angular';
 import { EventEmitter } from '@angular/core';
-import { HealthDeclarationComponent } from '../health-declaration';
 import {
   TranslateModule,
   TranslateService,
@@ -11,6 +8,8 @@ import {
 } from '@ngx-translate/core';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { IonicModule } from '@ionic/angular';
+import { HealthDeclarationComponent } from '../health-declaration';
 
 describe('HealthDeclarationComponent', () => {
   let fixture: ComponentFixture<HealthDeclarationComponent>;
