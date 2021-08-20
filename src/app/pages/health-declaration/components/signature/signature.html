@@ -1,0 +1,15 @@
+<ion-row class="signature-validation-row" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="isInvalid('signatureAreaCtrl')"></div>
+  <ion-col no-padding>
+    <ion-row no-padding class="declaration-signature-row">
+      <ion-col no-padding class="declaration-signature-col">
+        <signature-area formControlName="signature" [signature]="signature$ | async"
+          retryButtonText="{{ 'healthDeclaration.signatureRetry' | translate }}"
+          signHereText="{{ 'healthDeclaration.signaturePrompt' | translate}}"
+          validationErrorText="{{ 'healthDeclaration.signatureValidation' | translate}}"
+          [showValidText]="isInvalid('signature')">
+        </signature-area>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+</ion-row>

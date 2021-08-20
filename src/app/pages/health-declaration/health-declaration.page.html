@@ -18,74 +18,18 @@
           <h4>{{ 'healthDeclaration.declarationIntent' | translate }}:</h4>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col>
-          <ul>
-            <li>
-              <p>{{ 'healthDeclaration.healthDeclaration' | translate }}</p>
-            </li>
-          </ul>
-        </ion-col>
-      </ion-row>
-      <ion-row [formGroup]="form">
-        <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
-        <ion-col>
-          <ion-row>
-            <ion-col class="declaration-checkbox-row">
-              <input formControlName="healthCheckbox" type="checkbox" class="gds-checkbox"
-                     [class.ng-invalid]="isInvalid()" id="health-declaration-checkbox" [checked]="pageState.healthDeclarationAccepted$ | async"
-                     (click)="healthDeclarationChanged()">
-              <label for="health-declaration-checkbox">{{ 'healthDeclaration.confirm' | translate }}</label>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <div id="health-change-validation-text" class="validation-text-with-row-spacing"
-                   [class.ng-invalid]="isInvalid()">
-                {{ 'healthDeclaration.healthDeclarationValidation' | translate }}
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-col>
-      </ion-row>
+      <health-declaration [formGroup]="form" [selected]="pageState.healthDeclarationAccepted$ | async"
+                          (healthDeclarationChange)="healthDeclarationChanged()">
+      </health-declaration>
       <ion-row>
         <ion-col></ion-col>
       </ion-row>
-      <div>
-        <ul>
-          <li>
-            <p id="declaration-pass-certificate-number">
-              {{ 'healthDeclaration.certificateReceived' | translate }}: {{ pageState.passCertificateNumber$ | async }}
-            </p>
-          </li>
-        </ul>
-      </div>
-      <ion-row [formGroup]="form">
-        <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
-        <ion-col>
-          <ion-row>
-            <ion-col class="declaration-checkbox-row">
-              <input formControlName="receiptCheckbox" type="checkbox" class="gds-checkbox"
-                     [class.ng-invalid]="isInvalid()" id="receipt-declaration-checkbox"
-                     [checked]="receiptDeclarationChanged()" (click)="receiptDeclarationChanged()">
-              <label for="receipt-declaration-checkbox">{{ 'healthDeclaration.confirm' | translate }}</label>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <div id="pass-certificate-receipt-validation-text" class="validation-text-with-row-spacing"
-                   [class.ng-invalid.withRowMargin]="isInvalid()">
-                {{ 'healthDeclaration.certificateReceivedValidation' | translate }}
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-col>
-      </ion-row>
-
+      <receipt-declaration [formGroup]="form" [selected]="pageState.receiptDeclarationAccepted$ | async"
+                           (receiptDeclarationChange)="receiptDeclarationChanged()" [certificateNumber]="pageState.passCertificateNumber$ | async">
+      </receipt-declaration>
       <div class="signature-area-padding"></div>
       <signature [formGroup]="form" [signature]="pageState.signature$ | async"
-                 (signatureDataChange)="signatureChanged($event)"
-                 (signatureCleared)="signatureCleared()">
+                 (drawCompleteAction)="getSignatureDrawCompleteAction($event)" (clearAction)="getSignatureClearAction()">
       </signature>
     </div>
   </form>

@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  AlertController, NavController, NavParams, Platform,
+  AlertController, NavController, Platform,
 } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
@@ -18,8 +18,6 @@ import {
   HealthDeclarationViewDidEnter,
   HealthDeclarationValidationError, ContinueFromDeclaration,
 } from '@pages/health-declaration/health-declaration.actions';
-import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
-import { SignatureComponent } from '@pages/waiting-room/components/signature/signature';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -67,8 +65,8 @@ interface HealthDeclarationPageState {
 })
 export class HealthDeclarationPage extends PracticeableBasePageComponent implements OnInit {
 
-  @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
-  @ViewChild(SignatureComponent) signatureComponent: SignatureComponent;
+  // @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
+  // @ViewChild(SignatureComponent) signatureComponent: SignatureComponent;
 
   pageState: HealthDeclarationPageState;
   form: FormGroup;
@@ -86,7 +84,6 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     router: Router,
     store$: Store<StoreModel>,
     private navController: NavController,
-    public navParams: NavParams,
     private deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
     public alertController: AlertController,
@@ -189,11 +186,11 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     return true;
   }
 
-  signatureChanged(signature: string): void {
+  getSignatureDrawCompleteAction(signature: string): void {
     this.store$.dispatch(postTestDeclarationsActions.SignatureDataChanged(signature));
   }
 
-  signatureCleared(): void {
+  getSignatureClearAction(): void {
     this.store$.dispatch(postTestDeclarationsActions.SignatureDataCleared());
   }
 

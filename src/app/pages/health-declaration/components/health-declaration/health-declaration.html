@@ -1,0 +1,30 @@
+<ion-row>
+    <ion-col>
+        <ul>
+            <li>
+                <p>{{ 'healthDeclaration.healthDeclaration' | translate }}</p>
+            </li>
+        </ul>
+    </ion-col>
+</ion-row>
+<ion-row [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
+    <ion-col>
+        <ion-row>
+            <ion-col class="declaration-checkbox-row">
+                <input formControlName="healthCheckbox" type="checkbox" class="gds-checkbox"
+                    [class.ng-invalid]="isInvalid()" id="health-declaration-checkbox" [checked]="selected"
+                    (click)="healthDeclarationChanged()">
+                <label for="health-declaration-checkbox">{{ 'healthDeclaration.confirm' | translate }}</label>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <div id="health-change-validation-text" class="validation-text-with-row-spacing"
+                    [class.ng-invalid]="isInvalid()">
+                    {{ 'healthDeclaration.healthDeclarationValidation' | translate }}
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-col>
+</ion-row>
