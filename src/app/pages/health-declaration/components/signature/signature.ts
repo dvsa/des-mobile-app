@@ -7,6 +7,7 @@ import { SignatureAreaComponent } from '@components/common/signature-area/signat
 @Component({
   selector: 'signature',
   templateUrl: 'signature.html',
+  styleUrls: ['signature.scss'],
 })
 export class SignatureComponent implements OnInit, OnChanges {
 

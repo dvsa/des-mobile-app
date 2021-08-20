@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Component({
   selector: 'receipt-declaration',
   templateUrl: 'receipt-declaration.html',
+  styleUrls: ['receipt-declaration.scss'],
 })
 export class ReceiptDeclarationComponent implements OnChanges {
 

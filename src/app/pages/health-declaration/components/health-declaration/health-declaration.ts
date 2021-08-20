@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 @Component({
   selector: 'health-declaration',
   templateUrl: 'health-declaration.html',
+  styleUrls: ['health-declaration.scss'],
 })
 export class HealthDeclarationComponent implements OnChanges {
 
