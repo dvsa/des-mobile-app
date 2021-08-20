@@ -29,8 +29,8 @@ export class SignatureComponent implements OnInit, OnChanges {
   static readonly fieldName: string = 'signature';
 
   ngOnInit(): void {
-    this.signatureArea.drawCompleteAction = this.drawCompleteAction;
-    this.signatureArea.clearAction = this.clearAction;
+    // this.signatureArea.drawCompleteAction = this.drawCompleteAction;
+    // this.signatureArea.clearAction = this.clearAction;
   }
 
   ngOnChanges(): void {
