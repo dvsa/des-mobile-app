@@ -1,50 +1,48 @@
 <ion-header>
-  <ion-toolbar mode="ios">
-    <ion-buttons id="burger-menu" slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-      <ion-buttons slot="end">
-          <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
-      </ion-buttons>
-    <ion-title id="page-title">My dashboard</ion-title>
-  </ion-toolbar>
+    <ion-toolbar mode="ios">
+        <ion-buttons id="burger-menu" slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+        </ion-buttons>
+        <ion-title id="page-title">My dashboard</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
-  <div>
-    <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async" [role]="pageState.role$ | async"></profile-header>
-    <hr/>
-    <h4 id="date-field" class="date">{{todaysDateFormatted}}</h4>
-    <ion-grid class="dashboard-grid">
-      <ion-row *ngIf="!showDelegatedExaminerRekey()">
-        <ion-col size="48">
-          <go-to-journal-card></go-to-journal-card>
-        </ion-col>
-        <ion-col size="48">
-          <test-centre-journal-card></test-centre-journal-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <test-results-search-card></test-results-search-card>
-        </ion-col>
-        <ion-col *ngIf="!showDelegatedExaminerRekey()">
-          <rekey-search-card></rekey-search-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <hr *ngIf="!showDelegatedExaminerRekey() &&
-     (showEndToEndPracticeMode() || showTestReportPracticeMode())" />
-    <practice-test-report-card id="testReportPracticeMode"
-                               *ngIf="
-                               showTestReportPracticeMode() &&
-                               !showDelegatedExaminerRekey()"></practice-test-report-card>
-    <practice-end-to-end-card id="endToendPracticeMode"
-                              *ngIf="
-                              showEndToEndPracticeMode() &&
-                              !showDelegatedExaminerRekey()"></practice-end-to-end-card>
-  </div>
+    <div>
+        <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async"
+                        [role]="pageState.role$ | async"></profile-header>
+        <hr/>
+        <h4 id="date-field" class="date">{{todaysDateFormatted}}</h4>
+        <ion-grid class="dashboard-grid">
+            <ion-row *ngIf="!showDelegatedExaminerRekey()">
+                <ion-col size="48">
+                    <go-to-journal-card></go-to-journal-card>
+                </ion-col>
+                <ion-col size="48">
+                    <test-centre-journal-card></test-centre-journal-card>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <test-results-search-card></test-results-search-card>
+                </ion-col>
+                <ion-col>
+                    <rekey-search-card></rekey-search-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())"/>
+        <practice-test-report-card id="testReportPracticeMode"
+                                   *ngIf="
+                               showTestReportPracticeMode()"></practice-test-report-card>
+        <practice-end-to-end-card id="endToendPracticeMode"
+                                  *ngIf="
+                              showEndToEndPracticeMode()"></practice-end-to-end-card>
+    </div>
 
 </ion-content>
