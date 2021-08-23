@@ -28,9 +28,11 @@
                            (receiptDeclarationChange)="receiptDeclarationChanged()" [certificateNumber]="pageState.passCertificateNumber$ | async">
       </receipt-declaration>
       <div class="signature-area-padding"></div>
-<!--      <signature [formGroup]="form" [signature]="pageState.signature$ | async"-->
-<!--                 (drawCompleteAction)="getSignatureDrawCompleteAction($event)" (clearAction)="getSignatureClearAction()">-->
-<!--      </signature>-->
+      <signature [formGroup]="form"
+                 [signature]="pageState.signature$ | async"
+                 (signatureDataChange)="getSignatureDrawCompleteAction($event)"
+                 (signatureCleared)="getSignatureClearAction()">
+      </signature>
     </div>
   </form>
 </ion-content>

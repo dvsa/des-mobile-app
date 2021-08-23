@@ -409,9 +409,6 @@
     "declarationIntent": "Rwy’n datgan",
     "healthDeclaration": "Ni fu unrhyw newid yn statws fy iechyd ers i mi wneud cais am drwydded ddiwethaf",
     "healthDeclarationValidation": "Cadarnhewch na fu unrhyw newid yn statws eich iechyd",
-    "signaturePrompt": "Llofnodwch yma",
-    "signatureRetry": "Ailgynnig",
-    "signatureValidation": "Nodwch lofnod",
     "title": "Ôl-drafodaeth y prawf"
   },
   "waitingRoom": {
@@ -421,9 +418,11 @@
     "insuranceDeclarationValidation": "Cadarnhewch fod y cerbyd wedi'i yswirio at ddiben y prawf",
     "residencyDeclaration": "Fel rheol, rwyf yn byw/wedi byw yn y DU am o leiaf 185 diwrnod yn ystod y 12 mis diwethaf",
     "residencyDeclarationValidation": "Cadarnhewch eich bod yn byw yn y DU",
+    "title": "Datganiad"
+  },
+  "signature": {
     "signaturePrompt": "Llofnodwch yma",
     "signatureRetry": "Ailgynnig",
-    "signatureValidation": "Nodwch lofnod",
-    "title": "Datganiad"
+    "signatureValidation": "Nodwch lofnod"
   }
 }

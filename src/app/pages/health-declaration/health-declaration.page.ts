@@ -65,9 +65,6 @@ interface HealthDeclarationPageState {
 })
 export class HealthDeclarationPage extends PracticeableBasePageComponent implements OnInit {
 
-  // @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
-  // @ViewChild(SignatureComponent) signatureComponent: SignatureComponent;
-
   pageState: HealthDeclarationPageState;
   form: FormGroup;
   licenseProvided: boolean;

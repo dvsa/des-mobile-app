@@ -49,7 +49,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { SignatureComponent } from '../components/signature/signature';
+import { SignatureComponent } from '../../../../components/common/signature/signature';
 import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
 import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
