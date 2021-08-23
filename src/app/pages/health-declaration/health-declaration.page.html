@@ -7,7 +7,7 @@
 
 <ion-content no-bounce>
   <lock-screen-indicator></lock-screen-indicator>
-  <form [formGroup]="form">
+  <form [formGroup]="formGroup">
     <candidate-section [candidateName]="pageState.candidateName$ | async"
                        [candidateDriverNumber]="pageState.candidateDriverNumber$ | async" (continueClickEvent)="onSubmit()"
                        [healthDecScreen]="true">
@@ -19,19 +19,21 @@
           <h4>{{ 'healthDeclaration.declarationIntent' | translate }}:</h4>
         </ion-col>
       </ion-row>
-      <health-declaration [formGroup]="form" [selected]="pageState.healthDeclarationAccepted$ | async"
+      <health-declaration [formGroup]="formGroup" [selected]="pageState.healthDeclarationAccepted$ | async"
                           (healthDeclarationChange)="healthDeclarationChanged()">
       </health-declaration>
       <ion-row>
         <ion-col></ion-col>
       </ion-row>
-      <receipt-declaration [formGroup]="form" [selected]="pageState.receiptDeclarationAccepted$ | async"
+      <receipt-declaration [formGroup]="formGroup" [selected]="pageState.receiptDeclarationAccepted$ | async"
                            (receiptDeclarationChange)="receiptDeclarationChanged()" [certificateNumber]="pageState.passCertificateNumber$ | async">
       </receipt-declaration>
       <div class="signature-area-padding"></div>
-<!--      <signature [formGroup]="form" [signature]="pageState.signature$ | async"-->
-<!--                 (drawCompleteAction)="getSignatureDrawCompleteAction($event)" (clearAction)="getSignatureClearAction()">-->
-<!--      </signature>-->
+      <signature [formGroup]="formGroup"
+                 [signature]="pageState.signature$ | async"
+                 (signatureDataChange)="getSignatureDrawCompleteAction($event)"
+                 (signatureCleared)="getSignatureClearAction()">
+      </signature>
     </div>
   </form>
 </ion-content>

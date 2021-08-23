@@ -8,7 +8,6 @@ import { DirectivesModule } from '@directives/directives.module';
 import { ConductedLanguageComponent } from './conducted-language/conducted-language';
 import { InsuranceDeclarationComponent } from './insurance-declaration/insurance-declaration';
 import { ResidencyDeclarationComponent } from './residency-declaration/residency-declaration';
-import { SignatureComponent } from './signature/signature';
 import { CBTNumberComponent } from './cbt-number/cbt-number';
 
 @NgModule({
@@ -16,7 +15,6 @@ import { CBTNumberComponent } from './cbt-number/cbt-number';
     ConductedLanguageComponent,
     InsuranceDeclarationComponent,
     ResidencyDeclarationComponent,
-    SignatureComponent,
     CBTNumberComponent,
   ],
   imports: [
@@ -31,7 +29,6 @@ import { CBTNumberComponent } from './cbt-number/cbt-number';
     ConductedLanguageComponent,
     InsuranceDeclarationComponent,
     ResidencyDeclarationComponent,
-    SignatureComponent,
     CBTNumberComponent,
   ],
 })

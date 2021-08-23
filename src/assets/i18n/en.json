@@ -409,9 +409,6 @@
     "declarationIntent": "I declare that",
     "healthDeclaration": "There has been no change in my health status since I last applied for a licence.",
     "healthDeclarationValidation": "Confirm that there has been no change in your health status",
-    "signaturePrompt": "Sign here",
-    "signatureRetry": "Retry",
-    "signatureValidation": "Enter a signature",
     "title": "Test debrief"
   },
   "waitingRoom": {
@@ -421,9 +418,11 @@
     "insuranceDeclarationValidation": "Confirm that the vehicle is insured for the purpose of the test",
     "residencyDeclaration": "I normally live/have lived in the UK for at least 185 days in the last 12 months.",
     "residencyDeclarationValidation": "Confirm that you live in the UK",
+    "title": "Declaration"
+  },
+  "signature": {
     "signaturePrompt": "Sign here",
     "signatureRetry": "Retry",
-    "signatureValidation": "Enter a signature",
-    "title": "Declaration"
+    "signatureValidation": "Enter a signature"
   }
 }
