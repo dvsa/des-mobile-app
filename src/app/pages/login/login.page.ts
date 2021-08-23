@@ -72,8 +72,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       await this.appConfigProvider.initialiseAppConfig();
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
       await this.router.navigate([DASHBOARD_PAGE]);
-      // @TODO: Add hide function when splash screen is implemented
-      // this.splashScreen.hide();
     }
   }
 

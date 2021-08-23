@@ -48,7 +48,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRo
 })
 export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent implements OnInit {
 
-  isPracticeMode: boolean = false; // @TODO - Remove this and read directly from practice base page
+  isPracticeMode: boolean = false; // @TODO - MES-6867 Remove this and read directly from practice base page
   pageState: WaitingRoomToCarPageState;
   form: FormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
@@ -111,7 +111,6 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
 
     if (this.form.valid) {
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
-      // @TODO: We previously removed the WRTC page from the stack, do we need to this?
     } else {
       Object.keys(this.form.controls).forEach((controlName: string) => {
         if (this.form.controls[controlName].invalid) {

@@ -11,7 +11,7 @@ import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.moc
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '../../logs/logs-helper';
 
-// TODO reinstate after mes-6488
+// @TODO MES-7132: reinstate tests
 xdescribe('Device Provider', () => {
 
   let deviceProvider: DeviceProvider;
@@ -76,7 +76,7 @@ xdescribe('Device Provider', () => {
   });
 
   describe('singleAppMode', () => {
-    // TODO reinstate test when device uses new capacitor plugin
+    // @TODO MES-7132 reinstate test when device uses new capacitor plugin
     xit('should return true when enabling single app mode', async () => {
       const result = await deviceProvider.enableSingleAppMode();
       expect(result).toBe(true);
@@ -100,7 +100,7 @@ xdescribe('Device Provider', () => {
       expect(store$.dispatch).toHaveBeenCalledWith(asamFailureLog);
     });
 
-    // TODO reinstate test when device uses new capacitor plugin
+    // @TODO MES-7132 reinstate test when device uses new capacitor plugin
     xit('should return true when disabling single app mode', async () => {
       const result = await deviceProvider.disableSingleAppMode();
       expect(result).toBe(true);
