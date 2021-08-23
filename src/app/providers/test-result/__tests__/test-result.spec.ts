@@ -50,7 +50,7 @@ describe('TestResultCalculatorProvider', () => {
     testResultProvider = TestBed.inject(TestResultProvider);
   });
 
-  // TODO: reinstate tests when home tests dependencies have been implemented (see test-result.ts)
+  // @TODO: MES-7147 reinstate tests when home tests dependencies have been implemented (see test-result.ts)
   xdescribe('calculateTestResult', () => {
     describe(`${allCategories.join(', ')}`, () => {
       categories.forEach((cat) => {
@@ -128,7 +128,7 @@ describe('TestResultCalculatorProvider', () => {
       });
     });
 
-    // TODO: reinstate tests when home tests dependencies have been implemented (see test-result.ts)
+    // @TODO: MES-7147 reinstate tests when home tests dependencies have been implemented (see test-result.ts)
     xdescribe(`${categories.join(', ')}`, () => {
       categories.forEach((cat) => {
         it(`should return a Fail when there are 16 driving faults for a Cat ${cat} test`, (done) => {

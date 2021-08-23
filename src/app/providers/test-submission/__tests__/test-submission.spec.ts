@@ -16,7 +16,7 @@ import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { UrlProvider } from '../../url/url';
 import { TestSubmissionProvider, TestToSubmit } from '../test-submission';
 
-// TODO reinstate after mes-6491
+// @TODO MES-7150 - reinstate
 xdescribe('TestSubmissionProvider', () => {
 
   let testSubmissionProvider: TestSubmissionProvider;
@@ -57,7 +57,7 @@ xdescribe('TestSubmissionProvider', () => {
     spyOn(httpClient, 'post').and.callThrough();
   });
 
-  xdescribe('submitTests', () => { // TODO: fix test - Type '"response"' is not assignable to type '"body"'.
+  xdescribe('submitTests', () => { // @TODO: MES-7150 fix test - Type '"response"' is not assignable to type '"body"'.
     it('should attempt to submit a test', () => {
       testSubmissionProvider.submitTests([{
         index: 0,
@@ -101,7 +101,7 @@ xdescribe('TestSubmissionProvider', () => {
       expect(json).toEqual(mockData);
     });
   });
-  xdescribe('removeNullFieldsDeep', () => { // TODO - fix test
+  xdescribe('removeNullFieldsDeep', () => { // @TODO MES-7150 - fix test
     it('should successfully remove null props from the provided data', () => {
 
       /*

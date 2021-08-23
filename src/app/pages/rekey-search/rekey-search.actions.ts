@@ -1,4 +1,3 @@
-// @TODO: Consider moving this logic to the store folder, same applied to all NGRX files inside rekey-search
 import { createAction, union } from '@ngrx/store';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { HttpErrorResponse } from '@angular/common/http';

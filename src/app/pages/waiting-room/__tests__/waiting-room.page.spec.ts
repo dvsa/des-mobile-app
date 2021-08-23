@@ -191,7 +191,7 @@ describe('WaitingRoomPage', () => {
         expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
       });
 
-      // @TODO - fix failing test
+      // @TODO MES-6867 - fix failing test
       xit('should note enable single app mode if on ios and in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         PracticeableBasePageComponent.prototype.isPracticeMode = true;
