@@ -66,7 +66,7 @@ interface HealthDeclarationPageState {
 export class HealthDeclarationPage extends PracticeableBasePageComponent implements OnInit {
 
   pageState: HealthDeclarationPageState;
-  form: FormGroup;
+  formGroup: FormGroup;
   licenseProvided: boolean;
   healthDeclarationAccepted: boolean;
   subscription: Subscription;
@@ -87,7 +87,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     public routeByCat: RouteByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
-    this.form = new FormGroup({});
+    this.formGroup = new FormGroup({});
   }
 
   ionViewDidEnter() {
@@ -97,7 +97,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl('', []);
-      this.form.addControl(HealthDeclarationPage.fieldName, this.formControl);
+      this.formGroup.addControl(HealthDeclarationPage.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.healthDeclarationAccepted);
   }
@@ -200,8 +200,8 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   }
 
   async onSubmit() {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
-    if (this.form.valid) {
+    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
+    if (this.formGroup.valid) {
       if (!this.healthDeclarationAccepted) {
         this.showConfirmHealthDeclarationModal();
       } else {
@@ -209,8 +209,8 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       }
       return;
     }
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
+    Object.keys(this.formGroup.controls).forEach((controlName) => {
+      if (this.formGroup.controls[controlName].invalid) {
         this.store$.dispatch(new HealthDeclarationValidationError(`${controlName} is blank`));
       }
     });
