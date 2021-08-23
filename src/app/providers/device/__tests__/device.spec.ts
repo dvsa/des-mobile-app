@@ -75,8 +75,8 @@ describe('Device Provider', () => {
   });
 
   describe('singleAppMode', () => {
-    // TODO reinstate test when device uses new capacitor plugin
-    xit('should return true when enabling single app mode', async () => {
+    it('should return true when enabling single app mode', async () => {
+      spyOn(deviceProvider, 'setSingleAppMode').and.returnValue(Promise.resolve(true));
       const result = await deviceProvider.enableSingleAppMode();
       expect(result).toBe(true);
     });
@@ -99,8 +99,8 @@ describe('Device Provider', () => {
       expect(store$.dispatch).toHaveBeenCalledWith(asamFailureLog);
     });
 
-    // TODO reinstate test when device uses new capacitor plugin
-    xit('should return true when disabling single app mode', async () => {
+    it('should return true when disabling single app mode', async () => {
+      spyOn(deviceProvider, 'setSingleAppMode').and.returnValue(Promise.resolve(true));
       const result = await deviceProvider.disableSingleAppMode();
       expect(result).toBe(true);
     });
