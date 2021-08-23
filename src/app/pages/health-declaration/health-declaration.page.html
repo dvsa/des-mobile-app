@@ -9,7 +9,8 @@
   <lock-screen-indicator></lock-screen-indicator>
   <form [formGroup]="form">
     <candidate-section [candidateName]="pageState.candidateName$ | async"
-                       [candidateDriverNumber]="pageState.candidateDriverNumber$ | async" (continueClickEvent)="onSubmit()">
+                       [candidateDriverNumber]="pageState.candidateDriverNumber$ | async" (continueClickEvent)="onSubmit()"
+                       [healthDecScreen]="true">
     </candidate-section>
     <div class="mes-full-width-card-separator"></div>
     <div class="mes-full-width-card" id="declaration-section">

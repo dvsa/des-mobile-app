@@ -27,6 +27,9 @@ export class CandidateSectionComponent {
   @Input()
   candidateDriverNumber: string;
 
+  @Input()
+  healthDecScreen: boolean;
+
   @Output()
   continueClickEvent = new EventEmitter<boolean>();
 
