@@ -29,6 +29,7 @@
                 </ion-row>
 
                 <license-provided
+                        *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
                         [form]="form"
                         [license]="pageState.provisionalLicense$ | async"
                         [licenseReceivedLabel]="'Provisional licence Received'"
@@ -37,8 +38,13 @@
                 </license-provided>
 
                 <licence-provided-warning-banner
+                        *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
                         [licenceProvided]="pageState.provisionalLicense$ | async">
                 </licence-provided-warning-banner>
+                <danger-banner
+                        *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )"
+                        [dangerText]="niMessage">
+                </danger-banner>
 
                 <transmission [formGroup]="form"
                               (transmissionChange)="transmissionChanged($event)">

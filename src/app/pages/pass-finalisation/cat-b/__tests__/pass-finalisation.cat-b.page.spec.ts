@@ -126,4 +126,15 @@ describe('PassFinalisationCatBPage', () => {
     });
 
   });
+
+  describe('isNorthernIreland', () => {
+    const UKlicence : string = 'JONES849339TS8AD';
+    const NIlicence : string = '23514780';
+    it('should return true if driving licence is Northern Ireland', () => {
+      expect(component.isNorthernIreland(NIlicence)).toEqual(true);
+    });
+    it('should return false if driving licence is Northern Ireland', () => {
+      expect(component.isNorthernIreland(UKlicence)).toEqual(false);
+    });
+  });
 });
