@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter, OnChanges,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
@@ -22,8 +24,7 @@ export class HealthDeclarationComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', []),
-
+      this.formControl = new FormControl('', []);
       this.formGroup.addControl(HealthDeclarationComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.selected);

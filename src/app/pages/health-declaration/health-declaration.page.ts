@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AlertController, NavController, Platform,
+  AlertController, Platform,
 } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
@@ -80,7 +80,6 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     authenticationProvider: AuthenticationProvider,
     router: Router,
     store$: Store<StoreModel>,
-    private navController: NavController,
     private deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
     public alertController: AlertController,
@@ -244,12 +243,12 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
 
   persistAndNavigate(resetLicenseProvided: boolean) {
     this.deviceAuthenticationProvider.triggerLockScreen()
-      .then(() => {
+      .then(async () => {
         if (this.licenseProvided && resetLicenseProvided) {
           this.store$.dispatch(ProvisionalLicenseNotReceived());
         }
         this.store$.dispatch(new ContinueFromDeclaration());
-        this.navController.navigateForward(CONFIRM_TEST_DETAILS);
+        await this.router.navigate([CONFIRM_TEST_DETAILS]);
       })
       .catch((err) => {
         console.log(err);
