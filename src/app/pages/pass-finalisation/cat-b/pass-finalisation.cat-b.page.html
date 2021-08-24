@@ -49,7 +49,7 @@
                 <transmission [formGroup]="form"
                               (transmissionChange)="transmissionChanged($event)">
                 </transmission>
-                <warning-banner *ngIf="displayTransmissionBanner()"
+                <warning-banner
                                 warningText="An automatic licence will be issued.">
                 </warning-banner>
 
