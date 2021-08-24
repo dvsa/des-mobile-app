@@ -7,7 +7,7 @@ export enum ExaminerRole {
 export enum ExaminerRoleDescription {
   LDTM = 'Local Driving Test Manager',
   DE = 'Driving Examiner',
-  DLG = 'Retrokey Team',
+  DLG = 'Admin Team',
 }
 
 export enum AccessRole {

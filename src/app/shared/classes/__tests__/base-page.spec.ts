@@ -116,7 +116,7 @@ describe('Base Page', () => {
         },
       });
     });
-    // @TODO fix intermittently failing test
+    // @TODO MES-7133 fix intermittently failing test
     xit('should not try to logout when platform is not ios', async () => {
       basePageComponent.isIos = jasmine.createSpy().and.returnValue(false);
       await basePageComponent.logout();

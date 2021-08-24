@@ -179,8 +179,7 @@ describe('Journal Reducer', () => {
     });
   });
 
-  // @TODO: Enable when action is used
-  xdescribe('[JournalEffect] Load Completed Tests Success', () => {
+  describe('[JournalEffect] Load Completed Tests Success', () => {
     it('should save competed test details and also set loading state to false', () => {
       const state: JournalModel = {
         ...initialState,

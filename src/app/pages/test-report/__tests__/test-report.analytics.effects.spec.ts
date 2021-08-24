@@ -47,16 +47,16 @@ import {
 } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import * as uncoupleRecoupleActions
   from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-// @TODO - MES-6879 - enable once component migrated
+// @TODO - MES-7149 - enable once component migrated
 // import * as reverseLeftActions from '../components/reverse-left/reverse-left.actions';
 import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-// @TODO - enable with Mod 1
+// @TODO - MES-7149 - enable with Mod 1
 // import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import {
   speedCheckToggleValues,
 } from '@shared/constants/competencies/cata-mod1-speed-checks';
-// @TODO - enable with Mod 1
+// @TODO - MES-7149 - enable with Mod 1
 // import * as testReportCatAMod1Actions from '../cat-a-mod1/test-report.cat-a-mod1.actions';
 // import { ModalReason } from '../cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import * as emergencyStopActions
@@ -68,7 +68,7 @@ import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candi
 import * as singleFaultCompetencyActions
   from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-// @TODO - enable with Cat D
+// @TODO - MES-7148 - enable with Cat D
 // import * as pcvDoorExerciseActions from
 //   '../../../modules/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
 import * as highwayCodeActions
@@ -1474,7 +1474,7 @@ describe('Test Report Analytics Effects', () => {
     });
   });
 
-  // @TODO - MES-6879 - enable once component migrated
+  // @TODO - MES-7149 - enable once component migrated
   // describe('reverseLeftPopoverOpened', () => {
   //   it('should call logEvent with the correct parameters', (done) => {
   //     // ARRANGE
@@ -1494,7 +1494,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - MES-6879 - enable once component migrated
+  // @TODO - MES-7149 - enable once component migrated
   // describe('reverseLeftPopoverClosed', () => {
   //   it('should call logEvent with the correct parameters', (done) => {
   //     // ARRANGE
@@ -1514,7 +1514,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - implement with Cat A Mod 1
+  // @TODO - MES-7149 implement with Cat A Mod 1
   // describe('toggleAvoidanceSpeedReq', () => {
   //   it('should log speed not met for this competency', (done) => {
   //     // ARRANGE
@@ -1559,7 +1559,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - implement with Cat A Mod 1
+  // @TODO - MES-7149 implement with Cat A Mod 1
   // describe('recordAvoidanceFirstAttempt', () => {
   //   it('should call logEvent for record avoidance first attempt', (done) => {
   //     // ARRANGE
@@ -1586,7 +1586,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - implement with Cat A Mod 1
+  // @TODO - MES-7149 implement with Cat A Mod 1
   // describe('recordAvoidanceSecondAttempt', () => {
   //   it('should call logEvent for record avoidance second attempt', (done) => {
   //     // ARRANGE
@@ -1613,7 +1613,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - implement with Cat A Mod 1
+  // @TODO - MES-7149 implement with Cat A Mod 1
   // describe('speedRequirementNotMetModalOpened', () => {
   //   it('should call logEvent for speed requirement not met modal opened', (done) => {
   //     // ARRANGE
@@ -1638,7 +1638,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - implement with Cat A Mod 1
+  // @TODO - MES-7149 implement with Cat A Mod 1
   // describe('emergencyStopDangerousFaultModelOpened', () => {
   //   it('should call logEvent for ememergency stop dangererous fault modal opened', (done) => {
   //     // ARRANGE
@@ -1663,7 +1663,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - implement with Cat A Mod 1
+  // @TODO - MES-7149 implement with Cat A Mod 1
   // describe('emergencyStopSeriousFaultModelOpened', () => {
   //   it('should call logEvent for emergency stop serious fault modal opened', (done) => {
   //     // ARRANGE
@@ -1959,7 +1959,7 @@ describe('Test Report Analytics Effects', () => {
     });
   });
 
-  // @TODO - enable with Cat D
+  // @TODO - MES-7148 enable with Cat D
   // describe('PcvDoorExerciseAddDrivingFault', () => {
   //   it('should call logEvent for this competency', (done) => {
   //     // ARRANGE
@@ -1998,7 +1998,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - enable with Cat D
+  // @TODO MES-7148 - enable with Cat D
   // describe('PcvDoorExerciseSeriousDrivingFault', () => {
   //   it('should call logEvent for this competency', (done) => {
   //     // ARRANGE
@@ -2037,7 +2037,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - enable with Cat D
+  // @TODO MES-7148 - enable with Cat D
   // describe('pcvDoorExerciseAddDangerousFault', () => {
   //   it('should call logEvent for this competency', (done) => {
   //     // ARRANGE
@@ -2075,7 +2075,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - enable with Cat D
+  // @TODO MES-7148 - enable with Cat D
   // describe('PcvDoorExerciseRemoveDrivingFault', () => {
   //   it('should call logEvent for this competency', (done) => {
   //     // ARRANGE
@@ -2113,7 +2113,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - enable with Cat D
+  // @TODO MES-7148 - enable with Cat D
   // describe('pcvDoorExerciseRemoveSeriousFaultX', () => {
   //   it('should call logEvent for this competency', (done) => {
   //     // ARRANGE
@@ -2151,7 +2151,7 @@ describe('Test Report Analytics Effects', () => {
   //   });
   // });
 
-  // @TODO - enable with Cat D
+  // @TODO MES-7148 - enable with Cat D
   // describe('pcvDoorExerciseRemoveDangerousFault', () => {
   //   it('should call logEvent for this competency', (done) => {
   //     // ARRANGE

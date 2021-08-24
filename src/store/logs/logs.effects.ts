@@ -113,7 +113,7 @@ export class LogsEffects {
     }),
   ));
 
-  // TODO: All this has to be moved to the LogsProvider or DataStore provider
+  // @TODO: MES-7129 All this has to be moved to the LogsProvider or DataStore provider
 
   getPersistedLogs = (): Observable<Log[]> => {
     return from(this.getAndConvertPersistedLogs());

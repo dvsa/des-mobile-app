@@ -22,7 +22,7 @@ describe('RekeySearchCard ', () => {
     component = fixture.componentInstance;
   }));
 
-  // TODO: tests will be reinstated when rekey search is implemented
+  // @TODO: MES-6912 tests will be reinstated when rekey search is implemented
   xdescribe('Class', () => {
     describe('navigateToRekey', () => {
       it('should trigger navigation to rekey', () => {

@@ -39,7 +39,7 @@ import { testsReducer } from './tests.reducer';
     // NavigationProvider,
     NavigationStateProvider,
     TestDataByCategoryProvider,
-    // ManoeuvresByCategoryProvider @TODO: Not needed in ADI2, so bring over when required;
+    // ManoeuvresByCategoryProvider @TODO MES-7130: enable when CATX+E is enabled;
     VehicleDetailsByCategoryProvider,
   ],
 })

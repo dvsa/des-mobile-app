@@ -27,7 +27,7 @@ describe('testSlotAttributes selector', () => {
   };
 
   describe('getTestTime', () => {
-    // @TODO: INVESTIGATE WHY THIS IS CAUSING A MOMENT DEPRECATION WARNING;
+    // @TODO: MES-7145 INVESTIGATE WHY THIS IS CAUSING A MOMENT DEPRECATION WARNING;
     it('should return the time of the test', () => {
       expect(getTestTime(testSlotAttributes)).toBe(formattedTime);
     });

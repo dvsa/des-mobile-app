@@ -20,7 +20,7 @@ export const getDrivingFaultCount = (
 
 export const getManoeuvres = (data: CatDTestData): CatDManoeuvres => data.manoeuvres;
 
-// TODO - We should pass a Manoeuvre object here instead of TestData
+// @TODO: MES-7135 - We should pass a Manoeuvre object here instead of TestData
 export const hasManoeuvreBeenCompletedCatD = (data: CatDTestData) => {
   return (
     get(data.manoeuvres, 'reverseLeft.selected')
@@ -58,8 +58,7 @@ export const areTellMeQuestionsCorrect = (state: CatDVehicleChecks) => {
   return correct;
 };
 
-// TODO - We should really pass a Vehicle Checks object here and not Test Data
-// TODO - Also this has to go into a provider
+// @TODO - MES-7135 We should really pass a Vehicle Checks object here and not Test Data
 export const hasVehicleChecksBeenCompletedCatD = (data: CatDTestData): boolean => {
   let showMeQuestionComplete = true;
   let tellMeQuestionComplete = true;
