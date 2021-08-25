@@ -204,7 +204,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       if (!this.healthDeclarationAccepted) {
         this.showConfirmHealthDeclarationModal();
       } else {
-        this.persistAndNavigate(false);
+        await this.persistAndNavigate(false);
       }
       return;
     }
@@ -241,18 +241,12 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     });
   }
 
-  persistAndNavigate(resetLicenseProvided: boolean) {
-    this.deviceAuthenticationProvider.triggerLockScreen()
-      .then(async () => {
-        if (this.licenseProvided && resetLicenseProvided) {
-          this.store$.dispatch(ProvisionalLicenseNotReceived());
-        }
-        this.store$.dispatch(ContinueFromDeclaration());
-        await this.router.navigate([CONFIRM_TEST_DETAILS]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  async persistAndNavigate(resetLicenseProvided: boolean) {
+    if (this.licenseProvided && resetLicenseProvided) {
+      this.store$.dispatch(ProvisionalLicenseNotReceived());
+    }
+    this.store$.dispatch(ContinueFromDeclaration());
+    await this.router.navigate([CONFIRM_TEST_DETAILS]);
   }
 
   ionViewDidLeave(): void {
