@@ -7,7 +7,6 @@ import { createReducer, on } from '@ngrx/store';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as uncoupleRecoupleActions from './uncouple-recouple.actions';
 
-// TODO - We should make a common type in the schema for Uncouple Recouple;
 export type UncoupleRecouple =
   | CatBEUniqueTypes.UncoupleRecouple
   | CatCEUniqueTypes.UncoupleRecouple

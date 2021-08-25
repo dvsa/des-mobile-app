@@ -60,7 +60,6 @@ export const getDetails = (slot: any): Details => {
     },
     phoneNumber: getPhoneNumber(slot.booking.candidate),
 
-    // TODO: remove the string literal when e-mail address is configured in the service
     email: slot.booking.candidate.emailAddress || 'e-mail unavailable',
     address: slot.booking.candidate.candidateAddress,
   };

@@ -3,13 +3,17 @@ import {
 } from '@angular/core';
 import {
   LoadingController,
-  NavParams, Platform, ModalController, IonRefresher,
+  NavParams,
+  Platform,
+  ModalController,
+  IonRefresher,
+  IonContent,
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import {
   Observable, Subscription, merge,
 } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {
   SearchResultTestSchema,
@@ -63,6 +67,7 @@ interface JournalPageState {
 export class JournalPage extends BasePageComponent implements OnInit {
 
   @ViewChild('slotContainer', { read: ViewContainerRef }) slotContainer;
+  @ViewChild(IonContent) content: IonContent;
 
   // @TODO - Reintroduce with MES-6271
   // @ViewChild(IncompleteTestsBanner)
@@ -80,6 +85,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   todaysDate: DateTime;
   completedTests: SearchResultTestSchema[];
   displayNoDataMessage: boolean = false;
+  scrollTop: number;
 
   constructor(
     public modalController: ModalController,
@@ -163,7 +169,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.merged$ = merge(
       selectedDate$.pipe(map(this.setSelectedDate)),
       completedTests$.pipe(map(this.setCompletedTests)),
-      slots$.pipe(map(this.createSlots)),
+      slots$.pipe(
+        // emit only when slots changed
+        distinctUntilChanged(),
+        map(this.createSlots),
+      ),
       error$.pipe(map(this.showError)),
       isLoading$.pipe(map(this.handleLoadingUI)),
     );
@@ -263,8 +273,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
   };
 
   private createSlots = (emission: SlotItem[]) => {
+    const { scrollTop } = this;
     this.displayNoDataMessage = (!emission || (emission && emission.length === 0));
     this.slotSelector.createSlots(this.slotContainer, emission, this.completedTests);
+    // return to previous point in page after content refreshed
+    setTimeout(() => this.content.scrollToPoint(0, scrollTop));
   };
 
   public pullRefreshJournal = (refresher: IonRefresher) => {
@@ -298,4 +311,9 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
+
+  setScrollTop(scrollTop: number) {
+    this.scrollTop = scrollTop;
+  }
+
 }

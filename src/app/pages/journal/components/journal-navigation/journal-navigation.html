@@ -13,12 +13,12 @@
         <div id="date-container">
           <div *ngIf="isSelectedDateToday; else notToday">
             <h1>Today</h1>
-            <h3>{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+            <h3 id="today-date">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
           </div>
           <ng-template #notToday>
             <div *ngIf="fromTestCentreJournal; else journalView">
               <h1>Tomorrow</h1>
-              <h3>{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+              <h3 id="tomorrow-date">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
             </div>
             <ng-template #journalView>
               <h1>{{ selectedDate | date:'EEEE' }}</h1>

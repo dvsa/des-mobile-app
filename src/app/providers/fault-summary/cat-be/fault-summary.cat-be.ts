@@ -1,7 +1,7 @@
 import {
   endsWith, forOwn, get, transform,
 } from 'lodash';
-import { EyesightTest, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { EyesightTest, Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
 import { CompetencyDisplayName } from '@shared/models/competency-display-name';
@@ -98,8 +98,7 @@ export class FaultSummaryCatBEHelper {
     : FaultSummary[] {
     const faultsEncountered: FaultSummary[] = [];
 
-    // TODO: Replace any with Manoeuvres and change the transform function
-    forOwn(manoeuvres, (manoeuvre: any, type: ManoeuvreTypes) => {
+    forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
       const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
 
         if (endsWith(key, 'Fault') && value === faultType) {

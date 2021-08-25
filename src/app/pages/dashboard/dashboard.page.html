@@ -3,9 +3,9 @@
     <ion-buttons id="burger-menu" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-      <ion-buttons slot="end">
-          <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
-      </ion-buttons>
+    <ion-buttons slot="end">
+      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+    </ion-buttons>
     <ion-title id="page-title">My dashboard</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,7 +14,8 @@
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
   <div>
-    <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async" [role]="pageState.role$ | async"></profile-header>
+    <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async"
+                    [role]="pageState.role$ | async"></profile-header>
     <hr/>
     <h4 id="date-field" class="date">{{todaysDateFormatted}}</h4>
     <ion-grid class="dashboard-grid">
@@ -30,21 +31,18 @@
         <ion-col>
           <test-results-search-card></test-results-search-card>
         </ion-col>
-        <ion-col *ngIf="!showDelegatedExaminerRekey()">
+        <ion-col>
           <rekey-search-card></rekey-search-card>
         </ion-col>
       </ion-row>
     </ion-grid>
-    <hr *ngIf="!showDelegatedExaminerRekey() &&
-     (showEndToEndPracticeMode() || showTestReportPracticeMode())" />
+    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())"/>
     <practice-test-report-card id="testReportPracticeMode"
                                *ngIf="
-                               showTestReportPracticeMode() &&
-                               !showDelegatedExaminerRekey()"></practice-test-report-card>
+                               showTestReportPracticeMode()"></practice-test-report-card>
     <practice-end-to-end-card id="endToendPracticeMode"
                               *ngIf="
-                              showEndToEndPracticeMode() &&
-                              !showDelegatedExaminerRekey()"></practice-end-to-end-card>
+                              showEndToEndPracticeMode()"></practice-end-to-end-card>
   </div>
 
 </ion-content>

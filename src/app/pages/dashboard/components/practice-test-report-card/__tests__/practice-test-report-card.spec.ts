@@ -25,7 +25,7 @@ describe('PracticeTestReportCard ', () => {
   beforeEach(waitForAsync(() => {
   }));
 
-  // TODO: tests will be reinstated when practice test report mode is implemented
+  // @TODO: MES-6867 tests will be reinstated when practice test report mode is implemented
   xdescribe('Class', () => {
     it('should create', () => {
     });

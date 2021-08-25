@@ -180,6 +180,12 @@ describe('JournalPage', () => {
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
       });
     });
+    describe('setScrollTop', () => {
+      it('should set scrollTop value', () => {
+        component.setScrollTop(1000);
+        expect(component.scrollTop).toEqual(1000);
+      });
+    });
   });
 
   describe('DOM', () => {
@@ -206,7 +212,7 @@ describe('JournalPage', () => {
       );
     });
 
-    // TODO - Come back and look at this test
+    // @TODO: MES-7134 - Come back and look at this test
     xit('there should be one slot for every journal entry', () => {
       const slotsList = componentEl.query(By.css('ion-list'));
       expect(slotsList.children.length)

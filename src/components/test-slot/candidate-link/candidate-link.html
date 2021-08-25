@@ -1,5 +1,5 @@
-<ion-button expand="full" fill="clear" class="candidate-position" (click)="openCandidateDetailsModal()">
-    <h3 class="candidate-name" [ngClass]="{
+<ion-button id="name-{{applicationId}}-button" expand="full" fill="clear" class="candidate-position" (click)="openCandidateDetailsModal()">
+    <h3 id="name-{{applicationId}}"  class="candidate-name" [ngClass]="{
       'candidate-name-portrait': isPortrait,
       'candidate-name-landscape': !isPortrait
     }">{{name.title}} {{name.firstName}} {{name.lastName}}</h3>
