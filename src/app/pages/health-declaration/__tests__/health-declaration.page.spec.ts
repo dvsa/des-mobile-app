@@ -9,13 +9,13 @@ import {
   NavParams,
   Config,
   Platform,
-  AlertController,
+  AlertController, NavController,
 } from '@ionic/angular';
 import {
   NavParamsMock,
   ConfigMock,
   PlatformMock,
-  AlertControllerMock,
+  AlertControllerMock, NavControllerMock,
 } from 'ionic-mocks';
 import { AppModule } from '@app/app.module';
 import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
@@ -55,6 +55,7 @@ import {
 } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import * as welshTranslations from '../../../../assets/i18n/cy.json';
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
@@ -63,8 +64,6 @@ describe('HealthDeclarationPage', () => {
   let fixture: ComponentFixture<HealthDeclarationPage>;
   let component: HealthDeclarationPage;
   let store$: Store<StoreModel>;
-  // @TODO: resolve this
-  // let deviceAuthenticationProvider: DeviceAuthenticationProvider;
   let translate: TranslateService;
 
   const testSlotAttributes: TestSlotAttributes = {
@@ -78,6 +77,7 @@ describe('HealthDeclarationPage', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         HealthDeclarationPage,
         MockComponent(HealthDeclarationComponent),
@@ -112,6 +112,7 @@ describe('HealthDeclarationPage', () => {
         TranslateModule,
       ],
       providers: [
+        { provide: NavController, useClass: NavControllerMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: Config, useFactory: () => ConfigMock.instance() },
@@ -127,8 +128,6 @@ describe('HealthDeclarationPage', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HealthDeclarationPage);
     component = fixture.componentInstance;
-    // @TODO: resolve this
-    // deviceAuthenticationProvider = TestBed.get(DeviceAuthenticationProvider);
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch').and.callThrough();
     translate = TestBed.inject(TranslateService);
@@ -142,13 +141,6 @@ describe('HealthDeclarationPage', () => {
         component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(HealthDeclarationViewDidEnter());
       });
-      // @TODO: add new test for leaving page once replacement function implemented
-      // describe('clickBack', () => {
-      //   it('should should trigger the lock screen', () => {
-      //     component.clickBack();
-      //     expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
-      //   });
-      // });
 
       describe('healthDeclarationChanged', () => {
         it('should dispatch a ToggleHealthDeclaration action', () => {
@@ -167,7 +159,7 @@ describe('HealthDeclarationPage', () => {
         it('should dispatch a ProvisionalLicenseNotReceived if passed true and licenseProvided is true', () => {
           component.licenseProvided = true;
           component.persistAndNavigate(true);
-          expect(store$.dispatch).not.toHaveBeenCalledWith(PassCompletionActions.ProvisionalLicenseNotReceived());
+          expect(store$.dispatch).toHaveBeenCalledWith(PassCompletionActions.ProvisionalLicenseNotReceived());
         });
       });
     });
