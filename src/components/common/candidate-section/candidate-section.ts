@@ -28,7 +28,7 @@ export class CandidateSectionComponent {
   candidateDriverNumber: string;
 
   @Input()
-  healthDecScreen: boolean;
+  showVRNButton: boolean = false;
 
   @Output()
   continueClickEvent = new EventEmitter<boolean>();

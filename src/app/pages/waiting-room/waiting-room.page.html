@@ -15,7 +15,7 @@
   <form [formGroup]="formGroup">
     <candidate-section [candidateName]="pageState.candidateName$ | async"
                        [candidateDriverNumber]="pageState.candidateDriverNumber$ | async" (continueClickEvent)="onSubmit()"
-                       [healthDecScreen]="false">
+                       [showVRNButton]="false">
     </candidate-section>
     <div class="mes-full-width-card-separator"></div>
     <conducted-language [shouldRender]="pageState.welshTest$ | async"
