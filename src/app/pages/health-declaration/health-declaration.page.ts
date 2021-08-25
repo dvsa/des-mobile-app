@@ -90,7 +90,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   }
 
   ionViewDidEnter() {
-    this.store$.dispatch(new HealthDeclarationViewDidEnter());
+    this.store$.dispatch(HealthDeclarationViewDidEnter());
   }
 
   ngOnChanges(): void {
@@ -210,7 +210,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     }
     Object.keys(this.formGroup.controls).forEach((controlName) => {
       if (this.formGroup.controls[controlName].invalid) {
-        this.store$.dispatch(new HealthDeclarationValidationError(`${controlName} is blank`));
+        this.store$.dispatch(HealthDeclarationValidationError(`${controlName} is blank`));
       }
     });
   }
@@ -247,7 +247,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
         if (this.licenseProvided && resetLicenseProvided) {
           this.store$.dispatch(ProvisionalLicenseNotReceived());
         }
-        this.store$.dispatch(new ContinueFromDeclaration());
+        this.store$.dispatch(ContinueFromDeclaration());
         await this.router.navigate([CONFIRM_TEST_DETAILS]);
       })
       .catch((err) => {
