@@ -27,8 +27,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  // @TODO: enable
-  // HealthDeclarationViewDidEnter,
+  HealthDeclarationViewDidEnter,
   HealthDeclarationValidationError,
 } from '@pages/health-declaration/health-declaration.actions';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
@@ -60,7 +59,7 @@ import * as welshTranslations from '../../../../assets/i18n/cy.json';
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-fdescribe('HealthDeclarationPage', () => {
+describe('HealthDeclarationPage', () => {
   let fixture: ComponentFixture<HealthDeclarationPage>;
   let component: HealthDeclarationPage;
   let store$: Store<StoreModel>;
@@ -132,7 +131,7 @@ fdescribe('HealthDeclarationPage', () => {
     // deviceAuthenticationProvider = TestBed.get(DeviceAuthenticationProvider);
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch').and.callThrough();
-    translate = TestBed.get(TranslateService);
+    translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
     component.subscription = new Subscription();
   }));
@@ -141,8 +140,7 @@ fdescribe('HealthDeclarationPage', () => {
     describe('ionViewDidEnter', () => {
       it('should dispatch HealthDeclarationViewDidEnter', () => {
         component.ionViewDidEnter();
-        // @TODO: enable next line once src/app/pages/health-declaration/health-declaration.actions.ts file refactored
-        // expect(store$.dispatch).toHaveBeenCalledWith(HealthDeclarationViewDidEnter());
+        expect(store$.dispatch).toHaveBeenCalledWith(HealthDeclarationViewDidEnter());
       });
       // @TODO: add new test for leaving page once replacement function implemented
       // describe('clickBack', () => {
@@ -174,6 +172,7 @@ fdescribe('HealthDeclarationPage', () => {
       });
     });
     describe('onSubmit', () => {
+
       it('should call the persist and navigate method if all fields set', fakeAsync(() => {
         spyOn(component, 'persistAndNavigate');
         const { formGroup } = component;
@@ -181,6 +180,7 @@ fdescribe('HealthDeclarationPage', () => {
         component.pageState.healthDeclarationAccepted$ = of(true);
         component.pageState.receiptDeclarationAccepted$ = of(true);
         component.pageState.signature$ = of('sig');
+        component.formGroup.controls['signature'].patchValue('heuhrheru');
         component.healthDeclarationAccepted = true;
         component.onSubmit();
         fixture.detectChanges();
@@ -196,6 +196,7 @@ fdescribe('HealthDeclarationPage', () => {
         component.pageState.healthDeclarationAccepted$ = of(false);
         component.pageState.receiptDeclarationAccepted$ = of(true);
         component.pageState.signature$ = of('sig');
+        component.formGroup.controls['signature'].patchValue('heuhrheru');
         component.onSubmit();
         fixture.detectChanges();
         expect(formGroup.valid).toEqual(true);
@@ -212,12 +213,12 @@ fdescribe('HealthDeclarationPage', () => {
         component.onSubmit();
         tick();
         expect(store$.dispatch)
-          .toHaveBeenCalledWith(new HealthDeclarationValidationError('requiredControl1 is blank'));
+          .toHaveBeenCalledWith(HealthDeclarationValidationError('requiredControl1 is blank'));
         expect(store$.dispatch)
-          .toHaveBeenCalledWith(new HealthDeclarationValidationError('requiredControl2 is blank'));
+          .toHaveBeenCalledWith(HealthDeclarationValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .not
-          .toHaveBeenCalledWith(new HealthDeclarationValidationError('notRequiredControl is blank'));
+          .toHaveBeenCalledWith(HealthDeclarationValidationError('notRequiredControl is blank'));
       }));
     });
   });
