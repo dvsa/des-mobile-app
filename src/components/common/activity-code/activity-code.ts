@@ -16,7 +16,9 @@ import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code
   styleUrls: ['activity-code.scss'],
 })
 export class ActivityCodeComponent implements OnChanges {
-  constructor(private changeDetectorRef: ChangeDetectorRef) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef) {
+  }
+
   @Input()
   activityCodeModel: ActivityCodeModel;
 
