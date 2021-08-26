@@ -72,7 +72,7 @@ export const getShowMeQuestion = (state: CatBUniqueTypes.VehicleChecks) => {
     .find((question) => question.code === get(state, 'showMeQuestion.code'));
 };
 
-// TODO - We should really pass a Vehicle Checks object here and not Test Data
+// @TODO MES-7135: We should really pass a Vehicle Checks object here and not Test Data
 export const hasVehicleChecksBeenCompletedCatB = (data: CatBUniqueTypes.TestData): boolean => {
   const showMeQuestionOutcomeResult = get(data, 'vehicleChecks.showMeQuestion.outcome', null);
   const tellMeQuestionOutcomeResult = get(data, 'vehicleChecks.tellMeQuestion.outcome', null);

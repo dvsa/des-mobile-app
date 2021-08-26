@@ -17,7 +17,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content no-padding>
+<ion-content no-padding [scrollEvents]="true" (ionScroll)="setScrollTop($event.detail.scrollTop)">
     <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
     <!--  @TODO - Reintroduce with MES-6271-->

@@ -15,7 +15,6 @@ export const initialState: JournalData = {
   },
   candidate: {},
   examiner: {
-    // TODO - we don't use this anywhere in the code.
     individualId: null,
     staffNumber: null,
   },

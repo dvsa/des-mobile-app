@@ -218,7 +218,7 @@ describe('VehicleCheckComponent', () => {
       expect(drivingFaultsBadge.count).toBe(0);
     });
 
-    // @TODO revisit this test in the near future
+    // @TODO MES-7146 revisit this test in the near future
     xit('should pass 1 driving faults to the driving faults badge component when there is a tell me fault', () => {
       store$.dispatch(TellMeQuestionDrivingFault());
       fixture.detectChanges();

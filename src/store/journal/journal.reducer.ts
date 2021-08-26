@@ -50,8 +50,6 @@ export const journalReducer = createReducer(
     payload,
   }): JournalModel => ({
     ...state,
-    // TODO: The reducer has to get the lastRefreshed date from the action
-    // And should not do any logic
     lastRefreshed: (onlineOffline
       === ConnectionStatus.ONLINE && !unAuthenticatedMode) ? new Date() : lastRefreshed,
     isLoading: false,
@@ -74,7 +72,6 @@ export const journalReducer = createReducer(
     if (!state.slots[state.selectedDate]) {
       return { ...state };
     }
-    // TODO: This should be moved out to an effect
     const slots = state.slots[state.selectedDate].map((slot) => {
       if (get(slot, 'slotData.slotDetail.slotId') === slotId) {
         return {

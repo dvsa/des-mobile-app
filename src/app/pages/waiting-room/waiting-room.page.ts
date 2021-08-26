@@ -49,7 +49,6 @@ import { CategoryCode, JournalData } from '@dvsa/mes-test-schema/categories/comm
 import { isEmpty } from 'lodash';
 import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
-import { SignatureComponent } from '@pages/waiting-room/components/signature/signature';
 
 import {
   ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames,
@@ -79,7 +78,6 @@ interface WaitingRoomPageState {
 export class WaitingRoomPage extends PracticeableBasePageComponent implements OnInit {
 
   @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
-  @ViewChild(SignatureComponent) signatureComponent: SignatureComponent;
 
   pageState: WaitingRoomPageState;
 
