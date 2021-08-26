@@ -1,7 +1,7 @@
 :host {
   .alert-icon {
     color: var(--gds-black);
-    font-size: 50px;
+    font-size: 35px;
   }
   div {
     border-left: 10px solid var(--danger);
@@ -14,5 +14,9 @@
 
   .modal-alert-header {
     margin: 0 0 24px;
+  }
+  .danger-centre {
+    display: flex;
+    align-items: center;
   }
 }
