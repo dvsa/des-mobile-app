@@ -1,6 +1,12 @@
 <div>
-    <img src="/assets/imgs/exclamation-black.png" />
-    <label>
-        <span [innerHTML]="warningText" id="warning_text"></span>
-    </label>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="8" class="warning">
+                <ion-icon class="alert-icon" name="alert-circle"></ion-icon>
+            </ion-col>
+            <ion-col class="warning" size="83">
+                <p>{{warningText}}</p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </div>

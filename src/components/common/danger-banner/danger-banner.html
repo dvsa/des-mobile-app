@@ -1,6 +1,14 @@
 <div>
-    <img src="/assets/imgs/exclamation-black.png" />
-    <label>
-        <span [innerHTML]="dangerText" id="danger_text"></span>
-    </label>
+    <ion-grid>
+        <ion-row>
+            <ion-col size="8" class="ion-padding-vertical">
+                <ion-icon class="alert-icon" name="alert-circle"></ion-icon>
+            </ion-col>
+            <ion-col size="83">
+                <p id="danger_text">
+                    {{dangerText}}
+                </p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </div>
