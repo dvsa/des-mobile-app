@@ -156,9 +156,12 @@ describe('HealthDeclarationPage', () => {
       });
 
       describe('persistAndNavigate', () => {
-        it('should dispatch a ProvisionalLicenseNotReceived if passed true and licenseProvided is true', () => {
+        it('should dispatch a ProvisionalLicenseNotReceived if passed true and licenseProvided is true', async () => {
+          spyOn(routerSpy, 'navigate')
+            .and
+            .returnValue(Promise.resolve(true));
           component.licenseProvided = true;
-          component.persistAndNavigate(true);
+          await component.persistAndNavigate(true);
           expect(store$.dispatch).toHaveBeenCalledWith(PassCompletionActions.ProvisionalLicenseNotReceived());
         });
       });
