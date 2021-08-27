@@ -1,9 +1,5 @@
 @import "src/app/pages/waiting-room-to-car/waiting-room-to-car.page";
 
-ion-content {
-  @extend ion-content.content-ios;
-}
-
 ion-footer {
   background-color: var(--mes-white);
 
