@@ -39,11 +39,13 @@
         </warning-banner>
 
         <language-preferences [formGroup]="form" [isWelsh]="pageState.isWelshTest$ | async"
-                              (welshChanged)="isWelshChanged($event)"></language-preferences>
+                              (welshChanged)="isWelshChanged($event)">
+        </language-preferences>
 
         <debrief-witnessed [display]="pageState.displayDebriefWitnessed$ | async" [formGroup]="form"
                            [debriefWitnessed]="pageState.debriefWitnessed$ | async" [outcome]="pageState.testOutcome$ | async"
-                           (debriefWitnessedChange)="debriefWitnessedChanged($event)"></debrief-witnessed>
+                           (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+        </debrief-witnessed>
 
       </div>
     </ion-grid>
@@ -52,7 +54,7 @@
 
 <ion-footer>
   <div id="footer-background">
-    <ion-button id="continue-button" class="mes-primary-button" (click)="continue()">
+    <ion-button id="continue-button" class="mes-primary-button continue" (click)="continue()">
       <h3>Continue</h3>
     </ion-button>
   </div>

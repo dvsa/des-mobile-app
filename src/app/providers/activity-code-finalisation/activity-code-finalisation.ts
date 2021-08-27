@@ -7,7 +7,12 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { CatCTestData, CatDTestData, CatHomeTestData } from '@shared/unions/test-schema-unions';
+import {
+  CatCTestData,
+  CatDTestData,
+  CatHomeTestData,
+  TestDataUnion,
+} from '@shared/unions/test-schema-unions';
 import { TestResultProvider } from '../test-result/test-result';
 
 @Injectable()
@@ -102,6 +107,37 @@ export class ActivityCodeFinalisationProvider {
   private activityCodeIs4or5(activityCode: ActivityCode): boolean {
     return activityCode === ActivityCodes.FAIL_PUBLIC_SAFETY
       || activityCode === ActivityCodes.FAIL_CANDIDATE_STOPS_TEST;
+  }
+
+  public async testDataIsInvalid(category, activityCode: ActivityCode, testData: TestDataUnion): Promise<boolean> {
+    switch (category) {
+      case TestCategory.ADI2: return this.catADIPart2TestDataIsInvalid(
+        activityCode, testData as CatADI2UniqueTypes.TestData,
+      );
+      case TestCategory.B: return this.catBTestDataIsInvalid(activityCode, testData as CatBUniqueTypes.TestData);
+      case TestCategory.BE: return this.catBETestDataIsInvalid(activityCode, testData as CatBEUniqueTypes.TestData);
+      case TestCategory.C1:
+      case TestCategory.C1E:
+      case TestCategory.CE:
+      case TestCategory.C: return this.catCTestDataIsInvalid(activityCode, testData as CatCTestData);
+      case TestCategory.EUAM1:
+      case TestCategory.EUA1M1:
+      case TestCategory.EUA2M1:
+      case TestCategory.EUAMM1: return this.catAMod1TestDataIsInvalid(activityCode, testData as CatAMod1TestData);
+      case TestCategory.EUAM2:
+      case TestCategory.EUA1M2:
+      case TestCategory.EUA2M2:
+      case TestCategory.EUAMM2: return this.catAMod2TestDataIsInvalid(activityCode, testData as CatAMod2TestData);
+      case TestCategory.D1:
+      case TestCategory.D1E:
+      case TestCategory.DE:
+      case TestCategory.D: return this.catDTestDataIsInvalid(activityCode, testData as CatDTestData);
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+      case TestCategory.K: return this.catHomeTestDataIsInvalid(activityCode, testData as CatHomeTestData);
+      default: return false;
+    }
   }
 
 }

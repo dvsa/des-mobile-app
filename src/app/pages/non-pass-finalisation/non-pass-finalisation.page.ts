@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -15,7 +15,8 @@ import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCode,
   getCurrentTest,
-  getJournalData, getTestOutcome,
+  getJournalData,
+  getTestOutcome,
   getTestOutcomeText,
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
@@ -51,6 +52,8 @@ import {
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -67,6 +70,7 @@ interface NonPassFinalisationPageState {
   testData$: Observable<CatBUniqueTypes.TestData>;
   slotId$: Observable<string>;
   eyesightTestFailed$: Observable<boolean>;
+  testCategory$: Observable<CategoryCode>;
 }
 
 @Component({
@@ -83,7 +87,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   testData: CatBUniqueTypes.TestData;
   activityCode: ActivityCodeModel;
   subscription: Subscription;
-  // invalidTestDataModal: Modal;
+  invalidTestDataModal: HTMLIonModalElement;
+  testCategory: CategoryCode;
 
   constructor(
     platform: Platform,
@@ -93,7 +98,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     public routeByCat: RouteByCategoryProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
-    private navController: NavController,
+    public modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
@@ -173,9 +178,14 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         select(getTestData),
         select(hasEyesightTestGotSeriousFault),
       ),
+      testCategory$: currentTest$.pipe(
+        select(getTestCategory),
+      ),
     };
 
-    const { testData$, slotId$, activityCode$ } = this.pageState;
+    const {
+      testData$, slotId$, activityCode$, testCategory$,
+    } = this.pageState;
 
     this.subscription = merge(
       slotId$.pipe(map((slotId) => this.slotId = slotId)),
@@ -185,6 +195,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       activityCode$.pipe(
         map((activityCode) => this.activityCode = activityCode),
       ),
+      testCategory$.pipe(map((result) => this.testCategory = result)),
     ).subscribe();
   }
 
@@ -198,26 +209,38 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     }
   }
 
-  openTestDataValidationModal() {
-    // this.invalidTestDataModal = this.modalController.create('TestFinalisationInvalidTestDataModal', {
-    //   onCancel: this.onCancel,
-    //   onReturnToTestReport: this.onReturnToTestReport,
-    // }, { cssClass: 'mes-modal-alert text-zoom-regular' });
-    // this.invalidTestDataModal.present();
-  }
+  openTestDataValidationModal = async (): Promise<void> => {
+    this.invalidTestDataModal = await this.modalController.create({
+      id: 'TestFinalisationInvalidTestDataModal',
+      component: 'TestFinalisationInvalidTestDataModal',
+      backdropDismiss: false,
+      showBackdrop: true,
+      componentProps: {
+        onCancel: this.onCancel,
+        onReturnToTestReport: this.onReturnToTestReport,
+      },
+      cssClass: 'mes-modal-alert text-zoom-regular',
+    });
+    await this.invalidTestDataModal.present();
+  };
 
-  onCancel = () => {
-    // this.invalidTestDataModal.dismiss();
+  onCancel = async (): Promise<void> => {
+    await this.invalidTestDataModal.dismiss();
+  };
+
+  onReturnToTestReport = async (): Promise<void> => {
+    await this.invalidTestDataModal.dismiss();
+    await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
   };
 
   async continue() {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (this.form.valid) {
       const testDataIsInvalid = await this.activityCodeFinalisationProvider
-        .catBTestDataIsInvalid(this.activityCode.activityCode, this.testData);
+        .testDataIsInvalid(this.testCategory, this.activityCode.activityCode, this.testData);
 
       if (testDataIsInvalid) {
-        this.openTestDataValidationModal();
+        await this.openTestDataValidationModal();
         return;
       }
 
@@ -251,13 +274,4 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         : CandidateChoseToProceedWithTestInEnglish('English'),
     );
   }
-
-  navigateBack(): void {
-    this.navController.back();
-  }
-
-  async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
-  }
-
 }

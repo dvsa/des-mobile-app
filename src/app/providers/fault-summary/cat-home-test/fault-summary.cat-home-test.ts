@@ -190,7 +190,6 @@ export class FaultSummaryCatHomeTestHelper {
     : FaultSummary[] {
     const faultsEncountered: FaultSummary[] = [];
 
-
     forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
       const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
 
