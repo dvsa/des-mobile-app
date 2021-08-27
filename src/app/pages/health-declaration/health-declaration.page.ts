@@ -242,11 +242,13 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   }
 
   async persistAndNavigate(resetLicenseProvided: boolean) {
-    if (this.licenseProvided && resetLicenseProvided) {
-      this.store$.dispatch(ProvisionalLicenseNotReceived());
+    const canNavigate: boolean = await this.router.navigate([CONFIRM_TEST_DETAILS]);
+    if (canNavigate) {
+      if (this.licenseProvided && resetLicenseProvided) {
+        this.store$.dispatch(ProvisionalLicenseNotReceived());
+      }
+      this.store$.dispatch(ContinueFromDeclaration());
     }
-    this.store$.dispatch(ContinueFromDeclaration());
-    await this.router.navigate([CONFIRM_TEST_DETAILS]);
   }
 
   ionViewDidLeave(): void {
