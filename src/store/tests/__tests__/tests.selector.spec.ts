@@ -4,10 +4,8 @@ import { JournalModel } from '@store/journal/journal.model';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { DateTime } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import {
-  ActivityCodeDescription,
-} from '@pages/office/components/activity-code/activity-code.constants';
 import { testReportPracticeSlotId, end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
 import { TestsModel } from '../tests.model';
 import { TestStatus } from '../test-status/test-status.model';
 import {
