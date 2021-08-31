@@ -3,7 +3,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { of } from 'rxjs';
 import { withLatestFrom, switchMap, concatMap } from 'rxjs/operators';
-import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -21,12 +20,8 @@ import { Language } from '@store/tests/communication-preferences/communication-p
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
-import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { D255No, D255Yes } from '@store/tests/test-summary/test-summary.actions';
-import {
-  CandidateChoseToProceedWithTestInEnglish,
-  CandidateChoseToProceedWithTestInWelsh,
-} from '@store/tests/communication-preferences/communication-preferences.actions';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import * as nonPassFinalisationActions from './non-pass-finalisation.actions';
 import { NonPassFinalisationValidationError, NonPassFinalisationViewDidEnter } from './non-pass-finalisation.actions';
 
@@ -94,10 +89,8 @@ export class NonPassFinalisationAnalyticsEffects {
         ),
       ),
     )),
-    switchMap((
-      [action, tests, activityCode]:
-      [ReturnType <typeof GearboxCategoryChanged>, TestsModel, ActivityCode],
-    ) => {
+    concatMap(([action, tests, activityCode]:
+    [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCodeModel]) => {
       if (activityCode != null) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -155,7 +148,7 @@ export class NonPassFinalisationAnalyticsEffects {
   ));
 
   candidateChoseToProccedWithTestInEnglish$ = createEffect(() => this.actions$.pipe(
-    ofType(CandidateChoseToProceedWithTestInEnglish),
+    ofType(commsActions.CandidateChoseToProceedWithTestInEnglish),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -168,9 +161,8 @@ export class NonPassFinalisationAnalyticsEffects {
         ),
       ),
     )),
-    switchMap((
-      [, tests, activityCode]:
-    [ReturnType <typeof CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCode]) => {
+    concatMap(([, tests, activityCode]:
+    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCodeModel]) => {
       if (activityCode !== null) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -197,9 +189,8 @@ export class NonPassFinalisationAnalyticsEffects {
         ),
       ),
     )),
-    switchMap((
-      [, tests, activityCode]:
-      [ReturnType <typeof CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCode]) => {
+    concatMap(([, tests, activityCode]:
+    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCodeModel]) => {
       if (activityCode !== null) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
