@@ -1,40 +1,55 @@
 import {
-  waitForAsync, ComponentFixture, TestBed,
+  ComponentFixture, TestBed, tick, fakeAsync, waitForAsync,
 } from '@angular/core/testing';
 import { IonicModule, NavController, Platform } from '@ionic/angular';
-
 import { NavControllerMock, PlatformMock } from 'ionic-mocks';
-import { Router } from '@angular/router';
+import { AppModule } from 'src/app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { configureTestSuite } from 'ng-bullet';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { D255Component } from '@components/test-finalisation/d255/d255';
-import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
-import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
-import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppModule } from '@app/app.module';
-import { Subscription } from 'rxjs';
-import { NonPassFinalisationViewDidEnter } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
+import { NonPassFinalisationPage } from '@pages/non-pass-finalisation/non-pass-finalisation.page';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
-// import { TestResultProvider } from '@providers/test-result/test-result';
-import { NonPassFinalisationPage } from '../non-pass-finalisation.page';
+import * as testActions from '@store/tests/tests.actions';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { D255Component } from '@components/test-finalisation/d255/d255';
+import { LanguagePreferencesComponent } from
+  '@components/test-finalisation/language-preference/language-preference';
+import {
+  DebriefWitnessed, D255Yes, D255No, DebriefUnWitnessed,
+} from
+  '@store/tests/test-summary/test-summary.actions';
+import { DebriefWitnessedComponent } from
+  '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from
+  '@components/test-finalisation/finalisation-header/finalisation-header';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { configureTestSuite } from 'ng-bullet';
+import { CandidateChoseToProceedWithTestInWelsh, CandidateChoseToProceedWithTestInEnglish } from
+  '@store/tests/communication-preferences/communication-preferences.actions';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
+import {
+  ActivityCodeFinalisationProvider,
+} from '@providers/activity-code-finalisation/activity-code-finalisation';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import {
+  ActivityCodeFinalisationMock,
+} from '@providers/activity-code-finalisation/__mocks__/activity-code-finalisation.mock';
+import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  NonPassFinalisationViewDidEnter,
+  NonPassFinalisationValidationError,
+} from '../non-pass-finalisation.actions';
 
-fdescribe('NonPassFinalisationPage', () => {
+describe('NonPassFinalisationCatBPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
-  // let testResultProvider: TestResultProvider;
-  // let activityCodeFinalisationProvider: ActivityCodeFinalisationProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -42,26 +57,23 @@ fdescribe('NonPassFinalisationPage', () => {
       declarations: [
         NonPassFinalisationPage,
         MockComponent(PracticeModeBanner),
-        MockComponent(FinalisationHeaderComponent),
         MockComponent(ActivityCodeComponent),
         MockComponent(D255Component),
-        MockComponent(WarningBannerComponent),
         MockComponent(LanguagePreferencesComponent),
         MockComponent(DebriefWitnessedComponent),
+        MockComponent(WarningBannerComponent),
+        MockComponent(FinalisationHeaderComponent),
       ],
       imports: [
-        RouterTestingModule.withRoutes([]),
         IonicModule,
         AppModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: Router, useValue: routerSpy },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
-        // TestResultProvider,
-        ActivityCodeFinalisationProvider,
-        OutcomeBehaviourMapProvider,
+        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: ActivityCodeFinalisationProvider, useClass: ActivityCodeFinalisationMock },
+        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
       ],
     });
   });
@@ -70,48 +82,138 @@ fdescribe('NonPassFinalisationPage', () => {
     fixture = TestBed.createComponent(NonPassFinalisationPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    // testResultProvider = TestBed.inject(TestResultProvider);
-    // activityCodeFinalisationProvider = TestBed.inject(ActivityCodeFinalisationProvider);
     spyOn(store$, 'dispatch');
-    component.subscription = new Subscription();
   }));
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
-      it('should dispatch the VIEW_DID_ENTER action when the function is run', () => {
+      it('should dispatch a view did enter action', () => {
         component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(NonPassFinalisationViewDidEnter());
         expect(store$.dispatch).toHaveBeenCalledTimes(1);
       });
     });
-    // describe('onSubmit', () => {
-    //   // Unit tests for the components TypeScript class
-    //   it('should dispatch the PersistTests action', () => {
-    //     component.onSubmit();
-    //     expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
-    //   });
-    //
-    //   it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-    //     component.form = new FormGroup({
-    //       requiredControl1: new FormControl(null, [Validators.required]),
-    //       requiredControl2: new FormControl(null, [Validators.required]),
-    //       [PASS_CERTIFICATE_NUMBER_CTRL]: new FormControl(null, [Validators.required]),
-    //       notRequiredControl: new FormControl(null),
-    //     });
-    //
-    //     component.onSubmit();
-    //     tick();
-    //     expect(store$.dispatch)
-    //       .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
-    //     expect(store$.dispatch)
-    //       .toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
-    //     expect(store$.dispatch)
-    //       .toHaveBeenCalledWith(PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`));
-    //     expect(store$.dispatch)
-    //       .not
-    //       .toHaveBeenCalledWith(PassFinalisationValidationError('notRequiredControl is blank'));
-    //   }));
-    // });
+    describe('d255Changed', () => {
+      it('should dispatch the correct action if the inputted value is true', () => {
+        component.d255Changed(true);
+        expect(store$.dispatch).toHaveBeenCalledWith(D255Yes());
+        expect(store$.dispatch).toHaveBeenCalledTimes(1);
+      });
+      it('should dispatch the correct action if the inputted value is false', () => {
+        component.d255Changed(false);
+        expect(store$.dispatch).toHaveBeenCalledWith(D255No());
+        expect(store$.dispatch).toHaveBeenCalledTimes(1);
+      });
+    });
+    describe('debriefWitnessedChanged', () => {
+      it('should dispatch the correct action if the inputted value is true', () => {
+        component.debriefWitnessedChanged(true);
+        expect(store$.dispatch).toHaveBeenCalledWith(DebriefWitnessed());
+        expect(store$.dispatch).toHaveBeenCalledTimes(1);
+      });
+      it('should dispatch the correct action if the inputted value is false', () => {
+        component.debriefWitnessedChanged(false);
+        expect(store$.dispatch).toHaveBeenCalledWith(DebriefUnWitnessed());
+        expect(store$.dispatch).toHaveBeenCalledTimes(1);
+      });
+    });
+    describe('isWelshChanged', () => {
+      it('should dispatch the correct action if the isWelsh flag is true', () => {
+        component.isWelshChanged(true);
+        expect(store$.dispatch).toHaveBeenCalledWith(CandidateChoseToProceedWithTestInWelsh('Cymraeg'));
+        expect(store$.dispatch).toHaveBeenCalledTimes(1);
+      });
+      it('should dispatch the correct action if the isWelsh flag is false', () => {
+        component.isWelshChanged(false);
+        expect(store$.dispatch).toHaveBeenCalledWith(CandidateChoseToProceedWithTestInEnglish('English'));
+        expect(store$.dispatch).toHaveBeenCalledTimes(1);
+      });
+    });
+    describe('continue', () => {
+      // tslint:disable-next-line:max-line-length
+      it(`should create the TestFinalisationInvalidTestDataModal 
+      when activityCode is 5 and no S/D faults`, async () => {
+        // Arrange
+        store$.dispatch(testActions.StartTest(123, TestCategory.B));
+        spyOn(component, 'openTestDataValidationModal').and.callThrough();
+        spyOn(component.modalController, 'create').and.callThrough();
+        spyOn(component.activityCodeFinalisationProvider, 'testDataIsInvalid').and.returnValue(Promise.resolve(true));
 
+        component.slotId = '123';
+        component.activityCode = {
+          activityCode: ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
+          description: ActivityCodeDescription.FAIL_CANDIDATE_STOPS_TEST,
+        };
+        component.testData = {
+          dangerousFaults: {},
+          seriousFaults: {},
+        };
+
+        // Act
+        await component.continue();
+
+        // Assert
+        expect(component.openTestDataValidationModal).toHaveBeenCalled();
+        expect(component.modalController.create).toHaveBeenCalled();
+      });
+
+      // tslint:disable-next-line:max-line-length
+      it(`should create the TestFinalisationInvalidTestDataModal 
+      when activityCode is 4 and no S/D faults`, async () => {
+        // Arrange
+        store$.dispatch(testActions.StartTest(123, TestCategory.B));
+        spyOn(component, 'openTestDataValidationModal').and.callThrough();
+        spyOn(component.modalController, 'create')
+          .and
+          .callThrough();
+        spyOn(component.activityCodeFinalisationProvider, 'testDataIsInvalid')
+          .and
+          .returnValue(Promise.resolve(true));
+
+        component.slotId = '123';
+        component.activityCode = {
+          activityCode: ActivityCodes.FAIL_PUBLIC_SAFETY,
+          description: ActivityCodeDescription.FAIL_PUBLIC_SAFETY,
+        };
+        component.testData = {
+          dangerousFaults: {},
+          seriousFaults: {},
+        };
+
+        // Act
+        await component.continue();
+
+        // Assert
+        expect(component.openTestDataValidationModal).toHaveBeenCalled();
+        expect(component.modalController.create).toHaveBeenCalled();
+      });
+
+      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
+        component.form = new FormGroup({
+          requiredControl1: new FormControl(null, [Validators.required]),
+          requiredControl2: new FormControl(null, [Validators.required]),
+          notRequiredControl: new FormControl(null),
+        });
+
+        component.activityCode = {
+          activityCode: ActivityCodes.FAIL,
+          description: ActivityCodeDescription.FAIL,
+        };
+        component.testData = {
+          dangerousFaults: {},
+          seriousFaults: {},
+        };
+
+        component.continue();
+        tick();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(NonPassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(NonPassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .not
+          .toHaveBeenCalledWith(NonPassFinalisationValidationError('notRequiredControl is blank'));
+      }));
+    });
   });
 });
