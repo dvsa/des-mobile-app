@@ -145,7 +145,6 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   }
   isNorthernIreland(driverNumber: string): boolean {
     driverNumber = driverNumber.replace(/\s/g, '');
-    console.log(isNumeric(driverNumber));
     return isNumeric(driverNumber);
   }
 }
