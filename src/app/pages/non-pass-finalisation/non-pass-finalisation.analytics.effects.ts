@@ -112,7 +112,7 @@ export class NonPassFinalisationAnalyticsEffects {
         ),
       ),
     )),
-    switchMap((
+    concatMap((
       [, tests]:
       [ReturnType <typeof D255Yes>, TestsModel],
     ) => {
@@ -134,7 +134,7 @@ export class NonPassFinalisationAnalyticsEffects {
         ),
       ),
     )),
-    switchMap((
+    concatMap((
       [, tests]:
       [ReturnType <typeof D255No>, TestsModel],
     ) => {

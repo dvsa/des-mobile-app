@@ -7,9 +7,11 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { TestResultProvider } from '@providers/test-result/test-result';
+import { NonPassFinalisationAnalyticsEffects }
+  from '@pages/non-pass-finalisation/non-pass-finalisation.analytics.effects';
+import { EffectsModule } from '@ngrx/effects';
 import { NonPassFinalisationPageRoutingModule } from './non-pass-finalisation-routing.module';
 import { NonPassFinalisationPage } from './non-pass-finalisation.page';
-// import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   imports: [
@@ -18,7 +20,7 @@ import { NonPassFinalisationPage } from './non-pass-finalisation.page';
     IonicModule,
     ComponentsModule,
     NonPassFinalisationPageRoutingModule,
-    // EffectsModule.forFeature([NonPassFinalisationAnalyticsEffects]),
+    EffectsModule.forFeature([NonPassFinalisationAnalyticsEffects]),
     ComponentsModule,
     TestFinalisationComponentsModule,
     ReactiveFormsModule,
