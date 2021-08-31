@@ -10,6 +10,7 @@ import { PassFinalisationCatBPageRoutingModule }
   from '@pages/pass-finalisation/cat-b/pass-finalisation.cat-b-routing.module';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
+import { DangerBannerComponent } from '@components/common/danger-banner/danger-banner';
 import { PassFinalisationCatBPage } from './pass-finalisation.cat-b.page';
 import { PassFinalisationComponentsModule } from '../components/pass-finalisation-components.module';
 
@@ -28,6 +29,6 @@ import { PassFinalisationComponentsModule } from '../components/pass-finalisatio
     OutcomeBehaviourMapProvider,
     PassCertificateValidationProvider,
   ],
-  declarations: [PassFinalisationCatBPage],
+  declarations: [PassFinalisationCatBPage, DangerBannerComponent],
 })
 export class PassFinalisationCatBPageModule {}

@@ -2,6 +2,7 @@ import {
   Component, ViewChild, ElementRef, OnInit,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { isNumeric } from 'rxjs/internal-compatibility';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -61,7 +62,8 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   merged$: Observable<string>;
   transmission: GearboxCategory;
   subscription: Subscription;
-
+  niMessage: string = 'This candidate holds a Northern Irish licence and must retain it. Do not collect '
+      + 'it from the candidate.';
   constructor(
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
@@ -140,5 +142,10 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
         this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
       }
     });
+  }
+  isNorthernIreland(driverNumber: string): boolean {
+    driverNumber = driverNumber.replace(/\s/g, '');
+    console.log(isNumeric(driverNumber));
+    return isNumeric(driverNumber);
   }
 }
