@@ -54,6 +54,10 @@ import {
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import {
+  TestFinalisationInvalidTestDataModal,
+} from
+  '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -212,7 +216,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   openTestDataValidationModal = async (): Promise<void> => {
     this.invalidTestDataModal = await this.modalController.create({
       id: 'TestFinalisationInvalidTestDataModal',
-      component: 'TestFinalisationInvalidTestDataModal',
+      component: TestFinalisationInvalidTestDataModal,
       backdropDismiss: false,
       showBackdrop: true,
       componentProps: {
