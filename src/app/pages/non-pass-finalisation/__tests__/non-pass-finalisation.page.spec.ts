@@ -46,7 +46,7 @@ import {
   NonPassFinalisationValidationError,
 } from '../non-pass-finalisation.actions';
 
-describe('NonPassFinalisationCatBPage', () => {
+describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;
@@ -130,10 +130,8 @@ describe('NonPassFinalisationCatBPage', () => {
       });
     });
     describe('continue', () => {
-      // tslint:disable-next-line:max-line-length
       it(`should create the TestFinalisationInvalidTestDataModal 
       when activityCode is 5 and no S/D faults`, async () => {
-        // Arrange
         store$.dispatch(testActions.StartTest(123, TestCategory.B));
         spyOn(component, 'openTestDataValidationModal').and.callThrough();
         spyOn(component.modalController, 'create').and.callThrough();
@@ -157,7 +155,6 @@ describe('NonPassFinalisationCatBPage', () => {
         expect(component.modalController.create).toHaveBeenCalled();
       });
 
-      // tslint:disable-next-line:max-line-length
       it(`should create the TestFinalisationInvalidTestDataModal 
       when activityCode is 4 and no S/D faults`, async () => {
         // Arrange
