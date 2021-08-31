@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import { DangerBannerComponent } from '../danger-banner';
 
-describe('WarningBanner', () => {
+describe('DangerBanner', () => {
   let fixture: ComponentFixture<DangerBannerComponent>;
   let component: DangerBannerComponent;
 
@@ -27,8 +27,8 @@ describe('WarningBanner', () => {
   }));
 
   describe('DOM', () => {
-    it('should display the warning message', () => {
-      const dangerText = 'This is the warning text';
+    it('should display the danger message', () => {
+      const dangerText = 'This is the danger text';
       component.dangerText = dangerText;
 
       fixture.detectChanges();
