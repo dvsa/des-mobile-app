@@ -1,11 +1,86 @@
 <ion-header>
+  <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
   <ion-toolbar>
-    <ion-title>confirm-test-details</ion-title>
+    <ion-title>Confirm test details - {{pageState.candidateUntitledName$ | async}}</ion-title>
   </ion-toolbar>
+  <ion-buttons id="back-button" slot="start">
+    <ion-back-button></ion-back-button>
+  </ion-buttons>
 </ion-header>
 
-<ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateDebrief()">To Debrief</ion-button>
-  <ion-button (click)="navigateBackToOffice()">To Back to Office</ion-button>
+<ion-content class="ion-padding" force-overscroll="false">
+  <ion-card>
+    <ion-card-header>
+      <h4>Confirm test details</h4>
+    </ion-card-header>
+
+    <ion-card-content class="card-content-ios ion-no-padding">
+      <ion-grid class="ion-padding">
+        <!-- Candidate name -->
+        <data-row
+            [label]="'Candidate name'"
+            [value]="pageState.candidateName$ | async">
+        </data-row>
+        <!-- Date and time of test -->
+        <data-row
+            [label]="'Date and time of test'"
+            [value]="pageState.startDateTime$ | async | date: 'dd/MM/yyyy HH:mm'">
+        </data-row>
+        <!-- Test outcome -->
+        <data-row
+            [label]="'Test outcome'"
+            [value]="pageState.testOutcomeText$ | async">
+        </data-row>
+        <!-- Activity Code -->
+        <data-row
+            *ngIf="isTerminated(pageState.testOutcomeText$ | async)"
+            [label]="'Activity Code'"
+            [value]="getActivityCode(pageState.activityCode$ | async)">
+        </data-row>
+        <!-- Test Category -->
+        <data-row
+            [label]="'Test Category'"
+            [value]="pageState.testCategory$ | async">
+        </data-row>
+        <!-- Provisional licence received -->
+        <data-row
+            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !isADI2(category)"
+            [label]="'Provisional licence'"
+            [label2]="'received'"
+            [value]="getProvisionalText(pageState.provisionalLicense$ | async) ">
+        </data-row>
+        <!-- Transmission -->
+        <transmission-display
+            *ngIf="isPassed(pageState.testOutcomeText$ | async)  && !isADI2(category)"
+            [category]="category"
+            [transmission]="pageState.transmission$ | async"
+            [code78]="pageState.code78$ | async"
+            [isTestSubmitted]="false">
+        </transmission-display>
+        <!-- D255 -->
+        <data-row
+            [label]="'D255'"
+            [value]="getD255Text(pageState.d255$ | async)"
+            [shouldHaveSeperator]="false">
+        </data-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
+
+<ion-footer>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-col class="ion-no-padding ion-text-left">
+      <ion-button class="mes-grey-button confirm-button" (click)="goBackToDebrief()">
+        <h3>Back to debrief</h3>
+      </ion-button>
+    </ion-col>
+    <ion-col class="ion-no-padding ion-text-end">
+      <ion-button class="mes-primary-button confirm-button" (click)="onSubmit()">
+        <h3>Submit test results</h3>
+      </ion-button>
+    </ion-col>
+
+  </ion-row>
+</ion-footer>
