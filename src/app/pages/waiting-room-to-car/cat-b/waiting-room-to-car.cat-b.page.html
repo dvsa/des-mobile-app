@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
   <ion-toolbar>
-    <ion-title id="page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="end-test-button" slot="end">
       <end-test-link [shouldAuthenticate]="false" [category]="pageState.category$ | async"></end-test-link>
     </ion-buttons>
