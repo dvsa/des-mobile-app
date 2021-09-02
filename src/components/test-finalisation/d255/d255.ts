@@ -52,6 +52,7 @@ export class D255Component implements OnChanges {
     }
 
     this.formControl.patchValue(this.getD255OrDefault());
+    if (this.eyesightTestFailed) this.formGroup.get(D255Component.fieldName).disable();
   }
 
   d255Changed(d255FormId: string): void {
