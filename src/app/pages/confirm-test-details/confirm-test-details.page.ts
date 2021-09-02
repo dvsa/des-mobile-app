@@ -111,7 +111,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   }
 
   async goBackToDebrief(): Promise<void> {
-    await this.navController.pop();
+    await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
   }
 
   ngOnInit(): void {
@@ -238,11 +238,8 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   }
 
   async onTestDetailsConfirm(): Promise<void> {
-
-    if (!this.isPassed(this.testOutcome)) {
-      this.store$.dispatch(SetTestStatusWriteUp(this.slotId));
-      this.store$.dispatch(PersistTests());
-    }
+    this.store$.dispatch(SetTestStatusWriteUp(this.slotId));
+    this.store$.dispatch(PersistTests());
     await this.router.navigate([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
   }
 

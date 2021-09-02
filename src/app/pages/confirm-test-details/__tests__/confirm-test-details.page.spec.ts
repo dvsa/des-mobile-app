@@ -182,16 +182,8 @@ describe('ConfirmTestDetailsPage', () => {
       expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
     });
 
-    it('should not call dispatch for SetTestStatusWriteUp and PersistTests if test outcome is passed', async () => {
+    it('should call dispatch for  PersistTests', async () => {
       component.testOutcome = TestOutcome.Passed;
-      component.slotId = '123';
-      await component.onTestDetailsConfirm();
-      expect(store$.dispatch).not.toHaveBeenCalledWith(SetTestStatusWriteUp('123'));
-      expect(store$.dispatch).not.toHaveBeenCalledWith(PersistTests());
-    });
-
-    it('should call dispatch for SetTestStatusWriteUp and PersistTests if test outcome is not passed', async () => {
-      component.testOutcome = TestOutcome.Terminated;
       component.slotId = '123';
       await component.onTestDetailsConfirm();
       expect(store$.dispatch).toHaveBeenCalledWith(SetTestStatusWriteUp('123'));
