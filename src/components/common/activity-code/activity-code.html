@@ -12,7 +12,7 @@
                         okText="Submit"
                         cancelText="Cancel"
                         formControlName="activityCode"
-                        (ionChange)="activityCodeChanged($event.detail.value)"
+                        (ionChange)="activityCodeChanged($event.target.value)"
                         [interfaceOptions]="{cssClass:'mes-select activity-code-select', enableBackdropDismiss:false}"
                         [disabled]="isSelectDisabled()">
                 <ion-select-option [value]="activityCode"
