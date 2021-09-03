@@ -68,6 +68,7 @@ export class D255Component implements OnChanges {
 
     // set default to false unless eyesight test failed
     this.d255 = !!this.eyesightTestFailed;
+    this.d255Change.emit(this.d255);
     return this.d255;
   }
 
