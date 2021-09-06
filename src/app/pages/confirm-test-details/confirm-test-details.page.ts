@@ -39,8 +39,8 @@ import { PersistTests } from '@store/tests/tests.actions';
 import { getCode78 } from '@store/tests/pass-completion/cad-d/pass-completion.cat-d.selector';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
-import { ActivityCodeModel } from '../office/components/activity-code/activity-code.constants';
 import { TestFlowPageNames } from '../page-names.constants';
 
 interface ConfirmTestDetailsPageState {
