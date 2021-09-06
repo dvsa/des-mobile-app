@@ -58,7 +58,7 @@ export class AppConfigProvider {
 
   isDebugMode = false;
 
-  environmentFile: EnvironmentFile = environment;
+  environmentFile: EnvironmentFile = environment as EnvironmentFile;
 
   private appConfig: AppConfig;
 

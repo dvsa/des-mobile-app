@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
+import { HighwayCodeSafetyComponent } from '@pages/test-report/components/highway-code-safety/highway-code-safety';
 import { EtaComponent } from './examiner-takes-action/eta';
 import { CompetencyComponent } from './competency/competency';
 import { CompetencyButtonComponent } from './competency-button/competency-button';
@@ -45,6 +46,7 @@ import {
     TimerComponent,
     UncoupleRecoupleComponent,
     ControlledStopComponent,
+    HighwayCodeSafetyComponent,
   ],
   imports: [
     ComponentsModule,
@@ -72,6 +74,7 @@ import {
     TimerComponent,
     UncoupleRecoupleComponent,
     ControlledStopComponent,
+    HighwayCodeSafetyComponent,
   ],
 })
 export class TestReportComponentsModule {}
