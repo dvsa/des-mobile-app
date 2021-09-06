@@ -11,6 +11,9 @@ export class DataRowComponent {
   label: string;
 
   @Input()
+  label2: string = null;
+
+  @Input()
   value: string;
 
   @Input()
