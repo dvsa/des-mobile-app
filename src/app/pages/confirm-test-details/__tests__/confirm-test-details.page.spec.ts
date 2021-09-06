@@ -23,9 +23,9 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actions';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
 import { ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
-import { ActivityCodeModel } from '../../office/components/activity-code/activity-code.constants';
 import { TestFlowPageNames } from '../../page-names.constants';
 
 describe('ConfirmTestDetailsPage', () => {
