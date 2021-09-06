@@ -93,7 +93,7 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
       if (this.signature) {
         this.setSignature(this.signature);
       }
-    });
+    }, 250);
   }
 
   getSignatureHeight(): number {
