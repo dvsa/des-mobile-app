@@ -35,7 +35,6 @@ export class TransmissionDisplayComponent {
     if (
       code78Categories.includes(this.category)
       && this.transmission as GearBox !== GearBox.MANUAL
-      // tslint:disable-next-line
       && this.code78 === false
     ) {
       return GearBox.CODE78;
