@@ -3,7 +3,7 @@ import { get, isNil } from 'lodash';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -12,15 +12,13 @@ import * as moment from 'moment';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
-import {
-  CategoryWhitelistProvider,
-} from '@providers/category-whitelist/category-whitelist';
+import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
 import { StoreModel } from '@shared/models/store.model';
 import { SlotTypes } from '@shared/models/slot-types';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { getTestStatus, getActivityCodeBySlotId, getTestById } from '@store/tests/tests.selector';
+import { getActivityCodeBySlotId, getTestById, getTestStatus } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
@@ -165,5 +163,11 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       returnValue = slot.examinerId;
     }
     return returnValue;
+  }
+
+  isTestCentreJournalADIBooking(): boolean {
+    const aDICats: TestCategory[] = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC];
+    const testCategory: TestCategory = get(this.slot, 'booking.application.testCategory', null) as TestCategory;
+    return aDICats.includes(testCategory);
   }
 }

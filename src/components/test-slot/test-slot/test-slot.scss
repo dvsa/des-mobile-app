@@ -70,3 +70,9 @@ ion-col {
   display: flex;
   align-items: center;
 }
+
+.candidate-details-placeholder-text[disabled] {
+  position: relative;
+  left: -20px;
+  opacity: 1;
+}
