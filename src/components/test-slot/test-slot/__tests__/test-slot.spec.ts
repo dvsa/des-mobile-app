@@ -359,6 +359,37 @@ describe('TestSlotComponent', () => {
         expect(canViewCandidateDetails).toEqual(true);
       });
     });
+    describe('isTestCentreJournalADIBooking', () => {
+      beforeEach(() => {
+        component.slot = {
+          booking: {
+            application: {
+              testCategory: TestCategory.B,
+            },
+          },
+        } as TestSlot;
+      });
+      it('should return false if non ADI / SC booking', () => {
+        expect(component.isTestCentreJournalADIBooking())
+          .toEqual(false);
+      });
+      it('should return true if non ADI2 booking', () => {
+        component.slot.booking.application.testCategory = TestCategory.ADI2;
+        expect(component.isTestCentreJournalADIBooking())
+          .toEqual(true);
+      });
+      it('should return true if non ADI3 booking', () => {
+        component.slot.booking.application.testCategory = TestCategory.ADI3;
+        expect(component.isTestCentreJournalADIBooking())
+          .toEqual(true);
+      });
+      it('should return true if non SC booking', () => {
+        component.slot.booking.application.testCategory = TestCategory.SC;
+        expect(component.isTestCentreJournalADIBooking())
+          .toEqual(true);
+      });
+
+    });
   });
 
   describe('DOM', () => {
