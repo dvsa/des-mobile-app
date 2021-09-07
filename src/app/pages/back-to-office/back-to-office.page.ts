@@ -8,7 +8,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Router } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';

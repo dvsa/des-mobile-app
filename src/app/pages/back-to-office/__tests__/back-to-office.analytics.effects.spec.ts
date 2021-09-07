@@ -63,6 +63,7 @@ describe('Back To Office Analytics Effects', () => {
     effects = TestBed.inject(BackToOfficeAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
+    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('backToOfficeViewDidEnter', () => {
