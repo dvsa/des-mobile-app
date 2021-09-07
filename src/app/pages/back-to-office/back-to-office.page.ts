@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, Platform } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { TestFlowPageNames } from '@pages/page-names.constants';
+import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Router } from '@angular/router';
@@ -52,7 +52,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent implements O
     this.navController.back();
   }
 
-  async navigateForward(): Promise<void> {
-    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, TestCategory.B);
+  async navigateJournal(): Promise<void> {
+    await this.router.navigate([JOURNAL_PAGE]);
   }
 }
