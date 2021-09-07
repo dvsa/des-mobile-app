@@ -4,21 +4,22 @@
     font-size: 35px;
   }
   div {
-    background: var(--mes-light-yellow);
-    border-left: 10px solid var(--gds-yellow);
+    border-left: 10px solid var(--danger);
+    background: #ffc7c9;
   }
 
   .center-icon {
     text-align: center;
   }
+
   .modal-alert-header {
     margin: 0 0 24px;
   }
-  .warning-centre {
+  .danger-centre {
     display: flex;
     align-items: center;
   }
-  .warning-text {
+  .danger-text {
     color: var(--gds-black);
   }
 }

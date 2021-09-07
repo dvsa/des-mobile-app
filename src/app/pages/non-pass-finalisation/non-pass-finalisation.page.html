@@ -1,10 +1,61 @@
 <ion-header>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar>
-    <ion-title>non-pass-finalisation</ion-title>
+    <ion-title>Finalise outcome - {{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Confirm Test Details</ion-button>
+
+  <finalisation-header [candidateName]="pageState.candidateName$ | async"
+                       [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                       [outcomeText]="pageState.testOutcomeText$ | async">
+  </finalisation-header>
+
+  <form [formGroup]="form">
+    <ion-grid>
+      <activity-code id="activity-code-card"
+                     [formGroup]="form"
+                     [activityCodeModel]="pageState.activityCode$ | async"
+                     [activityCodeOptions]="activityCodeOptions"
+                     (activityCodeChange)="activityCodeChanged($event)"
+                     [disabled]="false">
+      </activity-code>
+
+      <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+
+        <d255 [display]="pageState.displayD255$ | async"
+              [d255]="pageState.d255$ | async"
+              [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
+              [outcome]="pageState.testOutcome$ | async"
+              [formGroup]="form"
+              (d255Change)="d255Changed($event)">
+        </d255>
+        <warning-banner *ngIf="pageState.d255$ | async"
+                        warningText="DVLA will not process the result until a D255 is received">
+        </warning-banner>
+
+        <language-preferences [formGroup]="form" [isWelsh]="pageState.isWelshTest$ | async"
+                              (welshChanged)="isWelshChanged($event)">
+        </language-preferences>
+
+        <debrief-witnessed [display]="pageState.displayDebriefWitnessed$ | async" [formGroup]="form"
+                           [debriefWitnessed]="pageState.debriefWitnessed$ | async" [outcome]="pageState.testOutcome$ | async"
+                           (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+        </debrief-witnessed>
+
+      </div>
+    </ion-grid>
+  </form>
 </ion-content>
+
+<ion-footer>
+  <div id="footer-background">
+    <ion-button id="continue-button" class="mes-primary-button continue" (click)="continue()">
+      <h3>Continue</h3>
+    </ion-button>
+  </div>
+</ion-footer>

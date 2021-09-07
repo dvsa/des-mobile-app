@@ -37,4 +37,11 @@
     }
   }
 
+  &:disabled + label {
+    opacity: 0.4;
+  }
+  &:disabled + label:before {
+    opacity: 0.4;
+  }
+
 }

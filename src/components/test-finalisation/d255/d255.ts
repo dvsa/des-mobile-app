@@ -52,6 +52,7 @@ export class D255Component implements OnChanges {
     }
 
     this.formControl.patchValue(this.getD255OrDefault());
+    if (this.eyesightTestFailed) this.formGroup.get(D255Component.fieldName).disable();
   }
 
   d255Changed(d255FormId: string): void {
@@ -67,6 +68,7 @@ export class D255Component implements OnChanges {
 
     // set default to false unless eyesight test failed
     this.d255 = !!this.eyesightTestFailed;
+    this.d255Change.emit(this.d255);
     return this.d255;
   }
 

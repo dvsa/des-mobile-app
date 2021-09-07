@@ -19,6 +19,8 @@ import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-bad
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { SignatureComponent } from '@components/common/signature/signature';
+import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
+import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
@@ -64,6 +66,8 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     TransmissionComponent,
     MesBackButtonComponent,
     SignatureComponent,
+    ActivityCodeComponent,
+    TransmissionDisplayComponent,
   ],
   imports: [
     SignaturePadModule,
@@ -103,6 +107,8 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     MesBackButtonComponent,
     SignatureComponent,
     TranslateModule,
+    ActivityCodeComponent,
+    TransmissionDisplayComponent,
   ],
 })
 export class ComponentsModule { }
