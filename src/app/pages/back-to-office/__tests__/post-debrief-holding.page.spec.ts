@@ -1,5 +1,5 @@
 import {
-  async, ComponentFixture, fakeAsync, TestBed, tick,
+  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 
@@ -18,7 +18,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { PostDebriefHoldingPage } from '../post-debrief-holding.page';
+import { PostDebriefHoldingPage } from '@pages/post-debrief-holding/post-debrief-holding.page';
 
 describe('PostDebriefHoldingPage', () => {
   let fixture: ComponentFixture<PostDebriefHoldingPage>;
@@ -48,7 +48,7 @@ describe('PostDebriefHoldingPage', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PostDebriefHoldingPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
