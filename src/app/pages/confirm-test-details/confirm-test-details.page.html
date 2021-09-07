@@ -2,10 +2,10 @@
   <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
   <ion-toolbar>
     <ion-title>Confirm test details - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons id="back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
-  <ion-buttons id="back-button" slot="start">
-    <ion-back-button></ion-back-button>
-  </ion-buttons>
 </ion-header>
 
 <ion-content class="ion-padding" force-overscroll="false">
