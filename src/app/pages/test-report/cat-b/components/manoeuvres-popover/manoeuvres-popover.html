@@ -7,8 +7,7 @@
         <ion-row>
           <ion-col>
             <input type="radio" name="manoeuvres"
-            [attr.disabled]="(shouldManoeuvreDisable('reverseRight') | async) ? 'disabled' : null"
-            [checked]="asyncData.manoeuvres.selectedReverseRight"
+            [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseRight) | async) ? 'disabled' : null"
             (click)="recordManoeuvreSelection(manoeuvreTypes.reverseRight)"
             id="manoeuvres-reverse-right-radio" class="gds-radio-button">
             <label for="manoeuvres-reverse-right-radio" class="radio-label">Reverse/ Right</label>
@@ -17,8 +16,7 @@
         <ion-row>
           <ion-col>
             <input type="radio" name="manoeuvres"
-            [attr.disabled]="(shouldManoeuvreDisable('reverseParkRoad') | async) ? 'disabled' : null"
-            [checked]="asyncData.manoeuvres.selectedReverseParkRoad"
+            [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkRoad) | async) ? 'disabled' : null"
             (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkRoad)"
             id="manoeuvres-reverse-park-road-radio" class="gds-radio-button">
             <label for="manoeuvres-reverse-park-road-radio" class="radio-label">Reverse park (Road)</label>
@@ -27,8 +25,7 @@
         <ion-row>
           <ion-col>
             <input type="radio" name="manoeuvres"
-            [attr.disabled]="(shouldManoeuvreDisable('reverseParkCarpark') | async) ? 'disabled' : null"
-            [checked]="asyncData.manoeuvres.selectedReverseParkCarpark"
+            [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkCarpark) | async) ? 'disabled' : null"
             (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkCarpark)"
             id="manoeuvres-reverse-park-carpark-radio" class="gds-radio-button">
             <label for="manoeuvres-reverse-park-carpark-radio" class="radio-label">Reverse park (Car park)</label>
@@ -37,8 +34,7 @@
         <ion-row>
           <ion-col>
             <input type="radio" name="manoeuvres"
-            [attr.disabled]="(shouldManoeuvreDisable('forwardPark') | async) ? 'disabled' : null"
-            [checked]="asyncData.manoeuvres.selectedForwardPark"
+            [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.forwardPark) | async) ? 'disabled' : null"
             (click)="recordManoeuvreSelection(manoeuvreTypes.forwardPark)"
             id="manoeuvres-forward-park-radio" class="gds-radio-button">
             <label for="manoeuvres-forward-park-radio" class="radio-label">Forward park</label>

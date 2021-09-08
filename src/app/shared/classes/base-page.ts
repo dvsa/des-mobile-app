@@ -2,6 +2,7 @@ import { Platform } from '@ionic/angular';
 import { NavigationExtras, Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
+import { Inject } from '@angular/core';
 
 export abstract class BasePageComponent {
 
@@ -9,7 +10,7 @@ export abstract class BasePageComponent {
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
-    public loginRequired: boolean = true,
+    @Inject(true) public loginRequired: boolean = true,
   ) {
 
   }
