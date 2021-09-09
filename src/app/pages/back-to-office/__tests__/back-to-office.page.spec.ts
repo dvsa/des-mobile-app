@@ -27,6 +27,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { BackToOfficePage } from '../back-to-office.page';
 
 describe('BackToOfficePage', () => {
@@ -47,50 +48,7 @@ describe('BackToOfficePage', () => {
       imports: [
         IonicModule,
         AppModule,
-        StoreModule.forRoot({
-          tests: () => ({
-            currentTest: {
-              slotId: '123',
-            },
-            testStatus: {},
-            startedTests: {
-              123: {
-                vehicleDetails: {},
-                accompaniment: {},
-                testData: {
-                  dangerousFaults: {},
-                  drivingFaults: {},
-                  manoeuvres: {},
-                  seriousFaults: {},
-                  testRequirements: {},
-                  ETA: {},
-                  eco: {},
-                  vehicleChecks: {
-                    showMeQuestion: {
-                      code: 'S3',
-                      description: '',
-                      outcome: '',
-                    },
-                    tellMeQuestion: {
-                      code: '',
-                      description: '',
-                      outcome: '',
-                    },
-                  },
-                  eyesightTest: {},
-                },
-                activityCode: '28',
-                journalData: {
-                  candidate: {
-                    candidateName: 'Joe Bloggs',
-                    driverNumber: '123',
-                  },
-                },
-                rekey: false,
-              },
-            },
-          }),
-        }),
+        StoreModule.forRoot({}),
       ],
       providers: [
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
@@ -115,13 +73,12 @@ describe('BackToOfficePage', () => {
     store$ = TestBed.inject(Store);
     router = TestBed.inject(Router);
     spyOn(store$, 'dispatch');
-    spyOn(router, 'navigate');
     spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
   }));
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
-      it('should disable test inhibitions when not in practice mode', async (done) => {
+      it('should disable test inhibitions when in practice mode', async (done) => {
         component.isPracticeMode = true;
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode).not.toHaveBeenCalled();
@@ -129,7 +86,7 @@ describe('BackToOfficePage', () => {
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
         done();
       });
-      it('should disable test inhibitions when not in practice mode', async (done) => {
+      it('should disable test inhibitions and disable ASAM when not in practice mode', async (done) => {
         component.isPracticeMode = false;
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
@@ -143,14 +100,13 @@ describe('BackToOfficePage', () => {
   describe('goToJournal', () => {
     it('should call the popTo method in the navcontroller if not in practice mode', () => {
       component.goToJournal();
-      expect(router.navigate).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
     });
-    // @TODO enable once practice mode added (MES-6867)
-    xit('should call the popTo method in the navcontroller if in practice mode', async (done) => {
+    it('should call the popTo method in the navcontroller if in practice mode', async (done) => {
       component.isPracticeMode = true;
-      spyOn(component.routeByCategoryProvider, 'navigateToPage');
+      spyOn(component, 'exitPracticeMode');
       await component.goToJournal();
-      expect(component.routeByCategoryProvider.navigateToPage).toHaveBeenCalled();
+      expect(component.exitPracticeMode).toHaveBeenCalled();
       done();
     });
   });
