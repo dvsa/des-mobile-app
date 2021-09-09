@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
+import { ComponentsModule } from '@components/common/common-components.module';
 import { BackToOfficePageRoutingModule } from './back-to-office-routing.module';
 
 import { BackToOfficePage } from './back-to-office.page';
@@ -14,6 +15,7 @@ import { BackToOfficePage } from './back-to-office.page';
     FormsModule,
     IonicModule,
     BackToOfficePageRoutingModule,
+    ComponentsModule,
   ],
   declarations: [BackToOfficePage],
 })
