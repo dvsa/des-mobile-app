@@ -1,28 +1,31 @@
-.background-colour {
-  --ion-background-color: var(--mes-dvsa-navy) !important;
-}
+:host {
 
-.container{
-  display: flex;
-  justify-content: center;
-  background-color: var(--mes-dvsa-navy);
-}
-#dvsa-logo {
-  width: 50%;
-  height: 50%;
-  margin-top: 300px;
-  margin-left: -143px;
-}
-.office-button {
-  width: 488px;
-  height: 56px;
-  color: var(--gds-black);
-  font-size: 24px;
-  font-weight: 600;
-}
-.top-button {
-  margin-top: 160px;
-}
-.bottom-button {
-  margin-top: 64px;
+  ion-content {
+    --ion-background-color: var(--mes-dvsa-navy);
+  }
+  .container{
+    display: flex;
+    justify-content: center;
+  }
+  #dvsa-logo {
+    width: 50%;
+    height: 50%;
+    margin-top: 209px;
+    margin-left: -143px;
+  }
+  .office-button {
+    width: 488px;
+    height: 56px;
+    color: inherit;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .top-button {
+    margin-top: 160px;
+  }
+  .bottom-button {
+    margin-top: 64px;
+  }
+
+
 }
