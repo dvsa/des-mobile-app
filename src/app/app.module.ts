@@ -64,6 +64,8 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CommonModule } from '@angular/common';
+import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -177,6 +179,8 @@ if (enableRehydrationPlugin) {
     StatusBar,
     CommonModule,
     { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
+    WeatherConditionProvider,
+    OutcomeBehaviourMapProvider,
   ],
   bootstrap: [AppComponent],
 })

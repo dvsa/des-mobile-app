@@ -50,10 +50,10 @@ export const testSummaryMod2Reducer = createReducer(
     identification,
   })),
   on(fromTestSummaryActions.IndependentDrivingTypeChanged, (state, {
-    independentDriving,
+    drivingType,
   }): TestSummary => ({
     ...state,
-    independentDriving,
+    independentDriving: drivingType,
   })),
   on(fromTestSummaryActions.D255Yes, (state): TestSummary => ({
     ...state,

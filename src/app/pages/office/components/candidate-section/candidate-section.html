@@ -1,0 +1,16 @@
+<ion-row class="mes-full-width-card" id="candidate-section">
+    <ion-col size="60">
+        <h2 id="candidate-name">{{candidateName}}</h2>
+        <h3 id="candidate-driver-number">{{driverNumber}}</h3>
+    </ion-col>
+    <ion-col size="36" class="align-col-right">
+        <h2>{{startTime}}</h2>
+        <h3>Test outcome:
+            <div id="test-outcome-text" class="inline-mode">
+                <span [class]="getTestOutcomeClass(testOutcomeText)">
+                    {{testOutcomeText}}
+                </span>
+            </div>
+        </h3>
+    </ion-col>
+</ion-row>
