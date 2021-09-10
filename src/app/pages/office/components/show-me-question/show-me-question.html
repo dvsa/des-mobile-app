@@ -1,0 +1,23 @@
+<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="show-me-question-card" [formGroup]="formGroup" nowrap>
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label>Show me question</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-select id="show-me-selector" placeholder="Select a question" okText="Submit" cancelText="Cancel"
+        formControlName="showMeQuestion" (ionChange)="showMeQuestionChanged($event)"
+        [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
+        <ion-select-option [value]="showMeQuestion" *ngFor="let showMeQuestion of showMeQuestionOptions">
+          {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
+        </ion-select-option>
+      </ion-select>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="office-show-me-validation-text">
+        Select the show me question
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

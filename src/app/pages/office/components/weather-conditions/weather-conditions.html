@@ -1,0 +1,25 @@
+<ion-row *ngIf="display" class="mes-validated-row mes-row-separator ion-nowrap" id="weather-conditions-card"
+  [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label>Weather conditions</label>
+  </ion-col>
+  <ion-col size="63" class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-select value="weather" multiple="true" okText="Submit" cancelText="Cancel"
+        placeholder="Select weather conditions" formControlName="weatherConditions" [class.ng-invalid]="invalid"
+        (ionChange)="weatherConditionsChanged($event)" [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
+        <ion-select-option [value]="weatherCondition.weatherConditionDescription"
+          *ngFor="let weatherCondition of weatherConditionsOptions">
+          {{weatherCondition.weatherConditionNumber}} - {{weatherCondition.weatherConditionDescription}}
+        </ion-select-option>
+      </ion-select>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="office-weather-validation-text">
+        Select weather conditions
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

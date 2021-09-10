@@ -1,0 +1,18 @@
+<ion-row *ngIf="display" class="mes-component-row mes-row-separator" id="additional-information-card"
+  [formGroup]="formGroup">
+  <ion-col class="component-label ion-align-self-start" size="32">
+    <label>Additional information (optional)</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col class="textarea-input">
+        <textarea id="additional-information" class="mes-data" name="additionalInformation"
+          formControlName="additionalInformation" [value]="additionalInformation"
+          (change)="additionalInformationChanged($event.target.value)">
+      </textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row class="spacing-row"></ion-row>
+  </ion-col>
+</ion-row>

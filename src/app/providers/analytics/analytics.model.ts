@@ -165,6 +165,7 @@ export enum AnalyticsEvents {
   TOGGLE_ETA_VERBAL = 'toggle ETA verbal',
   TOGGLE_ETA_PHYSICAL = 'toggle ETA physical',
   START_TIMER = 'start timer',
+  DATE_OF_TEST_CHANGED = 'date of test changed',
 }
 
 export enum AnalyticsLabels {

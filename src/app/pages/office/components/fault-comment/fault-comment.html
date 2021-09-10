@@ -1,0 +1,33 @@
+<ion-grid>
+  <ion-row>
+    <div class="validation-bar" [class.ng-invalid]="invalid">
+    </div>
+    <ion-col class="fault-badge ion-align-self-start ion-no-padding" size="4" [ngSwitch]="faultType">
+      <dangerous-fault-badge [showBadge]="true" *ngSwitchCase="'dangerous'"></dangerous-fault-badge>
+      <serious-fault-badge [showBadge]="true" *ngSwitchCase="'serious'"></serious-fault-badge>
+      <driving-faults-badge [count]="faultComment.faultCount" *ngSwitchCase="'driving'"></driving-faults-badge>
+    </ion-col>
+    <ion-col class="component-label" [attr.col-28]="isDelegatedTest ? null : true" align-self-start>
+      <label class="fault-label">{{faultComment.competencyDisplayName | modifyCompetencyLabel:testCategory:faultComment.competencyDisplayName}}</label>
+    </ion-col>
+    <ion-col *ngIf="!isDelegatedTest" class="ion-padding-start">
+      <ion-row class="spacing-row"></ion-row>
+      <ion-row>
+        <ion-col class="textarea-input" [formGroup]="parentForm">
+          <textarea *ngIf="!isFieldNotVisible && !shouldClearDrivingFaultValidators()" row="5" class="mes-data" [formControlName]="formControlName" [class.ng-invalid]="invalid"
+            charLimit="1000" charCount (onCharacterCountChanged)="characterCountChanged($event)"
+            [value]="faultComment.comment" (change)="faultCommentChanged($event.target.value)">
+          </textarea>
+          <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+            {{getCharacterCountText()}}
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="validation-message-row ion-align-items-center">
+        <div class="validation-text" [class.ng-invalid]="invalid" *ngIf="invalid && !charactersExceeded()">
+          Provide a comment
+        </div>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-grid>
