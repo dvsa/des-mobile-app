@@ -168,6 +168,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   isTestCentreJournalADIBooking(): boolean {
     const aDICats: TestCategory[] = [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC];
     const testCategory: TestCategory = get(this.slot, 'booking.application.testCategory', null) as TestCategory;
-    return aDICats.includes(testCategory);
+    return aDICats.includes(testCategory) && this.isTeamJournal;
   }
 }
