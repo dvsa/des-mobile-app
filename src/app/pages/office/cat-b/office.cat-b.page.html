@@ -21,7 +21,7 @@
         <h4>Test summary</h4>
       </ion-card-header>
 
-      <ion-card-content class="card-content-ios" no-padding>
+      <ion-card-content class="card-content-ios no-padding">
         <ion-grid class="grid">
 
           <date-of-test
@@ -34,7 +34,7 @@
           <activity-code id="activity-code-card" [formGroup]="form" [activityCodeModel]="pageState.activityCode$ | async"
                          [activityCodeOptions]="activityCodeOptions" (activityCodeChange)="activityCodeChanged($event)" [disabled]="true"></activity-code>
 
-          <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+          <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <route-number [display]="pageState.displayRouteNumber$ | async" [routeNumber]="pageState.routeNumber$ | async"
                           [outcome]="pageState.testOutcome$ | async" (routeNumberChange)="routeNumberChanged($event)" [formGroup]="form">
             </route-number>
@@ -82,7 +82,7 @@
       </ion-card-content>
     </ion-card>
 
-    <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+    <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
       <ion-card id="ETA" *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)">
         <ion-card-content>
           <ion-grid>
@@ -90,7 +90,7 @@
               <ion-col size="32">
                 <h4 class="fault-heading">ETA</h4>
               </ion-col>
-              <ion-col align-self-start class="ion-padding-start">
+              <ion-col class="ion-padding-start ion-align-self-start">
                 <div id="etaFaults">{{pageState.etaFaults$ | async}}</div>
               </ion-col>
             </ion-row>

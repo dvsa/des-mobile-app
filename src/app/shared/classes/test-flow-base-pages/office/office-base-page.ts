@@ -9,23 +9,23 @@ import { getTests } from '@store/tests/tests.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 
-import { BasePageComponent } from '../../base-page';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
 }
 
-export abstract class OfficeBasePageComponent extends BasePageComponent {
+export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
 
   commonPageState: CommonOfficePageState;
 
   protected constructor(
-    protected store$: Store<StoreModel>,
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected router: Router,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
+    store$: Store<StoreModel>,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, router, store$);
   }
 
   onInitialisation(): void {

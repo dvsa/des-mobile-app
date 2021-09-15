@@ -4,6 +4,7 @@ export const PRESS_TIME_TO_ENABLE_EDIT = 10000;
 
 // This function is required for updating incorrect dates of test
 // Is mainly used in the office page of Delegated test journies
+// @TODO: MES-7239 refactor this method to use the DateTime class
 
 export function getNewTestStartTime(inputDate: string, startDateTime: string): string {
   const date = inputDate.trim();

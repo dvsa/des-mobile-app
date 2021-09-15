@@ -5,7 +5,6 @@ import {
   AlertController,
 } from '@ionic/angular';
 import { Component } from '@angular/core';
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -106,6 +105,7 @@ import { getNewTestStartTime } from '@shared/helpers/test-start-time';
 import { SetStartDate }
   from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import { Router } from '@angular/router';
+import { OfficeBasePageComponent } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import {
   OfficeViewDidEnter,
   CompleteTest,
@@ -164,7 +164,8 @@ interface OfficePageState {
   templateUrl: 'office.cat-b.page.html',
   styleUrls: ['../office.page.scss'],
 })
-export class OfficeCatBPage extends PracticeableBasePageComponent {
+export class OfficeCatBPage extends OfficeBasePageComponent {
+
   pageState: OfficePageState;
   form: FormGroup;
   toast: any;
@@ -181,18 +182,18 @@ export class OfficeCatBPage extends PracticeableBasePageComponent {
   isValidStartDateTime: boolean = true;
 
   constructor(
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
     store$: Store<StoreModel>,
     public toastController: ToastController,
     public navController: NavController,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
     private weatherConditionProvider: WeatherConditionProvider,
     public questionProvider: QuestionProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public alertController: AlertController,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
-    public router: Router,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
@@ -207,7 +208,7 @@ export class OfficeCatBPage extends PracticeableBasePageComponent {
   }
 
   ngOnInit(): void {
-    super.ngOnInit();
+    super.onInitialisation();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
@@ -470,7 +471,8 @@ export class OfficeCatBPage extends PracticeableBasePageComponent {
     } = this.pageState;
     this.subscription = merge(
       startDateTime$.pipe(map((value) => this.startDateTime = value)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   ionViewDidLeave(): void {
@@ -487,8 +489,8 @@ export class OfficeCatBPage extends PracticeableBasePageComponent {
     await this.navController.navigateBack(JOURNAL_PAGE);
   }
 
-  defer() {
-    this.popToRoot();
+  async defer() {
+    await this.popToRoot();
     this.store$.dispatch(SavingWriteUpForLater());
     this.store$.dispatch(PersistTests());
   }
@@ -647,7 +649,8 @@ export class OfficeCatBPage extends PracticeableBasePageComponent {
       buttons: [
         {
           text: 'Back',
-          handler: () => { },
+          handler: () => {
+          },
         },
         {
           text: 'Continue',
@@ -665,25 +668,27 @@ export class OfficeCatBPage extends PracticeableBasePageComponent {
   }
 
   async isFormValid() {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (this.form.valid) {
       return true;
     }
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(OfficeValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(OfficeValidationError(`${controlName} is blank`));
+        }
+      });
     await this.createToast('Fill all mandatory fields');
     this.toast.present();
     return false;
   }
 
-  completeTest() {
+  async completeTest() {
     if (!this.isPracticeMode) {
       this.store$.dispatch(CompleteTest());
     }
-    this.popToRoot();
+    await this.popToRoot();
   }
 
   shouldDisplayDrivingFaultComments = (data: CatBUniqueTypes.TestData): boolean => {
