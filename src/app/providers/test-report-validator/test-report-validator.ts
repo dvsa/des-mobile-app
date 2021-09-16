@@ -35,6 +35,8 @@ import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { SpeedCheckState } from './test-report-validator.constants';
 import { FaultCountProvider } from '../fault-count/fault-count';
 
+// @TODO - MES-7147 fix linting errors in this file
+/* eslint-disable */
 @Injectable()
 export class TestReportValidatorProvider {
 
