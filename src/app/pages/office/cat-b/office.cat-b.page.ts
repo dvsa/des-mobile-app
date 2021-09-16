@@ -2,7 +2,7 @@ import {
   NavController,
   Platform,
   ToastController,
-  AlertController,
+  AlertController, ModalController,
 } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -194,6 +194,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     public alertController: AlertController,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
+    private modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
@@ -495,9 +496,9 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     this.store$.dispatch(PersistTests());
   }
 
-  onSubmit() {
-    if (this.isFormValid()) {
-      this.showFinishTestModal();
+  async onSubmit() {
+    if (await this.isFormValid()) {
+      await this.showFinishTestModal();
     }
   }
 
@@ -643,22 +644,22 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   };
 
   async showFinishTestModal() {
-    const alert = await this.alertController.create({
-      header: 'Are you sure you wish to mark the write up for this test as complete?',
-      cssClass: 'finish-test-modal',
-      buttons: [
-        {
-          text: 'Back',
-          handler: () => {
-          },
-        },
-        {
-          text: 'Continue',
-          handler: () => this.completeTest(),
-        },
-      ],
-    });
-    await alert.present();
+    // const alert = await this.alertController.create({
+    //   header: 'Are you sure you wish to mark the write up for this test as complete?',
+    //   cssClass: 'finish-test-modal',
+    //   buttons: [
+    //     {
+    //       text: 'Back',
+    //       handler: () => {
+    //       },
+    //     },
+    //     {
+    //       text: 'Continue',
+    //       handler: () => this.completeTest(),
+    //     },
+    //   ],
+    // });
+    // await alert.present();
   }
 
   async goToReasonForRekey() {

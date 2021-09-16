@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import { FaultCommentComponent } from './fault-comment/fault-comment';
 import { FaultCommentCardComponent } from './fault-comment-card/fault-comment-card';
 import { RouteNumberComponent } from './route-number/route-number';
@@ -32,6 +33,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
     VehicleChecksOfficeCardComponent,
     CandidateSectionComponent,
     DateOfTest,
+    FinishTestModal,
   ],
   imports: [
     CommonModule,
@@ -56,6 +58,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
     VehicleChecksOfficeCardComponent,
     CandidateSectionComponent,
     DateOfTest,
+    FinishTestModal,
   ],
 })
 export class OfficeComponentsModule { }
