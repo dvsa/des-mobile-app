@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-expressions
+// eslint-disable no-unused-expressions
 import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -30,7 +30,7 @@ import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
-// import { HomeTestData } from '../../pages/view-test-result/cat-home-test/components/debrief-card/debrief-card';
+import { CatHomeTestData } from '@shared/unions/test-schema-unions';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { SpeedCheckState } from './test-report-validator.constants';
 import { FaultCountProvider } from '../fault-count/fault-count';
@@ -47,14 +47,14 @@ export class TestReportValidatorProvider {
   public isTestReportValid(data: object, category: TestCategory, isDelegated: boolean = false): boolean {
     switch (category) {
       case TestCategory.ADI2:
-        return TestReportValidatorProvider.validateLegalRequirementsCatAdiPart2(data);
+        return this.validateLegalRequirementsCatAdiPart2(data);
       case TestCategory.B:
         return this.validateLegalRequirementsCatB(data);
       case TestCategory.BE:
         return this.validateLegalRequirementsCatBE(data, isDelegated);
       case TestCategory.C1:
       case TestCategory.C:
-        return TestReportValidatorProvider.validateLegalRequirementsCNonTrailer(data, isDelegated);
+        return this.validateLegalRequirementsCNonTrailer(data, isDelegated);
       case TestCategory.C1E:
       case TestCategory.CE:
         return this.validateLegalRequirementsCTrailer(data, isDelegated);
@@ -71,13 +71,11 @@ export class TestReportValidatorProvider {
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
         return this.validateLegalRequirementsCatEUAM2(data);
-        // @TODO - MES-7147 Enable with Home Tests
-
-        // case TestCategory.F:
-      // case TestCategory.G:
-      // case TestCategory.H:
-      // case TestCategory.K:
-      //   return this.validateLegalRequirementsCatHomeTest(data);
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+      case TestCategory.K:
+        return this.validateLegalRequirementsCatHomeTest(data);
       default:
         return false;
     }
@@ -114,11 +112,10 @@ export class TestReportValidatorProvider {
       case TestCategory.EUAM2:
       case TestCategory.EUAMM2:
         return this.getMissingLegalRequirementsCatEUAM2(data);
-        // @TODO - MES-7147 Enable with Home Tests
-        // case TestCategory.F:
-      // case TestCategory.G:
-      // case TestCategory.H:
-      //   return this.getMissingLegalRequirementsCatHomeTest(data);
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+        return this.getMissingLegalRequirementsCatHomeTest(data);
       case TestCategory.K:
         return this.getMissingLegalRequirementsCatK(data);
       default:
@@ -188,7 +185,7 @@ export class TestReportValidatorProvider {
     return SpeedCheckState.VALID;
   }
 
-  private static validateLegalRequirementsCatAdiPart2(data: CatADI2UniqueTypes.TestData): boolean {
+  private validateLegalRequirementsCatAdiPart2(data: CatADI2UniqueTypes.TestData): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
     const angledStart: boolean = get(data, 'testRequirements.angledStart', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
@@ -248,7 +245,6 @@ export class TestReportValidatorProvider {
 
   private validateLegalRequirementsCatBE(data: CatBEUniqueTypes.TestData, isDelegated: boolean): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const manoeuvre: boolean = hasManoeuvreBeenCompletedCatBE(data) || false;
@@ -256,7 +252,7 @@ export class TestReportValidatorProvider {
     const uncoupleRecouple: boolean = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
-      (normalStart1 || normalStart2)
+      normalStart1
       && uphillStart
       && angledStartControlledStop
       && manoeuvre
@@ -275,7 +271,7 @@ export class TestReportValidatorProvider {
   ): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
     if (!isDelegated) {
-      !get(data, 'testRequirements.normalStart1', false) && !get(data, 'testRequirements.normalStart2', false)
+      !get(data, 'testRequirements.normalStart1', false)
         && result.push(legalRequirementsLabels.normalStart1);
       !get(data, 'testRequirements.uphillStart', false) && result.push(legalRequirementsLabels.uphillStart);
     }
@@ -288,19 +284,18 @@ export class TestReportValidatorProvider {
     return result;
   }
 
-  private static validateLegalRequirementsCNonTrailer(
+  private validateLegalRequirementsCNonTrailer(
     data: CatCUniqueTypes.TestData | CatC1UniqueTypes.TestData,
     isDelegated: boolean,
   ): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const manoeuvre: boolean = hasManoeuvreBeenCompletedCatC(data) || false;
     const eco: boolean = get(data, 'eco.completed', false);
 
     return !isDelegated ? (
-      (normalStart1 || normalStart2)
+      normalStart1
       && uphillStart
       && angledStartControlledStop
       && manoeuvre
@@ -318,7 +313,7 @@ export class TestReportValidatorProvider {
   ): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
     if (!isDelegated) {
-      (!get(data, 'testRequirements.normalStart1', false) && !get(data, 'testRequirements.normalStart2', false))
+      (!get(data, 'testRequirements.normalStart1', false))
         && result.push(legalRequirementsLabels.normalStart1);
       !get(data, 'testRequirements.uphillStart', false) && result.push(legalRequirementsLabels.uphillStart);
     }
@@ -335,7 +330,6 @@ export class TestReportValidatorProvider {
     isDelegated: boolean,
   ): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const manoeuvre: boolean = hasManoeuvreBeenCompletedCatC(data) || false;
@@ -343,7 +337,7 @@ export class TestReportValidatorProvider {
     const uncoupleRecouple: boolean = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
-      (normalStart1 || normalStart2)
+      normalStart1
       && uphillStart
       && angledStartControlledStop
       && manoeuvre
@@ -364,7 +358,7 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
-      (!get(data, 'testRequirements.normalStart1', false) && !get(data, 'testRequirements.normalStart2', false))
+      (!get(data, 'testRequirements.normalStart1', false))
         && result.push(legalRequirementsLabels.normalStart1);
       !get(data, 'testRequirements.uphillStart', false) && result.push(legalRequirementsLabels.uphillStart);
     }
@@ -377,6 +371,7 @@ export class TestReportValidatorProvider {
   }
 
   private validateLegalRequirementsCatD(data: CatDUniqueTypes.TestData, isDelegated: boolean): boolean {
+    const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
     const busStop1: boolean = get(data, 'testRequirements.busStop1', false);
     const busStop2: boolean = get(data, 'testRequirements.busStop2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
@@ -385,7 +380,8 @@ export class TestReportValidatorProvider {
     const eco: boolean = get(data, 'eco.completed', false);
 
     return !isDelegated ? (
-      busStop1
+      normalStart1
+      && busStop1
       && busStop2
       && uphillStart
       && angledStartControlledStop
@@ -405,6 +401,8 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
+      !get(data, 'testRequirements.normalStart1', false)
+      && result.push(legalRequirementsLabels.normalStart1);
       !get(data, 'testRequirements.busStop1', false)
         && result.push(legalRequirementsLabels.busStop1);
       !get(data, 'testRequirements.busStop2', false)
@@ -424,7 +422,6 @@ export class TestReportValidatorProvider {
 
   private validateLegalRequirementsCatD1(data: CatD1UniqueTypes.TestData, isDelegated: boolean): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const manoeuvre: boolean = get(data, 'manoeuvres.reverseLeft.selected', false);
@@ -432,7 +429,6 @@ export class TestReportValidatorProvider {
 
     return !isDelegated ? (
       normalStart1
-      && normalStart2
       && uphillStart
       && angledStartControlledStop
       && manoeuvre
@@ -453,8 +449,6 @@ export class TestReportValidatorProvider {
     if (!isDelegated) {
       !get(data, 'testRequirements.normalStart1', false)
         && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.normalStart2', false)
-        && result.push(legalRequirementsLabels.normalStart2);
       !get(data, 'testRequirements.uphillStart', false)
         && result.push(legalRequirementsLabels.uphillStart);
     }
@@ -469,6 +463,7 @@ export class TestReportValidatorProvider {
   }
 
   private validateLegalRequirementsCatDE(data: CatDEUniqueTypes.TestData, isDelegated: boolean): boolean {
+    const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
     const busStop1: boolean = get(data, 'testRequirements.busStop1', false);
     const busStop2: boolean = get(data, 'testRequirements.busStop2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
@@ -478,7 +473,8 @@ export class TestReportValidatorProvider {
     const uncoupleRecouple = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
-      busStop1
+      normalStart1
+      && busStop1
       && busStop2
       && uphillStart
       && angledStartControlledStop
@@ -500,6 +496,8 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
+      !get(data, 'testRequirements.normalStart1', false)
+      && result.push(legalRequirementsLabels.normalStart1);
       !get(data, 'testRequirements.busStop1', false)
         && result.push(legalRequirementsLabels.busStop1);
       !get(data, 'testRequirements.busStop2', false)
@@ -524,7 +522,6 @@ export class TestReportValidatorProvider {
     isDelegated: boolean,
   ): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const manoeuvre: boolean = get(data, 'manoeuvres.reverseLeft.selected', false);
@@ -533,7 +530,6 @@ export class TestReportValidatorProvider {
 
     return !isDelegated ? (
       normalStart1
-      && normalStart2
       && uphillStart
       && angledStartControlledStop
       && manoeuvre
@@ -566,8 +562,6 @@ export class TestReportValidatorProvider {
     if (!isDelegated) {
       !get(data, 'testRequirements.normalStart1', false)
         && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.normalStart2', false)
-        && result.push(legalRequirementsLabels.normalStart2);
       !get(data, 'testRequirements.uphillStart', false)
         && result.push(legalRequirementsLabels.uphillStart);
     }
@@ -596,48 +590,44 @@ export class TestReportValidatorProvider {
     return result;
   }
 
-  // @TODO - MES-7147 Enable with Home Tests
-  // private validateLegalRequirementsCatHomeTest(data: HomeTestData): boolean {
-  //   const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-  //   const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
-  //   const angledStart: boolean = get(data, 'testRequirements.angledStart', false);
-  //   const controlledStop: boolean = get(data, 'controlledStop.selected', false);
-  //   const uphillStartDesignatedStart: boolean = get(data, 'testRequirements.uphillStartDesignatedStart', false);
-  //
-  //   const hCodeSafetyQuestions: boolean = get(data, 'highwayCodeSafety.selected', false);
-  //
-  //   const eco: boolean = get(data, 'eco.completed', false);
-  //
-  //   return normalStart1 && normalStart2 && angledStart
-  //     && uphillStartDesignatedStart && hCodeSafetyQuestions && eco && controlledStop;
-  // }
-  //
-  // private getMissingLegalRequirementsCatHomeTest(data: HomeTestData): legalRequirementsLabels[] {
-  //   const result: legalRequirementsLabels[] = [];
-  //
-  //   !get(data, 'testRequirements.normalStart1', false) && result.push(legalRequirementsLabels.normalStart1);
-  //   !get(data, 'testRequirements.normalStart2', false) && result.push(legalRequirementsLabels.normalStart2);
-  //   !get(data, 'testRequirements.angledStart', false) && result.push(legalRequirementsLabels.angledStart);
-  //   !get(data, 'testRequirements.uphillStartDesignatedStart', false)
-  //     && result.push(legalRequirementsLabels.uphillStartDesignatedStart);
-  //
-  //   !get(data, 'manoeuvres.reverseLeft.selected', false)
-  //     && result.push(legalRequirementsLabels.manoeuvre);
-  //
-  //   !get(data, 'highwayCodeSafety.selected', false) && result.push(legalRequirementsLabels.highwayCodeSafety);
-  //
-  //   !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
-  //
-  //   !get(data, 'controlledStop.selected', false) && result.push(legalRequirementsLabels.controlledStop);
-  //
-  //   return result;
-  // }
+  private validateLegalRequirementsCatHomeTest(data: CatHomeTestData): boolean {
+    const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
+    const angledStart: boolean = get(data, 'testRequirements.angledStart', false);
+    const controlledStop: boolean = get(data, 'controlledStop.selected', false);
+    const uphillStartDesignatedStart: boolean = get(data, 'testRequirements.uphillStartDesignatedStart', false);
+
+    const hCodeSafetyQuestions: boolean = get(data, 'highwayCodeSafety.selected', false);
+
+    const eco: boolean = get(data, 'eco.completed', false);
+
+    return normalStart1 && angledStart
+      && uphillStartDesignatedStart && hCodeSafetyQuestions && eco && controlledStop;
+  }
+
+  private getMissingLegalRequirementsCatHomeTest(data: CatHomeTestData): legalRequirementsLabels[] {
+    const result: legalRequirementsLabels[] = [];
+
+    !get(data, 'testRequirements.normalStart1', false) && result.push(legalRequirementsLabels.normalStart1);
+    !get(data, 'testRequirements.angledStart', false) && result.push(legalRequirementsLabels.angledStart);
+    !get(data, 'testRequirements.uphillStartDesignatedStart', false)
+      && result.push(legalRequirementsLabels.uphillStartDesignatedStart);
+
+    !get(data, 'manoeuvres.reverseLeft.selected', false)
+      && result.push(legalRequirementsLabels.manoeuvre);
+
+    !get(data, 'highwayCodeSafety.selected', false) && result.push(legalRequirementsLabels.highwayCodeSafety);
+
+    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
+
+    !get(data, 'controlledStop.selected', false) && result.push(legalRequirementsLabels.controlledStop);
+
+    return result;
+  }
 
   private getMissingLegalRequirementsCatK(data: CatKUniqueTypes.TestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
     !get(data, 'testRequirements.normalStart1', false) && result.push(legalRequirementsLabels.normalStart1);
-    !get(data, 'testRequirements.normalStart2', false) && result.push(legalRequirementsLabels.normalStart2);
     !get(data, 'testRequirements.angledStart', false) && result.push(legalRequirementsLabels.angledStart);
     !get(data, 'testRequirements.uphillStartDesignatedStart', false)
       && result.push(legalRequirementsLabels.uphillStartDesignatedStart);
@@ -649,5 +639,5 @@ export class TestReportValidatorProvider {
 
     return result;
   }
-  /* eslint-enable */
+
 }
