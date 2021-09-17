@@ -73,7 +73,6 @@ import {
   getTellMeQuestion,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { PersistTests } from '@store/tests/tests.actions';
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import {
@@ -106,14 +105,13 @@ import { SetStartDate }
   from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import { Router } from '@angular/router';
 import { OfficeBasePageComponent } from '@shared/classes/test-flow-base-pages/office/office-base-page';
+import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import {
   OfficeViewDidEnter,
-  CompleteTest,
-  SavingWriteUpForLater,
   OfficeValidationError,
   TestStartDateChanged,
 } from '../office.actions';
-import { JOURNAL_PAGE, TestFlowPageNames } from '../../page-names.constants';
+import { TestFlowPageNames } from '../../page-names.constants';
 import { behaviourMap } from '../office-behaviour-map';
 
 interface OfficePageState {
@@ -186,8 +184,8 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     authenticationProvider: AuthenticationProvider,
     router: Router,
     store$: Store<StoreModel>,
+    navController: NavController,
     public toastController: ToastController,
-    public navController: NavController,
     private weatherConditionProvider: WeatherConditionProvider,
     public questionProvider: QuestionProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
@@ -196,7 +194,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     private faultSummaryProvider: FaultSummaryProvider,
     private modalController: ModalController,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, navController);
     this.form = new FormGroup({});
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
@@ -482,19 +480,19 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     }
   }
 
-  async popToRoot() {
-    if (this.isPracticeMode) {
-      this.exitPracticeMode();
-      return;
-    }
-    await this.navController.navigateBack(JOURNAL_PAGE);
-  }
+  // async popToRoot() {
+  //   if (this.isPracticeMode) {
+  //     this.exitPracticeMode();
+  //     return;
+  //   }
+  //   await this.navController.navigateBack(JOURNAL_PAGE);
+  // }
 
-  async defer() {
-    await this.popToRoot();
-    this.store$.dispatch(SavingWriteUpForLater());
-    this.store$.dispatch(PersistTests());
-  }
+  // async defer() {
+  //   await this.popToRoot();
+  //   this.store$.dispatch(SavingWriteUpForLater());
+  //   this.store$.dispatch(PersistTests());
+  // }
 
   async onSubmit() {
     if (await this.isFormValid()) {
@@ -660,6 +658,12 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     //   ],
     // });
     // await alert.present();
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: FinishTestModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
+      componentProps: {},
+    });
+    await modal.present();
   }
 
   async goToReasonForRekey() {
@@ -685,12 +689,12 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     return false;
   }
 
-  async completeTest() {
-    if (!this.isPracticeMode) {
-      this.store$.dispatch(CompleteTest());
-    }
-    await this.popToRoot();
-  }
+  // async completeTest() {
+  //   if (!this.isPracticeMode) {
+  //     this.store$.dispatch(CompleteTest());
+  //   }
+  //   await this.popToRoot();
+  // }
 
   shouldDisplayDrivingFaultComments = (data: CatBUniqueTypes.TestData): boolean => {
     const drivingFaultCount: number = this.faultCountProvider.getDrivingFaultSumCount(TestCategory.B, data);

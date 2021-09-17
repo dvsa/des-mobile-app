@@ -1,24 +1,28 @@
 <ion-card class="modal-alert">
-  <modal-alert-title id="early-start-title">Something Here</modal-alert-title>
-  <ion-row class="ion-justify-content-center">
-    <ion-col class="ion-no-padding" size="80">
+  <modal-alert-title id="model-title">Mark as complete</modal-alert-title>
+  <ion-row>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+    <ion-col class="ion-no-padding" size="66">
       <div class="modal-alert-message">
-        <div class="mes-data">Are you sure you want to start the test?</div>
+        <div id='model-text' class="mes-data">Are your sure you wish to mark the write up for this test as complete?</div>
       </div>
     </ion-col>
-  </ion-row>
-  <ion-row class="ion-justify-content-center">
-    <ion-col class="ion-no-padding" size="72">
-      <ion-button id="continue-button" class="mes-return-button start-test-button" (click)="onCancel()" id="early-start-start-test-button">
-        <h3>Continue</h3>
-      </ion-button>
-    </ion-col>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
   </ion-row>
   <ion-row>
     <ion-col class="column-border-top ion-no-padding">
-      <ion-button id="return-to-journal-button" fill="clear" class="cancel-button" (click)="onCompleteTest()" id="early-start-cancel-button">
-        Return to journal
-      </ion-button>
+      <ion-row>
+        <ion-col>
+          <ion-button id="cancel-button" fill="clear" class="finish-test-cancel-button" (click)="onBack()">
+            Back
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button id="continue-button" fill="clear" class="finish-test-continue-button" (click)="onCompleteTest()">
+            Continue
+          </ion-button>
+        </ion-col>
+      </ion-row>
     </ion-col>
   </ion-row>
 </ion-card>
