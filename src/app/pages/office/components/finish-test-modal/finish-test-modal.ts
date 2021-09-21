@@ -1,4 +1,4 @@
-import { ModalController, NavController, Platform } from '@ionic/angular';
+import { ModalController, NavController, Platform, ToastController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -19,9 +19,10 @@ export class FinishTestModal extends OfficeBasePageComponent implements OnInit {
     router: Router,
     store$: Store<StoreModel>,
     navController: NavController,
+    toastController: ToastController,
     public modalController: ModalController,
   ) {
-    super(platform, authenticationProvider, router, store$, navController);
+    super(platform, authenticationProvider, router, store$, navController, toastController);
   }
 
   ngOnInit(): void {

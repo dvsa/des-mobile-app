@@ -1,6 +1,6 @@
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { NavController, Platform } from '@ionic/angular';
+import { merge, Observable, Subscription } from 'rxjs';
+import { NavController, Platform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { StoreModel } from '@shared/models/store.model';
@@ -16,7 +16,12 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { CompleteTest, SavingWriteUpForLater } from '@pages/office/office.actions';
+import {
+  CompleteTest,
+  OfficeValidationError,
+  SavingWriteUpForLater,
+  TestStartDateChanged,
+} from '@pages/office/office.actions';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
@@ -34,6 +39,9 @@ import {
   getCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { map } from 'rxjs/operators';
+import { FormGroup } from '@angular/forms';
+import { getNewTestStartTime } from '@shared/helpers/test-start-time';
+import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -52,6 +60,11 @@ export interface CommonOfficePageState {
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
 
   commonPageState: CommonOfficePageState;
+  form: FormGroup;
+  toast: any;
+  subscription: Subscription;
+  startDateTime: string;
+  isValidStartDateTime: boolean = true;
 
   protected constructor(
     platform: Platform,
@@ -59,6 +72,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     router: Router,
     store$: Store<StoreModel>,
     public navController: NavController,
+    public toastController: ToastController,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -118,6 +132,32 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     };
   }
 
+  setupSubscriptions() {
+    const {
+      startDateTime$,
+    } = this.commonPageState;
+    this.subscription = merge(
+      startDateTime$.pipe(map((value) => this.startDateTime = value)),
+    )
+      .subscribe();
+  }
+
+  ionViewDidLeave(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  setIsValidStartDateTime(isValid: boolean) {
+    this.isValidStartDateTime = isValid;
+  }
+
+  dateOfTestChanged(inputDate: string) {
+    const customStartDate = getNewTestStartTime(inputDate, this.startDateTime);
+    this.store$.dispatch(TestStartDateChanged(this.startDateTime, customStartDate));
+    this.store$.dispatch(SetStartDate(customStartDate));
+  }
+
   async completeTest() {
     if (!this.isPracticeMode) {
       this.store$.dispatch(CompleteTest());
@@ -138,5 +178,35 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     this.store$.dispatch(SavingWriteUpForLater());
     this.store$.dispatch(PersistTests());
   }
+
+  async isFormValid() {
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    if (this.form.valid) {
+      return true;
+    }
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(OfficeValidationError(`${controlName} is blank`));
+        }
+      });
+    await this.createToast('Fill all mandatory fields');
+    this.toast.present();
+    return false;
+  }
+
+  private createToast = async (errorMessage: string) => {
+    this.toast = await this.toastController.create({
+      message: errorMessage,
+      position: 'top',
+      cssClass: 'mes-toast-message-error',
+      duration: 5000,
+      buttons: [{
+        text: 'X',
+        role: 'cancel',
+      }],
+    });
+  };
 
 }

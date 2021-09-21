@@ -2,7 +2,8 @@ import {
   NavController,
   Platform,
   ToastController,
-  AlertController, ModalController,
+  AlertController,
+  ModalController,
 } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -10,7 +11,7 @@ import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
-import { merge, Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import {
   getCurrentTest,
@@ -77,23 +78,20 @@ import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model'
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-// import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-// import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { getNewTestStartTime } from '@shared/helpers/test-start-time';
-import { SetStartDate }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
+// import { getNewTestStartTime } from '@shared/helpers/test-start-time';
+// import { SetStartDate }
+//   from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import { Router } from '@angular/router';
 import { OfficeBasePageComponent } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import {
   OfficeViewDidEnter,
-  OfficeValidationError,
-  TestStartDateChanged,
+  // TestStartDateChanged,
 } from '../office.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
 import { behaviourMap } from '../office-behaviour-map';
@@ -139,19 +137,19 @@ interface OfficePageState {
 export class OfficeCatBPage extends OfficeBasePageComponent {
 
   pageState: OfficePageState;
-  form: FormGroup;
-  toast: any;
+  // form: FormGroup;
+  // toast: any;
   drivingFaultCtrl: string = 'drivingFaultCtrl';
   seriousFaultCtrl: string = 'seriousFaultCtrl';
   dangerousFaultCtrl: string = 'dangerousFaultCtrl';
   static readonly maxFaultCount = 15;
-  subscription: Subscription;
+  // subscription: Subscription;
 
   weatherConditions: WeatherConditionSelection[];
   showMeQuestions: VehicleChecksQuestion[];
   activityCodeOptions: ActivityCodeModel[];
-  startDateTime: string;
-  isValidStartDateTime: boolean = true;
+  // startDateTime: string;
+  // isValidStartDateTime: boolean = true;
 
   constructor(
     platform: Platform,
@@ -159,7 +157,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     router: Router,
     store$: Store<StoreModel>,
     navController: NavController,
-    public toastController: ToastController,
+    toastController: ToastController,
     private weatherConditionProvider: WeatherConditionProvider,
     public questionProvider: QuestionProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
@@ -168,7 +166,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     private faultSummaryProvider: FaultSummaryProvider,
     private modalController: ModalController,
   ) {
-    super(platform, authenticationProvider, router, store$, navController);
+    super(platform, authenticationProvider, router, store$, navController, toastController);
     this.form = new FormGroup({});
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
@@ -394,186 +392,154 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     this.setupSubscriptions();
   }
 
-  setupSubscriptions() {
-    const {
-      startDateTime$,
-    } = this.commonPageState;
-    this.subscription = merge(
-      startDateTime$.pipe(map((value) => this.startDateTime = value)),
-    )
-      .subscribe();
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   async onSubmit() {
     if (await this.isFormValid()) {
       await this.showFinishTestModal();
     }
   }
 
-  setIsValidStartDateTime(isValid: boolean) {
-    this.isValidStartDateTime = isValid;
-  }
+  // setIsValidStartDateTime(isValid: boolean) {
+  //   this.isValidStartDateTime = isValid;
+  // }
 
-  dateOfTestChanged(inputDate: string) {
-    const customStartDate = getNewTestStartTime(inputDate, this.startDateTime);
-    this.store$.dispatch(TestStartDateChanged(this.startDateTime, customStartDate));
-    this.store$.dispatch(SetStartDate(customStartDate));
-  }
+  // dateOfTestChanged(inputDate: string) {
+  //   const customStartDate = getNewTestStartTime(inputDate, this.startDateTime);
+  //   this.store$.dispatch(TestStartDateChanged(this.startDateTime, customStartDate));
+  //   this.store$.dispatch(SetStartDate(customStartDate));
+  // }
 
-  showMeQuestionChanged(showMeQuestion: VehicleChecksQuestion): void {
-    this.store$.dispatch(ShowMeQuestionSelected(showMeQuestion));
-  }
+  // showMeQuestionChanged(showMeQuestion: VehicleChecksQuestion): void {
+  //   this.store$.dispatch(ShowMeQuestionSelected(showMeQuestion));
+  // }
+  //
+  // identificationChanged(identification: Identification): void {
+  //   this.store$.dispatch(IdentificationUsedChanged(identification));
+  // }
+  //
+  // independentDrivingChanged(independentDriving: IndependentDriving): void {
+  //   this.store$.dispatch(IndependentDrivingTypeChanged(independentDriving));
+  // }
+  //
+  // weatherConditionsChanged(weatherConditions: WeatherConditions[]): void {
+  //   this.store$.dispatch(WeatherConditionsChanged(weatherConditions));
+  // }
+  //
+  // routeNumberChanged(routeNumber: number) {
+  //   this.store$.dispatch(RouteNumberChanged(routeNumber));
+  // }
+  //
+  // candidateDescriptionChanged(candidateDescription: string) {
+  //   this.store$.dispatch(CandidateDescriptionChanged(candidateDescription));
+  // }
+  //
+  // additionalInformationChanged(additionalInformation: string): void {
+  //   this.store$.dispatch(AdditionalInformationChanged(additionalInformation));
+  // }
+  //
+  // dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
+  //   if (dangerousFaultComment.source === CommentSource.SIMPLE) {
+  //     this.store$.dispatch(
+  //       AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment),
+  //     );
+  //   } else if (startsWith(dangerousFaultComment.source, CommentSource.MANOEUVRES)) {
+  //     const segments = dangerousFaultComment.source.split('-');
+  //     const fieldName = segments[1];
+  //     const controlOrObservation = segments[2];
+  //     this.store$.dispatch(
+  //       AddManoeuvreComment(
+  //         fieldName,
+  //         CompetencyOutcome.D,
+  //         controlOrObservation,
+  //         dangerousFaultComment.comment,
+  //       ),
+  //     );
+  //
+  //   } else if (dangerousFaultComment.source === CommentSource.CONTROLLED_STOP) {
+  //     this.store$.dispatch(AddControlledStopComment(dangerousFaultComment.comment));
+  //
+  //   } else if (dangerousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
+  //     this.store$.dispatch(AddShowMeTellMeComment(dangerousFaultComment.comment));
+  //   }
+  // }
+  //
+  // seriousFaultCommentChanged(seriousFaultComment: FaultSummary) {
+  //   if (seriousFaultComment.source === CommentSource.SIMPLE) {
+  //     this.store$.dispatch(
+  //       AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment),
+  //     );
+  //   } else if (startsWith(seriousFaultComment.source, CommentSource.MANOEUVRES)) {
+  //     const segments = seriousFaultComment.source.split('-');
+  //     const fieldName = segments[1];
+  //     const controlOrObservation = segments[2];
+  //     this.store$.dispatch(
+  //       AddManoeuvreComment(
+  //         fieldName,
+  //         CompetencyOutcome.S,
+  //         controlOrObservation,
+  //         seriousFaultComment.comment,
+  //       ),
+  //     );
+  //
+  //   } else if (seriousFaultComment.source === CommentSource.CONTROLLED_STOP) {
+  //     this.store$.dispatch(AddControlledStopComment(seriousFaultComment.comment));
+  //   } else if (seriousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
+  //     this.store$.dispatch(AddShowMeTellMeComment(seriousFaultComment.comment));
+  //   } else if (seriousFaultComment.source === CommentSource.EYESIGHT_TEST) {
+  //     this.store$.dispatch(EyesightTestAddComment(seriousFaultComment.comment));
+  //   }
+  // }
+  //
+  // drivingFaultCommentChanged(drivingFaultComment: FaultSummary) {
+  //   if (drivingFaultComment.source === CommentSource.SIMPLE) {
+  //     this.store$.dispatch(
+  //       AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment),
+  //     );
+  //   } else if (startsWith(drivingFaultComment.source, CommentSource.MANOEUVRES)) {
+  //     const segments = drivingFaultComment.source.split('-');
+  //     const fieldName = segments[1];
+  //     const controlOrObservation = segments[2];
+  //     this.store$.dispatch(
+  //       AddManoeuvreComment(
+  //         fieldName,
+  //         CompetencyOutcome.DF,
+  //         controlOrObservation,
+  //         drivingFaultComment.comment,
+  //       ),
+  //     );
+  //
+  //   } else if (drivingFaultComment.source === CommentSource.CONTROLLED_STOP) {
+  //     this.store$.dispatch(AddControlledStopComment(drivingFaultComment.comment));
+  //
+  //   } else if (drivingFaultComment.source === CommentSource.VEHICLE_CHECKS) {
+  //     this.store$.dispatch(AddShowMeTellMeComment(drivingFaultComment.comment));
+  //   }
+  //
+  // }
+  //
+  // activityCodeChanged(activityCodeModel: ActivityCodeModel) {
+  //   const { showMeQuestion } = this.form.controls;
+  //   if (showMeQuestion) {
+  //     if (showMeQuestion.value && showMeQuestion.value.code === 'N/A') {
+  //       this.form.controls['showMeQuestion'].setValue({});
+  //     }
+  //   }
+  //   this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));
+  // }
 
-  identificationChanged(identification: Identification): void {
-    this.store$.dispatch(IdentificationUsedChanged(identification));
-  }
-
-  independentDrivingChanged(independentDriving: IndependentDriving): void {
-    this.store$.dispatch(IndependentDrivingTypeChanged(independentDriving));
-  }
-
-  weatherConditionsChanged(weatherConditions: WeatherConditions[]): void {
-    this.store$.dispatch(WeatherConditionsChanged(weatherConditions));
-  }
-
-  routeNumberChanged(routeNumber: number) {
-    this.store$.dispatch(RouteNumberChanged(routeNumber));
-  }
-
-  candidateDescriptionChanged(candidateDescription: string) {
-    this.store$.dispatch(CandidateDescriptionChanged(candidateDescription));
-  }
-
-  additionalInformationChanged(additionalInformation: string): void {
-    this.store$.dispatch(AdditionalInformationChanged(additionalInformation));
-  }
-
-  dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
-    if (dangerousFaultComment.source === CommentSource.SIMPLE) {
-      this.store$.dispatch(
-        AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment),
-      );
-    } else if (startsWith(dangerousFaultComment.source, CommentSource.MANOEUVRES)) {
-      const segments = dangerousFaultComment.source.split('-');
-      const fieldName = segments[1];
-      const controlOrObservation = segments[2];
-      this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.D,
-          controlOrObservation,
-          dangerousFaultComment.comment,
-        ),
-      );
-
-    } else if (dangerousFaultComment.source === CommentSource.CONTROLLED_STOP) {
-      this.store$.dispatch(AddControlledStopComment(dangerousFaultComment.comment));
-
-    } else if (dangerousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
-      this.store$.dispatch(AddShowMeTellMeComment(dangerousFaultComment.comment));
-    }
-  }
-
-  seriousFaultCommentChanged(seriousFaultComment: FaultSummary) {
-    if (seriousFaultComment.source === CommentSource.SIMPLE) {
-      this.store$.dispatch(
-        AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment),
-      );
-    } else if (startsWith(seriousFaultComment.source, CommentSource.MANOEUVRES)) {
-      const segments = seriousFaultComment.source.split('-');
-      const fieldName = segments[1];
-      const controlOrObservation = segments[2];
-      this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.S,
-          controlOrObservation,
-          seriousFaultComment.comment,
-        ),
-      );
-
-    } else if (seriousFaultComment.source === CommentSource.CONTROLLED_STOP) {
-      this.store$.dispatch(AddControlledStopComment(seriousFaultComment.comment));
-    } else if (seriousFaultComment.source === CommentSource.VEHICLE_CHECKS) {
-      this.store$.dispatch(AddShowMeTellMeComment(seriousFaultComment.comment));
-    } else if (seriousFaultComment.source === CommentSource.EYESIGHT_TEST) {
-      this.store$.dispatch(EyesightTestAddComment(seriousFaultComment.comment));
-    }
-  }
-
-  drivingFaultCommentChanged(drivingFaultComment: FaultSummary) {
-    if (drivingFaultComment.source === CommentSource.SIMPLE) {
-      this.store$.dispatch(
-        AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment),
-      );
-    } else if (startsWith(drivingFaultComment.source, CommentSource.MANOEUVRES)) {
-      const segments = drivingFaultComment.source.split('-');
-      const fieldName = segments[1];
-      const controlOrObservation = segments[2];
-      this.store$.dispatch(
-        AddManoeuvreComment(
-          fieldName,
-          CompetencyOutcome.DF,
-          controlOrObservation,
-          drivingFaultComment.comment,
-        ),
-      );
-
-    } else if (drivingFaultComment.source === CommentSource.CONTROLLED_STOP) {
-      this.store$.dispatch(AddControlledStopComment(drivingFaultComment.comment));
-
-    } else if (drivingFaultComment.source === CommentSource.VEHICLE_CHECKS) {
-      this.store$.dispatch(AddShowMeTellMeComment(drivingFaultComment.comment));
-    }
-
-  }
-
-  activityCodeChanged(activityCodeModel: ActivityCodeModel) {
-    const { showMeQuestion } = this.form.controls;
-    if (showMeQuestion) {
-      if (showMeQuestion.value && showMeQuestion.value.code === 'N/A') {
-        this.form.controls['showMeQuestion'].setValue({});
-      }
-    }
-    this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));
-  }
-
-  private createToast = async (errorMessage: string) => {
-    this.toast = await this.toastController.create({
-      message: errorMessage,
-      position: 'top',
-      cssClass: 'mes-toast-message-error',
-      duration: 5000,
-      buttons: [{
-        text: 'X',
-        role: 'cancel',
-      }],
-    });
-  };
+  // private createToast = async (errorMessage: string) => {
+  //   this.toast = await this.toastController.create({
+  //     message: errorMessage,
+  //     position: 'top',
+  //     cssClass: 'mes-toast-message-error',
+  //     duration: 5000,
+  //     buttons: [{
+  //       text: 'X',
+  //       role: 'cancel',
+  //     }],
+  //   });
+  // };
 
   async showFinishTestModal() {
-    // const alert = await this.alertController.create({
-    //   header: 'Are you sure you wish to mark the write up for this test as complete?',
-    //   cssClass: 'finish-test-modal',
-    //   buttons: [
-    //     {
-    //       text: 'Back',
-    //       handler: () => {
-    //       },
-    //     },
-    //     {
-    //       text: 'Continue',
-    //       handler: () => this.completeTest(),
-    //     },
-    //   ],
-    // });
-    // await alert.present();
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: FinishTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
@@ -587,30 +553,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
       await this.router.navigate([TestFlowPageNames.REKEY_REASON_PAGE]);
     }
   }
-
-  async isFormValid() {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
-    if (this.form.valid) {
-      return true;
-    }
-    Object.keys(this.form.controls)
-      .forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          this.store$.dispatch(OfficeValidationError(`${controlName} is blank`));
-        }
-      });
-    await this.createToast('Fill all mandatory fields');
-    this.toast.present();
-    return false;
-  }
-
-  // async completeTest() {
-  //   if (!this.isPracticeMode) {
-  //     this.store$.dispatch(CompleteTest());
-  //   }
-  //   await this.popToRoot();
-  // }
 
   shouldDisplayDrivingFaultComments = (data: CatBUniqueTypes.TestData): boolean => {
     const drivingFaultCount: number = this.faultCountProvider.getDrivingFaultSumCount(TestCategory.B, data);
