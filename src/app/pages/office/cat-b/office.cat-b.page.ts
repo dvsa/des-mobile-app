@@ -15,11 +15,6 @@ import { FormGroup } from '@angular/forms';
 import {
   getCurrentTest,
   getTestOutcome,
-  isTestOutcomeSet,
-  isPassed,
-  getTestOutcomeText,
-  getActivityCode,
-  getJournalData,
 } from '@store/tests/tests.selector';
 import {
   getRouteNumber,
@@ -46,18 +41,7 @@ import {
   WeatherConditionsChanged,
   AdditionalInformationChanged,
 } from '@store/tests/test-summary/test-summary.actions';
-import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
-import {
-  getCandidateName,
-  getCandidateDriverNumber,
-  formatDriverNumber,
-} from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { QuestionProvider } from '@providers/question/question';
-import {
-  getTestSlotAttributes,
-} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
-import { getTestDate, getTestStartDateTime, getTestTime }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import {
   getETA,
   getETAFaultText,
@@ -93,8 +77,8 @@ import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model'
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
+// import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+// import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -116,15 +100,6 @@ import { behaviourMap } from '../office-behaviour-map';
 
 interface OfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
-  startTime$: Observable<string>;
-  startDate$: Observable<string>;
-  startDateTime$: Observable<string>;
-  testOutcome$: Observable<string>;
-  testOutcomeText$: Observable<string>;
-  isPassed$: Observable<boolean>;
-  isTestOutcomeSet$: Observable<boolean>;
-  candidateName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
   routeNumber$: Observable<number>;
   displayRouteNumber$: Observable<boolean>;
   displayIndependentDriving$: Observable<boolean>;
@@ -154,7 +129,6 @@ interface OfficePageState {
   weatherConditions$: Observable<WeatherConditions[]>;
   dangerousFaults$: Observable<FaultSummary[]>;
   seriousFaults$: Observable<FaultSummary[]>;
-  isRekey$: Observable<boolean>;
 }
 
 @Component({
@@ -216,51 +190,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
       select(getTestCategory),
     );
     this.pageState = {
-      activityCode$: currentTest$.pipe(
-        select(getActivityCode),
-      ),
-      isRekey$: currentTest$.pipe(
-        select(getRekeyIndicator),
-        select(isRekey),
-      ),
-      testOutcome$: currentTest$.pipe(
-        select(getTestOutcome),
-      ),
-      testOutcomeText$: currentTest$.pipe(
-        select(getTestOutcomeText),
-      ),
-      isPassed$: currentTest$.pipe(
-        select(isPassed),
-      ),
-      isTestOutcomeSet$: currentTest$.pipe(
-        select(isTestOutcomeSet),
-      ),
-      startTime$: currentTest$.pipe(
-        select(getJournalData),
-        select(getTestSlotAttributes),
-        select(getTestTime),
-      ),
-      startDate$: currentTest$.pipe(
-        select(getJournalData),
-        select(getTestSlotAttributes),
-        select(getTestDate),
-      ),
-      startDateTime$: currentTest$.pipe(
-        select(getJournalData),
-        select(getTestSlotAttributes),
-        select(getTestStartDateTime),
-      ),
-      candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateName),
-      ),
-      candidateDriverNumber$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getCandidateDriverNumber),
-        map(formatDriverNumber),
-      ),
+      ...this.commonPageState,
       routeNumber$: currentTest$.pipe(
         select(getTestSummary),
         select(getRouteNumber),
@@ -467,7 +397,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   setupSubscriptions() {
     const {
       startDateTime$,
-    } = this.pageState;
+    } = this.commonPageState;
     this.subscription = merge(
       startDateTime$.pipe(map((value) => this.startDateTime = value)),
     )
@@ -479,20 +409,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
       this.subscription.unsubscribe();
     }
   }
-
-  // async popToRoot() {
-  //   if (this.isPracticeMode) {
-  //     this.exitPracticeMode();
-  //     return;
-  //   }
-  //   await this.navController.navigateBack(JOURNAL_PAGE);
-  // }
-
-  // async defer() {
-  //   await this.popToRoot();
-  //   this.store$.dispatch(SavingWriteUpForLater());
-  //   this.store$.dispatch(PersistTests());
-  // }
 
   async onSubmit() {
     if (await this.isFormValid()) {

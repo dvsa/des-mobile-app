@@ -7,7 +7,7 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-select id="show-me-selector" placeholder="Select a question" okText="Submit" cancelText="Cancel"
-        formControlName="showMeQuestion" (ionChange)="showMeQuestionChanged($event)"
+        formControlName="showMeQuestion" (ionChange)="showMeQuestionChanged($event.target.value)"
         [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
         <ion-select-option [value]="showMeQuestion" *ngFor="let showMeQuestion of showMeQuestionOptions">
           {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
