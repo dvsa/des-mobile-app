@@ -1,6 +1,11 @@
 import { select, Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
-import { NavController, Platform, ToastController } from '@ionic/angular';
+import {
+  ModalController,
+  NavController,
+  Platform,
+  ToastController,
+} from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { StoreModel } from '@shared/models/store.model';
@@ -13,16 +18,16 @@ import {
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import {
   CompleteTest,
-  OfficeValidationError,
+  OfficeValidationError, OfficeViewDidEnter,
   SavingWriteUpForLater,
   TestStartDateChanged,
 } from '@pages/office/office.actions';
-import { JOURNAL_PAGE } from '@pages/page-names.constants';
+import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { PersistTests } from '@store/tests/tests.actions';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
@@ -42,6 +47,15 @@ import { map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { getNewTestStartTime } from '@shared/helpers/test-start-time';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
+import { Identification, IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
+import {
+  AdditionalInformationChanged,
+  CandidateDescriptionChanged,
+  IdentificationUsedChanged,
+  IndependentDrivingTypeChanged, RouteNumberChanged, WeatherConditionsChanged,
+} from '@store/tests/test-summary/test-summary.actions';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
+import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -65,6 +79,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   subscription: Subscription;
   startDateTime: string;
   isValidStartDateTime: boolean = true;
+  activityCodeOptions: ActivityCodeModel[];
 
   protected constructor(
     platform: Platform,
@@ -73,8 +88,15 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     store$: Store<StoreModel>,
     public navController: NavController,
     public toastController: ToastController,
+    public modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
+    this.form = new FormGroup({});
+    this.activityCodeOptions = activityCodeModelList;
+  }
+
+  ionViewDidEnter(): void {
+    this.store$.dispatch(OfficeViewDidEnter());
   }
 
   onInitialisation(): void {
@@ -165,12 +187,52 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     await this.popToRoot();
   }
 
+  identificationChanged(identification: Identification): void {
+    this.store$.dispatch(IdentificationUsedChanged(identification));
+  }
+
+  independentDrivingChanged(independentDriving: IndependentDriving): void {
+    this.store$.dispatch(IndependentDrivingTypeChanged(independentDriving));
+  }
+
+  weatherConditionsChanged(weatherConditions: WeatherConditions[]): void {
+    this.store$.dispatch(WeatherConditionsChanged(weatherConditions));
+  }
+
+  routeNumberChanged(routeNumber: number) {
+    this.store$.dispatch(RouteNumberChanged(routeNumber));
+  }
+
+  candidateDescriptionChanged(candidateDescription: string) {
+    this.store$.dispatch(CandidateDescriptionChanged(candidateDescription));
+  }
+
+  additionalInformationChanged(additionalInformation: string): void {
+    this.store$.dispatch(AdditionalInformationChanged(additionalInformation));
+  }
+
+  activityCodeChanged(activityCodeModel: ActivityCodeModel) {
+    const { showMeQuestion } = this.form.controls;
+    if (showMeQuestion) {
+      if (showMeQuestion.value && showMeQuestion.value.code === 'N/A') {
+        this.form.controls['showMeQuestion'].setValue({});
+      }
+    }
+    this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));
+  }
+
   async popToRoot() {
     if (this.isPracticeMode) {
       this.exitPracticeMode();
       return;
     }
     await this.navController.navigateBack(JOURNAL_PAGE);
+  }
+
+  async goToReasonForRekey() {
+    if (await this.isFormValid()) {
+      await this.router.navigate([TestFlowPageNames.REKEY_REASON_PAGE]);
+    }
   }
 
   async defer() {
@@ -208,5 +270,14 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       }],
     });
   };
+
+  async showFinishTestModal() {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: FinishTestModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
+      componentProps: {},
+    });
+    await modal.present();
+  }
 
 }

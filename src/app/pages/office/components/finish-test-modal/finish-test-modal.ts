@@ -20,9 +20,9 @@ export class FinishTestModal extends OfficeBasePageComponent implements OnInit {
     store$: Store<StoreModel>,
     navController: NavController,
     toastController: ToastController,
-    public modalController: ModalController,
+    modalController: ModalController,
   ) {
-    super(platform, authenticationProvider, router, store$, navController, toastController);
+    super(platform, authenticationProvider, router, store$, navController, toastController, modalController);
   }
 
   ngOnInit(): void {
