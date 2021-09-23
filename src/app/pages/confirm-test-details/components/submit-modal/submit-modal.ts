@@ -3,9 +3,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
-import * as moment from 'moment';
-
 import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -36,6 +33,7 @@ export class SubmitModal implements OnInit {
     this.store$.dispatch(SetTestStatusWriteUp(this.slotId));
     this.store$.dispatch(PersistTests());
     await this.router.navigate([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
+    await this.modalController.dismiss(ModalEvent.CANCEL);
   }
 
   ngOnInit(): void {
@@ -47,16 +45,7 @@ export class SubmitModal implements OnInit {
   }
 
   onCancel = async () => {
-    this.store$.dispatch(EarlyStartDidReturn());
     await this.modalController.dismiss(ModalEvent.CANCEL);
   };
 
-  onStart = async () => {
-    this.store$.dispatch(EarlyStartDidContinue());
-    await this.modalController.dismiss(ModalEvent.START);
-  };
-
-  getStartTime() {
-    return moment(this.slotData.start).format('kk:mm');
-  }
 }

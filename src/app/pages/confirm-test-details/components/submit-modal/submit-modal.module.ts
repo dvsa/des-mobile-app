@@ -18,4 +18,4 @@ import {
     SubmitModal,
   ],
 })
-export class JournalEarlyStartModule {}
+export class submitModalModule {}

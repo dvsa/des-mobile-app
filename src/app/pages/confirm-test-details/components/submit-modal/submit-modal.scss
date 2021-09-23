@@ -1,21 +1,14 @@
 @import "src/theme/sass-partials/modal";
-
 :host {
-
+  @extend .modal-alert-wrapper;
   .modal-alert {
     width: 450px;
   }
-
   .modal-alert-message {
     margin-bottom: 24px;
   }
-
   .mes-align-content-center {
     text-align: center;
-  }
-
-  .cancel-button {
-    color: var(--gds-black);
   }
   .finish-test-cancel-button {
     color: var(--gds-black);
@@ -23,5 +16,12 @@
   .finish-test-continue-button {
     color: var(--gds-black);
     font-weight: bold;
+  }
+  ion-icon {
+    font-size: 70px;
+    color: var(--gds-black);
+  }
+  .center-icon {
+    text-align: center;
   }
 }
