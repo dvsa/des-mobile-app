@@ -170,6 +170,12 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     }
   }
 
+  async onSubmit() {
+    if (await this.isFormValid()) {
+      await this.showFinishTestModal();
+    }
+  }
+
   setIsValidStartDateTime(isValid: boolean) {
     this.isValidStartDateTime = isValid;
   }
