@@ -57,7 +57,8 @@ describe('ErrorMessageComponent', () => {
         fixture.detectChanges();
         component.ngOnInit();
         expect(component.defaultErrorStatement)
-          .toEqual('There are no test bookings at this location for today and tomorrow');
+          // eslint-disable-next-line max-len
+          .toEqual('You are either not deployed into a test centre, or there are no test bookings at this location for today and tomorrow');
       });
       it('should set additionalText to a message refering to refreshing', () => {
         component.returnTo = ErrorTypes.TEST_CENTRE_JOURNAL_ERROR;

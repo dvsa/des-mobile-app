@@ -45,7 +45,8 @@ export class ErrorMessageComponent {
         this.adviceToUsePaperTest = true;
         break;
       case ErrorTypes.TEST_CENTRE_JOURNAL_NO_RESULT:
-        this.defaultErrorStatement = 'There are no test bookings at this location for today and tomorrow';
+        // eslint-disable-next-line max-len
+        this.defaultErrorStatement = 'You are either not deployed into a test centre, or there are no test bookings at this location for today and tomorrow';
         break;
       case ErrorTypes.TEST_CENTRE_JOURNAL_ERROR:
         this.additionalText = additionalText.TRY_REFRESHING;
