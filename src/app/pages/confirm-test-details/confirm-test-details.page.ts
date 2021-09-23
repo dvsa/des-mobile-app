@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, Platform } from '@ionic/angular';
+import {
+  AlertController, ModalController, NavController, Platform,
+} from '@ionic/angular';
 import { merge, Observable, Subscription } from 'rxjs';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { select, Store } from '@ngrx/store';
@@ -40,8 +42,10 @@ import { getCode78 } from '@store/tests/pass-completion/cad-d/pass-completion.ca
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
+import { SubmitModal } from './components/submit-modal/submit-modal';
 
 interface ConfirmTestDetailsPageState {
   candidateUntitledName$: Observable<string>;
@@ -84,6 +88,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   slotId: string;
 
   constructor(
+    private modalController: ModalController,
     public platform: Platform,
     public navController: NavController,
     public authenticationProvider: AuthenticationProvider,
@@ -216,26 +221,20 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     await this.showConfirmTestDetailsModal();
   }
 
-  async showConfirmTestDetailsModal(): Promise<void> {
-    const alert = await this.alertController.create({
-      message: `You are about to submit a ${this.testOutcome} Cat ${this.category} test for ${this.candidateName}
-                <br/><br/>Are you sure you want to submit this result?`,
-      cssClass: 'confirm-declaration-modal',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-          },
-        },
-        {
-          text: 'Submit',
-          handler: () => this.onTestDetailsConfirm(),
-        },
-      ],
-      backdropDismiss: false,
+  showConfirmTestDetailsModal = async (): Promise<void> => {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: SubmitModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
+      componentProps: {
+        testOutcome: this.testOutcome,
+        category: this.category,
+        candidateName: this.candidateName,
+        slotId: this.slotId,
+      },
     });
-    await alert.present();
-  }
+    await modal.present();
+    await modal.onDidDismiss<ModalEvent>();
+  };
 
   async onTestDetailsConfirm(): Promise<void> {
     this.store$.dispatch(SetTestStatusWriteUp(this.slotId));
