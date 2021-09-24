@@ -31,7 +31,7 @@ export const IdentificationUsedChanged = createAction(
 
 export const IndependentDrivingTypeChanged = createAction(
   '[Test Summary] Independent driving changed',
-  (drivingType: IndependentDriving) => ({ drivingType }),
+  (independentDriving: IndependentDriving) => ({ independentDriving }),
 );
 
 export const D255Yes = createAction(

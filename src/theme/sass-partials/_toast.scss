@@ -1,4 +1,6 @@
-.mes-toast-message-error > div.toast-wrapper {
-  background-color: var(--gds-bright-red);
+.mes-toast-message-error {
+  --background: var(--gds-bright-red);
+  --color: var(--mes-white);
+  --button-color: var(--mes-white);
 }
 
