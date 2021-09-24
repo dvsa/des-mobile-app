@@ -32,35 +32,35 @@
                         </date-of-test>
 
                         <activity-code id="activity-code-card" [formGroup]="form"
-                                       [activityCodeModel]="pageState.activityCode$ | async"
+                                       [activityCodeModel]="commonPageState.activityCode$ | async"
                                        [activityCodeOptions]="activityCodeOptions"
                                        (activityCodeChange)="activityCodeChanged($event)"
                                        [disabled]="true">
                         </activity-code>
                     </div>
                     <div class="ion-no-padding" [hidden]="!(commonPageState.isTestOutcomeSet$ | async)">
-                        <route-number [display]="pageState.displayRouteNumber$ | async"
-                                      [routeNumber]="pageState.routeNumber$ | async"
+                        <route-number [display]="commonPageState.displayRouteNumber$ | async"
+                                      [routeNumber]="commonPageState.routeNumber$ | async"
                                       [outcome]="commonPageState.testOutcome$ | async"
                                       (routeNumberChange)="routeNumberChanged($event)" [formGroup]="form">
                         </route-number>
 
-                        <independent-driving [display]="pageState.displayIndependentDriving$ | async" option1="Sat nav"
+                        <independent-driving [display]="commonPageState.displayIndependentDriving$ | async" option1="Sat nav"
                                              option1label="Sat Nav" option2="Traffic signs" option2label="Traffic Signs"
                                              [formGroup]="form" [outcome]="commonPageState.testOutcome$ | async"
-                                             [independentDriving]="pageState.independentDriving$ | async"
+                                             [independentDriving]="commonPageState.independentDriving$ | async"
                                              (independentDrivingChange)="independentDrivingChanged($event)">
                         </independent-driving>
 
-                        <candidate-description [display]="pageState.displayCandidateDescription$ | async"
+                        <candidate-description [display]="commonPageState.displayCandidateDescription$ | async"
                                                [formGroup]="form"
-                                               [candidateDescription]="pageState.candidateDescription$ | async"
+                                               [candidateDescription]="commonPageState.candidateDescription$ | async"
                                                [outcome]="commonPageState.testOutcome$ | async"
                                                (candidateDescriptionChange)="candidateDescriptionChanged($event)">
                         </candidate-description>
 
-                        <identification [display]="pageState.displayIdentification$ | async" [formGroup]="form"
-                                        [identification]="pageState.identification$ | async"
+                        <identification [display]="commonPageState.displayIdentification$ | async" [formGroup]="form"
+                                        [identification]="commonPageState.identification$ | async"
                                         [outcome]="commonPageState.testOutcome$ | async"
                                         (identificationChange)="identificationChanged($event)">
                         </identification>
@@ -90,15 +90,15 @@
                                           (showMeQuestionChange)="showMeQuestionChanged($event)">
                         </show-me-question>
 
-                        <weather-conditions [display]="pageState.displayWeatherConditions$ | async"
-                                            [weatherConditions]="pageState.weatherConditions$ | async"
+                        <weather-conditions [display]="commonPageState.displayWeatherConditions$ | async"
+                                            [weatherConditions]="commonPageState.weatherConditions$ | async"
                                             [formGroup]="form" [outcome]="commonPageState.testOutcome$ | async"
                                             [weatherConditionsOptions]="weatherConditions"
                                             (weatherConditionsChange)="weatherConditionsChanged($event)">
                         </weather-conditions>
 
-                        <additional-information [display]="pageState.displayAdditionalInformation$ | async"
-                                                [additionalInformation]="pageState.additionalInformation$ | async"
+                        <additional-information [display]="commonPageState.displayAdditionalInformation$ | async"
+                                                [additionalInformation]="commonPageState.additionalInformation$ | async"
                                                 [formGroup]="form" [outcome]="commonPageState.testOutcome$ | async"
                                                 (additionalInformationChange)="additionalInformationChanged($event)"></additional-information>
 
@@ -108,7 +108,7 @@
         </ion-card>
 
         <div class="ion-no-padding" [hidden]="!(commonPageState.isTestOutcomeSet$ | async)">
-            <ion-card id="ETA" *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)">
+            <ion-card id="ETA" *ngIf="(pageState.etaFaults$ | async) && (commonPageState.displayEta$ | async)">
                 <ion-card-content>
                     <ion-grid>
                         <ion-row class="ion-align-items-start mes-data">
@@ -123,7 +123,7 @@
                 </ion-card-content>
             </ion-card>
 
-            <ion-card id="eco" *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)">
+            <ion-card id="eco" *ngIf="(pageState.ecoFaults$ | async) && (commonPageState.displayEco$ | async)">
                 <ion-card-content>
                     <ion-grid>
                         <ion-row class="ion-align-items-start mes-data">
