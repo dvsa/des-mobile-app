@@ -4,7 +4,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
@@ -25,6 +25,7 @@ describe('submitModal', () => {
         SubmitModal,
       ],
       imports: [
+        RouterTestingModule,
         CommonModule,
         FormsModule,
         IonicModule,
@@ -49,10 +50,19 @@ describe('submitModal', () => {
   it('should call onCancel when the Cancel button is clicked', () => {
     modalFixture.detectChanges();
     spyOn(modalComponent, 'onCancel').and.callThrough();
-    const button = modalFixture.debugElement.query(By.css('.cancel-button'));
+    const button = modalFixture.debugElement.query(By.css('#cancel-button'));
     button.triggerEventHandler('click', null);
     modalFixture.detectChanges();
     expect(modalComponent.onCancel).toHaveBeenCalled();
     expect(modalComponent.modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+  });
+
+  it('should call onTestDetailsConfirm when the Submit button is clicked', () => {
+    modalFixture.detectChanges();
+    spyOn(modalComponent, 'onTestDetailsConfirm').and.callThrough();
+    const button = modalFixture.debugElement.query(By.css('#continue-button'));
+    button.triggerEventHandler('click', null);
+    modalFixture.detectChanges();
+    expect(modalComponent.onTestDetailsConfirm).toHaveBeenCalled();
   });
 });
