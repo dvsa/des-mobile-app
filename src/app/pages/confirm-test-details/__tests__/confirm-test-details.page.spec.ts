@@ -165,6 +165,14 @@ describe('ConfirmTestDetailsPage', () => {
     });
   });
 
+  fdescribe('showConfirmTestDetailsModal', () => {
+    it('should call alertController.create', async () => {
+      spyOn(component, 'showConfirmTestDetailsModal');
+      await component.showConfirmTestDetailsModal();
+      expect(component.showConfirmTestDetailsModal).toHaveBeenCalled();
+    });
+  });
+
   describe('onTestDetailsConfirm', () => {
     it('should call device auth provider triggerLockScreen', async () => {
       component.testOutcome = TestOutcome.Passed;
