@@ -7,9 +7,15 @@
   <ion-col size="63" class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-select value="weather" multiple="true" okText="Submit" cancelText="Cancel"
-        placeholder="Select weather conditions" formControlName="weatherConditions" [class.ng-invalid]="invalid"
-        (ionChange)="weatherConditionsChanged($event)" [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
+      <ion-select value="weather"
+                  multiple="true"
+                  okText="Submit"
+                  cancelText="Cancel"
+                  placeholder="Select weather conditions"
+                  formControlName="weatherConditions"
+                  [class.ng-invalid]="invalid"
+                  (ionChange)="weatherConditionsChanged($event.target.value)"
+                  [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
         <ion-select-option [value]="weatherCondition.weatherConditionDescription"
           *ngFor="let weatherCondition of weatherConditionsOptions">
           {{weatherCondition.weatherConditionNumber}} - {{weatherCondition.weatherConditionDescription}}

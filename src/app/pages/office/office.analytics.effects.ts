@@ -287,13 +287,13 @@ export class OfficeAnalyticsEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line max-len
-    concatMap(([action, tests, category]: [ReturnType<typeof IndependentDrivingTypeChanged>, TestsModel, CategoryCode]) => {
+    concatMap(([action, tests, category]:
+    [ReturnType<typeof IndependentDrivingTypeChanged>, TestsModel, CategoryCode]) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.INDEPENDENT_DRIVING_TYPE_CHANGED, tests),
-        `${action.drivingType} selected`,
+        `${action.independentDriving} selected`,
       );
       return of(AnalyticRecorded());
     }),

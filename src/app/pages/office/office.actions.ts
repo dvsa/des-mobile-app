@@ -21,9 +21,3 @@ export const OfficeValidationError = createAction(
   '[OfficePage] Validation error',
   (errorMessage: string) => ({ errorMessage }),
 );
-
-export type OfficeActionTypes =
-  | ReturnType<typeof TestStartDateChanged>
-  | ReturnType<typeof CompleteTest>
-  | ReturnType<typeof OfficeViewDidEnter>
-  | ReturnType<typeof SavingWriteUpForLater>;
