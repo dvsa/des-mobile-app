@@ -12,10 +12,12 @@
   }
   .finish-test-cancel-button {
     color: var(--gds-black);
+    border-right: 1px solid var(--gds-grey-3);
   }
   .finish-test-continue-button {
     color: var(--gds-black);
     font-weight: bold;
+    border-right: 1px solid var(--gds-grey-3);
   }
   ion-icon {
     font-size: 70px;

@@ -46,7 +46,6 @@ describe('submitModal', () => {
     spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
   }));
 
-
   it('should call onCancel when the Cancel button is clicked', () => {
     modalFixture.detectChanges();
     spyOn(modalComponent, 'onCancel').and.callThrough();
