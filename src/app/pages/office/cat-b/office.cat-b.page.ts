@@ -10,26 +10,12 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
-import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { Observable } from 'rxjs';
 import {
   getCurrentTest,
   getTestOutcome,
 } from '@store/tests/tests.selector';
-import {
-  getRouteNumber,
-  getCandidateDescription,
-  getAdditionalInformation,
-  getWeatherConditions,
-  getIdentification,
-  getIndependentDriving,
-} from '@store/tests/test-summary/test-summary.selector';
 import { map, withLatestFrom } from 'rxjs/operators';
-import {
-  WeatherConditions,
-  Identification,
-  IndependentDriving,
-} from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { QuestionProvider } from '@providers/question/question';
@@ -47,7 +33,6 @@ import {
   getTellMeQuestion,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -70,27 +55,13 @@ import {
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
-import { behaviourMap } from '../office-behaviour-map';
 
 interface OfficePageState {
-  routeNumber$: Observable<number>;
-  displayRouteNumber$: Observable<boolean>;
-  displayIndependentDriving$: Observable<boolean>;
-  displayCandidateDescription$: Observable<boolean>;
-  displayIdentification$: Observable<boolean>;
   displayShowMeQuestion$: Observable<boolean>;
   displayTellMeQuestion$: Observable<boolean>;
-  displayWeatherConditions$: Observable<boolean>;
-  displayAdditionalInformation$: Observable<boolean>;
-  displayEco$: Observable<boolean>;
-  displayEta$: Observable<boolean>;
   displayDrivingFault$: Observable<boolean>;
   displaySeriousFault$: Observable<boolean>;
   displayDangerousFault$: Observable<boolean>;
-  identification$: Observable<Identification>;
-  independentDriving$: Observable<IndependentDriving>;
-  candidateDescription$: Observable<string>;
-  additionalInformation$: Observable<string>;
   showMeQuestion$: Observable<VehicleChecksQuestion>;
   showMeQuestionOptions$: Observable<VehicleChecksQuestion[]>;
   tellMeQuestionText$: Observable<string>;
@@ -99,7 +70,6 @@ interface OfficePageState {
   drivingFaults$: Observable<FaultSummary[]>;
   drivingFaultCount$: Observable<number>;
   displayDrivingFaultComments$: Observable<boolean>;
-  weatherConditions$: Observable<WeatherConditions[]>;
   dangerousFaults$: Observable<FaultSummary[]>;
   seriousFaults$: Observable<FaultSummary[]>;
 }
@@ -117,7 +87,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   dangerousFaultCtrl: string = 'dangerousFaultCtrl';
   static readonly maxFaultCount = 15;
 
-  weatherConditions: WeatherConditionSelection[];
   showMeQuestions: VehicleChecksQuestion[];
   activityCodeOptions: ActivityCodeModel[];
 
@@ -129,9 +98,9 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     navController: NavController,
     toastController: ToastController,
     modalController: ModalController,
-    private weatherConditionProvider: WeatherConditionProvider,
+    outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
+    weatherConditionProvider: WeatherConditionProvider,
     public questionProvider: QuestionProvider,
-    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public alertController: AlertController,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
@@ -144,11 +113,11 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
       navController,
       toastController,
       modalController,
+      outcomeBehaviourProvider,
+      weatherConditionProvider,
     );
 
-    this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
-    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
 
   }
 
@@ -163,45 +132,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     );
     this.pageState = {
       ...this.commonPageState,
-      routeNumber$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getRouteNumber),
-      ),
-      displayRouteNumber$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getRouteNumber),
-        )),
-        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route)),
-      ),
-      displayIndependentDriving$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getIndependentDriving),
-        )),
-        map(([outcome, independent]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'independentDriving', independent)),
-      ),
-      displayCandidateDescription$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getCandidateDescription),
-        )),
-        map(([outcome, candidate]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'candidateDescription', candidate)),
-      ),
-      displayIdentification$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getIdentification),
-        )),
-        map(([outcome, identification]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'identification', identification)),
-      ),
       displayShowMeQuestion$: currentTest$.pipe(
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(
@@ -221,42 +151,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
         )),
         map(([outcome, question]) =>
           this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', question)),
-      ),
-      displayWeatherConditions$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getWeatherConditions),
-        )),
-        map(([outcome, weather]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'weatherConditions', weather)),
-      ),
-      displayAdditionalInformation$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestSummary),
-          select(getAdditionalInformation),
-        )),
-        map(([outcome, additional]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'additionalInformation', additional)),
-      ),
-      displayEco$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-          select(getEco),
-        )),
-        map(([outcome, eco]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'eco', eco)),
-      ),
-      displayEta$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-          select(getETA),
-        )),
-        map(([outcome, eta]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'eta', eta)),
       ),
       displayDrivingFault$: currentTest$.pipe(
         select(getTestOutcome),
@@ -293,22 +187,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
             'faultComment',
             this.faultSummaryProvider.getDangerousFaultsList(testData, TestCategory.B),
           )),
-      ),
-      candidateDescription$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getCandidateDescription),
-      ),
-      independentDriving$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getIndependentDriving),
-      ),
-      identification$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getIdentification),
-      ),
-      additionalInformation$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getAdditionalInformation),
       ),
       showMeQuestion$: currentTest$.pipe(
         select(getTestData),
@@ -363,10 +241,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
         map((data) => this.shouldDisplayDrivingFaultComments(data)),
-      ),
-      weatherConditions$: currentTest$.pipe(
-        select(getTestSummary),
-        select(getWeatherConditions),
       ),
     };
 

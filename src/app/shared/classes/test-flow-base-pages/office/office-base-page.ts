@@ -43,7 +43,7 @@ import {
   getCandidateDriverNumber,
   getCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { map } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { getNewTestStartTime } from '@shared/helpers/test-start-time';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
@@ -56,6 +56,19 @@ import {
 } from '@store/tests/test-summary/test-summary.actions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
+import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
+import {
+  getAdditionalInformation,
+  getCandidateDescription, getIdentification,
+  getIndependentDriving,
+  getRouteNumber, getWeatherConditions,
+} from '@store/tests/test-summary/test-summary.selector';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
+import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
+import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -69,6 +82,20 @@ export interface CommonOfficePageState {
   isTestOutcomeSet$: Observable<boolean>;
   candidateName$: Observable<string>;
   candidateDriverNumber$: Observable<string>;
+  routeNumber$: Observable<number>;
+  displayRouteNumber$: Observable<boolean>;
+  displayIndependentDriving$: Observable<boolean>;
+  displayCandidateDescription$: Observable<boolean>;
+  displayIdentification$: Observable<boolean>;
+  weatherConditions$: Observable<WeatherConditions[]>;
+  displayAdditionalInformation$: Observable<boolean>;
+  displayEco$: Observable<boolean>;
+  displayEta$: Observable<boolean>;
+  candidateDescription$: Observable<string>;
+  independentDriving$: Observable<IndependentDriving>;
+  identification$: Observable<Identification>;
+  additionalInformation$: Observable<string>;
+  displayWeatherConditions$: Observable<boolean>;
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -80,6 +107,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   startDateTime: string;
   isValidStartDateTime: boolean = true;
   activityCodeOptions: ActivityCodeModel[];
+  weatherConditions: WeatherConditionSelection[];
 
   protected constructor(
     platform: Platform,
@@ -89,10 +117,14 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     public navController: NavController,
     public toastController: ToastController,
     public modalController: ModalController,
+    public outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
+    public weatherConditionProvider: WeatherConditionProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
     this.activityCodeOptions = activityCodeModelList;
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
+    this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();
   }
 
   ionViewDidEnter(): void {
@@ -150,6 +182,101 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
         select(getCandidate),
         select(getCandidateDriverNumber),
         map(formatDriverNumber),
+      ),
+      routeNumber$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getRouteNumber),
+      ),
+      displayRouteNumber$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestSummary),
+          select(getRouteNumber),
+        )),
+        map(([outcome, route]) => this.outcomeBehaviourProvider.isVisible(outcome, 'routeNumber', route)),
+      ),
+      displayIndependentDriving$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestSummary),
+          select(getIndependentDriving),
+        )),
+        map(([outcome, independent]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'independentDriving', independent)),
+      ),
+      displayCandidateDescription$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestSummary),
+          select(getCandidateDescription),
+        )),
+        map(([outcome, candidate]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'candidateDescription', candidate)),
+      ),
+      displayIdentification$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestSummary),
+          select(getIdentification),
+        )),
+        map(([outcome, identification]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'identification', identification)),
+      ),
+      displayWeatherConditions$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestSummary),
+          select(getWeatherConditions),
+        )),
+        map(([outcome, weather]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'weatherConditions', weather)),
+      ),
+      displayAdditionalInformation$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestSummary),
+          select(getAdditionalInformation),
+        )),
+        map(([outcome, additional]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'additionalInformation', additional)),
+      ),
+      displayEco$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestData),
+          select(getEco),
+        )),
+        map(([outcome, eco]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'eco', eco)),
+      ),
+      displayEta$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestData),
+          select(getETA),
+        )),
+        map(([outcome, eta]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'eta', eta)),
+      ),
+      candidateDescription$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getCandidateDescription),
+      ),
+      independentDriving$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getIndependentDriving),
+      ),
+      identification$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getIdentification),
+      ),
+      additionalInformation$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getAdditionalInformation),
+      ),
+      weatherConditions$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getWeatherConditions),
       ),
     };
   }
