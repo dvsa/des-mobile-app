@@ -406,9 +406,14 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   async showFinishTestModal() {
     const modal: HTMLIonModalElement = await this.modalController.create({
+      id: 'FinishTestModal',
       component: FinishTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
-      componentProps: {},
+      backdropDismiss: false,
+      showBackdrop: true,
+      componentProps: {
+        completeTest: this.completeTest,
+      },
     });
     await modal.present();
   }
