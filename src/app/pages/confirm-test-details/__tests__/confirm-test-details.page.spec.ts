@@ -165,7 +165,7 @@ describe('ConfirmTestDetailsPage', () => {
     });
   });
 
-  fdescribe('showConfirmTestDetailsModal', () => {
+  describe('showConfirmTestDetailsModal', () => {
     it('should call alertController.create', async () => {
       spyOn(component, 'showConfirmTestDetailsModal');
       await component.showConfirmTestDetailsModal();
