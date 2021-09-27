@@ -5,6 +5,9 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TerminateTestModal } from '@pages/terminate-test-modal/terminate-test-modal';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
+import { Store } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
 
 @Component({
   selector: 'end-test-link',
@@ -28,6 +31,7 @@ export class EndTestLinkComponent {
     public modalController: ModalController,
     public router: Router,
     public routerByCategory: RouteByCategoryProvider,
+    private store$: Store<StoreModel>,
   ) {
   }
 
@@ -58,6 +62,7 @@ export class EndTestLinkComponent {
       await this.routerByCategory.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category as TestCategory);
       return;
     }
+    this.store$.dispatch(SetActivityCode(null));
     await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   };
 
