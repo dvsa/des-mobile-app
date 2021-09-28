@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AlertController, ModalController, NavController, Platform } from '@ionic/angular';
 import { merge, Observable, Subscription } from 'rxjs';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { select, Store } from '@ngrx/store';
@@ -40,9 +39,9 @@ import { getCode78 } from '@store/tests/pass-completion/cad-d/pass-completion.ca
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ConfirmSubmitModal } from '@pages/confirm-test-details/components/confirm-submit-modal/confirm-submit-modal';
 import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
-import { ConfirmSubmitModal } from '@pages/confirm-test-details/components/confirm-submit-modal/confirm-submit-modal';
 
 interface ConfirmTestDetailsPageState {
   candidateUntitledName$: Observable<string>;
