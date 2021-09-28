@@ -135,8 +135,9 @@ describe('OfficePage', () => {
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         WeatherConditionProvider,
         { provide: QuestionProvider, useClass: QuestionProviderMock },
-        { provide: FaultCountProvider, useClass: FaultCountProvider },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
+        { provide: FaultCountProvider, useClass: FaultCountProvider },
+
       ],
     });
   });

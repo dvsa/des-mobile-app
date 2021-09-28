@@ -33,6 +33,8 @@ import { WeatherConditionsChanged } from '@store/tests/test-summary/test-summary
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { CompleteTest, SavingWriteUpForLater } from '@pages/office/office.actions';
 import { PersistTests } from '@store/tests/tests.actions';
+import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { OfficeBasePageComponent } from '../office-base-page';
 
 describe('OfficeBasePageComponent', () => {
@@ -45,6 +47,8 @@ describe('OfficeBasePageComponent', () => {
   let modalController: ModalController;
   let outcomeBehaviourProvider: OutcomeBehaviourMapProvider;
   let weatherConditionProvider: WeatherConditionProvider;
+  let faultSummaryProvider: FaultSummaryProvider;
+  let faultCountProvider: FaultCountProvider;
 
   let basePageComponent: OfficeBasePageComponent;
   const initialState = {
@@ -71,6 +75,8 @@ describe('OfficeBasePageComponent', () => {
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         WeatherConditionProvider,
+        { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
+        { provide: FaultCountProvider, useClass: FaultCountProvider },
       ],
     });
   });
@@ -85,6 +91,8 @@ describe('OfficeBasePageComponent', () => {
     modalController = TestBed.inject(ModalController);
     outcomeBehaviourProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     weatherConditionProvider = TestBed.inject(WeatherConditionProvider);
+    faultSummaryProvider = TestBed.inject(FaultSummaryProvider);
+    faultCountProvider = TestBed.inject(FaultCountProvider);
     spyOn(store$, 'dispatch');
 
     class BasePageClass extends OfficeBasePageComponent {
@@ -98,8 +106,10 @@ describe('OfficeBasePageComponent', () => {
         mod: ModalController,
         beh: OutcomeBehaviourMapProvider,
         wea: WeatherConditionProvider,
+        fsp: FaultSummaryProvider,
+        fcp: FaultCountProvider,
       ) {
-        super(plat, auth, rout, sto$, nav, toa, mod, beh, wea);
+        super(plat, auth, rout, sto$, nav, toa, mod, beh, wea, fsp, fcp);
       }
     }
     basePageComponent = new BasePageClass(
@@ -112,6 +122,8 @@ describe('OfficeBasePageComponent', () => {
       modalController,
       outcomeBehaviourProvider,
       weatherConditionProvider,
+      faultSummaryProvider,
+      faultCountProvider,
     );
   }));
 
@@ -122,14 +134,6 @@ describe('OfficeBasePageComponent', () => {
         .subscribe((res: ActivityCodeModel) => expect(res.activityCode).toEqual('1'));
     });
   });
-
-  // describe('onSubmit', () => {
-  //   it('should show modal if form is valid', async () => {
-  //     spyOn(basePageComponent, 'isFormValid').and.returnValue(Promise.resolve(true));
-  //     await basePageComponent.onSubmit();
-  //     expect(basePageComponent.showFinishTestModal).toHaveBeenCalled();
-  //   });
-  // });
 
   describe('setIsValidStartDateTime', () => {
     it('should set isValidStartDateTime', () => {

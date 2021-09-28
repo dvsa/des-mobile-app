@@ -38,10 +38,12 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { Router } from '@angular/router';
-import { OfficeBasePageComponent } from '@shared/classes/test-flow-base-pages/office/office-base-page';
+import {
+  CommonOfficePageState,
+  OfficeBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { startsWith } from 'lodash';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
@@ -55,23 +57,18 @@ import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-fa
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 
-interface OfficePageState {
+interface CatBOfficePageState {
   displayShowMeQuestion$: Observable<boolean>;
   displayTellMeQuestion$: Observable<boolean>;
-  displayDrivingFault$: Observable<boolean>;
-  displaySeriousFault$: Observable<boolean>;
-  displayDangerousFault$: Observable<boolean>;
   showMeQuestion$: Observable<VehicleChecksQuestion>;
   showMeQuestionOptions$: Observable<VehicleChecksQuestion[]>;
   tellMeQuestionText$: Observable<string>;
   etaFaults$: Observable<string>;
   ecoFaults$: Observable<string>;
-  drivingFaults$: Observable<FaultSummary[]>;
-  drivingFaultCount$: Observable<number>;
   displayDrivingFaultComments$: Observable<boolean>;
-  dangerousFaults$: Observable<FaultSummary[]>;
-  seriousFaults$: Observable<FaultSummary[]>;
 }
+
+type OfficePageState = CommonOfficePageState & CatBOfficePageState;
 
 @Component({
   selector: '.office-cat-b-page',
@@ -99,9 +96,9 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     modalController: ModalController,
     outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     weatherConditionProvider: WeatherConditionProvider,
+    faultSummaryProvider: FaultSummaryProvider,
+    faultCountProvider: FaultCountProvider,
     public questionProvider: QuestionProvider,
-    private faultCountProvider: FaultCountProvider,
-    private faultSummaryProvider: FaultSummaryProvider,
   ) {
     super(
       platform,
@@ -113,6 +110,8 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
       modalController,
       outcomeBehaviourProvider,
       weatherConditionProvider,
+      faultSummaryProvider,
+      faultCountProvider,
     );
 
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
@@ -124,9 +123,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
-    );
-    const category$ = currentTest$.pipe(
-      select(getTestCategory),
     );
     this.pageState = {
       ...this.commonPageState,
@@ -150,42 +146,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
         map(([outcome, question]) =>
           this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', question)),
       ),
-      displayDrivingFault$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-        )),
-        map(([outcome, testData]) =>
-          this.outcomeBehaviourProvider.isVisible(
-            outcome,
-            'faultComment',
-            this.faultSummaryProvider.getDrivingFaultsList(testData, TestCategory.B),
-          )),
-      ),
-      displaySeriousFault$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-        )),
-        map(([outcome, testData]) =>
-          this.outcomeBehaviourProvider.isVisible(
-            outcome,
-            'faultComment',
-            this.faultSummaryProvider.getSeriousFaultsList(testData, TestCategory.B),
-          )),
-      ),
-      displayDangerousFault$: currentTest$.pipe(
-        select(getTestOutcome),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestData),
-        )),
-        map(([outcome, testData]) =>
-          this.outcomeBehaviourProvider.isVisible(
-            outcome,
-            'faultComment',
-            this.faultSummaryProvider.getDangerousFaultsList(testData, TestCategory.B),
-          )),
-      ),
+
       showMeQuestion$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecks),
@@ -211,31 +172,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
         select(getEco),
         select(getEcoFaultText),
       ),
-      dangerousFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) =>
-          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
-      ),
-      seriousFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) =>
-          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
-      ),
-      drivingFaults$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) =>
-          this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)),
-      ),
-      drivingFaultCount$: currentTest$.pipe(
-        select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) => {
-          return this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData);
-        }),
-      ),
+
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
         map((data) => this.shouldDisplayDrivingFaultComments(data)),

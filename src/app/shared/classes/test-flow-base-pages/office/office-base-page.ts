@@ -71,6 +71,11 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { FaultSummary } from '@shared/models/fault-marking.model';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -98,6 +103,13 @@ export interface CommonOfficePageState {
   identification$: Observable<Identification>;
   additionalInformation$: Observable<string>;
   displayWeatherConditions$: Observable<boolean>;
+  displayDrivingFault$: Observable<boolean>;
+  displaySeriousFault$: Observable<boolean>;
+  displayDangerousFault$: Observable<boolean>;
+  drivingFaults$: Observable<FaultSummary[]>;
+  drivingFaultCount$: Observable<number>;
+  dangerousFaults$: Observable<FaultSummary[]>;
+  seriousFaults$: Observable<FaultSummary[]>;
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -122,6 +134,8 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     public modalController: ModalController,
     public outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public weatherConditionProvider: WeatherConditionProvider,
+    public faultSummaryProvider: FaultSummaryProvider,
+    public faultCountProvider: FaultCountProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
@@ -138,6 +152,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
+    );
+    const category$ = currentTest$.pipe(
+      select(getTestCategory),
     );
 
     this.commonPageState = {
@@ -280,6 +297,70 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       weatherConditions$: currentTest$.pipe(
         select(getTestSummary),
         select(getWeatherConditions),
+      ),
+      displayDrivingFault$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(
+          currentTest$.pipe(select(getTestData)),
+          category$,
+        ),
+        map(([outcome, testData, category]) =>
+          this.outcomeBehaviourProvider.isVisible(
+            outcome,
+            'faultComment',
+            this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory),
+          )),
+      ),
+      displaySeriousFault$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(
+          currentTest$.pipe(select(getTestData)),
+          category$,
+        ),
+        map(([outcome, testData, category]) =>
+          this.outcomeBehaviourProvider.isVisible(
+            outcome,
+            'faultComment',
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory),
+          )),
+      ),
+      displayDangerousFault$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(
+          currentTest$.pipe(select(getTestData)),
+          category$,
+        ),
+        map(([outcome, testData, category]) =>
+          this.outcomeBehaviourProvider.isVisible(
+            outcome,
+            'faultComment',
+            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory),
+          )),
+      ),
+      dangerousFaults$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(category$),
+        map(([testData, category]) =>
+          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
+      ),
+      seriousFaults$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(category$),
+        map(([testData, category]) =>
+          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+      ),
+      drivingFaults$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(category$),
+        map(([testData, category]) =>
+          this.faultSummaryProvider.getDrivingFaultsList(testData, category as TestCategory)),
+      ),
+      drivingFaultCount$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(category$),
+        map(([testData, category]) => {
+          return this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData);
+        }),
       ),
     };
   }
