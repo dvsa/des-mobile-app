@@ -7,6 +7,9 @@ import { configureTestSuite } from 'ng-bullet';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -21,24 +24,38 @@ import { DateTime } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ComponentsModule } from '@components/common/common-components.module';
-
+import { LoadJournalSilent } from '@store/journal/journal.actions';
+import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import {
+  CompletedTestPersistenceProviderMock,
+} from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import {
   selectEmployeeId,
   selectEmployeeName,
   selectVersionNumber,
 } from '@store/app-info/app-info.selectors';
+import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPage } from '../dashboard.page';
+import { DashboardViewDidEnter } from '../dashboard.actions';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
   let appConfigProvider: AppConfigProvider;
+  let deviceProvider: DeviceProvider;
   let store$: MockStore;
+  let screenOrientation: ScreenOrientation;
+  let insomnia: Insomnia;
+  let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
+
   const initialState = {
     appInfo: { versionNumber: '4.0', employeeName: 'Some One', employeeId: '1234567' },
     appConfig: { role: ExaminerRole.DE },
@@ -67,6 +84,10 @@ describe('DashboardPage', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: Router, useValue: routerSpy },
+        { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
+        { provide: Insomnia, useClass: InsomniaMock },
         provideMockStore({ initialState }),
       ],
     });
@@ -79,6 +100,12 @@ describe('DashboardPage', () => {
 
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
+    deviceProvider = TestBed.inject(DeviceProvider);
+    screenOrientation = TestBed.inject(ScreenOrientation);
+    insomnia = TestBed.inject(Insomnia);
+    completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
+
+    spyOn(store$, 'dispatch');
   }));
 
   it('should create', () => {
@@ -99,14 +126,35 @@ describe('DashboardPage', () => {
     });
   });
   describe('ionViewWillEnter', () => {
-    it('should set todaysDate and todaysDateFormatted on view will enter', () => {
+    it('should set todaysDate and todaysDateFormatted on view will enter', async () => {
       spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-      component.ionViewWillEnter();
+      spyOn(completedTestPersistenceProvider, 'loadCompletedPersistedTests');
+      await component.ionViewWillEnter();
       expect(component.todaysDate).toEqual(new DateTime('2019-02-01'));
       expect(component.todaysDateFormatted).toEqual('Friday 1st February 2019');
+      expect(completedTestPersistenceProvider.loadCompletedPersistedTests).toHaveBeenCalled();
     });
   });
-
+  describe('ionViewDidEnter', () => {
+    it('should dispatch the actions but not the native features', async () => {
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(false);
+      await component.ionViewDidEnter();
+      expect(store$.dispatch).toHaveBeenCalledWith(DashboardViewDidEnter());
+      expect(screenOrientation.unlock).not.toHaveBeenCalled();
+      expect(insomnia.allowSleepAgain).not.toHaveBeenCalled();
+      expect(deviceProvider.disableSingleAppMode).not.toHaveBeenCalled();
+      expect(store$.dispatch).toHaveBeenCalledWith(LoadJournalSilent());
+    });
+    it('should dispatch the actions and run native functionality', async () => {
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+      await component.ionViewDidEnter();
+      expect(store$.dispatch).toHaveBeenCalledWith(DashboardViewDidEnter());
+      expect(screenOrientation.unlock).toHaveBeenCalled();
+      expect(insomnia.allowSleepAgain).toHaveBeenCalled();
+      expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+      expect(store$.dispatch).toHaveBeenCalledWith(LoadJournalSilent());
+    });
+  });
   describe('showTestReportPracticeMode', () => {
     it('should return true when enableTestReportPracticeMode is true', () => {
       expect(component.showTestReportPracticeMode()).toEqual(true);
