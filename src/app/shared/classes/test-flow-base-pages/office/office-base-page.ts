@@ -110,6 +110,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   isValidStartDateTime: boolean = true;
   activityCodeOptions: ActivityCodeModel[];
   weatherConditions: WeatherConditionSelection[];
+  finishTestModal: HTMLIonModalElement;
 
   protected constructor(
     platform: Platform,
@@ -315,12 +316,13 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     this.store$.dispatch(SetStartDate(customStartDate));
   }
 
-  async completeTest() {
+  completeTest = async (): Promise<void> => {
     if (!this.isPracticeMode) {
       this.store$.dispatch(CompleteTest());
     }
+    await this.finishTestModal.dismiss();
     await this.popToRoot();
-  }
+  };
 
   identificationChanged(identification: Identification): void {
     this.store$.dispatch(IdentificationUsedChanged(identification));
@@ -407,7 +409,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   };
 
   async showFinishTestModal() {
-    const modal: HTMLIonModalElement = await this.modalController.create({
+    this.finishTestModal = await this.modalController.create({
       id: 'FinishTestModal',
       component: FinishTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
@@ -417,7 +419,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
         completeTest: this.completeTest,
       },
     });
-    await modal.present();
+    await this.finishTestModal.present();
   }
 
 }

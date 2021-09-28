@@ -2,7 +2,6 @@ import {
   NavController,
   Platform,
   ToastController,
-  AlertController,
   ModalController,
 } from '@ionic/angular';
 import { Component } from '@angular/core';
@@ -101,7 +100,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     weatherConditionProvider: WeatherConditionProvider,
     public questionProvider: QuestionProvider,
-    public alertController: AlertController,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
   ) {

@@ -17,12 +17,8 @@ export class FinishTestModal {
   ) {
   }
 
-  ngOnInit(): void {
-  }
-
   onCompleteTest = async () => {
-    await this.modalController.dismiss();
-    await this.completeTest;
+    await this.completeTest();
   };
 
   onBack = async () => {
