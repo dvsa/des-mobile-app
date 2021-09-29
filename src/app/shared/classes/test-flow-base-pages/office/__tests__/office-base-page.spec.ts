@@ -28,13 +28,21 @@ import { NavControllerMock } from '@shared/mocks/nav-controller-mock';
 import { ToastControllerMock } from '@pages/office/__mocks__/toast-controller-mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
-import { WeatherConditionsChanged } from '@store/tests/test-summary/test-summary.actions';
+import { Identification, IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
+import {
+  AdditionalInformationChanged,
+  CandidateDescriptionChanged,
+  IdentificationUsedChanged,
+  IndependentDrivingTypeChanged,
+  RouteNumberChanged,
+  WeatherConditionsChanged,
+} from '@store/tests/test-summary/test-summary.actions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { CompleteTest, SavingWriteUpForLater } from '@pages/office/office.actions';
 import { PersistTests } from '@store/tests/tests.actions';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import { OfficeBasePageComponent } from '../office-base-page';
 
 describe('OfficeBasePageComponent', () => {
@@ -191,4 +199,69 @@ describe('OfficeBasePageComponent', () => {
       expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
     });
   });
+
+  describe('additionalInformationChanged', () => {
+    it('should dispatch an Additional Information change action with the new value', () => {
+      const info: string = 'Nothing more to say.';
+      basePageComponent.additionalInformationChanged(info);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(AdditionalInformationChanged(info));
+    });
+  });
+
+  describe('candidateDescriptionChanged', () => {
+    it('should dispatch a Candidate Description change action with the new value', () => {
+      const desc: string = 'Tall but deceptively short.';
+      basePageComponent.candidateDescriptionChanged(desc);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(CandidateDescriptionChanged(desc));
+    });
+  });
+
+  describe('routeNumberChanged', () => {
+    it('should dispatch a Route change action with the new value', () => {
+      const route: number = 17;
+      basePageComponent.routeNumberChanged(route);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(RouteNumberChanged(route));
+    });
+  });
+
+  describe('independentDrivingChanged', () => {
+    it('should dispatch an Independent Driving change action with the new value', () => {
+      const drivingAid: IndependentDriving = 'Diagram';
+      basePageComponent.independentDrivingChanged(drivingAid);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(IndependentDrivingTypeChanged(drivingAid));
+    });
+  });
+
+  describe('identificationChanged', () => {
+    it('should dispatch an Identification change action with the new value', () => {
+      const idType: Identification = 'Passport';
+      basePageComponent.identificationChanged(idType);
+
+      expect(store$.dispatch).toHaveBeenCalledWith(IdentificationUsedChanged(idType));
+    });
+  });
+
+  describe('showFinishTestModal', async () => {
+    it('should create a modal', async () => {
+      spyOn(basePageComponent.modalController, 'create')
+        .and
+        .callThrough();
+      await basePageComponent.showFinishTestModal();
+      expect(basePageComponent.modalController.create).toHaveBeenCalledWith({
+        id: 'FinishTestModal',
+        component: FinishTestModal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+        backdropDismiss: false,
+        showBackdrop: true,
+        componentProps: {
+          completeTest: basePageComponent.completeTest,
+        },
+      });
+    });
+  });
+
 });
