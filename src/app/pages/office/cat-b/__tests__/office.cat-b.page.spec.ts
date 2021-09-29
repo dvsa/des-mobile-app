@@ -55,6 +55,8 @@ import { ShowMeQuestionComponent } from '../../components/show-me-question/show-
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 
+// TODO - MES-7286 - increase code coverage of unit tests in this file.
+
 describe('OfficePage', () => {
   let fixture: ComponentFixture<OfficeCatBPage>;
   let component: OfficeCatBPage;
