@@ -25,7 +25,8 @@ export class ConfirmSubmitModal {
 
   onCompleteTest = async () => {
     await this.modalController.dismiss();
-    await this.onTestDetailsConfirm;
+    await this.onTestDetailsConfirm();
+
   };
 
   onBack = async () => {

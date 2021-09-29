@@ -39,7 +39,7 @@ import { getCode78 } from '@store/tests/pass-completion/cad-d/pass-completion.ca
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
-import { ConfirmSubmitModal } from '@pages/confirm-test-details/components/confirm-submit-modal/confirm-submit-modal';
+import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
@@ -239,7 +239,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     await modal.present();
   }
 
-  async onTestDetailsConfirm(): Promise<void> {
+  onTestDetailsConfirm = async (): Promise<void> =>{
     this.store$.dispatch(SetTestStatusWriteUp(this.slotId));
     this.store$.dispatch(PersistTests());
     await this.router.navigate([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
