@@ -266,6 +266,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
 
   }
 
+  // TODO: MES-7281 centralise this code into faultCountProvider
   shouldDisplayDrivingFaultComments = (data: CatBUniqueTypes.TestData): boolean => {
     const drivingFaultCount: number = this.faultCountProvider.getDrivingFaultSumCount(TestCategory.B, data);
     const seriousFaultCount: number = this.faultCountProvider.getSeriousFaultSumCount(TestCategory.B, data);
