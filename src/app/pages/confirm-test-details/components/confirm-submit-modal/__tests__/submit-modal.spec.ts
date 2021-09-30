@@ -8,9 +8,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { ConfirmSubmitModal } from '../confirm-submit-modal';
-import { JournalEarlyStartModalMock } from '@pages/journal/components/journal-early-start-modal/__mocks__/journal-early-start-modal.mock';
+import {
+  JournalEarlyStartModalMock,
+} from '@pages/journal/components/journal-early-start-modal/__mocks__/journal-early-start-modal.mock';
 import { NavParamsMock } from '@pages/journal/components/journal-early-start-modal/__mocks__/nav-params.mock';
+import { ConfirmSubmitModal } from '../confirm-submit-modal';
 
 describe('submitModal', () => {
   let modalFixture: ComponentFixture<ConfirmSubmitModal>;
