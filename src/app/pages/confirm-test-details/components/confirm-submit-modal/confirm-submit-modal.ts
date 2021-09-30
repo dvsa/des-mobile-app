@@ -1,7 +1,7 @@
 import {
   ModalController,
 } from '@ionic/angular';
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'confirm-submit-modal',
@@ -11,22 +11,18 @@ import { Component, Input } from '@angular/core';
 export class ConfirmSubmitModal {
 
   onTestDetailsConfirm: Function;
-  @Input('testOutcome') testOutcome;
-  @Input('category') category;
-  @Input('candidateName') candidateName;
+  testOutcome: string;
+  category: string;
+  candidateName: string;
 
   constructor(
     public modalController: ModalController,
   ) {
   }
 
-  ngOnInit(): void {
-  }
-
   onCompleteTest = async () => {
     await this.modalController.dismiss();
     await this.onTestDetailsConfirm();
-
   };
 
   onBack = async () => {
