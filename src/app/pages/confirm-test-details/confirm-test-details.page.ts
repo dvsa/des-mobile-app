@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, Platform } from '@ionic/angular';
 import { merge, Observable, Subscription } from 'rxjs';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { select, Store } from '@ngrx/store';
@@ -40,6 +39,8 @@ import { getCode78 } from '@store/tests/pass-completion/cad-d/pass-completion.ca
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ModalController, NavController, Platform } from '@ionic/angular';
+import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
 
@@ -72,6 +73,7 @@ enum D255 {
   templateUrl: 'confirm-test-details.page.html',
   styleUrls: ['confirm-test-details.page.scss'],
 })
+
 export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
 
   pageState: ConfirmTestDetailsPageState;
@@ -85,12 +87,12 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
 
   constructor(
     public platform: Platform,
-    public navController: NavController,
     public authenticationProvider: AuthenticationProvider,
-    store$: Store<StoreModel>,
-    public alertController: AlertController,
-    public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
     public router: Router,
+    store$: Store<StoreModel>,
+    public navController: NavController,
+    public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
+    private modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -123,65 +125,69 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     );
 
     let category: TestCategory;
-    currentTest$.pipe(select(getTestCategory)).subscribe((value) => {
-      category = value as TestCategory;
-      const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
-      this.pageState = {
-        slotId$: this.store$.pipe(
-          select(getTests),
-          map((tests) => tests.currentTest.slotId),
-        ),
-        candidateUntitledName$: currentTest$.pipe(
-          select(getJournalData),
-          select(getCandidate),
-          select(getUntitledCandidateName),
-        ),
-        candidateName$: currentTest$.pipe(
-          select(getJournalData),
-          select(getCandidate),
-          select(getCandidateName),
-        ),
-        startDateTime$: currentTest$.pipe(
-          select(getJournalData),
-          select(getTestSlotAttributes),
-          select(getTestStartDateTime),
-        ),
-        testOutcomeText$: currentTest$.pipe(
-          select(getTestOutcomeText),
-        ),
-        activityCode$: currentTest$.pipe(
-          select(getActivityCode),
-        ),
-        testCategory$: currentTest$.pipe(
-          select(getTestCategory),
-          map((testCategory) => testCategory as TestCategory),
-        ),
-        transmission$: currentTest$.pipe(
-          select(vehicleDetails.vehicleDetails),
-          select(getGearboxCategory),
-        ),
-        code78$: currentTest$.pipe(
-          select(getPassCompletion),
-          select(getCode78),
-        ),
-        d255$: currentTest$.pipe(
-          select(getTestSummary),
-          select(getD255),
-        ),
-      };
-      if (category !== TestCategory.ADI2) {
+    currentTest$.pipe(select(getTestCategory))
+      .subscribe((value) => {
+        category = value as TestCategory;
+        const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
         this.pageState = {
-          ...this.pageState,
-          provisionalLicense$: currentTest$.pipe(
+          slotId$: this.store$.pipe(
+            select(getTests),
+            map((tests) => tests.currentTest.slotId),
+          ),
+          candidateUntitledName$: currentTest$.pipe(
+            select(getJournalData),
+            select(getCandidate),
+            select(getUntitledCandidateName),
+          ),
+          candidateName$: currentTest$.pipe(
+            select(getJournalData),
+            select(getCandidate),
+            select(getCandidateName),
+          ),
+          startDateTime$: currentTest$.pipe(
+            select(getJournalData),
+            select(getTestSlotAttributes),
+            select(getTestStartDateTime),
+          ),
+          testOutcomeText$: currentTest$.pipe(
+            select(getTestOutcomeText),
+          ),
+          activityCode$: currentTest$.pipe(
+            select(getActivityCode),
+          ),
+          testCategory$: currentTest$.pipe(
+            select(getTestCategory),
+            map((testCategory) => testCategory as TestCategory),
+          ),
+          transmission$: currentTest$.pipe(
+            select(vehicleDetails.vehicleDetails),
+            select(getGearboxCategory),
+          ),
+          code78$: currentTest$.pipe(
             select(getPassCompletion),
-            map(isProvisionalLicenseProvided),
+            select(getCode78),
+          ),
+          d255$: currentTest$.pipe(
+            select(getTestSummary),
+            select(getD255),
           ),
         };
-      }
-    });
+        if (category !== TestCategory.ADI2) {
+          this.pageState = {
+            ...this.pageState,
+            provisionalLicense$: currentTest$.pipe(
+              select(getPassCompletion),
+              map(isProvisionalLicenseProvided),
+            ),
+          };
+        }
+      });
 
     const {
-      testCategory$, testOutcomeText$, candidateUntitledName$, slotId$,
+      testCategory$,
+      testOutcomeText$,
+      candidateUntitledName$,
+      slotId$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -217,31 +223,27 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   }
 
   async showConfirmTestDetailsModal(): Promise<void> {
-    const alert = await this.alertController.create({
-      message: `You are about to submit a ${this.testOutcome} Cat ${this.category} test for ${this.candidateName}
-                <br/><br/>Are you sure you want to submit this result?`,
-      cssClass: 'confirm-declaration-modal',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-          },
-        },
-        {
-          text: 'Submit',
-          handler: () => this.onTestDetailsConfirm(),
-        },
-      ],
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      id: 'ConfirmSubmitModal',
+      component: ConfirmSubmitModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
       backdropDismiss: false,
+      showBackdrop: true,
+      componentProps: {
+        onTestDetailsConfirm: this.onTestDetailsConfirm,
+        testOutcome: this.testOutcome,
+        category: this.category,
+        candidateName: this.candidateName,
+      },
     });
-    await alert.present();
+    await modal.present();
   }
 
-  async onTestDetailsConfirm(): Promise<void> {
+  onTestDetailsConfirm = async (): Promise<void> => {
     this.store$.dispatch(SetTestStatusWriteUp(this.slotId));
     this.store$.dispatch(PersistTests());
     await this.router.navigate([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
-  }
+  };
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();

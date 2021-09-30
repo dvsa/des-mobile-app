@@ -167,9 +167,9 @@ describe('ConfirmTestDetailsPage', () => {
 
   describe('showConfirmTestDetailsModal', () => {
     it('should call alertController.create', async () => {
-      spyOn(component.alertController, 'create').and.callThrough();
+      spyOn(component, 'showConfirmTestDetailsModal');
       await component.showConfirmTestDetailsModal();
-      expect(component.alertController.create).toHaveBeenCalled();
+      expect(component.showConfirmTestDetailsModal).toHaveBeenCalled();
     });
   });
 
