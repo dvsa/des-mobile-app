@@ -1,0 +1,66 @@
+<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="independent-driving-card"
+  [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid">
+  </div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label>{{componentTitle}}</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <input
+          type="radio"
+          [id]="getIndependentDrivingInputId(option1)"
+          class="gds-radio-button"
+          formControlName="independentDriving"
+          name="independentDriving"
+          [value]="option1"
+          [class.ng-invalid]="invalid"
+          [checked]="independentDriving === option1"
+          (change)="independentDrivingChanged(option1)"
+        />
+        <label [for]="getIndependentDrivingInputId(option1)" class="radio-label">{{
+          option1label
+        }}</label>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <input
+          type="radio"
+          class="gds-radio-button"
+          formControlName="independentDriving"
+          name="independentDriving"
+          [id]="getIndependentDrivingInputId(option2)"
+          [value]="option2"
+          [class.ng-invalid]="invalid"
+          [checked]="independentDriving === option2"
+          (change)="independentDrivingChanged(option2)"
+        />
+        <label [for]="getIndependentDrivingInputId(option2)" class="radio-label">{{option2label}}</label>
+      </ion-col>
+      <ion-col class="ion-align-self-center" [hidden]="!showNotApplicable">
+        <input
+          type="radio"
+          id="independent-driving-na"
+          class="gds-radio-button"
+          formControlName="independentDriving"
+          name="independentDriving"
+          value='N/A'
+          [class.ng-invalid]="invalid"
+          [checked]="independentDriving === 'N/A'"
+          (change)="independentDrivingChanged('N/A')"
+        />
+        <label for="independent-driving-na" class="radio-label">N/A</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div
+        class="validation-text"
+        id="office-independent-driving-validation-text"
+        [class.ng-invalid]="invalid"
+      >
+        {{componentWarningMessage}}
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

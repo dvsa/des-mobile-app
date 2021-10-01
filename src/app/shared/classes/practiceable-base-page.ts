@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getTests } from '@store/tests/tests.reducer';
 import { isPracticeMode, isTestReportPracticeTest, isEndToEndPracticeTest } from '@store/tests/tests.selector';
-import { OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StoreModel } from '../models/store.model';
 import { BasePageComponent } from './base-page';
@@ -16,6 +16,9 @@ interface PracticeableBasePageState {
   isEndToEndPracticeMode$: Observable<boolean>;
 }
 
+@Component({
+  template: '',
+})
 export abstract class PracticeableBasePageComponent extends BasePageComponent implements OnInit {
 
   public isPracticeMode: boolean;
@@ -30,7 +33,7 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
     public authenticationProvider: AuthenticationProvider,
     public router: Router,
     public store$: Store<StoreModel>,
-    public loginRequired: boolean = true,
+    @Inject(true) public loginRequired: boolean = true,
   ) {
     super(platform, authenticationProvider, router, loginRequired);
   }

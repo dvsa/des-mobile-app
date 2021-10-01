@@ -1,10 +1,18 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>back-to-office</ion-title>
-  </ion-toolbar>
+  <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
 </ion-header>
-
-<ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Office</ion-button>
+<ion-content forceOverscroll="false" id="back-to-office-page">
+  <div class="container">
+    <img id='dvsa-logo' src='../../../assets/imgs/back-to-office/logo.png' />
+  </div>
+  <div class="container">
+    <ion-button class="mes-neutral-button office-button top-button" (click)="goToOfficePage()" id="continue-to-write-up">
+      Continue to write up
+    </ion-button>
+  </div>
+  <div class="container" *ngIf="!(pageState.isRekey$ | async)">
+    <ion-button class="mes-neutral-button office-button bottom-button" (click)="goToJournal()" id="return-to-journal">
+      Return to journal
+    </ion-button>
+  </div>
 </ion-content>

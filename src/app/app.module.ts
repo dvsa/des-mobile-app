@@ -46,7 +46,7 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { QuestionProvider } from '@providers/question/question';
 
 import { environment } from '@environments/environment';
-import { TestersEnvironmentFile } from '@environments/models/environment.model';
+import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
 
 import { JournalModule } from '@store/journal/journal.module';
 import { AppConfigStoreModule } from '@store/app-config/app-config.module';
@@ -64,6 +64,8 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CommonModule } from '@angular/common';
+import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -88,8 +90,8 @@ const reducers: ActionReducerMap<any> = {
 };
 
 const metaReducers: MetaReducer<any, any>[] = [];
-const enableDevTools = environment && environment.enableDevTools;
-const enableRehydrationPlugin = environment && environment.enableRehydrationPlugin;
+const enableDevTools = environment && (environment as EnvironmentFile).enableDevTools;
+const enableRehydrationPlugin = environment && (environment as EnvironmentFile).enableRehydrationPlugin;
 
 // Register our remote devtools if we're on-device and not in a browser and dev tools enabled
 if (!window['devToolsExtension'] && !window['__REDUX_DEVTOOLS_EXTENSION__'] && enableDevTools) {
@@ -177,6 +179,8 @@ if (enableRehydrationPlugin) {
     StatusBar,
     CommonModule,
     { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
+    WeatherConditionProvider,
+    OutcomeBehaviourMapProvider,
   ],
   bootstrap: [AppComponent],
 })

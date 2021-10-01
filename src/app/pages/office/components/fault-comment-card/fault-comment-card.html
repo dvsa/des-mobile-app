@@ -1,0 +1,23 @@
+<div [hidden]="!shouldRender">
+    <ion-card [formGroup]="formGroup">
+        <ion-card-header>
+            <h4>{{header}}</h4>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-row class="mes-validated-row mes-row-separator" *ngFor="let faultComment of faultComments">
+                <fault-comment
+                        [parentForm]="formGroup"
+                        [faultComment]="faultComment"
+                        [faultType]="faultType"
+                        [shouldRender]="shouldRender"
+                        [faultCount]="faultCount"
+                        [outcome]="outcome"
+                        [maxFaultCount]="maxFaultCount"
+                        (faultCommentChange)="faultCommentChanged($event)"
+                        [testCategory]=testCategory
+                        [isDelegatedTest]="isDelegatedTest"
+                ></fault-comment>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+</div>

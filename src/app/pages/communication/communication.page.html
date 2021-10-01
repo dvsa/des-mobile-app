@@ -51,7 +51,7 @@
               <postal-address [formGroup]="form"
                               [postalAddress]="pageState.candidateAddress$ | async"
                               [isPostalAddressChosen]="isPostSelected()"
-                              (postalRadioSelect)="dispatchCandidateChosePost($event)">
+                              (postalRadioSelect)="dispatchCandidateChosePost()">
               </postal-address>
 
               <ion-row class="validation-message-row">

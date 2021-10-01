@@ -361,6 +361,7 @@ describe('TestSlotComponent', () => {
     });
     describe('isTestCentreJournalADIBooking', () => {
       beforeEach(() => {
+        component.isTeamJournal = true;
         component.slot = {
           booking: {
             application: {
@@ -373,20 +374,26 @@ describe('TestSlotComponent', () => {
         expect(component.isTestCentreJournalADIBooking())
           .toEqual(false);
       });
-      it('should return true if non ADI2 booking', () => {
+      it('should return true if ADI2 booking and team journal', () => {
         component.slot.booking.application.testCategory = TestCategory.ADI2;
         expect(component.isTestCentreJournalADIBooking())
           .toEqual(true);
       });
-      it('should return true if non ADI3 booking', () => {
+      it('should return true if ADI3 booking and team journal', () => {
         component.slot.booking.application.testCategory = TestCategory.ADI3;
         expect(component.isTestCentreJournalADIBooking())
           .toEqual(true);
       });
-      it('should return true if non SC booking', () => {
+      it('should return true if SC booking and team journal', () => {
         component.slot.booking.application.testCategory = TestCategory.SC;
         expect(component.isTestCentreJournalADIBooking())
           .toEqual(true);
+      });
+      it('should return false if SC booking and NOT team journal', () => {
+        component.slot.booking.application.testCategory = TestCategory.SC;
+        component.isTeamJournal = false;
+        expect(component.isTestCentreJournalADIBooking())
+          .toEqual(false);
       });
 
     });

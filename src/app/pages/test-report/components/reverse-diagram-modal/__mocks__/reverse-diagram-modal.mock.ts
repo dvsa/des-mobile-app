@@ -1,5 +1,5 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 export interface VehicleData {
   vLength: number; // VehicleLength
@@ -10,6 +10,9 @@ export interface VehicleData {
   expMidDistMultiplier: string; // Expected multiplierText
 }
 
+@Component({
+  template: '',
+})
 export class ReverseDiagramModalMock implements OnInit {
   vehicleDetails: Map<TestCategory, VehicleData>;
   cappedStartDistance: TestCategory[];

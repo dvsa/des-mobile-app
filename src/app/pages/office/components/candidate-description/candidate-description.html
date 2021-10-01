@@ -1,0 +1,39 @@
+<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="candidate-description-card"
+         [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid">
+    </div>
+
+    <ion-col class="component-label ion-align-self-start" size="32">
+        <ion-row class="spacing-row"></ion-row>
+        <label>Physical description of the candidate</label>
+    </ion-col>
+
+    <ion-col size="58" class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col>
+        <textarea id="physical-description"
+                  formControlName="candidateDescription"
+                  class="vehicle-reg-input mes-data input-styling-background"
+                  charLimit="1000"
+                  charCount [class.ng-invalid]="invalid"
+                  [value]="candidateDescription"
+                  (onCharacterCountChanged)="characterCountChanged($event)"
+                  (change)="candidateDescriptionChanged($event.target.value)">
+        </textarea>
+                <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+                    {{getCharacterCountText()}}
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"
+                 [class.ng-invalid]="invalid"
+                 *ngIf="invalid && !charactersExceeded()"
+                 id="office-candidate-description-validation-text">Describe the candidate
+            </div>
+        </ion-row>
+    </ion-col>
+
+</ion-row>
+
