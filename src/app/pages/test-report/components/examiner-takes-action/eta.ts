@@ -27,6 +27,7 @@ export class EtaComponent implements OnInit {
 
   touchState: boolean = false;
   touchTimeout: any;
+  label: string;
 
   componentState: ETAComponentState;
   constructor(private store$: Store<StoreModel>) { }
@@ -41,9 +42,9 @@ export class EtaComponent implements OnInit {
         select((eta) => hasExaminerTakenAction(eta, this.eta)),
       ),
     };
-  }
 
-  getLabel = (): string => etaLabels[this.eta];
+    this.label = etaLabels[this.eta];
+  }
 
   toggleETA = (): void => {
     this.store$.dispatch(ToggleETA(this.eta));

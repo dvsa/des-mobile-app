@@ -66,6 +66,7 @@ export class CompetencyComponent {
   isDelegated: boolean = false;
 
   allowRipple: boolean = true;
+  label: string;
 
   constructor(
     private store$: Store<StoreModel>,
@@ -129,6 +130,7 @@ export class CompetencyComponent {
     ).pipe(tap(this.canButtonRipple));
 
     this.subscription = merged$.subscribe();
+    this.label = this.getLabel();
 
   }
 

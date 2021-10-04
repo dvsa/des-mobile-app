@@ -64,12 +64,15 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
   isDangerousMode: boolean = false;
   isDelegated: boolean = false;
   manoeuvreCompetencyOutcome: ManoeuvreOutcome | null;
+  label: string;
 
   constructor(
     private store$: Store<StoreModel>,
   ) { }
 
   ngOnInit(): void {
+    this.label = manoeuvreCompetencyLabels[this.competency];
+
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
@@ -132,8 +135,6 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-
-  getLabel = (): string => manoeuvreCompetencyLabels[this.competency];
 
   // Not a very good practice to use a boolean variable like wasPress
   // Because at this point it takes effort to understand what does it represents

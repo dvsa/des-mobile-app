@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -12,7 +12,9 @@ import { legalRequirementLabels } from './legal-requirement.constants';
   templateUrl: 'legal-requirement.html',
   styleUrls: ['legal-requirement.scss'],
 })
-export class LegalRequirementComponent {
+export class LegalRequirementComponent implements OnInit {
+
+  label: string;
 
   @Input()
   legalRequirement: LegalRequirements;
@@ -28,10 +30,10 @@ export class LegalRequirementComponent {
   ) {
   }
 
-  getLabel = (): string => {
-    return this.legalRequirement === LegalRequirements.normalStart1
+  ngOnInit():void {
+    this.label = this.legalRequirement === LegalRequirements.normalStart1
     && this.isFullWidthButton ? 'Normal Stop' : legalRequirementLabels[this.legalRequirement];
-  };
+  }
 
   toggleLegalRequirement = (): void => {
     this.store$.dispatch(ToggleLegalRequirement(this.legalRequirement));
