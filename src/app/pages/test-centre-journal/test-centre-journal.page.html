@@ -1,16 +1,16 @@
 <ion-header>
     <ion-toolbar mode="ios">
         <ion-title id="test-centre-journal-page-title">Test Centre Journal</ion-title>
-        <ion-buttons slot="start">
+        <ion-buttons id="back-button" slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-button class="refresh-button" (click)="getTestCentreData(true)">
+            <ion-button id="refresh-button" class="refresh-button" (click)="getTestCentreData(true)">
                 <div>
                     <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
                     <span class="colour-white">Refresh</span>
                     <ion-label>
-                        <h6 class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6>
+                        <h6 id="last-sync" class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6>
                     </ion-label>
                 </div>
             </ion-button>

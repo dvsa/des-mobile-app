@@ -9,5 +9,7 @@ export class LanguageComponent {
 
   @Input()
   welshLanguage: boolean;
+  @Input()
+  applicationId: string;
 
 }
