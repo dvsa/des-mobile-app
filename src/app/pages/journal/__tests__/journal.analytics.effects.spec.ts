@@ -20,7 +20,7 @@ import { JournalAnalyticsEffects } from '../journal.analytics.effects';
 
 describe('JournalAnalyticsEffects', () => {
   let effects: JournalAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.JOURNAL;
 
@@ -44,6 +44,7 @@ describe('JournalAnalyticsEffects', () => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(JournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
+    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('journalView', () => {

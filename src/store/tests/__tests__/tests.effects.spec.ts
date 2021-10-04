@@ -166,16 +166,16 @@ describe('Tests Effects', () => {
       // ASSERT
       effects.sendCompletedTestsEffect$.subscribe((result) => {
         if (result.type === testsActions.SendCompletedTestSuccess.type) {
-          if (result.completedTestId === currentTestSlotId) {
+          if (result.payload === currentTestSlotId) {
             expect(result).toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId));
           }
-          if (result.completedTestId === currentTestSlotId1) {
+          if (result.payload === currentTestSlotId1) {
             expect(result).toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId1));
           }
-          if (result.completedTestId === currentTestSlotId2) {
+          if (result.payload === currentTestSlotId2) {
             expect(result).toEqual(testsActions.SendCompletedTestsFailure());
           }
-          if (result.completedTestId === testReportPracticeModeSlot.slotDetail.slotId) {
+          if (result.payload === testReportPracticeModeSlot.slotDetail.slotId) {
             fail('Practice test should not be submitted');
           }
         }

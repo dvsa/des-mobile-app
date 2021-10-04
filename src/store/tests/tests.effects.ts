@@ -79,7 +79,7 @@ import { Language } from './communication-preferences/communication-preferences.
 import { StartDelegatedTest } from './delegated-test/delegated-test.actions';
 import { OtherReasonUpdated, OtherSelected } from './rekey-reason/rekey-reason.actions';
 import { getStaffNumber } from './journal-data/common/examiner/examiner.selector';
-import { StartTest, TestActionsTypes } from './tests.actions';
+import { SendCompletedTests, StartTest, TestActionsTypes } from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 import { GearboxCategoryChanged, PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';
 import {
@@ -319,7 +319,7 @@ export class TestsEffects {
         ),
       )),
     filter(() => this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE),
-    switchMap(([, tests]) => {
+    switchMap(([, tests]: [ReturnType<typeof SendCompletedTests>, TestsModel]) => {
 
       const completedTestKeys = Object.keys(tests.testStatus)
         .filter((slotId: string) =>
