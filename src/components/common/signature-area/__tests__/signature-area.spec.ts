@@ -24,7 +24,10 @@ describe('SignatureAreaComponent', () => {
         IonicModule,
       ],
       providers: [
-        { provide: Store, useClass: TestStore },
+        {
+          provide: Store,
+          useClass: TestStore,
+        },
       ],
     });
   });
@@ -51,20 +54,25 @@ describe('SignatureAreaComponent', () => {
         spyOn(component, 'signatureDataChangedDispatch');
         component.signature = undefined;
         component.setSignature('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD');
-        expect(component.signature).toEqual('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD');
-        expect(component.signatureDataChangedDispatch).toHaveBeenCalled();
+        expect(component.signature)
+          .toEqual('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD');
+        expect(component.signatureDataChangedDispatch)
+          .toHaveBeenCalled();
       });
       it('clear should clear the signature property and call signatureDataClearedDispatch', () => {
         spyOn(component, 'signatureDataClearedDispatch');
         component.signature = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAyEAAAD';
         component.clear();
-        expect(component.signature).toBeNull();
-        expect(component.signatureDataClearedDispatch).toHaveBeenCalled();
+        expect(component.signature)
+          .toBeNull();
+        expect(component.signatureDataClearedDispatch)
+          .toHaveBeenCalled();
       });
       it('drawComplete should call signatureDataChangedDispatch', () => {
         spyOn(component, 'signatureDataChangedDispatch');
         component.drawComplete();
-        expect(component.signatureDataChangedDispatch).toHaveBeenCalled();
+        expect(component.signatureDataChangedDispatch)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -75,13 +83,15 @@ describe('SignatureAreaComponent', () => {
         component.signHereText = 'sign here for millions';
         fixture.detectChanges();
         const signHereElement: HTMLElement = fixture.debugElement.query(By.css('.sign-here-label')).nativeElement;
-        expect(signHereElement.textContent).toEqual('sign here for millions');
+        expect(signHereElement.textContent)
+          .toEqual('sign here for millions');
       });
       it('sign line text should default when the signHereText property is falsy', () => {
         component.signHereText = undefined;
         fixture.detectChanges();
         const signHereElement: HTMLElement = fixture.debugElement.query(By.css('.sign-here-label')).nativeElement;
-        expect(signHereElement.textContent).toEqual('Sign here');
+        expect(signHereElement.textContent)
+          .toEqual('Sign here');
       });
     });
 
@@ -89,14 +99,20 @@ describe('SignatureAreaComponent', () => {
       it('retry button text should equal the retryButtonText property', () => {
         component.retryButtonText = 'try again';
         fixture.detectChanges();
-        const retryButtonElement: HTMLElement = fixture.debugElement.query(By.css('#retry-button-label')).nativeElement;
-        expect(retryButtonElement.textContent).toEqual('try again');
+        const retryButtonElement: HTMLElement = fixture.debugElement.query(
+          By.css('#signature-area-retry-button-label'),
+        ).nativeElement;
+        expect(retryButtonElement.textContent)
+          .toEqual('try again');
       });
       it('retry button text should default when the retryButtonText property is falsy', () => {
         component.retryButtonText = undefined;
         fixture.detectChanges();
-        const retryButtonElement: HTMLElement = fixture.debugElement.query(By.css('#retry-button-label')).nativeElement;
-        expect(retryButtonElement.textContent).toEqual('Retry');
+        const retryButtonElement: HTMLElement = fixture.debugElement.query(
+          By.css('#signature-area-retry-button-label'),
+        ).nativeElement;
+        expect(retryButtonElement.textContent)
+          .toEqual('Retry');
       });
     });
 
@@ -105,14 +121,15 @@ describe('SignatureAreaComponent', () => {
         component.retryImage = '/some/path';
         fixture.detectChanges();
         const retryImageElement: HTMLElement = fixture.debugElement.query(
-          By.css('#retry-icon'),
+          By.css('#signature-area-retry-icon'),
         ).nativeElement;
-        expect(retryImageElement.getAttribute('style')).toEqual('background-image: url("/some/path");');
+        expect(retryImageElement.getAttribute('style'))
+          .toEqual('background-image: url("/some/path");');
       });
-      it('retryImage, when not set, should defualt the retry image source attrubute', () => {
+      it('retryImage, when not set, should default the retry image source attrubute', () => {
         fixture.detectChanges();
         const retryImageElement: HTMLElement = fixture.debugElement.query(
-          By.css('#retry-icon'),
+          By.css('#signature-area-retry-icon'),
         ).nativeElement;
         expect(retryImageElement.getAttribute('style'))
           .toEqual('background-image: url("/assets/imgs/waiting-room/retry.png");');
