@@ -15,7 +15,7 @@
                 <input formControlName="receiptCheckbox" type="checkbox" class="gds-checkbox"
                     [class.ng-invalid]="isInvalid()" id="receipt-declaration-checkbox"
                     [checked]="selected" (click)="receiptDeclarationChanged()">
-                <label for="receipt-declaration-checkbox">{{ 'healthDeclaration.confirm' | translate }}</label>
+                <label id="receipt-declaration-label" for="receipt-declaration-checkbox">{{ 'healthDeclaration.confirm' | translate }}</label>
             </ion-col>
         </ion-row>
         <ion-row>
