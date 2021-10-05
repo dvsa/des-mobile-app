@@ -173,8 +173,8 @@ describe('JournalPage', () => {
     });
 
     describe('ionViewDidEnter', () => {
-      it('should disable test inhibitions', () => {
-        component.ionViewDidEnter();
+      it('should disable test inhibitions', async () => {
+        await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
         expect(screenOrientation.unlock).toHaveBeenCalled();
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
