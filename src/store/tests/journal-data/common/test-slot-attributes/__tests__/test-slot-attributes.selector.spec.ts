@@ -26,19 +26,12 @@ describe('testSlotAttributes selector', () => {
   };
 
   describe('getTestTime', () => {
-
     it('should return the time of the test', () => {
-
       expect(getTestTime({
-
         ...testSlotAttributes,
-
         start: '2021-01-15T08:10:00.000Z',
-
       })).toBe('08:10');
-
     });
-
   });
 
   describe('getTestDate', () => {
