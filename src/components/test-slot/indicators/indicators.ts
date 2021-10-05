@@ -13,6 +13,8 @@ export class IndicatorsComponent {
 
   @Input()
   testStatus: TestStatus;
+  @Input()
+  applicationId: number;
 
   shouldShowExclamationIndicator = (): boolean => {
     return !this.shouldShowGreenTickIndicator() && this.showExclamationIndicator;

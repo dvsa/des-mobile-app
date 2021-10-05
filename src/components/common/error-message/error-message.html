@@ -11,7 +11,7 @@
   </div>
 
   <div *ngIf="!displayAsModal">
-    <h2 class="error-message">{{defaultErrorStatement}}</h2>
+    <h2 class="error-message" id="default-validation-error-message">{{defaultErrorStatement}}</h2>
     <div>
       <div *ngIf="redirectLinkText" class="link error-details-link" (click)="navigateBack()">
         Return to {{redirectLinkText}}

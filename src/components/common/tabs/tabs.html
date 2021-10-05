@@ -1,7 +1,7 @@
 <div>
   <ul class="nav nav-tabs">
     <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
-      <h3 class="title">{{tab.title}}</h3>
+      <h3 class="title" id="test-title">{{tab.title}}</h3>
     </li>
   </ul>
   <div id="content">

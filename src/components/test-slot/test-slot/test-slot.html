@@ -10,7 +10,9 @@
                 <ion-row>
                     <ion-col size="2"></ion-col>
                     <ion-col size="24" class="no-padding">
-                        <language [welshLanguage]="slot.booking.application.welshTest">
+                        <language
+                                [welshLanguage]="slot.booking.application.welshTest"
+                                [applicationId]="slot.booking.application.applicationId">
                         </language>
                     </ion-col>
                     <ion-col size="2"></ion-col>
@@ -26,7 +28,8 @@
                     <ion-col size="2"></ion-col>
                     <ion-col size="7" class="exclamation-col align-center">
                         <indicators [showExclamationIndicator]="isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking()"
-                                    [testStatus]="componentState.testStatus$ | async">
+                                    [testStatus]="componentState.testStatus$ | async"
+                                    [applicationId]="slot.booking.application.applicationId">
                         </indicators>
                     </ion-col>
                     <ion-col size="17" class="align-center">
@@ -56,7 +59,7 @@
                     </ion-col>
                     <ion-col size="2"></ion-col>
                     <ion-col size="68">
-                        <div *ngIf="isTeamJournal && !isTestCentreJournalADIBooking()" id="team-journal-driver-number"
+                        <div *ngIf="isTeamJournal && !isTestCentreJournalADIBooking()" id="driver-number-{{slot.booking.candidate.driverNumber}}"
                              class="team-journal-driver-number">{{slot.booking.candidate.driverNumber}}</div>
                         <h3 id="del-ex-driver-number"
                             *ngIf="delegatedTest && slot.booking.candidate.driverNumber">{{slot.booking.candidate.driverNumber}}</h3>
@@ -97,7 +100,9 @@
                 </test-outcome>
                 <examiner-name
                         *ngIf="teamJournalCandidateResult"
-                        [examinerName]="examinerName">
+                        [examinerName]="examinerName"
+                        [id]="slot.booking.application.applicationId">
+
                 </examiner-name>
             </ion-col>
         </ion-row>

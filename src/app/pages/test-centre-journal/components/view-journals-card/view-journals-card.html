@@ -9,6 +9,7 @@
                     #examinerSelect
                     (ionChange)="examinerChanged($event.target.value)"
                     okText="Select"
+                    id="select-examiner"
                     cancelText="Cancel"
                     class="select-text"
                     placeholder="Select examiner">
@@ -24,7 +25,8 @@
     <ion-button mode="ios"
                 class="mes-primary-button full-width"
                 (click)="onShowJournalClick()"
-                [disabled]="!hasSelectedExaminer">
+                [disabled]="!hasSelectedExaminer"
+                id="show-journal-button">
         <h3>Show journal</h3>
     </ion-button>
 </ion-row>
