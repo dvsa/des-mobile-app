@@ -222,6 +222,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       // eslint-disable-next-line max-len
       `You need to give the provisional licence back to the candidate.<br/>The field 'Driver licence received' will be automatically changed to 'no'.<br/>${shortMessage}`;
     this.alertController.create({
+      id: 'health-declaration-alert',
       header: 'The candidate has not confirmed the health declaration',
       message: this.licenseProvided ? extendedMessage : shortMessage,
       cssClass: 'confirm-declaration-modal',
