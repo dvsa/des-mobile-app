@@ -1,4 +1,4 @@
-<div class="manoeuvre-competency-button"
+<div id="manoeuvre-competency-button-{{ label }}" class="manoeuvre-competency-button"
   (tap)="addOrRemoveFault(this.isDelegated)"
   (press)="addOrRemoveFault(true)"
   (touchstart)="onTouchStart()"
@@ -8,13 +8,13 @@
     'ripple-effect': rippleState
   }"
 >
-  <driving-faults-badge class="driving-faults" [count]="hasDrivingFault()"></driving-faults-badge>
+  <driving-faults-badge id="manoeuvre-competency-driving-fault-{{ label }}" class="driving-faults" [count]="hasDrivingFault()"></driving-faults-badge>
 
-  <span class='competency-label'>{{ getLabel() }}</span>
+  <span id="manoeuvre-competency-label-{{ label }}" class='competency-label'>{{ label }}</span>
 
   <div class="fault-wrapper">
-    <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
-    <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
+    <serious-fault-badge id="manoeuvre-competency-serious-fault-{{ label }}" [showBadge]="hasSeriousFault()"></serious-fault-badge>
+    <dangerous-fault-badge id="manoeuvre-competency-dangerous-fault-{{ label }}" [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
   </div>
 
 </div>

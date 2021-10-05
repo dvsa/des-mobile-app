@@ -1,6 +1,6 @@
 <ion-row>
   <ion-col size="20" class="ion-no-padding">
-    <competency-button class="show-me-question-tick"
+    <competency-button id="show-me-question-tick" class="show-me-question-tick"
       [onTap]="toggleShowMeQuestion"
       [onPress]="toggleShowMeQuestion"
       [ripple]="false"
@@ -25,11 +25,11 @@
         'dangerous-fault': hasDangerousFault()
       }"
     >
-      <driving-faults-badge class="driving-faults" [count]="getDrivingFaultCount()"></driving-faults-badge>
-      <div class='show-me-tell-me-label'>Show / Tell</div>
+      <driving-faults-badge id="show-me-question-driving-fault" class="driving-faults" [count]="getDrivingFaultCount()"></driving-faults-badge>
+      <div id="show-me-question-label" class='show-me-tell-me-label'>Show / Tell</div>
       <div class="fault-wrapper">
-        <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
-        <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
+        <serious-fault-badge id="show-me-question-serious-fault" [showBadge]="hasSeriousFault()"></serious-fault-badge>
+        <dangerous-fault-badge  id="show-me-question-dangerous-fault"[showBadge]="hasDangerousFault()"></dangerous-fault-badge>
       </div>
     </competency-button>
   </ion-col>

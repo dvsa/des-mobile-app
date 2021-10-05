@@ -135,9 +135,8 @@ describe('ManoeuvreCompetencyComponent', () => {
       component.manoeuvre = ManoeuvreTypes.reverseRight;
       component.competency = ManoeuvreCompetencies.controlFault;
       fixture.detectChanges();
-      const result = component.getLabel();
       const expected = 'Control';
-      expect(result).toEqual(expected);
+      expect(component.label).toEqual(expected);
     });
 
     describe('hasDrivingFault', () => {

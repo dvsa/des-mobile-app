@@ -1,14 +1,14 @@
-<button #competencyButton (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
+<button id="manoeuvers-button" #competencyButton (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
   [ngClass]="{
     'fault': drivingFaults > 0,
     'serious-fault': hasSeriousFault,
     'dangerous-fault': hasDangerousFault
   }">
-  <div class="tickwrapper">
+  <div id="manoeuvers-tick" class="tickwrapper">
     <tick-indicator [ticked]="completed"></tick-indicator>
   </div>
 
-  <driving-faults-badge class="driving-faults" [count]="drivingFaults"></driving-faults-badge>
+  <driving-faults-badge id="manoeuvers-driving-faults" class="driving-faults" [count]="drivingFaults"></driving-faults-badge>
 
   <div class="label-wrapper">
     <ion-icon class="popover-arrow" [class.arrow-down]="displayPopover" name="caret-forward"></ion-icon>
@@ -16,8 +16,8 @@
   </div>
 
   <div class="fault-wrapper">
-    <serious-fault-badge [showBadge]="hasSeriousFault"></serious-fault-badge>
-    <dangerous-fault-badge [showBadge]="hasDangerousFault"></dangerous-fault-badge>
+    <serious-fault-badge id="manoeuvers-serious-faults" [showBadge]="hasSeriousFault"></serious-fault-badge>
+    <dangerous-fault-badge id="manoeuvers-dangerous-faults" [showBadge]="hasDangerousFault"></dangerous-fault-badge>
   </div>
 </button>
 <div class="manoeuvres-popover" *ngIf="displayPopover">

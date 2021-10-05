@@ -8,10 +8,10 @@
     'disabled': disabled
   }"
 >
-  <div class="tickwrapper">
+  <div id="legal-requirements-tick-{{ label }}" class="tickwrapper">
     <tick-indicator [ticked]="ticked"></tick-indicator>
   </div>
-  <div [ngClass]="getLegalRequirementClass()">
-    <span class='competency-label'>{{ getLabel() }}</span>
+  <div id="legal-requirements-label-{{ label }}" [ngClass]="getLegalRequirementClass()">
+    <span class='competency-label'>{{ label }}</span>
   </div>
 </competency-button>
