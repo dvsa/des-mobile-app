@@ -14,7 +14,6 @@ import {
 } from '../test-slot-attributes.selector';
 
 const testTime = new DateTime().toString();
-const formattedTime = DateTime.at(testTime).format('HH:mm');
 
 describe('testSlotAttributes selector', () => {
   const testSlotAttributes: TestSlotAttributes = {
@@ -27,10 +26,19 @@ describe('testSlotAttributes selector', () => {
   };
 
   describe('getTestTime', () => {
-    // @TODO: MES-7145 INVESTIGATE WHY THIS IS CAUSING A MOMENT DEPRECATION WARNING;
+
     it('should return the time of the test', () => {
-      expect(getTestTime(testSlotAttributes)).toBe(formattedTime);
+
+      expect(getTestTime({
+
+        ...testSlotAttributes,
+
+        start: '2021-01-15T08:10:00.000Z',
+
+      })).toBe('08:10');
+
     });
+
   });
 
   describe('getTestDate', () => {
