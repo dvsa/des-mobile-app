@@ -1,16 +1,16 @@
 <ion-grid>
   <ion-row class="header-card top-row">
     <ion-col>
-      <h2 id="candidate-name">{{candidateName}}</h2>
+      <h2 id="finalisation-header-candidate-name">{{candidateName}}</h2>
     </ion-col>
   </ion-row>
   <ion-row class="header-card bottom-row">
     <ion-col>
-      <h3 id="candidate-driver-number">{{candidateDriverNumber}}</h3>
+      <h3 id="finalisation-header-candidate-driver-number">{{candidateDriverNumber}}</h3>
     </ion-col>
     <ion-col col-40 class="align-col-right">
       <h3>Test outcome:
-        <div id="test-outcome-text" [ngSwitch]="outcomeText">
+        <div id="finalisation-header-test-outcome-text" [ngSwitch]="outcomeText">
           <div class="pass" *ngSwitchCase="'Passed'">
             {{outcomeText}}
           </div>

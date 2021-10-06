@@ -9,7 +9,8 @@
         <ion-row class="spacing-row"></ion-row>
         <ion-row [formGroup]="formGroup">
             <ion-col size="48">
-                <input type="radio" [id]="'wrtc-transmission-manual-'+uniqueId"
+                <input type="radio" [id]="'transmission-manual-'+uniqueId"
+                       id="transmission-manual"
                        formControlName="transmissionCtrl"
                        name="transmissionCtrl"
                        class="gds-radio-button"
@@ -19,7 +20,7 @@
                 <label [for]="'transmission-manual-'+uniqueId" class="radio-label">Manual</label>
             </ion-col>
             <ion-col>
-                <input type="radio" [id]="'wrtc-transmission-automatic-'+uniqueId"
+                <input type="radio" [id]="'transmission-automatic-'+uniqueId"
                        formControlName="transmissionCtrl"
                        name="transmissionCtrl"
                        class="gds-radio-button"

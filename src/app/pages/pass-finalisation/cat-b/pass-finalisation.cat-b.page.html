@@ -1,8 +1,8 @@
 <ion-header>
     <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
     <ion-toolbar>
-        <ion-title>Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
-        <ion-buttons slot="start">
+        <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+        <ion-buttons id="back-button" slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
     </ion-toolbar>
@@ -21,10 +21,10 @@
                 <ion-row class="mes-component-row mes-row-separator ion-align-items-center"
                          id="application-reference-card">
                     <ion-col class="component-label" size="32">
-                        <label>Application reference</label>
+                        <label id="pass-finalisation-application-reference-label">Application reference</label>
                     </ion-col>
                     <ion-col class="mes-padding-left">
-                        <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
+                        <span id="pass-finalisation-application-reference-number" class="mes-data">{{pageState.applicationNumber$ | async }}</span>
                     </ion-col>
                 </ion-row>
 
@@ -50,7 +50,8 @@
                               (transmissionChange)="transmissionChanged($event)">
                 </transmission>
                 <warning-banner *ngIf="displayTransmissionBanner()"
-                                warningText="An automatic licence will be issued.">
+                                warningText="An automatic licence will be issued."
+                                [warningIdentifier]="'transmission-'">
                 </warning-banner>
 
                 <pass-certificate-number
@@ -67,7 +68,8 @@
                       (d255Change)="d255Changed($event)">
                 </d255>
                 <warning-banner *ngIf="pageState.d255$ | async"
-                                warningText="DVLA will not process the result until a D255 is received">
+                                warningText="DVLA will not process the result until a D255 is received"
+                                [warningIdentifier]="'d255-'">
                 </warning-banner>
 
                 <language-preferences [formGroup]="form"

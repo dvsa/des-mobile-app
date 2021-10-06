@@ -4,10 +4,10 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   PassCertificateValidationProvider,
-} from '../../../../providers/pass-certificate-validation/pass-certificate-validation';
+} from '@providers/pass-certificate-validation/pass-certificate-validation';
 import {
   PASS_CERTIFICATE_LENGTH,
-} from '../../../../providers/pass-certificate-validation/pass-certificate-validation.constants';
+} from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constants';
 
 @Component({
