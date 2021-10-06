@@ -33,13 +33,13 @@ describe('LicenceProvidedWarningBannerComponent', () => {
     it('should display correct message when licence provided', () => {
       component.licenceProvided = true;
       fixture.detectChanges();
-      const rendered = fixture.debugElement.query(By.css('span#warning_text')).nativeElement.innerHTML;
+      const rendered = fixture.debugElement.query(By.css('span#licence-provided-warning-text')).nativeElement.innerHTML;
       expect(rendered).toBe(component.yesText);
     });
     it('should display correct message when licence NOT provided', () => {
       component.licenceProvided = false;
       fixture.detectChanges();
-      const rendered = fixture.debugElement.query(By.css('span#warning_text')).nativeElement.innerHTML;
+      const rendered = fixture.debugElement.query(By.css('span#licence-provided-warning-text')).nativeElement.innerHTML;
       expect(rendered).toBe(component.noText);
     });
   });
