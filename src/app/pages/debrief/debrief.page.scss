@@ -16,13 +16,13 @@
       line-height: 30px;
     }
   }
-  .passed {
+  .Pass {
     border: 8px solid var(--gds-dark-green);
   }
-  .failed {
+  .Fail {
     border: 8px solid var(--gds-red);
   }
-  .terminated {
+  .Terminate {
     border: 8px solid var(--gds-grey-1);
   }
   #end-debrief-background {

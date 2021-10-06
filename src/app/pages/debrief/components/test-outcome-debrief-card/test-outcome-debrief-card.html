@@ -1,14 +1,8 @@
 <div id="test-outcome-background" [ngSwitch]="outcome">
-  <div class="test-outcome-container passed" *ngSwitchCase="'Pass'">
-    <h4>{{ 'debrief.outcomeHeader' | translate }}</h4>
-    <h1>{{ 'debrief.passStatus' | translate }}</h1>
-  </div>
-  <div class="test-outcome-container failed" *ngSwitchCase="'Fail'">
-    <h4>{{ 'debrief.outcomeHeader' | translate }}</h4>
-    <h1>{{ 'debrief.failStatus' | translate }}</h1>
-  </div>
-  <div class="test-outcome-container terminated" *ngSwitchCase="'Terminated'">
-    <h4>{{ 'debrief.outcomeHeader' | translate }}</h4>
-    <h1>{{ 'debrief.terminatedStatus' | translate }}</h1>
+  <div class="test-outcome-container {{outcome}}">
+    <h4 id="outcome-header">{{ 'debrief.outcomeHeader' | translate }}</h4>
+    <h1 id="status-passed" *ngSwitchCase="'Pass'" >{{ 'debrief.passStatus' | translate }}</h1>
+    <h1 id="status-fail" *ngSwitchCase="'Fail'" >{{ 'debrief.failStatus' | translate }}</h1>
+    <h1 id="status-terminated" *ngSwitchCase="'Terminated'" >{{ 'debrief.terminatedStatus' | translate }}</h1>
   </div>
 </div>
