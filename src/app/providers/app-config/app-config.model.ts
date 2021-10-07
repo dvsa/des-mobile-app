@@ -1,3 +1,4 @@
+import { Sentry } from '@dvsa/mes-config-schema/mdm-config';
 import { ExaminerRole, TestPermissionPeriod } from '@dvsa/mes-config-schema/remote-config';
 
 export type AppConfig = {
@@ -17,6 +18,7 @@ export type AppConfig = {
     employeeIdKey: string,
     employeeNameKey: string,
   },
+  sentry?: Sentry,
   approvedDeviceIdentifiers: string[],
   timeTravelDate?: string,
   role: ExaminerRole;

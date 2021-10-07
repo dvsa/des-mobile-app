@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
@@ -44,6 +44,7 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { QuestionProvider } from '@providers/question/question';
+import { SentryProvider } from '@providers/sentry/sentry';
 
 import { environment } from '@environments/environment';
 import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
@@ -66,6 +67,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CommonModule } from '@angular/common';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { SentryIonicErrorHandler } from '@shared/classes/sentry-ionic-error-handler';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -144,6 +147,8 @@ if (enableRehydrationPlugin) {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
     SplashScreen,
     MobileAccessibility,
     AppVersion,
@@ -178,9 +183,9 @@ if (enableRehydrationPlugin) {
     QuestionProvider,
     StatusBar,
     CommonModule,
-    { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
     WeatherConditionProvider,
     OutcomeBehaviourMapProvider,
+    SentryProvider,
   ],
   bootstrap: [AppComponent],
 })

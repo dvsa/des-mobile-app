@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
+import { SentryProvider } from '@providers/sentry/sentry';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { ExaminerRole, ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -48,6 +49,7 @@ export class DashboardPage extends BasePageComponent {
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     private networkStateProvider: NetworkStateProvider,
+    private sentryProvider: SentryProvider,
     private screenOrientation: ScreenOrientation,
     private insomnia: Insomnia,
     private deviceProvider: DeviceProvider,
@@ -69,6 +71,8 @@ export class DashboardPage extends BasePageComponent {
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       isOffline$: this.networkStateProvider.isOffline$,
     };
+
+    this.sentryProvider.initialiseSentryErrorLogging(this.appConfigProvider.getAppConfig());
   }
 
   async ionViewDidEnter(): Promise<void> {

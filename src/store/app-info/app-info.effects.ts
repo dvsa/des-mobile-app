@@ -40,7 +40,7 @@ export class AppInfoEffects {
 
   loadAppInfo$ = createEffect(() => this.actions$.pipe(
     ofType(LoadAppVersion.type),
-    switchMap(() => this.appInfoProvider.getVersionNumber()
+    switchMap(() => this.appInfoProvider.getVersionNumber$()
       .pipe(
         map((versionNumber: string) => LoadAppVersionSuccess({ versionNumber })),
         catchError((err: HttpErrorResponse) => {

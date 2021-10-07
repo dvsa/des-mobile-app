@@ -26,14 +26,21 @@ describe('AppInfoProvider', () => {
   });
 
   describe('getVersionNumber', () => {
-    it('should obtain the version number from app version native plugin', () => {
-      appInfoProvider.getVersionNumber().subscribe();
-
+    it('should obtain the version number from app version native plugin', async () => {
+      await appInfoProvider.getVersionNumber();
       expect(appVersionMock.getVersionNumber).toHaveBeenCalled();
     });
-
+    it('should return version number as a promise', async () => {
+      expect(await appInfoProvider.getVersionNumber()).toEqual(APP_VERSION_NUMBER);
+    });
+  });
+  describe('getVersionNumber$', () => {
+    it('should obtain the version number from app version native plugin', () => {
+      appInfoProvider.getVersionNumber$().subscribe();
+      expect(appVersionMock.getVersionNumber).toHaveBeenCalled();
+    });
     it('should return version number into an observable', (done) => {
-      appInfoProvider.getVersionNumber().subscribe((versionNumber) => {
+      appInfoProvider.getVersionNumber$().subscribe((versionNumber) => {
         expect(versionNumber).toBe(APP_VERSION_NUMBER);
         done();
       });

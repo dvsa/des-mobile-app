@@ -10,6 +10,9 @@ import { of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { SentryProvider } from '@providers/sentry/sentry';
+import { SentryProviderMock } from '@providers/sentry/__mocks__/sentry.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -24,10 +27,10 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
-import { MenuControllerMock } from '../../../../../mock/ionic-mocks/menu-controller';
-import { AlertControllerMock } from '../../../../../mock/ionic-mocks/alert-controller.mock';
-import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
-import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
+import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
+import { AlertControllerMock } from '@mocks/ionic-mocks/alert-controller.mock';
+import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
+import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
 
@@ -46,6 +49,7 @@ describe('LoginPage', () => {
   let menuController: MenuController;
   let logHelper: LogHelper;
   let analytics: AnalyticsProvider;
+  let sentryProvider: SentryProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -71,6 +75,7 @@ describe('LoginPage', () => {
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: SentryProvider, useClass: SentryProviderMock },
         provideMockStore({ ...{} }),
       ],
     });
@@ -90,6 +95,7 @@ describe('LoginPage', () => {
     menuController = TestBed.inject(MenuController);
     logHelper = TestBed.inject(LogHelper);
     analytics = TestBed.inject(AnalyticsProvider);
+    sentryProvider = TestBed.inject(SentryProvider);
   }));
 
   it('should create', () => {
@@ -148,6 +154,7 @@ describe('LoginPage', () => {
       spyOn(component, 'dispatchLog');
       spyOn(analytics, 'initialiseAnalytics').and.returnValue(Promise.resolve());
       spyOn(analytics, 'logException');
+      spyOn(sentryProvider, 'initialiseSentryErrorLogging');
     });
     describe('Successful login flow', () => {
       it('should run the login flow code', fakeAsync(() => {
@@ -164,6 +171,7 @@ describe('LoginPage', () => {
         expect(analytics.initialiseAnalytics).toHaveBeenCalled();
         expect(component.validateDeviceType).toHaveBeenCalled();
         expect(store$.dispatch).toHaveBeenCalledTimes(6);
+        expect(sentryProvider.initialiseSentryErrorLogging).toHaveBeenCalled();
       }));
     });
     describe('Unsuccessful login flow', () => {

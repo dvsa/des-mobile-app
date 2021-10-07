@@ -5,6 +5,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
+import { SentryProvider } from '@providers/sentry/sentry';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationError } from '@providers/authentication/authentication.constants';
@@ -18,7 +19,7 @@ import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
 import {
-  SaveLog, StartSendingLogs, SendLogs, LoadLog,
+  LoadLog, SaveLog, SendLogs, StartSendingLogs,
 } from '@store/logs/logs.actions';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
@@ -48,6 +49,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
     public deviceProvider: DeviceProvider,
+    private sentryProvider: SentryProvider,
   ) {
     super(platform, authenticationProvider, alertController, router);
   }
@@ -95,6 +97,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     try {
       await this.platform.ready();
       await this.appConfigProvider.initialiseAppConfig();
+
+      this.sentryProvider.initialiseSentryErrorLogging(this.appConfigProvider.getAppConfig());
 
       this.store$.dispatch(StartSendingLogs());
 

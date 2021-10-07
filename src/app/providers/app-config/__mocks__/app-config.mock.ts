@@ -30,6 +30,10 @@ export class AppConfigProviderMock {
         employeeIdKey: localEnvironmentMock.authentication.employeeIdKey,
         employeeNameKey: localEnvironmentMock.employeeNameKey,
       },
+      sentry: {
+        dsn: localEnvironmentMock.sentry.dsn,
+        environment: localEnvironmentMock.sentry.environment,
+      },
       approvedDeviceIdentifiers: localEnvironmentMock.approvedDeviceIdentifiers,
       timeTravelDate: localEnvironmentMock.timeTravelDate,
       role: localEnvironmentMock.role,

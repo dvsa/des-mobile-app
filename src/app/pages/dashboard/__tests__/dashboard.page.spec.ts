@@ -40,6 +40,8 @@ import {
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
+import { SentryProvider } from '@providers/sentry/sentry';
+import { SentryProviderMock } from '@providers/sentry/__mocks__/sentry.mock';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPage } from '../dashboard.page';
@@ -50,6 +52,7 @@ describe('DashboardPage', () => {
   let fixture: ComponentFixture<DashboardPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
   let appConfigProvider: AppConfigProvider;
+  let sentryProvider: SentryProvider;
   let deviceProvider: DeviceProvider;
   let store$: MockStore;
   let screenOrientation: ScreenOrientation;
@@ -84,6 +87,7 @@ describe('DashboardPage', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: Router, useValue: routerSpy },
+        { provide: SentryProvider, useClass: SentryProviderMock },
         { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
@@ -99,6 +103,7 @@ describe('DashboardPage', () => {
     fixture.detectChanges();
 
     appConfigProvider = TestBed.inject(AppConfigProvider);
+    sentryProvider = TestBed.inject(SentryProvider);
     store$ = TestBed.inject(MockStore);
     deviceProvider = TestBed.inject(DeviceProvider);
     screenOrientation = TestBed.inject(ScreenOrientation);
@@ -114,6 +119,8 @@ describe('DashboardPage', () => {
 
   describe('ngOnInit', () => {
     it('should get the selectVersionNumber and selectEmployeeName from store on init', () => {
+      spyOn(sentryProvider, 'initialiseSentryErrorLogging');
+      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({} as AppConfig);
       const spy = spyOn(store$, 'select').and.returnValue(of());
       component.ngOnInit();
       expect(spy).toHaveBeenCalledTimes(4);
@@ -123,6 +130,7 @@ describe('DashboardPage', () => {
         [selectEmployeeId],
         [selectRole],
       ]);
+      expect(sentryProvider.initialiseSentryErrorLogging).toHaveBeenCalledWith({} as AppConfig);
     });
   });
   describe('ionViewWillEnter', () => {

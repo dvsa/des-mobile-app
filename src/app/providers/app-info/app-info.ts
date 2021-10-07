@@ -7,7 +7,9 @@ export class AppInfoProvider {
 
   constructor(private appVersion: AppVersion) { }
 
-  public getVersionNumber(): Observable<string> {
+  public getVersionNumber = (): Promise<string> => this.appVersion.getVersionNumber();
+
+  public getVersionNumber$(): Observable<string> {
     return from(this.appVersion.getVersionNumber());
   }
 

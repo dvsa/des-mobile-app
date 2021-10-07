@@ -40,6 +40,10 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
     logoutUrl: 'local-logout-url',
     employeeIdKey: 'localemployeeIdKey',
   },
+  sentry: {
+    dsn: 'sentry-dsn',
+    environment: 'dev',
+  },
   approvedDeviceIdentifiers: [
     'iPad7,4',
     'x86_64',

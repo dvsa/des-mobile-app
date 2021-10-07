@@ -17,6 +17,7 @@
     "serve:ipad:notworking": "npm run config:dev && npm run schema-version",
     "open:ios": "rm -rf ios && npm run config:dev && ionic build && ionic cap add ios & ionic cap copy ios && npm run copy-resources && ionic cap open ios",
     "build": "npm run copy-resources && ionic build",
+    "build:prod:source-map": "ionic build --prod --source-map",
     "lint": "node buildScripts/eslint-alloc-patch.js && eslint . --ext .ts",
     "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint . --fix --quiet --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
@@ -48,7 +49,7 @@
     "@angular/router": "~10.2.5",
     "@capacitor/core": "2.4.7",
     "@capacitor/ios": "^2.4.7",
-    "@dvsa/mes-config-schema": "^1.2.0",
+    "@dvsa/mes-config-schema": "^1.2.1",
     "@dvsa/mes-journal-schema": "1.2.0",
     "@dvsa/mes-search-schema": "1.1.2",
     "@dvsa/mes-test-schema": "3.33.1",
@@ -104,6 +105,7 @@
     "protractor": "^7.0.0",
     "rxjs": "~6.6.7",
     "rxjs-compat": "^6.6.3",
+    "sentry-cordova": "^1.0.0",
     "tslib": "^2.0.0",
     "uuid": "^8.3.2",
     "zone.js": "~0.10.3"
@@ -121,8 +123,8 @@
     "@ionic/angular-toolkit": "^2.3.0",
     "@ionic/app-scripts": "3.2.4",
     "@ngrx/schematics": "^10.1.0",
-    "@types/hammerjs": "^2.0.39",
     "@types/chai": "^4.2.18",
+    "@types/hammerjs": "^2.0.39",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.165",
@@ -176,7 +178,8 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-google-analytics": {},
-      "cordova-plugin-autonomous-single-app-mode": {}
+      "cordova-plugin-autonomous-single-app-mode": {},
+      "sentry-cordova": {}
     },
     "platforms": [
       "ios"
