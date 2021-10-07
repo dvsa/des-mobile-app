@@ -1,10 +1,10 @@
 <ion-header>
     <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
     <ion-toolbar>
-        <ion-buttons slot="start">
+        <ion-buttons id="back-button" slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
-        <ion-title>{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title>
+        <ion-title id="page-title">{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title>
     </ion-toolbar>
     <test-outcome-debrief-card [outcome]="outcome"></test-outcome-debrief-card>
 </ion-header>
