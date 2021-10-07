@@ -6,6 +6,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
 
+import {
+  CandidateDetailsComponentsModule,
+} from '@pages/candidate-details/components/candidate-details-components.module';
 import { CandidateDetailsPage } from './candidate-details.page';
 
 @NgModule({
@@ -14,9 +17,11 @@ import { CandidateDetailsPage } from './candidate-details.page';
     FormsModule,
     IonicModule,
     ComponentsModule,
+    CandidateDetailsComponentsModule,
   ],
   declarations: [
     CandidateDetailsPage,
   ],
 })
-export class CandidateDetailsPageModule {}
+export class CandidateDetailsPageModule {
+}
