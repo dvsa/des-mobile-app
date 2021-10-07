@@ -31,7 +31,9 @@
     </ion-grid>
   </div>
   <div>
-    <p *ngIf="!todaySlots || todaySlots.length === 0" class="ion-padding-top ion-text-center no-results">
+    <p *ngIf="!todaySlots || todaySlots.length === 0"
+       id="candidate-no-booking-at-test-centre-today-message"
+       class="ion-padding-top ion-text-center no-results">
       This candidate does not have a booking at {{slashSeperatedTestCentres}} for today.
     </p>
   </div>
@@ -56,7 +58,9 @@
     </ion-grid>
   </div>
   <div class="no-results">
-    <p *ngIf="!tomorrowSlots || tomorrowSlots.length === 0" class="ion-padding-top ion-text-center no-results">
+    <p *ngIf="!tomorrowSlots || tomorrowSlots.length === 0"
+       id="candidate-no-booking-at-test-centre-tomorrow-message"
+       class="ion-padding-top ion-text-center no-results">
       This candidate does not have a booking at {{slashSeperatedTestCentres}} for tomorrow.
     </p>
   </div>
