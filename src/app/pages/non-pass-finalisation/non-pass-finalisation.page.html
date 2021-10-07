@@ -1,10 +1,10 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar>
-    <ion-title>Finalise outcome - {{pageState.candidateName$ | async}}</ion-title>
-    <ion-buttons slot="start">
+    <ion-title id="page-title">Finalise outcome - {{pageState.candidateName$ | async}}</ion-title>
+    <ion-button id="back-button" slot="start">
       <ion-back-button></ion-back-button>
-    </ion-buttons>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
