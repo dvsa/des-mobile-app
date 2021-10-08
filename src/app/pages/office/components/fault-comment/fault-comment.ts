@@ -64,7 +64,7 @@ export class FaultCommentComponent implements OnChanges {
     if (this.isFieldNotVisible || this.shouldClearDrivingFaultValidators()) {
       this.parentForm.get(this.formControlName).clearValidators();
     } else {
-      this.parentForm.get(this.formControlName).setValidators([Validators.required, Validators.maxLength(1000)]);
+      this.parentForm.get(this.formControlName).setValidators([Validators.required, Validators.maxLength(950)]);
     }
     this.parentForm.get(this.formControlName).patchValue(this.faultComment.comment);
   }
