@@ -9,20 +9,24 @@
                    (click)="providedEmailRadioSelected()"
                    [checked]="isProvidedEmailAddressChosen"
                    [value]="isProvidedEmailAddressChosen">
-            <label for="providedEmail" class="radio-label">{{ 'communication.byEmailLabel' | translate }}</label>
+            <label for="providedEmail" class="radio-label" id="by-email-label">
+                {{ 'communication.byEmailLabel' | translate }}
+            </label>
         </ion-row>
         <ion-row *ngIf="isProvidedEmailAddressChosen" class="communication-box">
             <ion-col size="6"></ion-col>
             <ion-col>
                 <ion-row>
                     <ion-col>
-                         <span class="communication-text">
+                         <span class="communication-text" id="booking-email-example">
                             {{ 'communication.bookingEmail' | translate }}:
                         </span>
                     </ion-col>
                 </ion-row>
                 <ion-row>
-                    <span id="providedEmailInput" class="provided-email-textbox">{{ providedEmailAddress }}</span>
+                    <span id="providedEmailInput" class="provided-email-textbox">
+                        {{ providedEmailAddress }}
+                    </span>
                 </ion-row>
             </ion-col>
         </ion-row>

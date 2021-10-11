@@ -8,19 +8,20 @@
            (click)="newEmailRadioSelected()"
            [checked]="isNewEmailAddressChosen"
            [value]="isNewEmailAddressChosen">
-    <label for="newEmail" class="radio-label">{{ 'communication.newEmailLabel' | translate }}</label>
+    <label for="newEmail" class="radio-label" id="new-email-label">
+        {{ 'communication.newEmailLabel' | translate }}
+    </label>
 </ion-row>
 
 <div class="ion-no-padding" [hidden]="!isNewEmailAddressChosen">
-
     <ion-row class="communication-box">
         <ion-col size="6">
         </ion-col>
         <ion-col>
             <ion-row>
-      <span class="communication-text">
-        {{ 'communication.newEmail' | translate }}
-      </span>
+                <span class="communication-text" id="new-email-msg">
+                    {{ 'communication.newEmail' | translate }}
+                </span>
             </ion-row>
             <ion-row [formGroup]="formGroup">
                 <ion-input id="newEmailInput"
