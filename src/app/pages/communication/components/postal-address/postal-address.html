@@ -6,7 +6,9 @@
            name="radioCtrl"
            (click)="postalRadioSelected()"
            [checked]="isPostalAddressChosen">
-    <label for="postalAddress" class="radio-label">{{ 'communication.byPostLabel' | translate }}</label>
+    <label for="postalAddress" class="radio-label" id="by-post-label">
+        {{ 'communication.byPostLabel' | translate }}
+    </label>
 </ion-row>
 
 <ion-row *ngIf="isPostalAddressChosen" class="communication-box">
@@ -14,7 +16,9 @@
     </ion-col>
     <ion-col>
         <ion-row>
-            <span class="communication-text">{{ 'communication.byPostDescription' | translate }}:</span>
+            <span class="communication-text" id="by-post-desc">
+                {{ 'communication.byPostDescription' | translate }}:
+            </span>
         </ion-row>
         <ion-row>
             <display-address class="display-address" [address]="postalAddress"></display-address>
