@@ -1,8 +1,8 @@
 <ion-card id="dangerous-fault" *ngIf="dangerousFaults.length > 0">
   <ion-card-header>
     <ion-card-title>
-      <h1 class="fault-heading">{{dangerousFaults.length}}</h1>
-      <h4 class="fault-heading">{{ 'debrief.dangerousFaultsCardDescription' | translate }}</h4>
+      <h1 id="dangerous-fault-count" class="fault-heading">{{dangerousFaults.length}}</h1>
+      <h4 id="dangerous-fault-title" class="fault-heading">{{ 'debrief.dangerousFaultsCardDescription' | translate }}</h4>
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
