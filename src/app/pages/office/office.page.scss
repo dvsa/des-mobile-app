@@ -91,7 +91,7 @@
     }
 
     .fail {
-      color: var(gds-red);
+      color: var(--gds-red);
     }
 
     .terminated {
@@ -172,6 +172,15 @@
   .office-button {
     width: 300px;
     min-height: 56px;
+  }
+
+  .candidate-side-padding {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .candidate-top-padding {
+    padding-top: 32px;
   }
 
 }

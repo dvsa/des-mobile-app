@@ -185,12 +185,12 @@
 <ion-footer>
     <ion-row class="mes-full-width-card box-shadow">
         <ion-col *ngIf="!(pageState.isRekey$ | async)" class="ion-no-padding ion-text-left">
-            <ion-button id="defer-button" class="mes-grey-button office-button" (click)="defer()">
+            <ion-button id="office-save-button" class="mes-grey-button office-button" (click)="defer()">
                 <h3>Save and continue later</h3>
             </ion-button>
         </ion-col>
         <ion-col *ngIf="!(pageState.isRekey$ | async)" class="ion-no-padding ion-text-end">
-            <ion-button class="mes-primary-button office-button" (click)="onSubmit()">
+            <ion-button id="office-complete-button" class="mes-primary-button office-button" (click)="onSubmit()">
                 <h3>Mark as complete</h3>
             </ion-button>
         </ion-col>
