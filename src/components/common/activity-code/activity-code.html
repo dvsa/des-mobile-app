@@ -1,7 +1,7 @@
-<ion-row class="mes-validated-row mes-row-separator" id="activity-code-card" [formGroup]="formGroup" nowrap>
+<ion-row class="mes-validated-row mes-row-separator ion-nowrap" id="activity-code-card" [formGroup]="formGroup">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col size="32" class="component-label align-vertical-centre">
-        <label>Activity code</label>
+        <label id="activity-code-label">Activity code</label>
     </ion-col>
     <ion-col size="63" class="ion-align-self-center ion-padding-start">
         <ion-row class="spacing-row"></ion-row>
@@ -16,6 +16,7 @@
                         [interfaceOptions]="{cssClass:'mes-select activity-code-select', enableBackdropDismiss:false}"
                         [disabled]="isSelectDisabled()">
                 <ion-select-option [value]="activityCode"
+                                   id="code-{{activityCode.activityCode}}"
                                    [disabled]="isOptionDisabled(activityCode.activityCode)"
                                    *ngFor="let activityCode of activityCodeOptions">
                     {{activityCode.activityCode}} - {{activityCode.description}}
@@ -23,7 +24,7 @@
             </ion-select>
         </ion-row>
         <ion-row class="validation-message-row">
-            <div class="validation-text" [class.ng-invalid]="invalid">
+            <div class="validation-text" [class.ng-invalid]="invalid" id="activity-code-validation-message">
                 Select the activity code
             </div>
         </ion-row>
