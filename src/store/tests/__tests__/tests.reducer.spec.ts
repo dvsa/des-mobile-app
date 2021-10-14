@@ -1,4 +1,4 @@
-import { PreTestDeclarations } from '@dvsa/mes-test-schema/categories/common';
+import { PreTestDeclarations, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -8,6 +8,7 @@ import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { TestsModel } from '../tests.model';
 import * as testsActions from '../tests.actions';
 import { testsReducer } from '../tests.reducer';
+import { NeverType } from '@pages/test-report/test-report.effects';
 
 describe('testsReducer', () => {
   const newCandidate = { candidate: { candidateId: 456 } };
@@ -126,25 +127,18 @@ describe('testsReducer', () => {
 
     const output = testsReducer(state, { ...action, category: TestCategory.B });
 
-    // eslint-disable-next-line no-unused-expressions,@typescript-eslint/no-unused-expressions
-    output.startedTests[testReportPracticeSlotId].testData;
+    const td = (
+      output.startedTests[testReportPracticeSlotId] as NeverType<TestResultCommonSchema>
+    ).testData as CatBUniqueTypes.TestData;
+    const td1 = (output.startedTests[1] as NeverType<TestResultCommonSchema>).testData as CatBUniqueTypes.TestData;
 
-    expect((output.startedTests[testReportPracticeSlotId].testData as CatBUniqueTypes.TestData)
-      .seriousFaults.positioningNormalDriving)
-      .toBeUndefined();
-    expect((output.startedTests[testReportPracticeSlotId].testData as CatBUniqueTypes.TestData)
-      .drivingFaults.moveOffSafety)
-      .toBeUndefined();
-    expect((output.startedTests[testReportPracticeSlotId].testData as CatBUniqueTypes.TestData)
-      .vehicleChecks.tellMeQuestion.outcome)
-      .toBeUndefined();
-
-    expect((output.startedTests[1].testData as CatBUniqueTypes.TestData).seriousFaults.signalsTimed).toEqual(true);
-    expect((output.startedTests[1].testData as CatBUniqueTypes.TestData).drivingFaults.clearance).toEqual(1);
-    expect((output.startedTests[1].testData as CatBUniqueTypes.TestData).vehicleChecks.tellMeQuestion.outcome)
-      .toEqual(CompetencyOutcome.DF);
-    expect((output.startedTests[1].testData as CatBUniqueTypes.TestData).vehicleChecks.showMeQuestion.outcome)
-      .toEqual(CompetencyOutcome.S);
+    expect(td.seriousFaults.positioningNormalDriving).toBeUndefined();
+    expect(td.drivingFaults.moveOffSafety).toBeUndefined();
+    expect(td.vehicleChecks.tellMeQuestion.outcome).toBeUndefined();
+    expect(td1.seriousFaults.signalsTimed).toEqual(true);
+    expect(td1.drivingFaults.clearance).toEqual(1);
+    expect(td1.vehicleChecks.tellMeQuestion.outcome).toEqual(CompetencyOutcome.DF);
+    expect(td1.vehicleChecks.showMeQuestion.outcome).toEqual(CompetencyOutcome.S);
   });
 
   it('should ensure that all slot ids for test report practice tests are test_report_practice ', () => {
@@ -173,7 +167,7 @@ describe('testsReducer', () => {
 
     expect(candidateReducer.candidateReducer).toHaveBeenCalled();
     expect(preTestDeclarationsReducer.preTestDeclarationsReducer).toHaveBeenCalled();
-    expect(result.startedTests['123'].preTestDeclarations).toBe(preTestDeclarations);
+    expect(result.startedTests['123']['preTestDeclarations']).toBe(preTestDeclarations);
   });
 
   it('should assign the slot ID as the current test when a test is activated', () => {
