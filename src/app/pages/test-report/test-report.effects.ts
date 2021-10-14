@@ -31,10 +31,12 @@ import * as singleFaultCompetenciesActions
 import * as highwayCodeActions from
   '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCode, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { of } from 'rxjs';
 import { isEmpty } from 'lodash';
 import * as testReportActions from './test-report.actions';
+
+export type NeverType<T> = T extends null ? never : T;
 
 @Injectable()
 export class TestReportEffects {
@@ -58,7 +60,7 @@ export class TestReportEffects {
       ),
     )),
     // eslint-disable-next-line
-    switchMap(([, currentTest]) => {
+    switchMap(([, currentTest]: [ReturnType<typeof testReportActions.CalculateTestResult>, NeverType<TestResultCommonSchema>]) => {
       return this.testResultProvider.calculateTestResult(currentTest.category, currentTest.testData)
         .pipe(
           switchMap((result: ActivityCode) => {
