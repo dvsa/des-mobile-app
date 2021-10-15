@@ -4,11 +4,11 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import * as preTestDeclarationsReducer from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { NeverType } from '@pages/test-report/test-report.effects';
 import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { TestsModel } from '../tests.model';
 import * as testsActions from '../tests.actions';
 import { testsReducer } from '../tests.reducer';
-import { NeverType } from '@pages/test-report/test-report.effects';
 
 describe('testsReducer', () => {
   const newCandidate = { candidate: { candidateId: 456 } };
