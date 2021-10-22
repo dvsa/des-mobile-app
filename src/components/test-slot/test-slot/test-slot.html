@@ -59,8 +59,8 @@
                     </ion-col>
                     <ion-col size="2"></ion-col>
                     <ion-col size="68">
-                        <div *ngIf="isTeamJournal && !isTestCentreJournalADIBooking()" id="driver-number-{{slot.booking.candidate.driverNumber}}"
-                             class="team-journal-driver-number">{{slot.booking.candidate.driverNumber}}</div>
+                        <div *ngIf="isTeamJournal && !isTestCentreJournalADIBooking()" id="driver-number-{{slot.booking?.candidate?.driverNumber}}"
+                             class="team-journal-driver-number">{{slot.booking?.candidate?.driverNumber}}</div>
                         <h3 id="del-ex-driver-number"
                             *ngIf="delegatedTest && slot.booking.candidate.driverNumber">{{slot.booking.candidate.driverNumber}}</h3>
                         <vehicle-details
