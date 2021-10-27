@@ -45,7 +45,7 @@ import { DashboardComponentsModule } from '../components/dashboard-components.mo
 import { DashboardPage } from '../dashboard.page';
 import { DashboardViewDidEnter } from '../dashboard.actions';
 
-describe('DashboardPage', () => {
+fdescribe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
@@ -63,7 +63,9 @@ describe('DashboardPage', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardPage],
+      declarations: [
+        DashboardPage,
+      ],
       imports: [
         RouterTestingModule.withRoutes(
           [

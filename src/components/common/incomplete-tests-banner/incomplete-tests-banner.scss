@@ -1,5 +1,4 @@
-incomplete-tests-banner {
-  div {
+ div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,7 +12,6 @@ incomplete-tests-banner {
     animation-name: expand;
     animation-duration: 0.1s;
   }
-}
 
 @keyframes expand {
   from {

@@ -39,8 +39,7 @@ import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { DeviceProvider } from '@providers/device/device';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-// @TODO - Reintroduce with MES-6271
-// import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
+import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { AppComponent } from '@app/app.component';
 import { ErrorPage } from '../error-page/error';
@@ -69,9 +68,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
   @ViewChild('slotContainer', { read: ViewContainerRef }) slotContainer;
   @ViewChild(IonContent) content: IonContent;
 
-  // @TODO - Reintroduce with MES-6271
-  // @ViewChild(IncompleteTestsBanner)
-  // incompleteTestsBanner: IncompleteTestsBanner;
+  @ViewChild(IncompleteTestsBanner)
+  incompleteTestsBanner: IncompleteTestsBanner;
 
   pageState: JournalPageState;
   selectedDate: string;
