@@ -40,12 +40,16 @@ import {
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
-import { DashboardPageRoutingModule } from '../dashboard-routing.module';
-import { DashboardComponentsModule } from '../components/dashboard-components.module';
+import { SlotProvider } from '@providers/slot/slot';
+import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
+import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
+import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { DashboardPage } from '../dashboard.page';
+import { DashboardComponentsModule } from '../components/dashboard-components.module';
+import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardViewDidEnter } from '../dashboard.actions';
 
-fdescribe('DashboardPage', () => {
+describe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
@@ -59,13 +63,13 @@ fdescribe('DashboardPage', () => {
   const initialState = {
     appInfo: { versionNumber: '4.0', employeeName: 'Some One', employeeId: '1234567' },
     appConfig: { role: ExaminerRole.DE },
+    journal: { slots: {} },
+    tests: { testStatus: {} },
   } as StoreModel;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        DashboardPage,
-      ],
+      declarations: [DashboardPage],
       imports: [
         RouterTestingModule.withRoutes(
           [
@@ -90,6 +94,8 @@ fdescribe('DashboardPage', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
+        { provide: SlotProvider, useClass: SlotProviderMock },
+        { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
         provideMockStore({ initialState }),
       ],
     });
