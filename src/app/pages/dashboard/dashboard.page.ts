@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
@@ -21,7 +21,6 @@ import { selectRole } from '@store/app-config/app-config.selectors';
 import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '@store/app-info/app-info.selectors';
 import * as journalActions from '@store/journal/journal.actions';
 
-import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
 import { DashboardViewDidEnter } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -38,9 +37,6 @@ interface DashboardPageState {
   styleUrls: ['dashboard.page.scss'],
 })
 export class DashboardPage extends BasePageComponent {
-
-  @ViewChild(IncompleteTestsBanner)
-  incompleteTestsBanner: IncompleteTestsBanner;
 
   pageState: DashboardPageState;
   todaysDateFormatted: string;
