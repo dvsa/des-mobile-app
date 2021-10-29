@@ -12,7 +12,7 @@
 
 <ion-content [fullscreen]="true">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
-
+  <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
   <div>
     <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async"
                     [role]="pageState.role$ | async"></profile-header>

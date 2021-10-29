@@ -20,8 +20,7 @@
 <ion-content no-padding [scrollEvents]="true" (ionScroll)="setScrollTop($event.detail.scrollTop)">
     <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
-    <!--  @TODO - Reintroduce with MES-6271-->
-    <!-- <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner> -->
+     <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
 
     <ion-refresher slot="fixed" (ionRefresh)="pullRefreshJournal($event)">
         <ion-refresher-content

@@ -16,6 +16,7 @@ interface IncompleteTestsBannerComponentState {
 @Component({
   selector: 'incomplete-tests-banner',
   templateUrl: 'incomplete-tests-banner.html',
+  styleUrls: ['incomplete-tests-banner.scss'],
 })
 
 export class IncompleteTestsBanner implements OnInit {
