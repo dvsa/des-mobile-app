@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { NoPreloading, RouterModule, Routes } from '@angular/router';
 import {
   DASHBOARD_PAGE,
   LOGIN_PAGE,
@@ -35,10 +35,6 @@ const routes: Routes = [
     path: TEST_CENTRE_JOURNAL_PAGE,
     loadChildren: () => import('./pages/test-centre-journal/test-centre-journal.module')
       .then((m) => m.TestCentreJournalModule),
-  },
-  {
-    path: DASHBOARD_PAGE,
-    loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardPageModule),
   },
   {
     path: TestFlowPageNames.DEBRIEF_PAGE,
@@ -97,7 +93,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(routes, { preloadingStrategy: NoPreloading }),
   ],
   exports: [RouterModule],
   providers: [CanWaitingRoomDeactivateGuard],
