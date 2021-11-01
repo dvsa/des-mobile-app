@@ -8,9 +8,9 @@ import * as journalActions from '@store/journal/journal.actions';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import {
   getBusiness,
-  getCandidateName,
+  getCandidateName, getCategoryEntitlementCheckText,
   getDetails,
-  getTime,
+  getTime, isCandidateCheckNeeded, isCategoryEntitlementChecked,
 } from '@store/candidate-details/candidate-details.selector';
 import { Details } from './candidate-details.page.model';
 
@@ -19,6 +19,9 @@ interface CandidateDetailsPageState {
   time: string;
   details: Details;
   business: Business;
+  candidateEntitlementCheck: boolean;
+  categoryEntitlementCheck: boolean;
+  categoryEntitlementCheckText: string;
 }
 
 @Component({
@@ -51,6 +54,9 @@ export class CandidateDetailsPage implements OnInit {
       time: getTime(this.slot),
       details: getDetails(this.slot),
       business: getBusiness(this.slot),
+      candidateEntitlementCheck: isCandidateCheckNeeded(this.slot),
+      categoryEntitlementCheck: isCategoryEntitlementChecked(this.slot),
+      categoryEntitlementCheckText: getCategoryEntitlementCheckText(this.slot),
     };
 
     this.testCategory = this.pageState.details.testCategory as TestCategory;
