@@ -60,13 +60,22 @@
                             {{specialNeed}}</div>
                     </div>
                 </data-row-custom>
-                <data-row
-                        id="entitlement-check"
-                        [label]="'Entitlement check'"
-                        [value]="'Entitlement check is required.'"
-                        [shouldShowIndicator]="true"
-                        *ngIf="pageState.details.entitlementCheck.show">
-                </data-row>
+                <data-row-custom [label]="'Entitlement check'"
+                                 [shouldShowIndicator]="true"
+                                 *ngIf="pageState.candidateEntitlementCheck || pageState.categoryEntitlementCheck">
+                    <div class="mes-data" *ngIf="pageState.candidateEntitlementCheck">
+                        <ion-row>
+                            <ion-col size="3">-</ion-col>
+                            <ion-col size="85">Entitlement check is required.</ion-col>
+                        </ion-row>
+                    </div>
+                    <div class="mes-data" *ngIf="pageState.categoryEntitlementCheck">
+                        <ion-row>
+                            <ion-col size="3">-</ion-col>
+                            <ion-col size="85">{{ pageState.categoryEntitlementCheckText }}</ion-col>
+                        </ion-row>
+                    </div>
+                </data-row-custom>
                 <data-row-custom
                         [label]="'Additional information'"
                         [shouldHaveSeperator]="false"

@@ -21,6 +21,10 @@ export const isCandidateSpecialNeeds = (slot: any): boolean => !isEmpty(slot.boo
 export const isCandidateCheckNeeded = (slot: any): boolean => slot.booking.application.entitlementCheck;
 export const getEntitlementCheckText = (): string => 'Entitlement check is required. Call deployment';
 export const getSlotChanged = (slot: any): boolean => slot.hasSlotChanged;
+export const isCategoryEntitlementChecked = (slot: any): boolean => slot.booking.application.categoryEntitlementCheck;
+export const getCategoryEntitlementCheckText = (slot: any):string =>
+  `Check DVLA email confirming entitlement for Cat ${slot.booking.application.testCategory} test.
+   Contact deployment if unable to confirm`;
 
 export const getPhoneNumber = (candidate: any): string => {
   if (!isEmpty(candidate.mobileTelephone)) return candidate.mobileTelephone;
