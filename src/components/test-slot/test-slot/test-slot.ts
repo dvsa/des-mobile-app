@@ -102,9 +102,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   isIndicatorNeededForSlot(): boolean {
     const specialNeeds: boolean = this.isSpecialNeedsSlot();
     const checkNeeded: boolean = this.slot.booking.application.entitlementCheck || false;
+    const categoryCheckNeeded: boolean = this.slot.booking.application.categoryEntitlementCheck || false;
     const nonStandardTest: boolean = getSlotType(this.slot) !== SlotTypes.STANDARD_TEST;
 
-    return specialNeeds || checkNeeded || nonStandardTest;
+    return specialNeeds || checkNeeded || categoryCheckNeeded || nonStandardTest;
   }
 
   isSpecialNeedsSlot(): boolean {
