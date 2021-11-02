@@ -210,4 +210,26 @@ describe('Tests Analytics Effects', () => {
       });
     });
   });
+
+  describe('setActivityCode', () => {
+    it('should call logEvent for set activity code', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
+
+      // ACT
+      actions$.next(activityCodeActions.SetActivityCode(ActivityCodes.FAIL_PUBLIC_SAFETY));
+
+      // ASSERT
+      effects.setActivityCode$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.POST_TEST,
+          AnalyticsEvents.SET_ACTIVITY_CODE,
+          '4 - FAIL_PUBLIC_SAFETY',
+        );
+        done();
+      });
+    });
+  });
 });

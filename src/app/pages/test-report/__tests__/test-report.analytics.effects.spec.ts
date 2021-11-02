@@ -1122,7 +1122,7 @@ describe('Test Report Analytics Effects', () => {
         expect(result.type).toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TERMINATION,
+          AnalyticsEventCategories.TEST_END,
           AnalyticsEvents.END_TEST,
           AnalyticsLabels.TERMINATE_TEST,
         );
@@ -1139,7 +1139,7 @@ describe('Test Report Analytics Effects', () => {
         expect(result.type).toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TERMINATION}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_END}`,
           `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.END_TEST}`,
           AnalyticsLabels.TERMINATE_TEST,
         );
@@ -1779,28 +1779,6 @@ describe('Test Report Analytics Effects', () => {
           AnalyticsEventCategories.TEST_REPORT,
           AnalyticsEvents.RECORD_EMERGENCY_STOP_SECOND_ATTEMPT,
           `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-        );
-        done();
-      });
-    });
-  });
-
-  describe('setActivityCode', () => {
-    it('should call logEvent for set activity code', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
-
-      // ACT
-      actions$.next(activityCodeActions.SetActivityCode(ActivityCodes.FAIL_PUBLIC_SAFETY));
-
-      // ASSERT
-      effects.setActivityCode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TERMINATION,
-          AnalyticsEvents.END_TEST,
-          AnalyticsLabels.SET_ACTIVITY_CODE,
         );
         done();
       });
