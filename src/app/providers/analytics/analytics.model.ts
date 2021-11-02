@@ -53,7 +53,6 @@ export enum AnalyticsEventCategories {
   BACK_TO_OFFICE = 'back to office',
   POST_TEST = 'post-test',
   TEST_REPORT = 'test report',
-  // TERMINATION = 'test termination',
   TEST_END = 'AS test end',
   PRACTICE_TEST = 'practice test',
   PRACTICE_MODE = 'practice mode',
@@ -171,8 +170,8 @@ export enum AnalyticsEvents {
 }
 
 export enum AnalyticsLabels {
-  TERMINATE_TEST = 'Test report - Test Terminated',
-  TEST_ENDED = 'Test report - Test Ended',
+  TERMINATE_TEST = 'Test report - test terminated',
+  TEST_ENDED = 'Test report - test ended',
 }
 
 export enum AnalyticsDimensionIndices {
