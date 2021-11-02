@@ -121,7 +121,7 @@ describe('OutcomeBehaviourMapProvider', () => {
         expect(candidate).toBe('Y');
         expect(debrief).toBe('Y');
         expect(identification).toBe('Y');
-        expect(tellMe).toBe('Y');
+        expect(tellMe).toBe('A');
         expect(showMe).toBe('Y');
         expect(weather).toBe('Y');
         expect(d255).toBe('Y');
@@ -163,7 +163,7 @@ describe('OutcomeBehaviourMapProvider', () => {
         expect(candidate).toBe('Y');
         expect(debrief).toBe('Y');
         expect(identification).toBe('Y');
-        expect(tellMe).toBe('Y');
+        expect(tellMe).toBe('A');
         expect(showMe).toBe('Y');
         expect(weather).toBe('Y');
         expect(d255).toBe('Y');
@@ -344,7 +344,7 @@ describe('OutcomeBehaviourMapProvider', () => {
         expect(candidate).toBe('Y');
         expect(debrief).toBe('Y');
         expect(identification).toBe('Y');
-        expect(tellMe).toBe('Y');
+        expect(tellMe).toBe('A');
         expect(showMe).toBe('Y');
         expect(weather).toBe('Y');
         expect(d255).toBe('Y');
