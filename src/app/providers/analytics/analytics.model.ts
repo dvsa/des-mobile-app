@@ -53,7 +53,8 @@ export enum AnalyticsEventCategories {
   BACK_TO_OFFICE = 'back to office',
   POST_TEST = 'post-test',
   TEST_REPORT = 'test report',
-  TERMINATION = 'test termination',
+  // TERMINATION = 'test termination',
+  TEST_END = 'AS test end',
   PRACTICE_TEST = 'practice test',
   PRACTICE_MODE = 'practice mode',
   TEST_RESULTS_SEARCH = 'test results search',
@@ -69,7 +70,7 @@ export enum AnalyticsEventCategories {
 export enum AnalyticsEvents {
   START_TEST = 'start test',
   REKEY_TEST = 'rekey test',
-  END_TEST = 'end test',
+  END_TEST = 'test ended',
   APP_LOAD = 'app load',
   SLOT_CHANGED = 'slot changed',
   SLOT_CHANGE_VIEWED = 'slot change viewed',
@@ -83,6 +84,7 @@ export enum AnalyticsEvents {
   SAVE_WRITE_UP = 'save write-up',
   COMPLETE_TEST = 'complete test',
   TEST_DECIDED = 'test decided',
+  SET_ACTIVITY_CODE = 'set activity code',
   TEST_IN_WRITE_UP = 'test in write up',
   TEST_AUTOSAVED = 'test autosaved',
   TEST_SUBMITTED = 'test submitted',
@@ -169,8 +171,8 @@ export enum AnalyticsEvents {
 }
 
 export enum AnalyticsLabels {
-  TERMINATE_TEST = 'Test report - legal requirements not met',
-  SET_ACTIVITY_CODE = 'Test report - end the test with activity code 4',
+  TERMINATE_TEST = 'Test report - Test Terminated',
+  TEST_ENDED = 'Test report - Test Ended',
 }
 
 export enum AnalyticsDimensionIndices {

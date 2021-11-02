@@ -49,7 +49,6 @@ import { getTestData as getCatAmod1TestData } from
 import { EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 import { speedCheckToggleValues } from '@shared/constants/competencies/cata-mod1-speed-checks';
 import { getEmergencyStop } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
-import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
 // @TODO MES-7149: Cat A Mod 1
 // import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
 // import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
@@ -727,9 +726,30 @@ export class TestReportAnalyticsEffects {
     )),
     concatMap(([, tests]: [ReturnType <typeof testReportActions.TerminateTestFromTestReport>, TestsModel]) => {
       this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TERMINATION, tests),
+        formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
         formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
         AnalyticsLabels.TERMINATE_TEST,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  calculateTestResult$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      testReportActions.CalculateTestResult,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType <typeof testReportActions.CalculateTestResult>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
+        formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
+        AnalyticsLabels.TEST_ENDED,
       );
       return of(AnalyticRecorded());
     }),
@@ -1344,27 +1364,6 @@ export class TestReportAnalyticsEffects {
         return of(AnalyticRecorded());
       },
     ),
-  ));
-
-  setActivityCode$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      activityCodeActions.SetActivityCode,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-        ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof activityCodeActions.SetActivityCode>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TERMINATION, tests),
-        formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
-        AnalyticsLabels.SET_ACTIVITY_CODE,
-      );
-      return of(AnalyticRecorded());
-    }),
   ));
 
   // @TODO MES-7149 - enable with Cat A Mod 1

@@ -17,6 +17,9 @@ import { formatApplicationReference } from '@shared/helpers/formatters';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { Router } from '@angular/router';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { ActivityCodes } from '@shared/models/activity-codes';
+import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
+import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
 import { TestsModel } from './tests.model';
 import {
   TestOutcomeChanged,
@@ -132,6 +135,28 @@ export class TestsAnalyticsEffects {
         AnalyticsEvents.START_TEST,
       );
 
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  setActivityCode$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      activityCodeActions.SetActivityCode,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([{ activityCode }, tests]: [ReturnType <typeof activityCodeActions.SetActivityCode>, TestsModel]) => {
+      const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+        formatAnalyticsText(AnalyticsEvents.SET_ACTIVITY_CODE, tests),
+        `${code} - ${description}`,
+      );
       return of(AnalyticRecorded());
     }),
   ));
