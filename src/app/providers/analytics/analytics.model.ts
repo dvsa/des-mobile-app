@@ -53,7 +53,7 @@ export enum AnalyticsEventCategories {
   BACK_TO_OFFICE = 'back to office',
   POST_TEST = 'post-test',
   TEST_REPORT = 'test report',
-  TEST_END = 'AS test end',
+  TEST_END = 'test end',
   PRACTICE_TEST = 'practice test',
   PRACTICE_MODE = 'practice mode',
   TEST_RESULTS_SEARCH = 'test results search',
