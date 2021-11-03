@@ -61,8 +61,6 @@ import {
 // import { ModalReason } from '../cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import * as emergencyStopActions
   from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
-import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as singleFaultCompetencyActions
