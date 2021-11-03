@@ -7,8 +7,8 @@ import { Component, Input } from '@angular/core';
 })
 export class AdditionalCandidateDetailsComponent {
   @Input()
-  prn: number;
+  prn?: number = 0;
 
   @Input()
-  attempts: number;
+  attempts?: number = 0;
 }
