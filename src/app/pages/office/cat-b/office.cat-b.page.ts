@@ -56,6 +56,7 @@ import {
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import { behaviourMap } from '../office-behaviour-map';
 
 interface CatBOfficePageState {
   displayShowMeQuestion$: Observable<boolean>;
@@ -113,9 +114,8 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
       faultSummaryProvider,
       faultCountProvider,
     );
-
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
-
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
   ngOnInit(): void {
@@ -146,7 +146,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
         map(([outcome, question]) =>
           this.outcomeBehaviourProvider.isVisible(outcome, 'tellMeQuestion', question)),
       ),
-
       showMeQuestion$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecks),
@@ -172,7 +171,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
         select(getEco),
         select(getEcoFaultText),
       ),
-
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
         map((data) => this.shouldDisplayDrivingFaultComments(data)),
