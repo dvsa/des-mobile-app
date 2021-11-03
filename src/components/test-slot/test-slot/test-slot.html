@@ -74,9 +74,9 @@
                         </vehicle-details>
 
                         <additional-candidate-details
-                                *ngIf="showAdditionalCandidateDetails() && !isTeamJournal"
-                                [prn]="slot.booking.candidate.prn"
-                                [attempts]="slot.booking.candidate.previousADITests">
+                                *ngIf="showAdditionalCandidateDetails() && !isTeamJournal && slot.booking.candidate"
+                                [prn]="slot.booking?.candidate?.prn"
+                                [attempts]="slot.booking?.candidate?.previousADITests">
                         </additional-candidate-details>
                     </ion-col>
                 </ion-row>
@@ -102,7 +102,6 @@
                         *ngIf="teamJournalCandidateResult"
                         [examinerName]="examinerName"
                         [id]="slot.booking.application.applicationId">
-
                 </examiner-name>
             </ion-col>
         </ion-row>
@@ -124,7 +123,7 @@
   </ion-button>
 </ng-template>
 <ng-template #unknownCandidate>
-    <ion-button class="mes-transparent-button" disabled>
+    <ion-button class="candidate-details-placeholder-text" fill="clear" expand="full" disabled>
         <h3 class="candidate-name">Trainer booked - unnamed</h3>
     </ion-button>
 </ng-template>
