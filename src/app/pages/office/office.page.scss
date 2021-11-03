@@ -118,8 +118,9 @@
 
   #defer-button {
     --background: var(--gds-grey-3);
-    --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.5);
+    --box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.5);
     --border-radius: 10px;
+
     margin: 0 0.2rem;
     padding: 0 1.6em;
 
@@ -137,7 +138,7 @@
       }
 
       min-height: 44px;
-      padding-top: 1px
+      padding-top: 1px;
     }
   }
 
@@ -182,5 +183,4 @@
   .candidate-top-padding {
     padding-top: 32px;
   }
-
 }

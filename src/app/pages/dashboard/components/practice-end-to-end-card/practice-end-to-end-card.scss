@@ -1,9 +1,16 @@
+.practice-mode-card {
+  background-color: var(--gds-grey-2); // var(--gds-yellow);
+  padding: 10px;
+  border: 10px solid var(--mes-white);
+}
+
 button[clear] {
   width: 100%;
-  padding: 0px;
+  padding: 0;
   outline: none;
   border: none;
   background-color: initial;
+
   &.activated {
     .practice-mode-card {
       background: var(--gds-yellow-darken-15);
@@ -14,22 +21,21 @@ button[clear] {
     color: var(--gds-grey-2);
   }
 }
-.practice-mode-card {
-  background-color: var(--gds-grey-2); // var(--gds-yellow);
-  padding: 10px;
-  border: 10px solid var(--mes-white);
-}
 
 .button-col {
   text-align: right;
+
   @media (orientation: landscape) {
     text-align: center;
   }
+
   button {
     min-width: 350px;
+
     &.mes-neutral-button {
       box-shadow: none;
     }
+
     &.activated {
       background: var(--mes-white-darken-15);
     }

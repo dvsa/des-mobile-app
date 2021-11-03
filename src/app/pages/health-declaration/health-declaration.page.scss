@@ -2,21 +2,20 @@
   ion-content {
     --ion-background-color: var(--mes-white);
 
-      #candidate-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    #candidate-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-        #continue-button {
-          min-height: 56px;
-          min-width: 132px;
-        }
+      #continue-button {
+        min-height: 56px;
+        min-width: 132px;
       }
+    }
   }
 
   .confirm-declaration-modal {
-    .alert-head:before {
-      display: inline-block;
+    .alert-head::before {
       font-size: 68px;
       content: '\f276';
       display: inline-block;

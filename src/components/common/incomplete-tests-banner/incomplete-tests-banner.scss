@@ -1,17 +1,19 @@
- div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--gds-yellow);
-    height: 70px;
-    img {
-      padding-right: 10px;
-      height: 37px;
-      vertical-align: middle;
-    }
-    animation-name: expand;
-    animation-duration: 0.1s;
+div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gds-yellow);
+  height: 70px;
+
+  img {
+    padding-right: 10px;
+    height: 37px;
+    vertical-align: middle;
   }
+
+  animation-name: expand;
+  animation-duration: 0.1s;
+}
 
 @keyframes expand {
   from {
@@ -19,6 +21,6 @@
   }
 
   to {
-    margin-top: 0px;
+    margin-top: 0;
   }
 }

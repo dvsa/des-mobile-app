@@ -1,5 +1,6 @@
 .mes-full-width-card {
   padding: 20px 0 0 0;
+
   .full-width {
     width: 100%;
   }
@@ -10,7 +11,8 @@
   width: 33%;
 }
 
-ion-list, section {
+ion-list,
+section {
   background-color: var(--ion-background-color);
 }
 

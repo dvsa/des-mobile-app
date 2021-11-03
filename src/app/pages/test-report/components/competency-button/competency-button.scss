@@ -1,4 +1,5 @@
 @import "src/theme/sass-partials/_buttons";
+
 :host {
   div.competency-button {
     @extend .mes-test-report-button;
@@ -7,16 +8,19 @@
     padding-left: 5px;
     padding-right: 5px;
   }
+
   &.fault {
     .remove-mode.fault-mode & {
       z-index: 160;
     }
   }
+
   &.serious-fault {
     .remove-mode.serious-mode & {
       z-index: 160;
     }
   }
+
   &.dangerous-fault {
     .remove-mode.dangerous-mode & {
       z-index: 160;

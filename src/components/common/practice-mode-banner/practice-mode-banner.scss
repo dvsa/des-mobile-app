@@ -4,6 +4,7 @@ practice-mode-banner {
     background: var(--secondary-button);
     border-radius: 0;
   }
+
   .exit-text {
     position: absolute;
     padding-left: 8px;
@@ -12,6 +13,7 @@ practice-mode-banner {
     font-weight: bold;
     letter-spacing: 0.24px;
   }
+
   .title {
     width: 100%;
     position: absolute;
@@ -21,7 +23,8 @@ practice-mode-banner {
     font-weight: bold;
     letter-spacing: 0.24px;
   }
+
   ion-icon {
-    transform: rotate(180deg)
+    transform: rotate(180deg);
   }
 }

@@ -1,9 +1,8 @@
 .profile-header {
-
   padding: 12px;
 
   h2 {
-    margin: 0px;
+    margin: 0;
   }
 
   span {
@@ -16,6 +15,7 @@
 
   .role {
     margin-top: -4px;
+
     --ion-grid-column-padding: 0;
   }
 
@@ -23,6 +23,7 @@
     margin-top: -4px;
     margin-right: 2px;
     text-align: right;
+
     .employee-id {
       font-weight: bold;
     }

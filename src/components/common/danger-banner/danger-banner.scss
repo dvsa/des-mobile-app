@@ -3,6 +3,7 @@
     color: var(--gds-black);
     font-size: 35px;
   }
+
   div {
     border-left: 10px solid var(--danger);
     background: #ffc7c9;
@@ -15,10 +16,12 @@
   .modal-alert-header {
     margin: 0 0 24px;
   }
+
   .danger-centre {
     display: flex;
     align-items: center;
   }
+
   .danger-text {
     color: var(--gds-black);
   }

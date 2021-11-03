@@ -3,6 +3,7 @@
     color: var(--gds-black);
     font-size: 35px;
   }
+
   div {
     background: var(--mes-light-yellow);
     border-left: 10px solid var(--gds-yellow);
@@ -11,13 +12,16 @@
   .center-icon {
     text-align: center;
   }
+
   .modal-alert-header {
     margin: 0 0 24px;
   }
+
   .warning-centre {
     display: flex;
     align-items: center;
   }
+
   .warning-text {
     color: var(--gds-black);
   }

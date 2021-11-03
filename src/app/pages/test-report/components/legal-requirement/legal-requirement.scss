@@ -1,5 +1,4 @@
 :host ::ng-deep {
-
   competency-button {
     position: relative;
 
@@ -31,6 +30,7 @@
         }
       }
     }
+
     &.disabled {
       .competency-button {
         border: none;
@@ -38,5 +38,4 @@
       }
     }
   }
-
 }

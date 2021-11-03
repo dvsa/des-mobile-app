@@ -20,7 +20,7 @@
     }
   }
 
-  .content-container  {
+  .content-container {
     padding: 20px;
   }
 
@@ -93,7 +93,8 @@
         width: 80%;
       }
 
-      .icon-cone-marker, .icon-cone-marker-pole {
+      .icon-cone-marker,
+      .icon-cone-marker-pole {
         float: left;
         margin-right: 20px;
       }
@@ -114,7 +115,8 @@
     }
   }
 
-  .vehicle-length-input, .vehicle-width-input {
+  .vehicle-length-input,
+  .vehicle-width-input {
     width: 77px;
     height: 48px;
     background-color: var(--reverseLightBlue);

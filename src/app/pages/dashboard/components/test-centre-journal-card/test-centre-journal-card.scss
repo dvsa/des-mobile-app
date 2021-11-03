@@ -1,15 +1,16 @@
 .test-centre-journal-button {
   width: 100%;
-  padding: 0px;
+  padding: 0;
   outline: none;
   border: none;
   background-color: initial;
 }
-.test-centre-journal-card {
 
+.test-centre-journal-card {
   --background: none;
 
-  h1, h4 {
+  h1,
+  h4 {
     color: var(--mes-white);
   }
 
@@ -31,7 +32,6 @@
     h3 {
       color: var(--mes-white);
     }
-
   }
 
   #card-content-wrapper {
@@ -50,5 +50,5 @@
 
 ion-card img.icon-test-centre {
   width: 112px;
-  height: 92px
+  height: 92px;
 }

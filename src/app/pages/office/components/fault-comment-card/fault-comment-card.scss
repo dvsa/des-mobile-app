@@ -1,15 +1,19 @@
 :host {
   fault-comment {
     width: 100%;
+
     ion-col[align-self-start].col {
       padding-top: 46px;
     }
+
     .fault-badge.col {
       padding-left: 8px;
     }
+
     .component-label.col {
       padding-left: 8px;
     }
+
     .textarea-input.col {
       padding-right: 48px;
     }

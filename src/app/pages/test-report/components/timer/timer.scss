@@ -1,7 +1,6 @@
 :host {
   min-width: 116px;
   height: 43px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,15 +8,17 @@
   #start-timer-button {
     --background: #02477b;
     --border-radius: 10px;
-    --color: #ffffff;
+    --color: #fff;
   }
 
   #timer-text {
     padding: 5px 3px;
     color: var(--gds-blue);
+
     &.paused {
       color: var(--gds-light-blue);
     }
+
     font-size: 20px;
     position: absolute;
     font-weight: bold;

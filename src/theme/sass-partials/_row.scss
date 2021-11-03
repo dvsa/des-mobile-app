@@ -15,13 +15,16 @@
 .mes-component-row {
   padding: 0;
   min-height: 120px;
+
   .col {
     padding: 0;
   }
+
   .component-label {
     padding-left: 32px;
     padding-right: 16px;
   }
+
   .spacing-row,
   .validation-message-row {
     min-height: 32px;
@@ -31,13 +34,16 @@
 
 .mes-extended-component-row {
   @extend .mes-component-row;
+
   min-height: 150px;
+
   .spacing-row {
     min-height: 30px;
   }
 }
 
-.mes-component-row::before, .mes-extended-component-row::before  {
+.mes-component-row::before,
+.mes-extended-component-row::before {
   display: inline-block;
   width: 8px;
   content: '';

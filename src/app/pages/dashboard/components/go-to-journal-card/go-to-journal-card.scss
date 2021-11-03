@@ -1,22 +1,23 @@
 .go-to-journal-button {
   width: 100%;
-  padding: 0px;
+  padding: 0;
   outline: none;
   border: none;
   background-color: initial;
 }
-.go-to-journal-card {
 
+.go-to-journal-card {
   --background: none;
 
-  h1, h4 {
+  h1,
+  h4 {
     color: var(--mes-white);
   }
 
   ion-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .icon-row {
@@ -31,7 +32,6 @@
     h3 {
       color: var(--mes-white);
     }
-
   }
 
   #card-content-wrapper {
@@ -50,5 +50,5 @@
 
 ion-card img.icon-journal {
   width: 112px;
-  height: 92px
+  height: 92px;
 }

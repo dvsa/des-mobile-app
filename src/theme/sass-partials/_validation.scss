@@ -1,26 +1,32 @@
-.validation-bar{
-    border-color: transparent;
-    border-left-style: solid;
-    border-left-width: 8px;
-    &.ng-invalid {
-      border-color: var(--mes-validation-error);
-    }
+.validation-bar {
+  border-color: transparent;
+  border-left-style: solid;
+  border-left-width: 8px;
+
+  &.ng-invalid {
+    border-color: var(--mes-validation-error);
   }
+}
+
 .validation-text {
-    color:transparent;
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: -0.49px;
-    line-height: 32px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Roboto";
-    &.ng-invalid {
-      color: var(--mes-validation-error);
-    }
+  color: transparent;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.49px;
+  line-height: 32px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Roboto";
+
+  &.ng-invalid {
+    color: var(--mes-validation-error);
   }
-  .validation-text-with-row-spacing {
-    @extend .validation-text;
-    margin: 0 28px;
-  }
+}
+
+.validation-text-with-row-spacing {
+  @extend .validation-text;
+
+  margin: 0 28px;
+}
+
 .validation-bar-spacer {
   width: 8px;
 }

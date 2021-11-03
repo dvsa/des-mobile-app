@@ -3,13 +3,16 @@
 :host {
   .modal-return-button {
     @extend .mes-primary-button;
+
     margin-top: 20px;
     margin-bottom: 40px;
     width: 100%;
     height: 56px;
+
     --background: var(--gds-grey-3);
     --box-shadow: inset 0 -2px 0 0 var(--gds-grey-1);
     --background-activated: var(--gds-grey-2);
+
     h3 {
       color: var(--gds-black);
     }

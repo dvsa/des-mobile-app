@@ -2,6 +2,24 @@
   "extends": "stylelint-config-standard",
   "rules": {
     "selector-type-no-unknown": null,
-    "block-no-empty": null
+    "block-no-empty": null,
+    "at-rule-no-unknown": null,
+    "no-descending-specificity": null,
+    "font-family-no-missing-generic-family-keyword": [
+      true,
+      {
+        "ignoreFontFamilies": [
+          "Ionicons"
+        ]
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": [
+          "ng-deep"
+        ]
+      }
+    ]
   }
 }

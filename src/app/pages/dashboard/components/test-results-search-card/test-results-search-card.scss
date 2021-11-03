@@ -1,17 +1,6 @@
-button[clear] {
-  width: 100%;
-  padding: 0px;
-  outline: none;
-  border: none;
-  background-color: initial;
-  &.activated {
-    .search-card #card-content-wrapper {
-      background: var(--gds-dark-green-darken);
-    }
-  }
-}
 .search-card {
-  h1, h4 {
+  h1,
+  h4 {
     color: var(--mes-white);
   }
 
@@ -53,8 +42,22 @@ button[clear] {
   }
 }
 
+button[clear] {
+  width: 100%;
+  padding: 0;
+  outline: none;
+  border: none;
+  background-color: initial;
+
+  &.activated {
+    .search-card #card-content-wrapper {
+      background: var(--gds-dark-green-darken);
+    }
+  }
+}
+
 ion-card img.icon-search-tests {
   margin-top: 10px;
   width: 72px;
-  height: 72px
+  height: 72px;
 }

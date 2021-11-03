@@ -3,7 +3,6 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'data-row',
   templateUrl: 'data-row.html',
-  styleUrls: ['data-row.scss'],
 })
 export class DataRowComponent {
 

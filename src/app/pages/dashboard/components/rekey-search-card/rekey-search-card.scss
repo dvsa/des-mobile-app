@@ -1,17 +1,6 @@
-button[clear] {
-  width: 100%;
-  padding: 0px;
-  outline: none;
-  border: none;
-  background-color: initial;
-  &.activated {
-    .rekey-search-card #card-content-wrapper {
-      background: var(--gds-blue-darken);
-    }
-  }
-}
 .rekey-search-card {
-  h1, h4 {
+  h1,
+  h4 {
     color: var(--mes-white);
   }
 
@@ -32,7 +21,7 @@ button[clear] {
     box-shadow: none;
 
     &.activated {
-      background:  var(--mes-white-darken-10);
+      background: var(--mes-white-darken-10);
     }
 
     h3 {
@@ -42,6 +31,7 @@ button[clear] {
         white-space: normal;
         margin-bottom: 4px;
       }
+
       .text-zoom-x-large & {
         line-height: 1.5em;
         white-space: normal;
@@ -58,8 +48,22 @@ button[clear] {
   }
 }
 
+button[clear] {
+  width: 100%;
+  padding: 0;
+  outline: none;
+  border: none;
+  background-color: initial;
+
+  &.activated {
+    .rekey-search-card #card-content-wrapper {
+      background: var(--gds-blue-darken);
+    }
+  }
+}
+
 ion-card img.icon-search-rekey-tests {
   margin-top: 10px;
   width: 72px;
-  height: 72px
+  height: 72px;
 }

@@ -23,7 +23,8 @@ label {
   color: black;
 }
 
-ion-list, section {
+ion-list,
+section {
   background-color: var(--ion-background-color);
 }
 
@@ -34,4 +35,3 @@ section {
   position: absolute;
   padding-right: 3.5%;
 }
-
