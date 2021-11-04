@@ -128,7 +128,6 @@ const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
 };
 
 export const getIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
-  console.log('tests', tests);
   return Object.keys(tests.testStatus)
     .filter((slotId) =>
       isTestBeforeToday(tests.startedTests[slotId])
