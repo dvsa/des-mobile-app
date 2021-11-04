@@ -37,12 +37,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
 import {
   PassFinalisationViewDidEnter,
   PassFinalisationValidationError,
 } from '../../pass-finalisation.actions';
-import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 
 describe('PassFinalisationCatBPage', () => {
   let fixture: ComponentFixture<PassFinalisationCatBPage>;
