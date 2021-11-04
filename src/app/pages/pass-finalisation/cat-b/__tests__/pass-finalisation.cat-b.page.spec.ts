@@ -42,6 +42,7 @@ import {
   PassFinalisationViewDidEnter,
   PassFinalisationValidationError,
 } from '../../pass-finalisation.actions';
+import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 
 describe('PassFinalisationCatBPage', () => {
   let fixture: ComponentFixture<PassFinalisationCatBPage>;
@@ -97,9 +98,14 @@ describe('PassFinalisationCatBPage', () => {
       });
     });
     describe('onSubmit', () => {
+      it('should dispatch the ProvisionalLicenseNotReceived action', async () => {
+        component.candidateDriverNumber = '1234567';
+        await component.onSubmit();
+        expect(store$.dispatch).toHaveBeenCalledWith(ProvisionalLicenseNotReceived());
+      });
       // Unit tests for the components TypeScript class
-      it('should dispatch the PersistTests action', () => {
-        component.onSubmit();
+      it('should dispatch the PersistTests action', async () => {
+        await component.onSubmit();
         expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
       });
 

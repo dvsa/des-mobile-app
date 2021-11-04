@@ -150,7 +150,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     });
   }
   isNorthernIreland(driverNumber: string): boolean {
-    driverNumber = driverNumber.replace(/\s/g, '');
+    driverNumber = driverNumber?.replace(/\s/g, '');
     return isNumeric(driverNumber);
   }
 }
