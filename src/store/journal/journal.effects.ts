@@ -212,6 +212,7 @@ export class JournalEffects {
         endDate: moment().format('YYYY-MM-DD'),
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
+        excludeAutoSavedTests: 'true',
       };
 
       return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
