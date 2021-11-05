@@ -1,0 +1,45 @@
+@import "src/theme/sass-partials/modal";
+
+:host {
+  ion-card {
+    min-height: 365px;
+  }
+
+  .message-wrapper {
+    min-height: 308px;
+  }
+
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    width: 400px;
+  }
+
+  .modal-icon {
+    min-height: 152px;
+  }
+
+  .modal-message {
+    min-height: 156px;
+  }
+
+  .warning-icon,
+  .tick-icon {
+    margin: 40px 0 16px;
+    font-size: 96px;
+  }
+
+  .modal-alert-header {
+    margin: 0 0 36px;
+  }
+
+  .cancel-button {
+    color: var(--gds-black);
+  }
+
+  .upload-button {
+    color: var(--gds-black);
+    font-weight: 600;
+  }
+
+}

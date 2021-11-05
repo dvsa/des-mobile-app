@@ -1,0 +1,68 @@
+<ion-row class="mes-data-row-with-separator" [formGroup]="formGroup">
+    <div class="validation-bar"></div>
+    <ion-col size="40">
+        <input id="ipadIssueSelected"
+               value="true"
+               [checked]="selected"
+               type="checkbox"
+               class="gds-checkbox"
+               formControlName="ipadIssueSelected"
+               (change)="selectedValueChanged($event.target.checked)">
+        <label for="ipadIssueSelected">iPad Issue</label>
+    </ion-col>
+    <ion-col>
+        <div class="selected-border" id="ipadIssueSection" *ngIf="selected">
+            <div>
+                <input id="ipadIssueTechnicalFault"
+                       type="radio"
+                       class="gds-radio-button"
+                       name="ipadIssueTechnicalFault"
+                       formControlName="ipadIssueTechnicalFault"
+                       [checked]="technicalFault" value="true"
+                       (change)="technicalFaultSelected()">
+                <label id="ipadIssueTechnicalFaultLabel" for="ipadIssueTechnicalFault" class="radio-label">
+                    Tech Fault
+                </label>
+            </div>
+            <div>
+                <input id="ipadIssueLost"
+                       type="radio"
+                       class="gds-radio-button"
+                       name="ipadIssueLost"
+                       formControlName="ipadIssueLost"
+                       [checked]="lost"
+                       value="true"
+                       (change)="lostSelected()">
+                <label id="ipadIssueLostLabel" for="ipadIssueLost" class="radio-label">
+                    Lost
+                </label>
+            </div>
+            <div>
+                <input id="ipadIssueStolen"
+                       type="radio"
+                       class="gds-radio-button"
+                       name="ipadIssueStolen"
+                       formControlName="ipadIssueStolen"
+                       [checked]="stolen"
+                       value="true"
+                       (change)="stolenSelected()">
+                <label id="ipadIssueStolenLabel" for="ipadIssueStolen" class="radio-label">
+                    Stolen
+                </label>
+            </div>
+            <div>
+                <input id="ipadIssueBroken"
+                       type="radio"
+                       class="gds-radio-button"
+                       name="ipadIssueBroken"
+                       formControlName="ipadIssueBroken"
+                       [checked]="broken"
+                       value="true"
+                       (change)="brokenSelected()">
+                <label id="ipadIssueBrokenLabel" for="ipadIssueBroken" class="radio-label">
+                    Broken
+                </label>
+            </div>
+        </div>
+    </ion-col>
+</ion-row>

@@ -1,0 +1,34 @@
+<ion-card id="upload-rekey-modal-card" class="modal-alert">
+    <ion-grid class="ion-no-padding">
+        <ion-row class="message-wrapper ion-align-items-center">
+            <ion-col class="ion-no-padding">
+                <ion-row class="modal-icon ion-justify-content-center">
+                    <ion-icon class="warning-icon" ios="alert-circle" id="exit-rekey-icon"></ion-icon>
+                </ion-row>
+                <ion-row class="modal-message ion-justify-content-center">
+                    <h2 class="modal-alert-header" id="exit-rekey-confirm-label">
+                        Are you sure you want to<br/>exit rekeying this test?
+                    </h2>
+                    <div class="modal-alert-message">
+                        <div class="mes-data" id="exit-rekey-data-lost-label">
+                            Any data you've rekeyed<br/>will not be saved.
+                        </div>
+                    </div>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col class="column-border-top column-border-right ion-no-padding">
+                <ion-button fill="clear" class="exit-rekey-button" (click)="onExitRekey()" id="exit-rekey-exit-btn">
+                    Exit rekey
+                </ion-button>
+            </ion-col>
+            <ion-col class="column-border-top ion-no-padding">
+                <ion-button fill="clear" class="cancel-button" (click)="onCancel()" id="exit-rekey-cancel-btn">
+                    Cancel
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-card>

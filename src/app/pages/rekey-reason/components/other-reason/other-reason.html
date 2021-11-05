@@ -1,0 +1,38 @@
+<ion-row class="mes-data-row-with-separator" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col size="40">
+        <input id="otherSelected"
+               [checked]="selected"
+               type="checkbox"
+               class="gds-checkbox"
+               formControlName="otherSelected"
+               (change)="selectedValueChanged($event.target.checked)">
+        <label for="otherSelected" id="other-specify-reason">Other (specify reason)</label>
+    </ion-col>
+    <ion-col>
+        <div class="selected-border" id="reasonSection" *ngIf="selected">
+            <textarea id="otherReason"
+                    class="mes-data input-styling-background"
+                    formControlName="reason"
+                    charLimit="200"
+                    charCount
+                    (onCharacterCountChanged)="characterCountChanged($event)"
+                    [value]="reason"
+                    [class.ng-invalid]="invalid"
+                    (change)="reasonTextChanged($event.target.value)">
+            </textarea>
+
+            <div class="character-count validation-text"
+                 id="other-reason-char-count"
+                 [ngClass]="{'ng-invalid': charactersExceeded()}">
+                {{getCharacterCountText()}}
+            </div>
+
+            <ion-row class="validation-message-row" *ngIf="invalid && !charactersExceeded()">
+                <div class="validation-text" [class.ng-invalid]="invalid" id="other-reason-invalid-label">
+                    Enter the reason for rekey
+                </div>
+            </ion-row>
+        </div>
+    </ion-col>
+</ion-row>

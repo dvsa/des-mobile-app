@@ -1,0 +1,47 @@
+<ion-row class="mes-data-row-with-separator" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col size="40">
+        <input id="transferSelected"
+               [checked]="selected"
+               type="checkbox"
+               class="gds-checkbox"
+               formControlName="transferSelected"
+               (change)="selectedValueChanged($event.target.checked)">
+        <label for="transferSelected" id="transfer-label">
+            Transfer
+        </label>
+    </ion-col>
+    <ion-col>
+        <div class="selected-border" id="transferSection" *ngIf="selected">
+            <ion-row>
+                <div class="transferInfo" id="staff-num-examiner-who-conducted">
+                    Enter staff number of examiner<br/>who conducted the test
+                </div>
+            </ion-row>
+            <ion-row>
+                <ion-item class="ion-no-padding" lines="none">
+                    <ion-input placeholder="Staff Number"
+                               type="number"
+                               numbersOnly
+                               id="staffNumber"
+                               class="staffNumber"
+                               formControlName="staffNumber"
+                               [value]="staffNumber"
+                               clearInput
+                               (ionChange)="staffNumberValueChanged($event.value)">
+                    </ion-input>
+                </ion-item>
+            </ion-row>
+            <ion-row class="validation-message-row" *ngIf="empty && invalid">
+                <div class="validation-text" [class.ng-invalid]="invalid" id="staff-num-required-label">
+                    Staff number is required
+                </div>
+            </ion-row>
+            <ion-row class="validation-message-row" *ngIf="!empty && invalid">
+                <div class="validation-text" [class.ng-invalid]="invalid" id="staff-num-invalid-label">
+                    Staff number is invalid
+                </div>
+            </ion-row>
+        </div>
+    </ion-col>
+</ion-row>

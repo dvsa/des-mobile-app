@@ -1,10 +1,58 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>rekey-reason</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title id="rekey-reason-page-title">Reason for rekey</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="onExitRekeyPressed()">
+                <span id="rekey-reason-exit-rekey">Exit rekey</span>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Rekey Upload Outcome</ion-button>
+<ion-content force-overscroll="false">
+    <ion-card class="ion-no-padding">
+        <ion-card-header>
+            <h4 id="rekey-reason-for-use">Reason for use</h4>
+        </ion-card-header>
+
+        <div [formGroup]="formGroup">
+            <ion-grid class="ion-no-padding">
+                <ipad-issue [formGroup]="formGroup"
+                            [selected]="(pageState.ipadIssue$ | async).selected"
+                            [technicalFault]="(pageState.ipadIssue$ | async).technicalFault"
+                            [lost]="(pageState.ipadIssue$ | async).lost"
+                            [stolen]="(pageState.ipadIssue$ | async).stolen"
+                            [broken]="(pageState.ipadIssue$ | async).broken"
+                            (selectedChange)="ipadIssueSelected($event)"
+                            (technicalFaultChange)="ipadIssueTechnicalFaultChanged()"
+                            (lostChange)="ipadIssueLostChanged()"
+                            (stolenChange)="ipadIssueStolenChanged()"
+                            (brokenChange)="ipadIssueBrokenChanged()">
+                </ipad-issue>
+
+                <transfer [formGroup]="formGroup"
+                          [selected]="(pageState.transfer$ | async).selected"
+                          [staffNumber]="examinerConducted"
+                          [isStaffNumberInvalid]="isStaffNumberInvalid"
+                          (selectedChange)="transferSelected($event)"
+                          (staffNumberChange)="staffNumberChanged($event)">
+                </transfer>
+
+                <other-reason [formGroup]="formGroup"
+                              [selected]="(pageState.other$ | async).selected"
+                              [reason]="(pageState.other$ | async).reason"
+                              (selectedChange)="otherSelected($event)"
+                              (reasonChange)="otherReasonChanged($event)">
+                </other-reason>
+            </ion-grid>
+        </div>
+    </ion-card>
 </ion-content>
+
+<ion-footer>
+    <ion-row class="mes-full-width-card box-shadow">
+        <ion-button type="submit" class="mes-primary-button" id="rekey-reason-upload-rekey-btn" (click)="onUploadPressed()">
+            <h3 id="rekey-reason-upload-rekey-label">Upload rekeyed test</h3>
+        </ion-button>
+    </ion-row>
+</ion-footer>
