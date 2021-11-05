@@ -28,6 +28,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
 interface PassFinalisationCatBPageState {
@@ -61,6 +62,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   form: FormGroup;
   merged$: Observable<string>;
   transmission: GearboxCategory;
+  candidateDriverNumber: string;
   subscription: Subscription;
   niMessage: string = 'This candidate holds a Northern Irish licence and must retain it. Do not collect '
       + 'it from the candidate.';
@@ -101,10 +103,11 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
         }),
       ),
     };
-    const { transmission$ } = this.pageState;
+    const { transmission$, candidateDriverNumber$ } = this.pageState;
 
     this.merged$ = merge(
       transmission$.pipe(map((value) => this.transmission = value)),
+      candidateDriverNumber$.pipe(map((value) => this.candidateDriverNumber = value)),
     );
     this.subscription = this.merged$.subscribe();
   }
@@ -128,6 +131,9 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
 
   async onSubmit() {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    if (this.isNorthernIreland(this.candidateDriverNumber)) {
+      this.store$.dispatch(ProvisionalLicenseNotReceived());
+    }
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
@@ -144,7 +150,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     });
   }
   isNorthernIreland(driverNumber: string): boolean {
-    driverNumber = driverNumber.replace(/\s/g, '');
+    driverNumber = driverNumber?.replace(/\s/g, '');
     return isNumeric(driverNumber);
   }
 }

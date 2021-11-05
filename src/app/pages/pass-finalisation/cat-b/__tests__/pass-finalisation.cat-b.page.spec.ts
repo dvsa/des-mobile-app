@@ -37,6 +37,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
 import {
   PassFinalisationViewDidEnter,
@@ -97,9 +98,14 @@ describe('PassFinalisationCatBPage', () => {
       });
     });
     describe('onSubmit', () => {
+      it('should dispatch the ProvisionalLicenseNotReceived action', async () => {
+        component.candidateDriverNumber = '1234567';
+        await component.onSubmit();
+        expect(store$.dispatch).toHaveBeenCalledWith(ProvisionalLicenseNotReceived());
+      });
       // Unit tests for the components TypeScript class
-      it('should dispatch the PersistTests action', () => {
-        component.onSubmit();
+      it('should dispatch the PersistTests action', async () => {
+        await component.onSubmit();
         expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
       });
 
