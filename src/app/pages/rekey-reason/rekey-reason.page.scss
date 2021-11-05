@@ -1,0 +1,96 @@
+:host::ng-deep {
+
+  .transferInfo {
+    color: var(--gds-grey-1);
+    font-weight: initial;
+    letter-spacing: initial;
+  }
+
+  .staffNumber {
+    max-width: 50%;
+  }
+
+  ion-footer {
+    --background-color: var(--mes-white);
+
+    button {
+      width: 100%;
+      min-height: 56px;
+    }
+  }
+
+  .exclamation-indicator {
+    width: 26px;
+    height: 26px;
+    float: right;
+  }
+
+  .test-start-time {
+    float: right;
+  }
+
+  .nav-close ion-icon {
+    margin: -1px 0 0;
+    display: inherit;
+    min-width: 28px;
+    font-size: 3.4rem;
+  }
+
+  .selected-border {
+    border-width: 0 0 0 4px;
+    border-style: solid;
+    padding: 0 0 0 16px;
+    border-color: var(--gds-grey-3);
+
+    &.ng-invalid {
+      border-color: var(--mes-validation-error);
+    }
+  }
+
+  .character-count {
+    color: var(--gds-grey-1);
+    font-weight: initial;
+    letter-spacing: initial;
+
+    &.ng-invalid {
+      font-weight: 600;
+      letter-spacing: -0.49px;
+    }
+  }
+
+  .radio-label {
+    margin: 16px 0;
+    display: inline-flex;
+  }
+
+  .radio-label:first-of-type {
+    margin-top: 0;
+  }
+
+  .radio-label:last-of-type {
+    margin-bottom: 0;
+  }
+
+  textarea#otherReasonUpdated {
+    word-wrap: break-word;
+  }
+
+  .grid {
+    .mes-data-row-with-separator.row {
+      padding: 0;
+
+      > .col {
+        padding: 36px 28px 36px 20px;
+      }
+    }
+  }
+
+  #rekey-reason-exit-rekey {
+    color: white;
+  }
+
+  .uploadRekeyButton {
+    width: 100%;
+  }
+
+}

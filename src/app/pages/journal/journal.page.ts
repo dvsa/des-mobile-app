@@ -80,6 +80,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   completedTests: SearchResultTestSchema[];
   displayNoDataMessage: boolean = false;
   scrollTop: number;
+  loader;
 
   constructor(
     public modalController: ModalController,

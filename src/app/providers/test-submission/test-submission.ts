@@ -52,6 +52,8 @@ export class TestSubmissionProvider {
       ),
     );
 
+    console.log('submitTest');
+
     return this.httpClient.post(
       this.buildUrl(testToSubmit),
       this.compressData(cleanData),

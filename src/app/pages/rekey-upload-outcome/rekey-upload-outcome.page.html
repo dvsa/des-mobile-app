@@ -1,10 +1,32 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>rekey-upload-outcome</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateJournal()">To Journal</ion-button>
+<ion-content [scrollY]="false" id="back-to-office-page">
+  <ion-grid>
+    <ion-row class="message-wrapper ion-align-items-center" *ngIf="!(pageState.duplicateUpload$ | async)">
+      <ion-col class="ion-no-padding">
+        <ion-row class="ion-justify-content-center">
+          <ion-icon class="tick-icon" name="checkmark-circle"></ion-icon>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <h2 class="modal-alert-header">Rekeyed test uploaded successfully</h2>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row class="message-wrapper ion-align-items-center" *ngIf="pageState.duplicateUpload$ | async">
+      <ion-col no-padding>
+        <ion-row class="ion-justify-content-center">
+          <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+          <h2 class="modal-alert-header">Rekeyed test has already been uploaded</h2>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-row class="mes-full-width-card">
+    <ion-button class="mes-primary-button" (click)="goToJournal()">
+      <h3>Return to journal</h3>
+    </ion-button>
+  </ion-row>
+</ion-footer>
