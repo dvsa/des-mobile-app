@@ -4,7 +4,9 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { StoreModel } from '@shared/models/store.model';
-import { getCurrentTest, getJournalData, getTestOutcomeText } from '@store/tests/tests.selector';
+import {
+  getCurrentTest, getJournalData, getTestOutcome, getTestOutcomeText,
+} from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -34,7 +36,7 @@ import { getCommunicationPreference } from '@store/tests/communication-preferenc
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import {
   PassCertificateNumberChanged,
   ProvisionalLicenseNotReceived,
@@ -54,6 +56,7 @@ export interface CommonPassFinalisationPageState {
   candidateUntitledName$: Observable<string>;
   candidateDriverNumber$: Observable<string>;
   testOutcomeText$: Observable<string>;
+  testOutcome$: Observable<ActivityCode>;
   applicationNumber$: Observable<string>;
   provisionalLicense$: Observable<boolean>;
   passCertificateNumber$: Observable<string>;
@@ -102,6 +105,9 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
       ),
       testOutcomeText$: currentTest$.pipe(
         select(getTestOutcomeText),
+      ),
+      testOutcome$: currentTest$.pipe(
+        select(getTestOutcome),
       ),
       applicationNumber$: currentTest$.pipe(
         select(getJournalData),
