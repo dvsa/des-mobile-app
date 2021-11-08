@@ -12,7 +12,7 @@ import { FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import {
   map,
-  switchMap,
+  // switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { isEmpty } from 'lodash';
@@ -94,6 +94,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   examinerConducted: number = null;
   examinerKeyed: number = null;
   fromRekeySearch: boolean = false;
+  merged$: Observable<any>;
 
   constructor(
     public router: Router,
@@ -159,13 +160,20 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
       uploadStatus$, examinerConducted$, examinerKeyed$, transfer$, fromRekeySearch$,
     } = this.pageState;
 
-    this.subscription = merge(
-      uploadStatus$.pipe(switchMap(this.handleUploadOutcome)),
+    this.merged$ = merge(
+      uploadStatus$.pipe(map(this.handleUploadOutcome)),
       examinerConducted$.pipe(map((val) => this.examinerConducted = val)),
       examinerKeyed$.pipe(map((val) => this.examinerKeyed = val)),
       transfer$.pipe(map((transfer) => this.isTransferSelected = transfer.selected)),
       fromRekeySearch$.pipe(map((val) => this.fromRekeySearch = val)),
-    ).subscribe();
+    );
+  }
+
+  ionViewWillEnter(): boolean {
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
+    return true;
   }
 
   ionViewDidEnter(): void {
@@ -211,7 +219,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   };
 
   handleUploadOutcome = async (uploadStatus: RekeyReasonUploadModel): Promise<null> => {
-    await this.handleLoadingUI(uploadStatus.isUploading);
+    // await this.handleLoadingUI(uploadStatus.isUploading);
     this.isStaffNumberInvalid = uploadStatus.hasStaffNumberFailedValidation;
 
     if (uploadStatus.hasUploadSucceeded || uploadStatus.isDuplicate) {
@@ -327,6 +335,16 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
         break;
       default:
     }
+  };
+
+  canUploadRekeyTest = (ipadIssue: IpadIssue, transfer: Transfer, other: Other): boolean => {
+    // // if user has selected other/transfer and not selected ipadIssue then enable the upload button
+    // if ((other?.selected || transfer?.selected) && !ipadIssue?.selected) {
+    //   return true;
+    // }
+    // // if ipadIssue was selected, then the user must provide the reason
+    // return (ipadIssue.technicalFault || ipadIssue.lost || ipadIssue.stolen || ipadIssue.broken);
+    return true;
   };
 
 }

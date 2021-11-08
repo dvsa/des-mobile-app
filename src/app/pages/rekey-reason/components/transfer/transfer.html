@@ -28,7 +28,7 @@
                                formControlName="staffNumber"
                                [value]="staffNumber"
                                clearInput
-                               (ionChange)="staffNumberValueChanged($event.value)">
+                               (ionChange)="staffNumberValueChanged($event.detail.value)">
                     </ion-input>
                 </ion-item>
             </ion-row>

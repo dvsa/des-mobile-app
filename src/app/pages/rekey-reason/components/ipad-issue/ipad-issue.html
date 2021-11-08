@@ -18,7 +18,9 @@
                        class="gds-radio-button"
                        name="ipadIssueTechnicalFault"
                        formControlName="ipadIssueTechnicalFault"
-                       [checked]="technicalFault" value="true"
+                       [checked]="technicalFault"
+                       value="true"
+                       [class.ng-invalid]="invalid"
                        (change)="technicalFaultSelected()">
                 <label id="ipadIssueTechnicalFaultLabel" for="ipadIssueTechnicalFault" class="radio-label">
                     Tech Fault
@@ -32,6 +34,7 @@
                        formControlName="ipadIssueLost"
                        [checked]="lost"
                        value="true"
+                       [class.ng-invalid]="invalid"
                        (change)="lostSelected()">
                 <label id="ipadIssueLostLabel" for="ipadIssueLost" class="radio-label">
                     Lost
@@ -45,6 +48,7 @@
                        formControlName="ipadIssueStolen"
                        [checked]="stolen"
                        value="true"
+                       [class.ng-invalid]="invalid"
                        (change)="stolenSelected()">
                 <label id="ipadIssueStolenLabel" for="ipadIssueStolen" class="radio-label">
                     Stolen
@@ -58,6 +62,7 @@
                        formControlName="ipadIssueBroken"
                        [checked]="broken"
                        value="true"
+                       [class.ng-invalid]="invalid"
                        (change)="brokenSelected()">
                 <label id="ipadIssueBrokenLabel" for="ipadIssueBroken" class="radio-label">
                     Broken
@@ -65,4 +70,11 @@
             </div>
         </div>
     </ion-col>
+    <ion-row class="validation-message-row ion-align-items-center">
+        <div class="validation-text"
+             id="ipad-issue-validation-text"
+             [class.ng-invalid]="invalid">
+            Please provide a reason
+        </div>
+    </ion-row>
 </ion-row>

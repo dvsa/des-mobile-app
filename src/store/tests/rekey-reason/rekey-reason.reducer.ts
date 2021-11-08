@@ -27,7 +27,7 @@ export const rekeyReasonReducer = createReducer(
       selected: payload,
       broken: false,
       lost: false,
-      technicalFault: payload,
+      technicalFault: false,
       stolen: false,
     },
   })),

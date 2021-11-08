@@ -9,6 +9,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class IpadIssueComponent implements OnChanges {
 
+  static readonly ipadIssueCtrl: string = 'ipadIssueCtrl';
   static readonly checkBoxCtrl: string = 'ipadIssueSelected';
   static readonly technicalFaultCtrl: string = 'ipadIssueTechnicalFault';
   static readonly lostCtrl: string = 'ipadIssueLost';
@@ -111,6 +112,13 @@ export class IpadIssueComponent implements OnChanges {
 
   brokenSelected(): void {
     this.brokenChange.emit(true);
+  }
+
+  get invalid(): boolean {
+    if (!this.selected) {
+      return false;
+    }
+    return !this.lost && !this.broken && !this.stolen && !this.technicalFault;
   }
 
 }
