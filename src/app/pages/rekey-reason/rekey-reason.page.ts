@@ -136,8 +136,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
       examinerKeyed$: currentTest$.pipe(
         select(getExaminerKeyed),
       ),
-      // experimental! used to work out if the test you are testing is the one you searched for or
-      // is the current test you are re-keying
+      // experimental! used to work out if the test you are testing is the one you searched for
       // navCtrl no longer has getViews method so cant use DES3 approach
       fromRekeySearch$: this.store$.pipe(
         select(getRekeySearchState),
@@ -317,6 +316,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     await modal.present();
 
     const { data } = await modal.onDidDismiss();
+    console.log('fromRekeySearch', this.fromRekeySearch);
     await this.onExitRekeyModalDismiss(data);
   }
 
