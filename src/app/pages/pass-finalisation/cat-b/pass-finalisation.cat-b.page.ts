@@ -6,7 +6,7 @@ import { isNumeric } from 'rxjs/internal-compatibility';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { getTests } from '@store/tests/tests.reducer';
@@ -15,6 +15,7 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { PersistTests } from '@store/tests/tests.actions';
 import {
+  PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
@@ -59,6 +60,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   @ViewChild('passCertificateNumberInput')
   passCertificateNumberInput: ElementRef;
   testOutcome: string = ActivityCodes.PASS;
+  activityCode: ActivityCode;
   form: FormGroup;
   merged$: Observable<string>;
   transmission: GearboxCategory;
@@ -103,11 +105,12 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
         }),
       ),
     };
-    const { transmission$, candidateDriverNumber$ } = this.pageState;
+    const { transmission$, candidateDriverNumber$, testOutcome$ } = this.pageState;
 
     this.merged$ = merge(
       transmission$.pipe(map((value) => this.transmission = value)),
       candidateDriverNumber$.pipe(map((value) => this.candidateDriverNumber = value)),
+      testOutcome$.pipe(map((value) => this.activityCode = value)),
     );
     this.subscription = this.merged$.subscribe();
   }
@@ -136,6 +139,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     }
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.activityCode));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }

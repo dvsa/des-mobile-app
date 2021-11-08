@@ -20,6 +20,7 @@ import { NavigationStateProvider } from '@providers/navigation-state/navigation-
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
+import * as passFinalisationActions from '@pages/pass-finalisation/pass-finalisation.actions';
 import { TestsModel } from './tests.model';
 import {
   TestOutcomeChanged,
@@ -142,6 +143,7 @@ export class TestsAnalyticsEffects {
   setActivityCode$ = createEffect(() => this.actions$.pipe(
     ofType(
       activityCodeActions.SetActivityCode,
+      passFinalisationActions.PassFinalisationReportActivityCode,
     ),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
