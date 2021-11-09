@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  LoadingController,
   ModalController,
   Platform,
 } from '@ionic/angular';
@@ -12,7 +11,6 @@ import { FormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import {
   map,
-  // switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import { isEmpty } from 'lodash';
@@ -58,6 +56,8 @@ import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { LoaderService } from '@providers/loader/loader.service';
+import { LoadingOptions } from '@ionic/core';
 import { ExitRekeyModalEvent } from './components/exit-rekey-modal/exit-rekey-modal.constants';
 import { RekeyReasonUploadModel } from './rekey-reason.model';
 import {
@@ -81,6 +81,7 @@ interface RekeyReasonPageState {
 })
 export class RekeyReasonPage extends BasePageComponent implements OnInit {
 
+  private static loadingOpts: LoadingOptions = { spinner: 'circles', message: 'Uploading...' };
   formGroup: FormGroup;
   pageState: RekeyReasonPageState;
   subscription: Subscription = Subscription.EMPTY;
@@ -102,7 +103,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     public authenticationProvider: AuthenticationProvider,
     public store$: Store<StoreModel>,
     private modalController: ModalController,
-    public loadingController: LoadingController,
+    private loaderService: LoaderService,
   ) {
     super(platform, authenticationProvider, router);
     this.formGroup = new FormGroup({});
@@ -193,7 +194,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   };
 
   onShowUploadRekeyModal = async (retryMode: boolean = false): Promise<void> => {
-    const modal = await this.modalController.create({
+    const modal: HTMLIonModalElement = await this.modalController.create({
       component: UploadRekeyModal,
       componentProps: { retryMode },
       cssClass: 'mes-modal-alert text-zoom-regular',
@@ -219,7 +220,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   };
 
   handleUploadOutcome = async (uploadStatus: RekeyReasonUploadModel): Promise<null> => {
-    // await this.handleLoadingUI(uploadStatus.isUploading);
+    await this.loaderService.handleUILoading(uploadStatus.isUploading, RekeyReasonPage.loadingOpts);
     this.isStaffNumberInvalid = uploadStatus.hasStaffNumberFailedValidation;
 
     if (uploadStatus.hasUploadSucceeded || uploadStatus.isDuplicate) {
@@ -230,18 +231,6 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
       await this.onShowUploadRekeyModal(true);
     }
     return null;
-  };
-
-  handleLoadingUI = async (isLoading: boolean): Promise<void> => {
-    if (isLoading) {
-      const loading = await this.loadingController.create({
-        spinner: 'circles',
-        message: 'Uploading...',
-      });
-      await loading?.present();
-      return;
-    }
-    await this.loadingController?.dismiss();
   };
 
   isFormValid(): boolean {
@@ -303,21 +292,12 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(SetExaminerConducted(staffNumber));
   }
 
-  exitRekey = async (): Promise<void> => {
-    if (this.fromRekeySearch) {
-      await this.router.navigate([REKEY_SEARCH_PAGE]);
-    } else {
-      await this.router.navigate([JOURNAL_PAGE]);
-    }
-    this.store$.dispatch(EndRekey());
-  };
-
   async onExitRekeyPressed(): Promise<void> {
     await this.showExitRekeyModal();
   }
 
   async showExitRekeyModal(): Promise<void> {
-    const modal = await this.modalController.create({
+    const modal: HTMLIonModalElement = await this.modalController.create({
       component: ExitRekeyModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
@@ -337,14 +317,19 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     }
   };
 
-  canUploadRekeyTest = (ipadIssue: IpadIssue, transfer: Transfer, other: Other): boolean => {
-    // // if user has selected other/transfer and not selected ipadIssue then enable the upload button
-    // if ((other?.selected || transfer?.selected) && !ipadIssue?.selected) {
-    //   return true;
-    // }
-    // // if ipadIssue was selected, then the user must provide the reason
-    // return (ipadIssue.technicalFault || ipadIssue.lost || ipadIssue.stolen || ipadIssue.broken);
-    return true;
+  exitRekey = async (): Promise<void> => {
+    if (this.fromRekeySearch) {
+      await this.router.navigate([REKEY_SEARCH_PAGE]);
+    } else {
+      await this.router.navigate([JOURNAL_PAGE]);
+    }
+    this.store$.dispatch(EndRekey());
   };
+
+  canClickUploadRekeyTest = (
+    ipadIssue: IpadIssue,
+    transfer: Transfer,
+    other: Other,
+  ): boolean => other?.selected || transfer?.selected || ipadIssue?.selected;
 
 }

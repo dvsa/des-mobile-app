@@ -53,7 +53,7 @@
     <ion-row class="mes-full-width-card box-shadow">
         <ion-button type="submit" class="mes-primary-button"
                     id="rekey-reason-upload-rekey-btn"
-                    [disabled]="!canUploadRekeyTest(
+                    [disabled]="!canClickUploadRekeyTest(
                         pageState.ipadIssue$ | async,
                         pageState.transfer$ | async,
                         pageState.other$ | async

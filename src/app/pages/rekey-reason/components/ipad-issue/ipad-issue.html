@@ -68,13 +68,11 @@
                     Broken
                 </label>
             </div>
+            <ion-row class="validation-message-row ion-align-items-center">
+                <div class="validation-text" id="ipad-issue-validation-text" [class.ng-invalid]="invalid">
+                    Please provide a reason
+                </div>
+            </ion-row>
         </div>
     </ion-col>
-    <ion-row class="validation-message-row ion-align-items-center">
-        <div class="validation-text"
-             id="ipad-issue-validation-text"
-             [class.ng-invalid]="invalid">
-            Please provide a reason
-        </div>
-    </ion-row>
 </ion-row>
