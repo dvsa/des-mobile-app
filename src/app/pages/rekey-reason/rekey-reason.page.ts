@@ -283,6 +283,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
 
   transferSelected(isChecked: boolean): void {
     this.store$.dispatch(TransferSelected(isChecked));
+    // this.isTransferSelected = isChecked;
 
     if (isChecked) {
       this.store$.dispatch(SetExaminerConducted(null));
