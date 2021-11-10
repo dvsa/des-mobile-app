@@ -1,6 +1,6 @@
 <ion-row class="mes-data-row-with-separator" [formGroup]="formGroup">
-    <div class="validation-bar"></div>
-    <ion-col size="40">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="ion-padding-start" size="40">
         <input id="ipadIssueSelected"
                value="true"
                [checked]="selected"
@@ -10,7 +10,7 @@
                (change)="selectedValueChanged($event.target.checked)">
         <label for="ipadIssueSelected">iPad Issue</label>
     </ion-col>
-    <ion-col>
+    <ion-col class="ion-padding-start">
         <div class="selected-border" id="ipadIssueSection" *ngIf="selected">
             <div>
                 <input id="ipadIssueTechnicalFault"

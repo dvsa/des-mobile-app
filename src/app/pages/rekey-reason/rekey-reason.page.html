@@ -51,15 +51,17 @@
 
 <ion-footer>
     <ion-row class="mes-full-width-card box-shadow">
-        <ion-button type="submit" class="mes-primary-button"
-                    id="rekey-reason-upload-rekey-btn"
-                    [disabled]="!canClickUploadRekeyTest(
+        <ion-col class="ion-text-center">
+            <ion-button type="submit" class="mes-primary-button uploadRekeyButton"
+                        id="rekey-reason-upload-rekey-btn"
+                        [disabled]="!canClickUploadRekeyTest(
                         pageState.ipadIssue$ | async,
                         pageState.transfer$ | async,
                         pageState.other$ | async
                     )"
-                    (click)="onUploadPressed()">
-            <h3 id="rekey-reason-upload-rekey-label">Upload rekeyed test</h3>
-        </ion-button>
+                        (click)="onUploadPressed()">
+                <h3 id="rekey-reason-upload-rekey-label">Upload rekeyed test</h3>
+            </ion-button>
+        </ion-col>
     </ion-row>
 </ion-footer>

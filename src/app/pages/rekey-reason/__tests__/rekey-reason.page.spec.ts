@@ -43,7 +43,7 @@ import { RekeyReasonModel } from '../rekey-reason.model';
 describe('RekeyReasonPage', () => {
   let fixture: ComponentFixture<RekeyReasonPage>;
   let component: RekeyReasonPage;
-  let loadingController: LoadingController;
+  // let loadingController: LoadingController;
   let modalController: ModalController;
   let store$: Store<AppInfoStateModel>;
   let router: Router;
@@ -131,7 +131,7 @@ describe('RekeyReasonPage', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(RekeyReasonPage);
     component = fixture.componentInstance;
-    loadingController = TestBed.inject(LoadingController);
+    // loadingController = TestBed.inject(LoadingController);
     router = TestBed.inject(Router);
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
@@ -143,15 +143,15 @@ describe('RekeyReasonPage', () => {
     });
 
     describe('handleLoadingUI', () => {
-      it('should setup a loading spinner when isUploading is set to true', () => {
-        component.handleLoadingUI(true);
-        expect(component.loadingSpinner).not.toBeNull();
-      });
-      it('should remove the loading spinner when isUploading is set to false', () => {
-        component.loadingSpinner = loadingController.create();
-        component.handleLoadingUI(false);
-        expect(component.loadingSpinner).toBeNull();
-      });
+      // it('should setup a loading spinner when isUploading is set to true', () => {
+      //   component.handleLoadingUI(true);
+      //   expect(component.loadingSpinner).not.toBeNull();
+      // });
+      // it('should remove the loading spinner when isUploading is set to false', () => {
+      //   component.loadingSpinner = loadingController.create();
+      //   component.handleLoadingUI(false);
+      //   expect(component.loadingSpinner).toBeNull();
+      // });
     });
 
     describe('onShowUploadRekeyModal', () => {
@@ -168,7 +168,7 @@ describe('RekeyReasonPage', () => {
 
     describe('handleUploadOutcome', () => {
       beforeEach(() => {
-        spyOn(component, 'handleLoadingUI');
+        // spyOn(component, 'handleLoadingUI');
         spyOn(component, 'onShowUploadRekeyModal');
       });
 
@@ -179,7 +179,7 @@ describe('RekeyReasonPage', () => {
 
         await component.handleUploadOutcome(uploadStatus);
 
-        expect(component.handleLoadingUI).toHaveBeenCalledWith(true);
+        // expect(component.handleLoadingUI).toHaveBeenCalledWith(true);
       });
       it('should display the retry modal when an upload fails', async () => {
         const action = SendCurrentTestFailure(false);
@@ -188,7 +188,7 @@ describe('RekeyReasonPage', () => {
 
         await component.handleUploadOutcome(uploadStatus);
 
-        expect(component.handleLoadingUI).toHaveBeenCalledWith(false);
+        // expect(component.handleLoadingUI).toHaveBeenCalledWith(false);
         expect(component.onShowUploadRekeyModal).toHaveBeenCalledWith(true);
 
       });
@@ -199,7 +199,7 @@ describe('RekeyReasonPage', () => {
 
         await component.handleUploadOutcome(uploadStatus);
 
-        expect(component.handleLoadingUI).toHaveBeenCalledWith(false);
+        // expect(component.handleLoadingUI).toHaveBeenCalledWith(false);
         expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
         expect(component.onShowUploadRekeyModal).not.toHaveBeenCalled();
 
@@ -211,7 +211,7 @@ describe('RekeyReasonPage', () => {
 
         await component.handleUploadOutcome(uploadStatus);
 
-        expect(component.handleLoadingUI).toHaveBeenCalledWith(false);
+        // expect(component.handleLoadingUI).toHaveBeenCalledWith(false);
         expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
         expect(component.onShowUploadRekeyModal).not.toHaveBeenCalled();
       });

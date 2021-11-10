@@ -14,6 +14,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { isEmpty } from 'lodash';
+import { LoadingOptions } from '@ionic/core';
 
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { UploadRekeyModalEvent } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal.constants';
@@ -57,11 +58,12 @@ import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { LoaderService } from '@providers/loader/loader.service';
-import { LoadingOptions } from '@ionic/core';
 import { ExitRekeyModalEvent } from './components/exit-rekey-modal/exit-rekey-modal.constants';
 import { RekeyReasonUploadModel } from './rekey-reason.model';
 import {
-  ValidateTransferRekey, RekeyReasonViewDidEnter, ResetStaffNumberValidationError,
+  ValidateTransferRekey,
+  RekeyReasonViewDidEnter,
+  ResetStaffNumberValidationError,
 } from './rekey-reason.actions';
 
 interface RekeyReasonPageState {
@@ -85,13 +87,8 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   formGroup: FormGroup;
   pageState: RekeyReasonPageState;
   subscription: Subscription = Subscription.EMPTY;
-  isUploading: boolean = false;
-  hasUploaded: boolean = false;
-  hasTriedUploading: boolean = false;
   isStaffNumberInvalid: boolean = false;
   isTransferSelected: boolean = false;
-  loadingSpinner: any;
-  reasonCharsRemaining: number = null;
   examinerConducted: number = null;
   examinerKeyed: number = null;
   fromRekeySearch: boolean = false;
@@ -234,16 +231,26 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   };
 
   isFormValid(): boolean {
-    if (this.formGroup.valid) {
-      return true;
+    this.markSpecificControlsAsDirty();
+    return this.formGroup.valid;
+  }
+
+  markSpecificControlsAsDirty(): void {
+    // based upon what is selected, only mark controls dirty in the specific component
+    if (this.formGroup.get('ipadIssueSelected').value) {
+      this.formGroup.get('ipadIssueTechnicalFault').markAsDirty();
+      this.formGroup.get('ipadIssueLost').markAsDirty();
+      this.formGroup.get('ipadIssueStolen').markAsDirty();
+      this.formGroup.get('ipadIssueBroken').markAsDirty();
     }
 
-    Object.keys(this.formGroup.controls).forEach((controlName) => {
-      if (this.formGroup.controls[controlName].invalid) {
-        this.formGroup.controls[controlName].markAsDirty();
-      }
-    });
-    return false;
+    if (this.formGroup.get('transferSelected').value) {
+      this.formGroup.get('staffNumber').markAsDirty();
+    }
+
+    if (this.formGroup.get('otherSelected').value) {
+      this.formGroup.get('reason').markAsDirty();
+    }
   }
 
   ipadIssueSelected(checked: boolean): void {

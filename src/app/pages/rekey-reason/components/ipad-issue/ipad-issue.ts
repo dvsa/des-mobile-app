@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ipad-issue',
@@ -54,8 +54,14 @@ export class IpadIssueComponent implements OnChanges {
   private lostFormControl: FormControl;
   private stolenFormControl: FormControl;
   private brokenFormControl: FormControl;
+  private ipadIssueControl: FormControl;
 
   ngOnChanges(): void {
+    if (!this.ipadIssueControl) {
+      this.ipadIssueControl = new FormControl(null, [Validators.required]);
+      this.formGroup.addControl(IpadIssueComponent.ipadIssueCtrl, this.ipadIssueControl);
+    }
+
     if (!this.checkBoxFormControl) {
       this.checkBoxFormControl = new FormControl(null);
       this.formGroup.addControl(IpadIssueComponent.checkBoxCtrl, this.checkBoxFormControl);
@@ -86,6 +92,12 @@ export class IpadIssueComponent implements OnChanges {
     this.lostFormControl.patchValue(this.lost);
     this.stolenFormControl.patchValue(this.stolen);
     this.brokenFormControl.patchValue(this.broken);
+
+    if (this.selected && (!this.technicalFault && !this.lost && !this.stolen && !this.broken)) {
+      this.ipadIssueControl.patchValue(null);
+    } else if (this.selected) {
+      this.ipadIssueControl.patchValue(true);
+    }
   }
 
   selectedValueChanged(selected: boolean): void {
@@ -115,10 +127,12 @@ export class IpadIssueComponent implements OnChanges {
   }
 
   get invalid(): boolean {
-    if (!this.selected) {
-      return false;
-    }
-    return !this.lost && !this.broken && !this.stolen && !this.technicalFault;
+    return !this.ipadIssueControl.valid && (
+      this.technicalFaultFormControl.dirty
+        || this.lostFormControl.dirty
+        || this.stolenFormControl.dirty
+        || this.brokenFormControl.dirty
+    );
   }
 
 }

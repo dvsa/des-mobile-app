@@ -1,6 +1,6 @@
 <ion-row class="mes-data-row-with-separator" [formGroup]="formGroup">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-    <ion-col size="40">
+    <ion-col class="ion-padding-start" size="40">
         <input id="transferSelected"
                [checked]="selected"
                type="checkbox"
@@ -11,7 +11,7 @@
             Transfer
         </label>
     </ion-col>
-    <ion-col>
+    <ion-col class="ion-padding-start">
         <div class="selected-border" id="transferSection" *ngIf="selected">
             <ion-row>
                 <div class="transferInfo" id="staff-num-examiner-who-conducted">
