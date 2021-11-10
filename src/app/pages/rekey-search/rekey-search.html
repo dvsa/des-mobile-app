@@ -17,12 +17,16 @@
                             <label id="rekey-search-app-ref-label">Application reference</label>
                         </ion-col>
                         <ion-col size="32">
-                            <input placeholder="Application reference"
-                                   type="number" id="rekey-search-application-reference"
-                                   class="input-styling-background"
-                                   [class.ng-invalid]="invalid"
-                                   [value]="applicationReference"
-                                   (change)="applicationReferenceChanged($event.target.value)">
+                            <ion-input placeholder="Application reference"
+                                       id="rekey-search-application-reference"
+                                       type="number"
+                                       class="ion-input-styling"
+                                       clearInput
+                                       numbersOnly
+                                       [class.ng-invalid]="invalid"
+                                       [value]="applicationReference"
+                                       (change)="applicationReferenceChanged($event.target.value)">
+                            </ion-input>
                         </ion-col>
                     </ion-row>
                     <br>
@@ -31,13 +35,16 @@
                             <label id="rekey-search-staff-number-label">Staff number</label>
                         </ion-col>
                         <ion-col size="32">
-                            <input placeholder="Staff number"
-                                   type="number"
-                                   id="rekey-search-staff-number"
-                                   class="input-styling-background"
-                                   [class.ng-invalid]="invalid"
-                                   [value]="staffNumber"
-                                   (change)="staffNumberChanged($event.target.value)">
+                            <ion-input placeholder="Staff number"
+                                       id="rekey-search-staff-number"
+                                       type="number"
+                                       class="ion-input-styling"
+                                       clearInput
+                                       numbersOnly
+                                       [class.ng-invalid]="invalid"
+                                       [value]="staffNumber"
+                                       (change)="staffNumberChanged($event.target.value)">
+                            </ion-input>
                         </ion-col>
                     </ion-row>
                     <ion-row class="ion-padding-top">

@@ -16,6 +16,7 @@ import { rekeySearchReducer } from './rekey-search.reducer';
 import { RekeySearchEffects } from './rekey-search.effects';
 import { RekeySearchAnalyticsEffects } from './rekey-search.analytics.effects';
 import { RekeySearchPage } from './rekey-search';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { RekeySearchPage } from './rekey-search';
     TestSlotComponentsModule,
     IonicModule,
     RekeySearchPageRoutingModule,
+    DirectivesModule,
   ],
   providers: [
     RekeySearchProvider,

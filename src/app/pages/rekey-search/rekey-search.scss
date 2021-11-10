@@ -5,6 +5,11 @@
     width: 100%;
   }
 
+  .clear-input {
+    cursor: pointer;
+    margin: auto -34px;
+  }
+
   p.results-message {
     margin-top: 24px;
 
@@ -47,6 +52,12 @@
     padding-right: 3px;
     font-weight: bolder;
   }
+
+  .text-input-ios {
+    margin-right: 0;
+    width: 100%;
+  }
+
 
   .search-inputs {
     position: absolute;

@@ -50,3 +50,12 @@ ion-input.input-ios .text-input-clear-icon {
   background: var(--mes-white);
   color: black;
 }
+
+.ion-input-styling {
+  border-radius: 6px;
+  border: 2px solid var(--gds-black);
+  height: 48px;
+  --padding-start: 10px;
+  background: var(--mes-white);
+  color: black;
+}
