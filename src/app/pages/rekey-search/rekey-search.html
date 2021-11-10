@@ -9,34 +9,38 @@
 
 <ion-content>
   <div class="search-inputs">
-    <tabs (activeTabSelected)="activeSearchTabSelected($event)">
+    <tabs>
       <tab [tabTitle]="'Rekey backlog'" id="tab-search-rekey">
         <ion-grid>
           <ion-row>
-            <ion-col align-self-center size="32">
+            <ion-col class="vertical-align-center" size="32">
               <label>Application reference</label>
             </ion-col>
             <ion-col size="32">
-              <ion-item no-padding no-lines>
-                <ion-input placeholder="Application reference" type="number" id="application-reference" class="application-reference"
-                           clearInput numbersOnly [class.ng-invalid]="invalid" [value]="applicationReference" (change)="applicationReferenceChanged($event.target.value)">
-                </ion-input>
-              </ion-item>
+                <input placeholder="Application reference"
+                       type="number" id="application-reference"
+                       class="input-styling-background"
+                       [class.ng-invalid]="invalid"
+                       [value]="applicationReference"
+                       (change)="applicationReferenceChanged($event.target.value)">
             </ion-col>
           </ion-row>
+          <br>
           <ion-row>
-            <ion-col align-self-center size="32">
+            <ion-col class="vertical-align-center" size="32">
               <label>Staff number</label>
             </ion-col>
             <ion-col size="32">
-              <ion-item no-padding no-lines>
-                <ion-input placeholder="Staff number" type="number" id="staff-number" class="staff-number" clearInput
-                           numbersOnly [class.ng-invalid]="invalid" [value]="staffNumber" (change)="staffNumberChanged($event.target.value)">
-                </ion-input>
-              </ion-item>
+                <input placeholder="Staff number"
+                       type="number"
+                       id="staff-number"
+                       class="input-styling-background"
+                       [class.ng-invalid]="invalid"
+                       [value]="staffNumber"
+                       (change)="staffNumberChanged($event.target.value)">
             </ion-col>
           </ion-row>
-          <ion-row padding-top>
+          <ion-row class="ion-padding-top">
             <ion-button [disabled]="(pageState.isLoading$ | async)" class="mes-primary-button search-tests"
                     (click)="searchTests()">
               <h3>

@@ -10,11 +10,12 @@ import { SearchProvider } from '@providers/search/search';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 
+import { RekeySearchPageRoutingModule } from '@pages/rekey-search/rekey-search-routing.module';
+import { CommonModule } from '@angular/common';
 import { rekeySearchReducer } from './rekey-search.reducer';
 import { RekeySearchEffects } from './rekey-search.effects';
 import { RekeySearchAnalyticsEffects } from './rekey-search.analytics.effects';
 import { RekeySearchPage } from './rekey-search';
-import { RekeySearchPageRoutingModule } from '@pages/rekey-search/rekey-search-routing.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RekeySearchPageRoutingModule } from '@pages/rekey-search/rekey-search-r
       RekeySearchAnalyticsEffects,
     ]),
     ComponentsModule,
+    CommonModule,
     TestSlotComponentsModule,
     IonicModule,
     RekeySearchPageRoutingModule,
