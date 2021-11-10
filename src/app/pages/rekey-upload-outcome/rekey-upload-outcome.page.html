@@ -3,7 +3,7 @@
     <ion-row class="message-wrapper ion-align-items-center" *ngIf="!(pageState.duplicateUpload$ | async)">
       <ion-col class="ion-no-padding">
         <ion-row class="ion-justify-content-center">
-          <ion-icon class="tick-icon" ios="ios-checkmark-circle"></ion-icon>
+          <ion-icon class="tick-icon" name="checkmark-circle"></ion-icon>
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <h2 class="modal-alert-header">Rekeyed test uploaded successfully</h2>
@@ -13,7 +13,7 @@
     <ion-row class="message-wrapper ion-align-items-center" *ngIf="pageState.duplicateUpload$ | async">
       <ion-col no-padding>
         <ion-row class="ion-justify-content-center">
-          <ion-icon class="warning-icon" ios="md-alert"></ion-icon>
+          <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <h2 class="modal-alert-header">Rekeyed test has already been uploaded</h2>

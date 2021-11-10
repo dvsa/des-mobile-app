@@ -16,6 +16,7 @@
   .warning-icon {
     margin: 40px 0 16px;
     font-size: 84px;
+    color: var(--gds-black);
   }
 
   .tick-icon {
@@ -23,7 +24,7 @@
   }
 
   ion-footer {
-    button {
+    ion-button {
       width: 100%;
       min-height: 56px;
     }

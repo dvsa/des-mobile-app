@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getRekeyReasonState } from '@pages/rekey-reason/rekey-reason.reducer';
@@ -13,7 +14,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { DeviceProvider } from '@providers/device/device';
 import { EndRekey } from '@store/tests/rekey/rekey.actions';
 import { BasePageComponent } from '@shared/classes/base-page';
-import {RekeyUploadOutcomeViewDidEnter} from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
+import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
 
 interface RekeyUploadOutcomePageState {
   duplicateUpload$: Observable<boolean>;
