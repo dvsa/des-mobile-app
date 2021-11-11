@@ -6,7 +6,7 @@ import { LoadingOptions } from '@ionic/core';
 @Injectable({
   providedIn: 'root',
 })
-export class LoaderService {
+export class LoadingProvider {
 
   private loader: HTMLIonLoadingElement;
 
@@ -21,7 +21,7 @@ export class LoaderService {
   };
 
   private present = async (loadingOpts: LoadingOptions = null): Promise<void> => {
-    if (!loadingOpts) loadingOpts = LoaderService.defaultLoadingOptions;
+    if (!loadingOpts) loadingOpts = LoadingProvider.defaultLoadingOptions;
 
     this.loader = await this.loadingCtrl.create(loadingOpts);
     await this.loader.present();

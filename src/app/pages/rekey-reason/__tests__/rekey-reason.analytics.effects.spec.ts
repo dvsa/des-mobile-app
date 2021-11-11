@@ -58,7 +58,7 @@ describe('RekeyReasonAnalyticsEffects', () => {
       actions$.next(rekeyReasonActions.RekeyReasonViewDidEnter());
       // ASSERT
       effects.rekeyReasonViewDidEnter$.subscribe((result) => {
-        expect(result instanceof AnalyticRecorded).toBe(true);
+        expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
         done();
       });

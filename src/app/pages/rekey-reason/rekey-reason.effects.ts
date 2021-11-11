@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import {
-  Effect, Actions, ofType, createEffect,
-} from '@ngrx/effects';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import {
   catchError, concatMap, withLatestFrom, switchMap,
 } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
-import { FindUserProvider } from '@providers/find-user/find-user';
-import { HttpErrorResponse } from '@angular/common/http';
-import * as testActions from '@store/tests/tests.actions';
 import { select, Store } from '@ngrx/store';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { FindUserProvider } from '@providers/find-user/find-user';
+import * as testActions from '@store/tests/tests.actions';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';

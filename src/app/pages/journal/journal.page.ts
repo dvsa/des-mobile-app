@@ -311,26 +311,4 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.scrollTop = scrollTop;
   }
 
-  async present() {
-    this.loader = await this.loadingController.create({
-      cssClass: 'my-custom-class',
-      message: 'Please wait...',
-      duration: 2000,
-    });
-    await this.loader.present();
-  }
-
-  async dismiss() {
-    let topLoader = await this.loadingController.getTop();
-    while (topLoader) {
-      // eslint-disable-next-line no-await-in-loop
-      if (!(await topLoader.dismiss())) {
-        // throw new Error('Could not dismiss the topmost loader. Aborting...');
-        break;
-      }
-      // eslint-disable-next-line no-await-in-loop
-      topLoader = await this.loadingController.getTop();
-    }
-  }
-
 }

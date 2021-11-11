@@ -1,18 +1,13 @@
-import {
-  ComponentFixture, waitForAsync, TestBed,
-} from '@angular/core/testing';
-import {
-  IonicModule, NavController, NavParams, Config, Platform,
-} from '@ionic/angular';
-import {
-  NavControllerMock, NavParamsMock, ConfigMock, PlatformMock,
-} from 'ionic-mocks';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { IonicModule, Platform } from '@ionic/angular';
+import { PlatformMock } from 'ionic-mocks';
 import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { Router } from '@angular/router';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -26,8 +21,10 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { RekeyUploadOutcomePage } from '@pages/rekey-upload-outcome/rekey-upload-outcome.page';
+import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
+import { EndRekey } from '@store/tests/rekey/rekey.actions';
+import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
 import { rekeyReasonReducer } from '../../rekey-reason/rekey-reason.reducer';
-import {Router} from '@angular/router';
 
 describe('RekeyUploadOutcomePage', () => {
   let fixture: ComponentFixture<RekeyUploadOutcomePage>;
@@ -36,7 +33,8 @@ describe('RekeyUploadOutcomePage', () => {
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
+  let router: Router;
+  const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -70,6 +68,8 @@ describe('RekeyUploadOutcomePage', () => {
     insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
     spyOn(store$, 'dispatch');
   }));
 
@@ -80,13 +80,24 @@ describe('RekeyUploadOutcomePage', () => {
         expect(screenOrientation.unlock).toHaveBeenCalled();
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledWith(RekeyUploadOutcomeViewDidEnter());
       });
     });
 
     describe('goToJournal', () => {
-      it('should call the popTo method in the navcontroller', () => {
-        // component.goToJournal();
-        // expect(navController.popTo).toHaveBeenCalled();
+      it('should navigate to rekey search when fromRekeySearch is true', async () => {
+        component.fromRekeySearch = true;
+        await component.goToJournal();
+        expect(router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
+      });
+      it('should navigate to journal when fromRekeySearch is false', async () => {
+        component.fromRekeySearch = false;
+        await component.goToJournal();
+        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
+      });
+      it('should dispatch rekey action always', async () => {
+        await component.goToJournal();
+        expect(store$.dispatch).toHaveBeenCalledWith(EndRekey());
       });
     });
   });

@@ -61,6 +61,7 @@ export class TransferComponent implements OnChanges {
   }
 
   staffNumberValueChanged(staffNumber: string): void {
+    console.log('staffNumber', staffNumber);
     this.staffNumberChange.emit(parseInt(staffNumber, 10) ? parseInt(staffNumber, 10) : null);
   }
 

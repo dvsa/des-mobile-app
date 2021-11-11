@@ -70,7 +70,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
 import { IonicGestureConfig } from '../gestures/ionic-gesture-config';
-import {LoaderService} from '@providers/loader/loader.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -160,7 +159,6 @@ if (enableRehydrationPlugin) {
     Device,
     NetworkStateProvider,
     UrlProvider,
-    DateTimeProvider,
     JournalProvider,
     AnalyticsProvider,
     DeviceProvider,
@@ -182,7 +180,6 @@ if (enableRehydrationPlugin) {
     { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
     WeatherConditionProvider,
     OutcomeBehaviourMapProvider,
-    LoaderService,
   ],
   bootstrap: [AppComponent],
 })

@@ -57,6 +57,9 @@ export class IpadIssueComponent implements OnChanges {
   private ipadIssueControl: FormControl;
 
   ngOnChanges(): void {
+    console.log('SELECTED ****', this.selected);
+    console.log('LOST ****', this.lost);
+
     if (!this.ipadIssueControl) {
       this.ipadIssueControl = new FormControl(null, [Validators.required]);
       this.formGroup.addControl(IpadIssueComponent.ipadIssueCtrl, this.ipadIssueControl);

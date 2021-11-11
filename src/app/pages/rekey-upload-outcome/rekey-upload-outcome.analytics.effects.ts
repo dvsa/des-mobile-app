@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions, createEffect, Effect, ofType,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
-import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';

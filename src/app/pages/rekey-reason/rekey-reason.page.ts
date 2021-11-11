@@ -57,7 +57,7 @@ import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
 import { formatApplicationReference } from '@shared/helpers/formatters';
-import { LoaderService } from '@providers/loader/loader.service';
+import { LoadingProvider } from '@providers/loader/loading-provider.service';
 import { ExitRekeyModalEvent } from './components/exit-rekey-modal/exit-rekey-modal.constants';
 import { RekeyReasonUploadModel } from './rekey-reason.model';
 import {
@@ -100,7 +100,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     public authenticationProvider: AuthenticationProvider,
     public store$: Store<StoreModel>,
     private modalController: ModalController,
-    private loaderService: LoaderService,
+    private loaderService: LoadingProvider,
   ) {
     super(platform, authenticationProvider, router);
     this.formGroup = new FormGroup({});
@@ -283,7 +283,6 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
 
   transferSelected(isChecked: boolean): void {
     this.store$.dispatch(TransferSelected(isChecked));
-    // this.isTransferSelected = isChecked;
 
     if (isChecked) {
       this.store$.dispatch(SetExaminerConducted(null));
@@ -312,7 +311,6 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     await modal.present();
 
     const { data } = await modal.onDidDismiss();
-    console.log('fromRekeySearch', this.fromRekeySearch);
     await this.onExitRekeyModalDismiss(data);
   }
 
@@ -338,6 +336,6 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     ipadIssue: IpadIssue,
     transfer: Transfer,
     other: Other,
-  ): boolean => other?.selected || transfer?.selected || ipadIssue?.selected;
+  ): boolean => !!(ipadIssue?.selected || transfer?.selected || other?.selected);
 
 }

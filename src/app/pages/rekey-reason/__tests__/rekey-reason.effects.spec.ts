@@ -26,7 +26,7 @@ function asyncError(errorObject: any) {
   return defer(() => Promise.reject(errorObject));
 }
 
-describe('Rekey Reason Effects', () => {
+describe('RekeyReasonEffects', () => {
   let effects: RekeyReasonEffects;
   let actions$: any;
   let findUserProvider: FindUserProvider;

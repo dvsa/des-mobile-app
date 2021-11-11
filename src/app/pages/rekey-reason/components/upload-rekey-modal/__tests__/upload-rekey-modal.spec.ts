@@ -1,6 +1,6 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { NavParamsMock} from 'ionic-mocks';
+import { NavParamsMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
 import { configureTestSuite } from 'ng-bullet';
 
