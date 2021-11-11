@@ -1,9 +1,97 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Search test bookings</ion-title>
-  </ion-toolbar>
+    <ion-toolbar mode="ios">
+        <ion-buttons id="rekey-search-back-button" slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title id="rekey-search-page-title">Search test bookings</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  Rekey
+    <div class="search-inputs">
+        <tabs>
+            <tab [tabTitle]="'Rekey backlog'" id="tab-search-rekey">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col class="vertical-align-center" size="32">
+                            <label id="rekey-search-app-ref-label">Application reference</label>
+                        </ion-col>
+                        <ion-col size="32">
+                            <ion-input placeholder="Application reference"
+                                       id="rekey-search-application-reference"
+                                       type="number"
+                                       class="ion-input-styling"
+                                       clearInput
+                                       numbersOnly
+                                       (ionFocus)="setFocus('appRef')"
+                                       (ionBlur)="setFocus(null)"
+                                       [ngClass]="{'input-focus': focusedElement === 'appRef'}"
+                                       [class.ng-invalid]="invalid"
+                                       [value]="applicationReference"
+                                       (change)="applicationReferenceChanged($event.target.value)">
+                            </ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <br>
+                    <ion-row>
+                        <ion-col class="vertical-align-center" size="32">
+                            <label id="rekey-search-staff-number-label">Staff number</label>
+                        </ion-col>
+                        <ion-col size="32">
+                            <ion-input placeholder="Staff number"
+                                       id="rekey-search-staff-number"
+                                       type="number"
+                                       class="ion-input-styling"
+                                       clearInput
+                                       numbersOnly
+                                       (ionFocus)="setFocus('staffNum')"
+                                       (ionBlur)="setFocus(null)"
+                                       [ngClass]="{'input-focus': focusedElement === 'staffNum'}"
+                                       [class.ng-invalid]="invalid"
+                                       [value]="staffNumber"
+                                       (change)="staffNumberChanged($event.target.value)">
+                            </ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-padding-top">
+                        <ion-button [disabled]="(pageState.isLoading$ | async)"
+                                    class="mes-primary-button search-tests"
+                                    id="rekey-search-search-tests-btn"
+                                    (click)="searchTests()">
+                            <h3>
+                                <ion-icon name="search" class="search-icon" id="rekey-search-search icon"></ion-icon>
+                                Search booked tests
+                            </h3>
+                        </ion-button>
+                        <ion-spinner class="search-spinner"
+                                     name="bubbles"
+                                     *ngIf="(pageState.isLoading$ | async)"
+                                     id="rekey-search-page-spinner">
+                        </ion-spinner>
+                    </ion-row>
+                </ion-grid>
+            </tab>
+        </tabs>
+
+        <div class='results-error'
+             *ngIf="(pageState.hasSearched$ | async) && isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async) && !(hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))">
+            <p class="error-text" id="rekey-search-error-text-no-results">There were no results found for your search.</p>
+            <p class="error-text" id="rekey-search-error-text-no-pls-try-again">Please check and try again.</p>
+        </div>
+
+        <div class='results-error'
+             *ngIf="(pageState.hasSearched$ | async) && (hasBookingAlreadyBeenCompleted(pageState.rekeySearchErr$ | async))">
+            <p class="error-text" id="rekey-search-error-text-already-submitted">You can't rekey this test as it has already been submitted.</p>
+            <p class="error-text" id="rekey-search-error-text-already-pls-try-again">Please check and try again.</p>
+        </div>
+
+        <p class="results-message" *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)">
+            <test-slot [slot]="(pageState.bookedTestSlot$ | async)"
+                       [hasSlotChanged]="false"
+                       [hasSeenCandidateDetails]="true"
+                       [showLocation]="false">
+            </test-slot>
+        </p>
+
+    </div>
 </ion-content>
