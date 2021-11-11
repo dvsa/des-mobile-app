@@ -4,7 +4,7 @@
         <input id="transferSelected"
                [checked]="selected"
                type="checkbox"
-               class="gds-checkbox"
+               class="gds-checkbox transferInput"
                formControlName="transferSelected"
                (change)="selectedValueChanged($event.target.checked)">
         <label for="transferSelected" id="transfer-label">
@@ -22,13 +22,14 @@
                 <ion-item class="ion-no-padding" lines="none">
                     <ion-input placeholder="Staff Number"
                                type="number"
-                               numbersOnly
                                id="staffNumber"
-                               class="staffNumber"
+                               class="ion-input-styling"
+                               [class.ng-invalid]="invalid"
                                formControlName="staffNumber"
                                [value]="staffNumber"
+                               (ionChange)="staffNumberValueChanged($event.detail.value)"
                                clearInput
-                               (ionChange)="staffNumberValueChanged($event.detail.value)">
+                               numbersOnly>
                     </ion-input>
                 </ion-item>
             </ion-row>
