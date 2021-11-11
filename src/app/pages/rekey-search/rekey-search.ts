@@ -44,6 +44,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   applicationReference: string = '';
   searchResults: TestSlot[] = [];
   subscription: Subscription = Subscription.EMPTY;
+  focusedElement: string = null;
 
   constructor(
     protected platform: Platform,
@@ -103,6 +104,10 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   hasBookingAlreadyBeenCompleted(rekeySearchErr: HttpErrorResponse | RekeySearchError) {
     return rekeySearchErr.message === RekeySearchErrorMessages.BookingAlreadyCompleted;
+  }
+
+  setFocus(focus: string): void {
+    this.focusedElement = focus;
   }
 
 }

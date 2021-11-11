@@ -12,11 +12,11 @@ import { TestSlotComponentsModule } from '@components/test-slot/test-slot-compon
 
 import { RekeySearchPageRoutingModule } from '@pages/rekey-search/rekey-search-routing.module';
 import { CommonModule } from '@angular/common';
+import { DirectivesModule } from '@directives/directives.module';
 import { rekeySearchReducer } from './rekey-search.reducer';
 import { RekeySearchEffects } from './rekey-search.effects';
 import { RekeySearchAnalyticsEffects } from './rekey-search.analytics.effects';
 import { RekeySearchPage } from './rekey-search';
-import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [

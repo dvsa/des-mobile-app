@@ -23,6 +23,9 @@
                                        class="ion-input-styling"
                                        clearInput
                                        numbersOnly
+                                       (ionFocus)="setFocus('appRef')"
+                                       (ionBlur)="setFocus(null)"
+                                       [ngClass]="{'input-focus': focusedElement === 'appRef'}"
                                        [class.ng-invalid]="invalid"
                                        [value]="applicationReference"
                                        (change)="applicationReferenceChanged($event.target.value)">
@@ -41,6 +44,9 @@
                                        class="ion-input-styling"
                                        clearInput
                                        numbersOnly
+                                       (ionFocus)="setFocus('staffNum')"
+                                       (ionBlur)="setFocus(null)"
+                                       [ngClass]="{'input-focus': focusedElement === 'staffNum'}"
                                        [class.ng-invalid]="invalid"
                                        [value]="staffNumber"
                                        (change)="staffNumberChanged($event.target.value)">
