@@ -29,7 +29,7 @@ import {
 } from '@store/tests/rekey-reason/rekey-reason.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 
-import { LoadingProvider } from '@providers/loader/loading-provider.service';
+import { LoadingProvider } from '@providers/loader/loader';
 import { FindUserProvider } from '@providers/find-user/find-user';
 import { FindUserProviderMock } from '@providers/find-user/__mocks__/find-user.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
@@ -39,7 +39,7 @@ import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { getUploadStatus } from '@store/tests/rekey-reason/rekey-reason.selector';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 
-import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.provider.mock';
+import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { UploadRekeyModal } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal';
 import { UploadRekeyModalEvent } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal.constants';
 import { RekeyReasonViewDidEnter, ResetStaffNumberValidationError } from '@pages/rekey-reason/rekey-reason.actions';

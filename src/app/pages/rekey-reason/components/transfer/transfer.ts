@@ -61,7 +61,9 @@ export class TransferComponent implements OnChanges {
   }
 
   staffNumberValueChanged(staffNumber: string): void {
-    console.log('staffNumber', staffNumber);
+    if (!staffNumber || Number.isNaN(staffNumber)) {
+      this.formGroup.get(TransferComponent.fieldName).reset();
+    }
     this.staffNumberChange.emit(parseInt(staffNumber, 10) ? parseInt(staffNumber, 10) : null);
   }
 

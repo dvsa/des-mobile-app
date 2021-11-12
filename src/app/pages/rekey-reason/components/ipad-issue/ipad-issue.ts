@@ -57,9 +57,6 @@ export class IpadIssueComponent implements OnChanges {
   private ipadIssueControl: FormControl;
 
   ngOnChanges(): void {
-    console.log('SELECTED ****', this.selected);
-    console.log('LOST ****', this.lost);
-
     if (!this.ipadIssueControl) {
       this.ipadIssueControl = new FormControl(null, [Validators.required]);
       this.formGroup.addControl(IpadIssueComponent.ipadIssueCtrl, this.ipadIssueControl);
@@ -95,6 +92,12 @@ export class IpadIssueComponent implements OnChanges {
     this.lostFormControl.patchValue(this.lost);
     this.stolenFormControl.patchValue(this.stolen);
     this.brokenFormControl.patchValue(this.broken);
+
+    if (this.selected) {
+      this.ipadIssueControl.setValidators([Validators.required]);
+    } else {
+      this.ipadIssueControl.clearValidators();
+    }
 
     if (this.selected && (!this.technicalFault && !this.lost && !this.stolen && !this.broken)) {
       this.ipadIssueControl.patchValue(null);

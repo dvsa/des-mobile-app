@@ -12,4 +12,7 @@ export const getRekeyIpadIssue = (rekeyReason: RekeyReason): IpadIssue => rekeyR
 export const getRekeyTransfer = (rekeyReason: RekeyReason): Transfer => rekeyReason.transfer;
 export const getRekeyOther = (rekeyReason: RekeyReason): Other => rekeyReason.other;
 
-export const getUploadStatus = (rekeyReason: RekeyReasonModel): RekeyReasonUploadModel => rekeyReason.uploadStatus;
+export const getUploadStatus = (rekeyReason: RekeyReasonModel): RekeyReasonUploadModel => {
+  console.log('rekeyReason', rekeyReason);
+  return rekeyReason.uploadStatus;
+};
