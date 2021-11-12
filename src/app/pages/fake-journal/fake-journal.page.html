@@ -1,0 +1,60 @@
+<ion-header>
+    <practice-mode-banner></practice-mode-banner>
+    <ion-toolbar mode="ios" class="toolbar-size">
+        <ion-title id="page-title">Journal</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <div class="date-navigation">
+        <ion-grid>
+            <ion-row>
+                <ion-col class="col-align">
+                    <h1>Today</h1>
+<!--                    <br>-->
+                    <h3>{{dateToDisplay}}</h3>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <location location='Example Test Centre'></location>
+    <fake-test-slot
+            [slot]="slots[0]"
+            [hasSlotChanged]="false"
+            [testStatus]="'Booked'"
+            [canStartTest]="false">
+    </fake-test-slot>
+    <fake-test-slot
+            [slot]="slots[1]"
+            [hasSlotChanged]="false"
+            [testStatus]="'Booked'"
+            [canStartTest]="false">
+    </fake-test-slot>
+    <fake-test-slot
+            [slot]="slots[2]"
+            [hasSlotChanged]="true"
+            [testStatus]="'Booked'"
+            [canStartTest]="false">
+    </fake-test-slot>
+    <fake-test-slot
+            [slot]="slots[3]"
+            [hasSlotChanged]="false"
+            [testStatus]="'Completed'"
+            [canStartTest]="false"
+            [activityCode]="1">
+    </fake-test-slot>
+    <fake-test-slot
+            [slot]="slots[4]"
+            [hasSlotChanged]="false"
+            [testStatus]="'Submitted'"
+            [canStartTest]="false"
+            [activityCode]="2">
+    </fake-test-slot>
+    <fake-test-slot
+            [slot]="slots[5]"
+            [hasSlotChanged]="false"
+            [testStatus]="'Booked'"
+            [canStartTest]="true">
+    </fake-test-slot>
+</ion-content>

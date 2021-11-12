@@ -1,13 +1,13 @@
-<button clear (click)="navigateToFakeJournal()">
+<button class="e2e-test-card" (click)="navigateToFakeJournal()">
   <ion-card class="practice-mode-card" id="practice-mode-full-card">
     <ion-grid>
       <ion-row>
-        <ion-col col-36 col-lg-26 align-self-center>
+        <ion-col size="36">
           <img src="assets/imgs/dashboard/practice-mode-full.png" alt="Practice marking a full test report" class="icon-practice-test-full"/>
         </ion-col>
-        <ion-col col-58 col-lg-44 align-self-center class="button-col">
-          <ion-button class="mes-neutral-button" id="practice-mode-full-button">
-            <h3>Practice marking a full test (cat B)</h3>
+        <ion-col size="58" class="col-align-right">
+          <ion-button class="mes-neutral-button full-test-button" id="practice-mode-full-button">
+            <h3 class="text-colour">Practice marking a full test (cat B)</h3>
           </ion-button>
         </ion-col>
       </ion-row>

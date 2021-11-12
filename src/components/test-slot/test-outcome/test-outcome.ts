@@ -25,7 +25,7 @@ import {
   ResumingWriteUp,
   EarlyStartModalDidEnter,
 } from '@store/journal/journal.actions';
-// import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
+import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
 import { MarkAsNonRekey } from '@store/tests/rekey/rekey.actions';
 import { JournalForceCheckModal } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal';
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
@@ -183,8 +183,10 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   async startTest() {
+    console.log('isE2EPracticeMode', this.isE2EPracticeMode());
     if (this.isE2EPracticeMode()) {
-      // this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString()));
+      console.log('hello there');
+      this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString()));
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }

@@ -1,27 +1,15 @@
-practice-mode-banner {
-  .practice-mode-top-banner {
-    height: 24px;
-    background: var(--secondary-button);
-    border-radius: 0;
-  }
-  .exit-text {
-    position: absolute;
-    padding-left: 8px;
-    color: var(--gds-black);
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 0.24px;
-  }
-  .title {
-    width: 100%;
-    position: absolute;
-    text-align: center;
-    color: var(--gds-black);
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 0.24px;
-  }
-  ion-icon {
-    transform: rotate(180deg)
-  }
+.practice-mode-top-banner {
+  background: var(--secondary-button);
+  border-radius: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--gds-black);
+}
+
+.exit-text {
+  display: flex;
+  align-items: center;
+}
+.title-text {
+  text-align: center;
 }
