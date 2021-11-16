@@ -52,7 +52,7 @@ import {
   EyesightTestFailed,
   EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { BasePageComponent } from '../../base-page';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -70,7 +70,7 @@ export interface CommonWaitingRoomToCarPageState {
   interpreterAccompaniment$: Observable<boolean>;
 }
 
-export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponent {
+export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
@@ -86,16 +86,17 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
   ];
 
   protected constructor(
-    protected store$: Store<StoreModel>,
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected router: Router,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
+    store$: Store<StoreModel>,
     protected routeByCategoryProvider: RouteByCategoryProvider,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, router, store$);
   }
 
   onInitialisation(): void {
+    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
@@ -159,6 +160,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
   }
 
   ionViewDidLeave(): void {
+    super.ionViewDidLeave();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

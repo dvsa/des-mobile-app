@@ -4,12 +4,21 @@
   font-size: 18px;
   font-weight: bold;
   color: var(--gds-black);
+  height: 36px;
+  padding-bottom: 0;
+  padding-top: 0;
 }
 
-.exit-text {
-  display: flex;
+.practice-mode-toolbar-sizing {
+  padding-top: 12px;
+  padding-bottom: 0;
+  height: 40px;
+}
+
+.practice-exit-icon {
+  margin-top: 2px;
   align-items: center;
 }
-.title-text {
+.practice-title-text {
   text-align: center;
 }

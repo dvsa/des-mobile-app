@@ -1,11 +1,14 @@
-<ion-toolbar>
+<ion-toolbar class="practice-mode-toolbar-sizing">
     <ion-row class="practice-mode-top-banner" (click)="exitPracticeMode()">
-        <ion-col size="20" class="exit-text">
-            <ion-icon id="practice-mode-exit" name="caret-back"></ion-icon>EXIT
+        <ion-col size="1" class="practice-exit-icon ion-no-padding">
+            <ion-icon id="practice-mode-exit" name="caret-back"></ion-icon>
         </ion-col>
-        <ion-col id="practice-mode-text" size="56" class="title-text">
+        <ion-col id="practice-mode-exit-text" size="7" class="practice-title-text ion-no-padding">
+            EXIT
+        </ion-col>
+        <ion-col id="practice-mode-title-text" size="78" class="practice-title-text ion-no-padding">
             You're in practice mode
         </ion-col>
-        <ion-col size="20"></ion-col>
+        <ion-col size="8"></ion-col>
     </ion-row>
 </ion-toolbar>

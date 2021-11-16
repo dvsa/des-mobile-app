@@ -117,6 +117,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   }
 
   onInitialisation(): void {
+    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),

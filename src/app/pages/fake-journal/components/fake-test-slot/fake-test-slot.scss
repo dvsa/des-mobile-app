@@ -1,80 +1,23 @@
-
 ion-card {
+  background: var(--mes-white);
+  margin: 15px 10px;
+
   ion-grid {
     height: 100%;
+    padding: 10px;
   }
 }
 
 ion-row {
-  &.slot-row {
-    min-height: 108px;
-    position: relative;
-
-    &.test-slot-portrait-mode {
-      min-height: 108px;
-    }
-  }
-
-  &.slot-header,
-  &.slot-footer {
-    min-height: 22px;
-    padding-right: 4px;
-
-    &.vehicle-details-displayed {
-      min-height: 34px;
-    }
-  }
-
-  &.slot-main {
-    min-height: 48px;
-  }
+  //turn on for debugging of test-slot card
+  //border: 1px solid black;
+  min-height: 30px;
 }
 
 ion-col {
-  &.time-exclamation-col {
-    max-width: 152px;
-
-    .text-zoom-large & {
-      max-width: 172px;
-    }
-
-    .text-zoom-x-large & {
-      max-width: 192px;
-    }
-  }
-
-  &.exclamation-col {
-    max-width: 48px;
-  }
-
-  &.test-outcome-col {
-    max-width: 152px;
-
-    .text-zoom-large & {
-      max-width: 172px;
-    }
-
-    .text-zoom-x-large & {
-      max-width: 192px;
-    }
-  }
-
-  &.vehicle-details-col {
-    margin-top: -6px;
-    margin-left: -100px;
-
-    .text-zoom-large & {
-      padding-left: 110px;
-    }
-
-    .text-zoom-x-large & {
-      padding-left: 110px;
-    }
-  }
-
-  &.progressive-access-col {
-    margin-top: -6px;
-  }
+  //turn on for debugging of test-slot card
+  //border: 1px solid black;
+  padding: 0;
 }
 
 .slot-changed-indicator {
@@ -84,5 +27,26 @@ ion-col {
 }
 
 .slot-changed {
-  //background: map-get($colors, journalSlotChangeIdentifier);
+  background: var(--journalSlotChangeIdentifier);
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vertical-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.candidate-details-placeholder-text[disabled] {
+  position: relative;
+  left: -20px;
+  opacity: 1;
 }

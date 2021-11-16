@@ -7,6 +7,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { isPracticeMode, isTestReportPracticeTest, isEndToEndPracticeTest } from '@store/tests/tests.selector';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { StoreModel } from '../models/store.model';
 import { BasePageComponent } from './base-page';
 
@@ -76,8 +77,7 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
   }
 
   exitPracticeMode = (): void => {
-    // @TODO enable once practice mode added (MES-6867)
-    // this.router.navigate([PRACTICE_JOURNAL_PAGE]);
+    this.router.navigate([FAKE_JOURNAL_PAGE]);
   };
 
 }

@@ -81,6 +81,7 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
   }
 
   onInitialisation(): void {
+    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),

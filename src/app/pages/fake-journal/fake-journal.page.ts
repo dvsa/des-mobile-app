@@ -8,7 +8,7 @@ import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal
 import * as moment from 'moment';
 
 @Component({
-  selector: 'app-rekey-reason',
+  selector: 'app-fake-journal',
   templateUrl: './fake-journal.page.html',
   styleUrls: ['./fake-journal.page.scss'],
 })
