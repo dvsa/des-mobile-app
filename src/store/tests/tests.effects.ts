@@ -19,7 +19,7 @@ import {
   CategoryCode,
 } from '@dvsa/mes-test-schema/categories/common';
 import {
-    switchMap, catchError, filter, map, withLatestFrom, concatMap, tap,
+  switchMap, catchError, filter, map, withLatestFrom, concatMap, tap,
 } from 'rxjs/operators';
 
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -309,6 +309,7 @@ export class TestsEffects {
 
   sendPartialTest$ = createEffect(() => this.actions$.pipe(
     ofType(testStatusActions.SetTestStatusWriteUp),
+    tap((a) => console.log('sendPartialTest$', a)),
     map(() => testActions.SendCompletedTests()),
   ));
 

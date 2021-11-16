@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  LoadingController,
   ModalController,
   Platform,
 } from '@ionic/angular';
@@ -94,7 +93,6 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   examinerKeyed: number = null;
   fromRekeySearch: boolean = false;
   merged$: Observable<any>;
-  loadingSpinner: HTMLIonLoadingElement;
 
   constructor(
     public router: Router,
@@ -102,8 +100,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     public authenticationProvider: AuthenticationProvider,
     public store$: Store<StoreModel>,
     private modalController: ModalController,
-    // private loaderService: LoadingProvider,
-    private loadingController: LoadingController,
+    private loaderService: LoadingProvider,
   ) {
     super(platform, authenticationProvider, router);
     this.formGroup = new FormGroup({});
@@ -208,9 +205,6 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
   onUploadRekeyModalDismiss = (event: UploadRekeyModalEvent): void => {
     switch (event) {
       case UploadRekeyModalEvent.UPLOAD:
-        console.log('Clicked Upload');
-        console.log('SetRekeyDate');
-        console.log(this.isTransferSelected ? 'ValidateTransferRekey' : 'SendCurrentTest');
         this.store$.dispatch(SetRekeyDate());
         if (this.isTransferSelected) {
           this.store$.dispatch(ValidateTransferRekey());
@@ -222,43 +216,18 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     }
   };
 
-  handleUploadOutcome = (uploadStatus: RekeyReasonUploadModel) => {
-    console.log('isUploading', uploadStatus.isUploading);
-    this.handleLoadingUI(uploadStatus.isUploading);
-    // await this.loaderService.handleUILoading(uploadStatus.isUploading, RekeyReasonPage.loadingOpts);
+  handleUploadOutcome = async (uploadStatus: RekeyReasonUploadModel) => {
+    await this.loaderService.handleUILoading(uploadStatus.isUploading, RekeyReasonPage.loadingOpts);
     this.isStaffNumberInvalid = uploadStatus.hasStaffNumberFailedValidation;
 
-    console.log('isStaffNumberInvalid', this.isStaffNumberInvalid);
-    console.log('to outcome', uploadStatus.hasUploadSucceeded || uploadStatus.isDuplicate);
-
     if (uploadStatus.hasUploadSucceeded || uploadStatus.isDuplicate) {
-      this.router.navigate([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
+      await this.router.navigate([TestFlowPageNames.REKEY_UPLOAD_OUTCOME_PAGE]);
       return;
     }
     if (uploadStatus.hasUploadFailed) {
-      this.onShowUploadRekeyModal(true);
+      await this.onShowUploadRekeyModal(true);
     }
-    // return null;
-  };
-
-  handleLoadingUI = (isLoading: boolean): void => {
-    if (isLoading) {
-      this.loadingController.create({
-        spinner: 'circles',
-        backdropDismiss: true,
-        translucent: false,
-      }).then(async (spinner) => {
-        this.loadingSpinner = spinner;
-        await this.loadingSpinner.present();
-      });
-      return;
-    }
-
-    if (this.loadingSpinner) {
-      this.loadingSpinner.dismiss().then(() => {
-        this.loadingSpinner = null;
-      });
-    }
+    return null;
   };
 
   isFormValid(): boolean {
