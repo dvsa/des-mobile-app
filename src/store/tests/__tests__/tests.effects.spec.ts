@@ -173,7 +173,7 @@ describe('Tests Effects', () => {
             expect(result).toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId1));
           }
           if (result.payload === currentTestSlotId2) {
-            expect(result).toEqual(testsActions.SendCompletedTestsFailure());
+            expect(result.type).toEqual(testsActions.SendCompletedTestsFailure().type);
           }
           if (result.payload === testReportPracticeModeSlot.slotDetail.slotId) {
             fail('Practice test should not be submitted');
