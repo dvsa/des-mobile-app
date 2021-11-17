@@ -35,6 +35,10 @@ export const LoadPersistedTestsSuccess = createAction(
   (tests: TestsModel) => ({ tests }),
 );
 
+export const LoadPersistedTestsFailure = createAction(
+  '[Tests] Load persisted test failure',
+);
+
 export const TestOutcomeChanged = createAction(
   TEST_OUTCOME_CHANGED,
   (outcome: string) => ({ outcome }),
@@ -102,6 +106,10 @@ export const SendCurrentTestSuccess = createAction(
   '[Tests] Send Test Success',
 );
 
+export const SendCompletedNoneSent = createAction(
+  '[Tests] No completed tests sent',
+);
+
 export const SendCurrentTestFailure = createAction(
   '[Tests] Send Test Failure',
   (failure: boolean) => ({ failure }),
@@ -111,6 +119,7 @@ const actions = union({
   PersistTests,
   LoadPersistedTests,
   LoadPersistedTestsSuccess,
+  LoadPersistedTestsFailure,
   TestOutcomeChanged,
   StartTest,
   ActivateTest,
@@ -124,6 +133,7 @@ const actions = union({
   SendCurrentTestFailure,
   SendPartialTestSuccess,
   SendPartialTestsFailure,
+  SendCompletedNoneSent,
 });
 
 export type TestActionsTypes = typeof actions;

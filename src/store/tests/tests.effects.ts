@@ -79,7 +79,11 @@ import { Language } from './communication-preferences/communication-preferences.
 import { StartDelegatedTest } from './delegated-test/delegated-test.actions';
 import { OtherReasonUpdated, OtherSelected } from './rekey-reason/rekey-reason.actions';
 import { getStaffNumber } from './journal-data/common/examiner/examiner.selector';
-import { SendCompletedTests, StartTest, TestActionsTypes } from './tests.actions';
+import {
+  SendCompletedTests,
+  StartTest,
+  TestActionsTypes,
+} from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 import { GearboxCategoryChanged, PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';
 import {
@@ -151,7 +155,7 @@ export class TestsEffects {
         map((testsModel) => testActions.LoadPersistedTestsSuccess(testsModel)),
         catchError((err) => {
           console.log(`Error reading persisted tests: ${err}`);
-          return of(null);
+          return of(testActions.LoadPersistedTestsFailure());
         }),
       )),
   ));
@@ -336,7 +340,7 @@ export class TestsEffects {
       }));
 
       if (completedTests.length === 0) {
-        return of(null);
+        return of(testActions.SendCompletedNoneSent());
       }
 
       return this.testSubmissionProvider.submitTests(completedTests)
