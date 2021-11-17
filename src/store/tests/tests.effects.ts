@@ -19,7 +19,7 @@ import {
   CategoryCode,
 } from '@dvsa/mes-test-schema/categories/common';
 import {
-  switchMap, catchError, filter, map, withLatestFrom, concatMap, tap,
+  switchMap, catchError, filter, map, withLatestFrom, concatMap,
 } from 'rxjs/operators';
 
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -309,7 +309,6 @@ export class TestsEffects {
 
   sendPartialTest$ = createEffect(() => this.actions$.pipe(
     ofType(testStatusActions.SetTestStatusWriteUp),
-    tap((a) => console.log('sendPartialTest$', a)),
     map(() => testActions.SendCompletedTests()),
   ));
 
@@ -399,7 +398,6 @@ export class TestsEffects {
 
   sendCurrentTestEffect$ = createEffect(() => this.actions$.pipe(
     ofType(testActions.SendCurrentTest),
-    tap(() => console.log('sendCurrentTestEffect$')),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -420,7 +418,6 @@ export class TestsEffects {
         status: testStatus,
       };
 
-      console.log('testToSubmit', testToSubmit);
       return this.testSubmissionProvider.submitTest(testToSubmit)
         .pipe(
           map((response: HttpResponse<any> | HttpErrorResponse) => {
