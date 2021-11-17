@@ -181,12 +181,12 @@ describe('WaitingRoomPage', () => {
 
     describe('ionViewDidEnter', () => {
       beforeEach(async () => {
-        PracticeableBasePageComponent.prototype.isPracticeMode = false;
+        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = false;
       });
 
       it('should enable single app mode if on ios and not in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        PracticeableBasePageComponent.prototype.isPracticeMode = false;
+        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
         expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
       });
@@ -194,21 +194,21 @@ describe('WaitingRoomPage', () => {
       // @TODO MES-6867 - fix failing test
       xit('should note enable single app mode if on ios and in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        PracticeableBasePageComponent.prototype.isPracticeMode = true;
+        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = true;
         await component.ionViewDidEnter();
         expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
       });
 
       it('should lock the screen orientation to Portrait Primary', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        PracticeableBasePageComponent.prototype.isPracticeMode = false;
+        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
         expect(screenOrientation.lock)
           .toHaveBeenCalledWith(screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
       });
 
       it('should keep the device awake', async () => {
-        PracticeableBasePageComponent.prototype.isPracticeMode = false;
+        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
         expect(insomnia.keepAwake).toHaveBeenCalled();
       });

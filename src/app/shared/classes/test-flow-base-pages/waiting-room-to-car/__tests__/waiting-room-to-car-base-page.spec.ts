@@ -1,8 +1,8 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
-import { PlatformMock } from 'ionic-mocks';
+import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Subscription } from 'rxjs';
@@ -38,6 +38,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   let router: Router;
   let store$: Store<StoreModel>;
   let routeByCat: RouteByCategoryProvider;
+  let alertCon: AlertController;
 
   let basePageComponent: WaitingRoomToCarBasePageComponent;
   const initialState = {
@@ -74,6 +75,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useClass: RouterMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
         provideMockStore({ initialState }),
       ],
     });
@@ -85,22 +87,24 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
     routeByCat = TestBed.inject(RouteByCategoryProvider);
+    alertCon = TestBed.inject(AlertController);
 
     spyOn(store$, 'dispatch');
 
     class BasePageClass extends WaitingRoomToCarBasePageComponent {
       constructor(
-        sto$: Store<StoreModel>,
         plat: Platform,
         auth: AuthenticationProvider,
         rout: Router,
+        sto$: Store<StoreModel>,
         routeByCategory: RouteByCategoryProvider,
+        alertController: AlertController,
       ) {
-        super(sto$, plat, auth, rout, routeByCategory);
+        super(plat, auth, rout, sto$, routeByCategory, alertController);
       }
     }
 
-    basePageComponent = new BasePageClass(store$, platform, authenticationProvider, router, routeByCat);
+    basePageComponent = new BasePageClass(platform, authenticationProvider, router, store$, routeByCat, alertCon);
   }));
 
   describe('onInitialisation', () => {

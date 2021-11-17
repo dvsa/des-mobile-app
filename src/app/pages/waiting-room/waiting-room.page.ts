@@ -112,7 +112,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
       await this.insomnia.keepAwake();
 
-      if (!this.isPracticeMode) {
+      if (!this.isEndToEndPracticeMode) {
         await this.deviceProvider.enableSingleAppMode();
       }
     }

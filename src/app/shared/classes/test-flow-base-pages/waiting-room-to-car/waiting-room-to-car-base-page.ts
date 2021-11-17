@@ -1,6 +1,6 @@
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
@@ -91,6 +91,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     router: Router,
     store$: Store<StoreModel>,
     protected routeByCategoryProvider: RouteByCategoryProvider,
+    public alertController: AlertController,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -219,7 +220,19 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   async onViewTestCentreJournal(): Promise<void> {
-    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
+    if (this.isEndToEndPracticeMode) {
+      await this.presentAlert();
+    } else await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Unavailable',
+      message: 'Test centre journal is currently unavailable in practice mode',
+      buttons: ['Ok'],
+    });
+
+    await alert.present();
   }
 
 }

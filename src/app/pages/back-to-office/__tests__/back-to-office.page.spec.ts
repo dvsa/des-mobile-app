@@ -79,7 +79,7 @@ describe('BackToOfficePage', () => {
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions when in practice mode', async (done) => {
-        component.isPracticeMode = true;
+        component.isEndToEndPracticeMode = true;
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode).not.toHaveBeenCalled();
         expect(screenOrientation.unlock).toHaveBeenCalled();
@@ -87,7 +87,7 @@ describe('BackToOfficePage', () => {
         done();
       });
       it('should disable test inhibitions and disable ASAM when not in practice mode', async (done) => {
-        component.isPracticeMode = false;
+        component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
         expect(screenOrientation.unlock).toHaveBeenCalled();
@@ -103,7 +103,7 @@ describe('BackToOfficePage', () => {
       expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
     });
     it('should call the popTo method in the navcontroller if in practice mode', async (done) => {
-      component.isPracticeMode = true;
+      component.isEndToEndPracticeMode = true;
       spyOn(component, 'exitPracticeMode');
       await component.goToJournal();
       expect(component.exitPracticeMode).toHaveBeenCalled();

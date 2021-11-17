@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { FormGroup } from '@angular/forms';
@@ -59,8 +59,9 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     router: Router,
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
+    alertController: AlertController,
   ) {
-    super(platform, authenticationProvider, router, store$, routeByCat);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new FormGroup({});
   }
