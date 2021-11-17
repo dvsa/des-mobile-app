@@ -159,7 +159,6 @@ if (enableRehydrationPlugin) {
     Device,
     NetworkStateProvider,
     UrlProvider,
-    DateTimeProvider,
     JournalProvider,
     AnalyticsProvider,
     DeviceProvider,

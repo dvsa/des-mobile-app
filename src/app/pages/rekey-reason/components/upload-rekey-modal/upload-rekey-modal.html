@@ -1,0 +1,34 @@
+<ion-card id="upload-rekey-modal-card" class="modal-alert">
+  <ion-grid class="ion-no-padding">
+
+    <ion-row class="message-wrapper ion-align-items-center">
+      <ion-col no-padding>
+        <ion-row class="modal-icon ion-justify-content-center">
+          <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
+        </ion-row>
+        <ion-row class="modal-message ion-justify-content-center">
+          <h2 class="modal-alert-header" *ngIf="!retryMode">
+            Are you sure you<br/>want to upload<br/>this rekeyed test?
+          </h2>
+          <h2 class="modal-alert-header" *ngIf="retryMode">
+            Rekeyed test did<br/>not upload
+          </h2>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="column-border-top column-border-right ion-no-padding">
+        <ion-button fill="clear" class="cancel-button" (click)="onCancel()">
+          Cancel
+        </ion-button>
+      </ion-col>
+      <ion-col class="column-border-top ion-no-padding">
+        <ion-button fill="clear" class="upload-button" (click)="onUpload()">
+          {{retryMode ? 'Try again' : 'Upload'}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-card>

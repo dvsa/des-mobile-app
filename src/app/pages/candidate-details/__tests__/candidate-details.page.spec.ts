@@ -16,8 +16,8 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import * as journalActions from '@store/journal/journal.actions';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
-import { ModalControllerMock } from '../../../../../mock/ionic-mocks/modal-controller.mock';
 
 describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
