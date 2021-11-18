@@ -54,6 +54,22 @@ ion-select.select {
   --padding-start: 10px !important;
   --background: var(--mes-white);
   --color: black;
+
+  .text-zoom-regular & {
+    font-size: 20px;
+    line-height: 1.4em;
+    white-space: normal;
+  }
+  .text-zoom-large & {
+    font-size: 24px;
+    line-height: 1.4em;
+    white-space: normal;
+  }
+  .text-zoom-x-large & {
+    font-size: 28px;
+    line-height: 1.5em;
+    white-space: normal;
+  }
 }
 
 .input-focus {

@@ -39,7 +39,7 @@
   .selected-border {
     border-width: 0 0 0 4px;
     border-style: solid;
-    padding: 0 0 0 16px;
+    padding: 0 16px 0 16px;
     border-color: var(--gds-grey-3);
 
     &.ng-invalid {
