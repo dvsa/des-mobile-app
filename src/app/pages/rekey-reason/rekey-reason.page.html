@@ -1,5 +1,8 @@
 <ion-header>
     <ion-toolbar>
+        <ion-buttons id="rekey-reason-back-button" slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
         <ion-title id="rekey-reason-page-title">Reason for rekey</ion-title>
         <ion-buttons slot="end">
             <ion-button (click)="onExitRekeyPressed()">
@@ -52,7 +55,7 @@
 <ion-footer>
     <ion-row class="mes-full-width-card box-shadow">
         <ion-col class="ion-text-center">
-            <ion-button type="submit" class="mes-primary-button uploadRekeyButton" id="rekey-reason-upload-rekey-btn"
+            <ion-button shape="round" class="mes-primary-button uploadRekeyButton" id="rekey-reason-upload-rekey-btn"
                        [disabled]="!canClickUploadRekeyTest(
                         pageState.ipadIssue$ | async,
                         pageState.transfer$ | async,
