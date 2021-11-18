@@ -41,3 +41,12 @@ export const VehicleChecksDrivingFaultsNumberChanged = createAction(
   '[Vehicle Checks] [CatC] Vehicle Checks Driving Faults Number Changed',
   (payload: QuestionResult[]) => ({ payload }),
 );
+
+export const DropExtraVehicleChecks = createAction(
+  '[Vehicle Checks] [CatC] Vehicle Checks dropping extra vehicle checks as full licence held',
+);
+
+export const SetFullLicenceHeld = createAction(
+  '[Vehicle Checks] [CatC] Full Licence Held toggled',
+  (fullLicenceHeld: boolean) => ({ fullLicenceHeld }),
+);

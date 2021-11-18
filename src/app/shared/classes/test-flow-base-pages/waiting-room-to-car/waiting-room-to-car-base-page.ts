@@ -4,7 +4,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
-import { CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { StoreModel } from '@shared/models/store.model';
@@ -52,6 +52,11 @@ import {
   EyesightTestFailed,
   EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import {
+  CandidateDeclarationSigned,
+  SetDeclarationStatus,
+} from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 
 export interface CommonWaitingRoomToCarPageState {
@@ -225,6 +230,19 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
       return;
     }
     await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
+  }
+
+  candidateDeclarationOutcomeChanged(declaration: boolean): void {
+    this.store$.dispatch(SetDeclarationStatus(declaration));
+    this.store$.dispatch(CandidateDeclarationSigned());
+  }
+
+  generateDelegatedQuestionResults(number: number, outcome: CompetencyOutcome): QuestionResult[] {
+    return Array(number).fill(null).map(() => ({ outcome, code: 'DEL' }));
+  }
+
+  closeVehicleChecksModal(): void {
+    this.store$.dispatch(WaitingRoomToCarViewDidEnter());
   }
 
   async practiceModeTestCentreAlert() {

@@ -1,0 +1,29 @@
+<ion-row class="mes-validated-row mes-row-separator ion-align-items-center ion-nowrap" id="full-licence-held-row" [formGroup]="formGroup">
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="full-cat-held-label">Full Cat {{testCategory | slice:0:1}} held?</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-left">
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="fullLicenceHeldCtrl"
+               name="fullLicenceHeldCtrl"
+               id="full-licence-held-yes"
+               class="gds-radio-button"
+               (change)="fullLicenceHeldChanged($event.target.value)"
+               value="Y">
+        <label for="full-licence-held-yes" class="radio-label">Yes</label>
+      </ion-col>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="fullLicenceHeldCtrl"
+               name="fullLicenceHeldCtrl"
+               id="full-licence-held-no"
+               class="gds-radio-button"
+               (change)="fullLicenceHeldChanged($event.target.value)"
+               value="N">
+        <label for="full-licence-held-no" class="radio-label">No</label>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+</ion-row>

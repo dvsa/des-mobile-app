@@ -2,6 +2,7 @@
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 export const NUMBER_OF_TELL_ME_QUESTIONS = 1;
+export const NUMBER_OF_TELL_ME_QUESTIONS_EXTRA = 2;
 
 // Questions can be long; we disable max-line-length lint rule to keep things clean.
 export const questions: VehicleChecksQuestion[] = [

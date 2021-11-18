@@ -32,6 +32,7 @@
     "no-confusing-arrow": "off",
     "import/prefer-default-export": "off",
     "quotes": ["error", "single"],
+    "no-nested-ternary": "off",
     "max-len": ["error", { "code": 120 }],
     "rxjs/finnish": [
       "error",

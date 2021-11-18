@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { DirectivesModule } from '@directives/directives.module';
 
 import { EyesightTestComponent } from './eyesight-test/eyesight-test';
 import { EyesightFailureConfirmationComponent } from './eyesight-failure-confirmation/eyesight-failure-confirmation';
@@ -13,7 +14,7 @@ import { VehicleDetailsCardComponent } from './vehicle-details-card/vehicle-deta
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { VehicleChecksToggleComponent } from './vehicle-checks-completed/vehicle-checks-completed';
 import { CandidateDeclarationSignedComponent } from './candidate-declaration/candidate-declaration';
-import { DirectivesModule } from '../../../../directives/directives.module';
+import { FullLicenceHeldComponent } from './full-licence-held-toggle/full-licence-held-toggle';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { DirectivesModule } from '../../../../directives/directives.module';
     VehicleDetailsComponent,
     VehicleChecksToggleComponent,
     CandidateDeclarationSignedComponent,
+    FullLicenceHeldComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +47,7 @@ import { DirectivesModule } from '../../../../directives/directives.module';
     VehicleDetailsComponent,
     VehicleChecksToggleComponent,
     CandidateDeclarationSignedComponent,
+    FullLicenceHeldComponent,
   ],
 })
 export class WaitingRoomToCarComponentsModule { }
