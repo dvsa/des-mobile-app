@@ -172,7 +172,7 @@ describe('OfficeBasePageComponent', () => {
     });
 
     it('should not dispatch complete test if in practice mode', () => {
-      basePageComponent.isPracticeMode = true;
+      basePageComponent.isEndToEndPracticeMode = true;
       basePageComponent.completeTest();
       expect(store$.dispatch).not.toHaveBeenCalledWith(CompleteTest());
     });
@@ -184,7 +184,7 @@ describe('OfficeBasePageComponent', () => {
       expect(basePageComponent.navController.navigateBack).toHaveBeenCalled();
     });
     it('should call the navigateBack method in the navcontroller if in practice mode.', () => {
-      basePageComponent.isPracticeMode = true;
+      basePageComponent.isEndToEndPracticeMode = true;
       basePageComponent.popToRoot();
       expect(basePageComponent.navController.navigateBack).toHaveBeenCalled();
     });

@@ -1,5 +1,6 @@
-.background-colour {
+.content-styling {
   --ion-background-color: var(--mes-dvsa-navy) !important;
+  z-index: 1000;
 }
 
 .container{

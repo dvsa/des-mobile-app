@@ -37,12 +37,14 @@
       </ion-row>
     </ion-grid>
     <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())"/>
-    <practice-test-report-card id="testReportPracticeMode"
-                               *ngIf="
-                               showTestReportPracticeMode()"></practice-test-report-card>
-    <practice-end-to-end-card id="endToendPracticeMode"
-                              *ngIf="
-                              showEndToEndPracticeMode()"></practice-end-to-end-card>
+    <practice-test-report-card
+            id="testReportPracticeMode"
+            *ngIf="showTestReportPracticeMode()">
+    </practice-test-report-card>
+    <practice-end-to-end-card
+            id="endToendPracticeMode"
+            *ngIf="showEndToEndPracticeMode()">
+    </practice-end-to-end-card>
   </div>
 
 </ion-content>

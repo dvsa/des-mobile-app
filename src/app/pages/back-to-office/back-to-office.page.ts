@@ -85,7 +85,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       this.screenOrientation.unlock();
       await this.insomnia.allowSleepAgain();
 
-      if (!this.isPracticeMode) {
+      if (!this.isEndToEndPracticeMode) {
         await this.deviceProvider.disableSingleAppMode();
       }
     }
@@ -101,7 +101,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   }
 
   async goToJournal(): Promise<void> {
-    if (this.isPracticeMode) {
+    if (this.isEndToEndPracticeMode) {
       this.exitPracticeMode();
       return;
     }

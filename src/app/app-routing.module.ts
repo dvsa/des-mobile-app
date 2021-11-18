@@ -5,7 +5,7 @@ import {
   LOGIN_PAGE,
   JOURNAL_PAGE,
   TEST_CENTRE_JOURNAL_PAGE,
-  TestFlowPageNames, REKEY_SEARCH_PAGE,
+  TestFlowPageNames, REKEY_SEARCH_PAGE, FAKE_JOURNAL_PAGE,
 } from '@pages/page-names.constants';
 import { CanWaitingRoomDeactivateGuard } from '@pages/waiting-room/can-waiting-room-deactiviate';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
@@ -30,6 +30,10 @@ const routes: Routes = [
   {
     path: JOURNAL_PAGE,
     loadChildren: () => import('./pages/journal/journal.module').then((m) => m.JournalPageModule),
+  },
+  {
+    path: FAKE_JOURNAL_PAGE,
+    loadChildren: () => import('./pages/fake-journal/fake-journal.module').then((m) => m.FakeJournalPageModule),
   },
   {
     path: TEST_CENTRE_JOURNAL_PAGE,

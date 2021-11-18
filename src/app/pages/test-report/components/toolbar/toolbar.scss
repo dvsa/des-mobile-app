@@ -1,14 +1,14 @@
 :host {
-  #wrapper {
-    height: 68px;
-    padding: 12px 24px;
+  .toolbar-wrapper {
+    height: 56px;
+    padding: 6px 24px;
     background: var(--mes-white);
   }
   .button-wrapper {
     display: flex;
     justify-content: center;
   }
-  
+
   #remove-button {
     min-width: 96px;
     padding: 0 6px;

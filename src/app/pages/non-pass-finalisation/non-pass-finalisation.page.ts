@@ -110,8 +110,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
-  ngOnInit() {
-
+  ngOnInit(): void {
+    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),

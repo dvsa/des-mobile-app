@@ -1,6 +1,6 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isPracticeMode"></practice-mode-banner>
-    <ion-toolbar>
+    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
         <ion-buttons id="back-button" slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>

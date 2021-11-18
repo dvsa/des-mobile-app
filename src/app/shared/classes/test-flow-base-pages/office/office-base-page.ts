@@ -149,6 +149,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   onInitialisation(): void {
+    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
@@ -398,7 +399,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   completeTest = async (): Promise<void> => {
-    if (!this.isPracticeMode) {
+    if (!this.isEndToEndPracticeMode) {
       this.store$.dispatch(CompleteTest());
     }
     await this.finishTestModal.dismiss();
@@ -440,7 +441,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   async popToRoot() {
-    if (this.isPracticeMode) {
+    if (this.isEndToEndPracticeMode) {
       this.exitPracticeMode();
       return;
     }

@@ -1,6 +1,6 @@
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 
@@ -52,7 +52,7 @@ import {
   EyesightTestFailed,
   EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { BasePageComponent } from '../../base-page';
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -70,7 +70,7 @@ export interface CommonWaitingRoomToCarPageState {
   interpreterAccompaniment$: Observable<boolean>;
 }
 
-export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponent {
+export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
 
   commonPageState: CommonWaitingRoomToCarPageState;
   subscription: Subscription;
@@ -86,16 +86,18 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
   ];
 
   protected constructor(
-    protected store$: Store<StoreModel>,
-    protected platform: Platform,
-    protected authenticationProvider: AuthenticationProvider,
-    protected router: Router,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
+    store$: Store<StoreModel>,
     protected routeByCategoryProvider: RouteByCategoryProvider,
+    public alertController: AlertController,
   ) {
-    super(platform, authenticationProvider, router);
+    super(platform, authenticationProvider, router, store$);
   }
 
   onInitialisation(): void {
+    super.ngOnInit();
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
@@ -159,6 +161,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
   }
 
   ionViewDidLeave(): void {
+    super.ionViewDidLeave();
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -217,7 +220,21 @@ export abstract class WaitingRoomToCarBasePageComponent extends BasePageComponen
   }
 
   async onViewTestCentreJournal(): Promise<void> {
+    if (this.isEndToEndPracticeMode) {
+      await this.practiceModeTestCentreAlert();
+      return;
+    }
     await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
+  }
+
+  async practiceModeTestCentreAlert() {
+    const alert = await this.alertController.create({
+      header: 'Unavailable',
+      message: 'Test centre journal is currently unavailable in practice mode',
+      buttons: ['Ok'],
+    });
+
+    await alert.present();
   }
 
 }

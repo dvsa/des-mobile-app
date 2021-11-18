@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { FormGroup } from '@angular/forms';
@@ -48,20 +48,20 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRo
 })
 export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent implements OnInit {
 
-  isPracticeMode: boolean = false; // @TODO - MES-6867 Remove this and read directly from practice base page
   pageState: WaitingRoomToCarPageState;
   form: FormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
 
   constructor(
     private questionProvider: QuestionProvider,
-    routeByCat: RouteByCategoryProvider,
-    store$: Store<StoreModel>,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
+    store$: Store<StoreModel>,
+    routeByCat: RouteByCategoryProvider,
+    alertController: AlertController,
   ) {
-    super(store$, platform, authenticationProvider, router, routeByCat);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.B);
     this.form = new FormGroup({});
   }

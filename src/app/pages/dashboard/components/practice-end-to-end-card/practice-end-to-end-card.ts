@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-// import { FAKE_JOURNAL_PAGE } from '../../../page-names.constants';
+import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
 
 @Component({
   selector: 'practice-end-to-end-card',
@@ -13,8 +13,7 @@ export class PracticeEndToEndCardComponent {
   constructor(private router: Router) { }
 
   navigateToFakeJournal = () => {
-    console.log('Practice end to end test to be implemented');
-    // this.router.navigate([FAKE_JOURNAL_PAGE]);
+    this.router.navigate([FAKE_JOURNAL_PAGE]);
   };
 
 }
