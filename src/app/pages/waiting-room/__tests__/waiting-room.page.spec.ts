@@ -48,7 +48,6 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { SignatureComponent } from '@components/common/signature/signature';
 import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
 import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
@@ -180,35 +179,32 @@ describe('WaitingRoomPage', () => {
     });
 
     describe('ionViewDidEnter', () => {
-      beforeEach(async () => {
-        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = false;
-      });
 
-      it('should enable single app mode if on ios and not in practice mode', async () => {
+      it('should not enable single app mode if on ios and in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = false;
-        await component.ionViewDidEnter();
-        expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
-      });
-
-      // @TODO MES-6867 - fix failing test
-      xit('should note enable single app mode if on ios and in practice mode', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = true;
+        component.isEndToEndPracticeMode = true;
         await component.ionViewDidEnter();
         expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
       });
 
+      it('should enable single app mode if on ios and not in practice mode', async () => {
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        component.isEndToEndPracticeMode = false;
+        await component.ionViewDidEnter();
+        expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
+      });
+
       it('should lock the screen orientation to Portrait Primary', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = false;
+        component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
         expect(screenOrientation.lock)
           .toHaveBeenCalledWith(screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
       });
 
       it('should keep the device awake', async () => {
-        PracticeableBasePageComponent.prototype.isEndToEndPracticeMode = false;
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
         expect(insomnia.keepAwake).toHaveBeenCalled();
       });

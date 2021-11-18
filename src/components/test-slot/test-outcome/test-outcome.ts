@@ -142,10 +142,7 @@ export class TestOutcomeComponent implements OnInit {
     }
 
     // the test is incomplete AND this is not the rekey search AND it was not started as a rekey
-    if (this.isDateInPast() && (this.testStatus === null || this.testStatus === TestStatus.Booked)) {
-      return true; // because the test date is in the past AND it has never been seen OR started
-    }
-    return false;
+    return this.isDateInPast() && (this.testStatus === null || this.testStatus === TestStatus.Booked);
   }
 
   showStartTestButton(): boolean {
@@ -183,9 +180,7 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   async startTest() {
-    console.log('isE2EPracticeMode', this.isE2EPracticeMode());
     if (this.isE2EPracticeMode()) {
-      console.log('hello there');
       this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString()));
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));

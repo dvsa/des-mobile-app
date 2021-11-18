@@ -221,11 +221,13 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   async onViewTestCentreJournal(): Promise<void> {
     if (this.isEndToEndPracticeMode) {
-      await this.presentAlert();
-    } else await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
+      await this.practiceModeTestCentreAlert();
+      return;
+    }
+    await this.router.navigate([TEST_CENTRE_JOURNAL_PAGE]);
   }
 
-  async presentAlert() {
+  async practiceModeTestCentreAlert() {
     const alert = await this.alertController.create({
       header: 'Unavailable',
       message: 'Test centre journal is currently unavailable in practice mode',

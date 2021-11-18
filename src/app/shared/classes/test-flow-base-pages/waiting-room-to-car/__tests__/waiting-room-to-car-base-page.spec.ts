@@ -223,10 +223,18 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     });
   });
   describe('onViewTestCentreJournal', () => {
-    it('should navigate to TEST_CENTRE_JOURNAL_PAGE', async () => {
+    it('should navigate to TEST_CENTRE_JOURNAL_PAGE if not in practice made', async () => {
       spyOn(router, 'navigate');
+      basePageComponent.isEndToEndPracticeMode = false;
       await basePageComponent.onViewTestCentreJournal();
       expect(router.navigate).toHaveBeenCalledWith([TEST_CENTRE_JOURNAL_PAGE]);
+    });
+
+    it('should navigate to TEST_CENTRE_JOURNAL_PAGE if not in practice made', async () => {
+      spyOn(router, 'navigate');
+      basePageComponent.isEndToEndPracticeMode = true;
+      await basePageComponent.onViewTestCentreJournal();
+      expect(router.navigate).not.toHaveBeenCalled();
     });
   });
   describe('getDebriefPage', () => {
