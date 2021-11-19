@@ -15,7 +15,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 @Component({
-  selector: '.practice-test-report-card',
+  selector: 'practice-test-report-card',
   templateUrl: 'practice-test-report-card.html',
   styleUrls: ['practice-test-report-card.scss'],
 })

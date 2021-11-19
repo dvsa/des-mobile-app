@@ -45,6 +45,8 @@ import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { By } from '@angular/platform-browser';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { DashboardPage } from '../dashboard.page';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
@@ -62,11 +64,7 @@ describe('DashboardPage', () => {
   let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
 
   const initialState = {
-    appInfo: {
-      versionNumber: '4.0',
-      employeeName: 'Some One',
-      employeeId: '1234567',
-    },
+    appInfo: { versionNumber: '4.0', employeeName: 'Some One', employeeId: '1234567' },
     appConfig: { role: ExaminerRole.DE },
     journal: { slots: {} },
     tests: { testStatus: {} },
@@ -78,10 +76,7 @@ describe('DashboardPage', () => {
       imports: [
         RouterTestingModule.withRoutes(
           [
-            {
-              path: '',
-              component: DashboardPage,
-            },
+            { path: '', component: DashboardPage },
           ],
         ),
         IonicModule,
@@ -91,58 +86,20 @@ describe('DashboardPage', () => {
         ComponentsModule,
       ],
       providers: [
-        {
-          provide: Platform,
-          useFactory: () => PlatformMock.instance(),
-        },
-        {
-          provide: AlertController,
-          useFactory: () => AlertControllerMock.instance(),
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: AppConfigProvider,
-          useClass: AppConfigProviderMock,
-        },
-        {
-          provide: DateTimeProvider,
-          useClass: DateTimeProviderMock,
-        },
-        {
-          provide: NetworkStateProvider,
-          useClass: NetworkStateProviderMock,
-        },
-        {
-          provide: Router,
-          useValue: routerSpy,
-        },
-        {
-          provide: CompletedTestPersistenceProvider,
-          useClass: CompletedTestPersistenceProviderMock,
-        },
-        {
-          provide: DeviceProvider,
-          useClass: DeviceProviderMock,
-        },
-        {
-          provide: ScreenOrientation,
-          useClass: ScreenOrientationMock,
-        },
-        {
-          provide: Insomnia,
-          useClass: InsomniaMock,
-        },
-        {
-          provide: SlotProvider,
-          useClass: SlotProviderMock,
-        },
-        {
-          provide: SlotSelectorProvider,
-          useClass: SlotSelectorProviderMock,
-        },
+        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
+        { provide: Router, useValue: routerSpy },
+        { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
+        { provide: Insomnia, useClass: InsomniaMock },
+        { provide: SlotProvider, useClass: SlotProviderMock },
+        { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         provideMockStore({ initialState }),
       ],
     });
