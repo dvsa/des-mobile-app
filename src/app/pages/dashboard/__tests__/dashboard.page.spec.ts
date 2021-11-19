@@ -49,7 +49,7 @@ import { DashboardComponentsModule } from '../components/dashboard-components.mo
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardViewDidEnter } from '../dashboard.actions';
 
-describe('DashboardPage', () => {
+fdescribe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
