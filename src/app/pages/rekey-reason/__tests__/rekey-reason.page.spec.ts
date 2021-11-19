@@ -1,6 +1,6 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import {
-  IonicModule, Platform, ModalController,
+  Platform, ModalController,
 } from '@ionic/angular';
 import {
   PlatformMock, ModalControllerMock,
@@ -45,6 +45,7 @@ import { UploadRekeyModalEvent } from '@pages/rekey-reason/components/upload-rek
 import { RekeyReasonViewDidEnter, ResetStaffNumberValidationError } from '@pages/rekey-reason/rekey-reason.actions';
 import { ExitRekeyModalEvent } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal.constants';
 import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IpadIssueComponent } from '../components/ipad-issue/ipad-issue';
 import { TransferComponent } from '../components/transfer/transfer';
 import { OtherReasonComponent } from '../components/other-reason/other-reason';
@@ -62,6 +63,7 @@ describe('RekeyReasonPage', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         RekeyReasonPage,
         MockComponent(IpadIssueComponent),
@@ -69,7 +71,6 @@ describe('RekeyReasonPage', () => {
         MockComponent(OtherReasonComponent),
       ],
       imports: [
-        IonicModule,
         StoreModule.forRoot({
           journal: () => ({
             isLoading: false,
