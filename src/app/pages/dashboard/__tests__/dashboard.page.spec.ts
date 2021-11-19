@@ -44,12 +44,13 @@ import { SlotProvider } from '@providers/slot/slot';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
+import { By } from '@angular/platform-browser';
 import { DashboardPage } from '../dashboard.page';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
 import { DashboardViewDidEnter } from '../dashboard.actions';
 
-fdescribe('DashboardPage', () => {
+describe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
@@ -61,7 +62,11 @@ fdescribe('DashboardPage', () => {
   let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
 
   const initialState = {
-    appInfo: { versionNumber: '4.0', employeeName: 'Some One', employeeId: '1234567' },
+    appInfo: {
+      versionNumber: '4.0',
+      employeeName: 'Some One',
+      employeeId: '1234567',
+    },
     appConfig: { role: ExaminerRole.DE },
     journal: { slots: {} },
     tests: { testStatus: {} },
@@ -73,7 +78,10 @@ fdescribe('DashboardPage', () => {
       imports: [
         RouterTestingModule.withRoutes(
           [
-            { path: '', component: DashboardPage },
+            {
+              path: '',
+              component: DashboardPage,
+            },
           ],
         ),
         IonicModule,
@@ -83,19 +91,58 @@ fdescribe('DashboardPage', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: Router, useValue: routerSpy },
-        { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-        { provide: Insomnia, useClass: InsomniaMock },
-        { provide: SlotProvider, useClass: SlotProviderMock },
-        { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
+        {
+          provide: Platform,
+          useFactory: () => PlatformMock.instance(),
+        },
+        {
+          provide: AlertController,
+          useFactory: () => AlertControllerMock.instance(),
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
+        {
+          provide: Router,
+          useValue: routerSpy,
+        },
+        {
+          provide: CompletedTestPersistenceProvider,
+          useClass: CompletedTestPersistenceProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: ScreenOrientation,
+          useClass: ScreenOrientationMock,
+        },
+        {
+          provide: Insomnia,
+          useClass: InsomniaMock,
+        },
+        {
+          provide: SlotProvider,
+          useClass: SlotProviderMock,
+        },
+        {
+          provide: SlotSelectorProvider,
+          useClass: SlotSelectorProviderMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -117,87 +164,199 @@ fdescribe('DashboardPage', () => {
   }));
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should get the selectVersionNumber and selectEmployeeName from store on init', () => {
-      const spy = spyOn(store$, 'select').and.returnValue(of());
-      component.ngOnInit();
-      expect(spy).toHaveBeenCalledTimes(4);
-      expect(spy.calls.allArgs()).toEqual([
-        [selectVersionNumber],
-        [selectEmployeeName],
-        [selectEmployeeId],
-        [selectRole],
-      ]);
+  describe('DOM', () => {
+    describe('ngOnInit', () => {
+      it('should get the selectVersionNumber and selectEmployeeName from store on init', () => {
+        const spy = spyOn(store$, 'select')
+          .and
+          .returnValue(of());
+        component.ngOnInit();
+        expect(spy)
+          .toHaveBeenCalledTimes(4);
+        expect(spy.calls.allArgs())
+          .toEqual([
+            [selectVersionNumber],
+            [selectEmployeeName],
+            [selectEmployeeId],
+            [selectRole],
+          ]);
+      });
     });
-  });
-  describe('ionViewWillEnter', () => {
-    it('should set todaysDate and todaysDateFormatted on view will enter', async () => {
-      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
-      spyOn(completedTestPersistenceProvider, 'loadCompletedPersistedTests');
-      await component.ionViewWillEnter();
-      expect(component.todaysDate).toEqual(new DateTime('2019-02-01'));
-      expect(component.todaysDateFormatted).toEqual('Friday 1st February 2019');
-      expect(completedTestPersistenceProvider.loadCompletedPersistedTests).toHaveBeenCalled();
+    describe('ionViewWillEnter', () => {
+      it('should set todaysDate and todaysDateFormatted on view will enter', async () => {
+        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+        spyOn(completedTestPersistenceProvider, 'loadCompletedPersistedTests');
+        await component.ionViewWillEnter();
+        expect(component.todaysDate)
+          .toEqual(new DateTime('2019-02-01'));
+        expect(component.todaysDateFormatted)
+          .toEqual('Friday 1st February 2019');
+        expect(completedTestPersistenceProvider.loadCompletedPersistedTests)
+          .toHaveBeenCalled();
+      });
     });
-  });
-  describe('ionViewDidEnter', () => {
-    it('should dispatch the actions but not the native features', async () => {
-      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(false);
-      await component.ionViewDidEnter();
-      expect(store$.dispatch).toHaveBeenCalledWith(DashboardViewDidEnter());
-      expect(screenOrientation.unlock).not.toHaveBeenCalled();
-      expect(insomnia.allowSleepAgain).not.toHaveBeenCalled();
-      expect(deviceProvider.disableSingleAppMode).not.toHaveBeenCalled();
-      expect(store$.dispatch).toHaveBeenCalledWith(LoadJournalSilent());
+    describe('ionViewDidEnter', () => {
+      it('should dispatch the actions but not the native features', async () => {
+        spyOn(BasePageComponent.prototype, 'isIos')
+          .and
+          .returnValue(false);
+        await component.ionViewDidEnter();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(DashboardViewDidEnter());
+        expect(screenOrientation.unlock)
+          .not
+          .toHaveBeenCalled();
+        expect(insomnia.allowSleepAgain)
+          .not
+          .toHaveBeenCalled();
+        expect(deviceProvider.disableSingleAppMode)
+          .not
+          .toHaveBeenCalled();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(LoadJournalSilent());
+      });
+      it('should dispatch the actions and run native functionality', async () => {
+        spyOn(BasePageComponent.prototype, 'isIos')
+          .and
+          .returnValue(true);
+        await component.ionViewDidEnter();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(DashboardViewDidEnter());
+        expect(screenOrientation.unlock)
+          .toHaveBeenCalled();
+        expect(insomnia.allowSleepAgain)
+          .toHaveBeenCalled();
+        expect(deviceProvider.disableSingleAppMode)
+          .toHaveBeenCalled();
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(LoadJournalSilent());
+      });
     });
-    it('should dispatch the actions and run native functionality', async () => {
-      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-      await component.ionViewDidEnter();
-      expect(store$.dispatch).toHaveBeenCalledWith(DashboardViewDidEnter());
-      expect(screenOrientation.unlock).toHaveBeenCalled();
-      expect(insomnia.allowSleepAgain).toHaveBeenCalled();
-      expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
-      expect(store$.dispatch).toHaveBeenCalledWith(LoadJournalSilent());
+    describe('showTestReportPracticeMode', () => {
+      it('should return true when enableTestReportPracticeMode is true', () => {
+        expect(component.showTestReportPracticeMode())
+          .toEqual(true);
+      });
+      it('should return false when enableTestReportPracticeMode is not true', () => {
+        spyOn(appConfigProvider, 'getAppConfig')
+          .and
+          .returnValue({
+            journal: {
+              enableTestReportPracticeMode: false,
+            },
+          } as AppConfig);
+        expect(component.showTestReportPracticeMode())
+          .toEqual(false);
+      });
     });
-  });
-  describe('showTestReportPracticeMode', () => {
-    it('should return true when enableTestReportPracticeMode is true', () => {
-      expect(component.showTestReportPracticeMode()).toEqual(true);
+
+    describe('showEndToEndPracticeMode', () => {
+      it('should return true when enableEndToEndPracticeMode is true', () => {
+        expect(component.showEndToEndPracticeMode())
+          .toEqual(true);
+      });
+      it('should return false when enableEndToEndPracticeMode is not true', () => {
+        spyOn(appConfigProvider, 'getAppConfig')
+          .and
+          .returnValue({
+            journal: {
+              enableEndToEndPracticeMode: false,
+            },
+          } as AppConfig);
+        expect(component.showEndToEndPracticeMode())
+          .toEqual(false);
+      });
     });
-    it('should return false when enableTestReportPracticeMode is not true', () => {
-      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
-        journal: {
-          enableTestReportPracticeMode: false,
-        },
-      } as AppConfig);
-      expect(component.showTestReportPracticeMode()).toEqual(false);
+
+    describe('showDelegatedExaminerRekey', () => {
+      it('should return false when role is not DLG', () => {
+        expect(component.showDelegatedExaminerRekey())
+          .toEqual(false);
+      });
+      it('should return true when role is DLG', () => {
+        spyOn(appConfigProvider, 'getAppConfig')
+          .and
+          .returnValue({ role: ExaminerRole.DLG } as AppConfig);
+        expect(component.showDelegatedExaminerRekey())
+          .toEqual(true);
+      });
     });
   });
 
-  describe('showEndToEndPracticeMode', () => {
-    it('should return true when enableEndToEndPracticeMode is true', () => {
-      expect(component.showEndToEndPracticeMode()).toEqual(true);
-    });
-    it('should return false when enableEndToEndPracticeMode is not true', () => {
-      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({
-        journal: {
-          enableEndToEndPracticeMode: false,
-        },
-      } as AppConfig);
-      expect(component.showEndToEndPracticeMode()).toEqual(false);
-    });
-  });
+  describe('DOM', () => {
+    describe('test report practice mode', () => {
+      it('should show test report practice mode banner when config is set to true', () => {
+        component.showTestReportPracticeMode = jasmine.createSpy('showTestReportPracticeMode').and.returnValue(true);
 
-  describe('showDelegatedExaminerRekey', () => {
-    it('should return false when role is not DLG', () => {
-      expect(component.showDelegatedExaminerRekey()).toEqual(false);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('#testReportPracticeMode'))).not.toBeNull();
+      });
+
+      it('should not show test report practice mode banner when config is set to false', () => {
+        component.showTestReportPracticeMode = jasmine.createSpy('showTestReportPracticeMode').and.returnValue(false);
+
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('#testReportPracticeMode'))).toBeNull();
+      });
+      it('should show test report practice mode banner when showDelegatedExaminerRekey returns true', () => {
+        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('practice-test-report-card'))).not.toBeNull();
+      });
     });
-    it('should return true when role is DLG', () => {
-      spyOn(appConfigProvider, 'getAppConfig').and.returnValue({ role: ExaminerRole.DLG } as AppConfig);
-      expect(component.showDelegatedExaminerRekey()).toEqual(true);
+
+    describe('end to end practice mode', () => {
+      it('should show the end to end practice mode banner when config is set to true', () => {
+        component.showEndToEndPracticeMode = jasmine.createSpy('showEndToEndPracticeMode').and.returnValue(true);
+
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('#endToendPracticeMode'))).not.toBeNull();
+
+      });
+
+      it('should not show the end to end practice mode banner when config is set to false', () => {
+        component.showEndToEndPracticeMode = jasmine.createSpy('showEndToEndPracticeMode').and.returnValue(false);
+
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('#endToendPracticeMode'))).toBeNull();
+      });
+
+      it('should show the end to end practice mode banner when showDelegatedExaminerRekey returns true', () => {
+        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('practice-end-to-end-card'))).not.toBeNull();
+      });
+    });
+    describe('goToJournalCard', () => {
+      it('should not show journal card when showDelegatedExaminerRekey returns true', () => {
+        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('go-to-journal-card'))).toBeNull();
+      });
+      it('should show the journal card when showDelegatedExaminerRekey returns false', () => {
+        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(false);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('go-to-journal-card'))).not.toBeNull();
+      });
+    });
+    // @TODO MES-6603 enable when delegate is migrated into des4
+    xdescribe('delegatedExaminerRekey', () => {
+      it('should show the delegated examiner rekey card when showDelegatedExaminerRekey returns true', () => {
+        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('delegated-examiner-rekey'))).not.toBeNull();
+      });
+    });
+    describe('rekeySearchCard', () => {
+      it('should NOT hide the rekey search card when showDelegatedExaminerRekey returns true', () => {
+        spyOn(component, 'showDelegatedExaminerRekey').and.returnValue(true);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('rekey-search-card'))).not.toBeNull();
+      });
     });
   });
 });
