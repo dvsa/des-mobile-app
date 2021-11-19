@@ -125,7 +125,7 @@ describe('DashboardPage', () => {
       .toBeTruthy();
   });
 
-  describe('DOM', () => {
+  describe('Class', () => {
     describe('ngOnInit', () => {
       it('should get the selectVersionNumber and selectEmployeeName from store on init', () => {
         const spy = spyOn(store$, 'select')
