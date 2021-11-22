@@ -1,7 +1,7 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { TellMeQuestionOutcomeComponent } from '../tell-me-question-outcome';
 import { AppModule } from '../../../../../../app.module';
@@ -18,6 +18,7 @@ describe('TellMeQuestionOutcomeComponent', () => {
       imports: [
         IonicModule,
         AppModule,
+        ReactiveFormsModule,
       ],
     });
   });

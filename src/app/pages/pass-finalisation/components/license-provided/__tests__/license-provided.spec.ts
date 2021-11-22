@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { LicenseProvidedComponent } from '../license-provided';
@@ -15,8 +15,7 @@ describe('licenseProvidedComponent', () => {
       ],
       imports: [
         IonicModule,
-      ],
-      providers: [
+        ReactiveFormsModule,
       ],
     });
   });

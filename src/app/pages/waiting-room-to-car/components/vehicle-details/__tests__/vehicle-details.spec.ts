@@ -3,8 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { AppModule } from '@app/app.module';
 import { VehicleDetailsComponent } from '../vehicle-details';
-import { AppModule } from '../../../../../app.module';
 
 describe('VehicleDetailsComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsComponent>;

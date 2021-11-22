@@ -1,7 +1,7 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import { configureTestSuite } from 'ng-bullet';
@@ -20,6 +20,7 @@ describe('SignatureComponent', () => {
       imports: [
         IonicModule,
         TranslateModule.forRoot(),
+        ReactiveFormsModule,
       ],
     });
   });

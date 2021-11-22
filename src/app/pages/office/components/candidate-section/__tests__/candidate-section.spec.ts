@@ -4,6 +4,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from 'src/app/app.module';
 import { TestOutcome } from '@store/tests/tests.constants';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CandidateSectionComponent } from '../candidate-section';
 
 describe('CandidateSectionComponent', () => {
@@ -18,8 +19,8 @@ describe('CandidateSectionComponent', () => {
       imports: [
         IonicModule,
         AppModule,
+        ReactiveFormsModule,
       ],
-      providers: [],
     });
   });
 

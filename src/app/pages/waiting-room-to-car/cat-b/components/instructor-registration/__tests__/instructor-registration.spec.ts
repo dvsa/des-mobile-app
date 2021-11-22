@@ -1,5 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { InstructorRegistrationComponent } from '../instructor-registration';
@@ -22,6 +22,7 @@ describe('InstructorRegistrationComponent', () => {
       ],
       imports: [
         IonicModule,
+        ReactiveFormsModule,
       ],
     });
   });

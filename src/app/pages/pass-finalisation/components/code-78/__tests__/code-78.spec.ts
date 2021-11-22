@@ -1,5 +1,5 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { Code78Component } from '../code-78';
@@ -15,8 +15,7 @@ describe('code78Component', () => {
       ],
       imports: [
         IonicModule,
-      ],
-      providers: [
+        ReactiveFormsModule,
       ],
     });
   });
