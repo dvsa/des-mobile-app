@@ -145,7 +145,6 @@ export class TestsAnalyticsEffects {
   setActivityCode$ = createEffect(() => this.actions$.pipe(
     ofType(
       activityCodeActions.SetActivityCode,
-      passFinalisationActions.PassFinalisationReportActivityCode,
     ),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
@@ -156,6 +155,29 @@ export class TestsAnalyticsEffects {
     )),
     filter(([{ activityCode }]) => activityCode !== null),
     concatMap(([{ activityCode }, tests]: [ReturnType <typeof activityCodeActions.SetActivityCode>, TestsModel]) => {
+      const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+        formatAnalyticsText(AnalyticsEvents.SET_ACTIVITY_CODE, tests),
+        `${code} - ${description}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  passFinalisationReportActivityCode$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      passFinalisationActions.PassFinalisationReportActivityCode,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([{ activityCode }, tests]:
+    [ReturnType <typeof passFinalisationActions.PassFinalisationReportActivityCode>, TestsModel]) => {
       const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
