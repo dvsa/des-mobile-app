@@ -1,0 +1,35 @@
+@import "src/theme/sass-partials/modal";
+
+:host {
+  @extend .modal-alert-wrapper;
+
+  .modal-alert-header {
+    margin: 0 0 24px;
+  }
+
+  .center-icon {
+    text-align: center;
+  }
+
+  .practice-icon {
+    margin: 40px 0 16px;
+    font-size: 96px;
+    color: var(--gds-black);
+  }
+
+  .modal-alert {
+    width: 400px;
+  }
+
+  .modal-alert-message {
+    margin-bottom: 24px;
+  }
+
+  .mes-align-content-center {
+    text-align: center;
+  }
+
+  .cancel-button {
+    color: var(--gds-black);
+  }
+}

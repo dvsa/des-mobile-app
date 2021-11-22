@@ -5,8 +5,6 @@ import {
 import { AlertControllerMock, ModalControllerMock } from 'ionic-mocks';
 import { StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
-// import { PracticeTestReportCardComponent } from '../practice-test-report-card';
-// import { journalReducer } from '../../../../../modules/journal/journal.reducer';
 
 describe('PracticeTestReportCard ', () => {
 
@@ -25,8 +23,7 @@ describe('PracticeTestReportCard ', () => {
   beforeEach(waitForAsync(() => {
   }));
 
-  // @TODO: MES-6878 tests will be reinstated when practice test report mode is implemented
-  xdescribe('Class', () => {
+  describe('Class', () => {
     it('should create', () => {
     });
   });
