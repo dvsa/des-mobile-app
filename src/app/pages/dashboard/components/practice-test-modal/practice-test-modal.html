@@ -1,38 +1,38 @@
 <ion-card class="modal-alert">
   <ion-row>
     <ion-col class="center-icon ion-no-padding">
-      <ion-icon class="practice-icon" name="car"></ion-icon>
+      <ion-icon id="practice-modal-icon" class="practice-icon" name="car"></ion-icon>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding">
-      <h2 class="modal-alert-header">Practice a test (cat B)</h2>
+      <h2 id="practice-modal-header-text" class="modal-alert-header">Practice a test (cat B)</h2>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col size="80" class="ion-no-padding">
       <div class="modal-alert-message">
-        <div class="mes-data">Select if you'd like to start with<br/>or without a driving fault on<br/>vehicle checks</div>
+        <div id="practice-modal-message-text" class="mes-data">Select if you'd like to start with<br/>or without a driving fault on<br/>vehicle checks</div>
       </div>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col size="72" class="ion-no-padding">
-      <ion-button class="mes-return-button fault-button" (click)="onFault()">
+      <ion-button id="practice-modal-fault-start" class="mes-return-button fault-button" (click)="onFault()">
         <h3>Start with a driving fault</h3>
       </ion-button>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col size="72" class="ion-no-padding">
-      <ion-button class="mes-return-button no-fault-button" (click)="onNoFault()">
+      <ion-button id="practice-modal-faultless-start" class="mes-return-button no-fault-button" (click)="onNoFault()">
         <h3>Start without a driving fault</h3>
       </ion-button>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col class="column-border-top ion-no-padding">
-      <ion-button class="cancel-button" fill="clear" (click)="onCancel()">Cancel</ion-button>
+      <ion-button id="practice-modal-cancel" class="cancel-button" fill="clear" (click)="onCancel()">Cancel</ion-button>
     </ion-col>
   </ion-row>
 </ion-card>
