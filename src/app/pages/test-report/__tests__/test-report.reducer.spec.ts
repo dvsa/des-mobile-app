@@ -1,5 +1,5 @@
 import { testReportReducer, initialState } from '../test-report.reducer';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../test-report.actions';
+import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ResetFaultMode } from '../test-report.actions';
 
 describe('TestReportReducer reducer', () => {
   describe('TOGGLE_SERIOUS_FAULT_MODE', () => {
@@ -27,6 +27,19 @@ describe('TestReportReducer reducer', () => {
         dangerousMode: true,
       };
       const result = testReportReducer(state, ToggleDangerousFaultMode());
+      expect(result.dangerousMode).toEqual(false);
+    });
+  });
+
+  describe('ResetFaultMode', () => {
+    it('should reset values to false', () => {
+      const state = {
+        ...initialState,
+        removeFaultMode: true,
+        dangerousMode: true,
+      };
+      const result = testReportReducer(state, ResetFaultMode());
+      expect(result.removeFaultMode).toEqual(false);
       expect(result.dangerousMode).toEqual(false);
     });
   });

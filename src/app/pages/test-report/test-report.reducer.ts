@@ -23,6 +23,12 @@ export const testReportReducer = createReducer(
     ...state,
     dangerousMode: !state.dangerousMode,
   })),
+  on(testReportActions.ResetFaultMode, (state) => ({
+    ...state,
+    removeFaultMode: false,
+    seriousMode: false,
+    dangerousMode: false,
+  })),
 );
 
 export const getTestReportState = createFeatureSelector<TestReportModel>('testReport');
