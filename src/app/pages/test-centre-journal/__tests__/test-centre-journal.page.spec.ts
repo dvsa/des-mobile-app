@@ -123,7 +123,7 @@ describe('TestCenterJournalPage', () => {
       spyOn(testCentreJournalProvider, 'getTestCentreJournal');
       component.isOffline = true;
       await component.getTestCentreData();
-      expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalGetData());
+      expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalGetData(false));
       expect(testCentreJournalProvider.getTestCentreJournal).not.toHaveBeenCalled();
     });
     it('should call getTestCentreJournal when online', async () => {

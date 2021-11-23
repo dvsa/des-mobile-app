@@ -110,7 +110,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   getTestCentreData = async (manualRefresh: boolean = false): Promise<void> => {
     this.subscription.unsubscribe();
     this.manuallyRefreshed = manualRefresh;
-    this.store$.dispatch(TestCentreJournalGetData());
+    this.store$.dispatch(TestCentreJournalGetData(manualRefresh));
     if (this.isOffline) {
       this.setOfflineError();
       return;
