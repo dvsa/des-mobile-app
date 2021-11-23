@@ -59,8 +59,9 @@ export class TestReportEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line
-    switchMap(([, currentTest]: [ReturnType<typeof testReportActions.CalculateTestResult>, NeverType<TestResultCommonSchema>]) => {
+    switchMap((
+      [, currentTest]: [ReturnType<typeof testReportActions.CalculateTestResult>, NeverType<TestResultCommonSchema>],
+    ) => {
       return this.testResultProvider.calculateTestResult(currentTest.category, currentTest.testData)
         .pipe(
           switchMap((result: ActivityCode) => {
@@ -136,7 +137,6 @@ export class TestReportEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line
     filter(([, isTestReportPracticeTestValue]) => !isTestReportPracticeTestValue),
     delay(1000), // Added a 1 second delay to allow other action to complete/effects to fire
     map(() => testsActions.PersistTests()),

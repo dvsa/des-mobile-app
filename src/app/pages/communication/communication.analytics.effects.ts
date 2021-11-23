@@ -76,9 +76,7 @@ export class CommunicationAnalyticsEffects {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-      this.analytics.setCurrentPage(
-        formatAnalyticsText(AnalyticsScreenNames.COMMUNICATION, tests),
-      );
+      this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.COMMUNICATION, tests));
       return of(AnalyticRecorded());
     }),
   ));
@@ -102,8 +100,7 @@ export class CommunicationAnalyticsEffects {
     [ReturnType <typeof CommunicationValidationError>, TestsModel, CategoryCode]) => {
       const screenName = formatAnalyticsText(AnalyticsScreenNames.COMMUNICATION, tests);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
-      this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenName})`,
-        action.errorMessage);
+      this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenName})`, action.errorMessage);
       return of(AnalyticRecorded());
     }),
   ));

@@ -41,8 +41,7 @@ export class DebriefAnalyticsEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    switchMap(([action, tests, isTestPassed]: [ReturnType<typeof DebriefViewDidEnter>, TestsModel, boolean]) => {
+    switchMap(([, tests, isTestPassed]: [ReturnType<typeof DebriefViewDidEnter>, TestsModel, boolean]) => {
       const screenName = isTestPassed
         ? formatAnalyticsText(AnalyticsScreenNames.PASS_DEBRIEF, tests)
         : formatAnalyticsText(AnalyticsScreenNames.FAIL_DEBRIEF, tests);

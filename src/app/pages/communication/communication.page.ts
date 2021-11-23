@@ -38,6 +38,7 @@ import {
   CommunicationSubmitInfo,
   CommunicationSubmitInfoError,
   CommunicationValidationError,
+  CommunicationViewDidEnter,
 } from '@pages/communication/communication.actions';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -188,6 +189,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  ionViewDidEnter(): void {
+    this.store$.dispatch(CommunicationViewDidEnter());
   }
 
   onSubmit() {

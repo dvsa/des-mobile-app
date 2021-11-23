@@ -193,8 +193,7 @@ export class OfficeAnalyticsEffects {
     switchMap(([action, tests, isTestPassed]: [ReturnType<typeof OfficeValidationError>, TestsModel, boolean]) => {
       const screenName = isTestPassed ? AnalyticsScreenNames.PASS_TEST_SUMMARY : AnalyticsScreenNames.FAIL_TEST_SUMMARY;
       const formattedScreenName = formatAnalyticsText(screenName, tests);
-      this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`,
-        action.errorMessage);
+      this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`, action.errorMessage);
       return of(AnalyticRecorded());
     }),
   ));
