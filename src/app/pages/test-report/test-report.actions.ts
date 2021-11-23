@@ -21,6 +21,10 @@ export const ToggleDangerousFaultMode = createAction(
   (isUserGenerated: boolean = false) => ({ isUserGenerated }),
 );
 
+export const ResetFaultMode = createAction(
+  '[TestReportPage] Reset Fault Mode',
+);
+
 export const CalculateTestResult = createAction(
   '[TestResultPage] Calculate Test Result',
 );

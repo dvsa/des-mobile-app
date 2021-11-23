@@ -9,6 +9,7 @@ import { TestSlotComponentsModule } from '@components/test-slot/test-slot-compon
 import { FakeJournalComponentsModule } from '@pages/fake-journal/components/fake-journal-components.module';
 import { EffectsModule } from '@ngrx/effects';
 import { FakeJournalEffects } from '@pages/fake-journal/fake-journal.effects';
+import { CandidateDetailsPageModule } from '@pages/candidate-details/candidate-details.module';
 import { FakeJournalPage } from './fake-journal.page';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { FakeJournalPage } from './fake-journal.page';
     ComponentsModule,
     TestSlotComponentsModule,
     FakeJournalComponentsModule,
+    CandidateDetailsPageModule,
     EffectsModule.forFeature([
       FakeJournalEffects,
     ]),

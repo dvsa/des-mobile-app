@@ -23,6 +23,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import {
   CalculateTestResult,
+  ResetFaultMode,
   TerminateTestFromTestReport,
   TestReportViewDidEnter,
 } from '@pages/test-report/test-report.actions';
@@ -236,6 +237,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     if (super.isIos() && this.isPracticeMode) {
       this.statusBar.show();
     }
+    this.store$.dispatch(ResetFaultMode());
   }
 
   toggleReportOverlay(): void {

@@ -12,6 +12,7 @@ export const fakeJournalTestSlots = [
         bookingSequence: 3,
         checkDigit: 1,
         entitlementCheck: false,
+        categoryEntitlementCheck: false,
         extendedTest: false,
         progressiveAccess: false,
         specialNeedsCode: 'EXTRA',
@@ -19,7 +20,7 @@ export const fakeJournalTestSlots = [
         testCategory: 'B',
         vehicleGearbox: 'Automatic',
         welshTest: false,
-        meetingPlace: 'At the pub',
+        meetingPlace: 'Next to test centre',
       },
       candidate: {
         candidateAddress: {
@@ -63,12 +64,13 @@ export const fakeJournalTestSlots = [
         bookingSequence: 1,
         checkDigit: 9,
         entitlementCheck: false,
+        categoryEntitlementCheck: false,
         extendedTest: false,
         progressiveAccess: false,
         testCategory: 'B',
         vehicleGearbox: 'Automatic',
         welshTest: true,
-        meetingPlace: 'At the pub',
+        meetingPlace: 'Next to test centre',
         specialNeedsExtendedTest: false,
         specialNeedsCode: 'NONE',
       },
@@ -114,6 +116,7 @@ export const fakeJournalTestSlots = [
         bookingSequence: 2,
         checkDigit: 2,
         entitlementCheck: false,
+        categoryEntitlementCheck: false,
         extendedTest: false,
         progressiveAccess: false,
         testCategory: 'B',
@@ -125,6 +128,7 @@ export const fakeJournalTestSlots = [
         welshTest: false,
         specialNeedsCode: 'YES',
         specialNeedsExtendedTest: false,
+        meetingPlace: 'Next to test centre',
       },
       candidate: {
         candidateAddress: {
@@ -165,6 +169,7 @@ export const fakeJournalTestSlots = [
         bookingSequence: 2,
         checkDigit: 6,
         entitlementCheck: false,
+        categoryEntitlementCheck: false,
         extendedTest: false,
         progressiveAccess: false,
         testCategory: 'B',
@@ -175,6 +180,7 @@ export const fakeJournalTestSlots = [
         vehicleWidth: 3.5,
         welshTest: false,
         specialNeedsCode: 'NONE',
+        meetingPlace: 'Next to test centre',
       },
       candidate: {
         candidateAddress: {
@@ -216,6 +222,7 @@ export const fakeJournalTestSlots = [
         bookingSequence: 1,
         checkDigit: 3,
         entitlementCheck: false,
+        categoryEntitlementCheck: false,
         extendedTest: false,
         progressiveAccess: false,
         testCategory: 'B',
@@ -226,6 +233,7 @@ export const fakeJournalTestSlots = [
         vehicleWidth: 2,
         welshTest: false,
         specialNeedsCode: 'YES',
+        meetingPlace: 'Next to test centre',
       },
       candidate: {
         candidateAddress: {
@@ -269,6 +277,7 @@ export const fakeJournalTestSlots = [
         bookingSequence: 7,
         checkDigit: 7,
         entitlementCheck: false,
+        categoryEntitlementCheck: false,
         extendedTest: false,
         progressiveAccess: false,
         testCategory: 'B',
@@ -276,6 +285,7 @@ export const fakeJournalTestSlots = [
         welshTest: false,
         specialNeedsCode: 'NONE',
         specialNeedsExtendedTest: false,
+        meetingPlace: 'Next to test centre',
       },
       candidate: {
         candidateAddress: {
