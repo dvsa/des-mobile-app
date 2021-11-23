@@ -54,10 +54,10 @@ describe('submitModal', () => {
     modalFixture.detectChanges();
     await modalComponent.onBack();
     expect(modalComponent.modalController.dismiss).toHaveBeenCalled();
-
   });
 
   it('should call onCompleteTest when the Submit button is clicked', () => {
+    modalComponent.onTestDetailsConfirm = async () => {};
     modalFixture.detectChanges();
     spyOn(modalComponent, 'onCompleteTest').and.callThrough();
     const button = modalFixture.debugElement.query(By.css('#continue-button'));

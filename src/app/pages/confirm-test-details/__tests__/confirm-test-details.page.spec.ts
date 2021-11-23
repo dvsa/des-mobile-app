@@ -6,7 +6,7 @@ import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import { configureTestSuite } from 'ng-bullet';
 import {
   AlertController,
-  IonicModule,
+  IonicModule, ModalController,
   NavController,
   Platform,
 } from '@ionic/angular';
@@ -24,6 +24,7 @@ import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actio
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
 import { ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
@@ -31,6 +32,7 @@ import { TestFlowPageNames } from '../../page-names.constants';
 describe('ConfirmTestDetailsPage', () => {
   let fixture: ComponentFixture<ConfirmTestDetailsPage>;
   let component: ConfirmTestDetailsPage;
+  let modalController: ModalController;
   let store$: Store<StoreModel>;
   let router: Router;
 
@@ -90,6 +92,7 @@ describe('ConfirmTestDetailsPage', () => {
         { provide: NavController, useFactory: () => NavControllerMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: AlertController, useValue: mockAlertCtrl },
+        { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
   });
@@ -99,7 +102,9 @@ describe('ConfirmTestDetailsPage', () => {
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
     store$ = TestBed.inject(Store);
-    spyOn(store$, 'dispatch').and.callThrough();
+    modalController = TestBed.inject(ModalController);
+    spyOn(store$, 'dispatch');
+    spyOn(router, 'navigate');
     component.subscription = new Subscription();
   }));
 
@@ -142,7 +147,6 @@ describe('ConfirmTestDetailsPage', () => {
       expect(component.getProvisionalText(true)).toEqual('Yes - Please retain the candidates licence');
     });
     it('should return appropriate string if false', () => {
-      // tslint:disable-next-line:max-line-length
       expect(component.getProvisionalText(false))
         .toEqual('No - Please ensure that the licence is kept by the candidate');
     });
@@ -167,9 +171,11 @@ describe('ConfirmTestDetailsPage', () => {
 
   describe('showConfirmTestDetailsModal', () => {
     it('should call alertController.create', async () => {
-      spyOn(component, 'showConfirmTestDetailsModal');
+      spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+        present: () => Promise.resolve(),
+      } as HTMLIonModalElement));
       await component.showConfirmTestDetailsModal();
-      expect(component.showConfirmTestDetailsModal).toHaveBeenCalled();
+      expect(modalController.create).toHaveBeenCalled();
     });
   });
 
@@ -177,7 +183,6 @@ describe('ConfirmTestDetailsPage', () => {
     it('should call device auth provider triggerLockScreen', async () => {
       component.testOutcome = TestOutcome.Passed;
       component.slotId = '123';
-      spyOn(router, 'navigate');
       await component.onTestDetailsConfirm();
       expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
     });

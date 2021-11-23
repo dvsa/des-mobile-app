@@ -1292,7 +1292,6 @@ export class TestReportAnalyticsEffects {
     )),
     concatMap(
       ([action, tests]) => {
-        console.log(action);
         const toggleValue = action.type === emergencyStopActions.AddEmergencyStopSeriousFault.type
           ? speedCheckToggleValues.speedNotMet : speedCheckToggleValues.speedMet;
         this.analytics.logEvent(

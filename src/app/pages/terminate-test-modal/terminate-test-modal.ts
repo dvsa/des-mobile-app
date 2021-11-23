@@ -31,9 +31,8 @@ export class TerminateTestModal {
   terminationWrapper(): Promise<void> {
     if (this.shouldAuthenticate) {
       return this.deviceAuthenticationProvider.triggerLockScreen()
-        .then(() => {
-          this.onTerminate();
-        }).catch((err) => console.error(err));
+        .then(() => { this.onTerminate(); })
+        .catch((err) => err);
     }
     this.onTerminate();
     return Promise.resolve();

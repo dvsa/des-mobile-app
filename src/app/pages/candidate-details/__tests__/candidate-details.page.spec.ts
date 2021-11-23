@@ -17,6 +17,9 @@ import { DataRowCustomComponent } from '@components/common/data-row-custom/data-
 import * as journalActions from '@store/journal/journal.actions';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import {
+  InappropriateUseBannerComponent,
+} from '@pages/candidate-details/components/inappropriate-use-banner/inappropriate-use-banner';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
@@ -62,6 +65,7 @@ describe('CandidateDetailsPage', () => {
         MockComponent(DisplayAddressComponent),
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),
+        MockComponent(InappropriateUseBannerComponent),
       ],
       imports: [
         IonicModule,
