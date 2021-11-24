@@ -33,6 +33,7 @@ export class CandidateDetailsPage implements OnInit {
   pageState: CandidateDetailsPageState;
   slot: TestSlot;
   slotChanged: boolean = false;
+  isTeamJournal: boolean = false;
   testCategory: TestCategory = null;
 
   constructor(
@@ -45,6 +46,8 @@ export class CandidateDetailsPage implements OnInit {
   ngOnInit(): void {
     this.slot = this.navParams.get('slot');
     this.slotChanged = this.navParams.get('slotChanged');
+    this.isTeamJournal = this.navParams.get('isTeamJournal');
+
     setTimeout(() => {
       this.store$.dispatch(journalActions.ClearChangedSlot(this.slot.slotDetail.slotId));
     });
@@ -73,7 +76,10 @@ export class CandidateDetailsPage implements OnInit {
 
   ionViewDidEnter(): void {
     this.store$.dispatch(candidateDetailActions.CandidateDetailsViewDidEnter({ slot: this.slot }));
-    this.store$.dispatch(journalActions.CandidateDetailsSeen({ slotId: this.slot.slotDetail.slotId }));
+
+    if (!this.isTeamJournal) {
+      this.store$.dispatch(journalActions.CandidateDetailsSeen({ slotId: this.slot.slotDetail.slotId }));
+    }
   }
 
   public specialNeedsIsPopulated(specialNeeds: string | string[]): boolean {

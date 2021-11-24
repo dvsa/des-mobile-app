@@ -110,7 +110,10 @@
 </ion-card>
 
 <ng-template #candidateLink>
-    <candidate-link *ngIf="canViewCandidateDetails() && !isTestCentreJournalADIBooking()" [slot]="slot" [slotChanged]="hasSlotChanged"
+    <candidate-link *ngIf="canViewCandidateDetails() && !isTestCentreJournalADIBooking()"
+                    [slot]="slot"
+                    [slotChanged]="hasSlotChanged"
+                    [isTeamJournal]="isTeamJournal"
                     [name]="slot.booking.candidate.candidateName"
                     [applicationId]="slot.booking.application.applicationId"
                     [isPortrait]="isPortrait()">
