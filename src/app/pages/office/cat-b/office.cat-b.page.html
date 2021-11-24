@@ -70,7 +70,7 @@
                                  id="tell-me-question-card">
                             <div class="validation-bar"></div>
                             <ion-col class="component-label ion-align-self-center" size="32">
-                                <label>Tell me question</label>
+                                <label id="tell-me-question-label">Tell me question</label>
                             </ion-col>
                             <ion-col class="ion-align-self-center ion-padding-start">
                                 <ion-row class="spacing-row"></ion-row>
@@ -174,7 +174,7 @@
                             </div>
                         </ion-col>
                         <ion-col class="component-label ion-align-self-center">
-                            <label class="fault-label">{{drivingFault.competencyDisplayName}}</label>
+                            <label class="fault-label" id="driving-faults-label-{{drivingFault.competencyDisplayName}}">{{drivingFault.competencyDisplayName}}</label>
                         </ion-col>
                     </ion-row>
                 </ion-card-content>

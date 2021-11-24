@@ -1,4 +1,4 @@
-<ion-row class="mes-validated-row mes-row-separator ion-nowrap" id="activity-code-card" [formGroup]="formGroup">
+<ion-row class="mes-validated-row mes-row-separator ion-nowrap" id="activity-code-row" [formGroup]="formGroup">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col size="32" class="component-label align-vertical-centre">
         <label id="activity-code-label">Activity code</label>
@@ -16,7 +16,7 @@
                         [interfaceOptions]="{cssClass:'mes-select activity-code-select', enableBackdropDismiss:false}"
                         [disabled]="isSelectDisabled()">
                 <ion-select-option [value]="activityCode"
-                                   id="code-{{activityCode.activityCode}}"
+                                   id="activity-code-{{activityCode.activityCode}}"
                                    [disabled]="isOptionDisabled(activityCode.activityCode)"
                                    *ngFor="let activityCode of activityCodeOptions">
                     {{activityCode.activityCode}} - {{activityCode.description}}
