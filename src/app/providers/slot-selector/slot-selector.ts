@@ -158,8 +158,11 @@ export class SlotSelectorProvider {
           (<TestSlotComponent>componentRef.instance).derivedTestStatus = TestStatus.Submitted;
         }
 
-        // if this is a test slot assign hasSeenCandidateDetails separately
-        (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
+        // stop the hasSeenCandidateDetails boolean being set via the Test centre journal
+        if (!isTeamJournal) {
+          // if this is a test slot assign hasSeenCandidateDetails separately
+          (<TestSlotComponent>componentRef.instance).hasSeenCandidateDetails = slot.hasSeenCandidateDetails;
+        }
       }
     }
   };
