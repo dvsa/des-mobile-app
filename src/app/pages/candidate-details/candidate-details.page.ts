@@ -34,6 +34,7 @@ export class CandidateDetailsPage implements OnInit {
   slot: TestSlot;
   slotChanged: boolean = false;
   testCategory: TestCategory = null;
+  idPrefix: string = 'candidate-details';
 
   constructor(
     public modalController: ModalController,
