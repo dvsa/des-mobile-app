@@ -6,7 +6,7 @@ import {
   TranslateLoader,
   TranslateParser,
 } from '@ngx-translate/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { HealthDeclarationComponent } from '../health-declaration';
@@ -23,6 +23,7 @@ describe('HealthDeclarationComponent', () => {
       imports: [
         IonicModule,
         TranslateModule.forRoot(),
+        ReactiveFormsModule,
       ],
       providers: [
         TranslateService,

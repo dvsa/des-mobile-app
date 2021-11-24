@@ -35,6 +35,7 @@ import { CommunicationSubmitInfo } from '@pages/communication/communication.acti
 import * as communicationPreferencesActions
   from '@store/tests/communication-preferences/communication-preferences.actions';
 import { By } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('CommunicationPage', () => {
   let fixture: ComponentFixture<CommunicationPage>;
@@ -57,6 +58,7 @@ describe('CommunicationPage', () => {
         RouterTestingModule.withRoutes([]),
         AppModule,
         TranslateModule,
+        ReactiveFormsModule,
         StoreModule.forFeature('tests', () => ({
           currentTest: {
             slotId: '123',

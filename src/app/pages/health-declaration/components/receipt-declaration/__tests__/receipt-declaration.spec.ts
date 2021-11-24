@@ -3,7 +3,7 @@ import { EventEmitter } from '@angular/core';
 import {
   TranslateModule,
 } from '@ngx-translate/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { ReceiptDeclarationComponent } from '../receipt-declaration';
@@ -20,6 +20,7 @@ describe('ReceiptDeclarationComponent', () => {
       imports: [
         IonicModule,
         TranslateModule.forRoot(),
+        ReactiveFormsModule,
       ],
     });
   });
