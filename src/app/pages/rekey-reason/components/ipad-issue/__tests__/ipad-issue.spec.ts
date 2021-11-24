@@ -2,7 +2,7 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IpadIssueComponent } from '../ipad-issue';
 
@@ -18,8 +18,8 @@ describe('IpadIssueComponent', () => {
       imports: [
         IonicModule,
         AppModule,
+        ReactiveFormsModule,
       ],
-      providers: [],
     });
   });
 

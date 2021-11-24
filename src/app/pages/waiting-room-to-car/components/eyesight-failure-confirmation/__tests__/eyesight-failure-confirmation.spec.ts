@@ -12,6 +12,7 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { Router } from '@angular/router';
 
+import { ReactiveFormsModule } from '@angular/forms';
 import { EyesightFailureConfirmationComponent } from '../eyesight-failure-confirmation';
 
 describe('EyesightFailureConfirmationComponent', () => {
@@ -30,6 +31,7 @@ describe('EyesightFailureConfirmationComponent', () => {
         StoreModule.forRoot({
           tests: testsReducer,
         }),
+        ReactiveFormsModule,
       ],
       providers: [
         { provide: Config, useFactory: () => ConfigMock.instance() },

@@ -1,7 +1,7 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { EyesightTestComponent } from '../eyesight-test';
 import { AppModule } from '../../../../../app.module';
@@ -18,6 +18,7 @@ describe('EyesightTestComponent', () => {
       imports: [
         IonicModule,
         AppModule,
+        ReactiveFormsModule,
       ],
     });
   });

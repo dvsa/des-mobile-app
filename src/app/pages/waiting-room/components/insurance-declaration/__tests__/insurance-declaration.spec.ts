@@ -7,7 +7,7 @@ import {
   TranslateLoader,
   TranslateParser,
 } from '@ngx-translate/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { InsuranceDeclarationComponent } from '../insurance-declaration';
 
@@ -23,6 +23,7 @@ describe('InsuranceDeclarationComponent', () => {
       imports: [
         IonicModule,
         TranslateModule.forRoot(),
+        ReactiveFormsModule,
       ],
       providers: [
         TranslateService,

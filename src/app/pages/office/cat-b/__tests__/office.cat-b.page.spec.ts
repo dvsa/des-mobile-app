@@ -42,6 +42,7 @@ import { EyesightTestFailed } from '@store/tests/test-data/common/eyesight-test/
 import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
+import { ReactiveFormsModule } from '@angular/forms';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { ToastControllerMock } from '../../__mocks__/toast-controller-mock';
@@ -127,6 +128,7 @@ describe('OfficePage', () => {
             },
           }),
         }),
+        ReactiveFormsModule,
       ],
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },

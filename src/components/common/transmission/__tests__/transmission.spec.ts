@@ -1,11 +1,11 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { configureTestSuite } from 'ng-bullet';
 import { TransmissionComponent } from '../transmission';
 
-describe('transmissionComponent', () => {
+describe('TransmissionComponent', () => {
   let fixture: ComponentFixture<TransmissionComponent>;
   let component: TransmissionComponent;
 
@@ -16,8 +16,7 @@ describe('transmissionComponent', () => {
       ],
       imports: [
         IonicModule,
-      ],
-      providers: [
+        ReactiveFormsModule,
       ],
     });
   });

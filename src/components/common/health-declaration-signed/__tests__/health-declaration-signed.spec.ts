@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { HealthDeclarationSignedComponent } from '../health-declaration-signed';
 
@@ -15,8 +15,7 @@ describe('HealthDeclarationSignedComponent', () => {
       ],
       imports: [
         IonicModule,
-      ],
-      providers: [
+        ReactiveFormsModule,
       ],
     });
   });

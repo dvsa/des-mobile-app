@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { AdditionalCandidateDetailsComponent } from '../additional-candidate-details';
 
-describe('VehicleDetailsComponent', () => {
+describe('AdditionalCandidateDetailsComponent', () => {
   let fixture: ComponentFixture<AdditionalCandidateDetailsComponent>;
   let component: AdditionalCandidateDetailsComponent;
 

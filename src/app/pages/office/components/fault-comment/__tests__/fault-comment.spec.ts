@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import {
   DrivingFaultsBadgeComponent,
 } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CommentSource } from '@shared/models/fault-marking.model';
 import { configureTestSuite } from 'ng-bullet';
@@ -29,6 +29,7 @@ describe('FaultCommentComponent', () => {
         AppModule,
         ComponentsModule,
         PipesModule,
+        ReactiveFormsModule,
       ],
       providers: [
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
