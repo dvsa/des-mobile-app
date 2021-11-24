@@ -2,7 +2,6 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { IsDebug } from '@ionic-native/is-debug/ngx';
-import { IsDebugMock } from '@ionic-native-mocks/is-debug';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 
 import { Platform } from '@ionic/angular';
@@ -10,6 +9,7 @@ import { PlatformMock } from 'ionic-mocks';
 import { StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 
+import { IsDebugMock } from '@mocks/ionic-mocks/is-debug.mock';
 import { AppConfigProvider } from '../app-config';
 
 import { environmentResponseMock } from '../__mocks__/environment-response.mock';
@@ -25,7 +25,7 @@ import { SchemaValidatorProviderMock } from '../../schema-validator/__mocks__/sc
 import { LogHelper } from '../../logs/logs-helper';
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
 
-describe('App Config Provider', () => {
+describe('AppConfigProvider', () => {
 
   let appConfig: AppConfigProvider;
   let httpMock: HttpTestingController;

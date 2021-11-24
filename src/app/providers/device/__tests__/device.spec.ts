@@ -1,18 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { Device } from '@ionic-native/device/ngx';
-import { DeviceMock } from '@ionic-native-mocks/device';
 import { StoreModule, Store } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { DeviceMock } from '@mocks/ionic-mocks/device.mock';
 import { DeviceProvider } from '../device';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '../../logs/logs-helper';
 
-describe('Device Provider', () => {
-
+describe('DeviceProvider', () => {
   let deviceProvider: DeviceProvider;
   let store$: Store<any>;
   let logHelper: LogHelper;
@@ -30,8 +29,8 @@ describe('Device Provider', () => {
         DeviceProvider,
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: Device, useClass: DeviceMock },
-        Store,
         { provide: LogHelper, useClass: LogHelperMock },
+        Store,
       ],
     });
   });

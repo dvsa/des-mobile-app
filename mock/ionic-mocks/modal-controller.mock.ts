@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ModalOptions } from '@ionic/core';
+import {ModalOptions, OverlayEventDetail} from '@ionic/core';
 
 @Injectable()
 export class ModalControllerMock {
@@ -10,6 +10,7 @@ export class ModalControllerMock {
     return Promise.resolve({
       present: () => Promise.resolve(),
       dismiss: () => Promise.resolve(true),
+      onDidDismiss: () => Promise.resolve({} as OverlayEventDetail),
     } as HTMLIonModalElement);
   }
 }

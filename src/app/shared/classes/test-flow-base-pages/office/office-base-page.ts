@@ -440,9 +440,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));
   }
 
-  async popToRoot() {
+  async popToRoot(): Promise<void> {
     if (this.isEndToEndPracticeMode) {
-      this.exitPracticeMode();
+      await this.exitPracticeMode();
       return;
     }
     await this.navController.navigateBack(JOURNAL_PAGE);

@@ -9,7 +9,7 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfig } from '../../app-config/app-config.model';
 
-describe('Device Authentication Provider', () => {
+describe('DeviceAuthenticationProvider', () => {
 
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
 

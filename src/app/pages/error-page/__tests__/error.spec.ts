@@ -14,8 +14,8 @@ import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { ErrorMessageComponent } from '@components/common/error-message/error-message';
-import { ErrorPage } from './error';
-import { ModalControllerMock } from '../../../../mock/ionic-mocks/modal-controller.mock';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { ErrorPage } from '../error';
 
 describe('ErrorPage', () => {
   let fixture: ComponentFixture<ErrorPage>;

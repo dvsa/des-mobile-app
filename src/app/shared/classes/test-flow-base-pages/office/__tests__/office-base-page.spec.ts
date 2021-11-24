@@ -166,26 +166,35 @@ describe('OfficeBasePageComponent', () => {
   });
 
   describe('completeTest', () => {
-    it('should successfully end the test', () => {
-      basePageComponent.completeTest();
-      expect(store$.dispatch).toHaveBeenCalledWith(CompleteTest());
+    beforeEach(() => {
+      spyOn(basePageComponent, 'popToRoot');
+      basePageComponent.finishTestModal = { dismiss: async () => true } as HTMLIonModalElement;
     });
-
-    it('should not dispatch complete test if in practice mode', () => {
+    it('should successfully end the test', async () => {
+      await basePageComponent.completeTest();
+      expect(store$.dispatch).toHaveBeenCalledWith(CompleteTest());
+      expect(basePageComponent.popToRoot).toHaveBeenCalled();
+    });
+    it('should not dispatch complete test if in practice mode', async () => {
       basePageComponent.isEndToEndPracticeMode = true;
-      basePageComponent.completeTest();
+      await basePageComponent.completeTest();
       expect(store$.dispatch).not.toHaveBeenCalledWith(CompleteTest());
+      expect(basePageComponent.popToRoot).toHaveBeenCalled();
     });
   });
 
   describe('popToRoot', () => {
-    it('should call the navigateBack method in the navcontroller if not in practice mode', () => {
-      basePageComponent.popToRoot();
-      expect(basePageComponent.navController.navigateBack).toHaveBeenCalled();
+    beforeEach(() => {
+      spyOn(basePageComponent, 'exitPracticeMode');
     });
-    it('should call the navigateBack method in the navcontroller if in practice mode.', () => {
+    it('should not call navigateBack when in practice mode', async () => {
       basePageComponent.isEndToEndPracticeMode = true;
-      basePageComponent.popToRoot();
+      await basePageComponent.popToRoot();
+      expect(basePageComponent.navController.navigateBack).not.toHaveBeenCalled();
+    });
+    it('should call the navigateBack method whilst not in practice mode', async () => {
+      basePageComponent.isEndToEndPracticeMode = false;
+      await basePageComponent.popToRoot();
       expect(basePageComponent.navController.navigateBack).toHaveBeenCalled();
     });
   });

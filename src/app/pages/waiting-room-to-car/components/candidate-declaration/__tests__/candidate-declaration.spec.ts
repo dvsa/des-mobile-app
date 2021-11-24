@@ -1,10 +1,10 @@
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
+import { AppModule } from '@app/app.module';
 import { CandidateDeclarationSignedComponent } from '../candidate-declaration';
-import { AppModule } from '../../../../../app.module';
 
 describe('CandidateDeclarationSignedComponent', () => {
   let fixture: ComponentFixture<CandidateDeclarationSignedComponent>;
@@ -18,6 +18,7 @@ describe('CandidateDeclarationSignedComponent', () => {
       imports: [
         IonicModule,
         AppModule,
+        ReactiveFormsModule,
       ],
     });
   });

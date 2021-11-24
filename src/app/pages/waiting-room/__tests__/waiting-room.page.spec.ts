@@ -212,7 +212,7 @@ describe('WaitingRoomPage', () => {
     });
 
     describe('canDeActivate', () => {
-      it('should should trigger the lock screen', async () => {
+      it('should call through to triggerLockScreen', async () => {
         await component.canDeActivate();
         expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
       });

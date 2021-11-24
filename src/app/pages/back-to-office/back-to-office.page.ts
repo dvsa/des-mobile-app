@@ -102,7 +102,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
 
   async goToJournal(): Promise<void> {
     if (this.isEndToEndPracticeMode) {
-      this.exitPracticeMode();
+      await this.exitPracticeMode();
       return;
     }
     this.store$.dispatch(DeferWriteUp());

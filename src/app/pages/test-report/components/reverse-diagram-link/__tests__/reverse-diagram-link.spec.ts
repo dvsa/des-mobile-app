@@ -3,12 +3,13 @@ import { Store, StoreModule } from '@ngrx/store';
 import { ModalController } from '@ionic/angular';
 import { StoreModel } from '@shared/models/store.model';
 import { configureTestSuite } from 'ng-bullet';
-import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
-import { AppModule } from 'src/app/app.module';
-import { ModalControllerMock } from 'ionic-mocks';
-import { AppComponent } from 'src/app/app.component';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { AppModule } from '@app/app.module';
+import { AppComponent } from '@app/app.component';
 import { REVERSE_DIAGRAM_PAGE } from '@pages/page-names.constants';
+import { OverlayEventDetail } from '@ionic/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,
@@ -16,7 +17,7 @@ import {
 import { testReportReducer } from '../../../test-report.reducer';
 import { ReverseDiagramLinkComponent } from '../reverse-diagram-link';
 
-describe('reverseDiagramLink', () => {
+describe('ReverseDiagramLinkComponent', () => {
   let fixture: ComponentFixture<ReverseDiagramLinkComponent>;
   let component: ReverseDiagramLinkComponent;
   let modalController: ModalController;
@@ -78,7 +79,7 @@ describe('reverseDiagramLink', () => {
         }),
       ],
       providers: [
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
@@ -89,7 +90,15 @@ describe('reverseDiagramLink', () => {
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
+
+    spyOn(store$, 'dispatch');
+    spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+      present: () => Promise.resolve(),
+      dismiss: () => Promise.resolve(true),
+      onDidDismiss: () => Promise.resolve({} as OverlayEventDetail),
+    } as HTMLIonModalElement));
   }));
+
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should set the testCategory to Cat D', () => {
@@ -98,31 +107,22 @@ describe('reverseDiagramLink', () => {
       });
     });
     describe('openReverseDiagramModal', () => {
-      it('should dispatch ReverseDiagramModal', () => {
-        const storeDispatchSpy = spyOn(store$, 'dispatch');
-        component.openReverseDiagramModal();
-        expect(storeDispatchSpy).toHaveBeenCalledWith(
-          ReverseDiagramOpened(),
-        );
+      it('should dispatch ReverseDiagramModal', async () => {
+        await component.openReverseDiagramModal();
+        expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramOpened());
       });
-      it('should create an instance of the modal with the correct properties', () => {
-        component.openReverseDiagramModal();
-        expect(modalController.create).toHaveBeenCalledWith(
-          {
-            component: REVERSE_DIAGRAM_PAGE,
-            cssClass: 'modal-fullscreen text-zoom-regular',
-          },
-        );
-      });
-
-      describe('closeReverseDiagramModal', () => {
-        it('should dispatch ReverseDiagramClosed action', () => {
-          const storeDispatchSpy = spyOn(store$, 'dispatch');
-          component.closeReverseDiagramModal();
-          expect(storeDispatchSpy).toHaveBeenCalledWith(
-            ReverseDiagramClosed(),
-          );
+      it('should create an instance of the modal with the correct properties', async () => {
+        await component.openReverseDiagramModal();
+        expect(modalController.create).toHaveBeenCalledWith({
+          component: REVERSE_DIAGRAM_PAGE,
+          cssClass: 'modal-fullscreen text-zoom-regular',
         });
+      });
+    });
+    describe('closeReverseDiagramModal', () => {
+      it('should dispatch ReverseDiagramClosed action', () => {
+        component.closeReverseDiagramModal();
+        expect(store$.dispatch).toHaveBeenCalledWith(ReverseDiagramClosed());
       });
     });
   });

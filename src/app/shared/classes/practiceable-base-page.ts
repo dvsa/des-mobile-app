@@ -76,8 +76,8 @@ export abstract class PracticeableBasePageComponent extends BasePageComponent im
     }
   }
 
-  exitPracticeMode = (): void => {
-    this.router.navigate([FAKE_JOURNAL_PAGE]);
+  exitPracticeMode = async () => {
+    await this.router.navigate([FAKE_JOURNAL_PAGE]);
   };
 
 }
