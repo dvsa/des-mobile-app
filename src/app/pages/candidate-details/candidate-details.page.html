@@ -33,36 +33,45 @@
         <ion-card-content>
             <inappropriate-use-banner></inappropriate-use-banner>
             <ion-grid>
-                <data-row id="test-category" [label]="'Test category'" [value]="pageState.details.testCategory"></data-row>
+                <data-row [idPrefix]="idPrefix" [label]="'Test category'"
+                          [value]="pageState.details.testCategory"></data-row>
                 <data-row
-                        id="slot-type"
+                        [idPrefix]="idPrefix"
                         [label]="'Slot type'"
                         [value]="pageState.details.slotType"
                         [shouldShowIndicator]="pageState.details.slotType !== 'Standard Test'">
                 </data-row>
                 <data-row
+                        [idPrefix]="idPrefix"
                         *ngIf="pageState.details.meetingPlace"
-                        id="meetingPlace"
                         [label]="'Meeting place'"
                         [value]="pageState.details.meetingPlace">
                 </data-row>
-                <data-row id="driver-number" [label]="'Driver number'" [value]="pageState.details.driverNumber"></data-row>
-                <data-row id="application-number" [label]="'Application number'" [value]="pageState.details.applicationRef"></data-row>
+                <data-row [idPrefix]="idPrefix" [label]="'Driver number'"
+                          [value]="pageState.details.driverNumber"></data-row>
+                <data-row
+                        [idPrefix]="idPrefix"
+                        [label]="'Application number'"
+                        [value]="pageState.details.applicationRef">
+                </data-row>
                 <data-row-custom
-                        id="special-requirements"
+                        [idPrefix]="idPrefix"
                         [label]="'Special requirements'"
                         [shouldShowIndicator]="specialNeedsIsPopulated(pageState.details.specialNeeds)">
                     <div class="mes-data" *ngIf="!specialNeedsIsPopulated(pageState.details.specialNeeds)">
                         {{pageState.details.specialNeeds}}
                     </div>
                     <div *ngIf="specialNeedsIsPopulated(pageState.details.specialNeeds)">
-                        <div *ngFor="let specialNeed of pageState.details.specialNeeds" class="mes-data">-
-                            {{specialNeed}}</div>
+                        <div *ngFor="let specialNeed of pageState.details.specialNeeds" class="mes-data">
+                            -{{specialNeed}}
+                        </div>
                     </div>
                 </data-row-custom>
-                <data-row-custom [label]="'Entitlement check'"
-                                 [shouldShowIndicator]="true"
-                                 *ngIf="pageState.candidateEntitlementCheck || pageState.categoryEntitlementCheck">
+                <data-row-custom
+                        [idPrefix]="idPrefix"
+                        [label]="'Entitlement check'"
+                        [shouldShowIndicator]="true"
+                        *ngIf="pageState.candidateEntitlementCheck || pageState.categoryEntitlementCheck">
                     <div class="mes-data" *ngIf="pageState.candidateEntitlementCheck">
                         <ion-row>
                             <ion-col size="3">-</ion-col>
@@ -76,11 +85,7 @@
                         </ion-row>
                     </div>
                 </data-row-custom>
-                <data-row-custom
-                        [label]="'Additional information'"
-                        [shouldHaveSeperator]="false"
-                        id="additional-information"
-                >
+                <data-row-custom [idPrefix]="idPrefix" [label]="'Additional information'" [shouldHaveSeperator]="false">
                     <div class="mes-data" *ngIf="pageState.details.candidateComments.isSectionEmpty">
                         None
                     </div>
@@ -103,9 +108,11 @@
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
-                <data-row id="phone-number" [label]="'Phone number'" [value]="pageState.details.phoneNumber"></data-row>
-                <data-row id="email" [label]="'Email'" [value]="pageState.details.email"></data-row>
-                <data-row-custom id="address" [label]="'Address'" [shouldHaveSeperator]="false">
+                <data-row [idPrefix]="idPrefix" [label]="'Phone number'"
+                          [value]="pageState.details.phoneNumber"></data-row>
+                <data-row [idPrefix]="idPrefix" [label]="'Email'" [value]="pageState.details.email">
+                </data-row>
+                <data-row-custom [idPrefix]="idPrefix" [label]="'Address'" [shouldHaveSeperator]="false">
                     <display-address [address]="pageState.details.address"></display-address>
                 </data-row-custom>
             </ion-grid>
@@ -117,12 +124,23 @@
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
-                <data-row *ngIf="pageState.business.businessName" [label]="'Business name'"
-                          [value]="pageState.business.businessName">
+                <data-row
+                        [idPrefix]="idPrefix"
+                        *ngIf="pageState.business.businessName"
+                        [label]="'Business name'"
+                        [value]="pageState.business.businessName">
                 </data-row>
-                <data-row *ngIf="pageState.business.telephone" [label]="'Phone number'" [value]="pageState.business.telephone">
+                <data-row
+                        [idPrefix]="idPrefix"
+                        *ngIf="pageState.business.telephone"
+                        [label]="'Phone number'"
+                        [value]="pageState.business.telephone">
                 </data-row>
-                <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false" *ngIf="pageState.business.businessAddress">
+                <data-row-custom
+                        [idPrefix]="idPrefix"
+                        [label]="'Address'"
+                        [shouldHaveSeperator]="false"
+                        *ngIf="pageState.business.businessAddress">
                     <display-address [address]="pageState.business.businessAddress"></display-address>
                 </data-row-custom>
             </ion-grid>

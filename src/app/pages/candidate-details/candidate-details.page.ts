@@ -35,6 +35,7 @@ export class CandidateDetailsPage implements OnInit {
   slotChanged: boolean = false;
   isTeamJournal: boolean = false;
   testCategory: TestCategory = null;
+  idPrefix: string = 'candidate-details';
 
   constructor(
     public modalController: ModalController,

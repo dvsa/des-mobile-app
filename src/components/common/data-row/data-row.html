@@ -1,8 +1,8 @@
 <ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
   <ion-col size="34">
-    <label>{{ label }}</label>
+    <label [id]="label | formatToID: idPrefix">{{ label }}</label>
     <br>
-    <label *ngIf="label2">{{ label2 }}</label>
+    <label *ngIf="label2" [id]="label2 | formatToID: idPrefix">{{ label2 }}</label>
   </ion-col>
   <ion-col size="6">
     <img    alt="Exclamation Indicator"
@@ -12,6 +12,6 @@
     />
   </ion-col>
   <ion-col size="56">
-    <span class="mes-data">{{ value }}</span>
+    <span class="mes-data" [id]="label | formatToID: idPrefix: true">{{ value }}</span>
   </ion-col>
 </ion-row>

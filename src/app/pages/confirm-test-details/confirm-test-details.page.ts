@@ -84,6 +84,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   merged$: Observable<boolean | string>;
   vehicleDetails: CategorySpecificVehicleDetails;
   slotId: string;
+  idPrefix: string = 'confirm-test-details';
 
   constructor(
     public platform: Platform,

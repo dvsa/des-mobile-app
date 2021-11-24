@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
@@ -80,6 +81,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     TranslateModule,
     ReactiveFormsModule,
     VRNCaptureModalModule,
+    PipesModule,
   ],
   exports: [
     SignatureAreaComponent,

@@ -15,4 +15,7 @@ export class DataRowCustomComponent {
 
   @Input()
   shouldHaveSeperator: boolean = true;
+
+  @Input()
+  idPrefix?: string;
 }

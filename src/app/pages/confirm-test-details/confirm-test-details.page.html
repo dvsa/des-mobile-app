@@ -1,8 +1,10 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title>Confirm test details - {{pageState.candidateUntitledName$ | async}}</ion-title>
-    <ion-buttons id="back-button" slot="start">
+    <ion-title id="confirm-test-details-title">
+      Confirm test details - {{pageState.candidateUntitledName$ | async}}
+    </ion-title>
+    <ion-buttons id="confirm-test-details-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
@@ -11,40 +13,46 @@
 <ion-content class="ion-padding" force-overscroll="false">
   <ion-card>
     <ion-card-header>
-      <h4>Confirm test details</h4>
+      <h4 id="confirm-test-details-header">Confirm test details</h4>
     </ion-card-header>
 
     <ion-card-content class="card-content-ios ion-no-padding">
       <ion-grid class="ion-padding">
         <!-- Candidate name -->
         <data-row
+            [idPrefix]="idPrefix"
             [label]="'Candidate name'"
             [value]="pageState.candidateName$ | async">
         </data-row>
         <!-- Date and time of test -->
         <data-row
+            [idPrefix]="idPrefix"
             [label]="'Date and time of test'"
             [value]="pageState.startDateTime$ | async | date: 'dd/MM/yyyy HH:mm'">
         </data-row>
         <!-- Test outcome -->
         <data-row
+            [idPrefix]="idPrefix"
             [label]="'Test outcome'"
             [value]="pageState.testOutcomeText$ | async">
         </data-row>
         <!-- Activity Code -->
         <data-row
             *ngIf="isTerminated(pageState.testOutcomeText$ | async)"
+            [idPrefix]="idPrefix"
             [label]="'Activity Code'"
             [value]="getActivityCode(pageState.activityCode$ | async)">
         </data-row>
         <!-- Test Category -->
         <data-row
+            [idPrefix]="idPrefix"
             [label]="'Test Category'"
             [value]="pageState.testCategory$ | async">
         </data-row>
         <!-- Provisional licence received -->
         <data-row
             *ngIf="isPassed(pageState.testOutcomeText$ | async) && !isADI2(category)"
+            [idPrefix]="idPrefix"
             [label]="'Provisional licence'"
             [label2]="'received'"
             [value]="getProvisionalText(pageState.provisionalLicense$ | async) ">
@@ -59,6 +67,7 @@
         </transmission-display>
         <!-- D255 -->
         <data-row
+            [idPrefix]="idPrefix"
             [label]="'D255'"
             [value]="getD255Text(pageState.d255$ | async)"
             [shouldHaveSeperator]="false">
@@ -66,21 +75,23 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
-
 </ion-content>
 
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
     <ion-col class="ion-no-padding ion-text-left">
-      <ion-button class="mes-grey-button confirm-button" (click)="goBackToDebrief()">
-        <h3>Back to debrief</h3>
+      <ion-button class="mes-grey-button confirm-button"
+                  (click)="goBackToDebrief()"
+                  id="confirm-test-details-back-to-debrief-btn">
+        <h3 id="confirm-test-details-back-to-debrief-label">Back to debrief</h3>
       </ion-button>
     </ion-col>
     <ion-col class="ion-no-padding ion-text-end">
-      <ion-button class="mes-primary-button confirm-button" (click)="onSubmit()">
-        <h3>Submit test results</h3>
+      <ion-button class="mes-primary-button confirm-button"
+                  (click)="onSubmit()"
+                  id="confirm-test-details-submit-test-results-btn">
+        <h3 id="confirm-test-details-submit-test-results-label">Submit test results</h3>
       </ion-button>
     </ion-col>
-
   </ion-row>
 </ion-footer>
