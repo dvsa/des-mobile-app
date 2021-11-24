@@ -6,4 +6,5 @@ export const TestCentreJournalViewDidEnter = createAction(
 
 export const TestCentreJournalGetData = createAction(
   '[TestCentreJournal] Test Centre Journal Get Data',
+  (manualRefresh: boolean) => ({ manualRefresh }),
 );

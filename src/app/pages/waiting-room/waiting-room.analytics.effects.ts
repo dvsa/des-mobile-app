@@ -74,8 +74,7 @@ export class WaitingRoomAnalyticsEffects {
       ),
     )),
     switchMap((
-      // eslint-disable-next-line
-      [_, tests, applicationReference, candidateId, category]:
+      [, tests, applicationReference, candidateId, category]:
       [ReturnType<typeof WaitingRoomValidationError>, TestsModel, string, number, CategoryCode],
     ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
@@ -121,8 +120,7 @@ export class WaitingRoomAnalyticsEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line
-    concatMap(([_, tests]: [typeof CbtNumberChanged, TestsModel]) => {
+    concatMap(([, tests]: [ReturnType<typeof CbtNumberChanged>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
         formatAnalyticsText(AnalyticsEvents.CBT_CHANGED, tests),

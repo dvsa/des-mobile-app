@@ -11,6 +11,8 @@ import {
 import {
   WaitingRoomToCarCatBComponentsModule,
 } from '@pages/waiting-room-to-car/cat-b/components/waiting-room-to-car.cat-b.components.module';
+import { EffectsModule } from '@ngrx/effects';
+import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
 import { WaitingRoomToCarCatBPage } from './waiting-room-to-car.cat-b.page';
 import { WaitingRoomToCarCatBPageRoutingModule } from './waiting-room-to-car.cat-b-routing.module';
 
@@ -24,6 +26,9 @@ import { WaitingRoomToCarCatBPageRoutingModule } from './waiting-room-to-car.cat
     ComponentsModule,
     WaitingRoomToCarComponentsModule,
     WaitingRoomToCarCatBComponentsModule,
+    EffectsModule.forFeature([
+      WaitingRoomToCarAnalyticsEffects,
+    ]),
   ],
   declarations: [WaitingRoomToCarCatBPage],
 })

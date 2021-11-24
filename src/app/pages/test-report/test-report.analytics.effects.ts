@@ -266,8 +266,9 @@ export class TestReportAnalyticsEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line max-len
-    concatMap(([action, tests]: [ReturnType <typeof manoeuvresADIPart2Actions.AddManoeuvreDrivingFault>, TestsModel]) => {
+    concatMap((
+      [action, tests]: [ReturnType <typeof manoeuvresADIPart2Actions.AddManoeuvreDrivingFault>, TestsModel],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),

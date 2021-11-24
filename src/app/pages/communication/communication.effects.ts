@@ -31,7 +31,10 @@ export class CommunicationEffects {
       ),
     )),
     switchMap(([,slotId]) => {
-      return [testStatusActions.SetTestStatusStarted(slotId), testsActions.PersistTests()];
+      return [
+        testStatusActions.SetTestStatusStarted(slotId),
+        testsActions.PersistTests(),
+      ];
     }),
   ));
 }

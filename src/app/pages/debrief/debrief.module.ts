@@ -9,8 +9,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { DebriefComponentsModule } from '@pages/debrief/components/debrief-components.module';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { DebriefPage } from './debrief.page';
+import { EffectsModule } from '@ngrx/effects';
+import { DebriefEffects } from '@pages/debrief/debrief.effects';
+import { DebriefAnalyticsEffects } from '@pages/debrief/debrief.analytics.effects';
 import { DebriefPageRoutingModule } from './debrief.routing.module';
+import { DebriefPage } from './debrief.page';
 
 @NgModule({
   imports: [
@@ -21,6 +24,10 @@ import { DebriefPageRoutingModule } from './debrief.routing.module';
     IonicModule,
     DebriefPageRoutingModule,
     TranslateModule,
+    EffectsModule.forFeature([
+      DebriefEffects,
+      DebriefAnalyticsEffects,
+    ]),
   ],
   declarations: [DebriefPage],
   providers: [

@@ -7,8 +7,11 @@ import { IonicModule } from '@ionic/angular';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommunicationComponentsModule } from '@pages/communication/components/communication.components.module';
-import { CommunicationPage } from './communication.page';
+import { EffectsModule } from '@ngrx/effects';
+import { CommunicationEffects } from '@pages/communication/communication.effects';
+import { CommunicationAnalyticsEffects } from '@pages/communication/communication.analytics.effects';
 import { CommunicationPageRoutingModule } from './communication-routing.module';
+import { CommunicationPage } from './communication.page';
 
 @NgModule({
   imports: [
@@ -20,6 +23,10 @@ import { CommunicationPageRoutingModule } from './communication-routing.module';
     TranslateModule,
     CommunicationComponentsModule,
     ReactiveFormsModule,
+    EffectsModule.forFeature([
+      CommunicationEffects,
+      CommunicationAnalyticsEffects,
+    ]),
   ],
   declarations: [CommunicationPage],
 })

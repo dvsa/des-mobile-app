@@ -14,7 +14,6 @@ import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.mod
 import { ExaminerSlotItemsByDate } from '@store/journal/journal.model';
 import { ViewJournalsCardComponent } from '../view-journals-card';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
-import { TestCentreJournalModule } from '../../../test-centre-journal.module';
 
 describe('ViewJournalsCardComponent', () => {
   let fixture: ComponentFixture<ViewJournalsCardComponent>;
@@ -28,7 +27,6 @@ describe('ViewJournalsCardComponent', () => {
       ],
       imports: [
         TestCentreJournalComponentsModule,
-        TestCentreJournalModule,
         IonicModule,
         CommonModule,
       ],

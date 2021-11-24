@@ -19,6 +19,7 @@ export enum AnalyticsScreenNames {
   COMMUNICATION = 'communication screen',
   HEALTH_DECLARATION = 'health declaration screen',
   JOURNAL = 'journal screen',
+  TEST_CENTRE_JOURNAL = 'test centre journal screen',
   PASS_TEST_SUMMARY = 'pass test summary screen',
   FAIL_TEST_SUMMARY = 'fail test summary screen',
   PASS_FINALISATION = 'pass finalisation screen',
@@ -42,6 +43,7 @@ export enum AnalyticsScreenNames {
   DASHBOARD = 'dashboard screen',
   VEHICLE_CHECKS = 'vehicle checks screen',
   REVERSE_DIAGRAM = 'reverse diagram screen',
+  CONFIRM_TEST_DETAILS = 'confirm test details screen',
 }
 
 export enum AnalyticsEventCategories {
@@ -49,6 +51,7 @@ export enum AnalyticsEventCategories {
   TEST_LIFECYCLE = 'test lifecycle',
   ERROR = 'error',
   JOURNAL = 'journal',
+  TEST_CENTRE_JOURNAL = 'test centre journal',
   AUTHENTICATION = 'authentication',
   BACK_TO_OFFICE = 'back to office',
   POST_TEST = 'post-test',
@@ -75,6 +78,7 @@ export enum AnalyticsEvents {
   SLOT_CHANGE_VIEWED = 'slot change viewed',
   NAVIGATION = 'navigation',
   REFRESH_JOURNAL = 'refresh journal',
+  REFRESH_TC_JOURNAL = 'refresh test centre journal',
   DISPLAY_EARLY_START_MODAL = 'display early start modal',
   EXIT_EARLY_START_MODAL_CONTINUE = 'continue to test from early start modal',
   EXIT_EARLY_START_MODAL_RETURN = 'return to journal from early start modal',

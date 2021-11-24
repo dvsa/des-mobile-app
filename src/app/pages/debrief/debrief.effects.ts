@@ -28,8 +28,7 @@ export class DebriefEffects {
         ),
       ),
     )),
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    switchMap(([action, slotId]) => {
+    switchMap(([, slotId]) => {
       return [
         testStatusActions.SetTestStatusDecided(slotId),
         testsActions.PersistTests(),
