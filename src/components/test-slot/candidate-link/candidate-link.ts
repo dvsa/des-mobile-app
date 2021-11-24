@@ -20,6 +20,9 @@ export class CandidateLinkComponent {
   name: Name;
 
   @Input()
+  isTeamJournal: boolean = false;
+
+  @Input()
   applicationId: number;
 
   @Input()
@@ -42,6 +45,7 @@ export class CandidateLinkComponent {
       componentProps: {
         slot: this.slot,
         slotChanged: this.slotChanged,
+        isTeamJournal: this.isTeamJournal,
       },
     });
     await profileModal.present();

@@ -8,6 +8,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 import { TestCentreJournalAnalyticsEffects } from '@pages/test-centre-journal/test-centre-journal.analytics.effects';
+import { CandidateDetailsPageModule } from '@pages/candidate-details/candidate-details.module';
 
 import { TestCentreJournalPage } from './test-centre-journal.page';
 import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.module';
@@ -25,6 +26,7 @@ import { TestCentreJournalComponentsModule } from './components/test-centre-jour
     EffectsModule.forFeature([
       TestCentreJournalAnalyticsEffects,
     ]),
+    CandidateDetailsPageModule,
   ],
   declarations: [
     TestCentreJournalPage,
