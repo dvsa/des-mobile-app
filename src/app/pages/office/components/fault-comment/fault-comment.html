@@ -11,7 +11,7 @@
 
         <ion-col class="component-label ion-align-self-start ion-no-padding" size="28"
                  [attr.col-28]="isDelegatedTest ? null : true">
-            <label class="fault-label">{{faultComment.competencyDisplayName | modifyCompetencyLabel:testCategory:faultComment.competencyDisplayName}}</label>
+            <label class="fault-label" id="fault-comment-label-{{faultType}}-{{faultComment.competencyDisplayName}}">{{faultComment.competencyDisplayName | modifyCompetencyLabel:testCategory:faultComment.competencyDisplayName}}</label>
         </ion-col>
 
         <ion-col *ngIf="!isDelegatedTest" class="text-area-padding" size="60">
@@ -23,6 +23,7 @@
                               [formControlName]="formControlName"
                               [class.ng-invalid]="invalid"
                               charLimit="950"
+                              id="fault-comment-text-{{faultType}}-{{faultComment.competencyDisplayName}}"
                               charCount (onCharacterCountChanged)="characterCountChanged($event)"
                               [value]="faultComment.comment"
                               (change)="faultCommentChanged($event.target.value)">
@@ -33,7 +34,10 @@
                 </ion-col>
             </ion-row>
             <ion-row class="validation-message-row ion-align-items-center">
-                <div class="validation-text" [class.ng-invalid]="invalid" *ngIf="invalid && !charactersExceeded()">
+                <div class="validation-text"
+                     [class.ng-invalid]="invalid"
+                     id="fault-comment-validation-{{faultType}}-{{faultComment.competencyDisplayName}}"
+                     *ngIf="invalid && !charactersExceeded()">
                     Provide a comment
                 </div>
             </ion-row>

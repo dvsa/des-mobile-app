@@ -1,14 +1,14 @@
-<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="route-number-card" [formGroup]="formGroup">
+<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="route-number-row" [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
-    <label>Route number</label>
+    <label id="route-number-label">Route number</label>
   </ion-col>
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col size="12">
         <ion-input type="number"
-                   id="route"
+                   id="route-number-input"
                    class="vehicle-reg-input ion-input-styling mes-data"
                    numbersOnly
                    formControlName="routeNumber"
@@ -17,7 +17,7 @@
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div class="validation-text" [class.ng-invalid]="invalid" id="office-route-number-validation-text">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="route-number-validation-text">
         Enter the route number (max 2 digits)
       </div>
     </ion-row>

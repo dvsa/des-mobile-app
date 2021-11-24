@@ -1,9 +1,9 @@
-<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="independent-driving-card"
+<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="independent-driving-row"
   [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid">
   </div>
   <ion-col class="component-label ion-align-self-center" size="32">
-    <label>{{componentTitle}}</label>
+    <label id="independent-driving-label">{{componentTitle}}</label>
   </ion-col>
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
@@ -56,7 +56,7 @@
     <ion-row class="validation-message-row ion-align-items-center">
       <div
         class="validation-text"
-        id="office-independent-driving-validation-text"
+        id="independent-driving-validation-text"
         [class.ng-invalid]="invalid"
       >
         {{componentWarningMessage}}
