@@ -21,4 +21,7 @@ export class DataRowComponent {
 
   @Input()
   shouldHaveSeperator: boolean = true;
+
+  @Input()
+  idPrefix?: string;
 }
