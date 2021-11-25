@@ -1,4 +1,3 @@
-// eslint-disable no-unused-expressions
 import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -35,8 +34,6 @@ import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { SpeedCheckState } from './test-report-validator.constants';
 import { FaultCountProvider } from '../fault-count/fault-count';
 
-// @TODO - MES-7147 fix linting errors in this file
-/* eslint-disable */
 @Injectable()
 export class TestReportValidatorProvider {
 
@@ -208,13 +205,13 @@ export class TestReportValidatorProvider {
   private getMissingLegalRequirementsCatAdiPart2(data: CatADI2UniqueTypes.TestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
-    !get(data, 'testRequirements.normalStart1', false) && result.push(legalRequirementsLabels.normalStart1);
-    !get(data, 'testRequirements.angledStart', false) && result.push(legalRequirementsLabels.angledStart);
-    !get(data, 'testRequirements.uphillStart', false) && result.push(legalRequirementsLabels.uphillStart);
-    !get(data, 'testRequirements.downhillStart', false) && result.push(legalRequirementsLabels.downhillStart);
-    !hasManoeuvreBeenCompletedCatADIPart2(data.manoeuvres) && result.push(legalRequirementsLabels.manoeuvre);
-    !hasVehicleChecksBeenCompletedCatADI2(data.vehicleChecks) && result.push(legalRequirementsLabels.vehicleChecks);
-    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+    if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
+    if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
+    if (!get(data, 'testRequirements.downhillStart', false)) result.push(legalRequirementsLabels.downhillStart);
+    if (!hasManoeuvreBeenCompletedCatADIPart2(data.manoeuvres)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!hasVehicleChecksBeenCompletedCatADI2(data.vehicleChecks)) result.push(legalRequirementsLabels.vehicleChecks);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
 
     return result;
   }
@@ -233,12 +230,12 @@ export class TestReportValidatorProvider {
   private getMissingLegalRequirementsCatB(data: CatBUniqueTypes.TestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
-    !get(data, 'testRequirements.normalStart1', false) && result.push(legalRequirementsLabels.normalStart1);
-    !get(data, 'testRequirements.angledStart', false) && result.push(legalRequirementsLabels.angledStart);
-    !get(data, 'testRequirements.hillStart', false) && result.push(legalRequirementsLabels.hillStart);
-    !hasManoeuvreBeenCompletedCatB(data) && result.push(legalRequirementsLabels.manoeuvre);
-    !hasVehicleChecksBeenCompletedCatB(data) && result.push(legalRequirementsLabels.vehicleChecks);
-    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+    if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
+    if (!get(data, 'testRequirements.hillStart', false)) result.push(legalRequirementsLabels.hillStart);
+    if (!hasManoeuvreBeenCompletedCatB(data)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!hasVehicleChecksBeenCompletedCatB(data)) result.push(legalRequirementsLabels.vehicleChecks);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
 
     return result;
   }
@@ -271,15 +268,15 @@ export class TestReportValidatorProvider {
   ): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
     if (!isDelegated) {
-      !get(data, 'testRequirements.normalStart1', false)
-        && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.uphillStart', false) && result.push(legalRequirementsLabels.uphillStart);
+      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    !get(data, 'testRequirements.angledStartControlledStop', false)
-      && result.push(legalRequirementsLabels.angledStartControlledStop);
-    !hasManoeuvreBeenCompletedCatBE(data) && result.push(legalRequirementsLabels.manoeuvre);
-    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
-    !get(data, 'uncoupleRecouple.selected', false) && result.push(legalRequirementsLabels.uncoupleRecouple);
+    if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
+      result.push(legalRequirementsLabels.angledStartControlledStop);
+    }
+    if (!hasManoeuvreBeenCompletedCatBE(data)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
 
     return result;
   }
@@ -312,15 +309,16 @@ export class TestReportValidatorProvider {
     isDelegated: boolean,
   ): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
+
     if (!isDelegated) {
-      (!get(data, 'testRequirements.normalStart1', false))
-        && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.uphillStart', false) && result.push(legalRequirementsLabels.uphillStart);
+      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    !get(data, 'testRequirements.angledStartControlledStop', false)
-      && result.push(legalRequirementsLabels.angledStartControlledStop);
-    !hasManoeuvreBeenCompletedCatC(data) && result.push(legalRequirementsLabels.manoeuvre);
-    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
+      result.push(legalRequirementsLabels.angledStartControlledStop);
+    }
+    if (!hasManoeuvreBeenCompletedCatC(data)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
 
     return result;
   }
@@ -358,15 +356,15 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
-      (!get(data, 'testRequirements.normalStart1', false))
-        && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.uphillStart', false) && result.push(legalRequirementsLabels.uphillStart);
+      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    !get(data, 'testRequirements.angledStartControlledStop', false)
-    && result.push(legalRequirementsLabels.angledStartControlledStop);
-    !hasManoeuvreBeenCompletedCatC(data) && result.push(legalRequirementsLabels.manoeuvre);
-    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
-    !get(data, 'uncoupleRecouple.selected', false) && result.push(legalRequirementsLabels.uncoupleRecouple);
+    if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
+      result.push(legalRequirementsLabels.angledStartControlledStop);
+    }
+    if (!hasManoeuvreBeenCompletedCatC(data)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
     return result;
   }
 
@@ -401,21 +399,16 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
-      !get(data, 'testRequirements.normalStart1', false)
-      && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.busStop1', false)
-        && result.push(legalRequirementsLabels.busStop1);
-      !get(data, 'testRequirements.busStop2', false)
-        && result.push(legalRequirementsLabels.busStop2);
-      !get(data, 'testRequirements.uphillStart', false)
-        && result.push(legalRequirementsLabels.uphillStart);
+      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.busStop1', false)) result.push(legalRequirementsLabels.busStop1);
+      if (!get(data, 'testRequirements.busStop2', false)) result.push(legalRequirementsLabels.busStop2);
+      if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    !get(data, 'testRequirements.angledStartControlledStop', false)
-      && result.push(legalRequirementsLabels.angledStartControlledStop);
-    !get(data, 'manoeuvres.reverseLeft.selected', false)
-      && result.push(legalRequirementsLabels.manoeuvre);
-    !get(data, 'eco.completed', false)
-      && result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
+      result.push(legalRequirementsLabels.angledStartControlledStop);
+    }
+    if (!get(data, 'manoeuvres.reverseLeft.selected', false)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
 
     return result;
   }
@@ -447,17 +440,14 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
-      !get(data, 'testRequirements.normalStart1', false)
-        && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.uphillStart', false)
-        && result.push(legalRequirementsLabels.uphillStart);
+      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    !get(data, 'testRequirements.angledStartControlledStop', false)
-      && result.push(legalRequirementsLabels.angledStartControlledStop);
-    !get(data, 'manoeuvres.reverseLeft.selected', false)
-      && result.push(legalRequirementsLabels.manoeuvre);
-    !get(data, 'eco.completed', false)
-      && result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
+      result.push(legalRequirementsLabels.angledStartControlledStop);
+    }
+    if (!get(data, 'manoeuvres.reverseLeft.selected', false)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
 
     return result;
   }
@@ -496,23 +486,17 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
-      !get(data, 'testRequirements.normalStart1', false)
-      && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.busStop1', false)
-        && result.push(legalRequirementsLabels.busStop1);
-      !get(data, 'testRequirements.busStop2', false)
-        && result.push(legalRequirementsLabels.busStop2);
-      !get(data, 'testRequirements.uphillStart', false)
-        && result.push(legalRequirementsLabels.uphillStart);
+      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.busStop1', false)) result.push(legalRequirementsLabels.busStop1);
+      if (!get(data, 'testRequirements.busStop2', false)) result.push(legalRequirementsLabels.busStop2);
+      if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    !get(data, 'testRequirements.angledStartControlledStop', false)
-    && result.push(legalRequirementsLabels.angledStartControlledStop);
-    !get(data, 'manoeuvres.reverseLeft.selected', false)
-      && result.push(legalRequirementsLabels.manoeuvre);
-    !get(data, 'eco.completed', false)
-      && result.push(legalRequirementsLabels.eco);
-    !get(data, 'uncoupleRecouple.selected', false)
-      && result.push(legalRequirementsLabels.uncoupleRecouple);
+    if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
+      result.push(legalRequirementsLabels.angledStartControlledStop);
+    }
+    if (!get(data, 'manoeuvres.reverseLeft.selected', false)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
 
     return result;
   }
@@ -547,10 +531,10 @@ export class TestReportValidatorProvider {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
     const angledStart: boolean = get(data, 'testRequirements.angledStart', false);
     const hillStart: boolean = get(data, 'testRequirements.hillStart', false);
-    const safteyAndBalanceQuestions: boolean = haveSafetyAndBalanceQuestionsBeenCompleted(data.safetyAndBalanceQuestions);
+    const safetyBalanceQuestions: boolean = haveSafetyAndBalanceQuestionsBeenCompleted(data.safetyAndBalanceQuestions);
     const eco: boolean = get(data, 'eco.completed', false);
 
-    return normalStart1 && angledStart && hillStart && safteyAndBalanceQuestions && eco;
+    return normalStart1 && angledStart && hillStart && safetyBalanceQuestions && eco;
   }
 
   private getMissingLegalRequirementsCatD1E(
@@ -560,19 +544,15 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
-      !get(data, 'testRequirements.normalStart1', false)
-        && result.push(legalRequirementsLabels.normalStart1);
-      !get(data, 'testRequirements.uphillStart', false)
-        && result.push(legalRequirementsLabels.uphillStart);
+      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    !get(data, 'testRequirements.angledStartControlledStop', false)
-      && result.push(legalRequirementsLabels.angledStartControlledStop);
-    !get(data, 'manoeuvres.reverseLeft.selected', false)
-      && result.push(legalRequirementsLabels.manoeuvre);
-    !get(data, 'eco.completed', false)
-      && result.push(legalRequirementsLabels.eco);
-    !get(data, 'uncoupleRecouple.selected', false)
-      && result.push(legalRequirementsLabels.uncoupleRecouple);
+    if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
+      result.push(legalRequirementsLabels.angledStartControlledStop);
+    }
+    if (!get(data, 'manoeuvres.reverseLeft.selected', false)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
 
     return result;
   }
@@ -580,12 +560,13 @@ export class TestReportValidatorProvider {
   private getMissingLegalRequirementsCatEUAM2(data: CatAMod2TestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
-    !get(data, 'testRequirements.normalStart1', false) && result.push(legalRequirementsLabels.normalStart1);
-    !get(data, 'testRequirements.angledStart', false) && result.push(legalRequirementsLabels.angledStart);
-    !get(data, 'testRequirements.hillStart', false) && result.push(legalRequirementsLabels.hillStart);
-    !haveSafetyAndBalanceQuestionsBeenCompleted(data.safetyAndBalanceQuestions)
-      && result.push(legalRequirementsLabels.safetyAndBalanceQuestions);
-    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+    if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
+    if (!get(data, 'testRequirements.hillStart', false)) result.push(legalRequirementsLabels.hillStart);
+    if (!haveSafetyAndBalanceQuestionsBeenCompleted(data.safetyAndBalanceQuestions)) {
+      result.push(legalRequirementsLabels.safetyAndBalanceQuestions);
+    }
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
 
     return result;
   }
@@ -607,19 +588,17 @@ export class TestReportValidatorProvider {
   private getMissingLegalRequirementsCatHomeTest(data: CatHomeTestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
-    !get(data, 'testRequirements.normalStart1', false) && result.push(legalRequirementsLabels.normalStart1);
-    !get(data, 'testRequirements.angledStart', false) && result.push(legalRequirementsLabels.angledStart);
-    !get(data, 'testRequirements.uphillStartDesignatedStart', false)
-      && result.push(legalRequirementsLabels.uphillStartDesignatedStart);
-
-    !get(data, 'manoeuvres.reverseLeft.selected', false)
-      && result.push(legalRequirementsLabels.manoeuvre);
-
-    !get(data, 'highwayCodeSafety.selected', false) && result.push(legalRequirementsLabels.highwayCodeSafety);
-
-    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
-
-    !get(data, 'controlledStop.selected', false) && result.push(legalRequirementsLabels.controlledStop);
+    if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+    if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
+    if (!get(data, 'testRequirements.uphillStartDesignatedStart', false)) {
+      result.push(legalRequirementsLabels.uphillStartDesignatedStart);
+    }
+    if (!get(data, 'manoeuvres.reverseLeft.selected', false)) {
+      result.push(legalRequirementsLabels.manoeuvre);
+    }
+    if (!get(data, 'highwayCodeSafety.selected', false)) result.push(legalRequirementsLabels.highwayCodeSafety);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'controlledStop.selected', false)) result.push(legalRequirementsLabels.controlledStop);
 
     return result;
   }
@@ -627,15 +606,14 @@ export class TestReportValidatorProvider {
   private getMissingLegalRequirementsCatK(data: CatKUniqueTypes.TestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
-    !get(data, 'testRequirements.normalStart1', false) && result.push(legalRequirementsLabels.normalStart1);
-    !get(data, 'testRequirements.angledStart', false) && result.push(legalRequirementsLabels.angledStart);
-    !get(data, 'testRequirements.uphillStartDesignatedStart', false)
-      && result.push(legalRequirementsLabels.uphillStartDesignatedStart);
-
-    !get(data, 'highwayCodeSafety.selected', false) && result.push(legalRequirementsLabels.highwayCodeSafety);
-
-    !get(data, 'eco.completed', false) && result.push(legalRequirementsLabels.eco);
-    !get(data, 'controlledStop.selected', false) && result.push(legalRequirementsLabels.controlledStop);
+    if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+    if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
+    if (!get(data, 'testRequirements.uphillStartDesignatedStart', false)) {
+      result.push(legalRequirementsLabels.uphillStartDesignatedStart);
+    }
+    if (!get(data, 'highwayCodeSafety.selected', false)) result.push(legalRequirementsLabels.highwayCodeSafety);
+    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
+    if (!get(data, 'controlledStop.selected', false)) result.push(legalRequirementsLabels.controlledStop);
 
     return result;
   }

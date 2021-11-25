@@ -39,7 +39,7 @@ export class AppInfoEffects {
   ) {}
 
   loadAppInfo$ = createEffect(() => this.actions$.pipe(
-    ofType(LoadAppVersion.type),
+    ofType(LoadAppVersion),
     switchMap(() => this.appInfoProvider.getVersionNumber()
       .pipe(
         map((versionNumber: string) => LoadAppVersionSuccess({ versionNumber })),
@@ -50,7 +50,7 @@ export class AppInfoEffects {
   ));
 
   loadConfigSuccessEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(LoadConfigSuccess.type),
+    ofType(LoadConfigSuccess),
     switchMap(() => {
       console.log('Config loaded successfully');
       return of(SetDateConfigLoaded({ refreshDate: this.dateTimeProvider.now().format('YYYY-MM-DD') }));
@@ -58,7 +58,7 @@ export class AppInfoEffects {
   ));
 
   appResumedEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(AppResumed.type),
+    ofType(AppResumed),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.select(selectDateConfigLoaded),
@@ -73,7 +73,7 @@ export class AppInfoEffects {
   ));
 
   loadEmployeeName$ = createEffect(() => this.actions$.pipe(
-    ofType(LoadEmployeeName.type),
+    ofType(LoadEmployeeName),
     switchMap(async () => {
       const employeeName = await this.authenticationProvider.loadEmployeeName();
       return LoadEmployeeNameSuccess({ employeeName });
