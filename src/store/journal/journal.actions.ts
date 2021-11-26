@@ -68,10 +68,6 @@ export const LoadCompletedTestsFailure = createAction(
   (error: MesError) => ({ error }),
 );
 
-export const LoadJournalsNoConnection = createAction(
-  '[JournalEffect] Load Completed no internet connection',
-);
-
 export const UnsetError = createAction(
   '[JournalPage] Unset Error',
 );
