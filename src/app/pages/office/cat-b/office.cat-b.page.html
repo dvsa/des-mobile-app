@@ -138,14 +138,14 @@
                 </ion-card-content>
             </ion-card>
 
-            <fault-comment-card [formGroup]="form" [faultComments]="pageState.dangerousFaults$ | async"
+            <fault-comment-card id="dangerous-fault-comment-card" [formGroup]="form" [faultComments]="pageState.dangerousFaults$ | async"
                                 [shouldRender]="(pageState.dangerousFaults$ | async).length > 0 && pageState.displayDangerousFault$ | async"
                                 [outcome]="pageState.testOutcome$ | async" faultType="dangerous"
                                 header="Dangerous faults"
                                 (faultCommentsChange)="dangerousFaultCommentChanged($event)">
             </fault-comment-card>
 
-            <fault-comment-card [formGroup]="form" [faultComments]="pageState.seriousFaults$ | async"
+            <fault-comment-card id="serious-fault-comment-card" [formGroup]="form" [faultComments]="pageState.seriousFaults$ | async"
                                 [shouldRender]="(pageState.seriousFaults$ | async).length > 0  && pageState.displaySeriousFault$ | async"
                                 [outcome]="pageState.testOutcome$ | async" faultType="serious" header="Serious faults"
                                 (faultCommentsChange)="seriousFaultCommentChanged($event)">
@@ -162,14 +162,16 @@
             <ion-card id="driving-fault-no-commentary"
                       *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async">
                 <ion-card-header>
-                    <h4>Driving faults</h4>
+                    <h4 id="driving-fault-header">Driving faults</h4>
                 </ion-card-header>
                 <ion-card-content>
                     <ion-row class="driving-fault-no-commentary-row" id="driving-fault-commentary-label"
                              *ngFor="let drivingFault of (pageState.drivingFaults$ | async)">
                         <ion-col class="fault-badge ion-align-self-center" size="4">
                             <div class="counter-icon">
-                                <driving-faults-badge class="counter driving-faults" [count]="drivingFault.faultCount">
+                                <driving-faults-badge class="counter driving-faults"
+                                                      [competencyDisplayName]="drivingFault.competencyDisplayName" ]
+                                                      [count]="drivingFault.faultCount">
                                 </driving-faults-badge>
                             </div>
                         </ion-col>

@@ -10,6 +10,9 @@ export class DrivingFaultsBadgeComponent {
   count: number;
 
   @Input()
+  competencyDisplayName?: string = null;
+
+  @Input()
   showOnZero: boolean = false;
 
   shouldDisplay = () => {
