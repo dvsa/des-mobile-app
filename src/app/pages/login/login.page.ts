@@ -23,6 +23,7 @@ import {
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { StartSendingCompletedTests } from '@store/tests/tests.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
+import { StartSendingCompletedTests } from '@store/tests/tests.actions';
 
 @Component({
   selector: 'app-login',
