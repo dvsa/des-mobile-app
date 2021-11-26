@@ -21,14 +21,14 @@ import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
 import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { bufferCount } from 'rxjs/operators';
-import * as appInfoActions from '@store/app-info/app-info.actions';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { PopulateAppVersion } from '@store/tests/app-version/app-version.actions';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
 import * as rekeySearchActions from '@pages/rekey-search/rekey-search.actions';
+import * as delegatedRekeySearchActions from '@pages/delegated-rekey-search/delegated-rekey-search.actions';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import { appInfoReducer } from '@store/app-info/app-info.reducer';
+import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { TestsEffects } from '../tests.effects';
 import * as testsActions from '../tests.actions';
 import * as testStatusActions from '../test-status/test-status.actions';
@@ -51,14 +51,31 @@ import { OtherReasonUpdated, OtherSelected } from '../rekey-reason/rekey-reason.
 import { StartDelegatedTest } from '../delegated-test/delegated-test.actions';
 import { PopulateTestCategory } from '../category/category.actions';
 
-describe('Tests Effects', () => {
-
+describe('TestsEffects', () => {
   let effects: TestsEffects;
   let actions$: any;
   let testPersistenceProviderMock;
   let store$: Store<StoreModel>;
   let navigationStateProviderMock: NavigationStateProviderMock;
   let authenticationProviderMock: AuthenticationProvider;
+  const testSlot: TestSlot = {
+    slotDetail: {
+      slotId: 4363463,
+    },
+    testCentre: {
+      centreId: 54321,
+      centreName: 'Example Test Centre',
+      costCode: 'EXTC1',
+    },
+    booking: {
+      application: {
+        applicationId: 12345,
+        bookingSequence: 11,
+        checkDigit: 1,
+        testCategory: TestCategory.B,
+      },
+    },
+  };
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -67,6 +84,8 @@ describe('Tests Effects', () => {
           journal: journalReducer,
           tests: testsReducer,
           rekeySearch: rekeySearchReducer,
+          delegatedRekeySearch: delegatedSearchReducer,
+          appInfo: appInfoReducer,
         }),
       ],
       providers: [
@@ -88,6 +107,7 @@ describe('Tests Effects', () => {
     effects = TestBed.inject(TestsEffects);
     testPersistenceProviderMock = TestBed.inject(TestPersistenceProvider);
     authenticationProviderMock = TestBed.inject(AuthenticationProvider);
+    navigationStateProviderMock = TestBed.inject(NavigationStateProvider);
     store$ = TestBed.inject(Store);
   });
 
@@ -203,12 +223,10 @@ describe('Tests Effects', () => {
     });
   });
 
-  // @TODO MES-6883 - fix this spec
-  xdescribe('startTestEffect', () => {
+  describe('startTestEffect$', () => {
     it('should copy the examiner from the journal state into the test state', (done) => {
       const selectedDate: string = new DateTime().format('YYYY-MM-DD');
       const examiner = { staffNumber: '123', individualId: 456 };
-      store$.dispatch(appInfoActions.LoadAppVersionSuccess({ versionNumber: '2.0' }));
       store$.dispatch(journalActions.SetSelectedDate(selectedDate));
       store$.dispatch(
         journalActions.LoadJournalSuccess(
@@ -223,10 +241,9 @@ describe('Tests Effects', () => {
       // ASSERT
       effects.startTestEffect$
         .pipe(
-          bufferCount(10),
+          bufferCount(13),
         )
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .subscribe(([res0, res1, res2, res3, res4, res5, res6, res7, res8, res9]) => {
+        .subscribe(([, res1, , , , , , res7, res8, res9]) => {
           expect(res1).toEqual(PopulateExaminer(examiner));
           expect(res7).toEqual(SetExaminerBooked(parseInt(examiner.staffNumber, 10)));
           expect(res8).toEqual(SetExaminerConducted(parseInt(examiner.staffNumber, 10)));
@@ -252,40 +269,20 @@ describe('Tests Effects', () => {
       // ASSERT
       effects.startTestEffect$
         .pipe(
-          bufferCount(13),
+          bufferCount(14),
         )
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .subscribe(([res0, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12]) => {
+        .subscribe(([, res1, , , , , , res7, res8, res9, , , , res13]) => {
           expect(res1).toEqual(PopulateExaminer(examiner));
           expect(res7).toEqual(SetExaminerBooked(parseInt(examiner.staffNumber, 10)));
           expect(res8).toEqual(SetExaminerConducted(parseInt(examiner.staffNumber, 10)));
           expect(res9).toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-          expect(res12).toEqual(rekeyActions.MarkAsRekey());
+          expect(res13).toEqual(rekeyActions.MarkAsRekey());
           done();
         });
     });
 
-    // @TODO - MES-6883 - enable this spec
     it('should get the slot from booked slots when this is a rekey test started from the rekey search', (done) => {
       spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
-      const testSlot: TestSlot = {
-        slotDetail: {
-          slotId: 4363463,
-        },
-        testCentre: {
-          centreId: 54321,
-          centreName: 'Example Test Centre',
-          costCode: 'EXTC1',
-        },
-        booking: {
-          application: {
-            applicationId: 12345,
-            bookingSequence: 11,
-            checkDigit: 1,
-            testCategory: TestCategory.B,
-          },
-        },
-      };
       const staffNumber = '654321';
       store$.dispatch(rekeySearchActions.SearchBookedTestSuccess(testSlot, staffNumber));
       // ACT
@@ -293,10 +290,9 @@ describe('Tests Effects', () => {
       // ASSERT
       effects.startTestEffect$
         .pipe(
-          bufferCount(13),
+          bufferCount(14),
         )
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        .subscribe(([res0, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12]) => {
+        .subscribe(([res0, res1, res2, res3, , , , res7, res8, res9, , , , res13]) => {
           expect(res0).toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
           expect(res1).toEqual(PopulateExaminer({ staffNumber }));
           expect(res2).toEqual(PopulateApplicationReference(testSlot.booking.application));
@@ -304,32 +300,22 @@ describe('Tests Effects', () => {
           expect(res7).toEqual(SetExaminerBooked(parseInt(staffNumber, 10)));
           expect(res8).toEqual(SetExaminerConducted(parseInt(staffNumber, 10)));
           expect(res9).toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-          expect(res12).toEqual(rekeyActions.MarkAsRekey());
+          expect(res13).toEqual(rekeyActions.MarkAsRekey());
           done();
         });
     });
 
     it('should set the rekey reason and reason correctly when it is a delegated examiner test', (done) => {
-      const selectedDate: string = new DateTime().format('YYYY-MM-DD');
-      const examiner = { staffNumber: '123', individualId: 456 };
-      store$.dispatch(journalActions.SetSelectedDate(selectedDate));
-      store$.dispatch(
-        journalActions.LoadJournalSuccess(
-          { examiner, slotItemsByDate: journalSlotsDataMock },
-          ConnectionStatus.ONLINE,
-          false,
-          new Date(),
-        ),
-      ); // Load in mock journal state
+      spyOn(navigationStateProviderMock, 'isDelegatedExaminerRekeySearch').and.returnValue(true);
+      store$.dispatch(delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess(testSlot));
       // ACT
       actions$.next(testsActions.StartTest(1001, TestCategory.B, false, true));
       // ASSERT
       effects.startTestEffect$
         .pipe(
-          bufferCount(15),
+          bufferCount(16),
         )
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars,max-len
-        .subscribe(([res0, res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12, res13, res14]) => {
+        .subscribe(([, , , , , , , , , , , , , res12, res13, res14]) => {
           expect(res12).toEqual(StartDelegatedTest());
           expect(res13).toEqual(OtherSelected(true));
           expect(res14).toEqual(OtherReasonUpdated('Delegated Examiner'));

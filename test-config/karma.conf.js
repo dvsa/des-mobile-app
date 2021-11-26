@@ -6,23 +6,18 @@ module.exports = function (config) {
     basePath: '..',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
-      // eslint-disable-next-line global-require
       require('karma-jasmine'),
-      // eslint-disable-next-line global-require
       require('karma-chrome-launcher'),
-      // eslint-disable-next-line global-require
       require('karma-jasmine-html-reporter'),
-      // eslint-disable-next-line global-require
       require('karma-coverage-istanbul-reporter'),
-      // eslint-disable-next-line global-require
       require('@angular-devkit/build-angular/plugins/karma'),
-      // eslint-disable-next-line global-require
       require('karma-spec-reporter'),
     ],
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
+        timeoutInterval: 7500,
       }
     },
     browserConsoleLogOptions: {
@@ -31,7 +26,6 @@ module.exports = function (config) {
       terminal: true,
     },
     coverageIstanbulReporter: {
-      // eslint-disable-next-line global-require
       dir: require('path').join(__dirname, '../coverage'),
       reports: ['html', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true,

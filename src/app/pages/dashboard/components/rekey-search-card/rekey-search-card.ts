@@ -12,8 +12,8 @@ export class RekeySearchCardComponent {
 
   constructor(private router: Router) { }
 
-  navigateToRekeySearch = () => {
-    this.router.navigate([REKEY_SEARCH_PAGE]);
+  navigateToRekeySearch = async () => {
+    await this.router.navigate([REKEY_SEARCH_PAGE]);
   };
 
 }

@@ -1,5 +1,6 @@
 import { createAction, union } from '@ngrx/store';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import { DelegatedExaminerTestSlot } from '@providers/delegated-rekey-search/mock-data/delegated-mock-data';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DelegatedRekeySearchError } from './delegated-rekey-search-error-model';
 
@@ -14,7 +15,7 @@ export const SearchBookedDelegatedTest = createAction(
 
 export const SearchBookedDelegatedTestSuccess = createAction(
   '[DelegatedRekeySearchEffects] Search Booked Test Success',
-  (testSlot: TestSlot) => ({ testSlot }),
+  (testSlot: TestSlot | DelegatedExaminerTestSlot) => ({ testSlot }),
 );
 
 export const SearchBookedDelegatedTestFailure = createAction(

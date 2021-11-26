@@ -207,7 +207,7 @@ describe('JournalPage', () => {
       );
     });
 
-    // @TODO: MES-7134 - Come back and look at this test
+    // @TODO: MES-7134 - Come back and look at this test / This is also a TODO in DES3
     xit('there should be one slot for every journal entry', () => {
       const slotsList = componentEl.query(By.css('ion-list'));
       expect(slotsList.children.length)

@@ -1,10 +1,11 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { configureTestSuite } from 'ng-bullet';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { RekeySearchCardComponent } from '../rekey-search-card';
-import { REKEY_SEARCH_PAGE } from '../../../../page-names.constants';
 
-describe('RekeySearchCard ', () => {
+describe('RekeySearchCardComponent', () => {
   let component: RekeySearchCardComponent;
   let fixture: ComponentFixture<RekeySearchCardComponent>;
   let router: Router;
@@ -13,6 +14,7 @@ describe('RekeySearchCard ', () => {
     TestBed.configureTestingModule({
       declarations: [RekeySearchCardComponent],
       providers: [
+        { provide: Router, useClass: RouterMock },
       ],
     });
   });
@@ -20,14 +22,14 @@ describe('RekeySearchCard ', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(RekeySearchCardComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
   }));
 
-  // @TODO: MES-6912 tests will be reinstated when rekey search is implemented
-  xdescribe('Class', () => {
+  describe('Class', () => {
     describe('navigateToRekey', () => {
-      it('should trigger navigation to rekey', () => {
-        component.navigateToRekeySearch();
-
+      it('should trigger navigation to rekey', async () => {
+        await component.navigateToRekeySearch();
         expect(router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
       });
     });

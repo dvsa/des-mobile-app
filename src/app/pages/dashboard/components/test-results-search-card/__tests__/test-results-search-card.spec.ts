@@ -24,8 +24,8 @@ describe('TestResultsSearchCard ', () => {
 
   // @TODO: MES-7105 tests will be reinstated when test results search is implemented UPDATE TEST DESCRIPTION
   xdescribe('Class', () => {
-    describe('navigateToFakeJournal', () => {
-      it('should trigger navigation to Fake Journal', () => {
+    describe('navigateToTestResultsSearch', () => {
+      it('should trigger navigation to test result search page', () => {
         component.navigateToTestResultsSearch();
 
         expect(router.navigate).toHaveBeenCalledWith([TEST_RESULTS_SEARCH_PAGE]);
