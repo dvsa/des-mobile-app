@@ -2,8 +2,6 @@ import {
   Component, OnInit, ViewChild, ViewContainerRef,
 } from '@angular/core';
 import {
-  LoadingController,
-  NavParams,
   Platform,
   ModalController,
   IonRefresher,
@@ -13,7 +11,7 @@ import { select, Store } from '@ngrx/store';
 import {
   Observable, Subscription, merge,
 } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {
   SearchResultTestSchema,
@@ -23,7 +21,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -75,13 +72,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
     translucent: false,
   };
   pageState: JournalPageState;
-  selectedDate: string;
-  loadingSpinner: HTMLIonLoadingElement;
   pageRefresher: IonRefresher;
-  isUnauthenticated: boolean;
   subscription: Subscription;
-  employeeId: string;
-  start = '2018-12-10T08:10:00+00:00';
   merged$: Observable<any>;
   todaysDate: DateTime;
   completedTests: SearchResultTestSchema[];
@@ -92,13 +84,10 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public modalController: ModalController,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
-    public navParams: NavParams,
-    public loadingController: LoadingController,
     router: Router,
     private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
     public dateTimeProvider: DateTimeProvider,
-    public appConfigProvider: AppConfigProvider,
     private app: AppComponent,
     private networkStateProvider: NetworkStateProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
@@ -108,8 +97,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public loadingProvider: LoadingProvider,
   ) {
     super(platform, authenticationProvider, router);
-    this.employeeId = this.authenticationProvider.getEmployeeId();
-    this.isUnauthenticated = this.authenticationProvider.isInUnAuthenticatedMode();
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
   }
@@ -159,7 +146,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     };
 
     const {
-      selectedDate$,
       slots$,
       error$,
       isLoading$,
@@ -167,7 +153,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     } = this.pageState;
 
     this.merged$ = merge(
-      selectedDate$.pipe(map(this.setSelectedDate)),
       completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(
         // emit only when slots changed
@@ -180,7 +165,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   ionViewDidLeave(): void {
-    // Using .merge helps with unsubscribing
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -224,10 +208,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   setupPolling() {
     this.store$.dispatch(journalActions.SetupPolling());
   }
-
-  setSelectedDate = (selectedDate: string): void => {
-    this.selectedDate = selectedDate;
-  };
 
   setCompletedTests = (completedTests: SearchResultTestSchema[]): void => {
     this.completedTests = completedTests;
