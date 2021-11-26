@@ -46,6 +46,7 @@ export class SearchProvider {
           endDate: advancedSearchParams.endDate,
           staffNumber: advancedSearchParams.staffNumber,
           dtcCode: advancedSearchParams.costCode,
+          excludeAutoSavedTests: advancedSearchParams.excludeAutoSavedTests,
         },
       },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));

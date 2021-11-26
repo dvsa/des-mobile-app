@@ -2,12 +2,10 @@ import {
   ComponentFixture, waitForAsync, TestBed,
 } from '@angular/core/testing';
 import {
-  LoadingController,
   ModalController,
-  NavParams,
   Platform,
 } from '@ionic/angular';
-import { NavParamsMock, PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from 'ionic-mocks';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -25,15 +23,12 @@ import { TestSlotComponentsModule } from '@components/test-slot/test-slot-compon
 import { journalReducer } from '@store/journal/journal.reducer';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { SlotProvider } from '@providers/slot/slot';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -52,6 +47,9 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { MesBackButtonComponent } from '@components/common/mes-back-button/mes-back-button';
 import { MockComponent } from 'ng-mocks';
+import { LoadingProvider } from '@providers/loader/loader';
+import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
+import { LoadingOptions } from '@ionic/core';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -60,6 +58,12 @@ describe('JournalPage', () => {
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
+  let loaderService: LoadingProvider;
+  const loadingOpts: LoadingOptions = {
+    spinner: 'circles',
+    backdropDismiss: true,
+    translucent: false,
+  };
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -80,13 +84,11 @@ describe('JournalPage', () => {
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: LoadingController, useClass: LoadingControllerMock },
+        { provide: LoadingProvider, useClass: LoaderProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: SlotProvider, useClass: SlotProviderMock },
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: AppComponent, useClass: MockAppComponent },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
@@ -94,7 +96,6 @@ describe('JournalPage', () => {
         { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
       ],
     });
-
   });
 
   beforeEach(waitForAsync(() => {
@@ -106,13 +107,14 @@ describe('JournalPage', () => {
     insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
     store$ = TestBed.inject(Store);
+    loaderService = TestBed.inject(LoadingProvider);
     spyOn(store$, 'dispatch');
+    spyOn(loaderService, 'handleUILoading');
   }));
 
   describe('Class', () => {
     it('should create component', () => {
-      expect(component)
-        .toBeTruthy();
+      expect(component).toBeTruthy();
     });
   });
 
@@ -120,56 +122,49 @@ describe('JournalPage', () => {
     it('should dispatch an UnloadJournal action and call base page logout', () => {
       spyOn(BasePageComponent.prototype, 'logout');
       component.logout();
-      expect(store$.dispatch)
-        .toHaveBeenCalledWith(journalActions.UnloadJournal());
-      expect(BasePageComponent.prototype.logout)
-        .toHaveBeenCalled();
+      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.UnloadJournal());
+      expect(BasePageComponent.prototype.logout).toHaveBeenCalled();
     });
   });
 
   describe('loadJournalManually', () => {
-    it('should dispatch a LoadJournal action', () => {
-      component.loadJournalManually();
-      expect(store$.dispatch)
-        .toHaveBeenCalledWith(journalActions.LoadJournal());
+    it('should dispatch a LoadJournal action', async () => {
+      await component.loadJournalManually();
+      expect(loaderService.handleUILoading).toHaveBeenCalledWith(true, loadingOpts);
+      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.LoadJournal());
     });
   });
 
   describe('setupPolling', () => {
     it('should dispatch a setupPolling action', () => {
       component.setupPolling();
-      expect(store$.dispatch)
-        .toHaveBeenCalledWith(journalActions.SetupPolling());
+      expect(store$.dispatch).toHaveBeenCalledWith(journalActions.SetupPolling());
     });
   });
 
   describe('handleLoadingUI', () => {
-    it('should create a loading spinner instance if loading is true', () => {
-      spyOn(component.loadingController, 'create').and.callThrough();
-      component.handleLoadingUI(true);
-      expect(component.loadingController.create).toHaveBeenCalled();
+    it('should call through to loader service with input and controller options', async () => {
+      await component.handleLoadingUI(false);
+      expect(loaderService.handleUILoading).toHaveBeenCalledWith(false, loadingOpts);
     });
   });
 
   describe('showError', () => {
     it('should create a modal instance if there is an error', () => {
-      spyOn(component.modalController, 'create')
-        .and
-        .callThrough();
+      spyOn(component.modalController, 'create').and.callThrough();
       const errorMessage: MesError = {
         message: 'Error',
         status: 500,
         statusText: 'Something went wrong',
       };
       component.showError(errorMessage);
-      expect(component.modalController.create)
-        .toHaveBeenCalledWith({
-          component: ErrorPage,
-          componentProps: {
-            errorType: ErrorTypes.JOURNAL_REFRESH,
-          },
-          cssClass: 'modal-fullscreen text-zoom-regular',
-        });
+      expect(component.modalController.create).toHaveBeenCalledWith({
+        component: ErrorPage,
+        componentProps: {
+          errorType: ErrorTypes.JOURNAL_REFRESH,
+        },
+        cssClass: 'modal-fullscreen text-zoom-regular',
+      });
     });
 
     describe('ionViewDidEnter', () => {

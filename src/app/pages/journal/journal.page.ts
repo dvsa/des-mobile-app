@@ -2,8 +2,6 @@ import {
   Component, OnInit, ViewChild, ViewContainerRef,
 } from '@angular/core';
 import {
-  LoadingController,
-  NavParams,
   Platform,
   ModalController,
   IonRefresher,
@@ -23,7 +21,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
@@ -41,6 +38,8 @@ import { DeviceProvider } from '@providers/device/device';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { AppComponent } from '@app/app.component';
+import { LoadingOptions } from '@ionic/core';
+import { LoadingProvider } from '@providers/loader/loader';
 import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
@@ -67,15 +66,15 @@ export class JournalPage extends BasePageComponent implements OnInit {
   @ViewChild('slotContainer', { read: ViewContainerRef }) slotContainer;
   @ViewChild(IonContent) content: IonContent;
 
+  private static loadingOpts: LoadingOptions = {
+    spinner: 'circles',
+    backdropDismiss: true,
+    translucent: false,
+  };
   pageState: JournalPageState;
-  selectedDate: string;
-  loadingSpinner: HTMLIonLoadingElement;
   pageRefresher: IonRefresher;
-  isUnauthenticated: boolean;
   subscription: Subscription;
-  employeeId: string;
-  start = '2018-12-10T08:10:00+00:00';
-  merged$: Observable<void | number>;
+  merged$: Observable<any>;
   todaysDate: DateTime;
   completedTests: SearchResultTestSchema[];
   displayNoDataMessage: boolean = false;
@@ -85,25 +84,20 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public modalController: ModalController,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
-    public navParams: NavParams,
-    public loadingController: LoadingController,
     router: Router,
     private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
     public dateTimeProvider: DateTimeProvider,
-    public appConfigProvider: AppConfigProvider,
     private app: AppComponent,
     private networkStateProvider: NetworkStateProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private deviceProvider: DeviceProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
+    public loadingProvider: LoadingProvider,
   ) {
     super(platform, authenticationProvider, router);
-    this.employeeId = this.authenticationProvider.getEmployeeId();
-    this.isUnauthenticated = this.authenticationProvider.isInUnAuthenticatedMode();
-    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
-      .format('YYYY-MM-DD')));
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
   }
 
@@ -143,8 +137,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       isSelectedDateToday$: this.store$.pipe(
         select(getJournalState),
         map(getSelectedDate),
-        map((selectedDate) => selectedDate === this.dateTimeProvider.now()
-          .format('YYYY-MM-DD')),
+        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD')),
       ),
       completedTests$: this.store$.pipe(
         select(getJournalState),
@@ -153,7 +146,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     };
 
     const {
-      selectedDate$,
       slots$,
       error$,
       isLoading$,
@@ -161,7 +153,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     } = this.pageState;
 
     this.merged$ = merge(
-      selectedDate$.pipe(map(this.setSelectedDate)),
       completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(
         // emit only when slots changed
@@ -174,7 +165,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   }
 
   ionViewDidLeave(): void {
-    // Using .merge helps with unsubscribing
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -182,11 +172,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async ionViewWillEnter(): Promise<boolean> {
     super.ionViewWillEnter();
-    this.loadJournalManually();
+    await this.loadJournalManually();
     this.setupPolling();
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-    // encapsulated in setTimeout to defer call due to race condition with LoadJournalSuccess
-    setTimeout(() => this.store$.dispatch(journalActions.LoadCompletedTests()), 0);
+
+    this.store$.dispatch(journalActions.LoadCompletedTests());
+
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
@@ -209,7 +200,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }
   }
 
-  loadJournalManually() {
+  async loadJournalManually() {
+    await this.loadingProvider.handleUILoading(true, JournalPage.loadingOpts);
     this.store$.dispatch(journalActions.LoadJournal());
   }
 
@@ -217,35 +209,20 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(journalActions.SetupPolling());
   }
 
-  setSelectedDate = (selectedDate: string): void => {
-    this.selectedDate = selectedDate;
-  };
-
   setCompletedTests = (completedTests: SearchResultTestSchema[]): void => {
     this.completedTests = completedTests;
   };
 
-  handleLoadingUI = (isLoading: boolean): void => {
-    if (isLoading) {
-      this.loadingController.create({
-        spinner: 'circles',
-        backdropDismiss: true,
-        translucent: false,
-      }).then(async (spinner) => {
-        this.loadingSpinner = spinner;
-        await this.loadingSpinner.present();
-      });
-      return;
+  handleLoadingUI = async (isLoading: boolean) => {
+    if (!isLoading) {
+      await this.loadingProvider.handleUILoading(isLoading, JournalPage.loadingOpts);
     }
+
     if (this.pageRefresher) {
       this.pageRefresher['detail'].complete();
       this.pageRefresher = null;
     }
-    if (this.loadingSpinner) {
-      this.loadingSpinner.dismiss().then(() => {
-        this.loadingSpinner = null;
-      });
-    }
+    return null;
   };
 
   showError = (error: MesError): void => {
@@ -274,13 +251,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
     setTimeout(() => this.content.scrollToPoint(0, scrollTop));
   };
 
-  public pullRefreshJournal = (refresher: IonRefresher) => {
-    this.refreshJournal();
+  public pullRefreshJournal = async (refresher: IonRefresher) => {
+    await this.refreshJournal();
     this.pageRefresher = refresher;
   };
 
-  public refreshJournal = () => {
-    this.loadJournalManually();
+  public refreshJournal = async () => {
+    await this.loadJournalManually();
     this.loadCompletedTestsWithCallThrough();
   };
 

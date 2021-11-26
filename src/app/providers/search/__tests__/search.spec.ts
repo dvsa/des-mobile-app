@@ -52,13 +52,14 @@ describe('SearchProvider', () => {
         endDate: '12-12-12',
         staffNumber: '12345',
         costCode: 'abc',
+        excludeAutoSavedTests: 'true',
       };
 
       searchProvider.advancedSearch(params).subscribe();
 
       httpMock.expectOne(
-        // tslint:disable-next-line:max-line-length
-        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc',
+        // eslint-disable-next-line max-len
+        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true',
       );
     });
     it('should not add the paramters to the url if they are not provided', () => {

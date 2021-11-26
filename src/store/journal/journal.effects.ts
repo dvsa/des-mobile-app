@@ -3,12 +3,20 @@ import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  switchMap, map, withLatestFrom, takeUntil, filter, catchError, startWith, concatMap, tap,
+  catchError,
+  concatMap,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  takeUntil,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
-import { of, Observable, interval } from 'rxjs';
+import { interval, Observable, of } from 'rxjs';
 // import { groupBy } from 'lodash';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Store, select, Action } from '@ngrx/store';
+import { Action, select, Store } from '@ngrx/store';
 import { JournalProvider } from '@providers/journal/journal';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SlotProvider } from '@providers/slot/slot';
@@ -38,11 +46,15 @@ import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
 import * as journalActions from './journal.actions';
-import {
-  getSelectedDate, getLastRefreshed, getSlots,
-  canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests,
-} from './journal.selector';
 import { LoadCompletedTests, LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
+import {
+  canNavigateToNextDay,
+  canNavigateToPreviousDay,
+  getCompletedTests,
+  getLastRefreshed,
+  getSelectedDate,
+  getSlots,
+} from './journal.selector';
 
 @Injectable()
 export class JournalEffects {
@@ -200,9 +212,9 @@ export class JournalEffects {
     )),
     filter(([action, , hasStarted, completedTests]:
     [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
-      if (action.callThrough) {
-        return true;
-      }
+      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) return false;
+      if (action.callThrough) return true;
+
       return !hasStarted && completedTests && completedTests.length === 0;
     }),
     switchMap(([, staffNumber]) => {
