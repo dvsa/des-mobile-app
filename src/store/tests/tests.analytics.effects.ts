@@ -5,7 +5,9 @@ import {
 } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { withLatestFrom, switchMap, concatMap } from 'rxjs/operators';
+import {
+  withLatestFrom, switchMap, concatMap, filter,
+} from 'rxjs/operators';
 import {
   AnalyticsEventCategories,
   AnalyticsEvents,
@@ -152,6 +154,7 @@ export class TestsAnalyticsEffects {
         ),
       ),
     )),
+    filter(([{ activityCode }]) => activityCode !== null),
     concatMap(([{ activityCode }, tests]: [ReturnType <typeof activityCodeActions.SetActivityCode>, TestsModel]) => {
       const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
       this.analytics.logEvent(

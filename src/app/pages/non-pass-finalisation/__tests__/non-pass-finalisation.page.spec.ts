@@ -3,53 +3,49 @@ import {
 } from '@angular/core/testing';
 import { IonicModule, NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from 'ionic-mocks';
-import { AppModule } from 'src/app/app.module';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
+import { Store } from '@ngrx/store';
+import { configureTestSuite } from 'ng-bullet';
+
+import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { NonPassFinalisationPage } from '@pages/non-pass-finalisation/non-pass-finalisation.page';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import * as testActions from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { D255Component } from '@components/test-finalisation/d255/d255';
-import { LanguagePreferencesComponent } from
-  '@components/test-finalisation/language-preference/language-preference';
+import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import {
   DebriefWitnessed, D255Yes, D255No, DebriefUnWitnessed,
-} from
-  '@store/tests/test-summary/test-summary.actions';
-import { DebriefWitnessedComponent } from
-  '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
-import { FinalisationHeaderComponent } from
-  '@components/test-finalisation/finalisation-header/finalisation-header';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
-import { CandidateChoseToProceedWithTestInWelsh, CandidateChoseToProceedWithTestInEnglish } from
-  '@store/tests/communication-preferences/communication-preferences.actions';
+} from '@store/tests/test-summary/test-summary.actions';
+import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
+import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
+import {
+  CandidateChoseToProceedWithTestInWelsh,
+  CandidateChoseToProceedWithTestInEnglish,
+} from '@store/tests/communication-preferences/communication-preferences.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
-import {
-  ActivityCodeFinalisationProvider,
-} from '@providers/activity-code-finalisation/activity-code-finalisation';
+import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import {
   ActivityCodeFinalisationMock,
 } from '@providers/activity-code-finalisation/__mocks__/activity-code-finalisation.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  NonPassFinalisationViewDidEnter,
-  NonPassFinalisationValidationError,
-} from '../non-pass-finalisation.actions';
+import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
 describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;
+  const activatedRouteMock = { snapshot: { data: { behaviourMap: {} } } as Data } as ActivatedRoute;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -74,6 +70,7 @@ describe('NonPassFinalisationPage', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: ActivityCodeFinalisationProvider, useClass: ActivityCodeFinalisationMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
       ],
     });
   });

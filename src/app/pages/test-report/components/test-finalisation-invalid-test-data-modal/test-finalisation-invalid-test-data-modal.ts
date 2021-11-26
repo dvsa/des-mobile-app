@@ -4,6 +4,7 @@ import { NavParams } from '@ionic/angular';
 @Component({
   selector: 'test-finalisation-invalid-test-data-modal',
   templateUrl: 'test-finalisation-invalid-test-data-modal.html',
+  styleUrls: ['test-finalisation-invalid-test-data-modal.scss'],
 })
 export class TestFinalisationInvalidTestDataModal {
 
