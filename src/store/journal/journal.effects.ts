@@ -42,7 +42,12 @@ import {
   getSelectedDate, getLastRefreshed, getSlots,
   canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests,
 } from './journal.selector';
-import { LoadCompletedTests, LoadCompletedTestsFailure, LoadCompletedTestsSuccess } from './journal.actions';
+import {
+  LoadCompletedTests,
+  LoadCompletedTestsFailure,
+  LoadCompletedTestsSuccess,
+  LoadJournalsNoConnection,
+} from './journal.actions';
 
 @Injectable()
 export class JournalEffects {
@@ -80,25 +85,31 @@ export class JournalEffects {
         ),
       ),
       switchMap(([, lastRefreshed, slots, examiner]) => {
+        console.log('journal refresh');
         return this.journalProvider
           .getJournal(lastRefreshed)
           .pipe(
             tap((journalData: ExaminerWorkSchedule) => this.journalProvider.saveJournalForOffline(journalData)),
+            tap(() => console.log('0')),
             map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
               examiner: journalData.examiner as Required<Examiner>,
               slotItems: this.slotProvider.detectSlotChanges(slots, journalData),
             })),
+            tap(() => console.log('1')),
             map((examinerSlotItems: ExaminerSlotItems): ExaminerSlotItemsByDate => ({
               examiner: examinerSlotItems.examiner,
               slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
             })),
+            tap(() => console.log('2')),
             map((slotItemsByDate: ExaminerSlotItemsByDate) => journalActions.LoadJournalSuccess(
               slotItemsByDate,
               this.networkStateProvider.getNetworkState(),
               this.authProvider.isInUnAuthenticatedMode(),
               lastRefreshed,
             )),
+            tap(() => console.log('3')),
             catchError((err: HttpErrorResponse) => {
+              console.log('refresh error', err);
               // For HTTP 304 NOT_MODIFIED we just use the slots we already have cached
               if (err.status === HttpStatusCodes.NOT_MODIFIED) {
                 return of(journalActions.LoadJournalSuccess(
@@ -143,6 +154,7 @@ export class JournalEffects {
     switchMap(
       () => this.callJournalProvider$(JournalRefreshModes.MANUAL).pipe(
         catchError((err: HttpErrorResponse) => {
+          console.log('LoadJournalFailure');
           return [
             journalActions.JournalRefreshError('ManualJournalRefresh', err.message),
             journalActions.LoadJournalFailure(err),
@@ -200,6 +212,10 @@ export class JournalEffects {
     )),
     filter(([action, , hasStarted, completedTests]:
     [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
+      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+        console.log('here');
+        return false;
+      }
       if (action.callThrough) {
         return true;
       }

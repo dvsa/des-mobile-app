@@ -101,6 +101,10 @@ export const journalReducer = createReducer(
     isLoading: false,
     completedTests,
   })),
+  on(journalActions.LoadJournalsNoConnection, (state: JournalModel): JournalModel => ({
+    ...state,
+    isLoading: false,
+  })),
 );
 
 export const getJournalState = createFeatureSelector<JournalModel>('journal');

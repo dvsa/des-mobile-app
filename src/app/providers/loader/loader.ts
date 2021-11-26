@@ -13,10 +13,12 @@ export class LoadingProvider {
   constructor(private loadingCtrl: LoadingController) {}
 
   public handleUILoading = async (isLoading: boolean, loadingOpts: LoadingOptions = null): Promise<void> => {
+    console.log('spinner action', isLoading);
     if (isLoading) {
       await this.present(loadingOpts);
       return;
     }
+    console.log('im gonna dismiss');
     await this.dismiss();
   };
 
@@ -32,6 +34,7 @@ export class LoadingProvider {
 
     while (topLoader) {
       if (!(await topLoader.dismiss())) {
+        console.log('dismiss');
         break;
       }
       topLoader = await this.loadingCtrl.getTop();

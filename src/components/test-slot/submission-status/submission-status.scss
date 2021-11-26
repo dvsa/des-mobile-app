@@ -1,15 +1,8 @@
-div {
+.upload-text {
   height: 24px;
   background: var(--gds-bright-red);
+  color: var(--mes-white);
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  text-align: center;
-  padding: 0 13px 0 12px;
-
-  h6 {
-    color: var(--mes-white);
-    letter-spacing: -0.22px;
-    font-weight: normal;
-  }
 }

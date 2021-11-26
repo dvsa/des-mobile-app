@@ -24,7 +24,7 @@ import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { StoreModel } from '@shared/models/store.model';
 import { ErrorTypes } from '@shared/models/error-message';
@@ -41,7 +41,10 @@ import { DeviceProvider } from '@providers/device/device';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { AppComponent } from '@app/app.component';
+import { LoadingProvider } from '@providers/loader/loader';
+import { LoadingOptions } from '@ionic/core';
 import { ErrorPage } from '../error-page/error';
+import { LoadJournalsNoConnection } from '@store/journal/journal.actions';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -67,6 +70,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
   @ViewChild('slotContainer', { read: ViewContainerRef }) slotContainer;
   @ViewChild(IonContent) content: IonContent;
 
+  private static loadingOpts: LoadingOptions = {
+    spinner: 'circles',
+    backdropDismiss: true,
+    translucent: false,
+    message: 'Updating...',
+  };
   pageState: JournalPageState;
   selectedDate: string;
   loadingSpinner: HTMLIonLoadingElement;
@@ -75,7 +84,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   subscription: Subscription;
   employeeId: string;
   start = '2018-12-10T08:10:00+00:00';
-  merged$: Observable<void | number>;
+  merged$: Observable<any>;
   todaysDate: DateTime;
   completedTests: SearchResultTestSchema[];
   displayNoDataMessage: boolean = false;
@@ -98,6 +107,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private deviceProvider: DeviceProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
+    private loaderService: LoadingProvider,
   ) {
     super(platform, authenticationProvider, router);
     this.employeeId = this.authenticationProvider.getEmployeeId();
@@ -162,7 +172,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
     this.merged$ = merge(
       selectedDate$.pipe(map(this.setSelectedDate)),
-      completedTests$.pipe(map(this.setCompletedTests)),
       slots$.pipe(
         // emit only when slots changed
         distinctUntilChanged(),
@@ -170,6 +179,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
       ),
       error$.pipe(map(this.showError)),
       isLoading$.pipe(map(this.handleLoadingUI)),
+      completedTests$.pipe(map(this.setCompletedTests)),
     );
   }
 
@@ -225,27 +235,28 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.completedTests = completedTests;
   };
 
-  handleLoadingUI = (isLoading: boolean): void => {
-    if (isLoading) {
-      this.loadingController.create({
-        spinner: 'circles',
-        backdropDismiss: true,
-        translucent: false,
-      }).then(async (spinner) => {
-        this.loadingSpinner = spinner;
-        await this.loadingSpinner.present();
-      });
-      return;
-    }
+  handleLoadingUI = async (isLoading: boolean): Promise<void> => {
+    // if (isLoading) {
+    //   this.loadingController.create({
+    //     spinner: 'circles',
+    //     backdropDismiss: true,
+    //     translucent: false,
+    //   }).then(async (spinner) => {
+    //     this.loadingSpinner = spinner;
+    //     await this.loadingSpinner.present();
+    //   });
+    //   return;
+    // }
+    await this.loaderService.handleUILoading(isLoading, JournalPage.loadingOpts);
     if (this.pageRefresher) {
       this.pageRefresher['detail'].complete();
       this.pageRefresher = null;
     }
-    if (this.loadingSpinner) {
-      this.loadingSpinner.dismiss().then(() => {
-        this.loadingSpinner = null;
-      });
-    }
+    // if (this.loadingSpinner) {
+    //   this.loadingSpinner.dismiss().then(() => {
+    //     this.loadingSpinner = null;
+    //   });
+    // }
   };
 
   showError = (error: MesError): void => {
@@ -281,6 +292,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   public refreshJournal = () => {
     this.loadJournalManually();
+    if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+      console.log('journal offline');
+      this.store$.dispatch(journalActions.LoadJournalsNoConnection());
+      return;
+    }
+    console.log('journal online');
     this.loadCompletedTestsWithCallThrough();
   };
 
