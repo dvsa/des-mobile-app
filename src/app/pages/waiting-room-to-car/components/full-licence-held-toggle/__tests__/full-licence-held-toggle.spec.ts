@@ -1,8 +1,8 @@
 import { By } from '@angular/platform-browser';
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from '@app/app.module';
@@ -20,11 +20,12 @@ describe('FullLicenceHeldComponent', () => {
       imports: [
         IonicModule,
         AppModule,
+        ReactiveFormsModule,
       ],
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(FullLicenceHeldComponent);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});

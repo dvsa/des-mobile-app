@@ -43,7 +43,11 @@ export const VehicleChecksDrivingFaultsNumberChanged = createAction(
 );
 
 export const DropExtraVehicleChecks = createAction(
-  '[Vehicle Checks] [CatC] Vehicle Checks dropping extra vehicle checks as full licence held',
+  '[Vehicle Checks] [CatC] Vehicle Checks dropping extra as full licence held selected',
+);
+
+export const DropExtraVehicleChecksDelegated = createAction(
+  '[Vehicle Checks] [CatC] Vehicle Checks dropping extra as full licence held selected for DLG',
 );
 
 export const SetFullLicenceHeld = createAction(

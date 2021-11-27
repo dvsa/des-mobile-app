@@ -31,6 +31,7 @@ import {
   getFullLicenceHeld,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER,
 } from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
@@ -115,7 +116,6 @@ export class VehicleChecksCatCModal {
       ),
       vehicleChecksScore$: currentTest$.pipe(
         select(getTestData),
-
         select(getVehicleChecksCatC),
         map((vehicleChecks) => this.faultCountProvider.getVehicleChecksFaultCount(this.category, vehicleChecks)),
       ),
@@ -182,12 +182,16 @@ export class VehicleChecksCatCModal {
     }
   }
 
-  async onSubmit() {
+  ionViewDidEnter(): void {
+    this.store$.dispatch(vehicleChecksModalActions.VehicleChecksViewDidEnter());
+  }
+
+  async onClose() {
     await this.modalCtrl.dismiss();
   }
 
-  ionViewDidEnter() {
-    this.store$.dispatch(vehicleChecksModalActions.VehicleChecksViewDidEnter());
+  async onSubmit() {
+    await this.modalCtrl.dismiss();
   }
 
   showMeQuestionChanged(result: QuestionResult, index: number): void {
@@ -218,7 +222,7 @@ export class VehicleChecksCatCModal {
     );
   };
 
-  showFullLicenceHeld = (): boolean => this.category === TestCategory.CE || this.category === TestCategory.C1E;
+  showFullLicenceHeld = (): boolean => isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E]);
 
   isNonTrailerBanner(): boolean {
     return (
@@ -231,12 +235,12 @@ export class VehicleChecksCatCModal {
     return (
       this.vehicleChecksScore.drivingFaults === 1
       && this.vehicleChecksScore.seriousFaults === 1
-      && (this.category === TestCategory.CE || this.category === TestCategory.C1E)
+      && isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E])
     );
   }
 
   shouldDisplayBanner = (): boolean => {
-    if (this.category === TestCategory.C || this.category === TestCategory.C1) {
+    if (isAnyOf(this.category, [TestCategory.C, TestCategory.C1])) {
       return this.isNonTrailerBanner();
     }
     return (

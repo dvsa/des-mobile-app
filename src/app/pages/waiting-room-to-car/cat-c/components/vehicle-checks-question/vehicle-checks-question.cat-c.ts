@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
   selector: 'vehicle-checks-question-cat-c',
@@ -75,12 +76,12 @@ export class VehicleChecksQuestionCatCComponent implements OnChanges {
   }
 
   vehicleChecksPassSelected() {
-    const result: QuestionOutcome = 'P';
+    const result: QuestionOutcome = CompetencyOutcome.P;
     this.vehicleChecksQuestionOutcomeChange.emit(result);
   }
 
   vehicleChecksDrivingFaultSelected() {
-    const result: QuestionOutcome = 'DF';
+    const result: QuestionOutcome = CompetencyOutcome.DF;
     this.vehicleChecksQuestionOutcomeChange.emit(result);
   }
 

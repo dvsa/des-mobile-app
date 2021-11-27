@@ -3,7 +3,7 @@
          [formGroup]="formGroup">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col class="component-label ion-align-self-center" size="32">
-        <label>Vehicle checks</label>
+        <label id="vehicle-check-completed-label">Vehicle checks</label>
     </ion-col>
     <ion-col class="ion-align-self-center mes-padding-left">
         <ion-row class="spacing-row"></ion-row>
@@ -48,9 +48,12 @@
                             okText="Submit"
                             cancelText="Cancel"
                             formControlName="vehicleChecksDrivingFaultsNumber"
-                            (ionChange)="vehicleChecksDrivingFaultsNumberChanged($event)"
+                            [disabled]="(componentState.fullLicenceHeldSelection$ | async) === null"
+                            (ionChange)="vehicleChecksDrivingFaultsNumberChanged($event?.detail?.value)"
                             [interfaceOptions]="interfaceOptions">
-                    <ion-select-option *ngFor="let number of drivingFaultsNumberOptions" [value]="number">
+                    <ion-select-option *ngFor="let number of (componentState.drivingFaultsNumberOptions$ | async)"
+                                       [id]="'driving-fault-' + number"
+                                       [value]="number">
                         {{number}} {{number === 1 ? 'driving fault' : 'driving faults'}}
                     </ion-select-option>
                 </ion-select>

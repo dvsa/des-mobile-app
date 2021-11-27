@@ -47,6 +47,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
     effects = TestBed.inject(VehicleChecksModalCatCAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
+    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('vehicleChecksModalViewDidEnter$ effect', () => {

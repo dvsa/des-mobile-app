@@ -25,9 +25,6 @@ export class VehicleChecksCatCComponent implements OnChanges {
   fullLicenceHeld: boolean = null;
 
   @Input()
-  onCloseVehicleChecksModal: () => {};
-
-  @Input()
   vehicleChecksScore: VehicleChecksScore;
 
   @Input()
@@ -44,6 +41,9 @@ export class VehicleChecksCatCComponent implements OnChanges {
 
   @Output()
   fullLicenceHeldChange = new EventEmitter<boolean>();
+
+  @Output()
+  onCloseVehicleChecksModal = new EventEmitter<void>();
 
   formControl: FormControl;
 
@@ -72,8 +72,11 @@ export class VehicleChecksCatCComponent implements OnChanges {
       cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
     });
     await modal.present();
-    await modal.onDidDismiss();
-    this.onCloseVehicleChecksModal();
+    const didDismiss = await modal.onDidDismiss();
+
+    if (didDismiss) {
+      this.onCloseVehicleChecksModal.emit();
+    }
   }
 
   everyQuestionHasOutcome(): boolean {

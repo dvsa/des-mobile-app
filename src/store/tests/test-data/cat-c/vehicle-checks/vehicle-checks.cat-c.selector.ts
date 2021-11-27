@@ -26,12 +26,16 @@ export const getSelectedTellMeQuestions = (
 
 export const getFullLicenceHeld = (
   vehicleChecksCatCReducer: CatCVehicleChecks,
-): boolean => vehicleChecksCatCReducer.fullLicenceHeld;
+): boolean => (vehicleChecksCatCReducer as CatCUniqueTypes.VehicleChecks).fullLicenceHeld;
 
 export const vehicleChecksExist = (vehicleChecks: CatCVehicleChecks): boolean => {
   const questions = [...vehicleChecks.showMeQuestions, ...vehicleChecks.tellMeQuestions];
   return some(questions, (fault) => fault.outcome != null);
 };
+
+export const hasFullLicenceHeldBeenSelected = (
+  fullLicenceHeld: boolean,
+): string => (fullLicenceHeld === null) ? null : fullLicenceHeld ? 'Y' : 'N';
 
 export const getVehicleChecksCompleted = (vehicleChecks: CatCVehicleChecks) => vehicleChecks.vehicleChecksCompleted;
 

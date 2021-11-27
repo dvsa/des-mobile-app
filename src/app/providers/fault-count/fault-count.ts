@@ -47,7 +47,7 @@ export class FaultCountProvider {
       case TestCategory.G:
       case TestCategory.H:
       case TestCategory.K: return FaultCountHomeTestHelper.getDrivingFaultSumCountCatHomeTest(data);
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      default: throw new Error(`${FaultCountProvider.getFaultSumCountErrMsg}`);
     }
   };
 
@@ -150,10 +150,10 @@ export class FaultCountProvider {
     switch (category) {
       case TestCategory.ADI2: return FaultCountADIPart2Helper.getVehicleChecksFaultCountCatADIPart2(data);
       case TestCategory.BE: return FaultCountBEHelper.getVehicleChecksFaultCountCatBE(data);
-      case TestCategory.C1: return FaultCountCHelper.getVehicleChecksFaultCountCatC1(data);
-      case TestCategory.C1E: return FaultCountCHelper.getVehicleChecksFaultCountCatC1E(data);
-      case TestCategory.CE: return FaultCountCHelper.getVehicleChecksFaultCountCatCE(data);
       case TestCategory.C: return FaultCountCHelper.getVehicleChecksFaultCountCatC(data);
+      case TestCategory.C1: return FaultCountCHelper.getVehicleChecksFaultCountCatC1(data);
+      case TestCategory.C1E:
+      case TestCategory.CE: return FaultCountCHelper.getVehicleChecksFaultCount(data);
       case TestCategory.D1: return FaultCountDHelper.getVehicleChecksFaultCountCatD1(data);
       case TestCategory.D1E: return FaultCountDHelper.getVehicleChecksFaultCountCatD1E(data);
       case TestCategory.DE: return FaultCountDHelper.getVehicleChecksFaultCountCatDE(data);

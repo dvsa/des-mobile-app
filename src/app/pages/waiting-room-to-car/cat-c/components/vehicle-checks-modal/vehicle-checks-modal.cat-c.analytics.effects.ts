@@ -45,9 +45,7 @@ export class VehicleChecksModalCatCAnalyticsEffects {
       ),
     )),
     switchMap(([, tests]: [ReturnType<typeof VehicleChecksViewDidEnter>, TestsModel]) => {
-      this.analytics.setCurrentPage(
-        formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests),
-      );
+      this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.VEHICLE_CHECKS, tests));
       return of(AnalyticRecorded());
     }),
   ));

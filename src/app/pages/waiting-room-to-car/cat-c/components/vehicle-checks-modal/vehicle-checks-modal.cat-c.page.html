@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar>
-<!--    <ion-buttons slot="start" navPop>-->
     <ion-buttons slot="start">
-      <ion-button class="nav-close" id="closeVehicleChecksModalCatC">
-        <ion-icon name="md-close"></ion-icon>Close
+      <ion-button class="nav-close" id="closeVehicleChecksModalCatC" (click)="onClose()">
+        <ion-icon name="close-outline" class="close-modal-class"></ion-icon>
+        <span class="close-modal-class">Close</span>
       </ion-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title id="vehicle-checks-modal-title">
       Vehicle checks - {{ pageState.candidateName$ | async }}
     </ion-title>
   </ion-toolbar>
@@ -27,7 +27,7 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h4>
+          <h4 id="vehicle-checks-modal-show-me-label">
             Show me questions
           </h4>
         </ion-card-title>
@@ -47,7 +47,7 @@
     <ion-card>
       <ion-card-header>
         <ion-card-title>
-          <h4>
+          <h4 id="vehicle-checks-modal-tell-me-label">
             Tell me questions
           </h4>
         </ion-card-title>
@@ -75,7 +75,7 @@
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
     <ion-button class="mes-primary-button" id="submit-vehicle-checks" (click)="onSubmit()">
-      <h3>Submit vehicle checks</h3>
+      <h3 id="vehicle-checks-modal-submit-label">Submit vehicle checks</h3>
     </ion-button>
   </ion-row>
 </ion-footer>

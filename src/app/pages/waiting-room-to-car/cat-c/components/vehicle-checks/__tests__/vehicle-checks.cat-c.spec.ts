@@ -4,7 +4,6 @@ import {
   IonicModule, ModalController, Config, NavParams,
 } from '@ionic/angular';
 import { ModalControllerMock, ConfigMock, NavParamsMock } from 'ionic-mocks';
-import { CAT_C } from '@pages/page-names.constants';
 import { AppComponent } from '@app/app.component';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -16,6 +15,9 @@ import { StartTest } from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
 import { configureTestSuite } from 'ng-bullet';
+import {
+  VehicleChecksCatCModal,
+} from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
 import { VehicleChecksCatCComponent } from '../vehicle-checks.cat-c';
 
 describe('VehicleChecksCatCComponent', () => {
@@ -23,6 +25,7 @@ describe('VehicleChecksCatCComponent', () => {
   let component: VehicleChecksCatCComponent;
   let modalController: ModalController;
   let store$: Store<StoreModel>;
+  let appComponent: AppComponent;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -54,19 +57,21 @@ describe('VehicleChecksCatCComponent', () => {
     component.formGroup = new FormGroup({});
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
+    appComponent = TestBed.inject(AppComponent);
   }));
 
   describe('Class', () => {
     describe('openVehicleChecksModal', () => {
-      it('should create the correct model', () => {
+      it('should create the correct model', async () => {
+        spyOn(appComponent, 'getTextZoomClass').and.returnValue('regular');
         component.category = TestCategory.C1E;
-        component.openVehicleChecksModal();
+        await component.openVehicleChecksModal();
         expect(modalController.create).toHaveBeenCalledTimes(1);
-        expect(modalController.create).toHaveBeenCalledWith(
-          CAT_C.VEHICLE_CHECKS_MODAL,
-          { category: TestCategory.C1E },
-          { cssClass: 'modal-fullscreen text-zoom-regular' },
-        );
+        expect(modalController.create).toHaveBeenCalledWith({
+          component: VehicleChecksCatCModal,
+          componentProps: { category: TestCategory.C1E },
+          cssClass: 'modal-fullscreen regular',
+        });
       });
     });
 

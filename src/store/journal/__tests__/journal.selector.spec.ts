@@ -42,7 +42,7 @@ describe('JournalSelector', () => {
   });
 
   beforeEach(() => {
-    slotProvider = TestBed.get(SlotProvider);
+    slotProvider = TestBed.inject(SlotProvider);
   });
 
   const state: JournalModel = {

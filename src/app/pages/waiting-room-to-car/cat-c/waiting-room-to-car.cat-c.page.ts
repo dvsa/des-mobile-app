@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { AlertController, Platform } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -17,11 +19,9 @@ import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.sele
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
-  WaitingRoomToCarValidationError,
-} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
-import {
-  DropExtraVehicleChecks,
+  DropExtraVehicleChecks, DropExtraVehicleChecksDelegated, SetFullLicenceHeld,
   VehicleChecksCompletedToggled,
   VehicleChecksDrivingFaultsNumberChanged,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
@@ -32,15 +32,13 @@ import {
   getResidencyDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 import {
-  getFullLicenceHeld,
-  getVehicleChecksCatC, getVehicleChecksCompleted,
+  getFullLicenceHeld, getVehicleChecksCatC, getVehicleChecksCompleted, hasFullLicenceHeldBeenSelected,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { map } from 'rxjs/operators';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 
 interface CatCWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -51,6 +49,7 @@ interface CatCWaitingRoomToCarPageState {
   vehicleChecksScore$: Observable<VehicleChecksScore>;
   vehicleChecks$: Observable<CatCUniqueTypes.VehicleChecks>;
   fullLicenceHeld$: Observable<boolean>;
+  fullLicenceHeldSelection$: Observable<string>;
 }
 
 type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRoomToCarPageState;
@@ -65,6 +64,7 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   form: FormGroup;
   pageState: WaitingRoomToCarPageState;
   fullLicenceHeld: boolean = null;
+  isDelegated: boolean = false;
 
   constructor(
     private faultCountProvider: FaultCountProvider,
@@ -73,8 +73,9 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
+    alertController: AlertController,
   ) {
-    super(store$, platform, authenticationProvider, router, routeByCat);
+    super(platform, authenticationProvider, router, store$, routeByCat, alertController);
     this.form = new FormGroup({});
   }
 
@@ -121,8 +122,17 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
       vehicleChecksScore$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatC),
-        map((vehicleChecks) =>
-          this.faultCountProvider.getVehicleChecksFaultCount(this.testCategory as TestCategory, vehicleChecks)),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestCategory),
+        )),
+        map(([vehicleChecks, category]) =>
+          this.faultCountProvider.getVehicleChecksFaultCount(category as TestCategory, vehicleChecks)),
+      ),
+      fullLicenceHeldSelection$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatC),
+        select(getFullLicenceHeld),
+        map((licenceHeld) => hasFullLicenceHeldBeenSelected(licenceHeld)),
       ),
     };
   }
@@ -132,9 +142,10 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
   }
 
   setupSubscription(): void {
-    const { fullLicenceHeld$ } = this.pageState;
+    const { delegatedTest$, fullLicenceHeld$ } = this.pageState;
 
     this.subscription = merge(
+      delegatedTest$.pipe(map((result) => this.isDelegated = result)),
       fullLicenceHeld$.pipe(map((result) => this.fullLicenceHeld = result)),
     ).subscribe();
   }
@@ -149,12 +160,17 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
     ));
   }
 
+  fullLicenceHeldChange = (licenceHeld: boolean): void => {
+    this.fullLicenceHeld = licenceHeld;
+    this.store$.dispatch(SetFullLicenceHeld(licenceHeld));
+  };
+
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
-      if (this.fullLicenceHeld && isAnyOf(this.testCategory, [TestCategory.C, TestCategory.CE])) {
-        this.store$.dispatch(DropExtraVehicleChecks());
+      if (this.fullLicenceHeld && isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E])) {
+        this.store$.dispatch(this.isDelegated ? DropExtraVehicleChecksDelegated() : DropExtraVehicleChecks());
       }
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
       return;
@@ -171,4 +187,5 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
 
   displayLoadSecured = (): boolean => isAnyOf(this.testCategory, [TestCategory.C, TestCategory.CE, TestCategory.C1E]);
 
+  showFullLicenceHeld = (): boolean => isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E]);
 }

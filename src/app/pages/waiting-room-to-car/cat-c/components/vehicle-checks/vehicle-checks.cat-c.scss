@@ -44,4 +44,17 @@
     margin-top: 24px;
   }
 
+  .vehicle-checks-result-text {
+    color: black;
+    font-size: 24px;
+  }
+
+  .select-questions-btn {
+    color: black;
+    font-size: 20px;
+    font-weight: normal;
+    --box-shadow: inset -2px -2px 0 0 var(--gds-grey-1);
+    --border-radius: 10px;
+  }
+
 }
