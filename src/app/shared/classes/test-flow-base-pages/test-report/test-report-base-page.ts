@@ -62,6 +62,9 @@ import {
   getTestRequirementsCatHome,
 } from '@store/tests/test-data/cat-home/test-requirements/test-requirements.cat-home.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
+import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StatusBar } from '@capacitor/status-bar';
 
 export interface CommonTestReportPageState {
@@ -73,6 +76,7 @@ export interface CommonTestReportPageState {
   testData$: Observable<TestDataUnion>;
   testRequirements$: Observable<TestRequirementsUnion>;
   category$: Observable<CategoryCode>;
+  delegatedTest$: Observable<boolean>;
 }
 
 export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
@@ -88,6 +92,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   isSeriousMode: boolean = false;
   isDangerousMode: boolean = false;
   manoeuvresCompleted: boolean = false;
+  delegatedTest: boolean = false;
   isTestReportValid: boolean = false;
   isEtaValid: boolean = true;
   testCategory: TestCategory;
@@ -104,6 +109,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     public testReportValidatorProvider: TestReportValidatorProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
+    private routeByCategory: RouteByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -159,6 +165,10 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       category$: currentTest$.pipe(
         select(getTestCategory),
       ),
+      delegatedTest$: currentTest$.pipe(
+        select(getDelegatedTestIndicator),
+        select(isDelegatedTest),
+      ),
     };
   }
 
@@ -213,7 +223,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   }
 
   async ionViewWillEnter(): Promise<void> {
-    // ionViewWillEnter lifecylce event used to ensure screen orientation is correct before page transition
+    // ionViewWillEnter lifecycle event used to ensure screen orientation is correct before page transition
     if (super.isIos() && this.isPracticeMode) {
       await this.screenOrientation.lock(
         this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY,
@@ -251,6 +261,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       isDangerousMode$,
       manoeuvres$,
       testData$,
+      delegatedTest$,
       category$,
     } = this.commonPageState;
 
@@ -260,6 +271,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       isSeriousMode$.pipe(map((result) => (this.isSeriousMode = result))),
       isDangerousMode$.pipe(map((result) => (this.isDangerousMode = result))),
       manoeuvres$.pipe(map((result) => (this.manoeuvresCompleted = result))),
+      delegatedTest$.pipe(map((result) => (this.delegatedTest = result))),
       testData$.pipe(
         withLatestFrom(category$),
         map(([data, category]) => {
@@ -271,8 +283,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
           this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
         }),
       ),
-    )
-      .subscribe();
+    ).subscribe();
   }
 
   cancelSubscription(): void {
@@ -309,15 +320,18 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   };
 
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
-    // eslint-disable-next-line default-case
+    const nextPage: string = this.delegatedTest
+      ? this.routeByCategory.getNextPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory)
+      : TestFlowPageNames.DEBRIEF_PAGE;
+
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(CalculateTestResult());
-        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+        await this.router.navigate([nextPage]);
         break;
       case ModalEvent.TERMINATE:
         this.store$.dispatch(TerminateTestFromTestReport());
-        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+        await this.router.navigate([nextPage]);
         break;
       default:
         break;

@@ -1,21 +1,21 @@
 <ng-container>
-  <div class="popover-content">
-    <reverse-diagram-link *ngIf="shouldShowReverseDiagramLink()" id="reverse-diagram-link"></reverse-diagram-link>
-    <div class="manoeuvre-competencies-container">
-      <div class="first-manoeuvre-competency-button">
-        <manoeuvre-competency
-          [attr.id]="getId(competencies.controlFault)"
-          [manoeuvre]="manoeuvreTypes.reverseLeft"
-          [competency]="competencies.controlFault"
-        ></manoeuvre-competency>
-      </div>
-      <div>
-        <manoeuvre-competency
-          [attr.id]="getId(competencies.observationFault)"
-          [manoeuvre]="manoeuvreTypes.reverseLeft"
-          [competency]="competencies.observationFault"
-        ></manoeuvre-competency>
-      </div>
-    </div>
-  </div>
+  <ion-grid class="popover-content">
+      <reverse-diagram-link *ngIf="shouldShowReverseDiagramLink()" id="reverse-diagram-link"></reverse-diagram-link>
+        <div class="manoeuvre-competencies-container">
+          <div class="first-manoeuvre-competency-button">
+            <manoeuvre-competency
+              [attr.id]="getId(competencies.controlFault)"
+              [manoeuvre]="manoeuvreTypes.reverseLeft"
+              [competency]="competencies.controlFault">
+            </manoeuvre-competency>
+          </div>
+          <div>
+            <manoeuvre-competency
+              [attr.id]="getId(competencies.observationFault)"
+              [manoeuvre]="manoeuvreTypes.reverseLeft"
+              [competency]="competencies.observationFault">
+            </manoeuvre-competency>
+          </div>
+        </div>
+  </ion-grid>
 </ng-container>

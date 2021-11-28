@@ -8,6 +8,7 @@ import {
   TestFlowPageNames, REKEY_SEARCH_PAGE, FAKE_JOURNAL_PAGE,
 } from '@pages/page-names.constants';
 import { CanWaitingRoomDeactivateGuard } from '@pages/waiting-room/can-waiting-room-deactiviate';
+import { CanDeactivateHealthDeclaration } from '@pages/health-declaration/can-health-declaration-deactivate';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
 import { Test_Report_Route } from './routing/test-report-route';
 import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
@@ -99,11 +100,16 @@ const routes: Routes = [
   ...Office_Route,
 ];
 
+const ROUTE_DEACTIVATE_GUARDS = [
+  CanWaitingRoomDeactivateGuard,
+  CanDeactivateHealthDeclaration,
+];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: NoPreloading, relativeLinkResolution: 'legacy' }),
   ],
   exports: [RouterModule],
-  providers: [CanWaitingRoomDeactivateGuard],
+  providers: [...ROUTE_DEACTIVATE_GUARDS],
 })
 export class AppRoutingModule { }

@@ -1,11 +1,296 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>office.cat-c</ion-title>
+    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+        <ion-title>Office</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-button (click)="navigateBack()">Back</ion-button>
-    <ion-button (click)="navigateForward()">To Rekey Reason</ion-button>
-    <ion-button (click)="navigateJournal()">To Journal</ion-button>
+<ion-content force-overscroll="false">
+    <office-candidate-section
+            [candidateName]="pageState.candidateName$ | async"
+            [driverNumber]="pageState.candidateDriverNumber$ | async"
+            [startTime]="pageState.startTime$ | async"
+            [testOutcomeText]="pageState.testOutcomeText$ | async">
+    </office-candidate-section>
+
+    <form [formGroup]="form">
+        <ion-card>
+            <ion-card-header>
+                <h4>Test summary</h4>
+            </ion-card-header>
+
+            <ion-card-content class="card-content-ios ion-no-padding">
+                <ion-grid class="grid">
+                    <date-of-test
+                            *ngIf="isDelegated || (pageState.isRekey$ | async)"
+                            [dateOfTest]="pageState.startDate$ | async"
+                            (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
+                            (dateOfTestChange)="dateOfTestChanged($event)">
+                    </date-of-test>
+
+                    <ion-row class="mes-component-row mes-row-separator ion-align-items-center" id="application-reference-card" *ngIf="isDelegated">
+                        <ion-col class="component-label" size="32">
+                            <label>Application reference</label>
+                        </ion-col>
+                        <ion-col class="ion-padding-start">
+                            <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
+                        </ion-col>
+                    </ion-row>
+
+                    <activity-code
+                            id="activity-code-card"
+                            [formGroup]="form"
+                            [activityCodeModel]="pageState.activityCode$ | async"
+                            [activityCodeOptions]="activityCodeOptions"
+                            (activityCodeChange)="activityCodeChanged($event)"
+                            [disabled]="!isDelegated">
+                    </activity-code>
+
+                    <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+                        <license-provided
+                                *ngIf="isDelegated && isPass()"
+                                [form]="form"
+                                [license]="pageState.provisionalLicense$ | async"
+                                [licenseReceivedLabel]="'Provisional licence Received'"
+                                (licenseReceived)="provisionalLicenseReceived()"
+                                (licenseNotReceived)="provisionalLicenseNotReceived()">
+                        </license-provided>
+
+                        <transmission
+                                *ngIf="isDelegated && isPass()"
+                                [formGroup]="form"
+                                [transmission]="pageState.transmission$ | async"
+                                (transmissionChange)="transmissionChanged($event)">
+                        </transmission>
+
+                        <pass-certificate-number
+                                *ngIf="isDelegated && isPass()"
+                                [form]="form"
+                                [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+                                (passCertificateNumberChange)="passCertificateNumberChanged($event)">
+                        </pass-certificate-number>
+
+                        <health-declaration-signed
+                                *ngIf="isDelegated && isPass()"
+                                [formGroup]="form"
+                                [label]="'Health declaration'"
+                                [healthDeclaration]="pageState.healthDeclarationAccepted$ | async"
+                                (healthDeclarationChange)="healthDeclarationChanged($event)">
+                        </health-declaration-signed>
+
+                        <d255
+                                *ngIf="isDelegated"
+                                [display]=true
+                                [d255]="pageState.d255$ | async"
+                                [outcome]="testOutcome"
+                                [formGroup]="form"
+                                (d255Change)="d255Changed($event)">
+                        </d255>
+
+                        <language-preferences
+                                *ngIf="isDelegated"
+                                [formGroup]="form"
+                                [isWelsh]="isWelsh()"
+                                [isDelegated]="isDelegated"
+                                (welshChanged)="isWelshChanged($event)">
+                        </language-preferences>
+
+                        <debrief-witnessed
+                                *ngIf="isDelegated"
+                                [display]=true
+                                [formGroup]="form"
+                                [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+                                [outcome]="testOutcome"
+                                (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+                        </debrief-witnessed>
+
+                        <route-number
+                                [display]="pageState.displayRouteNumber$ | async"
+                                [routeNumber]="pageState.routeNumber$ | async"
+                                [outcome]="pageState.testOutcome$ | async"
+                                (routeNumberChange)="routeNumberChanged($event)"
+                                [formGroup]="form">
+                        </route-number>
+
+                        <independent-driving
+                                *ngIf="!isDelegated"
+                                [display]="pageState.displayIndependentDriving$ | async"
+                                option1="Diagram"
+                                option1label="Diagram"
+                                option2="Traffic signs"
+                                option2label="Traffic Signs"
+                                [formGroup]="form"
+                                [outcome]="pageState.testOutcome$ | async"
+                                [independentDriving]="pageState.independentDriving$ | async"
+                                (independentDrivingChange)="independentDrivingChanged($event)">
+                        </independent-driving>
+
+                        <candidate-description
+                                *ngIf="!isDelegated"
+                                [display]="pageState.displayCandidateDescription$ | async"
+                                [formGroup]="form"
+                                [candidateDescription]="pageState.candidateDescription$ | async"
+                                [outcome]="pageState.testOutcome$ | async"
+                                (candidateDescriptionChange)="candidateDescriptionChanged($event)">
+                        </candidate-description>
+
+                        <identification
+                                *ngIf="!isDelegated"
+                                [display]="pageState.displayIdentification$ | async"
+                                [formGroup]="form"
+                                [identification]="pageState.identification$ | async"
+                                [outcome]="pageState.testOutcome$ | async"
+                                (identificationChange)="identificationChanged($event)">
+                        </identification>
+
+                        <vehicle-checks-office-card
+                                *ngIf="!isDelegated"
+                                [display]="pageState.displayVehicleChecks$ | async"
+                                [checks]="pageState.vehicleChecks$ | async">
+                        </vehicle-checks-office-card>
+
+                        <weather-conditions
+                                *ngIf="!isDelegated"
+                                [display]="pageState.displayWeatherConditions$ | async"
+                                [weatherConditions]="pageState.weatherConditions$ | async"
+                                [formGroup]="form"
+                                [outcome]="pageState.testOutcome$ | async"
+                                [weatherConditionsOptions]="weatherConditions"
+                                (weatherConditionsChange)="weatherConditionsChanged($event)">
+                        </weather-conditions>
+
+                        <additional-information
+                                [display]="pageState.displayAdditionalInformation$ | async"
+                                [additionalInformation]="pageState.additionalInformation$ | async"
+                                [formGroup]="form"
+                                [outcome]="pageState.testOutcome$ | async"
+                                (additionalInformationChange)="additionalInformationChanged($event)">
+                        </additional-information>
+                    </div>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+
+        <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+            <ion-card id="ETA" *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)">
+                <ion-card-content>
+                    <ion-grid>
+                        <ion-row class="mes-data ion-align-items-start">
+                            <ion-col size="32">
+                                <h4 class="fault-heading">ETA</h4>
+                            </ion-col>
+                            <ion-col class="ion-align-self-start ion-padding-start">
+                                <div id="etaFaults">
+                                    {{pageState.etaFaults$ | async}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-card-content>
+            </ion-card>
+
+            <ion-card id="eco" *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)">
+                <ion-card-content>
+                    <ion-grid>
+                        <ion-row class="mes-data ion-align-items-start">
+                            <ion-col size="32">
+                                <h4 class="fault-heading">ECO</h4>
+                            </ion-col>
+                            <ion-col class="ion-align-self-start ion-padding-start">
+                                <div id="ecoFaults">
+                                    {{pageState.ecoFaults$ | async}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-card-content>
+            </ion-card>
+
+            <fault-comment-card
+                    [formGroup]="form"
+                    [faultComments]="pageState.dangerousFaults$ | async"
+                    [shouldRender]="(pageState.dangerousFaults$ | async).length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegated)"
+                    [isDelegatedTest]="pageState.delegatedTest$ | async"
+                    [outcome]="pageState.testOutcome$ | async"
+                    faultType="dangerous"
+                    header="Dangerous faults {{isDelegated ? (pageState.dangerousFaultCount$ | async) : null}}"
+                    (faultCommentsChange)="dangerousFaultCommentChanged($event)">
+            </fault-comment-card>
+
+            <fault-comment-card
+                    [formGroup]="form"
+                    [faultComments]="pageState.seriousFaults$ | async"
+                    [shouldRender]="(pageState.seriousFaults$ | async).length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegated)"
+                    [isDelegatedTest]="pageState.delegatedTest$ | async"
+                    [outcome]="pageState.testOutcome$ | async"
+                    faultType="serious"
+                    header="Serious faults {{isDelegated ? (pageState.seriousFaultCount$ | async) : null}}"
+                    (faultCommentsChange)="seriousFaultCommentChanged($event)">
+            </fault-comment-card>
+
+            <fault-comment-card
+                    id="driving-fault-comment-card"
+                    [formGroup]="form"
+                    [faultComments]="pageState.drivingFaults$ | async"
+                    [shouldRender]="((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)) || (isDelegated && (pageState.drivingFaults$ | async).length > 0 )"
+                    [isDelegatedTest]="pageState.delegatedTest$ | async"
+                    [outcome]="pageState.testOutcome$ | async"
+                    faultType="driving"
+                    header="Driving faults {{isDelegated ? (pageState.drivingFaultCount$ | async) : null}}"
+                    [faultCount]="pageState.drivingFaultCount$ | async"
+                    (faultCommentsChange)="drivingFaultCommentChanged($event)">
+            </fault-comment-card>
+
+            <ion-card id="driving-fault-no-commentary"
+                      *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) && !isDelegated">
+                <ion-card-header>
+                    <h4>Driving faults</h4>
+                </ion-card-header>
+                <ion-card-content>
+                    <ion-row class="driving-fault-no-commentary-row"
+                             id="driving-fault-commentary-label"
+                             *ngFor="let drivingFault of (pageState.drivingFaults$ | async)">
+                        <ion-col class="fault-badge ion-align-self-center" size="4">
+                            <div class="counter-icon">
+                                <driving-faults-badge
+                                        class="counter driving-faults"
+                                        [count]="drivingFault.faultCount">
+                                </driving-faults-badge>
+                            </div>
+                        </ion-col>
+                        <ion-col class="component-label ion-align-self-center">
+                            <label class="fault-label">{{drivingFault.competencyDisplayName}}</label>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </div>
+    </form>
 </ion-content>
+
+<ion-footer>
+    <ion-row class="mes-full-width-card box-shadow">
+        <ion-col *ngIf="!(pageState.isRekey$ | async) && !isDelegated" class="ion-no-padding ion-text-left">
+            <ion-button id="office-save-button" class="mes-grey-button office-button" (click)="defer()">
+                <h3>Save and continue later</h3>
+            </ion-button>
+        </ion-col>
+        <ion-col *ngIf="!(pageState.isRekey$ | async)" class="ion-no-padding ion-text-end">
+            <ion-button id="office-complete-button" class="mes-primary-button office-button" (click)="onSubmit()">
+                <h3>Mark as complete</h3>
+            </ion-button>
+        </ion-col>
+        <ion-col *ngIf="(pageState.isRekey$ | async) && !isDelegated">
+            <ion-button id="reason-for-rekey" class="mes-primary-button padding-x-5 full-width"
+                        (click)="goToReasonForRekey()" [disabled]="!isValidStartDateTime">
+                <h3>Continue</h3>
+            </ion-button>
+        </ion-col>
+        <ion-col *ngIf="isDelegated">
+            <ion-button id="submit-button" class="mes-primary-button padding-x-5 full-width" [disabled]="!isValidStartDateTime"
+                    (click)="onSubmit()">
+                <h3>Submit</h3>
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

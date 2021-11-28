@@ -32,7 +32,7 @@ export const Pass_Finalisation_Route: Routes = [
       .then((m) => m.PassFinalisationCatBEPageModule),
   },
   {
-    path: CAT_C.TEST_REPORT_PAGE,
+    path: CAT_C.PASS_FINALISATION_PAGE,
     loadChildren: () => import('@pages/pass-finalisation/cat-c/pass-finalisation.cat-c.module')
       .then((m) => m.PassFinalisationCatCPageModule),
   },

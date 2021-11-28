@@ -57,11 +57,11 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   ngOnInit(): void {
-
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
     );
+
     let category: TestCategory;
     currentTest$.pipe(select(getTestCategory)).subscribe((value) => {
       category = value as TestCategory;
@@ -159,8 +159,8 @@ export class ReverseDiagramPage implements OnInit {
     }
   }
 
-  closeModal(): void {
-    this.onClose();
+  async closeModal() {
+    await this.onClose();
   }
 
   onLengthKeyup(vehicleLength: number) : void {

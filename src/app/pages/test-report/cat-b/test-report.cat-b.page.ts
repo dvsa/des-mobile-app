@@ -13,19 +13,14 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Router } from '@angular/router';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import {
+  CommonTestReportPageState,
+  TestReportBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
-interface TestReportPageState {
-  candidateUntitledName$: Observable<string>;
-  isRemoveFaultMode$: Observable<boolean>;
-  isSeriousMode$: Observable<boolean>;
-  isDangerousMode$: Observable<boolean>;
-  manoeuvres$: Observable<boolean>;
-  testData$: Observable<CatBUniqueTypes.TestData>;
-  testRequirements$: Observable<CatBUniqueTypes.TestRequirements>;
-  category$: Observable<CategoryCode>;
-}
+interface CatBTestReportPageState {}
+type TestReportPageState = CommonTestReportPageState & CatBTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-b-page',
@@ -45,6 +40,7 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
     testReportValidatorProvider: TestReportValidatorProvider,
     screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
+    routeByCategory: RouteByCategoryProvider,
   ) {
     super(
       platform,
@@ -55,6 +51,7 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
       testReportValidatorProvider,
       screenOrientation,
       insomnia,
+      routeByCategory,
     );
     this.displayOverlay = false;
   }

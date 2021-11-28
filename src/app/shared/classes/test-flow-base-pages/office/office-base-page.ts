@@ -47,10 +47,15 @@ import { map, withLatestFrom } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { getNewTestStartTime } from '@shared/helpers/test-start-time';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
-import { Identification, IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
+import {
+  GearboxCategory,
+  Identification,
+  IndependentDriving,
+  WeatherConditions,
+} from '@dvsa/mes-test-schema/categories/common';
 import {
   AdditionalInformationChanged,
-  CandidateDescriptionChanged,
+  CandidateDescriptionChanged, D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
   RouteNumberChanged,
@@ -61,13 +66,15 @@ import { FinishTestModal } from '@pages/office/components/finish-test-modal/fini
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import {
   getAdditionalInformation,
-  getCandidateDescription, getIdentification,
+  getCandidateDescription, getD255, getIdentification,
   getIndependentDriving,
-  getRouteNumber, getWeatherConditions,
+  getRouteNumber, getWeatherConditions, isDebriefWitnessed,
 } from '@store/tests/test-summary/test-summary.selector';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
+import {
+  getEco, getEcoFaultText, getETA, getETAFaultText,
+} from '@store/tests/test-data/common/test-data.selector';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -75,6 +82,26 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import {
+  getApplicationReference,
+} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import {
+  getApplicationNumber,
+} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
+import {
+  ProvisionalLicenseNotReceived,
+  ProvisionalLicenseReceived,
+} from '@store/tests/pass-completion/pass-completion.actions';
+import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
+import { getHealthDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
+import {
+  CandidateChoseToProceedWithTestInEnglish,
+  CandidateChoseToProceedWithTestInWelsh,
+} from '@store/tests/communication-preferences/communication-preferences.actions';
+import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
+import { getPassCertificateNumber } from '@store/tests/pass-completion/pass-completion.selector';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -109,6 +136,15 @@ export interface CommonOfficePageState {
   drivingFaultCount$: Observable<number>;
   dangerousFaults$: Observable<FaultSummary[]>;
   seriousFaults$: Observable<FaultSummary[]>;
+  applicationNumber$: Observable<string>;
+  healthDeclarationAccepted$: Observable<boolean>;
+  d255$: Observable<boolean>;
+  debriefWitnessed$: Observable<boolean>;
+  passCertificateNumber$: Observable<string>;
+  etaFaults$: Observable<string>;
+  ecoFaults$: Observable<string>;
+  seriousFaultCount$: Observable<number>;
+  dangerousFaultCount$: Observable<number>;
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -361,6 +397,48 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
           return this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData);
         }),
       ),
+      seriousFaultCount$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(category$),
+        map(([data, category]) =>
+          this.faultCountProvider.getSeriousFaultSumCount(category as TestCategory, data)),
+      ),
+      dangerousFaultCount$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(category$),
+        map(([data, category]) => this.faultCountProvider.getDangerousFaultSumCount(category as TestCategory, data)),
+      ),
+      applicationNumber$: currentTest$.pipe(
+        select(getJournalData),
+        select(getApplicationReference),
+        select(getApplicationNumber),
+      ),
+      healthDeclarationAccepted$: currentTest$.pipe(
+        select(getPostTestDeclarations),
+        select(getHealthDeclarationStatus),
+      ),
+      d255$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getD255),
+      ),
+      debriefWitnessed$: currentTest$.pipe(
+        select(getTestSummary),
+        select(isDebriefWitnessed),
+      ),
+      passCertificateNumber$: currentTest$.pipe(
+        select(getPassCompletion),
+        select(getPassCertificateNumber),
+      ),
+      etaFaults$: currentTest$.pipe(
+        select(getTestData),
+        select(getETA),
+        select(getETAFaultText),
+      ),
+      ecoFaults$: currentTest$.pipe(
+        select(getTestData),
+        select(getEco),
+        select(getEcoFaultText),
+      ),
     };
   }
 
@@ -368,10 +446,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     const {
       startDateTime$,
     } = this.commonPageState;
+
     this.subscription = merge(
       startDateTime$.pipe(map((value) => this.startDateTime = value)),
-    )
-      .subscribe();
+    ).subscribe();
   }
 
   ionViewDidLeave(): void {
@@ -426,6 +504,38 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   additionalInformationChanged(additionalInformation: string): void {
     this.store$.dispatch(AdditionalInformationChanged(additionalInformation));
+  }
+
+  provisionalLicenseReceived(): void {
+    this.store$.dispatch(ProvisionalLicenseReceived());
+  }
+
+  provisionalLicenseNotReceived(): void {
+    this.store$.dispatch(ProvisionalLicenseNotReceived());
+  }
+
+  transmissionChanged(transmission: GearboxCategory): void {
+    this.store$.dispatch(GearboxCategoryChanged(transmission));
+  }
+
+  healthDeclarationChanged(healthSigned: boolean): void {
+    this.store$.dispatch(HealthDeclarationAccepted(healthSigned));
+  }
+
+  d255Changed(d255: boolean): void {
+    this.store$.dispatch(d255 ? D255Yes() : D255No());
+  }
+
+  isWelshChanged(isWelsh: boolean) {
+    this.store$.dispatch(
+      isWelsh
+        ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
+        : CandidateChoseToProceedWithTestInEnglish('English'),
+    );
+  }
+
+  debriefWitnessedChanged(debriefWitnessed: boolean) {
+    this.store$.dispatch(debriefWitnessed ? DebriefWitnessed() : DebriefUnWitnessed());
   }
 
   activityCodeChanged(activityCodeModel: ActivityCodeModel) {

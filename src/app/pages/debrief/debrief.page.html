@@ -15,8 +15,17 @@
     <serious-faults-debrief-card [seriousFaults]="pageState.seriousFaults$ | async"></serious-faults-debrief-card>
     <driving-faults-debrief-card [drivingFaults]="pageState.drivingFaults$ | async" [drivingFaultCount]="pageState.drivingFaultCount$ | async"></driving-faults-debrief-card>
     <eco-debrief-card [adviceGivenControl]="adviceGivenControl" [adviceGivenPlanning]="adviceGivenPlanning"></eco-debrief-card>
+
+    <!--    Vehicle check section-->
     <vehicle-checks-card-cat-b *ngIf="isCategoryBTest()"></vehicle-checks-card-cat-b>
+    <vehicle-checks-card
+            *ngIf="showVehicleChecksArrayCard()"
+            [category]="pageState.category$ | async"
+            [tellMeShowMeQuestions]="pageState.tellMeShowMeQuestions$ | async">
+    </vehicle-checks-card>
+    <!--   ----  -->
 </ion-content>
+
 <ion-footer>
     <div id="end-debrief-background">
         <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">

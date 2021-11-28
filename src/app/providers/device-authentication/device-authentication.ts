@@ -26,7 +26,7 @@ export class DeviceAuthenticationProvider {
       this.platform.ready().then(() => {
 
         if (!this.platform.is('cordova')) {
-          return (resolve(true));
+          return resolve(true);
         }
         if (cordova && cordova.plugins && cordova.plugins.DeviceAuthentication) {
 

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
 import { HighwayCodeSafetyComponent } from '@pages/test-report/components/highway-code-safety/highway-code-safety';
+import { ReverseDiagramPageModule } from './reverse-diagram-modal/reverse-diagram-modal.module';
 import { EtaComponent } from './examiner-takes-action/eta';
 import { CompetencyComponent } from './competency/competency';
 import { CompetencyButtonComponent } from './competency-button/competency-button';
@@ -57,6 +58,7 @@ import {
     SpecialLegalRequirementModalModule,
     EtaInvalidModalModule,
     TestFinalisationInvalidTestDataModalModule,
+    ReverseDiagramPageModule,
   ],
   exports: [
     EtaComponent,

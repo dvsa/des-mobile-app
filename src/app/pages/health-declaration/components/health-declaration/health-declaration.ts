@@ -11,7 +11,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class HealthDeclarationComponent implements OnChanges {
 
   @Input()
-  selected: string;
+  selected: boolean;
 
   @Input()
   formGroup: FormGroup;

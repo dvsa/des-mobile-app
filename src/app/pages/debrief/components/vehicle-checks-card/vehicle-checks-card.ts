@@ -6,6 +6,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 @Component({
   selector: 'vehicle-checks-card',
   templateUrl: 'vehicle-checks-card.html',
+  styleUrls: ['vehicle-checks-card.scss'],
 })
 export class VehicleChecksCardComponent implements OnInit {
 
@@ -15,6 +16,10 @@ export class VehicleChecksCardComponent implements OnInit {
   @Input()
   tellMeShowMeQuestions: QuestionResult[];
 
+  ngOnInit(): void {
+    this.tellMeShowMeQuestions = this.tellMeShowMeQuestions.filter((result: QuestionResult) => 'outcome' in result);
+  }
+
   questionHasFault = (result: QuestionResult): boolean => result.outcome !== CompetencyOutcome.P;
 
   isHomeTest(): boolean {
@@ -22,15 +27,10 @@ export class VehicleChecksCardComponent implements OnInit {
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
-      case TestCategory.K: return true;
-      default: return false;
+      case TestCategory.K:
+        return true;
+      default:
+        return false;
     }
-  }
-
-  ngOnInit(): void {
-    this.tellMeShowMeQuestions = this.tellMeShowMeQuestions.filter((result: QuestionResult) => {
-      // eslint-disable-next-line no-prototype-builtins
-      return result.hasOwnProperty('outcome');
-    });
   }
 }
