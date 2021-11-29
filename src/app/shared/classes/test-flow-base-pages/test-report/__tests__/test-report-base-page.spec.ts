@@ -19,6 +19,8 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { TestReportBasePageComponent } from '../test-report-base-page';
 
 describe('TestReportBasePageComponent', () => {
@@ -30,6 +32,7 @@ describe('TestReportBasePageComponent', () => {
   let testReportValidatorProvider: TestReportValidatorProvider;
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
+  let routeByCategory: RouteByCategoryProvider;
 
   let basePageComponent: TestReportBasePageComponent;
   const initialState = {
@@ -54,6 +57,7 @@ describe('TestReportBasePageComponent', () => {
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useClass: RouterMock },
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         provideMockStore({ initialState }),
       ],
     });
@@ -64,6 +68,7 @@ describe('TestReportBasePageComponent', () => {
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
+    routeByCategory = TestBed.inject(RouteByCategoryProvider);
 
     class BasePageClass extends TestReportBasePageComponent {
       constructor(
@@ -75,9 +80,10 @@ describe('TestReportBasePageComponent', () => {
         trValidator: TestReportValidatorProvider,
         screenOri: ScreenOrientation,
         insom: Insomnia,
+        routeByCat: RouteByCategoryProvider,
       ) {
         // eslint-disable-next-line max-len
-        super(plat, auth, rout, sto$, modal, trValidator, screenOri, insom);
+        super(plat, auth, rout, sto$, modal, trValidator, screenOri, insom, routeByCat);
       }
     }
 
@@ -89,6 +95,7 @@ describe('TestReportBasePageComponent', () => {
       testReportValidatorProvider,
       screenOrientation,
       insomnia,
+      routeByCategory,
     );
   }));
 
