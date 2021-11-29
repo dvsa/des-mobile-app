@@ -8,8 +8,9 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { FormGroup } from '@angular/forms';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import {
@@ -51,7 +52,6 @@ import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
-import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
@@ -103,9 +103,11 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
     public modalController: ModalController,
+    private route: ActivatedRoute,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
+    const { behaviourMap } = this.route.snapshot.data;
     this.activityCodeOptions = activityCodeModelList;
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
@@ -163,8 +165,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
           select(getTestSummary),
           select(getD255),
         )),
-        map(([outcome, d255]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'd255', d255)),
+        map(([outcome, d255]) => this.outcomeBehaviourProvider.isVisible(outcome, 'd255', d255)),
       ),
       d255$: currentTest$.pipe(
         select(getTestSummary),
@@ -193,12 +194,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
 
     this.subscription = merge(
       slotId$.pipe(map((slotId) => this.slotId = slotId)),
-      testData$.pipe(
-        map((testData) => this.testData = testData),
-      ),
-      activityCode$.pipe(
-        map((activityCode) => this.activityCode = activityCode),
-      ),
+      testData$.pipe(map((testData) => this.testData = testData)),
+      activityCode$.pipe(map((activityCode) => this.activityCode = activityCode)),
       testCategory$.pipe(map((result) => this.testCategory = result)),
     ).subscribe();
   }
@@ -234,7 +231,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
 
   onReturnToTestReport = async (): Promise<void> => {
     await this.invalidTestDataModal.dismiss();
-    await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory as TestCategory);
   };
 
   async continue() {

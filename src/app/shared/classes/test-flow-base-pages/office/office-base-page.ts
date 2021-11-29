@@ -140,7 +140,6 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
     this.activityCodeOptions = activityCodeModelList;
-    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();
   }
 
