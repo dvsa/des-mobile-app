@@ -9,16 +9,13 @@
             <ion-select id="activity-code-selector"
                         class="select-width"
                         placeholder="Select an activity code"
-                        okText="Submit"
-                        cancelText="Cancel"
                         formControlName="activityCode"
-                        (ionChange)="activityCodeChanged($event.target.value)"
-                        [interfaceOptions]="{cssClass:'mes-select activity-code-select', enableBackdropDismiss:false}"
-                        [disabled]="isSelectDisabled()">
-                <ion-select-option [value]="activityCode"
-                                   id="activity-code-{{activityCode.activityCode}}"
+                        [disabled]="isSelectDisabled()"
+                        [interfaceOptions]="{cssClass:'mes-select activity-code-select select-cancel-button-display', backdropDismiss: false}">
+                <ion-select-option id="select-activity-code-{{activityCode.activityCode}}"
+                                   *ngFor="let activityCode of activityCodeOptions"
                                    [disabled]="isOptionDisabled(activityCode.activityCode)"
-                                   *ngFor="let activityCode of activityCodeOptions">
+                                   [value]="activityCode">
                     {{activityCode.activityCode}} - {{activityCode.description}}
                 </ion-select-option>
             </ion-select>

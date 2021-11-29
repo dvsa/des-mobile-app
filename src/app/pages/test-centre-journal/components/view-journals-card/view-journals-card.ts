@@ -62,7 +62,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   get interfaceOptions() {
     return {
       cssClass: 'mes-select',
-      enableBackdropDismiss: false,
+      backdropDismiss: false,
       placeholder: 'Select examiner',
       okText: 'Select',
       cancelText: 'Cancel',
