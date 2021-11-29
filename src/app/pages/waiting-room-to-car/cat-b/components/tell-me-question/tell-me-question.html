@@ -7,7 +7,7 @@
                     placeholder="Select a question"
                     (ionChange)="tellMeQuestionChanged($event.target.value)"
                     formControlName="tellMeQuestion"
-                    [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
+                    [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}">
             <ion-select-option *ngFor="let currentTellMeQuestion of tellMeQuestions"
                                [value]="currentTellMeQuestion">
                 {{currentTellMeQuestion.code}} - {{currentTellMeQuestion.shortName}}

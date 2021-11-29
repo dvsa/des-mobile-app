@@ -80,7 +80,7 @@ describe('ViewJournalsCardComponent', () => {
       it('should return config for ion-select', () => {
         expect(component.interfaceOptions).toEqual({
           cssClass: 'mes-select',
-          enableBackdropDismiss: false,
+          backdropDismiss: false,
           placeholder: 'Select examiner',
           okText: 'Select',
           cancelText: 'Cancel',
