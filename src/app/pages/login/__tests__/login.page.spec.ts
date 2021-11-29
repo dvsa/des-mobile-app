@@ -163,7 +163,7 @@ describe('LoginPage', () => {
         expect(component.handleLoadingUI).toHaveBeenCalled();
         expect(analytics.initialiseAnalytics).toHaveBeenCalled();
         expect(component.validateDeviceType).toHaveBeenCalled();
-        expect(store$.dispatch).toHaveBeenCalledTimes(7);
+        expect(store$.dispatch).toHaveBeenCalledTimes(6);
       }));
     });
     describe('Unsuccessful login flow', () => {
