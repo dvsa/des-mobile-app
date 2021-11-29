@@ -66,7 +66,6 @@ import {
   getRouteNumber, getWeatherConditions,
 } from '@store/tests/test-summary/test-summary.selector';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';

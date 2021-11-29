@@ -11,6 +11,8 @@ import { PassFinalisationCatBPageRoutingModule }
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { DangerBannerComponent } from '@components/common/danger-banner/danger-banner';
+import { EffectsModule } from '@ngrx/effects';
+import { PassFinalisationAnalyticsEffects } from '@pages/pass-finalisation/pass-finalisation.analytics.effects';
 import { PassFinalisationCatBPage } from './pass-finalisation.cat-b.page';
 import { PassFinalisationComponentsModule } from '../components/pass-finalisation-components.module';
 
@@ -24,6 +26,9 @@ import { PassFinalisationComponentsModule } from '../components/pass-finalisatio
     PassFinalisationComponentsModule,
     PassFinalisationCatBPageRoutingModule,
     ReactiveFormsModule,
+    EffectsModule.forFeature([
+      PassFinalisationAnalyticsEffects,
+    ]),
   ],
   providers: [
     OutcomeBehaviourMapProvider,
