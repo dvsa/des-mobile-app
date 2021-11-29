@@ -11,9 +11,7 @@
                         </language>
                     </ion-col>
                     <ion-col size="2"></ion-col>
-                    <ion-col size="68">
-                        <submission-status float-end [testStatus]="testStatus"></submission-status>
-                    </ion-col>
+                    <ion-col size="68"></ion-col>
                 </ion-row>
 
                 <ion-row>
@@ -50,14 +48,25 @@
                 </ion-row>
             </ion-col>
 
-            <ion-col size="17" class="align-center">
-                <test-outcome
-                        [category]="slot.booking.application.testCategory"
-                        [slotDetail]="slot.slotDetail"
-                        [canStartTest]="canStartTest"
-                        [testStatus]="testStatus"
-                        [activityCode]="activityCode">
-                </test-outcome>
+            <ion-col size="17">
+                <ion-row>
+                    <ion-col class="align-center">
+                        <submission-status class="full-width" [testStatus]="testStatus"></submission-status>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="row-height">
+                    <ion-col class="align-center">
+                    <test-outcome
+                            [category]="slot.booking.application.testCategory"
+                            [slotDetail]="slot.slotDetail"
+                            [canStartTest]="canStartTest"
+                            [testStatus]="testStatus"
+                            [activityCode]="activityCode">
+                    </test-outcome>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                </ion-row>
             </ion-col>
         </ion-row>
     </ion-grid>
