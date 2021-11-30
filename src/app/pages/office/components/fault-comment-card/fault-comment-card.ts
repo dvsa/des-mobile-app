@@ -44,6 +44,8 @@ export class FaultCommentCardComponent {
   @Output()
   faultCommentsChange = new EventEmitter<FaultSummary>();
 
+  idPrefix: string = 'fault-card-header';
+
   ngOnChanges() {
     this.faultComments.forEach((value) => {
       const control = new FormControl(null);

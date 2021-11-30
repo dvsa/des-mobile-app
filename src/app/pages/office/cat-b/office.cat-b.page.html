@@ -162,7 +162,7 @@
             <ion-card id="driving-fault-no-commentary"
                       *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async">
                 <ion-card-header>
-                    <h4 id="driving-fault-header">Driving faults</h4>
+                    <h4 id="driving-faults-summary-header">Driving faults</h4>
                 </ion-card-header>
                 <ion-card-content>
                     <ion-row class="driving-fault-no-commentary-row" id="driving-fault-commentary-label"

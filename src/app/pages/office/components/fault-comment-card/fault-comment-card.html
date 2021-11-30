@@ -1,7 +1,7 @@
 <div [hidden]="!shouldRender">
     <ion-card [formGroup]="formGroup">
         <ion-card-header>
-            <h4>{{header}}</h4>
+            <h4 [id]="header | formatToID: idPrefix">{{header}}</h4>
         </ion-card-header>
         <ion-card-content>
             <ion-row class="mes-validated-row mes-row-separator" *ngFor="let faultComment of faultComments">
