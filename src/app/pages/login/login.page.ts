@@ -21,7 +21,7 @@ import {
   SaveLog, StartSendingLogs, SendLogs, LoadLog,
 } from '@store/logs/logs.actions';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
-import { StartSendingCompletedTests } from '@store/tests/tests.actions';
+import { StartSendingCompletedTests, LoadPersistedTests } from '@store/tests/tests.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -120,6 +120,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       await this.appConfigProvider.loadRemoteConfig();
 
       this.store$.dispatch(LoadConfigSuccess());
+
+      this.store$.dispatch(LoadPersistedTests());
 
       this.store$.dispatch(LoadEmployeeName());
 

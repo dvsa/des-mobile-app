@@ -101,9 +101,9 @@ export function testsReducer(
   const slotId = deriveSlotId(state, action);
   const category = deriveCategory(state, action, slotId);
   switch (action.type) {
-    case testsActions.LOAD_PERSISTED_TESTS_SUCCESS:
+    case testsActions.LoadPersistedTestsSuccess.type:
       return (<ReturnType<typeof LoadPersistedTestsSuccess>>action).tests;
-    case testsActions.START_TEST_REPORT_PRACTICE_TEST:
+    case testsActions.StartTestReportPracticeTest.type:
       return slotId ? createStateObject(removeTest(state, slotId), action, slotId, category) : state;
     case fakeJournalActions.StartE2EPracticeTest.type:
       return slotId ? createStateObject(removeTest(state, slotId), action, slotId, category) : state;
