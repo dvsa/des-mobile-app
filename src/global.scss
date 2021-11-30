@@ -59,3 +59,21 @@
   padding-left: 16px;
   padding-top: 0;
 }
+
+.select-action-sheet {
+  .action-sheet-button-inner.sc-ion-action-sheet-ios{
+    display: inline-block;
+
+  }
+  .action-sheet-button.sc-ion-action-sheet-ios{
+    height: 68px !important;
+    text-align: left;
+    color:black !important;
+
+  }
+  .action-sheet-cancel.sc-ion-action-sheet-ios{
+    display: flex !important;
+    text-align: center !important;
+  }
+}
+

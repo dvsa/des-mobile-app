@@ -9,11 +9,9 @@
             <ion-select id="activity-code-selector"
                         class="select-width"
                         placeholder="Select an activity code"
-                        okText="Submit"
-                        cancelText="Cancel"
+                        interface="action-sheet"
                         formControlName="activityCode"
                         (ionChange)="activityCodeChanged($event.target.value)"
-                        [interfaceOptions]="{cssClass:'mes-select activity-code-select', enableBackdropDismiss:false}"
                         [disabled]="isSelectDisabled()">
                 <ion-select-option [value]="activityCode"
                                    id="activity-code-{{activityCode.activityCode}}"
