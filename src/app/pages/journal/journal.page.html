@@ -5,11 +5,13 @@
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-button id="refresh-button" class="refresh-button" (click)="refreshJournal()" [disabled]="pageState.isLoading$ | async">
+            <ion-button id="refresh-button" class="refresh-button" (click)="refreshJournal()"
+                        [disabled]="pageState.isLoading$ | async">
                 <div>
                     <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
                     <span class="colour-white">Refresh</span>
-                    <ion-label><h6 id="last-sync" class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6>
+                    <ion-label><h6 id="last-sync" class="last-sync">Last
+                        sync: {{pageState.lastRefreshedTime$ | async}}</h6>
                     </ion-label>
                 </div>
             </ion-button>
@@ -20,7 +22,7 @@
 <ion-content no-padding [scrollEvents]="true" (ionScroll)="setScrollTop($event.detail.scrollTop)">
     <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
-     <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
+    <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
 
     <ion-refresher slot="fixed" (ionRefresh)="pullRefreshJournal($event)">
         <ion-refresher-content
@@ -43,7 +45,59 @@
     ></journal-navigation>
 
     <ion-list>
-        <ng-template #slotContainer></ng-template>
+        <!--        <ng-template *ngFor="let slot of (pageState.slots$ | async) as slots; index as i;">-->
+        <!--            <ng-container [ngSwitch]="slotType(slot)">-->
+        <!--                <personal-commitment-->
+        <!--                        *ngSwitchCase="'personal'"-->
+        <!--                        [personalCommitments]="slot?.personalCommitment"-->
+        <!--                        [hasSlotChanged]="slot?.hasSlotChanged"-->
+        <!--                        [showLocation]="showLocation(slot, slots[i - 1])"-->
+        <!--                        [slot]="slot?.slotData">-->
+        <!--                </personal-commitment>-->
+
+        <!--                <activity-slot-->
+        <!--                        *ngSwitchCase="'activity'"-->
+        <!--                        [slot]="slot?.slotData"-->
+        <!--                        [hasSlotChanged]="slot?.hasSlotChanged"-->
+        <!--                        [showLocation]="true">-->
+        <!--                </activity-slot>-->
+
+        <!--                <empty-slot-->
+        <!--                        *ngSwitchCase="'empty'"-->
+        <!--                        [slot]="slot.slotData"-->
+        <!--                        [hasSlotChanged]="slot.hasSlotChanged"-->
+        <!--                        [showLocation]="showLocation(slot, slots[i - 1])">-->
+        <!--                </empty-slot>-->
+
+        <!--                <test-slot-->
+        <!--                        *ngSwitchCase="'test-slot'"-->
+        <!--                        [hasSlotChanged]="slot?.hasSlotChanged"-->
+        <!--                        [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"-->
+        <!--                        [derivedActivityCode]="slotSelector.hasSlotBeenTested(slot.slotData, pageState.completedTests$ | async)"-->
+        <!--                        [derivedTestStatus]="derivedTestStatus(slot?.slotData, pageState.completedTests$ | async)"-->
+        <!--                        [showLocation]="showLocation(slot, slots[i - 1])"-->
+        <!--                        [delegatedTest]="false"-->
+        <!--                        [teamJournalCandidateResult]="false"-->
+        <!--                        [slot]="slot?.slotData">-->
+        <!--                </test-slot>-->
+
+        <!--                <div *ngSwitchDefault>-->
+        <!--                    this is the default-->
+        <!--                </div>-->
+        <!--            </ng-container>-->
+        <!--        </ng-template>-->
+
+        <test-slot
+                *ngFor="let slot of (pageState.slots$ | async) as slots; index as i;"
+                [hasSlotChanged]="slot?.hasSlotChanged"
+                [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
+                [derivedActivityCode]="slotSelector.hasSlotBeenTested(slot.slotData, pageState.completedTests$ | async)"
+                [derivedTestStatus]="derivedTestStatus(slot?.slotData, pageState.completedTests$ | async)"
+                [showLocation]="showLocation(slot, slots[i - 1])"
+                [delegatedTest]="false"
+                [teamJournalCandidateResult]="false"
+                [slot]="slot?.slotData">
+        </test-slot>
     </ion-list>
 
     <div *ngIf="displayNoDataMessage" class="no-results ion-text-center">

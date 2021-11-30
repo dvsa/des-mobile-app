@@ -46,7 +46,7 @@ export class SlotSelectorProvider {
     });
   };
 
-  private isBookingEmptyOrNull = (slot: SlotItem): boolean => {
+  isBookingEmptyOrNull = (slot: SlotItem): boolean => {
     const { slotData } = slot;
     if (!has(slotData, 'booking')) {
       return true;

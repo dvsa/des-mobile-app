@@ -63,7 +63,7 @@ export class LogsEffects {
   ));
 
   loadLogEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(logsActions.LoadLog.type),
+    ofType(logsActions.LoadLog),
     switchMap(() => {
       return this.getPersistedLogs()
         .pipe(
@@ -73,7 +73,7 @@ export class LogsEffects {
   ));
 
   saveLogEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(logsActions.SaveLog.type),
+    ofType(logsActions.SaveLog),
     switchMap(() => {
       return of(logsActions.PersistLog());
     }),
@@ -87,7 +87,7 @@ export class LogsEffects {
   ));
 
   sendLogsEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(logsActions.SendLogs.type),
+    ofType(logsActions.SendLogs),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
