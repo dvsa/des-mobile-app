@@ -14,8 +14,8 @@ import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { legalRequirementsLabels } from '../../../shared/constants/legal-requirements/legal-requirements.constants';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
+import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export const validTestCatAMod2: CatAMod2TestData = {
   testRequirements: {
@@ -482,6 +482,7 @@ export const legalRequirementsADIPart2 = [
 
 export const legalRequirementsB = [
   legalRequirementsLabels.normalStart1,
+  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.hillStart,
   legalRequirementsLabels.manoeuvre,
