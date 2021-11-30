@@ -23,9 +23,6 @@ export class ActivityCodeComponent implements OnChanges {
   activityCodeModel: ActivityCodeModel;
 
   @Input()
-  selectOptions: string;
-
-  @Input()
   activityCodeOptions: ActivityCodeModel[];
 
   @Input()
@@ -42,9 +39,6 @@ export class ActivityCodeComponent implements OnChanges {
 
   ngAfterViewChecked() {
     this.changeDetectorRef.detectChanges();
-  }
-  selectCss = {
-    cssClass: 'selectCss'
   }
 
   ngOnChanges(): void {
