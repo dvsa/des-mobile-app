@@ -63,17 +63,21 @@
 .select-action-sheet {
   .action-sheet-button-inner.sc-ion-action-sheet-ios{
     display: inline-block;
-
   }
   .action-sheet-button.sc-ion-action-sheet-ios{
+    background-color: var(--mes-white);
     height: 68px !important;
     text-align: left;
-    color:black !important;
+    color:var(--gds-black) !important;
 
   }
   .action-sheet-cancel.sc-ion-action-sheet-ios{
     display: flex !important;
     text-align: center !important;
+    background-color: var(--mes-white) !important;
+  }
+  .action-sheet-selected.sc-ion-action-sheet-ios {
+    background-color: var(--mes-white) !important;
   }
 }
 
