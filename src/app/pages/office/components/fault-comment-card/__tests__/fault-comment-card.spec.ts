@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { AppModule } from 'src/app/app.module';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { PipesModule } from '@shared/pipes/pipes.module';
 import { FaultCommentComponent } from '../../fault-comment/fault-comment';
 import { FaultCommentCardComponent } from '../fault-comment-card';
 
@@ -22,6 +23,7 @@ describe('FaultCommentCardComponent', () => {
         IonicModule,
         AppModule,
         ReactiveFormsModule,
+        PipesModule,
       ],
     });
   });
