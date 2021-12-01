@@ -39,6 +39,7 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
 
   private formControl: FormControl;
   static readonly fieldName: string = 'activityCode';
+  private static readonly ionSelectOptionClass: string = 'alert-radio-label sc-ion-alert-ios';
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
@@ -63,9 +64,7 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
   }
 
   activityCodeChanged(activityCode: ActivityCodeModel): void {
-    if (this.formControl.valid) {
-      this.activityCodeChange.emit(activityCode);
-    }
+    this.activityCodeChange.emit(activityCode);
   }
 
   get invalid(): boolean {
@@ -86,9 +85,8 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
   initialiseSelectClickEvent(): void {
     // create dom click event
     document.addEventListener('click', async (event) => {
-      const ionSelectOptionClass = 'alert-radio-label sc-ion-alert-ios';
       // check if the element you are clicking has the same class as the ion-select-option
-      const isSelectOptionClick: boolean = event['path'][0].className === ionSelectOptionClass;
+      const isSelectOptionClick: boolean = event['path'][0].className === ActivityCodeComponent.ionSelectOptionClass;
 
       if (isSelectOptionClick) {
         // obtain text from element
@@ -96,23 +94,26 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
 
         if (typeof activityCodeValue !== 'string') return;
 
-        // split string at every space which should be in format 'code - description'
-        const [activityCode, , description] = activityCodeValue.split(' ');
+        this.emitSelection(activityCodeValue);
 
-        // construct activity code model
-        const activityCodeModel = { activityCode, description } as ActivityCodeModel;
-
-        // dispatch change event with new model
-        this.activityCodeChanged(activityCodeModel);
-
-        // get a handle on the presented ion-select
-        const alert: HTMLIonAlertElement = await this.alertController.getTop();
-
-        // dismiss if created
-        if (alert) {
-          await alert.dismiss();
-        }
+        await this.dismissSelect();
       }
     });
   }
+
+  private emitSelection = (activityCodeValue: string): void => {
+    // split string at every space which should be in format 'activityCode - description'
+    const [activityCode, , description] = activityCodeValue.split(' ');
+
+    // dispatch change event with new model
+    this.activityCodeChanged({ activityCode, description } as ActivityCodeModel);
+  };
+
+  private dismissSelect = async (): Promise<void> => {
+  // get a handle on the presented ion-select
+    const alert: HTMLIonAlertElement = await this.alertController.getTop();
+
+    // dismiss if present
+    if (alert) await alert.dismiss();
+  };
 }
