@@ -41,66 +41,17 @@
             [isSelectedDateToday]="pageState.isSelectedDateToday$ | async"
             [selectedDate]="pageState.selectedDate$ | async"
             (previousDayClicked)="onPreviousDayClick()"
-            (nextDayClicked)="onNextDayClick()"
-    ></journal-navigation>
+            (nextDayClicked)="onNextDayClick()">
+    </journal-navigation>
 
     <ion-list>
-        <!--        <ng-template *ngFor="let slot of (pageState.slots$ | async) as slots; index as i;">-->
-        <!--            <ng-container [ngSwitch]="slotType(slot)">-->
-        <!--                <personal-commitment-->
-        <!--                        *ngSwitchCase="'personal'"-->
-        <!--                        [personalCommitments]="slot?.personalCommitment"-->
-        <!--                        [hasSlotChanged]="slot?.hasSlotChanged"-->
-        <!--                        [showLocation]="showLocation(slot, slots[i - 1])"-->
-        <!--                        [slot]="slot?.slotData">-->
-        <!--                </personal-commitment>-->
-
-        <!--                <activity-slot-->
-        <!--                        *ngSwitchCase="'activity'"-->
-        <!--                        [slot]="slot?.slotData"-->
-        <!--                        [hasSlotChanged]="slot?.hasSlotChanged"-->
-        <!--                        [showLocation]="true">-->
-        <!--                </activity-slot>-->
-
-        <!--                <empty-slot-->
-        <!--                        *ngSwitchCase="'empty'"-->
-        <!--                        [slot]="slot.slotData"-->
-        <!--                        [hasSlotChanged]="slot.hasSlotChanged"-->
-        <!--                        [showLocation]="showLocation(slot, slots[i - 1])">-->
-        <!--                </empty-slot>-->
-
-        <!--                <test-slot-->
-        <!--                        *ngSwitchCase="'test-slot'"-->
-        <!--                        [hasSlotChanged]="slot?.hasSlotChanged"-->
-        <!--                        [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"-->
-        <!--                        [derivedActivityCode]="slotSelector.hasSlotBeenTested(slot.slotData, pageState.completedTests$ | async)"-->
-        <!--                        [derivedTestStatus]="derivedTestStatus(slot?.slotData, pageState.completedTests$ | async)"-->
-        <!--                        [showLocation]="showLocation(slot, slots[i - 1])"-->
-        <!--                        [delegatedTest]="false"-->
-        <!--                        [teamJournalCandidateResult]="false"-->
-        <!--                        [slot]="slot?.slotData">-->
-        <!--                </test-slot>-->
-
-        <!--                <div *ngSwitchDefault>-->
-        <!--                    this is the default-->
-        <!--                </div>-->
-        <!--            </ng-container>-->
-        <!--        </ng-template>-->
-
-        <test-slot
-                *ngFor="let slot of (pageState.slots$ | async) as slots; index as i;"
-                [hasSlotChanged]="slot?.hasSlotChanged"
-                [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
-                [derivedActivityCode]="slotSelector.hasSlotBeenTested(slot.slotData, pageState.completedTests$ | async)"
-                [derivedTestStatus]="derivedTestStatus(slot?.slotData, pageState.completedTests$ | async)"
-                [showLocation]="showLocation(slot, slots[i - 1])"
-                [delegatedTest]="false"
-                [teamJournalCandidateResult]="false"
-                [slot]="slot?.slotData">
-        </test-slot>
+        <journal-slots
+                [slots]="pageState.slots$ | async"
+                [completedTests]="pageState.completedTests$ | async">
+        </journal-slots>
     </ion-list>
 
-    <div *ngIf="displayNoDataMessage" class="no-results ion-text-center">
+    <div *ngIf="!(pageState.slots$ | async)?.length > 0" class="no-results ion-text-center">
         <p>There is no journal data to display for this day</p>
     </div>
 

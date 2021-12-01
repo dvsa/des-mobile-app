@@ -10,6 +10,7 @@ import {
   JournalForceCheckModule,
 } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.module';
 import { JournalRekeyModalModule } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.module';
+import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
 import { ActivitySlotComponent } from './activity-slot/activity-slot';
 import { EmptySlotComponent } from './empty-slot/empty-slot';
 import { JournalNavigationComponent } from './journal-navigation/journal-navigation';
@@ -21,6 +22,7 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     EmptySlotComponent,
     JournalNavigationComponent,
     PersonalCommitmentSlotComponent,
+    JournalSlotComponent,
   ],
   imports: [
     CommonModule,
@@ -38,6 +40,7 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     EmptySlotComponent,
     JournalNavigationComponent,
     PersonalCommitmentSlotComponent,
+    JournalSlotComponent,
   ],
 })
 export class JournalComponentsModule { }

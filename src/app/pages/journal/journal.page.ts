@@ -11,7 +11,7 @@ import { select, Store } from '@ngrx/store';
 import {
   Observable, Subscription, merge,
 } from 'rxjs';
-import { distinctUntilChanged, map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {
   SearchResultTestSchema,
@@ -40,14 +40,8 @@ import { CompletedTestPersistenceProvider } from '@providers/completed-test-pers
 import { AppComponent } from '@app/app.component';
 import { LoadingOptions } from '@ionic/core';
 import { LoadingProvider } from '@providers/loader/loader';
-import {get, has, isEmpty} from 'lodash';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { isEmpty } from 'lodash';
 import { ErrorPage } from '../error-page/error';
-import {PersonalCommitmentSlotComponent} from '@pages/journal/components/personal-commitment/personal-commitment';
-import {ActivitySlotComponent} from '@pages/journal/components/activity-slot/activity-slot';
-import {EmptySlotComponent} from '@pages/journal/components/empty-slot/empty-slot';
-import {TestSlotComponent} from '@components/test-slot/test-slot/test-slot';
 
 interface JournalPageState {
   selectedDate$: Observable<string>;
@@ -155,7 +149,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     };
 
     const {
-      slots$,
       error$,
       isLoading$,
       completedTests$,
@@ -163,11 +156,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
     this.merged$ = merge(
       completedTests$.pipe(map(this.setCompletedTests)),
-      // slots$.pipe(
-      //   // emit only when slots changed
-      //   distinctUntilChanged(),
-      //   map(this.createSlots),
-      // ),
       error$.pipe(map(this.showError)),
       isLoading$.pipe(map(this.handleLoadingUI)),
     );
@@ -255,7 +243,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   private createSlots = (emission: SlotItem[]) => {
     const { scrollTop } = this;
     this.displayNoDataMessage = (!emission || (emission && emission.length === 0));
-    console.log('calling createSlots');
     this.slotSelector.createSlots(this.slotContainer, emission, this.completedTests);
     // return to previous point in page after content refreshed
     setTimeout(() => this.content.scrollToPoint(0, scrollTop));
@@ -296,30 +283,5 @@ export class JournalPage extends BasePageComponent implements OnInit {
   setScrollTop(scrollTop: number) {
     this.scrollTop = scrollTop;
   }
-
-  derivedTestStatus = (slotData: TestSlot, completedTests: any[]) =>
-    this.slotSelector.hasSlotBeenTested(slotData, completedTests) ? TestStatus.Submitted : null;
-
-  slotType = (slot: SlotItem): string => {
-    const { slotData, personalCommitment } = slot;
-
-    if (!isEmpty(personalCommitment)) {
-      return 'personal';
-    }
-
-    if (has(slotData, 'activityCode')) {
-      return 'activity';
-    }
-
-    if (this.slotSelector.isBookingEmptyOrNull(slot)) {
-      return 'empty';
-    }
-
-    return 'test-slot';
-  };
-
-  showLocation = (slot: SlotItem, prevSlot: SlotItem): boolean => {
-    return get(slot, 'slotData.testCentre.centreId') !== get(prevSlot, 'slotData.testCentre.centreId', null);
-  };
 
 }
