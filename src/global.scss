@@ -75,9 +75,17 @@
     display: flex !important;
     text-align: center !important;
     background-color: var(--mes-white) !important;
+    background: var(--mes-white) !important;
   }
   .action-sheet-selected.sc-ion-action-sheet-ios {
     background-color: var(--mes-white) !important;
+  }
+  .action-sheet-selected.sc-ion-action-sheet-ios::after {
+    background: #efefee !important;
+
+  }
+  .action-sheet-cancel.sc-ion-action-sheet-ios::after{
+    background: var(--mes-white) !important;
   }
 }
 
