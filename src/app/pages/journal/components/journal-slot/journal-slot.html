@@ -1,4 +1,4 @@
-<span *ngFor="let slot of slots; index as i;">
+<span *ngFor="let slot of slots; index as i; trackBy: trackBySlotID;">
     <span [ngSwitch]="slotType(slot)">
          <personal-commitment
                  *ngSwitchCase="'personal'"
@@ -12,7 +12,7 @@
                 *ngSwitchCase="'activity'"
                 [slot]="slot?.slotData"
                 [hasSlotChanged]="slot?.hasSlotChanged"
-                [showLocation]="true">
+                [showLocation]="showLocation(slot, slots[i - 1])">
         </activity-slot>
 
         <empty-slot
