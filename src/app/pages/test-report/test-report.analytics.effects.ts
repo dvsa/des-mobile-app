@@ -75,6 +75,8 @@ import {
 import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
 import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { VehicleChecksTypes } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
+import { getTestReportState } from '@pages/test-report/test-report.reducer';
+import { isRemoveFaultMode } from '@pages/test-report/test-report.selector';
 
 @Injectable()
 export class TestReportAnalyticsEffects {
@@ -108,16 +110,33 @@ export class TestReportAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
         ),
+        this.store$.pipe(
+          select(getTestReportState),
+          select(isRemoveFaultMode),
+        ),
       ),
     )),
-    concatMap(([action, tests]: [ReturnType <typeof testReportActions.ToggleRemoveFaultMode>, TestsModel]) => {
+    concatMap(([action, tests, removeFaultMode]: [ReturnType <typeof testReportActions.ToggleRemoveFaultMode>, TestsModel, boolean]) => {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
       }
 
+      // this.analytics.logEvent(
+      //   formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+      //   formatAnalyticsText(removeFaultMode ? AnalyticsEvents.SELECT_REMOVE_MODE : AnalyticsEvents.EXIT_REMOVE_MODE, tests),
+      // );
+
+      if (removeFaultMode) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+          formatAnalyticsText(AnalyticsEvents.SELECT_REMOVE_MODE, tests),
+        );
+        return of(AnalyticRecorded());
+      }
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.SELECT_REMOVE_MODE, tests),
+        formatAnalyticsText(AnalyticsEvents.EXIT_REMOVE_MODE, tests),
+        formatAnalyticsText(AnalyticsEvents.REMOVE_MODE_EXITED, tests),
       );
       return of(AnalyticRecorded());
     }),
