@@ -40,7 +40,9 @@
                               [value]="faultComment.comment"
                               (change)="faultCommentChanged($event.target.value)">
                     </textarea>
-                    <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+                    <div class="character-count validation-text"
+                         [ngClass]="{'ng-invalid': charactersExceeded()}"
+                         id="fault-comment-character-count-{{faultType}}-{{faultComment.competencyDisplayName}}">
                         {{getCharacterCountText()}}
                     </div>
                 </ion-col>
