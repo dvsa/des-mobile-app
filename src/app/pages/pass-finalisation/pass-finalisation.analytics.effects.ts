@@ -25,6 +25,9 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { TestsModel } from '@store/tests/tests.model';
+import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
+import * as passFinalisationActions from '@pages/pass-finalisation/pass-finalisation.actions';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import {
   PassFinalisationViewDidEnter,
   PassFinalisationValidationError,
@@ -270,6 +273,29 @@ export class PassFinalisationAnalyticsEffects {
         return of(AnalyticRecorded());
       }
       return of(AnalyticNotRecorded());
+    }),
+  ));
+
+  passFinalisationReportActivityCode$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      passFinalisationActions.PassFinalisationReportActivityCode,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([{ activityCode }, tests]:
+    [ReturnType <typeof passFinalisationActions.PassFinalisationReportActivityCode>, TestsModel]) => {
+      const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+        formatAnalyticsText(AnalyticsEvents.SET_ACTIVITY_CODE, tests),
+        `${code} - ${description}`,
+      );
+      return of(AnalyticRecorded());
     }),
   ));
 
