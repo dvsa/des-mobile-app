@@ -11,7 +11,7 @@
         'inactive': !isRemoveFaultMode
       }"
         >
-        {{ !isRemoveFaultMode ? 'Remove' : 'Exit remove mode'}}
+        {{ isRemoveFaultMode ? 'Exit remove mode' : 'Remove'}}
       </ion-button>
     </ion-col>
     <ion-col size="12" class="ion-no-padding button-wrapper padding-right-16">

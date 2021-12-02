@@ -121,7 +121,6 @@ export class TestReportAnalyticsEffects {
         return of(AnalyticNotRecorded());
       }
 
-      console.log('removeFaultMode:', removeFaultMode);
 
       if (removeFaultMode) {
         this.analytics.logEvent(
@@ -131,7 +130,6 @@ export class TestReportAnalyticsEffects {
         );
         return of(AnalyticRecorded());
       }
-      console.log('This shouldn\'t fire');
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.EXIT_REMOVE_MODE, tests),
