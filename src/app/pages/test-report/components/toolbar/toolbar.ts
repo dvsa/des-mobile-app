@@ -34,7 +34,6 @@ export class ToolbarComponent {
   isRemoveFaultMode: boolean = false;
   isSeriousMode: boolean = false;
   isDangerousMode: boolean = false;
-  currentTestData: any;
 
   constructor(
     private store$: Store<StoreModel>,
