@@ -8,6 +8,7 @@ import { MockComponent } from 'ng-mocks';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { StoreModel } from '@shared/models/store.model';
 import { configureTestSuite } from 'ng-bullet';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ToolbarComponent } from '../toolbar';
 import { DrivingFaultSummaryComponent } from '../../driving-fault-summary/driving-fault-summary';
 import { SeriousTooltipComponent } from '../../serious-tooltip/serious-tooltip';
@@ -38,6 +39,7 @@ describe('ToolbarComponent', () => {
       providers: [
         { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: FaultCountProvider, useClass: FaultCountProvider },
       ],
     });
   });

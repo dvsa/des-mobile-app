@@ -5,12 +5,13 @@
       id="remove-button"
       class="ion-no-padding"
       (click)="toggleRemoveFaultMode()"
+      [disabled]="componentState.shouldDisableRemove$ | async"
       [ngClass]="{
         'active': isRemoveFaultMode,
         'inactive': !isRemoveFaultMode
       }"
         >
-        Remove
+        {{ isRemoveFaultMode ? 'Exit remove mode' : 'Remove'}}
       </ion-button>
     </ion-col>
     <ion-col size="12" class="ion-no-padding button-wrapper padding-right-16">
