@@ -9,4 +9,7 @@ export class SeriousFaultBadgeComponent {
 
   @Input()
   showBadge: boolean;
+
+  @Input()
+  competencyDisplayName?: string;
 }
