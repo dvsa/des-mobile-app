@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { SlotItem } from '@providers/slot-selector/slot-item';
+import { ActivityCode, SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { get, has, isEmpty } from 'lodash';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 
 @Component({
@@ -20,7 +20,7 @@ export class JournalSlotComponent {
   slots: SlotItem[] = [];
 
   constructor(
-    public slotSelector: SlotSelectorProvider,
+    private slotSelector: SlotSelectorProvider,
   ) {
   }
 
@@ -28,6 +28,11 @@ export class JournalSlotComponent {
     slotData: TestSlot,
     completedTests: SearchResultTestSchema[],
   ): TestStatus | null => this.slotSelector.hasSlotBeenTested(slotData, completedTests) ? TestStatus.Submitted : null;
+
+  hasSlotBeenTested = (
+    slotData: TestSlot,
+    completedTests: SearchResultTestSchema[],
+  ): ActivityCode | null => this.slotSelector.hasSlotBeenTested(slotData, completedTests);
 
   slotType = (slot: SlotItem): string => {
     const { slotData, personalCommitment } = slot;
@@ -47,9 +52,10 @@ export class JournalSlotComponent {
     return 'test-slot';
   };
 
-  showLocation = (slot: SlotItem, prevSlot: SlotItem): boolean => {
-    return get(slot, 'slotData.testCentre.centreName') !== get(prevSlot, 'slotData.testCentre.centreName', null);
-  };
+  showLocation = (
+    slot: SlotItem,
+    prevSlot: SlotItem,
+  ): boolean => get(slot, 'slotData.testCentre.centreName') !== get(prevSlot, 'slotData.testCentre.centreName', null);
 
   trackBySlotID = (_: number, slot: SlotItem) => get(slot, 'slotData.slotDetail.slotId', null);
 

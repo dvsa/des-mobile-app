@@ -19,7 +19,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content no-padding [scrollEvents]="true" (ionScroll)="setScrollTop($event.detail.scrollTop)">
+<ion-content class="ion-no-padding">
     <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
     <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>

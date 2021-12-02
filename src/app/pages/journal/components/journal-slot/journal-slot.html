@@ -26,7 +26,7 @@
                 *ngSwitchCase="'test-slot'"
                 [hasSlotChanged]="slot?.hasSlotChanged"
                 [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
-                [derivedActivityCode]="slotSelector.hasSlotBeenTested(slot.slotData, completedTests)"
+                [derivedActivityCode]="hasSlotBeenTested(slot.slotData, completedTests)"
                 [derivedTestStatus]="derivedTestStatus(slot?.slotData, completedTests)"
                 [showLocation]="showLocation(slot, slots[i - 1])"
                 [delegatedTest]="false"

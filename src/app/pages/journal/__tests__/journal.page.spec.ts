@@ -45,8 +45,6 @@ import { DeviceProvider } from '@providers/device/device';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { MesBackButtonComponent } from '@components/common/mes-back-button/mes-back-button';
-import { MockComponent } from 'ng-mocks';
 import { LoadingProvider } from '@providers/loader/loader';
 import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { LoadingOptions } from '@ionic/core';
@@ -70,7 +68,6 @@ describe('JournalPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         JournalPage,
-        MockComponent(MesBackButtonComponent),
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
@@ -173,12 +170,6 @@ describe('JournalPage', () => {
         expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
         expect(screenOrientation.unlock).toHaveBeenCalled();
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
-      });
-    });
-    describe('setScrollTop', () => {
-      it('should set scrollTop value', () => {
-        component.setScrollTop(1000);
-        expect(component.scrollTop).toEqual(1000);
       });
     });
   });
