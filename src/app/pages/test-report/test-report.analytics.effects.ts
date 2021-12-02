@@ -121,7 +121,6 @@ export class TestReportAnalyticsEffects {
         return of(AnalyticNotRecorded());
       }
 
-
       if (removeFaultMode) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
