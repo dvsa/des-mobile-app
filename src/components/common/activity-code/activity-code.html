@@ -13,12 +13,14 @@
                         formControlName="activityCode"
                         (ionChange)="activityCodeChanged($event.target.value)"
                         [disabled]="isSelectDisabled()">
-                <ion-select-option [value]="activityCode"
+                <ng-container *ngFor="let activityCode of activityCodeOptions">
+                    <ion-select-option [value]="activityCode"
                                    id="activity-code-{{activityCode.activityCode}}"
-                                   [disabled]="isOptionDisabled(activityCode.activityCode)"
-                                   *ngFor="let activityCode of activityCodeOptions">
-                    {{activityCode.activityCode}} - {{activityCode.description}}
-                </ion-select-option>
+                                    *ngIf="optionViewed(activityCode.activityCode)">
+                        {{activityCode.activityCode}} - {{activityCode.description}}
+
+                    </ion-select-option>
+                </ng-container>
             </ion-select>
         </ion-row>
         <ion-row class="validation-message-row">
