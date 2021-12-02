@@ -121,18 +121,17 @@ export class TestReportAnalyticsEffects {
         return of(AnalyticNotRecorded());
       }
 
-      // this.analytics.logEvent(
-      //   formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-      //   formatAnalyticsText(removeFaultMode ? AnalyticsEvents.SELECT_REMOVE_MODE : AnalyticsEvents.EXIT_REMOVE_MODE, tests),
-      // );
+      console.log('removeFaultMode:', removeFaultMode);
 
       if (removeFaultMode) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
           formatAnalyticsText(AnalyticsEvents.SELECT_REMOVE_MODE, tests),
+          formatAnalyticsText(AnalyticsEvents.REMOVE_MODE_SELECTED, tests),
         );
         return of(AnalyticRecorded());
       }
+      console.log('This shouldn\'t fire');
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.EXIT_REMOVE_MODE, tests),

@@ -72,6 +72,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as highwayCodeActions
   from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
+import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import * as testReportActions from '../test-report.actions';
 import { TestReportAnalyticsEffects } from '../test-report.analytics.effects';
 
@@ -87,6 +88,7 @@ describe('Test Report Analytics Effects', () => {
       imports: [
         StoreModule.forRoot({
           tests: testsReducer,
+          testReport: testReportReducer,
         }),
       ],
       providers: [
@@ -128,6 +130,7 @@ describe('Test Report Analytics Effects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       // ACT
+      store$.dispatch(testReportActions.ToggleRemoveFaultMode());
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
       // ASSERT
       effects.toggleRemoveFaultMode$.subscribe((result) => {
@@ -136,6 +139,25 @@ describe('Test Report Analytics Effects', () => {
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           AnalyticsEventCategories.TEST_REPORT,
           AnalyticsEvents.SELECT_REMOVE_MODE,
+          AnalyticsEvents.REMOVE_MODE_SELECTED,
+        );
+        done();
+      });
+    });
+    it('should call logEvent when the action is user generated for untoggling of remove fault mode', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
+      // ACT
+      store$.dispatch(testReportActions.ToggleRemoveFaultMode());
+      actions$.next(testReportActions.ToggleRemoveFaultMode(true));
+      // ASSERT
+      effects.toggleRemoveFaultMode$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.EXIT_REMOVE_MODE,
+          AnalyticsEvents.REMOVE_MODE_EXITED,
         );
         done();
       });
@@ -144,6 +166,7 @@ describe('Test Report Analytics Effects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
       // ACT
+      store$.dispatch(testReportActions.ToggleRemoveFaultMode());
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
       // ASSERT
       effects.toggleRemoveFaultMode$.subscribe((result) => {
@@ -152,6 +175,7 @@ describe('Test Report Analytics Effects', () => {
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
           `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_REMOVE_MODE}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_MODE_SELECTED}`,
         );
         done();
       });

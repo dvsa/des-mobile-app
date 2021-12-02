@@ -15,6 +15,7 @@ import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode
 import { testReportReducer } from '../../../test-report.reducer';
 import { DangerousTooltipComponent } from '../../dangerous-tooltip/dangerous-tooltip';
 import { TimerComponent } from '../../timer/timer';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 
 describe('ToolbarComponent', () => {
   let fixture: ComponentFixture<ToolbarComponent>;
@@ -38,6 +39,7 @@ describe('ToolbarComponent', () => {
       providers: [
         { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: FaultCountProvider, useClass: FaultCountProvider },
       ],
     });
   });
