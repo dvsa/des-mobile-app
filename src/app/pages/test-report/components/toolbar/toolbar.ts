@@ -34,6 +34,7 @@ export class ToolbarComponent {
   isRemoveFaultMode: boolean = false;
   isSeriousMode: boolean = false;
   isDangerousMode: boolean = false;
+  shouldDisableRemove: boolean = false;
 
   constructor(
     private store$: Store<StoreModel>,
@@ -68,12 +69,13 @@ export class ToolbarComponent {
       ),
     };
 
-    const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$ } = this.componentState;
+    const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, shouldDisableRemove$ } = this.componentState;
 
     const merged$ = merge(
       isRemoveFaultMode$.pipe(map((result) => this.isRemoveFaultMode = result)),
       isSeriousMode$.pipe(map((result) => this.isSeriousMode = result)),
       isDangerousMode$.pipe(map((result) => this.isDangerousMode = result)),
+      shouldDisableRemove$.pipe(map((result) => this.shouldDisableRemove = result)),
     );
 
     this.subscription = merged$.subscribe();
@@ -85,7 +87,10 @@ export class ToolbarComponent {
     }
   }
 
-  toggleRemoveFaultMode(): void {
+  toggleRemoveFaultMode(shouldDisable: boolean = false): void {
+    if (shouldDisable) {
+      return;
+    }
     this.store$.dispatch(ToggleRemoveFaultMode(true));
   }
 

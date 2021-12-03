@@ -4,7 +4,7 @@
       <ion-button fill="clear"
       id="remove-button"
       class="ion-no-padding"
-      (click)="toggleRemoveFaultMode()"
+      (click)="toggleRemoveFaultMode(shouldDisableRemove)"
       [disabled]="componentState.shouldDisableRemove$ | async"
       [ngClass]="{
         'active': isRemoveFaultMode,
