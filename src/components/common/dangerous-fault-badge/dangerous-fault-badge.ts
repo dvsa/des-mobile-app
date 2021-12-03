@@ -9,4 +9,7 @@ export class DangerousFaultBadgeComponent {
 
   @Input()
   showBadge: boolean;
+
+  @Input()
+  competencyDisplayName?: string;
 }

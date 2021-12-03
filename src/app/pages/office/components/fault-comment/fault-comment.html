@@ -4,9 +4,21 @@
         </div>
 
         <ion-col class="fault-badge ion-align-self-start ion-no-padding" size="4" [ngSwitch]="faultType">
-            <dangerous-fault-badge [showBadge]="true" *ngSwitchCase="'dangerous'"></dangerous-fault-badge>
-            <serious-fault-badge [showBadge]="true" *ngSwitchCase="'serious'"></serious-fault-badge>
-            <driving-faults-badge [count]="faultComment.faultCount" *ngSwitchCase="'driving'"></driving-faults-badge>
+            <dangerous-fault-badge
+                    [showBadge]="true"
+                    *ngSwitchCase="'dangerous'"
+                    [competencyDisplayName]="faultComment.competencyDisplayName">
+            </dangerous-fault-badge>
+            <serious-fault-badge
+                    [showBadge]="true"
+                    *ngSwitchCase="'serious'"
+                    [competencyDisplayName]="faultComment.competencyDisplayName">
+            </serious-fault-badge>
+            <driving-faults-badge
+                    [count]="faultComment.faultCount"
+                    *ngSwitchCase="'driving'"
+                    [competencyDisplayName]="faultComment.competencyDisplayName">
+            </driving-faults-badge>
         </ion-col>
 
         <ion-col class="component-label ion-align-self-start ion-no-padding" size="28"
@@ -28,7 +40,9 @@
                               [value]="faultComment.comment"
                               (change)="faultCommentChanged($event.target.value)">
                     </textarea>
-                    <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+                    <div class="character-count validation-text"
+                         [ngClass]="{'ng-invalid': charactersExceeded()}"
+                         id="fault-comment-character-count-{{faultType}}-{{faultComment.competencyDisplayName}}">
                         {{getCharacterCountText()}}
                     </div>
                 </ion-col>
