@@ -12,8 +12,9 @@ import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import {
   ActivityCodeModel,
 } from '@shared/constants/activity-code/activity-code.constants';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { get } from 'lodash';
+import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 
 @Component({
   selector: 'activity-code',
@@ -40,10 +41,12 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
   private formControl: FormControl;
   static readonly fieldName: string = 'activityCode';
   private static readonly ionSelectOptionClass: string = 'alert-radio-label sc-ion-alert-ios';
+  activityCodeListModal: HTMLIonModalElement;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private alertController: AlertController,
+    public modalController: ModalController,
   ) {
   }
 
@@ -116,4 +119,26 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
     // dismiss if present
     if (alert) await alert.dismiss();
   };
+
+  openActivityCodeListModal = async (): Promise<void> => {
+    this.activityCodeListModal = await this.modalController.create({
+      id: 'ActivityCodeListModal',
+      component: ModalActivityCodeListComponent,
+      backdropDismiss: false,
+      showBackdrop: true,
+      componentProps: {
+        activityCodeModel: this.activityCodeModel,
+        activityCodeOptions: this.activityCodeOptions,
+        onCancel: this.onCancel,
+        // onReturnToTestReport: this.onReturnToTestReport,
+      },
+      cssClass: 'activity-code-modal text-zoom-regular',
+    });
+    await this.activityCodeListModal.present();
+  };
+
+  onCancel = async () => {
+    await this.activityCodeListModal.dismiss();
+  };
+
 }

@@ -24,6 +24,14 @@
   }
 }
 
+.activity-code-modal {
+  .modal-wrapper {
+    --height: 90%;
+    //width: 100%;
+    --background: none;
+  }
+}
+
 .modal-alert-wrapper {
   padding: 0 100px;
 

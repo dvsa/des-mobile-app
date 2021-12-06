@@ -40,6 +40,7 @@ import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faul
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { MesBackButtonComponent } from './mes-back-button/mes-back-button';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
+import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     IncompleteTestsBanner,
     ModalAlertTitleComponent,
     ModalReturnButtonComponent,
+    ModalActivityCodeListComponent,
     PracticeModeBanner,
     LockScreenIndicator,
     SeriousFaultBadgeComponent,
@@ -105,6 +107,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     IncompleteTestsBanner,
     ModalAlertTitleComponent,
     ModalReturnButtonComponent,
+    ModalActivityCodeListComponent,
     PracticeModeBanner,
     LockScreenIndicator,
     SeriousFaultBadgeComponent,

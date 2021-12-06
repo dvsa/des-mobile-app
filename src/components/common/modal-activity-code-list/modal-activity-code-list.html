@@ -1,0 +1,16 @@
+<ion-content class="colour">
+    <ion-list class="colour">
+        <ion-item class="colour" *ngFor="let activityCode of activityCodeOptions">
+            <ion-label>{{activityCode.activityCode}} - {{activityCode.description}}</ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+      <ion-button (click)="onCancel()">
+          Cancel
+      </ion-button>
+<!--    <ion-title>Footer</ion-title>-->
+  </ion-toolbar>
+</ion-footer>

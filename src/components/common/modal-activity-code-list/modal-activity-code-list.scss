@@ -1,0 +1,16 @@
+//@import "src/theme/sass-partials/modal";
+
+:host {
+  //@extend .modal-alert-wrapper;
+  .colour {
+    --ion-background-color: var(--gds-grey-3) !important;
+    background-color: white !important;
+    background: white !important;
+  }
+
+  .activity-list-modal-cancel-button {
+    text-align: center;
+    min-width: 225px;
+    color: var(--gds-black);
+  }
+}
