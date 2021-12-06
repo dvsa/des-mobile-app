@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { NavParams } from '@ionic/angular';
+import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'modal-activity-code-list',
@@ -16,7 +17,10 @@ export class ModalActivityCodeListComponent {
   constructor(
     private navParams: NavParams,
   ) {
-    // this.onCancel = this.navParams.get('onCancel');
     this.onCancel = this.navParams.get('onCancel');
+  }
+
+  isOptionDisabled(activityCode: ActivityCode): boolean {
+    return parseInt(activityCode, 10) < 4;
   }
 }

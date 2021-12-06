@@ -138,6 +138,8 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
   };
 
   onCancel = async () => {
+    console.log('cancel');
+    console.log('activityCodeModel', this.activityCodeModel);
     await this.activityCodeListModal.dismiss();
   };
 
