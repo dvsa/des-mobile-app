@@ -3,11 +3,11 @@ import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { TerminateTestModal } from '@pages/terminate-test-modal/terminate-test-modal';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
+import { TerminateTestModal } from '@components/common/terminate-test-modal/terminate-test-modal';
 
 @Component({
   selector: 'end-test-link',
