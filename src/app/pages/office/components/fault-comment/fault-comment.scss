@@ -2,4 +2,9 @@
   .text-area-padding {
     padding-left: var(--ion-padding, 16px);
   }
+
+  .text-area-colour {
+    background-color: var(--mes-white);
+    color: var(--gds-black);
+  }
 }
