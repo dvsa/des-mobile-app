@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ModalController } from '@ionic/angular';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 
 @Component({
@@ -13,21 +13,31 @@ export class ModalActivityCodeListComponent {
 
   activityCodeModel: ActivityCodeModel;
   activityCodeOptions: ActivityCodeModel[];
+  idPrefix: string = 'activity-code-modal';
 
   constructor(
     private modalController: ModalController,
   ) {
   }
 
-  onCancel = async () => {
+  onCancel = async (): Promise<void> => {
     await this.modalController.dismiss(null, ActivityCodeModalEvent.CANCEL);
   };
 
-  isOptionDisabled(activityCode: ActivityCode): boolean {
-    return parseInt(activityCode, 10) < 4;
-  }
+  isOptionDisabled = (activityCode: ActivityCode): boolean => parseInt(activityCode, 10) < 4;
 
-  selectActivityCode = async (activityCodeModel: ActivityCodeModel) => {
+  selectActivityCode = async (activityCodeModel: ActivityCodeModel): Promise<void> => {
+    if (this.isOptionDisabled(activityCodeModel.activityCode)) {
+      return;
+    }
     await this.modalController.dismiss(activityCodeModel, ActivityCodeModalEvent.SELECT_CODE);
   };
+
+  conditionalStyles = (activityCode: ActivityCodeModel) => ({
+    selected: this.isActiveActivityCode(activityCode.activityCode),
+    disabled: this.isOptionDisabled(activityCode.activityCode),
+    'button-style': true,
+  });
+
+  isActiveActivityCode = (activityCode: ActivityCode): boolean => activityCode === this.activityCodeModel?.activityCode;
 }

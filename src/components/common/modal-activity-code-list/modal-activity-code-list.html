@@ -1,47 +1,28 @@
-<ion-content class="colour">
-    <!--    <ion-list class="colour">-->
-    <!--        <ion-item *ngFor="let activityCode of activityCodeOptions"-->
-    <!--                  [disabled]="isOptionDisabled(activityCode.activityCode)"-->
-    <!--                  (click)="selectActivityCode(activityCode)">-->
-    <!--            <ion-label>{{activityCode.activityCode}} - {{activityCode.description}}</ion-label>-->
-    <!--        </ion-item>-->
-
-<!--    <ion-row *ngFor="let activityCode of activityCodeOptions;">-->
-<!--        <ion-button-->
-<!--                [disabled]="isOptionDisabled(activityCode.activityCode)"-->
-<!--                (click)="selectActivityCode(activityCode)"-->
-<!--                class="button-style"-->
-<!--                fill="clear"-->
-<!--                type="button"-->
-<!--                role="radio">-->
-<!--            <div>{{activityCode.activityCode}} - {{activityCode.description | slice: 0 : 55}}</div>-->
-<!--            <ion-icon class="icon-position" slot="end" name="star"></ion-icon>-->
-<!--        </ion-button>-->
-<!--    </ion-row>-->
-
+<ion-content class="content-background">
     <ion-grid>
-        <ion-row *ngFor="let activityCode of activityCodeOptions;" class="ion-padding-bottom"
+        <ion-row *ngFor="let activityCode of activityCodeOptions;"
+                 [id]="activityCode.activityCode + ' ' + activityCode.description | formatToID: idPrefix"
                  (click)="selectActivityCode(activityCode)">
-
-            <ion-col class="button-style" size="6">
+            <ion-col size="6" [ngClass]="conditionalStyles(activityCode)">
                 {{activityCode.activityCode}}
             </ion-col>
-            <ion-col class="button-style" size="6">
+            <ion-col size="4" [ngClass]="conditionalStyles(activityCode)">
                 -
             </ion-col>
-            <ion-col class="button-style" size="78">
+            <ion-col size="80" [ngClass]="conditionalStyles(activityCode)">
                 {{activityCode.description}}
             </ion-col>
             <ion-col class="button-style" size="6">
-                <ion-icon name="checkmark-sharp"
-                          *ngIf="activityCode.activityCode === activityCodeModel.activityCode"></ion-icon>
+                <ion-icon *ngIf="isActiveActivityCode(activityCode.activityCode)"
+                          [id]="idPrefix + '-checkmark'"
+                          name="checkmark-sharp"
+                          class="checkmark">
+                </ion-icon>
             </ion-col>
-
         </ion-row>
     </ion-grid>
-
-
-    <!--    </ion-list>-->
 </ion-content>
 
-<ion-button (click)="onCancel()" color="dark">Cancel</ion-button>
+<ion-button (click)="onCancel()" color="dark" [id]="idPrefix + '-cancel-btn'">
+    Cancel
+</ion-button>

@@ -1,26 +1,24 @@
-//@import "src/theme/sass-partials/modal";
-
 :host {
-  //@extend .modal-alert-wrapper;
-  .colour {
-    --ion-background-color: white !important;
-  }
-
-  .cancel-button {
-    color: var(--gds-grey-3);
+  .content-background {
+    --ion-background-color: var(--mes-white) !important;
   }
 
   .button-style {
-    color: var(--gds-black);;
-  }
-
-  .icon-position {
-    float: right;
-  }
-
-  .activity-list-modal-cancel-button {
-    text-align: center;
-    min-width: 225px;
     color: var(--gds-black);
+    display: flex;
+    align-items: center;
+
+    &.selected {
+      font-weight: bold;
+    }
+    &.disabled {
+      opacity: 0.4;
+    }
+  }
+
+  .checkmark {
+    color: var(--gds-green);
+    font-size: 34px;
+    font-weight: bold;
   }
 }
