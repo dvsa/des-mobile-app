@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
-import { NavParams } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
@@ -17,6 +17,7 @@ export class ModalActivityCodeListComponent {
 
   constructor(
     private navParams: NavParams,
+    public modalController: ModalController,
   ) {
     this.onCancel = this.navParams.get('onCancel');
   }
