@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, TestBed, waitForAsync,
+  ComponentFixture, TestBed, waitForAsync, fakeAsync, tick,
 } from '@angular/core/testing';
 import {
   NavControllerMock,
@@ -36,13 +36,159 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TransmissionType } from '@shared/models/transmission-type';
+import { PersistTests } from '@store/tests/tests.actions';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 import { PassFinalisationCatCPage } from '../pass-finalisation.cat-c.page';
+import {PassFinalisationValidationError} from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PASS_CERTIFICATE_NUMBER_CTRL
+} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 
 describe('PassFinalisationCatCPage', () => {
   let fixture: ComponentFixture<PassFinalisationCatCPage>;
   let component: PassFinalisationCatCPage;
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
+
+  const categoryDifferences = [
+    { category: TestCategory.C, showCode78: true },
+    { category: TestCategory.C1, showCode78: false },
+    { category: TestCategory.C1E, showCode78: false },
+    { category: TestCategory.CE, showCode78: true },
+  ];
+
+  const automaticManualBannerConditions = [
+    {
+      category: TestCategory.C,
+      code78: true,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: true,
+      manualBanner: false,
+      desc: 'Automatic banner shown when automatic transmission and code78 present',
+    },
+    {
+      category: TestCategory.C,
+      code78: false,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when automatic transmission and no code78 present',
+    },
+    {
+      category: TestCategory.C,
+      code78: false,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and no code78 present',
+    },
+    {
+      category: TestCategory.C,
+      code78: true,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and code78 present',
+    },
+    {
+      category: TestCategory.CE,
+      code78: true,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: true,
+      manualBanner: false,
+      desc: 'Automatic banner shown when automatic transmission and code78 present',
+    },
+    {
+      category: TestCategory.CE,
+      code78: false,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when automatic transmission and no code78 present',
+    },
+    {
+      category: TestCategory.CE,
+      code78: false,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and no code78 present',
+    },
+    {
+      category: TestCategory.CE,
+      code78: true,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and code78 present',
+    },
+    {
+      category: TestCategory.C1,
+      code78: true,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: false,
+      desc: 'No banner shown when automatic transmission and code78 present',
+    },
+    {
+      category: TestCategory.C1,
+      code78: false,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: false,
+      desc: 'No banner shown when automatic transmission and no code78 present',
+    },
+    {
+      category: TestCategory.C1,
+      code78: false,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: false,
+      desc: 'No banner shown when manual transmission and no code78 present',
+    },
+    {
+      category: TestCategory.C1,
+      code78: true,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: false,
+      desc: 'No banner shown when manual transmission and code78 present',
+    },
+    {
+      category: TestCategory.C1E,
+      code78: true,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: false,
+      desc: 'No banner shown when automatic transmission and code78 present',
+    },
+    {
+      category: TestCategory.C1E,
+      code78: false,
+      transmission: TransmissionType.Automatic,
+      automaticBanner: false,
+      manualBanner: false,
+      desc: 'No banner shown when automatic transmission and no code78 present',
+    },
+    {
+      category: TestCategory.C1E,
+      code78: false,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: false,
+      desc: 'No banner shown when manual transmission and no code78 present',
+    },
+    {
+      category: TestCategory.C1E,
+      code78: true,
+      transmission: TransmissionType.Manual,
+      automaticBanner: false,
+      manualBanner: false,
+      desc: 'No banner shown when manual transmission and code78 present',
+    },
+  ];
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -84,6 +230,55 @@ describe('PassFinalisationCatCPage', () => {
   }));
 
   describe('Class', () => {
+    describe('onSubmit', () => {
+      it('should dispatch the PersistTests action', () => {
+        component.onSubmit();
+        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+      });
+      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
+        component.form = new FormGroup({
+          requiredControl1: new FormControl(null, [Validators.required]),
+          requiredControl2: new FormControl(null, [Validators.required]),
+          [PASS_CERTIFICATE_NUMBER_CTRL]: new FormControl(null, [Validators.required]),
+          notRequiredControl: new FormControl(null),
+        });
+
+        component.onSubmit();
+        tick();
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(PassFinalisationValidationError(`${PASS_CERTIFICATE_NUMBER_CTRL} is invalid`));
+        expect(store$.dispatch)
+          .not
+          .toHaveBeenCalledWith(PassFinalisationValidationError('notRequiredControl is blank'));
+      }));
+    });
+    describe('shouldShowAutomaticBanner & shouldShowManualBanner', () => {
+      automaticManualBannerConditions.forEach((cat) => {
+        it(`${cat.desc} (${cat.category})`, () => {
+          component.transmission = cat.transmission;
+          component.code78Present = cat.code78;
+          component.testCategory = cat.category;
+          expect(component.shouldShowAutomaticBanner()).toEqual(cat.automaticBanner);
+          expect(component.shouldShowManualBanner()).toEqual(cat.manualBanner);
+        });
+      });
+    });
+    describe('shouldHideBanner', () => {
+      it('should hide banner when only transmission is selected', () => {
+        component.transmission = TransmissionType.Manual;
+        expect(component.shouldShowCode78Banner()).toEqual(false);
+      });
+    });
+    describe('shouldShowCode78', () => {
+      categoryDifferences.forEach((cat) => {
+        it(`for Cat ${cat.category}`, () => {
+          component.testCategory = cat.category;
+          expect(component.shouldShowCode78()).toEqual(cat.showCode78);
+        });
+      });
+    });
   });
 
 });

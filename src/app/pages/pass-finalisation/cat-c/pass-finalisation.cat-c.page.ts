@@ -121,7 +121,6 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
   }
 
   shouldShowCode78(): boolean {
-    console.log(this.testCategory);
     return isAnyOf(this.testCategory, [TestCategory.C, TestCategory.CE]);
   }
 

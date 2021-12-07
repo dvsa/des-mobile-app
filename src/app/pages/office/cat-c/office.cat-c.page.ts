@@ -22,7 +22,6 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { QuestionProvider } from '@providers/question/question';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-c';
 import { getActivityCodeOptions, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
@@ -98,7 +97,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
     weatherConditionProvider: WeatherConditionProvider,
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
-    public questionProvider: QuestionProvider,
     private appConfig: AppConfigProvider,
   ) {
     super(
