@@ -1,18 +1,47 @@
 <ion-content class="colour">
-    <ion-list class="colour">
-        <ion-item *ngFor="let activityCode of activityCodeOptions"
-                  [disabled]="isOptionDisabled(activityCode.activityCode)"
-                  (click)="selectActivityCode(activityCode.activityCode)">
-            <ion-label>{{activityCode.activityCode}} - {{activityCode.description}}</ion-label>
-        </ion-item>
-    </ion-list>
+    <!--    <ion-list class="colour">-->
+    <!--        <ion-item *ngFor="let activityCode of activityCodeOptions"-->
+    <!--                  [disabled]="isOptionDisabled(activityCode.activityCode)"-->
+    <!--                  (click)="selectActivityCode(activityCode)">-->
+    <!--            <ion-label>{{activityCode.activityCode}} - {{activityCode.description}}</ion-label>-->
+    <!--        </ion-item>-->
+
+<!--    <ion-row *ngFor="let activityCode of activityCodeOptions;">-->
+<!--        <ion-button-->
+<!--                [disabled]="isOptionDisabled(activityCode.activityCode)"-->
+<!--                (click)="selectActivityCode(activityCode)"-->
+<!--                class="button-style"-->
+<!--                fill="clear"-->
+<!--                type="button"-->
+<!--                role="radio">-->
+<!--            <div>{{activityCode.activityCode}} - {{activityCode.description | slice: 0 : 55}}</div>-->
+<!--            <ion-icon class="icon-position" slot="end" name="star"></ion-icon>-->
+<!--        </ion-button>-->
+<!--    </ion-row>-->
+
+    <ion-grid>
+        <ion-row *ngFor="let activityCode of activityCodeOptions;" class="ion-padding-bottom"
+                 (click)="selectActivityCode(activityCode)">
+
+            <ion-col class="button-style" size="6">
+                {{activityCode.activityCode}}
+            </ion-col>
+            <ion-col class="button-style" size="6">
+                -
+            </ion-col>
+            <ion-col class="button-style" size="78">
+                {{activityCode.description}}
+            </ion-col>
+            <ion-col class="button-style" size="6">
+                <ion-icon name="checkmark-sharp"
+                          *ngIf="activityCode.activityCode === activityCodeModel.activityCode"></ion-icon>
+            </ion-col>
+
+        </ion-row>
+    </ion-grid>
+
+
+    <!--    </ion-list>-->
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
-      <ion-button (click)="onCancel()">
-          Cancel
-      </ion-button>
-<!--    <ion-title>Footer</ion-title>-->
-  </ion-toolbar>
-</ion-footer>
+<ion-button (click)="onCancel()" color="dark">Cancel</ion-button>

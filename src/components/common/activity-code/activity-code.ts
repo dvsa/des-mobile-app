@@ -1,20 +1,13 @@
 import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
+  ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
-import {
-  ActivityCodeModel,
-} from '@shared/constants/activity-code/activity-code.constants';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { AlertController, ModalController } from '@ionic/angular';
 import { get } from 'lodash';
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
+import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 
 @Component({
   selector: 'activity-code',
@@ -121,31 +114,31 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
   };
 
   openActivityCodeListModal = async (): Promise<void> => {
-    this.activityCodeListModal = await this.modalController.create({
+    const activityCodeModal: HTMLIonModalElement = await this.modalController.create({
       id: 'ActivityCodeListModal',
+      cssClass: 'activity-code-modal text-zoom-regular',
       component: ModalActivityCodeListComponent,
       backdropDismiss: false,
       showBackdrop: true,
       componentProps: {
         activityCodeModel: this.activityCodeModel,
         activityCodeOptions: this.activityCodeOptions,
-        onCancel: this.onCancel,
-        activityCodeChanged: this.test,
-        // onReturnToTestReport: this.onReturnToTestReport,
       },
-      cssClass: 'activity-code-modal text-zoom-regular',
     });
-    await this.activityCodeListModal.present();
+    await activityCodeModal.present();
+    const { data, role } = await activityCodeModal.onDidDismiss();
+    await this.onModalDismiss(data, role as ActivityCodeModalEvent);
   };
 
-  onCancel = async () => {
-    console.log('cancel');
-    console.log('activityCodeModel', this.activityCodeModel);
-    await this.activityCodeListModal.dismiss();
-  };
-
-  test = () => {
-    console.log('selected activity code');
+  onModalDismiss = async (data: ActivityCodeModel | null, event: ActivityCodeModalEvent) => {
+    switch (event) {
+      case ActivityCodeModalEvent.CANCEL:
+        break;
+      case ActivityCodeModalEvent.SELECT_CODE:
+        this.activityCodeChanged(data);
+        break;
+      default:
+    }
   };
 
 }

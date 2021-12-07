@@ -3,9 +3,19 @@
 :host {
   //@extend .modal-alert-wrapper;
   .colour {
-    --ion-background-color: var(--gds-grey-3) !important;
-    background-color: white !important;
-    background: white !important;
+    --ion-background-color: white !important;
+  }
+
+  .cancel-button {
+    color: var(--gds-grey-3);
+  }
+
+  .button-style {
+    color: var(--gds-black);;
+  }
+
+  .icon-position {
+    float: right;
   }
 
   .activity-list-modal-cancel-button {

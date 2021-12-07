@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 
 @Component({
   selector: 'modal-activity-code-list',
@@ -12,21 +13,21 @@ export class ModalActivityCodeListComponent {
 
   activityCodeModel: ActivityCodeModel;
   activityCodeOptions: ActivityCodeModel[];
-  onCancel: Function;
-  activityCodeChanged: Function;
 
   constructor(
-    private navParams: NavParams,
-    public modalController: ModalController,
+    private modalController: ModalController,
   ) {
-    this.onCancel = this.navParams.get('onCancel');
   }
+
+  onCancel = async () => {
+    await this.modalController.dismiss(null, ActivityCodeModalEvent.CANCEL);
+  };
 
   isOptionDisabled(activityCode: ActivityCode): boolean {
     return parseInt(activityCode, 10) < 4;
   }
 
-  selectActivityCode(activityCode: ActivityCode) {
-    console.log('activityCode: ActivityCode', activityCode);
-  }
+  selectActivityCode = async (activityCodeModel: ActivityCodeModel) => {
+    await this.modalController.dismiss(activityCodeModel, ActivityCodeModalEvent.SELECT_CODE);
+  };
 }
