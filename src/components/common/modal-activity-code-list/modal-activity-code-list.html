@@ -1,7 +1,8 @@
 <ion-content class="colour">
     <ion-list class="colour">
         <ion-item *ngFor="let activityCode of activityCodeOptions"
-                  [disabled]="isOptionDisabled(activityCode.activityCode)">
+                  [disabled]="isOptionDisabled(activityCode.activityCode)"
+                  (click)="selectActivityCode(activityCode.activityCode)">
             <ion-label>{{activityCode.activityCode}} - {{activityCode.description}}</ion-label>
         </ion-item>
     </ion-list>

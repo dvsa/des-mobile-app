@@ -130,6 +130,7 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
         activityCodeModel: this.activityCodeModel,
         activityCodeOptions: this.activityCodeOptions,
         onCancel: this.onCancel,
+        activityCodeChanged: this.test,
         // onReturnToTestReport: this.onReturnToTestReport,
       },
       cssClass: 'activity-code-modal text-zoom-regular',
@@ -141,6 +142,10 @@ export class ActivityCodeComponent implements OnChanges, OnInit {
     console.log('cancel');
     console.log('activityCodeModel', this.activityCodeModel);
     await this.activityCodeListModal.dismiss();
+  };
+
+  test = () => {
+    console.log('selected activity code');
   };
 
 }

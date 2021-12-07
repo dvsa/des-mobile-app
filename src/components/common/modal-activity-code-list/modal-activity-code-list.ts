@@ -13,6 +13,7 @@ export class ModalActivityCodeListComponent {
   activityCodeModel: ActivityCodeModel;
   activityCodeOptions: ActivityCodeModel[];
   onCancel: Function;
+  activityCodeChanged: Function;
 
   constructor(
     private navParams: NavParams,
@@ -22,5 +23,9 @@ export class ModalActivityCodeListComponent {
 
   isOptionDisabled(activityCode: ActivityCode): boolean {
     return parseInt(activityCode, 10) < 4;
+  }
+
+  selectActivityCode(activityCode: ActivityCode) {
+    console.log('activityCode: ActivityCode', activityCode);
   }
 }
