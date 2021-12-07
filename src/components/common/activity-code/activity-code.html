@@ -5,7 +5,9 @@
     </ion-col>
     <ion-col size="63" class="ion-align-self-center ion-padding-start">
         <ion-row class="spacing-row"></ion-row>
-        <ion-row class="activity-code-modal-row" (click)="openActivityCodeListModal()">
+        <ion-row class="activity-code-modal-row"
+                 [ngClass]="{'appear-disabled': isSelectDisabled()}"
+                 (click)="openActivityCodeListModal()">
             <ion-col size="9" class="col-font-color no-padding-end">
                 <span class="custom-padding">{{activityCodeModel.activityCode}}</span>
             </ion-col>
