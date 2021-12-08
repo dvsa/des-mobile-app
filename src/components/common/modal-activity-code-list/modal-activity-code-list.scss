@@ -1,9 +1,13 @@
 :host {
   .content-background {
-    --ion-background-color: var(--mes-white) !important;
+    --ion-background-color: var(--mes-white);
+    border-radius: 10px !important;
+    border: 10px solid var(--mes-white) !important;
+    mix-blend-mode: exclusion;
   }
 
   .button-style {
+    padding-top: 7px;
     color: var(--gds-black);
     display: flex;
     align-items: center;
