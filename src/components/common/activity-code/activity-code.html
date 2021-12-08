@@ -8,16 +8,16 @@
         <ion-row class="activity-code-modal-row"
                  [ngClass]="{'appear-disabled': isSelectDisabled()}"
                  (click)="openActivityCodeListModal()">
-            <ion-col *ngIf="!activityCodeModel" class="placeholder-font-color no-padding-end">
+            <ion-col *ngIf="!activityCodeModel" class="placeholder-font-color no-padding-end padding-top ion-nowrap">
                 <span size="90">Select an activity code</span>
             </ion-col>
-            <ion-col size="9" class="col-font-color no-padding-end" *ngIf="activityCodeModel">
+            <ion-col size="8" class="col-font-color no-padding-end padding-top" *ngIf="activityCodeModel">
                 <span class="custom-padding">{{activityCodeModel?.activityCode}}</span>
             </ion-col>
-            <ion-col size="2" class="col-font-color no-padding-start" *ngIf="activityCodeModel">
+            <ion-col size="2" class="col-font-color no-padding-start padding-top" *ngIf="activityCodeModel">
                 <span>-</span>
             </ion-col>
-            <ion-col size="79" class="col-font-color" *ngIf="activityCodeModel">
+            <ion-col size="80" class="col-font-color padding-top" *ngIf="activityCodeModel">
                 <span class="ion-no-wrap">{{activityCodeModel?.description | ellipsis: 38}}</span>
             </ion-col>
             <ion-col size="6">
