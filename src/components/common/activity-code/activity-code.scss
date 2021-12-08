@@ -26,4 +26,46 @@
   .boarder {
     border: 1px solid;
   }
+
+  .col-font-color {
+    color: var(--dark);
+  }
+
+  .placeholder-font-color {
+    margin-left: 4px;
+    color: darkgrey;
+  }
+
+  .no-padding-start {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .padding-top {
+    padding-top: 7px;
+  }
+
+  .no-padding-end {
+    padding-right: 0;
+  }
+
+  .custom-padding {
+    margin-left: 4px;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .activity-code-modal-row {
+    border: 2px solid var(--dark);
+    border-radius: 8px;
+    color: var(--dark);
+    font-size: 19px;
+    width: 452px;
+    height: 48px;
+  }
+
+  .down-caret-icon {
+    color: darkgrey;
+    font-size: 14px;
+  }
 }

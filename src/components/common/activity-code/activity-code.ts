@@ -1,14 +1,11 @@
 import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
+  ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ModalController } from '@ionic/angular';
+import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
+import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 
 @Component({
   selector: 'activity-code',
@@ -16,8 +13,6 @@ import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code
   styleUrls: ['activity-code.scss'],
 })
 export class ActivityCodeComponent implements OnChanges {
-  constructor(private changeDetectorRef: ChangeDetectorRef) {
-  }
 
   @Input()
   activityCodeModel: ActivityCodeModel;
@@ -36,6 +31,13 @@ export class ActivityCodeComponent implements OnChanges {
 
   private formControl: FormControl;
   static readonly fieldName: string = 'activityCode';
+  activityCodeListModal: HTMLIonModalElement;
+
+  constructor(
+    private changeDetectorRef: ChangeDetectorRef,
+    public modalController: ModalController,
+  ) {
+  }
 
   ngAfterViewChecked() {
     this.changeDetectorRef.detectChanges();
@@ -50,9 +52,7 @@ export class ActivityCodeComponent implements OnChanges {
   }
 
   activityCodeChanged(activityCode: ActivityCodeModel): void {
-    if (this.formControl.valid) {
-      this.activityCodeChange.emit(activityCode);
-    }
+    this.activityCodeChange.emit(activityCode);
   }
 
   get invalid(): boolean {
@@ -63,10 +63,36 @@ export class ActivityCodeComponent implements OnChanges {
     return this.disabled || (this.activityCodeModel && parseInt(this.activityCodeModel.activityCode, 10) < 4);
   }
 
-  isOptionDisabled(activityCode: ActivityCode): boolean {
-    if (parseInt(activityCode, 10) < 4) {
-      return true;
+  openActivityCodeListModal = async (): Promise<void> => {
+    if (this.isSelectDisabled()) {
+      return;
     }
-    return false;
-  }
+
+    const activityCodeModal: HTMLIonModalElement = await this.modalController.create({
+      id: 'ActivityCodeListModal',
+      cssClass: 'activity-code-modal text-zoom-regular',
+      component: ModalActivityCodeListComponent,
+      backdropDismiss: false,
+      showBackdrop: true,
+      componentProps: {
+        activityCodeModel: this.activityCodeModel,
+        activityCodeOptions: this.activityCodeOptions,
+      },
+    });
+    await activityCodeModal.present();
+    const { data, role } = await activityCodeModal.onDidDismiss();
+    await this.onModalDismiss(data, role as ActivityCodeModalEvent);
+  };
+
+  onModalDismiss = async (data: ActivityCodeModel | null, event: ActivityCodeModalEvent) => {
+    switch (event) {
+      case ActivityCodeModalEvent.CANCEL:
+        break;
+      case ActivityCodeModalEvent.SELECT_CODE:
+        this.activityCodeChanged(data);
+        break;
+      default:
+    }
+  };
+
 }

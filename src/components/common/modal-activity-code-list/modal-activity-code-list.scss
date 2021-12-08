@@ -1,0 +1,28 @@
+:host {
+  .content-background {
+    --ion-background-color: var(--mes-white);
+    border-radius: 10px !important;
+    border: 10px solid var(--mes-white) !important;
+    mix-blend-mode: exclusion;
+  }
+
+  .button-style {
+    padding-top: 7px;
+    color: var(--gds-black);
+    display: flex;
+    align-items: center;
+
+    &.selected {
+      font-weight: bold;
+    }
+    &.disabled {
+      opacity: 0.4;
+    }
+  }
+
+  .checkmark {
+    color: var(--gds-green);
+    font-size: 34px;
+    font-weight: bold;
+  }
+}

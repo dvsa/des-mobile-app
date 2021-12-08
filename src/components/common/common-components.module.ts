@@ -23,6 +23,7 @@ import { SignatureComponent } from '@components/common/signature/signature';
 import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
+import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 import { TerminateTestModalModule } from '@components/common/terminate-test-modal/terminate-test-modal.module';
 import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
@@ -62,6 +63,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     IncompleteTestsBanner,
     ModalAlertTitleComponent,
     ModalReturnButtonComponent,
+    ModalActivityCodeListComponent,
     PracticeModeBanner,
     LockScreenIndicator,
     SeriousFaultBadgeComponent,
@@ -105,6 +107,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     IncompleteTestsBanner,
     ModalAlertTitleComponent,
     ModalReturnButtonComponent,
+    ModalActivityCodeListComponent,
     PracticeModeBanner,
     LockScreenIndicator,
     SeriousFaultBadgeComponent,

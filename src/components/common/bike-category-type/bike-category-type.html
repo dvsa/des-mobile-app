@@ -39,7 +39,7 @@
 
 <ion-select
   #categorySelect hidden="true" okText="Confirm" cancelText="Cancel"
-  [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+  [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
   (ionChange)="categoryCodeChanged($event)">
   <ion-select-option *ngFor="let category of bikeCategoryDetails"
               class="category-option"

@@ -49,6 +49,7 @@
 
 .no-results {
   margin-top: 24px;
+
   p.no-results-text {
     margin: 4px 0;
     text-align: center;
@@ -58,4 +59,14 @@
 .mes-padding-left {
   padding-left: 16px;
   padding-top: 0;
+}
+
+.select-cancel-button-display {
+  .alert-button:nth-child(2) {
+    display: none;
+  }
+}
+
+.appear-disabled {
+  opacity: 0.4;
 }
