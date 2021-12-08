@@ -15,10 +15,10 @@ describe('EllipsisPipe', () => {
     expect(pipe.transform(null)).toEqual(undefined);
   });
   it('should truncate text and add ellipsis after default of 25', () => {
-    expect(pipe.transform(someText)).toEqual('Some text being displayed in...');
+    expect(pipe.transform(someText)).toEqual('Some text being displayed...');
   });
   it('should truncate text and add ellipsis when input is less than truncateAt', () => {
-    expect(pipe.transform(someText, 8)).toEqual('Some text...');
+    expect(pipe.transform(someText, 8)).toEqual('Some tex...');
   });
   it('should return original when input length is less than truncateAt value', () => {
     expect(pipe.transform(someText, 50)).toEqual(someText);
