@@ -69,7 +69,9 @@ export class ToolbarComponent {
       ),
     };
 
-    const { isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, shouldDisableRemove$ } = this.componentState;
+    const {
+      isRemoveFaultMode$, isSeriousMode$, isDangerousMode$, shouldDisableRemove$,
+    } = this.componentState;
 
     const merged$ = merge(
       isRemoveFaultMode$.pipe(map((result) => this.isRemoveFaultMode = result)),
