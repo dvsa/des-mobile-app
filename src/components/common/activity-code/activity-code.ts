@@ -80,7 +80,7 @@ export class ActivityCodeComponent implements OnChanges {
       },
     });
     await activityCodeModal.present();
-    const { data, role } = await activityCodeModal.onDidDismiss();
+    const { data, role } = await activityCodeModal.onWillDismiss();
     await this.onModalDismiss(data, role as ActivityCodeModalEvent);
   };
 
