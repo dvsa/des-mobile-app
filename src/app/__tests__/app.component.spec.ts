@@ -21,7 +21,7 @@ import { LoadAppVersion } from '@store/app-info/app-info.actions';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
 import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
-import { translateServiceMock } from '@shared/helpers/__mocks__/translate';
+import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 
 import { AppComponent } from '../app.component';
 

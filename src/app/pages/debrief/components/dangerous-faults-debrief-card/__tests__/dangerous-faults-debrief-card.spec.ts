@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { configureI18N } from '@shared/helpers/translation.helpers';
-import * as welshTranslations from '@assets/i18n/cy.json';
+import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { configureTestSuite } from 'ng-bullet';
 import { PipesModule } from '@shared/pipes/pipes.module';

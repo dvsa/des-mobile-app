@@ -144,7 +144,7 @@ export enum TestFlowPageNames {
  * @param category
  * @param pageNameKey
  */
-export function getPageNameByCategoryAndKey(category: TestCategory, pageNameKey: PageNameKeys): string {
+export const getPageNameByCategoryAndKey = (category: TestCategory, pageNameKey: PageNameKeys): string => {
   switch (category) {
     case TestCategory.ADI2:
       return CAT_ADI_PART2[pageNameKey];
@@ -182,4 +182,4 @@ export function getPageNameByCategoryAndKey(category: TestCategory, pageNameKey:
       return CAT_A_MOD2[pageNameKey];
     default:
   }
-}
+};

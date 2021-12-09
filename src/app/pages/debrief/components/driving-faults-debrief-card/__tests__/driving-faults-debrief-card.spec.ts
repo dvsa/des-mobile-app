@@ -6,7 +6,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
-import * as welshTranslations from '@assets/i18n/cy.json';
+import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
