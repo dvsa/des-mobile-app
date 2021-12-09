@@ -1,6 +1,4 @@
-import {
-  async, ComponentFixture, fakeAsync, TestBed, tick,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 
 import { PlatformMock } from 'ionic-mocks';
@@ -48,7 +46,7 @@ describe('PostDebriefHoldingPage', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PostDebriefHoldingPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
