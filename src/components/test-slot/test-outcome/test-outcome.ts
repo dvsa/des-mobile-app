@@ -8,7 +8,7 @@ import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestFlowPageNames } from '@pages/page-names.constants';
+import { JOURNAL_FORCE_CHECK_MODAL, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
@@ -74,6 +74,12 @@ export class TestOutcomeComponent implements OnInit {
 
   @Input()
   showTestActionButton: boolean = true;
+
+  @Input()
+  slot: any;
+
+  @Input()
+  slotChanged: boolean;
 
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
@@ -230,6 +236,12 @@ export class TestOutcomeComponent implements OnInit {
   displayForceCheckModal = async (): Promise<void> => {
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: JournalForceCheckModal,
+      id: JOURNAL_FORCE_CHECK_MODAL,
+      componentProps: {
+        slot: this.slot,
+        slotChanged: this.slotChanged,
+        isTeamJournal: !this.showTestActionButton,
+      },
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
     await modal.present();

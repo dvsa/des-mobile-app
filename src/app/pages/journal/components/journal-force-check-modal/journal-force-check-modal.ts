@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
+import { AppComponent } from '@app/app.component';
+import { CANDIDATE_DETAILS_PAGE, JOURNAL_FORCE_CHECK_MODAL } from '@pages/page-names.constants';
 import { ModalEvent } from './journal-force-check-modal.constants';
 
 @Component({
@@ -9,11 +12,40 @@ import { ModalEvent } from './journal-force-check-modal.constants';
 })
 export class JournalForceCheckModal {
 
+  @Input()
+  slot: any;
+
+  @Input()
+  slotChanged: boolean;
+
+  @Input()
+  isTeamJournal: boolean;
+
   constructor(
     private modalController: ModalController,
+    private app: AppComponent,
   ) { }
 
   onCancel = async (): Promise<void> => {
     await this.modalController.dismiss(ModalEvent.CANCEL);
   };
+
+  async openCandidateDetailsModal() {
+    // Modals are at the same level as the ion-nav so are not getting the zoom level class,
+    // this needs to be passed in the create options.
+    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const profileModal = await this.modalController.create({
+      component: CandidateDetailsPage,
+      id: CANDIDATE_DETAILS_PAGE,
+      cssClass: zoomClass,
+      componentProps: {
+        slot: this.slot,
+        slotChanged: this.slotChanged,
+        isTeamJournal: this.isTeamJournal,
+      },
+    });
+    await profileModal.present();
+    const dismiss = await profileModal.dismiss();
+    if (dismiss) await this.modalController.dismiss(ModalEvent.CANCEL, null, JOURNAL_FORCE_CHECK_MODAL);
+  }
 }
