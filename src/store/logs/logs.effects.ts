@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import {
-  switchMap, map, catchError, withLatestFrom, concatMap,
+  switchMap, map, catchError, withLatestFrom, concatMap, tap,
 } from 'rxjs/operators';
 import {
   of, interval, Observable, from,
@@ -38,7 +38,7 @@ export class LogsEffects {
   ) { }
 
   startSendingLogsEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(logsActions.StartSendingLogs.type),
+    ofType(logsActions.StartSendingLogs),
     switchMap(() => {
       return interval(this.appConfigProvider.getAppConfig().logsAutoSendInterval)
         .pipe(
@@ -48,7 +48,7 @@ export class LogsEffects {
   ));
 
   persistLogEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(logsActions.PersistLog.type),
+    ofType(logsActions.PersistLog),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -56,14 +56,12 @@ export class LogsEffects {
         ),
       ),
     )),
-    switchMap(([, logs]) => {
-      this.saveLogs(logs);
-      return of({ type: '[LogsEffects] Persist Log Finished' });
-    }),
+    tap(async ([, logs]) => this.saveLogs(logs)),
+    switchMap(() => of({ type: '[LogsEffects] Persist Log Finished' })),
   ));
 
   loadLogEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(logsActions.LoadLog.type),
+    ofType(logsActions.LoadLog),
     switchMap(() => {
       return this.getPersistedLogs()
         .pipe(
@@ -73,21 +71,17 @@ export class LogsEffects {
   ));
 
   saveLogEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(logsActions.SaveLog.type),
-    switchMap(() => {
-      return of(logsActions.PersistLog());
-    }),
+    ofType(logsActions.SaveLog),
+    switchMap(() => of(logsActions.PersistLog())),
   ));
 
   sendLogsSuccessEffect$ = createEffect(() => this.actions$.pipe(
     ofType(logsActions.SendLogsSuccess),
-    switchMap(() => {
-      return of(logsActions.PersistLog());
-    }),
+    switchMap(() => of(logsActions.PersistLog())),
   ));
 
   sendLogsEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(logsActions.SendLogs.type),
+    ofType(logsActions.SendLogs),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -119,39 +113,39 @@ export class LogsEffects {
     return from(this.getAndConvertPersistedLogs());
   };
 
-  getAndConvertPersistedLogs = (): Promise<Log[]> => this.dataStore.getItem('LOGS')
-    .then((data) => {
+  getAndConvertPersistedLogs = async (): Promise<Log[]> => {
+    try {
+      const data = await this.dataStore.getItem('LOGS');
       const logCache: LogCache = JSON.parse(data);
       const cachedDate = DateTime.at(logCache.dateStored);
       if (this.isCacheTooOld(cachedDate, new DateTime())) {
-        return this.emptyCachedData();
+        return await this.emptyCachedData();
       }
       return logCache.data;
-    })
-    .catch(() => {
-      const emptyLogData: Log[] = [];
-      return emptyLogData;
-    });
+    } catch {
+      return [];
+    }
+  };
 
-  saveLogs = (logData: Log[]) => {
+  saveLogs = async (logData: Log[]) => {
     const logDataToStore: LogCache = {
       dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
       data: logData,
     };
-    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore));
+    await this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore));
   };
 
   isCacheTooOld = (dateStored: DateTime, now: DateTime): boolean => {
     return dateStored.daysDiff(now) > this.appConfigProvider.getAppConfig().daysToCacheLogs;
   };
 
-  emptyCachedData = () => {
+  emptyCachedData = async () => {
     const emptyLogData: Log[] = [];
     const logDataToStore: LogCache = {
       dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
       data: emptyLogData,
     };
-    this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore)).then(() => { });
+    await this.dataStore.setItem('LOGS', JSON.stringify(logDataToStore));
     return emptyLogData;
   };
 

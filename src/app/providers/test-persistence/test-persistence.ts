@@ -15,9 +15,9 @@ export class TestPersistenceProvider {
 
   private testKeychainKey = 'TESTS';
 
-  persistTests(tests: TestsModel): Promise<string> {
-    return this.dataStoreProvider.setItem(this.testKeychainKey, JSON.stringify(tests));
-  }
+  persistTests = async (tests: TestsModel): Promise<void> => {
+    await this.dataStoreProvider.setItem(this.testKeychainKey, JSON.stringify(tests));
+  };
 
   async loadPersistedTests(): Promise<TestsModel | null> {
     let testsModel: TestsModel | null = null;

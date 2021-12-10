@@ -186,8 +186,8 @@ export class AppConfigProvider {
         this.httpClient.get(url)
           .pipe(timeout(30000))
           .subscribe(
-            (data) => {
-              this.dataStoreProvider.setItem('CONFIG', JSON.stringify(data));
+            async (data) => {
+              await this.dataStoreProvider.setItem('CONFIG', JSON.stringify(data));
               resolve(data);
             },
             (error: HttpErrorResponse) => {

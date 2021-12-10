@@ -10,7 +10,6 @@ import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 
 import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import {
   ActionReducer, ActionReducerMap, MetaReducer, StoreModule,
@@ -151,7 +150,6 @@ if (enableRehydrationPlugin) {
     AuthenticationProvider,
     AppInfoProvider,
     DateTimeProvider,
-    SecureStorage,
     IsDebug,
     GoogleAnalytics,
     DataStoreProvider,

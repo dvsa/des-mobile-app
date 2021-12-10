@@ -34,7 +34,14 @@ export class AuthenticationProvider {
     this.setStoreSubscription();
   }
 
-  private getAuthOptions = (): IonicAuthOptions => {
+  public initialiseAuthentication = (): void => {
+    this.authenticationSettings = this.appConfig.getAppConfig()?.authentication;
+    this.employeeIdKey = this.appConfig.getAppConfig()?.authentication.employeeIdKey;
+    this.inUnAuthenticatedMode = false;
+    this.ionicAuth = new IonicAuth(this.authOptions);
+  };
+
+  private get authOptions(): IonicAuthOptions {
     const authSettings = this.appConfig.getAppConfig()?.authentication;
     return {
       authConfig: 'azure',
@@ -45,16 +52,9 @@ export class AuthenticationProvider {
       scope: 'openid offline_access profile email',
       logoutUrl: authSettings.logoutUrl,
       iosWebView: 'shared',
-      tokenStorageProvider: {
-        getAccessToken: async () => this.getToken(Token.ACCESS),
-        setAccessToken: async (token: string) => this.setToken(Token.ACCESS, token),
-        getIdToken: async () => this.getToken(Token.ID),
-        setIdToken: async (token: string) => this.setToken(Token.ID, token),
-        getRefreshToken: async () => this.getToken(Token.REFRESH),
-        setRefreshToken: async (token: string) => this.setToken(Token.REFRESH, token),
-      },
+      tokenStorageProvider: this.dataStoreProvider.vault,
     };
-  };
+  }
 
   public async expireTokens(): Promise<void> {
     await this.ionicAuth.expire();
@@ -62,29 +62,12 @@ export class AuthenticationProvider {
 
   private async getToken(tokenName: Token): Promise<string | null> {
     try {
-      return JSON.parse(await this.dataStoreProvider.getItem(tokenName));
+      const { clientId } = this.appConfig.getAppConfig()?.authentication;
+      return await this.dataStoreProvider.getToken(tokenName, clientId);
     } catch (error) {
       return Promise.resolve(null);
     }
   }
-
-  private async setToken(tokenName: Token, token: string): Promise<void> {
-    await this.dataStoreProvider.setItem(tokenName, JSON.stringify(token));
-    return Promise.resolve();
-  }
-
-  private async clearTokens(): Promise<void> {
-    await this.dataStoreProvider.removeItem(Token.ACCESS);
-    await this.dataStoreProvider.removeItem(Token.ID);
-    await this.dataStoreProvider.removeItem(Token.REFRESH);
-  }
-
-  public initialiseAuthentication = (): void => {
-    this.authenticationSettings = this.appConfig.getAppConfig()?.authentication;
-    this.employeeIdKey = this.appConfig.getAppConfig()?.authentication.employeeIdKey;
-    this.inUnAuthenticatedMode = false;
-    this.ionicAuth = new IonicAuth(this.getAuthOptions());
-  };
 
   public isInUnAuthenticatedMode = (): boolean => {
     return this.inUnAuthenticatedMode;
@@ -171,7 +154,7 @@ export class AuthenticationProvider {
     if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
       await this.testPersistenceProvider.clearPersistedTests();
     }
-    await this.clearTokens();
+    await this.dataStoreProvider.clearVault();
     await this.ionicAuth.logout();
   }
 

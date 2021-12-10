@@ -1,102 +1,108 @@
+/* eslint-disable no-underscore-dangle */
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { SecureStorageObject } from '@ionic-native/secure-storage/ngx';
+import {
+  Vault, VaultType, DeviceSecurityType, BrowserVault, IdentityVaultConfig,
+} from '@ionic-enterprise/identity-vault';
+
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { Token } from '@providers/authentication/authentication';
 import { LogHelper } from '../logs/logs-helper';
 
 @Injectable()
 export class DataStoreProvider {
-
-  defaultStoreName = 'DES';
-
-  secureContainer: SecureStorageObject = null;
-
-  tempStorage: [];
+  private static vaultName: string = 'DES';
+  private _vault: Vault | BrowserVault;
 
   constructor(
-    public platform: Platform,
+    private platform: Platform,
     private logHelper: LogHelper,
     private store$: Store<StoreModel>,
   ) {
   }
 
-  /**
-   * set storage container
-   * @param container - container to set
-   */
-  setSecureContainer(container: SecureStorageObject): void {
-    this.secureContainer = container;
+  initialiseVault = (): void => {
+    this._vault = this.platform.is('cordova')
+      ? new Vault(DataStoreProvider.vaultConfig)
+      : new BrowserVault(DataStoreProvider.vaultConfig);
+  };
+
+  clearVault = async (): Promise<void> => {
+    try {
+      await this._vault.clear();
+      this._vault = null;
+    } catch (err) {
+      this.logError('clearVault', '', err.message);
+      return err;
+    }
+  };
+
+  getKeys = async (): Promise<string[]> => {
+    try {
+      if (await this._vault.isEmpty()) {
+        return [];
+      }
+      return await this._vault.getKeys();
+    } catch (err) {
+      this.logError('getKeys', '', err.message);
+      return [];
+    }
+  };
+
+  setItem = async (key: string, value: string): Promise<void> => {
+    try {
+      await this._vault.setValue(key, value);
+    } catch (err) {
+      this.logError('setItem', key, err.message);
+      return err;
+    }
+  };
+
+  getItem = async (key: string): Promise<string | null> => {
+    try {
+      if (await this._vault.isEmpty()) {
+        return null;
+      }
+      return await this._vault.getValue(key);
+    } catch (err) {
+      this.logError('getItem', key, err.message);
+      return err;
+    }
+  };
+
+  removeItem = async (key: string): Promise<void> => {
+    try {
+      if (await this._vault.isEmpty()) {
+        return;
+      }
+      await this._vault.removeValue(key);
+    } catch (err) {
+      this.logError('removeItem', key, err.message);
+      return err;
+    }
+  };
+
+  get vault(): Vault | BrowserVault {
+    return this._vault;
   }
 
-  /**
-   * get storage container
-   */
-  getSecureContainer(): SecureStorageObject {
-    return this.secureContainer;
-  }
-  /**
-   * Get all stored keys
-   * NOTE: secureContainer guard clause allows app to run in browser
-   * @returns Promise
-   */
-  getKeys(): Promise<string[]> {
-    if (!this.secureContainer) {
-      return Promise.resolve(['']);
-    }
-    return this.secureContainer.keys().then((response: string[]) => {
-      return response;
-    });
-  }
+  getToken = async (token: Token, clientID: string): Promise<string> => this.getItem(`_ionicAuth.${token}.${clientID}`);
 
-  /**
-   * sets the value for specified key
-   * NOTE: secureContainer guard clause allows app to run in browser
-   * @param key - identifier
-   * @param value - value to pair with key
-   * @returns Promise
-   */
-  setItem(key: string, value: any): Promise<string> {
-    if (!this.secureContainer) {
-      return Promise.resolve('');
-    }
-    return this.secureContainer.set(key, value).then((response: string) => {
-      return response;
-    }).catch((error) => {
-      return error;
-    });
-  }
+  private logError = (method: string, key: string, errMsg: string): void => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(LogType.ERROR, `DataStoreProvider error ${method} ${key}`, errMsg),
+    }));
+  };
 
-  /**
-   * interrogate storage for specific key
-   * @param key - identifier
-   */
-  getItem(key: string): Promise<string> {
-    if (!this.secureContainer) {
-      return Promise.resolve('');
-    }
-    return this.secureContainer.get(key).then((response: string) => {
-      return response;
-    });
-  }
-
-  /**
-   * removes the item for a given key
-   * NOTE: secureContainer guard clause allows app to run in browser
-   * @param key - identifier to remove
-   * @returns Promise
-   */
-  removeItem(key: string): Promise<string> {
-    if (!this.secureContainer) {
-      return Promise.resolve('');
-    }
-    return this.secureContainer.remove(key).catch((error) => {
-      this.store$.dispatch(SaveLog({
-        payload: this.logHelper.createLog(LogType.ERROR, `DataStoreProvider error removing ${key}`, error.message),
-      }));
-      return Promise.resolve('');
-    });
+  private static get vaultConfig(): IdentityVaultConfig {
+    return {
+      key: DataStoreProvider.vaultName,
+      type: VaultType.SecureStorage,
+      deviceSecurityType: DeviceSecurityType.Both,
+      shouldClearVaultAfterTooManyFailedAttempts: false,
+    };
   }
 }

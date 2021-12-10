@@ -52,6 +52,7 @@
     "@dvsa/mes-search-schema": "1.1.2",
     "@dvsa/mes-test-schema": "3.34.0",
     "@ionic-enterprise/auth": "3.9.0",
+    "@ionic-enterprise/identity-vault": "^5.3.0",
     "@ionic-native-mocks/secure-storage": "^2.0.12",
     "@ionic-native/app-version": "^5.30.0",
     "@ionic-native/core": "^5.32.1",

@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
-import { Observable, merge, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -13,7 +12,7 @@ import { DataStoreProvider } from '@providers/data-store/data-store';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { StoreModel } from '@shared/models/store.model';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
-import { LoadAppVersion, AppResumed, AppSuspended } from '@store/app-info/app-info.actions';
+import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
 
 declare let window: any;
@@ -35,7 +34,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
     protected menuController: MenuController,
-    protected secureStorage: SecureStorage,
     protected dataStore: DataStoreProvider,
     protected networkStateProvider: NetworkStateProvider,
     protected translate: TranslateService,
@@ -48,7 +46,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     await this.platform.ready();
     this.initialiseNetworkState();
     this.initialiseAuthentication();
-    await this.initialisePersistentStorage();
     this.store$.dispatch(LoadAppVersion());
     await this.hideSplashscreen();
     await this.configureStatusBar();
@@ -68,6 +65,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   public initialiseAuthentication = (): void => {
+    this.dataStore.initialiseVault();
     this.authenticationProvider.initialiseAuthentication();
     this.authenticationProvider.determineAuthenticationMode();
   };
@@ -75,19 +73,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   public initialiseNetworkState = (): void => {
     this.networkStateProvider.initialiseNetworkState();
   };
-
-  async initialisePersistentStorage(): Promise<void> {
-    if (this.isIos()) {
-      try {
-        const storage = await this.secureStorage.create('DES');
-        this.dataStore.setSecureContainer(storage);
-
-        return Promise.resolve();
-      } catch (err) {
-        return Promise.reject(err);
-      }
-    }
-  }
 
   configurePlatformSubscriptions(): void {
     const merged$ = merge(

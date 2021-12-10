@@ -123,7 +123,7 @@ export class TestsEffects {
         ),
       )),
     filter(([, , practiceMode]) => !practiceMode),
-    switchMap(([, tests]) => {
+    switchMap(async ([, tests]) => {
       return this.testPersistenceProvider.persistTests(this.getSaveableTestsObject(tests));
     }),
     catchError((err) => {

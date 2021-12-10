@@ -22,6 +22,7 @@ import {
 } from '@store/logs/logs.actions';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { StartSendingCompletedTests, LoadPersistedTests } from '@store/tests/tests.actions';
+import { DataStoreProvider } from '@providers/data-store/data-store';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -49,6 +50,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
     public deviceProvider: DeviceProvider,
+    private dataStoreProvider: DataStoreProvider,
   ) {
     super(platform, authenticationProvider, alertController, router);
   }
@@ -160,6 +162,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   };
 
   initialiseAuthentication = (): void => {
+    this.dataStoreProvider.initialiseVault();
     this.authenticationProvider.initialiseAuthentication();
     this.authenticationProvider.determineAuthenticationMode();
   };

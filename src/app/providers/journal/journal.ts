@@ -63,21 +63,24 @@ export class JournalProvider {
   }
 
   /**
-   * getAndconvertOfflineJournal
+   * getAndConvertOfflineJournal
    * retrieves the journal data or empties the cache data
    * and returns empty collection if cached data is too old
    * @returns Promise<ExaminerWorkSchedule>
    */
-  getAndConvertOfflineJournal = (): Promise<ExaminerWorkSchedule> => this.dataStore.getItem('JOURNAL')
-    .then((data) => {
+  getAndConvertOfflineJournal = async (): Promise<ExaminerWorkSchedule> => {
+    try {
+      const data = await this.dataStore.getItem('JOURNAL');
       const journalCache: JournalCache = JSON.parse(data);
       const cachedDate = DateTime.at(journalCache.dateStored);
       if (this.isCacheTooOld(cachedDate, new DateTime())) {
-        return this.emptyCachedData();
+        return await this.emptyCachedData();
       }
       return journalCache.data;
-    })
-    .catch((error) => error);
+    } catch (err) {
+      return err;
+    }
+  };
 
   /**
    * saveJournalForOffline
@@ -85,13 +88,13 @@ export class JournalProvider {
    * only saves the data if we have retrieved the data
    * while online
    */
-  saveJournalForOffline = (journalData: ExaminerWorkSchedule) => {
+  saveJournalForOffline = async (journalData: ExaminerWorkSchedule) => {
     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE) {
       const journalDataToStore: JournalCache = {
         dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
         data: journalData,
       };
-      this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore)).then(() => {});
+      await this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore));
     }
   };
 
@@ -111,13 +114,13 @@ export class JournalProvider {
    * and returns empty collection
    */
 
-  emptyCachedData = () => {
+  emptyCachedData = async (): Promise<ExaminerWorkSchedule> => {
     const emptyJournalData: ExaminerWorkSchedule = {};
     const journalDataToStore: JournalCache = {
       dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
       data: emptyJournalData,
     };
-    this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore)).then(() => {});
+    await this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore));
     return emptyJournalData;
   };
 
