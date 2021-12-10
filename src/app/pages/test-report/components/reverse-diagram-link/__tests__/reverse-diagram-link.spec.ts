@@ -3,13 +3,13 @@ import { Store, StoreModule } from '@ngrx/store';
 import { ModalController } from '@ionic/angular';
 import { StoreModel } from '@shared/models/store.model';
 import { configureTestSuite } from 'ng-bullet';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppModule } from '@app/app.module';
-import { AppComponent } from '@app/app.component';
 import { REVERSE_DIAGRAM_PAGE } from '@pages/page-names.constants';
 import { OverlayEventDetail } from '@ionic/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility.service.mock';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,
@@ -80,7 +80,7 @@ describe('ReverseDiagramLinkComponent', () => {
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: AppComponent, useClass: MockAppComponent },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
       ],
     });
   });

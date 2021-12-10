@@ -41,14 +41,14 @@ import { CandidateSectionComponent } from '@components/common/candidate-section/
 import { FormControl, Validators } from '@angular/forms';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
-import { AppComponent } from 'src/app/app.component';
-import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
 import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { SignatureComponent } from '@components/common/signature/signature';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility.service.mock';
 import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
 import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
@@ -121,10 +121,9 @@ describe('WaitingRoomPage', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
-        { provide: AppComponent, useClass: MockAppComponent },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
       ],
     });
-
   });
 
   beforeEach(waitForAsync(() => {

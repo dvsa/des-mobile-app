@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Name } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
-import { AppComponent } from '@app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 
 @Component({
   selector: 'candidate-link',
@@ -31,14 +31,14 @@ export class CandidateLinkComponent {
   @Input()
   isPortrait: boolean;
 
-  constructor(public modalController: ModalController, private app: AppComponent) {
+  constructor(public modalController: ModalController, private accessibilityService: AccessibilityService) {
   }
 
   async openCandidateDetailsModal() {
 
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
-    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
     const profileModal = await this.modalController.create({
       component: CandidateDetailsPage,
       cssClass: zoomClass,

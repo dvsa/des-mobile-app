@@ -29,8 +29,6 @@ import { SlotProvider } from '@providers/slot/slot';
 import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
-import { AppComponent } from '@app/app.component';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { CompletedTestPersistenceProviderMock }
   from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
@@ -50,6 +48,8 @@ import { MockComponent } from 'ng-mocks';
 import { LoadingProvider } from '@providers/loader/loader';
 import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { LoadingOptions } from '@ionic/core';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility.service.mock';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -89,7 +89,7 @@ describe('JournalPage', () => {
         { provide: SlotProvider, useClass: SlotProviderMock },
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: AppComponent, useClass: MockAppComponent },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },

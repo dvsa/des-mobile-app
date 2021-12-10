@@ -23,6 +23,8 @@ import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
 import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate';
 
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility.service.mock';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
@@ -41,6 +43,7 @@ describe('AppComponent', () => {
   let dataStore: DataStoreProvider;
   let networkStateProvider: NetworkStateProvider;
   let translate: TranslateService;
+  let accessibilityService: AccessibilityService;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -60,6 +63,7 @@ describe('AppComponent', () => {
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: TranslateService, useValue: translateServiceMock },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
       ],
     });
   });
@@ -77,6 +81,7 @@ describe('AppComponent', () => {
     secureStorage = TestBed.inject(SecureStorage);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     translate = TestBed.inject(TranslateService);
+    accessibilityService = TestBed.inject(AccessibilityService);
   }));
 
   it('should create the app', () => {
@@ -88,7 +93,7 @@ describe('AppComponent', () => {
     beforeEach(() => {
       spyOn(platform, 'ready').and.returnValue(Promise.resolve(''));
       spyOn(store$, 'dispatch');
-      spyOn(component, 'configureAccessibility');
+      spyOn(accessibilityService, 'configureAccessibility');
       spyOn(component, 'configurePlatformSubscriptions');
       spyOn(Plugins.SplashScreen, 'hide');
       spyOn(component, 'initialiseAuthentication');
@@ -148,28 +153,6 @@ describe('AppComponent', () => {
       component.initialisePersistentStorage().catch((err) => {
         expect(err).toEqual('Failed to create container');
       });
-    });
-  });
-
-  describe('getTextZoom', () => {
-    it('should return regular when not zoom', () => {
-      expect(component.getTextZoom(null)).toEqual('regular');
-    });
-    it('should return regular when zoom is less than 106', () => {
-      expect(component.getTextZoom(100)).toEqual('regular');
-    });
-    it('should return x-large when zoom is 131 or above', () => {
-      expect(component.getTextZoom(132)).toEqual('x-large');
-    });
-    it('should return large when zoom is 106 or above', () => {
-      expect(component.getTextZoom(107)).toEqual('large');
-    });
-  });
-
-  describe('getTextZoomClass', () => {
-    it('should concatenate the value from getTextZoom to a text-zoom string', () => {
-      spyOn(component, 'getTextZoom').and.returnValue('regular');
-      expect(component.getTextZoomClass()).toEqual('text-zoom-regular');
     });
   });
 

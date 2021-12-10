@@ -8,11 +8,11 @@ import {
   ConfigMock, NavControllerMock, NavParamsMock, PlatformMock,
 } from 'ionic-mocks';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
-import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
-import { AppComponent } from 'src/app/app.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
+import { AccessibilityServiceMock } from '@providers/accessibility/__mocks__/accessibility.service.mock';
 import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagram-modal.mock';
 import { ReverseDiagramPage } from '../reverse-diagram-modal';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from '../reverse-diagram-modal.actions';
@@ -84,7 +84,7 @@ describe('reverseDiagramModal', () => {
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: NavController, useFactory: () => NavControllerMock.instance() },
-        { provide: AppComponent, useClass: MockAppComponent },
+        { provide: AccessibilityService, useClass: AccessibilityServiceMock },
         ReversingDistancesProvider,
       ],
     });

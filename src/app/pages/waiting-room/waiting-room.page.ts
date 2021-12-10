@@ -54,8 +54,8 @@ import {
   ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames,
 } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
-import { AppComponent } from '@app/app.component';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -98,7 +98,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private insomnia: Insomnia,
     private translate: TranslateService,
     private modalController: ModalController,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.formGroup = new FormGroup({});
@@ -258,7 +258,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   async showCandidateDataMissingError() {
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
-    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
 
     const errorModal = await this.modalController.create(
       {

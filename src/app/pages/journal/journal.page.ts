@@ -37,9 +37,9 @@ import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { DeviceProvider } from '@providers/device/device';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { AppComponent } from '@app/app.component';
 import { LoadingOptions } from '@ionic/core';
 import { LoadingProvider } from '@providers/loader/loader';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
@@ -88,7 +88,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private store$: Store<StoreModel>,
     private slotSelector: SlotSelectorProvider,
     public dateTimeProvider: DateTimeProvider,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
     private networkStateProvider: NetworkStateProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private deviceProvider: DeviceProvider,
@@ -230,7 +230,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
 
-    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
 
     this.modalController.create({
       component: ErrorPage,

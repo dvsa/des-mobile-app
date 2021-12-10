@@ -9,7 +9,7 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { REVERSE_DIAGRAM_PAGE } from '@pages/page-names.constants';
-import { AppComponent } from 'src/app/app.component';
+import { AccessibilityService } from '@providers/accessibility/accessibility.service';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,
@@ -25,7 +25,7 @@ export class ReverseDiagramLinkComponent implements OnInit {
   testCategory: CategoryCode;
   constructor(
     public modalController: ModalController,
-    private app: AppComponent,
+    private accessibilityService: AccessibilityService,
     private store$: Store<StoreModel>,
   ) {}
 
@@ -43,7 +43,7 @@ export class ReverseDiagramLinkComponent implements OnInit {
     this.store$.dispatch(ReverseDiagramOpened());
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.
-    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+    const zoomClass = `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`;
     const reverseDiagramModal = await this.modalController.create(
       {
         component: diagramPage,
