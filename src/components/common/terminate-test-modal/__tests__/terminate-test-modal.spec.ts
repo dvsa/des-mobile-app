@@ -67,30 +67,30 @@ describe('TerminateTestModal', () => {
   describe('Class', () => {
     describe('terminationWrapper', () => {
       it('should trigger the lock screen', async () => {
-        spyOn(deviceAuthenticationProvider, 'triggerLockScreen').and.returnValue(Promise.resolve(true));
+        // spyOn(deviceAuthenticationProvider, 'triggerLockScreen').and.returnValue(Promise.resolve(true));
+        deviceAuthenticationProvider.triggerLockScreen = jasmine.createSpy('triggerLockScreen')
+          .and.returnValue(Promise.resolve(true));
         component.shouldAuthenticate = true;
         await component.terminationWrapper();
         expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
       });
       it('should not call the onTerminate callback when the lock screen Promise rejects', async () => {
-        component.shouldAuthenticate = true;
         deviceAuthenticationProvider.triggerLockScreen = jasmine.createSpy('triggerLockScreen')
-          .and
-          .callFake(() => Promise.reject(new Error('err')));
+          .and.callFake(() => Promise.reject(new Error('err')));
+        component.shouldAuthenticate = true;
         await component.terminationWrapper();
         expect(component.onTerminate).not.toHaveBeenCalled();
       });
       it('should call the onTerminate callback when the lock screen Promise resolves', async () => {
-        component.shouldAuthenticate = true;
         deviceAuthenticationProvider.triggerLockScreen = jasmine.createSpy('triggerLockScreen')
-          .and
-          .returnValue(Promise.resolve('y'));
+          .and.returnValue(Promise.resolve('y'));
+        component.shouldAuthenticate = true;
         await component.terminationWrapper();
         expect(component.onTerminate).toHaveBeenCalled();
       });
       it('should not trigger the lock screen if shouldAuthenticate equals false', async () => {
-        component.shouldAuthenticate = false;
         deviceAuthenticationProvider.triggerLockScreen = jasmine.createSpy('triggerLockScreen');
+        component.shouldAuthenticate = false;
         const result = await component.terminationWrapper();
         expect(result).toEqual(undefined);
         expect(deviceAuthenticationProvider.triggerLockScreen).not.toHaveBeenCalled();

@@ -20,5 +20,4 @@ export class UrlProviderMock {
 
   getTestCentreJournalUrl = jasmine.createSpy('getTestCentreJournalUrl')
     .and.returnValue('https://www.example.com/api/v1/journals/testcentre');
-
 }

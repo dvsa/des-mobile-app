@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
+// import { StatusBar, Style } from '@capacitor/status-bar';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
@@ -51,7 +52,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     await this.initialisePersistentStorage();
     this.store$.dispatch(LoadAppVersion());
     await this.hideSplashscreen();
-    await this.configureStatusBar();
+    // await this.configureStatusBar();
     this.configureLocale();
     if (this.platform.is('cordova')) {
       this.configureAccessibility();
@@ -133,18 +134,12 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     return `text-zoom-${this.getTextZoom(this.textZoom)}`;
   }
 
-  configureStatusBar = async (): Promise<void> => {
-    if (Capacitor.isPluginAvailable('StatusBar')) {
-      const { StatusBar } = Plugins;
-      await StatusBar.setStyle({ style: StatusBarStyle.Dark });
-    }
-  };
+  // configureStatusBar = async (): Promise<void> => {
+  //   await StatusBar.setStyle({ style: Style.Dark });
+  // };
 
   hideSplashscreen = async (): Promise<void> => {
-    if (Capacitor.isPluginAvailable('SplashScreen')) {
-      const { SplashScreen } = Plugins;
-      await SplashScreen.hide();
-    }
+    await SplashScreen.hide();
   };
 
   disableMenuSwipe = async (): Promise<void> => {

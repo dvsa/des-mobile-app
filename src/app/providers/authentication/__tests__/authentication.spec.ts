@@ -22,6 +22,7 @@ describe('Authentication', () => {
   const initialState = { appInfo: { employeeId: '1234567' } } as StoreModel;
 
   configureTestSuite(() => {
+    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       providers: [
         AuthenticationProvider,

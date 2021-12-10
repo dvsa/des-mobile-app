@@ -48,6 +48,7 @@ describe('LoginPage', () => {
   let analytics: AnalyticsProvider;
 
   configureTestSuite(() => {
+    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [LoginPage],
       imports: [

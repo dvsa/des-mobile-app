@@ -37,6 +37,7 @@ describe('RekeyUploadOutcomePage', () => {
   const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
   configureTestSuite(() => {
+    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [
         RekeyUploadOutcomePage,

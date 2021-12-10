@@ -21,6 +21,7 @@ describe('submitModal', () => {
   const navMock: NavParamsMock = new NavParamsMock();
 
   configureTestSuite(() => {
+    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [
         ConfirmSubmitModal,

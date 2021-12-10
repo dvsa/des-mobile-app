@@ -33,6 +33,7 @@ describe('JournalProvider', () => {
   const mockJournalUrl: string = 'https://www.example.com/api/v1/journals/12345678/personal';
 
   configureTestSuite(() => {
+    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -63,12 +64,13 @@ describe('JournalProvider', () => {
 
   describe('getJournal', () => {
     beforeEach(() => {
+      spyOn(authProviderMock, 'getEmployeeId').and.returnValue('12345678');
       spyOn(journalProvider.urlProvider, 'getPersonalJournalUrl');
       spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ requestTimeout: 100000 } as AppConfig);
-      spyOn(authProviderMock, 'getEmployeeId').and.returnValue('12345678');
       spyOn(authProviderMock, 'isInUnAuthenticatedMode').and.returnValue(false);
       spyOn(journalProvider, 'getOfflineJournal').and.returnValue(of({}));
     });
+
     it('should get the journal record using the url', () => {
       spyOn(journalProvider.networkStateProvider, 'getNetworkState').and.returnValue(ConnectionStatus.ONLINE);
       journalProvider.getJournal(null).subscribe(() => {});

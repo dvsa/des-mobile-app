@@ -1,4 +1,4 @@
-import { AlertOptions } from '@capacitor/core';
+import { AlertOptions } from '@ionic/core';
 
 export class AlertControllerMock {
 

@@ -84,7 +84,6 @@ describe('ErrorMessageComponent', () => {
     });
     describe('navigateBack', () => {
       it('should call the back method from Location to navigate back', () => {
-        spyOn(location, 'back');
         component.navigateBack();
         expect(location.back).toHaveBeenCalled();
       });
