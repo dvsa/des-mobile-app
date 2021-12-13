@@ -54,7 +54,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     await this.initialisePersistentStorage();
     this.store$.dispatch(LoadAppVersion());
     await this.hideSplashscreen();
-    // await this.configureStatusBar();
+    await this.configureStatusBar();
     this.configureLocale();
     if (this.platform.is('cordova')) {
       this.configureAccessibility();

@@ -67,7 +67,6 @@ describe('TerminateTestModal', () => {
   describe('Class', () => {
     describe('terminationWrapper', () => {
       it('should trigger the lock screen', async () => {
-        // spyOn(deviceAuthenticationProvider, 'triggerLockScreen').and.returnValue(Promise.resolve(true));
         deviceAuthenticationProvider.triggerLockScreen = jasmine.createSpy('triggerLockScreen')
           .and.returnValue(Promise.resolve(true));
         component.shouldAuthenticate = true;

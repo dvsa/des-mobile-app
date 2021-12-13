@@ -25,14 +25,11 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { AppComponent } from '../app.component';
 
-fdescribe('AppComponent', () => {
+describe('AppComponent', () => {
   jasmine.getEnv().allowRespy(true);
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
-  // const statusBar = jasmine.createSpyObj('StatusBar', ['setStyle', 'setBackgroundColor']);
-  // const statusBarSpy = jasmine.createSpyObj<StatusBarPlugin>('StatusBar', ['setStyle']);
-  // const SplashScreen = jasmine.createSpyObj('SplashScreen', ['hide']);
 
   let authenticationProvider: AuthenticationProvider;
   let platform: Platform;
@@ -95,7 +92,7 @@ fdescribe('AppComponent', () => {
       spyOn(component, 'configureLocale');
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
       spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
-      // spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
+      spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
     });
     it('should run app initialisation code', fakeAsync(() => {
@@ -105,7 +102,7 @@ fdescribe('AppComponent', () => {
       expect(component.initialisePersistentStorage).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
       expect(component.hideSplashscreen).toHaveBeenCalled();
-      // expect(component.configureStatusBar).toHaveBeenCalled();
+      expect(component.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
       expect(component.configureLocale).toHaveBeenCalled();
     }));
@@ -184,9 +181,7 @@ fdescribe('AppComponent', () => {
   describe('hideSplashscreen', () => {
     it('should hide splashscreen if plugin is available', async () => {
       spyOn(SplashScreen, 'hide');
-      // jasmine.createSpyObj('SplashScreen', ['hide']);
       await component.hideSplashscreen();
-      // expect(splashScreenSpy.hide).toHaveBeenCalled();
       expect(SplashScreen.hide).toHaveBeenCalled();
     });
   });
