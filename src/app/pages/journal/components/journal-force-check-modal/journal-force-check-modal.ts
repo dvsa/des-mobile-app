@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { CANDIDATE_DETAILS_PAGE, JOURNAL_FORCE_CHECK_MODAL } from '@pages/page-names.constants';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalEvent } from './journal-force-check-modal.constants';
 
 @Component({
@@ -12,7 +13,7 @@ import { ModalEvent } from './journal-force-check-modal.constants';
 export class JournalForceCheckModal {
 
   @Input()
-  slot: any;
+  slot: TestSlot;
 
   @Input()
   slotChanged: boolean;

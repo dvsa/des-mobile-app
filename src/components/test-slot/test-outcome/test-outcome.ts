@@ -77,7 +77,7 @@ export class TestOutcomeComponent implements OnInit {
   showTestActionButton: boolean = true;
 
   @Input()
-  slot: any;
+  slot: TestSlot;
 
   @Input()
   slotChanged: boolean;
