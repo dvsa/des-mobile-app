@@ -21,10 +21,10 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { StartTest, ActivateTest } from '@store/tests/tests.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { JournalModel } from '@store/journal/journal.model';
-import { TestOutcomeComponent } from '../test-outcome';
-import { TestSlotComponentsModule } from '../../test-slot-components.module';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { TestOutcomeComponent } from '../test-outcome';
+import { TestSlotComponentsModule } from '../../test-slot-components.module';
 
 describe('Test Outcome', () => {
   let fixture: ComponentFixture<TestOutcomeComponent>;
