@@ -18,7 +18,6 @@ import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LoadAppVersion, AppResumed, AppSuspended } from '@store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
 
-
 declare let window: any;
 
 @Component({
