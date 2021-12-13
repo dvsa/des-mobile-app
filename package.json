@@ -1,10 +1,12 @@
 {
   "name": "des-mobile-app",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "version": "4.1.0",
+  "author": "DVSA",
+  "description": "DVSA - Driving Examiner Services",
+  "homepage": "https://github.com/dvsa/des-mobile-app",
   "scripts": {
     "postinstall": "node buildScripts/crypto-patch.js && node buildScripts/eslint-alloc-patch.js",
+    "sync-appversion": "node buildScripts/sync-app-versions.js && npm i",
     "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch --karma-config test-config/karma.conf.js",
     "test:reload": "run-s update-mock-data copy-mock-data config:dev && ng test --watch --karma-config test-config/karma.conf.js",
     "test:coverage": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch --karma-config test-config/karma.conf.js",
@@ -149,6 +151,7 @@
     "karma-jasmine-html-reporter": "^1.5.0",
     "karma-spec-reporter": "0.0.32",
     "npm-run-all": "^4.1.5",
+    "plist": "^3.0.4",
     "remotedev": "^0.2.9",
     "rxjs-tslint-rules": "^4.34.7",
     "stylelint": "^13.8.0",
@@ -157,7 +160,6 @@
     "typescript": "~3.9.5",
     "xml2js": "^0.4.19"
   },
-  "description": "An Ionic project",
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
