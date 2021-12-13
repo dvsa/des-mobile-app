@@ -7,7 +7,6 @@ import { configureTestSuite } from 'ng-bullet';
 import { Store, StoreModule } from '@ngrx/store';
 import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { Router } from '@angular/router';
-import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
 import { AlertControllerMock } from 'ionic-mocks';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -20,7 +19,6 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { LoadAppVersion } from '@store/app-info/app-info.actions';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
-import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate';
 
 import { AppComponent } from '../app.component';
@@ -37,7 +35,6 @@ describe('AppComponent', () => {
   let platform: Platform;
   let menuController: MenuController;
   let store$: Store;
-  let secureStorage: SecureStorage;
   let dataStore: DataStoreProvider;
   let networkStateProvider: NetworkStateProvider;
   let translate: TranslateService;
@@ -56,7 +53,6 @@ describe('AppComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: MenuController, useClass: MenuControllerMock },
         { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        { provide: SecureStorage, useClass: SecureStorageMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: TranslateService, useValue: translateServiceMock },
@@ -74,7 +70,6 @@ describe('AppComponent', () => {
     menuController = TestBed.inject(MenuController);
     store$ = TestBed.inject(Store);
     dataStore = TestBed.inject(DataStoreProvider);
-    secureStorage = TestBed.inject(SecureStorage);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     translate = TestBed.inject(TranslateService);
   }));
@@ -93,7 +88,6 @@ describe('AppComponent', () => {
       spyOn(Plugins.SplashScreen, 'hide');
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'configureLocale');
-      spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
       spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
       spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
@@ -102,7 +96,6 @@ describe('AppComponent', () => {
       component.ngOnInit();
       flushMicrotasks();
       expect(component.initialiseAuthentication).toHaveBeenCalled();
-      expect(component.initialisePersistentStorage).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
       expect(component.hideSplashscreen).toHaveBeenCalled();
       expect(component.configureStatusBar).toHaveBeenCalled();
@@ -112,10 +105,12 @@ describe('AppComponent', () => {
   });
 
   describe('initialiseAuthentication', () => {
-    it('should call through to initialiseAuthentication and determineAuthenticationMode', () => {
+    it('should call through to initialiseVault, initialiseAuthentication and determineAuthenticationMode', () => {
       spyOn(authenticationProvider, 'initialiseAuthentication');
       spyOn(authenticationProvider, 'determineAuthenticationMode');
+      spyOn(dataStore, 'initialiseVault');
       component.initialiseAuthentication();
+      expect(dataStore.initialiseVault).toHaveBeenCalled();
       expect(authenticationProvider.initialiseAuthentication).toHaveBeenCalled();
       expect(authenticationProvider.determineAuthenticationMode).toHaveBeenCalled();
     });
@@ -126,28 +121,6 @@ describe('AppComponent', () => {
       spyOn(networkStateProvider, 'initialiseNetworkState');
       component.initialiseNetworkState();
       expect(networkStateProvider.initialiseNetworkState).toHaveBeenCalled();
-    });
-  });
-
-  describe('initialisePersistentStorage', () => {
-    beforeEach(() => {
-      spyOn(dataStore, 'setSecureContainer');
-    });
-    it('should call setSecureContainer when in ios', fakeAsync(() => {
-      spyOn(secureStorage, 'create').and.returnValue(Promise.resolve({} as SecureStorageObject));
-      spyOn(component, 'isIos').and.returnValue(true);
-      component.initialisePersistentStorage();
-      flushMicrotasks();
-      expect(secureStorage.create).toHaveBeenCalledWith('DES');
-      expect(dataStore.setSecureContainer).toHaveBeenCalledWith({} as SecureStorageObject);
-    }));
-    it('should resolve to error message', () => {
-      // eslint-disable-next-line prefer-promise-reject-errors
-      spyOn(secureStorage, 'create').and.returnValue(Promise.reject('Failed to create container'));
-      spyOn(component, 'isIos').and.returnValue(true);
-      component.initialisePersistentStorage().catch((err) => {
-        expect(err).toEqual('Failed to create container');
-      });
     });
   });
 

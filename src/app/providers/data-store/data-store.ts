@@ -85,11 +85,11 @@ export class DataStoreProvider {
     }
   };
 
+  getToken = async (token: Token, clientID: string): Promise<string> => this.getItem(`_ionicAuth.${token}.${clientID}`);
+
   get vault(): Vault | BrowserVault {
     return this._vault;
   }
-
-  getToken = async (token: Token, clientID: string): Promise<string> => this.getItem(`_ionicAuth.${token}.${clientID}`);
 
   private logError = (method: string, key: string, errMsg: string): void => {
     this.store$.dispatch(SaveLog({

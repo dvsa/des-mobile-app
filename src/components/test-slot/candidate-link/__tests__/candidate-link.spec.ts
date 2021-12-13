@@ -10,8 +10,6 @@ import { ModalControllerMock, StatusBarMock } from 'ionic-mocks';
 import { StatusBar } from '@ionic-native/status-bar';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { SecureStorage } from '@ionic-native/secure-storage';
-import { SecureStorageMock } from '@ionic-native-mocks/secure-storage';
 import { configureTestSuite } from 'ng-bullet';
 // import { TranslateService } from '@ngx-translate/core';
 // import { AppComponent } from '../../../../app/app.component';
@@ -42,7 +40,6 @@ xdescribe('CandidateLinkComponent', () => {
         { provide: ModalController, useFactory: () => modalControllerMock },
         // { provide: AppComponent, useClass: MockAppComponent },
         { provide: Store, useClass: MockStore },
-        { provide: SecureStorage, useClass: SecureStorageMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         // { provide: TranslateService, useValue: translateServiceMock },
       ],

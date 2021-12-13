@@ -4,4 +4,5 @@ export class DataStoreProviderMock {
   setSecureContainer = jasmine.createSpy('setSecureContainer').and.returnValue(Promise.resolve());
   removeItem = jasmine.createSpy('removeItem');
   getKeys = jasmine.createSpy('getKeys').and.returnValue(Promise.resolve(['TESTS']));
+  initialiseVault = jasmine.createSpy('initialiseVault').and.returnValue(Promise.resolve());
 }
