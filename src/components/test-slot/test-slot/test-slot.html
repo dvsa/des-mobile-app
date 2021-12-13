@@ -104,7 +104,9 @@
                                 [hasSeenCandidateDetails]="hasSeenCandidateDetails"
                                 [isRekey]="componentState.isRekey$ | async"
                                 [category]="slot.booking.application.testCategory"
-                                [showTestActionButton]="!isTeamJournal">
+                                [showTestActionButton]="!isTeamJournal"
+                                [slot]="slot"
+                                [slotChanged]="hasSlotChanged">
                         </test-outcome>
                         <examiner-name
                                 *ngIf="teamJournalCandidateResult"

@@ -8,7 +8,7 @@ import { SlotDetail, TestSlot } from '@dvsa/mes-journal-schema';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestFlowPageNames } from '@pages/page-names.constants';
+import { JOURNAL_FORCE_CHECK_MODAL, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { getRekeySearchState } from '@pages/rekey-search/rekey-search.reducer';
 import { getBookedTestSlot } from '@pages/rekey-search/rekey-search.selector';
@@ -31,6 +31,7 @@ import { JournalForceCheckModal } from '@pages/journal/components/journal-force-
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
 import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
+import { AppComponent } from '@app/app.component';
 
 @Component({
   selector: 'test-outcome',
@@ -75,6 +76,12 @@ export class TestOutcomeComponent implements OnInit {
   @Input()
   showTestActionButton: boolean = true;
 
+  @Input()
+  slot: TestSlot;
+
+  @Input()
+  slotChanged: boolean;
+
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
   candidateDetailsViewed: boolean;
@@ -86,6 +93,7 @@ export class TestOutcomeComponent implements OnInit {
     private router: Router,
     private routeByCat: RouteByCategoryProvider,
     private modalController: ModalController,
+    private app: AppComponent,
   ) {
   }
 
@@ -230,6 +238,13 @@ export class TestOutcomeComponent implements OnInit {
   displayForceCheckModal = async (): Promise<void> => {
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: JournalForceCheckModal,
+      id: JOURNAL_FORCE_CHECK_MODAL,
+      componentProps: {
+        slot: this.slot,
+        slotChanged: this.slotChanged,
+        isTeamJournal: !this.showTestActionButton,
+        textZoomClass: `mes-modal-alert ${this.app.getTextZoomClass()}`,
+      },
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
     await modal.present();

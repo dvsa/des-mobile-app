@@ -11,9 +11,16 @@
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col class="mes-align-content-center ion-no-padding" size="72">
-      <modal-return-button id="special-requirement-return-button" (click)="onCancel()" id="force-check-return-button">
-        Return to journal
+      <modal-return-button (click)="openCandidateDetailsModal()" id="open-candidate-details-button">
+       View candidate details
       </modal-return-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="mes-align-content-center return-to-journal-button">
+        <ion-button fill="clear" (click)="onCancel()" id="return-to-journal-button">
+            Return to journal
+        </ion-button>
     </ion-col>
   </ion-row>
 </ion-card>
