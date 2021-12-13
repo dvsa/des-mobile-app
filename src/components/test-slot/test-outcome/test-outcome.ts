@@ -31,6 +31,7 @@ import { JournalForceCheckModal } from '@pages/journal/components/journal-force-
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
 import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
+import { AppComponent } from '@app/app.component';
 
 @Component({
   selector: 'test-outcome',
@@ -92,6 +93,7 @@ export class TestOutcomeComponent implements OnInit {
     private router: Router,
     private routeByCat: RouteByCategoryProvider,
     private modalController: ModalController,
+    private app: AppComponent,
   ) {
   }
 
@@ -241,6 +243,7 @@ export class TestOutcomeComponent implements OnInit {
         slot: this.slot,
         slotChanged: this.slotChanged,
         isTeamJournal: !this.showTestActionButton,
+        textZoomClass: `mes-modal-alert ${this.app.getTextZoomClass()}`,
       },
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
