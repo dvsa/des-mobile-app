@@ -21,9 +21,8 @@ import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
 import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
-// import { SplashScreen } from '@mocks/@capacitor/splash-screen';
-// import { StatusBarPlugin } from '@capacitor/status-bar';
 import { AppComponent } from '../app.component';
 
 fdescribe('AppComponent', () => {
@@ -33,7 +32,7 @@ fdescribe('AppComponent', () => {
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
   // const statusBar = jasmine.createSpyObj('StatusBar', ['setStyle', 'setBackgroundColor']);
   // const statusBarSpy = jasmine.createSpyObj<StatusBarPlugin>('StatusBar', ['setStyle']);
-  // const splashScreenSpy = jasmine.createSpyObj('SplashScreen', ['hide']);
+  // const SplashScreen = jasmine.createSpyObj('SplashScreen', ['hide']);
 
   let authenticationProvider: AuthenticationProvider;
   let platform: Platform;
@@ -174,17 +173,15 @@ fdescribe('AppComponent', () => {
     });
   });
 
-  // describe('configureStatusBar', () => {
-  //   it('should set status bar styles when plugin is available', async () => {
-  //     // spyOn(StatusBar, 'setStyle');
-  //     await component.configureStatusBar();
-  //     // (StatusBar.setStyle as any)
-  //     //   .withArgs({ style: Style.Dark });
-  //     // expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
-  //   });
-  // });
+  describe('configureStatusBar', () => {
+    it('should set status bar styles when plugin is available', async () => {
+      spyOn(StatusBar, 'setStyle');
+      await component.configureStatusBar();
+      expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
+    });
+  });
 
-  fdescribe('hideSplashscreen', () => {
+  describe('hideSplashscreen', () => {
     it('should hide splashscreen if plugin is available', async () => {
       spyOn(SplashScreen, 'hide');
       // jasmine.createSpyObj('SplashScreen', ['hide']);

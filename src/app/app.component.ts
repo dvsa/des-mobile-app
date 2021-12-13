@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-// import { StatusBar, Style } from '@capacitor/status-bar';
+
 import { SplashScreen } from '@capacitor/splash-screen';
+import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
@@ -16,6 +17,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LoadAppVersion, AppResumed, AppSuspended } from '@store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
+
 
 declare let window: any;
 
@@ -134,9 +136,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     return `text-zoom-${this.getTextZoom(this.textZoom)}`;
   }
 
-  // configureStatusBar = async (): Promise<void> => {
-  //   await StatusBar.setStyle({ style: Style.Dark });
-  // };
+  configureStatusBar = async (): Promise<void> => {
+    await StatusBar.setStyle({ style: Style.Dark });
+  };
 
   hideSplashscreen = async (): Promise<void> => {
     await SplashScreen.hide();
