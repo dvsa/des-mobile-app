@@ -6,8 +6,7 @@ import {
   tick,
 } from '@angular/core/testing';
 import { ModalController } from '@ionic/angular'; // IonicModule
-import { ModalControllerMock, StatusBarMock } from 'ionic-mocks';
-import { StatusBar } from '@ionic-native/status-bar';
+import { ModalControllerMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { SecureStorage } from '@ionic-native/secure-storage';
@@ -38,7 +37,6 @@ xdescribe('CandidateLinkComponent', () => {
       // declarations: [CandidateLinkComponent],
       // imports: [IonicModule.forRoot(CandidateLinkComponent)],
       providers: [
-        { provide: StatusBar, useFactory: () => StatusBarMock.instance() },
         { provide: ModalController, useFactory: () => modalControllerMock },
         // { provide: AppComponent, useClass: MockAppComponent },
         { provide: Store, useClass: MockStore },

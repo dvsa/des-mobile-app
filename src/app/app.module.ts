@@ -62,7 +62,6 @@ import { DirectivesModule } from 'src/directives/directives.module';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CommonModule } from '@angular/common';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -175,7 +174,6 @@ if (enableRehydrationPlugin) {
     DeviceAuthenticationProvider,
     Insomnia,
     QuestionProvider,
-    StatusBar,
     CommonModule,
     { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
     WeatherConditionProvider,

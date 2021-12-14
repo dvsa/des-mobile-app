@@ -10,7 +10,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { StoreModel } from '@shared/models/store.model';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Router } from '@angular/router';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
@@ -46,7 +45,6 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
     testReportValidatorProvider: TestReportValidatorProvider,
     screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
-    statusBar: StatusBar,
   ) {
     super(
       platform,
@@ -57,7 +55,6 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
       testReportValidatorProvider,
       screenOrientation,
       insomnia,
-      statusBar,
     );
     this.displayOverlay = false;
   }
@@ -80,8 +77,8 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
     super.ionViewDidEnter();
   }
 
-  ionViewWillLeave() {
-    super.ionViewWillLeave();
+  async ionViewWillLeave(): Promise<void> {
+    await super.ionViewWillLeave();
   }
 
   ionViewDidLeave(): void {
