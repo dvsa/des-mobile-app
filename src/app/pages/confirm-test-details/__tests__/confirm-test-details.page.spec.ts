@@ -134,11 +134,12 @@ describe('ConfirmTestDetailsPage', () => {
   });
 
   describe('getActivityCode', () => {
-    it('should return true if test outcome is Passed', () => {
+    it('should return the activity code and description', () => {
       const activityCode = {
         activityCode: '1',
+        description: 'Pass',
       } as ActivityCodeModel;
-      expect(component.getActivityCode(activityCode)).toEqual('1');
+      expect(component.getActivityCode(activityCode)).toEqual('1 - Pass');
     });
   });
 
