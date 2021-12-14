@@ -3,7 +3,7 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { getTests } from '@store/tests/tests.reducer';
 import {
   getActivityCode,
@@ -207,8 +207,8 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     return testResult === TestOutcome.Passed;
   }
 
-  getActivityCode(activityCodeModel: ActivityCodeModel): ActivityCode {
-    return activityCodeModel.activityCode;
+  getActivityCode(activityCodeModel: ActivityCodeModel): string {
+    return `${activityCodeModel.activityCode} - ${activityCodeModel.description}`;
   }
 
   getProvisionalText(received: boolean): LicenceReceivedText {
