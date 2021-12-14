@@ -1,24 +1,22 @@
 import {
-  Component, OnInit, ViewChild, ViewContainerRef,
+  Component, OnInit,
 } from '@angular/core';
 import {
   Platform,
   ModalController,
   IonRefresher,
-  IonContent,
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import {
   Observable, Subscription, merge,
 } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import {
   SearchResultTestSchema,
 } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
@@ -62,10 +60,6 @@ interface JournalPageState {
   styleUrls: ['./journal.page.scss'],
 })
 export class JournalPage extends BasePageComponent implements OnInit {
-
-  @ViewChild('slotContainer', { read: ViewContainerRef }) slotContainer;
-  @ViewChild(IonContent) content: IonContent;
-
   private static loadingOpts: LoadingOptions = {
     spinner: 'circles',
     backdropDismiss: true,
@@ -76,9 +70,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   subscription: Subscription;
   merged$: Observable<any>;
   todaysDate: DateTime;
-  completedTests: SearchResultTestSchema[];
-  displayNoDataMessage: boolean = false;
-  scrollTop: number;
 
   constructor(
     public modalController: ModalController,
@@ -86,7 +77,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     authenticationProvider: AuthenticationProvider,
     router: Router,
     private store$: Store<StoreModel>,
-    private slotSelector: SlotSelectorProvider,
     public dateTimeProvider: DateTimeProvider,
     private app: AppComponent,
     private networkStateProvider: NetworkStateProvider,
@@ -146,19 +136,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
     };
 
     const {
-      slots$,
       error$,
       isLoading$,
-      completedTests$,
     } = this.pageState;
 
     this.merged$ = merge(
-      completedTests$.pipe(map(this.setCompletedTests)),
-      slots$.pipe(
-        // emit only when slots changed
-        distinctUntilChanged(),
-        map(this.createSlots),
-      ),
       error$.pipe(map(this.showError)),
       isLoading$.pipe(map(this.handleLoadingUI)),
     );
@@ -209,10 +191,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.store$.dispatch(journalActions.SetupPolling());
   }
 
-  setCompletedTests = (completedTests: SearchResultTestSchema[]): void => {
-    this.completedTests = completedTests;
-  };
-
   handleLoadingUI = async (isLoading: boolean) => {
     if (!isLoading) {
       await this.loadingProvider.handleUILoading(isLoading, JournalPage.loadingOpts);
@@ -241,14 +219,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     }).then((modal) => {
       modal.present();
     });
-  };
-
-  private createSlots = (emission: SlotItem[]) => {
-    const { scrollTop } = this;
-    this.displayNoDataMessage = (!emission || (emission && emission.length === 0));
-    this.slotSelector.createSlots(this.slotContainer, emission, this.completedTests);
-    // return to previous point in page after content refreshed
-    setTimeout(() => this.content.scrollToPoint(0, scrollTop));
   };
 
   public pullRefreshJournal = async (refresher: IonRefresher) => {
@@ -282,9 +252,4 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
-
-  setScrollTop(scrollTop: number) {
-    this.scrollTop = scrollTop;
-  }
-
 }

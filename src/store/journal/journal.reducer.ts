@@ -94,12 +94,20 @@ export const journalReducer = createReducer(
     ...state,
     selectedDate,
   })),
+  on(journalActions.LoadCompletedTests, (state: JournalModel): JournalModel => ({
+    ...state,
+    isLoading: true,
+  })),
   on(journalActions.LoadCompletedTestsSuccess, (state: JournalModel, {
     completedTests,
   }): JournalModel => ({
     ...state,
     isLoading: false,
     completedTests,
+  })),
+  on(journalActions.LoadCompletedTestsFailure, (state: JournalModel): JournalModel => ({
+    ...state,
+    isLoading: false,
   })),
 );
 

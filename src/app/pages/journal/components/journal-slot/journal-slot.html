@@ -1,0 +1,37 @@
+<span *ngFor="let slot of slots; index as i; trackBy: trackBySlotID;">
+    <span [ngSwitch]="slotType(slot)">
+         <personal-commitment
+                 *ngSwitchCase="'personal'"
+                 [personalCommitments]="slot?.personalCommitment"
+                 [hasSlotChanged]="slot?.hasSlotChanged"
+                 [showLocation]="showLocation(slot, slots[i - 1])"
+                 [slot]="slot?.slotData">
+         </personal-commitment>
+
+        <activity-slot
+                *ngSwitchCase="'activity'"
+                [slot]="slot?.slotData"
+                [hasSlotChanged]="slot?.hasSlotChanged"
+                [showLocation]="showLocation(slot, slots[i - 1])">
+        </activity-slot>
+
+        <empty-slot
+                *ngSwitchCase="'empty'"
+                [slot]="slot.slotData"
+                [hasSlotChanged]="slot.hasSlotChanged"
+                [showLocation]="showLocation(slot, slots[i - 1])">
+        </empty-slot>
+
+        <test-slot
+                *ngSwitchCase="'test-slot'"
+                [hasSlotChanged]="slot?.hasSlotChanged"
+                [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
+                [derivedActivityCode]="hasSlotBeenTested(slot.slotData, completedTests)"
+                [derivedTestStatus]="derivedTestStatus(slot?.slotData, completedTests)"
+                [showLocation]="showLocation(slot, slots[i - 1])"
+                [delegatedTest]="false"
+                [teamJournalCandidateResult]="false"
+                [slot]="slot?.slotData">
+        </test-slot>
+    </span>
+</span>

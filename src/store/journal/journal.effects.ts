@@ -212,7 +212,10 @@ export class JournalEffects {
     )),
     filter(([action, , hasStarted, completedTests]:
     [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
-      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) return false;
+      if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
+        this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
+        return false;
+      }
       if (action.callThrough) return true;
 
       return !hasStarted && completedTests && completedTests.length === 0;
