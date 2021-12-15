@@ -7,6 +7,7 @@ import { SlotTypes } from '@shared/models/slot-types';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 
 @Component({
   selector: 'fake-test-slot',
@@ -15,7 +16,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 })
 export class FakeTestSlotComponent {
   @Input()
-  slot: any;
+  slot: TestSlot;
 
   @Input()
   testStatus: TestStatus;

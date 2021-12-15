@@ -51,7 +51,7 @@
         </journal-slots>
     </ion-list>
 
-    <div *ngIf="!(pageState.slots$ | async)?.length > 0" class="no-results ion-text-center">
+    <div *ngIf="!!!(pageState.slots$ | async)?.length" class="no-results ion-text-center">
         <p>There is no journal data to display for this day</p>
     </div>
 
