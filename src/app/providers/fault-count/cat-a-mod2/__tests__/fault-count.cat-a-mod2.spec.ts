@@ -7,7 +7,7 @@ import {
   safetyAndBalanceMock2FaultsSafety,
   safetyAndBalanceMock2FaultsSafetyAndBalance,
   safetyAndBalanceMock3FaultsSafetyAndBalance,
-} from '../../__mocks__/cat-AM2-test-data-state-object';
+} from '../../__mocks__/cat-AM2-test-data-state-object.mock';
 
 describe('FaultCountAM2Helper', () => {
 

@@ -1,6 +1,6 @@
 // const fs = require('fs');
 //
-// const path = 'node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js';
+// const path = 'node_modules/@angular-devkit/build-angular/src/webpack/configs/browser.js';
 //
 // // post install script for updating the browser.js file with crypto allow config, needed for creating hashes with GA
 // fs.readFile(path, 'utf8', (err, data) => {

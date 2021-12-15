@@ -56,7 +56,7 @@ import {
 import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import * as welshTranslations from '../../../../assets/i18n/cy.json';
+import { default as welshTranslations } from '@assets/i18n/cy.json';
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 

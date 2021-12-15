@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 import { FaultCountDHelper } from '../fault-count.cat-d';
-import { vehicleChecksTwoFaults, vehicleChecksFiveFaults } from '../../__mocks__/cat-D-test-data-state-object';
+import { vehicleChecksTwoFaults, vehicleChecksFiveFaults } from '../../__mocks__/cat-D-test-data-state-object.mock';
 
 describe('FaultCountDHelper', () => {
 

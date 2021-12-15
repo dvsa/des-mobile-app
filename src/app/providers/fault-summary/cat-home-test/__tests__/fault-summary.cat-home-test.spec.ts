@@ -5,19 +5,19 @@ import { FaultSummaryCatHomeTestHelper } from '../fault-summary.cat-home-test';
 import {
   catFTestDataStateObject,
   catFTestDataVCStateObject,
-} from '../../../fault-count/__mocks__/cat-F-test-data-state-object';
+} from '../../../fault-count/__mocks__/cat-F-test-data-state-object.mock';
 import {
   catGTestDataStateObject,
   catGTestDataVCStateObject,
-} from '../../../fault-count/__mocks__/cat-G-test-data-state-object';
+} from '../../../fault-count/__mocks__/cat-G-test-data-state-object.mock';
 import {
   catHTestDataStateObject,
   catHTestDataVCStateObject,
-} from '../../../fault-count/__mocks__/cat-H-test-data-state-object';
+} from '../../../fault-count/__mocks__/cat-H-test-data-state-object.mock';
 import {
   catKTestDataStateObject,
   catKTestDataVCStateObject,
-} from '../../../fault-count/__mocks__/cat-K-test-data-state-object';
+} from '../../../fault-count/__mocks__/cat-K-test-data-state-object.mock';
 
 describe('FaultSummaryCatHomeTestHelper', () => {
 

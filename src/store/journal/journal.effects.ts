@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
@@ -13,8 +12,9 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { interval, Observable, of } from 'rxjs';
-// import { groupBy } from 'lodash';
+import {
+  interval, Observable, of, throwError,
+} from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Action, select, Store } from '@ngrx/store';
 import { JournalProvider } from '@providers/journal/journal';
@@ -129,7 +129,7 @@ export class JournalEffects {
                 payload: this.logHelper.createLog(LogType.ERROR, 'Retrieving Journal', err.message),
               }));
 
-              return ErrorObservable.create(err);
+              return throwError(err);
             }),
           );
       }),

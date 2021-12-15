@@ -7,7 +7,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { configureTestSuite } from 'ng-bullet';
 import { EtaInvalidModal } from '../eta-invalid-modal';
 
-describe('LegalRequirementsModal', () => {
+describe('EtaInvalidModal', () => {
   let fixture: ComponentFixture<EtaInvalidModal>;
   let component: EtaInvalidModal;
 

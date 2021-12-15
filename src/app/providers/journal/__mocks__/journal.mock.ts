@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import { of, Observable } from 'rxjs';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { of, Observable, throwError } from 'rxjs';
 
 const localJournalJson = require('src/assets/mock/local-journal.json');
 
@@ -16,16 +15,16 @@ export class JournalProviderMock {
 
   public getJournal(): Observable<ExaminerWorkSchedule> {
     if (this.do304ErrorNextCall) {
-      return ErrorObservable.create({ status: 304 });
+      return throwError({ status: 304 });
     }
     if (this.doTimeoutErrorNextCall) {
-      return ErrorObservable.create({ message: 'Timeout has occurred' });
+      return throwError({ message: 'Timeout has occurred' });
     }
     if (this.doActualError) {
-      return ErrorObservable.create({});
+      return throwError({});
     }
     if (this.doHttpResponseError) {
-      return ErrorObservable.create(new HttpErrorResponse({
+      return throwError(new HttpErrorResponse({
         error: 'Error message',
         status: 403,
         statusText: 'Forbidden',

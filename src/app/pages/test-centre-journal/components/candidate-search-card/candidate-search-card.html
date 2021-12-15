@@ -25,7 +25,7 @@
       <ion-row>
         <ion-col class="ion-text-center">
           <h1>Today</h1>
-          <h3>{{today | date: 'EEEE d MMMM y'}}</h3>
+          <h3>{{today?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -52,7 +52,7 @@
       <ion-row>
         <ion-col class="ion-text-center">
           <h1>Tomorrow</h1>
-          <h3>{{tomorrow | date: 'EEEE d MMMM y'}}</h3>
+          <h3>{{tomorrow?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
         </ion-col>
       </ion-row>
     </ion-grid>

@@ -13,6 +13,15 @@
     "src/**/*.d.ts"
   ],
   "exclude": [
-    "src/**/*.spec.ts"
+    "ngrx-devtools-proxy/*.ts",
+    "remotedev-server/",
+    "mock/",
+    "src/**/*.spec.ts",
+    "src/test.ts",
+    "src/**/*.mock.ts",
+    "src/**/__mocks__/*.ts",
+    "src/**/__tests__/*.ts",
+    "src/assets/mock/ionic-mocks/**/*.ts",
+    "src/assets/mock/angular-mocks/**/*.ts"
   ]
 }

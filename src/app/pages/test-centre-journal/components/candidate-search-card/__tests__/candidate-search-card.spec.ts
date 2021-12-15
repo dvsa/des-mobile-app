@@ -6,7 +6,7 @@ import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.mod
 import { ComponentsModule } from '@components/common/common-components.module';
 
 import { CandidateData, CandidateSearchCardComponent } from '../candidate-search-card';
-import * as mockData from './mock-data/mock-data';
+import * as mockData from '../__mocks__/candidate-search-card.mock';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
 
 describe('CandidateSearchCardComponent', () => {

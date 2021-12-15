@@ -1,4 +1,4 @@
-import { PreTestDeclarations, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { Candidate, PreTestDeclarations, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import * as candidateReducer from '@store/tests/journal-data/common/candidate/candidate.reducer';
@@ -6,18 +6,19 @@ import * as preTestDeclarationsReducer from '@store/tests/pre-test-declarations/
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { NeverType } from '@pages/test-report/test-report.effects';
 import { testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import * as candidateActions from '@store/tests/journal-data/common/candidate/candidate.actions';
+import * as preTestDeclarationActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import { TestsModel } from '../tests.model';
 import * as testsActions from '../tests.actions';
 import { testsReducer } from '../tests.reducer';
 
 describe('testsReducer', () => {
-  const newCandidate = { candidate: { candidateId: 456 } };
+  const newCandidate = { candidate: { candidateId: 456 } } as Candidate;
   const preTestDeclarations: PreTestDeclarations = preTestDeclarationsReducer.initialState;
 
   beforeEach(() => {
-    // @ts-ignore
-    spyOn(candidateReducer, 'candidateReducer').and.returnValue(newCandidate);
-    spyOn(preTestDeclarationsReducer, 'preTestDeclarationsReducer').and.returnValue(preTestDeclarations);
+    candidateReducer.candidateReducer(null, candidateActions.PopulateCandidateDetails(newCandidate));
+    preTestDeclarationsReducer.preTestDeclarationsReducer(null, preTestDeclarationActions.ClearPreTestDeclarations());
   });
 
   it('use the payload of a test started action to setup state for a new test', () => {
@@ -164,9 +165,6 @@ describe('testsReducer', () => {
     };
 
     const result = testsReducer(state, testsActions.StartTest(123, TestCategory.B));
-
-    expect(candidateReducer.candidateReducer).toHaveBeenCalled();
-    expect(preTestDeclarationsReducer.preTestDeclarationsReducer).toHaveBeenCalled();
     expect(result.startedTests['123']['preTestDeclarations']).toBe(preTestDeclarations);
   });
 
@@ -178,7 +176,6 @@ describe('testsReducer', () => {
     };
 
     const result = testsReducer(state, testsActions.ActivateTest(456, TestCategory.B));
-
     expect(result.currentTest.slotId).toBe('456');
   });
 
