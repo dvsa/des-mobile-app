@@ -26,7 +26,6 @@
                                        (ionFocus)="setFocus('appRef')"
                                        (ionBlur)="setFocus(null)"
                                        [ngClass]="{'input-focus': focusedElement === 'appRef'}"
-                                       [class.ng-invalid]="invalid"
                                        [value]="applicationReference"
                                        (change)="applicationReferenceChanged($event.target.value)">
                             </ion-input>
@@ -47,7 +46,6 @@
                                        (ionFocus)="setFocus('staffNum')"
                                        (ionBlur)="setFocus(null)"
                                        [ngClass]="{'input-focus': focusedElement === 'staffNum'}"
-                                       [class.ng-invalid]="invalid"
                                        [value]="staffNumber"
                                        (change)="staffNumberChanged($event.target.value)">
                             </ion-input>
