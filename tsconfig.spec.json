@@ -17,7 +17,10 @@
       "@directives/*": ["src/directives/*"],
       "@assets/*": ["src/assets/*"],
       "@app/*": ["src/app/*"],
-      "@capacitor/*": ["mock/@capacitor/*"]
+      "@capacitor/*": ["mock/@capacitor/*"],
+      "crypto": ["node_modules/crypto-browserify"],
+      "stream": ["node_modules/stream-browserify"],
+      "zlib": ["node_modules/browserify-zlib"]
     }
   },
   "files": [
