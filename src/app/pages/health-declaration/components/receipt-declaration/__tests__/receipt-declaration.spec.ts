@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
 import {
   TranslateModule,
@@ -25,7 +25,7 @@ describe('ReceiptDeclarationComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ReceiptDeclarationComponent);
     component = fixture.componentInstance;
   }));

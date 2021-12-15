@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { configureTestSuite } from 'ng-bullet';
 import { ModalController } from '@ionic/angular';
@@ -20,7 +20,7 @@ describe('PracticeTestModal', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PracticeTestModal);
     modalComponent = fixture.componentInstance;
     spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));

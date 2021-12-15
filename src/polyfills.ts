@@ -1,3 +1,4 @@
+/* eslint-disable */
 /** *************************************************************************************************
  * Load `$localize` onto the global scope - used if i18n tags appear in Angular templates.
  */
@@ -67,3 +68,11 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
 /** *************************************************************************************************
  * APPLICATION IMPORTS
  */
+// Add global to window, assigning the value of window itself.
+// https://github.com/angular/angular-cli/issues/9827#issuecomment-386154063
+(window as any).global = window;
+// https://stackoverflow.com/questions/50371593/angular-6-uncaught-referenceerror-buffer-is-not-defined
+global.Buffer = global.Buffer || require('buffer').Buffer;
+(window as any).process = { version: '' };
+
+/* eslint-enable */
