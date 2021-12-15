@@ -157,10 +157,7 @@
   "description": "An Ionic project",
   "cordova": {
     "plugins": {
-      "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},
-      "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-google-analytics": {},
       "cordova-plugin-autonomous-single-app-mode": {}
     },
