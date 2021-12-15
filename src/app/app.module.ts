@@ -3,7 +3,6 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/pla
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
@@ -143,7 +142,6 @@ if (enableRehydrationPlugin) {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    SplashScreen,
     MobileAccessibility,
     AppVersion,
     AppConfigProvider,

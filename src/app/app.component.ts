@@ -85,7 +85,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         const storage = await this.secureStorage.create('DES');
         this.dataStore.setSecureContainer(storage);
 
-        return Promise.resolve();
+        return await Promise.resolve();
       } catch (err) {
         return Promise.reject(err);
       }
