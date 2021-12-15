@@ -29,6 +29,7 @@ export const rekeySearchReducer = createReducer(
   })),
   on(rekeySearchActions.SearchBookedTest, (state) => ({
     ...state,
+    err: initialState.err,
     bookedTestSlot: {},
     isLoading: true,
     hasSearched: false,
