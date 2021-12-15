@@ -19,7 +19,6 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TestReportBasePageComponent } from '../test-report-base-page';
 
 describe('TestReportBasePageComponent', () => {
@@ -31,7 +30,6 @@ describe('TestReportBasePageComponent', () => {
   let testReportValidatorProvider: TestReportValidatorProvider;
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
-  let statusBar: StatusBar;
 
   let basePageComponent: TestReportBasePageComponent;
   const initialState = {
@@ -77,10 +75,9 @@ describe('TestReportBasePageComponent', () => {
         trValidator: TestReportValidatorProvider,
         screenOri: ScreenOrientation,
         insom: Insomnia,
-        status: StatusBar,
       ) {
         // eslint-disable-next-line max-len
-        super(plat, auth, rout, sto$, modal, trValidator, screenOri, insom, status);
+        super(plat, auth, rout, sto$, modal, trValidator, screenOri, insom);
       }
     }
 
@@ -92,7 +89,6 @@ describe('TestReportBasePageComponent', () => {
       testReportValidatorProvider,
       screenOrientation,
       insomnia,
-      statusBar,
     );
   }));
 

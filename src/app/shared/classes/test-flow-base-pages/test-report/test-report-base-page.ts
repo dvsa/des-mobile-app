@@ -17,7 +17,6 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
@@ -63,6 +62,7 @@ import {
   getTestRequirementsCatHome,
 } from '@store/tests/test-data/cat-home/test-requirements/test-requirements.cat-home.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { StatusBar } from '@capacitor/status-bar';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -104,7 +104,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     public testReportValidatorProvider: TestReportValidatorProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
-    public statusBar: StatusBar,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -220,7 +219,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY,
       );
       await this.insomnia.keepAwake();
-      this.statusBar.hide();
+      await StatusBar.hide();
     }
   }
 
@@ -233,9 +232,9 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     this.store$.dispatch(TestReportViewDidEnter());
   }
 
-  ionViewWillLeave() {
+  async ionViewWillLeave(): Promise<void> {
     if (super.isIos() && this.isPracticeMode) {
-      this.statusBar.show();
+      await StatusBar.show();
     }
     this.store$.dispatch(ResetFaultMode());
   }

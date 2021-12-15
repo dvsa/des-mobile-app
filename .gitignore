@@ -37,6 +37,8 @@ npm-debug.log*
 test/e2e/test.config.ts
 test-reports/
 
+ios/App/App/public
+
 src/environments/environment.ts
 src/environments/test-schema-version.ts
 

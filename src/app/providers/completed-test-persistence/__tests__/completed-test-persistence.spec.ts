@@ -14,6 +14,7 @@ describe('TestPersistenceProvider', () => {
   let store$: Store<StoreModel>;
 
   configureTestSuite(() => {
+    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       providers: [
         CompletedTestPersistenceProvider,

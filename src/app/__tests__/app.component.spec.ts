@@ -5,7 +5,6 @@ import {
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { Store, StoreModule } from '@ngrx/store';
-import { Capacitor, Plugins, StatusBarStyle } from '@capacitor/core';
 import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
 import { AlertControllerMock } from 'ionic-mocks';
@@ -22,7 +21,8 @@ import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
 import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate';
-
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { SplashScreen } from '@capacitor/splash-screen';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
@@ -30,8 +30,6 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
-  Plugins.StatusBar = jasmine.createSpyObj('StatusBar', ['setStyle', 'setOverlaysWebView', 'setBackgroundColor']);
-  Plugins.SplashScreen = jasmine.createSpyObj('SplashScreen', ['hide']);
 
   let authenticationProvider: AuthenticationProvider;
   let platform: Platform;
@@ -90,7 +88,6 @@ describe('AppComponent', () => {
       spyOn(store$, 'dispatch');
       spyOn(component, 'configureAccessibility');
       spyOn(component, 'configurePlatformSubscriptions');
-      spyOn(Plugins.SplashScreen, 'hide');
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'configureLocale');
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
@@ -174,27 +171,19 @@ describe('AppComponent', () => {
   });
 
   describe('configureStatusBar', () => {
-    beforeEach(() => {
-      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
-      spyOn(Plugins.StatusBar, 'setStyle');
+    it('should set status bar styles when plugin is available', async () => {
+      spyOn(StatusBar, 'setStyle');
+      await component.configureStatusBar();
+      expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
     });
-    it('should set status bar styles when plugin is available', fakeAsync(() => {
-      component.configureStatusBar();
-      flushMicrotasks();
-      expect(Plugins.StatusBar.setStyle).toHaveBeenCalledWith({ style: StatusBarStyle.Dark });
-    }));
   });
 
   describe('hideSplashscreen', () => {
-    beforeEach(() => {
-      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
-      spyOn(Plugins.SplashScreen, 'hide');
+    it('should hide splashscreen if plugin is available', async () => {
+      spyOn(SplashScreen, 'hide');
+      await component.hideSplashscreen();
+      expect(SplashScreen.hide).toHaveBeenCalled();
     });
-    it('should hide splashscreen if plugin is available', fakeAsync(() => {
-      component.hideSplashscreen();
-      flushMicrotasks();
-      expect(Plugins.SplashScreen.hide).toHaveBeenCalled();
-    }));
   });
 
   describe('disableMenuSwipe', () => {

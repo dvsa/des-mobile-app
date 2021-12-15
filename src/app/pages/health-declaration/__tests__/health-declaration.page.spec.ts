@@ -76,6 +76,7 @@ describe('HealthDeclarationPage', () => {
   };
 
   configureTestSuite(() => {
+    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [

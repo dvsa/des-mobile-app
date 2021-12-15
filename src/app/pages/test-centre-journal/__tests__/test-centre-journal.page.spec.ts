@@ -39,6 +39,7 @@ describe('TestCenterJournalPage', () => {
     testCentreJournal: { lastRefreshed: new Date('2021-03-22') },
   } as StoreModel;
   configureTestSuite(() => {
+    jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalPage],
       imports: [

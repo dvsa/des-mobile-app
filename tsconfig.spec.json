@@ -5,7 +5,20 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "paths": {
+      "@providers/*": ["src/app/providers/*"],
+      "@pages/*": ["src/app/pages/*"],
+      "@environments/*": ["src/environments/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@store/*": ["src/store/*"],
+      "@mocks/*": ["mock/*"],
+      "@components/*": ["src/components/*"],
+      "@directives/*": ["src/directives/*"],
+      "@assets/*": ["src/assets/*"],
+      "@app/*": ["src/app/*"],
+      "@capacitor/*": ["mock/@capacitor/*"]
+    }
   },
   "files": [
     "src/test.ts",
@@ -14,5 +27,5 @@
   "include": [
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
-  ]
+  ],
 }

@@ -25,7 +25,7 @@
 			<string>com.getcapacitor.capacitor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>capacitor</string>
+				<string>$AUTH_URL_SCHEME</string>
 			</array>
 		</dict>
 	</array>

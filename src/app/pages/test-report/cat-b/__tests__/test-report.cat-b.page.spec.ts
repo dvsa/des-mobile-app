@@ -7,7 +7,6 @@ import {
   ConfigMock,
   PlatformMock,
   ModalControllerMock,
-  StatusBarMock,
 } from 'ionic-mocks';
 import { MockComponent } from 'ng-mocks';
 
@@ -29,10 +28,10 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { configureTestSuite } from 'ng-bullet';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { StatusBar } from '@capacitor/status-bar';
 import { ModalEvent } from '../../test-report.constants';
 import { VehicleCheckComponent } from '../components/vehicle-check/vehicle-check';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
@@ -54,7 +53,6 @@ describe('TestReportCatBPage', () => {
   let component: TestReportCatBPage;
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
-  let statusBar: StatusBar;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -104,7 +102,6 @@ describe('TestReportCatBPage', () => {
         { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
-        { provide: StatusBar, useFactory: () => StatusBarMock.instance() },
       ],
     });
   });
@@ -114,7 +111,6 @@ describe('TestReportCatBPage', () => {
     component = fixture.componentInstance;
     screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
-    statusBar = TestBed.inject(StatusBar);
   });
 
   describe('Class', () => {
@@ -130,18 +126,20 @@ describe('TestReportCatBPage', () => {
       it('should not enable the plugins when the test is not a practice test', async () => {
         component.isPracticeMode = false;
         spyOn(TestReportCatBPage.prototype, 'isIos').and.returnValue(false);
+        spyOn(StatusBar, 'show');
         await component.ionViewWillEnter();
         expect(screenOrientation.lock).not.toHaveBeenCalled();
         expect(insomnia.keepAwake).not.toHaveBeenCalled();
-        expect(statusBar.show).not.toHaveBeenCalled();
+        expect(StatusBar.show).not.toHaveBeenCalled();
       });
       it('should enable the plugins when the test is a practice test', async () => {
         component.isPracticeMode = true;
         spyOn(TestReportCatBPage.prototype, 'isIos').and.returnValue(true);
+        spyOn(StatusBar, 'hide');
         await component.ionViewWillEnter();
         expect(screenOrientation.lock).toHaveBeenCalled();
         expect(insomnia.keepAwake).toHaveBeenCalled();
-        expect(statusBar.hide).toHaveBeenCalled();
+        expect(StatusBar.hide).toHaveBeenCalled();
       });
 
     });
