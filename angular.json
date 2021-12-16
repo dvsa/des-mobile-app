@@ -82,6 +82,66 @@
               "optimization": false,
               "namedChunks": false
             },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local.ts"
+                }
+              ],
+              "aot": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": true,
+              "optimization": false,
+              "namedChunks": false
+            },
+            "dev-tools": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.dev-tools.ts"
+                }
+              ],
+              "aot": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": false,
+              "optimization": false,
+              "namedChunks": false
+            },
+            "livereload": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.livereload.ts"
+                }
+              ],
+              "aot": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": false,
+              "optimization": false,
+              "namedChunks": false
+            },
+            "testing": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.testing.ts"
+                }
+              ],
+              "aot": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": false,
+              "optimization": false,
+              "namedChunks": false
+            },
             "ci": {
               "progress": false
             }
@@ -99,6 +159,9 @@
             },
             "development": {
               "browserTarget": "app:build:development"
+            },
+            "local": {
+              "browserTarget": "app:build:local"
             },
             "ci": {
               "progress": false
