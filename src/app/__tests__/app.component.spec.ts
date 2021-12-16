@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
 import { AlertControllerMock } from 'ionic-mocks';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-
+import { Capacitor } from '@capacitor/core';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DataStoreProvider } from '@providers/data-store/data-store';
@@ -173,6 +173,7 @@ describe('AppComponent', () => {
   describe('configureStatusBar', () => {
     it('should set status bar styles when plugin is available', async () => {
       spyOn(StatusBar, 'setStyle');
+      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
       await component.configureStatusBar();
       expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
     });
@@ -181,6 +182,7 @@ describe('AppComponent', () => {
   describe('hideSplashscreen', () => {
     it('should hide splashscreen if plugin is available', async () => {
       spyOn(SplashScreen, 'hide');
+      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
       await component.hideSplashscreen();
       expect(SplashScreen.hide).toHaveBeenCalled();
     });

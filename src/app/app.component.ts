@@ -17,6 +17,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LoadAppVersion, AppResumed, AppSuspended } from '@store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
+import { Capacitor } from '@capacitor/core';
 
 declare let window: any;
 
@@ -136,11 +137,14 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   configureStatusBar = async (): Promise<void> => {
-    await StatusBar.setStyle({ style: Style.Dark });
+    if (Capacitor.isPluginAvailable('StatusBar')) {
+      await StatusBar.setStyle({ style: Style.Dark });
+    }
   };
-
   hideSplashscreen = async (): Promise<void> => {
-    await SplashScreen.hide();
+    if (Capacitor.isPluginAvailable('SplashScreen')) {
+      await SplashScreen.hide();
+    }
   };
 
   disableMenuSwipe = async (): Promise<void> => {
