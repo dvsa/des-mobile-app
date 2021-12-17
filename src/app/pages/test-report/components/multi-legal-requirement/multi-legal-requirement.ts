@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import {
-  ToggleLegalRequirement,
-} from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
+import { ToggleLegalRequirement } from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
+
 @Component({
   selector: 'multi-legal-requirement',
   templateUrl: 'multi-legal-requirement.html',

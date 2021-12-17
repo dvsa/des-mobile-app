@@ -7,18 +7,18 @@ import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountProvider } from '../fault-count';
 
-import { catAM1TestDataStateObject } from '../__mocks__/cat-AM1-test-data-state-object';
-import { catAM2TestDataStateObject } from '../__mocks__/cat-AM2-test-data-state-object';
-import { catBTestDataStateObject } from '../__mocks__/cat-B-test-data-state-object';
-import { catBETestDataStateObject } from '../__mocks__/cat-BE-test-data-state-object';
-import { catCTestDataStateObject } from '../__mocks__/cat-C-test-data-state-object';
-import { catCETestDataStateObject } from '../__mocks__/cat-CE-test-data-state-object';
-import { catC1ETestDataStateObject } from '../__mocks__/cat-C1E-test-data-state-object';
-import { catC1TestDataStateObject } from '../__mocks__/cat-C1-test-data-state-object';
-import { catDTestDataStateObject } from '../__mocks__/cat-D-test-data-state-object';
-import { catDETestDataStateObject } from '../__mocks__/cat-DE-test-data-state-object';
-import { catD1ETestDataStateObject } from '../__mocks__/cat-D1E-test-data-state-object';
-import { catD1TestDataStateObject } from '../__mocks__/cat-D1-test-data-state-object';
+import { catAM1TestDataStateObject } from '../__mocks__/cat-AM1-test-data-state-object.mock';
+import { catAM2TestDataStateObject } from '../__mocks__/cat-AM2-test-data-state-object.mock';
+import { catBTestDataStateObject } from '../__mocks__/cat-B-test-data-state-object.mock';
+import { catBETestDataStateObject } from '../__mocks__/cat-BE-test-data-state-object.mock';
+import { catCTestDataStateObject } from '../__mocks__/cat-C-test-data-state-object.mock';
+import { catCETestDataStateObject } from '../__mocks__/cat-CE-test-data-state-object.mock';
+import { catC1ETestDataStateObject } from '../__mocks__/cat-C1E-test-data-state-object.mock';
+import { catC1TestDataStateObject } from '../__mocks__/cat-C1-test-data-state-object.mock';
+import { catDTestDataStateObject } from '../__mocks__/cat-D-test-data-state-object.mock';
+import { catDETestDataStateObject } from '../__mocks__/cat-DE-test-data-state-object.mock';
+import { catD1ETestDataStateObject } from '../__mocks__/cat-D1E-test-data-state-object.mock';
+import { catD1TestDataStateObject } from '../__mocks__/cat-D1-test-data-state-object.mock';
 
 import { FaultCountBHelper } from '../cat-b/fault-count.cat-b';
 import { FaultCountBEHelper } from '../cat-be/fault-count.cat-be';
@@ -31,7 +31,7 @@ import {
   catADI2TestDataStateObjectNoDrivingFaults,
   catADI2TestDataStateObjectShowMeFaults,
   catADI2TestDataStateObjectTellMeFaults,
-} from '../__mocks__/cat-ADI2-test-data-state-object';
+} from '../__mocks__/cat-ADI2-test-data-state-object.mock';
 import { FaultCountADIPart2Helper } from '../cat-adi-part2/fault-count.cat-adi-part2';
 
 describe('FaultCountProvider', () => {

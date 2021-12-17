@@ -19,8 +19,8 @@ import { createTranslateLoader } from '@app/app.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { VehicleChecksCardCatBComponent } from '../vehicle-checks-card.cat-b';
-import * as welshTranslations from '../../../../../../assets/i18n/cy.json';
 
 describe('VehicleChecksCardCatBComponent', () => {
   let fixture: ComponentFixture<VehicleChecksCardCatBComponent>;

@@ -101,7 +101,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: NoPreloading }),
+    RouterModule.forRoot(routes, { preloadingStrategy: NoPreloading, relativeLinkResolution: 'legacy' }),
   ],
   exports: [RouterModule],
   providers: [CanWaitingRoomDeactivateGuard],

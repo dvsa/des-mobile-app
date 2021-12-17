@@ -10,7 +10,7 @@ import {
 import {
   PlatformMock,
 } from 'ionic-mocks';
-import { NavControllerMock } from '@shared/mocks/nav-controller-mock';
+import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -43,9 +43,9 @@ import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/se
 import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
-import { ToastControllerMock } from '../../__mocks__/toast-controller-mock';
 import { OfficeCatBPage } from '../office.cat-b.page';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
 import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';

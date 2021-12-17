@@ -12,6 +12,7 @@
     "airbnb-typescript/base"
   ],
   "rules": {
+    "import/no-named-default": "off",
     "@typescript-eslint/object-curly-spacing": "off",
     "@typescript-eslint/no-useless-constructor": "off",
     "no-useless-constructor": "off",

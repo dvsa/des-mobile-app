@@ -89,7 +89,7 @@ export class AppConfigProvider {
       if (!this.environmentFile.isRemote) {
         this.mapRemoteConfig(this.environmentFile);
       }
-      return Promise.resolve();
+      return await Promise.resolve();
     } catch (err) {
       return Promise.reject(AppConfigError.MDM_ERROR);
     }

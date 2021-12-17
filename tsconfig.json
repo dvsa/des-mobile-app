@@ -9,7 +9,7 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "module": "commonjs",
+    "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
@@ -28,6 +28,9 @@
       "@directives/*": ["src/directives/*"],
       "@assets/*": ["src/assets/*"],
       "@app/*": ["src/app/*"],
+      "crypto": ["node_modules/crypto-browserify"],
+      "stream": ["node_modules/stream-browserify"],
+      "zlib": ["node_modules/browserify-zlib"]
     }
   },
   "angularCompilerOptions": {

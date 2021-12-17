@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ModalEvent } from './journal-rekey-modal.constants';
+
 @Component({
   selector: 'journal-rekey-modal',
   templateUrl: './journal-rekey-modal.html',

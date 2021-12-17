@@ -3,34 +3,38 @@
 
 module.exports = function (config) {
   config.set({
-    basePath: '..',
+    basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
-      require('@angular-devkit/build-angular/plugins/karma'),
-      require('karma-spec-reporter'),
+      require('karma-coverage'),
+      require('@angular-devkit/build-angular/plugins/karma')
     ],
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
         timeoutInterval: 7500,
-      }
+      },
     },
-    browserConsoleLogOptions: {
-      level: 'log',
-      format: '%b %T: %m',
-      terminal: true,
+    jasmineHtmlReporter: {
+      suppressAll: false // removes the duplicated traces
     },
-    coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, '../coverage'),
-      reports: ['html', 'lcovonly', 'text-summary'],
-      fixWebpackSourcePaths: true,
+    coverageReporter: {
+      dir: require('path').join(__dirname, './coverage/ngv'),
+      subdir: '.',
+      instrumenterOptions: {
+        istanbul: { noCompact: true }
+      },
+      reporters: [
+        { type: 'html' },
+        { type: 'lcovonly' },
+        { type: 'text-summary' }
+      ]
     },
-    reporters: ['spec', 'kjhtml'],
+    reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

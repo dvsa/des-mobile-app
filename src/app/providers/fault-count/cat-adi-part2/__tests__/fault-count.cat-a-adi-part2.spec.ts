@@ -10,7 +10,7 @@ import {
   catADI2TestDataStateObjectTellMeFaults,
   catADI2TestDataStateObjectDangerousFaults,
   catADI2TestDataStateObjectShowMeFaults,
-} from '../../__mocks__/cat-ADI2-test-data-state-object';
+} from '../../__mocks__/cat-ADI2-test-data-state-object.mock';
 
 describe('FaultCountADIPart2Helper', () => {
 
