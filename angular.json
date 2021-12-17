@@ -163,6 +163,15 @@
             "local": {
               "browserTarget": "app:build:local"
             },
+            "testing": {
+              "browserTarget": "app:build:testing"
+            },
+            "livereload": {
+              "browserTarget": "app:build:livereload"
+            },
+            "dev-tools": {
+              "browserTarget": "app:build:dev-tools"
+            },
             "ci": {
               "progress": false
             }

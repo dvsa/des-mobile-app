@@ -38,6 +38,7 @@ test/e2e/test.config.ts
 test-reports/
 
 ios/App/App/public
+ios/DerivedData
 
 src/environments/environment.ts
 src/environments/test-schema-version.ts
