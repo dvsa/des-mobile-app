@@ -2,7 +2,6 @@ import { getSlotType, SpecialNeedsCode } from '@shared/helpers/get-slot-type';
 import { SlotTypes } from '@shared/models/slot-types';
 import {
   getTime,
-  getCandidateName,
   getPhoneNumber,
   isCandidateCommentsEmpty,
   getCandidateId,
@@ -137,48 +136,6 @@ describe('Candidate Details Selector', () => {
       const result = isCandidateCommentsEmpty(slot);
 
       expect(result).toBe(false);
-    });
-  });
-
-  describe('getCandidateName', () => {
-    it('returns the combination of candidate name title, firstName and lastName', () => {
-      const title = 'Miss';
-      const firstName = 'Florence';
-      const lastName = 'Pearson';
-      const slot = {
-        booking: {
-          candidate: {
-            candidateName: {
-              title,
-              firstName,
-              lastName,
-            },
-          },
-        },
-      };
-
-      const result = getCandidateName(slot);
-
-      expect(result).toEqual(`${title} ${firstName} ${lastName}`);
-    });
-
-    it('returns the combination of candidate name title, firstName and lastName', () => {
-      const firstName = 'Florence';
-      const lastName = 'Pearson';
-      const slot = {
-        booking: {
-          candidate: {
-            candidateName: {
-              firstName,
-              lastName,
-            },
-          },
-        },
-      };
-
-      const result = getCandidateName(slot);
-
-      expect(result).toEqual(`${firstName} ${lastName}`);
     });
   });
 
