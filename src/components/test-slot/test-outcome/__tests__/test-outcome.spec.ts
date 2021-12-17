@@ -26,7 +26,7 @@ import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { TestOutcomeComponent } from '../test-outcome';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 
-describe('Test Outcome', () => {
+describe('TestOutcomeComponent', () => {
   let fixture: ComponentFixture<TestOutcomeComponent>;
   let component: TestOutcomeComponent;
   let routeByCategory: RouteByCategoryProvider;
@@ -36,7 +36,7 @@ describe('Test Outcome', () => {
   const testSlotDetail: SlotDetail = {
     duration: 57,
     slotId: 123,
-    start: new DateTime().toString(),
+    start: new DateTime().format('YYYY-MM-DDTHH:mm:ss'),
   };
 
   const journal: JournalModel = {
@@ -131,9 +131,7 @@ describe('Test Outcome', () => {
     describe('earlyStart', () => {
       it('should create and present the early start modal', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        dateTime.add(8, Duration.MINUTE);
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().add(8, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
         spyOn(component, 'displayCheckStartModal');
         fixture.detectChanges();
@@ -143,9 +141,7 @@ describe('Test Outcome', () => {
       });
       it('should not create and present the early start modal', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        dateTime.add(2, Duration.MINUTE);
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().add(2, Duration.MINUTE).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
         spyOn(component, 'displayCheckStartModal');
         fixture.detectChanges();
@@ -235,9 +231,7 @@ describe('Test Outcome', () => {
       });
       it('should return true for a test that was started as a rekey and the date is in the past', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        dateTime.subtract(1, Duration.DAY);
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Started;
         component.isRekey = true;
 
@@ -247,8 +241,7 @@ describe('Test Outcome', () => {
       });
       it('should return false for test that was started as a rekey and the date is today', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Started;
         component.isRekey = true;
 
@@ -258,9 +251,7 @@ describe('Test Outcome', () => {
       });
       it('should return true for a new test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        dateTime.subtract(1, Duration.DAY);
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = null;
 
         component.showRekeyButton();
@@ -269,9 +260,7 @@ describe('Test Outcome', () => {
       });
       it('should return true for a booked test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        dateTime.subtract(1, Duration.DAY);
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
 
         component.showRekeyButton();
@@ -280,9 +269,7 @@ describe('Test Outcome', () => {
       });
       it('should return false for a resumed test if date is in past', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        dateTime.subtract(1, Duration.DAY);
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Started;
 
         component.showRekeyButton();
@@ -291,9 +278,7 @@ describe('Test Outcome', () => {
       });
       it('should return true for a booked test if date is in the past', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        dateTime.subtract(1, Duration.DAY);
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
 
         component.showRekeyButton();
@@ -302,8 +287,7 @@ describe('Test Outcome', () => {
       });
       it('should return false for a booked test if date is today', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
 
         component.showRekeyButton();
@@ -312,8 +296,7 @@ describe('Test Outcome', () => {
       });
       it('should return false for a resumed test if date is today', () => {
         component.slotDetail = testSlotDetail;
-        const dateTime = new DateTime();
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Started;
 
         component.showRekeyButton();
@@ -368,9 +351,7 @@ describe('Test Outcome', () => {
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.B;
         component.testStatus = TestStatus.Booked;
-        const dateTime = new DateTime();
-        dateTime.subtract(1, Duration.DAY);
-        component.slotDetail.start = dateTime.toString();
+        component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         fixture.detectChanges();
         spyOn(component, 'rekeyTest');
 
