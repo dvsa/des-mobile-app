@@ -1,7 +1,7 @@
 <ion-header>
-    <ion-toolbar mode="ios">
-        <ion-title id="test-details-title" class="ion-text-center">Test details - {{ pageState.name }}</ion-title>
-        <ion-buttons slot="start">
+    <ion-toolbar mode="ios" class="toolbar-spacing">
+        <ion-title id="test-details-title" class="ion-text-center toolbar-item-spacing">Test details - {{ pageState.name }}</ion-title>
+        <ion-buttons slot="start" class="toolbar-item-spacing">
             <ion-button id="close-button" (click)="dismiss()">
                 <ion-icon class="close-btn" name="close-outline"></ion-icon>
                 <ion-label class="close-btn">Close</ion-label>

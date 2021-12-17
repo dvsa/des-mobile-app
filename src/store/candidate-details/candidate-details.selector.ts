@@ -5,11 +5,6 @@ import { Details } from '@pages/candidate-details/candidate-details.page.model';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 
-export const getCandidateName = (slot: any): string => {
-  const { title, firstName, lastName } = slot.booking.candidate.candidateName;
-  return title ? `${title} ${firstName} ${lastName}` : `${firstName} ${lastName}`;
-};
-
 export const getTime = (slot: any): string => slot.slotDetail.start;
 
 export const isCandidateCommentsEmpty = (slot: any): boolean => {
