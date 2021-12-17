@@ -38,7 +38,6 @@
         </data-row>
         <!-- Activity Code -->
         <data-row
-            *ngIf="isTerminated(pageState.testOutcomeText$ | async)"
             [idPrefix]="idPrefix"
             [label]="'Activity Code'"
             [value]="getActivityCode(pageState.activityCode$ | async)">
