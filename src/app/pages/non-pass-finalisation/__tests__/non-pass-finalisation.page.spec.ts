@@ -41,7 +41,7 @@ import {
   ActivityCodeFinalisationMock,
 } from '@providers/activity-code-finalisation/__mocks__/activity-code-finalisation.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import {ModalControllerMock} from '@mocks/ionic-mocks/modal-controller.mock';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
 describe('NonPassFinalisationPage', () => {
