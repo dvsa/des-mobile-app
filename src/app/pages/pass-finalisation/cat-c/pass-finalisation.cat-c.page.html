@@ -58,9 +58,17 @@
                 (code78Present)="onCode78Present($event)">
         </code-78>
 
-        <warning-banner *ngIf="shouldShowManualBanner()" warningText="{{manualMessage}}"></warning-banner>
+        <warning-banner
+                *ngIf="shouldShowManualBanner()"
+                [warningIdentifier]="'manual-licence-banner'"
+                [warningText]="manualMessage">
+        </warning-banner>
 
-        <warning-banner *ngIf="shouldShowAutomaticBanner()" warningText="{{automaticMessage}}"></warning-banner>
+        <warning-banner
+                *ngIf="shouldShowAutomaticBanner()"
+                [warningIdentifier]="'automatic-licence-banner'"
+                [warningText]="automaticMessage">
+        </warning-banner>
 
         <pass-certificate-number
                 [form]="form"

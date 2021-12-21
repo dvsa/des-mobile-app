@@ -64,25 +64,6 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="padding-top-18 only-top-padding">
-            <div class="dark-divider"></div>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <reverse-left
-                    [completed]="manoeuvresCompleted"
-                    [controlLabel]="'Reverse Left'"
-                    [clickCallback]="getCallback()"
-                    [testCategory]="pageState.category$ | async">
-              <reverse-left-popover
-                      [testCategory]="pageState.category$ | async"
-                      [disableDrivingFaults]="true">
-              </reverse-left-popover>
-            </reverse-left>
-          </ion-col>
-        </ion-row>
-        <ion-row>
           <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>
           </ion-col>

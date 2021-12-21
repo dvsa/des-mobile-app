@@ -290,18 +290,15 @@ export class TestReportValidatorProvider {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
-    const manoeuvre: boolean = hasManoeuvreBeenCompletedCatC(data) || false;
     const eco: boolean = get(data, 'eco.completed', false);
 
     return !isDelegated ? (
       normalStart1
       && uphillStart
       && angledStartControlledStop
-      && manoeuvre
       && eco
     ) : (
       angledStartControlledStop
-        && manoeuvre
         && eco
     );
   }
@@ -319,7 +316,6 @@ export class TestReportValidatorProvider {
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
     }
-    if (!hasManoeuvreBeenCompletedCatC(data)) result.push(legalRequirementsLabels.manoeuvre);
     if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
 
     return result;
@@ -332,7 +328,6 @@ export class TestReportValidatorProvider {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
-    const manoeuvre: boolean = hasManoeuvreBeenCompletedCatC(data) || false;
     const eco: boolean = get(data, 'eco.completed', false);
     const uncoupleRecouple: boolean = get(data, 'uncoupleRecouple.selected', false);
 
@@ -340,12 +335,10 @@ export class TestReportValidatorProvider {
       normalStart1
       && uphillStart
       && angledStartControlledStop
-      && manoeuvre
       && eco
       && uncoupleRecouple
     ) : (
       angledStartControlledStop
-      && manoeuvre
       && eco
       && uncoupleRecouple
     );
@@ -364,7 +357,6 @@ export class TestReportValidatorProvider {
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
     }
-    if (!hasManoeuvreBeenCompletedCatC(data)) result.push(legalRequirementsLabels.manoeuvre);
     if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
     if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
     return result;

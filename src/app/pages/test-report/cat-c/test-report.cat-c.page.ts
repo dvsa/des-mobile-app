@@ -11,7 +11,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Observable } from 'rxjs';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -39,7 +38,6 @@ export class TestReportCatCPage extends TestReportBasePageComponent implements O
     testReportValidatorProvider: TestReportValidatorProvider,
     screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
-    statusBar: StatusBar,
     routeByCategory: RouteByCategoryProvider,
   ) {
     super(
@@ -51,7 +49,6 @@ export class TestReportCatCPage extends TestReportBasePageComponent implements O
       testReportValidatorProvider,
       screenOrientation,
       insomnia,
-      statusBar,
       routeByCategory,
     );
     this.displayOverlay = false;
@@ -65,18 +62,6 @@ export class TestReportCatCPage extends TestReportBasePageComponent implements O
       testData$: this.commonPageState.testData$ as Observable<CatCUniqueTypes.TestData>,
     };
     this.setupSubscription();
-  }
-
-  async ionViewWillEnter(): Promise<void> {
-    await super.ionViewWillEnter();
-  }
-
-  ionViewDidEnter(): void {
-    super.ionViewDidEnter();
-  }
-
-  ionViewWillLeave() {
-    super.ionViewWillLeave();
   }
 
   ionViewDidLeave(): void {

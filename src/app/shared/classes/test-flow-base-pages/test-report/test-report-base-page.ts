@@ -153,9 +153,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       manoeuvres$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
-        map(([testData, category]) => {
-          return this.hasManoeuvreBeenCompleted(testData, category);
-        }),
+        map(([testData, category]) => this.hasManoeuvreBeenCompleted(testData, category)),
       ),
       testRequirements$: currentTest$.pipe(
         select(getTestData),
@@ -164,6 +162,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       ),
       category$: currentTest$.pipe(
         select(getTestCategory),
+        map((category) => category as TestCategory),
       ),
       delegatedTest$: currentTest$.pipe(
         select(getDelegatedTestIndicator),
@@ -336,20 +335,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       default:
         break;
     }
-  };
-
-  onCancel = async (): Promise<void> => {
-    await this.modal.dismiss();
-  };
-
-  onContinue = async (): Promise<void> => {
-    await this.modal.dismiss();
-    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
-  };
-
-  onTerminate = async (): Promise<void> => {
-    await this.modal.dismiss();
-    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   };
 
 }
