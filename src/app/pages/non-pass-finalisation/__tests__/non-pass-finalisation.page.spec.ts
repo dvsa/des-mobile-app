@@ -1,7 +1,9 @@
 import {
   ComponentFixture, TestBed, tick, fakeAsync, waitForAsync,
 } from '@angular/core/testing';
-import { IonicModule, NavController, Platform } from '@ionic/angular';
+import {
+  IonicModule, ModalController, NavController, Platform,
+} from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from 'ionic-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
@@ -39,6 +41,7 @@ import {
   ActivityCodeFinalisationMock,
 } from '@providers/activity-code-finalisation/__mocks__/activity-code-finalisation.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
 describe('NonPassFinalisationPage', () => {
@@ -71,6 +74,7 @@ describe('NonPassFinalisationPage', () => {
         { provide: ActivityCodeFinalisationProvider, useClass: ActivityCodeFinalisationMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
   });

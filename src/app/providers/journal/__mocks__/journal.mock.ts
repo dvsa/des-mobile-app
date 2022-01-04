@@ -1,12 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
 import { of, Observable, throwError } from 'rxjs';
-
-const localJournalJson = require('src/assets/mock/local-journal.json');
+import { default as localJournalJson } from '@assets/mock/local-journal.json';
 
 export class JournalProviderMock {
 
-  static mockJournal: ExaminerWorkSchedule = localJournalJson;
+  static mockJournal = localJournalJson as ExaminerWorkSchedule;
 
   private do304ErrorNextCall = false;
   private doTimeoutErrorNextCall = false;
