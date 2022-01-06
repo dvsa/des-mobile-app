@@ -97,6 +97,7 @@ export class IpadIssueComponent implements OnChanges {
       this.ipadIssueControl.setValidators([Validators.required]);
     } else {
       this.ipadIssueControl.clearValidators();
+      this.ipadIssueControl.updateValueAndValidity();
     }
 
     if (this.selected && (!this.technicalFault && !this.lost && !this.stolen && !this.broken)) {
