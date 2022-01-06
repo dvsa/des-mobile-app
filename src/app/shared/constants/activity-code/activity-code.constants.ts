@@ -40,7 +40,7 @@ export enum ActivityCodeDescription {
   BAD_WEATHER_AT_DTC = 'Bad weather at DTC',
   BAD_WEATHER_AT_CANDIDATES_HOME = 'Bad weather at candidate’s home',
   NOT_AVAILABLE_FOR_HOME_TEST_CANDIDATE_FAULT = 'Not available for home test: Candidate’s responsibility',
-  NOT_AVAILABLE_FOR_HOME_TEST_EXAMINER_FAULT = 'Not available for home test: Not candidate’s fault.',
+  NOT_AVAILABLE_FOR_HOME_TEST_EXAMINER_FAULT = 'Not available for home test: Not candidate’s fault',
   BAD_LIGHT = 'Bad light',
   TRAFFIC = 'Traffic congestion',
   NATURAL_DISASTER = 'Natural Disaster',
