@@ -10,6 +10,7 @@ import { FindUserProvider } from '../find-user';
 describe('FindUserProvider', () => {
 
   let findUserProvider: FindUserProvider;
+  let urlProvider: UrlProvider;
   let httpMock: HttpTestingController;
 
   configureTestSuite(() => {
@@ -28,6 +29,8 @@ describe('FindUserProvider', () => {
   beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
     findUserProvider = TestBed.inject(FindUserProvider);
+    urlProvider = TestBed.inject(UrlProvider);
+    spyOn(urlProvider, 'getRekeyFindUserUrl');
   });
 
   describe('userExists', () => {
@@ -36,6 +39,7 @@ describe('FindUserProvider', () => {
 
       findUserProvider.userExists(staffNumber).subscribe();
       httpMock.expectOne('https://www.example.com/api/v1/users/search/1234567');
+      expect(urlProvider.getRekeyFindUserUrl).toHaveBeenCalledWith('1234567');
     });
   });
 

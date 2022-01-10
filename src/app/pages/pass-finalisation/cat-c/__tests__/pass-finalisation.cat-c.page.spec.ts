@@ -39,12 +39,12 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import { PassFinalisationCatCPage } from '../pass-finalisation.cat-c.page';
-import {PassFinalisationValidationError} from '@pages/pass-finalisation/pass-finalisation.actions';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
-  PASS_CERTIFICATE_NUMBER_CTRL
+  PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
+import { PassFinalisationCatCPage } from '../pass-finalisation.cat-c.page';
 
 describe('PassFinalisationCatCPage', () => {
   let fixture: ComponentFixture<PassFinalisationCatCPage>;

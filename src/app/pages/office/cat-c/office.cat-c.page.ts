@@ -112,7 +112,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       faultSummaryProvider,
       faultCountProvider,
     );
-    this.form = new FormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig().role === ExaminerRole.DLG);
   }
@@ -205,10 +204,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
 
     return dangerousFaultCount === 0 && seriousFaultCount === 0 && (drivingFaultCount > OfficeCatCPage.maxFaultCount);
   };
-
-  isTerminated(): boolean {
-    return this.testOutcomeText === TestOutcome.Terminated;
-  }
 
   isPass(): boolean {
     return this.testOutcomeText === TestOutcome.Passed;

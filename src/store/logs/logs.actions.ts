@@ -3,7 +3,7 @@ import { Log } from '@shared/models/log.model';
 
 export const SaveLog = createAction(
   '[GLOBAL] Save Log',
-  props<{payload: Log}>(),
+  props<{ payload: Log }>(),
 );
 
 export const StartSendingLogs = createAction(
@@ -16,12 +16,12 @@ export const SendLogs = createAction(
 
 export const SendLogsSuccess = createAction(
   '[LogsEffects] Send Logs Success',
-  props<{timestamps: number[]}>(),
+  props<{ timestamps: number[] }>(),
 );
 
 export const SendLogsFailure = createAction(
   '[LogsEffects] Send Logs Failure',
-  props<{error: any}>(),
+  props<{ error: any }>(),
 );
 
 export const PersistLog = createAction(
@@ -34,5 +34,5 @@ export const LoadLog = createAction(
 
 export const LoadLogState = createAction(
   '[GLOBAL] Load Log State',
-  props<{payload: Log[]}>(),
+  props<{ payload: Log[] }>(),
 );

@@ -9,6 +9,6 @@ const emptyDays = {
   '2019-02-03': [],
 };
 
-const slots: {[k: string]: SlotItem[]} = emptyDays;
+const slots: { [k: string]: SlotItem[] } = emptyDays;
 
 export default slots;

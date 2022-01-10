@@ -11,6 +11,7 @@ import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.moc
 describe('SearchProvider', () => {
 
   let searchProvider: SearchProvider;
+  let urlProvider: UrlProvider;
   let httpMock: HttpTestingController;
 
   configureTestSuite(() => {
@@ -29,12 +30,15 @@ describe('SearchProvider', () => {
   beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
     searchProvider = TestBed.inject(SearchProvider);
+    urlProvider = TestBed.inject(UrlProvider);
+    spyOn(urlProvider, 'getTestResultServiceUrl');
   });
 
   describe('driverNumberSearch', () => {
     it('should call the search endpoint with the provided driver number', () => {
       searchProvider.driverNumberSearch('12345').subscribe();
       httpMock.expectOne('https://www.example.com/api/v1/test-result?driverNumber=12345');
+      expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
     });
   });
 
@@ -42,6 +46,7 @@ describe('SearchProvider', () => {
     it('should call the search endpoint with the provided application reference', () => {
       searchProvider.applicationReferenceSearch('12345').subscribe();
       httpMock.expectOne('https://www.example.com/api/v1/test-result?applicationReference=12345');
+      expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
     });
   });
 
@@ -61,6 +66,7 @@ describe('SearchProvider', () => {
         // eslint-disable-next-line max-len
         'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true',
       );
+      expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
     });
     it('should not add the paramters to the url if they are not provided', () => {
       searchProvider.advancedSearch({}).subscribe(() => {
@@ -68,6 +74,7 @@ describe('SearchProvider', () => {
           'https://www.example.com/api/v1/test-result',
         );
       });
+      expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
     });
   });
 
@@ -75,6 +82,7 @@ describe('SearchProvider', () => {
     it('should call the search endpoint and get a test result back', () => {
       searchProvider.getTestResult('12345', '123456').subscribe();
       httpMock.expectOne('https://www.example.com/api/v1/test-result/12345/123456');
+      expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
     });
   });
 

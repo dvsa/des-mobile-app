@@ -3,7 +3,7 @@ import {
   Config, IonicModule, ModalController, NavParams, Platform,
 } from '@ionic/angular';
 import {
-  ConfigMock, ModalControllerMock, NavParamsMock, PlatformMock, StatusBarMock,
+  ConfigMock, ModalControllerMock, NavParamsMock, PlatformMock,
 } from 'ionic-mocks';
 import { MockComponent } from 'ng-mocks';
 
@@ -23,13 +23,13 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { configureTestSuite } from 'ng-bullet';
 import { ReverseLeftPopoverComponent } from '@pages/test-report/components/reverse-left-popover/reverse-left-popover';
 import { ReverseLeftComponent } from '@pages/test-report/components/reverse-left/reverse-left';
 import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
 import { ManoeuvreCompetencyComponent } from '../../components/manoeuvre-competency/manoeuvre-competency';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
@@ -64,6 +64,7 @@ describe('TestReportCatCPage', () => {
         MockComponent(VehicleChecksComponent),
         MockComponent(EcoComponent),
         MockComponent(PracticeModeBanner),
+        MockComponent(UncoupleRecoupleComponent),
       ],
       imports: [
         IonicModule,
@@ -95,7 +96,6 @@ describe('TestReportCatCPage', () => {
         { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
-        { provide: StatusBar, useFactory: () => StatusBarMock.instance() },
       ],
     });
   });

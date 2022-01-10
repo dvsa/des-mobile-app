@@ -45,8 +45,7 @@ import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import * as postTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
-import { isAnyOf } from '@shared/helpers/simplifiers';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 interface HealthDeclarationPageState {
   healthDeclarationAccepted$: Observable<boolean>;
@@ -158,7 +157,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       ),
       showVrnBtn$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => isAnyOf(category, [TestCategory.B])),
+        select(showVrnButton),
       ),
     };
 

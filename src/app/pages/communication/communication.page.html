@@ -16,8 +16,9 @@
   <div>
     <form [formGroup]="form">
       <candidate-section [candidateName]="pageState.candidateName$ | async"
-                         [candidateDriverNumber]="pageState.candidateDriverNumber$ | async" (continueClickEvent)="onSubmit()"
-                         [showVRNButton]="false">
+                         [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                         (continueClickEvent)="onSubmit()"
+                         [showVRNButton]="pageState.showVrnBtn$ | async">
       </candidate-section>
 
       <div class="mes-full-width-card-separator"></div>

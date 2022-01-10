@@ -11,7 +11,7 @@ import {
 import {
   PlatformMock,
 } from 'ionic-mocks';
-import { NavControllerMock } from '@shared/mocks/nav-controller-mock';
+import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -39,12 +39,12 @@ import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
 import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { PersistTests } from '@store/tests/tests.actions';
 import { of } from 'rxjs';
 import { FaultSummary } from '@shared/models/fault-marking.model';
+import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
+import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
-import { ToastControllerMock } from '../../__mocks__/toast-controller-mock';
 import { OfficeCatCPage } from '../office.cat-c.page';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
 import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
@@ -74,6 +74,7 @@ describe('OfficeCatCPage', () => {
         MockComponent(FaultCommentCardComponent),
         MockComponent(CandidateSectionComponent),
         MockComponent(DateOfTest),
+        MockComponent(VehicleChecksOfficeCardComponent),
       ],
       imports: [
         IonicModule,
@@ -204,8 +205,6 @@ describe('OfficeCatCPage', () => {
         const saveAndContinueButton = fixture.debugElement.query(By.css('#office-save-button'));
         saveAndContinueButton.triggerEventHandler('click', null);
         fixture.detectChanges();
-
-        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
         expect(component.popToRoot).toHaveBeenCalled();
       });
     });

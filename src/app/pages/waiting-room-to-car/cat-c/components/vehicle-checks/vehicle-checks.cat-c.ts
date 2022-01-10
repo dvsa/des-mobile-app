@@ -4,7 +4,7 @@ import {
 import { FormGroup, FormControl } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { get } from 'lodash';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AppComponent } from '@app/app.component';
@@ -37,7 +37,7 @@ export class VehicleChecksCatCComponent implements OnChanges {
   formGroup: FormGroup;
 
   @Input()
-  category: TestCategory;
+  category: TestCategory | CategoryCode;
 
   @Output()
   fullLicenceHeldChange = new EventEmitter<boolean>();

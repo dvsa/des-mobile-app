@@ -56,6 +56,7 @@ import {
 import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '@app/app.component';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -68,6 +69,7 @@ interface WaitingRoomPageState {
   welshTest$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
   testCategory$: Observable<CategoryCode>;
+  showVrnBtn$: Observable<boolean>;
 }
 
 @Component({
@@ -168,11 +170,17 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
       ),
+      showVrnBtn$: currentTest$.pipe(
+        select(getTestCategory),
+        select(showVrnButton),
+      ),
     };
+
     const {
       welshTest$,
       conductedLanguage$,
     } = this.pageState;
+
     this.merged$ = merge(
       currentTest$.pipe(
         select(getJournalData),
