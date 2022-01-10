@@ -18,8 +18,7 @@ export const getEntitlementCheckText = (): string => 'Entitlement check is requi
 export const getSlotChanged = (slot: any): boolean => slot.hasSlotChanged;
 export const isCategoryEntitlementChecked = (slot: any): boolean => slot.booking.application.categoryEntitlementCheck;
 export const getCategoryEntitlementCheckText = (slot: any):string =>
-  `Check DVLA email confirming entitlement for Cat ${slot.booking.application.testCategory} test.
-   Contact deployment if unable to confirm`;
+  `Check DVLA email confirming entitlement for Cat ${slot.booking.application.testCategory} test.`;
 
 export const getPhoneNumber = (candidate: any): string => {
   if (!isEmpty(candidate.mobileTelephone)) return candidate.mobileTelephone;
