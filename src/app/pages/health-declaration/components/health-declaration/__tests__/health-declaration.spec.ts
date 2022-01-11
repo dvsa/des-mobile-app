@@ -43,12 +43,12 @@ describe('HealthDeclarationComponent', () => {
       it('should correctly setup the form control', () => {
         // ARRANGE
         component.formGroup = new FormGroup({});
-        component.selected = 'true';
+        component.selected = true;
         // ACT
         component.ngOnChanges();
         // ASSERT
         const field = component.formGroup.get(HealthDeclarationComponent.fieldName);
-        expect(field.value).toEqual('true');
+        expect(field.value).toEqual(true);
       });
     });
     describe('healthDeclarationChanged', () => {
@@ -71,7 +71,7 @@ describe('HealthDeclarationComponent', () => {
       it('should validate the field when it is valid', () => {
         // ARRANGE
         component.formGroup = new FormGroup({});
-        component.selected = 'true';
+        component.selected = true;
         component.ngOnChanges();
         fixture.detectChanges();
         // ACT

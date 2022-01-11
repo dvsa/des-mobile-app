@@ -58,7 +58,7 @@ import { RouteNumberComponent } from '../../components/route-number/route-number
 
 // TODO - MES-7286 - increase code coverage of unit tests in this file.
 
-describe('OfficePage', () => {
+describe('OfficeCatBPage', () => {
   let fixture: ComponentFixture<OfficeCatBPage>;
   let component: OfficeCatBPage;
   let store$: Store<StoreModel>;

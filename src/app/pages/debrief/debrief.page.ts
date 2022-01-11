@@ -1,4 +1,4 @@
-import { NavController, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -15,7 +15,9 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { TranslateService } from '@ngx-translate/core';
-import { Eco, ETA } from '@dvsa/mes-test-schema/categories/common';
+import {
+  CategoryCode, Eco, ETA, QuestionResult,
+} from '@dvsa/mes-test-schema/categories/common';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
@@ -32,6 +34,9 @@ import { TestOutcome } from '@shared/models/test-outcome';
 import { Router } from '@angular/router';
 import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { getVehicleChecks } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
+import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -43,6 +48,8 @@ interface DebriefPageState {
   testResult$: Observable<string>;
   conductedLanguage$: Observable<string>;
   candidateName$: Observable<string>;
+  category$: Observable<CategoryCode>;
+  tellMeShowMeQuestions$: Observable<QuestionResult[]>;
 }
 @Component({
   selector: '.debrief-page',
@@ -68,53 +75,55 @@ export class DebriefPage extends PracticeableBasePageComponent {
 
   constructor(
     store$: Store<StoreModel>,
-    public navController: NavController,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     private translate: TranslateService,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
-    public router: Router,
+    router: Router,
     protected routeByCategoryProvider: RouteByCategoryProvider,
+    private testDataByCategoryProvider : TestDataByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
 
   ngOnInit(): void {
     super.ngOnInit();
+
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
     );
-    const category$ = currentTest$.pipe(
+    const testCategory$ = currentTest$.pipe(
       select(getTestCategory),
     );
     this.pageState = {
       seriousFaults$: currentTest$.pipe(
         select(getTestData),
-        map((data) =>
-          this.faultSummaryProvider.getSeriousFaultsList(data, TestCategory.B)
+        withLatestFrom(testCategory$),
+        map(([data, category]) =>
+          this.faultSummaryProvider.getSeriousFaultsList(data, category as TestCategory)
             .map((fault) => fault.competencyIdentifier)),
       ),
       dangerousFaults$: currentTest$.pipe(
         select(getTestData),
-        map((data) =>
-          this.faultSummaryProvider.getDangerousFaultsList(data, TestCategory.B)
+        withLatestFrom(testCategory$),
+        map(([data, category]) =>
+          this.faultSummaryProvider.getDangerousFaultsList(data, category as TestCategory)
             .map((fault) => fault.competencyIdentifier)),
       ),
       drivingFaults$: currentTest$.pipe(
         select(getTestData),
-        map((data) => this.faultSummaryProvider.getDrivingFaultsList(data, TestCategory.B)),
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory)),
       ),
       drivingFaultCount$: currentTest$.pipe(
         select(getTestData),
-        withLatestFrom(category$),
-        map(([testData, category]) => {
-          this.testCategory = category as TestCategory;
-          return this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData);
-        }),
+        withLatestFrom(testCategory$),
+        map(([testData, category]) =>
+          this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData)),
       ),
       etaFaults$: currentTest$.pipe(
         select(getTestData),
@@ -136,13 +145,24 @@ export class DebriefPage extends PracticeableBasePageComponent {
         select(getCandidate),
         select(getUntitledCandidateName),
       ),
+      category$: currentTest$.pipe(
+        select(getTestCategory),
+      ),
+      tellMeShowMeQuestions$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getVehicleChecks),
+        map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions]),
+        map((checks) => checks.filter((c) => c.code !== undefined)),
+      ),
     };
 
     const {
-      testResult$, etaFaults$, ecoFaults$, conductedLanguage$,
+      testResult$, etaFaults$, ecoFaults$, conductedLanguage$, category$,
     } = this.pageState;
 
     this.subscription = merge(
+      category$.pipe(map((result) => this.testCategory = result as TestCategory)),
       testResult$.pipe(map((result) => this.outcome = result)),
       etaFaults$.pipe(
         map((eta) => {
@@ -164,18 +184,16 @@ export class DebriefPage extends PracticeableBasePageComponent {
     this.store$.dispatch(DebriefViewDidEnter());
   }
 
-  ionViewDidLeave(): void {
+  async ionViewDidLeave(): Promise<void> {
     super.ionViewDidLeave();
-    if (this.isTestReportPracticeMode) {
-      if (super.isIos()) {
-        this.screenOrientation.unlock();
-        this.insomnia.allowSleepAgain();
-      }
+
+    if (this.isTestReportPracticeMode && super.isIos()) {
+      this.screenOrientation.unlock();
+      await this.insomnia.allowSleepAgain();
     }
 
     if (this.subscription) {
       this.subscription.unsubscribe();
-
     }
   }
 
@@ -185,8 +203,9 @@ export class DebriefPage extends PracticeableBasePageComponent {
       return;
     }
     this.store$.dispatch(EndDebrief());
+
     if (this.outcome === TestOutcome.PASS) {
-      await this.routeByCategoryProvider.navigateToPage('PASS_FINALISATION_PAGE', this.testCategory);
+      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.testCategory);
       return;
     }
     await this.router.navigate([TestFlowPageNames.POST_DEBRIEF_HOLDING_PAGE]);
@@ -194,6 +213,19 @@ export class DebriefPage extends PracticeableBasePageComponent {
 
   isCategoryBTest(): boolean {
     return this.testCategory === TestCategory.B;
+  }
+
+  showVehicleChecksArrayCard(): boolean {
+    return isAnyOf(this.testCategory, [
+      // Cat BE
+      TestCategory.BE,
+      // Cat C
+      TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
+      // Cat D
+      TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E,
+      // Home
+      TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
+    ]);
   }
 
 }

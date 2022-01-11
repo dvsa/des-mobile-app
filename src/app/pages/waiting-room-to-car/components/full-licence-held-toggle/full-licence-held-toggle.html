@@ -1,0 +1,38 @@
+<ion-row class="mes-validated-row mes-row-separator ion-nowrap" id="full-licence-held-row" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="full-cat-held-label">Full Cat {{testCategory | slice:0:1}} held?</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="fullLicenceHeldCtrl"
+               name="fullLicenceHeldCtrl"
+               id="full-licence-held-yes"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="fullLicenceHeldChanged($event.target.value)"
+               value="Y">
+        <label for="full-licence-held-yes" class="radio-label">Yes</label>
+      </ion-col>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="fullLicenceHeldCtrl"
+               name="fullLicenceHeldCtrl"
+               id="full-licence-held-no"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="fullLicenceHeldChanged($event.target.value)"
+               value="N">
+        <label for="full-licence-held-no" class="radio-label">No</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="wrtc-full-licence-held-toggle-validation-text">
+        Select the full licence held toggle
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

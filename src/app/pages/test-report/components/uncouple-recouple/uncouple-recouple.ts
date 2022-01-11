@@ -41,6 +41,9 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
   @Input()
   category: CategoryCode;
 
+  @Input()
+  disableDrivingFaults?: boolean = false;
+
   componentState: UncoupleRecoupleComponentState;
   subscription: Subscription;
 
@@ -169,13 +172,12 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (wasPress) {
+    if (wasPress && !this.disableDrivingFaults) {
       this.store$.dispatch(UncoupleRecoupleAddDrivingFault());
     }
   };
 
   removeFault = (): void => {
-
     if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
       this.store$.dispatch(UncoupleRecoupleRemoveFault());
       this.store$.dispatch(ToggleDangerousFaultMode());

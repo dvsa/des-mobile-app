@@ -128,13 +128,14 @@
     }
   }
 
-  .popover {
+  .reverse-left-popover {
     background-color: var(--mes-light-grey);
     width: calc(100% - 12px);
     left: 6px;
     margin-top: 9px;
     position: fixed;
     z-index: 270;
+    height: 236px;
   }
 
 }

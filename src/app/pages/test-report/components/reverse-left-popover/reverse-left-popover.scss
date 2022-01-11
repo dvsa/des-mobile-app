@@ -1,19 +1,21 @@
 :host {
 
-  .popover-content {
-    padding: 21px;
-    border: 0 none var(--mes-white);
-    position: relative;
-  }
-
   .manoeuvre-competencies-container {
-    margin-top: 40px;
-    margin-right: auto;
-    margin-bottom: 40px;
-    margin-left: auto;
+    margin: 40px auto;
 
     .first-manoeuvre-competency-button {
       margin-bottom: 20px;
     }
+  }
+
+  .popover-content {
+    padding: 21px;
+    border: 0 none var(--mes-white);
+    position: relative;
+    margin-left: 220px;
+  }
+
+  .manoeuvre-competencies-container-column {
+    margin-top: 40px;
   }
 }

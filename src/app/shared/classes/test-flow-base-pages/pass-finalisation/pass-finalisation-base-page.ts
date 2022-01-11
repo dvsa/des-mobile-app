@@ -38,6 +38,8 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import {
+  Code78NotPresent,
+  Code78Present,
   PassCertificateNumberChanged,
   ProvisionalLicenseNotReceived,
   ProvisionalLicenseReceived,
@@ -168,6 +170,14 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   debriefWitnessedChanged(debriefWitnessed: boolean) {
     this.store$.dispatch(debriefWitnessed ? DebriefWitnessed() : DebriefUnWitnessed());
+  }
+
+  onCode78Present(present: boolean): void {
+    if (present) {
+      this.store$.dispatch(Code78Present());
+    } else {
+      this.store$.dispatch(Code78NotPresent());
+    }
   }
 
   isWelshChanged(isWelsh: boolean) {

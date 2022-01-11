@@ -97,7 +97,7 @@ export class BikeCategoryTypeComponent implements OnChanges {
     this.categoryCodeChange.emit(category);
   }
 
-  validateCategorySelection(): null | {categoryTypeSelectCategory: boolean} {
+  validateCategorySelection(): null | { categoryTypeSelectCategory: boolean } {
     return this.categoryConfirmed ? null : { categoryTypeSelectCategory: false };
   }
 

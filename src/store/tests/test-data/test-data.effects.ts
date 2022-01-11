@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
-  concatMap, throttleTime, withLatestFrom, switchMap,
+  concatMap, throttleTime, withLatestFrom, switchMap, filter,
 } from 'rxjs/operators';
 import { Eco } from '@dvsa/mes-test-schema/categories/common';
 import { StoreModel } from '@shared/models/store.model';
@@ -42,11 +42,8 @@ export class TestDataEffects {
         ),
       ),
     )),
-    switchMap(([action, eco]: [ReturnType<typeof ecoActions.ToggleControlEco>, Eco]) => {
-      if (action && eco.adviceGivenControl && !eco.completed) {
-        return of(ecoActions.ToggleEco());
-      }
-    }),
+    filter(([action, eco]) => action && eco.adviceGivenControl && !eco.completed),
+    switchMap(([,]: [ReturnType<typeof ecoActions.ToggleControlEco>, Eco]) => of(ecoActions.ToggleEco())),
   ));
 
   setEcoPlanningCompletedEffect$ = createEffect(() => this.actions$.pipe(
@@ -61,11 +58,8 @@ export class TestDataEffects {
         ),
       ),
     )),
-    switchMap(([action, eco]: [ReturnType<typeof ecoActions.TogglePlanningEco>, Eco]) => {
-      if (action && eco.adviceGivenPlanning && !eco.completed) {
-        return of(ecoActions.ToggleEco());
-      }
-    }),
+    filter(([action, eco]) => action && eco.adviceGivenPlanning && !eco.completed),
+    switchMap(([,]: [ReturnType<typeof ecoActions.TogglePlanningEco>, Eco]) => of(ecoActions.ToggleEco())),
   ));
 
 }

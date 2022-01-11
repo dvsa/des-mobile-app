@@ -1,19 +1,8 @@
-// eslint-disable-next-line max-classes-per-file
-import { Injectable, NgModule } from '@angular/core';
-import { Routes, RouterModule, CanDeactivate } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
-import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
+import { CanDeactivateHealthDeclaration } from '@pages/health-declaration/can-health-declaration-deactivate';
 import { HealthDeclarationPage } from './health-declaration.page';
-
-@Injectable()
-class CanDeactivateHealthDeclaration implements CanDeactivate<HealthDeclarationPage> {
-  constructor(private deviceAuthenticationProvider: DeviceAuthenticationProvider) {
-  }
-
-  canDeactivate() {
-    return this.deviceAuthenticationProvider.triggerLockScreen();
-  }
-}
 
 const routes: Routes = [
   {
@@ -26,6 +15,5 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [CanDeactivateHealthDeclaration],
 })
 export class HealthDeclarationPageRoutingModule {}

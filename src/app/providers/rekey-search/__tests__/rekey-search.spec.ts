@@ -8,8 +8,8 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 
 describe('RekeySearchProvider', () => {
-
   let rekeySearchProvider: RekeySearchProvider;
+  let urlProvider: UrlProvider;
   let httpMock: HttpTestingController;
 
   configureTestSuite(() => {
@@ -28,6 +28,8 @@ describe('RekeySearchProvider', () => {
   beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
     rekeySearchProvider = TestBed.inject(RekeySearchProvider);
+    urlProvider = TestBed.inject(UrlProvider);
+    spyOn(urlProvider, 'getRekeySearchUrl');
   });
 
   describe('getTest', () => {
@@ -39,6 +41,7 @@ describe('RekeySearchProvider', () => {
 
       rekeySearchProvider.getBooking(rekeySearchParams).subscribe();
       httpMock.expectOne('https://www.example.com/api/v1/journals/654321/search?appRef=123456');
+      expect(urlProvider.getRekeySearchUrl).toHaveBeenCalledWith('654321');
     });
   });
 

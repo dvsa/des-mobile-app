@@ -1,0 +1,60 @@
+:host {
+  .mes-return-button {
+    min-width: 250px;
+    margin-bottom: 0;
+  }
+
+  .vehicle-check-score {
+    .vehicle-checks-result {
+      font-weight: 600;
+      font-size: 23px;
+      align-items: center;
+    }
+
+    .serious-fault-row {
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      margin-right: 8px;
+    }
+  }
+
+  .see-answer-link {
+    color: #3572b0;
+    background: transparent;
+    font-size: 23px;
+    text-decoration: underline;
+    text-underline-position: under;
+    font-weight: 500;
+    line-height: 20px;
+  }
+
+  ion-icon {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .see-answer-link-container {
+    text-align: right;
+    padding-right: 24px;
+  }
+
+  .small-top-margin {
+    margin-top: 24px;
+  }
+
+  .vehicle-checks-result-text {
+    color: black;
+    font-size: 24px;
+  }
+
+  .select-questions-btn {
+    color: black;
+    font-size: 20px;
+    font-weight: normal;
+    --box-shadow: inset -2px -2px 0 0 var(--gds-grey-1);
+    --border-radius: 10px;
+  }
+
+}

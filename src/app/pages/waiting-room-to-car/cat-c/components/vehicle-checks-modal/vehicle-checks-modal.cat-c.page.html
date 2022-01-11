@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button class="nav-close" id="closeVehicleChecksModalCatC" (click)="onClose()">
+        <ion-icon name="close-outline" class="close-modal-class"></ion-icon>
+        <span class="close-modal-class">Close</span>
+      </ion-button>
+    </ion-buttons>
+    <ion-title id="vehicle-checks-modal-title">
+      Vehicle checks - {{ pageState.candidateName$ | async }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card>
+    <full-licence-held-toggle
+      *ngIf="showFullLicenceHeld()"
+      [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
+      [testCategory]="category"
+      [formGroup]="formGroup"
+      (fullLicenceHeldChange)="fullLicenceHeldChange($event)">
+    </full-licence-held-toggle>
+  </ion-card>
+
+  <div *ngIf="pageState.showFullLicenceHeld$ | async">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <h4 id="vehicle-checks-modal-show-me-label">
+            Show me questions
+          </h4>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <vehicle-checks-question-cat-c *ngFor="let question of showMeQuestionsNumberArray; let i = index; let l = last"
+                                       [formGroup]="formGroup"
+                                       [questionResult]="(pageState.showMeQuestions$ | async)[i]"
+                                       [questions]="showMeQuestions"
+                                       [questionsToDisable]="pageState.showMeQuestions$ | async"
+                                       [isLastQuestion]="l"
+                                       (vehicleChecksQuestionChange)="showMeQuestionChanged($event, i)"
+                                       (vehicleChecksQuestionOutcomeChange)="showMeQuestionOutcomeChanged($event, i)">
+        </vehicle-checks-question-cat-c>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <h4 id="vehicle-checks-modal-tell-me-label">
+            Tell me questions
+          </h4>
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <vehicle-checks-question-cat-c *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
+                                       [formGroup]="formGroup"
+                                       [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
+                                       [questions]="tellMeQuestions"
+                                       [questionsToDisable]="pageState.tellMeQuestions$ | async"
+                                       [isLastQuestion]="l"
+                                       (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
+                                       (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)">
+        </vehicle-checks-question-cat-c>
+      </ion-card-content>
+    </ion-card>
+    <warning-banner
+            *ngIf="shouldDisplayBanner()"
+            warningText="This will result in {{vehicleChecksScore.drivingFaults}} driving faults and {{vehicleChecksScore.seriousFaults}} serious fault">
+    </warning-banner>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-button class="mes-primary-button" id="submit-vehicle-checks" (click)="onSubmit()">
+      <h3 id="vehicle-checks-modal-submit-label">Submit vehicle checks</h3>
+    </ion-button>
+  </ion-row>
+</ion-footer>
+

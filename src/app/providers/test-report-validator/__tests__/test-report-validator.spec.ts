@@ -88,7 +88,7 @@ describe('TestReportValidator', () => {
   });
 
   beforeEach(() => {
-    testReportValidatorProvider = TestBed.get(TestReportValidatorProvider);
+    testReportValidatorProvider = TestBed.inject(TestReportValidatorProvider);
   });
 
   describe('isTestReportValid', () => {

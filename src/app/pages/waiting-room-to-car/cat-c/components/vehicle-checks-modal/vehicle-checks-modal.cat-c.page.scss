@@ -1,0 +1,25 @@
+:host {
+  .nav-close ion-icon {
+    margin: -1px 0 0;
+    display: inherit;
+    min-width: 28px;
+    font-size: 3.4rem;
+  }
+
+  ion-footer {
+    --background-color: var(--mes-white);
+    ion-button {
+      width: 100%;
+      min-height: 56px;
+    }
+  }
+
+  .card-header-ios {
+    padding: 0 !important;
+    padding-left: 15px !important;
+  }
+
+  .close-modal-class {
+    color: white;
+  }
+}

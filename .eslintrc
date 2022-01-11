@@ -13,7 +13,6 @@
   ],
   "rules": {
     "import/no-named-default": "off",
-    "@typescript-eslint/object-curly-spacing": "off",
     "@typescript-eslint/no-useless-constructor": "off",
     "no-useless-constructor": "off",
     "no-param-reassign": "off",
@@ -32,6 +31,7 @@
     "no-confusing-arrow": "off",
     "import/prefer-default-export": "off",
     "quotes": ["error", "single"],
+    "no-nested-ternary": "off",
     "max-len": ["error", { "code": 120 }],
     "rxjs/finnish": [
       "error",

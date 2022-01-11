@@ -45,6 +45,7 @@ import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import * as postTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
+import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 interface HealthDeclarationPageState {
   healthDeclarationAccepted$: Observable<boolean>;
@@ -57,6 +58,7 @@ interface HealthDeclarationPageState {
   licenseProvided$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
   testCategory$: Observable<CategoryCode>;
+  showVrnBtn$: Observable<boolean>;
 }
 @Component({
   selector: 'app-health-declaration',
@@ -70,7 +72,6 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   licenseProvided: boolean;
   healthDeclarationAccepted: boolean;
   subscription: Subscription;
-  inputSubscriptions: Subscription[] = [];
   merged$: Observable<boolean | string>;
   formControl: FormControl;
   static readonly fieldName: string = 'healthCheckbox';
@@ -89,23 +90,20 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     this.formGroup = new FormGroup({});
   }
 
-  ionViewDidEnter() {
+  ionViewDidEnter(): void {
     this.store$.dispatch(HealthDeclarationViewDidEnter());
   }
 
-  ngOnChanges(): void {
-    if (!this.formControl) {
-      this.formControl = new FormControl('', []);
-      this.formGroup.addControl(HealthDeclarationPage.fieldName, this.formControl);
+  async canDeActivate(): Promise<boolean> {
+    try {
+      await this.deviceAuthenticationProvider.triggerLockScreen();
+      return true;
+    } catch {
+      return false;
     }
-    this.formControl.patchValue(this.healthDeclarationAccepted);
   }
 
-  isInvalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     super.ngOnInit();
 
     const currentTest$ = this.store$.pipe(
@@ -126,23 +124,17 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
         select(getPostTestDeclarations),
         select(getSignatureStatus),
       ),
-      candidateName$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
+      candidateName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getCandidateName),
       ),
-      candidateUntitledName$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
+      candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getUntitledCandidateName),
       ),
-      candidateDriverNumber$: this.store$.pipe(
-        select(getTests),
-        select(getCurrentTest),
+      candidateDriverNumber$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getCandidateDriverNumber),
@@ -162,6 +154,10 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       ),
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
+      ),
+      showVrnBtn$: currentTest$.pipe(
+        select(getTestCategory),
+        select(showVrnButton),
       ),
     };
 
@@ -198,16 +194,18 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     this.store$.dispatch(postTestDeclarationsActions.ToggleReceiptDeclaration());
   }
 
-  async onSubmit() {
+  async onSubmit(): Promise<void> {
     Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
+
     if (this.formGroup.valid) {
       if (!this.healthDeclarationAccepted) {
-        this.showConfirmHealthDeclarationModal();
+        await this.showConfirmHealthDeclarationModal();
       } else {
         await this.persistAndNavigate(false);
       }
       return;
     }
+
     Object.keys(this.formGroup.controls).forEach((controlName) => {
       if (this.formGroup.controls[controlName].invalid) {
         this.store$.dispatch(HealthDeclarationValidationError(`${controlName} is blank`));
@@ -215,35 +213,30 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     });
   }
 
-  showConfirmHealthDeclarationModal() {
+  async showConfirmHealthDeclarationModal(): Promise<void> {
     const shortMessage = 'Remind the candidate to contact DVLA';
     // eslint-disable-next-line operator-linebreak
     const extendedMessage =
       // eslint-disable-next-line max-len
       `You need to give the provisional licence back to the candidate.<br/>The field 'Driver licence received' will be automatically changed to 'no'.<br/>${shortMessage}`;
-    this.alertController.create({
+
+    const alert = await this.alertController.create({
       id: 'health-declaration-alert',
       header: 'The candidate has not confirmed the health declaration',
       message: this.licenseProvided ? extendedMessage : shortMessage,
       cssClass: 'confirm-declaration-modal',
       buttons: [
-        {
-          text: 'Cancel',
-          handler: () => { },
-        },
-        {
-          text: 'Continue',
-          handler: () => this.persistAndNavigate(true),
-        },
+        { text: 'Cancel', handler: () => { } },
+        { text: 'Continue', handler: () => this.persistAndNavigate(true) },
       ],
       backdropDismiss: false,
-    }).then(async (res) => {
-      await res.present();
     });
+    await alert.present();
   }
 
   async persistAndNavigate(resetLicenseProvided: boolean) {
     const canNavigate: boolean = await this.router.navigate([CONFIRM_TEST_DETAILS]);
+
     if (canNavigate) {
       if (this.licenseProvided && resetLicenseProvided) {
         this.store$.dispatch(ProvisionalLicenseNotReceived());
@@ -254,12 +247,9 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
+
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-
-    if (this.inputSubscriptions) {
-      this.inputSubscriptions.forEach((sub) => sub.unsubscribe());
     }
   }
 }

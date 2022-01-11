@@ -17,6 +17,7 @@ import { ExaminerBookedEffects } from '@store/tests/examiner-booked/examiner-boo
 import { ExaminerConductedEffects } from '@store/tests/examiner-conducted/examiner-conducted.effects';
 import { TestStatusAnalyticsEffects } from '@store/tests/test-status/test-status.analytics.effects';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { ManoeuvresByCategoryProvider } from '@providers/manoeuvres-by-category/manoeuvres-by-category';
 import { TestsEffects } from './tests.effects';
 import { testsReducer } from './tests.reducer';
 
@@ -39,7 +40,7 @@ import { testsReducer } from './tests.reducer';
     // NavigationProvider,
     NavigationStateProvider,
     TestDataByCategoryProvider,
-    // ManoeuvresByCategoryProvider @TODO MES-7130: enable when CATX+E is enabled;
+    ManoeuvresByCategoryProvider,
     VehicleDetailsByCategoryProvider,
   ],
 })

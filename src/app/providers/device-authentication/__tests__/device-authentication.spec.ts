@@ -10,7 +10,6 @@ import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.moc
 import { AppConfig } from '../../app-config/app-config.model';
 
 describe('DeviceAuthenticationProvider', () => {
-
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
 
   configureTestSuite(() => {
@@ -41,14 +40,14 @@ describe('DeviceAuthenticationProvider', () => {
 
     it('should resolve to false if environment file has isTest set to true', async () => {
       spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DE' } as AppConfig);
-      (environment as TestersEnvironmentFile).isTest = true;
+      (environment as unknown as TestersEnvironmentFile).isTest = true;
       const result = await deviceAuthenticationProvider.triggerLockScreen();
       expect(result).toEqual(false);
     });
 
     it('should resolve to true if environment file has isTest set to true', async () => {
       spyOn(deviceAuthenticationProvider.appConfig, 'getAppConfig').and.returnValue({ role: 'DE' } as AppConfig);
-      (environment as TestersEnvironmentFile).isTest = false;
+      (environment as unknown as TestersEnvironmentFile).isTest = false;
       const result = await deviceAuthenticationProvider.triggerLockScreen();
       expect(result).toEqual(true);
     });

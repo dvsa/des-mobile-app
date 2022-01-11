@@ -35,14 +35,14 @@ describe('ReceiptDeclarationComponent', () => {
       it('should correctly setup the form control', () => {
         // ARRANGE
         component.formGroup = new FormGroup({});
-        component.selected = 'true';
+        component.selected = true;
         // ACT
         component.ngOnChanges();
         // ASSERT
         const field = component.formGroup.get(ReceiptDeclarationComponent.fieldName);
         expect(field).not.toBeNull();
         expect(field.validator).not.toBeNull();
-        expect(field.value).toEqual('true');
+        expect(field.value).toEqual(true);
       });
     });
     describe('receiptDeclarationChanged', () => {
@@ -65,7 +65,7 @@ describe('ReceiptDeclarationComponent', () => {
       it('should validate the field when it is valid', () => {
         // ARRANGE
         component.formGroup = new FormGroup({});
-        component.selected = 'true';
+        component.selected = true;
         component.ngOnChanges();
         fixture.detectChanges();
         // ACT

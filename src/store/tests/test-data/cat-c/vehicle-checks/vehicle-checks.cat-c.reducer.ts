@@ -1,40 +1,26 @@
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { createReducer, on } from '@ngrx/store';
+import { dropRight } from 'lodash';
 import * as vehicleChecksCatCActionTypes from './vehicle-checks.cat-c.action';
 
 const initialState: CatCUniqueTypes.VehicleChecks = {
   tellMeQuestions: Array(1).fill({}),
   showMeQuestions: Array(1).fill({}),
   vehicleChecksCompleted: null,
+  fullLicenceHeld: null,
 };
 
-export const generateInitialState = (category: TestCategory): CatCUniqueTypes.VehicleChecks => {
-  // eslint-disable-next-line default-case
-  switch (category) {
-    case TestCategory.C:
-    case TestCategory.C1:
-      return {
-        tellMeQuestions: Array(2).fill({}),
-        showMeQuestions: Array(3).fill({}),
-        vehicleChecksCompleted: null,
-      };
-    case TestCategory.CE:
-    case TestCategory.C1E:
-      return {
-        tellMeQuestions: Array(1).fill({}),
-        showMeQuestions: Array(1).fill({}),
-        vehicleChecksCompleted: null,
-      };
-  }
-};
+export const generateInitialState = (): CatCUniqueTypes.VehicleChecks => ({
+  tellMeQuestions: Array(2).fill({}),
+  showMeQuestions: Array(3).fill({}),
+  vehicleChecksCompleted: null,
+  fullLicenceHeld: null,
+});
 
 export const vehicleChecksCatCReducer = createReducer(
   initialState,
-  on(vehicleChecksCatCActionTypes.InitialiseVehicleChecks, (_, {
-    category,
-  }): CatCUniqueTypes.VehicleChecks => ({
-    ...generateInitialState(category),
+  on(vehicleChecksCatCActionTypes.InitialiseVehicleChecks, (): CatCUniqueTypes.VehicleChecks => ({
+    ...generateInitialState(),
   })),
   on(vehicleChecksCatCActionTypes.ShowMeQuestionSelected, (state, {
     showMeQuestion,
@@ -87,5 +73,22 @@ export const vehicleChecksCatCReducer = createReducer(
   }): CatCUniqueTypes.VehicleChecks => ({
     ...state,
     showMeQuestions: [...payload],
+  })),
+  on(vehicleChecksCatCActionTypes.DropExtraVehicleChecks, (state): CatCUniqueTypes.VehicleChecks => ({
+    ...state,
+    showMeQuestions: dropRight(state.showMeQuestions, state.showMeQuestions.length - 1),
+    tellMeQuestions: dropRight(state.tellMeQuestions, state.tellMeQuestions.length - 1),
+  })),
+  on(vehicleChecksCatCActionTypes.DropExtraVehicleChecksDelegated, (state): CatCUniqueTypes.VehicleChecks => {
+    const showMeQuestion1 = state.showMeQuestions.shift();
+    return {
+      ...state,
+      tellMeQuestions: showMeQuestion1 ? [showMeQuestion1] : [],
+      showMeQuestions: state.showMeQuestions || [],
+    };
+  }),
+  on(vehicleChecksCatCActionTypes.SetFullLicenceHeld, (state, { fullLicenceHeld }): CatCUniqueTypes.VehicleChecks => ({
+    ...state,
+    fullLicenceHeld,
   })),
 );

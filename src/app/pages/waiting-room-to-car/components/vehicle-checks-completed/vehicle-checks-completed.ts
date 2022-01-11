@@ -3,21 +3,45 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { vehicleChecksQuestionsByCategory } from '@shared/helpers/vehicle-checks-questions-by-category';
+import { merge, Observable, Subscription } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import {
+  getFullLicenceHeld,
+  getVehicleChecksCatC,
+  hasFullLicenceHeldBeenSelected,
+} from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
+import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { StoreModel } from '@shared/models/store.model';
+import { vehicleChecksQuestionsByLicenceHeld } from '@shared/helpers/vehicle-checks-questions-by-category';
 
 enum VehicleChecksCompletedResult {
   COMPLETED = 'Completed',
   NOT_COMPLETED = 'Not completed',
 }
 
+interface ComponentState {
+  fullLicenceHeld$: Observable<boolean>;
+  fullLicenceHeldSelection$: Observable<string>;
+  drivingFaultsNumberOptions$: Observable<number[]>;
+}
+
 @Component({
   selector: 'vehicle-checks-completed',
   templateUrl: 'vehicle-checks-completed.html',
+  styleUrls: ['vehicle-checks-completed.scss'],
 })
 export class VehicleChecksToggleComponent implements OnChanges {
 
   formControl: FormControl;
+  componentState: ComponentState;
   drivingFaultNumberFormControl: FormControl;
+  subscription: Subscription;
+  merged$: Observable<boolean>;
+  drivingFaultsNumberOptions: number[] = [];
+  fullLicenceSelection: string;
 
   @Input()
   vehicleChecksCompleted: boolean;
@@ -34,12 +58,53 @@ export class VehicleChecksToggleComponent implements OnChanges {
   @Output()
   vehicleChecksDrivingFaultsNumberChange = new EventEmitter<number>();
 
-  drivingFaultsNumberOptions: number[];
+  constructor(private store$: Store<StoreModel>) {}
 
-  ngOnInit(): void {
-    this.drivingFaultsNumberOptions = Array(
-      vehicleChecksQuestionsByCategory(this.testCategory) + 1,
-    ).fill(null).map((v, i) => i);
+  ngOnInit() {
+    const currentTest$ = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+    );
+
+    this.componentState = {
+      fullLicenceHeld$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatC),
+        select(getFullLicenceHeld),
+      ),
+      fullLicenceHeldSelection$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatC),
+        select(getFullLicenceHeld),
+        map((licenceHeld: boolean) => hasFullLicenceHeldBeenSelected(licenceHeld)),
+      ),
+      drivingFaultsNumberOptions$: currentTest$.pipe(
+        select(getTestData),
+        select(getVehicleChecksCatC),
+        select(getFullLicenceHeld),
+        map((licenceHeld) => Array(vehicleChecksQuestionsByLicenceHeld(licenceHeld) + 1).fill(null).map((v, i) => i)),
+      ),
+    };
+
+    const { fullLicenceHeld$ } = this.componentState;
+
+    const merged$ = merge(
+      fullLicenceHeld$.pipe(
+        tap(() => {
+          // when fullLicenceHeld changes, then set the fault count dropdown back to a null in it's default state
+          this.drivingFaultNumberFormControl.markAsPristine({ onlySelf: true });
+          this.drivingFaultNumberFormControl.patchValue(null);
+        }),
+      ),
+    );
+
+    this.subscription = merged$.subscribe();
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   ngOnChanges(): void {
@@ -48,7 +113,7 @@ export class VehicleChecksToggleComponent implements OnChanges {
       this.formGroup.addControl('vehicleChecksToggleCtrl', this.formControl);
     }
     if (!this.drivingFaultNumberFormControl) {
-      this.drivingFaultNumberFormControl = new FormControl();
+      this.drivingFaultNumberFormControl = new FormControl(null, [Validators.required]);
       this.formGroup.addControl('vehicleChecksDrivingFaultsNumber', this.drivingFaultNumberFormControl);
     }
     this.formControl.patchValue(this.vehicleChecksCompleted);
@@ -62,6 +127,10 @@ export class VehicleChecksToggleComponent implements OnChanges {
 
   vehicleChecksDrivingFaultsNumberChanged(number: number) {
     this.vehicleChecksDrivingFaultsNumberChange.emit(number);
+  }
+
+  get invalidDropdown(): boolean {
+    return !this.drivingFaultNumberFormControl.valid && this.drivingFaultNumberFormControl.dirty;
   }
 
   get invalid(): boolean {

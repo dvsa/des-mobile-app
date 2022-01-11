@@ -87,7 +87,7 @@ import {
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 import { GearboxCategoryChanged, PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';
 import {
-  InitialiseVehicleChecks as InitialiseVehicleChecksCatC,
+  InitialiseVehicleChecks as InitialiseVehicleChecksCatC, SetFullLicenceHeld,
 } from './test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import {
   InitializeVehicleChecks as InitializeVehicleChecksCatD,
@@ -257,6 +257,14 @@ export class TestsEffects {
         || startTestAction.category === TestCategory.D1E
         || startTestAction.category === TestCategory.DE) {
         arrayOfActions.push(InitializeVehicleChecksCatD(startTestAction.category));
+      }
+      if (
+        startTestAction.category === TestCategory.C
+        || startTestAction.category === TestCategory.C1
+        || startTestAction.category === TestCategory.D
+        || startTestAction.category === TestCategory.D1
+      ) {
+        arrayOfActions.push(SetFullLicenceHeld(false));
       }
       if (
         startTestAction.category === TestCategory.F

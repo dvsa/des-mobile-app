@@ -113,7 +113,7 @@ export const baseJournalData: JournalModel = {
   completedTests: [],
 };
 
-const slots:{[k: string]: SlotItem[]} = groupBy(
+const slots:{ [k: string]: SlotItem[] } = groupBy(
   slotItems, (slot: SlotItem) => DateTime.at(slot.slotData.slotDetail.start).format('YYYY-MM-DD'),
 );
 

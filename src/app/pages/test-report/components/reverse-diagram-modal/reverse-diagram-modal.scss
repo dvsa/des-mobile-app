@@ -12,6 +12,10 @@
     font-size: 3.4rem;
   }
 
+  .close-class {
+    color: white;
+  }
+
   .diagram {
     background: var(--mes-white);
 
@@ -54,6 +58,7 @@
       .label {
         font-weight: bold;
         text-align: right;
+        color: black;
       }
 
       .result {
@@ -64,6 +69,7 @@
         background-color: var(--reverseLightBlue);
         font-size: 20px;
         font-weight: bold;
+        color: black;
       }
     }
   }
@@ -78,6 +84,7 @@
 
     li {
       margin-bottom: 10px;
+      color: black;
     }
   }
 
@@ -91,6 +98,7 @@
       .marker-text {
         float: left;
         width: 80%;
+        color: black;
       }
 
       .icon-cone-marker, .icon-cone-marker-pole {
@@ -114,9 +122,16 @@
     }
   }
 
+  .dimensions-labels {
+    margin-right: 10px;
+  }
+
   .vehicle-length-input, .vehicle-width-input {
     width: 77px;
     height: 48px;
     background-color: var(--reverseLightBlue);
+    border-radius: 6px;
+    color: black;
+    padding-left: 5px;
   }
 }

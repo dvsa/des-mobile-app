@@ -12,6 +12,9 @@ export class ReverseLeftPopoverComponent {
   @Input()
   testCategory: TestCategory;
 
+  @Input()
+  disableDrivingFaults?: boolean = false;
+
   manoeuvreTypes = ManoeuvreTypes;
   competencies = ManoeuvreCompetencies;
 

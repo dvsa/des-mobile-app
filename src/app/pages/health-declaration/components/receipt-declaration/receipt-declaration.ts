@@ -11,7 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class ReceiptDeclarationComponent implements OnChanges {
 
   @Input()
-  selected: string;
+  selected: boolean;
 
   @Input()
   formGroup: FormGroup;

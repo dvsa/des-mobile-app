@@ -1,15 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTests } from '@store/tests/tests.reducer';
-import { getTestCategory } from '@store/tests/category/category.reducer';
-import { map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
-import { REVERSE_DIAGRAM_PAGE } from '@pages/page-names.constants';
-import { AppComponent } from 'src/app/app.component';
+import { AppComponent } from '@app/app.component';
+import { ReverseDiagramPage } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal';
 import {
   ReverseDiagramClosed,
   ReverseDiagramOpened,
@@ -20,41 +14,31 @@ import {
   templateUrl: 'reverse-diagram-link.html',
   styleUrls: ['reverse-diagram-link.scss'],
 })
-export class ReverseDiagramLinkComponent implements OnInit {
-  subscription: Subscription;
-  testCategory: CategoryCode;
+export class ReverseDiagramLinkComponent {
+
   constructor(
     public modalController: ModalController,
     private app: AppComponent,
     private store$: Store<StoreModel>,
   ) {}
 
-  ngOnInit(): void {
-    const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
-    );
-    const testCategory$ = currentTest$.pipe(select(getTestCategory));
-    this.subscription = testCategory$.pipe(map((result) => this.testCategory = result)).subscribe();
-  }
-
-  async openReverseDiagramModal() {
-    const diagramPage = REVERSE_DIAGRAM_PAGE;
+  async openReverseDiagramModal(): Promise<void> {
     this.store$.dispatch(ReverseDiagramOpened());
-    // Modals are at the same level as the ion-nav so are not getting the zoom level class,
-    // this needs to be passed in the create options.
-    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
-    const reverseDiagramModal = await this.modalController.create(
-      {
-        component: diagramPage,
-        cssClass: zoomClass,
-      },
-    );
-    reverseDiagramModal.onDidDismiss().then(() => this.closeReverseDiagramModal());
-    return reverseDiagramModal.present();
+
+    const reverseDiagramModal = await this.modalController.create({
+      component: ReverseDiagramPage,
+      componentProps: { onClose: async () => this.modalController.dismiss() },
+      cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
+    });
+    await reverseDiagramModal.present();
+    const didDismiss = await reverseDiagramModal.onDidDismiss();
+
+    if (didDismiss) {
+      this.closeReverseDiagramModal();
+    }
   }
 
-  closeReverseDiagramModal() {
+  closeReverseDiagramModal(): void {
     this.store$.dispatch(ReverseDiagramClosed());
   }
 }

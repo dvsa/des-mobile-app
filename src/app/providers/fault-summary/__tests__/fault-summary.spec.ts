@@ -17,7 +17,7 @@ import {
 import { FaultSummaryProvider } from '../fault-summary';
 import { FaultSummaryCatAM1Helper } from '../cat-a-mod1/fault-summary.cat-a-mod1';
 
-describe('faultSummaryProvider', () => {
+describe('FaultSummaryProvider', () => {
   const categoryC = [
     {
       category: TestCategory.C,
@@ -31,12 +31,30 @@ describe('faultSummaryProvider', () => {
     },
     {
       category: TestCategory.C1E,
-      showMeTellMeAllFaults: showMe1DFTellMe1DF,
+      showMeTellMeAllFaults: {
+        ...showMe1DFTellMe1DF,
+        testData: {
+          ...showMe1DFTellMe1DF.testData,
+          vehicleChecks: {
+            ...showMe1DFTellMe1DF.testData.vehicleChecks,
+            fullLicenceHeld: true,
+          },
+        },
+      },
       showMeTellMeSemiFaults: showMe0DFTellMe1DF,
     },
     {
       category: TestCategory.CE,
-      showMeTellMeAllFaults: showMe1DFTellMe1DF,
+      showMeTellMeAllFaults: {
+        ...showMe1DFTellMe1DF,
+        testData: {
+          ...showMe1DFTellMe1DF.testData,
+          vehicleChecks: {
+            ...showMe1DFTellMe1DF.testData.vehicleChecks,
+            fullLicenceHeld: true,
+          },
+        },
+      },
       showMeTellMeSemiFaults: showMe0DFTellMe1DF,
     },
   ];

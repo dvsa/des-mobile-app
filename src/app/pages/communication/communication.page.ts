@@ -44,6 +44,7 @@ import { DeviceAuthenticationProvider } from '@providers/device-authentication/d
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 interface CommunicationPageState {
   candidateName$: Observable<string>;
@@ -55,6 +56,7 @@ interface CommunicationPageState {
   candidateAddress$: Observable<Address>;
   conductedLanguage$: Observable<string>;
   testCategory$: Observable<CategoryCode>;
+  showVrnBtn$: Observable<boolean>;
 }
 
 @Component({
@@ -146,6 +148,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
         map((result) => this.testCategory = result),
+      ),
+      showVrnBtn$: currentTest$.pipe(
+        select(getTestCategory),
+        select(showVrnButton),
       ),
     };
 
