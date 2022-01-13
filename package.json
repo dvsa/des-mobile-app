@@ -79,7 +79,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "angular2-signaturepad": "^3.0.4",
     "bootstrap": "^4.6.1",
-    "cordova-ios": "5.1.1",
+    "cordova-ios": "6.0.0",
     "cordova-plugin-app-version": "^0.1.12",
     "cordova-plugin-autonomous-single-app-mode": "git+https://github.com/dvsa/cordova-plugin-autonomous-single-app-mode.git",
     "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
