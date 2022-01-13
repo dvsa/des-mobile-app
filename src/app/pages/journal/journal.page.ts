@@ -89,6 +89,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     super(platform, authenticationProvider, router);
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
+    this.appResumedListener();
   }
 
   ngOnInit(): void {
@@ -158,7 +159,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.setupPolling();
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
 
-    this.store$.dispatch(journalActions.LoadCompletedTests());
+    this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
@@ -251,5 +252,14 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
+  }
+
+  /**
+   * Listen to the DOM event and trigger if app resumed from backgrounding
+   */
+  appResumedListener() {
+    document.addEventListener('resume', async () => {
+      await this.refreshJournal();
+    });
   }
 }
