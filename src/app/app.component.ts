@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
-import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -53,7 +52,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.initialiseAuthentication();
     await this.initialisePersistentStorage();
     this.store$.dispatch(LoadAppVersion());
-    await this.hideSplashscreen();
     await this.configureStatusBar();
     this.configureLocale();
     if (this.platform.is('cordova')) {
@@ -141,11 +139,12 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await StatusBar.setStyle({ style: Style.Dark });
     }
   };
-  hideSplashscreen = async (): Promise<void> => {
-    if (Capacitor.isPluginAvailable('SplashScreen')) {
-      await SplashScreen.hide();
-    }
-  };
+
+  // hideSplashscreen = async (): Promise<void> => {
+  // if (Capacitor.isPluginAvailable('SplashScreen')) {
+  //   await SplashScreen.hide();
+  // }
+  // };
 
   disableMenuSwipe = async (): Promise<void> => {
     await this.menuController.swipeGesture(false);
