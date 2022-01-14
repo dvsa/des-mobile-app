@@ -10,6 +10,7 @@ export const getCandidateDescription = (ts: TestSummary): string => ts.candidate
 export const getAdditionalInformation = (ts: TestSummary): string => ts.additionalInformation;
 export const getD255 = (ts: TestSummary): boolean => ts.D255;
 export const getIdentification = (ts: TestSummary): Identification => ts.identification;
+export const getTrueLikenessToPhoto = (ts: TestSummary): boolean => ts.trueLikenessToPhoto;
 export const getSatNavUsed = (ts: TestSummary): boolean => ts.independentDriving === 'Sat nav';
 export const getTrafficSignsUsed = (ts: TestSummary): boolean => ts.independentDriving === 'Traffic signs';
 export const isDebriefWitnessed = (ts: TestSummary): boolean => ts.debriefWitnessed;

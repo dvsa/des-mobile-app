@@ -52,10 +52,16 @@
                                              (independentDrivingChange)="independentDrivingChanged($event)">
                         </independent-driving>
 
+                        <true-likeness [formGroup]="form"
+                                       [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+                                       (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
+                        </true-likeness>
+
                         <candidate-description [display]="pageState.displayCandidateDescription$ | async"
                                                [formGroup]="form"
                                                [candidateDescription]="pageState.candidateDescription$ | async"
                                                [outcome]="pageState.testOutcome$ | async"
+                                               [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
                                                (candidateDescriptionChange)="candidateDescriptionChanged($event)">
                         </candidate-description>
 

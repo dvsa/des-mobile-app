@@ -1,0 +1,33 @@
+<ion-row class="mes-validated-row mes-row-separator" id="true-likeness-row"
+         [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid">
+    </div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Candidate appearance true likeness to licence photo</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col class="ion-align-self-center" size="48">
+                <input type="radio" id="true-likeness-yes" class="gds-radio-button" name="trueLikeness"
+                       formControlName="trueLikeness" value="true" [checked]="trueLikeness === true"
+                       (change)="trueLikenessChanged($event.target.value)">
+                <label for="true-likeness-yes" class="radio-label">Yes</label>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+                <input type="radio" id="true-likeness-no" class="gds-radio-button" name="trueLikeness"
+                       formControlName="trueLikeness" value="false"
+                       [checked]="trueLikeness === false" (change)="trueLikenessChanged($event.target.value)">
+                <label for="true-likeness-no" class="radio-label">No</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div
+                    class="validation-text"
+                    id="true-likeness-validation-text"
+                    [class.ng-invalid]="invalid">
+                Select true likeness value
+            </div>
+        </ion-row>
+    </ion-col>
+</ion-row>
