@@ -11,6 +11,7 @@ export const initialState: TestSummary = {
   debriefWitnessed: null,
   D255: null,
   identification: 'Licence',
+  trueLikenessToPhoto: null,
 };
 
 export const testSummaryReducer = createReducer(
@@ -38,6 +39,10 @@ export const testSummaryReducer = createReducer(
   on(testSummaryActions.IdentificationUsedChanged, (state, { identification }): TestSummary => ({
     ...state,
     identification,
+  })),
+  on(testSummaryActions.TrueLikenessToPhotoChanged, (state, { trueLikeness }): TestSummary => ({
+    ...state,
+    trueLikenessToPhoto: trueLikeness,
   })),
   on(testSummaryActions.IndependentDrivingTypeChanged, (state, { independentDriving }): TestSummary => ({
     ...state,

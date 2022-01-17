@@ -29,6 +29,11 @@ export const IdentificationUsedChanged = createAction(
   (identification: Identification) => ({ identification }),
 );
 
+export const TrueLikenessToPhotoChanged = createAction(
+  '[Test Summary] True Likeness to Photo changed',
+  (trueLikeness: boolean) => ({ trueLikeness }),
+);
+
 export const IndependentDrivingTypeChanged = createAction(
   '[Test Summary] Independent driving changed',
   (independentDriving: IndependentDriving) => ({ independentDriving }),
