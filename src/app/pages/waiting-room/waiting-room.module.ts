@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { EffectsModule } from '@ngrx/effects';
+import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { WaitingRoomComponentsModule } from '@pages/waiting-room/components/waiting-room.components.module';
 import { WaitingRoomAnalyticsEffects } from '@pages/waiting-room/waiting-room.analytics.effects';
@@ -25,6 +26,7 @@ import { WaitingRoomPageRoutingModule } from './waiting-room-routing.module';
     ReactiveFormsModule,
     WaitingRoomComponentsModule,
   ],
+  providers: [PassCertificateValidationProvider],
   declarations: [WaitingRoomPage],
 })
 export class WaitingRoomPageModule {}

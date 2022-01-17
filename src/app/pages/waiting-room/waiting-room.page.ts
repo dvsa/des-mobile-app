@@ -6,11 +6,10 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Observable, merge, Subscription } from 'rxjs';
-import {
-  getPreTestDeclarations,
-} from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
-import * as preTestDeclarationsActions
-  from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
+import * as preTestDeclarationsActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import * as catCPreTestDeclarationsActions
+  from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.actions';
 import {
   getInsuranceDeclarationStatus,
   getResidencyDeclarationStatus,
@@ -28,14 +27,9 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
-import { isWelshTest }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
-import {
-  getCommunicationPreference,
-} from '@store/tests/communication-preferences/communication-preferences.reducer';
-import {
-  getConductedLanguage,
-} from '@store/tests/communication-preferences/communication-preferences.selector';
+import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
+import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
+import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import {
   CandidateChoseToProceedWithTestInWelsh,
   CandidateChoseToProceedWithTestInEnglish,
@@ -50,13 +44,16 @@ import { isEmpty } from 'lodash';
 import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
-import {
-  ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames,
-} from '@pages/page-names.constants';
+import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '@app/app.component';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
+import {
+  getManoeuvrePassCertificateNumber,
+} from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.selector';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -70,6 +67,8 @@ interface WaitingRoomPageState {
   conductedLanguage$: Observable<string>;
   testCategory$: Observable<CategoryCode>;
   showVrnBtn$: Observable<boolean>;
+  showManoeuvresPassCertNumber$: Observable<boolean>;
+  manoeuvresPassCertNumber$: Observable<string>;
 }
 
 @Component({
@@ -107,7 +106,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async ionViewDidEnter(): Promise<void> {
-
     this.store$.dispatch(waitingRoomActions.WaitingRoomViewDidEnter());
 
     if (super.isIos()) {
@@ -118,7 +116,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         await this.deviceProvider.enableSingleAppMode();
       }
     }
-
   }
 
   ngOnInit(): void {
@@ -174,6 +171,15 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         select(getTestCategory),
         select(showVrnButton),
       ),
+      showManoeuvresPassCertNumber$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) =>
+          isAnyOf(category, [TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E])),
+      ),
+      manoeuvresPassCertNumber$: currentTest$.pipe(
+        select(getPreTestDeclarations),
+        select(getManoeuvrePassCertificateNumber),
+      ),
     };
 
     const {
@@ -223,6 +229,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     return isEmpty(journalData.examiner.staffNumber)
       || (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber));
   };
+
+  manoeuvresPassCertNumberChanged(manoeuvresPassCert: string): void {
+    this.store$.dispatch(catCPreTestDeclarationsActions.ManoeuvresPassCertNumberChanged(manoeuvresPassCert));
+  }
 
   signatureChanged(signature: string): void {
     this.store$.dispatch(preTestDeclarationsActions.SignatureDataChanged(signature));

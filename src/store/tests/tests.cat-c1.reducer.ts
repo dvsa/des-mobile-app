@@ -19,7 +19,7 @@ import { passCompletionReducer } from './pass-completion/pass-completion.reducer
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
 import { changeMarkerReducer } from './change-marker/change-marker.reducer';
 import { testSummaryReducer } from './test-summary/test-summary.reducer';
-import { preTestDeclarationsReducer } from './pre-test-declarations/pre-test-declarations.reducer';
+import { preTestDeclarationsCatCReducer } from './pre-test-declarations/cat-c/pre-test-declarations.cat-c.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
 
 export function testsCatC1Reducer(
@@ -41,7 +41,7 @@ export function testsCatC1Reducer(
       journalData: journalDataCatCReducer,
       passCompletion: passCompletionReducer,
       postTestDeclarations: postTestDeclarationsReducer,
-      preTestDeclarations: preTestDeclarationsReducer,
+      preTestDeclarations: preTestDeclarationsCatCReducer,
       rekey: rekeyReducer,
       rekeyDate: rekeyDateReducer,
       rekeyReason: rekeyReasonReducer,

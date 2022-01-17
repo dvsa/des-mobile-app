@@ -2,7 +2,7 @@ import { Action, combineReducers } from '@ngrx/store';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
-import { preTestDeclarationsReducer } from './pre-test-declarations/pre-test-declarations.reducer';
+import { preTestDeclarationsCatCReducer } from './pre-test-declarations/cat-c/pre-test-declarations.cat-c.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { postTestDeclarationsReducer } from './post-test-declarations/post-test-declarations.reducer';
 import { testSummaryReducer } from './test-summary/test-summary.reducer';
@@ -41,7 +41,7 @@ export function testsCatCReducer(
       journalData: journalDataCatCReducer,
       passCompletion: passCompletionCatCReducer,
       postTestDeclarations: postTestDeclarationsReducer,
-      preTestDeclarations: preTestDeclarationsReducer,
+      preTestDeclarations: preTestDeclarationsCatCReducer,
       rekey: rekeyReducer,
       rekeyDate: rekeyDateReducer,
       rekeyReason: rekeyReasonReducer,

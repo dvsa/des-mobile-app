@@ -17,7 +17,7 @@ import { vehicleDetailsCatCReducer } from './vehicle-details/cat-c/vehicle-detai
 import { testDataCatC1EReducer } from './test-data/cat-c/test-data.cat-c1e.reducer';
 import { passCompletionCatCReducer } from './pass-completion/cat-c/pass-completion.cat-c.reducer';
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
-import { preTestDeclarationsReducer } from './pre-test-declarations/pre-test-declarations.reducer';
+import { preTestDeclarationsCatCReducer } from './pre-test-declarations/cat-c/pre-test-declarations.cat-c.reducer';
 import { testSummaryReducer } from './test-summary/test-summary.reducer';
 import { changeMarkerReducer } from './change-marker/change-marker.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
@@ -41,7 +41,7 @@ export function testsCatC1EReducer(
       journalData: journalDataCatCReducer,
       passCompletion: passCompletionCatCReducer,
       postTestDeclarations: postTestDeclarationsReducer,
-      preTestDeclarations: preTestDeclarationsReducer,
+      preTestDeclarations: preTestDeclarationsCatCReducer,
       rekey: rekeyReducer,
       rekeyDate: rekeyDateReducer,
       rekeyReason: rekeyReasonReducer,

@@ -6,9 +6,31 @@
   border-bottom: 2px solid var(--gds-grey-5);
 }
 
+.mes-row-separator-top {
+  border-top: 4px solid var(--gds-grey-5);
+}
+
 .mes-data-row-with-separator {
   @extend .mes-data-row;
   @extend .mes-row-separator;
+}
+
+.mes-validated-row-short {
+  padding: 0;
+  min-height: 60px;
+  .col {
+    padding: 0;
+  }
+  .component-label {
+    padding-top: 0;
+    padding-left: 16px;
+    padding-right: 8px;
+  }
+  .spacing-row,
+  .validation-message-row {
+    min-height: 20px;
+    padding-left: 1px;
+  }
 }
 
 .mes-validated-row,
