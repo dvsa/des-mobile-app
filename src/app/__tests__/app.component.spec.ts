@@ -91,7 +91,6 @@ describe('AppComponent', () => {
       spyOn(component, 'initialiseAuthentication');
       spyOn(component, 'configureLocale');
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
-      spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
       spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
     });
@@ -101,7 +100,6 @@ describe('AppComponent', () => {
       expect(component.initialiseAuthentication).toHaveBeenCalled();
       expect(component.initialisePersistentStorage).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
-      expect(component.hideSplashscreen).toHaveBeenCalled();
       expect(component.configureStatusBar).toHaveBeenCalled();
       expect(component.disableMenuSwipe).toHaveBeenCalled();
       expect(component.configureLocale).toHaveBeenCalled();
@@ -176,15 +174,6 @@ describe('AppComponent', () => {
       spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
       await component.configureStatusBar();
       expect(StatusBar.setStyle).toHaveBeenCalledWith({ style: Style.Dark });
-    });
-  });
-
-  describe('hideSplashscreen', () => {
-    it('should hide splashscreen if plugin is available', async () => {
-      spyOn(SplashScreen, 'hide');
-      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
-      await component.hideSplashscreen();
-      expect(SplashScreen.hide).toHaveBeenCalled();
     });
   });
 

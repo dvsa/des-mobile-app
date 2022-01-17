@@ -140,12 +140,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     }
   };
 
-  // hideSplashscreen = async (): Promise<void> => {
-  // if (Capacitor.isPluginAvailable('SplashScreen')) {
-  //   await SplashScreen.hide();
-  // }
-  // };
-
   disableMenuSwipe = async (): Promise<void> => {
     await this.menuController.swipeGesture(false);
   };
