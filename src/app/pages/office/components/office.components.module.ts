@@ -18,6 +18,7 @@ import { VehicleChecksOfficeCardComponent } from './vehicle-checks/vehicle-check
 import { IndependentDrivingComponent } from './independent-driving/independent-driving';
 import { CandidateSectionComponent } from './candidate-section/candidate-section';
 import { DateOfTest } from './date-of-test/date-of-test';
+import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
     CandidateSectionComponent,
     DateOfTest,
     FinishTestModal,
+    TrueLikenessComponent,
   ],
   imports: [
     CommonModule,
@@ -59,6 +61,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
     CandidateSectionComponent,
     DateOfTest,
     FinishTestModal,
+    TrueLikenessComponent,
   ],
 })
 export class OfficeComponentsModule { }

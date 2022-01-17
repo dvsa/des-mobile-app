@@ -14,6 +14,9 @@ import { CANDIDATE_DESCRIPTION_MAX_LENGTH, CANDIDATE_DESCRIPTION_CONTROL } from 
 })
 export class CandidateDescriptionComponent implements OnChanges {
   @Input()
+  trueLikenessToPhoto: boolean;
+
+  @Input()
   display: boolean;
 
   @Input()
@@ -43,6 +46,9 @@ export class CandidateDescriptionComponent implements OnChanges {
 
     if (visibilityType === VisibilityType.NotVisible) {
       this.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL).clearValidators();
+    } else if (this.trueLikenessToPhoto) {
+      this.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL).setValidators([
+        Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH)]);
     } else {
       this.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL).setValidators([
         Validators.required, Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH)]);
