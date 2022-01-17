@@ -6,6 +6,7 @@ import { DirectivesModule } from '@directives/directives.module';
 import { IonicModule } from '@ionic/angular';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
+import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { FaultCommentComponent } from './fault-comment/fault-comment';
 import { FaultCommentCardComponent } from './fault-comment-card/fault-comment-card';
 import { RouteNumberComponent } from './route-number/route-number';
@@ -18,7 +19,6 @@ import { VehicleChecksOfficeCardComponent } from './vehicle-checks/vehicle-check
 import { IndependentDrivingComponent } from './independent-driving/independent-driving';
 import { CandidateSectionComponent } from './candidate-section/candidate-section';
 import { DateOfTest } from './date-of-test/date-of-test';
-import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 
 @NgModule({
   declarations: [
