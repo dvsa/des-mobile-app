@@ -4,7 +4,7 @@
             <h4 [id]="header | formatToID: idPrefix">{{header}}</h4>
         </ion-card-header>
         <ion-card-content>
-            <ion-row class="mes-validated-row mes-row-separator" *ngFor="let faultComment of faultComments">
+            <ion-row class="mes-validated-row mes-row-separator" *ngFor="let faultComment of faultComments; trackBy: trackByIndex">
                 <fault-comment
                         [parentForm]="formGroup"
                         [faultComment]="faultComment"

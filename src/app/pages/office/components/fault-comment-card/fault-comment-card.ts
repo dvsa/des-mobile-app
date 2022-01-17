@@ -58,4 +58,8 @@ export class FaultCommentCardComponent {
   faultCommentChanged(faultComment: FaultSummary): void {
     this.faultCommentsChange.emit(faultComment);
   }
+
+  trackByIndex = (_: number, fs: FaultSummary) => {
+    return `${fs.source}-${this.faultType}-${fs.competencyIdentifier}`;
+  }
 }
