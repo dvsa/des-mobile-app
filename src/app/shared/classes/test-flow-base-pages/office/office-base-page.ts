@@ -54,6 +54,7 @@ import {
   IdentificationUsedChanged,
   IndependentDrivingTypeChanged,
   RouteNumberChanged,
+  TrueLikenessToPhotoChanged,
   WeatherConditionsChanged,
 } from '@store/tests/test-summary/test-summary.actions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
@@ -63,7 +64,7 @@ import {
   getAdditionalInformation,
   getCandidateDescription, getIdentification,
   getIndependentDriving,
-  getRouteNumber, getWeatherConditions,
+  getRouteNumber, getTrueLikenessToPhoto, getWeatherConditions,
 } from '@store/tests/test-summary/test-summary.selector';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
@@ -100,6 +101,7 @@ export interface CommonOfficePageState {
   candidateDescription$: Observable<string>;
   independentDriving$: Observable<IndependentDriving>;
   identification$: Observable<Identification>;
+  trueLikenessToPhoto$: Observable<boolean>;
   additionalInformation$: Observable<string>;
   displayWeatherConditions$: Observable<boolean>;
   displayDrivingFault$: Observable<boolean>;
@@ -240,6 +242,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
         )),
         map(([outcome, identification]) =>
           this.outcomeBehaviourProvider.isVisible(outcome, 'identification', identification)),
+      ),
+      trueLikenessToPhoto$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getTrueLikenessToPhoto),
       ),
       displayWeatherConditions$: currentTest$.pipe(
         select(getTestOutcome),
@@ -406,6 +412,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   identificationChanged(identification: Identification): void {
     this.store$.dispatch(IdentificationUsedChanged(identification));
+  }
+
+  trueLikenessToPhotoChanged(trueLikeness: boolean): void {
+    this.store$.dispatch(TrueLikenessToPhotoChanged(trueLikeness));
   }
 
   independentDrivingChanged(independentDriving: IndependentDriving): void {
