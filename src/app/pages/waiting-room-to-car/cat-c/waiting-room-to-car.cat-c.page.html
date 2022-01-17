@@ -1,14 +1,13 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title id="waiting-room-to-car-page-title">
-            {{pageState.candidateName$ | async}}
-        </ion-title>
-        <ion-buttons id="wrtc-back-button" slot="start" *ngIf="!(pageState.delegatedTest$ | async)">
+    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+        <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+        <ion-buttons id="wrtc-back-button" slot="start" *ngIf="pageState.delegatedTest$ | async">
             <ion-back-button></ion-back-button>
         </ion-buttons>
         <ion-buttons id="end-test-button" slot="end">
             <end-test-link [shouldAuthenticate]="false"
-                           category="C"
+                           [category]="pageState.category$ | async"
                            [isDelegated]="pageState.delegatedTest$ | async">
             </end-test-link>
         </ion-buttons>

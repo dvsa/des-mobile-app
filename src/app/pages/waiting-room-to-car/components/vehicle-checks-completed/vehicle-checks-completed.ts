@@ -16,6 +16,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { StoreModel } from '@shared/models/store.model';
 import { vehicleChecksQuestionsByLicenceHeld } from '@shared/helpers/vehicle-checks-questions-by-category';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 enum VehicleChecksCompletedResult {
   COMPLETED = 'Completed',
@@ -47,7 +48,7 @@ export class VehicleChecksToggleComponent implements OnChanges {
   vehicleChecksCompleted: boolean;
 
   @Input()
-  testCategory: TestCategory;
+  testCategory: TestCategory | CategoryCode;
 
   @Input()
   formGroup: FormGroup;
