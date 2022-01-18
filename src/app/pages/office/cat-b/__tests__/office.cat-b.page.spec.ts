@@ -55,6 +55,7 @@ import { WeatherConditionsComponent } from '../../components/weather-conditions/
 import { ShowMeQuestionComponent } from '../../components/show-me-question/show-me-question';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
+import { TrueLikenessComponent } from '../../components/true-likeness/true-likeness';
 
 // TODO - MES-7286 - increase code coverage of unit tests in this file.
 
@@ -78,6 +79,7 @@ describe('OfficePage', () => {
         MockComponent(FaultCommentCardComponent),
         MockComponent(CandidateSectionComponent),
         MockComponent(DateOfTest),
+        MockComponent(TrueLikenessComponent),
       ],
       imports: [
         IonicModule,
