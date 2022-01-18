@@ -113,8 +113,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         await this.authenticationProvider.login();
       }
 
-      this.hideSplashscreen();
-
       await this.authenticationProvider.setEmployeeId();
 
       this.store$.dispatch(LoadEmployeeId({ employeeId: this.authenticationProvider.getEmployeeId() }));
@@ -161,6 +159,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       console.log(error);
     }
     this.hasUserLoggedOut = false;
+    this.hideSplashscreen();
   };
 
   hideSplashscreen = async (): Promise<void> => {
