@@ -105,22 +105,6 @@ describe('TestReportCatCPage', () => {
     component = fixture.componentInstance;
   });
 
-  describe('Class', () => {
-    describe('showUncoupleRecouple', () => {
-      it('should return true for extended categories', () => {
-        [TestCategory.CE, TestCategory.C1E].forEach((cat) => {
-          component.testCategory = cat;
-          expect(component.showUncoupleRecouple()).toEqual(true);
-        });
-      });
-      it('should return false for non trailer categories', () => {
-        [TestCategory.C, TestCategory.C1].forEach((cat) => {
-          component.testCategory = cat;
-          expect(component.showUncoupleRecouple()).toEqual(false);
-        });
-      });
-    });
-  });
   describe('DOM', () => {
     describe('Fault Modes Styling', () => {
       it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {

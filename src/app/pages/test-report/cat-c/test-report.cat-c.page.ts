@@ -69,6 +69,4 @@ export class TestReportCatCPage extends TestReportBasePageComponent implements O
     super.cancelSubscription();
   }
 
-  showUncoupleRecouple = (): boolean => isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E]);
-
 }
