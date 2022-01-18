@@ -137,6 +137,7 @@ describe('LoginPage', () => {
   describe('login', () => {
     beforeEach(() => {
       spyOn(component, 'handleLoadingUI').and.returnValue(Promise.resolve());
+      spyOn(component, 'hideSplashscreen').and.returnValue(Promise.resolve());
       spyOn(component, 'validateDeviceType');
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'loadRemoteConfig').and.returnValue(Promise.resolve());

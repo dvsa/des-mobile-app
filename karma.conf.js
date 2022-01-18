@@ -15,7 +15,8 @@ module.exports = function (config) {
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
       require('karma-parallel'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-spec-reporter')
     ],
     webpack: webpackTestConfig,
     webpackMiddleware: { stats: 'errors-only' },
@@ -42,7 +43,7 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
-    reporters: ['progress', 'kjhtml', 'dots'],
+    reporters: ['kjhtml', 'spec'],
     port: 9876,
     colors: true,
     hostname: '0.0.0.0',
