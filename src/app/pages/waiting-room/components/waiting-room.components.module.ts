@@ -9,6 +9,7 @@ import { ConductedLanguageComponent } from './conducted-language/conducted-langu
 import { InsuranceDeclarationComponent } from './insurance-declaration/insurance-declaration';
 import { ResidencyDeclarationComponent } from './residency-declaration/residency-declaration';
 import { CBTNumberComponent } from './cbt-number/cbt-number';
+import { ManoeuvresPassCertificateComponent } from './manoeuvres-pass-cert/manoeuvres-pass-cert';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { CBTNumberComponent } from './cbt-number/cbt-number';
     InsuranceDeclarationComponent,
     ResidencyDeclarationComponent,
     CBTNumberComponent,
+    ManoeuvresPassCertificateComponent,
   ],
   imports: [
     IonicModule,
@@ -30,6 +32,7 @@ import { CBTNumberComponent } from './cbt-number/cbt-number';
     InsuranceDeclarationComponent,
     ResidencyDeclarationComponent,
     CBTNumberComponent,
+    ManoeuvresPassCertificateComponent,
   ],
 })
 export class WaitingRoomComponentsModule { }

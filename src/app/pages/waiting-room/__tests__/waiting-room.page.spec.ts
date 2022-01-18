@@ -34,6 +34,8 @@ import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { MockComponent } from 'ng-mocks';
+import * as catCPreTestDeclarationsActions
+  from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.actions';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
@@ -54,6 +56,7 @@ import { InsuranceDeclarationComponent } from '../components/insurance-declarati
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
 import { WaitingRoomValidationError } from '../waiting-room.actions';
 import { WaitingRoomPage } from '../waiting-room.page';
+import { ManoeuvresPassCertificateComponent } from '../components/manoeuvres-pass-cert/manoeuvres-pass-cert';
 
 describe('WaitingRoomPage', () => {
   let fixture: ComponentFixture<WaitingRoomPage>;
@@ -79,6 +82,7 @@ describe('WaitingRoomPage', () => {
         MockComponent(InsuranceDeclarationComponent),
         MockComponent(ResidencyDeclarationComponent),
         MockComponent(SignatureComponent),
+        MockComponent(ManoeuvresPassCertificateComponent),
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
@@ -155,6 +159,14 @@ describe('WaitingRoomPage', () => {
         component.insuranceDeclarationChanged();
 
         expect(store$.dispatch).toHaveBeenCalledWith(ToggleInsuranceDeclaration());
+      });
+    });
+
+    describe('manoeuvresPassCertNumberChanged', () => {
+      it('should emit a manoeuvre pass cert number action with payload', () => {
+        component.manoeuvresPassCertNumberChanged('123');
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(catCPreTestDeclarationsActions.ManoeuvresPassCertNumberChanged('123'));
       });
     });
 
