@@ -8,6 +8,8 @@ import { configureTestSuite } from 'ng-bullet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
+import { SplashScreen } from '@capacitor/splash-screen';
+import { Capacitor } from '@capacitor/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -24,10 +26,10 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
-import { MenuControllerMock } from '../../../../../mock/ionic-mocks/menu-controller';
-import { AlertControllerMock } from '../../../../../mock/ionic-mocks/alert-controller.mock';
-import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
-import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
+import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
+import { AlertControllerMock } from '@mocks/ionic-mocks/alert-controller.mock';
+import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
+import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
 
@@ -327,5 +329,13 @@ describe('LoginPage', () => {
       expect(loadingController.create).not.toHaveBeenCalled();
       expect(loadingController.dismiss).toHaveBeenCalled();
     }));
+  });
+  describe('hideSplashscreen', () => {
+    it('should hide splashscreen if plugin is available', async () => {
+      spyOn(SplashScreen, 'hide');
+      spyOn(Capacitor, 'isPluginAvailable').and.returnValue(true);
+      await component.hideSplashscreen();
+      expect(SplashScreen.hide).toHaveBeenCalled();
+    });
   });
 });

@@ -53,7 +53,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.initialiseAuthentication();
     await this.initialisePersistentStorage();
     this.store$.dispatch(LoadAppVersion());
-    await this.hideSplashscreen();
     await this.configureStatusBar();
     this.configureLocale();
     if (this.platform.is('cordova')) {
@@ -139,11 +138,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   configureStatusBar = async (): Promise<void> => {
     if (Capacitor.isPluginAvailable('StatusBar')) {
       await StatusBar.setStyle({ style: Style.Dark });
-    }
-  };
-  hideSplashscreen = async (): Promise<void> => {
-    if (Capacitor.isPluginAvailable('SplashScreen')) {
-      await SplashScreen.hide();
     }
   };
 
