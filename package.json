@@ -13,6 +13,7 @@
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "run-s update-mock-data copy-mock-data schema-version config:local && ionic serve --configuration local",
     "serve:emulator": "npm run schema-version && ionic cap run ios --configuration development",
+    "serve:uat": "npm run schema-version && ionic cap run ios --configuration uat",
     "serve:test": "npm run schema-version && ionic cap run ios --configuration testing",
     "serve:devtools": "npm run schema-version && ionic cap run ios -l --external --configuration dev-tools",
     "serve:lr:devtools": "npm run schema-version && npm run config:livereload && ionic cap run ios -l --external --configuration livereload",

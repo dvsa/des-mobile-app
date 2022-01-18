@@ -157,6 +157,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       console.log(error);
     }
     this.hasUserLoggedOut = false;
+    this.hideSplashscreen();
   };
 
   initialiseAuthentication = (): void => {

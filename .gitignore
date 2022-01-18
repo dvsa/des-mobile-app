@@ -41,6 +41,7 @@ ios/App/App/public
 ios/DerivedData
 
 src/environments/environment.ts
+src/environments/environment.uat.ts
 src/environments/test-schema-version.ts
 
 mock/local-journal.json

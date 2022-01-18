@@ -82,6 +82,21 @@
               "optimization": false,
               "namedChunks": false
             },
+            "uat": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.uat.ts"
+                }
+              ],
+              "aot": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": false,
+              "optimization": false,
+              "namedChunks": false
+            },
             "local": {
               "fileReplacements": [
                 {
@@ -171,6 +186,9 @@
             },
             "dev-tools": {
               "browserTarget": "app:build:dev-tools"
+            },
+            "uat": {
+              "browserTarget": "app:build:uat"
             },
             "ci": {
               "progress": false
