@@ -1,8 +1,11 @@
-<ion-row *ngIf="shouldRender">
-  <ion-col>
-    <button class="conducted-language-link" (click)="englishTextSelected()"
-      [ngClass]="{ focused : welshIsSelected }">English</button>|<button
-      class="conducted-language-link conducted-language-link-welsh "
-      (click)="welshTextSelected()" [ngClass]="{ focused : englishIsSelected }">Cymraeg</button>
-  </ion-col>
+<ion-row *ngIf="shouldRender" class="text-spacing">
+    <ion-col>
+        <button class="conducted-language-link" (click)="englishTextSelected()"
+                [ngClass]="{ focused : welshIsSelected }">English
+        </button>
+        |
+        <button class="conducted-language-link conducted-language-link-welsh" (click)="welshTextSelected()"
+                [ngClass]="{ focused : englishIsSelected }">Cymraeg
+        </button>
+    </ion-col>
 </ion-row>
