@@ -61,5 +61,5 @@ export class FaultCommentCardComponent {
 
   trackByIndex = (_: number, fs: FaultSummary) => {
     return `${fs.source}-${this.faultType}-${fs.competencyIdentifier}`;
-  }
+  };
 }
