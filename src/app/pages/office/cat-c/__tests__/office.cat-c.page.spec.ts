@@ -51,6 +51,7 @@ import { WeatherConditionsComponent } from '../../components/weather-conditions/
 import { ShowMeQuestionComponent } from '../../components/show-me-question/show-me-question';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
+import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 
 describe('OfficeCatCPage', () => {
   let fixture: ComponentFixture<OfficeCatCPage>;
@@ -72,6 +73,7 @@ describe('OfficeCatCPage', () => {
         MockComponent(CandidateSectionComponent),
         MockComponent(DateOfTest),
         MockComponent(VehicleChecksOfficeCardComponent),
+        MockComponent(TrueLikenessComponent),
       ],
       imports: [
         IonicModule,
