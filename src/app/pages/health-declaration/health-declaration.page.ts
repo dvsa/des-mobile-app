@@ -45,7 +45,6 @@ import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import * as postTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
-import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 interface HealthDeclarationPageState {
   healthDeclarationAccepted$: Observable<boolean>;
@@ -58,7 +57,6 @@ interface HealthDeclarationPageState {
   licenseProvided$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
   testCategory$: Observable<CategoryCode>;
-  showVrnBtn$: Observable<boolean>;
 }
 @Component({
   selector: 'app-health-declaration',
@@ -154,10 +152,6 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       ),
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
-      ),
-      showVrnBtn$: currentTest$.pipe(
-        select(getTestCategory),
-        select(showVrnButton),
       ),
     };
 
