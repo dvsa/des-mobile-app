@@ -13,9 +13,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { Observable } from 'rxjs';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface CatCTestReportPageState {}
 type TestReportPageState = CommonTestReportPageState & CatCTestReportPageState;
