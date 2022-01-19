@@ -28,7 +28,6 @@ import { configureTestSuite } from 'ng-bullet';
 import { ReverseLeftPopoverComponent } from '@pages/test-report/components/reverse-left-popover/reverse-left-popover';
 import { ReverseLeftComponent } from '@pages/test-report/components/reverse-left/reverse-left';
 import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
 import { ManoeuvreCompetencyComponent } from '../../components/manoeuvre-competency/manoeuvre-competency';
