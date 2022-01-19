@@ -1,10 +1,5 @@
-import {
-  ComponentFixture, TestBed, waitForAsync, fakeAsync, tick,
-} from '@angular/core/testing';
-import {
-  NavControllerMock,
-  PlatformMock,
-} from 'ionic-mocks';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync, } from '@angular/core/testing';
+import { NavControllerMock, PlatformMock, } from 'ionic-mocks';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store } from '@ngrx/store';
@@ -18,18 +13,10 @@ import { FinalisationHeaderComponent } from '@components/test-finalisation/final
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief-witnessed/debrief-witnessed';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import {
-  PassCertificateNumberComponent,
-} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
-import {
-  LicenseProvidedComponent,
-} from '@pages/pass-finalisation/components/license-provided/license-provided';
-import {
-  LicenceProvidedWarningBannerComponent,
-} from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
-import {
-  IonicModule, NavController, Platform,
-} from '@ionic/angular';
+import { PassCertificateNumberComponent, } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
+import { LicenseProvidedComponent, } from '@pages/pass-finalisation/components/license-provided/license-provided';
+import { LicenceProvidedWarningBannerComponent, } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
+import { IonicModule, NavController, Platform, } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { D255Component } from '@components/test-finalisation/d255/d255';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -39,11 +26,9 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
-import {
-  PASS_CERTIFICATE_NUMBER_CTRL,
-} from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
+import { PASS_CERTIFICATE_NUMBER_CTRL, } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import { PassFinalisationCatCPage } from '../pass-finalisation.cat-c.page';
 
 describe('PassFinalisationCatCPage', () => {
@@ -277,6 +262,16 @@ describe('PassFinalisationCatCPage', () => {
           component.testCategory = cat.category;
           expect(component.shouldShowCode78()).toEqual(cat.showCode78);
         });
+      });
+    });
+    describe('hideTransmission', () => {
+      it('should not hide transmission component', () => {
+        component.testCategory = TestCategory.C;
+        expect(component.hideTransmission()).toEqual(false);
+      });
+      it('should hide transmission component', () => {
+        component.testCategory = TestCategory.C1EM;
+        expect(component.hideTransmission()).toEqual(true);
       });
     });
   });

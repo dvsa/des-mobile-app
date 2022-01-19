@@ -164,4 +164,8 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
     });
   }
 
+  hideTransmission (): boolean {
+    return isAnyOf(this.testCategory, [TestCategory.C1EM ,TestCategory.C1M , TestCategory.CEM ]);
+  }
+
 }

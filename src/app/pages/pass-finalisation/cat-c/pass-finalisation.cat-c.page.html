@@ -1,7 +1,7 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title id="pass-finalisation-title">{{pageState.candidateUntitledName$ | async}} - Cat C</ion-title>
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -46,6 +46,7 @@
         </warning-banner>
 
         <transmission
+                [hidden]="hideTransmission()"
                 [formGroup]="form"
                 [transmission]="pageState.transmission$ | async"
                 (transmissionChange)="transmissionChanged($event)">
