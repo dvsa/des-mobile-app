@@ -183,9 +183,5 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
     });
   };
 
-  displayCabLockDown = (): boolean => isAnyOf(this.testCategory, [TestCategory.C, TestCategory.CE]);
-
-  displayLoadSecured = (): boolean => isAnyOf(this.testCategory, [TestCategory.C, TestCategory.CE, TestCategory.C1E]);
-
   showFullLicenceHeld = (): boolean => isAnyOf(this.testCategory, [TestCategory.CE, TestCategory.C1E]);
 }
