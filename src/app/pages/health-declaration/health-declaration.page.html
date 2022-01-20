@@ -17,7 +17,7 @@
             [candidateName]="pageState.candidateName$ | async"
             [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
             (continueClickEvent)="onSubmit()"
-            [showVRNButton]="pageState.showVrnBtn$ | async">
+            [showVRNButton]="false">
     </candidate-section>
     <div class="mes-full-width-card-separator"></div>
     <div class="mes-full-width-card no-padding-top" id="declaration-section" >
