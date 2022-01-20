@@ -40,6 +40,7 @@ import { of } from 'rxjs';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
+import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatCPage } from '../office.cat-c.page';
@@ -51,7 +52,6 @@ import { WeatherConditionsComponent } from '../../components/weather-conditions/
 import { ShowMeQuestionComponent } from '../../components/show-me-question/show-me-question';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
-import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 
 describe('OfficeCatCPage', () => {
   let fixture: ComponentFixture<OfficeCatCPage>;
