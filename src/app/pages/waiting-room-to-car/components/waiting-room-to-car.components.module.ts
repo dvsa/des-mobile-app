@@ -15,6 +15,7 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details';
 import { VehicleChecksToggleComponent } from './vehicle-checks-completed/vehicle-checks-completed';
 import { CandidateDeclarationSignedComponent } from './candidate-declaration/candidate-declaration';
 import { FullLicenceHeldComponent } from './full-licence-held-toggle/full-licence-held-toggle';
+import { TestCategoryComponent } from './test-category/test-category';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { FullLicenceHeldComponent } from './full-licence-held-toggle/full-licenc
     VehicleChecksToggleComponent,
     CandidateDeclarationSignedComponent,
     FullLicenceHeldComponent,
+    TestCategoryComponent,
   ],
   imports: [
     CommonModule,
@@ -48,6 +50,7 @@ import { FullLicenceHeldComponent } from './full-licence-held-toggle/full-licenc
     VehicleChecksToggleComponent,
     CandidateDeclarationSignedComponent,
     FullLicenceHeldComponent,
+    TestCategoryComponent,
   ],
 })
 export class WaitingRoomToCarComponentsModule { }

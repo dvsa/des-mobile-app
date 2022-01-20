@@ -158,32 +158,6 @@ describe('WaitingRoomToCarCatCPage', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(SetFullLicenceHeld(false));
       });
     });
-    describe('displayCabLockDown', () => {
-      [
-        { cat: TestCategory.C, shouldShow: true },
-        { cat: TestCategory.C1, shouldShow: false },
-        { cat: TestCategory.CE, shouldShow: true },
-        { cat: TestCategory.C1E, shouldShow: false },
-      ].forEach(({ cat, shouldShow }) => {
-        it(`should ${shouldShow ? 'show' : 'not show'} field for cat ${cat}`, () => {
-          component.testCategory = cat;
-          expect(component.displayCabLockDown()).toEqual(shouldShow);
-        });
-      });
-    });
-    describe('displayLoadSecured', () => {
-      [
-        { cat: TestCategory.C, shouldShow: true },
-        { cat: TestCategory.C1, shouldShow: false },
-        { cat: TestCategory.CE, shouldShow: true },
-        { cat: TestCategory.C1E, shouldShow: true },
-      ].forEach(({ cat, shouldShow }) => {
-        it(`should ${shouldShow ? 'show' : 'not show'} field for cat ${cat}`, () => {
-          component.testCategory = cat;
-          expect(component.displayLoadSecured()).toEqual(shouldShow);
-        });
-      });
-    });
     describe('showFullLicenceHeld', () => {
       [
         { cat: TestCategory.C, shouldShow: false },

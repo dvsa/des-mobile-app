@@ -1,12 +1,12 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button class="nav-close" id="closeVehicleChecksModalCatC" (click)="onClose()">
-        <ion-icon name="close-outline" class="close-modal-class"></ion-icon>
-        <span class="close-modal-class">Close</span>
+  <ion-toolbar mode="ios" class="toolbar-spacing">
+    <ion-buttons slot="start" class="toolbar-item-spacing">
+      <ion-button id="closeVehicleChecksModalCatC" (click)="onClose()">
+        <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
+        <ion-label class="close-btn" id="close-label">Close</ion-label>
       </ion-button>
     </ion-buttons>
-    <ion-title id="vehicle-checks-modal-title">
+    <ion-title id="vehicle-checks-modal-title" class="ion-text-center toolbar-item-spacing">
       Vehicle checks - {{ pageState.candidateName$ | async }}
     </ion-title>
   </ion-toolbar>
