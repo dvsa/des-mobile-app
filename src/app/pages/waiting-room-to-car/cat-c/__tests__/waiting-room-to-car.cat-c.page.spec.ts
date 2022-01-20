@@ -1,7 +1,7 @@
 import {
-  waitForAsync, ComponentFixture, TestBed, fakeAsync, tick,
+  ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
-import { IonicModule, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -61,6 +61,8 @@ import {
   VehicleChecksCompletedToggled,
   VehicleChecksDrivingFaultsNumberChanged,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { WaitingRoomToCarCatCPage } from '../waiting-room-to-car.cat-c.page';
 
 describe('WaitingRoomToCarCatCPage', () => {
@@ -78,8 +80,9 @@ describe('WaitingRoomToCarCatCPage', () => {
         123: {
           vehicleDetails: {},
           accompaniment: {},
+          category: TestCategory.C,
           testData: {
-            vehicleChecks: { tellMeQuestions: [], showMeQuestions: [], fullLicenceHeld: null },
+            vehicleChecks: { tellMeQuestions: [{}], showMeQuestions: [{}], fullLicenceHeld: null },
             seriousFaults: {},
           },
           journalData: {
@@ -92,6 +95,7 @@ describe('WaitingRoomToCarCatCPage', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         WaitingRoomToCarCatCPage,
         MockComponent(EndTestLinkComponent),
@@ -107,7 +111,6 @@ describe('WaitingRoomToCarCatCPage', () => {
         MockComponent(FullLicenceHeldComponent),
       ],
       imports: [
-        IonicModule,
         AppModule,
         ReactiveFormsModule,
       ],
@@ -118,6 +121,7 @@ describe('WaitingRoomToCarCatCPage', () => {
         { provide: Router, useClass: RouterMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: QuestionProvider, useClass: QuestionProviderMock },
+        { provide: FaultCountProvider, useClass: FaultCountProvider },
         provideMockStore({ initialState }),
       ],
     });
@@ -126,10 +130,20 @@ describe('WaitingRoomToCarCatCPage', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WaitingRoomToCarCatCPage);
     component = fixture.componentInstance;
+    fixture.detectChanges();
+
     store$ = TestBed.inject(Store);
     routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
     spyOn(store$, 'dispatch');
   }));
+
+  afterEach(() => {
+    fixture.destroy();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
   describe('Class', () => {
     describe('ngOnInit', () => {
