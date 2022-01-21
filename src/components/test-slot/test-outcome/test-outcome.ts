@@ -189,7 +189,7 @@ export class TestOutcomeComponent implements OnInit {
 
   async startTest() {
     if (this.isE2EPracticeMode()) {
-      this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString()));
+      this.store$.dispatch(StartE2EPracticeTest(this.slotDetail.slotId.toString(), this.category));
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
