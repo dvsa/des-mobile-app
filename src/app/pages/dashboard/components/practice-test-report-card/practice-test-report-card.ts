@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
@@ -26,7 +26,6 @@ export class PracticeTestReportCardComponent {
 
   constructor(
     private store$: Store<StoreModel>,
-    public alertController: AlertController,
     private modalController: ModalController,
     public routeByCat: RouteByCategoryProvider,
   ) { }
