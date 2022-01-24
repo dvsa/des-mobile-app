@@ -14,7 +14,7 @@ export class DataRowComponent {
   label2: string = null;
 
   @Input()
-  value: string;
+  value: string | number | boolean;
 
   @Input()
   shouldShowIndicator: boolean = false;

@@ -17,6 +17,9 @@ export class ErrorPage extends LogoutBasePageComponent {
   @Input()
   public errorType: ErrorTypes;
 
+  @Input()
+  displayAsModal: boolean = false;
+
   constructor(
     public platform: Platform,
     public alertController: AlertController,

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 enum GearBox {
@@ -22,7 +22,7 @@ export class TransmissionDisplayComponent {
   code78: boolean;
 
   @Input()
-  category: TestCategory;
+  category: TestCategory | CategoryCode;
 
   @Input()
   isTestSubmitted: boolean = false;
@@ -43,7 +43,7 @@ export class TransmissionDisplayComponent {
       return GearBox.MANUAL;
     }
     if (
-      code78Categories.includes(this.category)
+      code78Categories.includes(this.category as TestCategory)
       && this.transmission as GearBox !== GearBox.MANUAL
       && this.code78 === false
     ) {
