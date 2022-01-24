@@ -98,7 +98,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_1`,
-      start: '2022-01-20T13:35:00',
+      start: todayAt8Am.add(1, 'hours').add(12, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -155,7 +155,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_2`,
-      start: '2022-01-21T15:35:00',
+      start: todayAt8Am.add(2, 'hours').add(30, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -212,7 +212,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_3`,
-      start: '2022-01-21T17:35:00',
+      start: todayAt8Am.add(3, 'hours').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -269,7 +269,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_4`,
-      start: '2022-01-21T16:35:00',
+      start: todayAt8Am.add(1, 'hours').add(21, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
