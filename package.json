@@ -38,7 +38,8 @@
     "update-mock-data": "npm run update-mock-data:journal && npm run update-mock-data:nta && npm run update-mock-data:tc-journal",
     "update-mock-data:journal": "ts-node -P tsconfig.scripts.json mock/generate-local-journal.ts",
     "update-mock-data:nta": "ts-node -P tsconfig.scripts.json mock/generate-local-journal-non-test-activities.ts",
-    "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts"
+    "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts",
+    "set-version": "./buildScripts/set-xcode-version.sh $n"
   },
   "dependencies": {
     "@angular/common": "~12.2.15",
