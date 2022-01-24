@@ -283,6 +283,7 @@ export class AppConfigProvider {
       this.isDebug.getIsDebug()
         .then((isDebug) => {
           this.isDebugMode = (environment as unknown as TestersEnvironmentFile)?.isTest ? true : isDebug;
+          console.log('Detected that app is running in debug mode');
           resolve();
         })
         .catch((err) => reject(err));
