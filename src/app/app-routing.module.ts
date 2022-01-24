@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core';
 import { NoPreloading, RouterModule, Routes } from '@angular/router';
 import {
   DASHBOARD_PAGE,
-  LOGIN_PAGE,
+  FAKE_JOURNAL_PAGE,
   JOURNAL_PAGE,
+  LOGIN_PAGE,
+  REKEY_SEARCH_PAGE,
   TEST_CENTRE_JOURNAL_PAGE,
-  TestFlowPageNames, REKEY_SEARCH_PAGE, FAKE_JOURNAL_PAGE,
+  TEST_RESULTS_SEARCH_PAGE,
+  TestFlowPageNames,
 } from '@pages/page-names.constants';
 import { CanWaitingRoomDeactivateGuard } from '@pages/waiting-room/can-waiting-room-deactiviate';
 import { CanDeactivateHealthDeclaration } from '@pages/health-declaration/can-health-declaration-deactivate';
@@ -40,6 +43,11 @@ const routes: Routes = [
     path: TEST_CENTRE_JOURNAL_PAGE,
     loadChildren: () => import('./pages/test-centre-journal/test-centre-journal.module')
       .then((m) => m.TestCentreJournalModule),
+  },
+  {
+    path: TEST_RESULTS_SEARCH_PAGE,
+    loadChildren: () => import('./pages/test-results-search/test-results-search.module')
+      .then((m) => m.TestResultsSearchPageModule),
   },
   {
     path: REKEY_SEARCH_PAGE,

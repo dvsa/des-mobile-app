@@ -1,0 +1,32 @@
+:host {
+  .card-ios {
+    margin: 12px 0 8px;
+    width: calc(100% - 2px); // allow room for box shadow on right hand side
+    border-left: 8px solid #9b9b9b;
+  }
+  .grid {
+    padding: 13px 0;
+  }
+  .top-row {
+    letter-spacing: -0.48px;
+  }
+  .bottom-row {
+    letter-spacing: -0.48px;
+  }
+  .first-col {
+    padding-left: 40px;
+  }
+
+  #search-result-cost-code-label,
+  #search-result-app-ref-label,
+  #search-result-time-label,
+  #search-result-name-label,
+  #search-result-category-label,
+  #search-result-activity-code-label,
+  #search-result-date-label,
+  #search-result-driver-number-label
+  {
+    color: black;
+  }
+
+}
