@@ -135,6 +135,17 @@ export const getIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
       && tests.testStatus[slotId] !== TestStatus.Completed);
 };
 
+export const getAllIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
+  return Object.keys(tests.testStatus)
+    .filter((slotId) =>
+      tests.testStatus[slotId] !== TestStatus.Submitted && tests.testStatus[slotId] !== TestStatus.Completed);
+};
+
+export const getAllIncompleteTests = (tests: TestsModel): TestResultSchemasUnion[] => {
+  const allTestsSlotIds: string[] = getAllIncompleteTestsSlotIds(tests);
+  return allTestsSlotIds.map((slotId: string) => tests.startedTests[slotId]);
+};
+
 export const getIncompleteTests = (tests: TestsModel): TestResultSchemasUnion[] => {
   const incompleteTestsSlotIds: string[] = getIncompleteTestsSlotIds(tests);
   return incompleteTestsSlotIds.map((slotId: string) => tests.startedTests[slotId]);
