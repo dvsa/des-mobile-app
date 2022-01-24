@@ -1,0 +1,99 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title id="search-submitted-title">Search submitted test</ion-title>
+        <ion-buttons id="back-button" slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content forceOverscroll="false">
+
+    <div class="search-inputs">
+        <tabs>
+            <tab [tabTitle]="'Candidate details'" id="tab-search-candidate-details">
+                <ion-grid>
+                    <ion-row class="ion-align-self-center">
+                        <ion-col class="component-label" size="22">
+                            <label>Search by</label>
+                        </ion-col>
+                        <ion-col size="40">
+                            <input type="radio"
+                                   id="search-by-app-reference"
+                                   class="gds-radio-button"
+                                   name="searchBy"
+                                   value="appReference"
+                                   [checked]="searchBy === 'appReference'"
+                                   (change)="searchByChanged($event.target.value)">
+                            <label for="search-by-app-reference" class="radio-label">Application reference</label>
+                        </ion-col>
+                        <ion-col size="34">
+                            <input type="radio"
+                                   id="search-by-driver-number"
+                                   class="gds-radio-button"
+                                   name="searchBy"
+                                   value="driverNumber"
+                                   [checked]="searchBy === 'driverNumber'"
+                                   (change)="searchByChanged($event.target.value)">
+                            <label for="search-by-driver-number" class="radio-label">Driver number</label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-padding-top">
+                        <ion-col size="96">
+                            <ion-input
+                                    id="test-result-search-{{searchBy}}-input"
+                                    [placeholder]="searchBy === 'appReference' ? 'Enter an application reference' : 'Enter a driver number'"
+                                    type="number"
+                                    class="ion-input-styling custom-font-size"
+                                    clearInput
+                                    numbersOnly
+                                    (ionFocus)="setFocus('field')"
+                                    (ionBlur)="setFocus(null)"
+                                    [value]="candidateInfo"
+                                    [ngClass]="{'input-focus': focusedElement === 'field'}"
+                                    (change)="candidateInfoChanged($event.target.value)">
+                            </ion-input>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-padding-top">
+                        <ion-button
+                                id="test-result-search-button"
+                                [attr.disabled]="showSearchSpinner ? 'true' : null"
+                                class="mes-primary-button search-tests" (click)="searchTests()">
+                            <h3>
+                                <ion-icon name="search" class="search-icon"></ion-icon>
+                                Search
+                            </h3>
+                        </ion-button>
+                        <ion-spinner class="search-spinner" name="bubbles" *ngIf="showSearchSpinner"></ion-spinner>
+                    </ion-row>
+                </ion-grid>
+            </tab>
+            <tab [tabTitle]="'Advanced search'" *ngIf="displayAdvancedSearch()" id="tab-search-advanced">
+                <advanced-search
+                        (onSearchTests)="advancedSearch($event)"
+                        [showSpinner]="showAdvancedSearchSpinner">
+                </advanced-search>
+            </tab>
+        </tabs>
+
+        <div class="results-error" *ngIf="hasSearched && searchResults.length === 0">
+            <p class="error-text">There were no results found for your search.</p>
+            <p class="error-text">Please check and try again.</p>
+        </div>
+
+        <p class="results-message" *ngIf="searchResults.length > 0">
+            Displaying <span>{{searchResults.length}}</span> results
+        </p>
+
+        <cdk-virtual-scroll-viewport itemSize="1">
+            <ion-item-divider *virtualHeader="let header" class="list-header"></ion-item-divider>
+            <search-result
+                    *cdkVirtualFor="let searchResult of searchResults;"
+                    [searchResult]=searchResult>
+            </search-result>
+        </cdk-virtual-scroll-viewport>
+    </div>
+
+
+</ion-content>

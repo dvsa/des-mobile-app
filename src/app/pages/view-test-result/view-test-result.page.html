@@ -1,0 +1,71 @@
+<ion-header>
+    <ion-toolbar mode="ios" class="toolbar-spacing">
+        <ion-buttons slot="start">
+            <ion-button id="view-test-result-close-button" (click)="onClose()">
+                <ion-icon class="close-btn" id="view-test-result-close-icon" name="close-outline"></ion-icon>
+                <ion-label class="close-btn" id="view-test-result-close-label">Close</ion-label>
+            </ion-button>
+        </ion-buttons>
+        <ion-title id="view-test-result-title">
+            Test information
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <error-message
+            *ngIf="!isLoading && showErrorMessage"
+            class="error"
+            returnTo="{{errorLink}}"
+            (exitModal)="onClose()">
+    </error-message>
+
+    <div *ngIf="!isLoading && !showErrorMessage && testResult">
+        <view-test-header [data]="getHeaderDetails()"></view-test-header>
+
+        <test-details-card
+                [candidateDetails]="getCandidateDetails()"
+                [data]="getTestDetails()">
+        </test-details-card>
+
+        <contact-details-card
+                [candidateData]="testResult.journalData.candidate"
+                [communicationPreferencesData]="testResult.communicationPreferences">
+        </contact-details-card>
+
+        <business-details-card [data]="testResult.journalData.candidate"></business-details-card>
+
+        <div *ngIf="testResult.rekey">
+            <rekey-details-card [data]="testResult"></rekey-details-card>
+            <rekey-reason-card [data]="testResult.rekeyReason"></rekey-reason-card>
+        </div>
+
+        <examiner-details-card [data]="getExaminerDetails()"></examiner-details-card>
+
+        <vehicle-details-card
+                *ngIf="showVehicleDetailsCommonCard()"
+                [trainerData]="getTrainerData()"
+                [data]="testResult.vehicleDetails"
+                [category]="testResult.category"
+                [passCompletion]="testResult.passCompletion">
+        </vehicle-details-card>
+
+        <debrief-card
+                *ngIf="showDebriefCommonCard()"
+                [drivingFaultCount]="getDrivingFaultSumCount()"
+                [drivingFaults]="getDrivingFaults()"
+                [seriousFaults]="getSeriousFaults()"
+                [dangerousFaults]="getDangerousFaults()"
+                [data]="testResult.testData"
+                [category]="testResult.category"
+                [delegatedTest]="testResult.delegatedTest">
+        </debrief-card>
+
+        <test-summary-card
+                [accompaniment]="testResult.accompaniment"
+                [passCompletion]="testResult.passCompletion"
+                [testSummary]="testResult.testSummary"
+                [communicationPreferences]="testResult.communicationPreferences">
+        </test-summary-card>
+    </div>
+</ion-content>

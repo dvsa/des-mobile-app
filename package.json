@@ -40,6 +40,7 @@
     "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts"
   },
   "dependencies": {
+    "@angular/cdk": "~12.2.13",
     "@angular/common": "~12.2.15",
     "@angular/core": "~12.2.15",
     "@angular/forms": "~12.2.15",

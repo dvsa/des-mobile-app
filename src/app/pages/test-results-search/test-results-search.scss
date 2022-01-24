@@ -1,0 +1,105 @@
+:host {
+  .component-label {
+    padding-top: 12px;
+  }
+
+  .candidate-info-input {
+    margin-top: 34px;
+    width: 100%;
+  }
+
+  .search-tests {
+    margin-top: 20px;
+    height: 56px;
+    width: 100%;
+  }
+
+  .clear-input {
+    cursor: pointer;
+    margin: auto -34px;
+  }
+
+  p.results-message {
+    margin-top: 24px;
+    span {
+      font-weight: 900;
+    }
+  }
+
+  .results-error {
+    margin-top: 24px;
+    p.error-text {
+      margin: 4px 0;
+      text-align: center;
+    }
+  }
+  .search-spinner {
+    margin-top: 32px;
+    margin-left: 700px;
+    position: absolute;
+  }
+
+  .search-icon {
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    padding-right: 3px;
+    font-weight: bolder;
+  }
+
+  .item-ios.item-block .item-inner {
+    padding-right: 0;
+  }
+
+  .text-input-ios {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .search-inputs {
+    position: absolute;
+    width: 810px;
+    z-index: 100;
+    padding: 16px 12px;
+    width: 100%;
+  }
+
+  @media screen and (min-width: 900px) {
+    .search-inputs {
+      width: 1088px;
+    }
+  }
+
+  .test-results-list {
+    margin: 12px 10px 12px 12px; // allow room for box shadow on right hand side
+
+    .list-header {
+      height: 442px;
+      visibility: hidden;
+      .text-zoom-large & {
+        height: 454px;
+      }
+      .text-zoom-x-large & {
+        height: 482px;
+      }
+    }
+
+    .item-ios {
+      background-color: var(--mes-background);
+      padding: 0;
+    }
+
+    ion-label.label.label-ios {
+      margin: 0;
+    }
+  }
+
+  cdk-virtual-scroll-viewport {
+    height: 550px;
+  }
+
+  .custom-font-size {
+    font-size: 20px !important;
+  }
+
+}

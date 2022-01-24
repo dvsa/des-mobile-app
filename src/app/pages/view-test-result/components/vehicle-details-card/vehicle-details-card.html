@@ -1,0 +1,84 @@
+<ion-card *ngIf="!shouldHideCard()">
+    <ion-card-header>
+        <h4 id="view-test-result-vehicle-details-title">Vehicle details</h4>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <data-row
+                    [label]="'Transmission'"
+                    [value]="getTransmission()"
+                    *ngIf="getTransmission() && !showTransmissionWithCode78()">
+            </data-row>
+
+            <transmission-display
+                    *ngIf="getTransmission() && showTransmissionWithCode78()"
+                    [category]="category"
+                    [transmission]="data.gearboxCategory"
+                    [code78]="passCompletion?.code78Present"
+                    [isTestSubmitted]="true">
+            </transmission-display>
+
+            <data-row
+                    [label]="'Vehicle registration number'"
+                    [value]="getRegistrationNumber()"
+                    *ngIf="getRegistrationNumber()">
+            </data-row>
+
+            <data-row-custom
+                    [label]="'Vehicle details'"
+                    *ngIf="vehicleDetails"
+                    [shouldHaveSeperator]="!!getInstructorRegistrationNumber()">
+                <span class=mes-data *ngIf="vehicleDetails.length === 0">None</span>
+                <span class="mes-data">{{ getFlattenArray(vehicleDetails) }}</span>
+            </data-row-custom>
+
+            <data-row
+                    [label]="'Instructor registration number'"
+                    [value]="getInstructorRegistrationNumber()"
+                    *ngIf="getInstructorRegistrationNumber()"
+                    [shouldHaveSeperator]="false">
+            </data-row>
+
+            <data-row-custom *ngIf="!shouldHideDimensions()" [label]="'Vehicle dimensions'">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col size="32">
+                            <span class="mes-data"><span class="mes-data bold">L:</span> {{ getVehicleLength() }}</span>
+                        </ion-col>
+                        <ion-col size="32">
+                            <span class="mes-data"><span class="mes-data bold">W:</span> {{ getVehicleWidth() }}</span>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </data-row-custom>
+
+            <data-row
+                    [label]="'School Bike'"
+                    [value]="getSchoolBike()"
+                    *ngIf="getSchoolBike()">
+            </data-row>
+
+            <data-row
+                    *ngIf="getTrainerPRN()"
+                    [label]="'Trainer PRN'"
+                    [value]="getTrainerPRN()">
+            </data-row>
+
+            <data-row
+                    [label]="'ORDIT'"
+                    [value]="getOrdit()">
+            </data-row>
+
+            <data-row
+                    [label]="'Training Records'"
+                    [value]="getTrainingRecords()">
+            </data-row>
+
+            <data-row *ngIf="displayVehicleDetails()"
+                      [label]="'Vehicle Details'"
+                      [value]="getVehicleDetails()">
+            </data-row>
+
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

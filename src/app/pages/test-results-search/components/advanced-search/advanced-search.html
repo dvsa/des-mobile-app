@@ -1,0 +1,82 @@
+<ion-grid>
+    <ion-row>
+        <ion-col class="ion-align-self-center" size="18">
+            <label>Test centre</label>
+        </ion-col>
+        <ion-col size="28">
+            <ion-item class="ion-no-padding" lines="none">
+<!--                <ion-input-->
+<!--                        placeholder="DTC number"-->
+<!--                        type="text"-->
+<!--                        id="dtc-number"-->
+<!--                        class="dtc-number"-->
+<!--                        clearInput-->
+<!--                        [value]="dtcNumber"-->
+<!--                        (ionChange)="dtcNumberChanged($event.value)">-->
+<!--                </ion-input>-->
+                <ion-input
+                        placeholder="DTC number"
+                        type="text"
+                        class="ion-input-styling custom-font-size"
+                        clearInput
+                        [value]="dtcNumber"
+                        (ionChange)="dtcNumberChanged($event.target.value)">
+                </ion-input>
+            </ion-item>
+        </ion-col>
+        <ion-col size="3"></ion-col>
+        <ion-col class="ion-align-self-center" size="14">
+            <label>Staff ID</label>
+        </ion-col>
+        <ion-col size="28">
+            <ion-item class="ion-no-padding" lines="none">
+                <input
+                        placeholder="DE number"
+                        type="text"
+                        id="staff-number"
+                        class="staff-number"
+                        clearInput
+                        (input)="staffNumberChanged($event)">
+            </ion-item>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <hr class="advanced-search-divider"/>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-padding-top ion-padding-bottom">
+        <ion-col class="ion-align-self-center" size="26">
+            <label>Date range</label>
+        </ion-col>
+        <ion-col size="28">
+            <ion-datetime
+                    placeholder="Select start date"
+                    displayFormat="DD/MM/YYYY"
+                    [pickerOptions]="customStartDateOptions"
+                    [(ngModel)]="startDate">
+            </ion-datetime>
+        </ion-col>
+        <ion-col class="component-label ion-text-center" size="9">
+            <label class="to-label">to</label>
+        </ion-col>
+        <ion-col size="28">
+            <ion-datetime
+                    placeholder="Select end date"
+                    displayFormat="DD/MM/YYYY"
+                    [pickerOptions]="customEndDateOptions"
+                    [(ngModel)]="endDate">
+            </ion-datetime>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-padding-top">
+        <ion-button [attr.disabled]="showSpinner ? 'true' : null"
+                    class="mes-primary-button search-tests" (click)="searchTests()">
+            <h3>
+                <ion-icon name="search" class="search-icon"></ion-icon>
+                Search
+            </h3>
+        </ion-button>
+        <ion-spinner class="search-spinner" name="bubbles" *ngIf="showSpinner"></ion-spinner>
+    </ion-row>
+</ion-grid>

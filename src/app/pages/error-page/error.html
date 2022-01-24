@@ -10,6 +10,10 @@
 </ion-header>
 
 <ion-content>
-  <error-message class="error" returnTo="{{errorType}}" (exitModal)="dismiss()">
+  <error-message
+          class="error"
+          returnTo="{{errorType}}"
+          [displayAsModal]="displayAsModal"
+          (exitModal)="dismiss()">
   </error-message>
 </ion-content>
