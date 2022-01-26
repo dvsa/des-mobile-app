@@ -61,6 +61,7 @@
                                                [formGroup]="form"
                                                [candidateDescription]="pageState.candidateDescription$ | async"
                                                [outcome]="pageState.testOutcome$ | async"
+                                               [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
                                                (candidateDescriptionChange)="candidateDescriptionChanged($event)">
                         </candidate-description>
 
