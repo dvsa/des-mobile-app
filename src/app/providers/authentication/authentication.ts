@@ -4,6 +4,8 @@ import { Store } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { Subscription } from 'rxjs';
 import { AppConfigProvider } from '../app-config/app-config';
 import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
@@ -19,6 +21,7 @@ export enum Token {
 export class AuthenticationProvider {
 
   public authenticationSettings: any;
+  private subscription: Subscription;
   private employeeIdKey: string;
   private employeeId: string;
   private inUnAuthenticatedMode: boolean;
@@ -30,6 +33,7 @@ export class AuthenticationProvider {
     private appConfig: AppConfigProvider,
     private testPersistenceProvider: TestPersistenceProvider,
     private store$: Store<StoreModel>,
+    private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
   ) {
     this.setStoreSubscription();
   }
@@ -37,6 +41,7 @@ export class AuthenticationProvider {
   private getAuthOptions = (): IonicAuthOptions => {
     const authSettings = this.appConfig.getAppConfig()?.authentication;
     return {
+      logLevel: 'DEBUG',
       authConfig: 'azure',
       platform: 'capacitor',
       clientID: authSettings.clientId,
@@ -94,7 +99,17 @@ export class AuthenticationProvider {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve(true);
     }
-    return this.ionicAuth.isAuthenticated();
+
+    try {
+      if (await this.ionicAuth.isAccessTokenAvailable() && await this.ionicAuth.isAccessTokenExpired()) {
+        await this.ionicAuth.refreshSession();
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.error('isAuthenticated', err);
+      return false;
+    }
   }
 
   public setUnAuthenticatedMode = (mode: boolean): void => {
@@ -145,7 +160,7 @@ export class AuthenticationProvider {
   };
 
   private setStoreSubscription = (): void => {
-    this.store$.select(selectEmployeeId).pipe(
+    this.subscription = this.store$.select(selectEmployeeId).pipe(
       tap((employeeId: string) => {
         if (employeeId) this.employeeId = employeeId;
       }),
@@ -164,14 +179,19 @@ export class AuthenticationProvider {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve();
     }
-    return this.ionicAuth.login();
+    /* eslint-disable @typescript-eslint/return-await */
+    return await this.ionicAuth
+      .login()
+      .catch((error) => console.error('LOGIN ERROR', error));
   }
 
   public async logout(): Promise<void> {
     if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
       await this.testPersistenceProvider.clearPersistedTests();
+      await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
     }
     await this.clearTokens();
+    this.subscription?.unsubscribe();
     await this.ionicAuth.logout();
   }
 
