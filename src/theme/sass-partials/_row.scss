@@ -6,6 +6,11 @@
   border-bottom: 2px solid var(--gds-grey-5);
 }
 
+.mes-narrow-row {
+  @extend .mes-row-separator;
+  min-height: 100px !important;
+}
+
 .mes-row-separator-top {
   border-top: 4px solid var(--gds-grey-5);
 }

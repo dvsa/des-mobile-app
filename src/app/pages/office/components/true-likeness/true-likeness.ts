@@ -26,7 +26,7 @@ export class TrueLikenessComponent implements OnChanges {
       this.formGroup.addControl(this.formField, this.formControl);
     }
 
-    this.formControl.patchValue(this.trueLikeness);
+    this.formControl.patchValue(String(this.trueLikeness));
   }
 
   trueLikenessChanged(trueLikeness:string): void {

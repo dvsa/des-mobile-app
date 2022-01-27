@@ -78,25 +78,12 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     }
   }
 
-  closeSideMenuIfOpen = async (): Promise<void> => {
-    if (await this.menuController.isOpen()) {
-      await this.menuController.close();
-    }
-  };
-
-  isUserNotAuthorised = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_NOT_AUTHORISED;
-  };
-
-  isInvalidAppVersionError = (): boolean => {
-    return !this.hasUserLoggedOut && this.appInitError === AppConfigError.INVALID_APP_VERSION;
-  };
-
   login = async (): Promise<any> => {
     await this.handleLoadingUI(true);
 
     try {
       await this.platform.ready();
+
       await this.appConfigProvider.initialiseAppConfig();
 
       this.store$.dispatch(StartSendingLogs());
@@ -109,6 +96,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       const isAuthenticated = await this.authenticationProvider.isAuthenticated();
 
+      await this.hideSplashscreen();
       if (!isAuthenticated) {
         await this.authenticationProvider.login();
       }
@@ -137,6 +125,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       await this.validateDeviceType();
     } catch (error) {
+      await this.hideSplashscreen();
 
       await this.handleLoadingUI(false);
 
@@ -159,7 +148,6 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       console.log(error);
     }
     this.hasUserLoggedOut = false;
-    this.hideSplashscreen();
   };
 
   hideSplashscreen = async (): Promise<void> => {
@@ -188,6 +176,20 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         'App has initialised',
       ),
     }));
+  };
+
+  closeSideMenuIfOpen = async (): Promise<void> => {
+    if (await this.menuController.isOpen()) {
+      await this.menuController.close();
+    }
+  };
+
+  isUserNotAuthorised = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError === AuthenticationError.USER_NOT_AUTHORISED;
+  };
+
+  isInvalidAppVersionError = (): boolean => {
+    return !this.hasUserLoggedOut && this.appInitError === AppConfigError.INVALID_APP_VERSION;
   };
 
   isInternetConnectionError = (): boolean => {
