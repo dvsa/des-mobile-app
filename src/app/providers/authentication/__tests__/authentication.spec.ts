@@ -3,6 +3,10 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { StoreModel } from '@shared/models/store.model';
+import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import {
+  CompletedTestPersistenceProviderMock,
+} from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
 import { AuthenticationProvider, Token } from '../authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -14,7 +18,7 @@ import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.moc
 import { TestPersistenceProvider } from '../../test-persistence/test-persistence';
 import { TestPersistenceProviderMock } from '../../test-persistence/__mocks__/test-persistence.mock';
 
-describe('Authentication', () => {
+describe('AuthenticationProvider', () => {
   let authenticationProvider: AuthenticationProvider;
   let networkStateProvider: NetworkStateProvider;
   let appConfigProvider: AppConfigProvider;
@@ -30,6 +34,7 @@ describe('Authentication', () => {
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: TestPersistenceProvider, useClass: TestPersistenceProviderMock },
+        { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
         provideMockStore({ initialState }),
       ],
     });
@@ -67,11 +72,54 @@ describe('Authentication', () => {
       expect(isAuthenticated).toEqual(true);
     });
 
-    it('isAuthenticated() call through to ionicAuth if not in unauthenticated mode', async () => {
+    it('should call through to isAccessTokenAvailable,isAccessTokenExpired & refreshSession successfully', async () => {
       spyOn(authenticationProvider, 'isInUnAuthenticatedMode').and.returnValue(false);
-      spyOn(authenticationProvider.ionicAuth, 'isAuthenticated').and.returnValue(Promise.resolve(false));
+      spyOn(authenticationProvider.ionicAuth, 'isAccessTokenAvailable').and.returnValue(Promise.resolve(true));
+      spyOn(authenticationProvider.ionicAuth, 'isAccessTokenExpired').and.returnValue(Promise.resolve(true));
+      spyOn(authenticationProvider.ionicAuth, 'refreshSession').and.returnValue(Promise.resolve());
       const isAuthenticated = await authenticationProvider.isAuthenticated();
-      expect(authenticationProvider.ionicAuth.isAuthenticated).toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.isAccessTokenAvailable).toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.isAccessTokenExpired).toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.refreshSession).toHaveBeenCalled();
+      expect(isAuthenticated).toEqual(true);
+    });
+
+    it('should not call refreshSession when isAccessTokenAvailable returns false', async () => {
+      spyOn(authenticationProvider, 'isInUnAuthenticatedMode').and.returnValue(false);
+      spyOn(authenticationProvider.ionicAuth, 'isAccessTokenAvailable').and.returnValue(Promise.resolve(false));
+      spyOn(authenticationProvider.ionicAuth, 'isAccessTokenExpired').and.returnValue(Promise.resolve(true));
+      spyOn(authenticationProvider.ionicAuth, 'refreshSession').and.returnValue(Promise.resolve());
+      const isAuthenticated = await authenticationProvider.isAuthenticated();
+      expect(authenticationProvider.ionicAuth.isAccessTokenAvailable).toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.isAccessTokenExpired).not.toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.refreshSession).not.toHaveBeenCalled();
+      expect(isAuthenticated).toEqual(false);
+    });
+
+    it('should not call refreshSession when isAccessTokenExpired returns false', async () => {
+      spyOn(authenticationProvider, 'isInUnAuthenticatedMode').and.returnValue(false);
+      spyOn(authenticationProvider.ionicAuth, 'isAccessTokenAvailable').and.returnValue(Promise.resolve(true));
+      spyOn(authenticationProvider.ionicAuth, 'isAccessTokenExpired').and.returnValue(Promise.resolve(false));
+      spyOn(authenticationProvider.ionicAuth, 'refreshSession').and.returnValue(Promise.resolve());
+      const isAuthenticated = await authenticationProvider.isAuthenticated();
+      expect(authenticationProvider.ionicAuth.isAccessTokenAvailable).toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.isAccessTokenExpired).toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.refreshSession).not.toHaveBeenCalled();
+      expect(isAuthenticated).toEqual(false);
+    });
+
+    /* Test passes, although due to code it throws an error which might lead to further confusion, but can be enabled
+    * to check the functionality has not been broken if desired */
+    xit('should throw at refresh and run through catch', async () => {
+      spyOn(authenticationProvider, 'isInUnAuthenticatedMode').and.returnValue(false);
+      spyOn(authenticationProvider.ionicAuth, 'isAccessTokenAvailable').and.returnValue(Promise.resolve(true));
+      spyOn(authenticationProvider.ionicAuth, 'isAccessTokenExpired').and.returnValue(Promise.resolve(true));
+      spyOn(authenticationProvider.ionicAuth, 'refreshSession')
+        .and.returnValue(Promise.reject(new Error('refresh, threw')));
+      const isAuthenticated = await authenticationProvider.isAuthenticated();
+      expect(authenticationProvider.ionicAuth.isAccessTokenAvailable).toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.isAccessTokenExpired).toHaveBeenCalled();
+      expect(authenticationProvider.ionicAuth.refreshSession).toHaveBeenCalled();
       expect(isAuthenticated).toEqual(false);
     });
 
@@ -82,6 +130,7 @@ describe('Authentication', () => {
       spyOn(authenticationProvider.ionicAuth, 'getIdToken').and.returnValue(Promise.resolve({
         exp: 1602686015366,
       }));
+      spyOn(authenticationProvider, 'isAuthenticated').and.returnValue(Promise.resolve(true));
       const token = await authenticationProvider.getAuthenticationToken();
 
       expect(token).toEqual('U0lMRU5UIEFZU05DIFRFU1QgVE9LRU4');

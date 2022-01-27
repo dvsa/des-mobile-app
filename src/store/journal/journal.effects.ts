@@ -36,12 +36,16 @@ import { LogType } from '@shared/models/log.model';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { AdvancedSearchParams } from '@providers/search/search.models';
-import { removeLeadingZeros } from '@shared/helpers/formatters';
-import { hasStartedTests } from '@store/tests/tests.selector';
+import { formatApplicationReference, removeLeadingZeros } from '@shared/helpers/formatters';
+import {
+  getAllIncompleteTests,
+  hasStartedTests,
+} from '@store/tests/tests.selector';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import * as moment from 'moment';
 import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
@@ -208,10 +212,14 @@ export class JournalEffects {
           select(getJournalState),
           select(getCompletedTests),
         ),
+        this.store$.pipe(
+          select(getTests),
+          select(getAllIncompleteTests),
+        ),
       ),
     )),
     filter(([action, , hasStarted, completedTests]:
-    [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
+    [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[], TestResultSchemasUnion[]]) => {
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
         this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
         return false;
@@ -220,19 +228,27 @@ export class JournalEffects {
 
       return !hasStarted && completedTests && completedTests.length === 0;
     }),
-    switchMap(([, staffNumber]) => {
+    switchMap(([, staffNumber, , , unSubmittedTestsOnDevice]) => {
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
       const advancedSearchParams: AdvancedSearchParams = {
         startDate: moment().subtract(numberOfDaysToView, 'days').format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
-        excludeAutoSavedTests: 'true',
+        excludeAutoSavedTests: 'false',
       };
 
       return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
+        map((searchResults: SearchResultTestSchema[]) => {
+
+          const unSubmittedAppRefs: string[] = unSubmittedTestsOnDevice
+            .map(({ journalData }) => formatApplicationReference(journalData.applicationReference));
+
+          return searchResults
+            .filter(({ applicationReference }) => !unSubmittedAppRefs.includes(String(applicationReference)));
+        }),
         tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
-        map((searchResults) => LoadCompletedTestsSuccess(searchResults)),
+        map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
         catchError((err) => of(LoadCompletedTestsFailure(err))),
       );
     }),

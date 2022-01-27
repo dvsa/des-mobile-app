@@ -43,6 +43,7 @@ export class OfficeEffects {
       testSummaryActions.CandidateDescriptionChanged,
       testSummaryActions.D255Yes,
       testSummaryActions.D255No,
+      testSummaryActions.TrueLikenessToPhotoChanged,
     ),
     map(() => testsActions.PersistTests()),
   ));
