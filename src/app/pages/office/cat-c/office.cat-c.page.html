@@ -125,7 +125,8 @@
                                 (independentDrivingChange)="independentDrivingChanged($event)">
                         </independent-driving>
 
-                        <true-likeness [formGroup]="form"
+                        <true-likeness *ngIf="pageState.displayCandidateDescription$ | async"
+                                       [formGroup]="form"
                                        [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
                                        (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
                         </true-likeness>
@@ -177,7 +178,7 @@
             </ion-card-content>
         </ion-card>
 
-        <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+        <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <ion-card id="ETA" *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)">
                 <ion-card-content>
                     <ion-grid>
