@@ -244,11 +244,11 @@ export class JournalEffects {
           const unSubmittedAppRefs: string[] = unSubmittedTestsOnDevice
             .map(({ journalData }) => formatApplicationReference(journalData.applicationReference));
 
-          const remoteSearchResultsNotOnDevice: SearchResultTestSchema[] = searchResults
+          return searchResults
             .filter(({ applicationReference }) => !unSubmittedAppRefs.includes(String(applicationReference)));
-
-          return LoadCompletedTestsSuccess(remoteSearchResultsNotOnDevice);
         }),
+        tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
+        map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
         catchError((err) => of(LoadCompletedTestsFailure(err))),
       );
     }),
