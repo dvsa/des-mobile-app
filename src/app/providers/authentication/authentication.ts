@@ -128,8 +128,7 @@ export class AuthenticationProvider {
       await this.refreshTokenIfExpired();
       const token = await this.ionicAuth.getIdToken();
       return !!token && token.exp && new Date(token.exp * 1000) > new Date();
-    }
-    catch (err) {
+    } catch (err) {
       console.error('valid token', err);
       return false;
     }
@@ -185,10 +184,7 @@ export class AuthenticationProvider {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve();
     }
-    /* eslint-disable @typescript-eslint/return-await */
-    return await this.ionicAuth
-      .login()
-      .catch((error) => console.error('LOGIN ERROR', error));
+    return this.ionicAuth.login();
   }
 
   public async logout(): Promise<void> {
