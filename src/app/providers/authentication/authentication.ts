@@ -184,10 +184,7 @@ export class AuthenticationProvider {
     if (this.isInUnAuthenticatedMode()) {
       return Promise.resolve();
     }
-    /* eslint-disable @typescript-eslint/return-await */
-    return await this.ionicAuth
-      .login()
-      .catch((error) => console.error('LOGIN ERROR', error));
+    return this.ionicAuth.login();
   }
 
   public async logout(): Promise<void> {
