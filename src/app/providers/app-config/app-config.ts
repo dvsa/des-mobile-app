@@ -91,6 +91,7 @@ export class AppConfigProvider {
       }
       return await Promise.resolve();
     } catch (err) {
+      console.error('initialise app config', err);
       return Promise.reject(AppConfigError.MDM_ERROR);
     }
   };
