@@ -178,7 +178,7 @@
             </ion-card-content>
         </ion-card>
 
-        <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+        <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <ion-card id="ETA" *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)">
                 <ion-card-content>
                     <ion-grid>
