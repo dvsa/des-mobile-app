@@ -23,14 +23,14 @@ import {
   AnalyticsEventCategories,
   AnalyticsErrorTypes, AnalyticsEvents,
 } from '@providers/analytics/analytics.model';
-import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
-import * as communicationActions from '../communication.actions';
-import { CommunicationAnalyticsEffects } from '../communication.analytics.effects';
 import {
   VRNModalCancelled,
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
+import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
+import * as communicationActions from '../communication.actions';
+import { CommunicationAnalyticsEffects } from '../communication.analytics.effects';
 
 describe('CommunicationAnalyticsEffects', () => {
   let effects: CommunicationAnalyticsEffects;
