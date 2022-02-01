@@ -71,7 +71,7 @@ export class CommunicationAnalyticsEffects {
       )),
     switchMap((
       [, tests, applicationReference, candidateId, category]:
-      [ReturnType <typeof CommunicationViewDidEnter>, TestsModel, string, number, CategoryCode],
+      [ReturnType<typeof CommunicationViewDidEnter>, TestsModel, string, number, CategoryCode],
     ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);

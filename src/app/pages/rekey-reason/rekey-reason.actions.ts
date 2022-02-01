@@ -16,3 +16,7 @@ export const ValidateTransferRekeyFailed = createAction(
 export const ResetStaffNumberValidationError = createAction(
   '[RekeyReasonPage] Reset staff number validation error',
 );
+
+export const RekeyUploadTest = createAction(
+  '[RekeyReasonPage] Upload rekey test',
+);
