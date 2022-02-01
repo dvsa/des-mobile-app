@@ -24,6 +24,7 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { configureTestSuite } from 'ng-bullet';
+import { VRNModalOpened } from '@store/tests/candidate-section/candidate-section.actions';
 import * as waitingRoomActions from '../waiting-room.actions';
 import { WaitingRoomAnalyticsEffects } from '../waiting-room.analytics.effects';
 
@@ -62,6 +63,7 @@ describe('Waiting Room Analytics Effects', () => {
     effects = TestBed.inject(WaitingRoomAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
+    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('waitingRoomViewDidEnter', () => {
@@ -150,6 +152,22 @@ describe('Waiting Room Analytics Effects', () => {
       });
     });
 
+  });
+
+  fdescribe('VrnModalOpened$', () => {
+    it('spec name', () => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(PopulateTestCategory(TestCategory.B));
+      // ACT
+      actions$.next(VRNModalOpened());
+      // ASSERT
+      effects.vrnModalOpened$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
+        expect(result.type).toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith('matt', 'loves', 'bacon butties');
+      });
+    });
   });
 
 });

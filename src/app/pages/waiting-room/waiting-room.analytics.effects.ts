@@ -34,6 +34,11 @@ import {
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import {
+  VRNModalCancelled,
+  VRNModalOpened,
+  VRNModalSaved,
+} from '@store/tests/candidate-section/candidate-section.actions';
 
 @Injectable()
 export class WaitingRoomAnalyticsEffects {
@@ -124,6 +129,63 @@ export class WaitingRoomAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
         formatAnalyticsText(AnalyticsEvents.CBT_CHANGED, tests),
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  vrnModalOpened$ = createEffect(() => this.actions$.pipe(
+    ofType(VRNModalOpened),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalOpened>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
+        AnalyticsEvents.VRN_CAPTURE,
+        AnalyticsEvents.VRN_CAPTURE_SELECTED,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  vrnModalCancelled$ = createEffect(() => this.actions$.pipe(
+    ofType(VRNModalCancelled),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalCancelled>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
+        AnalyticsEvents.VRN_CAPTURE,
+        AnalyticsEvents.VRN_CAPTURE_CANCELED,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  vrnModalSaved$ = createEffect(() => this.actions$.pipe(
+    ofType(VRNModalSaved),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalSaved>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
+        AnalyticsEvents.VRN_CAPTURE,
+        AnalyticsEvents.VRN_CAPTURE_SAVED,
       );
       return of(AnalyticRecorded());
     }),
