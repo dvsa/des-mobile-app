@@ -3,11 +3,11 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { TestData as CatAMod1TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { configureTestSuite } from 'ng-bullet';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as mocks from '../__mocks__/test-result.mock';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import { TestReportValidatorProvider } from '../test-report-validator';
 import { SpeedCheckState } from '../test-report-validator.constants';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 describe('TestReportValidator', () => {
   const categories = [
