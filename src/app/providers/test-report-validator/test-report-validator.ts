@@ -287,12 +287,13 @@ export class TestReportValidatorProvider {
     isDelegated: boolean,
   ): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
+    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
 
     return !isDelegated ? (
-      normalStart1
+      (normalStart1 || normalStart2)
       && uphillStart
       && angledStartControlledStop
       && eco
@@ -309,7 +310,8 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
-      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.normalStart1', false)
+        && !get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart1);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
@@ -325,12 +327,13 @@ export class TestReportValidatorProvider {
     isDelegated: boolean,
   ): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
+    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
 
     return !isDelegated ? (
-      normalStart1
+      (normalStart1 || normalStart2)
       && uphillStart
       && angledStartControlledStop
       && eco
@@ -347,7 +350,8 @@ export class TestReportValidatorProvider {
     const result: legalRequirementsLabels[] = [];
 
     if (!isDelegated) {
-      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+      if (!get(data, 'testRequirements.normalStart1', false)
+        && !get(data, 'testRequirements.normalStart2', false))result.push(legalRequirementsLabels.normalStart1);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
