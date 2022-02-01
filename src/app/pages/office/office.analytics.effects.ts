@@ -31,8 +31,6 @@ import { TestsModel } from '@store/tests/tests.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { isRekey } from '@store/tests/rekey/rekey.selector';
-import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import {
   getApplicationReference,
 } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
@@ -205,12 +203,6 @@ export class OfficeAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
           select(getCurrentTest),
-          select(getRekeyIndicator),
-          select(isRekey),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
           select(getJournalData),
           select(getCandidate),
           select(getCandidateId),
@@ -227,20 +219,23 @@ export class OfficeAnalyticsEffects {
           select(getCurrentTest),
           select(isPassed),
         ),
+        this.store$.pipe(
+          select(getTests),
+        ),
       ),
     )),
     switchMap((
-      [, isTestRekey, candidateId, applicationReference, isTestPassed]:
-      [ReturnType<typeof CompleteTest>, boolean, number, string, boolean],
+      [, candidateId, applicationReference, isTestPassed, tests]:
+      [ReturnType<typeof CompleteTest>, number, string, boolean, TestsModel],
     ) => {
-
+      const outcome = isTestPassed ? 'Pass' : 'Fail';
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
       this.analytics.logEvent(
         AnalyticsEventCategories.POST_TEST,
-        isTestRekey ? AnalyticsEvents.COMPLETE_REKEY_TEST : AnalyticsEvents.COMPLETE_TEST,
-        isTestPassed ? 'pass' : 'fail',
+        AnalyticsEvents.CONFIRM_UPLOAD,
+        formatAnalyticsText(`Upload confirmed - ${outcome}`, tests),
       );
 
       return of(AnalyticRecorded());

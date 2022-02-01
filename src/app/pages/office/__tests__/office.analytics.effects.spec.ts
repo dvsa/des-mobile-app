@@ -372,37 +372,11 @@ describe('OfficeAnalyticsEffects', () => {
       // ASSERT
       effects.completeTest$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.COMPLETE_TEST,
-            'pass',
-          );
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
-        expect(analyticsProviderMock.addCustomDimension)
-          .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
-        done();
-      });
-    });
-    it('should log an event COMPLETE_REKEY_TEST event when the test is a rekey', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
-      store$.dispatch(PopulateCandidateDetails(candidateMock));
-      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-      store$.dispatch(rekeyActions.MarkAsRekey());
-      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-      // ACT
-      actions$.next(officeActions.CompleteTest());
-      // ASSERT
-      effects.completeTest$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.COMPLETE_REKEY_TEST,
-            'pass',
-          );
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.POST_TEST,
+          AnalyticsEvents.CONFIRM_UPLOAD,
+          'Upload confirmed - Pass',
+        );
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
