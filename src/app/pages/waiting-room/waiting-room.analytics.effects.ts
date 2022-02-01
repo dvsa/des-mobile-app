@@ -166,7 +166,7 @@ export class WaitingRoomAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
         AnalyticsEvents.VRN_CAPTURE,
-        AnalyticsEvents.VRN_CAPTURE_CANCELED,
+        AnalyticsEvents.VRN_CAPTURE_CANCELLED,
       );
       return of(AnalyticRecorded());
     }),

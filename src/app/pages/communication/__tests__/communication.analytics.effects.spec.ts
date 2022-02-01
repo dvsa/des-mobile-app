@@ -21,11 +21,16 @@ import {
   AnalyticsDimensionIndices,
   AnalyticsScreenNames,
   AnalyticsEventCategories,
-  AnalyticsErrorTypes,
+  AnalyticsErrorTypes, AnalyticsEvents,
 } from '@providers/analytics/analytics.model';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as communicationActions from '../communication.actions';
 import { CommunicationAnalyticsEffects } from '../communication.analytics.effects';
+import {
+  VRNModalCancelled,
+  VRNModalOpened,
+  VRNModalSaved,
+} from '@store/tests/candidate-section/candidate-section.actions';
 
 describe('CommunicationAnalyticsEffects', () => {
   let effects: CommunicationAnalyticsEffects;
@@ -61,6 +66,7 @@ describe('CommunicationAnalyticsEffects', () => {
     effects = TestBed.inject(CommunicationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
+    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('communicationViewDidEnter', () => {
@@ -141,6 +147,66 @@ describe('CommunicationAnalyticsEffects', () => {
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeMode})`,
             'formControl1');
         done();
+      });
+    });
+  });
+
+  fdescribe('VrnModalOpened$', () => {
+    it('should dispatch action when opening modal', () => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(PopulateTestCategory(TestCategory.B));
+      // ACT
+      actions$.next(VRNModalOpened());
+      // ASSERT
+      effects.vrnModalOpened$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
+        expect(result.type).toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.COMMUNICATION,
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_SELECTED,
+        );
+      });
+    });
+  });
+
+  fdescribe('VrnModalCancelled$', () => {
+    it('should dispatch action when cancel button on modal clicked', () => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(PopulateTestCategory(TestCategory.B));
+      // ACT
+      actions$.next(VRNModalCancelled());
+      // ASSERT
+      effects.vrnModalCancelled$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
+        expect(result.type).toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.COMMUNICATION,
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_CANCELLED,
+        );
+      });
+    });
+  });
+
+  fdescribe('VrnModalSaved$', () => {
+    it('should dispatch action when save button on modal clicked', () => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(PopulateTestCategory(TestCategory.B));
+      // ACT
+      actions$.next(VRNModalSaved());
+      // ASSERT
+      effects.vrnModalSaved$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
+        expect(result.type).toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.COMMUNICATION,
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_SAVED,
+        );
       });
     });
   });

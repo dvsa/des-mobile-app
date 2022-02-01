@@ -142,7 +142,7 @@ export class CommunicationAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
         AnalyticsEvents.VRN_CAPTURE,
-        AnalyticsEvents.VRN_CAPTURE_CANCELED,
+        AnalyticsEvents.VRN_CAPTURE_CANCELLED,
       );
       return of(AnalyticRecorded());
     }),

@@ -98,7 +98,7 @@ export enum AnalyticsEvents {
   RESUME_WRITE_UP = 'resume write-up',
   VRN_CAPTURE = 'vrn capture',
   VRN_CAPTURE_SELECTED = 'vrn capture selected',
-  VRN_CAPTURE_CANCELED = 'vrn capture canceled',
+  VRN_CAPTURE_CANCELLED = 'vrn capture canceled',
   VRN_CAPTURE_SAVED = 'vrn capture saved',
   ADD_DRIVING_FAULT = 'add driving fault',
   ADD_SERIOUS_FAULT = 'add serious fault',
