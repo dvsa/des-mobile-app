@@ -7,7 +7,7 @@ import * as mocks from '../__mocks__/test-result.mock';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import { TestReportValidatorProvider } from '../test-report-validator';
 import { SpeedCheckState } from '../test-report-validator.constants';
-import { CompetencyOutcome } from '../../../shared/models/competency-outcome';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 describe('TestReportValidator', () => {
   const categories = [
