@@ -158,7 +158,7 @@ describe('Waiting Room Analytics Effects', () => {
 
   });
 
-  fdescribe('VrnModalOpened$', () => {
+  describe('VrnModalOpened$', () => {
     it('should dispatch action when opening modal', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
@@ -178,7 +178,7 @@ describe('Waiting Room Analytics Effects', () => {
     });
   });
 
-  fdescribe('VrnModalCancelled$', () => {
+  describe('VrnModalCancelled$', () => {
     it('should dispatch action when cancel button on modal clicked', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
@@ -198,7 +198,7 @@ describe('Waiting Room Analytics Effects', () => {
     });
   });
 
-  fdescribe('VrnModalSaved$', () => {
+  describe('VrnModalSaved$', () => {
     it('should dispatch action when save button on modal clicked', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.B));
