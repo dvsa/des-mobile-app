@@ -298,7 +298,7 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       // ACT
       actions$.next(nonPassFinalisationActions.NonPassFinalisationReportActivityCode(ActivityCodes.FAIL_PUBLIC_SAFETY));
       // ASSERT
-      effects.NonPassFinalisationReportActivityCode$.subscribe((result) => {
+      effects.nonPassFinalisationReportActivityCode$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(

@@ -195,7 +195,7 @@ export class NonPassFinalisationAnalyticsEffects {
     }),
   ));
 
-  NonPassFinalisationReportActivityCode$ = createEffect(() => this.actions$.pipe(
+  nonPassFinalisationReportActivityCode$ = createEffect(() => this.actions$.pipe(
     ofType(
       nonPassFinalisationActions.NonPassFinalisationReportActivityCode,
     ),
