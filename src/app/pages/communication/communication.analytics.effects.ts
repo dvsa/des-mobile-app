@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsScreenNames, AnalyticsDimensionIndices, AnalyticsErrorTypes,
+  AnalyticsScreenNames, AnalyticsDimensionIndices, AnalyticsErrorTypes, AnalyticsEventCategories, AnalyticsEvents,
 } from '@providers/analytics/analytics.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
@@ -25,6 +25,11 @@ import {
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import {
+  VRNModalCancelled,
+  VRNModalOpened,
+  VRNModalSaved,
+} from '@store/tests/candidate-section/candidate-section.actions';
 import {
   CommunicationViewDidEnter,
   CommunicationValidationError,
@@ -101,6 +106,63 @@ export class CommunicationAnalyticsEffects {
       const screenName = formatAnalyticsText(AnalyticsScreenNames.COMMUNICATION, tests);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenName})`, action.errorMessage);
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  vrnModalOpened$ = createEffect(() => this.actions$.pipe(
+    ofType(VRNModalOpened),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalOpened>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
+        AnalyticsEvents.VRN_CAPTURE,
+        AnalyticsEvents.VRN_CAPTURE_SELECTED,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  vrnModalCancelled$ = createEffect(() => this.actions$.pipe(
+    ofType(VRNModalCancelled),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalCancelled>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
+        AnalyticsEvents.VRN_CAPTURE,
+        AnalyticsEvents.VRN_CAPTURE_CANCELLED,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  vrnModalSaved$ = createEffect(() => this.actions$.pipe(
+    ofType(VRNModalSaved),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalSaved>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
+        AnalyticsEvents.VRN_CAPTURE,
+        AnalyticsEvents.VRN_CAPTURE_SAVED,
+      );
       return of(AnalyticRecorded());
     }),
   ));

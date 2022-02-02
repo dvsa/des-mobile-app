@@ -7,6 +7,11 @@ import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-captur
 import { StoreModel } from '@shared/models/store.model';
 import { VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { FieldValidators, getRegistrationNumberValidator } from '@shared/constants/field-validators/field-validators';
+import {
+  VRNModalCancelled,
+  VRNModalOpened,
+  VRNModalSaved,
+} from '@store/tests/candidate-section/candidate-section.actions';
 
 @Component({
   selector: 'candidate-section',
@@ -42,6 +47,7 @@ export class CandidateSectionComponent {
   }
 
   async openVRNModal(): Promise<void> {
+    this.store$.dispatch(VRNModalOpened());
     this.vrnModal = await this.modalController.create({
       id: 'VRNCaptureModal',
       component: VRNCaptureModal,
@@ -51,7 +57,13 @@ export class CandidateSectionComponent {
     });
     await this.vrnModal.present();
     const { data } = await this.vrnModal.onDidDismiss();
+
+    if (!data) {
+      this.store$.dispatch(VRNModalCancelled());
+      return;
+    }
     if (data?.vehicleRegNumber) {
+      this.store$.dispatch(VRNModalSaved());
       this.store$.dispatch(VehicleRegistrationChanged(data.vehicleRegNumber));
     }
   }
