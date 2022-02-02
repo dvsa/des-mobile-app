@@ -4,11 +4,15 @@ import {
 } from '@ngrx/effects';
 import { withLatestFrom, switchMap, concatMap } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
-import { AnalyticsScreenNames, AnalyticsDimensionIndices } from '@providers/analytics/analytics.model';
+import {
+  AnalyticsScreenNames,
+  AnalyticsDimensionIndices,
+  AnalyticsEventCategories, AnalyticsEvents,
+} from '@providers/analytics/analytics.model';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData, isPassed } from '@store/tests/tests.selector';
 import { of } from 'rxjs';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
@@ -21,7 +25,7 @@ import {
 import {
   getApplicationNumber,
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import { RekeyReasonViewDidEnter } from './rekey-reason.actions';
+import { RekeyReasonViewDidEnter, RekeyUploadTest } from './rekey-reason.actions';
 
 @Injectable()
 export class RekeyReasonAnalyticsEffects {
@@ -64,6 +68,33 @@ export class RekeyReasonAnalyticsEffects {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
       this.analytics.setCurrentPage(screenName);
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  rekeyReasonUploadTest$ = createEffect(() => this.actions$.pipe(
+    ofType(RekeyUploadTest),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(isPassed),
+        ),
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    switchMap(([, isTestPassed, tests]: [ReturnType<typeof RekeyUploadTest>, boolean, TestsModel]) => {
+      const outcome = isTestPassed ? 'Pass' : 'Fail';
+
+      this.analytics.logEvent(
+        AnalyticsEventCategories.POST_TEST,
+        AnalyticsEvents.CONFIRM_UPLOAD,
+        formatAnalyticsText(`Upload confirmed - ${outcome}`, tests),
+      );
+
       return of(AnalyticRecorded());
     }),
   ));
