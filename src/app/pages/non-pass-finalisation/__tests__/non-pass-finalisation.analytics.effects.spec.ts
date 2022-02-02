@@ -291,4 +291,24 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
     });
   });
 
+  describe('NonPassFinalisationReportActivityCode', () => {
+    it('should call logEvent for action NonPassFinalisationReportActivityCode', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      // ACT
+      actions$.next(nonPassFinalisationActions.NonPassFinalisationReportActivityCode(ActivityCodes.FAIL_PUBLIC_SAFETY));
+      // ASSERT
+      effects.nonPassFinalisationReportActivityCode$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.POST_TEST,
+          AnalyticsEvents.SET_ACTIVITY_CODE,
+          '4 - FAIL_PUBLIC_SAFETY',
+        );
+        done();
+      });
+    });
+  });
+
 });

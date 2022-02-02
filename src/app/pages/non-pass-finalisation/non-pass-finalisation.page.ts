@@ -37,6 +37,7 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import {
+  NonPassFinalisationReportActivityCode,
   NonPassFinalisationValidationError,
   NonPassFinalisationViewDidEnter,
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
@@ -245,6 +246,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         return;
       }
 
+      this.store$.dispatch(NonPassFinalisationReportActivityCode(this.activityCode.activityCode));
       await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
       return;
     }
