@@ -24,7 +24,6 @@ import * as testSummaryActions from '@store/tests/test-summary/test-summary.acti
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import { D255No, D255Yes } from '@store/tests/test-summary/test-summary.actions';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
-import * as passFinalisationActions from '@pages/pass-finalisation/pass-finalisation.actions';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { NonPassFinalisationValidationError, NonPassFinalisationViewDidEnter } from './non-pass-finalisation.actions';
@@ -198,7 +197,7 @@ export class NonPassFinalisationAnalyticsEffects {
 
   NonPassFinalisationReportActivityCode$ = createEffect(() => this.actions$.pipe(
     ofType(
-      passFinalisationActions.PassFinalisationReportActivityCode,
+      nonPassFinalisationActions.NonPassFinalisationReportActivityCode,
     ),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
@@ -208,7 +207,7 @@ export class NonPassFinalisationAnalyticsEffects {
       ),
     )),
     concatMap(([{ activityCode }, tests]:
-    [ReturnType <typeof passFinalisationActions.PassFinalisationReportActivityCode>, TestsModel]) => {
+    [ReturnType <typeof nonPassFinalisationActions.NonPassFinalisationReportActivityCode>, TestsModel]) => {
       const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
