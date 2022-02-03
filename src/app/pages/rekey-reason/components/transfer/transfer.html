@@ -21,9 +21,11 @@
             <ion-row>
                 <ion-item class="ion-no-padding" lines="none">
                     <ion-input placeholder="Staff Number"
-                               type="number"
+                               type="text"
                                id="staffNumber"
                                class="ion-input-styling"
+                               pattern="\d*"
+                               [maxlength]="14"
                                [class.ng-invalid]="invalid"
                                formControlName="staffNumber"
                                [value]="staffNumber"
