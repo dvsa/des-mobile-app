@@ -99,6 +99,14 @@ export const CAT_CPC: BasePageNames = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatCPCPage',
 };
 
+export const CAT_MANOEUVRES: BasePageNames = {
+  OFFICE_PAGE: 'OfficeCatManoeuvresCPage',
+  TEST_REPORT_PAGE: 'TestReportCatManoeuvresPage',
+  WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatManoeuvresPage',
+  PASS_FINALISATION_PAGE: 'PassFinalisationCatManoeuvresPage',
+  VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatManoeuvresPage',
+};
+
 export type BasePageNames = {
   [key in PageNameKeys]?: string;
 };
