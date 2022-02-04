@@ -8,7 +8,6 @@ import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
 import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
 import {
   RecordManoeuvresSelection,
-  AddManoeuvreDrivingFault,
   AddManoeuvreSeriousFault,
   AddManoeuvreDangerousFault,
   AddManoeuvreComment,
@@ -64,27 +63,6 @@ describe('Test Data Cat Manoeuvres Reducer', () => {
       expect(result[ManoeuvreTypes.reverseParkRoad]).toBeDefined();
       expect(result[ManoeuvreTypes.reverseParkRoad].selected).toEqual(true);
       expect(result[ManoeuvreTypes.reverseParkCarpark]).toBeUndefined();
-    });
-  });
-
-  describe('ADD_MANOEUVRE_DRIVING_FAULT', () => {
-    it('should add a "DF" outcome to the selected manoeuvre', () => {
-      const state: CatCMUniqueTypes.Manoeuvres |
-      CatCEMUniqueTypes.Manoeuvres |
-      CatC1MUniqueTypes.Manoeuvres |
-      CatC1EMUniqueTypes.Manoeuvres = {
-        reverseManoeuvre: {
-          selected: true,
-        },
-      };
-      const result = manoeuvresCatManoeuvreReducer(
-        state,
-        AddManoeuvreDrivingFault({
-          manoeuvre: ManoeuvreTypes.reverseParkRoad,
-          competency: ManoeuvreCompetencies.controlFault,
-        }),
-      );
-      expect(result[ManoeuvreTypes.reverseParkRoad].controlFault).toEqual(CompetencyOutcome.DF);
     });
   });
 
