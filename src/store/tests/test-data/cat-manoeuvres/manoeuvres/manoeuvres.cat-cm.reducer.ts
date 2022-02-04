@@ -25,16 +25,6 @@ export const manoeuvresCatManoeuvreReducer = createReducer(
     }),
   ),
   on(
-    manoeuvresActions.AddManoeuvreDrivingFault,
-    (state, { manoeuvrePayload }) => ({
-      ...state,
-      [manoeuvrePayload.manoeuvre]: {
-        ...state[manoeuvrePayload.manoeuvre],
-        [manoeuvrePayload.competency]: CompetencyOutcome.DF,
-      },
-    }),
-  ),
-  on(
     manoeuvresActions.AddManoeuvreComment,
     (state, payload) => ({
       ...state,
