@@ -166,9 +166,9 @@ describe('Test Data Cat Manoeuvres Reducer', () => {
       };
       const result = manoeuvresCatManoeuvreReducer(state, RemoveManoeuvreFault({
         competency: ManoeuvreCompetencies.controlFault,
-        manoeuvre: ManoeuvreTypes.reverseParkRoad,
+        manoeuvre: ManoeuvreTypes.reverseManoeuvre,
       }));
-      expect(result[ManoeuvreTypes.reverseParkRoad]['controlFault']).toBeUndefined();
+      expect(result[ManoeuvreTypes.reverseManoeuvre].controlFault).toBeUndefined();
     });
   });
 });

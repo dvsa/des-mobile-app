@@ -18,6 +18,7 @@ interface ManoeuvresFaultState {
   reverseParkCarpark: boolean;
   forwardPark: boolean;
   reverseLeft?: boolean;
+  reverseManoeuvre?: boolean;
 }
 
 @Component({
