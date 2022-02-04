@@ -5,7 +5,7 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { VehicleChecksQuestionCatCComponent } from '../vehicle-checks-question.cat-c';
+import { VehicleChecksQuestionCatCComponent } from '../vehicle-checks-question';
 
 const vehicleChecksQuestion: VehicleChecksQuestion = {
   code: 'S04',

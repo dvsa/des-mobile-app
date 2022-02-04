@@ -106,6 +106,7 @@ import {
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
 import { getPassCertificateNumber } from '@store/tests/pass-completion/pass-completion.selector';
+import { TestOutcome } from '@store/tests/tests.constants';
 import {
   InstructorAccompanimentToggled, InterpreterAccompanimentToggled, OtherAccompanimentToggled,
   SupervisorAccompanimentToggled,
@@ -125,7 +126,7 @@ export interface CommonOfficePageState {
   startDate$: Observable<string>;
   startDateTime$: Observable<string>;
   testOutcome$: Observable<string>;
-  testOutcomeText$: Observable<string>;
+  testOutcomeText$: Observable<TestOutcome>;
   isPassed$: Observable<boolean>;
   isTestOutcomeSet$: Observable<boolean>;
   candidateName$: Observable<string>;

@@ -5,22 +5,30 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { get } from 'lodash';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AppComponent } from '@app/app.component';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { VehicleChecksCatCModal } from '../vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
+import {
+  CatCVehicleChecks,
+  CatDVehicleChecks,
+} from '@shared/unions/test-schema-unions';
+import {
+  VehicleChecksCatCModal,
+} from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
+import {
+  VehicleChecksCatDModal,
+} from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;
 }
 
 @Component({
-  selector: 'vehicle-checks-cat-c',
-  templateUrl: 'vehicle-checks.cat-c.html',
-  styleUrls: ['vehicle-checks.cat-c.scss'],
+  selector: 'vehicle-checks-vocational',
+  templateUrl: 'vehicle-checks.html',
+  styleUrls: ['vehicle-checks.scss'],
 })
-export class VehicleChecksCatCComponent implements OnChanges {
+export class VehicleChecksComponent implements OnChanges {
   @Input()
   fullLicenceHeld: boolean = null;
 
@@ -28,7 +36,7 @@ export class VehicleChecksCatCComponent implements OnChanges {
   vehicleChecksScore: VehicleChecksScore;
 
   @Input()
-  vehicleChecks: CatCUniqueTypes.VehicleChecks;
+  vehicleChecks: CatCVehicleChecks | CatDVehicleChecks;
 
   @Input()
   vehicleChecksSelectQuestions: string;
@@ -67,7 +75,7 @@ export class VehicleChecksCatCComponent implements OnChanges {
 
   async openVehicleChecksModal(): Promise<void> {
     const modal = await this.modalController.create({
-      component: VehicleChecksCatCModal,
+      component: this.getVehicleCheckModal(),
       componentProps: { category: this.category },
       cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
     });
@@ -78,6 +86,23 @@ export class VehicleChecksCatCComponent implements OnChanges {
       this.onCloseVehicleChecksModal.emit();
     }
   }
+
+  private getVehicleCheckModal = () => {
+    switch (this.category) {
+      case TestCategory.C:
+      case TestCategory.C1:
+      case TestCategory.CE:
+      case TestCategory.C1E:
+        return VehicleChecksCatCModal;
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return VehicleChecksCatDModal;
+      default:
+        throw new Error(`Cannot getVehicleCheckModal for category ${this.category}`);
+    }
+  };
 
   everyQuestionHasOutcome(): boolean {
     const hasOutcome = (question: QuestionResult): boolean => {

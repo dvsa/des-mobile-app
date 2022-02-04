@@ -18,11 +18,11 @@ import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksCatCModal,
 } from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
-import { VehicleChecksCatCComponent } from '../vehicle-checks.cat-c';
+import { VehicleChecksComponent } from '../vehicle-checks';
 
-describe('VehicleChecksCatCComponent', () => {
-  let fixture: ComponentFixture<VehicleChecksCatCComponent>;
-  let component: VehicleChecksCatCComponent;
+describe('VehicleChecksComponent', () => {
+  let fixture: ComponentFixture<VehicleChecksComponent>;
+  let component: VehicleChecksComponent;
   let modalController: ModalController;
   let store$: Store<StoreModel>;
   let appComponent: AppComponent;
@@ -30,7 +30,7 @@ describe('VehicleChecksCatCComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [
-        VehicleChecksCatCComponent,
+        VehicleChecksComponent,
         SeriousFaultBadgeComponent,
         DrivingFaultsBadgeComponent,
         TickIndicatorComponent,
@@ -52,7 +52,7 @@ describe('VehicleChecksCatCComponent', () => {
   });
 
   beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(VehicleChecksCatCComponent);
+    fixture = TestBed.createComponent(VehicleChecksComponent);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});
     modalController = TestBed.inject(ModalController);

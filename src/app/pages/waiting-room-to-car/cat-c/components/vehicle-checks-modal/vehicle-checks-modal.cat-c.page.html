@@ -33,7 +33,7 @@
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <vehicle-checks-question-cat-c *ngFor="let question of showMeQuestionsNumberArray; let i = index; let l = last"
+        <vehicle-checks-question *ngFor="let question of showMeQuestionsNumberArray; let i = index; let l = last"
                                        [formGroup]="formGroup"
                                        [questionResult]="(pageState.showMeQuestions$ | async)[i]"
                                        [questions]="showMeQuestions"
@@ -41,7 +41,7 @@
                                        [isLastQuestion]="l"
                                        (vehicleChecksQuestionChange)="showMeQuestionChanged($event, i)"
                                        (vehicleChecksQuestionOutcomeChange)="showMeQuestionOutcomeChanged($event, i)">
-        </vehicle-checks-question-cat-c>
+        </vehicle-checks-question>
       </ion-card-content>
     </ion-card>
     <ion-card>
@@ -54,7 +54,7 @@
       </ion-card-header>
 
       <ion-card-content>
-        <vehicle-checks-question-cat-c *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
+        <vehicle-checks-question *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
                                        [formGroup]="formGroup"
                                        [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
                                        [questions]="tellMeQuestions"
@@ -62,7 +62,7 @@
                                        [isLastQuestion]="l"
                                        (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
                                        (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)">
-        </vehicle-checks-question-cat-c>
+        </vehicle-checks-question>
       </ion-card-content>
     </ion-card>
     <warning-banner
@@ -79,4 +79,3 @@
     </ion-button>
   </ion-row>
 </ion-footer>
-

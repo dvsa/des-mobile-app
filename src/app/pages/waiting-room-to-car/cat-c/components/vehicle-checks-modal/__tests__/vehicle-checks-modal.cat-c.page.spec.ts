@@ -21,7 +21,9 @@ import {
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
-import { VehicleChecksQuestionCatCComponent } from '../../vehicle-checks-question/vehicle-checks-question.cat-c';
+import {
+  VehicleChecksQuestionComponent,
+} from '@pages/waiting-room-to-car/components/vehicle-checks-question/vehicle-checks-question';
 import { VehicleChecksCatCModal } from '../vehicle-checks-modal.cat-c.page';
 import { FullLicenceHeldComponent } from '../../../../components/full-licence-held-toggle/full-licence-held-toggle';
 
@@ -63,7 +65,7 @@ describe('VehicleChecksCatCModal', () => {
       declarations: [
         VehicleChecksCatCModal,
         MockComponent(FullLicenceHeldComponent),
-        MockComponent(VehicleChecksQuestionCatCComponent),
+        MockComponent(VehicleChecksQuestionComponent),
         WarningBannerComponent,
       ],
       imports: [

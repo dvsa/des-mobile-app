@@ -37,7 +37,7 @@
 
                         <test-category [testCategory]="pageState.category$ | async"></test-category>
 
-                        <vehicle-checks-cat-c
+                        <vehicle-checks-vocational
                                 *ngIf="!(pageState.delegatedTest$ | async)"
                                 [formGroup]="form"
                                 [category]="pageState.category$ | async"
@@ -45,7 +45,7 @@
                                 [vehicleChecks]="pageState.vehicleChecks$ | async"
                                 (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
                                 [fullLicenceHeld]="pageState.fullLicenceHeld$ | async">
-                        </vehicle-checks-cat-c>
+                        </vehicle-checks-vocational>
 
                         <full-licence-held-toggle
                                 *ngIf="(pageState.delegatedTest$ | async) && showFullLicenceHeld()"

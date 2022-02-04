@@ -41,3 +41,8 @@ export const VehicleChecksDrivingFaultsNumberChanged = createAction(
   '[Vehicle Checks] [CatD] Vehicle Checks Driving Faults Number Changed',
   (payload: QuestionResult[]) => ({ payload }),
 );
+
+export const SetFullLicenceHeld = createAction(
+  '[Vehicle Checks] [CatD] Full Licence Held toggled',
+  (fullLicenceHeld: boolean) => ({ fullLicenceHeld }),
+);

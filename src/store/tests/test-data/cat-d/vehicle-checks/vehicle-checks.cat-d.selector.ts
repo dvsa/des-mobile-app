@@ -18,6 +18,10 @@ export const getSelectedShowMeQuestions = (
   return vehicleChecks.showMeQuestions;
 };
 
+export const getFullLicenceHeld = (
+  vehicleChecksCatDReducer: CatDVehicleChecks,
+): boolean => vehicleChecksCatDReducer.fullLicenceHeld;
+
 export const getSelectedTellMeQuestions = (
   vehicleChecksCatDReducer: CatDVehicleChecks,
 ): QuestionResult[] => {

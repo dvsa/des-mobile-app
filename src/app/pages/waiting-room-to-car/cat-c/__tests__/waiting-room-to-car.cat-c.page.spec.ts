@@ -23,8 +23,8 @@ import {
 } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import {
-  VehicleChecksCatCComponent,
-} from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks/vehicle-checks.cat-c';
+  VehicleChecksComponent,
+} from '@pages/waiting-room-to-car/components/vehicle-checks/vehicle-checks';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import {
   VehicleChecksToggleComponent,
@@ -104,7 +104,7 @@ describe('WaitingRoomToCarCatCPage', () => {
         MockComponent(VehicleDetailsComponent),
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
-        MockComponent(VehicleChecksCatCComponent),
+        MockComponent(VehicleChecksComponent),
         MockComponent(WarningBannerComponent),
         MockComponent(VehicleChecksToggleComponent),
         MockComponent(CandidateDeclarationSignedComponent),

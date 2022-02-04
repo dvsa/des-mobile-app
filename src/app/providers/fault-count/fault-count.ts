@@ -201,6 +201,16 @@ export class FaultCountProvider {
     }
   };
 
+  public getSafetyQuestionsFaultCount = (category: TestCategory, data: object): SafetyQuestionsScore => {
+    switch (category) {
+      case TestCategory.D1:
+      case TestCategory.D1E:
+      case TestCategory.DE:
+      case TestCategory.D: return FaultCountDHelper.getSafetyQuestionsFaultCount(data);
+      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+    }
+  };
+
   public getTellMeFaultCount = (category: TestCategory, data: VehicleChecks): VehicleChecksScore => {
     switch (category) {
       case TestCategory.ADI2: return FaultCountADIPart2Helper.getTellMeFaultCount(data);

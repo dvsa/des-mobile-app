@@ -8,11 +8,11 @@ import { uniqueId } from 'lodash';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
-  selector: 'vehicle-checks-question-cat-c',
-  templateUrl: 'vehicle-checks-question.cat-c.html',
-  styleUrls: ['vehicle-checks-question.cat-c.scss'],
+  selector: 'vehicle-checks-question',
+  templateUrl: 'vehicle-checks-question.html',
+  styleUrls: ['vehicle-checks-question.scss'],
 })
-export class VehicleChecksQuestionCatCComponent implements OnChanges {
+export class VehicleChecksQuestionComponent implements OnChanges {
 
   @Input()
   questionResult: QuestionResult;
