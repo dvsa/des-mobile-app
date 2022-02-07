@@ -3,7 +3,7 @@
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-title id="non-pass-page-title">Finalise outcome - {{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button id="non-pass-back-button"></ion-back-button>
+      <ion-back-button id="non-pass-back-button" (click)="navigateToDebrief()"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
