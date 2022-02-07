@@ -16,12 +16,12 @@
         >
       </ion-col>
       <ion-col size="48" class="selected-category-code ion-align-self-center" *ngIf="categoryConfirmed">
-        {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory).displayId}}
+        {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}}
         -
-        {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory).displayName}}
+        {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
       </ion-col>
       <ion-col size="47" class="select-category-link-container ion-padding-right" *ngIf="categoryConfirmed">
-        <ion-button type="button" class="mes-link-button category-selector-link" (click)="openCategorySelector()">
+        <ion-button class="mes-link-button category-selector-link" (click)="openCategorySelector()">
           <span>
             Select cat type
             <ion-icon name="arrow-forward"></ion-icon>
@@ -40,7 +40,7 @@
 <ion-select
   #categorySelect hidden="true" okText="Confirm" cancelText="Cancel"
   [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
-  (ionChange)="categoryCodeChanged($event)">
+  (ionChange)="categoryCodeChanged($event.target.value)">
   <ion-select-option *ngFor="let category of bikeCategoryDetails"
               class="category-option"
               [value]="category.categoryCode">

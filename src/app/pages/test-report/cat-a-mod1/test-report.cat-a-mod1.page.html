@@ -1,10 +1,113 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>test-report.cat-a-mod1</ion-title>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
+    <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Debrief</ion-button>
+<ion-content class="ion-no-padding" force-overscroll="false">
+  <toolbar></toolbar>
+  <ion-grid class="grid-layout" [ngClass]="{
+      'remove-mode': isRemoveFaultMode,
+      'add-mode': !isRemoveFaultMode,
+      'fault-mode': !isSeriousMode && !isDangerousMode,
+      'serious-mode': isSeriousMode,
+      'dangerous-mode': isDangerousMode
+    }">
+    <ion-row class="first-row-adjust">
+      <!-- Column 1-->
+      <ion-col size="32">
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <span class="section-header"></span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <single-fault-competency [competency]="singleFaultCompetencyNames.useOfStand"></single-fault-competency>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <single-fault-competency [competency]="singleFaultCompetencyNames.manualHandling"></single-fault-competency>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <single-fault-competency [competency]="singleFaultCompetencyNames.slalom"></single-fault-competency>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <single-fault-competency [competency]="singleFaultCompetencyNames.slowControl"></single-fault-competency>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <single-fault-competency [competency]="singleFaultCompetencyNames.uTurn"></single-fault-competency>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <single-fault-competency [competency]="singleFaultCompetencyNames.controlledStop"></single-fault-competency>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <!-- Column 2-->
+      <ion-col size="32">
+        <ion-col class="ion-no-padding">
+          <span class="section-header"></span>
+        </ion-col>
+        <ion-row>
+          <ion-col>
+            <competency [competency]="competencies.precautions"></competency>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="dark-divider"></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <span class="section-header">Move away</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <competency [competency]="competencies.moveOffSafety"></competency>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <competency [competency]="competencies.moveOffControl"></competency>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+      <!-- Column 3-->
+      <ion-col size="32">
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <span class="section-header"></span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <eta [eta]="eta.verbal"></eta>
+          </ion-col>
+          <ion-col>
+            <eta [eta]="eta.physical"></eta>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <speed-check-header></speed-check-header>
+    <speed-check [competency]="competencies.speedCheckEmergency" [pairedCompetency]="singleFaultCompetencyNames.emergencyStop"></speed-check>
+    <speed-check [competency]="competencies.speedCheckAvoidance" [pairedCompetency]="singleFaultCompetencyNames.avoidance"></speed-check>
+  </ion-grid>
+  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="displayOverlay"></div>
+  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="isRemoveFaultMode"></div>
 </ion-content>

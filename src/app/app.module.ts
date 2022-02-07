@@ -20,9 +20,10 @@ import { localStorageSync } from 'ngrx-store-localstorage';
 import { Device } from '@ionic-native/device/ngx';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-
+import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CommonModule } from '@angular/common';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -57,14 +58,14 @@ import { LogsStoreModule } from '@store/logs/logs.module';
 import { AppInfoStoreModule } from '@store/app-info/app-info.module';
 import { TestsModule } from '@store/tests/tests.module';
 import { TestCentreJournalStoreModule } from '@store/test-centre-journal/test-centre-journal.module';
-import { DirectivesModule } from 'src/directives/directives.module';
+import { DirectivesModule } from '@directives/directives.module';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { CommonModule } from '@angular/common';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -177,6 +178,7 @@ if (enableRehydrationPlugin) {
     CommonModule,
     WeatherConditionProvider,
     OutcomeBehaviourMapProvider,
+    BikeCategoryDetailProvider,
     CPCQuestionProvider,
   ],
   bootstrap: [AppComponent],
