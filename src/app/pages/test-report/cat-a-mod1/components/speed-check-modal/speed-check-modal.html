@@ -1,0 +1,25 @@
+<ion-card class="modal-alert">
+    <modal-alert-title>You've not completed the <br/>speed requirements</modal-alert-title>
+    <ion-row class="ion-justify-content-center">
+        <ion-col class="ion-no-padding" size="80">
+            <div class="modal-alert-message mes-data">
+                <div class="mes-data">To end this test, complete:</div>
+                <ul>
+                    <li *ngFor="let speedChecksLabel of speedChecksNeedCompleting">{{speedChecksLabel}}</li>
+                </ul>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+        <ion-col class="ion-no-padding" size="72">
+            <modal-return-button (onClick)="onCancel()">Return to test</modal-return-button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="column-border-top ion-no-padding">
+            <ion-button fill="clear" class="terminate-button" (click)="onTerminate()">
+                Terminate test
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-card>

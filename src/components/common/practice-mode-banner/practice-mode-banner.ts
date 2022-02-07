@@ -6,9 +6,7 @@ import { Router } from '@angular/router';
   selector: 'practice-mode-banner',
   templateUrl: 'practice-mode-banner.html',
   styleUrls: ['practice-mode-banner.scss'],
-
 })
-
 export class PracticeModeBanner {
 
   constructor(

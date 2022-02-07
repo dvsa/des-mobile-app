@@ -54,6 +54,14 @@ import {
 } from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { CbtNumberChanged } from '@store/tests/pre-test-declarations/cat-a/pre-test-declarations.cat-a.actions';
+import {
+  getPreTestDeclarationsCatAMod1,
+} from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.reducer';
+import {
+  getCBTNumberStatus,
+} from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
+import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -69,6 +77,8 @@ interface WaitingRoomPageState {
   showVrnBtn$: Observable<boolean>;
   showManoeuvresPassCertNumber$: Observable<boolean>;
   manoeuvresPassCertNumber$: Observable<string>;
+  showCbtNumber$: Observable<boolean>;
+  cbtNumber$: Observable<string>;
 }
 
 @Component({
@@ -78,15 +88,14 @@ interface WaitingRoomPageState {
 })
 export class WaitingRoomPage extends PracticeableBasePageComponent implements OnInit {
 
-  @ViewChild(SignatureAreaComponent) signatureAreaComponent: SignatureAreaComponent;
-
+  @ViewChild(SignatureAreaComponent)
+  signatureAreaComponent: SignatureAreaComponent;
   pageState: WaitingRoomPageState;
-
   formGroup: FormGroup;
-
   subscription: Subscription;
-
   merged$: Observable<boolean | string | JournalData>;
+  cbtNumber: string;
+  manoeuvresPassCertNumber: string;
 
   constructor(
     platform: Platform,
@@ -180,11 +189,24 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         select(getPreTestDeclarations),
         select(getManoeuvrePassCertificateNumber),
       ),
+      showCbtNumber$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [
+          TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, // Mod 1
+          TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Mod 2
+        ])),
+      ),
+      cbtNumber$: currentTest$.pipe(
+        select(getPreTestDeclarationsCatAMod1),
+        select(getCBTNumberStatus),
+      ),
     };
 
     const {
       welshTest$,
       conductedLanguage$,
+      cbtNumber$,
+      manoeuvresPassCertNumber$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -198,6 +220,8 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       ),
       welshTest$,
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
+      manoeuvresPassCertNumber$.pipe(tap((value) => this.manoeuvresPassCertNumber = value)),
+      cbtNumber$.pipe(tap((value) => this.cbtNumber = value)),
     );
   }
 
@@ -205,7 +229,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }
-
     return true;
   }
 
@@ -250,43 +273,45 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     this.store$.dispatch(preTestDeclarationsActions.ToggleResidencyDeclaration());
   }
 
-  dispatchCandidateChoseToProceedInWelsh() {
+  dispatchCandidateChoseToProceedInWelsh(): void {
     this.store$.dispatch(CandidateChoseToProceedWithTestInWelsh(Language.CYMRAEG));
   }
 
-  dispatchCandidateChoseToProceedInEnglish() {
+  dispatchCandidateChoseToProceedInEnglish(): void {
     this.store$.dispatch(CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH));
   }
 
-  async onSubmit() {
-    Object.keys(this.formGroup.controls)
-      .forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
-    if (this.formGroup.valid) {
-      await this.router.navigate([TestFlowPageNames.COMMUNICATION_PAGE]);
-    } else {
-      Object.keys(this.formGroup.controls)
-        .forEach((controlName) => {
-          if (this.formGroup.controls[controlName].invalid) {
-            this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is blank`));
-          }
-        });
-    }
+  cbtNumberChanged(cbtNumber: string): void {
+    this.store$.dispatch(CbtNumberChanged(cbtNumber));
   }
 
-  async showCandidateDataMissingError() {
-    // Modals are at the same level as the ion-nav so are not getting the zoom level class,
-    // this needs to be passed in the create options.
-    const zoomClass = `modal-fullscreen ${this.app.getTextZoomClass()}`;
+  async onSubmit(): Promise<void> {
+    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 
-    const errorModal = await this.modalController.create(
-      {
-        component: ERROR_PAGE,
-        cssClass: zoomClass,
-        componentProps: {
-          type: ErrorTypes.JOURNAL_DATA_MISSING,
-        },
+    if (this.formGroup.valid) {
+      await this.router.navigate([TestFlowPageNames.COMMUNICATION_PAGE]);
+      return;
+    }
+
+    Object.keys(this.formGroup.controls).forEach((controlName) => {
+      if (this.formGroup.controls[controlName].invalid) {
+        if (controlName === CBT_NUMBER_CTRL) {
+          this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is invalid`));
+        } else {
+          this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is blank`));
+        }
+      }
+    });
+  }
+
+  async showCandidateDataMissingError(): Promise<void> {
+    const errorModal = await this.modalController.create({
+      component: ERROR_PAGE,
+      cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
+      componentProps: {
+        type: ErrorTypes.JOURNAL_DATA_MISSING,
       },
-    );
+    });
 
     errorModal.onDidDismiss()
       .then(async () => {

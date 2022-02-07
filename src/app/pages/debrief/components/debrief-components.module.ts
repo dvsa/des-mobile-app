@@ -7,6 +7,9 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import {
   VehicleChecksCardCatBComponent,
 } from '@pages/debrief/components/vehicle-checks-card-cat-b/vehicle-checks-card.cat-b';
+import {
+  SpeedCheckDebriefCardComponent,
+} from '@pages/debrief/components/speed-check-debrief-card/speed-check-debrief-card';
 import { EtaDebriefCardComponent } from './eta-debrief-card/eta-debrief-card';
 import { DangerousFaultsDebriefCardComponent } from './dangerous-faults-debrief-card/dangerous-faults-debrief-card';
 import { SeriousFaultsDebriefCardComponent } from './serious-faults-debrief-card/serious-faults-debrief-card';
@@ -25,6 +28,7 @@ import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks
     EcoDebriefCardComponent,
     TestOutcomeDebriefCardComponent,
     VehicleChecksCardCatBComponent,
+    SpeedCheckDebriefCardComponent,
   ],
   imports: [
     ComponentsModule,
@@ -43,6 +47,7 @@ import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks
     EcoDebriefCardComponent,
     TestOutcomeDebriefCardComponent,
     VehicleChecksCardCatBComponent,
+    SpeedCheckDebriefCardComponent,
   ],
 })
 export class DebriefComponentsModule { }

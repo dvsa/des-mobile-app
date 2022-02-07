@@ -3,11 +3,20 @@ import {
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
+import { configureTestSuite } from 'ng-bullet';
+import { Router } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { MockComponent } from 'ng-mocks';
+import { FormControl, Validators } from '@angular/forms';
+import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 
-import { AppModule } from 'src/app/app.module';
+import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
   ToggleResidencyDeclaration,
@@ -22,31 +31,22 @@ import {
 } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 import * as communicationPreferenceActions
   from '@store/tests/communication-preferences/communication-preferences.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
-import { MockComponent } from 'ng-mocks';
 import * as catCPreTestDeclarationsActions
   from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.actions';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
-import { FormControl, Validators } from '@angular/forms';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { JournalData } from '@dvsa/mes-test-schema/categories/common';
-import { AppComponent } from 'src/app/app.component';
-import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
-import { configureTestSuite } from 'ng-bullet';
-import { Router } from '@angular/router';
+import { AppComponent } from '@app/app.component';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -57,6 +57,7 @@ import { ConductedLanguageComponent } from '../components/conducted-language/con
 import { WaitingRoomValidationError } from '../waiting-room.actions';
 import { WaitingRoomPage } from '../waiting-room.page';
 import { ManoeuvresPassCertificateComponent } from '../components/manoeuvres-pass-cert/manoeuvres-pass-cert';
+import { CBTNumberComponent } from '../components/cbt-number/cbt-number';
 
 describe('WaitingRoomPage', () => {
   let fixture: ComponentFixture<WaitingRoomPage>;
@@ -83,6 +84,7 @@ describe('WaitingRoomPage', () => {
         MockComponent(ResidencyDeclarationComponent),
         MockComponent(SignatureComponent),
         MockComponent(ManoeuvresPassCertificateComponent),
+        MockComponent(CBTNumberComponent),
       ],
       imports: [
         RouterTestingModule.withRoutes([]),

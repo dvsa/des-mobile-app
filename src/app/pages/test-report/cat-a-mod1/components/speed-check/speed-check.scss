@@ -1,0 +1,39 @@
+:host {
+  .speed-check-wrapper {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .speed-input {
+    width: 60px;
+    font-size: 18px;
+    font-weight: 700;
+
+    &.first-speed-input {
+      margin-left: 50px;
+    }
+
+    &.second-speed-input {
+      margin-left: 22px;
+    }
+  }
+
+  .competency-button-wrapper {
+    display: flex;       // this styling is neccessary to ensure z-index
+  }
+
+  competency-button.speed-check-competency {
+    flex-flow: column;   // works on competency buttons
+  }
+
+  competency-button {
+    width: 100%;
+
+    &.not-met {
+      .competency-button {
+        background-color: #F2E8E7;
+        border: 2px solid var(--gds-red);
+      }
+    }
+  }
+}

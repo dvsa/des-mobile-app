@@ -7,8 +7,8 @@ import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-v
 @Component({
   selector: 'cbt-number',
   templateUrl: 'cbt-number.html',
+  styleUrls: ['cbt-number.scss'],
 })
-
 export class CBTNumberComponent implements OnChanges {
 
   @Input()
@@ -40,7 +40,7 @@ export class CBTNumberComponent implements OnChanges {
     this.cbtNumberChange.emit(cbtNumber);
   }
 
-  invalid(): boolean {
+  get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
 }

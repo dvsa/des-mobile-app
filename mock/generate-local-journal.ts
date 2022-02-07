@@ -506,7 +506,7 @@ export const localJournal: ExaminerWorkSchedule = {
           vehicleLength: 15,
           vehicleSeats: 50,
           vehicleWidth: 2,
-          welshTest: false,
+          welshTest: true,
         },
         candidate: {
           candidateAddress: {
@@ -620,7 +620,7 @@ export const localJournal: ExaminerWorkSchedule = {
           vehicleLength: 15,
           vehicleSeats: 50,
           vehicleWidth: 2,
-          welshTest: false,
+          welshTest: true,
         },
         candidate: {
           candidateAddress: {
@@ -881,7 +881,7 @@ export const localJournal: ExaminerWorkSchedule = {
           vehicleLength: 15,
           vehicleSeats: 50,
           vehicleWidth: 2,
-          welshTest: false,
+          welshTest: true,
         },
         candidate: {
           candidateAddress: {
@@ -995,7 +995,7 @@ export const localJournal: ExaminerWorkSchedule = {
           vehicleLength: 15,
           vehicleSeats: 50,
           vehicleWidth: 2,
-          welshTest: false,
+          welshTest: true,
         },
         candidate: {
           candidateAddress: {
@@ -1528,7 +1528,7 @@ export const localJournal: ExaminerWorkSchedule = {
           vehicleLength: 15,
           vehicleSeats: 50,
           vehicleWidth: 2,
-          welshTest: false,
+          welshTest: true,
         },
         candidate: {
           candidateAddress: {
@@ -1664,7 +1664,7 @@ export const localJournal: ExaminerWorkSchedule = {
           vehicleLength: 15,
           vehicleSeats: 50,
           vehicleWidth: 2,
-          welshTest: false,
+          welshTest: true,
         },
         candidate: {
           candidateAddress: {
