@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { ModalController, Platform, NavController } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -96,6 +96,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   testCategory: CategoryCode;
 
   constructor(
+    private navController: NavController,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
@@ -276,5 +277,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
         : CandidateChoseToProceedWithTestInEnglish('English'),
     );
+  }
+  async navigateToDebrief(): Promise<void> {
+    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE])
   }
 }
