@@ -31,6 +31,10 @@ export class FaultCountProvider {
       case TestCategory.C1E: return FaultCountCHelper.getDrivingFaultSumCountCatC1E(data);
       case TestCategory.CE: return FaultCountCHelper.getDrivingFaultSumCountCatCE(data);
       case TestCategory.C: return FaultCountCHelper.getDrivingFaultSumCountCatC(data);
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM: return 0; // No driving faults for manoeuvre categories;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
