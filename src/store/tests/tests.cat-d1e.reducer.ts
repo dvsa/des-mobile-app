@@ -1,7 +1,7 @@
 import { Action, combineReducers } from '@ngrx/store';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
-import { passCompletionCatDReducer } from '@store/tests/pass-completion/cad-d/pass-completion.cat-d.reducer';
+import { passCompletionCatDReducer } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.reducer';
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';
 import { preTestDeclarationsReducer } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { appVersionReducer } from '@store/tests/app-version/app-version.reducer';

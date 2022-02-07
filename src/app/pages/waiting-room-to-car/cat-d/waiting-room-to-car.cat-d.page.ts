@@ -5,7 +5,7 @@ import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -24,7 +24,7 @@ import {
   DropExtraVehicleChecks, DropExtraVehicleChecksDelegated, SetFullLicenceHeld,
   VehicleChecksCompletedToggled,
   VehicleChecksDrivingFaultsNumberChanged,
-} from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
+} from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import {
@@ -32,8 +32,8 @@ import {
   getResidencyDeclarationStatus,
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 import {
-  getFullLicenceHeld, getVehicleChecksCatC, getVehicleChecksCompleted, hasFullLicenceHeldBeenSelected,
-} from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
+  getFullLicenceHeld, getVehicleChecksCatD, getVehicleChecksCompleted, hasFullLicenceHeldBeenSelected,
+} from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
 import { getTestData } from '@store/tests/test-data/cat-d/test-data.cat-d.reducer';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
@@ -47,7 +47,7 @@ interface CatDWaitingRoomToCarPageState {
   residencyDeclarationAccepted$: Observable<boolean>;
   vehicleChecksCompleted$: Observable<boolean>;
   vehicleChecksScore$: Observable<VehicleChecksScore>;
-  vehicleChecks$: Observable<CatCUniqueTypes.VehicleChecks>;
+  vehicleChecks$: Observable<CatDUniqueTypes.VehicleChecks>;
   fullLicenceHeld$: Observable<boolean>;
   fullLicenceHeldSelection$: Observable<string>;
 }
@@ -107,21 +107,21 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
       ),
       vehicleChecksCompleted$: currentTest$.pipe(
         select(getTestData),
-        select(getVehicleChecksCatC),
+        select(getVehicleChecksCatD),
         select(getVehicleChecksCompleted),
       ),
       fullLicenceHeld$: currentTest$.pipe(
         select(getTestData),
-        select(getVehicleChecksCatC),
+        select(getVehicleChecksCatD),
         select(getFullLicenceHeld),
       ),
       vehicleChecks$: currentTest$.pipe(
         select(getTestData),
-        select(getVehicleChecksCatC),
+        select(getVehicleChecksCatD),
       ),
       vehicleChecksScore$: currentTest$.pipe(
         select(getTestData),
-        select(getVehicleChecksCatC),
+        select(getVehicleChecksCatD),
         withLatestFrom(currentTest$.pipe(
           select(getTestCategory),
         )),
@@ -130,7 +130,7 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
       ),
       fullLicenceHeldSelection$: currentTest$.pipe(
         select(getTestData),
-        select(getVehicleChecksCatC),
+        select(getVehicleChecksCatD),
         select(getFullLicenceHeld),
         map((licenceHeld) => hasFullLicenceHeldBeenSelected(licenceHeld)),
       ),

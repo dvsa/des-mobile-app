@@ -10,6 +10,12 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 
+type CatDVehicleCheckUnion =
+    CatDUniqueTypes.VehicleChecks |
+    CatD1UniqueTypes.VehicleChecks |
+    CatDEUniqueTypes.VehicleChecks |
+    CatD1EUniqueTypes.VehicleChecks;
+
 export class FaultCountDHelper {
 
   public static getDangerousFaultSumCountCatD = (data: CatDUniqueTypes.TestData): number => {
@@ -99,6 +105,15 @@ export class FaultCountDHelper {
     return FaultCountDHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
   };
 
+  static getVehicleChecksFaultCount = (
+    vehicleChecks: CatDVehicleCheckUnion,
+  ): VehicleChecksScore => {
+    if (get(vehicleChecks, 'fullLicenceHeld')) {
+      return FaultCountDHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
+    }
+    return FaultCountDHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks);
+  };
+
   private static getVehicleChecksFaultCountNonTrailer = (
     vehicleChecks: CatDUniqueTypes.VehicleChecks | CatD1EUniqueTypes.VehicleChecks,
   ): VehicleChecksScore => {
@@ -139,8 +154,8 @@ export class FaultCountDHelper {
       return { seriousFaults: 0, drivingFaults: 0 };
     }
 
-    const showMeQuestions: QuestionResult[] = get(vehicleChecks, 'showMeQuestions', []);
-    const tellMeQuestions: QuestionResult[] = get(vehicleChecks, 'tellMeQuestions', []);
+    const showMeQuestions: QuestionResult[] = [get(vehicleChecks, 'showMeQuestions[0]', [])];
+    const tellMeQuestions: QuestionResult[] = [get(vehicleChecks, 'tellMeQuestions[0]', [])];
 
     const numberOfShowMeFaults: number = showMeQuestions.filter((showMeQuestion) => {
       return showMeQuestion.outcome === CompetencyOutcome.DF;

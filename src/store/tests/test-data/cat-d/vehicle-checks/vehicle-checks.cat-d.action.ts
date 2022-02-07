@@ -42,6 +42,14 @@ export const VehicleChecksDrivingFaultsNumberChanged = createAction(
   (payload: QuestionResult[]) => ({ payload }),
 );
 
+export const DropExtraVehicleChecks = createAction(
+  '[Vehicle Checks] [CatD] Vehicle Checks dropping extra as full licence held selected',
+);
+
+export const DropExtraVehicleChecksDelegated = createAction(
+  '[Vehicle Checks] [CatD] Vehicle Checks dropping extra as full licence held selected for DLG',
+);
+
 export const SetFullLicenceHeld = createAction(
   '[Vehicle Checks] [CatD] Full Licence Held toggled',
   (fullLicenceHeld: boolean) => ({ fullLicenceHeld }),
