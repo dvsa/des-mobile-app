@@ -43,9 +43,8 @@ import {
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
-import { PracticeEndToEndCardComponent } from '@pages/dashboard/components/practice-end-to-end-card/practice-end-to-end-card';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
 describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
@@ -72,7 +71,7 @@ describe('NonPassFinalisationPage', () => {
         AppModule,
       ],
       providers: [
-        { provide: Router, useClass: RouterMock},
+        { provide: Router, useClass: RouterMock },
         { provide: NavController, useClass: NavControllerMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
