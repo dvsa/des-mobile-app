@@ -1,36 +1,36 @@
-<ion-row class="mes-validated-row mes-row-separator"
-         id="lang-pref-card"
-         [formGroup]="formGroup">
-  <div class="validation-bar"></div>
+<ion-row class="mes-validated-row mes-row-separator" id="lang-pref-card" [formGroup]="formGroup">
+    <div class="validation-bar"></div>
     <ion-col class="component-label ion-align-self-center" size="32">
-      <label id="lang-pref-label">Test language</label>
+        <label id="lang-pref-label">Test language</label>
     </ion-col>
     <ion-col class="ion-align-self-center mes-padding-left">
-      <ion-row class="spacing-row"></ion-row>
-      <ion-row>
-        <ion-col size="48">
-        <input type="radio"
-         id="lang-pref-english"
-         class="gds-radio-button"
-         name="languagePreferences"
-         formControlName="languagePreferences"
-         [value]=false
-         (change)="isWelshChanged($event.target.value)">
-        <label for="lang-pref-english" class="radio-label">English</label>
-      </ion-col>
-      <ion-col>
-        <input type="radio"
-         id="lang-pref-welsh"
-         class="gds-radio-button"
-         name="languagePreferences"
-         formControlName="languagePreferences"
-         [value]=true
-         (change)="isWelshChanged($event.target.value)">
-        <label for="lang-pref-welsh" class="radio-label">Cymraeg</label>
-      </ion-col>
-    </ion-row>
-    <ion-row class="validation-message-row ion-align-items-center">
-      <div class="validation-text"></div>
-    </ion-row>
-  </ion-col>
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <input type="radio"
+                       id="lang-pref-english"
+                       class="gds-radio-button"
+                       name="languagePreferences"
+                       formControlName="languagePreferences"
+                       value="false"
+                       [checked]="!isWelsh"
+                       (change)="isWelshChanged($event.target.value)">
+                <label for="lang-pref-english" class="radio-label">English</label>
+            </ion-col>
+            <ion-col>
+                <input type="radio"
+                       id="lang-pref-welsh"
+                       class="gds-radio-button"
+                       name="languagePreferences"
+                       formControlName="languagePreferences"
+                       value="true"
+                       [checked]="isWelsh"
+                       (change)="isWelshChanged($event.target.value)">
+                <label for="lang-pref-welsh" class="radio-label">Cymraeg</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"></div>
+        </ion-row>
+    </ion-col>
 </ion-row>
