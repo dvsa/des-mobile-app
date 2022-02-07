@@ -18,7 +18,6 @@ interface ManoeuvresFaultState {
   reverseParkCarpark: boolean;
   forwardPark: boolean;
   reverseLeft?: boolean;
-  reverseManoeuvre?: boolean;
 }
 
 @Component({
@@ -62,7 +61,7 @@ export class ManoeuvresPopoverComponent {
    * Tells the input whether it needs to be disabled based on whether
    * or not another manoeuvre has a fault recorded
    */
-  shouldManoeuvreDisable(manoeuvre: ManoeuvreTypes): Observable<boolean> {
+  shouldManoeuvreDisable(manoeuvre: Exclude<ManoeuvreTypes, ManoeuvreTypes.reverseManoeuvre>): Observable<boolean> {
     return this.manoeuvresWithFaults$.pipe(
       map((manoeuvresWithFaults: ManoeuvresFaultState) => {
         const { [manoeuvre]: manoeuvreToOmit, ...otherManoeuvres } = manoeuvresWithFaults;
