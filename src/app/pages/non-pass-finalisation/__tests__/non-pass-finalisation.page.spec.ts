@@ -43,6 +43,7 @@ import {
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 
 describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
@@ -212,6 +213,12 @@ describe('NonPassFinalisationPage', () => {
           .not
           .toHaveBeenCalledWith(NonPassFinalisationValidationError('notRequiredControl is blank'));
       }));
+    });
+    describe('navigateToDebrief', () => {
+      it('should call the back method from Location to navigate back to Debrief', () => {
+        component.navigateToDebrief();
+        expect(TestFlowPageNames.DEBRIEF_PAGE).toHaveBeenCalled();
+      });
     });
   });
 });
