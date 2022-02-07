@@ -279,6 +279,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     );
   }
   async navigateToDebrief(): Promise<void> {
-    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE])
+    await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   }
 }
