@@ -1,0 +1,20 @@
+<ion-card class="modal-alert">
+    <modal-alert-title>{{modalReason}}</modal-alert-title>
+    <ion-row class="ion-justify-content-center">
+        <ion-col class="ion-no-padding" size="72">
+            <button class="end-test-button" (click)="onEndTest()"><h3>End test now</h3></button>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-justify-content-center">
+        <ion-col class="ion-no-padding" size="80">
+            <div class="modal-alert-message mes-data">
+                <div class="mes-data">This will result in an unsuccessful<br>test (activity code 4)</div>
+            </div>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="column-border-top ion-no-padding">
+            <ion-button class="return-button" fill="clear" (click)="onCancel()">Return to test</ion-button>
+        </ion-col>
+    </ion-row>
+</ion-card>

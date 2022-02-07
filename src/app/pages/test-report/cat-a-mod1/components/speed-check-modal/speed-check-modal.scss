@@ -1,0 +1,26 @@
+@import "src/theme/sass-partials/modal";
+
+:host {
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    width: 450px;
+  }
+
+  .modal-alert-message {
+    margin-bottom: 0;
+  }
+
+  .modal-alert-message > ul {
+    text-align: left;
+    display: inline-block;
+    li {
+      line-height: 32px;
+    }
+  }
+
+  .terminate-button {
+    color: var(--gds-red);
+  }
+
+}

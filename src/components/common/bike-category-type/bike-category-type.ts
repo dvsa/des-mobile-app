@@ -58,7 +58,7 @@ export class BikeCategoryTypeComponent implements OnChanges {
         const category = this.bikeCategoryDetails[index].categoryCode;
         const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
         element.innerHTML = `<span class="bike-code">${element.innerHTML}</span>`
-          .concat(`${bike.displayName}<img class="bike-image" src="${bike.imageUrl}" />`);
+          .concat(`${bike.displayName}<img class="bike-image" src="${bike.imageUrl}" alt=""/>`);
       });
     }, 20);
   }

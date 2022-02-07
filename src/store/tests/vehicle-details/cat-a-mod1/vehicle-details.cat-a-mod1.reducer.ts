@@ -24,7 +24,6 @@ export const vehicleDetailsCatAMod1Reducer = createReducer(
     ...state,
     schoolBike: !state.schoolBike,
   })),
-
 );
 
 export const getVehicleDetails = createFeatureSelector<VehicleDetails>('vehicleDetails');
