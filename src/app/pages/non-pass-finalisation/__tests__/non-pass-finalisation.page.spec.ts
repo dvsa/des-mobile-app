@@ -44,11 +44,14 @@ import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-ma
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
+import { PracticeEndToEndCardComponent } from '@pages/dashboard/components/practice-end-to-end-card/practice-end-to-end-card';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 
 describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;
+  let router: Router;
   const activatedRouteMock = { snapshot: { data: { behaviourMap: {} } } as Data } as ActivatedRoute;
 
   configureTestSuite(() => {
@@ -69,7 +72,7 @@ describe('NonPassFinalisationPage', () => {
         AppModule,
       ],
       providers: [
-        { provide: Router},
+        { provide: Router, useClass: RouterMock},
         { provide: NavController, useClass: NavControllerMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
@@ -86,6 +89,8 @@ describe('NonPassFinalisationPage', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
   }));
 
   describe('Class', () => {
@@ -215,11 +220,9 @@ describe('NonPassFinalisationPage', () => {
           .toHaveBeenCalledWith(NonPassFinalisationValidationError('notRequiredControl is blank'));
       }));
     });
-    describe('navigateToDebrief', () => {
-      const router: Router = TestBed.inject(Router);
-      it('should call the back method from Location to navigate back to Debrief', () => {
-        spyOn(router, 'navigate');
-        component.navigateToDebrief();
+    fdescribe('navigateToDebrief', () => {
+      it('should call the back method from Location to navigate back to Debrief', async () => {
+        await component.navigateToDebrief();
         expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
       });
     });
