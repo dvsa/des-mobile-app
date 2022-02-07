@@ -69,6 +69,7 @@ describe('NonPassFinalisationPage', () => {
         AppModule,
       ],
       providers: [
+        { provide: Router},
         { provide: NavController, useClass: NavControllerMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
