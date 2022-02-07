@@ -7,6 +7,7 @@ import {
   CAT_CPC,
   CAT_D,
   CAT_HOME_TEST,
+  CAT_MANOEUVRES,
 } from '@pages/page-names.constants';
 import { Routes } from '@angular/router';
 
@@ -50,5 +51,10 @@ export const Office_Route: Routes = [
     path: CAT_HOME_TEST.OFFICE_PAGE,
     loadChildren: () => import('@pages/office/cat-home-test/office.cat-home-test.module')
       .then((m) => m.OfficeCatHomeTestPageModule),
+  },
+  {
+    path: CAT_MANOEUVRES.OFFICE_PAGE,
+    loadChildren: () => import('@pages/office/cat-manoeuvre/office.cat-manoeuvre.module')
+      .then((m) => m.OfficeCatManoeuvrePageModule),
   },
 ];

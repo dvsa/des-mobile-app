@@ -7,6 +7,7 @@ import {
   CAT_CPC,
   CAT_D,
   CAT_HOME_TEST,
+  CAT_MANOEUVRES,
 } from '@pages/page-names.constants';
 import { Routes } from '@angular/router';
 
@@ -50,5 +51,10 @@ export const Waiting_Room_To_Car_Route: Routes = [
     path: CAT_HOME_TEST.WAITING_ROOM_TO_CAR_PAGE,
     loadChildren: () => import('@pages/waiting-room-to-car/cat-home-test/waiting-room-to-car.cat-home-test.module')
       .then((m) => m.WaitingRoomToCarCatHomeTestPageModule),
+  },
+  {
+    path: CAT_MANOEUVRES.WAITING_ROOM_TO_CAR_PAGE,
+    loadChildren: () => import('@pages/waiting-room-to-car/cat-manoeuvre/waiting-room-to-car.cat-manoeuvre.module')
+      .then((m) => m.WaitingRoomToCarCatManoeuvrePageModule),
   },
 ];

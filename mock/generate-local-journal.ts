@@ -1499,7 +1499,7 @@ export const localJournal: ExaminerWorkSchedule = {
       },
       slotDetail: {
         duration: 57,
-        slotId: 1050,
+        slotId: 1032,
         start: `${today}T20:45:00`,
       },
       testCentre: {
@@ -1567,7 +1567,7 @@ export const localJournal: ExaminerWorkSchedule = {
       },
       slotDetail: {
         duration: 57,
-        slotId: 1050,
+        slotId: 1033,
         start: `${today}T20:55:00`,
       },
       testCentre: {
@@ -1590,7 +1590,7 @@ export const localJournal: ExaminerWorkSchedule = {
           specialNeedsExtendedTest: false,
           extendedTest: false,
           progressiveAccess: false,
-          testCategory: 'CEM',
+          testCategory: 'C+EM',
           vehicleGearbox: 'Manual',
           vehicleHeight: 5,
           vehicleLength: 15,
@@ -1635,7 +1635,7 @@ export const localJournal: ExaminerWorkSchedule = {
       },
       slotDetail: {
         duration: 57,
-        slotId: 1050,
+        slotId: 1034,
         start: `${today}T21:00:00`,
       },
       testCentre: {
@@ -1658,7 +1658,7 @@ export const localJournal: ExaminerWorkSchedule = {
           specialNeedsExtendedTest: false,
           extendedTest: false,
           progressiveAccess: false,
-          testCategory: 'C1EM',
+          testCategory: 'C1+EM',
           vehicleGearbox: 'Manual',
           vehicleHeight: 5,
           vehicleLength: 15,
@@ -1703,7 +1703,7 @@ export const localJournal: ExaminerWorkSchedule = {
       },
       slotDetail: {
         duration: 57,
-        slotId: 1050,
+        slotId: 1035,
         start: `${today}T21:20:00`,
       },
       testCentre: {

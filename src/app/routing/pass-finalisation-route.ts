@@ -7,6 +7,7 @@ import {
   CAT_CPC,
   CAT_D,
   CAT_HOME_TEST,
+  CAT_MANOEUVRES,
 } from '@pages/page-names.constants';
 import { Routes } from '@angular/router';
 
@@ -50,5 +51,10 @@ export const Pass_Finalisation_Route: Routes = [
     path: CAT_HOME_TEST.PASS_FINALISATION_PAGE,
     loadChildren: () => import('@pages/pass-finalisation/cat-home-test/pass-finalisation.cat-home-test.module')
       .then((m) => m.PassFinalisationCatHomeTestPageModule),
+  },
+  {
+    path: CAT_MANOEUVRES.PASS_FINALISATION_PAGE,
+    loadChildren: () => import('@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.module')
+      .then((m) => m.PassFinalisationCatManoeuvrePageModule),
   },
 ];

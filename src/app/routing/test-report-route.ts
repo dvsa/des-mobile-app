@@ -7,6 +7,7 @@ import {
   CAT_CPC,
   CAT_D,
   CAT_HOME_TEST,
+  CAT_MANOEUVRES,
 } from '@pages/page-names.constants';
 import { Routes } from '@angular/router';
 
@@ -50,5 +51,10 @@ export const Test_Report_Route: Routes = [
     path: CAT_HOME_TEST.TEST_REPORT_PAGE,
     loadChildren: () => import('@pages/test-report/cat-home-test/test-report.cat-home-test.module')
       .then((m) => m.TestReportCatHomeTestPageModule),
+  },
+  {
+    path: CAT_MANOEUVRES.TEST_REPORT_PAGE,
+    loadChildren: () => import('@pages/test-report/cat-manoeuvre/test-report.cat-manoeuvre.module')
+      .then((m) => m.TestReportCatManoeuvrePageModule),
   },
 ];

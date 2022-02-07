@@ -99,6 +99,14 @@ export const CAT_CPC: BasePageNames = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatCPCPage',
 };
 
+export const CAT_MANOEUVRES: BasePageNames = {
+  OFFICE_PAGE: 'OfficeCatManoeuvrePage',
+  TEST_REPORT_PAGE: 'TestReportCatManoeuvrePage',
+  WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatManoeuvrePage',
+  PASS_FINALISATION_PAGE: 'PassFinalisationCatManoeuvrePage',
+  VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatManoeuvrePage',
+};
+
 export type BasePageNames = {
   [key in PageNameKeys]?: string;
 };
@@ -180,6 +188,15 @@ export function getPageNameByCategoryAndKey(category: TestCategory, pageNameKey:
     case TestCategory.EUAM2:
     case TestCategory.EUAMM2:
       return CAT_A_MOD2[pageNameKey];
+    case TestCategory.CM:
+    case TestCategory.C1M:
+    case TestCategory.CEM:
+    case TestCategory.C1EM:
+    case TestCategory.DM:
+    case TestCategory.D1M:
+    case TestCategory.DEM:
+    case TestCategory.D1EM:
+      return CAT_MANOEUVRES[pageNameKey];
     default:
   }
 }
