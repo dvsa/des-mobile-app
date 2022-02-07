@@ -12,6 +12,9 @@ import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/wai
 import {
   WaitingRoomToCarCatManoeuvrePage,
 } from '@pages/waiting-room-to-car/cat-manoeuvre/waiting-room-to-car.cat-manoeuvre.page';
+import {
+  WaitingRoomToCarCatManoeuvreComponentsModule,
+} from '@pages/waiting-room-to-car/cat-manoeuvre/components/waiting-room-to-car.cat-manoeuvre.components.module';
 import { WaitingRoomToCarCatManoeuvrePageRoutingModule } from './waiting-room-to-car.cat-manoeuvre.routing-module';
 
 @NgModule({
@@ -21,6 +24,7 @@ import { WaitingRoomToCarCatManoeuvrePageRoutingModule } from './waiting-room-to
     FormsModule,
     IonicModule,
     WaitingRoomToCarComponentsModule,
+    WaitingRoomToCarCatManoeuvreComponentsModule,
     WaitingRoomToCarCatManoeuvrePageRoutingModule,
     ComponentsModule,
     ReactiveFormsModule,

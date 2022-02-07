@@ -43,6 +43,7 @@ import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { IndependentDrivingTypeChanged, RouteNumberChanged } from '@store/tests/test-summary/test-summary.actions';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import { createPopulateVehicleDimensionsAction } from '@store/tests/vehicle-details/vehicle-details.action.creator';
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
@@ -85,14 +86,13 @@ import {
   TestActionsTypes,
 } from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
-import { GearboxCategoryChanged, PopulateVehicleDimensions } from './vehicle-details/vehicle-details.actions';
+import { GearboxCategoryChanged } from './vehicle-details/vehicle-details.actions';
 import {
   InitialiseVehicleChecks as InitialiseVehicleChecksCatC, SetFullLicenceHeld,
 } from './test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import {
   InitializeVehicleChecks as InitializeVehicleChecksCatD,
-}
-  from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
+} from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 
 @Injectable()
 export class TestsEffects {
@@ -231,10 +231,7 @@ export class TestsEffects {
       ];
 
       if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
-        arrayOfActions.push(PopulateVehicleDimensions(
-          slot.booking.application.vehicleWidth,
-          slot.booking.application.vehicleLength,
-        ));
+        arrayOfActions.push(createPopulateVehicleDimensionsAction(startTestAction.category, slot.booking.application));
       }
       if (startTestAction.rekey) {
         arrayOfActions.push(MarkAsRekey());
