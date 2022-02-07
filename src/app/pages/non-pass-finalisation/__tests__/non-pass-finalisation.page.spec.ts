@@ -6,7 +6,7 @@ import {
 } from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from 'ionic-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
 import { Store } from '@ngrx/store';
@@ -42,8 +42,8 @@ import {
 } from '@providers/activity-code-finalisation/__mocks__/activity-code-finalisation.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
 describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
@@ -215,9 +215,11 @@ describe('NonPassFinalisationPage', () => {
       }));
     });
     describe('navigateToDebrief', () => {
+      const router: Router = TestBed.inject(Router);
       it('should call the back method from Location to navigate back to Debrief', () => {
+        spyOn(router, 'navigate');
         component.navigateToDebrief();
-        expect(TestFlowPageNames.DEBRIEF_PAGE).toHaveBeenCalled();
+        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
       });
     });
   });
