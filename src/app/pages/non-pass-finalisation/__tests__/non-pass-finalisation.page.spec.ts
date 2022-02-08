@@ -6,7 +6,7 @@ import {
 } from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from 'ionic-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
 import { Store } from '@ngrx/store';
@@ -42,12 +42,15 @@ import {
 } from '@providers/activity-code-finalisation/__mocks__/activity-code-finalisation.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
 describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;
+  let router: Router;
   const activatedRouteMock = { snapshot: { data: { behaviourMap: {} } } as Data } as ActivatedRoute;
 
   configureTestSuite(() => {
@@ -68,6 +71,7 @@ describe('NonPassFinalisationPage', () => {
         AppModule,
       ],
       providers: [
+        { provide: Router, useClass: RouterMock },
         { provide: NavController, useClass: NavControllerMock },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
@@ -84,6 +88,8 @@ describe('NonPassFinalisationPage', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
+    router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
   }));
 
   describe('Class', () => {
@@ -212,6 +218,12 @@ describe('NonPassFinalisationPage', () => {
           .not
           .toHaveBeenCalledWith(NonPassFinalisationValidationError('notRequiredControl is blank'));
       }));
+    });
+    describe('navigateToDebrief', () => {
+      it('should call the back method from Location to navigate back to Debrief', async () => {
+        await component.navigateToDebrief();
+        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
+      });
     });
   });
 });
