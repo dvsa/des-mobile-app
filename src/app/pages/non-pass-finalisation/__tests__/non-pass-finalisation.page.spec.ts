@@ -219,7 +219,7 @@ describe('NonPassFinalisationPage', () => {
           .toHaveBeenCalledWith(NonPassFinalisationValidationError('notRequiredControl is blank'));
       }));
     });
-    fdescribe('navigateToDebrief', () => {
+    describe('navigateToDebrief', () => {
       it('should call the back method from Location to navigate back to Debrief', async () => {
         await component.navigateToDebrief();
         expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
