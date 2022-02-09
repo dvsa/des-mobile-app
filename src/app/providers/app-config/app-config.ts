@@ -57,9 +57,7 @@ import { DataStoreProvider } from '../data-store/data-store';
 export class AppConfigProvider {
 
   isDebugMode = false;
-
   environmentFile: EnvironmentFile = environment as EnvironmentFile;
-
   private appConfig: AppConfig;
 
   constructor(
@@ -98,9 +96,7 @@ export class AppConfigProvider {
 
   public setStoreSubscription(): void {
     this.store$.select(getAppConfigState).pipe(
-      map((appConfig: AppConfig) => {
-        this.appConfig = appConfig;
-      }),
+      map((appConfig: AppConfig) => this.appConfig = appConfig),
     ).subscribe();
   }
 

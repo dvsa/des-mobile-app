@@ -64,6 +64,7 @@ import {
   ValidateTransferRekey,
   RekeyReasonViewDidEnter,
   ResetStaffNumberValidationError,
+  RekeyUploadTest,
 } from './rekey-reason.actions';
 
 interface RekeyReasonPageState {
@@ -209,6 +210,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
         if (this.isTransferSelected) {
           this.store$.dispatch(ValidateTransferRekey());
         } else {
+          this.store$.dispatch(RekeyUploadTest());
           this.store$.dispatch(SendCurrentTest());
         }
         break;

@@ -7,15 +7,16 @@ import {
   IonRefresher,
 } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
+import { LoadingOptions } from '@ionic/core';
 import {
   Observable, Subscription, merge,
 } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import {
-  SearchResultTestSchema,
-} from '@dvsa/mes-search-schema';
+import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
+
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -33,10 +34,8 @@ import {
 import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { DeviceProvider } from '@providers/device/device';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { AppComponent } from '@app/app.component';
-import { LoadingOptions } from '@ionic/core';
 import { LoadingProvider } from '@providers/loader/loader';
 import { ErrorPage } from '../error-page/error';
 
@@ -70,6 +69,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   subscription: Subscription;
   merged$: Observable<any>;
   todaysDate: DateTime;
+  platformSubscription: Subscription;
 
   constructor(
     public modalController: ModalController,
@@ -89,7 +89,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
     super(platform, authenticationProvider, router);
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
-    this.appResumedListener();
   }
 
   ngOnInit(): void {
@@ -157,6 +156,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     super.ionViewWillEnter();
     await this.loadJournalManually();
     this.setupPolling();
+    this.configurePlatformSubscriptions();
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
 
     this.store$.dispatch(journalActions.LoadCompletedTests(true));
@@ -169,8 +169,12 @@ export class JournalPage extends BasePageComponent implements OnInit {
     return true;
   }
 
-  ionViewWillLeave() {
+  ionViewWillLeave(): void {
     this.store$.dispatch(journalActions.StopPolling());
+
+    if (this.platformSubscription) {
+      this.platformSubscription.unsubscribe();
+    }
   }
 
   async ionViewDidEnter(): Promise<void> {
@@ -190,6 +194,15 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   setupPolling() {
     this.store$.dispatch(journalActions.SetupPolling());
+  }
+
+  configurePlatformSubscriptions(): void {
+    if (super.isIos()) {
+      const merged$ = merge(
+        this.platform.resume.pipe(switchMap(async () => this.refreshJournal())),
+      );
+      this.platformSubscription = merged$.subscribe();
+    }
   }
 
   handleLoadingUI = async (isLoading: boolean) => {
@@ -252,14 +265,5 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
-  }
-
-  /**
-   * Listen to the DOM event and trigger if app resumed from backgrounding
-   */
-  appResumedListener() {
-    document.addEventListener('resume', async () => {
-      await this.refreshJournal();
-    });
   }
 }
