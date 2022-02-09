@@ -18,13 +18,13 @@ export const vehicleDetailsCatManoeuvreReducer = createReducer(
   on(manoeuvreVehicleDetailsActions.PopulateManoeuvreVehicleDimensions, (state, {
     vehicleWidth,
     vehicleLength,
-    // vehicleHeight,
+    vehicleHeight,
     numberOfSeats,
   }): CatCMUniqueTypes.VehicleDetails => ({
     ...state,
     vehicleLength,
     vehicleWidth,
-    // vehicleHeight,
+    vehicleHeight,
     numberOfSeats,
   })),
 );

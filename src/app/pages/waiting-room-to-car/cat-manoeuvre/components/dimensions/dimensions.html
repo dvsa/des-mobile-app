@@ -1,32 +1,32 @@
-<ion-row class="mes-validated-row mes-row-separator ion-padding" id="test-category-card">
-    <div class="validation-bar-spacer"></div>
+<ion-row class="mes-component-row mes-row-separator mes-tall-row" id="dimensions-card">
+    <div class="validation-bar"></div>
     <ion-col class="component-label ion-align-self-center" size="32">
         <label id="dimensions-label">Dimensions</label>
     </ion-col>
     <ion-col class="ion-align-self-center mes-padding-left">
         <ion-row>
-            <span class="mes-data">
-                <span class="mes-data bold" [id]="'length-label' | formatToID : idPrefix">L:</span>
-                {{ vehicleLength }}
-            </span>
+                <span class="mes-data">
+                    <span class="mes-data bold" [id]="'length-label' | formatToID : idPrefix">L:</span>
+                    {{ vehicleLength }}
+                </span>
         </ion-row>
         <ion-row>
-            <span class="mes-data">
-                <span class="mes-data bold" [id]="'width-label' | formatToID : idPrefix">W:</span>
-                {{ vehicleWidth }}
-            </span>
+                <span class="mes-data">
+                    <span class="mes-data bold" [id]="'width-label' | formatToID : idPrefix">W:</span>
+                    {{ vehicleWidth }}
+                </span>
         </ion-row>
         <ion-row>
-            <span class="mes-data">
-                <span class="mes-data bold" [id]="'height-label' | formatToID : idPrefix">H:</span>
-                {{ vehicleHeight }}
-            </span>
+                <span class="mes-data">
+                    <span class="mes-data bold" [id]="'height-label' | formatToID : idPrefix">H:</span>
+                    {{ vehicleHeight }}
+                </span>
         </ion-row>
         <ion-row>
-            <span class="mes-data">
-                <span class="mes-data bold" [id]="'width-label' | formatToID : idPrefix">Seats:</span>
-                {{ numberOfSeats }}
-            </span>
+                <span class="mes-data">
+                    <span class="mes-data bold" [id]="'width-label' | formatToID : idPrefix">Seats:</span>
+                    {{ numberOfSeats }}
+                </span>
         </ion-row>
     </ion-col>
 </ion-row>

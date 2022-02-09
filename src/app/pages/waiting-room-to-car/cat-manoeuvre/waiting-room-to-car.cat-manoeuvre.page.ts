@@ -1,28 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { FormGroup } from '@angular/forms';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Router } from '@angular/router';
-import { merge, Observable } from 'rxjs';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
-import { map } from 'rxjs/operators';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
 import {
   getNumberOfSeats,
+  getVehicleHeight,
   getVehicleLength,
   getVehicleWidth,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
@@ -62,7 +63,7 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
     this.form = new FormGroup({});
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     super.onInitialisation();
 
     const currentTest$ = this.store$.pipe(
@@ -86,21 +87,13 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
       ),
       vehicleHeight$: currentTest$.pipe(
         select(getVehicleDetails),
-        select(getNumberOfSeats),
+        select(getVehicleHeight),
       ),
       numberOfSeats$: currentTest$.pipe(
         select(getVehicleDetails),
         select(getNumberOfSeats),
       ),
     };
-  }
-
-  setupSubscription(): void {
-    const { delegatedTest$ } = this.pageState;
-
-    this.subscription = merge(
-      delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    ).subscribe();
   }
 
   ionViewDidLeave(): void {
