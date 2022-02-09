@@ -215,15 +215,4 @@ describe('JournalPage', () => {
         .toEqual(true);
     });
   });
-
-  describe('appResumedListener', () => {
-    it('Should call component.addEventListener', () => {
-      spyOn(document, 'addEventListener').and.callFake((str, functionToRun) => {
-        functionToRun();
-      });
-
-      component.appResumedListener();
-      expect(document.addEventListener).toHaveBeenCalled();
-    });
-  });
 });
