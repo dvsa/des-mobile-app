@@ -12,7 +12,6 @@ import { Application } from '@dvsa/mes-journal-schema';
 import { testsReducer } from '@store/tests/tests.reducer';
 import * as testsActions from '@store/tests/tests.actions';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
-import * as rekeyActions from '@store/tests/rekey/rekey.actions';
 import * as applicationReferenceActions
   from '@store/tests/journal-data/common/application-reference/application-reference.actions';
 import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';

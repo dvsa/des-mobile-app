@@ -90,8 +90,8 @@ export class RekeyReasonAnalyticsEffects {
       const outcome = isTestPassed ? 'Pass' : 'Fail';
 
       this.analytics.logEvent(
-        AnalyticsEventCategories.POST_TEST,
-        AnalyticsEvents.CONFIRM_UPLOAD,
+        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+        formatAnalyticsText(AnalyticsEvents.CONFIRM_UPLOAD, tests),
         formatAnalyticsText(`Upload confirmed - ${outcome}`, tests),
       );
 
