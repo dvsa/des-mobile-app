@@ -193,6 +193,7 @@ export class AuthenticationProvider {
       await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
     }
     await this.clearTokens();
+    this.appConfig.shutDownStoreSubscription();
     this.subscription?.unsubscribe();
     await this.ionicAuth.logout();
   }

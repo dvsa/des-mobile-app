@@ -7,6 +7,7 @@ import { isEmpty, merge } from 'lodash';
 import { ValidatorResult, ValidationError } from 'jsonschema';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
+import { Subscription } from 'rxjs';
 
 import { environment } from '@environments/environment';
 import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
@@ -57,9 +58,8 @@ import { DataStoreProvider } from '../data-store/data-store';
 export class AppConfigProvider {
 
   isDebugMode = false;
-
+  storeSubscription: Subscription;
   environmentFile: EnvironmentFile = environment as EnvironmentFile;
-
   private appConfig: AppConfig;
 
   constructor(
@@ -97,11 +97,15 @@ export class AppConfigProvider {
   };
 
   public setStoreSubscription(): void {
-    this.store$.select(getAppConfigState).pipe(
-      map((appConfig: AppConfig) => {
-        this.appConfig = appConfig;
-      }),
+    this.storeSubscription = this.store$.select(getAppConfigState).pipe(
+      map((appConfig: AppConfig) => this.appConfig = appConfig),
     ).subscribe();
+  }
+
+  public shutDownStoreSubscription(): void {
+    if (this.storeSubscription) {
+      this.storeSubscription.unsubscribe();
+    }
   }
 
   public getAppConfig = (): AppConfig => {
