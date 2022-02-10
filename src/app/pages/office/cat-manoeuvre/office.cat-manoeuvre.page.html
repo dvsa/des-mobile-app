@@ -88,27 +88,6 @@
                                 (debriefWitnessedChange)="debriefWitnessedChanged($event)">
                         </debrief-witnessed>
 
-                        <route-number
-                                [display]="pageState.displayRouteNumber$ | async"
-                                [routeNumber]="pageState.routeNumber$ | async"
-                                [outcome]="pageState.testOutcome$ | async"
-                                (routeNumberChange)="routeNumberChanged($event)"
-                                [formGroup]="form">
-                        </route-number>
-
-                        <independent-driving
-                                *ngIf="!isDelegated"
-                                [display]="pageState.displayIndependentDriving$ | async"
-                                option1="Diagram"
-                                option1label="Diagram"
-                                option2="Traffic signs"
-                                option2label="Traffic Signs"
-                                [formGroup]="form"
-                                [outcome]="pageState.testOutcome$ | async"
-                                [independentDriving]="pageState.independentDriving$ | async"
-                                (independentDrivingChange)="independentDrivingChanged($event)">
-                        </independent-driving>
-
                         <true-likeness *ngIf="pageState.displayCandidateDescription$ | async"
                                        [formGroup]="form"
                                        [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
@@ -157,40 +136,6 @@
         </ion-card>
 
         <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-            <ion-card id="ETA" *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)">
-                <ion-card-content>
-                    <ion-grid>
-                        <ion-row class="mes-data ion-align-items-start">
-                            <ion-col size="32">
-                                <h4 class="fault-heading">ETA</h4>
-                            </ion-col>
-                            <ion-col class="ion-align-self-start ion-padding-start">
-                                <div id="etaFaults">
-                                    {{pageState.etaFaults$ | async}}
-                                </div>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card-content>
-            </ion-card>
-
-            <ion-card id="eco" *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)">
-                <ion-card-content>
-                    <ion-grid>
-                        <ion-row class="mes-data ion-align-items-start">
-                            <ion-col size="32">
-                                <h4 class="fault-heading">ECO</h4>
-                            </ion-col>
-                            <ion-col class="ion-align-self-start ion-padding-start">
-                                <div id="ecoFaults">
-                                    {{pageState.ecoFaults$ | async}}
-                                </div>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card-content>
-            </ion-card>
-
             <fault-comment-card
                     [formGroup]="form"
                     [faultComments]="pageState.dangerousFaults$ | async"
