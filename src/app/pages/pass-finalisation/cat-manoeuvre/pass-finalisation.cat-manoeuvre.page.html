@@ -28,18 +28,6 @@
                     </ion-col>
                 </ion-row>
 
-                <license-provided
-                        [form]="form"
-                        [license]="pageState.provisionalLicense$ | async"
-                        [licenseReceivedLabel] = "'Provisional licence Received'"
-                        (licenseReceived)="provisionalLicenseReceived()"
-                        (licenseNotReceived)="provisionalLicenseNotReceived()">
-                </license-provided>
-
-                <licence-provided-warning-banner
-                        [licenceProvided]="pageState.provisionalLicense$ | async">
-                </licence-provided-warning-banner>
-
                 <pass-certificate-number
                         [form]="form"
                         [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
