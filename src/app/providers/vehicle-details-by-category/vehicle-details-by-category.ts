@@ -24,6 +24,8 @@ import { getVehicleWidth as getVehicleWidthC, getVehicleLength as getVehicleLeng
   from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.selector';
 import { getVehicleWidth as getVehicleWidthD, getVehicleLength as getVehicleLengthD }
   from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.selector';
+import { getVehicleWidth as getVehicleWidthCM, getVehicleLength as getVehicleLengthCM }
+  from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 
 export interface CategorySpecificVehicleDetails {
@@ -72,8 +74,8 @@ export class VehicleDetailsByCategoryProvider {
       case TestCategory.C1EM:
         return {
           vehicleDetails: getVehicleDetailsCM,
-          vehicleWidth: null,
-          vehicleLength: null,
+          vehicleWidth: getVehicleWidthCM,
+          vehicleLength: getVehicleLengthCM,
         };
       case TestCategory.D:
       case TestCategory.D1:

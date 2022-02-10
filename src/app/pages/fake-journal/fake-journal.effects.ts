@@ -28,12 +28,13 @@ import {
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { Action } from '@ngrx/store';
 import {
-  GearboxCategoryChanged, PopulateVehicleDimensions,
+  GearboxCategoryChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   InitializeVehicleChecks as InitializeVehicleChecksCatD,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import { IndependentDrivingTypeChanged, RouteNumberChanged } from '@store/tests/test-summary/test-summary.actions';
+import { createPopulateVehicleDimensionsAction } from '@store/tests/vehicle-details/vehicle-details.action.creator';
 import * as fakeJournalActions from './fake-journal.actions';
 import { fakeJournalTestSlots } from './__mocks__/fake-journal.mock';
 
@@ -61,10 +62,9 @@ export class FakeJournalEffects {
         testStatusActions.SetTestStatusBooked(slot.slotDetail.slotId),
       ];
       if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
-        arrayOfActions.push(PopulateVehicleDimensions(
-          slot.booking.application.vehicleWidth,
-          slot.booking.application.vehicleLength,
-        ));
+        arrayOfActions.push(
+          createPopulateVehicleDimensionsAction(startTestAction.category, slot.booking.application as Application),
+        );
       }
       if (
         startTestAction.category === TestCategory.C

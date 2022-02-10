@@ -11,7 +11,6 @@ export const initialState: JournalData = {
     applicationId: null,
     bookingSequence: null,
     checkDigit: null,
-
   },
   candidate: {},
   examiner: {
