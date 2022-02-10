@@ -8,9 +8,11 @@ export class AppConfigProviderMock {
 
   public initialiseAppConfig = jasmine.createSpy('initialiseAppConfig');
 
-  public loadRemoteConfig = jasmine.createSpy('loadRemoteConfig')
-    .and
-    .returnValue(Promise.resolve());
+  public loadRemoteConfig = jasmine.createSpy('loadRemoteConfig').and.returnValue(Promise.resolve());
+
+  public shutDownStoreSubscription = jasmine.createSpy('shutDownStoreSubscription');
+
+  public getDebugMode = jasmine.createSpy('getDebugMode').and.returnValue(Promise.resolve());
 
   public getAppConfig(): AppConfig {
     return {
@@ -59,7 +61,5 @@ export class AppConfigProviderMock {
     };
   }
 
-  public getDebugMode = jasmine.createSpy('getDebugMode')
-    .and.returnValue(Promise.resolve());
 
 }
