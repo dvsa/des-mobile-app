@@ -3,30 +3,30 @@
 </div>
 <div *ngIf="showTestActionButton && !showOutcome()" class="outcome-position">
     <ion-col *ngIf="showRekeyButton(); else nonRekey">
-        <ion-button id="rekey-{{applicationId}}-button"  class="mes-secondary-button mes-rekey-button" (click)="rekeyTest()"
+        <ion-button id="rekey-button-{{applicationId}}" class="mes-secondary-button mes-rekey-button" (click)="rekeyTest()"
                     [disabled]="!canStartTest">
             <h3 class="write-up-label">Rekey</h3>
         </ion-button>
     </ion-col>
     <ng-template #nonRekey>
         <ion-col *ngIf="showDelegatedExaminerRekeyButton()">
-            <ion-button id="write-up-rekey-{{applicationId}}-button"  class="mes-secondary-button mes-delegated-button" (click)="rekeyDelegatedTest()">
+            <ion-button id="write-up-rekey-button-{{applicationId}}" class="mes-secondary-button mes-delegated-button" (click)="rekeyDelegatedTest()">
                 <h3 class="write-up-label">Rekey</h3>
             </ion-button>
         </ion-col>
         <ion-col *ngIf="showResumeButton()">
-            <ion-button id="resume-{{applicationId}}-button"  class="mes-secondary-button mes-warning-button" (click)="clickStartOrResumeTest()">
+            <ion-button id="resume-button-{{applicationId}}" class="mes-secondary-button mes-warning-button" (click)="clickStartOrResumeTest()">
                 <h3 class="write-up-label">Resume</h3>
             </ion-button>
         </ion-col>
         <ion-col *ngIf="showStartTestButton()">
-            <ion-button id="start-test-{{applicationId}}-button"  class="mes-primary-button" (click)="clickStartOrResumeTest()"
+            <ion-button id="start-test-button-{{applicationId}}" class="mes-primary-button" (click)="clickStartOrResumeTest()"
                         [disabled]="!canStartTest">
                 <h3>Start test</h3>
             </ion-button>
         </ion-col>
         <ion-col *ngIf="showWriteUpButton()">
-            <ion-button   class="mes-secondary-button mes-warning-button" (click)="writeUpTest()" id="write-up-{{applicationId}}-button">
+            <ion-button class="mes-secondary-button mes-warning-button" (click)="writeUpTest()" id="write-up-button-{{applicationId}}">
                 <h3 class="write-up-label">Write-up</h3>
             </ion-button>
         </ion-col>
