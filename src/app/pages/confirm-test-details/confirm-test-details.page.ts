@@ -6,22 +6,21 @@ import { StoreModel } from '@shared/models/store.model';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { getTests } from '@store/tests/tests.reducer';
 import {
-  getActivityCode,
-  getCurrentTest,
-  getJournalData,
-  getTestOutcomeText,
+  getActivityCode, getCurrentTest, getJournalData, getTestOutcomeText,
 } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   getCandidateName,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { getTestSlotAttributes }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
+import {
+  getTestSlotAttributes,
+} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map, tap } from 'rxjs/operators';
-import { getTestStartDateTime }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
+import {
+  getTestStartDateTime,
+} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { isProvisionalLicenseProvided } from '@store/tests/pass-completion/pass-completion.selector';
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
@@ -40,6 +39,7 @@ import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ModalController, NavController, Platform } from '@ionic/angular';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
@@ -73,7 +73,6 @@ enum D255 {
   templateUrl: 'confirm-test-details.page.html',
   styleUrls: ['confirm-test-details.page.scss'],
 })
-
 export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
 
   pageState: ConfirmTestDetailsPageState;
@@ -108,6 +107,12 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   isADI2(category: TestCategory): boolean {
     return category === TestCategory.ADI2;
   }
+
+  hideTransmissionField = (category: TestCategory): boolean => !isAnyOf(category, [
+    TestCategory.ADI2,
+    TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
+    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
+  ]);
 
   ionViewDidEnter(): void {
     this.store$.dispatch(ConfirmTestDetailsViewDidEnter());

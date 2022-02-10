@@ -50,7 +50,7 @@
         </data-row>
         <!-- Provisional licence received -->
         <data-row
-            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !isADI2(category)"
+            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !hideTransmissionField(category)"
             [idPrefix]="idPrefix"
             [label]="'Provisional licence'"
             [label2]="'received'"
@@ -58,7 +58,7 @@
         </data-row>
         <!-- Transmission -->
         <transmission-display
-            *ngIf="isPassed(pageState.testOutcomeText$ | async)  && !isADI2(category)"
+            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !hideTransmissionField(category)"
             [category]="category"
             [transmission]="pageState.transmission$ | async"
             [code78]="pageState.code78$ | async"
