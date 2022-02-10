@@ -38,7 +38,7 @@ export class LanguagePreferencesComponent implements OnChanges {
       }
       return;
     }
-    this.languagePref.patchValue(this.isWelsh);
+    this.languagePref.patchValue(String(this.isWelsh));
   }
 
   isWelshChanged(isWelsh: string): void {
