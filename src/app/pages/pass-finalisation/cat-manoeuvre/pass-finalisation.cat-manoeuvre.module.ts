@@ -15,6 +15,7 @@ import {
 import {
   PassFinalisationCatManoeuvrePageRoutingModule,
 } from '@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.routing-module';
+import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { PassFinalisationComponentsModule } from '../components/pass-finalisation-components.module';
 
 @NgModule({
@@ -30,6 +31,7 @@ import { PassFinalisationComponentsModule } from '../components/pass-finalisatio
     EffectsModule.forFeature([
       PassFinalisationAnalyticsEffects,
     ]),
+    TestFinalisationComponentsModule,
   ],
   providers: [
     OutcomeBehaviourMapProvider,
