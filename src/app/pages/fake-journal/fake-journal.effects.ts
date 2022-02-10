@@ -16,7 +16,9 @@ import {
   extractTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { Examiner, CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import {
+  Examiner, CategoryCode, ConductedLanguage, TestSlotAttributes,
+} from '@dvsa/mes-test-schema/categories/common';
 import { PopulateExaminer } from '@store/tests/journal-data/common/examiner/examiner.actions';
 import {
   createPopulateCandidateDetailsAction,
@@ -35,6 +37,8 @@ import {
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import { IndependentDrivingTypeChanged, RouteNumberChanged } from '@store/tests/test-summary/test-summary.actions';
 import { createPopulateVehicleDimensionsAction } from '@store/tests/vehicle-details/vehicle-details.action.creator';
+import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
+import { PopulateConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.actions';
 import * as fakeJournalActions from './fake-journal.actions';
 import { fakeJournalTestSlots } from './__mocks__/fake-journal.mock';
 
@@ -52,15 +56,20 @@ export class FakeJournalEffects {
       const examiner: Examiner = {
         staffNumber: '01234567',
       };
+      const testSlotAttributes: TestSlotAttributes = extractTestSlotAttributes(slot as unknown);
+      const conductedLanguage: ConductedLanguage = testSlotAttributes.welshTest ? Language.CYMRAEG : Language.ENGLISH;
+
       const arrayOfActions: Action[] = [
         PopulateExaminer(examiner),
         PopulateTestCategory(slot.booking.application.testCategory as CategoryCode),
         PopulateApplicationReference(slot.booking.application as Application),
         createPopulateCandidateDetailsAction(action.category, slot.booking as Booking),
-        PopulateTestSlotAttributes(extractTestSlotAttributes(slot as unknown)),
+        PopulateTestSlotAttributes(testSlotAttributes),
         PopulateTestCentre({ centreId: slot.testCentre.centreId, costCode: slot.testCentre.costCode }),
         testStatusActions.SetTestStatusBooked(slot.slotDetail.slotId),
+        PopulateConductedLanguage(conductedLanguage),
       ];
+
       if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
         arrayOfActions.push(
           createPopulateVehicleDimensionsAction(startTestAction.category, slot.booking.application as Application),

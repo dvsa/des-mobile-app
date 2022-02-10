@@ -1,4 +1,4 @@
-import { Subscription, Observable, merge } from 'rxjs';
+import { Subscription, merge } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -84,9 +84,7 @@ export class TestOutcomeComponent implements OnInit {
 
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
-  candidateDetailsViewed: boolean;
   subscription: Subscription;
-  seenCandidateDetails$: Observable<boolean>;
 
   constructor(
     private store$: Store<StoreModel>,
