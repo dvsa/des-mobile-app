@@ -208,6 +208,26 @@ export const environment: LocalEnvironmentFile = {
         from: '2019-01-01',
         to: null,
       },
+      {
+        testCategory: 'DM',
+        from: '2019-01-01',
+        to: null,
+      },
+      {
+        testCategory: 'D1M',
+        from: '2019-01-01',
+        to: null,
+      },
+      {
+        testCategory: 'D+EM',
+        from: '2019-01-01',
+        to: null,
+      },
+      {
+        testCategory: 'D1+EM',
+        from: '2019-01-01',
+        to: null,
+      },
     ],
   },
   tests: {
