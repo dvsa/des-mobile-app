@@ -73,12 +73,30 @@ describe('FaultSummaryProvider', () => {
     },
     {
       category: TestCategory.D1E,
-      showMeTellMeAllFaults: showMe1DFTellMe1DF,
+      showMeTellMeAllFaults: {
+        ...showMe1DFTellMe1DF,
+        testData: {
+          ...showMe1DFTellMe1DF.testData,
+          vehicleChecks: {
+            ...showMe1DFTellMe1DF.testData.vehicleChecks,
+            fullLicenceHeld: true,
+          },
+        },
+      },
       showMeTellMeSemiFaults: showMe0DFTellMe1DF,
     },
     {
       category: TestCategory.DE,
-      showMeTellMeAllFaults: showMe1DFTellMe1DF,
+      showMeTellMeAllFaults: {
+        ...showMe1DFTellMe1DF,
+        testData: {
+          ...showMe1DFTellMe1DF.testData,
+          vehicleChecks: {
+            ...showMe1DFTellMe1DF.testData.vehicleChecks,
+            fullLicenceHeld: true,
+          },
+        },
+      },
       showMeTellMeSemiFaults: showMe0DFTellMe1DF,
     },
   ];
