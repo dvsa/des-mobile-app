@@ -44,6 +44,12 @@ import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/ac
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
+import {
+  VehicleDetailsCardComponent,
+} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
+import { AccompanimentCardComponent } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatBPage } from '../office.cat-b.page';
@@ -80,6 +86,10 @@ describe('OfficeCatBPage', () => {
         MockComponent(CandidateSectionComponent),
         MockComponent(DateOfTest),
         MockComponent(TrueLikenessComponent),
+        MockComponent(VehicleDetailsCardComponent),
+        MockComponent(VehicleDetailsComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(AccompanimentComponent),
       ],
       imports: [
         IonicModule,
