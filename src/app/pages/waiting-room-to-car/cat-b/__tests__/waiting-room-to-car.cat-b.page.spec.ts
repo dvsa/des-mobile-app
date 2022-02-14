@@ -1,7 +1,7 @@
 import {
   ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
-import { IonicModule, Platform } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
@@ -9,6 +9,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import {
@@ -102,6 +103,7 @@ describe('WaitingRoomToCarCatBPage', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         WaitingRoomToCarCatBPage,
         MockComponent(EyesightTestComponent),
@@ -120,7 +122,6 @@ describe('WaitingRoomToCarCatBPage', () => {
         MockComponent(PracticeModeBanner),
       ],
       imports: [
-        IonicModule,
         AppModule,
         ReactiveFormsModule,
       ],
