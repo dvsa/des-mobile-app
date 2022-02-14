@@ -92,7 +92,11 @@ import {
   ProvisionalLicenseNotReceived,
   ProvisionalLicenseReceived,
 } from '@store/tests/pass-completion/pass-completion.actions';
-import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  DualControlsToggled,
+  GearboxCategoryChanged,
+  SchoolCarToggled,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
 import { getHealthDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
@@ -102,6 +106,17 @@ import {
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
 import { getPassCertificateNumber } from '@store/tests/pass-completion/pass-completion.selector';
+import {
+  InstructorAccompanimentToggled, InterpreterAccompanimentToggled, OtherAccompanimentToggled,
+  SupervisorAccompanimentToggled,
+} from '@store/tests/accompaniment/accompaniment.actions';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
+import { getDualControls, getSchoolCar } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.selector';
+import { getAccompaniment } from '@store/tests/accompaniment/accompaniment.reducer';
+import {
+  getInstructorAccompaniment, getInterpreterAccompaniment, getOtherAccompaniment,
+  getSupervisorAccompaniment,
+} from '@store/tests/accompaniment/accompaniment.selector';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -146,6 +161,12 @@ export interface CommonOfficePageState {
   ecoFaults$: Observable<string>;
   seriousFaultCount$: Observable<number>;
   dangerousFaultCount$: Observable<number>;
+  schoolCar$: Observable<boolean>;
+  dualControls$: Observable<boolean>;
+  instructorAccompaniment$: Observable<boolean>;
+  supervisorAccompaniment$: Observable<boolean>;
+  otherAccompaniment$: Observable<boolean>;
+  interpreterAccompaniment$: Observable<boolean>;
 }
 
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
@@ -444,6 +465,30 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
         select(getEco),
         select(getEcoFaultText),
       ),
+      schoolCar$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getSchoolCar),
+      ),
+      dualControls$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getDualControls),
+      ),
+      instructorAccompaniment$: currentTest$.pipe(
+        select(getAccompaniment),
+        select(getInstructorAccompaniment),
+      ),
+      supervisorAccompaniment$: currentTest$.pipe(
+        select(getAccompaniment),
+        select(getSupervisorAccompaniment),
+      ),
+      otherAccompaniment$: currentTest$.pipe(
+        select(getAccompaniment),
+        select(getOtherAccompaniment),
+      ),
+      interpreterAccompaniment$: currentTest$.pipe(
+        select(getAccompaniment),
+        select(getInterpreterAccompaniment),
+      ),
     };
   }
 
@@ -541,6 +586,30 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
         ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
         : CandidateChoseToProceedWithTestInEnglish('English'),
     );
+  }
+
+  instructorAccompanimentToggled(): void {
+    this.store$.dispatch(InstructorAccompanimentToggled());
+  }
+
+  supervisorAccompanimentToggled(): void {
+    this.store$.dispatch(SupervisorAccompanimentToggled());
+  }
+
+  interpreterAccompanimentToggled(): void {
+    this.store$.dispatch(InterpreterAccompanimentToggled());
+  }
+
+  otherAccompanimentToggled(): void {
+    this.store$.dispatch(OtherAccompanimentToggled());
+  }
+
+  dualControlsToggled(): void {
+    this.store$.dispatch(DualControlsToggled());
+  }
+
+  schoolCarToggled(): void {
+    this.store$.dispatch(SchoolCarToggled());
   }
 
   debriefWitnessedChanged(debriefWitnessed: boolean) {
