@@ -7,6 +7,9 @@ import { OfficeCatBPageRoutingModule } from '@pages/office/cat-b/office.cat-b-ro
 import { IonicModule } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {
+  WaitingRoomToCarComponentsModule,
+} from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { OfficeEffects } from '../office.effects';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
 import { OfficeCatBPage } from './office.cat-b.page';
@@ -26,6 +29,7 @@ import { OfficeCatBPage } from './office.cat-b.page';
     IonicModule,
     ReactiveFormsModule,
     CommonModule,
+    WaitingRoomToCarComponentsModule,
   ],
   providers: [
     FaultSummaryProvider,
