@@ -93,6 +93,7 @@ export const fakeJournalTestSlots = [
         secondaryTelephone: '04321 145765',
         dateOfBirth: '1980-10-15',
         ethnicityCode: 'A',
+        emailAddress: 'liam@black.com',
       },
     },
     slotDetail: {
@@ -150,6 +151,7 @@ export const fakeJournalTestSlots = [
         secondaryTelephone: '04321 098765',
         dateOfBirth: '1985-10-01',
         ethnicityCode: 'A',
+        emailAddress: 'danielle@butler.com',
       },
     },
     slotDetail: {
@@ -208,6 +210,7 @@ export const fakeJournalTestSlots = [
         secondaryTelephone: '04321 098765',
         dateOfBirth: '2000-01-15',
         ethnicityCode: 'A',
+        emailAddress: 'elizabeth@smith.com',
       },
     },
     slotDetail: {
@@ -266,6 +269,7 @@ export const fakeJournalTestSlots = [
         secondaryTelephone: '04321 098765',
         dateOfBirth: '2001-12-24',
         ethnicityCode: 'A',
+        emailAddress: 'robert@wilkinson.com',
       },
     },
     slotDetail: {
