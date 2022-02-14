@@ -2,6 +2,9 @@
     <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
     <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
         <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+        <ion-buttons id="wrtc-back-button" slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
         <ion-buttons id="end-test-button" slot="end">
             <end-test-link [shouldAuthenticate]="false" [category]="pageState.category$ | async"></end-test-link>
         </ion-buttons>
