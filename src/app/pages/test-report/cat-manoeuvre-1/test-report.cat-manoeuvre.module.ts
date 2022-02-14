@@ -13,10 +13,9 @@ import { TestReportEffects } from '@pages/test-report/test-report.effects';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestReportCatManoeuvrePage } from './test-report.cat-manoeuvre.page';
 import { TestReportCatManoeuvrePageRoutingModule } from './test-report.cat-manoeuvre.routing-module';
-import { UncoupleRecoupleComponent } from '@pages/test-report/cat-manoeuvre/components/uncoupling-recoupling/uncoupling-recoupling';
 
 @NgModule({
-    declarations: [TestReportCatManoeuvrePage, UncoupleRecoupleComponent],
+  declarations: [TestReportCatManoeuvrePage],
   imports: [
     TestReportComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),

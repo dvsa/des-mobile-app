@@ -1,10 +1,79 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>test-report.cat-manoeuvre</ion-title>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
+    <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-button (click)="navigateBack()">Back</ion-button>
-    <ion-button (click)="navigateForward()">To Debrief</ion-button>
+<ion-content class="ion-no-padding" force-overscroll="false">
+  <toolbar></toolbar>
+  <ion-grid class="grid-layout" [ngClass]="{
+      'remove-mode': isRemoveFaultMode,
+      'add-mode': !isRemoveFaultMode,
+      'fault-mode': !isSeriousMode && !isDangerousMode,
+      'serious-mode': isSeriousMode,
+      'dangerous-mode': isDangerousMode
+    }">
+    <ion-row class="first-row-adjust">
+      <!-- Column 1-->
+      <ion-col size="32">
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <span class="section-header">Reverse manoeuvre</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="13" class="ion-no-padding">
+            <competency-button
+                    [onTap]="toggleReverse"
+                    [onPress]="toggleReverse"
+                    id="manoeuvers-button"
+                    [ngClass]="{
+                    'fault': drivingFaults > 0,
+                    'serious-fault': hasSeriousFault,
+                    'dangerous-fault': hasDangerousFault
+                  }">
+            <span class="tickwrapper" id="manoeuvers-tick">
+                <tick-indicator [ticked]="manoeuvresCompleted"></tick-indicator>
+              </span>
+            </competency-button>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+          <ion-col class="manoeuvre-competencies-container-column" size="15">
+            <manoeuvre-competency
+                    [manoeuvre]="manoeuvreTypes.reverseRight"
+                    [competency]="competence.controlFault"
+                    [attr.id]="getId(manoeuvreTypes.reverseRight, competence.controlFault)"
+            ></manoeuvre-competency>
+            <manoeuvre-competency
+                    [attr.id]="getId(manoeuvreTypes.reverseRight, competence.observationFault)"
+                    [manoeuvre]="manoeuvreTypes.reverseRight"
+                    [competency]="competence.observationFault"
+            ></manoeuvre-competency>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="dark-divider"></div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-no-padding">
+            <span class="section-header">Vehicle with trailer</span>
+          </ion-col>
+        </ion-row>
+        <uncoupling-recoupling
+                [category]="pageState.category$ | async"
+                >
+          </uncoupling-recoupling>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="displayOverlay"></div>
+  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="isRemoveFaultMode"></div>
 </ion-content>

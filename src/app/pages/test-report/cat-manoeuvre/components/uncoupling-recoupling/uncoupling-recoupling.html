@@ -1,5 +1,5 @@
 <ion-row>
-  <ion-col size="32" class="ion-no-padding">
+  <ion-col size="13" class="ion-no-padding">
     <competency-button class="uncouple-recouple-tick"
       [onTap]="toggleUncoupleRecouple"
       [onPress]="toggleUncoupleRecouple"
@@ -13,7 +13,9 @@
       </span>
     </competency-button>
   </ion-col>
-  <ion-col class="ion-no-padding">
+</ion-row>
+<ion-row>
+  <ion-col class="padding-top-8 only-top-padding">
     <competency-button class="uncouple-recouple-competency"
      [onTap]="onTap"
      [onPress]="onPress"
@@ -26,7 +28,7 @@
       }"
     >
       <driving-faults-badge class="driving-faults" [count]="faultCount()"></driving-faults-badge>
-      <div class="competency-label">Uncouple/Rec...</div>
+      <div class="competency-label">Uncouple/Recouple</div>
       <div class="fault-wrapper">
         <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
         <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
