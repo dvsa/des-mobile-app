@@ -131,7 +131,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     return this.slotProvider.canStartTest(this.slot)
       && this.categoryWhitelist.isWhiteListed(
         this.slot.booking.application.testCategory as TestCategory,
-        this.appConfig.getAppConfig().journal.allowedTestCategories as TestCategory[]
+        this.appConfig.getAppConfig().journal.allowedTestCategories as TestCategory[],
       );
   }
 
