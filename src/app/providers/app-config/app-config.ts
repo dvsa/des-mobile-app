@@ -185,7 +185,7 @@ export class AppConfigProvider {
       return;
     }
 
-    this.appInfoProvider.getMajorAndMinorVersionNumber()
+    this.appInfoProvider.getFullVersionNumber()
       .then((version: string) => {
         const url = `${this.environmentFile.configUrl}?app_version=${version}`;
         this.httpClient.get(url)
