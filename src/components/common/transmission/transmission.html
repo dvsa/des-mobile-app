@@ -3,7 +3,7 @@
     </div>
     <ion-col class="component-label ion-align-self-center" size="32">
         <label id="transmission-title" [hidden]="hideTransmissionLabel">Transmission</label>
-        <label [hidden]="hideConfirmTransmissionLabel">Confirm transmission</label>
+        <label id="confirm-transmission-title" [hidden]="hideConfirmTransmissionLabel">Confirm transmission</label>
     </ion-col>
     <ion-col class="ion-align-self-center ion-padding-start">
         <ion-row class="spacing-row"></ion-row>
@@ -16,7 +16,9 @@
                        [class.ng-invalid]="isInvalid()"
                        (change)="transmissionChanged($event.target.value)"
                        value='Manual'>
-                <label [for]="'transmission-manual-'+uniqueId" class="radio-label">Manual</label>
+                <label [for]="'transmission-manual-'+uniqueId" class="radio-label" id="transmission-manual-label">
+                    Manual
+                </label>
             </ion-col>
             <ion-col>
                 <input type="radio" [id]="'transmission-automatic-'+uniqueId"
@@ -26,7 +28,9 @@
                        [class.ng-invalid]="isInvalid()"
                        (change)="transmissionChanged($event.target.value)"
                        value='Automatic'>
-                <label [for]="'transmission-automatic-'+uniqueId" class="radio-label">Automatic</label>
+                <label [for]="'transmission-automatic-'+uniqueId" class="radio-label" id="transmission-automatic-label">
+                    Automatic
+                </label>
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">

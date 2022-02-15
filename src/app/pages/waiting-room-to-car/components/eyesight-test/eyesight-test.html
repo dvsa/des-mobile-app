@@ -15,7 +15,7 @@
                [class.ng-invalid]="invalid"
                (change)="eyesightTestResultChanged($event.target.value)"
                value="P">
-        <label for="eyesight-pass" class="radio-label">Pass</label>
+        <label for="eyesight-pass" class="radio-label" id="eyesight-pass-label">Pass</label>
       </ion-col>
       <ion-col size="48">
         <input type="radio"
@@ -26,7 +26,7 @@
                [class.ng-invalid]="invalid"
                (change)="eyesightTestResultChanged($event.target.value)"
                value="F">
-        <label for="eyesight-fail" class="radio-label">Fail</label>
+        <label for="eyesight-fail" class="radio-label" id="eyesight-fail-label">Fail</label>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">

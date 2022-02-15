@@ -15,7 +15,7 @@
                        value="false"
                        [checked]="isWelsh === false"
                        (change)="isWelshChanged($event.target.value)">
-                <label for="lang-pref-english" class="radio-label">English</label>
+                <label for="lang-pref-english" class="radio-label" id="language-pref-english-label">English</label>
             </ion-col>
             <ion-col>
                 <input type="radio"
@@ -26,7 +26,7 @@
                        value="true"
                        [checked]="isWelsh === true"
                        (change)="isWelshChanged($event.target.value)">
-                <label for="lang-pref-welsh" class="radio-label">Cymraeg</label>
+                <label for="lang-pref-welsh" class="radio-label" id="language-pref-cymraeg-label">Cymraeg</label>
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">

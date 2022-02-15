@@ -10,7 +10,9 @@
             [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseRight) | async) ? 'disabled' : null"
             (click)="recordManoeuvreSelection(manoeuvreTypes.reverseRight)"
             id="manoeuvres-reverse-right-radio" class="gds-radio-button">
-            <label for="manoeuvres-reverse-right-radio" class="radio-label">Reverse/ Right</label>
+            <label for="manoeuvres-reverse-right-radio" class="radio-label" id="manoeuvres-reverse-right-label">
+              Reverse/ Right
+            </label>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -19,7 +21,9 @@
             [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkRoad) | async) ? 'disabled' : null"
             (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkRoad)"
             id="manoeuvres-reverse-park-road-radio" class="gds-radio-button">
-            <label for="manoeuvres-reverse-park-road-radio" class="radio-label">Reverse park (Road)</label>
+            <label for="manoeuvres-reverse-park-road-radio" class="radio-label" id="manoeuvres-reverse-park-road-label">
+              Reverse park (Road)
+            </label>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -28,7 +32,9 @@
             [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.reverseParkCarpark) | async) ? 'disabled' : null"
             (click)="recordManoeuvreSelection(manoeuvreTypes.reverseParkCarpark)"
             id="manoeuvres-reverse-park-carpark-radio" class="gds-radio-button">
-            <label for="manoeuvres-reverse-park-carpark-radio" class="radio-label">Reverse park (Car park)</label>
+            <label for="manoeuvres-reverse-park-carpark-radio" class="radio-label" id="manoeuvres-reverse-park-carpark-label">
+              Reverse park (Car park)
+            </label>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -37,7 +43,9 @@
             [attr.disabled]="(shouldManoeuvreDisable(manoeuvreTypes.forwardPark) | async) ? 'disabled' : null"
             (click)="recordManoeuvreSelection(manoeuvreTypes.forwardPark)"
             id="manoeuvres-forward-park-radio" class="gds-radio-button">
-            <label for="manoeuvres-forward-park-radio" class="radio-label">Forward park</label>
+            <label for="manoeuvres-forward-park-radio" class="radio-label" id="manoeuvres-forward-park-label">
+              Forward park
+            </label>
           </ion-col>
         </ion-row>
       </ion-col>
