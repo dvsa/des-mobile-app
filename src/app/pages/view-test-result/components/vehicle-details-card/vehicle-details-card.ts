@@ -39,7 +39,7 @@ export class VehicleDetailsCardComponent {
   trainerData: CatADI2UniqueTypes.TrainerDetails;
 
   @Input()
-  vehicleDetails: string[] = [];
+  vehicleDetails: string[];
 
   public shouldHideCard() : boolean {
     return (
@@ -50,12 +50,17 @@ export class VehicleDetailsCardComponent {
     );
   }
 
-  public shouldHideDimensions() : boolean {
+  public shouldShowDimensions() : boolean {
     switch (this.category) {
-      case TestCategory.F:
-      case TestCategory.G:
-      case TestCategory.H:
-      case TestCategory.K:
+      case TestCategory.BE:
+      case TestCategory.C:
+      case TestCategory.C1:
+      case TestCategory.CE:
+      case TestCategory.C1E:
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.DE:
+      case TestCategory.D1E:
         return true;
       default:
         return false;
@@ -82,6 +87,8 @@ export class VehicleDetailsCardComponent {
         return false;
     }
   }
+
+  public isADI2 = (): boolean => this.category === TestCategory.ADI2;
 
   public getInstructorRegistrationNumber(): number {
     return get(this.data, 'instructorRegistrationNumber');

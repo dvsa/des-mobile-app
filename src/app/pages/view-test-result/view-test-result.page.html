@@ -1,14 +1,12 @@
 <ion-header>
     <ion-toolbar mode="ios" class="toolbar-spacing">
-        <ion-buttons slot="start">
+        <ion-buttons slot="start" class="ion-text-center toolbar-item-spacing">
             <ion-button id="view-test-result-close-button" (click)="onClose()">
                 <ion-icon class="close-btn" id="view-test-result-close-icon" name="close-outline"></ion-icon>
                 <ion-label class="close-btn" id="view-test-result-close-label">Close</ion-label>
             </ion-button>
         </ion-buttons>
-        <ion-title id="view-test-result-title">
-            Test information
-        </ion-title>
+        <ion-title id="view-test-result-title">Test information</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -45,6 +43,7 @@
         <vehicle-details-card
                 *ngIf="showVehicleDetailsCommonCard()"
                 [trainerData]="getTrainerData()"
+                [vehicleDetails]="getVehicleDetails()"
                 [data]="testResult.vehicleDetails"
                 [category]="testResult.category"
                 [passCompletion]="testResult.passCompletion">
