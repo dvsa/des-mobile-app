@@ -38,17 +38,17 @@ import { ToolbarComponent } from '../../components/toolbar/toolbar';
 import { DrivingFaultSummaryComponent } from '../../components/driving-fault-summary/driving-fault-summary';
 import { CompetencyButtonComponent } from '../../components/competency-button/competency-button';
 import { CompetencyComponent } from '../../components/competency/competency';
-import { TestReportCatCPage } from '../../../test-report.cat-c.page';
+import { TestReportCatManoeuvrePage } from '../test-report.cat-manoeuvre.page';
 import { EcoComponent } from '../../components/eco/eco';
 
 describe('TestReportCatCPage', () => {
-  let fixture: ComponentFixture<TestReportCatCPage>;
-  let component: TestReportCatCPage;
+  let fixture: ComponentFixture<TestReportCatManoeuvrePage>;
+  let component: TestReportCatManoeuvrePage;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [
-        TestReportCatCPage,
+        TestReportCatManoeuvrePage,
         MockComponent(ReverseLeftPopoverComponent),
         MockComponent(ReverseLeftComponent),
         MockComponent(TickIndicatorComponent),
@@ -100,7 +100,7 @@ describe('TestReportCatCPage', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestReportCatCPage);
+    fixture = TestBed.createComponent(TestReportCatManoeuvrePage);
     component = fixture.componentInstance;
   });
 
