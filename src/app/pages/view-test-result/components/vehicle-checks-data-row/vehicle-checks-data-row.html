@@ -3,11 +3,14 @@
         <label>{{ label }}</label>
     </ion-col>
     <ion-col size="56">
-        <span class="mes-data" *ngIf="data.length === 0">None</span>
-        <div *ngFor="let item of data">
-            <div class="mes-data large"><span class="mes-data large bold">{{item.code}}</span> - {{item.description}}
+        <span class="mes-data" *ngIf="isEmptyVehicleChecks(data); else populatedVehicleChecks;">None</span>
+        <ng-template #populatedVehicleChecks>
+            <div *ngFor="let item of data;">
+                <div class="mes-data large"><span class="mes-data large bold">
+                    {{item.code}}</span>- {{item.description}}
+                </div>
+                <div class="mes-data large bold" *ngIf="shouldShowFault(item.outcome)">1 driving fault</div>
             </div>
-            <div class="mes-data large bold" *ngIf="shouldShowFault(item.outcome)">1 driving fault</div>
-        </div>
+        </ng-template>
     </ion-col>
 </ion-row>
