@@ -62,9 +62,7 @@ describe('UncoupleRecoupleComponent', () => {
   }));
 
   describe('Class', () => {
-
     describe('Add Driving Fault', () => {
-
       it('should dispatch an UNCOUPLE_RECOUPLE_ADD_DRIVING_FAULT action for press', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.addOrRemoveFault(true);
@@ -212,9 +210,10 @@ describe('UncoupleRecoupleComponent', () => {
     });
 
     describe('Tick button effects', () => {
-
       it('should have added no classes to the tick button', () => {
         component.category = TestCategory.BE;
+        component.buttonFloatAbove = false;
+        fixture.detectChanges();
         const tickButton = fixture.debugElement.query(By.css('competency-button.uncouple-recouple-tick'));
         fixture.detectChanges();
         expect(tickButton.nativeElement.className).toEqual('uncouple-recouple-tick');
@@ -222,13 +221,13 @@ describe('UncoupleRecoupleComponent', () => {
 
       it('should have added a checked class to the tick button', () => {
         component.category = TestCategory.BE;
+        component.buttonFloatAbove = false;
         fixture.detectChanges();
         component.selectedUncoupleRecouple = true;
         const tickButton = fixture.debugElement.query(By.css('competency-button.uncouple-recouple-tick'));
         fixture.detectChanges();
         expect(tickButton.nativeElement.className).toEqual('uncouple-recouple-tick checked');
       });
-
     });
   });
 

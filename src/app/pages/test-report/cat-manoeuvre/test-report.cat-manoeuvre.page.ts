@@ -26,6 +26,7 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { Manoeuvre } from '@dvsa/mes-test-schema/categories/CM/partial';
 
 interface CatManoeuvreTestReportPageState {
   selectedReverseManoeuvre$: Observable<boolean>;
@@ -133,7 +134,7 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
     }
   }
 
-  manoeuvreHasFaults = (manoeuvre): boolean => (
+  manoeuvreHasFaults = (manoeuvre: Manoeuvre): boolean => (
     manoeuvre && (manoeuvre.controlFault != null || manoeuvre.observationFault != null)
   );
 

@@ -15,54 +15,22 @@ import {
 } from '../../../common/manoeuvres/manoeuvres.actions';
 import { ManoeuvreTypes, ManoeuvreCompetencies } from '../../../test-data.constants';
 
-describe('Test Data Cat Manoeuvres Reducer', () => {
-
+describe('manoeuvresCatManoeuvreReducer', () => {
   describe('RECORD_MANOEUVRES_SELECTION', () => {
     it('should add selected manoeuvre', () => {
       const state: CatCMUniqueTypes.Manoeuvres |
       CatCEMUniqueTypes.Manoeuvres |
       CatC1MUniqueTypes.Manoeuvres |
-      CatC1EMUniqueTypes.Manoeuvres = {};
-      const result = manoeuvresCatManoeuvreReducer(
-        state,
-        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad),
-      );
-      expect(result[ManoeuvreTypes.reverseParkRoad]).toEqual({ selected: true });
-    });
-    it('should replace current with selected manoeuvre', () => {
-      const state: CatCMUniqueTypes.Manoeuvres |
-      CatCEMUniqueTypes.Manoeuvres |
-      CatC1MUniqueTypes.Manoeuvres |
       CatC1EMUniqueTypes.Manoeuvres = {
         reverseManoeuvre: {
-          selected: true,
+          selected: false,
         },
       };
       const result = manoeuvresCatManoeuvreReducer(
         state,
-        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad),
+        RecordManoeuvresSelection(ManoeuvreTypes.reverseManoeuvre),
       );
-      expect(result[ManoeuvreTypes.reverseParkRoad]).toEqual({ selected: true });
-      expect(result.reverseManoeuvre).toBeUndefined();
-    });
-
-    it('should wipe any outcome data from other manoeuvres when changing selected manoeuvre', () => {
-      const state: CatCMUniqueTypes.Manoeuvres |
-      CatCEMUniqueTypes.Manoeuvres |
-      CatC1MUniqueTypes.Manoeuvres |
-      CatC1EMUniqueTypes.Manoeuvres = {
-        reverseManoeuvre: {
-          selected: true,
-          controlFault: 'S',
-        },
-      };
-      const result = manoeuvresCatManoeuvreReducer(
-        state,
-        RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad),
-      );
-      expect(result[ManoeuvreTypes.reverseParkRoad]).toBeDefined();
-      expect(result[ManoeuvreTypes.reverseParkRoad].selected).toEqual(true);
-      expect(result[ManoeuvreTypes.reverseParkCarpark]).toBeUndefined();
+      expect(result[ManoeuvreTypes.reverseManoeuvre]).toEqual({ selected: true });
     });
   });
 
@@ -79,11 +47,11 @@ describe('Test Data Cat Manoeuvres Reducer', () => {
       const result = manoeuvresCatManoeuvreReducer(
         state,
         AddManoeuvreSeriousFault({
-          manoeuvre: ManoeuvreTypes.reverseParkRoad,
+          manoeuvre: ManoeuvreTypes.reverseManoeuvre,
           competency: ManoeuvreCompetencies.controlFault,
         }),
       );
-      expect(result[ManoeuvreTypes.reverseParkRoad].controlFault).toEqual(CompetencyOutcome.S);
+      expect(result[ManoeuvreTypes.reverseManoeuvre].controlFault).toEqual(CompetencyOutcome.S);
     });
   });
 
@@ -100,11 +68,11 @@ describe('Test Data Cat Manoeuvres Reducer', () => {
       const result = manoeuvresCatManoeuvreReducer(
         state,
         AddManoeuvreDangerousFault({
-          manoeuvre: ManoeuvreTypes.reverseParkRoad,
+          manoeuvre: ManoeuvreTypes.reverseManoeuvre,
           competency: ManoeuvreCompetencies.controlFault,
         }),
       );
-      expect(result[ManoeuvreTypes.reverseParkRoad].controlFault).toEqual(CompetencyOutcome.D);
+      expect(result[ManoeuvreTypes.reverseManoeuvre].controlFault).toEqual(CompetencyOutcome.D);
     });
   });
 
@@ -121,13 +89,13 @@ describe('Test Data Cat Manoeuvres Reducer', () => {
       const result = manoeuvresCatManoeuvreReducer(
         state,
         AddManoeuvreComment(
-          ManoeuvreTypes.reverseParkRoad,
+          ManoeuvreTypes.reverseManoeuvre,
           CompetencyOutcome.S,
           'control',
           'comments',
         ),
       );
-      expect(result[ManoeuvreTypes.reverseParkRoad].controlFaultComments).toEqual('comments');
+      expect(result[ManoeuvreTypes.reverseManoeuvre].controlFaultComments).toEqual('comments');
     });
   });
 
