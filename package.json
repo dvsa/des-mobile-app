@@ -170,7 +170,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint:fix",
-      "pre-push": "run-s test gitSecrets scanRepo"
+      "pre-push": "run-s test gitSecrets"
     }
   }
 }
