@@ -9,7 +9,7 @@
                [class.ng-invalid]="invalid"
                (change)="tellMeQuestionOutcomeChanged($event.target.value)"
                [checked]="tellMeQuestionOutcome === 'P'">
-        <label for="tellme-correct" class="radio-label">Correct</label>
+        <label for="tellme-correct" class="radio-label" id="tell-me-correct-label">Correct</label>
     </ion-col>
     <ion-col>
         <input type="radio"
@@ -20,6 +20,6 @@
                [class.ng-invalid]="invalid"
                (change)="tellMeQuestionOutcomeChanged($event.target.value)"
                [checked]="tellMeQuestionOutcome === 'DF'">
-        <label for="tellme-fault" class="radio-label">1 Driving fault</label>
+        <label for="tellme-fault" class="radio-label" id="tell-me-df-label">1 Driving fault</label>
     </ion-col>
 </ion-row>

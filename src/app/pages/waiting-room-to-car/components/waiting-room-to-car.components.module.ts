@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 
+import { PipesModule } from '@shared/pipes/pipes.module';
 import { EyesightTestComponent } from './eyesight-test/eyesight-test';
 import { EyesightFailureConfirmationComponent } from './eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
@@ -38,6 +39,7 @@ import { TestCategoryComponent } from './test-category/test-category';
     DirectivesModule,
     ReactiveFormsModule,
     IonicModule,
+    PipesModule,
   ],
   exports: [
     EyesightTestComponent,

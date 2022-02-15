@@ -20,9 +20,9 @@
           [checked]="independentDriving === option1"
           (change)="independentDrivingChanged(option1)"
         />
-        <label [for]="getIndependentDrivingInputId(option1)" class="radio-label">{{
-          option1label
-        }}</label>
+        <label [for]="getIndependentDrivingInputId(option1)" class="radio-label" [id]="option1label | formatToID: 'independent-driving'">
+          {{option1label}}
+        </label>
       </ion-col>
       <ion-col class="ion-align-self-center">
         <input
@@ -36,7 +36,9 @@
           [checked]="independentDriving === option2"
           (change)="independentDrivingChanged(option2)"
         />
-        <label [for]="getIndependentDrivingInputId(option2)" class="radio-label">{{option2label}}</label>
+        <label [for]="getIndependentDrivingInputId(option2)" class="radio-label" [id]="option2label | formatToID: 'independent-driving'">
+          {{option2label}}
+        </label>
       </ion-col>
       <ion-col class="ion-align-self-center" [hidden]="!showNotApplicable">
         <input

@@ -1,26 +1,40 @@
 <ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="identification-row" [formGroup]="formGroup">
-  <div class="validation-bar"></div>
-  <ion-col class="component-label ion-align-self-center" size="32">
-    <label>Identification</label>
-  </ion-col>
-  <ion-col class="ion-align-self-center ion-padding-start">
-    <ion-row class="spacing-row"></ion-row>
-    <ion-row>
-      <ion-col class="ion-align-self-center" size="48">
-        <input type="radio" id="identification-license" class="gds-radio-button" name="identification"
-          formControlName="identification" value="Licence" [checked]="identification === 'Licence'"
-          (change)="identificationChanged($event.target.value)">
-        <label for="identification-license" class="radio-label">Photo Card</label>
-      </ion-col>
-      <ion-col class="ion-align-self-center">
-        <input type="radio" id="identification-passport" class="gds-radio-button" name="identification"
-          formControlName="identification" value="Passport"
-          [checked]="identification === 'Passport'" (change)="identificationChanged($event.target.value)">
-        <label for="identification-passport" class="radio-label">Passport</label>
-      </ion-col>
-    </ion-row>
-    <ion-row class="validation-message-row ion-align-items-center">
-      <div class="validation-text"></div>
-    </ion-row>
-  </ion-col>
+    <div class="validation-bar"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Identification</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col class="ion-align-self-center" size="48">
+                <input type="radio"
+                       id="identification-license"
+                       class="gds-radio-button"
+                       name="identification"
+                       formControlName="identification"
+                       value="Licence"
+                       [checked]="identification === 'Licence'"
+                       (change)="identificationChanged($event.target.value)">
+                <label for="identification-license" class="radio-label" id="identification-photo-card-label">
+                    Photo Card
+                </label>
+            </ion-col>
+            <ion-col class="ion-align-self-center">
+                <input type="radio"
+                       id="identification-passport"
+                       class="gds-radio-button"
+                       name="identification"
+                       formControlName="identification"
+                       value="Passport"
+                       [checked]="identification === 'Passport'"
+                       (change)="identificationChanged($event.target.value)">
+                <label for="identification-passport" class="radio-label" id="identification-passport-label">
+                    Passport
+                </label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"></div>
+        </ion-row>
+    </ion-col>
 </ion-row>

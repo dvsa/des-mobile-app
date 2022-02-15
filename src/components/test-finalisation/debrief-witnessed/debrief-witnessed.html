@@ -18,7 +18,7 @@
                [class.ng-invalid]="invalid"
                [value]=true
                (change)="debriefWitnessedChanged($event.target.id)">
-        <label for="debrief-witnessed-yes" class="radio-label">Yes</label>
+        <label for="debrief-witnessed-yes" class="radio-label" id="debrief-witnessed-yes-label">Yes</label>
       </ion-col>
       <ion-col>
         <input type="radio"
@@ -29,7 +29,7 @@
                [class.ng-invalid]="invalid"
                [value]=false
                (change)="debriefWitnessedChanged($event.target.id)">
-        <label for="debrief-witnessed-no" class="radio-label">No</label>
+        <label for="debrief-witnessed-no" class="radio-label" id="debrief-witnessed-no-label">No</label>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">

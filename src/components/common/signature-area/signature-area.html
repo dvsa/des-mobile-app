@@ -12,8 +12,9 @@
             <button (click)="clear()" class="retry-button" [disabled]="!signature">
                 <div id="signature-area-retry-icon" class="retry-icon" [ngStyle]="{'background-image':'url(' + retryImage + ')'}">
                 </div>
-                <label id="signature-area-retry-button-label"
-                    class="sign-here-text">{{retryButtonText? retryButtonText : "Retry"}}</label>
+                <label id="signature-area-retry-button-label" class="sign-here-text">
+                    {{retryButtonText? retryButtonText : "Retry"}}
+                </label>
             </button>
         </ion-col>
     </ion-row>

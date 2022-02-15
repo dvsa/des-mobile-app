@@ -10,13 +10,15 @@
                 <accompaniment [formGroup]="formGroup"
                                [accompaniment]="instructorAccompaniment"
                                accompanimentType="Instructor"
-                               (accompanimentChange)="instructorAccompanimentChanged()"></accompaniment>
+                               (accompanimentChange)="instructorAccompanimentChanged()">
+                </accompaniment>
             </ion-col>
             <ion-col size="48">
                 <accompaniment [formGroup]="formGroup"
                                [accompaniment]="supervisorAccompaniment"
                                accompanimentType="Supervisor"
-                               (accompanimentChange)="supervisorAccompanimentChanged()"></accompaniment>
+                               (accompanimentChange)="supervisorAccompanimentChanged()">
+                </accompaniment>
             </ion-col>
         </ion-row>
         <ion-row class="spacing-row"></ion-row>
@@ -25,13 +27,15 @@
                 <accompaniment [formGroup]="formGroup"
                                [accompaniment]="interpreterAccompaniment"
                                accompanimentType="Interpreter"
-                               (accompanimentChange)="interpreterAccompanimentChanged()"></accompaniment>
+                               (accompanimentChange)="interpreterAccompanimentChanged()">
+                </accompaniment>
             </ion-col>
             <ion-col size="48">
                 <accompaniment [formGroup]="formGroup"
                                [accompaniment]="otherAccompaniment"
                                accompanimentType="Other"
-                               (accompanimentChange)="otherAccompanimentChanged()"></accompaniment>
+                               (accompanimentChange)="otherAccompanimentChanged()">
+                </accompaniment>
             </ion-col>
         </ion-row>
     </ion-col>

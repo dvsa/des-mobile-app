@@ -1,30 +1,37 @@
 <ion-row>
-  <ion-col>
-    <ul class="ion-no-margin">
-      <li>
-        <p>{{ 'waitingRoom.insuranceDeclaration' | translate }}</p>
-      </li>
-    </ul>
-  </ion-col>
+    <ion-col>
+        <ul class="ion-no-margin">
+            <li>
+                <p id="waiting-room-insurance-declaration">{{ 'waitingRoom.insuranceDeclaration' | translate }}</p>
+            </li>
+        </ul>
+    </ion-col>
 </ion-row>
 <ion-row [formGroup]="formGroup">
-  <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
-  <ion-col>
-    <ion-row>
-      <ion-col class="declaration-checkbox-row">
-        <input formControlName="insuranceCheckbox" type="checkbox" class="gds-checkbox"
-          [class.ng-invalid]="isInvalid()" id="insurance-declaration-checkbox"
-          [checked]="selected" (click)="insuranceDeclarationChanged()">
-        <label for="insurance-declaration-checkbox">{{ 'waitingRoom.confirm' | translate }}</label>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="isInvalid()">
-      <ion-col>
-        <div id="waiting-room-insurance-validation-text" class="validation-text-with-row-spacing"
-          [class.ng-invalid]="isInvalid()">
-          {{ 'waitingRoom.insuranceDeclarationValidation' | translate }}
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-col>
+    <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
+    <ion-col>
+        <ion-row>
+            <ion-col class="declaration-checkbox-row">
+                <input formControlName="insuranceCheckbox"
+                       type="checkbox"
+                       class="gds-checkbox"
+                       [class.ng-invalid]="isInvalid()"
+                       id="insurance-declaration-checkbox"
+                       [checked]="selected"
+                       (click)="insuranceDeclarationChanged()">
+                <label for="insurance-declaration-checkbox" id="waiting-room-confirm-insurance-label">
+                    {{ 'waitingRoom.confirm' | translate }}
+                </label>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngIf="isInvalid()">
+            <ion-col>
+                <div id="waiting-room-insurance-validation-text"
+                     class="validation-text-with-row-spacing"
+                     [class.ng-invalid]="isInvalid()">
+                    {{ 'waitingRoom.insuranceDeclarationValidation' | translate }}
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-col>
 </ion-row>

@@ -1,7 +1,11 @@
 <div [formGroup]="formGroup">
-    <input [id]="formControlName" type="checkbox" class="gds-checkbox"
-            [formControlName]="formControlName"
-            (change)="accompanimentChanged()"
-            [value]="accompanimentType">
-    <label  [for]="formControlName">{{accompanimentType}}</label>
+    <input [id]="formControlName"
+           type="checkbox"
+           class="gds-checkbox"
+           [formControlName]="formControlName"
+           (change)="accompanimentChanged()"
+           [value]="accompanimentType">
+    <label [for]="formControlName" [id]="accompanimentType | formatToID: 'accompaniment'">
+        {{accompanimentType}}
+    </label>
 </div>

@@ -5,5 +5,7 @@
            [formControlName]="formControlName"
            (change)="vehicleDetailsChanged()"
            [value]="vehicleDetailsType">
-    <label [for]="formControlName">{{vehicleDetailsType}}</label>
+    <label [for]="formControlName" [id]="vehicleDetailsType | formatToID: 'vehicle-details'">
+        {{vehicleDetailsType}}
+    </label>
 </div>

@@ -16,9 +16,7 @@
                [value]=true
                [class.ng-invalid]="invalid"
                (change)="d255Changed($event.target.id)">
-        <label for="d255-yes"
-               class="radio-label">Yes
-        </label>
+        <label for="d255-yes" class="radio-label" id="d255-yes-label">Yes</label>
       </ion-col>
       <ion-col>
         <input type="radio"
@@ -29,9 +27,7 @@
                [value]=false
                [class.ng-invalid]="invalid"
                (change)="d255Changed($event.target.id)">
-        <label for="d255-no"
-               class="radio-label">No
-        </label>
+        <label for="d255-no" class="radio-label" id="d255-no-label">No</label>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
