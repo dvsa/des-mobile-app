@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Observable, Subscription, merge } from 'rxjs';
@@ -27,6 +27,9 @@ interface ToolbarComponentState {
   styleUrls: ['toolbar.scss'],
 })
 export class ToolbarComponent {
+
+  @Input()
+  showDrivingFaultCounter: boolean = true;
 
   componentState: ToolbarComponentState;
   subscription: Subscription;

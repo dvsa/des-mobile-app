@@ -16,6 +16,9 @@ import { getTestData as getTestDataCatH } from '@store/tests/test-data/cat-home/
 import { getTestData as getTestDataCatK } from '@store/tests/test-data/cat-home/test-data.cat-k.reducer';
 import { getTestData as getTestDataCatB } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
+  getTestData as getTestDataCatManoeuvre,
+} from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
+import {
   getTestData as getTestDataCatADI2,
 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 
@@ -41,6 +44,14 @@ export class TestDataByCategoryProvider {
       case TestCategory.G: return getTestDataCatG;
       case TestCategory.H: return getTestDataCatH;
       case TestCategory.K: return getTestDataCatK;
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+      case TestCategory.DEM:
+      case TestCategory.D1EM: return getTestDataCatManoeuvre;
       default: throw new Error(TestDataByCategoryProvider.getTestDataByCategoryCodeErrMsg);
     }
   }

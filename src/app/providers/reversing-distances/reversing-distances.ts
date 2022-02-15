@@ -18,14 +18,14 @@ export class ReversingDistancesProvider {
     if (!this.distanceValues) {
       this.distanceValues = new Map([
         [TestCategory.BE, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
-        [TestCategory.C, { lengthMultiplier: 3.5, widthMultiplier: 1.5, distanceMultiplier: 1.5 }],
-        [TestCategory.CE, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
-        [TestCategory.C1, { lengthMultiplier: 3.5, widthMultiplier: 1.5, distanceMultiplier: 1.5 }],
-        [TestCategory.C1E, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
-        [TestCategory.D, { lengthMultiplier: 3.5, widthMultiplier: 1.5, distanceMultiplier: 1.5 }],
-        [TestCategory.DE, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
-        [TestCategory.D1, { lengthMultiplier: 3.5, widthMultiplier: 1.5, distanceMultiplier: 1.5 }],
-        [TestCategory.D1E, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
+        [TestCategory.CM, { lengthMultiplier: 3.5, widthMultiplier: 1.5, distanceMultiplier: 1.5 }],
+        [TestCategory.CEM, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
+        [TestCategory.C1M, { lengthMultiplier: 3.5, widthMultiplier: 1.5, distanceMultiplier: 1.5 }],
+        [TestCategory.C1EM, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
+        [TestCategory.DM, { lengthMultiplier: 3.5, widthMultiplier: 1.5, distanceMultiplier: 1.5 }],
+        [TestCategory.DEM, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
+        [TestCategory.D1M, { lengthMultiplier: 3.5, widthMultiplier: 1.5, distanceMultiplier: 1.5 }],
+        [TestCategory.D1EM, { lengthMultiplier: 4, widthMultiplier: 1.5, distanceMultiplier: 2 }],
       ]);
     }
     return this.distanceValues;
@@ -39,10 +39,10 @@ export class ReversingDistancesProvider {
     const distanceFromMiddle = data.vehicleLength * this.distanceValues.get(category).distanceMultiplier;
 
     switch (category) {
-      case TestCategory.CE:
-      case TestCategory.C1E:
-      case TestCategory.DE:
-      case TestCategory.D1E:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
         return ({
           startDistance: data.vehicleLength > 16.5 ? 66 : Number(distanceFromStart.toFixed(2)),
           middleDistance: data.vehicleLength > 16.5

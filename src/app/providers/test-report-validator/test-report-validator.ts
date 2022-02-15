@@ -28,7 +28,7 @@ import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
-import { CatHomeTestData } from '@shared/unions/test-schema-unions';
+import { CatHomeTestData, CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { SpeedCheckState } from './test-report-validator.constants';
 import { FaultCountProvider } from '../fault-count/fault-count';
@@ -54,6 +54,16 @@ export class TestReportValidatorProvider {
       case TestCategory.C1E:
       case TestCategory.CE:
         return this.validateLegalRequirementsCTrailer(data, isDelegated);
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+        return this.validateLegalRequirementsCatManoeuvre(data);
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+        return this.validateLegalRequirementsCatManoeuvreTrailer(data);
       case TestCategory.D:
         return this.validateLegalRequirementsCatD(data, isDelegated);
       case TestCategory.D1:
@@ -95,6 +105,16 @@ export class TestReportValidatorProvider {
       case TestCategory.C1E:
       case TestCategory.CE:
         return this.getMissingLegalRequirementsCTrailer(data, isDelegated);
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+        return this.getMissingLegalRequirementsCatManoeuvre(data);
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+        return this.getMissingLegalRequirementsCatManoeuvreTrailer(data);
       case TestCategory.D:
         return this.getMissingLegalRequirementsCatD(data, isDelegated);
       case TestCategory.D1:
@@ -359,6 +379,36 @@ export class TestReportValidatorProvider {
     }
     if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
     return result;
+  }
+
+  private getMissingLegalRequirementsCatManoeuvre(data: CatManoeuvreTestData): legalRequirementsLabels[] {
+    const result: legalRequirementsLabels[] = [];
+
+    if (!get(data, 'manoeuvres.reverseManoeuvre.selected', false)) result.push(legalRequirementsLabels.manoeuvre);
+
+    return result;
+  }
+
+  private validateLegalRequirementsCatManoeuvre(data: CatManoeuvreTestData): boolean {
+    const manoeuvre: boolean = get(data, 'manoeuvres.reverseManoeuvre.selected', false);
+
+    return manoeuvre;
+  }
+
+  private getMissingLegalRequirementsCatManoeuvreTrailer(data: CatManoeuvreTestData): legalRequirementsLabels[] {
+    const result: legalRequirementsLabels[] = [];
+
+    if (!get(data, 'manoeuvres.reverseManoeuvre.selected', false)) result.push(legalRequirementsLabels.manoeuvre);
+    if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
+
+    return result;
+  }
+
+  private validateLegalRequirementsCatManoeuvreTrailer(data: CatManoeuvreTestData): boolean {
+    const manoeuvre: boolean = get(data, 'manoeuvres.reverseManoeuvre.selected', false);
+    const uncoupleRecouple = get(data, 'uncoupleRecouple.selected', false);
+
+    return manoeuvre && uncoupleRecouple;
   }
 
   private validateLegalRequirementsCatD(data: CatDUniqueTypes.TestData, isDelegated: boolean): boolean {

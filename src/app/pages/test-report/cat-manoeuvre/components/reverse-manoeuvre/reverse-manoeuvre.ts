@@ -1,32 +1,35 @@
-import { Observable, Subscription, merge } from 'rxjs';
-import { StoreModel } from '@shared/models/store.model';
-import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import {
-  AddManoeuvreDrivingFault,
-  AddManoeuvreSeriousFault,
-  AddManoeuvreDangerousFault,
-  RemoveManoeuvreFault,
-} from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { getManoeuvres } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import {
-  Component, Input, OnInit, OnDestroy,
+  Component, EventEmitter, Input, Output,
 } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { StoreModel } from '@shared/models/store.model';
+import { select, Store } from '@ngrx/store';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { getTestData } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
+import { getManoeuvres } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.selector';
+import { merge, Observable, Subscription } from 'rxjs';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
+import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../test-report.actions';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
-import { getTestReportState } from '../../test-report.reducer';
+import { map } from 'rxjs/operators';
+import {
+  AddManoeuvreDangerousFault,
+  AddManoeuvreSeriousFault,
+  RemoveManoeuvreFault,
+} from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import {
+  ToggleDangerousFaultMode,
+  ToggleRemoveFaultMode,
+  ToggleSeriousFaultMode,
+} from '@pages/test-report/test-report.actions';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
+import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 
-interface ManoeuvreCompetencyComponentState {
+interface ReverseManoeuvreCompetencyComponentState {
   isRemoveFaultMode$: Observable<boolean>;
   isSeriousMode$: Observable<boolean>;
   isDangerousMode$: Observable<boolean>;
@@ -35,31 +38,28 @@ interface ManoeuvreCompetencyComponentState {
 }
 
 @Component({
-  selector: 'manoeuvre-competency',
-  templateUrl: 'manoeuvre-competency.html',
-  styleUrls: ['manoeuvre-competency.scss'],
+  selector: 'reverse-manoeuvres',
+  templateUrl: 'reverse-manoeuvre.html',
+  styleUrls: ['./reverse-manoeuvre.scss'],
 })
-export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
-
+export class ReverseManoeuvreComponent {
   @Input()
   competency: ManoeuvreCompetencies;
 
   @Input()
   manoeuvre: ManoeuvreTypes;
 
-  touchStateDelay: number = 100;
+  @Output()
+  competencyClicked = new EventEmitter<void>();
 
+  touchStateDelay: number = 100;
   touchState: boolean = false;
   rippleState: boolean = false;
-
   rippleTimeout: any;
   touchTimeout: any;
-
   rippleEffectAnimationDuration: number = 300;
-
-  componentState: ManoeuvreCompetencyComponentState;
+  componentState: ReverseManoeuvreCompetencyComponentState;
   subscription: Subscription;
-
   isRemoveFaultMode: boolean = false;
   isSeriousMode: boolean = false;
   isDangerousMode: boolean = false;
@@ -95,7 +95,7 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
       manoeuvreCompetencyOutcome$: currentTest$.pipe(
         select(getTestData),
         select(getManoeuvres),
-        select((manoeuvres: CatBUniqueTypes.Manoeuvres) => {
+        select((manoeuvres: CatCMUniqueTypes.Manoeuvres) => {
           if (manoeuvres) {
             const manoeuvre = manoeuvres[this.manoeuvre];
             if (typeof manoeuvre !== 'undefined') {
@@ -128,7 +128,6 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     );
 
     this.subscription = merged$.subscribe();
-
   }
 
   ngOnDestroy(): void {
@@ -137,21 +136,25 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Not a very good practice to use a boolean variable like wasPress
-  // Because at this point it takes effort to understand what does it represents
   addOrRemoveFault = (wasPress: boolean = false): void => {
+    if (!this.isDangerousMode && !this.isSeriousMode) {
+      this.competencyClicked.emit();
+      return;
+    }
+
     if (wasPress) {
       this.applyRippleEffect();
     }
+
     if (this.isRemoveFaultMode) {
       this.removeFault();
     } else {
-      this.addFault(wasPress);
+      this.addFault();
     }
   };
 
-  addFault = (wasPress: boolean): void => {
-    if (this.hasDrivingFault() || this.hasSeriousFault() || this.hasDangerousFault()) {
+  addFault = (): void => {
+    if (this.hasSeriousFault() || this.hasDangerousFault()) {
       return;
     }
 
@@ -169,11 +172,6 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     if (this.isSeriousMode) {
       this.store$.dispatch(AddManoeuvreSeriousFault(payload));
       this.store$.dispatch(ToggleSeriousFaultMode());
-      return;
-    }
-
-    if (wasPress) {
-      this.store$.dispatch(AddManoeuvreDrivingFault(payload));
     }
   };
 
@@ -181,8 +179,13 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     // Toggle modes off appropriately if competency outcome doesn't exist, then exit
     if (this.manoeuvreCompetencyOutcome == null) {
       this.store$.dispatch(ToggleRemoveFaultMode());
-      if (this.isSeriousMode) this.store$.dispatch(ToggleSeriousFaultMode());
-      if (this.isDangerousMode) this.store$.dispatch(ToggleDangerousFaultMode());
+
+      if (this.isSeriousMode) {
+        this.store$.dispatch(ToggleSeriousFaultMode());
+      }
+      if (this.isDangerousMode) {
+        this.store$.dispatch(ToggleDangerousFaultMode());
+      }
       return;
     }
 
@@ -202,21 +205,8 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
       this.store$.dispatch(RemoveManoeuvreFault(payload));
       this.store$.dispatch(ToggleSeriousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
-      return;
-    }
-
-    if (
-      !this.isSeriousMode
-      && !this.isDangerousMode
-      && this.isRemoveFaultMode
-      && this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF
-    ) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload));
-      this.store$.dispatch(ToggleRemoveFaultMode());
     }
   };
-
-  hasDrivingFault = (): number => this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF ? 1 : 0;
 
   hasSeriousFault = (): boolean => this.manoeuvreCompetencyOutcome === CompetencyOutcome.S;
 
@@ -245,4 +235,5 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     // defer the removal of the touch state to allow the page to render
     this.touchTimeout = setTimeout(() => this.touchState = false, this.touchStateDelay);
   }
+
 }

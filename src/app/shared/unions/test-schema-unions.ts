@@ -17,6 +17,10 @@ import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { CatGUniqueTypes } from '@dvsa/mes-test-schema/categories/G';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
+import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
+import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
+import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
+import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
 
 // Vehicle Details
 export type VehicleDetailsUnion =
@@ -128,7 +132,8 @@ export type TestDataUnion =
   | CatBEUniqueTypes.TestData
   | CatCTestData
   | CatDTestData
-  | CatHomeTestData;
+  | CatHomeTestData
+  | CatManoeuvreTestData;
 
 export type TestRequirementsUnion =
   | CatCUniqueTypes.TestRequirements
@@ -154,3 +159,9 @@ export type CatHomeTestData =
   | CatGUniqueTypes.TestData
   | CatHUniqueTypes.TestData
   | CatKUniqueTypes.TestData;
+
+export type CatManoeuvreTestData =
+  | CatCMUniqueTypes.TestData
+  | CatC1MUniqueTypes.TestData
+  | CatCEMUniqueTypes.TestData
+  | CatC1EMUniqueTypes.TestData;

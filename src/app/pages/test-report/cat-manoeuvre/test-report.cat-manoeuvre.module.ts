@@ -11,6 +11,12 @@ import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { TestReportAnalyticsEffects } from '@pages/test-report/test-report.analytics.effects';
 import { TestReportEffects } from '@pages/test-report/test-report.effects';
 import { ComponentsModule } from '@components/common/common-components.module';
+import {
+  ReverseDiagramModalComponentsModule,
+} from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal.components.module';
+import {
+  TestReportCatManoeuvreComponentsModule,
+} from '@pages/test-report/cat-manoeuvre/components/test-report.cat-manoeuvre.components.module';
 import { TestReportCatManoeuvrePage } from './test-report.cat-manoeuvre.page';
 import { TestReportCatManoeuvrePageRoutingModule } from './test-report.cat-manoeuvre.routing-module';
 
@@ -27,6 +33,8 @@ import { TestReportCatManoeuvrePageRoutingModule } from './test-report.cat-manoe
     CommonModule,
     IonicModule,
     TestReportCatManoeuvrePageRoutingModule,
+    ReverseDiagramModalComponentsModule,
+    TestReportCatManoeuvreComponentsModule,
   ],
   providers: [
     TestReportValidatorProvider,
