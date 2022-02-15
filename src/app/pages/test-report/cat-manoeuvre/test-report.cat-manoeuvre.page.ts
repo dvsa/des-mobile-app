@@ -101,7 +101,7 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
       ),
       showUncoupleRecouple$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => !isAnyOf(category, [
+        map((category) => isAnyOf(category, [
           TestCategory.CEM, TestCategory.C1EM, TestCategory.DEM, TestCategory.D1EM,
         ])),
       ),
