@@ -1,10 +1,10 @@
 <ion-row class="mes-data-row-with-separator">
-    <ion-col size="40">
+    <ion-col size="39">
         <label>{{ label }}</label>
     </ion-col>
-    <ion-col size="56">
+    <ion-col size="57">
         <ion-grid>
-            <ion-row *ngFor="let item of data">
+            <ion-row *ngFor="let item of data;">
                 <ion-col size="7">
                     <div class="checked-badge-container">
                         <tick-indicator [ticked]='item.checked'></tick-indicator>

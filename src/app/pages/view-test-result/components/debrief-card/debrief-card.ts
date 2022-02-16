@@ -74,6 +74,8 @@ export class DebriefCardComponent implements OnInit {
     switch (this.category) {
       case TestCategory.B:
         return this.getTestRequirementsCatB();
+      case TestCategory.BE:
+        return this.getTestRequirementsCatBE();
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:
@@ -175,6 +177,35 @@ export class DebriefCardComponent implements OnInit {
       {
         label: TestRequirementsLabels.hillStart,
         checked: get(this.data, 'testRequirements.hillStart'),
+      },
+    ];
+  };
+
+  public getTestRequirementsCatBE = (): DataRowListItem[] => {
+    return [
+      {
+        label: TestRequirementsLabels.normalStart1,
+        checked: get(this.data, 'testRequirements.normalStart1', false),
+      },
+      {
+        label: TestRequirementsLabels.normalStart2,
+        checked: get(this.data, 'testRequirements.normalStart2', false),
+      },
+      {
+        label: TestRequirementsLabels.uphillStart,
+        checked: get(this.data, 'testRequirements.uphillStart', false),
+      },
+      {
+        label: TestRequirementsLabels.downhillStart,
+        checked: get(this.data, 'testRequirements.downhillStart', false),
+      },
+      {
+        label: TestRequirementsLabels.angledStartControlledStop,
+        checked: get(this.data, 'testRequirements.angledStartControlledStop', false),
+      },
+      {
+        label: TestRequirementsLabels.uncoupleRecouple,
+        checked: get(this.data, 'uncoupleRecouple.selected', false),
       },
     ];
   };
@@ -365,10 +396,18 @@ export class DebriefCardComponent implements OnInit {
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
   public getShowMeQuestions(): QuestionResult[] {
+    if (this.category === TestCategory.B) {
+      const question = get(this.data, 'vehicleChecks.showMeQuestion', null);
+      return question ? [question] : [];
+    }
     return get(this.data, 'vehicleChecks.showMeQuestions', []);
   }
 
   public getTellMeQuestions(): QuestionResult[] {
+    if (this.category === TestCategory.B) {
+      const question = get(this.data, 'vehicleChecks.tellMeQuestion', null);
+      return question ? [question] : [];
+    }
     return get(this.data, 'vehicleChecks.tellMeQuestions', []);
   }
 

@@ -127,6 +127,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       entitlementCheck: get(this.testResult, 'journalData.testSlotAttributes.entitlementCheck'),
       slotType: get(this.testResult, 'journalData.testSlotAttributes.slotType'),
       previousCancellations: get(this.testResult, 'journalData.testSlotAttributes.previousCancellation', []),
+      fullLicenceHeld: get(this.testResult, 'testData.vehicleChecks.fullLicenceHeld'),
     };
   }
 
@@ -199,13 +200,15 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   isCategoryB = (): boolean => isAnyOf(this.testCategory, [TestCategory.B]);
 
   showDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [
-    TestCategory.B,
+    TestCategory.B, // Cat B
+    TestCategory.BE, // Cat BE
     TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C
     TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
   ]);
 
   showVehicleDetailsCommonCard: () => boolean = () => isAnyOf(this.testCategory, [
+    TestCategory.B, // Cat B
     TestCategory.BE, // Cat BE
     TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C
     TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D
