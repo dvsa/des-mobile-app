@@ -93,6 +93,7 @@ import {
 import {
   InitializeVehicleChecks as InitializeVehicleChecksCatD,
 } from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
+import {ProvisionalLicenseNotReceived} from '@store/tests/pass-completion/pass-completion.actions';
 
 @Injectable()
 export class TestsEffects {
@@ -254,6 +255,18 @@ export class TestsEffects {
         || startTestAction.category === TestCategory.D1E
         || startTestAction.category === TestCategory.DE) {
         arrayOfActions.push(InitializeVehicleChecksCatD(startTestAction.category));
+      }
+      if (
+        startTestAction.category === TestCategory.CM
+          || startTestAction.category === TestCategory.C1M
+          || startTestAction.category === TestCategory.C1EM
+          || startTestAction.category === TestCategory.CEM
+          || startTestAction.category === TestCategory.DM
+          || startTestAction.category === TestCategory.D1M
+          || startTestAction.category === TestCategory.D1EM
+          || startTestAction.category === TestCategory.DEM
+      ) {
+        arrayOfActions.push(ProvisionalLicenseNotReceived());
       }
       if (
         startTestAction.category === TestCategory.C
