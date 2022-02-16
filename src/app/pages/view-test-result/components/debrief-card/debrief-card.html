@@ -25,7 +25,7 @@
             <data-row
                     *ngIf="isCatB()"
                     [label]="'Manoeuvre(s)'"
-                    [value]="getFlattenArray(data.manoeuvres)">
+                    [value]="getFlattenArray(getManoeuvres())">
             </data-row>
 
             <data-row-with-list

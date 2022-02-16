@@ -1,5 +1,5 @@
 import { pickBy, get } from 'lodash';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
@@ -8,6 +8,13 @@ import { sumManoeuvreFaults } from '@shared/helpers/faults';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+
+type CatDVehicleCheckUnion =
+    CatDUniqueTypes.VehicleChecks |
+    CatD1UniqueTypes.VehicleChecks |
+    CatDEUniqueTypes.VehicleChecks |
+    CatD1EUniqueTypes.VehicleChecks;
 
 export class FaultCountDHelper {
 
@@ -83,6 +90,32 @@ export class FaultCountDHelper {
     return FaultCountDHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
   };
 
+  public static getSafetyQuestionsFaultCount = (
+    safetyQuestions: CatDUniqueTypes.SafetyQuestions,
+  ): SafetyQuestionsScore => {
+
+    if (!safetyQuestions) {
+      return { drivingFaults: 0 };
+    }
+
+    const getFaults = (safetyQuestion: SafetyQuestionResult): boolean => {
+      return safetyQuestion.outcome === CompetencyOutcome.DF;
+    };
+
+    const fault = safetyQuestions.questions.some(getFaults) ? { drivingFaults: 1 } : { drivingFaults: 0 };
+
+    return fault;
+  };
+
+  static getVehicleChecksFaultCount = (
+    vehicleChecks: CatDVehicleCheckUnion,
+  ): VehicleChecksScore => {
+    if (get(vehicleChecks, 'fullLicenceHeld')) {
+      return FaultCountDHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
+    }
+    return FaultCountDHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks);
+  };
+
   private static getVehicleChecksFaultCountNonTrailer = (
     vehicleChecks: CatDUniqueTypes.VehicleChecks | CatD1EUniqueTypes.VehicleChecks,
   ): VehicleChecksScore => {
@@ -123,8 +156,8 @@ export class FaultCountDHelper {
       return { seriousFaults: 0, drivingFaults: 0 };
     }
 
-    const showMeQuestions: QuestionResult[] = get(vehicleChecks, 'showMeQuestions', []);
-    const tellMeQuestions: QuestionResult[] = get(vehicleChecks, 'tellMeQuestions', []);
+    const showMeQuestions: QuestionResult[] = [get(vehicleChecks, 'showMeQuestions[0]', [])];
+    const tellMeQuestions: QuestionResult[] = [get(vehicleChecks, 'tellMeQuestions[0]', [])];
 
     const numberOfShowMeFaults: number = showMeQuestions.filter((showMeQuestion) => {
       return showMeQuestion.outcome === CompetencyOutcome.DF;
@@ -154,7 +187,7 @@ export class FaultCountDHelper {
     // The way how we store the driving faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
     const {
-      drivingFaults, manoeuvres, vehicleChecks, pcvDoorExercise,
+      drivingFaults, manoeuvres, vehicleChecks, pcvDoorExercise, safetyQuestions,
     } = data;
 
     let faultTotal: number = 0;
@@ -164,7 +197,8 @@ export class FaultCountDHelper {
     const result = faultTotal
       + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF)
       + FaultCountDHelper.getVehicleChecksFaultCountNonTrailer(vehicleChecks).drivingFaults
-      + pcvDoorExerciseFaultCount;
+      + pcvDoorExerciseFaultCount
+      + FaultCountDHelper.getSafetyQuestionsFaultCount(safetyQuestions).drivingFaults;
 
     return result;
   };
@@ -176,7 +210,7 @@ export class FaultCountDHelper {
     // The way how we store the driving faults differs for certain competencies
     // Because of this we need to pay extra attention on summing up all of them
     const {
-      drivingFaults, manoeuvres, vehicleChecks, uncoupleRecouple, pcvDoorExercise,
+      drivingFaults, manoeuvres, vehicleChecks, uncoupleRecouple, pcvDoorExercise, safetyQuestions,
     } = data;
 
     let faultTotal: number = 0;
@@ -187,9 +221,10 @@ export class FaultCountDHelper {
 
     const result = faultTotal
       + sumManoeuvreFaults(manoeuvres, CompetencyOutcome.DF)
-      + FaultCountDHelper.getVehicleChecksFaultCountTrailer(vehicleChecks).drivingFaults
+      + FaultCountDHelper.getVehicleChecksFaultCount(vehicleChecks).drivingFaults
       + uncoupleRecoupleHasDrivingFault
-      + pcvDoorExerciseFaultCount;
+      + pcvDoorExerciseFaultCount
+      + FaultCountDHelper.getSafetyQuestionsFaultCount(safetyQuestions).drivingFaults;
 
     return result;
   };
@@ -229,7 +264,7 @@ export class FaultCountDHelper {
 
     const seriousFaultSumOfSimpleCompetencies = Object.keys(pickBy(seriousFaults)).length;
     const vehicleCheckSeriousFaults = vehicleChecks
-      ? FaultCountDHelper.getVehicleChecksFaultCountTrailer(vehicleChecks).seriousFaults : 0;
+      ? FaultCountDHelper.getVehicleChecksFaultCount(vehicleChecks).seriousFaults : 0;
     const uncoupleRecoupleSeriousFaults = (uncoupleRecouple
       && uncoupleRecouple.fault === CompetencyOutcome.S) ? 1 : 0;
     const pcvDoorExerciseFaultCount: number = get(pcvDoorExercise, 'seriousFault') ? 1 : 0;

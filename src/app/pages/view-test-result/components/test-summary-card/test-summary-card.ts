@@ -79,7 +79,8 @@ export class TestSummaryCardComponent {
   }
 
   public getWeatherConditions() : string {
-    return flattenArray(get(this.testSummary, 'weatherConditions', ['None']));
+    const weatherConditions: string[] = get(this.testSummary, 'weatherConditions', []);
+    return flattenArray((weatherConditions?.length > 0) ? weatherConditions : ['None']);
   }
 
   public getD255() : string {
