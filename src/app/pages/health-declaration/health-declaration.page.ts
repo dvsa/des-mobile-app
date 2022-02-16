@@ -75,6 +75,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   subscription: Subscription;
   merged$: Observable<boolean | string>;
   formControl: FormControl;
+  showHealthDec: boolean = true;
   static readonly fieldName: string = 'healthCheckbox';
 
   constructor(
@@ -165,11 +166,14 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       ),
     };
 
-    const { licenseProvided$, healthDeclarationAccepted$, conductedLanguage$ } = this.pageState;
+    const {
+      licenseProvided$, healthDeclarationAccepted$, conductedLanguage$, showHealthDec$,
+    } = this.pageState;
 
     this.merged$ = merge(
       licenseProvided$.pipe(map((val) => this.licenseProvided = val)),
       healthDeclarationAccepted$.pipe(map((val) => this.healthDeclarationAccepted = val)),
+      showHealthDec$.pipe(map((val) => this.showHealthDec = val)),
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
     );
   }
@@ -202,7 +206,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 
     if (this.formGroup.valid) {
-      if (!this.healthDeclarationAccepted) {
+      if (!this.healthDeclarationAccepted && this.showHealthDec) {
         await this.showConfirmHealthDeclarationModal();
       } else {
         await this.persistAndNavigate(false);
