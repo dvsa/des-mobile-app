@@ -20,6 +20,7 @@ import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
 // import { HomeTestData } from '@pages/office/cat-home-test/office.cat-home-test.page';
 // import { getSpeedRequirementNotMet } from '../../modules/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { FaultCountProvider } from '../fault-count/fault-count';
 
 @Injectable()
@@ -35,14 +36,28 @@ export class TestResultProvider {
         return this.calculateCatBTestResult(testData as CatBUniqueTypes.TestData);
       case TestCategory.BE:
         return this.calculateCatBETestResult(testData as CatBEUniqueTypes.TestData);
+      case TestCategory.CCPC:
+      case TestCategory.DCPC:
+        return this.calculateCatCPCTestResult(testData as TestData);
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:
       case TestCategory.C1E:
         return this.calculateCatCAndSubCategoryTestResult(category, testData);
-      case TestCategory.CCPC:
-      case TestCategory.DCPC:
-        return this.calculateCatCPCTestResult(testData as TestData);
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+        return this.calculateCatManoeuvreTestResult(category, testData);
+      case TestCategory.D:
+      case TestCategory.D1:
+      case TestCategory.DE:
+      case TestCategory.D1E:
+        return this.calculateCatDandSubCategoryTestResult(category, testData);
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
@@ -53,11 +68,6 @@ export class TestResultProvider {
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
         return this.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.EUAM2, testData as TestDataAM2);
-      case TestCategory.D:
-      case TestCategory.D1:
-      case TestCategory.DE:
-      case TestCategory.D1E:
-        return this.calculateCatDandSubCategoryTestResult(category, testData);
       /*
       case TestCategory.F:
       case TestCategory.G:
@@ -235,6 +245,21 @@ export class TestResultProvider {
     if (scores.indexOf(20) === -1) {
       return of(ActivityCodes.FAIL);
     }
+    return of(ActivityCodes.PASS);
+  };
+
+  private calculateCatManoeuvreTestResult = (
+    category: TestCategory,
+    testData: CatManoeuvreTestData,
+  ): Observable<ActivityCode> => {
+    if (this.faultCountProvider.getDangerousFaultSumCount(category, testData) > 0) {
+      return of(ActivityCodes.FAIL);
+    }
+
+    if (this.faultCountProvider.getSeriousFaultSumCount(category, testData) > 0) {
+      return of(ActivityCodes.FAIL);
+    }
+
     return of(ActivityCodes.PASS);
   };
 }

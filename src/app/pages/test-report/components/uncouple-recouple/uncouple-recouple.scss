@@ -1,4 +1,4 @@
-:host {
+:host ::ng-deep {
   competency-button {
     position: relative;
   }
@@ -7,6 +7,24 @@
 
     .competency-button {
       padding: 1px 7px 2px;
+
+      .tickwrapper {
+        margin: auto;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    &.checked .competency-button {
+      border: 2px solid var(--gds-dark-green);
+    }
+  }
+
+  competency-button.uncouple-recouple-tick-centred {
+
+    .competency-button {
+      padding: 5px;
+      width: 50px;
 
       .tickwrapper {
         margin: auto;
@@ -44,5 +62,31 @@
         }
       }
     }
+  }
+
+  competency-button.uncouple-recouple-competency-floating {
+    display: flex;       // this styling is necessary to ensure z-index
+    flex-flow: column;   // works on competency buttons
+
+    .competency-button {
+      padding-left: 5px;
+      padding-right: 5px;
+      width: 300px;
+
+      .fault-wrapper {
+        display: flex;
+        width: 30px;
+        justify-content: flex-end;
+        align-items: center;
+
+        dangerous-fault-badge {
+          margin-left: -22px;
+        }
+      }
+    }
+  }
+
+  .label-style {
+    color: black;
   }
 }

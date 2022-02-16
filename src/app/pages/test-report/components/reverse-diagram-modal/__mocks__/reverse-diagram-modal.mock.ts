@@ -26,7 +26,7 @@ export class ReverseDiagramModalMock implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cappedStartDistance = [TestCategory.C1E, TestCategory.CE, TestCategory.DE, TestCategory.D1E];
+    this.cappedStartDistance = [TestCategory.C1EM, TestCategory.CEM, TestCategory.DEM, TestCategory.D1EM];
     this.vehicleDetails = new Map([
       [TestCategory.BE, {
         vLength: 10,
@@ -36,7 +36,7 @@ export class ReverseDiagramModalMock implements OnInit {
         expWidthDist: 4.13,
         expMidDistMultiplier: '2',
       }],
-      [TestCategory.C, {
+      [TestCategory.CM, {
         vLength: 10,
         vWidth: 2.75,
         expStartDist: 35,
@@ -44,7 +44,7 @@ export class ReverseDiagramModalMock implements OnInit {
         expWidthDist: 4.13,
         expMidDistMultiplier: '1 1/2',
       }],
-      [TestCategory.CE, {
+      [TestCategory.CEM, {
         vLength: 10,
         vWidth: 2.75,
         expStartDist: 40,
@@ -52,7 +52,7 @@ export class ReverseDiagramModalMock implements OnInit {
         expWidthDist: 4.13,
         expMidDistMultiplier: '2',
       }],
-      [TestCategory.C1, {
+      [TestCategory.C1M, {
         vLength: 10,
         vWidth: 2.75,
         expStartDist: 35,
@@ -60,7 +60,7 @@ export class ReverseDiagramModalMock implements OnInit {
         expWidthDist: 4.13,
         expMidDistMultiplier: '1 1/2',
       }],
-      [TestCategory.C1E, {
+      [TestCategory.C1EM, {
         vLength: 10,
         vWidth: 2.75,
         expStartDist: 40,
@@ -68,7 +68,7 @@ export class ReverseDiagramModalMock implements OnInit {
         expWidthDist: 4.13,
         expMidDistMultiplier: '2',
       }],
-      [TestCategory.D, {
+      [TestCategory.DM, {
         vLength: 10,
         vWidth: 2.75,
         expStartDist: 35,
@@ -76,7 +76,7 @@ export class ReverseDiagramModalMock implements OnInit {
         expWidthDist: 4.13,
         expMidDistMultiplier: '1 1/2',
       }],
-      [TestCategory.DE, {
+      [TestCategory.DEM, {
         vLength: 10,
         vWidth: 2.75,
         expStartDist: 40,
@@ -84,7 +84,7 @@ export class ReverseDiagramModalMock implements OnInit {
         expWidthDist: 4.13,
         expMidDistMultiplier: '2',
       }],
-      [TestCategory.D1, {
+      [TestCategory.D1M, {
         vLength: 10,
         vWidth: 2.75,
         expStartDist: 35,
@@ -92,7 +92,7 @@ export class ReverseDiagramModalMock implements OnInit {
         expWidthDist: 4.13,
         expMidDistMultiplier: '1 1/2',
       }],
-      [TestCategory.D1E, {
+      [TestCategory.D1EM, {
         vLength: 10,
         vWidth: 2.75,
         expStartDist: 40,

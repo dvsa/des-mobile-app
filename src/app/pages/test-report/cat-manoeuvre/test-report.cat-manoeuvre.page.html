@@ -1,10 +1,100 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>test-report.cat-manoeuvre</ion-title>
+    <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
+    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
+        <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button id="test-report-back-button"></ion-back-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-button (click)="navigateBack()">Back</ion-button>
-    <ion-button (click)="navigateForward()">To Debrief</ion-button>
+<ion-content class="ion-no-padding" force-overscroll="false">
+    <toolbar [showDrivingFaultCounter]="false"></toolbar>
+    <ion-grid class="grid-layout" [ngClass]="{
+      'remove-mode': isRemoveFaultMode,
+      'add-mode': !isRemoveFaultMode,
+      'fault-mode': !isSeriousMode && !isDangerousMode,
+      'serious-mode': isSeriousMode,
+      'dangerous-mode': isDangerousMode
+    }">
+        <ion-row class="first-row-adjust">
+            <!-- Column 1-->
+            <ion-col size="42">
+                <ion-row>
+                    <ion-col>
+                        <span class="section-header">Reverse manoeuvre</span>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-row>
+                        <ion-col class="ion-no-padding padding-bottom">
+                            <competency-button class="uncouple-recouple-toggle"
+                                               [onTap]="toggleReverseManoeuvre"
+                                               [onPress]="toggleReverseManoeuvre"
+                                               [ripple]="false"
+                                               [ngClass]="{
+                                                'checked': pageState.selectedReverseManoeuvre$ | async
+                                              }">
+                                      <span class="tickwrapper">
+                                        <tick-indicator
+                                                [ticked]="pageState.selectedReverseManoeuvre$ | async"></tick-indicator>
+                                      </span>
+                            </competency-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="reverse-manoeuvre-competencies-container-column">
+                        <reverse-manoeuvres
+                                [attr.id]="getId(manoeuvreTypes.reverseManoeuvre, manoeuvreCompetencies.observationFault)"
+                                [manoeuvre]="manoeuvreTypes.reverseManoeuvre"
+                                [competency]="manoeuvreCompetencies.controlFault"
+                                (competencyClicked)="competencyClick()">
+                        </reverse-manoeuvres>
+                        <reverse-manoeuvres
+                                [attr.id]="getId(manoeuvreTypes.reverseManoeuvre, manoeuvreCompetencies.observationFault)"
+                                [manoeuvre]="manoeuvreTypes.reverseManoeuvre"
+                                [competency]="manoeuvreCompetencies.observationFault"
+                                (competencyClicked)="competencyClick()">
+                        </reverse-manoeuvres>
+                    </ion-col>
+                </ion-row>
+                <div *ngIf="pageState.showUncoupleRecouple$ | async">
+                    <ion-row>
+                        <ion-col class="padding-top-18 only-top-padding">
+                            <div class="dark-divider"></div>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="ion-no-padding">
+                            <span class="section-header">Vehicle with trailer</span>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="ion-no-padding">
+                            <uncouple-recouple
+                                    [category]="pageState.category$ | async"
+                                    [buttonFloatAbove]="true"
+                                    [disableDrivingFaults]="true"
+                                    (competencyClicked)="competencyClick()">
+                            </uncouple-recouple>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-col>
+            <!-- Column 2-->
+            <ion-col size="22"></ion-col>
+            <!-- Column 3-->
+            <ion-col size="32">
+                <reverse-diagram-link></reverse-diagram-link>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode"
+         [class.show-overlay]="displayOverlay"></div>
+    <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode"
+         [class.show-overlay]="isRemoveFaultMode"></div>
 </ion-content>

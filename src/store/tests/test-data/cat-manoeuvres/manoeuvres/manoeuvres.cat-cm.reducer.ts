@@ -20,7 +20,7 @@ export const manoeuvresCatManoeuvreReducer = createReducer(
     (state, { manoeuvre }) => ({
       [manoeuvre]: {
         ...state[manoeuvre],
-        selected: true,
+        selected: !state[manoeuvre].selected,
       },
     }),
   ),
@@ -41,6 +41,7 @@ export const manoeuvresCatManoeuvreReducer = createReducer(
       [manoeuvrePayload.manoeuvre]: {
         ...state[manoeuvrePayload.manoeuvre],
         [manoeuvrePayload.competency]: CompetencyOutcome.S,
+        selected: true,
       },
     }),
   ),
@@ -51,6 +52,7 @@ export const manoeuvresCatManoeuvreReducer = createReducer(
       [manoeuvrePayload.manoeuvre]: {
         ...state[manoeuvrePayload.manoeuvre],
         [manoeuvrePayload.competency]: CompetencyOutcome.D,
+        selected: true,
       },
     }),
   ),

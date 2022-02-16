@@ -1,5 +1,5 @@
 import {
-  Component, OnDestroy, OnInit, Input,
+  Component, OnDestroy, OnInit, Input, Output, EventEmitter,
 } from '@angular/core';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { Observable, Subscription, merge } from 'rxjs';
@@ -35,7 +35,6 @@ interface UncoupleRecoupleComponentState {
   templateUrl: 'uncouple-recouple.html',
   styleUrls: ['uncouple-recouple.scss'],
 })
-
 export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
 
   @Input()
@@ -43,6 +42,12 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
 
   @Input()
   disableDrivingFaults?: boolean = false;
+
+  @Input()
+  buttonFloatAbove: boolean = false;
+
+  @Output()
+  competencyClicked = new EventEmitter<void>();
 
   componentState: UncoupleRecoupleComponentState;
   subscription: Subscription;
@@ -148,6 +153,12 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
   };
 
   addOrRemoveFault = (wasPress: boolean = false): void => {
+    // buttonFloatAbove used for manoeuvre categories to alter display and stop DF being added;
+    if (this.buttonFloatAbove && !this.isDangerousMode && !this.isSeriousMode) {
+      this.competencyClicked.emit();
+      return;
+    }
+
     if (this.isRemoveFaultMode) {
       this.removeFault();
     } else {

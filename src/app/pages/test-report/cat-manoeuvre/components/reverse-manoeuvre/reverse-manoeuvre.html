@@ -1,0 +1,27 @@
+<div id="reverse-manoeuvre-competency-button-{{label}}" class="reverse-manoeuvre-competency-button"
+     (tap)="addOrRemoveFault(isDelegated)"
+     (press)="addOrRemoveFault(true)"
+     (touchstart)="onTouchStart()"
+     (touchend)="onTouchEnd()"
+     [ngClass]="{
+        'activated': touchState,
+        'ripple-effect': rippleState,
+        'serious-fault': hasSeriousFault(),
+        'dangerous-fault': hasDangerousFault()
+    }">
+    <span id="reverse-manoeuvre-competency-label-{{label}}" class="competency-label">
+        {{label}}
+    </span>
+
+    <div class="fault-wrapper">
+        <serious-fault-badge
+                id="reverse-manoeuvre-competency-serious-fault-{{label}}"
+                [showBadge]="hasSeriousFault()">
+        </serious-fault-badge>
+
+        <dangerous-fault-badge
+                id="reverse-manoeuvre-competency-dangerous-fault-{{label}}"
+                [showBadge]="hasDangerousFault()">
+        </dangerous-fault-badge>
+    </div>
+</div>

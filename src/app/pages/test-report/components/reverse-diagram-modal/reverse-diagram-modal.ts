@@ -93,15 +93,15 @@ export class ReverseDiagramPage implements OnInit {
   getReversingDiagramLabel = (): string => {
     switch (this.category) {
       case TestCategory.BE:
-      case TestCategory.CE:
-      case TestCategory.C1E:
-      case TestCategory.DE:
-      case TestCategory.D1E:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
         return 'articulated';
-      case TestCategory.C:
-      case TestCategory.C1:
-      case TestCategory.D:
-      case TestCategory.D1:
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.DM:
+      case TestCategory.D1M:
         return 'rigid';
       default:
         return 'rigid';
@@ -132,10 +132,10 @@ export class ReverseDiagramPage implements OnInit {
 
   calculateAtoBMultiplierText() {
     switch (this.category) {
-      case TestCategory.C:
-      case TestCategory.C1:
-      case TestCategory.D:
-      case TestCategory.D1:
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.DM:
+      case TestCategory.D1M:
         return this.multiplierText = '1 1/2';
       default:
         return this.multiplierText = '2';

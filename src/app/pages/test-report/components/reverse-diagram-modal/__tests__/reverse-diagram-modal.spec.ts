@@ -38,7 +38,7 @@ describe('reverseDiagramModal', () => {
             testStatus: {},
             startedTests: {
               123: {
-                category: TestCategory.D, // Value will be overridden where necessary
+                category: TestCategory.DM, // Value will be overridden where necessary
                 vehicleDetails: {
                   vehicleLength: 10,
                   vehicleWidth: 2.75,
@@ -52,19 +52,6 @@ describe('reverseDiagramModal', () => {
                   testRequirements: {},
                   ETA: {},
                   eco: {},
-                  vehicleChecks: {
-                    showMeQuestions: [{
-                      code: 'S3',
-                      description: '',
-                      outcome: '',
-                    }],
-                    tellMeQuestions: [{
-                      code: '',
-                      description: '',
-                      outcome: '',
-                    }],
-                  },
-                  eyesightTest: {},
                 },
                 activityCode: '28',
                 journalData: {
@@ -195,8 +182,8 @@ describe('reverseDiagramModal', () => {
     });
 
     describe('getReversingDiagramLabel', () => {
-      it('should return `articulated` when the category is one of BE, CE, C1E, DE, D1E', () => {
-        const categories = [TestCategory.BE, TestCategory.CE, TestCategory.C1E, TestCategory.DE, TestCategory.D1E];
+      it('should return `articulated` when the category is one of BE, CEM, C1EM, DEM, D1EM', () => {
+        const categories = [TestCategory.BE, TestCategory.CEM, TestCategory.C1EM, TestCategory.DEM, TestCategory.D1EM];
         categories.forEach((category: TestCategory) => {
           component.category = category;
           expect(component.getReversingDiagramLabel()).toEqual('articulated');
@@ -204,7 +191,7 @@ describe('reverseDiagramModal', () => {
       });
 
       it('should return `rigid` when the category is one of C, C1, D, D1', () => {
-        const categories = [TestCategory.C, TestCategory.C1, TestCategory.D, TestCategory.D1];
+        const categories = [TestCategory.CM, TestCategory.C1M, TestCategory.DM, TestCategory.D1M];
         categories.forEach((category: TestCategory) => {
           component.category = category;
           expect(component.getReversingDiagramLabel()).toEqual('rigid');
