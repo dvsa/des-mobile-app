@@ -44,6 +44,7 @@ import { selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { IndependentDrivingTypeChanged, RouteNumberChanged } from '@store/tests/test-summary/test-summary.actions';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { createPopulateVehicleDimensionsAction } from '@store/tests/vehicle-details/vehicle-details.action.creator';
+import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import * as testActions from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
@@ -93,7 +94,6 @@ import {
 import {
   InitializeVehicleChecks as InitializeVehicleChecksCatD,
 } from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
-import {ProvisionalLicenseNotReceived} from '@store/tests/pass-completion/pass-completion.actions';
 
 @Injectable()
 export class TestsEffects {

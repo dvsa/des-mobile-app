@@ -11,6 +11,7 @@ import {
   CatCTestData,
   CatDTestData,
   CatHomeTestData,
+  CatManoeuvreTestData,
   TestDataUnion,
 } from '@shared/unions/test-schema-unions';
 import { TestResultProvider } from '../test-result/test-result';
@@ -84,6 +85,16 @@ export class ActivityCodeFinalisationProvider {
     return isPass;
   }
 
+  async catManoeuvresTestDataIsInvalid(activityCode: ActivityCode, testData: CatManoeuvreTestData): Promise<boolean> {
+    if (!this.activityCodeIs4or5(activityCode)) return false;
+
+    const isPass = await (
+      this.testResultProvider.calculateTestResult(TestCategory.CM, testData).toPromise()
+    ) === ActivityCodes.PASS;
+
+    return isPass;
+  }
+
   async catDTestDataIsInvalid(activityCode: ActivityCode, testData: CatDTestData): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
@@ -120,6 +131,19 @@ export class ActivityCodeFinalisationProvider {
       case TestCategory.C1E:
       case TestCategory.CE:
       case TestCategory.C: return this.catCTestDataIsInvalid(activityCode, testData as CatCTestData);
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.CM:
+      case TestCategory.D1M:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+      case TestCategory.DM:
+        return this.catManoeuvresTestDataIsInvalid(activityCode, testData as CatManoeuvreTestData);
+      case TestCategory.D1:
+      case TestCategory.D1E:
+      case TestCategory.DE:
+      case TestCategory.D: return this.catDTestDataIsInvalid(activityCode, testData as CatDTestData);
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
@@ -128,10 +152,6 @@ export class ActivityCodeFinalisationProvider {
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2: return this.catAMod2TestDataIsInvalid(activityCode, testData as CatAMod2TestData);
-      case TestCategory.D1:
-      case TestCategory.D1E:
-      case TestCategory.DE:
-      case TestCategory.D: return this.catDTestDataIsInvalid(activityCode, testData as CatDTestData);
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
