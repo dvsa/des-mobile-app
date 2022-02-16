@@ -1,9 +1,9 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button slot="center" class="nav-close" (click)="closeModal()" id="closeReverseDiagramModal">
-        <ion-icon name="close-outline" class="close-class"></ion-icon>
-        <span class="close-class">Close</span>
+  <ion-toolbar mode="ios" class="toolbar-spacing">
+    <ion-buttons slot="start" class="toolbar-item-spacing">
+      <ion-button id="closeReverseDiagramModal" (click)="closeModal()">
+        <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
+        <ion-label class="close-btn" id="close-label">Close</ion-label>
       </ion-button>
     </ion-buttons>
     <ion-title>
