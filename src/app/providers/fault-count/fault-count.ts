@@ -179,10 +179,10 @@ export class FaultCountProvider {
       case TestCategory.C1: return FaultCountCHelper.getVehicleChecksFaultCountCatC1(data);
       case TestCategory.C1E:
       case TestCategory.CE: return FaultCountCHelper.getVehicleChecksFaultCount(data);
-      case TestCategory.D1: return FaultCountDHelper.getVehicleChecksFaultCountCatD1(data);
-      case TestCategory.D1E: return FaultCountDHelper.getVehicleChecksFaultCountCatD1E(data);
-      case TestCategory.DE: return FaultCountDHelper.getVehicleChecksFaultCountCatDE(data);
       case TestCategory.D: return FaultCountDHelper.getVehicleChecksFaultCountCatD(data);
+      case TestCategory.D1: return FaultCountDHelper.getVehicleChecksFaultCountCatD1(data);
+      case TestCategory.D1E:
+      case TestCategory.DE: return FaultCountDHelper.getVehicleChecksFaultCount(data);
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
@@ -198,6 +198,18 @@ export class FaultCountProvider {
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2: return FaultCountAM2Helper.getSafetyAndBalanceFaultCountCatAM2(data);
       default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+    }
+  };
+
+  public getSafetyQuestionsFaultCount = (category: TestCategory, data: object): SafetyQuestionsScore => {
+    switch (category) {
+      case TestCategory.D1:
+      case TestCategory.D1E:
+      case TestCategory.DE:
+      case TestCategory.D:
+        return FaultCountDHelper.getSafetyQuestionsFaultCount(data);
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 
