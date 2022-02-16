@@ -1,10 +1,10 @@
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { LocalEnvironmentFile } from './models/environment.model';
 
 export const environment: LocalEnvironmentFile = {
   // this is required by main.ts so that Ionic knows when to enable production mode
   production: false,
-
   isRemote: false,
   configUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/configuration/dev',
   daysToCacheLogs: 7,
@@ -37,7 +37,28 @@ export const environment: LocalEnvironmentFile = {
     numberOfDaysToView: 7,
     daysToCacheJournalData: 14,
     allowTests: true,
-    allowedTestCategories: ['B'],
+    allowedTestCategories: [
+      // Cat ADI2
+      TestCategory.ADI2,
+      // Cat B
+      TestCategory.B,
+      // Cat BE
+      TestCategory.BE,
+      // Cat C
+      TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
+      TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
+      // Cat D
+      TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E,
+      TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
+      // Cat CPC
+      TestCategory.CCPC, TestCategory.DCPC,
+      // Cat Home
+      TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
+      // Cat Mod1
+      TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,
+      // Cat Mod2
+      TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2,
+    ],
     enableTestReportPracticeMode: true,
     enableEndToEndPracticeMode: true,
     enableLogoutButton: true,
