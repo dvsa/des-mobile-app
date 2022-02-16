@@ -45,6 +45,8 @@ import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import * as postTestDeclarationsActions from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 interface HealthDeclarationPageState {
   healthDeclarationAccepted$: Observable<boolean>;
@@ -57,6 +59,7 @@ interface HealthDeclarationPageState {
   licenseProvided$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
   testCategory$: Observable<CategoryCode>;
+  showHealthDec$: Observable<boolean>;
 }
 @Component({
   selector: 'app-health-declaration',
@@ -152,6 +155,13 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       ),
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
+      ),
+      showHealthDec$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => !isAnyOf(category, [
+          TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
+          TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
+        ])),
       ),
     };
 
