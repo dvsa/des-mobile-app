@@ -43,6 +43,11 @@ describe('Activity code finalisation Provider', () => {
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.C, {});
     });
 
+    it('should call testResultProvider with the correct category for CM', () => {
+      activityCodeFinalisationProvider.catManoeuvresTestDataIsInvalid(ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {});
+      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.CM, {});
+    });
+
     it('should call testResultProvider with the correct category for AM1', () => {
       activityCodeFinalisationProvider.catAMod1TestDataIsInvalid(ActivityCodes.FAIL_PUBLIC_SAFETY, {});
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.EUAM1, {});
