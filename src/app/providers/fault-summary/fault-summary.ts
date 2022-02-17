@@ -148,9 +148,11 @@ export class FaultSummaryProvider {
         return FaultSummaryCatBEHelper.getSeriousFaultsCatBE(data);
       case TestCategory.C1:
       case TestCategory.C:
+      case TestCategory.C1M:
         return FaultSummaryCatCHelper.getSeriousFaultsNonTrailer(data);
       case TestCategory.C1E:
       case TestCategory.CE:
+      case TestCategory.C1EM:
         return FaultSummaryCatCHelper.getSeriousFaultsTrailer(data);
       case TestCategory.D1:
       case TestCategory.D:
@@ -188,9 +190,11 @@ export class FaultSummaryProvider {
         return FaultSummaryCatBEHelper.getDangerousFaultsCatBE(data);
       case TestCategory.C1:
       case TestCategory.C:
+      case TestCategory.C1M:
         return FaultSummaryCatCHelper.getDangerousFaultsNonTrailer(data);
       case TestCategory.C1E:
       case TestCategory.CE:
+      case TestCategory.C1EM:
         return FaultSummaryCatCHelper.getDangerousFaultsTrailer(data);
       case TestCategory.D1:
       case TestCategory.D:
