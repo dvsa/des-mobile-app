@@ -342,6 +342,8 @@
       "controlledStop": "Controlled stop",
       "eyesightTest": "Eyesight test",
       "uncoupleRecouple": "Uncouple / Recouple",
+      "reverseManoeuvreObservation": "Reverse Manoeuvre Observation",
+      "reverseManoeuvreControl": "Reverse Manoeuvre Control",
       "reverseLeftControl": "Reverse - Control",
       "reverseLeftObservation": "Reverse - Observation",
       "useOfStand": "Use of stand",
