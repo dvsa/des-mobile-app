@@ -6,6 +6,7 @@ import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { configureTestSuite } from 'ng-bullet';
+import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import { FaultSummaryCatCHelper } from '../cat-c/fault-summary.cat-c';
 import { FaultSummaryCatBHelper } from '../cat-b/fault-summary.cat-b';
@@ -97,6 +98,17 @@ describe('FaultSummaryProvider', () => {
     },
   ];
 
+  const catManoeuvre = [
+    { category: TestCategory.CM },
+    { category: TestCategory.C1M },
+    { category: TestCategory.CEM },
+    { category: TestCategory.C1EM },
+    { category: TestCategory.DM },
+    { category: TestCategory.D1M },
+    { category: TestCategory.DEM },
+    { category: TestCategory.D1EM },
+  ];
+
   let faultSummaryProvider: FaultSummaryProvider;
 
   configureTestSuite(() => {
@@ -106,7 +118,6 @@ describe('FaultSummaryProvider', () => {
         FaultCountProvider,
       ],
     });
-
   });
 
   beforeEach(() => {
@@ -580,7 +591,23 @@ describe('FaultSummaryProvider', () => {
         });
       });
     });
-
+    catManoeuvre.forEach((cat) => {
+      describe(`Category ${cat.category}`, () => {
+        it('should correctly return any manoeuvre faults', () => {
+          const data: CatManoeuvreTestData = {
+            manoeuvres: {
+              reverseManoeuvre: {
+                selected: true,
+                controlFault: 'S',
+                observationFault: 'S',
+              },
+            },
+          };
+          const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
+          expect(result.length).toEqual(2);
+        });
+      });
+    });
     categoryAMod1.forEach((cat) => {
       describe(`Category ${cat.category}`, () => {
         it('should call correct helper function', () => {
@@ -736,6 +763,23 @@ describe('FaultSummaryProvider', () => {
           const data: CatDUniqueTypes.TestData = {
             manoeuvres: {
               reverseLeft: {
+                selected: true,
+                controlFault: 'D',
+                observationFault: 'D',
+              },
+            },
+          };
+          const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
+          expect(result.length).toEqual(2);
+        });
+      });
+    });
+    catManoeuvre.forEach((cat) => {
+      describe(`Category ${cat.category}`, () => {
+        it('should correctly return any manoeuvre faults', () => {
+          const data: CatManoeuvreTestData = {
+            manoeuvres: {
+              reverseManoeuvre: {
                 selected: true,
                 controlFault: 'D',
                 observationFault: 'D',
