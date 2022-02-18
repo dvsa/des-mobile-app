@@ -11,6 +11,7 @@ import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { FaultSummary } from '@shared/models/fault-marking.model';
+import { FaultSummaryCatManoeuvreHelper } from '@providers/fault-summary/cat-manoeuvres/fault-summary.cat-manoeuvres';
 import { FaultSummaryCatHomeTestHelper } from './cat-home-test/fault-summary.cat-home-test';
 import { FaultSummaryCatDHelper } from './cat-d/fault-summary.cat-d';
 import { FaultSummaryCatCHelper } from './cat-c/fault-summary.cat-c';
@@ -82,6 +83,15 @@ export class FaultSummaryProvider {
             (<CatC1EUniqueTypes.TestData>data).vehicleChecks,
           ),
         );
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+        return []; // No DF's for manoeuvre categories
       case TestCategory.D:
         return FaultSummaryCatDHelper.getDrivingFaultsNonTrailer(
           data,
@@ -152,6 +162,16 @@ export class FaultSummaryProvider {
       case TestCategory.C1E:
       case TestCategory.CE:
         return FaultSummaryCatCHelper.getSeriousFaultsTrailer(data);
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+        return FaultSummaryCatManoeuvreHelper.getSeriousFaultsNonTrailer(data);
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+        return FaultSummaryCatManoeuvreHelper.getSeriousFaultsTrailer(data);
       case TestCategory.D1:
       case TestCategory.D:
         return FaultSummaryCatDHelper.getSeriousFaultsNonTrailer(data);
@@ -192,6 +212,16 @@ export class FaultSummaryProvider {
       case TestCategory.C1E:
       case TestCategory.CE:
         return FaultSummaryCatCHelper.getDangerousFaultsTrailer(data);
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+        return FaultSummaryCatManoeuvreHelper.getDangerousFaultsNonTrailer(data);
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+        return FaultSummaryCatManoeuvreHelper.getDangerousFaultsTrailer(data);
       case TestCategory.D1:
       case TestCategory.D:
         return FaultSummaryCatDHelper.getDangerousFaultsNonTrailer(data);
