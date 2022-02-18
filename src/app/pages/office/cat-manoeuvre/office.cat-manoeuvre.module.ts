@@ -16,23 +16,25 @@ import {
 
 import { OfficeCatManoeuvrePage } from './office.cat-manoeuvre.page';
 import { OfficeCatManoeuvrePageRoutingModule } from './office.cat-manoeuvre-routing.module';
+import { WaitingRoomToCarComponentsModule } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 
 @NgModule({
   declarations: [OfficeCatManoeuvrePage],
-  imports: [
-    EffectsModule.forFeature([
-      OfficeAnalyticsEffects,
-      OfficeEffects,
-    ]),
-    ComponentsModule,
-    CommonModule,
-    ReactiveFormsModule,
-    IonicModule,
-    OfficeComponentsModule,
-    OfficeCatManoeuvrePageRoutingModule,
-    TestFinalisationComponentsModule,
-    PassFinalisationComponentsModule,
-  ],
+    imports: [
+        EffectsModule.forFeature([
+            OfficeAnalyticsEffects,
+            OfficeEffects,
+        ]),
+        ComponentsModule,
+        CommonModule,
+        ReactiveFormsModule,
+        IonicModule,
+        OfficeComponentsModule,
+        OfficeCatManoeuvrePageRoutingModule,
+        TestFinalisationComponentsModule,
+        PassFinalisationComponentsModule,
+        WaitingRoomToCarComponentsModule,
+    ],
   providers: [
     FaultSummaryProvider,
   ],
