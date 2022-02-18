@@ -38,6 +38,7 @@ import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerou
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 
 interface CatManoeuvreOfficePageState {
   delegatedTest$: Observable<boolean>;
@@ -161,6 +162,8 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
         controlOrObservation,
         dangerousFaultComment.comment,
       ));
+    } else if (dangerousFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
+      this.store$.dispatch(AddUncoupleRecoupleComment(dangerousFaultComment.comment));
     }
   }
 
@@ -179,6 +182,8 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
         controlOrObservation,
         seriousFaultComment.comment,
       ));
+    } else if (seriousFaultComment.source === CommentSource.UNCOUPLE_RECOUPLE) {
+      this.store$.dispatch(AddUncoupleRecoupleComment(seriousFaultComment.comment));
     }
   }
 }
