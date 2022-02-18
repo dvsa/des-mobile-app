@@ -59,7 +59,7 @@ export class FaultSummaryCatManoeuvreHelper {
 
     const faultsEncountered: FaultSummary[] = [];
 
-    forOwn(manoeuvres, (manoeuvre: Manoeuvre) => {
+    forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
       const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
 
         if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
@@ -70,7 +70,7 @@ export class FaultSummaryCatManoeuvreHelper {
             manoeuvre.observationFaultComments,
           );
 
-          result.push(this.createManoeuvreFaultCatManoeuvre(key, ManoeuvreTypes.reverseLeft, competencyComment));
+          result.push(this.createManoeuvreFaultCatManoeuvre(key, type, competencyComment));
         }
       }, []);
       faultsEncountered.push(...faults);

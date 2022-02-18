@@ -344,6 +344,8 @@
       "uncoupleRecouple": "Uncouple / Recouple",
       "reverseLeftControl": "Reverse - Control",
       "reverseLeftObservation": "Reverse - Observation",
+      "reverseManoeuvreControl": "Reverse - Control",
+      "reverseManoeuvreObservation": "Reverse - Observation",
       "useOfStand": "Use of stand",
       "manualHandling": "Manual handling",
       "slalom": "Slalom / Figure 8",
