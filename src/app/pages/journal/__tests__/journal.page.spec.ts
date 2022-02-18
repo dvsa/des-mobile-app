@@ -48,6 +48,8 @@ import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { LoadingProvider } from '@providers/loader/loader';
 import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { LoadingOptions } from '@ionic/core';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -91,6 +93,7 @@ describe('JournalPage', () => {
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
         { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
+        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
   });
