@@ -289,7 +289,7 @@ export const fakeJournalTestSlots = [
   {
     booking: {
       application: {
-        applicationId: 1237472,
+        applicationId: 1263673,
         bookingSequence: 1,
         checkDigit: 3,
         entitlementCheck: false,
@@ -334,7 +334,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_5`,
-      start: todayAt8Am.add(1, 'hours').add(21, 'minutes').format(),
+      start: todayAt8Am.add(2, 'hours').add(31, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -348,7 +348,7 @@ export const fakeJournalTestSlots = [
   {
     booking: {
       application: {
-        applicationId: 1237472,
+        applicationId: 1294875,
         bookingSequence: 1,
         checkDigit: 3,
         entitlementCheck: false,
@@ -393,7 +393,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_6`,
-      start: todayAt8Am.add(1, 'hours').add(21, 'minutes').format(),
+      start: todayAt8Am.add(3, 'hours').add(16, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -407,7 +407,7 @@ export const fakeJournalTestSlots = [
   {
     booking: {
       application: {
-        applicationId: 1237472,
+        applicationId: 1543264,
         bookingSequence: 1,
         checkDigit: 3,
         entitlementCheck: false,
@@ -452,7 +452,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_7`,
-      start: todayAt8Am.add(1, 'hours').add(21, 'minutes').format(),
+      start: todayAt8Am.add(1, 'hours').add(50, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -466,7 +466,7 @@ export const fakeJournalTestSlots = [
   {
     booking: {
       application: {
-        applicationId: 1237472,
+        applicationId: 1638904,
         bookingSequence: 1,
         checkDigit: 3,
         entitlementCheck: false,
@@ -511,7 +511,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_8`,
-      start: todayAt8Am.add(1, 'hours').add(21, 'minutes').format(),
+      start: todayAt8Am.add(3, 'hours').add(29, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
