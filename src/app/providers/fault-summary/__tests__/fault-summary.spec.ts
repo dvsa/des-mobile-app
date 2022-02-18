@@ -3,6 +3,8 @@ import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { configureTestSuite } from 'ng-bullet';
 import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { FaultCountProvider } from '../../fault-count/fault-count';
@@ -300,6 +302,21 @@ describe('FaultSummaryProvider', () => {
           const result = faultSummaryProvider.getDrivingFaultsList(data, cat.category);
           expect(result.length).toEqual(2);
         });
+        it('should correctly return any manoeuvre faults', () => {
+          const data: CatCUniqueTypes.TestData = {
+            manoeuvres: {
+              reverseLeft: {
+                selected: true,
+                controlFault: 'DF',
+                observationFault: 'DF',
+              },
+            },
+          };
+          const result = faultSummaryProvider.getDrivingFaultsList(data, cat.category);
+          expect(result.length).toEqual(2);
+          expect(result[0].competencyDisplayName).toEqual('Reverse - Control');
+          expect(result[1].competencyDisplayName).toEqual('Reverse - Observation');
+        });
         it('should correctly return any vehicle checks faults when there are 4 driving faults', () => {
           const result = faultSummaryProvider.getDrivingFaultsList(cat.showMeTellMeSemiFaults.testData, cat.category);
           expect(result.length).toEqual(1);
@@ -327,6 +344,21 @@ describe('FaultSummaryProvider', () => {
           };
           const result = faultSummaryProvider.getDrivingFaultsList(data, cat.category);
           expect(result.length).toEqual(2);
+        });
+        it('should correctly return any manoeuvre faults', () => {
+          const data: CatDUniqueTypes.TestData = {
+            manoeuvres: {
+              reverseLeft: {
+                selected: true,
+                controlFault: 'DF',
+                observationFault: 'DF',
+              },
+            },
+          };
+          const result = faultSummaryProvider.getDrivingFaultsList(data, cat.category);
+          expect(result.length).toEqual(2);
+          expect(result[0].competencyDisplayName).toEqual('Reverse - Control');
+          expect(result[1].competencyDisplayName).toEqual('Reverse - Observation');
         });
         it('should correctly return any vehicle checks faults when there are 4 driving faults', () => {
           const result = faultSummaryProvider.getDrivingFaultsList(cat.showMeTellMeSemiFaults.testData, cat.category);
@@ -503,6 +535,19 @@ describe('FaultSummaryProvider', () => {
           const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
           expect(result.length).toEqual(2);
         });
+        it('should correctly return any manoeuvre faults', () => {
+          const data: CatCUniqueTypes.TestData = {
+            manoeuvres: {
+              reverseLeft: {
+                selected: true,
+                controlFault: 'S',
+                observationFault: 'S',
+              },
+            },
+          };
+          const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
+          expect(result.length).toEqual(2);
+        });
         it('should correctly return any vehicle checks faults ', () => {
           const result = faultSummaryProvider.getSeriousFaultsList(cat.showMeTellMeAllFaults.testData, cat.category);
           expect(result.length).toEqual(cat.showMeTellMeAllFaults.seriousFaults);
@@ -521,6 +566,19 @@ describe('FaultSummaryProvider', () => {
             seriousFaults: {
               ancillaryControls: true,
               awarenessPlanning: true,
+            },
+          };
+          const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
+          expect(result.length).toEqual(2);
+        });
+        it('should correctly return any manoeuvre faults', () => {
+          const data: CatDUniqueTypes.TestData = {
+            manoeuvres: {
+              reverseLeft: {
+                selected: true,
+                controlFault: 'S',
+                observationFault: 'S',
+              },
             },
           };
           const result = faultSummaryProvider.getSeriousFaultsList(data, cat.category);
@@ -670,6 +728,19 @@ describe('FaultSummaryProvider', () => {
           const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
           expect(result.length).toEqual(2);
         });
+        it('should correctly return any manoeuvre faults', () => {
+          const data: CatCUniqueTypes.TestData = {
+            manoeuvres: {
+              reverseLeft: {
+                selected: true,
+                controlFault: 'D',
+                observationFault: 'D',
+              },
+            },
+          };
+          const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
+          expect(result.length).toEqual(2);
+        });
       });
     });
     categoryD.forEach((cat) => {
@@ -683,6 +754,19 @@ describe('FaultSummaryProvider', () => {
             dangerousFaults: {
               ancillaryControls: true,
               awarenessPlanning: true,
+            },
+          };
+          const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);
+          expect(result.length).toEqual(2);
+        });
+        it('should correctly return any manoeuvre faults', () => {
+          const data: CatDUniqueTypes.TestData = {
+            manoeuvres: {
+              reverseLeft: {
+                selected: true,
+                controlFault: 'D',
+                observationFault: 'D',
+              },
             },
           };
           const result = faultSummaryProvider.getDangerousFaultsList(data, cat.category);

@@ -1,15 +1,22 @@
-import { get } from 'lodash';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import {
+  endsWith, forOwn, get, transform,
+} from 'lodash';
+import { Manoeuvre, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
-import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
+import { CommentSource, CompetencyIdentifiers, FaultSummary } from '@shared/models/fault-marking.model';
 import { CompetencyDisplayName } from '@shared/models/competency-display-name';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { getCompetencyFaults } from '@shared/helpers/get-competency-faults';
+import { getCompetencyFaults, getCompetencyComment } from '@shared/helpers/get-competency-faults';
+import {
+  manoeuvreCompetencyLabelsCatD,
+  manoeuvreTypeLabelsCatD,
+} from '@shared/constants/competencies/catd-manoeuvres';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
 export type PcvDoorExerciseTypes =
 | CatDUniqueTypes.PcvDoorExercise
@@ -26,6 +33,7 @@ export class FaultSummaryCatDHelper {
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
+      ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.DF),
       ...this.getVehicleCheckDrivingFaultsCatD(data.vehicleChecks, category, vehicleChecksScore),
       ...this.getPCVDoorExerciseDrivingFault(data.pcvDoorExercise),
     ];
@@ -36,6 +44,7 @@ export class FaultSummaryCatDHelper {
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.seriousFaults),
+      ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.S),
       ...this.getVehicleCheckSeriousFaultsNonTrailer(data.vehicleChecks),
       ...this.getPCVDoorExerciseSeriousFault(data.pcvDoorExercise),
     ];
@@ -46,6 +55,7 @@ export class FaultSummaryCatDHelper {
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.dangerousFaults),
+      ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.D),
       ...this.getPCVDoorExerciseDangerousFault(data.pcvDoorExercise),
     ];
   }
@@ -57,6 +67,8 @@ export class FaultSummaryCatDHelper {
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
+      ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.DF),
+      ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.DF),
       ...this.getVehicleCheckDrivingFaultsCatD(data.vehicleChecks, category, vehicleChecksScore),
       ...this.getPCVDoorExerciseDrivingFault(data.pcvDoorExercise),
     ];
@@ -67,6 +79,8 @@ export class FaultSummaryCatDHelper {
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.seriousFaults),
+      ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.S),
+      ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.S),
       ...this.getVehicleCheckSeriousFaultsTrailer(data.vehicleChecks),
       ...this.getPCVDoorExerciseSeriousFault(data.pcvDoorExercise),
     ];
@@ -77,8 +91,44 @@ export class FaultSummaryCatDHelper {
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.dangerousFaults),
+      ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.D),
+      ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.D),
       ...this.getPCVDoorExerciseDangerousFault(data.pcvDoorExercise),
     ];
+  }
+
+  private static createManoeuvreFaultCatD(key: string, type: ManoeuvreTypes, competencyComment: string): FaultSummary {
+    const manoeuvreFaultSummary: FaultSummary = {
+      comment: competencyComment || '',
+      competencyIdentifier: `${type}${manoeuvreCompetencyLabelsCatD[key]}`,
+      competencyDisplayName: `${manoeuvreTypeLabelsCatD[type]} - ${manoeuvreCompetencyLabelsCatD[key]}`,
+      source: `${CommentSource.MANOEUVRES}-${type}-${manoeuvreCompetencyLabelsCatD[key]}`,
+      faultCount: 1,
+    };
+    return manoeuvreFaultSummary;
+  }
+
+  private static getManoeuvreFaultsCatD(manoeuvres: CatDUniqueTypes.Manoeuvres, faultType: CompetencyOutcome)
+    : FaultSummary[] {
+    const faultsEncountered: FaultSummary[] = [];
+
+    forOwn(manoeuvres, (manoeuvre: Manoeuvre, type: ManoeuvreTypes) => {
+      const faults = !manoeuvre.selected ? [] : transform(manoeuvre, (result, value, key: string) => {
+
+        if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
+
+          const competencyComment = getCompetencyComment(
+            key,
+            manoeuvre.controlFaultComments,
+            manoeuvre.observationFaultComments,
+          );
+
+          result.push(this.createManoeuvreFaultCatD(key, type, competencyComment));
+        }
+      }, []);
+      faultsEncountered.push(...faults);
+    });
+    return faultsEncountered;
   }
 
   private static getVehicleCheckDrivingFaultsCatD(
@@ -172,6 +222,28 @@ export class FaultSummaryCatDHelper {
     }
 
     return result;
+
+    return result;
+  }
+
+  private static getUncoupleRecoupleFault(
+    uncoupleRecouple: CatDEUniqueTypes.UncoupleRecouple | CatD1EUniqueTypes.UncoupleRecouple,
+    faultType: CompetencyOutcome,
+  )
+    : FaultSummary[] {
+    const returnCompetencies = [];
+    if (!uncoupleRecouple || uncoupleRecouple.fault !== faultType) {
+      return returnCompetencies;
+    }
+    const result: FaultSummary = {
+      competencyDisplayName: CompetencyDisplayName.UNCOUPLE_RECOUPLE,
+      competencyIdentifier: 'uncoupleRecouple',
+      comment: uncoupleRecouple.faultComments || '',
+      source: CommentSource.UNCOUPLE_RECOUPLE,
+      faultCount: 1,
+    };
+    returnCompetencies.push(result);
+    return returnCompetencies;
   }
 
   private static getPCVDoorExerciseDrivingFault(pcvDoorExercise: PcvDoorExerciseTypes) {
