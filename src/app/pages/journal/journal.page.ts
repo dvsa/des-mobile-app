@@ -37,6 +37,7 @@ import { DeviceProvider } from '@providers/device/device';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { AppComponent } from '@app/app.component';
 import { LoadingProvider } from '@providers/loader/loader';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
@@ -85,6 +86,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     public loadingProvider: LoadingProvider,
+    public appConfigProvider: AppConfigProvider,
   ) {
     super(platform, authenticationProvider, router);
     this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
@@ -189,6 +191,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async loadJournalManually() {
     await this.loadingProvider.handleUILoading(true, JournalPage.loadingOpts);
+    await this.appConfigProvider.initialiseAppConfig();
+    await this.appConfigProvider.loadRemoteConfig();
     this.store$.dispatch(journalActions.LoadJournal());
   }
 
