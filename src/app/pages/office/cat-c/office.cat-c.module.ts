@@ -13,6 +13,9 @@ import {
 } from '@pages/pass-finalisation/components/pass-finalisation-components.module';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
+import {
+  WaitingRoomToCarComponentsModule,
+} from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { OfficeCatCPage } from './office.cat-c.page';
 import { OfficeCatCPageRoutingModule } from './office.cat-c-routing.module';
 
@@ -31,6 +34,7 @@ import { OfficeCatCPageRoutingModule } from './office.cat-c-routing.module';
     OfficeCatCPageRoutingModule,
     PassFinalisationComponentsModule,
     TestFinalisationComponentsModule,
+    WaitingRoomToCarComponentsModule,
   ],
   providers: [
     FaultSummaryProvider,
