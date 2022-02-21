@@ -123,6 +123,17 @@
                                 (weatherConditionsChange)="weatherConditionsChanged($event)">
                         </weather-conditions>
 
+                        <accompaniment-card [formGroup]="form"
+                                            [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                                            [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                                            [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                                            [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                                            (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                                            (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                                            (otherAccompanimentChange)="otherAccompanimentToggled()"
+                                            (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+                        </accompaniment-card>
+
                         <additional-information
                                 [display]="pageState.displayAdditionalInformation$ | async"
                                 [additionalInformation]="pageState.additionalInformation$ | async"

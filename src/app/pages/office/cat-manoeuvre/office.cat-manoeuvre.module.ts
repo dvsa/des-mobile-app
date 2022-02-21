@@ -14,6 +14,9 @@ import {
   PassFinalisationComponentsModule,
 } from '@pages/pass-finalisation/components/pass-finalisation-components.module';
 
+import {
+  WaitingRoomToCarComponentsModule,
+} from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { OfficeCatManoeuvrePage } from './office.cat-manoeuvre.page';
 import { OfficeCatManoeuvrePageRoutingModule } from './office.cat-manoeuvre-routing.module';
 
@@ -32,6 +35,7 @@ import { OfficeCatManoeuvrePageRoutingModule } from './office.cat-manoeuvre-rout
     OfficeCatManoeuvrePageRoutingModule,
     TestFinalisationComponentsModule,
     PassFinalisationComponentsModule,
+    WaitingRoomToCarComponentsModule,
   ],
   providers: [
     FaultSummaryProvider,
