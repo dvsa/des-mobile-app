@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { CategoryWhitelistProvider } from '../category-whitelist';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { CategoryWhitelistProvider } from '../category-whitelist';
 
 describe('CategoryWhitelistProvider', () => {
   let provider: CategoryWhitelistProvider;
