@@ -191,8 +191,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async loadJournalManually() {
     await this.loadingProvider.handleUILoading(true, JournalPage.loadingOpts);
-    await this.appConfigProvider.initialiseAppConfig();
-    await this.appConfigProvider.loadRemoteConfig();
     this.store$.dispatch(journalActions.LoadJournal());
   }
 
