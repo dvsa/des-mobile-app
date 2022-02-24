@@ -5,7 +5,7 @@ import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.re
 import { appVersionReducer } from '@store/tests/app-version/app-version.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
-import { passCompletionReducer } from './pass-completion/pass-completion.reducer';
+import { passCompletionCatAMod2Reducer } from './pass-completion/cat-a-mod2/pass-completion.cat-a-mod2.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { postTestDeclarationsReducer } from './post-test-declarations/post-test-declarations.reducer';
 import { communicationPreferencesReducer } from './communication-preferences/communication-preferences.reducer';
@@ -40,7 +40,7 @@ export function testsCatAMod2Reducer(
       examinerConducted: examinerConductedReducer,
       examinerKeyed: examinerKeyedReducer,
       journalData: journalDataCatAMod2Reducer,
-      passCompletion: passCompletionReducer,
+      passCompletion: passCompletionCatAMod2Reducer,
       postTestDeclarations: postTestDeclarationsReducer,
       preTestDeclarations: preTestDeclarationsCatAMod2Reducer,
       rekey: rekeyReducer,
