@@ -25,7 +25,6 @@
     "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint . --fix --quiet --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
     "gitSecrets": "git secrets --scan",
-    "scanRepo": "git log -p -n 15 | scanrepo",
     "e2e-build": "xcodebuild -workspace ios/App/App.xcworkspace -scheme App -sdk iphonesimulator SYMROOT=$(PWD)/build",
     "config:dev-tools": "cp src/environments/environment.dev.dev-tools.ts src/environments/environment.ts",
     "config:dev": "cp src/environments/environment.dev.ts src/environments/environment.ts",
