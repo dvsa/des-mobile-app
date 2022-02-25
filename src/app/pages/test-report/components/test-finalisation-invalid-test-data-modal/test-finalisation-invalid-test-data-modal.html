@@ -1,21 +1,31 @@
-<ion-card class="modal-alert">
-  <ion-row class="ion-justify-content-center">
-    <ion-col>
-      <h3 class="modal-alert-header" id="level-of-faults-not-meet-requirement-message">
-        The level of faults on this practical test does not meet the requirement for code 4 or 5.
-      </h3>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col class="column-border-top ion-no-padding">
-      <ion-button fill="clear" class="return-button" id="change-termination-code-btn" (click)="onCancel()">
-        Change termination code
-      </ion-button>
-    </ion-col>
-    <ion-col class="column-border-top ion-no-padding">
-      <ion-button fill="clear" class="terminate-button" id="return-to-test-report-btn" (click)="onReturnToTestReport()">
-        Return to test report
-      </ion-button>
-    </ion-col>
-  </ion-row>
+<ion-card>
+    <div class="modal-alert">
+        <ion-row>
+            <ion-col class="center-icon ion-no-padding">
+                <ion-icon class="terminate-icon" name="alert-circle"></ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-center">
+            <ion-col class="no-padding">
+                <h3 class="modal-alert-header" id="level-of-faults-not-meet-requirement-message">
+                    The level of faults on this practical test does not meet the requirement for code 4 or 5.
+                </h3>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button class="mes-return-button" id="change-termination-code-btn" (click)="onCancel()">
+                    <h3>Change termination code</h3>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </div>
+    <ion-row>
+        <ion-col class="column-border-top ion-no-padding">
+            <ion-button fill="clear" class="terminate-button" id="return-to-test-report-btn"
+                        (click)="onReturnToTestReport()">
+                Return to test report
+            </ion-button>
+        </ion-col>
+    </ion-row>
 </ion-card>
