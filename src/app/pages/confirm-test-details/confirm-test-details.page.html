@@ -46,7 +46,8 @@
         <data-row
             [idPrefix]="idPrefix"
             [label]="'Test Category'"
-            [value]="pageState.testCategory$ | async">
+            [value]="pageState.testCategory$ | async"
+            [shouldHaveSeperator]="!displayForCategory(category)">
         </data-row>
         <!-- Provisional licence received -->
         <data-row
@@ -54,7 +55,7 @@
             [idPrefix]="idPrefix"
             [label]="'Provisional licence'"
             [label2]="'received'"
-            [value]="getProvisionalText(pageState.provisionalLicense$ | async) ">
+            [value]="getProvisionalText(pageState.provisionalLicense$ | async)">
         </data-row>
         <!-- Transmission -->
         <transmission-display
