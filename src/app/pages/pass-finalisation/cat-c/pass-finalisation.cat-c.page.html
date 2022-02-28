@@ -52,7 +52,6 @@
         </transmission>
 
         <code-78
-                *ngIf="shouldShowCode78()"
                 [form]="form"
                 [code78]="pageState.code78$ | async"
                 (code78Present)="onCode78Present($event)">
