@@ -33,18 +33,18 @@ describe('VehicleDetailsCardComponent', () => {
   }));
 
   describe('Class', () => {
-    describe('shouldHideDimensions', () => {
+    describe('shouldShowDimensions', () => {
       const localCategories = [
-        { category: TestCategory.F, outcome: true },
-        { category: TestCategory.G, outcome: true },
-        { category: TestCategory.H, outcome: true },
-        { category: TestCategory.K, outcome: true },
-        { category: TestCategory.B, outcome: false },
+        { category: TestCategory.F, outcome: false },
+        { category: TestCategory.G, outcome: false },
+        { category: TestCategory.H, outcome: false },
+        { category: TestCategory.K, outcome: false },
+        { category: TestCategory.BE, outcome: true },
       ];
       localCategories.forEach(({ category, outcome }) => {
         it(`should ${outcome ? 'hide' : 'not hide'} for cat ${category}`, () => {
           component.category = category as TestCategory;
-          expect(component.shouldHideDimensions()).toEqual(outcome);
+          expect(component.shouldShowDimensions()).toEqual(outcome);
         });
       });
     });
