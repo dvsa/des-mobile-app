@@ -120,12 +120,8 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
     return this.provisionalLicenseIsReceived;
   }
 
-  shouldShowCode78(): boolean {
-    return isAnyOf(this.testCategory, [TestCategory.C, TestCategory.CE]);
-  }
-
   shouldShowCode78Banner(): boolean {
-    return this.code78Present !== null && this.transmission !== null && this.shouldShowCode78();
+    return this.code78Present !== null && this.transmission !== null;
   }
 
   shouldShowManualBanner(): boolean {
