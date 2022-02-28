@@ -46,19 +46,20 @@
         <data-row
             [idPrefix]="idPrefix"
             [label]="'Test Category'"
-            [value]="pageState.testCategory$ | async">
+            [value]="pageState.testCategory$ | async"
+            [shouldHaveSeperator]="!displayForCategory(category)">
         </data-row>
         <!-- Provisional licence received -->
         <data-row
-            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !hideTransmissionField(category)"
+            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
             [idPrefix]="idPrefix"
             [label]="'Provisional licence'"
             [label2]="'received'"
-            [value]="getProvisionalText(pageState.provisionalLicense$ | async) ">
+            [value]="getProvisionalText(pageState.provisionalLicense$ | async)">
         </data-row>
         <!-- Transmission -->
         <transmission-display
-            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !hideTransmissionField(category)"
+            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
             [category]="category"
             [transmission]="pageState.transmission$ | async"
             [code78]="pageState.code78$ | async"
@@ -66,6 +67,7 @@
         </transmission-display>
         <!-- D255 -->
         <data-row
+            *ngIf="!displayForCategory(category)"
             [idPrefix]="idPrefix"
             [label]="'D255'"
             [value]="getD255Text(pageState.d255$ | async)"
