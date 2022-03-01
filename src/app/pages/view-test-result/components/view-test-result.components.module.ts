@@ -5,6 +5,9 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 
 import { DebriefCardComponent } from '@pages/view-test-result/components/debrief-card/debrief-card';
+import {
+  CandidateDetailsComponentsModule,
+} from '@pages/candidate-details/components/candidate-details-components.module';
 import { FaultsDataRowComponent } from './faults-data-row/faults-data-row';
 import { TestDetailsCardComponent } from './test-details-card/test-details-card';
 import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
@@ -43,6 +46,7 @@ import { SpeedCardComponent } from './speed-card/speed-card';
     IonicModule,
     ComponentsModule,
     PipesModule,
+    CandidateDetailsComponentsModule,
   ],
   exports: [
     DataRowWithListComponent,

@@ -19,7 +19,7 @@ import * as candidateDetailActions from '@store/candidate-details/candidate-deta
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import {
   InappropriateUseBannerComponent,
-} from '@pages/candidate-details/components/inappropriate-use-banner/inappropriate-use-banner';
+} from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
