@@ -60,7 +60,7 @@
                                 id="test-result-search-button"
                                 [attr.disabled]="showSearchSpinner ? 'true' : null"
                                 class="mes-primary-button search-tests" (click)="searchTests()">
-                            <h3>
+                            <h3 id="test-result-search-button-text">
                                 <ion-icon name="search" class="search-icon"></ion-icon>
                                 Search
                             </h3>
@@ -78,11 +78,11 @@
         </tabs>
 
         <div class="results-error" *ngIf="hasSearched && searchResults.length === 0">
-            <p class="error-text">There were no results found for your search.</p>
-            <p class="error-text">Please check and try again.</p>
+            <p class="error-text" id="test-result-search-no-results-message">There were no results found for your search.</p>
+            <p class="error-text" id="test-result-search-please-check-try-again-message">Please check and try again.</p>
         </div>
 
-        <p class="results-message" *ngIf="searchResults.length > 0">
+        <p class="results-message" *ngIf="searchResults.length > 0" id="displaying-results-label">
             Displaying <span>{{searchResults.length}}</span> results
         </p>
 
