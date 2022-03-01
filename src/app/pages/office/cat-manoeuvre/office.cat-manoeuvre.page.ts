@@ -4,7 +4,7 @@ import {
 } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { merge, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take, withLatestFrom } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { startsWith } from 'lodash';
@@ -39,6 +39,9 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 
 interface CatManoeuvreOfficePageState {
   delegatedTest$: Observable<boolean>;
@@ -108,6 +111,20 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
       delegatedTest$: currentTest$.pipe(
         select(getDelegatedTestIndicator),
         select(isDelegatedTest),
+      ),
+      dangerousFaults$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
+        take(1),
+        map(([testData, category]) =>
+          this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
+      ),
+      seriousFaults$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
+        take(1),
+        map(([testData, category]) =>
+          this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
       ),
     };
 
