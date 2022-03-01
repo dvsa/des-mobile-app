@@ -235,5 +235,5 @@ describe('NonPassFinalisationPage', () => {
         expect(component.showD255()).toEqual(false);
       });
     });
-});
+  });
 });
