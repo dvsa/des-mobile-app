@@ -21,6 +21,7 @@ import {
   isCandidateSpecialNeeds,
 } from '@store/candidate-details/candidate-details.selector';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { formatApplicationReference } from '@shared/helpers/formatters';
 
 @Injectable()
 export class CandidateDetailsAnalyticsEffects {
@@ -37,7 +38,9 @@ export class CandidateDetailsAnalyticsEffects {
       const specNeeds = isCandidateSpecialNeeds(action.slot);
       const candidateCheck = isCandidateCheckNeeded(action.slot);
       const candidateId = getCandidateId(action.slot);
+      const applicationReference = formatApplicationReference(action.slot?.booking?.application);
 
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, candidateId);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, specNeeds ? '1' : '0');
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, candidateCheck ? '1' : '0');
