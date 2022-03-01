@@ -225,5 +225,15 @@ describe('NonPassFinalisationPage', () => {
         expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
       });
     });
-  });
+    describe('showD255', () => {
+      it('Hide D255 when category C3a', async () => {
+        component.testCategory = TestCategory.C;
+        expect(component.showD255()).toEqual(true);
+      });
+      it('Show D255 when is not category C3a', async () => {
+        component.testCategory = TestCategory.CM;
+        expect(component.showD255()).toEqual(false);
+      });
+    });
+});
 });
