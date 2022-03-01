@@ -215,4 +215,13 @@ describe('ConfirmTestDetailsPage', () => {
     });
   });
 
+  describe('displayForCategory', () => {
+    it('should return true if the category passed in is present in the function check-list', () => {
+      expect(component.displayForCategory(TestCategory.CM)).toEqual(true);
+    });
+    it('should return false if the category passed in is not present in the function check-list', () => {
+      expect(component.displayForCategory(TestCategory.A)).toEqual(false);
+    });
+  });
+
 });
