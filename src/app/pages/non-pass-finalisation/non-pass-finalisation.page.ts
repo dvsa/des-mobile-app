@@ -59,6 +59,7 @@ import {
   TestFinalisationInvalidTestDataModal,
 } from
   '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -280,4 +281,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   async navigateToDebrief(): Promise<void> {
     await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   }
+  showD255 = (): boolean => {
+    return !isAnyOf(this.testCategory, [TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM]);
+  };
 }

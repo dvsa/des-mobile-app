@@ -27,7 +27,8 @@
 
       <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
 
-        <d255 [display]="pageState.displayD255$ | async"
+        <d255 *ngIf="showD255()"
+              [display]="pageState.displayD255$ | async"
               [d255]="pageState.d255$ | async"
               [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
               [outcome]="pageState.testOutcome$ | async"
