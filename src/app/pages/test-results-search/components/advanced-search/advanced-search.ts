@@ -22,6 +22,7 @@ export class AdvancedSearchComponent {
   staffNumber: string = '';
   startDate: string = '';
   endDate: string = '';
+  focusedElement: string = null;
 
   customStartDateOptions = {
     buttons: [{
@@ -58,4 +59,7 @@ export class AdvancedSearchComponent {
     this.onSearchTests.emit(advancedSearchParams);
   }
 
+  setFocus(focus: string): void {
+    this.focusedElement = focus;
+  }
 }
