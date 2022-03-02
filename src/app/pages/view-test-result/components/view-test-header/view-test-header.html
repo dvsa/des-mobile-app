@@ -4,7 +4,7 @@
         <span id="candidateDriverNumber" class="driver-number-class">{{data.candidateDriverNumber}}</span>
     </ion-col>
     <ion-col size="40" class="ion-text-end">
-        <h2 id="activityCode">{{data.activityCode}}</h2>
+        <h2 id="activityCode">{{data.activityCode}}-{{getActivityCodeDescription()}}</h2>
         <h3>Test outcome:
             <span id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">{{data.testOutcome}}</span>
         </h3>
