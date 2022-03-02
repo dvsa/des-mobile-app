@@ -18,6 +18,10 @@ export const createPopulateVehicleDimensionsAction = (
     case TestCategory.C1M:
     case TestCategory.CEM:
     case TestCategory.C1EM:
+    case TestCategory.DM:
+    case TestCategory.D1M:
+    case TestCategory.DEM:
+    case TestCategory.D1EM:
       return PopulateManoeuvreVehicleDimensions(
         application.vehicleWidth,
         application.vehicleLength,

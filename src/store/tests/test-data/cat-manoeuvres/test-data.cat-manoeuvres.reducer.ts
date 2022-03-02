@@ -4,6 +4,10 @@ import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
 import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
 import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
+import { CatDMUniqueTypes } from '@dvsa/mes-test-schema/categories/DM';
+import { CatD1MUniqueTypes } from '@dvsa/mes-test-schema/categories/D1M';
+import { CatDEMUniqueTypes } from '@dvsa/mes-test-schema/categories/DEM';
+import { CatD1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/D1EM';
 import { emptyObjReducer } from '@shared/classes/null.reducer';
 import { uncoupleRecoupleReducer } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.reducer';
 import {
@@ -15,10 +19,15 @@ import { ecoReducer } from '../common/eco/eco.reducer';
 import { etaReducer } from '../common/eta/eta.reducer';
 import { seriousFaultsReducer } from '../common/serious-faults/serious-faults.reducer';
 
-export type TestDataManoeuvresUnion = CatCMUniqueTypes.TestData |
-CatC1MUniqueTypes.TestData |
-CatCEMUniqueTypes.TestData |
-CatC1EMUniqueTypes.TestData;
+export type TestDataManoeuvresUnion =
+    CatCMUniqueTypes.TestData
+    | CatC1MUniqueTypes.TestData
+    | CatCEMUniqueTypes.TestData
+    | CatC1EMUniqueTypes.TestData
+    | CatDMUniqueTypes.TestData
+    | CatD1MUniqueTypes.TestData
+    | CatDEMUniqueTypes.TestData
+    | CatD1EMUniqueTypes.TestData;
 
 export const initialState: TestDataManoeuvresUnion = {
   uncoupleRecouple: {},

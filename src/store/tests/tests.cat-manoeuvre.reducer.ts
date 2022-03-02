@@ -6,6 +6,10 @@ import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
 import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
 import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
+import { CatDMUniqueTypes } from '@dvsa/mes-test-schema/categories/DM';
+import { CatD1MUniqueTypes } from '@dvsa/mes-test-schema/categories/D1M';
+import { CatDEMUniqueTypes } from '@dvsa/mes-test-schema/categories/DEM';
+import { CatD1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/D1EM';
 import { testDataCatManoeuvresReducer } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
 import { journalDataReducer } from '@store/tests/journal-data/cat-b/journal-data.reducer';
 import {
@@ -27,12 +31,17 @@ import { passCompletionReducer } from './pass-completion/pass-completion.reducer
 import { delegatedTestReducer } from './delegated-test/delegated-test.reducer';
 import { appVersionReducer } from './app-version/app-version.reducer';
 
-export type TestResultManoeuvresUnion = CatCMUniqueTypes.TestResult |
-CatC1MUniqueTypes.TestResult |
-CatCEMUniqueTypes.TestResult |
-CatC1EMUniqueTypes.TestResult;
+export type TestResultManoeuvresUnion =
+    CatCMUniqueTypes.TestResult
+    | CatC1MUniqueTypes.TestResult
+    | CatCEMUniqueTypes.TestResult
+    | CatC1EMUniqueTypes.TestResult
+    | CatDMUniqueTypes.TestResult
+    | CatD1MUniqueTypes.TestResult
+    | CatDEMUniqueTypes.TestResult
+    | CatD1EMUniqueTypes.TestResult;
 
-export function testsCatCMReducer(
+export function testsCatManoeuvreReducer(
   action: Action,
   state: TestResultManoeuvresUnion,
 ): Required<TestResultManoeuvresUnion> {

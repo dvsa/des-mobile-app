@@ -4,7 +4,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 import { getVehicleDetails as getVehicleDetailsC }
   from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
-import { getVehicleDetails as getVehicleDetailsCM }
+import { getVehicleDetails as getVehicleDetailsManoeuvre }
   from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
 import { getVehicleDetails as getVehicleDetailsD }
   from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
@@ -24,7 +24,7 @@ import { getVehicleWidth as getVehicleWidthC, getVehicleLength as getVehicleLeng
   from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.selector';
 import { getVehicleWidth as getVehicleWidthD, getVehicleLength as getVehicleLengthD }
   from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.selector';
-import { getVehicleWidth as getVehicleWidthCM, getVehicleLength as getVehicleLengthCM }
+import { getVehicleWidth as getVehicleWidthManoeuvre, getVehicleLength as getVehicleLengthManoeuvre }
   from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 
@@ -77,9 +77,9 @@ export class VehicleDetailsByCategoryProvider {
       case TestCategory.DEM:
       case TestCategory.D1EM:
         return {
-          vehicleDetails: getVehicleDetailsCM,
-          vehicleWidth: getVehicleWidthCM,
-          vehicleLength: getVehicleLengthCM,
+          vehicleDetails: getVehicleDetailsManoeuvre,
+          vehicleWidth: getVehicleWidthManoeuvre,
+          vehicleLength: getVehicleLengthManoeuvre,
         };
       case TestCategory.D:
       case TestCategory.D1:

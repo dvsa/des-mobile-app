@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 
-const todayAt8Am = moment().startOf('day').add(8, 'hour');
+const todayAtHour = (hour: number) => moment().startOf('day').add(hour, 'hour');
 
 export const fakeJournalTestSlots = [
   {
@@ -42,7 +42,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_0`,
-      start: todayAt8Am.add(58, 'minutes').format(),
+      start: todayAtHour(6).add(10, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -99,7 +99,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_1`,
-      start: todayAt8Am.add(1, 'hours').add(12, 'minutes').format(),
+      start: todayAtHour(6).add(55, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -157,7 +157,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_2`,
-      start: todayAt8Am.add(2, 'hours').add(30, 'minutes').format(),
+      start: todayAtHour(7).add(30, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -216,7 +216,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_3`,
-      start: todayAt8Am.add(3, 'hours').format(),
+      start: todayAtHour(8).add(10, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -275,7 +275,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_4`,
-      start: todayAt8Am.add(1, 'hours').add(21, 'minutes').format(),
+      start: todayAtHour(8).add(58, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -334,7 +334,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_5`,
-      start: todayAt8Am.add(2, 'hours').add(31, 'minutes').format(),
+      start: todayAtHour(9).add(45, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -363,7 +363,7 @@ export const fakeJournalTestSlots = [
         vehicleLength: 15,
         vehicleSeats: 50,
         vehicleWidth: 2,
-        welshTest: false,
+        welshTest: true,
       },
       candidate: {
         candidateAddress: {
@@ -393,7 +393,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_6`,
-      start: todayAt8Am.add(3, 'hours').add(16, 'minutes').format(),
+      start: todayAtHour(10).add(18, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -452,7 +452,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_7`,
-      start: todayAt8Am.add(1, 'hours').add(50, 'minutes').format(),
+      start: todayAtHour(10).add(59, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -511,7 +511,7 @@ export const fakeJournalTestSlots = [
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_8`,
-      start: todayAt8Am.add(3, 'hours').add(29, 'minutes').format(),
+      start: todayAtHour(11).add(25, 'minutes').format(),
     },
     testCentre: {
       centreId: 54321,
@@ -519,6 +519,242 @@ export const fakeJournalTestSlots = [
       costCode: 'EXTC1',
     },
     vehicleTypeCode: 'C',
+    vehicleSlotTypeCode: 7,
+    examinerVisiting: false,
+  },
+  {
+    booking: {
+      application: {
+        applicationId: 1903573,
+        bookingSequence: 4,
+        checkDigit: 4,
+        entitlementCheck: false,
+        categoryEntitlementCheck: false,
+        specialNeedsCode: 'NONE',
+        specialNeedsExtendedTest: false,
+        extendedTest: false,
+        progressiveAccess: false,
+        testCategory: 'DM',
+        vehicleGearbox: 'Manual',
+        vehicleHeight: 5,
+        vehicleLength: 15,
+        vehicleSeats: 50,
+        vehicleWidth: 2,
+        welshTest: false,
+      },
+      candidate: {
+        candidateAddress: {
+          addressLine1: '46',
+          addressLine2: 'Newgate Street',
+          addressLine3: 'Iwerne',
+          addressLine4: 'Minster',
+          addressLine5: '',
+          postcode: 'DT11 8WF',
+        },
+        candidateId: 106,
+        candidateName: {
+          firstName: 'Erin',
+          lastName: 'Osborne',
+          title: 'Miss',
+        },
+        driverNumber: 'OSBOR925671F95DC',
+        gender: 'F',
+        mobileTelephone: '07654 123456',
+        primaryTelephone: '01234 567890',
+        secondaryTelephone: '04321 098765',
+        dateOfBirth: '1974-01-03',
+        ethnicityCode: 'A',
+        emailAddress: 'erin@osborne.com',
+      },
+    },
+    slotDetail: {
+      duration: 57,
+      slotId: `${end2endPracticeSlotId}_9`,
+      start: todayAtHour(11).add(55, 'minutes').format(),
+    },
+    testCentre: {
+      centreId: 54321,
+      centreName: 'Example Test Centre',
+      costCode: 'EXTC1',
+    },
+    vehicleTypeCode: 'D',
+    vehicleSlotTypeCode: 7,
+    examinerVisiting: false,
+  },
+  {
+    booking: {
+      application: {
+        applicationId: 1294321,
+        bookingSequence: 1,
+        checkDigit: 0,
+        entitlementCheck: false,
+        categoryEntitlementCheck: false,
+        specialNeedsCode: 'NONE',
+        specialNeedsExtendedTest: false,
+        extendedTest: false,
+        progressiveAccess: false,
+        testCategory: 'D1M',
+        vehicleGearbox: 'Manual',
+        vehicleHeight: 10,
+        vehicleLength: 20,
+        vehicleSeats: 4,
+        vehicleWidth: 30,
+        welshTest: false,
+      },
+      candidate: {
+        candidateAddress: {
+          addressLine1: 'The Gables Cottage',
+          addressLine2: 'Home Farm',
+          addressLine3: 'Farm Road',
+          addressLine4: 'Farm Area',
+          addressLine5: 'Farmtown',
+          postcode: 'FA43 9XY',
+        },
+        candidateId: 186,
+        candidateName: {
+          firstName: 'Teagan',
+          lastName: 'Clarke',
+          title: 'Mrs',
+        },
+        driverNumber: 'CLARK925671F95DC',
+        gender: 'M',
+        mobileTelephone: '07654 123456',
+        primaryTelephone: '01234 567890',
+        secondaryTelephone: '04321 098765',
+        dateOfBirth: '2001-12-24',
+        ethnicityCode: 'A',
+        emailAddress: 'teagan@clarke.com',
+      },
+    },
+    slotDetail: {
+      duration: 57,
+      slotId: `${end2endPracticeSlotId}_10`,
+      start: todayAtHour(12).add(30, 'minutes').format(),
+    },
+    testCentre: {
+      centreId: 54321,
+      centreName: 'Example Test Centre',
+      costCode: 'EXTC1',
+    },
+    vehicleTypeCode: 'D',
+    vehicleSlotTypeCode: 7,
+    examinerVisiting: false,
+  },
+  {
+    booking: {
+      application: {
+        applicationId: 1543264,
+        bookingSequence: 1,
+        checkDigit: 3,
+        entitlementCheck: false,
+        categoryEntitlementCheck: false,
+        specialNeedsCode: 'NONE',
+        specialNeedsExtendedTest: false,
+        extendedTest: false,
+        progressiveAccess: false,
+        testCategory: 'D+EM',
+        vehicleGearbox: 'Manual',
+        vehicleHeight: 5,
+        vehicleLength: 15,
+        vehicleSeats: 50,
+        vehicleWidth: 2,
+        welshTest: false,
+      },
+      candidate: {
+        candidateAddress: {
+          addressLine1: 'The Gables Cottage',
+          addressLine2: 'Home Farm',
+          addressLine3: 'Farm Road',
+          addressLine4: 'Farm Area',
+          addressLine5: 'Farmtown',
+          postcode: 'FA43 9XY',
+        },
+        candidateId: 106,
+        candidateName: {
+          firstName: 'James',
+          lastName: 'Cole',
+          title: 'Mr',
+        },
+        driverNumber: 'COLE9925671F95DC',
+        gender: 'M',
+        mobileTelephone: '07654 123456',
+        primaryTelephone: '01234 567890',
+        secondaryTelephone: '04321 098765',
+        dateOfBirth: '2001-12-24',
+        ethnicityCode: 'A',
+        emailAddress: 'james@cole.com',
+      },
+    },
+    slotDetail: {
+      duration: 57,
+      slotId: `${end2endPracticeSlotId}_11`,
+      start: todayAtHour(13).add(5, 'minutes').format(),
+    },
+    testCentre: {
+      centreId: 54321,
+      centreName: 'Example Test Centre',
+      costCode: 'EXTC1',
+    },
+    vehicleTypeCode: 'D',
+    vehicleSlotTypeCode: 7,
+    examinerVisiting: false,
+  },
+  {
+    booking: {
+      application: {
+        applicationId: 1638904,
+        bookingSequence: 1,
+        checkDigit: 3,
+        entitlementCheck: false,
+        categoryEntitlementCheck: false,
+        specialNeedsCode: 'NONE',
+        specialNeedsExtendedTest: false,
+        extendedTest: false,
+        progressiveAccess: false,
+        testCategory: 'D1+EM',
+        vehicleGearbox: 'Manual',
+        vehicleHeight: 9,
+        vehicleLength: 18,
+        vehicleSeats: 25,
+        vehicleWidth: 5,
+        welshTest: true,
+      },
+      candidate: {
+        candidateAddress: {
+          addressLine1: 'The Gables Cottage',
+          addressLine2: 'Home Farm',
+          addressLine3: 'Farm Road',
+          addressLine4: 'Farm Area',
+          addressLine5: 'Farmtown',
+          postcode: 'FA43 9XY',
+        },
+        candidateId: 106,
+        candidateName: {
+          firstName: 'Nathan',
+          lastName: 'Jones',
+          title: 'Mr',
+        },
+        driverNumber: 'JONES925671F95DC',
+        gender: 'M',
+        mobileTelephone: '07654 123456',
+        primaryTelephone: '01234 567890',
+        secondaryTelephone: '04321 098765',
+        dateOfBirth: '2001-12-24',
+        ethnicityCode: 'A',
+        emailAddress: 'nathan@jones.com',
+      },
+    },
+    slotDetail: {
+      duration: 57,
+      slotId: `${end2endPracticeSlotId}_12`,
+      start: todayAtHour(13).add(48, 'minutes').format(),
+    },
+    testCentre: {
+      centreId: 54321,
+      centreName: 'Example Test Centre',
+      costCode: 'EXTC1',
+    },
+    vehicleTypeCode: 'D',
     vehicleSlotTypeCode: 7,
     examinerVisiting: false,
   },

@@ -4,12 +4,23 @@ import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
 import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
 import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
+import { CatDMUniqueTypes } from '@dvsa/mes-test-schema/categories/DM';
+import { CatDEMUniqueTypes } from '@dvsa/mes-test-schema/categories/DEM';
+import { CatD1MUniqueTypes } from '@dvsa/mes-test-schema/categories/D1M';
+import { CatD1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/D1EM';
 import * as manoeuvresActions from '../../common/manoeuvres/manoeuvres.actions';
 
-export const initialState: CatCMUniqueTypes.Manoeuvres |
-CatCEMUniqueTypes.Manoeuvres |
-CatC1MUniqueTypes.Manoeuvres |
-CatC1EMUniqueTypes.Manoeuvres = {
+export type ManoeuvresCatManoeuvreUnion =
+    CatCMUniqueTypes.Manoeuvres
+    | CatCEMUniqueTypes.Manoeuvres
+    | CatC1MUniqueTypes.Manoeuvres
+    | CatC1EMUniqueTypes.Manoeuvres
+    | CatDMUniqueTypes.Manoeuvres
+    | CatDEMUniqueTypes.Manoeuvres
+    | CatD1MUniqueTypes.Manoeuvres
+    | CatD1EMUniqueTypes.Manoeuvres;
+
+export const initialState: ManoeuvresCatManoeuvreUnion = {
   reverseManoeuvre: {},
 };
 

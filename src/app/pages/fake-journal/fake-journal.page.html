@@ -17,57 +17,12 @@
             </ion-row>
         </ion-grid>
     </div>
+
     <location location='Example Test Centre'></location>
+
     <fake-test-slot
-            [slot]="slots[0]"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
-    <fake-test-slot
-            [slot]="slots[1]"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
-    <fake-test-slot
-            [slot]="slots[2]"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
-    <fake-test-slot
-            [slot]="slots[3]"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
-    <fake-test-slot
-            [slot]="slots[4]"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
-    <fake-test-slot
-            [slot]="slots[5]"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
-    <fake-test-slot
-            [slot]="slots[6]"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
-    <fake-test-slot
-            [slot]="slots[7]"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
-    <fake-test-slot
-            [slot]="slots[8]"
+            *ngFor="let slot of slots;"
+            [slot]="slot"
             [hasSlotChanged]="false"
             [testStatus]="'Booked'"
             [canStartTest]="true">
