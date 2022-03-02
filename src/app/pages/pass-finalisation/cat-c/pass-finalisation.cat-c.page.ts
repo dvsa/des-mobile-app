@@ -28,7 +28,6 @@ import {
 import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TransmissionType } from '@shared/models/transmission-type';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-c';
 
 interface CatCPassFinalisationPageState {
