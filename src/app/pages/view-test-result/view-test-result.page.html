@@ -21,6 +21,10 @@
     <div *ngIf="!isLoading && !showErrorMessage && testResult">
         <view-test-header [data]="getHeaderDetails()"></view-test-header>
 
+        <activity-code-card
+                [activityCode]="testResult.activityCode">
+        </activity-code-card>
+
         <test-details-card
                 [candidateDetails]="getCandidateDetails()"
                 [data]="getTestDetails()">
