@@ -44,7 +44,7 @@ describe('VehicleDetailsCardComponent', () => {
       localCategories.forEach(({ category, outcome }) => {
         it(`should ${outcome ? 'hide' : 'not hide'} for cat ${category}`, () => {
           component.category = category as TestCategory;
-          expect(component.shouldShowDimensions()).toEqual(outcome);
+          expect(component.shouldShowDimensions).toEqual(outcome);
         });
       });
     });
@@ -53,11 +53,11 @@ describe('VehicleDetailsCardComponent', () => {
         expect(component.shouldHideCard()).toEqual(true);
       });
       it('should return false if there is a gearbox category', () => {
-        spyOn(component, 'getTransmission').and.returnValue('Tests');
+        spyOnProperty(component, 'transmission').and.returnValue('Tests');
         expect(component.shouldHideCard()).toEqual(false);
       });
       it('should return false if there is a vehicle registration number', () => {
-        spyOn(component, 'getRegistrationNumber').and.returnValue('Tests');
+        spyOnProperty(component, 'registrationNumber').and.returnValue('Tests');
         expect(component.shouldHideCard()).toEqual(false);
       });
     });
@@ -68,10 +68,10 @@ describe('VehicleDetailsCardComponent', () => {
         };
         component.data = data;
         fixture.detectChanges();
-        expect(component.getTransmission()).toEqual('Manual');
+        expect(component.transmission).toEqual('Manual');
       });
       it('should return undefined if the data is missing', () => {
-        expect(component.getTransmission()).toEqual(undefined);
+        expect(component.transmission).toEqual(undefined);
       });
     });
     describe('getRegistrationNumber', () => {
@@ -81,10 +81,10 @@ describe('VehicleDetailsCardComponent', () => {
         };
         component.data = data;
         fixture.detectChanges();
-        expect(component.getRegistrationNumber()).toEqual('ABC 1234');
+        expect(component.registrationNumber).toEqual('ABC 1234');
       });
       it('should return undefined if the data is missing', () => {
-        expect(component.getRegistrationNumber()).toEqual(undefined);
+        expect(component.registrationNumber).toEqual(undefined);
       });
     });
     describe('getVehicleLength', () => {
@@ -93,10 +93,10 @@ describe('VehicleDetailsCardComponent', () => {
           vehicleLength: 10,
         };
         fixture.detectChanges();
-        expect(component.getVehicleLength()).toEqual('10');
+        expect(component.vehicleLength).toEqual('10');
       });
       it('should return ? if the data is missing', () => {
-        expect(component.getVehicleLength()).toEqual('?');
+        expect(component.vehicleLength).toEqual('?');
       });
     });
     describe('getVehicleWidth', () => {
@@ -105,10 +105,10 @@ describe('VehicleDetailsCardComponent', () => {
           vehicleWidth: 4,
         };
         fixture.detectChanges();
-        expect(component.getVehicleWidth()).toEqual('4');
+        expect(component.vehicleWidth).toEqual('4');
       });
       it('should return ? if the data is missing', () => {
-        expect(component.getVehicleWidth()).toEqual('?');
+        expect(component.vehicleWidth).toEqual('?');
       });
     });
   });

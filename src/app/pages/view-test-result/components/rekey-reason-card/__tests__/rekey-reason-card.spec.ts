@@ -35,7 +35,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getIPadIssue()).toEqual('None');
+        expect(component.iPadIssue).toEqual('None');
       });
       it('should return the correct value if the reason for rekey is due to the iPad being broken', () => {
         component.data = {
@@ -45,7 +45,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getIPadIssue()).toEqual('Broken');
+        expect(component.iPadIssue).toEqual('Broken');
       });
       it('should return the correct value if the reason for rekey is due to the iPad having a technical fault', () => {
         component.data = {
@@ -55,7 +55,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getIPadIssue()).toEqual('Technical fault');
+        expect(component.iPadIssue).toEqual('Technical fault');
       });
       it('should return the correct value if the reason for rekey is due to the iPad being lost', () => {
         component.data = {
@@ -65,7 +65,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getIPadIssue()).toEqual('Lost');
+        expect(component.iPadIssue).toEqual('Lost');
       });
       it('should return the correct value if the reason for rekey is due to the iPad being stolen', () => {
         component.data = {
@@ -75,7 +75,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getIPadIssue()).toEqual('Stolen');
+        expect(component.iPadIssue).toEqual('Stolen');
       });
     });
     describe('getTransfer', () => {
@@ -86,7 +86,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getTransfer()).toEqual('Yes');
+        expect(component.transfer).toEqual('Yes');
       });
       it('should return No if transfer is not selected', () => {
         component.data = {
@@ -95,7 +95,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getTransfer()).toEqual('No');
+        expect(component.transfer).toEqual('No');
       });
     });
     describe('getOther', () => {
@@ -107,7 +107,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getOther()).toEqual('Other Reason');
+        expect(component.other).toEqual('Other Reason');
       });
       it('should show N/A if other is not selected', () => {
         component.data = {
@@ -116,7 +116,7 @@ describe('RekeyReasonCardComponent', () => {
           },
         };
         fixture.detectChanges();
-        expect(component.getOther()).toEqual('N/A');
+        expect(component.other).toEqual('N/A');
       });
     });
   });

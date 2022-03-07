@@ -10,6 +10,7 @@ import { TestDataUnion } from '@shared/unions/test-schema-unions';
 import { QuestionProvider } from '@providers/question/question';
 import { manoeuvreTypeLabels } from '@shared/constants/competencies/catb-manoeuvres';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
   DataRowListItem,
   TestRequirementsLabels,
@@ -70,7 +71,7 @@ export class DebriefCardComponent implements OnInit {
       .find((question) => question.code === tellMeQuestionCode);
   }
 
-  public getTestRequirements = (): DataRowListItem[] => {
+  public get testRequirements(): DataRowListItem[] {
     switch (this.category) {
       case TestCategory.B:
         return this.getTestRequirementsCatB();
@@ -81,6 +82,15 @@ export class DebriefCardComponent implements OnInit {
       case TestCategory.CE:
       case TestCategory.C1E:
         return this.getTestRequirementsCatC();
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+        return this.getTestRequirementsCatManoeuvre();
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.DE:
@@ -124,6 +134,8 @@ export class DebriefCardComponent implements OnInit {
 
   public isCatB = (): boolean => isAnyOf(this.category, [TestCategory.B]);
 
+  public isCatADI2 = (): boolean => isAnyOf(this.category, [TestCategory.ADI2]);
+
   public isRider = (): boolean => isAnyOf(this.category, [
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1, // Cat Mod1
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2, // Cat Mod2
@@ -145,6 +157,7 @@ export class DebriefCardComponent implements OnInit {
 
   public showControlledStop: () => boolean = () => isAnyOf(this.category, [
     TestCategory.ADI2, // Cat ADI2
+    TestCategory.B, // Cat B
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
   ]);
 
@@ -181,7 +194,7 @@ export class DebriefCardComponent implements OnInit {
     ];
   };
 
-  public getTestRequirementsCatBE = (): DataRowListItem[] => {
+  private getTestRequirementsCatBE = (): DataRowListItem[] => {
     return [
       {
         label: TestRequirementsLabels.normalStart1,
@@ -286,7 +299,7 @@ export class DebriefCardComponent implements OnInit {
     return testRequirements;
   };
 
-  public getTestRequirementsCatHome = (): DataRowListItem[] => {
+  private getTestRequirementsCatHome = (): DataRowListItem[] => {
     return [
       {
         label: TestRequirementsLabels.normalStart1,
@@ -307,12 +320,40 @@ export class DebriefCardComponent implements OnInit {
     ];
   };
 
-  public getManoeuvre(): string {
+  private getTestRequirementsCatManoeuvre = (): DataRowListItem[] => {
+    return [
+      {
+        label: TestRequirementsLabels.uncoupleRecouple,
+        checked: get(this.data, 'uncoupleRecouple.selected', false),
+      },
+    ];
+  };
+
+  public get manoeuvre(): string {
+    if (this.isCatADI2()) {
+      return this.getManoeuvreADI();
+    }
     const isReverseLeftSelected = get(this.data, 'manoeuvres.reverseLeft.selected', false);
     return isReverseLeftSelected ? manoeuvreTypeLabelsCatC.reverseLeft : 'None';
   }
 
-  public getEco(): DataRowListItem[] {
+  private getManoeuvreADI(): string {
+    const manoeuvres: CatADI2UniqueTypes.Manoeuvres[] = get(this.data, 'manoeuvres', []);
+    const selectedManoeuvres: string[] = [];
+
+    manoeuvres.map((manoeuvreObject: CatADI2UniqueTypes.Manoeuvres) => {
+      if (manoeuvreObject) {
+        Object.keys(manoeuvreObject).map((manoeuvre: string) => {
+          if (manoeuvreObject[manoeuvre].selected) {
+            selectedManoeuvres.push(manoeuvreTypeLabels[manoeuvre]);
+          }
+        });
+      }
+    });
+    return selectedManoeuvres.length > 0 ? selectedManoeuvres.join(', ') : 'None';
+  }
+
+  public get eco(): DataRowListItem[] {
     return [
       {
         label: ViewTestResultLabels.control,
@@ -325,7 +366,7 @@ export class DebriefCardComponent implements OnInit {
     ];
   }
 
-  public getETA(): string {
+  public get eTA(): string {
     const eta: string[] = [];
 
     if (get(this.data, 'ETA.physical')) {
@@ -339,16 +380,6 @@ export class DebriefCardComponent implements OnInit {
     }
     return flattenArray(eta);
   }
-
-  getControlledStop = (): DataRowListItem[] => {
-    const controlledStop: boolean = get(this.data, 'controlledStop.selected');
-    return [
-      {
-        label: controlledStop ? ViewTestResultLabels.completed : ViewTestResultLabels.notCompleted,
-        checked: controlledStop,
-      },
-    ];
-  };
 
   getManoeuvres(): string[] {
     const manoeuvres = [];
@@ -373,21 +404,21 @@ export class DebriefCardComponent implements OnInit {
     return manoeuvres;
   }
 
-  public getHighwayCode(): DataRowListItem[] {
-    const isHighwayCodeSelected = get(this.data, 'highwayCodeSafety.selected', false);
+  public get highwayCode(): DataRowListItem[] {
+    const isHighwayCodeSelected: boolean = get(this.data, 'highwayCodeSafety.selected', false);
     return [
       {
-        label: isHighwayCodeSelected ? 'Completed' : 'Not Completed',
+        label: isHighwayCodeSelected ? ViewTestResultLabels.completed : ViewTestResultLabels.notCompleted,
         checked: isHighwayCodeSelected,
       },
     ];
   }
 
-  public controlledStop(): DataRowListItem[] {
-    const isControlledStopSelected = get(this.data, 'controlledStop.selected', false);
+  public get controlledStop(): DataRowListItem[] {
+    const isControlledStopSelected: boolean = get(this.data, 'controlledStop.selected', false);
     return [
       {
-        label: isControlledStopSelected ? 'Completed' : 'Not Completed',
+        label: isControlledStopSelected ? ViewTestResultLabels.completed : ViewTestResultLabels.notCompleted,
         checked: isControlledStopSelected,
       },
     ];
@@ -395,27 +426,27 @@ export class DebriefCardComponent implements OnInit {
 
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
-  public getShowMeQuestions(): QuestionResult[] {
-    if (this.category === TestCategory.B) {
-      const question = get(this.data, 'vehicleChecks.showMeQuestion', null);
+  public get showMeQuestions(): QuestionResult[] {
+    if (this.isCatB()) {
+      const question: QuestionResult = get(this.data, 'vehicleChecks.showMeQuestion', null);
       return question ? [question] : [];
     }
     return get(this.data, 'vehicleChecks.showMeQuestions', []);
   }
 
-  public getTellMeQuestions(): QuestionResult[] {
-    if (this.category === TestCategory.B) {
-      const question = get(this.data, 'vehicleChecks.tellMeQuestion', null);
+  public get tellMeQuestions(): QuestionResult[] {
+    if (this.isCatB()) {
+      const question: QuestionResult = get(this.data, 'vehicleChecks.tellMeQuestion', null);
       return question ? [question] : [];
     }
     return get(this.data, 'vehicleChecks.tellMeQuestions', []);
   }
 
-  public getSafetyQuestions(): QuestionResult[] {
+  public get safetyQuestions(): QuestionResult[] {
     return get(this.data, 'safetyAndBalanceQuestions.safetyQuestions', []);
   }
 
-  public getBalanceQuestions(): QuestionResult[] {
+  public get balanceQuestions(): QuestionResult[] {
     return get(this.data, 'safetyAndBalanceQuestions.balanceQuestions', []);
   }
 }

@@ -27,7 +27,7 @@ export class TestSummaryCardComponent {
   @Input()
   communicationPreferences: CommunicationPreferences;
 
-  public getAccompaniedBy() : string {
+  public get accompaniedBy() : string {
     const accompaniedBy: string[] = [];
 
     if (get(this.accompaniment, 'ADI')) {
@@ -49,45 +49,45 @@ export class TestSummaryCardComponent {
     return flattenArray(accompaniedBy);
   }
 
-  public getProvisionalLicenceProvided() : string {
+  public get provisionalLicenceProvided() : string {
     return convertBooleanToString(get(this.passCompletion, 'provisionalLicenceProvided'));
   }
 
-  public getCode78(): string {
+  public get code78(): string {
     const code78: boolean = get(this.passCompletion, 'code78Present', null);
     return code78 !== null ? convertBooleanToString(code78) : null;
   }
 
-  public getPassCertificateNumber() : string {
+  public get passCertificateNumber() : string {
     return get(this.passCompletion, 'passCertificateNumber');
   }
 
-  public getRouteNumber(): number | 'None' {
+  public get routeNumber(): number | 'None' {
     return get(this.testSummary, 'routeNumber', 'None');
   }
 
-  public getIndependentDriving() : string {
+  public get independentDriving() : string {
     return get(this.testSummary, 'independentDriving', 'None');
   }
 
-  public getCandidateDescription(): string {
+  public get candidateDescription(): string {
     return get(this.testSummary, 'candidateDescription', 'None');
   }
 
-  public getDebriefWitnessed(): string {
+  public get debriefWitnessed(): string {
     return convertBooleanToString(get(this.testSummary, 'debriefWitnessed'));
   }
 
-  public getWeatherConditions() : string {
+  public get weatherConditions() : string {
     const weatherConditions: string[] = get(this.testSummary, 'weatherConditions', []);
     return flattenArray((weatherConditions?.length > 0) ? weatherConditions : ['None']);
   }
 
-  public getD255() : string {
+  public get d255() : string {
     return convertBooleanToString(get(this.testSummary, 'D255'));
   }
 
-  public getAdditionalInformation() : string {
+  public get additionalInformation() : string {
     return get(this.testSummary, 'additionalInformation', 'None');
   }
 
@@ -99,11 +99,11 @@ export class TestSummaryCardComponent {
     return get(this.testSummary, 'modeOfTransport') !== undefined;
   }
 
-  public getTestConductedOn(): string {
+  public get testConductedOn(): string {
     return get(this.testSummary, 'modeOfTransport', 'None');
   }
 
-  public getConductedLanguage(): string {
+  public get conductedLanguage(): string {
     return get(this.communicationPreferences, 'conductedLanguage', 'None');
   }
 }

@@ -52,6 +52,8 @@ import { WeatherConditionsComponent } from '../../components/weather-conditions/
 import { ShowMeQuestionComponent } from '../../components/show-me-question/show-me-question';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
+import {AccompanimentCardComponent} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import {AccompanimentComponent} from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 
 describe('OfficeCatCPage', () => {
   let fixture: ComponentFixture<OfficeCatCPage>;
@@ -74,6 +76,8 @@ describe('OfficeCatCPage', () => {
         MockComponent(DateOfTest),
         MockComponent(VehicleChecksOfficeCardComponent),
         MockComponent(TrueLikenessComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(AccompanimentComponent),
       ],
       imports: [
         IonicModule,

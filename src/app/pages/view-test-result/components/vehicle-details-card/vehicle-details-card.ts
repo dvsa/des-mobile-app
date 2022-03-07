@@ -42,32 +42,51 @@ export class VehicleDetailsCardComponent {
   vehicleDetails: string[];
 
   public shouldHideCard() : boolean {
-    return (
-      !this.getTransmission()
-        && !this.getRegistrationNumber()
-        && !this.getSchoolBike()
-        && !this.getInstructorRegistrationNumber()
-    );
+    return (!this.transmission && !this.registrationNumber && !this.schoolBike && !this.instructorRegistrationNumber);
   }
 
-  public shouldShowDimensions() : boolean {
+  public get shouldShowDimensions() : boolean {
     switch (this.category) {
       case TestCategory.BE:
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:
       case TestCategory.C1E:
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
       case TestCategory.D:
       case TestCategory.D1:
       case TestCategory.DE:
       case TestCategory.D1E:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
         return true;
       default:
         return false;
     }
   }
 
-  public showTransmissionWithCode78() : boolean {
+  public get shouldShowExtraDimensions() : boolean {
+    switch (this.category) {
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.CEM:
+      case TestCategory.C1EM:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+      case TestCategory.DEM:
+      case TestCategory.D1EM:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  public get showTransmissionWithCode78() : boolean {
     switch (this.category) {
       case TestCategory.BE:
       case TestCategory.C:
@@ -90,47 +109,55 @@ export class VehicleDetailsCardComponent {
 
   public isADI2 = (): boolean => this.category === TestCategory.ADI2;
 
-  public getInstructorRegistrationNumber(): number {
+  public get instructorRegistrationNumber(): number {
     return get(this.data, 'instructorRegistrationNumber');
   }
 
-  public getTransmission(): string {
+  public get transmission(): string {
     return get(this.data, 'gearboxCategory');
   }
 
-  public getRegistrationNumber(): string {
+  public get registrationNumber(): string {
     return get(this.data, 'registrationNumber');
   }
 
-  public getVehicleLength(): string {
+  public get vehicleLength(): string {
     return get(this.data, 'vehicleLength', '?').toString();
   }
 
-  public getVehicleWidth(): string {
+  public get vehicleWidth(): string {
     return get(this.data, 'vehicleWidth', '?').toString();
   }
 
-  public getSchoolBike(): boolean {
+  public get vehicleHeight(): string {
+    return get(this.data, 'vehicleHeight', '?').toString();
+  }
+
+  public get numberOfSeats(): string {
+    return get(this.data, 'numberOfSeats', '?').toString();
+  }
+
+  public get schoolBike(): boolean {
     return get(this.data, 'schoolBike');
   }
 
-  public getTrainerPRN(): number {
+  public get trainerPRN(): number {
     return get(this.trainerData, 'trainerRegistrationNumber', null);
   }
 
-  public getOrdit(): string {
+  public get ordit(): string {
     return get(this.trainerData, 'orditTrainedCandidate', false) ? 'Yes' : 'No';
   }
 
-  public getTrainingRecords(): string {
+  public get trainingRecords(): string {
     return get(this.trainerData, 'trainingRecords', false) ? 'Yes' : 'No';
   }
 
-  public displayVehicleDetails(): boolean {
+  public get displayVehicleDetails(): boolean {
     return get(this.data, 'schoolCar', false) || get(this.data, 'dualControls', false);
   }
 
-  public getVehicleDetails(): string {
+  public get schoolCarDualControls(): string {
     return get(this.data, 'schoolCar') ? 'School Car' : 'Dual Controls';
   }
 

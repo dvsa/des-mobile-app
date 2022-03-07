@@ -5,13 +5,13 @@
     <ion-card-content>
         <ion-grid>
             <data-row
+                    *ngIf="transmission && !showTransmissionWithCode78"
                     [label]="'Transmission'"
-                    [value]="getTransmission()"
-                    *ngIf="getTransmission() && !showTransmissionWithCode78()">
+                    [value]="transmission">
             </data-row>
 
             <transmission-display
-                    *ngIf="getTransmission() && showTransmissionWithCode78()"
+                    *ngIf="transmission && showTransmissionWithCode78"
                     [category]="category"
                     [transmission]="data.gearboxCategory"
                     [code78]="passCompletion?.code78Present"
@@ -19,67 +19,54 @@
             </transmission-display>
 
             <data-row
+                    *ngIf="registrationNumber"
                     [label]="'Vehicle registration number'"
-                    [value]="getRegistrationNumber()"
-                    *ngIf="getRegistrationNumber()">
+                    [value]="registrationNumber">
             </data-row>
 
             <data-row-custom
-                    [label]="'Vehicle details'"
                     *ngIf="vehicleDetails"
-                    [shouldHaveSeperator]="!!getInstructorRegistrationNumber() || shouldShowDimensions()">
+                    [label]="'Vehicle details'"
+                    [shouldHaveSeperator]="!!instructorRegistrationNumber || shouldShowDimensions">
                 <span class=mes-data *ngIf="vehicleDetails?.length === 0">None</span>
                 <span class="mes-data">{{ getFlattenArray(vehicleDetails) }}</span>
             </data-row-custom>
 
             <data-row
+                    *ngIf="instructorRegistrationNumber"
                     [label]="'Instructor registration number'"
-                    [value]="getInstructorRegistrationNumber()"
-                    *ngIf="getInstructorRegistrationNumber()"
+                    [value]="instructorRegistrationNumber"
                     [shouldHaveSeperator]="false">
             </data-row>
 
-            <data-row-custom *ngIf="shouldShowDimensions()" [label]="'Vehicle dimensions'">
+            <data-row-custom *ngIf="shouldShowDimensions" [label]="'Vehicle dimensions'">
                 <ion-grid>
                     <ion-row>
-                        <ion-col size="32">
-                            <span class="mes-data"><span class="mes-data bold">L:</span> {{ getVehicleLength() }}</span>
+                        <ion-col [size]="shouldShowExtraDimensions ? 16 : 32">
+                            <span class="mes-data"><span class="mes-data bold">L:</span> {{ vehicleLength }}</span>
                         </ion-col>
-                        <ion-col size="32">
-                            <span class="mes-data"><span class="mes-data bold">W:</span> {{ getVehicleWidth() }}</span>
+                        <ion-col [size]="shouldShowExtraDimensions ? 16 : 32">
+                            <span class="mes-data"><span class="mes-data bold">W:</span> {{ vehicleWidth }}</span>
+                        </ion-col>
+                        <ion-col *ngIf="shouldShowExtraDimensions" size="16">
+                            <span class="mes-data"><span class="mes-data bold">H:</span> {{ vehicleHeight }}</span>
+                        </ion-col>
+                        <ion-col *ngIf="shouldShowExtraDimensions" size="16">
+                            <span class="mes-data"><span class="mes-data bold">Seats:</span> {{ numberOfSeats }}</span>
                         </ion-col>
                     </ion-row>
                 </ion-grid>
             </data-row-custom>
 
-            <data-row
-                    [label]="'School Bike'"
-                    [value]="getSchoolBike()"
-                    *ngIf="getSchoolBike()">
-            </data-row>
+            <data-row *ngIf="schoolBike" [label]="'School Bike'" [value]="schoolBike"></data-row>
 
-            <data-row
-                    *ngIf="getTrainerPRN()"
-                    [label]="'Trainer PRN'"
-                    [value]="getTrainerPRN()">
-            </data-row>
+            <data-row *ngIf="trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"></data-row>
 
-            <data-row
-                    *ngIf="isADI2()"
-                    [label]="'ORDIT'"
-                    [value]="getOrdit()">
-            </data-row>
+            <data-row *ngIf="isADI2()" [label]="'ORDIT'" [value]="ordit"></data-row>
 
-            <data-row
-                    *ngIf="isADI2()"
-                    [label]="'Training Records'"
-                    [value]="getTrainingRecords()">
-            </data-row>
+            <data-row *ngIf="isADI2()" [label]="'Training Records'" [value]="trainingRecords"></data-row>
 
-            <data-row *ngIf="displayVehicleDetails()"
-                      [label]="'Vehicle Details'"
-                      [value]="getVehicleDetails()">
-            </data-row>
+            <data-row *ngIf="displayVehicleDetails" [label]="'Vehicle Details'" [value]="schoolCarDualControls"></data-row>
 
         </ion-grid>
     </ion-card-content>

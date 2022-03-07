@@ -41,10 +41,10 @@ describe('ContactDetailsCardComponent', () => {
         };
         component.communicationPreferencesData = data;
         fixture.detectChanges();
-        expect(component.getTestResultPreference()).toEqual('Email');
+        expect(component.testResultPreference).toEqual('Email');
       });
       it('should return None if the data is missing', () => {
-        expect(component.getTestResultPreference()).toEqual('None');
+        expect(component.testResultPreference).toEqual('None');
       });
     });
     describe('getPhoneNumber', () => {
@@ -54,10 +54,10 @@ describe('ContactDetailsCardComponent', () => {
         };
         component.candidateData = data;
         fixture.detectChanges();
-        expect(component.getPhoneNumber()).toEqual('Test Phone Number');
+        expect(component.phoneNumber).toEqual('Test Phone Number');
       });
       it('should return None if the data is missing', () => {
-        expect(component.getPhoneNumber()).toEqual('None');
+        expect(component.phoneNumber).toEqual('None');
       });
     });
     describe('getEmailAddress', () => {
@@ -73,7 +73,7 @@ describe('ContactDetailsCardComponent', () => {
         component.candidateData = candidateData;
         component.communicationPreferencesData = commsData;
         fixture.detectChanges();
-        expect(component.getEmailAddress()).toEqual('Test@Test.com');
+        expect(component.emailAddress).toEqual('Test@Test.com');
       });
       it('should show the email address from the comms data if the comms meathod is email', () => {
         const candidateData: Candidate = {
@@ -87,7 +87,7 @@ describe('ContactDetailsCardComponent', () => {
         component.candidateData = candidateData;
         component.communicationPreferencesData = commsData;
         fixture.detectChanges();
-        expect(component.getEmailAddress()).toEqual('Test@Test.com');
+        expect(component.emailAddress).toEqual('Test@Test.com');
       });
       it('should show the email address from the journal data when there is no comms data', () => {
         const candidateData: Candidate = {
@@ -95,10 +95,10 @@ describe('ContactDetailsCardComponent', () => {
         };
         component.candidateData = candidateData;
         fixture.detectChanges();
-        expect(component.getEmailAddress()).toEqual('Test@Test.com');
+        expect(component.emailAddress).toEqual('Test@Test.com');
       });
       it('should show none when there is no data', () => {
-        expect(component.getEmailAddress()).toEqual('None');
+        expect(component.emailAddress).toEqual('None');
       });
     });
     describe('getAddress', () => {
@@ -115,10 +115,10 @@ describe('ContactDetailsCardComponent', () => {
         };
         component.candidateData = data;
         fixture.detectChanges();
-        expect(component.getAddress()).toEqual(data.candidateAddress);
+        expect(component.address).toEqual(data.candidateAddress);
       });
       it('should return undefined if there is no data', () => {
-        expect(component.getAddress()).toEqual(undefined);
+        expect(component.address).toEqual(undefined);
       });
     });
   });

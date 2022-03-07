@@ -9,11 +9,12 @@
                        class="ion-input-styling"
                        type="text"
                        clearInput
+                       uppercaseAlphanumOnly
                        (ionFocus)="setFocus('dtcNumber')"
                        (ionBlur)="setFocus(null)"
                        [ngClass]="{'input-focus': focusedElement === 'dtcNumber'}"
                        [value]="dtcNumber"
-                       (change)="dtcNumberChanged($event.target.value)">
+                       (ionInput)="dtcNumberChanged($event.target?.value)">
             </ion-input>
         </ion-col>
         <ion-col size="3"></ion-col>
@@ -26,10 +27,11 @@
                        type="text"
                        class="ion-input-styling custom-font-size"
                        clearInput
+                       uppercaseAlphanumOnly
                        (ionFocus)="setFocus('deNumber')"
                        (ionBlur)="setFocus(null)"
                        [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
-                       (change)="staffNumberChanged($event.target.value)">
+                       (ionInput)="staffNumberChanged($event)">
             </ion-input>
         </ion-col>
     </ion-row>
@@ -43,12 +45,20 @@
             <label id="advanced-search-date-range-label">Date range</label>
         </ion-col>
         <ion-col size="28">
+<!--            <ion-datetime-->
+<!--                    id="advanced-search-start-date-picker"-->
+<!--                    placeholder="Select start date"-->
+<!--                    displayFormat="DD/MM/YYYY"-->
+<!--                    doneText="Done"-->
+<!--                    [value]="startDate"-->
+<!--                    [pickerOptions]="customStartDateOptions">-->
+<!--            </ion-datetime>-->
             <ion-datetime
-                    id="advanced-search-start-date-picker"
-                    placeholder="Select start date"
-                    displayFormat="DD/MM/YYYY"
+                    (ionChange)="startDateChanged($event?.detail?.value)"
+                    [(ngModel)]="startDate"
                     [pickerOptions]="customStartDateOptions"
-                    [(ngModel)]="startDate">
+                    placeholder="Select start date"
+                    displayFormat="DD/MM/YYYY">
             </ion-datetime>
         </ion-col>
         <ion-col class="component-label ion-text-center" size="9">
@@ -59,8 +69,9 @@
                     id="advanced-search-end-date-picker"
                     placeholder="Select end date"
                     displayFormat="DD/MM/YYYY"
-                    [pickerOptions]="customEndDateOptions"
-                    [(ngModel)]="endDate">
+                    doneText="Done"
+                    [value]="endDate"
+                    [pickerOptions]="customEndDateOptions">
             </ion-datetime>
         </ion-col>
     </ion-row>

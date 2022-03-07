@@ -48,6 +48,8 @@ import { AdditionalInformationComponent } from '../../components/additional-info
 import { WeatherConditionsComponent } from '../../components/weather-conditions/weather-conditions';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
+import {AccompanimentCardComponent} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import {AccompanimentComponent} from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 
 describe('OfficeCatManoeuvrePage', () => {
   let fixture: ComponentFixture<OfficeCatManoeuvrePage>;
@@ -68,6 +70,8 @@ describe('OfficeCatManoeuvrePage', () => {
         MockComponent(CandidateSectionComponent),
         MockComponent(DateOfTest),
         MockComponent(TrueLikenessComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(AccompanimentComponent),
       ],
       imports: [
         IonicModule,

@@ -4,15 +4,15 @@
     </ion-card-header>
     <ion-card-content>
         <ion-grid>
-            <data-row [label]="'Test result preference'" [value]="getTestResultPreference()"></data-row>
+            <data-row [label]="'Test result preference'" [value]="testResultPreference"></data-row>
 
-            <data-row [label]="'Phone number'" [value]="getPhoneNumber()"></data-row>
+            <data-row [label]="'Phone number'" [value]="phoneNumber"></data-row>
 
-            <data-row [label]="'Email'" [value]="getEmailAddress()"></data-row>
+            <data-row [label]="'Email'" [value]="emailAddress"></data-row>
 
             <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
-                <display-address [address]="getAddress()"></display-address>
-                <span class="mes-data" *ngIf="!getAddress()">None</span>
+                <display-address [address]="address"></display-address>
+                <span class="mes-data" *ngIf="!address">None</span>
             </data-row-custom>
         </ion-grid>
     </ion-card-content>

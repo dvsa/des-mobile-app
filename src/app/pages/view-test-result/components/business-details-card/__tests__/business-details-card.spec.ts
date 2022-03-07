@@ -33,6 +33,8 @@ describe('BusinessDetailsCardComponent', () => {
   describe('Class', () => {
     describe('shouldHideCard', () => {
       it('should return true if all data is present', () => {
+        component.data = null;
+        fixture.detectChanges();
         expect(component.shouldHideCard()).toEqual(true);
       });
       it('should return false if all data has been provided', () => {
@@ -81,10 +83,10 @@ describe('BusinessDetailsCardComponent', () => {
         };
         component.data = data;
         fixture.detectChanges();
-        expect(component.getBusinessName()).toEqual('Test Business Name');
+        expect(component.businessName).toEqual('Test Business Name');
       });
       it('should return Not Supplied if the data is not present', () => {
-        expect(component.getBusinessName()).toEqual('Not supplied');
+        expect(component.businessName).toEqual('Not supplied');
       });
     });
     describe('getPhoneNumber', () => {
@@ -94,10 +96,10 @@ describe('BusinessDetailsCardComponent', () => {
         };
         component.data = data;
         fixture.detectChanges();
-        expect(component.getPhoneNumber()).toEqual('123456789');
+        expect(component.phoneNumber).toEqual('123456789');
       });
       it('should return Not Supplied if the data is not present', () => {
-        expect(component.getPhoneNumber()).toEqual('Not supplied');
+        expect(component.phoneNumber).toEqual('Not supplied');
       });
     });
     describe('getAddress', () => {
@@ -114,10 +116,10 @@ describe('BusinessDetailsCardComponent', () => {
         };
         component.data = data;
         fixture.detectChanges();
-        expect(component.getAddress()).toEqual(data.businessAddress);
+        expect(component.address).toEqual(data.businessAddress);
       });
       it('should return undefined if the data is missing', () => {
-        expect(component.getAddress()).toEqual(undefined);
+        expect(component.address).toEqual(undefined);
       });
     });
   });
