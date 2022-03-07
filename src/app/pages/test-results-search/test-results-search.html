@@ -24,7 +24,7 @@
                                    name="searchBy"
                                    value="appReference"
                                    [checked]="searchBy === 'appReference'"
-                                   (change)="searchByChanged($event.target.value)">
+                                   (change)="searchByChanged('appReference')">
                             <label for="search-by-app-reference" class="radio-label">Application reference</label>
                         </ion-col>
                         <ion-col size="34">
@@ -34,7 +34,7 @@
                                    name="searchBy"
                                    value="driverNumber"
                                    [checked]="searchBy === 'driverNumber'"
-                                   (change)="searchByChanged($event.target.value)">
+                                   (change)="searchByChanged('driverNumber')">
                             <label for="search-by-driver-number" class="radio-label">Driver number</label>
                         </ion-col>
                     </ion-row>
@@ -43,7 +43,7 @@
                             <ion-input
                                     id="test-result-search-{{searchBy}}-input"
                                     [placeholder]="searchBy === 'appReference' ? 'Enter an application reference' : 'Enter a driver number'"
-                                    type="number"
+                                    type="text"
                                     class="ion-input-styling custom-font-size"
                                     clearInput
                                     numbersOnly
@@ -51,7 +51,7 @@
                                     (ionBlur)="setFocus(null)"
                                     [value]="candidateInfo"
                                     [ngClass]="{'input-focus': focusedElement === 'field'}"
-                                    (change)="candidateInfoChanged($event.target.value)">
+                                    (ionInput)="candidateInfoChanged($event.target.value)">
                             </ion-input>
                         </ion-col>
                     </ion-row>

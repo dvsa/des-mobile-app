@@ -28,24 +28,24 @@ export class RekeyDetailsCardComponent {
   | TestResultCatAM2Schema
   | TestResultCatCPCSchema;
 
-  public getScheduledStaffNumber(): string {
+  public get scheduledStaffNumber(): string {
     return get(this.data, 'examinerBooked')?.toString();
   }
 
-  public getConductedStaffNumber(): string {
+  public get conductedStaffNumber(): string {
     return get(this.data, 'examinerConducted')?.toString();
   }
 
-  public getTestDate(): string {
+  public get testDate(): string {
     const testDate: DateTime = new DateTime(get(this.data, 'journalData.testSlotAttributes.start'));
     return testDate.format('dddd Do MMMM YYYY');
   }
 
-  public getRekeyedStaffNumber(): string {
+  public get rekeyedStaffNumber(): string {
     return get(this.data, 'examinerKeyed')?.toString();
   }
 
-  public getRekeyDate(): string {
+  public get rekeyDate(): string {
     const rekeyDate: DateTime = new DateTime(get(this.data, 'rekeyDate'));
     return rekeyDate.format('dddd Do MMMM YYYY');
   }

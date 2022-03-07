@@ -14,22 +14,22 @@ export class ContactDetailsCardComponent {
   @Input()
   communicationPreferencesData: CommunicationPreferences;
 
-  getTestResultPreference(): string {
+  get testResultPreference(): string {
     return get(this.communicationPreferencesData, 'communicationMethod', 'None');
   }
 
-  getPhoneNumber(): string {
+  get phoneNumber(): string {
     return get(this.candidateData, 'primaryTelephone', 'None');
   }
 
-  getEmailAddress(): string {
+  get emailAddress(): string {
     if (get(this.communicationPreferencesData, 'communicationMethod') === 'Email') {
       return get(this.communicationPreferencesData, 'updatedEmail', 'None');
     }
     return get(this.candidateData, 'emailAddress', 'None');
   }
 
-  getAddress(): Address {
+  get address(): Address {
     return get(this.candidateData, 'candidateAddress');
   }
 

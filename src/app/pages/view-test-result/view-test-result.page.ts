@@ -19,7 +19,6 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import { ErrorTypes } from '@shared/models/error-message';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { TestResultManoeuvresUnion } from '@store/tests/tests.cat-cm.reducer';
 import {
   ExaminerDetailsModel,
 } from '@pages/view-test-result/components/examiner-details-card/examiner-details-card.model';
@@ -49,7 +48,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   testCategory: TestCategory;
 
   isLoading: boolean;
-  testResult: TestResultSchemasUnion | TestResultManoeuvresUnion;
+  testResult: TestResultSchemasUnion;
   subscription: Subscription;
   showErrorMessage: boolean = false;
   errorLink: string;
@@ -210,16 +209,15 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   showVehicleDetailsCommonCard: () => boolean = () => isAnyOf(this.testCategory, [
     TestCategory.B, // Cat B
     TestCategory.BE, // Cat BE
-    TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C
-    TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D
+    TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C 3B
+    TestCategory.CM, TestCategory.C1M, TestCategory.C1EM, TestCategory.CEM, // Cat C 3A
+    TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D 3B
+    TestCategory.DM, TestCategory.D1M, TestCategory.D1EM, TestCategory.DEM, // Cat D 3A
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
   ]);
 
   getDrivingFaultSumCount(): number {
-    return this.faultCountProvider.getDrivingFaultSumCount(
-      this.testResult.category as TestCategory,
-      this.testResult.testData,
-    );
+    return this.faultCountProvider.getDrivingFaultSumCount(this.testCategory, this.testResult.testData);
   }
 
   getDangerousFaults(): FaultSummary[] {

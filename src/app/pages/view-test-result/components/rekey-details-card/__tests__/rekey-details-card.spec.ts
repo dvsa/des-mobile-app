@@ -36,10 +36,10 @@ describe('RekeyDetailsCardComponent', () => {
         };
         component.data = data as NeverType<TestResultCommonSchema>;
         fixture.detectChanges();
-        expect(component.getScheduledStaffNumber()).toEqual('123456');
+        expect(component.scheduledStaffNumber).toEqual('123456');
       });
       it('should return undefined if the data does not exist', () => {
-        expect(component.getScheduledStaffNumber()).toEqual(undefined);
+        expect(component.scheduledStaffNumber).toEqual(undefined);
       });
     });
     describe('getConductedStaffNumber', () => {
@@ -49,10 +49,10 @@ describe('RekeyDetailsCardComponent', () => {
         };
         component.data = data as NeverType<TestResultCommonSchema>;
         fixture.detectChanges();
-        expect(component.getConductedStaffNumber()).toEqual('123456');
+        expect(component.conductedStaffNumber).toEqual('123456');
       });
       it('should return undefined if the data does not exist', () => {
-        expect(component.getConductedStaffNumber()).toEqual(undefined);
+        expect(component.conductedStaffNumber).toEqual(undefined);
       });
     });
     describe('getRekeyedStaffNumber', () => {
@@ -62,10 +62,10 @@ describe('RekeyDetailsCardComponent', () => {
         };
         component.data = data as NeverType<TestResultCommonSchema>;
         fixture.detectChanges();
-        expect(component.getRekeyedStaffNumber()).toEqual('123456');
+        expect(component.rekeyedStaffNumber).toEqual('123456');
       });
       it('should return undefined if the data does not exist', () => {
-        expect(component.getRekeyedStaffNumber()).toEqual(undefined);
+        expect(component.rekeyedStaffNumber).toEqual(undefined);
       });
     });
     describe('getTestDate', () => {
@@ -79,7 +79,7 @@ describe('RekeyDetailsCardComponent', () => {
         };
         component.data = data as NeverType<TestResultCommonSchema>;
         fixture.detectChanges();
-        expect(component.getTestDate()).toEqual('Saturday 12th January 2019');
+        expect(component.testDate).toEqual('Saturday 12th January 2019');
       });
     });
     describe('getRekeyDate', () => {
@@ -89,7 +89,7 @@ describe('RekeyDetailsCardComponent', () => {
         };
         component.data = data as NeverType<TestResultCommonSchema>;
         fixture.detectChanges();
-        expect(component.getRekeyDate()).toEqual('Saturday 12th January 2019');
+        expect(component.rekeyDate).toEqual('Saturday 12th January 2019');
       });
     });
   });

@@ -41,11 +41,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.accompaniment = accompaniment;
         fixture.detectChanges();
-        expect(component.getAccompaniedBy()).toEqual('ADI, Interpreter, Supervisor and Other');
+        expect(component.accompaniedBy).toEqual('ADI, Interpreter, Supervisor and Other');
       });
 
       it('should return None when there is no accompaniment ', () => {
-        expect(component.getAccompaniedBy()).toEqual('None');
+        expect(component.accompaniedBy).toEqual('None');
       });
     });
 
@@ -57,7 +57,7 @@ describe('TestSummaryCardComponent', () => {
         };
         component.passCompletion = passCompletion;
         fixture.detectChanges();
-        expect(component.getProvisionalLicenceProvided()).toEqual('Yes');
+        expect(component.provisionalLicenceProvided).toEqual('Yes');
       });
 
       it('should return no if the licence has not been provided', () => {
@@ -67,11 +67,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.passCompletion = passCompletion;
         fixture.detectChanges();
-        expect(component.getProvisionalLicenceProvided()).toEqual('No');
+        expect(component.provisionalLicenceProvided).toEqual('No');
       });
 
       it('should return no if there is no passCompletion', () => {
-        expect(component.getProvisionalLicenceProvided()).toEqual('No');
+        expect(component.provisionalLicenceProvided).toEqual('No');
       });
     });
 
@@ -83,7 +83,7 @@ describe('TestSummaryCardComponent', () => {
         };
         component.passCompletion = passCompletion;
         fixture.detectChanges();
-        expect(component.getCode78()).toEqual(null);
+        expect(component.code78).toEqual(null);
       });
       it('should return yes if code78 is true', () => {
         const passCompletion = {
@@ -93,7 +93,7 @@ describe('TestSummaryCardComponent', () => {
         };
         component.passCompletion = passCompletion;
         fixture.detectChanges();
-        expect(component.getCode78()).toEqual('Yes');
+        expect(component.code78).toEqual('Yes');
       });
       it('should return no if code78 is false', () => {
         const passCompletion = {
@@ -103,7 +103,7 @@ describe('TestSummaryCardComponent', () => {
         };
         component.passCompletion = passCompletion;
         fixture.detectChanges();
-        expect(component.getCode78()).toEqual('No');
+        expect(component.code78).toEqual('No');
       });
     });
 
@@ -115,11 +115,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.passCompletion = passCompletion;
         fixture.detectChanges();
-        expect(component.getPassCertificateNumber()).toEqual('A123456X');
+        expect(component.passCertificateNumber).toEqual('A123456X');
       });
 
       it('should return undefined if the passCompletion is missing', () => {
-        expect(component.getPassCertificateNumber()).toEqual(undefined);
+        expect(component.passCertificateNumber).toEqual(undefined);
       });
     }));
 
@@ -130,11 +130,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getRouteNumber()).toEqual(57);
+        expect(component.routeNumber).toEqual(57);
       });
 
       it('should return None if the testSummary is missing', () => {
-        expect(component.getRouteNumber()).toEqual('None');
+        expect(component.routeNumber).toEqual('None');
       });
     });
 
@@ -145,11 +145,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getIndependentDriving()).toEqual('Diagram');
+        expect(component.independentDriving).toEqual('Diagram');
       });
 
       it('should return None if the testSummary is missing', () => {
-        expect(component.getIndependentDriving()).toEqual('None');
+        expect(component.independentDriving).toEqual('None');
       });
     });
 
@@ -160,11 +160,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getCandidateDescription()).toEqual('Test Description');
+        expect(component.candidateDescription).toEqual('Test Description');
       });
 
       it('should return None if the testSummary is missing', () => {
-        expect(component.getCandidateDescription()).toEqual('None');
+        expect(component.candidateDescription).toEqual('None');
       });
     });
 
@@ -175,7 +175,7 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getDebriefWitnessed()).toEqual('Yes');
+        expect(component.debriefWitnessed).toEqual('Yes');
       });
 
       it('should return no if the debrief was not witnessed ', () => {
@@ -184,11 +184,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getDebriefWitnessed()).toEqual('No');
+        expect(component.debriefWitnessed).toEqual('No');
       });
 
       it('should return no if the testSummary is missing', () => {
-        expect(component.getDebriefWitnessed()).toEqual('No');
+        expect(component.debriefWitnessed).toEqual('No');
       });
     });
 
@@ -203,11 +203,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getWeatherConditions()).toEqual('Icy, Showers and Windy');
+        expect(component.weatherConditions).toEqual('Icy, Showers and Windy');
       });
 
       it('should return None if the testSummary is missing', () => {
-        expect(component.getWeatherConditions()).toEqual('None');
+        expect(component.weatherConditions).toEqual('None');
       });
     });
 
@@ -218,7 +218,7 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getD255()).toEqual('Yes');
+        expect(component.d255).toEqual('Yes');
       });
 
       it('should return no if a D255 was not needed ', () => {
@@ -227,11 +227,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getDebriefWitnessed()).toEqual('No');
+        expect(component.d255).toEqual('No');
       });
 
       it('should return no if the testSummary is missing', () => {
-        expect(component.getDebriefWitnessed()).toEqual('No');
+        expect(component.d255).toEqual('No');
       });
     });
 
@@ -242,11 +242,11 @@ describe('TestSummaryCardComponent', () => {
         };
         component.testSummary = testSummary;
         fixture.detectChanges();
-        expect(component.getAdditionalInformation()).toEqual('Test Additional Information');
+        expect(component.additionalInformation).toEqual('Test Additional Information');
       });
 
       it('should return None if the testSummary is missing', () => {
-        expect(component.getAdditionalInformation()).toEqual('None');
+        expect(component.additionalInformation).toEqual('None');
       });
     });
 
@@ -272,13 +272,13 @@ describe('TestSummaryCardComponent', () => {
         component.testSummary = {
           modeOfTransport: mode,
         };
-        expect(component.getTestConductedOn()).toEqual(mode);
+        expect(component.testConductedOn).toEqual(mode);
       });
       it('should return None if not populated', () => {
         component.testSummary = {
           additionalInformation: 'Test Additional Information',
         };
-        expect(component.getTestConductedOn()).toEqual('None');
+        expect(component.testConductedOn).toEqual('None');
       });
     });
 
@@ -290,11 +290,11 @@ describe('TestSummaryCardComponent', () => {
           communicationMethod: 'Email',
         };
         fixture.detectChanges();
-        expect(component.getConductedLanguage()).toEqual('English');
+        expect(component.conductedLanguage).toEqual('English');
       });
 
       it('should return None if the communicationPreferences is missing', () => {
-        expect(component.getAdditionalInformation()).toEqual('None');
+        expect(component.conductedLanguage).toEqual('None');
       });
     });
 

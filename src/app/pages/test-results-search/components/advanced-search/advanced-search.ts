@@ -24,10 +24,17 @@ export class AdvancedSearchComponent {
   endDate: string = '';
   focusedElement: string = null;
 
+  // @TODO: Work out how to implement these?
   customStartDateOptions = {
     buttons: [{
       text: 'Clear',
       handler: () => this.startDate = '',
+    },
+    {
+      text: 'Done',
+      handler: () => {
+        console.log('startDate done', this.startDate);
+      },
     }],
   };
 
@@ -35,6 +42,12 @@ export class AdvancedSearchComponent {
     buttons: [{
       text: 'Clear',
       handler: () => this.endDate = '',
+    },
+    {
+      text: 'Done',
+      handler: () => {
+        console.log('endDate done', this.endDate);
+      },
     }],
   };
 
@@ -43,9 +56,11 @@ export class AdvancedSearchComponent {
   }
 
   staffNumberChanged(event: any): void {
-    const staffNumber: string = event.target.value.replace(nonAlphaNumericValues, '').toUpperCase();
+    console.log(event);
+    const staffNumber: string = event.target.value?.replace(nonAlphaNumericValues, '').toUpperCase();
     event.target.value = staffNumber;
     this.staffNumber = staffNumber;
+    console.log(this.staffNumber);
   }
 
   searchTests(): void {
@@ -61,5 +76,10 @@ export class AdvancedSearchComponent {
 
   setFocus(focus: string): void {
     this.focusedElement = focus;
+  }
+
+  startDateChanged($event: any) {
+    console.log('$event', $event);
+    console.log(this.startDate);
   }
 }

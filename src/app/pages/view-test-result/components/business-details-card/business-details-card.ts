@@ -26,20 +26,20 @@ export class BusinessDetailsCardComponent {
   public shouldHideCard() : boolean {
     return (
       !get(this.data, 'businessName')
-      && !get(this.data, 'businessTelephone')
-      && !get(this.data, 'businessAddress')
+        && !get(this.data, 'businessTelephone')
+        && !get(this.data, 'businessAddress')
     );
   }
 
-  public getBusinessName() : string {
+  public get businessName() : string {
     return get(this.data, 'businessName', 'Not supplied');
   }
 
-  public getPhoneNumber() : string {
+  public get phoneNumber() : string {
     return get(this.data, 'businessTelephone', 'Not supplied');
   }
 
-  public getAddress() : Address {
+  public get address() : Address {
     return get(this.data, 'businessAddress');
   }
 

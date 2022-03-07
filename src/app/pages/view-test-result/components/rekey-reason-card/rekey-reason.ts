@@ -11,23 +11,22 @@ export class RekeyReasonCardComponent {
   @Input()
   data: RekeyReason;
 
-  public getIPadIssue(): string {
+  public get iPadIssue(): string {
     const isIpadIssueSelected:boolean = get(this.data, 'ipadIssue.selected', false);
     return isIpadIssueSelected ? RekeyReasonCardComponent.getIpadIssueDisplayText(get(this.data, 'ipadIssue')) : 'None';
   }
 
-  public getTransfer(): string {
+  public get transfer(): string {
     const isTransferSelected: boolean = get(this.data, 'transfer.selected', false);
     return isTransferSelected ? 'Yes' : 'No';
   }
 
-  public getOther(): string {
+  public get other(): string {
     const isOtherSelected: boolean = get(this.data, 'other.selected', false);
     return isOtherSelected ? get(this.data, 'other.reason') : 'N/A';
   }
 
   private static getIpadIssueDisplayText(reasonType: IpadIssue): string {
-
     let value = '';
 
     if (reasonType.broken) {

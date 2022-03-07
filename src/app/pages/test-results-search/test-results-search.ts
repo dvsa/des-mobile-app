@@ -70,8 +70,8 @@ export class TestResultsSearchPage extends BasePageComponent {
     }
   }
 
-  searchByChanged(val: SearchBy): void {
-    this.searchBy = val;
+  searchByChanged(val: string): void {
+    this.searchBy = val as SearchBy;
   }
 
   displayAdvancedSearch(): boolean {
