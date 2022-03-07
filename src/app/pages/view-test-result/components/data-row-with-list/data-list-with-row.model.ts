@@ -4,12 +4,12 @@ export type DataRowListItem = {
 };
 
 export enum TestRequirementsLabels {
-  normalStart1 = 'Normal start (NS)',
-  normalStart2 = 'Normal start (NS)',
+  normalStop1 = 'Normal stop (NS)',
+  normalStop2 = 'Normal stop (NS)',
   busStop1 = 'Bus Stop (BS)',
   busStop2 = 'Bus Stop (BS)',
   angledStart = 'Angled start (AS)',
-  hillStart = 'Hill start (HS) / Designated start (DS)',
+  hillStart = 'Hill start (HS) / Designated stop (DS)',
   uphillStart = 'Uphill start (US)',
   downhillStart = 'Downhill start (DS)',
   angledStartControlledStop = 'Angled start (AS) / Controlled stop (CS)',
