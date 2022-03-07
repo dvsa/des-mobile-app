@@ -46,11 +46,11 @@
         </ion-col>
         <ion-col size="28">
             <ion-datetime
-                    (ionChange)="startDateChanged($event?.detail?.value)"
-                    [(ngModel)]="startDate"
-                    [pickerOptions]="customStartDateOptions"
+                    id="advanced-search-start-date-picker"
                     placeholder="Select start date"
-                    displayFormat="DD/MM/YYYY">
+                    displayFormat="DD/MM/YYYY"
+                    [value]="startDate"
+                    [pickerOptions]="customStartDateOptions">
             </ion-datetime>
         </ion-col>
         <ion-col class="component-label ion-text-center" size="9">
@@ -77,6 +77,7 @@
                 Search
             </h3>
         </ion-button>
-        <ion-spinner class="search-spinner" id="advanced-search-spinner" name="bubbles" *ngIf="showSpinner"></ion-spinner>
+        <ion-spinner class="search-spinner" id="advanced-search-spinner" name="bubbles"
+                     *ngIf="showSpinner"></ion-spinner>
     </ion-row>
 </ion-grid>
