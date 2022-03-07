@@ -32,8 +32,8 @@ export class AdvancedSearchComponent {
     },
     {
       text: 'Done',
-      handler: () => {
-        console.log('startDate done', this.startDate);
+      handler: ({ year, month, day }) => {
+        this.startDate = `${year.text}-${month.text}-${day.text}`;
       },
     }],
   };
@@ -45,8 +45,8 @@ export class AdvancedSearchComponent {
     },
     {
       text: 'Done',
-      handler: () => {
-        console.log('endDate done', this.endDate);
+      handler: ({ year, month, day }) => {
+        this.endDate = `${year.text}-${month.text}-${day.text}`;
       },
     }],
   };
@@ -56,11 +56,9 @@ export class AdvancedSearchComponent {
   }
 
   staffNumberChanged(event: any): void {
-    console.log(event);
     const staffNumber: string = event.target.value?.replace(nonAlphaNumericValues, '').toUpperCase();
     event.target.value = staffNumber;
     this.staffNumber = staffNumber;
-    console.log(this.staffNumber);
   }
 
   searchTests(): void {
@@ -70,16 +68,10 @@ export class AdvancedSearchComponent {
       staffNumber: removeLeadingZeros(this.staffNumber),
       costCode: this.dtcNumber,
     };
-
     this.onSearchTests.emit(advancedSearchParams);
   }
 
   setFocus(focus: string): void {
     this.focusedElement = focus;
-  }
-
-  startDateChanged($event: any) {
-    console.log('$event', $event);
-    console.log(this.startDate);
   }
 }
