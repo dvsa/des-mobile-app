@@ -39,6 +39,10 @@ import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/se
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { OfficeCatManoeuvrePage } from '@pages/office/cat-manoeuvre/office.cat-manoeuvre.page';
+import {
+  AccompanimentCardComponent,
+} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
@@ -48,8 +52,6 @@ import { AdditionalInformationComponent } from '../../components/additional-info
 import { WeatherConditionsComponent } from '../../components/weather-conditions/weather-conditions';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
-import {AccompanimentCardComponent} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
-import {AccompanimentComponent} from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 
 describe('OfficeCatManoeuvrePage', () => {
   let fixture: ComponentFixture<OfficeCatManoeuvrePage>;
