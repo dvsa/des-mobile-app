@@ -34,13 +34,6 @@
                         (passCertificateNumberChange)="passCertificateNumberChanged($event)">
                 </pass-certificate-number>
 
-                <d255 [display]="true"
-                      [d255]="pageState.d255$ | async"
-                      [outcome]="pageState.testOutcome$ | async"
-                      [formGroup]="form"
-                      (d255Change)="d255Changed($event)">
-                </d255>
-
                 <language-preferences
                         [formGroup]="form"
                         [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
