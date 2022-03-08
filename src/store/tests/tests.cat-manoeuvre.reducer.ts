@@ -11,10 +11,12 @@ import { CatD1MUniqueTypes } from '@dvsa/mes-test-schema/categories/D1M';
 import { CatDEMUniqueTypes } from '@dvsa/mes-test-schema/categories/DEM';
 import { CatD1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/D1EM';
 import { testDataCatManoeuvresReducer } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
-import { journalDataReducer } from '@store/tests/journal-data/cat-b/journal-data.reducer';
 import {
   vehicleDetailsCatManoeuvreReducer,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
+import {
+  journalDataCatManoeuvreReducer,
+} from '@store/tests/journal-data/cat-manoeuvre/journal-data.cat-manoeuvre.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
@@ -57,7 +59,7 @@ export function testsCatManoeuvreReducer(
       examinerBooked: examinerBookedReducer,
       examinerConducted: examinerConductedReducer,
       examinerKeyed: examinerKeyedReducer,
-      journalData: journalDataReducer,
+      journalData: journalDataCatManoeuvreReducer,
       passCompletion: passCompletionReducer,
       postTestDeclarations: postTestDeclarationsReducer,
       preTestDeclarations: preTestDeclarationsReducer,
