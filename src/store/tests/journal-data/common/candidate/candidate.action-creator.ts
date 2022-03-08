@@ -6,12 +6,14 @@ import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.
 import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
 import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
+import { PopulateCandidateDetailsCatManoeuvre } from '../../cat-manoeuvre/candidate/candidate.cat-manoeuvre.actions';
 
 type CandidateDetailsUnion =
   ReturnType<typeof PopulateCandidateDetails> |
   ReturnType<typeof PopulateCandidateDetailsCatBE> |
   ReturnType<typeof PopulateCandidateDetailsCatC> |
   ReturnType<typeof PopulateCandidateDetailsCatD> |
+  ReturnType<typeof PopulateCandidateDetailsCatManoeuvre> |
   ReturnType<typeof PopulateCandidateDetailsCatHome>;
 
 export const createPopulateCandidateDetailsAction = (
@@ -29,14 +31,6 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.EUA1M2:
     case TestCategory.EUA2M2:
     case TestCategory.EUAM2:
-    case TestCategory.CM:
-    case TestCategory.C1M:
-    case TestCategory.CEM:
-    case TestCategory.C1EM:
-    case TestCategory.DM:
-    case TestCategory.D1M:
-    case TestCategory.DEM:
-    case TestCategory.D1EM:
     case TestCategory.CCPC:
     case TestCategory.DCPC:
       return PopulateCandidateDetails(booking.candidate);
@@ -52,6 +46,20 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.C1:
     case TestCategory.C:
       return PopulateCandidateDetailsCatC({
+        ...booking.candidate,
+        businessAddress: get(booking, 'business.businessAddress'),
+        businessName: get(booking, 'business.businessName'),
+        businessTelephone: get(booking, 'business.telephone'),
+      });
+    case TestCategory.C1EM:
+    case TestCategory.CEM:
+    case TestCategory.C1M:
+    case TestCategory.CM:
+    case TestCategory.DM:
+    case TestCategory.D1M:
+    case TestCategory.DEM:
+    case TestCategory.D1EM:
+      return PopulateCandidateDetailsCatManoeuvre({
         ...booking.candidate,
         businessAddress: get(booking, 'business.businessAddress'),
         businessName: get(booking, 'business.businessName'),
