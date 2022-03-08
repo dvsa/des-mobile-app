@@ -49,6 +49,7 @@
                     id="advanced-search-start-date-picker"
                     placeholder="Select start date"
                     displayFormat="DD/MM/YYYY"
+                    [max]="this.endDate ? this.endDate : this.currentDate"
                     [value]="startDate"
                     [pickerOptions]="customStartDateOptions">
             </ion-datetime>
@@ -62,6 +63,7 @@
                     placeholder="Select end date"
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
+                    [max]="this.currentDate"
                     [value]="endDate"
                     [pickerOptions]="customEndDateOptions">
             </ion-datetime>

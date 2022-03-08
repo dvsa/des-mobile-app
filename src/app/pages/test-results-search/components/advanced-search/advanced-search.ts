@@ -23,6 +23,7 @@ export class AdvancedSearchComponent {
   startDate: string = '';
   endDate: string = '';
   focusedElement: string = null;
+  currentDate: any = new Date().toISOString().substring(0, 10);
 
   // @TODO: Work out how to implement these?
   customStartDateOptions = {
