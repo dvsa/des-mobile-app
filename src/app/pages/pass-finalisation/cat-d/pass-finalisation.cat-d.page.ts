@@ -116,8 +116,6 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
   }
 
   shouldShowCode78Banner(): boolean {
-    console.log(this.code78Present);
-    console.log(this.transmission);
     return this.code78Present !== null && this.transmission !== null;
   }
 
