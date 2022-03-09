@@ -5,7 +5,7 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { VehicleChecksQuestionCatCComponent } from '../vehicle-checks-question.cat-c';
+import { VehicleChecksQuestionComponent } from '../vehicle-checks-question';
 
 const vehicleChecksQuestion: VehicleChecksQuestion = {
   code: 'S04',
@@ -14,13 +14,13 @@ const vehicleChecksQuestion: VehicleChecksQuestion = {
 };
 
 describe('VehicleChecksQuestionComponent', () => {
-  let fixture: ComponentFixture<VehicleChecksQuestionCatCComponent>;
-  let component: VehicleChecksQuestionCatCComponent;
+  let fixture: ComponentFixture<VehicleChecksQuestionComponent>;
+  let component: VehicleChecksQuestionComponent;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [
-        VehicleChecksQuestionCatCComponent,
+        VehicleChecksQuestionComponent,
       ],
       imports: [
         IonicModule,
@@ -30,7 +30,7 @@ describe('VehicleChecksQuestionComponent', () => {
   });
 
   beforeEach(waitForAsync(() => {
-    fixture = TestBed.createComponent(VehicleChecksQuestionCatCComponent);
+    fixture = TestBed.createComponent(VehicleChecksQuestionComponent);
     component = fixture.componentInstance;
   }));
 

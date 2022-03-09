@@ -1,0 +1,21 @@
+<competency-button
+  id="pcvDoor"
+  [onTap]="onTap"
+  [onPress]="onPress"
+  [ripple]="allowRipple"
+  [ngClass]="{
+    'fault': hasDrivingFault(),
+    'serious-fault': hasSeriousFault(),
+    'dangerous-fault': hasDangerousFault()
+  }"
+>
+
+  <driving-faults-badge class="driving-faults" [count]="hasDrivingFault() ? 1 : 0"></driving-faults-badge>
+
+  <span class="competency-label">PCV Exercise</span>
+
+  <div class="fault-wrapper">
+    <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
+    <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
+  </div>
+</competency-button>

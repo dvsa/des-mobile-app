@@ -18,6 +18,10 @@ export const getSelectedShowMeQuestions = (
   return vehicleChecks.showMeQuestions;
 };
 
+export const getFullLicenceHeld = (
+  vehicleChecksCatDReducer: CatDVehicleChecks,
+): boolean => vehicleChecksCatDReducer.fullLicenceHeld;
+
 export const getSelectedTellMeQuestions = (
   vehicleChecksCatDReducer: CatDVehicleChecks,
 ): QuestionResult[] => {
@@ -28,5 +32,11 @@ export const vehicleChecksExist = (vehicleChecks: CatDVehicleChecks): boolean =>
   const questions = [...vehicleChecks.showMeQuestions, ...vehicleChecks.tellMeQuestions];
   return some(questions, (fault) => fault.outcome != null);
 };
+
+export const hasFullLicenceHeldBeenSelected = (
+  fullLicenceHeld: boolean,
+): string => (fullLicenceHeld === null) ? null : fullLicenceHeld ? 'Y' : 'N';
+
+export const getVehicleChecksCompleted = (vehicleChecks: CatDVehicleChecks) => vehicleChecks.vehicleChecksCompleted;
 
 export const getVehicleChecksCatD = createFeatureSelector<CatDVehicleChecks>('vehicleChecks');

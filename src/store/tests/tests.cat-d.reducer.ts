@@ -5,7 +5,7 @@ import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reduc
 import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
 import { journalDataCatDReducer } from '@store/tests/journal-data/cat-d/journal-data.cat-d.reducer';
 import { vehicleDetailsCatDReducer } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
-import { passCompletionCatDReducer } from '@store/tests/pass-completion/cad-d/pass-completion.cat-d.reducer';
+import { passCompletionCatDReducer } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';

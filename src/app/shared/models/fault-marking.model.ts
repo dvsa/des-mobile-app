@@ -14,6 +14,7 @@ export enum CommentSource {
   EYESIGHT_TEST = 'eyesightTest',
   UNCOUPLE_RECOUPLE = 'uncoupleRecouple',
   PCV_DOOR_EXERCISE = 'pcvDoorExercise',
+  SAFETY_QUESTIONS = 'safetyQuestions',
   SAFETY_AND_BALANCE_QUESTIONS = 'safetyAndBalanceQuestions',
   SINGLE_FAULT_COMPETENCY = 'singleFaultCompetency',
   SPEED_REQUIREMENTS = 'speedRequirements',

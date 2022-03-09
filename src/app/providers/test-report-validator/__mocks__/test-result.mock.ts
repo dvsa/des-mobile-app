@@ -536,13 +536,11 @@ export const legalRequirementsCatD = [
   legalRequirementsLabels.busStop2,
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.angledStartControlledStop,
-  legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.eco,
 ];
 
 export const delegatedRequirementsCatDAndD1 = [
   legalRequirementsLabels.angledStartControlledStop,
-  legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.eco,
 ];
 
@@ -550,7 +548,6 @@ export const legalRequirementsCatD1 = [
   legalRequirementsLabels.normalStart1,
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.angledStartControlledStop,
-  legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.eco,
 ];
 
@@ -560,25 +557,19 @@ export const legalRequirementsCatDE = [
   legalRequirementsLabels.busStop2,
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.angledStartControlledStop,
-  legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.uncoupleRecouple,
 ];
 
 export const delegatedRequirementsCatDEAndD1E = [
   legalRequirementsLabels.angledStartControlledStop,
-  legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.uncoupleRecouple,
 ];
 
 export const legalRequirementsCatD1E = [
   legalRequirementsLabels.normalStart1,
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.angledStartControlledStop,
-  legalRequirementsLabels.manoeuvre,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.uncoupleRecouple,
 ];
 
 export const legalRequirementsCatF = [
