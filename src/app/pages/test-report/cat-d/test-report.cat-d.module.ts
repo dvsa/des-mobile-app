@@ -11,9 +11,9 @@ import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { TestReportAnalyticsEffects } from '@pages/test-report/test-report.analytics.effects';
 import { TestReportEffects } from '@pages/test-report/test-report.effects';
 import { ComponentsModule } from '@components/common/common-components.module';
-// import {
-//   TestReportCatDComponentsModule,
-// } from '@pages/test-report/cat-d/components/test-report.cat-d.components.module';
+import {
+  TestReportCatDComponentsModule,
+} from '@pages/test-report/cat-d/components/test-report.cat-d.components.module';
 import {
   ReverseDiagramModalComponentsModule,
 } from '@pages/test-report/components/reverse-diagram-modal/reverse-diagram-modal.components.module';
@@ -23,7 +23,7 @@ import { TestReportCatDPage } from './test-report.cat-d.page';
 @NgModule({
   declarations: [TestReportCatDPage],
   imports: [
-    // TestReportCatDComponentsModule,
+    TestReportCatDComponentsModule,
     TestReportComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([

@@ -71,26 +71,7 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col no-padding>
-            <div class="dark-divider"></div>
-          </ion-col>
-        </ion-row>
-<!--        <ion-row>-->
-<!--          <ion-col>-->
-<!--            <reverse-left-->
-<!--                    [completed]="manoeuvresCompleted"-->
-<!--                    [controlLabel]="'Reverse Left'"-->
-<!--                    [clickCallback]="getCallback()"-->
-<!--                    [testCategory]="pageState.category$ | async">-->
-<!--              <reverse-left-popover-->
-<!--                      [testCategory]="pageState.category$ | async"-->
-<!--                      [disableDrivingFaults]="true">-->
-<!--              </reverse-left-popover>-->
-<!--            </reverse-left>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
-        <ion-row>
-          <ion-col no-padding>
+          <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
@@ -100,46 +81,33 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col no-padding>
+          <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col no-padding>
+          <ion-col class="ion-no-padding">
             <span class="section-header">Vehicle checks</span>
           </ion-col>
         </ion-row>
-<!--        <ion-row>-->
-<!--          <ion-col col-45>-->
-<!--            <vehicle-checks-compact-cat-d [testCategory]="pageState.category$ | async" id="vehicleChecksCatD"></vehicle-checks-compact-cat-d>-->
-<!--          </ion-col>-->
-<!--          <ion-col col-51>-->
-<!--            <safety-questions-cat-d [testCategory]="pageState.category$ | async"></safety-questions-cat-d>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
+        <ion-row>
+          <ion-col size="45">
+            <vehicle-checks-compact-cat-d [testCategory]="pageState.category$ | async" id="vehicleChecksCatD"></vehicle-checks-compact-cat-d>
+          </ion-col>
+          <ion-col size="51">
+            <safety-questions-cat-d [testCategory]="pageState.category$ | async"></safety-questions-cat-d>
+          </ion-col>
+        </ion-row>
         <ion-row>
           <ion-col no-padding>
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
-<!--        <ion-row [ngStyle]="{'visibility': showUncoupleRecouple() ? 'visible' : 'hidden' }">-->
-<!--          <ion-col>-->
-<!--            <uncouple-recouple-->
-<!--                    [category]="pageState.category$ | async"-->
-<!--                    [disableDrivingFaults]="true">-->
-<!--            </uncouple-recouple>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
-<!--        <ion-row *ngIf="showUncoupleRecouple()">-->
-<!--          <ion-col no-padding>-->
-<!--            <div class="dark-divider"></div>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
-<!--        <ion-row>-->
-<!--          <ion-col>-->
-<!--            <pcv-door-exercise></pcv-door-exercise>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
+        <ion-row>
+          <ion-col>
+            <pcv-door-exercise></pcv-door-exercise>
+          </ion-col>
+        </ion-row>
         <ion-row >
           <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>

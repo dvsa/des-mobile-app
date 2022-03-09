@@ -52,13 +52,6 @@ describe('PassFinalisationCatDPage', () => {
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  const categoryDifferences = [
-    { category: TestCategory.D, showCode78: true },
-    { category: TestCategory.D1, showCode78: false },
-    { category: TestCategory.D1E, showCode78: false },
-    { category: TestCategory.DE, showCode78: true },
-  ];
-
   const automaticManualBannerConditions = [
     {
       category: TestCategory.D,
@@ -128,65 +121,65 @@ describe('PassFinalisationCatDPage', () => {
       category: TestCategory.D1,
       code78: true,
       transmission: TransmissionType.Automatic,
-      automaticBanner: false,
+      automaticBanner: true,
       manualBanner: false,
-      desc: 'No banner shown when automatic transmission and code78 present',
+      desc: 'Automatic banner shown when automatic transmission and code78 present',
     },
     {
       category: TestCategory.D1,
       code78: false,
       transmission: TransmissionType.Automatic,
       automaticBanner: false,
-      manualBanner: false,
-      desc: 'No banner shown when automatic transmission and no code78 present',
+      manualBanner: true,
+      desc: 'Manual banner shown when automatic transmission and no code78 present',
     },
     {
       category: TestCategory.D1,
       code78: false,
       transmission: TransmissionType.Manual,
       automaticBanner: false,
-      manualBanner: false,
-      desc: 'No banner shown when manual transmission and no code78 present',
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and no code78 present',
     },
     {
       category: TestCategory.D1,
       code78: true,
       transmission: TransmissionType.Manual,
       automaticBanner: false,
-      manualBanner: false,
-      desc: 'No banner shown when manual transmission and code78 present',
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and code78 present',
     },
     {
       category: TestCategory.D1E,
       code78: true,
       transmission: TransmissionType.Automatic,
-      automaticBanner: false,
+      automaticBanner: true,
       manualBanner: false,
-      desc: 'No banner shown when automatic transmission and code78 present',
+      desc: 'Automatic banner shown when automatic transmission and code78 present',
     },
     {
       category: TestCategory.D1E,
       code78: false,
       transmission: TransmissionType.Automatic,
       automaticBanner: false,
-      manualBanner: false,
-      desc: 'No banner shown when automatic transmission and no code78 present',
+      manualBanner: true,
+      desc: 'Manual banner shown when automatic transmission and no code78 present',
     },
     {
       category: TestCategory.D1E,
       code78: false,
       transmission: TransmissionType.Manual,
       automaticBanner: false,
-      manualBanner: false,
-      desc: 'No banner shown when manual transmission and no code78 present',
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and no code78 present',
     },
     {
       category: TestCategory.D1E,
       code78: true,
       transmission: TransmissionType.Manual,
       automaticBanner: false,
-      manualBanner: false,
-      desc: 'No banner shown when manual transmission and code78 present',
+      manualBanner: true,
+      desc: 'Manual banner shown when manual transmission and code78 present',
     },
   ];
 
@@ -269,14 +262,6 @@ describe('PassFinalisationCatDPage', () => {
       it('should hide banner when only transmission is selected', () => {
         component.transmission = TransmissionType.Manual;
         expect(component.shouldShowCode78Banner()).toEqual(false);
-      });
-    });
-    describe('shouldShowCode78', () => {
-      categoryDifferences.forEach((cat) => {
-        it(`for Cat ${cat.category}`, () => {
-          component.testCategory = cat.category;
-          expect(component.shouldShowCode78()).toEqual(cat.showCode78);
-        });
       });
     });
   });

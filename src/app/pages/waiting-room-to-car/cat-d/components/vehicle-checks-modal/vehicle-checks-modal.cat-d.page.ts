@@ -272,6 +272,7 @@ export class VehicleChecksCatDModal {
   }
 
   fullLicenceHeldChange = (licenceHeld: boolean): void => {
+    console.log(licenceHeld);
     this.fullLicenceHeld = licenceHeld;
     this.store$.dispatch(SetFullLicenceHeld(licenceHeld));
     this.setNumberOfShowMeTellMeQuestions(licenceHeld);

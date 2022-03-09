@@ -1,6 +1,5 @@
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { createReducer, on } from '@ngrx/store';
-import * as vehicleChecksCatCActionTypes from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { dropRight } from 'lodash';
 import * as vehicleChecksCatDActionTypes from './vehicle-checks.cat-d.action';
 
@@ -79,12 +78,12 @@ export const vehicleChecksCatDReducer = createReducer(
     ...state,
     showMeQuestions: [...payload],
   })),
-  on(vehicleChecksCatCActionTypes.DropExtraVehicleChecks, (state): CatDUniqueTypes.VehicleChecks => ({
+  on(vehicleChecksCatDActionTypes.DropExtraVehicleChecks, (state): CatDUniqueTypes.VehicleChecks => ({
     ...state,
     showMeQuestions: dropRight(state.showMeQuestions, state.showMeQuestions.length - 1),
     tellMeQuestions: dropRight(state.tellMeQuestions, state.tellMeQuestions.length - 1),
   })),
-  on(vehicleChecksCatCActionTypes.DropExtraVehicleChecksDelegated, (state): CatDUniqueTypes.VehicleChecks => {
+  on(vehicleChecksCatDActionTypes.DropExtraVehicleChecksDelegated, (state): CatDUniqueTypes.VehicleChecks => {
     const showMeQuestion1 = state.showMeQuestions.shift();
     return {
       ...state,
@@ -92,7 +91,7 @@ export const vehicleChecksCatDReducer = createReducer(
       showMeQuestions: state.showMeQuestions || [],
     };
   }),
-  on(vehicleChecksCatCActionTypes.SetFullLicenceHeld, (state, { fullLicenceHeld }): CatDUniqueTypes.VehicleChecks => ({
+  on(vehicleChecksCatDActionTypes.SetFullLicenceHeld, (state, { fullLicenceHeld }): CatDUniqueTypes.VehicleChecks => ({
     ...state,
     fullLicenceHeld,
   })),

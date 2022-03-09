@@ -52,15 +52,22 @@
                 </transmission>
 
                 <code-78
-                        *ngIf="shouldShowCode78()"
                         [form]="form"
                         [code78]="pageState.code78$ | async"
                         (code78Present)="onCode78Present($event)">
                 </code-78>
 
-                <warning-banner *ngIf="shouldShowManualBanner()" warningText="{{manualMessage}}"></warning-banner>
+                <warning-banner
+                        *ngIf="shouldShowManualBanner()"
+                        [warningIdentifier]="'manual-licence-banner'"
+                        warningText="{{manualMessage}}">
+                </warning-banner>
 
-                <warning-banner *ngIf="shouldShowAutomaticBanner()" warningText="{{automaticMessage}}"></warning-banner>
+                <warning-banner
+                        *ngIf="shouldShowAutomaticBanner()"
+                        [warningIdentifier]="'automatic-licence-banner'"
+                        warningText="{{automaticMessage}}">
+                </warning-banner>
 
                 <pass-certificate-number
                         [form]="form"
@@ -69,7 +76,7 @@
                 </pass-certificate-number>
 
                 <d255
-                        [display]=true
+                        [display]="true"
                         [d255]="pageState.d255$ | async"
                         [outcome]="pageState.testOutcome$ | async"
                         [formGroup]="form"

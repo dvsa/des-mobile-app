@@ -101,8 +101,24 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
     );
   }
 
+  ionViewWillEnter(): boolean {
+    super.ionViewWillEnter();
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
+    return true;
+  }
+
+  ionViewDidLeave(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   shouldShowCode78Banner(): boolean {
-    return this.code78Present !== null && this.transmission !== null && this.shouldShowCode78();
+    console.log(this.code78Present);
+    console.log(this.transmission);
+    return this.code78Present !== null && this.transmission !== null;
   }
 
   shouldShowManualBanner(): boolean {
