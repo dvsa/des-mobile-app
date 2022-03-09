@@ -1,4 +1,4 @@
-<ion-row class="mes-data-row-with-separator">
+<ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
     <ion-grid>
         <ion-row>
             <ion-col size="40">
