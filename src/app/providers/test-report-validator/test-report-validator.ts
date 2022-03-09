@@ -494,7 +494,6 @@ export class TestReportValidatorProvider {
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
-    const uncoupleRecouple = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
       normalStart1
@@ -503,11 +502,9 @@ export class TestReportValidatorProvider {
       && uphillStart
       && angledStartControlledStop
       && eco
-      && uncoupleRecouple
     ) : (
       angledStartControlledStop
       && eco
-      && uncoupleRecouple
     );
   }
 
@@ -527,7 +524,6 @@ export class TestReportValidatorProvider {
       result.push(legalRequirementsLabels.angledStartControlledStop);
     }
     if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
-    if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
 
     return result;
   }
@@ -540,18 +536,15 @@ export class TestReportValidatorProvider {
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
-    const uncoupleRecouple = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
       normalStart1
       && uphillStart
       && angledStartControlledStop
       && eco
-      && uncoupleRecouple
     ) : (
       angledStartControlledStop
       && eco
-      && uncoupleRecouple
     );
   }
 
@@ -569,7 +562,6 @@ export class TestReportValidatorProvider {
       result.push(legalRequirementsLabels.angledStartControlledStop);
     }
     if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
-    if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
 
     return result;
   }

@@ -558,13 +558,11 @@ export const legalRequirementsCatDE = [
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.angledStartControlledStop,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.uncoupleRecouple,
 ];
 
 export const delegatedRequirementsCatDEAndD1E = [
   legalRequirementsLabels.angledStartControlledStop,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.uncoupleRecouple,
 ];
 
 export const legalRequirementsCatD1E = [
@@ -572,7 +570,6 @@ export const legalRequirementsCatD1E = [
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.angledStartControlledStop,
   legalRequirementsLabels.eco,
-  legalRequirementsLabels.uncoupleRecouple,
 ];
 
 export const legalRequirementsCatF = [
