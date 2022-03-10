@@ -12,7 +12,7 @@ export class ActivityCodeCard {
   @Input() activityCode: string;
 
   getActivityCodeDescription() {
-    const description = getEnumKeyByValue(ActivityCodes, this.activityCode);
-    return `${this.activityCode} - ${ActivityCodeDescription[description[0]]}`;
+    const [description] = getEnumKeyByValue(ActivityCodes, this.activityCode);
+    return `${this.activityCode} - ${ActivityCodeDescription[description]}`;
   }
 }

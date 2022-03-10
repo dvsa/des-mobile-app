@@ -6,7 +6,7 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { configureTestSuite } from 'ng-bullet';
 import { ActivityCodeCard } from '../activity-code-card';
 
-fdescribe('ActivityCodeCard', () => {
+describe('ActivityCodeCard', () => {
   let component: ActivityCodeCard;
   let fixture: ComponentFixture<ActivityCodeCard>;
 
