@@ -4,7 +4,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import {
   InappropriateUseBannerComponent,
-} from '@pages/candidate-details/components/inappropriate-use-banner/inappropriate-use-banner';
+} from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 
 describe('InappropriateUseBannerComponent', () => {
   let component: InappropriateUseBannerComponent;
