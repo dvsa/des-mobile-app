@@ -45,14 +45,6 @@
             <label id="advanced-search-date-range-label">Date range</label>
         </ion-col>
         <ion-col size="28">
-<!--            <ion-datetime-->
-<!--                    id="advanced-search-start-date-picker"-->
-<!--                    placeholder="Select start date"-->
-<!--                    displayFormat="DD/MM/YYYY"-->
-<!--                    doneText="Done"-->
-<!--                    [value]="startDate"-->
-<!--                    [pickerOptions]="customStartDateOptions">-->
-<!--            </ion-datetime>-->
             <ion-datetime
                     (ionChange)="startDateChanged($event?.detail?.value)"
                     [(ngModel)]="startDate"
