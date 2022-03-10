@@ -8,6 +8,9 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { ViewTestResultAnalyticsEffects } from '@pages/view-test-result/view-test-result.analytics.effects';
 import { ViewTestResultPage } from '@pages/view-test-result/view-test-result.page';
 import { ViewTestResultComponentsModule } from '@pages/view-test-result/components/view-test-result.components.module';
+import {
+  ActivityCodeCard,
+} from '@pages/view-test-result/components/activity-code-card/activity-code-card';
 
 @NgModule({
   imports: [
@@ -22,6 +25,7 @@ import { ViewTestResultComponentsModule } from '@pages/view-test-result/componen
   ],
   declarations: [
     ViewTestResultPage,
+    ActivityCodeCard,
   ],
 })
 export class ViewTestResultPageModule {}
