@@ -104,7 +104,7 @@ export class DebriefCardComponent implements OnInit {
       default:
         return [];
     }
-  };
+  }
 
   public getMinDrivingFaultCount(): number {
     switch (this.category) {

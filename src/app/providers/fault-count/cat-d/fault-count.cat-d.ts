@@ -105,23 +105,6 @@ export class FaultCountDHelper {
     return FaultCountDHelper.getVehicleChecksFaultCountTrailer(vehicleChecks);
   };
 
-  public static getSafetyQuestionsFaultCount = (
-    safetyQuestions: CatDUniqueTypes.SafetyQuestions,
-  ): SafetyQuestionsScore => {
-
-    if (!safetyQuestions) {
-      return { drivingFaults: 0 };
-    }
-
-    const getFaults = (safetyQuestion: SafetyQuestionResult): boolean => {
-      return safetyQuestion.outcome === CompetencyOutcome.DF;
-    };
-
-    const fault = safetyQuestions.questions.some(getFaults) ? { drivingFaults: 1 } : { drivingFaults: 0 };
-
-    return fault;
-  };
-
   static getVehicleChecksFaultCount = (
     vehicleChecks: CatDVehicleCheckUnion,
   ): VehicleChecksScore => {
