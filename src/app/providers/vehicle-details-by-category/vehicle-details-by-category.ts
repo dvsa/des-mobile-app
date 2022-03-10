@@ -18,6 +18,8 @@ import { getVehicleDetails as getVehicleDetailsAM1 }
   from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.reducer';
 import { getVehicleDetails as getVehicleDetailsAM2 }
   from '@store/tests/vehicle-details/cat-a-mod2/vehicle-details.cat-a-mod2.reducer';
+import { getVehicleDetails as getVehicleDetailsCPC }
+  from '@store/tests/vehicle-details/cat-cpc/vehicle-details.cat-cpc.reducer';
 import { getVehicleWidth as getVehicleWidthBE, getVehicleLength as getVehicleLengthBE }
   from '@store/tests/vehicle-details/cat-be/vehicle-details.cat-be.selector';
 import { getVehicleWidth as getVehicleWidthC, getVehicleLength as getVehicleLengthC }
@@ -89,6 +91,13 @@ export class VehicleDetailsByCategoryProvider {
           vehicleDetails: getVehicleDetailsD,
           vehicleWidth: getVehicleWidthD,
           vehicleLength: getVehicleLengthD,
+        };
+      case TestCategory.CCPC:
+      case TestCategory.DCPC:
+        return {
+          vehicleDetails: getVehicleDetailsCPC,
+          vehicleWidth: null,
+          vehicleLength: null,
         };
       case TestCategory.F:
       case TestCategory.G:

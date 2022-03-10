@@ -10,6 +10,7 @@ export const MINIMUM_QUESTION_SCORE: number = 15;
 @Component({
   selector: 'cpc-debrief-card',
   templateUrl: 'cpc-debrief-card.html',
+  styleUrls: ['cpc-debrief-card.scss'],
 })
 export class CPCDebriefCardComponent implements OnInit {
 

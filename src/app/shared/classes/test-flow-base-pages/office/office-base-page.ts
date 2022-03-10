@@ -174,7 +174,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   commonPageState: CommonOfficePageState;
   form: FormGroup;
-  toast: any;
+  toast: HTMLIonToastElement;
   subscription: Subscription;
   startDateTime: string;
   isValidStartDateTime: boolean = true;

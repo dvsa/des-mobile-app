@@ -1,0 +1,40 @@
+<ion-card>
+    <question-title [question]="question"></question-title>
+
+    <ion-card-content>
+
+        <ion-grid>
+            <question-subtitle [subtitle]="question.subtitle"></question-subtitle>
+
+            <additional-items [additionalItems]="question.additionalItems"></additional-items>
+
+            <question-answer
+                    (answerToggled)="answerChanged($event)"
+                    [answer]="question.answer1"
+                    [answerNumber]="'1'">
+            </question-answer>
+
+            <question-answer
+                    (answerToggled)="answerChanged($event)"
+                    [answer]="question.answer2"
+                    [answerNumber]="'2'">
+            </question-answer>
+
+            <question-answer
+                    (answerToggled)="answerChanged($event)"
+                    [answer]="question.answer3"
+                    [answerNumber]="'3'">
+            </question-answer>
+
+            <question-answer
+                    (answerToggled)="answerChanged($event)"
+                    [answer]="question.answer4"
+                    [answerNumber]="'4'">
+            </question-answer>
+
+            <question-score [score]="question.score"></question-score>
+        </ion-grid>
+
+    </ion-card-content>
+
+</ion-card>

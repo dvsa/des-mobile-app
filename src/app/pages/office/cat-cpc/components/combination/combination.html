@@ -1,0 +1,19 @@
+<ion-row class="mes-validated-row mes-row-separator" id="combination-card">
+    <div class="validation-bar"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Combination</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col class="ion-align-self-center">
+                <label id="combination-label">{{getCombinationText(combination)}}
+                    <span *ngIf="combinationAdditionalText">- {{combinationAdditionalText}}</span>
+                </label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"></div>
+        </ion-row>
+    </ion-col>
+</ion-row>

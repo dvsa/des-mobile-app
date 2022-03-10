@@ -1,0 +1,35 @@
+<ion-card class="modal-alert">
+    <ion-row class="ion-justify-content-center">
+        <ion-col class="ion-no-padding">
+            <h3 class="modal-alert-header">
+                Test Outcome: <span [class]="getTestResultClass()">{{getTestResultLabel()}}</span>
+            </h3>
+        </ion-col>
+    </ion-row>
+    <modal-result-item
+            *ngFor="let question of questions"
+            [label]="question.questionCode"
+            [score]="question.score"
+            [isPass]="question.score >= 15">
+    </modal-result-item>
+    <modal-result-item
+            label="TOTAL"
+            [score]="totalPercentage"
+            [isPass]="testResult == 1">
+    </modal-result-item>
+    <ion-row class="ion-justify-content-center ">
+        <ion-col size="84">
+            <ion-button class="mes-primary-button" (click)="onContinue()">
+                <h3>Continue to debrief</h3>
+            </ion-button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="column-border-top column-border-right ion-no-padding">
+            <ion-button fill="clear" class="terminate-button" (click)="onTerminate()">Terminate test</ion-button>
+        </ion-col>
+        <ion-col class="column-border-top ion-no-padding">
+            <ion-button fill="clear" class="return-button" (click)="onCancel()">Return to test</ion-button>
+        </ion-col>
+    </ion-row>
+</ion-card>

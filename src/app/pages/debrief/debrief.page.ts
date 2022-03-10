@@ -37,6 +37,16 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { getVehicleChecks } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
+import {
+  getQuestion1,
+  getQuestion2,
+  getQuestion3,
+  getQuestion4,
+  getQuestion5,
+  getTotalPercent,
+} from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
+import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -50,6 +60,12 @@ interface DebriefPageState {
   candidateName$: Observable<string>;
   category$: Observable<CategoryCode>;
   tellMeShowMeQuestions$: Observable<QuestionResult[]>;
+  question1$: Observable<Question>;
+  question2$: Observable<Question>;
+  question3$: Observable<Question>;
+  question4$: Observable<Question>;
+  question5$: Observable<Question5>;
+  overallScore$: Observable<number>;
 }
 @Component({
   selector: '.debrief-page',
@@ -155,6 +171,36 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions]),
         map((checks) => checks.filter((c) => c.code !== undefined)),
       ),
+      question1$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion1),
+      ),
+      question2$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion2),
+      ),
+      question3$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion3),
+      ),
+      question4$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion4),
+      ),
+      question5$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion5),
+      ),
+      overallScore$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getTotalPercent),
+      ),
     };
 
     const {
@@ -166,14 +212,14 @@ export class DebriefPage extends PracticeableBasePageComponent {
       testResult$.pipe(map((result) => this.outcome = result)),
       etaFaults$.pipe(
         map((eta) => {
-          this.hasPhysicalEta = eta.physical;
-          this.hasVerbalEta = eta.verbal;
+          this.hasPhysicalEta = eta?.physical;
+          this.hasVerbalEta = eta?.verbal;
         }),
       ),
       ecoFaults$.pipe(
         map((eco) => {
-          this.adviceGivenControl = eco.adviceGivenControl;
-          this.adviceGivenPlanning = eco.adviceGivenPlanning;
+          this.adviceGivenControl = eco?.adviceGivenControl;
+          this.adviceGivenPlanning = eco?.adviceGivenPlanning;
         }),
       ),
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
@@ -213,6 +259,14 @@ export class DebriefPage extends PracticeableBasePageComponent {
 
   isCategoryBTest(): boolean {
     return this.testCategory === TestCategory.B;
+  }
+
+  isTerminated(): boolean {
+    return this.outcome === OutcomeType.Terminated;
+  }
+
+  showCPCDebriefCard(): boolean {
+    return isAnyOf(this.testCategory, [TestCategory.CCPC, TestCategory.DCPC]);
   }
 
   showVehicleChecksArrayCard(): boolean {

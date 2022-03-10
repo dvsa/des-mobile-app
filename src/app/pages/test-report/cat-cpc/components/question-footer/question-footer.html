@@ -1,0 +1,19 @@
+<ion-footer>
+    <ion-row>
+        <ion-col class="ion-text-center" *ngIf="showPreviousPageButton()">
+            <ion-button expand="block" class="mes-grey-button" id="previous-page-button" (click)="goToPreviousQuestion()">
+                Previous question
+            </ion-button>
+        </ion-col>
+        <ion-col class="ion-text-center" *ngIf="showNextPageButton()">
+            <ion-button expand="block" class="mes-primary-button" id="next-page-button" (click)="goToNextQuestion()">
+                Next question
+            </ion-button>
+        </ion-col>
+        <ion-col class="ion-text-center" *ngIf="showViewSummaryButton()">
+            <ion-button expand="block" class="mes-primary-button" id="view-summary-button" (click)="goToSummary()">
+                View test summary
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

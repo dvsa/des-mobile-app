@@ -6,7 +6,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { getTests } from '@store/tests/tests.reducer';
 import {
-  getActivityCode, getCurrentTest, getJournalData, getTestOutcomeText,
+  getActivityCode, getCurrentTest, getCurrentTestSlotId, getJournalData, getTestOutcomeText,
 } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -17,7 +17,7 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
@@ -45,17 +45,17 @@ import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
 
 interface ConfirmTestDetailsPageState {
-  candidateUntitledName$: Observable<string>;
-  candidateName$: Observable<string>;
-  startDateTime$: Observable<string>;
-  testOutcomeText$: Observable<string>;
-  activityCode$: Observable<ActivityCodeModel>;
-  testCategory$: Observable<TestCategory>;
+  candidateUntitledName$?: Observable<string>;
+  candidateName$?: Observable<string>;
+  startDateTime$?: Observable<string>;
+  testOutcomeText$?: Observable<string>;
+  activityCode$?: Observable<ActivityCodeModel>;
+  testCategory$?: Observable<TestCategory>;
   provisionalLicense$?: Observable<boolean>;
-  transmission$: Observable<GearboxCategory>;
-  code78$: Observable<boolean>;
-  d255$: Observable<boolean>;
-  slotId$: Observable<string>;
+  transmission$?: Observable<GearboxCategory>;
+  code78$?: Observable<boolean>;
+  d255$?: Observable<boolean>;
+  slotId$?: Observable<string>;
 }
 
 enum LicenceReceivedText {
@@ -80,6 +80,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   testOutcome: string;
   candidateName: string;
   subscription: Subscription;
+  catSubscription: Subscription;
   merged$: Observable<boolean | string>;
   vehicleDetails: CategorySpecificVehicleDetails;
   slotId: string;
@@ -97,31 +98,6 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     super(platform, authenticationProvider, router, store$);
   }
 
-  ionViewWillEnter(): boolean {
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
-    return true;
-  }
-
-  isADI2(category: TestCategory): boolean {
-    return category === TestCategory.ADI2;
-  }
-
-  displayForCategory = (category: TestCategory): boolean => isAnyOf(category, [
-    TestCategory.ADI2,
-    TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
-    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
-  ]);
-
-  ionViewDidEnter(): void {
-    this.store$.dispatch(ConfirmTestDetailsViewDidEnter());
-  }
-
-  async goBackToDebrief(): Promise<void> {
-    await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
-  }
-
   ngOnInit(): void {
     super.ngOnInit();
 
@@ -131,7 +107,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     );
 
     let category: TestCategory;
-    currentTest$.pipe(select(getTestCategory))
+    this.catSubscription = currentTest$.pipe(select(getTestCategory))
       .subscribe((value) => {
         category = value as TestCategory;
         const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
@@ -204,6 +180,32 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     );
   }
 
+  ionViewWillEnter(): boolean {
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
+    return true;
+  }
+
+  isADI2(category: TestCategory): boolean {
+    return category === TestCategory.ADI2;
+  }
+
+  displayForCategory = (category: TestCategory): boolean => isAnyOf(category, [
+    TestCategory.ADI2,
+    TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
+    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
+    TestCategory.CCPC, TestCategory.DCPC,
+  ]);
+
+  ionViewDidEnter(): void {
+    this.store$.dispatch(ConfirmTestDetailsViewDidEnter());
+  }
+
+  async goBackToDebrief(): Promise<void> {
+    await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
+  }
+
   isTerminated(testResult: string): boolean {
     return testResult === TestOutcome.Terminated;
   }
@@ -253,8 +255,13 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
+
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+
+    if (this.catSubscription) {
+      this.catSubscription.unsubscribe();
     }
   }
 

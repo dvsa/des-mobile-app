@@ -1,0 +1,28 @@
+:host {
+  #question-score-label, #total-label, {
+    font-weight: normal;
+  }
+
+  #percentage-label {
+    font-weight: normal;
+  }
+
+  div, h2, {
+    display: inline;
+  }
+
+  .align-col-right {
+    text-align: right;
+  }
+
+  #score-value {
+    display: flex;
+    font-size: 30px;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 60px;
+    border: 2px solid grey;
+    background-color: #e2e2f9;
+  }
+}

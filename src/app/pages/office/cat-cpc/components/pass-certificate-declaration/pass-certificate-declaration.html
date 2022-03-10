@@ -1,0 +1,39 @@
+<ion-row class="mes-validated-row mes-row-separator" id="pass-certificate-declaration-card" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label [id]="label | formatToID">{{label}}</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <input type="radio"
+                       id="pass-certificate-declaration-signed"
+                       formControlName="passCertificateDeclarationCtrl"
+                       name="passCertificateDeclarationCtrl"
+                       class="gds-radio-button"
+                       [class.ng-invalid]="invalid"
+                       (change)="passCertificateDeclarationChanged($event.target.value)"
+                       value="true">
+                <label for="pass-certificate-declaration-signed" class="radio-label">Signed</label>
+            </ion-col>
+            <ion-col>
+                <input type="radio"
+                       id="pass-certificate-declaration-unsigned"
+                       formControlName="passCertificateDeclarationCtrl"
+                       name="passCertificateDeclarationCtrl"
+                       class="gds-radio-button"
+                       [class.ng-invalid]="invalid"
+                       (change)="passCertificateDeclarationChanged($event.target.value)"
+                       value="false">
+                <label for="pass-certificate-declaration-unsigned">Not Signed</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text" id="pass-certificate-declaration-validation-text"
+                 [class.ng-invalid]="invalid">
+                Select pass certificate declaration
+            </div>
+        </ion-row>
+    </ion-col>
+</ion-row>

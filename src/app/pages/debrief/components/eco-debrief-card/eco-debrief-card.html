@@ -7,13 +7,13 @@
           <h4 class="fault-heading">{{ 'debrief.ecoHeader' | translate }}</h4>
         </ion-col>
         <ion-col class="ion-align-self-start">
-          <div id="ecoFaults" id="adviceGivenControl" *ngIf="adviceGivenControl && !adviceGivenPlanning">
+          <div id="ecoFaults-adviceGivenControl" *ngIf="adviceGivenControl && !adviceGivenPlanning">
             {{ 'debrief.ecoControl' | translate }}
           </div>
-          <div id="ecoFaults" id="adviceGivenPlanning" *ngIf="!adviceGivenControl && adviceGivenPlanning">
+          <div id="ecoFaults-adviceGivenPlanning" *ngIf="!adviceGivenControl && adviceGivenPlanning">
             {{ 'debrief.ecoPlanning' | translate }}
           </div>
-          <div id="ecoFaults" id="adviceGivenControlAndadviceGivenPlanning" *ngIf="adviceGivenControl && adviceGivenPlanning">
+          <div id="ecoFaults-adviceGivenControlAndAdviceGivenPlanning" *ngIf="adviceGivenControl && adviceGivenPlanning">
             {{ 'debrief.ecoBoth' | translate }}
           </div>
         </ion-col>

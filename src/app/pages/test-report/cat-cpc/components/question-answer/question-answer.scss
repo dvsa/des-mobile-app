@@ -1,0 +1,16 @@
+:host {
+  .cpc-question-gds-checkbox {
+
+    & + label {
+      margin-left: 79px !important;
+    }
+
+    & + label:before {
+      margin-left: -67px;
+    }
+
+    &:checked + label:after {
+      margin-left: -67px;
+    }
+  }
+}

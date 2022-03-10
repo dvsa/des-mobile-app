@@ -1,10 +1,63 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>pass-finalisation.cat-cpc</ion-title>
-  </ion-toolbar>
+    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+        <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+        <ion-buttons id="back-button" slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Health Declaration</ion-button>
+    <div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <ion-grid>
+                <finalisation-header
+                        [candidateName]="pageState.candidateName$ | async"
+                        [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                        [outcomeText]="pageState.testOutcomeText$ | async">
+                </finalisation-header>
+
+                <ion-row class="mes-component-row mes-row-separator ion-align-items-center"
+                         id="application-reference-card">
+                    <ion-col class="component-label" size="32">
+                        <label>Application reference</label>
+                    </ion-col>
+                    <ion-col class="ion-padding-start">
+                    <span class="mes-data">
+                        {{pageState.applicationNumber$ | async }}
+                    </span>
+                    </ion-col>
+                </ion-row>
+
+                <pass-certificate-number
+                        [form]="form"
+                        [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+                        (passCertificateNumberChange)="passCertificateNumberChanged($event)">
+                </pass-certificate-number>
+
+                <language-preferences
+                        [formGroup]="form"
+                        [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+                        (welshChanged)="isWelshChanged($event)">
+                </language-preferences>
+
+                <debrief-witnessed
+                        [display]="true"
+                        [formGroup]="form"
+                        [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+                        [outcome]="testOutcome"
+                        (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+                </debrief-witnessed>
+            </ion-grid>
+        </form>
+    </div>
 </ion-content>
+
+<ion-footer>
+    <ion-row class="mes-full-width-card box-shadow">
+        <ion-button class="mes-primary-button" id="pass-finalisation-continue-button" (click)="onSubmit()">
+            <h3>Continue</h3>
+        </ion-button>
+    </ion-row>
+</ion-footer>
