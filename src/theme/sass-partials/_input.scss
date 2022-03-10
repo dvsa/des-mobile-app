@@ -1,9 +1,4 @@
-input[type="tel"],
-input[type="text"],
-ion-input[type="number"],
-ion-textarea,
-ion-datetime,
-ion-select {
+.common-input-style {
   $input-border: 2px;
   $input-border-invalid: 4px;
   $input-height: 52px;
@@ -26,6 +21,15 @@ ion-select {
       height: $input-height-invalid;
     }
   }
+}
+
+input[type="tel"],
+ion-input[type="text"],
+ion-input[type="number"],
+ion-textarea,
+ion-datetime,
+ion-select {
+  @extend .common-input-style;
 }
 
 // Don't dim select placeholders
@@ -69,6 +73,9 @@ ion-select.select {
     font-size: 28px;
     line-height: 1.5em;
     white-space: normal;
+  }
+  &.increase-width {
+    width: 280px;
   }
 }
 

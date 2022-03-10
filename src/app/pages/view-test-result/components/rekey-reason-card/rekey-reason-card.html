@@ -1,0 +1,14 @@
+<ion-card>
+    <ion-card-header>
+        <h4 id="view-test-result-reason-for-rekey-title">Reason for rekey</h4>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <data-row [label]="'IPad issue'" [value]="iPadIssue"></data-row>
+
+            <data-row [label]="'Transfer'" [value]="transfer"></data-row>
+
+            <data-row [label]="'Other (specify reason)'" [value]="other" [shouldHaveSeperator]="false"></data-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

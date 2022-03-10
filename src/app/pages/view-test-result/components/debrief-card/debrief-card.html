@@ -1,0 +1,93 @@
+<ion-card>
+    <ion-card-header>
+        <h4 id="view-test-result-debrief-title">Debrief</h4>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <data-row-with-list
+                    *ngIf="!isMod1()"
+                    [label]="'Test requirements'"
+                    [data]="testRequirements">
+            </data-row-with-list>
+
+            <data-row-with-list
+                    *ngIf="showHighwayCode()"
+                    [label]="'Highway code / Safety'"
+                    [data]="highwayCode">
+            </data-row-with-list>
+
+            <data-row
+                    *ngIf="!hideManoeuvre()"
+                    [label]="'Manoeuvre'"
+                    [value]="manoeuvre">
+            </data-row>
+
+            <data-row
+                    *ngIf="isCatB()"
+                    [label]="'Manoeuvre(s)'"
+                    [value]="getFlattenArray(getManoeuvres())">
+            </data-row>
+
+            <data-row-with-list
+                    *ngIf="showControlledStop()"
+                    [label]="'Controlled Stop'"
+                    [data]="controlledStop">
+            </data-row-with-list>
+
+            <data-row-with-list
+                    *ngIf="!isMod1()"
+                    [label]="'ECO'"
+                    [data]="eco">
+            </data-row-with-list>
+
+            <faults-data-row
+                    [label]="'Fault descriptions'"
+                    [minDrivingFaultCount]="getMinDrivingFaultCount()"
+                    [isRider]="isRider()"
+                    [testCategory]="category"
+                    [drivingFaults]="drivingFaults"
+                    [seriousFaults]="seriousFaults"
+                    [dangerousFaults]="dangerousFaults"
+                    [drivingFaultCount]="drivingFaultCount">
+            </faults-data-row>
+
+            <data-row
+                    [label]="'ETA'"
+                    [value]="eTA">
+            </data-row>
+
+            <vehicle-checks-data-row
+                    *ngIf="!delegatedTest"
+                    [label]="'Tell me question(s)'"
+                    [data]="tellMeQuestions">
+            </vehicle-checks-data-row>
+
+            <vehicle-checks-data-row
+                    *ngIf="!delegatedTest"
+                    [label]="'Show me question(s)'"
+                    [data]="showMeQuestions"
+                    [shouldHaveSeperator]="false">
+            </vehicle-checks-data-row>
+
+            <speed-card
+                    *ngIf="isMod1()"
+                    [emergencyStop]="data.emergencyStop"
+                    [avoidance]="data.avoidance">
+            </speed-card>
+
+            <safety-and-balance-data-row
+                    *ngIf="isMod2()"
+                    [label]="'Safety question(s)'"
+                    [data]="safetyQuestions"
+                    [shouldHaveSeperator]="false">
+            </safety-and-balance-data-row>
+
+            <safety-and-balance-data-row
+                    *ngIf="isMod2()"
+                    [label]="'Balance question'"
+                    [data]="balanceQuestions"
+                    [shouldHaveSeperator]="false">
+            </safety-and-balance-data-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

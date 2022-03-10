@@ -7,13 +7,15 @@
         <ion-row class="spacing-row"></ion-row>
         <ion-row [formGroup]="formGroup">
             <ion-col>
-                <input formControlName="manoeuvresPassCertificateNumberCtrl"
+                <ion-input formControlName="manoeuvresPassCertificateNumberCtrl"
                        [class.ng-invalid]="invalid"
                        type="text"
                        id="manoeuvres-pass-cert-number"
-                       class="manoeuvres-pass-cert-input"
+                       class="ion-input-styling increase-width"
+                       uppercaseAlphanumOnly
                        maxlength="8"
                        (change)="manoeuvresPassCertificateNumberChanged($event.target.value)">
+                </ion-input>
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">

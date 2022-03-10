@@ -1,0 +1,32 @@
+:host {
+  .nav-close-text {
+    font-weight: bold;
+  }
+
+  .nav-close ion-icon {
+    margin: -1px 0 0;
+    display: inherit;
+    min-width: 28px;
+    font-size: 3.4rem;
+  }
+
+  .card-content-ios {
+    padding: 0;
+  }
+
+  .grid {
+    padding: 0;
+  }
+
+  .mes-data-row {
+    padding: 22px 13px;
+  }
+
+  .toolbar-spacing {
+    height: 60px;
+  }
+
+  .toolbar-item-spacing {
+    padding-top: 20px;
+  }
+}

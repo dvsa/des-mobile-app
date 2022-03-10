@@ -1,0 +1,18 @@
+<ion-card>
+    <ion-card-header>
+        <h4 id="view-test-result-examiner-details-title">Examiner details</h4>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <data-row [label]="'Examiner number'" [value]="data.staffNumber"></data-row>
+
+            <data-row [label]="'Test centre'" [value]="data.costCode"></data-row>
+
+            <data-row
+                    [label]="'Test centre name'"
+                    [value]="data.testCentreName"
+                    [shouldHaveSeperator]="false">
+            </data-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

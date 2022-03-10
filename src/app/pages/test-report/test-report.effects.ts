@@ -78,7 +78,7 @@ export class TestReportEffects {
     }),
   ));
 
-  persistTestReport$ = this.actions$.pipe(
+  persistTestReport$ = createEffect(() => this.actions$.pipe(
     ofType(
       drivingFaultsActions.AddDrivingFault,
       drivingFaultsActions.RemoveDrivingFault,
@@ -138,9 +138,9 @@ export class TestReportEffects {
       ),
     )),
     filter(([, isTestReportPracticeTestValue]) => !isTestReportPracticeTestValue),
-    delay(1000), // Added a 1 second delay to allow other action to complete/effects to fire
+    delay(1000), // Added a 1-second delay allowing other action to complete/effects to fire
     map(() => testsActions.PersistTests()),
-  );
+  ));
 
   terminateTestFromTestReport$ = createEffect(() => this.actions$.pipe(
     ofType(

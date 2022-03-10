@@ -1,0 +1,82 @@
+<ion-grid>
+    <ion-row>
+        <ion-col class="ion-align-self-center" size="18">
+            <label id="advanced-search-test-centre-label">Test centre</label>
+        </ion-col>
+        <ion-col size="28">
+            <ion-input placeholder="DTC number"
+                       id="advanced-search-test-centre-input"
+                       class="ion-input-styling"
+                       type="text"
+                       clearInput
+                       uppercaseAlphanumOnly
+                       (ionFocus)="setFocus('dtcNumber')"
+                       (ionBlur)="setFocus(null)"
+                       [ngClass]="{'input-focus': focusedElement === 'dtcNumber'}"
+                       [value]="dtcNumber"
+                       (ionInput)="dtcNumberChanged($event.target?.value)">
+            </ion-input>
+        </ion-col>
+        <ion-col size="3"></ion-col>
+        <ion-col class="ion-align-self-center" size="14">
+            <label id="advanced-search-staff-id-label">Staff ID</label>
+        </ion-col>
+        <ion-col size="28">
+            <ion-input placeholder="DE number"
+                       id="advanced-search-staff-id-input"
+                       type="text"
+                       class="ion-input-styling custom-font-size"
+                       clearInput
+                       uppercaseAlphanumOnly
+                       (ionFocus)="setFocus('deNumber')"
+                       (ionBlur)="setFocus(null)"
+                       [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
+                       (ionInput)="staffNumberChanged($event)">
+            </ion-input>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <hr class="advanced-search-divider"/>
+        </ion-col>
+    </ion-row>
+    <ion-row class="ion-padding-top ion-padding-bottom">
+        <ion-col class="ion-align-self-center" size="26">
+            <label id="advanced-search-date-range-label">Date range</label>
+        </ion-col>
+        <ion-col size="28">
+            <ion-datetime
+                    (ionChange)="startDateChanged($event?.detail?.value)"
+                    [(ngModel)]="startDate"
+                    [pickerOptions]="customStartDateOptions"
+                    placeholder="Select start date"
+                    displayFormat="DD/MM/YYYY">
+            </ion-datetime>
+        </ion-col>
+        <ion-col class="component-label ion-text-center" size="9">
+            <label class="to-label" id="to-label">to</label>
+        </ion-col>
+        <ion-col size="28">
+            <ion-datetime
+                    id="advanced-search-end-date-picker"
+                    placeholder="Select end date"
+                    displayFormat="DD/MM/YYYY"
+                    doneText="Done"
+                    [value]="endDate"
+                    [pickerOptions]="customEndDateOptions">
+            </ion-datetime>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-button
+                id="advanced-search-button"
+                [attr.disabled]="showSpinner ? 'true' : null"
+                class="mes-primary-button search-tests" (click)="searchTests()">
+            <h3 id="advanced-search-button-text">
+                <ion-icon name="search" class="search-icon"></ion-icon>
+                Search
+            </h3>
+        </ion-button>
+        <ion-spinner class="search-spinner" id="advanced-search-spinner" name="bubbles" *ngIf="showSpinner"></ion-spinner>
+    </ion-row>
+</ion-grid>
