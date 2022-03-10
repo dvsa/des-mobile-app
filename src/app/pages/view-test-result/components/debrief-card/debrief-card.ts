@@ -176,11 +176,11 @@ export class DebriefCardComponent implements OnInit {
   private getTestRequirementsCatB = (): DataRowListItem[] => {
     return [
       {
-        label: TestRequirementsLabels.normalStart1,
+        label: TestRequirementsLabels.normalStop1,
         checked: get(this.data, 'testRequirements.normalStart1'),
       },
       {
-        label: TestRequirementsLabels.normalStart2,
+        label: TestRequirementsLabels.normalStop2,
         checked: get(this.data, 'testRequirements.normalStart2'),
       },
       {
@@ -197,11 +197,11 @@ export class DebriefCardComponent implements OnInit {
   private getTestRequirementsCatBE = (): DataRowListItem[] => {
     return [
       {
-        label: TestRequirementsLabels.normalStart1,
+        label: TestRequirementsLabels.normalStop1,
         checked: get(this.data, 'testRequirements.normalStart1', false),
       },
       {
-        label: TestRequirementsLabels.normalStart2,
+        label: TestRequirementsLabels.normalStop2,
         checked: get(this.data, 'testRequirements.normalStart2', false),
       },
       {
@@ -226,11 +226,11 @@ export class DebriefCardComponent implements OnInit {
   private getTestRequirementsCatC = (): DataRowListItem[] => {
     const testRequirements: DataRowListItem[] = [
       {
-        label: TestRequirementsLabels.normalStart1,
+        label: TestRequirementsLabels.normalStop1,
         checked: get(this.data, 'testRequirements.normalStart1', false),
       },
       {
-        label: TestRequirementsLabels.normalStart2,
+        label: TestRequirementsLabels.normalStop2,
         checked: get(this.data, 'testRequirements.normalStart2', false),
       },
       {
@@ -260,11 +260,11 @@ export class DebriefCardComponent implements OnInit {
   private getTestRequirementsCatD = (): DataRowListItem[] => {
     const testRequirements: DataRowListItem[] = [
       {
-        label: TestRequirementsLabels.normalStart1,
+        label: TestRequirementsLabels.normalStop1,
         checked: get(this.data, 'testRequirements.normalStart1', false),
       },
       {
-        label: TestRequirementsLabels.normalStart2,
+        label: TestRequirementsLabels.normalStop2,
         checked: get(this.data, 'testRequirements.normalStart2', false),
       },
       {
@@ -302,11 +302,11 @@ export class DebriefCardComponent implements OnInit {
   private getTestRequirementsCatHome = (): DataRowListItem[] => {
     return [
       {
-        label: TestRequirementsLabels.normalStart1,
+        label: TestRequirementsLabels.normalStop1,
         checked: get(this.data, 'testRequirements.normalStart1', false),
       },
       {
-        label: TestRequirementsLabels.normalStart2,
+        label: TestRequirementsLabels.normalStop2,
         checked: get(this.data, 'testRequirements.normalStart2', false),
       },
       {
