@@ -9,16 +9,15 @@
   <ion-card-content>
     <ion-grid>
       <ion-row class="ion-padding">
-        <ion-col size="32" class="ion-no-padding">
+        <ion-col size="30" class="ion-no-padding">
           <label>{{ 'debrief.emergencyStopHeader' | translate }}</label>
         </ion-col>
 
-        <ion-col size="22" class="ion-no-padding" *ngIf="emergencyStop.firstAttempt !== undefined">
-          <ion-row class="ion-padding">
-            <ion-col size="24" class="ion-no-padding">
+        <ion-col size="23" class="ion-no-padding" *ngIf="emergencyStop.firstAttempt !== undefined">
+          <ion-row class="ion-no-padding">
+            <ion-col size="25" class="ion-no-padding">
               <div>1st:</div>
             </ion-col>
-            <ion-col size="2" class="ion-no-padding"></ion-col>
             <ion-col class="ion-no-padding">
               <div>
                 <ng-container *ngTemplateOutlet="SpeedFormat; context: {speed: emergencyStop.firstAttempt}"></ng-container>
@@ -27,12 +26,11 @@
           </ion-row>
         </ion-col>
 
-        <ion-col size="22" class="ion-no-padding" *ngIf="emergencyStop.secondAttempt !== undefined">
+        <ion-col size="23" class="ion-no-padding" *ngIf="emergencyStop.secondAttempt !== undefined">
           <ion-row class="ion-no-padding">
-            <ion-col size="24" class="ion-no-padding">
+            <ion-col size="25" class="ion-no-padding">
               <div>2nd:</div>
             </ion-col>
-            <ion-col size="2" class="ion-no-padding"></ion-col>
             <ion-col class="ion-no-padding">
               <div>
                 <ng-container *ngTemplateOutlet="SpeedFormat; context: {speed: emergencyStop.secondAttempt}"></ng-container>
@@ -42,7 +40,7 @@
         </ion-col>
 
         <ion-col size="4" class="ion-no-padding ion-align-self-start">
-          <div class="counter-icon">
+          <div class="counter-icon icon-centre">
             <img
               *ngIf="!emergencyStop.outcome"
               src="assets/imgs/greenCorrectAnswer.png"

@@ -46,21 +46,29 @@ export class BikeCategoryTypeComponent implements OnChanges {
   ) { }
 
   async openCategorySelector(): Promise<void> {
-    this.loadImages();
+    // this.loadImages();
     await this.selectRef.open();
   }
 
-  loadImages(): void {
-    setTimeout(() => {
-      const options = document.getElementsByClassName('alert-radio-label');
-      Array.from(options).forEach((option, index) => {
-        const element = options[index];
-        const category = this.bikeCategoryDetails[index].categoryCode;
-        const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
-        element.innerHTML = `<span class="bike-code">${element.innerHTML}</span>`
-          .concat(`${bike.displayName}<img class="bike-image" src="${bike.imageUrl}" alt=""/>`);
-      });
-    }, 20);
+  // loadImages(): void {
+  //   setTimeout(() => {
+  //     const options = document.getElementsByClassName('alert-radio-label');
+  //     Array.from(options).forEach((option, index) => {
+  //       const element = options[index];
+  //       const category = this.bikeCategoryDetails[index].categoryCode;
+  //       const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
+  //       element.innerHTML = `<span class="bike-code">${element.innerHTML}</span>`
+  //         .concat(`${bike.displayName}<img class="bike-image" src="${bike.imageUrl}" alt=""/>`);
+  //     });
+  //   }, 20);
+  // }
+
+  getBikeDisplayName(category: CategoryCode): string {
+    return this.bikeCategoryDetailProvider.getDetailByCategoryCode(category).displayName;
+  }
+
+  getBikeImage(category: CategoryCode): string {
+    return this.bikeCategoryDetailProvider.getDetailByCategoryCode(category).imageUrl;
   }
 
   ngOnChanges(): void {

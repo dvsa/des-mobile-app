@@ -24,10 +24,10 @@
   .end-test-button {
     @extend .mes-return-button;
 
-    background: var(--gds-bright-red);
+    --background: var(--gds-bright-red);
 
     &.activated, &:active {
-      background: var(--gds-red);
+      --background: var(--gds-red);
     }
 
     h3 {
