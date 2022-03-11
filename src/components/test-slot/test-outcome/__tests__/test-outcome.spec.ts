@@ -23,6 +23,8 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { JournalModel } from '@store/journal/journal.model';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+
 import { TestOutcomeComponent } from '../test-outcome';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 
@@ -90,6 +92,7 @@ describe('TestOutcomeComponent', () => {
             },
           }),
           journal: () => (journal),
+          rekeySearch: () => ({ bookedTestSlot: {} }),
         }),
         TestSlotComponentsModule,
       ],
@@ -98,6 +101,7 @@ describe('TestOutcomeComponent', () => {
         { provide: Router, useValue: routerSpy },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AppComponent, useClass: MockAppComponent },
+        CategoryWhitelistProvider,
       ],
     });
   });
@@ -153,10 +157,10 @@ describe('TestOutcomeComponent', () => {
 
     describe('writeUpTest', () => {
       categoryPages.forEach((cat) => {
-        it(`should dispatch an ActivateTest action and navigate to the Office Cat ${cat.category} page`, () => {
+        it(`should dispatch an ActivateTest action and navigate to the Office Cat ${cat.category} page`, async () => {
           component.slotDetail = testSlotDetail;
           component.category = cat.category;
-          component.writeUpTest();
+          await component.writeUpTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
             TestFlowPageNames.OFFICE_PAGE, component.category,

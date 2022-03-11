@@ -4,6 +4,10 @@ import { ConfigMock } from 'ionic-mocks';
 import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+
+import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { PracticeModeBanner } from '../practice-mode-banner';
 
 describe('PracticeModeBanner', () => {
@@ -14,11 +18,17 @@ describe('PracticeModeBanner', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeBanner],
-      imports: [
-        IonicModule, RouterTestingModule],
+      imports: [IonicModule, RouterTestingModule, StoreModule.forRoot({
+        tests: () => ({
+          currentTest: { testCategory: TestCategory.B },
+          testStatus: {},
+          startedTests: {},
+        }),
+      })],
       providers: [
         { provide: Router, useValue: routerSpy },
         { provide: Config, useFactory: () => ConfigMock.instance() },
+        CategoryWhitelistProvider,
       ],
     });
   });

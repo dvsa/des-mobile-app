@@ -1,0 +1,28 @@
+<ion-card class="modal-alert">
+  <modal-alert-title id="preview-mode-start-title">
+    Preview category
+  </modal-alert-title>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="80">
+      <div class="modal-alert-message">
+        <div class="mes-data ion-text-wrap">
+          This is a preview of a category not yet available in DES 4, this is maybe subject to change
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding" size="72">
+      <ion-button id="preview-mode-continue-button" class="mes-return-button start-test-button" (click)="onContinue()">
+        <h3>Continue</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-button id="preview-mode-return-to-journal-button" fill="clear" class="cancel-button" (click)="onCancel()">
+        Return to journal
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>
