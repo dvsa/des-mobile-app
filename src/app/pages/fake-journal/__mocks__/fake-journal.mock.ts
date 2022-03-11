@@ -761,6 +761,7 @@ export const fakeJournalTestSlots = [
   {
     booking: {
       application: {
+<<<<<<< HEAD
         applicationId: 1284470,
         bookingSequence: 1,
         checkDigit: 3,
@@ -800,25 +801,67 @@ export const fakeJournalTestSlots = [
         dateOfBirth: '1950-02-27',
         ethnicityCode: 'A',
         emailAddress: 'james@brown.com',
+=======
+        applicationId: 5551234,
+        bookingSequence: 7,
+        checkDigit: 7,
+        entitlementCheck: false,
+        categoryEntitlementCheck: false,
+        extendedTest: false,
+        progressiveAccess: false,
+        testCategory: 'EUA1M1',
+        vehicleGearbox: 'Manual',
+        welshTest: false,
+        specialNeedsCode: 'NONE',
+        specialNeedsExtendedTest: false,
+        meetingPlace: 'Behind test centre',
+      },
+      candidate: {
+        candidateAddress: {
+          addressLine1: '1 Camden St',
+          addressLine2: 'North Shields',
+          addressLine3: 'Tyne and Wear',
+          postcode: 'NE30 1NH',
+        },
+        candidateId: 107,
+        candidateName: {
+          firstName: 'Holly',
+          lastName: 'Knight',
+          title: 'Miss',
+        },
+        driverNumber: 'KNIGH375220A99HK',
+        primaryTelephone: '01912 578392',
+        emailAddress: 'Holly@Knight.com',
+>>>>>>> b06a5314 (WIP)
       },
     },
     slotDetail: {
       duration: 57,
       slotId: `${end2endPracticeSlotId}_13`,
+<<<<<<< HEAD
       start: todayAtHour(14).add(40, 'minutes').format(),
+=======
+      start: todayAtHour(14).add(0, 'minutes').format(),
+>>>>>>> b06a5314 (WIP)
     },
     testCentre: {
       centreId: 54321,
       centreName: 'Example Test Centre',
       costCode: 'EXTC1',
     },
+<<<<<<< HEAD
     vehicleTypeCode: 'D',
     vehicleSlotTypeCode: 7,
     examinerVisiting: false,
+=======
+    vehicleSlotType: 'B57mins',
+    vehicleSlotTypeCode: 7,
+>>>>>>> b06a5314 (WIP)
   },
   {
     booking: {
       application: {
+<<<<<<< HEAD
         applicationId: 1284479,
         bookingSequence: 1,
         checkDigit: 3,
@@ -916,25 +959,68 @@ export const fakeJournalTestSlots = [
         dateOfBirth: '1950-02-27',
         ethnicityCode: 'A',
         emailAddress: 'aimee@king.com',
+=======
+        applicationId: 5551235,
+        bookingSequence: 7,
+        checkDigit: 7,
+        entitlementCheck: false,
+        categoryEntitlementCheck: false,
+        extendedTest: false,
+        progressiveAccess: false,
+        testCategory: 'EUA2M1',
+        vehicleGearbox: 'Manual',
+        welshTest: false,
+        specialNeedsCode: 'NONE',
+        specialNeedsExtendedTest: false,
+        meetingPlace: 'Behind test centre',
+      },
+      candidate: {
+        candidateAddress: {
+          addressLine1: '2 Camden St',
+          addressLine2: 'North Shields',
+          addressLine3: 'Tyne and Wear',
+          postcode: 'NE30 1NH',
+        },
+        candidateId: 107,
+        candidateName: {
+          firstName: 'Lauren',
+          lastName: 'Rogers',
+          title: 'Mrs',
+        },
+        driverNumber: 'ROGER375220A99LR',
+        primaryTelephone: '02085 493419',
+        emailAddress: 'Lauren@Rogers.com',
+>>>>>>> b06a5314 (WIP)
       },
     },
     slotDetail: {
       duration: 57,
+<<<<<<< HEAD
       slotId: `${end2endPracticeSlotId}_15`,
       start: todayAtHour(16).add(0, 'minutes').format(),
+=======
+      slotId: `${end2endPracticeSlotId}_14`,
+      start: todayAtHour(14).add(5, 'minutes').format(),
+>>>>>>> b06a5314 (WIP)
     },
     testCentre: {
       centreId: 54321,
       centreName: 'Example Test Centre',
       costCode: 'EXTC1',
     },
+<<<<<<< HEAD
     vehicleTypeCode: 'D',
     vehicleSlotTypeCode: 7,
     examinerVisiting: false,
+=======
+    vehicleSlotType: 'B57mins',
+    vehicleSlotTypeCode: 7,
+>>>>>>> b06a5314 (WIP)
   },
   {
     booking: {
       application: {
+<<<<<<< HEAD
         applicationId: 1284477,
         bookingSequence: 1,
         checkDigit: 3,
@@ -984,25 +1070,68 @@ export const fakeJournalTestSlots = [
         },
         businessName: 'Business Name',
         telephone: '0234 234433',
+=======
+        applicationId: 5551236,
+        bookingSequence: 7,
+        checkDigit: 7,
+        entitlementCheck: false,
+        categoryEntitlementCheck: false,
+        extendedTest: false,
+        progressiveAccess: false,
+        testCategory: 'EUAM1',
+        vehicleGearbox: 'Manual',
+        welshTest: false,
+        specialNeedsCode: 'NONE',
+        specialNeedsExtendedTest: false,
+        meetingPlace: 'Behind test centre',
+      },
+      candidate: {
+        candidateAddress: {
+          addressLine1: '3 Camden St',
+          addressLine2: 'North Shields',
+          addressLine3: 'Tyne and Wear',
+          postcode: 'NE30 1NH',
+        },
+        candidateId: 107,
+        candidateName: {
+          firstName: 'Fred',
+          lastName: 'Wright',
+          title: 'Mr',
+        },
+        driverNumber: 'WRIGH375220A99FW',
+        primaryTelephone: '01772 459931',
+        emailAddress: 'Fred@Wright.com',
+>>>>>>> b06a5314 (WIP)
       },
     },
     slotDetail: {
       duration: 57,
+<<<<<<< HEAD
       slotId: `${end2endPracticeSlotId}_16`,
       start: todayAtHour(16).add(42, 'minutes').format(),
+=======
+      slotId: `${end2endPracticeSlotId}_15`,
+      start: todayAtHour(14).add(10, 'minutes').format(),
+>>>>>>> b06a5314 (WIP)
     },
     testCentre: {
       centreId: 54321,
       centreName: 'Example Test Centre',
       costCode: 'EXTC1',
     },
+<<<<<<< HEAD
     vehicleTypeCode: 'D',
     vehicleSlotTypeCode: 7,
     examinerVisiting: false,
+=======
+    vehicleSlotType: 'B57mins',
+    vehicleSlotTypeCode: 7,
+>>>>>>> b06a5314 (WIP)
   },
   {
     booking: {
       application: {
+<<<<<<< HEAD
         applicationId: 2299201,
         bookingSequence: 7,
         checkDigit: 7,
@@ -1100,20 +1229,62 @@ export const fakeJournalTestSlots = [
         },
         businessName: 'Business Name',
         telephone: '0234 234433',
+=======
+        applicationId: 5551237,
+        bookingSequence: 7,
+        checkDigit: 7,
+        entitlementCheck: false,
+        categoryEntitlementCheck: false,
+        extendedTest: false,
+        progressiveAccess: false,
+        testCategory: 'EUAMM1',
+        vehicleGearbox: 'Manual',
+        welshTest: false,
+        specialNeedsCode: 'NONE',
+        specialNeedsExtendedTest: false,
+        meetingPlace: 'Behind test centre',
+      },
+      candidate: {
+        candidateAddress: {
+          addressLine1: '4 Camden St',
+          addressLine2: 'North Shields',
+          addressLine3: 'Tyne and Wear',
+          postcode: 'NE30 1NH',
+        },
+        candidateId: 107,
+        candidateName: {
+          firstName: 'Joel',
+          lastName: 'Phillips',
+          title: 'Mr',
+        },
+        driverNumber: 'PHILL375220A99JP',
+        primaryTelephone: '01772 625625',
+        emailAddress: 'Joel@Phillips.com',
+>>>>>>> b06a5314 (WIP)
       },
     },
     slotDetail: {
       duration: 57,
+<<<<<<< HEAD
       slotId: `${end2endPracticeSlotId}_18`,
       start: todayAtHour(17).add(50, 'minutes').format(),
+=======
+      slotId: `${end2endPracticeSlotId}_16`,
+      start: todayAtHour(14).add(15, 'minutes').format(),
+>>>>>>> b06a5314 (WIP)
     },
     testCentre: {
       centreId: 54321,
       centreName: 'Example Test Centre',
       costCode: 'EXTC1',
     },
+<<<<<<< HEAD
     vehicleTypeCode: 'D',
     vehicleSlotTypeCode: 7,
     examinerVisiting: false,
+=======
+    vehicleSlotType: 'B57mins',
+    vehicleSlotTypeCode: 7,
+>>>>>>> b06a5314 (WIP)
   },
 ];

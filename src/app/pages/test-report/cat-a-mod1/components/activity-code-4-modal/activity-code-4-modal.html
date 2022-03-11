@@ -2,7 +2,9 @@
     <modal-alert-title>{{modalReason}}</modal-alert-title>
     <ion-row class="ion-justify-content-center">
         <ion-col class="ion-no-padding" size="72">
-            <button class="end-test-button" (click)="onEndTest()"><h3>End test now</h3></button>
+            <ion-button class="end-test-button"  mode="ios" (click)="onEndTest()">
+                <h3>End test now</h3>
+            </ion-button>
         </ion-col>
     </ion-row>
     <ion-row class="ion-justify-content-center">

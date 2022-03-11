@@ -24,11 +24,8 @@
     <ion-col size="16">
         <competency-button
                 [onTap]="toggleNotMet"
-                [ngClass]="{
-        'not-met': getNotMet()
-      }"
-        >
-            <span class="competency-label" id="{{competency}}Met">Not met</span>
+                [redBorder]="getNotMet()">
+            <span class="not-met" id="{{competency}}Met">Not met</span>
         </competency-button>
     </ion-col>
 </ion-row>

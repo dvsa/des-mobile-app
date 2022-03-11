@@ -83,14 +83,14 @@
 }
 
 .mes-link-button {
-  background: var(--mes-white);
+  --background: var(--mes-white);
   color: var(--gds-black);
-  border-radius: 4px;
+  --border-radius: 4px;
   padding: 0 0.8rem;
   margin: 0 0.2rem;
   line-height: 2.6rem;
   &.activated {
-    background: var(--mes-white);
+    --background: var(--mes-white);
     span {
       color: var(--gds-light-blue);
     }
