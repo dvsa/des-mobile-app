@@ -4,9 +4,9 @@ import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { AppModule } from '@app/app.module';
 import { CPCDebriefCardComponent } from '../cpc-debrief-card';
 import { ComponentsModule } from '../../common-components.module';
-import { AppModule } from '../../../../app/app.module';
 
 describe('CPCDebriefCardComponent', () => {
   let fixture: ComponentFixture<CPCDebriefCardComponent>;

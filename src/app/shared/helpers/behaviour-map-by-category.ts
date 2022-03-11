@@ -3,6 +3,7 @@ import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcom
 import { behaviourMap as CatBBehaviourMap } from '@pages/office/office-behaviour-map';
 import { behaviourMap as CatBEBehaviourMap } from '@pages/office/office-behaviour-map.cat-be';
 import { behaviourMap as CatCBehaviourMap } from '@pages/office/office-behaviour-map.cat-c';
+import { behaviourMap as CatCPCBehaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
 import { behaviourMap as CatDBehaviourMap } from '@pages/office/office-behaviour-map.cat-d';
 import { behaviourMap as CatManoeuvreBehaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 
@@ -31,6 +32,9 @@ export const getBehaviourMapByCategory = (testCategory: TestCategory): OutcomeBe
     case TestCategory.DE:
     case TestCategory.D1E:
       return CatDBehaviourMap;
+    case TestCategory.CCPC:
+    case TestCategory.DCPC:
+      return CatCPCBehaviourMap;
     default:
       console.error(`Missing behaviour map for category: ${testCategory}`);
       return null;

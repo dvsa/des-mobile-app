@@ -1,0 +1,57 @@
+<ion-row class="mes-validated-row mes-row-separator" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Vehicle details</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <input type="radio"
+                       id="configuration-rigid"
+                       class="gds-radio-button"
+                       name="configuration"
+                       formControlName="configuration"
+                       value="Rigid"
+                       [class.ng-invalid]="invalid"
+                       [checked]="configuration === 'Rigid'"
+                       (change)="vehicleDetailsChanged($event.target.value)">
+                <label for="configuration-rigid" class="radio-label">Rigid</label>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <input type="radio"
+                       id="configuration-articulated"
+                       class="gds-radio-button"
+                       name="configuration"
+                       formControlName="configuration"
+                       value="Articulated"
+                       [class.ng-invalid]="invalid"
+                       [checked]="configuration === 'Articulated'"
+                       (change)="vehicleDetailsChanged($event.target.value)">
+                <label for="configuration-articulated" class="radio-label">Articulated</label>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <input type="radio"
+                       id="configuration-drawbar"
+                       class="gds-radio-button"
+                       name="configuration"
+                       formControlName="configuration"
+                       value="Drawbar"
+                       [class.ng-invalid]="invalid"
+                       [checked]="configuration === 'Drawbar'"
+                       (change)="vehicleDetailsChanged($event.target.value)">
+                <label for="configuration-drawbar" class="radio-label">Drawbar</label>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text" [class.ng-invalid]="invalid" id="vehicle-details-validation-text">
+                Select Vehicle details
+            </div>
+        </ion-row>
+    </ion-col>
+</ion-row>

@@ -1,0 +1,90 @@
+<ion-card>
+    <question-title [question]="question"></question-title>
+    <ion-card-content>
+        <ion-grid>
+            <question-subtitle [subtitle]="question.subtitle"></question-subtitle>
+            <ion-row>
+                <ion-col size="32">
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer1"
+                            [answerNumber]="'1'">
+                    </question-answer>
+                </ion-col>
+                <ion-col size="21">
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer2"
+                            [answerNumber]="'2'">
+                    </question-answer>
+                </ion-col>
+                <ion-col size="43">
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer3"
+                            [answerNumber]="'3'">
+                    </question-answer>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="32">
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer4"
+                            [answerNumber]="'4'">
+                    </question-answer>
+                </ion-col>
+                <ion-col size="21">
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer5"
+                            [answerNumber]="'5'">
+                    </question-answer>
+                </ion-col>
+                <ion-col size="43">
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer6"
+                            [answerNumber]="'6'">
+                    </question-answer>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="32">
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer7"
+                            [answerNumber]="'7'">
+                    </question-answer>
+                </ion-col>
+                <ion-col>
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer8"
+                            [answerNumber]="'8'">
+                    </question-answer>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="32">
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer9"
+                            [answerNumber]="'9'">
+                    </question-answer>
+                </ion-col>
+                <ion-col>
+                    <question-answer
+                            (answerToggled)="answerChanged($event)"
+                            [answer]="question.answer10"
+                            [answerNumber]="'10'">
+                    </question-answer>
+                </ion-col>
+            </ion-row>
+            <question-score [score]="question.score"></question-score>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

@@ -24,6 +24,18 @@
             [tellMeShowMeQuestions]="pageState.tellMeShowMeQuestions$ | async">
     </vehicle-checks-card>
     <!--   ----  -->
+
+    <!-- CPC section -->
+    <cpc-debrief-card *ngIf="!isTerminated() && showCPCDebriefCard()"
+                      [overallScore]="pageState.overallScore$ | async"
+                      [question1]="pageState.question1$ | async"
+                      [question2]="pageState.question2$ | async"
+                      [question3]="pageState.question3$ | async"
+                      [question4]="pageState.question4$ | async"
+                      [question5]="pageState.question5$ | async"
+                      [testOutcome]="outcome">
+    </cpc-debrief-card>
+    <!-- -->
 </ion-content>
 
 <ion-footer>

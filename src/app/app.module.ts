@@ -61,6 +61,7 @@ import { DirectivesModule } from 'src/directives/directives.module';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
+import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { CommonModule } from '@angular/common';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -142,6 +143,7 @@ if (enableRehydrationPlugin) {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
     MobileAccessibility,
     AppVersion,
     AppConfigProvider,
@@ -173,9 +175,9 @@ if (enableRehydrationPlugin) {
     Insomnia,
     QuestionProvider,
     CommonModule,
-    { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
     WeatherConditionProvider,
     OutcomeBehaviourMapProvider,
+    CPCQuestionProvider,
   ],
   bootstrap: [AppComponent],
 })

@@ -93,10 +93,10 @@ import {
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 import { GearboxCategoryChanged } from './vehicle-details/vehicle-details.actions';
 import {
-  InitialiseVehicleChecks as InitialiseVehicleChecksCatC, SetFullLicenceHeld,
+  InitialiseVehicleChecks as InitialiseVehicleChecksCatC, SetFullLicenceHeld as SetFullLicenceHeldCatC,
 } from './test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import {
-  InitializeVehicleChecks as InitializeVehicleChecksCatD,
+  InitializeVehicleChecks as InitializeVehicleChecksCatD, SetFullLicenceHeld as SetFullLicenceHeldCatD,
 } from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 
 @Injectable()
@@ -276,10 +276,14 @@ export class TestsEffects {
       if (
         startTestAction.category === TestCategory.C
         || startTestAction.category === TestCategory.C1
-        || startTestAction.category === TestCategory.D
+      ) {
+        arrayOfActions.push(SetFullLicenceHeldCatC(false));
+      }
+      if (
+        startTestAction.category === TestCategory.D
         || startTestAction.category === TestCategory.D1
       ) {
-        arrayOfActions.push(SetFullLicenceHeld(false));
+        arrayOfActions.push(SetFullLicenceHeldCatD(false));
       }
       if (
         startTestAction.category === TestCategory.F

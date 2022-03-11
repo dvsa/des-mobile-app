@@ -5,6 +5,7 @@ import { DataRowCustomComponent } from '@components/common/data-row-custom/data-
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { TestDetailsModel } from '../test-details-card.model';
 import { TestDetailsCardComponent } from '../test-details-card';
 
@@ -18,6 +19,7 @@ describe('TestDetailsCardComponent', () => {
         TestDetailsCardComponent,
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),
+        MockComponent(InappropriateUseBannerComponent),
       ],
       imports: [
         IonicModule,
