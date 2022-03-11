@@ -8,7 +8,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding" forceOverscroll="false">
+<ion-content class="ion-no-padding">
     <module-assessment [combinationCode]="pageState.combinationCode$ | async"></module-assessment>
 
     <div *ngIf="!isDelegated">

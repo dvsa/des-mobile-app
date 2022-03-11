@@ -1,7 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from 'ionic-angular';
-import { FormGroup } from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonicModule } from '@ionic/angular';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { PipesModule } from '@shared/pipes/pipes.module';
 import { PassCertificateDeclarationComponent } from '../pass-certificate-declaration';
 
 describe('PassCertificateDeclarationComponent', () => {
@@ -15,13 +16,13 @@ describe('PassCertificateDeclarationComponent', () => {
       ],
       imports: [
         IonicModule,
-      ],
-      providers: [
+        PipesModule,
+        ReactiveFormsModule,
       ],
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassCertificateDeclarationComponent);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});
@@ -34,7 +35,6 @@ describe('PassCertificateDeclarationComponent', () => {
         component.passCertificateDeclarationChanged(true);
         expect(component.passCertificateDeclarationChange.emit).toHaveBeenCalledWith(true);
       });
-
       it('should emit selected value - false', () => {
         spyOn(component.passCertificateDeclarationChange, 'emit');
         component.passCertificateDeclarationChanged(false);
@@ -50,7 +50,6 @@ describe('PassCertificateDeclarationComponent', () => {
         const result: boolean = component.invalid;
         expect(result).toEqual(false);
       });
-
       it('should not validate the field when it is dirty', () => {
         component.ngOnChanges();
         component.formControl.markAsDirty();

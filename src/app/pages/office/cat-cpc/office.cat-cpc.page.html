@@ -14,7 +14,6 @@
     </office-candidate-section>
 
     <form [formGroup]="form">
-
         <ion-card>
             <ion-card-header>
                 <h4>Test summary</h4>
@@ -93,6 +92,7 @@
                                 [formGroup]="form"
                                 [candidateDescription]="pageState.candidateDescription$ | async"
                                 [outcome]="pageState.testOutcome$ | async"
+                                [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
                                 (candidateDescriptionChange)="candidateDescriptionChanged($event)">
                         </candidate-description>
 
@@ -112,6 +112,14 @@
                                 [outcome]="pageState.testOutcome$ | async"
                                 (additionalInformationChange)="additionalInformationChanged($event)">
                         </additional-information>
+
+                        <accompaniment-card-cat-cpc
+                                [formGroup]="form"
+                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+                        </accompaniment-card-cat-cpc>
 
                         <combination-office
                                 [combination]="pageState.combination$ | async"

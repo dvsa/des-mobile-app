@@ -165,6 +165,7 @@
                                 [weatherConditionsOptions]="weatherConditions"
                                 (weatherConditionsChange)="weatherConditionsChanged($event)">
                         </weather-conditions>
+
                         <accompaniment-card [formGroup]="form"
                                             [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
                                             [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"

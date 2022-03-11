@@ -6,7 +6,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { getTests } from '@store/tests/tests.reducer';
 import {
-  getActivityCode, getCurrentTest, getCurrentTestSlotId, getJournalData, getTestOutcomeText,
+  getActivityCode, getCurrentTest, getJournalData, getTestOutcomeText,
 } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -17,7 +17,7 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';

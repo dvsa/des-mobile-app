@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { VehicleDetailsCatCPCComponent } from '../vehicle-details';
 import { IonicModule } from '@ionic/angular';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
+import { VehicleDetailsCatCPCComponent } from '../vehicle-details';
 
 describe('VehicleDetailsCatCPCComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsCatCPCComponent>;

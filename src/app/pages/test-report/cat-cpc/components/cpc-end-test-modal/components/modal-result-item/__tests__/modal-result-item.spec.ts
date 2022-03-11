@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
-
 import { AppModule } from '@app/app.module';
 import { ModalResultItemComponent } from '../modal-result-item';
 

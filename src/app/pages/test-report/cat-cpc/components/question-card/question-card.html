@@ -1,8 +1,6 @@
 <ion-card>
     <question-title [question]="question"></question-title>
-
-    <ion-card-content>
-
+    <ion-card-content class="card-content-sizing">
         <ion-grid>
             <question-subtitle [subtitle]="question.subtitle"></question-subtitle>
 
@@ -34,7 +32,5 @@
 
             <question-score [score]="question.score"></question-score>
         </ion-grid>
-
     </ion-card-content>
-
 </ion-card>

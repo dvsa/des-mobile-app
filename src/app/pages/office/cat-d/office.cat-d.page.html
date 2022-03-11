@@ -175,6 +175,17 @@
                                 [outcome]="pageState.testOutcome$ | async"
                                 (additionalInformationChange)="additionalInformationChanged($event)">
                         </additional-information>
+
+                        <accompaniment-card [formGroup]="form"
+                                            [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                                            [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                                            [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                                            [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                                            (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                                            (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                                            (otherAccompanimentChange)="otherAccompanimentToggled()"
+                                            (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+                        </accompaniment-card>
                     </div>
                 </ion-grid>
             </ion-card-content>

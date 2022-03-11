@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 import { CPCEndTestModal } from './cpc-end-test-modal';
 import { ModalResultItemComponent } from './components/modal-result-item/modal-result-item';
-import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -13,9 +13,9 @@ import {CommonModule} from '@angular/common';
     CPCEndTestModal,
     ModalResultItemComponent,
   ],
-    imports: [
-        IonicModule,
-        CommonModule,
-    ],
+  imports: [
+    IonicModule,
+    CommonModule,
+  ],
 })
 export class CPCEndTestModalModule { }

@@ -14,6 +14,13 @@
   padding: 32px;
 }
 
+.mes-full-width-card-small-top {
+  &.box-shadow {
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  }
+  padding: 15px 16px 16px;
+}
+
 .mes-full-width-card-no-padding-top {
   &.box-shadow {
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);

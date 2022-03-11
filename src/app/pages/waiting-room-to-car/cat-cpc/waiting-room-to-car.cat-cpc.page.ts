@@ -152,7 +152,6 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
   }
 
   combinationSelected(combination: CombinationCodes): void {
-    console.log(combination);
     const questions: Question[] = this.cpcQuestionProvider.getQuestionsBank(combination);
     const question5: Question5 = this.cpcQuestionProvider.getQuestion5ByVehicleType(combination);
 
