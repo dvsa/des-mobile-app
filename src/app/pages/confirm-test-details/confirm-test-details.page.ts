@@ -45,17 +45,17 @@ import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
 
 interface ConfirmTestDetailsPageState {
-  candidateUntitledName$?: Observable<string>;
-  candidateName$?: Observable<string>;
-  startDateTime$?: Observable<string>;
-  testOutcomeText$?: Observable<string>;
-  activityCode$?: Observable<ActivityCodeModel>;
-  testCategory$?: Observable<TestCategory>;
+  candidateUntitledName$: Observable<string>;
+  candidateName$: Observable<string>;
+  startDateTime$: Observable<string>;
+  testOutcomeText$: Observable<string>;
+  activityCode$: Observable<ActivityCodeModel>;
+  testCategory$: Observable<TestCategory>;
   provisionalLicense$?: Observable<boolean>;
-  transmission$?: Observable<GearboxCategory>;
-  code78$?: Observable<boolean>;
-  d255$?: Observable<boolean>;
-  slotId$?: Observable<string>;
+  transmission$: Observable<GearboxCategory>;
+  code78$: Observable<boolean>;
+  d255$: Observable<boolean>;
+  slotId$: Observable<string>;
 }
 
 enum LicenceReceivedText {
@@ -187,6 +187,22 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     return true;
   }
 
+  ionViewDidLeave(): void {
+    super.ionViewDidLeave();
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    if (this.catSubscription) {
+      this.catSubscription.unsubscribe();
+    }
+  }
+
+  ionViewDidEnter(): void {
+    this.store$.dispatch(ConfirmTestDetailsViewDidEnter());
+  }
+
   isADI2(category: TestCategory): boolean {
     return category === TestCategory.ADI2;
   }
@@ -197,10 +213,6 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     TestCategory.CCPC, TestCategory.DCPC,
   ]);
-
-  ionViewDidEnter(): void {
-    this.store$.dispatch(ConfirmTestDetailsViewDidEnter());
-  }
 
   async goBackToDebrief(): Promise<void> {
     await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
@@ -252,17 +264,5 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     this.store$.dispatch(PersistTests());
     await this.router.navigate([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
   };
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-
-    if (this.catSubscription) {
-      this.catSubscription.unsubscribe();
-    }
-  }
 
 }
