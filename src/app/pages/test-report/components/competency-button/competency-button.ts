@@ -19,6 +19,9 @@ export class CompetencyButtonComponent {
   @Input()
   disabled?: boolean = false;
 
+  @Input()
+  redBorder?: boolean = false;
+
   touchState: boolean = false;
   touchStateDelay: number = 100;
   touchTimeout: any;
