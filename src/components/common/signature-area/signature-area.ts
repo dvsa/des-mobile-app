@@ -8,27 +8,10 @@ import {
   EventEmitter, ElementRef, AfterViewInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-// import { SignaturePad } from 'angular2-signaturepad';
+import { SignaturePad } from 'angular2-signaturepad';
 
 const defaultSignatureHeight: number = 256;
 const defaultSignatureWidth: number = 706;
-
-class SignaturePad {
-  fromDataURL = (str: string, opts: any) => {};
-
-  clear = () => {};
-
-  toDataURL = (): string => '';
-
-  queryPad = () => {
-    return {
-      _canvas: {
-        height: 1,
-        width: 1,
-      }
-    };
-  }
-}
 
 @Component({
   selector: 'signature-area',
