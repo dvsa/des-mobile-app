@@ -6,21 +6,18 @@ import { FakeTestSlotComponent } from './fake-test-slot/fake-test-slot';
 import { JournalComponentsModule } from '../../journal/components/journal-components.module';
 
 @NgModule({
-  declarations: [
-    FakeTestSlotComponent,
-  ],
-  imports: [
-    CommonModule,
-    IonicModule,
-    JournalComponentsModule,
-    TestSlotComponentsModule,
-  ],
-  entryComponents: [
-    FakeTestSlotComponent,
-  ],
-  exports: [
-    FakeTestSlotComponent,
-  ],
+    declarations: [
+        FakeTestSlotComponent,
+    ],
+    imports: [
+        CommonModule,
+        IonicModule,
+        JournalComponentsModule,
+        TestSlotComponentsModule,
+    ],
+    exports: [
+        FakeTestSlotComponent,
+    ]
 })
 export class FakeJournalComponentsModule {
 }

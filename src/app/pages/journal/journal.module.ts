@@ -19,30 +19,29 @@ import { ErrorPageModule } from '../error-page/error.module';
 import { JournalAnalyticsEffects } from './journal.analytics.effects';
 
 @NgModule({
-  declarations: [
-    JournalPage,
-  ],
-  imports: [
-    JournalComponentsModule,
-    TestSlotComponentsModule,
-    IonicModule,
-    EffectsModule.forFeature([
-      JournalAnalyticsEffects,
-      TestsEffects,
-    ]),
-    ErrorPageModule,
-    JournalPageRoutingModule,
-    CommonModule,
-    ComponentsModule,
-    CandidateDetailsPageModule,
-  ],
-  entryComponents: [],
-  providers: [
-    JournalProvider,
-    NavParams,
-    SlotProvider,
-    SlotSelectorProvider,
-    DateTimeProvider,
-  ],
+    declarations: [
+        JournalPage,
+    ],
+    imports: [
+        JournalComponentsModule,
+        TestSlotComponentsModule,
+        IonicModule,
+        EffectsModule.forFeature([
+            JournalAnalyticsEffects,
+            TestsEffects,
+        ]),
+        ErrorPageModule,
+        JournalPageRoutingModule,
+        CommonModule,
+        ComponentsModule,
+        CandidateDetailsPageModule,
+    ],
+    providers: [
+        JournalProvider,
+        NavParams,
+        SlotProvider,
+        SlotSelectorProvider,
+        DateTimeProvider,
+    ]
 })
 export class JournalPageModule {}
