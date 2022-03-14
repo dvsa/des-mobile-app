@@ -25,9 +25,12 @@ export class AdvancedSearchComponent {
   endDate: string = '';
   compareStartDate: Date = null;
   compareEndDate: Date = null;
-  minimunEndDate: string = moment().format('YYYY-MM-DD');
+  minimumEndDate: string = moment().format('YYYY-MM-DD');
   focusedElement: string = null;
   currentDate: any = new Date().toISOString().substring(0, 10);
+
+  today = moment().format('YYYY-MM-DD');
+  minStartDate = moment().subtract(2, 'years').format('YYYY-MM-DD');
 
   // @TODO: Work out how to implement these?
   customStartDateOptions = {
@@ -38,9 +41,21 @@ export class AdvancedSearchComponent {
     {
       text: 'Done',
       handler: ({ year, month, day }) => {
-        this.compareStartDate = new Date(`${year.text}-${month.text}-${day.text}`);
-        console.log(this.compareStartDate);
-        this.startDate = `${year.text}-${month.text}-${day.text}`;
+        this.startDate = '';
+
+        const newStartDate: string = `${year.text}-${month.text}-${day.text}`;
+
+        console.log('newStartDate', newStartDate);
+
+        if (newStartDate && this.endDate && moment(newStartDate).isAfter(this.endDate)) {
+          console.log(`Start date is after end date, setting too ${this.endDate}`);
+          this.startDate = this.endDate;
+          this.endDate = this.startDate;
+          console.log('This would make this.startDate', this.endDate);
+          return;
+        }
+        console.log('else newStartDate', newStartDate);
+        this.startDate = newStartDate;
       },
     }],
   };
@@ -53,16 +68,21 @@ export class AdvancedSearchComponent {
     {
       text: 'Done',
       handler: ({ year, month, day }) => {
-        console.log(`start: ${this.compareStartDate}`);
-        console.log(`current: ${new Date(`${year.text}-${month.text}-${day.text}`)}`);
+        this.endDate = '';
 
-        if (this.compareStartDate && this.compareStartDate >= new Date(`${year.text}-${month.text}-${day.text}`)) {
-          console.log(this.startDate);
+        const newEndDate: string = `${year.text}-${month.text}-${day.text}`;
+
+        console.log('newEndDate', newEndDate);
+
+        if (newEndDate && this.startDate && moment(newEndDate).isBefore(this.startDate)) {
+          console.log(`End date is before start date, setting too ${this.startDate}`);
           this.endDate = this.startDate;
-        } else {
-          this.endDate = `${year.text}-${month.text}-${day.text}`;
+          this.startDate = this.endDate;
+          console.log('This would make this.endDate', this.startDate);
+          return;
         }
-        this.minimunEndDate = `${year.text - 2}-${month.text}-${day.text}`;
+        console.log('else newEndDate', newEndDate);
+        this.endDate = newEndDate;
       },
     }],
   };
@@ -89,5 +109,10 @@ export class AdvancedSearchComponent {
 
   setFocus(focus: string): void {
     this.focusedElement = focus;
+  }
+
+  onDateChange($: any, picker: 'start' | 'end') {
+    console.log($.target);
+    console.log(picker);
   }
 }

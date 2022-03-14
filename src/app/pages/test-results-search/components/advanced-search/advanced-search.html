@@ -49,7 +49,9 @@
                     id="advanced-search-start-date-picker"
                     placeholder="Select start date"
                     displayFormat="DD/MM/YYYY"
-                    [max]="this.endDate ? this.endDate : this.currentDate"
+                    (ionChange)="onDateChange($event, 'start')"
+                    [min]="minStartDate"
+                    [max]="endDate ? endDate : today"
                     [value]="startDate"
                     [pickerOptions]="customStartDateOptions">
             </ion-datetime>
@@ -63,8 +65,9 @@
                     placeholder="Select end date"
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
-                    [max]="this.currentDate"
-                    [min]="this.startDate ? this.startDate : this.minimunEndDate"
+                    (ionChange)="onDateChange($event, 'end')"
+                    [min]="minStartDate"
+                    [max]="today"
                     [value]="endDate"
                     [pickerOptions]="customEndDateOptions">
             </ion-datetime>

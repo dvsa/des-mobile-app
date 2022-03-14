@@ -75,8 +75,9 @@ export class TestResultsSearchPage extends BasePageComponent {
   }
 
   displayAdvancedSearch(): boolean {
-    const role: ExaminerRole = this.appConfig.getAppConfig().role as ExaminerRole;
-    return [ExaminerRole.DLG, ExaminerRole.LDTM].includes(role);
+    return true;
+    // const role: ExaminerRole = this.appConfig.getAppConfig().role as ExaminerRole;
+    // return [ExaminerRole.DLG, ExaminerRole.LDTM].includes(role);
   }
 
   candidateInfoChanged(val: string): void {
