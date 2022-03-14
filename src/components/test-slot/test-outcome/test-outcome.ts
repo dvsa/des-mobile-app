@@ -32,6 +32,8 @@ import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-
 import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
 import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.constants';
 import { AppComponent } from '@app/app.component';
+import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
+import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
 
 @Component({
   selector: 'test-outcome',
@@ -92,6 +94,7 @@ export class TestOutcomeComponent implements OnInit {
     private routeByCat: RouteByCategoryProvider,
     private modalController: ModalController,
     private app: AppComponent,
+    private categoryWhitelistProvider: CategoryWhitelistProvider,
   ) {
   }
 
@@ -167,10 +170,10 @@ export class TestOutcomeComponent implements OnInit {
     return this.testStatus === TestStatus.WriteUp || this.testStatus === TestStatus.Autosaved;
   }
 
-  writeUpTest() {
+  async writeUpTest() {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
-    this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category);
   }
 
   async resumeTest() {
@@ -203,11 +206,11 @@ export class TestOutcomeComponent implements OnInit {
     await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
   }
 
-  rekeyDelegatedTest(): void {
+  async rekeyDelegatedTest(): Promise<void> {
     this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, true));
     this.store$.dispatch(SetExaminerConducted(this.examinerId));
     this.store$.dispatch(SetExaminerBooked(this.examinerId));
-    this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.category);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.category);
   }
 
   displayRekeyModal = async (): Promise<void> => {
@@ -250,6 +253,16 @@ export class TestOutcomeComponent implements OnInit {
     await this.onModalDismiss(data);
   };
 
+  displayCategoryPreviewModeModal = async (): Promise<void> => {
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      component: PreviewModeModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
+    });
+    await modal.present();
+    const { data } = await modal.onDidDismiss<ModalEvent>();
+    await this.onModalDismiss(data);
+  };
+
   onModalDismiss = async (event: ModalEvent): Promise<void> => {
     switch (event) {
       case ModalEvent.START:
@@ -281,7 +294,11 @@ export class TestOutcomeComponent implements OnInit {
       await this.displayRekeyModal();
       return;
     }
-    if (this.shouldDisplayCheckStartModal()) {
+    if (this.isE2EPracticeMode() && !this.categoryWhitelistProvider.isWhiteListed(this.category)) {
+      await this.displayCategoryPreviewModeModal();
+      return;
+    }
+    if (this.shouldDisplayCheckStartModal() && !this.isE2EPracticeMode()) {
       await this.displayCheckStartModal();
       return;
     }
