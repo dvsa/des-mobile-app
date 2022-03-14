@@ -298,7 +298,7 @@ export class TestOutcomeComponent implements OnInit {
       await this.displayCategoryPreviewModeModal();
       return;
     }
-    if (this.shouldDisplayCheckStartModal()) {
+    if (this.shouldDisplayCheckStartModal() && !this.isE2EPracticeMode()) {
       await this.displayCheckStartModal();
       return;
     }
