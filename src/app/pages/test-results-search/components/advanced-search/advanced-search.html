@@ -64,6 +64,7 @@
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
                     [max]="this.currentDate"
+                    [min]="this.startDate ? this.startDate : this.minimunEndDate"
                     [value]="endDate"
                     [pickerOptions]="customEndDateOptions">
             </ion-datetime>

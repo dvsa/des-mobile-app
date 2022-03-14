@@ -4,6 +4,7 @@ import {
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-validators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'advanced-search',
@@ -22,6 +23,9 @@ export class AdvancedSearchComponent {
   staffNumber: string = '';
   startDate: string = '';
   endDate: string = '';
+  compareStartDate: Date = null;
+  compareEndDate: Date = null;
+  minimunEndDate: string = moment().format('YYYY-MM-DD');
   focusedElement: string = null;
   currentDate: any = new Date().toISOString().substring(0, 10);
 
@@ -34,6 +38,8 @@ export class AdvancedSearchComponent {
     {
       text: 'Done',
       handler: ({ year, month, day }) => {
+        this.compareStartDate = new Date(`${year.text}-${month.text}-${day.text}`);
+        console.log(this.compareStartDate);
         this.startDate = `${year.text}-${month.text}-${day.text}`;
       },
     }],
@@ -47,7 +53,16 @@ export class AdvancedSearchComponent {
     {
       text: 'Done',
       handler: ({ year, month, day }) => {
-        this.endDate = `${year.text}-${month.text}-${day.text}`;
+        console.log(`start: ${this.compareStartDate}`);
+        console.log(`current: ${new Date(`${year.text}-${month.text}-${day.text}`)}`);
+
+        if (this.compareStartDate && this.compareStartDate >= new Date(`${year.text}-${month.text}-${day.text}`)) {
+          console.log(this.startDate);
+          this.endDate = this.startDate;
+        } else {
+          this.endDate = `${year.text}-${month.text}-${day.text}`;
+        }
+        this.minimunEndDate = `${year.text - 2}-${month.text}-${day.text}`;
       },
     }],
   };
