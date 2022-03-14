@@ -155,6 +155,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   }
 
   async ionViewWillEnter() {
+    this.ngOnInit();
     await super.ionViewWillEnter();
     this.setUpSubscription();
   }
