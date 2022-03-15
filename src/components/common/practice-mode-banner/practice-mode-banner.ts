@@ -39,6 +39,8 @@ export class PracticeModeBanner implements OnInit {
     this.displayMsg$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
+      // we are using getCurrentTest outside the test flow, so if there are no test in the state, then default to empty
+      map((test) => test ?? {}),
       select(getTestCategory),
       take(1),
       map((category) =>
