@@ -1,0 +1,42 @@
+<ion-row class="mes-validated-row mes-row-separator" id="ordit-trainer-card" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label" col-32 align-self-center>
+        <label>Did the candidate receive training from an ORDIT trainer?</label>
+    </ion-col>
+    <ion-col align-self-center padding-left>
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col col-48>
+                <input type="radio"
+                       formControlName="orditTrainedCtrl"
+                       name="orditTrainedCtrl"
+                       id="ordit-trained-yes"
+                       class="gds-radio-button"
+                       [checked]="orditTrainedRadioChecked === true"
+                       [class.ng-invalid]="invalid"
+                       (change)="orditTrainingOutcomeChanged($event.target.value)"
+                       value="Y">
+                <label for="ordit-trained-yes" class="radio-label">Yes</label>
+            </ion-col>
+            <ion-col col-48>
+                <input type="radio"
+                       formControlName="orditTrainedCtrl"
+                       name="orditTrainedCtrl"
+                       id="ordit-trained-no"
+                       class="gds-radio-button"
+                       [checked]="orditTrainedRadioChecked === false"
+                       [class.ng-invalid]="invalid"
+                       (change)="orditTrainingOutcomeChanged($event.target.value)"
+                       value="N">
+                <label for="ordit-trained-no" class="radio-label">No</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row" align-items-center>
+            <div class="validation-text"
+                 [class.ng-invalid]="invalid"
+                 id="waiting-room-to-car-ordit-trained-validation-text">
+                Select the ORDIT trainer outcome
+            </div>
+        </ion-row>
+    </ion-col>
+</ion-row>

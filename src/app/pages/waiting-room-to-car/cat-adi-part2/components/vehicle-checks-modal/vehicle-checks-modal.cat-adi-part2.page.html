@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons ion-buttons start navPop>
+      <button ion-button center class="nav-close" id="closeVehicleChecksModalCatADIPart2">
+        <ion-icon name="md-close"></ion-icon>Close
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Tell me questions - {{ pageState.candidateName$ | async }}
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <h4>
+          Tell me questions
+        </h4>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <vehicle-checks-question-cat-adi-part2
+        *ngFor="let question of tellMeQuestionsNumberArray; let i = index; let l = last"
+        [formGroup]="formGroup"
+        [questionResult]="(pageState.tellMeQuestions$ | async)[i]"
+        [questions]="tellMeQuestions"
+        [questionsToDisable]="pageState.tellMeQuestions$ | async"
+        [isLastQuestion]= "l"
+        (vehicleChecksQuestionChange)="tellMeQuestionChanged($event, i)"
+        (vehicleChecksQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event, i)"
+      ></vehicle-checks-question-cat-adi-part2>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-row class="mes-full-width-card box-shadow">
+    <button type="submit" class="mes-primary-button" id="submit-vehicle-checks" ion-button (click)="onSubmit()">
+      <h3>Continue</h3>
+    </button>
+  </ion-row>
+</ion-footer>

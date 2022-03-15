@@ -1,6 +1,6 @@
 import {
   CAT_A_MOD1,
-  CAT_A_MOD2,
+  CAT_A_MOD2, CAT_ADI_PART2,
   CAT_B,
   CAT_BE,
   CAT_C,
@@ -56,5 +56,10 @@ export const Pass_Finalisation_Route: Routes = [
     path: CAT_MANOEUVRES.PASS_FINALISATION_PAGE,
     loadChildren: () => import('@pages/pass-finalisation/cat-manoeuvre/pass-finalisation.cat-manoeuvre.module')
       .then((m) => m.PassFinalisationCatManoeuvrePageModule),
+  },
+  {
+    path: CAT_ADI_PART2.PASS_FINALISATION_PAGE,
+    loadChildren: () => import('@pages/pass-finalisation/cat-adi-part2/pass-finalisation.cat-adi-part2.page')
+        .then((m) => m.PassFinalisationCatAdiPart2Page),
   },
 ];

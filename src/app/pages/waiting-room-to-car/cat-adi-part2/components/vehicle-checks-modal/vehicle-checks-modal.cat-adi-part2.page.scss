@@ -1,0 +1,16 @@
+vehicle-checks-modal-cat-adi-part2 {
+  .nav-close ion-icon {
+    margin: -1px 0 0;
+    display: inherit;
+    min-width: 28px;
+    font-size: 3.4rem;
+  }
+
+  ion-footer {
+    background-color: map-get($colors, "mes-white");
+    button {
+      width: 100%;
+      min-height: 56px;
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import {
   CAT_A_MOD1,
-  CAT_A_MOD2,
+  CAT_A_MOD2, CAT_ADI_PART2,
   CAT_B,
   CAT_BE,
   CAT_C,
@@ -57,4 +57,9 @@ export const Office_Route: Routes = [
     loadChildren: () => import('@pages/office/cat-manoeuvre/office.cat-manoeuvre.module')
       .then((m) => m.OfficeCatManoeuvrePageModule),
   },
+  {
+    path: CAT_ADI_PART2.OFFICE_PAGE,
+      loadChildren: () => import('@pages/office/cat-adi-part2/office.cat-adi-part2.module')
+      .then((m) => m.OfficeCatADIPart2PageModule),
+},
 ];

@@ -1,6 +1,6 @@
 import {
   CAT_A_MOD1,
-  CAT_A_MOD2,
+  CAT_A_MOD2, CAT_ADI_PART2,
   CAT_B,
   CAT_BE,
   CAT_C,
@@ -56,5 +56,10 @@ export const Test_Report_Route: Routes = [
     path: CAT_MANOEUVRES.TEST_REPORT_PAGE,
     loadChildren: () => import('@pages/test-report/cat-manoeuvre/test-report.cat-manoeuvre.module')
       .then((m) => m.TestReportCatManoeuvrePageModule),
+  },
+  {
+    path: CAT_ADI_PART2.TEST_REPORT_PAGE,
+    loadChildren: () => import('@pages/test-report/cat-adi-part2/test-report.cat-adi-part2.module')
+        .then((m) => m.TestReportCatADIPart2PageModule),
   },
 ];

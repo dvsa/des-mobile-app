@@ -1,0 +1,47 @@
+vehicle-checks-cat-adi-part-2 {
+  .mes-return-button {
+    min-width: 250px;
+    margin-bottom: 0;
+  }
+
+  .vehicle-check-score {
+    .vehicle-checks-result {
+      font-weight: 600;
+      font-size: 23px;
+      align-items: center;
+    }
+
+    .serious-fault-row {
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      margin-right: 8px;
+    }
+  }
+
+  .see-answer-link {
+    color: #3572b0;
+    background: transparent;
+    font-size: 23px;
+    text-decoration: underline;
+    text-underline-position: under;
+    font-weight: 500;
+    line-height: 20px;
+  }
+
+  ion-icon {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .see-answer-link-container {
+    text-align: right;
+    padding-right: 24px;
+  }
+
+  .small-top-margin {
+    margin-top: 24px;
+  }
+
+}

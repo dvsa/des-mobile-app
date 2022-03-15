@@ -1,10 +1,92 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>waiting-room-to-car.cat-adi-part2</ion-title>
-  </ion-toolbar>
+  <ion-navbar hideBackButton>
+    <ion-title>{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons end>
+      <end-test-link [shouldAuthenticate]="false" category="ADI2"></end-test-link>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Test Report</ion-button>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ion-grid>
+
+        <eyesight-test [formGroup]="form" [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+          [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async" (eyesightTestResultChange)="eyesightTestResultChanged($event)"></eyesight-test>
+
+        <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
+          <eyesight-failure-confirmation [nextPageOnFail]="this.getDebriefPage()" [cancelFn]="eyesightFailCancelled"></eyesight-failure-confirmation>
+        </ion-row>
+
+        <ion-row no-padding [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
+          <ion-col no-padding>
+            <vehicle-checks-cat-adi-part-2
+              [formGroup]="form"
+              [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
+              [vehicleChecks]="pageState.vehicleChecks$ | async"
+              [onCloseVehicleChecksModal]="closeVehicleChecksModal"
+            ></vehicle-checks-cat-adi-part-2>
+
+            <vehicle-registration
+              [formGroup]="form"
+              [vehicleRegistration]="pageState.registrationNumber$ | async"
+              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+            ></vehicle-registration>
+
+            <transmission
+              [formGroup]="form"
+              [transmission]="pageState.transmission$ | async"
+              (transmissionChange)="transmissionChanged($event)"
+            ></transmission>
+
+            <accompaniment-card-cat-adi-part2 [formGroup]="form"
+              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()"
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+            ></accompaniment-card-cat-adi-part2>
+
+            <vehicle-details-card
+              [formGroup]="form"
+              [schoolVehicleDetails]="pageState.schoolCar$ | async"
+              [dualVehicleDetails]="pageState.dualControls$ | async"
+              (schoolVehicleDetailsChange)="schoolCarToggled()"
+              (dualVehicleDetailsChange)="dualControlsToggled()"
+            ></vehicle-details-card>
+
+            <ordit-trainer-cat-adi-part2
+                    [formGroup]="form"
+                    [orditTrainedRadioChecked]="pageState?.orditTrained$ | async"
+                    (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)">
+            </ordit-trainer-cat-adi-part2>
+
+            <trainer-registration-number-cat-adi-part2
+                    [formGroup]="form"
+                    [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
+                    (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)">
+            </trainer-registration-number-cat-adi-part2>
+
+            <training-records-cat-adi-part2
+                    [formGroup]="form"
+                    [trainingRecordRadioChecked]="pageState.trainingRecords$ | async"
+                    (trainingRecordOutcomeChange)="trainingRecordOutcomeChanged($event)">
+            </training-records-cat-adi-part2>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
+<ion-footer [hidden]="pageState.eyesightTestFailed$ | async">
+  <ion-row class="mes-full-width-card box-shadow">
+    <button type="submit" class="mes-primary-button" id="continue-to-test-report-button" ion-button (click)="onSubmit()">
+      <h3>Continue to test report</h3>
+    </button>
+  </ion-row>
+</ion-footer>

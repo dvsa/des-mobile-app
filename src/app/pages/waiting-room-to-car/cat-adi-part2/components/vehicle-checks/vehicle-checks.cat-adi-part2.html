@@ -1,0 +1,45 @@
+<ion-row class="mes-validated-row mes-row-separator" id="vehicle-checks" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col col-32 align-self-center class="component-label">
+    <label>Tell me questions</label>
+  </ion-col>
+  <ion-col padding-left align-self-center>
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col col-48 *ngIf="!everyQuestionHasOutcome()">
+        <input
+          type="button"
+          formControlName="vehicleChecksSelectQuestions"
+          class="mes-return-button"
+          (click)="openVehicleChecksModal()"
+        >
+      </ion-col>
+      <ion-col col-48 align-self-center class="vehicle-check-score" *ngIf="everyQuestionHasOutcome()">
+        <ion-row class="vehicle-checks-result" *ngIf="!hasDrivingFault() && !hasSeriousFault()">
+          <tick-indicator class="badge" [ticked]="true"></tick-indicator>Correct
+        </ion-row>
+        <ion-row class="vehicle-checks-result serious-fault-row" *ngIf="hasSeriousFault()">
+          <serious-fault-badge class="badge" [showBadge]="true"></serious-fault-badge>
+          serious fault
+        </ion-row>
+        <ion-row class="vehicle-checks-result" *ngIf="hasDrivingFault()">
+          <driving-faults-badge class="badge" showOnZero=true [count]='vehicleChecksScore.drivingFaults'></driving-faults-badge>
+          driving faults
+        </ion-row>
+      </ion-col>
+      <ion-col col-47 padding-right *ngIf="everyQuestionHasOutcome()" class="see-answer-link-container">
+        <button type="button" class="mes-link-button see-answer-link" (click)="openVehicleChecksModal()" ion-button>
+          <span>
+            See answers
+            <ion-icon name="arrow-forward"></ion-icon>
+          </span>
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row" align-items-center>
+      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-vehicle-checks-validation-text">
+        Please complete vehicle checks
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>
