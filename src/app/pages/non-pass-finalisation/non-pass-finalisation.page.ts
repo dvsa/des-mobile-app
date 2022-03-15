@@ -281,7 +281,11 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   async navigateToDebrief(): Promise<void> {
     await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   }
+
   showD255 = (): boolean => {
-    return !isAnyOf(this.testCategory, [TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM]);
+    return !isAnyOf(this.testCategory, [
+      TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
+      TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
+    ]);
   };
 }
