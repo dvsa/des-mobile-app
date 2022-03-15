@@ -39,6 +39,8 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { getSafetyQuestionsCatD } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
 
 interface CatDWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -47,6 +49,7 @@ interface CatDWaitingRoomToCarPageState {
   residencyDeclarationAccepted$: Observable<boolean>;
   vehicleChecksCompleted$: Observable<boolean>;
   vehicleChecksScore$: Observable<VehicleChecksScore>;
+  safetyQuestionsScore$: Observable<SafetyQuestionsScore>;
   vehicleChecks$: Observable<CatDUniqueTypes.VehicleChecks>;
   fullLicenceHeld$: Observable<boolean>;
   fullLicenceHeldSelection$: Observable<string>;
@@ -133,6 +136,15 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
         select(getVehicleChecksCatD),
         select(getFullLicenceHeld),
         map((licenceHeld) => hasFullLicenceHeldBeenSelected(licenceHeld)),
+      ),
+      safetyQuestionsScore$: currentTest$.pipe(
+        select(getTestData),
+        select(getSafetyQuestionsCatD),
+        withLatestFrom(currentTest$.pipe(
+          select(getTestCategory),
+        )),
+        map(([safetyQuestions, category]) =>
+          this.faultCountProvider.getSafetyQuestionsFaultCount(category as TestCategory, safetyQuestions)),
       ),
     };
   }

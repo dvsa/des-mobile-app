@@ -42,6 +42,7 @@
                     [formGroup]="form"
                     [category]="pageState.category$ | async"
                     [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
+                    [safetyQuestionsScore]="pageState.safetyQuestionsScore$ | async"
                     [vehicleChecks]="pageState.vehicleChecks$ | async"
                     (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
                     [fullLicenceHeld]="pageState.fullLicenceHeld$ | async">
