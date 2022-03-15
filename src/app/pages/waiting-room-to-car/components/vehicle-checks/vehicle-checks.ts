@@ -56,18 +56,18 @@ export class VehicleChecksComponent implements OnChanges {
   formControl: FormControl;
 
   constructor(
-      private modalController: ModalController,
-      private app: AppComponent,
+    private modalController: ModalController,
+    private app: AppComponent,
   ) {
   }
 
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl({
-            value: 'Select questions',
-            disabled: false,
-          },
-          [this.validateVehicleChecks.bind(this)]);
+        value: 'Select questions',
+        disabled: false,
+      },
+      [this.validateVehicleChecks.bind(this)]);
       this.formGroup.addControl('vehicleChecksSelectQuestions', this.formControl);
     }
     this.formControl.patchValue('Select questions');
@@ -111,10 +111,10 @@ export class VehicleChecksComponent implements OnChanges {
     };
 
     const showMeQuestions = (
-        this.fullLicenceHeld ? [this.vehicleChecks.showMeQuestions[0]] : this.vehicleChecks.showMeQuestions
+      this.fullLicenceHeld ? [this.vehicleChecks.showMeQuestions[0]] : this.vehicleChecks.showMeQuestions
     );
     const tellMeQuestions = (
-        this.fullLicenceHeld ? [this.vehicleChecks.tellMeQuestions[0]] : this.vehicleChecks.tellMeQuestions
+      this.fullLicenceHeld ? [this.vehicleChecks.tellMeQuestions[0]] : this.vehicleChecks.tellMeQuestions
     );
 
     return showMeQuestions.reduce((res, question) => res && hasOutcome(question), true)

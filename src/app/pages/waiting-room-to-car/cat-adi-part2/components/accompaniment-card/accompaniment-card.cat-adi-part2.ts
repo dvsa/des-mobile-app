@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -27,7 +29,6 @@ export class AccompanimentCardCatADIPart2Component {
   otherAccompanimentChange = new EventEmitter();
   @Output()
   interpreterAccompanimentChange = new EventEmitter();
-
 
   instructorAccompanimentChanged(): void {
     this.instructorAccompanimentChange.emit();

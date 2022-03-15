@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { VehicleChecksModalCatAdiPart2AnalyticsEffects } from '../vehicle-checks-modal.cat-adi-part2.analytics.effects';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { ReplaySubject } from 'rxjs';
@@ -9,7 +8,6 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as testsActions from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-adi-part2.actions';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsEventCategories, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import * as VehicleChecksActions
@@ -20,6 +18,8 @@ import {
   QuestionResult,
 } from '@dvsa/mes-test-schema/categories/common';
 import { configureTestSuite } from 'ng-bullet';
+import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-adi-part2.actions';
+import { VehicleChecksModalCatAdiPart2AnalyticsEffects } from '../vehicle-checks-modal.cat-adi-part2.analytics.effects';
 
 describe('Vehicle Checks Modal Analytics Effects', () => {
 

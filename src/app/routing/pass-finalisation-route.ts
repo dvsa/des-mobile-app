@@ -60,6 +60,6 @@ export const Pass_Finalisation_Route: Routes = [
   {
     path: CAT_ADI_PART2.PASS_FINALISATION_PAGE,
     loadChildren: () => import('@pages/pass-finalisation/cat-adi-part2/pass-finalisation.cat-adi-part2.page')
-        .then((m) => m.PassFinalisationCatAdiPart2Page),
+      .then((m) => m.PassFinalisationCatAdiPart2Page),
   },
 ];

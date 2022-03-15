@@ -2,7 +2,6 @@ import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { IonicModule, ModalController, Config } from '@ionic/angular';
 import { ModalControllerMock, ConfigMock } from 'ionic-mocks';
-import { VehicleChecksCatADIPart2Component } from '../vehicle-checks.cat-adi-part2';
 import { CAT_ADI_PART2 } from '@pages/page-names.constants';
 import { AppComponent } from '@app/app.component';
 import { Store } from '@ngrx/store';
@@ -13,6 +12,7 @@ import { DrivingFaultsBadgeComponent }
   from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { configureTestSuite } from 'ng-bullet';
+import { VehicleChecksCatADIPart2Component } from '../vehicle-checks.cat-adi-part2';
 
 class MockStore { }
 

@@ -1,6 +1,12 @@
-import { ComponentFixture, async, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { IonicModule, NavController, NavParams, Config, Platform } from '@ionic/angular';
-import { NavControllerMock, NavParamsMock, ConfigMock, PlatformMock } from 'ionic-mocks';
+import {
+  ComponentFixture, async, TestBed, fakeAsync, tick,
+} from '@angular/core/testing';
+import {
+  IonicModule, NavController, NavParams, Config, Platform,
+} from '@ionic/angular';
+import {
+  NavControllerMock, NavParamsMock, ConfigMock, PlatformMock,
+} from 'ionic-mocks';
 import { StoreModule, Store } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import { MockComponent } from 'ng-mocks';
@@ -8,29 +14,29 @@ import { of } from 'rxjs';
 import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from '@app/app.module';
-import { WaitingRoomToCarCatADIPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { StoreModel } from '@shared/models/store.model';
-import {
-  EyesightFailureConfirmationComponent,
-} from '../../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { QuestionProvider } from '@providers/question/question';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { PersistTests } from '@store/tests/tests.actions';
+import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { VehicleRegistrationComponent } from '../../components/vehicle-registration/vehicle-registration';
 import { VehicleDetailsCardComponent } from '../../components/vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from '../../components/vehicle-details/vehicle-details';
 import { AccompanimentComponent } from '../../components/accompaniment/accompaniment';
 import { EyesightTestComponent } from '../../components/eyesight-test/eyesight-test';
 import { WaitingRoomToCarValidationError } from '../../waiting-room-to-car.actions';
-import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { TransmissionComponent } from '@components/common/transmission/transmission';
+import {
+  EyesightFailureConfirmationComponent,
+} from '../../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
+import { WaitingRoomToCarCatADIPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
 import {
   AccompanimentCardCatADIPart2Component,
 } from '../components/accompaniment-card/accompaniment-card.cat-adi-part2';
@@ -133,7 +139,8 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
     describe('eyesight failure confirmation', () => {
 
       // tslint:disable-next-line:max-line-length
-      it('should hide the rest of the form and show eyesight failure confirmation when page state indicates fail is selected', () => {
+      it('should hide the rest of the form and show eyesight failure confirmation '
+          + 'when page state indicates fail is selected', () => {
         fixture.detectChanges();
         component.pageState.eyesightTestComplete$ = of(true);
         component.pageState.eyesightTestFailed$ = of(true);
@@ -144,7 +151,8 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         expect(formAfterEyesight.nativeElement.hidden).toEqual(true);
       });
       // tslint:disable-next-line:max-line-length
-      it('should show the rest of the form and not render eyesight failure confirmation when page state indicates pass is selected', () => {
+      it('should show the rest of the form and not render eyesight failure confirmation when page '
+          + 'state indicates pass is selected', () => {
         fixture.detectChanges();
         component.pageState.eyesightTestComplete$ = of(true);
         fixture.detectChanges();

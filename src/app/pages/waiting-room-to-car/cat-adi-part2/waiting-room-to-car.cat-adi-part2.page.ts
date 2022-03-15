@@ -1,10 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { AlertController, NavController, NavParams, Platform } from '@ionic/angular'
+import {
+  Component, ElementRef, OnInit, ViewChild,
+} from '@angular/core';
+import {
+  AlertController, NavController, NavParams, Platform,
+} from '@ionic/angular';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
-import { WaitingRoomToCarValidationError } from '../waiting-room-to-car.actions';
 import { Observable } from 'rxjs';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -22,7 +24,7 @@ import {
   OtherAccompanimentToggled,
   SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
-import { getVehicleDetails, } from '@store/tests/vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
 import { getAccompaniment } from '@store/tests/accompaniment/accompaniment.reducer';
 import {
   getGearboxCategory,
@@ -48,7 +50,6 @@ import { QuestionProvider } from '@providers/question/question';
 import {
   EyesightTestFailed,
   EyesightTestPassed,
-  EyesightTestReset,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import {
   getVehicleChecksCatADIPart2,
@@ -58,26 +59,28 @@ import {
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
-import { CAT_ADI_PART2, TestFlowPageNames } from '../../page-names.constants';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { BasePageComponent } from '@shared/classes/base-page';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
   OrditTrainedChanged,
   TrainerRegistrationNumberChanged,
   TrainingRecordsChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
-import { getTrainerDetails, } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.reducer';
+import { getTrainerDetails } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.reducer';
 import {
   getOrditTrained,
   getTrainerRegistrationNumber,
   getTrainingRecords,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
-import { WaitingRoomToCarBasePageComponent } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { alertController } from '@ionic/core';
+import {
+  WaitingRoomToCarBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { TestFlowPageNames } from '../../page-names.constants';
+import { WaitingRoomToCarValidationError } from '../waiting-room-to-car.actions';
+import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
 
 interface WaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -128,10 +131,9 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
     public questionProvider: QuestionProvider,
     router: Router,
     routeByCat: RouteByCategoryProvider,
-    alertController: AlertController
+    alertController: AlertController,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
-
 
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.ADI2);
     this.form = new FormGroup({});
@@ -266,9 +268,7 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
 
   closeVehicleChecksModal = () => {
     this.store$.dispatch(waitingRoomToCarActions.WaitingRoomToCarViewDidEnter());
-  }
-
-
+  };
 
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
@@ -297,11 +297,6 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
     this.showEyesightFailureConfirmation = show;
   }
 
-  eyesightFailCancelled = () => {
-    this.form.get('eyesightCtrl') && this.form.get('eyesightCtrl').reset();
-    this.store$.dispatch(EyesightTestReset());
-  }
-
   eyesightTestResultChanged(passed: boolean): void {
     const action = passed ? EyesightTestPassed() : EyesightTestFailed();
     this.store$.dispatch(action);
@@ -318,6 +313,5 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
   trainerRegistrationNumberChanged(instructorRegistration: number): void {
     this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
   }
-
 
 }

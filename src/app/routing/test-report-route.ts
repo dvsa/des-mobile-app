@@ -60,6 +60,6 @@ export const Test_Report_Route: Routes = [
   {
     path: CAT_ADI_PART2.TEST_REPORT_PAGE,
     loadChildren: () => import('@pages/test-report/cat-adi-part2/test-report.cat-adi-part2.module')
-        .then((m) => m.TestReportCatADIPart2PageModule),
+      .then((m) => m.TestReportCatADIPart2PageModule),
   },
 ];

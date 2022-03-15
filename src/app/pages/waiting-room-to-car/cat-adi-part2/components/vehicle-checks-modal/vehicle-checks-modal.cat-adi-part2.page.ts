@@ -23,7 +23,7 @@ import {
   TellMeQuestionOutcomeChanged,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import {
- NUMBER_OF_TELL_ME_QUESTIONS,
+  NUMBER_OF_TELL_ME_QUESTIONS,
 } from '@shared/constants/tell-me-questions/tell-me-questions.cat-adi-part2.constants';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
@@ -91,7 +91,7 @@ export class VehicleChecksCatADIPart2Modal {
 
     const merged$ = merge(
       vehicleChecksScore$.pipe(
-        map(score => this.vehicleChecksScore = score),
+        map((score) => this.vehicleChecksScore = score),
       ),
     );
 

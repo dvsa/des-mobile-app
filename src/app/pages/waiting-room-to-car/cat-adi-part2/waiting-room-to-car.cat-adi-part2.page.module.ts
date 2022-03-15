@@ -10,7 +10,7 @@ import {
 import {
   VehicleChecksModalCatADIPart2Module,
 } from
-'@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page.module';
+  '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.module';
 import { WaitingRoomToCarCatADIPart2ComponentsModule }
   from './components/waiting-room-to-car.cat-adi-part2.components.module';
 import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analytics.effects';

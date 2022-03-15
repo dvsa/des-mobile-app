@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter, OnChanges,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -56,10 +58,10 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   }
 
   isOptionDisabled(question: VehicleChecksQuestion): boolean {
-    const doesQuestionExist: QuestionResult =
-      this.questionsToDisable.find(
-        questionToDisable => questionToDisable.code === question.code &&
-        questionToDisable.code !== this.questionResult.code);
+    const doesQuestionExist: QuestionResult = this.questionsToDisable.find(
+      (questionToDisable) => questionToDisable.code === question.code
+        && questionToDisable.code !== this.questionResult.code,
+    );
     return doesQuestionExist !== undefined;
   }
 
@@ -82,7 +84,7 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   }
 
   findQuestion(): VehicleChecksQuestion {
-    return this.questions.find(question => question.code === this.questionResult.code);
+    return this.questions.find((question) => question.code === this.questionResult.code);
   }
 
   shouldShowOutcomeFields(): boolean {

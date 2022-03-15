@@ -1,13 +1,18 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import {
+  Component, EventEmitter, Input, OnChanges, Output,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CAT_ADI_PART2 } from '@pages/page-names.constants';
-import { ModalController } from '@ionic/angular'
+
+import { ModalController } from '@ionic/angular';
 import { AppComponent } from '@app/app.component';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { get } from 'lodash';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { VehicleChecksCatADIPart2Modal } from '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
+import {
+  VehicleChecksCatADIPart2Modal,
+} from
+  '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
@@ -18,7 +23,6 @@ export class VehicleChecksCatADIPart2Component implements OnChanges {
 
   @Output()
   onCloseVehicleChecksModal = new EventEmitter<void>();
-
 
   @Input()
   vehicleChecksScore: VehicleChecksScore;
@@ -38,7 +42,6 @@ export class VehicleChecksCatADIPart2Component implements OnChanges {
     private modalController: ModalController,
     private app: AppComponent,
   ) { }
-
 
   async openVehicleChecksModal(): Promise<void> {
     const modal = await this.modalController.create({
@@ -77,7 +80,7 @@ export class VehicleChecksCatADIPart2Component implements OnChanges {
     return { vehicleChecks: false };
   }
 
-  validateVehicleChecks(c: FormControl): null | { vehicleChecks: boolean } {
+  validateVehicleChecks(): null | { vehicleChecks: boolean } {
     return this.everyQuestionHasOutcome() ? null : this.incompleteVehicleChecks();
   }
 

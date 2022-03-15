@@ -59,7 +59,7 @@ export const Office_Route: Routes = [
   },
   {
     path: CAT_ADI_PART2.OFFICE_PAGE,
-      loadChildren: () => import('@pages/office/cat-adi-part2/office.cat-adi-part2.module')
+    loadChildren: () => import('@pages/office/cat-adi-part2/office.cat-adi-part2.module')
       .then((m) => m.OfficeCatADIPart2PageModule),
-},
+  },
 ];

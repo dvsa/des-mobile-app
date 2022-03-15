@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import { VehicleChecksCatADIPart2Component } from './vehicle-checks/vehicle-checks.cat-adi-part2';
 import { DirectivesModule } from '@directives/directives.module';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { VehicleChecksCatADIPart2Component } from './vehicle-checks/vehicle-checks.cat-adi-part2';
 import { AccompanimentCardCatADIPart2Component }
   from './accompaniment-card/accompaniment-card.cat-adi-part2';
 import { WaitingRoomToCarComponentsModule } from '../../components/waiting-room-to-car.components.module';
@@ -12,7 +12,6 @@ import { OrditTrainerCatAdiPart2Component } from './ordit-trainer/ordit-trainer.
 import {
   TrainerRegistrationNumberCatAdiPart2Component,
 } from './trainer-registration-number/trainer-registration-number.cat-adi-part2';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,14 +21,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     OrditTrainerCatAdiPart2Component,
     TrainerRegistrationNumberCatAdiPart2Component,
   ],
-    imports: [
-        CommonModule,
-        ComponentsModule,
-        IonicModule,
-        DirectivesModule,
-        WaitingRoomToCarComponentsModule,
-        ReactiveFormsModule,
-    ],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    IonicModule,
+    DirectivesModule,
+    WaitingRoomToCarComponentsModule,
+  ],
   exports: [
     VehicleChecksCatADIPart2Component,
     AccompanimentCardCatADIPart2Component,

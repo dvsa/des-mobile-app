@@ -1,14 +1,9 @@
-
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { IonicModule, Config, NavController } from '@ionic/angular';
-import { VehicleChecksCatADIPart2Modal } from '../vehicle-checks-modal.cat-adi-part2.page';
 import { Store, StoreModule } from '@ngrx/store';
 import { ConfigMock, NavControllerMock } from 'ionic-mocks';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
-import {
-  VehicleChecksQuestionComponent,
-} from '../../../../cat-adi-part2/components/vehicle-checks-question/vehicle-checks-question.cat-adi-part2';
 import {
   QuestionOutcome,
   QuestionResult,
@@ -20,6 +15,10 @@ import {
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { configureTestSuite } from 'ng-bullet';
+import {
+  VehicleChecksQuestionComponent,
+} from '../../vehicle-checks-question/vehicle-checks-question.cat-adi-part2';
+import { VehicleChecksCatADIPart2Modal } from '../vehicle-checks-modal.cat-adi-part2.page';
 
 describe('VehicleChecksCatADIPart2Modal', () => {
   let fixture: ComponentFixture<VehicleChecksCatADIPart2Modal>;
