@@ -81,7 +81,7 @@
         </ion-row>
 
         <div *ngIf="!(pageState.delegatedTest$ | async)">
-          <warning-banner *ngIf="displayLoadSecured() " warningText="Is the load secure?"></warning-banner>
+          <warning-banner warningText="Is load secure? (if applicable)"></warning-banner>
         </div>
       </ion-grid>
     </form>

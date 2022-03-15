@@ -25,7 +25,7 @@
                      [disabled]="false">
       </activity-code>
 
-      <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+      <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
 
         <d255 *ngIf="showD255()"
               [display]="pageState.displayD255$ | async"
@@ -35,6 +35,7 @@
               [formGroup]="form"
               (d255Change)="d255Changed($event)">
         </d255>
+
         <warning-banner *ngIf="pageState.d255$ | async"
                         warningText="DVLA will not process the result until a D255 is received">
         </warning-banner>
@@ -43,8 +44,10 @@
                               (welshChanged)="isWelshChanged($event)">
         </language-preferences>
 
-        <debrief-witnessed [display]="pageState.displayDebriefWitnessed$ | async" [formGroup]="form"
-                           [debriefWitnessed]="pageState.debriefWitnessed$ | async" [outcome]="pageState.testOutcome$ | async"
+        <debrief-witnessed [display]="pageState.displayDebriefWitnessed$ | async"
+                           [formGroup]="form"
+                           [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+                           [outcome]="pageState.testOutcome$ | async"
                            (debriefWitnessedChange)="debriefWitnessedChanged($event)">
         </debrief-witnessed>
 
