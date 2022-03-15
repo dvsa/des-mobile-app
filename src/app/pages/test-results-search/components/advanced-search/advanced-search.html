@@ -49,14 +49,13 @@
                     id="advanced-search-start-date-picker"
                     placeholder="Select start date"
                     displayFormat="DD/MM/YYYY"
-                    (ionChange)="onDateChange($event, 'start')"
                     [min]="minStartDate"
                     [max]="endDate ? endDate : today"
-                    [value]="startDate"
+                    [(ngModel)]="startDate"
                     [pickerOptions]="customStartDateOptions">
             </ion-datetime>
         </ion-col>
-        <ion-col class="component-label ion-text-center" size="9">
+        <ion-col class="ion-text-center" size="9">
             <label class="to-label" id="to-label">to</label>
         </ion-col>
         <ion-col size="28">
@@ -65,10 +64,9 @@
                     placeholder="Select end date"
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
-                    (ionChange)="onDateChange($event, 'end')"
                     [min]="minStartDate"
                     [max]="today"
-                    [value]="endDate"
+                    [(ngModel)]="endDate"
                     [pickerOptions]="customEndDateOptions">
             </ion-datetime>
         </ion-col>
