@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { get } from 'lodash';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
