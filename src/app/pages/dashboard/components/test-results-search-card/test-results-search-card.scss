@@ -38,8 +38,7 @@ button[clear] {
     }
 
     h3 {
-      color: var(--gds-dark-green);
-
+      color: var(--gds-grey-2); // var(--gds-dark-green);
       .text-zoom-x-large & {
         line-height: 1.5em;
         white-space: normal;
@@ -51,7 +50,7 @@ button[clear] {
     display: flex;
     align-items: center;
     height: 240px;
-    background: var(--gds-dark-green);
+    background: var(--gds-grey-2); // var(--gds-dark-green);
     width: 100%;
   }
 }
