@@ -46,14 +46,16 @@
         </ion-col>
         <ion-col size="28">
             <ion-datetime
-                    (ionChange)="startDateChanged($event?.detail?.value)"
-                    [(ngModel)]="startDate"
-                    [pickerOptions]="customStartDateOptions"
+                    id="advanced-search-start-date-picker"
                     placeholder="Select start date"
-                    displayFormat="DD/MM/YYYY">
+                    displayFormat="DD/MM/YYYY"
+                    [min]="minStartDate"
+                    [max]="endDate ? endDate : today"
+                    [(ngModel)]="startDate"
+                    [pickerOptions]="customStartDateOptions">
             </ion-datetime>
         </ion-col>
-        <ion-col class="component-label ion-text-center" size="9">
+        <ion-col class="ion-text-center" size="9">
             <label class="to-label" id="to-label">to</label>
         </ion-col>
         <ion-col size="28">
@@ -62,7 +64,9 @@
                     placeholder="Select end date"
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
-                    [value]="endDate"
+                    [min]="startDate ? startDate : minStartDate"
+                    [max]="today"
+                    [(ngModel)]="endDate"
                     [pickerOptions]="customEndDateOptions">
             </ion-datetime>
         </ion-col>
@@ -77,6 +81,7 @@
                 Search
             </h3>
         </ion-button>
-        <ion-spinner class="search-spinner" id="advanced-search-spinner" name="bubbles" *ngIf="showSpinner"></ion-spinner>
+        <ion-spinner class="search-spinner" id="advanced-search-spinner" name="bubbles"
+                     *ngIf="showSpinner"></ion-spinner>
     </ion-row>
 </ion-grid>
