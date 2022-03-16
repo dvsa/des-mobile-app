@@ -2,7 +2,6 @@ import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { IonicModule, ModalController, Config } from '@ionic/angular';
 import { ModalControllerMock, ConfigMock } from 'ionic-mocks';
-import { CAT_ADI_PART2 } from '@pages/page-names.constants';
 import { AppComponent } from '@app/app.component';
 import { Store } from '@ngrx/store';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -12,8 +11,11 @@ import { DrivingFaultsBadgeComponent }
   from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { configureTestSuite } from 'ng-bullet';
+import {
+  VehicleChecksCatADIPart2Modal,
+} from
+  '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import { VehicleChecksCatADIPart2Component } from '../vehicle-checks.cat-adi-part2';
-import { VehicleChecksCatADIPart2Modal } from '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 
 class MockStore { }
 
@@ -56,7 +58,8 @@ describe('VehicleChecksCatBEComponent', () => {
         expect(modalController.create).toHaveBeenCalledWith(
           {
             component: VehicleChecksCatADIPart2Modal,
-            cssClass: 'modal-fullscreen text-zoom-regular' },
+            cssClass: 'modal-fullscreen text-zoom-regular',
+          },
         );
       });
     });

@@ -13,7 +13,6 @@ import {
   VehicleChecksCatADIPart2Modal,
 } from
   '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
   selector: 'vehicle-checks-cat-adi-part-2',
