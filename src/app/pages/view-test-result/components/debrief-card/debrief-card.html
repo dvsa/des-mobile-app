@@ -71,8 +71,8 @@
 
             <speed-card
                     *ngIf="isMod1()"
-                    [emergencyStop]="data.emergencyStop"
-                    [avoidance]="data.avoidance">
+                    [emergencyStop]="data['emergencyStop']"
+                    [avoidance]="data['avoidance']">
             </speed-card>
 
             <safety-and-balance-data-row
