@@ -51,7 +51,7 @@ export class WaitingRoomAnalyticsEffects {
   }
 
   waitingRoomViewDidEnter$ = createEffect(() => this.actions$.pipe(
-    ofType(WaitingRoomViewDidEnter.type),
+    ofType(WaitingRoomViewDidEnter),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -80,14 +80,12 @@ export class WaitingRoomAnalyticsEffects {
     )),
     switchMap((
       [, tests, applicationReference, candidateId, category]:
-      [ReturnType<typeof WaitingRoomValidationError>, TestsModel, string, number, CategoryCode],
+      [ReturnType<typeof WaitingRoomViewDidEnter>, TestsModel, string, number, CategoryCode],
     ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
-      this.analytics.setCurrentPage(
-        formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests),
-      );
+      this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM, tests));
       return of(AnalyticRecorded());
     }),
   ));
@@ -117,7 +115,7 @@ export class WaitingRoomAnalyticsEffects {
   ));
 
   cbtNumberChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(CbtNumberChanged.type),
+    ofType(CbtNumberChanged),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(

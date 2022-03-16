@@ -5,7 +5,8 @@
   (touchend)="onTouchEnd()"
   [ngClass]="{
     'activated': touchState,
-    'ripple-effect': rippleState
+    'ripple-effect': rippleState,
+    'display-red-border': redBorder
   }"
 >
   <ng-content></ng-content>

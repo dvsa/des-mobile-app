@@ -33,19 +33,8 @@ import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass
 import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-number/pass-certificate-number.constants';
 
 interface PassFinalisationCatBPageState {
-  candidateUntitledName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  testOutcomeText$: Observable<string>;
-  applicationNumber$: Observable<string>;
-  provisionalLicense$: Observable<boolean>;
-  passCertificateNumber$: Observable<string>;
-  transmission$: Observable<GearboxCategory>;
   transmissionAutomaticRadioChecked$: Observable<boolean>;
   transmissionManualRadioChecked$: Observable<boolean>;
-  d255$: Observable<boolean>;
-  debriefWitnessed$: Observable<boolean>;
-  conductedLanguage$: Observable<string>;
-  eyesightTestFailed$: Observable<boolean>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & PassFinalisationCatBPageState;

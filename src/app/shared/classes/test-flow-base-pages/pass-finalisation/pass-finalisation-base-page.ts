@@ -36,7 +36,7 @@ import { getCommunicationPreference } from '@store/tests/communication-preferenc
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCode, CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import {
   Code78NotPresent,
   Code78Present,
@@ -52,6 +52,8 @@ import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
 
 export interface CommonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -67,6 +69,7 @@ export interface CommonPassFinalisationPageState {
   debriefWitnessed$: Observable<boolean>;
   conductedLanguage$: Observable<string>;
   eyesightTestFailed$: Observable<boolean>;
+  testCategory$: Observable<CategoryCode>;
 }
 
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
@@ -145,6 +148,9 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
         select(getTestData),
         select(hasEyesightTestGotSeriousFault),
       ),
+      testCategory$: currentTest$.pipe(
+        select(getTestCategory),
+      ),
     };
   }
 
@@ -162,6 +168,10 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
 
   passCertificateNumberChanged(passCertificateNumber: string): void {
     this.store$.dispatch(PassCertificateNumberChanged(passCertificateNumber));
+  }
+
+  categoryCodeChanged(category: CategoryCode): void {
+    this.store$.dispatch(PopulateTestCategory(category));
   }
 
   d255Changed(d255: boolean): void {

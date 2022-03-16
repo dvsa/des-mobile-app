@@ -54,7 +54,7 @@ interface CommunicationPageState {
   communicationEmail$: Observable<string>;
   communicationType$: Observable<string>;
   candidateAddress$: Observable<Address>;
-  conductedLanguage$: Observable<string>;
+  conductedLanguage$: Observable<Language>;
   testCategory$: Observable<CategoryCode>;
   showVrnBtn$: Observable<boolean>;
 }
@@ -82,8 +82,8 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   communicationEmail: string;
   communicationType: CommunicationMethod;
   merged$: Observable<string | boolean>;
-  testCategory: CategoryCode;
-  maximumCallStackHandler: { emitEvent: false, onlySelf: true };
+  testCategory: TestCategory;
+  maximumCallStackHandler = { emitEvent: false, onlySelf: true };
 
   constructor(
     platform: Platform,
@@ -147,7 +147,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       ),
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
-        map((result) => this.testCategory = result),
+        map((result) => this.testCategory = result as TestCategory),
       ),
       showVrnBtn$: currentTest$.pipe(
         select(getTestCategory),
@@ -168,11 +168,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       communicationEmail$.pipe(map((value) => this.communicationEmail = value)),
       communicationType$.pipe(map((value) => this.communicationType = value as CommunicationMethod)),
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
-      testCategory$.pipe(map((result) => this.testCategory = result)),
+      testCategory$.pipe(map((result) => this.testCategory = result as TestCategory)),
     );
 
     this.subscription = this.merged$.subscribe();
-
   }
 
   ionViewWillEnter(): void {
@@ -201,26 +200,24 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     this.store$.dispatch(CommunicationViewDidEnter());
   }
 
-  onSubmit() {
-    Object.keys(this.form.controls)
-      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
-    if (this.form.valid) {
-      this.deviceAuthenticationProvider.triggerLockScreen()
-        .then(async () => {
-          this.store$.dispatch(CommunicationSubmitInfo());
-          await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE,
-            this.testCategory as TestCategory);
-        })
-        .catch((err) => {
-          this.store$.dispatch(CommunicationSubmitInfoError(err));
-        });
-    } else {
-      Object.keys(this.form.controls)
-        .forEach((controlName) => {
-          if (this.form.controls[controlName].invalid) {
-            this.store$.dispatch(CommunicationValidationError(`${controlName} is blank`));
-          }
-        });
+  async onSubmit(): Promise<void> {
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+
+    if (!this.form.valid) {
+      Object.keys(this.form.controls).forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(CommunicationValidationError(`${controlName} is blank`));
+        }
+      });
+      return;
+    }
+
+    try {
+      await this.deviceAuthenticationProvider.triggerLockScreen();
+      this.store$.dispatch(CommunicationSubmitInfo());
+      await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.testCategory);
+    } catch (err) {
+      this.store$.dispatch(CommunicationSubmitInfoError(err));
     }
   }
 

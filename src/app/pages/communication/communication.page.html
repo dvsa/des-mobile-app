@@ -1,10 +1,12 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-buttons id="back-button" slot="start">
+    <ion-buttons id="communication-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title id="page-title">{{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-title id="communication-page-title">
+      {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
+    </ion-title>
     <ion-buttons id="end-button" slot="end">
       <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
     </ion-buttons>
@@ -34,9 +36,8 @@
             </div>
             <div class="validation-bar"></div>
             <ion-col>
-
               <provided-email [formGroup]="form"
-                              [shouldRender]="pageState.candidateProvidedEmail$ | async"
+                              [shouldRender]="!!(pageState.candidateProvidedEmail$ | async)"
                               [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
                               [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
                               (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()">

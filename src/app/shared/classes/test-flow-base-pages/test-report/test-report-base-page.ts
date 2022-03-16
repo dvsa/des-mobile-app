@@ -66,6 +66,7 @@ import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StatusBar } from '@capacitor/status-bar';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -330,6 +331,10 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         break;
       case ModalEvent.TERMINATE:
         this.store$.dispatch(TerminateTestFromTestReport());
+        await this.router.navigate([nextPage]);
+        break;
+      case ModalEvent.END_WITH_ACTIVITY_CODE_4:
+        this.store$.dispatch(SetActivityCode('4'));
         await this.router.navigate([nextPage]);
         break;
       default:
