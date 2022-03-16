@@ -98,7 +98,11 @@ export const isDelegatedTest = (tests: TestsModel): boolean => {
     || test.category === TestCategory.D
     || test.category === TestCategory.DE
     || test.category === TestCategory.D1
-    || test.category === TestCategory.D1E) {
+    || test.category === TestCategory.D1E
+    || test.category === TestCategory.F
+    || test.category === TestCategory.G
+    || test.category === TestCategory.H
+    || test.category === TestCategory.K) {
     return (test as TestResultCommonSchema).delegatedTest || false;
   }
 
