@@ -150,7 +150,6 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         expect(eyesightFailureConfirmation).not.toBeNull();
         expect(formAfterEyesight.nativeElement.hidden).toEqual(true);
       });
-      // tslint:disable-next-line:max-line-length
       it('should show the rest of the form and not render eyesight failure confirmation when page '
           + 'state indicates pass is selected', () => {
         fixture.detectChanges();

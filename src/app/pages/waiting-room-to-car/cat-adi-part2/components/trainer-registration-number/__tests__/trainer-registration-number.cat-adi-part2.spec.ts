@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
-import { IonicModule } from 'ionic-angular';
+import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 
 import { TrainerRegistrationNumberCatAdiPart2Component } from '../trainer-registration-number.cat-adi-part2';

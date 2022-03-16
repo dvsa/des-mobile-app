@@ -13,6 +13,7 @@ import { DrivingFaultsBadgeComponent }
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { configureTestSuite } from 'ng-bullet';
 import { VehicleChecksCatADIPart2Component } from '../vehicle-checks.cat-adi-part2';
+import { VehicleChecksCatADIPart2Modal } from '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 
 class MockStore { }
 
@@ -53,9 +54,9 @@ describe('VehicleChecksCatBEComponent', () => {
         component.openVehicleChecksModal();
         expect(modalController.create).toHaveBeenCalledTimes(1);
         expect(modalController.create).toHaveBeenCalledWith(
-          CAT_ADI_PART2.VEHICLE_CHECKS_MODAL,
-          {},
-          { cssClass: 'modal-fullscreen text-zoom-regular' },
+          {
+            component: VehicleChecksCatADIPart2Modal,
+            cssClass: 'modal-fullscreen text-zoom-regular' },
         );
       });
     });
@@ -129,14 +130,14 @@ describe('VehicleChecksCatBEComponent', () => {
       it('should call incompleteVehicleChecks() if all questions have NOT been answered', () => {
         spyOn(component, 'everyQuestionHasOutcome').and.returnValue(false);
         spyOn(component, 'incompleteVehicleChecks');
-        component.validateVehicleChecks(null);
+        component.validateVehicleChecks();
         expect(component.incompleteVehicleChecks).toHaveBeenCalled();
       });
 
       it('should return null if all questions have been answered', () => {
         spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
         spyOn(component, 'incompleteVehicleChecks');
-        const result = component.validateVehicleChecks(null);
+        const result = component.validateVehicleChecks();
         expect(result).toEqual(null);
       });
     });

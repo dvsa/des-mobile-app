@@ -49,7 +49,7 @@ import { FormGroup } from '@angular/forms';
 import { QuestionProvider } from '@providers/question/question';
 import {
   EyesightTestFailed,
-  EyesightTestPassed,
+  EyesightTestPassed, EyesightTestReset,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import {
   getVehicleChecksCatADIPart2,
@@ -268,6 +268,10 @@ export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageCom
 
   closeVehicleChecksModal = () => {
     this.store$.dispatch(waitingRoomToCarActions.WaitingRoomToCarViewDidEnter());
+  };
+  eyesightFailCancelled = (): void => {
+    this.form.get('eyesightCtrl')?.reset();
+    this.store$.dispatch(EyesightTestReset());
   };
 
   onSubmit = async (): Promise<void> => {

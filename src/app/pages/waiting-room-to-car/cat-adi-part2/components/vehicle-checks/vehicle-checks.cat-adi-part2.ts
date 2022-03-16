@@ -46,7 +46,6 @@ export class VehicleChecksCatADIPart2Component implements OnChanges {
   async openVehicleChecksModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: VehicleChecksCatADIPart2Modal,
-      componentProps: { category: TestCategory.ADI2 },
       cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
     });
     await modal.present();
