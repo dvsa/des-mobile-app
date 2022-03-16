@@ -64,7 +64,7 @@
                     placeholder="Select end date"
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
-                    [min]="minStartDate"
+                    [min]="startDate ? startDate : minStartDate"
                     [max]="today"
                     [(ngModel)]="endDate"
                     [pickerOptions]="customEndDateOptions">

@@ -25,7 +25,6 @@ export class AdvancedSearchComponent {
   endDate: string = '';
   compareStartDate: Date = null;
   compareEndDate: Date = null;
-  minimumEndDate: string = moment().format('YYYY-MM-DD');
   focusedElement: string = null;
   currentDate: any = new Date().toISOString().substring(0, 10);
 
@@ -40,8 +39,8 @@ export class AdvancedSearchComponent {
         handler: ({ year, month, day }) => {
           const selectedDate: string = `${year.text}-${month.text}-${day.text}`;
 
-          if (selectedDate && this.endDate && moment(selectedDate).isAfter(this.endDate)) {
-            this.endDate = this.startDate;
+          if (selectedDate && this.endDate && moment(selectedDate).isSameOrAfter(this.endDate)) {
+            this.startDate = this.endDate;
             return;
           }
           this.startDate = selectedDate;
@@ -59,9 +58,8 @@ export class AdvancedSearchComponent {
       handler: ({ year, month, day }) => {
         const selectedDate: string = `${year.text}-${month.text}-${day.text}`;
 
-        if (selectedDate && this.startDate && moment(selectedDate).isBefore(this.startDate)) {
-          this.startDate = selectedDate;
-          this.endDate = selectedDate;
+        if (selectedDate && this.startDate && moment(selectedDate).isSameOrBefore(this.startDate)) {
+          this.endDate = this.startDate;
           return;
         }
         this.endDate = selectedDate;
