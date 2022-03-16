@@ -39,7 +39,7 @@ export class DebriefCardComponent implements OnInit {
   drivingFaultCount: number;
 
   @Input()
-  category: TestCategory | CategoryCode;
+  category: TestCategory;
 
   @Input()
   delegatedTest: boolean = false;
