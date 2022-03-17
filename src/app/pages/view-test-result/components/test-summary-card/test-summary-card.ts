@@ -70,6 +70,13 @@ export class TestSummaryCardComponent {
     return get(this.testSummary, 'independentDriving', 'None');
   }
 
+  public get trueLikenessToPhoto(): string {
+    if (get(this.testSummary, 'trueLikenessToPhoto')) {
+      return 'Yes';
+    }
+    return 'No';
+  }
+
   public get candidateDescription(): string {
     return get(this.testSummary, 'candidateDescription', 'None');
   }
