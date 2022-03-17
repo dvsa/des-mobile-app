@@ -266,6 +266,21 @@ describe('TestSummaryCardComponent', () => {
       });
     });
 
+    describe('trueLikenessToPhoto', () => {
+      it('should return true if likeness is true', () => {
+        component.testSummary = {
+          trueLikenessToPhoto: true,
+        };
+        expect(component.trueLikenessToPhoto).toEqual(true);
+      });
+      it('should return false if likeness is false', () => {
+        component.testSummary = {
+          trueLikenessToPhoto: false,
+        };
+        expect(component.trueLikenessToPhoto).toEqual(false);
+      });
+    });
+
     describe('getTestConductedOn', () => {
       it('should return the mode of transport if populated', () => {
         const mode: ModeOfTransport = 'Bike to bike';
