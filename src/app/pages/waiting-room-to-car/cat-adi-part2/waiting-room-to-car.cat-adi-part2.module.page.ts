@@ -15,8 +15,7 @@ import {
 import {
   WaitingRoomToCarCatADIPart2ComponentsModule,
 } from '@pages/waiting-room-to-car/cat-adi-part2/components/waiting-room-to-car.cat-adi-part2.components.module';
-import { VehicleChecksModalCatADIPart2Module,
-} from
+import { VehicleChecksModalCatADIPart2Module } from
   '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.module';
 import { WaitingRoomToCarCatADI2Page } from './waiting-room-to-car.cat-adi-part2.page';
 
