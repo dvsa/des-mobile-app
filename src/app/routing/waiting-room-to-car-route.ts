@@ -54,13 +54,14 @@ export const Waiting_Room_To_Car_Route: Routes = [
       .then((m) => m.WaitingRoomToCarCatHomeTestPageModule),
   },
   {
+    path: CAT_ADI_PART2.WAITING_ROOM_TO_CAR_PAGE,
+    loadChildren: () => import('@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.module')
+        .then((m) => m.WaitingRoomToCarCatADIPart2PageModule),
+  },
+  {
     path: CAT_MANOEUVRES.WAITING_ROOM_TO_CAR_PAGE,
     loadChildren: () => import('@pages/waiting-room-to-car/cat-manoeuvre/waiting-room-to-car.cat-manoeuvre.module')
       .then((m) => m.WaitingRoomToCarCatManoeuvrePageModule),
   },
-  {
-    path: CAT_ADI_PART2.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () => import('@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.module.page')
-      .then((m) => m.WaitingRoomToCarCatADI2PageModule),
-  },
+
 ];
