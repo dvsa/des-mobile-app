@@ -1,26 +1,37 @@
 <ion-header>
-  <ion-navbar hideBackButton>
-    <ion-title>{{pageState.candidateName$ | async}}</ion-title>
-    <ion-buttons end>
-      <end-test-link [shouldAuthenticate]="false" category="ADI2"></end-test-link>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons id="wrtc-back-button" slot="start">
+      <ion-back-button></ion-back-button>
     </ion-buttons>
-  </ion-navbar>
+    <ion-buttons id="end-test-button" slot="end">
+      <end-test-link [shouldAuthenticate]="false"
+                     [category]="pageState.category$ | async"
+                     [isDelegated]="pageState.delegatedTest$ | async">
+      </end-test-link>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content force-overscroll="false">
   <div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-grid>
-
-        <eyesight-test [formGroup]="form" [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
-          [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async" (eyesightTestResultChange)="eyesightTestResultChanged($event)"></eyesight-test>
-
+        <eyesight-test [formGroup]="form"
+                       *ngIf="pageState.showEyesight$ | async"
+                       [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+                       [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
+                       (eyesightTestResultChange)="eyesightTestResultChanged($event)">
+        </eyesight-test>
         <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-          <eyesight-failure-confirmation [nextPageOnFail]="this.getDebriefPage()" [cancelFn]="eyesightFailCancelled"></eyesight-failure-confirmation>
+          <eyesight-failure-confirmation [nextPageOnFail]="getDebriefPage()"
+                                         [cancelFn]="eyesightFailCancelled">
+          </eyesight-failure-confirmation>
         </ion-row>
 
-        <ion-row no-padding [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
-          <ion-col no-padding>
+        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
+          <ion-col class="ion-no-padding">
             <vehicle-checks-cat-adi-part-2
               [formGroup]="form"
               [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
@@ -83,10 +94,24 @@
     </form>
   </div>
 </ion-content>
-<ion-footer [hidden]="pageState.eyesightTestFailed$ | async">
-  <ion-row class="mes-full-width-card box-shadow">
-    <button type="submit" class="mes-primary-button" id="continue-to-test-report-button" ion-button (click)="onSubmit()">
-      <h3>Continue to test report</h3>
-    </button>
+<ion-footer>
+  <ion-row class="mes-full-width-card box-shadow" [hidden]="pageState.eyesightTestFailed$ | async">
+    <ion-col size="45" class="ion-text-center">
+      <ion-button
+              shape="round"
+              class="mes-grey-button wrtc-footer-btn"
+              id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
+        <h3>View test centre journal</h3>
+      </ion-button>
+    </ion-col>
+    <ion-col size="6"></ion-col>
+    <ion-col size="45" class="ion-text-center">
+      <ion-button
+              shape="round"
+              class="mes-primary-button wrtc-footer-btn"
+              id="continue-to-test-report-button" (click)="onSubmit()">
+        <h3>Continue to test report</h3>
+      </ion-button>
+    </ion-col>
   </ion-row>
 </ion-footer>

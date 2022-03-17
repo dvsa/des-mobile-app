@@ -58,10 +58,8 @@ import {
 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
-import { PersistTests } from '@store/tests/tests.actions';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
   OrditTrainedChanged,
   TrainerRegistrationNumberChanged,
@@ -78,37 +76,29 @@ import {
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/AM2';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestFlowPageNames } from '../../page-names.constants';
 import { WaitingRoomToCarValidationError } from '../waiting-room-to-car.actions';
 import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
-
-interface WaitingRoomToCarPageState {
-  candidateName$: Observable<string>;
-  registrationNumber$: Observable<string>;
-  transmission$: Observable<GearboxCategory>;
-  schoolCar$: Observable<boolean>;
-  dualControls$: Observable<boolean>;
-  instructorAccompaniment$: Observable<boolean>;
-  supervisorAccompaniment$: Observable<boolean>;
-  otherAccompaniment$: Observable<boolean>;
-  interpreterAccompaniment$: Observable<boolean>;
-  eyesightTestComplete$: Observable<boolean>;
-  eyesightTestFailed$: Observable<boolean>;
-  gearboxAutomaticRadioChecked$: Observable<boolean>;
-  gearboxManualRadioChecked$: Observable<boolean>;
-  vehicleChecksScore$: Observable<VehicleChecksScore>;
-  vehicleChecks$: Observable<CatADI2UniqueTypes.VehicleChecks>;
-  orditTrained$: Observable<boolean>;
-  trainingRecords$: Observable<boolean>;
-  trainerRegistrationNumber$: Observable<number>;
-}
+import VehicleChecks = CatBUniqueTypes.VehicleChecks;
 
 @Component({
-  selector: '.waiting-room-to-car-cat-adi-part2-page',
-  templateUrl: 'waiting-room-to-car.cat-adi-part2.page.html',
+  selector: 'app-waiting-room-to-car-cat-adi-part2',
+  templateUrl: './waiting-room-to-car.cat-adi-part2.page.html',
+  styleUrls: ['./waiting-room-to-car.cat-adi-part2.page.scss'],
 })
 export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: WaitingRoomToCarPageState;
+  pageState: { transmission$: Observable<'Manual' | 'Automatic'>;
+    interpreterAccompaniment$: Observable<boolean>; eyesightTestFailed$: Observable<boolean>;
+    otherAccompaniment$: Observable<boolean>; showEyesight$: Observable<boolean>; orditTrained$: Observable<boolean>;
+    gearboxAutomaticRadioChecked$: Observable<boolean>; eyesightTestComplete$: Observable<boolean>;
+    candidateName$: Observable<string>; category$: Observable<CategoryCode>;
+    supervisorAccompaniment$: Observable<boolean>;
+    vehicleChecks$: Observable<VehicleChecks>; trainerRegistrationNumber$: Observable<number>;
+    registrationNumber$: Observable<string>; trainingRecords$: Observable<boolean>; schoolCar$: Observable<boolean>;
+    dualControls$: Observable<boolean>; gearboxManualRadioChecked$: Observable<boolean>;
+    vehicleChecksScore$: Observable<VehicleChecksScore>; instructorAccompaniment$: Observable<boolean> };
   form: FormGroup;
 
   @ViewChild('registrationInput')
@@ -129,9 +119,9 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
     public authenticationProvider: AuthenticationProvider,
     public faultCountProvider: FaultCountProvider,
     public questionProvider: QuestionProvider,
-    router: Router,
-    routeByCat: RouteByCategoryProvider,
-    alertController: AlertController,
+    public router: Router,
+    public routeByCat: RouteByCategoryProvider,
+    public alertController: AlertController,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
 
@@ -140,6 +130,7 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
   }
 
   ngOnInit(): void {
+    super.onInitialisation();
 
     const currentTest$ = this.store$.pipe(
       select(getTests),
@@ -147,6 +138,7 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
     );
 
     this.pageState = {
+      ...this.commonPageState,
       candidateName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
@@ -227,13 +219,12 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
   }
 
   ionViewDidEnter(): void {
-    this.store$.dispatch(waitingRoomToCarActions.WaitingRoomToCarViewDidEnter());
+    super.ionViewDidEnter();
   }
 
   ionViewWillLeave(): void {
-    this.store$.dispatch(PersistTests());
+    super.ionViewWillLeave();
   }
-
   schoolCarToggled(): void {
     this.store$.dispatch(SchoolCarToggled());
   }
