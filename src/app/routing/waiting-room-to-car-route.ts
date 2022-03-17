@@ -60,7 +60,7 @@ export const Waiting_Room_To_Car_Route: Routes = [
   },
   {
     path: CAT_ADI_PART2.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () => import('@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.page.module')
-      .then((m) => m.WaitingRoomToCarCatADIPart2PageModule),
+    loadChildren: () => import('@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.module.page')
+      .then((m) => m.WaitingRoomToCarCatADI2PageModule),
   },
 ];

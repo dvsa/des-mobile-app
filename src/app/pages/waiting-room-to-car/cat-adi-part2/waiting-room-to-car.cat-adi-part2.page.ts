@@ -107,7 +107,7 @@ interface WaitingRoomToCarPageState {
   selector: '.waiting-room-to-car-cat-adi-part2-page',
   templateUrl: 'waiting-room-to-car.cat-adi-part2.page.html',
 })
-export class WaitingRoomToCarCatADIPart2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
+export class WaitingRoomToCarCatADI2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;
   form: FormGroup;
 

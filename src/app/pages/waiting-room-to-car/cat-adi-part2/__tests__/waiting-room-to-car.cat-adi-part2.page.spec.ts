@@ -36,7 +36,7 @@ import { WaitingRoomToCarValidationError } from '../../waiting-room-to-car.actio
 import {
   EyesightFailureConfirmationComponent,
 } from '../../components/eyesight-failure-confirmation/eyesight-failure-confirmation';
-import { WaitingRoomToCarCatADIPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
+import { WaitingRoomToCarCatADI2Page } from '../waiting-room-to-car.cat-adi-part2.page';
 import {
   AccompanimentCardCatADIPart2Component,
 } from '../components/accompaniment-card/accompaniment-card.cat-adi-part2';
@@ -47,15 +47,15 @@ import {
   TrainerRegistrationNumberCatAdiPart2Component,
 } from '../components/trainer-registration-number/trainer-registration-number.cat-adi-part2';
 
-describe('WaitingRoomToCarCatADIPart2Page', () => {
-  let fixture: ComponentFixture<WaitingRoomToCarCatADIPart2Page>;
-  let component: WaitingRoomToCarCatADIPart2Page;
+describe('WaitingRoomToCarCatADI2Page', () => {
+  let fixture: ComponentFixture<WaitingRoomToCarCatADI2Page>;
+  let component: WaitingRoomToCarCatADI2Page;
   let store$: Store<StoreModel>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [
-        WaitingRoomToCarCatADIPart2Page,
+        WaitingRoomToCarCatADI2Page,
         MockComponent(EyesightTestComponent),
         MockComponent(EyesightFailureConfirmationComponent),
         MockComponent(EndTestLinkComponent),
@@ -122,7 +122,7 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
   });
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(WaitingRoomToCarCatADIPart2Page);
+    fixture = TestBed.createComponent(WaitingRoomToCarCatADI2Page);
     component = fixture.componentInstance;
     store$ = TestBed.get(Store);
     spyOn(store$, 'dispatch');

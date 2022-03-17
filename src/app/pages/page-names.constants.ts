@@ -86,7 +86,7 @@ export const CAT_ADI_PART2: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatADIPart2Page',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatADIPart2Page',
   TEST_REPORT_PAGE: 'TestReportCatADIPart2Page',
-  WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatADIPart2Page',
+  WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatADI2Page',
   VEHICLE_CHECKS_MODAL: 'VehicleChecksCatADIPart2Modal',
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatADIPart2Page',
 };
