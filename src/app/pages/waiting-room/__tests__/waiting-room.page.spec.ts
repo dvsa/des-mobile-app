@@ -34,8 +34,8 @@ import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { MockComponent } from 'ng-mocks';
-import * as catCPreTestDeclarationsActions
-  from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.actions';
+import * as preTestDeclarationsActions
+  from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
@@ -166,7 +166,7 @@ describe('WaitingRoomPage', () => {
       it('should emit a manoeuvre pass cert number action with payload', () => {
         component.manoeuvresPassCertNumberChanged('123');
         expect(store$.dispatch)
-          .toHaveBeenCalledWith(catCPreTestDeclarationsActions.ManoeuvresPassCertNumberChanged('123'));
+          .toHaveBeenCalledWith(preTestDeclarationsActions.ManoeuvresPassCertNumberChanged('123'));
       });
     });
 

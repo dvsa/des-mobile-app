@@ -1,8 +1,8 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import * as preTestDeclarationActions from '../pre-test-declarations.actions';
 
-export const initialState: CatCUniqueTypes.PreTestDeclarations = {
+export const initialState: CatDUniqueTypes.PreTestDeclarations = {
   insuranceDeclarationAccepted: false,
   residencyDeclarationAccepted: false,
   preTestSignature: '',
@@ -10,44 +10,44 @@ export const initialState: CatCUniqueTypes.PreTestDeclarations = {
   manoeuvrePassCertificateNumber: null,
 };
 
-export const preTestDeclarationsCatCReducer = createReducer(
+export const preTestDeclarationsCatDReducer = createReducer(
   initialState,
-  on(preTestDeclarationActions.ClearPreTestDeclarations, (): CatCUniqueTypes.PreTestDeclarations => ({
+  on(preTestDeclarationActions.ClearPreTestDeclarations, (): CatDUniqueTypes.PreTestDeclarations => ({
     ...initialState,
   })),
-  on(preTestDeclarationActions.ToggleInsuranceDeclaration, (state): CatCUniqueTypes.PreTestDeclarations => ({
+  on(preTestDeclarationActions.ToggleInsuranceDeclaration, (state): CatDUniqueTypes.PreTestDeclarations => ({
     ...state,
     insuranceDeclarationAccepted: !state.insuranceDeclarationAccepted,
   })),
-  on(preTestDeclarationActions.ToggleResidencyDeclaration, (state): CatCUniqueTypes.PreTestDeclarations => ({
+  on(preTestDeclarationActions.ToggleResidencyDeclaration, (state): CatDUniqueTypes.PreTestDeclarations => ({
     ...state,
     residencyDeclarationAccepted: !state.residencyDeclarationAccepted,
   })),
-  on(preTestDeclarationActions.SignatureDataChanged, (state, { signature }): CatCUniqueTypes.PreTestDeclarations => ({
+  on(preTestDeclarationActions.SignatureDataChanged, (state, { signature }): CatDUniqueTypes.PreTestDeclarations => ({
     ...state,
     preTestSignature: signature,
   })),
-  on(preTestDeclarationActions.SignatureDataCleared, (state): CatCUniqueTypes.PreTestDeclarations => ({
+  on(preTestDeclarationActions.SignatureDataCleared, (state): CatDUniqueTypes.PreTestDeclarations => ({
     ...state,
     preTestSignature: '',
   })),
-  on(preTestDeclarationActions.CandidateDeclarationSigned, (state): CatCUniqueTypes.PreTestDeclarations => ({
+  on(preTestDeclarationActions.CandidateDeclarationSigned, (state): CatDUniqueTypes.PreTestDeclarations => ({
     ...state,
     candidateDeclarationSigned: true,
   })),
   on(preTestDeclarationActions.SetDeclarationStatus, (state, {
     declarationStatus,
-  }): CatCUniqueTypes.PreTestDeclarations => ({
+  }): CatDUniqueTypes.PreTestDeclarations => ({
     ...state,
     insuranceDeclarationAccepted: declarationStatus,
     residencyDeclarationAccepted: declarationStatus,
   })),
   on(preTestDeclarationActions.ManoeuvresPassCertNumberChanged, (state, {
     manoeuvrePassCertificateNumber,
-  }): CatCUniqueTypes.PreTestDeclarations => ({
+  }): CatDUniqueTypes.PreTestDeclarations => ({
     ...state,
     manoeuvrePassCertificateNumber,
   })),
 );
 
-export const getPreTestDeclarations = createFeatureSelector<CatCUniqueTypes.PreTestDeclarations>('preTestDeclarations');
+export const getPreTestDeclarations = createFeatureSelector<CatDUniqueTypes.PreTestDeclarations>('preTestDeclarations');
