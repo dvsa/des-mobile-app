@@ -25,7 +25,6 @@ import {
   getVehicleChecksCatHomeTest,
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
 import { getTestData } from '@store/tests/test-data/cat-home/test-data.cat-h.reducer';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -118,7 +117,6 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
 
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
-    console.log('form:', this.form);
 
     if (this.form.valid) {
       await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
