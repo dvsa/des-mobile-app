@@ -45,30 +45,11 @@ export class BikeCategoryTypeComponent implements OnChanges {
     public store$: Store<StoreModel>,
   ) { }
 
-  async openCategorySelector(): Promise<void> {
-    // this.loadImages();
-    await this.selectRef.open();
-  }
-
-  // loadImages(): void {
-  //   setTimeout(() => {
-  //     const options = document.getElementsByClassName('alert-radio-label');
-  //     Array.from(options).forEach((option, index) => {
-  //       const element = options[index];
-  //       const category = this.bikeCategoryDetails[index].categoryCode;
-  //       const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
-  //       element.innerHTML = `<span class="bike-code">${element.innerHTML}</span>`
-  //         .concat(`${bike.displayName}<img class="bike-image" src="${bike.imageUrl}" alt=""/>`);
-  //     });
-  //   }, 20);
-  // }
-
-  getBikeDisplayName(category: CategoryCode): string {
-    return this.bikeCategoryDetailProvider.getDetailByCategoryCode(category).displayName;
-  }
-
-  getBikeImage(category: CategoryCode): string {
-    return this.bikeCategoryDetailProvider.getDetailByCategoryCode(category).imageUrl;
+  ngOnInit(): void {
+    // default to MOD1 if any input other than MOD1 or MOD2 provided
+    this.testType = (this.testType === BikeTestType.MOD1 || this.testType === BikeTestType.MOD2)
+      ? this.testType : BikeTestType.MOD1;
+    this.bikeCategoryDetails = this.bikeCategoryDetailProvider.getAllDetailsByTestType(this.testType);
   }
 
   ngOnChanges(): void {
@@ -81,18 +62,39 @@ export class BikeCategoryTypeComponent implements OnChanges {
       this.formGroup.addControl('categoryTypeSelectCategory', this.formControl);
     }
     this.formControl.patchValue('Select cat type..');
+  }
 
+  async openCategorySelector(): Promise<void> {
+    this.loadImages();
+    await this.selectRef.open();
+  }
+
+  loadImages(): void {
+    setTimeout(() => {
+      const options = document.getElementsByClassName('alert-radio-label');
+      Array.from(options).forEach((option, index) => {
+        const element = options[index];
+        const category = this.bikeCategoryDetails[index].categoryCode;
+        const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
+        element.innerHTML = `<span style="width: 50px; display: inline-block;">${element.innerHTML}</span>`
+          .concat(`${bike.displayName}<img style="
+      width: 40px; height: 25px; text-align: right; vertical-align: middle;
+                        float: right;
+                        margin-right: 15px;" src="${bike.imageUrl}" alt=""/>`);
+      });
+    }, 50);
+  }
+
+  getBikeDisplayName(category: CategoryCode): string {
+    return this.bikeCategoryDetailProvider.getDetailByCategoryCode(category).displayName;
+  }
+
+  getBikeImage(category: CategoryCode): string {
+    return this.bikeCategoryDetailProvider.getDetailByCategoryCode(category).imageUrl;
   }
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
-  }
-
-  ngOnInit(): void {
-    // default to MOD1 if any input other than MOD1 or MOD2 provided
-    this.testType = (this.testType === BikeTestType.MOD1 || this.testType === BikeTestType.MOD2)
-      ? this.testType : BikeTestType.MOD1;
-    this.bikeCategoryDetails = this.bikeCategoryDetailProvider.getAllDetailsByTestType(this.testType);
   }
 
   bikeCategoryModalShown(): void {

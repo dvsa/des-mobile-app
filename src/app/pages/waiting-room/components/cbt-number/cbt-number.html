@@ -1,7 +1,7 @@
 <ion-row class="mes-validated-row mes-row-separator mes-row-separator-top" id="cbt-number-card" [formGroup]="formGroup">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col class="component-label ion-align-self-center" size="32">
-        <label>DL196 CBT Certificate Number</label>
+        <label id="cbt-label">DL196 CBT Certificate Number</label>
     </ion-col>
     <ion-col class="ion-align-self-center mes-padding-left">
       <ion-row class="spacing-row"></ion-row>
@@ -9,13 +9,13 @@
             <ion-col>
                 <ion-input id="cbt-number"
                        type="number"
-                       class="cbt-number-input"
+                       class="ion-input-styling increase-width"
                        formControlName="cbtNumber"
                        numbersOnly
                        maxlength="7"
                        [class.ng-invalid]="invalid"
                        (change)="cbtNumberChanged($event.target.value)">
-        </ion-input>
+                </ion-input>
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">

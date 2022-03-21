@@ -62,7 +62,6 @@ import { DirectivesModule } from '@directives/directives.module';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
-import { CommonModule } from '@angular/common';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
