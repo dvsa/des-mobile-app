@@ -1,7 +1,7 @@
 <ion-row class="mes-validated-row mes-row-separator" id="category-type" [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col size="32" class="component-label ion-align-self-center">
-    <label>Confirm cat type</label>
+    <label id="confirm-cat-type-label">Confirm cat type</label>
   </ion-col>
   <ion-col class="mes-padding-left ion-align-self-center">
     <ion-row class="spacing-row"></ion-row>
@@ -11,15 +11,17 @@
           *ngIf="!categoryConfirmed"
           class="mes-return-button"
           (click)="openCategorySelector()"
-        ><label>Select cat type..</label></ion-button>
+        ><label id="select-cat-type-label">Select cat type..</label></ion-button>
       </ion-col>
       <ion-col size="48" class="selected-category-code ion-align-self-center" *ngIf="categoryConfirmed">
-        {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}}
-        -
-        {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
+        <span class="ion-select-text">
+          {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}}
+          -
+          {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
+        </span>
       </ion-col>
       <ion-col size="47" class="select-category-link-container ion-padding-right" *ngIf="categoryConfirmed">
-        <ion-button class="mes-link-button category-selector-link" (click)="openCategorySelector()">
+        <ion-button fill="clear" class="mes-link-button category-selector-link" (click)="openCategorySelector()">
           <span>
             Select cat type
             <ion-icon name="arrow-forward"></ion-icon>
@@ -36,14 +38,14 @@
 </ion-row>
 
 <ion-select
-  #categorySelect hidden="true" okText="Confirm" cancelText="Cancel"
-  [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
-  (ionChange)="categoryCodeChanged($event.target.value)">
-  <ion-select-option *ngFor="let category of bikeCategoryDetails"
-              class="category-option"
-              [value]="category.categoryCode">
+    #categorySelect hidden="true" okText="Confirm" cancelText="Cancel"
+    [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
+    (ionChange)="categoryCodeChanged($event.target.value)">
+  <ion-select-option *ngFor="let category of bikeCategoryDetails;"
+                     class="category-option"
+                     [value]="category.categoryCode">
     {{category.displayId}}
-    {{getBikeDisplayName(category.categoryCode)}}
-<!--    <img class="bike-image" [src]=getBikeImage(category.categoryCode) alt=""/>-->
+<!--    {{getBikeDisplayName(category.categoryCode)}}-->
+<!--        <img class="bike-image" [src]=getBikeImage(category.categoryCode) alt=""/>-->
   </ion-select-option>
 </ion-select>
