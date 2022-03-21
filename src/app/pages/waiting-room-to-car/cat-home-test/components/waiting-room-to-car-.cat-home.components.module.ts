@@ -7,9 +7,6 @@ import {
   VehicleChecksModalCatHomeModule,
 } from
   '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page.module';
-import {
-  VehicleChecksCatHomeTestComponent,
-} from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks/vehicle-checks';
 
 @NgModule({
   imports: [
@@ -18,12 +15,6 @@ import {
     ReactiveFormsModule,
     CommonModule,
     VehicleChecksModalCatHomeModule,
-  ],
-  declarations: [
-    VehicleChecksCatHomeTestComponent,
-  ],
-  exports: [
-    VehicleChecksCatHomeTestComponent,
   ],
 })
 export class WaitingRoomToCarCatHomeComponentsModule { }
