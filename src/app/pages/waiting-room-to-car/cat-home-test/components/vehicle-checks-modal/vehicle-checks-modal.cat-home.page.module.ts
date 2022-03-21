@@ -7,8 +7,10 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import {
   VehicleChecksCatHomeTestModal,
 } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
+import {
+  VehicleChecksModalCatHomeTestAnalyticsEffects,
+} from './vehicle-checks-modal.cat-home-test.analytics.effects';
 import { WaitingRoomToCarComponentsModule } from '../../../components/waiting-room-to-car.components.module';
-// import { VehicleChecksModalCatDAnalyticsEffects } from './vehicle-checks-modal.cat-d.analytics.effects';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,7 @@ import { WaitingRoomToCarComponentsModule } from '../../../components/waiting-ro
   ],
   imports: [
     EffectsModule.forFeature([
-      // VehicleChecksModalCatDAnalyticsEffects,
+      VehicleChecksModalCatHomeTestAnalyticsEffects,
     ]),
     ComponentsModule,
     WaitingRoomToCarComponentsModule,

@@ -15,8 +15,11 @@
 
 <ion-content force-overscroll="false">
   <div>
-    <warning-banner warningText="The eyesight test should be conducted at a distance of 12m or 12.3m"
-                    *ngIf="shouldDisplayEyesightBanner()"></warning-banner>
+    <warning-banner
+      warningText="The eyesight test should be conducted at a distance of 12m or 12.3m"
+      *ngIf="shouldDisplayEyesightBanner()">
+    </warning-banner>
+
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-grid>
         <eyesight-test [formGroup]="form"
@@ -42,12 +45,14 @@
 
             <test-category [testCategory]="pageState.category$ | async"></test-category>
 
-            <vehicle-checks-cat-home-test
-                    [formGroup]="form"
-                    [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-                    [vehicleChecks]="pageState.vehicleChecks$ | async"
-                    (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-            ></vehicle-checks-cat-home-test>
+            <vehicle-checks-vocational
+                [formGroup]="form"
+                [category]="pageState.category$ | async"
+                [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
+                [vehicleChecks]="pageState.vehicleChecks$ | async"
+                (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
+                [fullLicenceHeld]="false">
+            </vehicle-checks-vocational>
 
             <accompaniment-card
                     [formGroup]="form"

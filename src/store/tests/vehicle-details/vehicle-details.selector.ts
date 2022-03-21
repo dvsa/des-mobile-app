@@ -13,4 +13,5 @@ export const showVrnButton = (category: TestCategory): boolean => isAnyOf(catego
   TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
   TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E,
   TestCategory.CCPC, TestCategory.DCPC,
+  TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K,
 ]);

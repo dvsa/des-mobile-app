@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar mode="ios" class="toolbar-spacing">
         <ion-buttons slot="start" class="toolbar-item-spacing">
-            <ion-button id="closeVehicleChecksModalCatD" (click)="onClose()">
+            <ion-button id="closeVehicleChecksModal" (click)="onClose()">
                 <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
                 <ion-label class="close-btn" id="close-label">Close</ion-label>
             </ion-button>
@@ -18,7 +18,7 @@
         <ion-card>
             <ion-card-header>
                 <ion-card-title>
-                    <h4>
+                    <h4 id="vehicle-checks-modal-show-me-label">
                         Show me questions
                     </h4>
                 </ion-card-title>
@@ -39,7 +39,7 @@
         <ion-card>
             <ion-card-header>
                 <ion-card-title>
-                    <h4>
+                    <h4 id="vehicle-checks-modal-tell-me-label">
                         Tell me questions
                     </h4>
                 </ion-card-title>
@@ -57,9 +57,6 @@
                 </vehicle-checks-question>
             </ion-card-content>
         </ion-card>
-        <warning-banner
-                warningText="This will result in {{vehicleChecksScore.drivingFaults}} driving faults and {{vehicleChecksScore.seriousFaults}} serious fault"
-                *ngIf="shouldDisplayBanner()"></warning-banner>
     </div>
 </ion-content>
 

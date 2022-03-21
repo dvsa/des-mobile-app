@@ -102,9 +102,7 @@ export class WaitingRoomToCarCatHomeTestPage extends WaitingRoomToCarBasePageCom
       vehicleChecksScore$: currentTest$.pipe(
         select(getTestData),
         select(getVehicleChecksCatHomeTest),
-        withLatestFrom(currentTest$.pipe(
-          select(getTestCategory),
-        )),
+        withLatestFrom(currentTest$.pipe(select(getTestCategory))),
         map(([vehicleChecks, category]) =>
           this.faultCountProvider.getVehicleChecksFaultCount(category as TestCategory, vehicleChecks)),
       ),
