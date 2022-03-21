@@ -12,6 +12,8 @@ import { OrditTrainerCatAdiPart2Component } from './ordit-trainer/ordit-trainer.
 import {
   TrainerRegistrationNumberCatAdiPart2Component,
 } from './trainer-registration-number/trainer-registration-number.cat-adi-part2';
+import { ReactiveFormsModule } from '@angular/forms';
+import { VehicleChecksModalCatADIPart2Module } from '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.module';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,15 @@ import {
     OrditTrainerCatAdiPart2Component,
     TrainerRegistrationNumberCatAdiPart2Component,
   ],
-  imports: [
-    CommonModule,
-    ComponentsModule,
-    IonicModule,
-    DirectivesModule,
-    WaitingRoomToCarComponentsModule,
-  ],
+    imports: [
+        VehicleChecksModalCatADIPart2Module,
+        CommonModule,
+        ComponentsModule,
+        IonicModule,
+        DirectivesModule,
+        WaitingRoomToCarComponentsModule,
+        ReactiveFormsModule,
+    ],
   exports: [
     VehicleChecksCatADIPart2Component,
     AccompanimentCardCatADIPart2Component,

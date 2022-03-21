@@ -93,4 +93,5 @@ export class VehicleChecksQuestionComponent implements OnChanges {
     }
     return false;
   }
+
 }

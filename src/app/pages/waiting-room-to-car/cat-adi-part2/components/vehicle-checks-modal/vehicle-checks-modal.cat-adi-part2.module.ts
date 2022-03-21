@@ -10,11 +10,13 @@ import {
 } from '../vehicle-checks-question/vehicle-checks-question.cat-adi-part2';
 import { VehicleChecksCatADIPart2Modal } from './vehicle-checks-modal.cat-adi-part2.page';
 import { WaitingRoomToCarComponentsModule } from '../../../components/waiting-room-to-car.components.module';
+import { VehicleChecksCatADIPart2Component } from '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks/vehicle-checks.cat-adi-part2';
 
 @NgModule({
   declarations: [
     VehicleChecksCatADIPart2Modal,
     VehicleChecksQuestionComponent,
+    VehicleChecksCatADIPart2Component
   ],
   imports: [
     EffectsModule.forFeature([
@@ -28,4 +30,4 @@ import { WaitingRoomToCarComponentsModule } from '../../../components/waiting-ro
     FormsModule,
   ],
 })
-export class VehicleChecksModalCatADIPart2Module { }
+export class VehicleChecksModalCatADIPart2Module {}

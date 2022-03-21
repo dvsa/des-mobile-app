@@ -13,7 +13,7 @@ import {
 } from '@pages/waiting-room-to-car/cat-adi-part2/components/waiting-room-to-car.cat-adi-part2.components.module';
 import { EffectsModule } from '@ngrx/effects';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
-import { WaitingRoomToCarCatAdiPart2Page } from './waiting-room-to-car.cat-adi-part2.page';
+import { WaitingRoomToCarCatAdiPart2Page } from '@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.page';
 import { WaitingRoomToCarCatADIPart2PageRoutingModule } from './waiting-room-to-car.cat-adi-part2-routing.module';
 
 @NgModule({
@@ -32,5 +32,6 @@ import { WaitingRoomToCarCatADIPart2PageRoutingModule } from './waiting-room-to-
   ],
   declarations: [WaitingRoomToCarCatAdiPart2Page],
 })
+
 
 export class WaitingRoomToCarCatADIPart2PageModule {}

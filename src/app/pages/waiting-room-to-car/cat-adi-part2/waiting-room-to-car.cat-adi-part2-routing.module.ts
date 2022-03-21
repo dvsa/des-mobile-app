@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { WaitingRoomToCarCatAdiPart2Page } from './waiting-room-to-car.cat-adi-part2.page';
+import { WaitingRoomToCarCatAdiPart2Page,
+} from '@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.page';
 
 const routes: Routes = [
   {
@@ -14,4 +14,6 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
+
+
 export class WaitingRoomToCarCatADIPart2PageRoutingModule {}

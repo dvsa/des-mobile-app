@@ -6,10 +6,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons id="end-test-button" slot="end">
-      <end-test-link [shouldAuthenticate]="false"
-                     [category]="pageState.category$ | async"
-                     [isDelegated]="pageState.delegatedTest$ | async">
-      </end-test-link>
+      <end-test-link [shouldAuthenticate]="false" category="ADI2"></end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -18,15 +15,14 @@
   <div>
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-grid>
-        <eyesight-test [formGroup]="form"
-                       *ngIf="pageState.showEyesight$ | async"
-                       [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+        <eyesight-test [formGroup]="form" [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async)
+                       && !(pageState.eyesightTestFailed$ | async)"
                        [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
-                       (eyesightTestResultChange)="eyesightTestResultChanged($event)">
-        </eyesight-test>
+                       (eyesightTestResultChange)="eyesightTestResultChanged($event)"></eyesight-test>
+
         <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-          <eyesight-failure-confirmation [nextPageOnFail]="getDebriefPage()"
-                                         [cancelFn]="eyesightFailCancelled">
+          <eyesight-failure-confirmation [nextPageOnFail]="this.getDebriefPage()" [cancelFn]="eyesightFailCancelled">
+
           </eyesight-failure-confirmation>
         </ion-row>
 

@@ -1,4 +1,4 @@
-import { NavController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -29,17 +29,22 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { map } from 'rxjs/operators';
 import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-adi-part2.actions';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { getVehicleChecksCatD } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
 
 interface VehicleChecksModalCatADIPart2State {
   candidateName$: Observable<string>;
-  tellMeQuestions$: Observable<QuestionResult[]>;
+  vehicleChecks$: Observable<CatADI2UniqueTypes.VehicleChecks>;
   vehicleChecksScore$: Observable<VehicleChecksScore>;
+  tellMeQuestions$: Observable<QuestionResult[]>;
 }
 
 @Component({
   selector: 'vehicle-checks-modal-cat-adi-part2',
   templateUrl: 'vehicle-checks-modal.cat-adi-part2.page.html',
+  styleUrls: ['vehicle-checks-modal.cat-adi-part2.page.scss'],
 })
+
 export class VehicleChecksCatADIPart2Modal {
 
   pageState: VehicleChecksModalCatADIPart2State;
@@ -53,6 +58,7 @@ export class VehicleChecksCatADIPart2Modal {
   subscription: Subscription;
 
   constructor(
+    private modalCtrl: ModalController,
     public store$: Store<StoreModel>,
     private navController: NavController,
     private faultCountProvider: FaultCountProvider,
@@ -77,6 +83,10 @@ export class VehicleChecksCatADIPart2Modal {
         select(getTestData),
         select(getVehicleChecksCatADI2),
         select(getSelectedTellMeQuestions),
+      ),
+      vehicleChecks$: currentTest$.pipe(
+          select(getTestData),
+          select(getVehicleChecksCatD),
       ),
       vehicleChecksScore$: currentTest$.pipe(
         select(getTestData),
@@ -118,5 +128,8 @@ export class VehicleChecksCatADIPart2Modal {
 
   tellMeQuestionOutcomeChanged(result: QuestionOutcome, index: number): void {
     this.store$.dispatch(TellMeQuestionOutcomeChanged(result, index));
+  }
+  async onClose() {
+    await this.modalCtrl.dismiss();
   }
 }

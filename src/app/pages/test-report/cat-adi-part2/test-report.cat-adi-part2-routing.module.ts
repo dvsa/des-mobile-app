@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
-import { TestReportCatAdiPart2Page } from './test-report.cat-adi-part2.page';
+import { TestReportCatADIPart2Page } from '@pages/test-report/cat-adi-part2/test-report.cat-adi-part2.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: TestReportCatAdiPart2Page,
+    component: TestReportCatADIPart2Page,
   },
 ];
 
@@ -14,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class TestReportCatADIPart2PageRoutingModule {}
+export class TestReportCatAdiPart2RoutingModule {}

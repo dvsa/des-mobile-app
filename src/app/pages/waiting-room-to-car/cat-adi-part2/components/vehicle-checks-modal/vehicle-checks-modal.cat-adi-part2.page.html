@@ -1,17 +1,18 @@
-<ion-header>
-  <ion-navbar>
-    <ion-buttons ion-buttons start navPop>
-      <button ion-button center class="nav-close" id="closeVehicleChecksModalCatADIPart2">
-        <ion-icon name="md-close"></ion-icon>Close
-      </button>
+    <ion-header>
+  <ion-toolbar mode="ios" class="toolbar-spacing">
+    <ion-buttons slot="start" class="toolbar-item-spacing">
+      <ion-button id="closeVehicleChecksModalCatD" (click)="onClose()">
+        <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
+        <ion-label class="close-btn" id="close-label">Close</ion-label>
+      </ion-button>
     </ion-buttons>
-    <ion-title>
+    <ion-title id="vehicle-checks-modal-title" class="ion-text-center toolbar-item-spacing">
       Tell me questions - {{ pageState.candidateName$ | async }}
     </ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <ion-card>
     <ion-card-header>
       <ion-card-title>
@@ -34,11 +35,13 @@
     </ion-card-content>
   </ion-card>
 </ion-content>
-
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
-    <button type="submit" class="mes-primary-button" id="submit-vehicle-checks" ion-button (click)="onSubmit()">
-      <h3>Continue</h3>
-    </button>
-  </ion-row>
+    <ion-row class="mes-full-width-card box-shadow">
+      <ion-button class="mes-primary-button" id="submit-vehicle-checks" (click)="onClose()">
+        <h3 id="vehicle-checks-modal-submit-label">Continue</h3>
+      </ion-button>
+    </ion-row>
 </ion-footer>
+
+
+

@@ -45,7 +45,7 @@ import {
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { QuestionProvider } from '@providers/question/question';
 import {
   EyesightTestFailed,
@@ -71,60 +71,73 @@ import {
   getTrainerRegistrationNumber,
   getTrainingRecords,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
-import {
-  WaitingRoomToCarBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/AM2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestFlowPageNames } from '../../page-names.constants';
 import { WaitingRoomToCarValidationError } from '../waiting-room-to-car.actions';
 import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
 import VehicleChecks = CatBUniqueTypes.VehicleChecks;
+import {
+   WaitingRoomToCarBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+
+
+interface CatADI2WaitingRoomToCarPageState {
+  transmission$: Observable<"Manual" | "Automatic">;
+  interpreterAccompaniment$: Observable<boolean>;
+  eyesightTestFailed$: Observable<boolean>;
+  otherAccompaniment$: Observable<boolean>;
+  orditTrained$: Observable<boolean>;
+  gearboxAutomaticRadioChecked$: Observable<boolean>;
+  eyesightTestComplete$: Observable<boolean>;
+  candidateName$: Observable<string>;
+  supervisorAccompaniment$: Observable<boolean>;
+  vehicleChecks$: Observable<VehicleChecks>;
+  trainerRegistrationNumber$: Observable<number>;
+  registrationNumber$: Observable<string>;
+  trainingRecords$: Observable<boolean>;
+  schoolCar$: Observable<boolean>;
+  dualControls$: Observable<boolean>;
+  gearboxManualRadioChecked$: Observable<boolean>;
+  vehicleChecksScore$: Observable<VehicleChecksScore>;
+  instructorAccompaniment$: Observable<boolean>
+
+}
+
 
 @Component({
   selector: 'app-waiting-room-to-car-cat-adi-part2',
   templateUrl: './waiting-room-to-car.cat-adi-part2.page.html',
   styleUrls: ['./waiting-room-to-car.cat-adi-part2.page.scss'],
 })
+
 export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
-  pageState: { transmission$: Observable<'Manual' | 'Automatic'>;
-    interpreterAccompaniment$: Observable<boolean>; eyesightTestFailed$: Observable<boolean>;
-    otherAccompaniment$: Observable<boolean>; showEyesight$: Observable<boolean>; orditTrained$: Observable<boolean>;
-    gearboxAutomaticRadioChecked$: Observable<boolean>; eyesightTestComplete$: Observable<boolean>;
-    candidateName$: Observable<string>; category$: Observable<CategoryCode>;
-    supervisorAccompaniment$: Observable<boolean>;
-    vehicleChecks$: Observable<VehicleChecks>; trainerRegistrationNumber$: Observable<number>;
-    registrationNumber$: Observable<string>; trainingRecords$: Observable<boolean>; schoolCar$: Observable<boolean>;
-    dualControls$: Observable<boolean>; gearboxManualRadioChecked$: Observable<boolean>;
-    vehicleChecksScore$: Observable<VehicleChecksScore>; instructorAccompaniment$: Observable<boolean> };
+
+  pageState: CatADI2WaitingRoomToCarPageState;
   form: FormGroup;
-
-  @ViewChild('registrationInput')
-  regisrationInput: ElementRef;
-
-  @ViewChild('instructorRegistrationInput')
-  instructorRegistrationInput: ElementRef;
-
-  showEyesightFailureConfirmation: boolean = false;
-
   tellMeQuestions: VehicleChecksQuestion[];
+  showEyesightFailureConfirmation: boolean = false;
+  onCloseVehicleChecksModal: () => {};
+  vehicleChecksScore: VehicleChecksScore;
+  vehicleChecks: CatADI2UniqueTypes.VehicleChecks;
+  vehicleChecksSelectQuestions: string;
+  formGroup: FormGroup;
+  formControl: FormControl;
 
   constructor(
-    public store$: Store<StoreModel>,
-    public navController: NavController,
-    public navParams: NavParams,
-    public platform: Platform,
-    public authenticationProvider: AuthenticationProvider,
+    private questionProvider: QuestionProvider,
     public faultCountProvider: FaultCountProvider,
-    public questionProvider: QuestionProvider,
-    public router: Router,
-    public routeByCat: RouteByCategoryProvider,
-    public alertController: AlertController,
+    platform: Platform,
+    authenticationProvider: AuthenticationProvider,
+    router: Router,
+    store$: Store<StoreModel>,
+    routeByCat: RouteByCategoryProvider,
+    alertController: AlertController,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
-
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.ADI2);
     this.form = new FormGroup({});
   }
@@ -138,82 +151,82 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
     );
 
     this.pageState = {
-      ...this.commonPageState,
       candidateName$: currentTest$.pipe(
-        select(getJournalData),
-        select(getCandidate),
-        select(getUntitledCandidateName),
+          select(getJournalData),
+          select(getCandidate),
+          select(getUntitledCandidateName),
       ),
       registrationNumber$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getRegistrationNumber),
+          select(getVehicleDetails),
+          select(getRegistrationNumber),
       ),
       transmission$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getGearboxCategory),
+          select(getVehicleDetails),
+          select(getGearboxCategory),
       ),
       schoolCar$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getSchoolCar),
+          select(getVehicleDetails),
+          select(getSchoolCar),
       ),
       dualControls$: currentTest$.pipe(
-        select(getVehicleDetails),
-        select(getDualControls),
+          select(getVehicleDetails),
+          select(getDualControls),
       ),
       instructorAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getInstructorAccompaniment),
+          select(getAccompaniment),
+          select(getInstructorAccompaniment),
       ),
       supervisorAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getSupervisorAccompaniment),
+          select(getAccompaniment),
+          select(getSupervisorAccompaniment),
       ),
       otherAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getOtherAccompaniment),
+          select(getAccompaniment),
+          select(getOtherAccompaniment),
       ),
       interpreterAccompaniment$: currentTest$.pipe(
-        select(getAccompaniment),
-        select(getInterpreterAccompaniment),
+          select(getAccompaniment),
+          select(getInterpreterAccompaniment),
       ),
       eyesightTestComplete$: currentTest$.pipe(
-        select(getTestData),
-        select(hasEyesightTestBeenCompleted),
+          select(getTestData),
+          select(hasEyesightTestBeenCompleted),
       ),
       eyesightTestFailed$: currentTest$.pipe(
-        select(getTestData),
-        select(hasEyesightTestGotSeriousFault),
+          select(getTestData),
+          select(hasEyesightTestGotSeriousFault),
       ),
       gearboxAutomaticRadioChecked$: currentTest$.pipe(
-        select(getVehicleDetails),
-        map(isAutomatic),
+          select(getVehicleDetails),
+          map(isAutomatic),
       ),
       gearboxManualRadioChecked$: currentTest$.pipe(
-        select(getVehicleDetails),
-        map(isManual),
+          select(getVehicleDetails),
+          map(isManual),
       ),
+
       vehicleChecksScore$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADIPart2),
-        map((vehicleChecks) => {
-          return this.faultCountProvider.getTellMeFaultCount(TestCategory.ADI2, vehicleChecks);
-        }),
+          select(getTestData),
+          select(getVehicleChecksCatADIPart2),
+          map((vehicleChecks) => {
+            return this.faultCountProvider.getTellMeFaultCount(TestCategory.ADI2, vehicleChecks);
+          }),
       ),
       vehicleChecks$: currentTest$.pipe(
-        select(getTestData),
-        select(getVehicleChecksCatADIPart2),
+          select(getTestData),
+          select(getVehicleChecksCatADIPart2),
       ),
       orditTrained$: currentTest$.pipe(
-        select(getTrainerDetails),
-        select(getOrditTrained),
+          select(getTrainerDetails),
+          select(getOrditTrained),
       ),
       trainingRecords$: currentTest$.pipe(
-        select(getTrainerDetails),
-        select(getTrainingRecords),
+          select(getTrainerDetails),
+          select(getTrainingRecords),
       ),
       trainerRegistrationNumber$: currentTest$.pipe(
-        select(getTrainerDetails),
-        select(getTrainerRegistrationNumber),
+          select(getTrainerDetails),
+          select(getTrainerRegistrationNumber),
       ),
     };
   }
@@ -225,6 +238,8 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
   ionViewWillLeave(): void {
     super.ionViewWillLeave();
   }
+
+
   schoolCarToggled(): void {
     this.store$.dispatch(SchoolCarToggled());
   }
@@ -260,10 +275,9 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
   closeVehicleChecksModal = () => {
     this.store$.dispatch(waitingRoomToCarActions.WaitingRoomToCarViewDidEnter());
   };
-  eyesightFailCancelled = (): void => {
-    this.form.get('eyesightCtrl')?.reset();
-    this.store$.dispatch(EyesightTestReset());
-  };
+
+
+
 
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
@@ -278,6 +292,7 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
       });
     }
   };
+
   updateForm(ctrl: string, value: any) {
     this.form.patchValue({
       [ctrl]: value,
@@ -307,6 +322,10 @@ export class WaitingRoomToCarCatAdiPart2Page extends WaitingRoomToCarBasePageCom
 
   trainerRegistrationNumberChanged(instructorRegistration: number): void {
     this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
+  }
+  eyesightFailCancelled = () => {
+    this.form.get('eyesightCtrl') && this.form.get('eyesightCtrl').reset();
+    this.store$.dispatch(EyesightTestReset());
   }
 
 }

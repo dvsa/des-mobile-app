@@ -17,10 +17,11 @@ import {
 @Component({
   selector: 'vehicle-checks-cat-adi-part-2',
   templateUrl: 'vehicle-checks.cat-adi-part2.html',
+  styleUrls: ['./vehicle-checks.cat-adi-part2.scss'],
 })
 export class VehicleChecksCatADIPart2Component implements OnChanges {
 
-  @Output()
+  @Input()
   onCloseVehicleChecksModal = new EventEmitter<void>();
 
   @Input()
