@@ -77,10 +77,8 @@ export class BikeCategoryTypeComponent implements OnChanges {
         const category = this.bikeCategoryDetails[index].categoryCode;
         const bike = this.bikeCategoryDetailProvider.getDetailByCategoryCode(category);
         element.innerHTML = `<span style="width: 50px; display: inline-block;">${element.innerHTML}</span>`
-          .concat(`${bike.displayName}<img style="
-      width: 40px; height: 25px; text-align: right; vertical-align: middle;
-                        float: right;
-                        margin-right: 15px;" src="${bike.imageUrl}" alt=""/>`);
+          .concat(`${bike.displayName}<img style="width: 40px; height: 25px; text-align: right; vertical-align: middle;
+                float: right; margin-right: 15px;" src="${bike.imageUrl}" alt=""/>`);
       });
     }, 50);
   }
