@@ -9,7 +9,6 @@ import {
   getByteCount,
   getPassCertificateAMOD1Validator,
 } from '@shared/constants/field-validators/field-validators';
-import { toUpper } from 'lodash';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mod1.constants';
 
 @Component({
@@ -56,10 +55,12 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
     } else if (!validFormat) {
       this.formControl.setErrors({ invalidFormat: passCertificateNumber });
     }
-    this.passCertificateNumberChange.emit(toUpper(passCertificateNumber));
+
+    this.formControl.updateValueAndValidity();
+    this.passCertificateNumberChange.emit(passCertificateNumber?.toUpperCase());
   }
 
-  isInvalid(): boolean {
+  get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
   }
 }

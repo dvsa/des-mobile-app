@@ -44,6 +44,8 @@ import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance
 import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
+import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 
 interface CatMod1MOfficePageState {
   etaFaults$: Observable<string>;
@@ -55,6 +57,7 @@ interface CatMod1MOfficePageState {
   avoidance$: Observable<Avoidance>;
   avoidanceAttempted$: Observable<boolean>;
   testCategory$: Observable<TestCategory>;
+  schoolBike$: Observable<boolean>;
 }
 
 type OfficePageState = CommonOfficePageState & CatMod1MOfficePageState;
@@ -164,6 +167,10 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
         map((testCategory) => testCategory as TestCategory),
+      ),
+      schoolBike$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getSchoolBike),
       ),
     };
   }

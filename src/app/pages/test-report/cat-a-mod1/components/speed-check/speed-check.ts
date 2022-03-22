@@ -156,7 +156,6 @@ export class SpeedCheckComponent {
   };
 
   getNotMet(): boolean {
-    console.log('getNotMet');
     return this.outcome === CompetencyOutcome.S;
   }
 

@@ -95,7 +95,8 @@ import {
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
-  SchoolCarToggled,
+  SchoolBikeToggled,
+  SchoolCarToggled
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
@@ -599,6 +600,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   interpreterAccompanimentToggled(): void {
     this.store$.dispatch(InterpreterAccompanimentToggled());
+  }
+
+  schoolBikeToggled(): void {
+    this.store$.dispatch(SchoolBikeToggled());
   }
 
   otherAccompanimentToggled(): void {
