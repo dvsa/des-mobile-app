@@ -5,7 +5,7 @@
     <ion-col size="32">
         <input
                 type="tel"
-                class="speed-input first-speed-input"
+                class="speed-input first-speed-input input-styling-background"
                 id="{{competency}}FirstAttempt"
                 (input)="onFirstAttemptChange($event)"
                 [value]="getFirstAttempt()"
@@ -13,7 +13,7 @@
         />
         <input
                 type="tel"
-                class="speed-input second-speed-input"
+                class="speed-input second-speed-input input-styling-background"
                 id="{{competency}}SecondAttempt"
                 [disabled]="!firstAttemptValid()"
                 (input)="onSecondAttemptChange($event)"

@@ -1,7 +1,7 @@
 <ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="circuit-card" [formGroup]="formGroup">
-    <div class="validation-bar"></div>
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col class="component-label ion-align-self-center" size="32">
-        <label>Circuit</label>
+        <label id="circuit-label">Circuit</label>
     </ion-col>
     <ion-col class="ion-align-self-center ion-padding-start">
         <ion-row class="spacing-row"></ion-row>
@@ -17,7 +17,7 @@
                         [checked]="circuit === 'Left'"
                         (change)="circuitChanged($event.target.value)"
                 />
-                <label for="circuit-left" class="radio-label">Left</label>
+            <label for="circuit-left" class="radio-label">Left</label>
             </ion-col>
             <ion-col class="ion-align-self-center">
                 <input
@@ -34,7 +34,9 @@
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">
-            <div class="validation-text"></div>
+            <div class="validation-text" id="circuit-validation-text" [class.ng-invalid]="invalid">
+                Select the circuit
+            </div>
         </ion-row>
     </ion-col>
 </ion-row>

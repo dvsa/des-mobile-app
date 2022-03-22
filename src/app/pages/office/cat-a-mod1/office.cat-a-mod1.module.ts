@@ -15,24 +15,28 @@ import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
 import { OfficeCatAMod1PageRoutingModule } from './office.cat-a-mod1-routing.module';
 import { OfficeCatAMod1Page } from './office.cat-a-mod1.page';
+import {
+    WaitingRoomToCarComponentsModule
+} from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 
 @NgModule({
   declarations: [OfficeCatAMod1Page, CircuitComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    OfficeCatAMod1PageRoutingModule,
-    ComponentsModule,
-    OfficeComponentsModule,
-    ReactiveFormsModule,
-    DebriefComponentsModule,
-    PipesModule,
-    EffectsModule.forFeature([
-      OfficeAnalyticsEffects,
-      OfficeEffects,
-    ]),
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        OfficeCatAMod1PageRoutingModule,
+        ComponentsModule,
+        OfficeComponentsModule,
+        ReactiveFormsModule,
+        DebriefComponentsModule,
+        PipesModule,
+        EffectsModule.forFeature([
+            OfficeAnalyticsEffects,
+            OfficeEffects
+        ]),
+        WaitingRoomToCarComponentsModule
+    ],
   providers: [
     FaultSummaryProvider,
   ],

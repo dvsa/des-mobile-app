@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter, OnChanges,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
@@ -51,6 +53,10 @@ export class CircuitComponent implements OnChanges {
     if (this.formControl.valid) {
       this.circuitChange.emit(circuit);
     }
+  }
+
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
   }
 
 }
