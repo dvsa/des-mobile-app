@@ -24,7 +24,7 @@ import {
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
   PassFinalisationValidationError,
-  PassFinalisationViewDidEnter
+  PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 
 interface CatMod1PassFinalisationPageState {}
