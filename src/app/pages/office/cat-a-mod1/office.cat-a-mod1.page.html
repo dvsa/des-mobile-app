@@ -1,7 +1,7 @@
 <ion-header>
     <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
     <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-        <ion-title>Office</ion-title>
+        <ion-title id="office-page-title">Office</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -180,9 +180,7 @@
                             </div>
                         </ion-col>
                         <ion-col class="component-label ion-align-self-center">
-                            <label class="fault-label">
-                                {{drivingFault.competencyDisplayName | modifyCompetencyLabel: (pageState.testCategory$ | async):drivingFault.competencyDisplayName}}
-                            </label>
+                            <label class="fault-label">{{drivingFault.competencyDisplayName | modifyCompetencyLabel:(pageState.testCategory$ | async):drivingFault.competencyDisplayName}}</label>
                         </ion-col>
                     </ion-row>
                 </ion-card-content>

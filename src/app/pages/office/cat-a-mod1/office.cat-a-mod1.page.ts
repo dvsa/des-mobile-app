@@ -43,7 +43,6 @@ import { startsWith } from 'lodash';
 import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
-import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 
@@ -173,10 +172,6 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
         select(getSchoolBike),
       ),
     };
-  }
-
-  circuitChanged(circuit: Circuit): void {
-    this.store$.dispatch(CircuitTypeChanged(circuit));
   }
 
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary): void {

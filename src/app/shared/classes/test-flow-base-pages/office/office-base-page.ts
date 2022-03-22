@@ -119,6 +119,8 @@ import {
   getInstructorAccompaniment, getInterpreterAccompaniment, getOtherAccompaniment,
   getSupervisorAccompaniment,
 } from '@store/tests/accompaniment/accompaniment.selector';
+import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
+import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -616,6 +618,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   schoolCarToggled(): void {
     this.store$.dispatch(SchoolCarToggled());
+  }
+
+  circuitChanged(circuit: Circuit): void {
+    this.store$.dispatch(CircuitTypeChanged(circuit));
   }
 
   debriefWitnessedChanged(debriefWitnessed: boolean) {
