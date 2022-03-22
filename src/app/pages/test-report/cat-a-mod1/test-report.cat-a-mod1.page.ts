@@ -112,29 +112,8 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
     ).subscribe();
   }
 
-  async ionViewWillEnter(): Promise<void> {
-    await super.ionViewWillEnter();
-  }
-
-  ionViewDidEnter(): void {
-    super.ionViewDidEnter();
-  }
-
-  async ionViewWillLeave(): Promise<void> {
-    await super.ionViewWillLeave();
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    super.cancelSubscription();
-  }
-
   onEndTestClick = async () => {
-    let modal: HTMLIonModalElement = null;
-
-    if (modal === null) {
-      modal = await this.createEtaInvalidModal();
-    }
+    let modal: HTMLIonModalElement = await this.createEtaInvalidModal();
 
     if (modal === null) {
       modal = await this.createSpeedCheckModal();

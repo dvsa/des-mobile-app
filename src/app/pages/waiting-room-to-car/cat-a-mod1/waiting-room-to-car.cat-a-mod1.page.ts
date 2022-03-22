@@ -3,7 +3,6 @@ import { AlertController, Platform } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 
@@ -20,14 +19,8 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import {
-  WaitingRoomToCarBikeCategoryChanged,
-  WaitingRoomToCarBikeCategorySelected,
-  WaitingRoomToCarValidationError,
-} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { SchoolBikeToggled } from '@store/tests/vehicle-details/vehicle-details.actions';
 
 interface CatMod1WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -45,7 +38,6 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod1Waitin
 export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;
   form: FormGroup;
-  category: CategoryCode;
 
   constructor(
     private questionProvider: QuestionProvider,
@@ -85,14 +77,6 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
     };
   }
 
-  ionViewDidEnter(): void {
-    super.ionViewDidEnter();
-  }
-
-  ionViewWillLeave(): void {
-    super.ionViewWillLeave();
-  }
-
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
@@ -107,18 +91,5 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
       }
     });
   };
-
-  schoolBikeToggled(): void {
-    this.store$.dispatch(SchoolBikeToggled());
-  }
-
-  categoryCodeChanged(category: CategoryCode): void {
-    this.store$.dispatch(WaitingRoomToCarBikeCategorySelected(category));
-
-    if (this.category !== category) {
-      this.store$.dispatch(WaitingRoomToCarBikeCategoryChanged(category, this.category));
-    }
-    this.store$.dispatch(PopulateTestCategory(category));
-  }
 
 }
