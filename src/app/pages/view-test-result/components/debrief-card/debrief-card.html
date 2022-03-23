@@ -66,13 +66,14 @@
                     *ngIf="!delegatedTest"
                     [label]="'Show me question(s)'"
                     [data]="showMeQuestions"
-                    [shouldHaveSeperator]="false">
+                    [shouldHaveSeperator]=" isMod1()">
             </vehicle-checks-data-row>
 
             <speed-card
                     *ngIf="isMod1()"
                     [emergencyStop]="data['emergencyStop']"
-                    [avoidance]="data['avoidance']">
+                    [avoidance]="data['avoidance']"
+                    [shouldHaveSeperator]="false">
             </speed-card>
 
             <safety-and-balance-data-row
