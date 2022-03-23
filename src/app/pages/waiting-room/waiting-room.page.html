@@ -49,8 +49,8 @@
         </conducted-language>
 
         <div [ngClass]="{
-            'mes-full-width-card-no-padding-top': manoeuvresPassCertNumber || cbtNumber,
-            'mes-full-width-card': !manoeuvresPassCertNumber || !cbtNumber
+            'mes-full-width-card-no-padding-top': ((pageState.showManoeuvresPassCertNumber$ | async) || (pageState.showCbtNumber$ | async)),
+            'mes-full-width-card': (!(pageState.showManoeuvresPassCertNumber$ | async) && !(pageState.showCbtNumber$ | async))
         }" id="declaration-section">
             <ion-row>
                 <ion-col>
