@@ -16,9 +16,8 @@ import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
-// TODO: MES-7147 reinstate pages & selector when they have been implemented
 import { HomeTestData } from '@pages/office/cat-home-test/office.cat-home-test.page';
-// import { getSpeedRequirementNotMet } from '../../modules/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
+import { getSpeedRequirementNotMet } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { FaultCountProvider } from '../fault-count/fault-count';
@@ -155,9 +154,9 @@ export class TestResultProvider {
     category: TestCategory,
     testData: TestDataAM1,
   ): Observable<ActivityCode> => {
-    /* if (getSpeedRequirementNotMet(testData)) {
+    if (getSpeedRequirementNotMet(testData)) {
       return of(ActivityCodes.FAIL_PUBLIC_SAFETY);
-    } */
+    }
     if (this.faultCountProvider.getDangerousFaultSumCount(category, testData) > 0) {
       return of(ActivityCodes.FAIL);
     }

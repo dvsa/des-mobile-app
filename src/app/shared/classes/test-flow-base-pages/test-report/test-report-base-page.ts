@@ -17,7 +17,7 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import {
@@ -160,7 +160,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestCategory))),
         map(([testData, category]) => this.getTestRequirements(testData, category)),
-        tap(console.info),
       ),
       category$: currentTest$.pipe(
         select(getTestCategory),
