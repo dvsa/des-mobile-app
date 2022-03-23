@@ -1,5 +1,6 @@
 import { TestSummary } from '@dvsa/mes-test-schema/categories/AM2';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
+import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as fromMod2fromTestSummaryActions from './test-summary.cat-a-mod2.actions';
 import * as fromTestSummaryActions from '../test-summary.actions';
 
@@ -13,10 +14,15 @@ export const initialState : TestSummary = {
   debriefWitnessed: null,
   D255: null,
   identification: 'Licence',
+  trueLikenessToPhoto: null,
 };
 
 export const testSummaryMod2Reducer = createReducer(
   initialState,
+  on(testSummaryActions.TrueLikenessToPhotoChanged, (state, { trueLikeness }): TestSummary => ({
+    ...state,
+    trueLikenessToPhoto: trueLikeness,
+  })),
   on(fromTestSummaryActions.AdditionalInformationChanged, (state, {
     additionalInformation,
   }): TestSummary => ({

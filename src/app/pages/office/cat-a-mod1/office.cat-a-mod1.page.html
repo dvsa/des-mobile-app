@@ -92,6 +92,14 @@
                               (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
                         </accompaniment-card>
 
+                        <vehicle-details-card
+                          [formGroup]="form"
+                          [hideSchoolVehicleAndDualControlRow]="true"
+                          [hideSchoolBikeRow]="false"
+                          [schoolVehicleDetails]="pageState.schoolBike$ | async"
+                          (schoolBikeVehicleDetailsChange)="schoolBikeToggled()">
+                        </vehicle-details-card>
+
                         <additional-information
                                 [display]="pageState.displayAdditionalInformation$ | async"
                                 [additionalInformation]="pageState.additionalInformation$ | async"
