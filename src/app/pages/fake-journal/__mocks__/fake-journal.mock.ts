@@ -1563,7 +1563,7 @@ export const fakeJournalTestSlots = [
     },
     slotDetail: {
       duration: 57,
-      slotId: `${end2endPracticeSlotId}_24`,
+      slotId: `${end2endPracticeSlotId}_25`,
       start: todayAtHour(18).add(25, 'minutes').format(),
     },
     testCentre: {
@@ -1630,7 +1630,7 @@ export const fakeJournalTestSlots = [
     },
     slotDetail: {
       duration: 57,
-      slotId: `${end2endPracticeSlotId}_25`,
+      slotId: `${end2endPracticeSlotId}_26`,
       start: todayAtHour(19).add(6, 'minutes').format(),
     },
     testCentre: {
