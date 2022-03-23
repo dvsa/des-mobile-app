@@ -94,8 +94,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   formGroup: FormGroup;
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalData>;
-  cbtNumber: string;
-  manoeuvresPassCertNumber: string;
 
   constructor(
     platform: Platform,
@@ -205,8 +203,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     const {
       welshTest$,
       conductedLanguage$,
-      cbtNumber$,
-      manoeuvresPassCertNumber$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -220,8 +216,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       ),
       welshTest$,
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
-      manoeuvresPassCertNumber$.pipe(tap((value) => this.manoeuvresPassCertNumber = value)),
-      cbtNumber$.pipe(tap((value) => this.cbtNumber = value)),
     );
   }
 
