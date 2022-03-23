@@ -1,61 +1,56 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  IonicModule, NavController, NavParams, Config, Platform, ModalController,
+  Config, IonicModule, ModalController, NavParams, Platform,
 } from '@ionic/angular';
 import {
-  NavControllerMock,
-  NavParamsMock,
-  ConfigMock,
-  PlatformMock,
-  ModalControllerMock,
+  ConfigMock, ModalControllerMock, NavParamsMock, PlatformMock,
 } from 'ionic-mocks';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { initialState } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
 import { By } from '@angular/platform-browser';
 import { StoreModule } from '@ngrx/store';
+import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import {
-  TestReportValidatorProviderMock,
-} from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { CAT_HOME_TEST, LEGAL_REQUIREMENTS_MODAL, SPECIAL_REQUIREMENT_MODAL } from '@pages/page-names.constants';
-import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
-import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
+import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
+import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { InsomniaMock } from '@shared/mocks/insomnia.mock';
+import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
+import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { configureTestSuite } from 'ng-bullet';
-import { testReportReducer } from '../../test-report.reducer';
-import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
+import { ReverseLeftPopoverComponent } from '@pages/test-report/components/reverse-left-popover/reverse-left-popover';
+import { ReverseLeftComponent } from '@pages/test-report/components/reverse-left/reverse-left';
+import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
+import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
+import { TestReportCatHomeTestPage } from '@pages/test-report/cat-home-test/test-report.cat-home-test.page';
+import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
+import { ManoeuvreCompetencyComponent } from '../../components/manoeuvre-competency/manoeuvre-competency';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
-import { EcoComponent } from '../../components/eco/eco';
-import { ModalEvent } from '../../test-report.constants';
-import { UncoupleRecoupleComponent } from '../../components/uncouple-recouple/uncouple-recouple';
-import { VehicleChecksComponent } from '../components/vehicle-checks/vehicle-checks';
+import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
+import { testReportReducer } from '../../test-report.reducer';
 import { ToolbarComponent } from '../../components/toolbar/toolbar';
 import { DrivingFaultSummaryComponent } from '../../components/driving-fault-summary/driving-fault-summary';
 import { CompetencyButtonComponent } from '../../components/competency-button/competency-button';
 import { CompetencyComponent } from '../../components/competency/competency';
-import { ReverseLeftPopoverComponent } from '../../components/reverse-left-popover/reverse-left-popover';
-import { ReverseLeftComponent } from '../../components/reverse-left/reverse-left';
-import { TestReportCatHomeTestPage } from '../test-report.cat-home-test.page';
-import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
-import { HighwayCodeSafetyComponent } from '../../components/highway-code-safety/highway-code-safety';
+import { EcoComponent } from '../../components/eco/eco';
 
 describe('TestReportCatHomeTestPage', () => {
   let fixture: ComponentFixture<TestReportCatHomeTestPage>;
   let component: TestReportCatHomeTestPage;
-  let navController: NavController;
-  let modalController: ModalController;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [TestReportCatHomeTestPage,
+      declarations: [
+        TestReportCatHomeTestPage,
+        MockComponent(ReverseLeftPopoverComponent),
+        MockComponent(ReverseLeftComponent),
         MockComponent(TickIndicatorComponent),
         MockComponent(CompetencyComponent),
         MockComponent(CompetencyButtonComponent),
@@ -63,13 +58,12 @@ describe('TestReportCatHomeTestPage', () => {
         MockComponent(EtaComponent),
         MockComponent(DrivingFaultSummaryComponent),
         MockComponent(ToolbarComponent),
-        MockComponent(EcoComponent),
-        MockComponent(UncoupleRecoupleComponent),
-        MockComponent(ReverseLeftComponent),
-        MockComponent(ReverseLeftPopoverComponent),
-        MockComponent(VehicleChecksComponent),
         MockComponent(ControlledStopComponent),
-        MockComponent(HighwayCodeSafetyComponent),
+        MockComponent(ManoeuvreCompetencyComponent),
+        MockComponent(VehicleChecksComponent),
+        MockComponent(EcoComponent),
+        MockComponent(PracticeModeBanner),
+        MockComponent(UncoupleRecoupleComponent),
       ],
       imports: [
         IonicModule,
@@ -82,7 +76,6 @@ describe('TestReportCatHomeTestPage', () => {
             testStatus: {},
             startedTests: {
               123: {
-                category: 'F',
                 testData: initialState,
                 journalData: {
                   candidate: candidateMock,
@@ -93,7 +86,6 @@ describe('TestReportCatHomeTestPage', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        { provide: NavController, useFactory: () => NavControllerMock.instance() },
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -101,76 +93,24 @@ describe('TestReportCatHomeTestPage', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
         { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
-        { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
+        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
+        { provide: Insomnia, useClass: InsomniaMock },
       ],
     });
   });
 
-  beforeEach((() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(TestReportCatHomeTestPage);
     component = fixture.componentInstance;
-  }));
-
-  describe('DOM', () => {
-    describe('getCallback', () => {
-      it('should return the callback method', () => {
-        const toggleReportOverlaySpy = spyOn(component, 'toggleReportOverlay').and.callThrough();
-        component.getCallback().callbackMethod();
-        expect(toggleReportOverlaySpy).toHaveBeenCalled();
-        expect(component.displayOverlay).toEqual(true);
-      });
-    });
-
-    describe('When the category is K', () => {
-      it('should not show the manoeuvre button', () => {
-        component.testCategory = TestCategory.K;
-        const result = component.showManoeuvreButton();
-        expect(result).toEqual(false);
-      });
-
-      it('should not show the special requirement modal', () => {
-        const { calls } = modalController.create as jasmine.Spy;
-        component.testCategory = TestCategory.K;
-        component.manoeuvresCompleted = false;
-        component.isTestReportValid = true;
-        component.isEtaValid = true;
-        component.onEndTestClick();
-        expect(calls
-          .argsFor(0)[0]).toBe('EndTestModal');
-      });
-    });
-
-    describe('When the category is not K', () => {
-      it('should show the manoeuvre button', () => {
-        component.testCategory = TestCategory.F;
-        const result = component.showManoeuvreButton();
-        expect(result).toEqual(true);
-      });
-    });
-
-    describe('onModalDismiss', () => {
-      it('should navigate to debrief page when passed a CONTINUE event', () => {
-        component.onModalDismiss(ModalEvent.CONTINUE);
-        const { calls } = navController.navigateForward as jasmine.Spy;
-        expect(calls.argsFor(0)[0]).toBe(CAT_HOME_TEST.DEBRIEF_PAGE);
-      });
-
-      it('should navigate to debrief page when passed a TERMINATE event', () => {
-        component.onModalDismiss(ModalEvent.TERMINATE);
-        const { calls } = navController.navigateForward as jasmine.Spy;
-        expect(calls.argsFor(0)[0]).toBe(CAT_HOME_TEST.DEBRIEF_PAGE);
-      });
-    });
   });
 
   describe('DOM', () => {
-
     describe('Fault Modes Styling', () => {
       it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
       });
-      it('should have serious fault mode styles applied when serious mode is enabled', async () => {
+      it('should have serious fault mode styles applied when serious mode is enabled', () => {
         component.isSeriousMode = true;
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
@@ -178,7 +118,6 @@ describe('TestReportCatHomeTestPage', () => {
       });
       it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
         component.isDangerousMode = true;
-        component.testCategory = TestCategory.F;
         fixture.detectChanges();
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
@@ -193,45 +132,6 @@ describe('TestReportCatHomeTestPage', () => {
       endTestButton.triggerEventHandler('click', null);
       expect(component.onEndTestClick).toHaveBeenCalled();
     });
-
-    describe('when the test report is invalid', () => {
-      it('should show the Legal Requirements modal', () => {
-        const { calls } = modalController.create as jasmine.Spy;
-        const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
-        component.testCategory = TestCategory.K;
-        component.isTestReportValid = false;
-        endTestButton.triggerEventHandler('click', null);
-        expect(calls
-          .argsFor(0)[0]).toBe(LEGAL_REQUIREMENTS_MODAL);
-      });
-    });
-
-    describe('when ETA is invalid', () => {
-      it('should show the ETA invalid modal', () => {
-        const { calls } = modalController.create as jasmine.Spy;
-        const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
-        component.testCategory = TestCategory.K;
-        component.isTestReportValid = true;
-        component.isEtaValid = false;
-        endTestButton.triggerEventHandler('click', null);
-        expect(calls
-          .argsFor(0)[0]).toBe('EtaInvalidModal');
-      });
-    });
-
-    describe('when the manoeuvres are incomplete and the category is not K', () => {
-      it('should show the special requirement modal', () => {
-        const { calls } = modalController.create as jasmine.Spy;
-        const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
-        component.testCategory = TestCategory.F;
-        component.manoeuvresCompleted = false;
-        component.isTestReportValid = true;
-        component.isEtaValid = true;
-        endTestButton.triggerEventHandler('click', null);
-        expect(calls
-          .argsFor(0)[0]).toBe(SPECIAL_REQUIREMENT_MODAL);
-      });
-    });
-
   });
+
 });
