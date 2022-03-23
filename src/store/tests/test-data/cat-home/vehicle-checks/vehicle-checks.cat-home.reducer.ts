@@ -37,9 +37,7 @@ export const vehicleChecksCatHomeReducer = createReducer(
     index,
   }) => ({
     ...state,
-    tellMeQuestions: state.tellMeQuestions.map(
-      (item, itemIndex) => (index === itemIndex ? tellMeQuestion : item),
-    ),
+    tellMeQuestions: state.tellMeQuestions.map((item, i) => (i === index ? tellMeQuestion : item)),
   })),
   on(vehicleChecksCatHomeActionTypes.TellMeQuestionOutcomeChanged, (state, {
     tellMeQuestionOutcome,

@@ -1,18 +1,21 @@
-import { ModalController, NavController, NavParams } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+import { FormGroup } from '@angular/forms';
+import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { map } from 'rxjs/operators';
+import { merge } from 'rxjs/observable/merge';
+import { Subscription } from 'rxjs/Subscription';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/cat-home/candidate/candidate.cat-home.reducer';
 import { getUntitledCandidateName }
   from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { Observable } from 'rxjs/Observable';
-import { FormGroup } from '@angular/forms';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   getVehicleChecksCatHomeTest,
   getSelectedShowMeQuestions,
@@ -26,10 +29,6 @@ import {
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { map } from 'rxjs/operators';
-import { merge } from 'rxjs/observable/merge';
-import { Subscription } from 'rxjs/Subscription';
-import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS,
 } from '@shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
@@ -64,17 +63,15 @@ export class VehicleChecksCatHomeTestModal {
 
   constructor(
     public store$: Store<StoreModel>,
-    private navController: NavController,
-    private faultCountProvider: FaultCountProvider,
-    private testDataByCategoryProvider: TestDataByCategoryProvider,
-    private questionProvider: QuestionProvider,
     private modalCtrl: ModalController,
+    private faultCountProvider: FaultCountProvider,
+    private questionProvider: QuestionProvider,
     params: NavParams,
   ) {
     this.category = params.get('category');
     this.formGroup = new FormGroup({});
-    this.showMeQuestions = questionProvider.getShowMeQuestions(this.category);
-    this.tellMeQuestions = questionProvider.getTellMeQuestions(this.category);
+    this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
+    this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
   }
 
   ngOnInit(): void {
@@ -127,11 +124,11 @@ export class VehicleChecksCatHomeTestModal {
     this.store$.dispatch(vehicleChecksModalActions.VehicleChecksViewDidEnter());
   }
 
-  async onSubmit() {
+  async onClose() {
     await this.modalCtrl.dismiss();
   }
 
-  async onClose() {
+  async onSubmit() {
     await this.modalCtrl.dismiss();
   }
 

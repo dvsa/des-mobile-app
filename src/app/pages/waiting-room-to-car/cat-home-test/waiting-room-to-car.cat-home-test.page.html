@@ -22,11 +22,11 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-grid>
-        <eyesight-test [formGroup]="form"
-                       *ngIf="pageState.showEyesight$ | async"
-                       [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
-                       [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
-                       (eyesightTestResultChange)="eyesightTestResultChanged($event)">
+        <eyesight-test
+          [formGroup]="form"
+          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+          [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
+          (eyesightTestResultChange)="eyesightTestResultChanged($event)">
         </eyesight-test>
 
         <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
@@ -35,7 +35,7 @@
           </eyesight-failure-confirmation>
         </ion-row>
 
-        <ion-row class="ion-no-padding" id="post-eyesight-form-content" *ngIf="!(pageState.eyesightTestFailed$ | async)">
+        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
             <vehicle-registration
                     [formGroup]="form"
@@ -46,13 +46,13 @@
             <test-category [testCategory]="pageState.category$ | async"></test-category>
 
             <vehicle-checks-vocational
-                [formGroup]="form"
-                [category]="pageState.category$ | async"
-                [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-                [vehicleChecks]="pageState.vehicleChecks$ | async"
-                (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-                [fullLicenceHeld]="false">
-            </vehicle-checks-vocational>
+              [formGroup]="form"
+              [fullLicenceHeld]="false"
+              [category]="pageState.category$ | async"
+              [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
+              [vehicleChecks]="pageState.vehicleChecks$ | async"
+              (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
+            ></vehicle-checks-vocational>
 
             <accompaniment-card
                     [formGroup]="form"
