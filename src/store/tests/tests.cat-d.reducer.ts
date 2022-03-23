@@ -1,11 +1,13 @@
 import { Action, combineReducers } from '@ngrx/store';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { preTestDeclarationsReducer } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';
 import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
 import { journalDataCatDReducer } from '@store/tests/journal-data/cat-d/journal-data.cat-d.reducer';
 import { vehicleDetailsCatDReducer } from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
 import { passCompletionCatDReducer } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.reducer';
+import {
+  preTestDeclarationsCatDReducer,
+} from '@store/tests/pre-test-declarations/cat-d/pre-test-declarations.cat-d.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
 import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
@@ -33,7 +35,7 @@ export function testsCatDReducer(
       category: categoryReducer,
       activityCode: activityCodeReducer,
       journalData: journalDataCatDReducer,
-      preTestDeclarations: preTestDeclarationsReducer,
+      preTestDeclarations: preTestDeclarationsCatDReducer,
       accompaniment: accompanimentReducer,
       vehicleDetails: vehicleDetailsCatDReducer,
       passCompletion: passCompletionCatDReducer,
