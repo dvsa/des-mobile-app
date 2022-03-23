@@ -96,7 +96,7 @@ import {
   DualControlsToggled,
   GearboxCategoryChanged,
   SchoolBikeToggled,
-  SchoolCarToggled
+  SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
