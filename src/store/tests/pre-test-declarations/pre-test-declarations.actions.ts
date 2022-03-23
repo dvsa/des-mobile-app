@@ -29,3 +29,8 @@ export const SetDeclarationStatus = createAction(
   '[PreTestDeclarations] Setting the residency and insurance declaration',
   (declarationStatus: boolean) => ({ declarationStatus }),
 );
+
+export const ManoeuvresPassCertNumberChanged = createAction(
+  '[PreTestDeclarations] Manoeuvres pass certificate number changed',
+  (manoeuvrePassCertificateNumber: string) => ({ manoeuvrePassCertificateNumber }),
+);

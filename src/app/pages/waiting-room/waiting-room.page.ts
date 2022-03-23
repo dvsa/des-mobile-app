@@ -8,8 +8,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { Observable, merge, Subscription } from 'rxjs';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import * as preTestDeclarationsActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
-import * as catCPreTestDeclarationsActions
-  from '@store/tests/pre-test-declarations/cat-c/pre-test-declarations.cat-c.actions';
 import {
   getInsuranceDeclarationStatus,
   getResidencyDeclarationStatus,
@@ -173,8 +171,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       ),
       showManoeuvresPassCertNumber$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) =>
-          isAnyOf(category, [TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E])),
+        map((category) => isAnyOf(category, [
+          TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
+          TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E,
+        ])),
       ),
       manoeuvresPassCertNumber$: currentTest$.pipe(
         select(getPreTestDeclarations),
@@ -231,7 +231,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   };
 
   manoeuvresPassCertNumberChanged(manoeuvresPassCert: string): void {
-    this.store$.dispatch(catCPreTestDeclarationsActions.ManoeuvresPassCertNumberChanged(manoeuvresPassCert));
+    this.store$.dispatch(preTestDeclarationsActions.ManoeuvresPassCertNumberChanged(manoeuvresPassCert));
   }
 
   signatureChanged(signature: string): void {
