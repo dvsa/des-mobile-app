@@ -201,6 +201,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   showDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [
     TestCategory.B, // Cat B
     TestCategory.BE, // Cat BE
+    TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1,
     TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C
     TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home

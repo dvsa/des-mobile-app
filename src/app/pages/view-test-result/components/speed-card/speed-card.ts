@@ -9,6 +9,9 @@ import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 export class SpeedCardComponent {
 
   @Input()
+  shouldHaveSeperator: boolean = true;
+
+  @Input()
   public emergencyStop: EmergencyStop;
 
   @Input()
