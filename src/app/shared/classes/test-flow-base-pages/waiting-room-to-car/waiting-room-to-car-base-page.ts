@@ -19,11 +19,15 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-de
 import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { WaitingRoomToCarViewDidEnter } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import {
+  WaitingRoomToCarBikeCategoryChanged,
+  WaitingRoomToCarBikeCategorySelected,
+  WaitingRoomToCarViewDidEnter,
+} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
   DualControlsToggled,
-  GearboxCategoryChanged,
+  GearboxCategoryChanged, SchoolBikeToggled,
   SchoolCarToggled,
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
@@ -58,6 +62,7 @@ import {
 } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -222,6 +227,19 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   eyesightTestResultChanged(passed: boolean): void {
     this.store$.dispatch(passed ? EyesightTestPassed() : EyesightTestFailed());
+  }
+
+  schoolBikeToggled(): void {
+    this.store$.dispatch(SchoolBikeToggled());
+  }
+
+  categoryCodeChanged(category: CategoryCode): void {
+    this.store$.dispatch(WaitingRoomToCarBikeCategorySelected(category));
+
+    if (this.testCategory !== category) {
+      this.store$.dispatch(WaitingRoomToCarBikeCategoryChanged(category, this.testCategory));
+    }
+    this.store$.dispatch(PopulateTestCategory(category));
   }
 
   async onViewTestCentreJournal(): Promise<void> {

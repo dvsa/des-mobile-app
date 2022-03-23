@@ -1,0 +1,18 @@
+:host {
+  .input-header {
+    color: var(--gds-black);
+
+    .text-zoom-regular &,
+    .text-zoom-large &,
+    .text-zoom-x-large & {
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 25px;
+      margin-left: 50px;
+    }
+
+    .second {
+      margin-left: 50px;
+    }
+  }
+}

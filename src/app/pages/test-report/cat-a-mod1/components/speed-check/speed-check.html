@@ -1,0 +1,36 @@
+<ion-row class="speed-check-wrapper">
+    <ion-col size="32">
+        <single-fault-competency [competency]="pairedCompetency"></single-fault-competency>
+    </ion-col>
+    <ion-col size="32">
+        <input
+                type="tel"
+                class="speed-input first-speed-input input-styling-background"
+                id="{{competency}}FirstAttempt"
+                (input)="onFirstAttemptChange($event)"
+                [value]="getFirstAttempt()"
+                [maxLength]="speedCheckValidator.maxLength"
+        />
+        <input
+                type="tel"
+                class="speed-input second-speed-input input-styling-background"
+                id="{{competency}}SecondAttempt"
+                [disabled]="!firstAttemptValid()"
+                (input)="onSecondAttemptChange($event)"
+                [value]="getSecondAttempt()"
+                [maxLength]="speedCheckValidator.maxLength"
+        />
+    </ion-col>
+    <ion-col size="16">
+        <competency-button
+                [onTap]="toggleNotMet"
+                [redBorder]="getNotMet()">
+            <span class="not-met" id="{{competency}}Met">Not met</span>
+        </competency-button>
+    </ion-col>
+</ion-row>
+<ion-row>
+    <ion-col class="ion-no-padding">
+        <div class="dark-divider"></div>
+    </ion-col>
+</ion-row>

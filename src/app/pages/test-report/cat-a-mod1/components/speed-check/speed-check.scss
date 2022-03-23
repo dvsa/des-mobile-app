@@ -1,0 +1,33 @@
+:host {
+  .speed-check-wrapper {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .speed-input {
+    width: 60px;
+    font-size: 18px;
+    font-weight: 700;
+
+    &.first-speed-input {
+      margin-left: 50px;
+    }
+
+    &.second-speed-input {
+      margin-left: 22px;
+    }
+  }
+
+  .competency-button-wrapper {
+    display: flex; // this styling is neccessary to ensure z-index
+  }
+
+  competency-button.speed-check-competency {
+    flex-flow: column; // works on competency buttons
+  }
+
+  .not-met {
+    width: 100%;
+    justify-content: center;
+  }
+}

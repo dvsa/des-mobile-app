@@ -95,6 +95,7 @@ import {
 import {
   DualControlsToggled,
   GearboxCategoryChanged,
+  SchoolBikeToggled,
   SchoolCarToggled,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { HealthDeclarationAccepted } from '@store/tests/post-test-declarations/post-test-declarations.actions';
@@ -118,6 +119,8 @@ import {
   getInstructorAccompaniment, getInterpreterAccompaniment, getOtherAccompaniment,
   getSupervisorAccompaniment,
 } from '@store/tests/accompaniment/accompaniment.selector';
+import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
+import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -601,6 +604,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     this.store$.dispatch(InterpreterAccompanimentToggled());
   }
 
+  schoolBikeToggled(): void {
+    this.store$.dispatch(SchoolBikeToggled());
+  }
+
   otherAccompanimentToggled(): void {
     this.store$.dispatch(OtherAccompanimentToggled());
   }
@@ -611,6 +618,10 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
 
   schoolCarToggled(): void {
     this.store$.dispatch(SchoolCarToggled());
+  }
+
+  circuitChanged(circuit: Circuit): void {
+    this.store$.dispatch(CircuitTypeChanged(circuit));
   }
 
   debriefWitnessedChanged(debriefWitnessed: boolean) {
