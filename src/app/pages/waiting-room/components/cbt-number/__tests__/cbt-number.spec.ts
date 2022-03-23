@@ -41,19 +41,19 @@ describe('CBTNumberComponent', () => {
       it('should be invalid the length is greater then 7', () => {
         component.cbtNumber = '12345678';
         component.ngOnChanges();
-        const result: boolean = component.invalid();
+        const result: boolean = component.invalid;
         expect(result).toEqual(false);
       });
       it('should be invalid when the length is less then 7', () => {
         component.cbtNumber = '1234';
         component.ngOnChanges();
-        const result: boolean = component.invalid();
+        const result: boolean = component.invalid;
         expect(result).toEqual(false);
       });
       it('should be invalid when the field when it is empty', () => {
         component.cbtNumber = '';
         component.ngOnChanges();
-        const result: boolean = component.invalid();
+        const result: boolean = component.invalid;
         expect(result).toEqual(false);
       });
     });

@@ -1,44 +1,46 @@
-.category-selector-link {
-  color: #3572b0;
-  background: transparent;
-  font-size: 23px;
-  text-decoration: underline;
-  text-underline-position: under;
-  font-weight: 500;
-  line-height: 20px;
-}
+:host {
+  .category-selector-link {
+    color: #3572b0;
+    background: transparent;
+    font-size: 23px;
+    text-decoration: underline;
+    text-underline-position: under;
+    font-weight: 500;
+    line-height: 20px;
+  }
 
-.selected-category-code {
-  font-weight: 600;
-  font-size: 23px;
-  align-items: center;
-}
+  .selected-category-code {
+    font-weight: 600;
+    font-size: 23px;
+    align-items: center;
+  }
 
-ion-icon {
-  font-size: 14px;
-  font-weight: bold;
-}
+  ion-icon {
+    font-size: 14px;
+    font-weight: bold;
+  }
 
-.category-selector-link-container {
-  text-align: right;
-  padding-right: 24px;
-}
+  .category-selector-link-container {
+    text-align: right;
+    padding-right: 24px;
+  }
 
-.mes-return-button {
-  min-width: 250px;
-  margin-bottom: 0;
-}
+  .mes-return-button {
+    min-width: 250px;
+    margin-bottom: 0;
+  }
 
-.bike-image {
-  width: 40px;
-  height: 25px;
-  text-align: right;
-  vertical-align: middle;
-  float: right;
-  margin-right: 15px;
-}
+  .bike-image {
+    width: 40px;
+    height: 25px;
+    text-align: right;
+    vertical-align: middle;
+    float: right;
+    margin-right: 15px;
+  }
 
-.bike-code {
-  width: 50px;
-  display: inline-block;
+  .bike-code {
+    width: 50px;
+    display: inline-block;
+  }
 }

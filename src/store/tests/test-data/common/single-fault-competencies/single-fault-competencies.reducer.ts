@@ -15,13 +15,15 @@ export const singleFaultCompetenciesReducer = createReducer(
     ...state,
     [competencyName]: outcome,
   })),
-  on(singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome,
+  on(
+    singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome,
     singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome,
     singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome, (state, {
       competencyName,
     }): SingleFaultCompetencies => ({
       ...omit(state, competencyName),
-    })),
+    }),
+  ),
   on(singleFaultCompetencyActions.AddSingleFaultCompetencyComment, (state, {
     competencyName,
     comment,

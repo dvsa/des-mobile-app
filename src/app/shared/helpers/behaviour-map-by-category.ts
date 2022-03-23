@@ -6,6 +6,7 @@ import { behaviourMap as CatCBehaviourMap } from '@pages/office/office-behaviour
 import { behaviourMap as CatCPCBehaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
 import { behaviourMap as CatDBehaviourMap } from '@pages/office/office-behaviour-map.cat-d';
 import { behaviourMap as CatManoeuvreBehaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
+import { behaviourMap as CatMod1BehaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
 
 export const getBehaviourMapByCategory = (testCategory: TestCategory): OutcomeBehaviourMapping => {
   switch (testCategory) {
@@ -35,6 +36,11 @@ export const getBehaviourMapByCategory = (testCategory: TestCategory): OutcomeBe
     case TestCategory.CCPC:
     case TestCategory.DCPC:
       return CatCPCBehaviourMap;
+    case TestCategory.EUAMM1:
+    case TestCategory.EUA1M1:
+    case TestCategory.EUA2M1:
+    case TestCategory.EUAM1:
+      return CatMod1BehaviourMap;
     default:
       console.error(`Missing behaviour map for category: ${testCategory}`);
       return null;
