@@ -11,7 +11,6 @@ import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
 import { configureTestSuite } from 'ng-bullet';
-import { Subscription } from 'rxjs';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
@@ -36,8 +35,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TransmissionType } from '@shared/models/transmission-type';
 import { PersistTests } from '@store/tests/tests.actions';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
@@ -53,41 +50,6 @@ describe('PassFinalisationCatHomeTestPage', () => {
   let component: PassFinalisationCatHomeTestPage;
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
-
-  const automaticManualBannerConditions = [
-    {
-      category: TestCategory.F,
-      code78: true,
-      transmission: TransmissionType.Automatic,
-      automaticBanner: true,
-      manualBanner: false,
-      desc: 'Automatic banner shown when automatic transmission and code78 present',
-    },
-    {
-      category: TestCategory.G,
-      code78: false,
-      transmission: TransmissionType.Automatic,
-      automaticBanner: false,
-      manualBanner: true,
-      desc: 'Manual banner shown when automatic transmission and no code78 present',
-    },
-    {
-      category: TestCategory.H,
-      code78: false,
-      transmission: TransmissionType.Manual,
-      automaticBanner: false,
-      manualBanner: true,
-      desc: 'Manual banner shown when manual transmission and no code78 present',
-    },
-    {
-      category: TestCategory.K,
-      code78: true,
-      transmission: TransmissionType.Manual,
-      automaticBanner: false,
-      manualBanner: true,
-      desc: 'Manual banner shown when manual transmission and code78 present',
-    },
-  ];
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -125,7 +87,6 @@ describe('PassFinalisationCatHomeTestPage', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
-    component.subscription = new Subscription();
   }));
 
   describe('Class', () => {

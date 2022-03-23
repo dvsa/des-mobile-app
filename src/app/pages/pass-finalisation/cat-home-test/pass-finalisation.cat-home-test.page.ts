@@ -1,18 +1,15 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import {
-  PassCertificateNumberChanged,
-} from '@store/tests/pass-completion/pass-completion.actions';
-import { Observable, Subscription } from 'rxjs';
 import { PersistTests } from '@store/tests/tests.actions';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
+  CommonPassFinalisationPageState,
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { Router } from '@angular/router';
@@ -24,19 +21,8 @@ import {
 } from '../pass-finalisation.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
 
-interface PassFinalisationPageState {
-  candidateName$: Observable<string>;
-  candidateUntitledName$: Observable<string>;
-  candidateDriverNumber$: Observable<string>;
-  testOutcomeText$: Observable<string>;
-  applicationNumber$: Observable<string>;
-  provisionalLicense$: Observable<boolean>;
-  passCertificateNumber$: Observable<string>;
-  d255$: Observable<boolean>;
-  debriefWitnessed$: Observable<boolean>;
-  conductedLanguage$: Observable<string>;
-  eyesightTestFailed$: Observable<boolean>;
-}
+interface CatCPassFinalisationPageState {}
+type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-home-test',
@@ -45,13 +31,8 @@ interface PassFinalisationPageState {
 })
 export class PassFinalisationCatHomeTestPage extends PassFinalisationPageComponent {
   pageState: PassFinalisationPageState;
-  passCertificateCtrl: string = PASS_CERTIFICATE_NUMBER_CTRL;
-  // @ViewChild('passCertificateNumberInput')
-  passCertificateNumberInput: ElementRef;
   testOutcome: string = ActivityCodes.PASS;
   form: FormGroup;
-  merged$: Observable<string>;
-  subscription: Subscription;
 
   constructor(
     platform: Platform,
@@ -81,7 +62,6 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
-      // this.navController.push(CAT_HOME_TEST.HealthDeclarationPage);
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }
@@ -94,9 +74,5 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
         this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
       }
     });
-  }
-
-  passCertificateNumberChanged(passCertificateNumber: string): void {
-    this.store$.dispatch(PassCertificateNumberChanged(passCertificateNumber));
   }
 }

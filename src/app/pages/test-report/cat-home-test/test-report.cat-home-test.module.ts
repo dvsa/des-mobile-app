@@ -43,4 +43,4 @@ import { TestReportCatHomeTestPage } from './test-report.cat-home-test.page';
     TestResultProvider,
   ],
 })
-export class TestReportCatHomeTestPageModule { }
+export class TestReportCatHomeTestPageModule {}
