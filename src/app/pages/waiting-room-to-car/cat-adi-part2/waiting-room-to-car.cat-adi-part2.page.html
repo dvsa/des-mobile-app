@@ -32,17 +32,18 @@
           </eyesight-failure-confirmation>
         </ion-row>
 
-        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async"
-                 id="post-eyesight-form-content">
+        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
+            <test-category [testCategory]="pageState.category$ | async"></test-category>
+
             <vehicle-checks-vocational
               [formGroup]="form"
               [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
               [vehicleChecks]="pageState.vehicleChecks$ | async"
               [category]="pageState.category$ | async"
               [fullLicenceHeld]="false"
-              (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-            ></vehicle-checks-vocational>
+              (onCloseVehicleChecksModal)="closeVehicleChecksModal()">
+            </vehicle-checks-vocational>
 
             <vehicle-registration
               [formGroup]="form"
@@ -53,8 +54,8 @@
             <transmission
               [formGroup]="form"
               [transmission]="pageState.transmission$ | async"
-              (transmissionChange)="transmissionChanged($event)"
-            ></transmission>
+              (transmissionChange)="transmissionChanged($event)">
+            </transmission>
 
             <accompaniment-card
               [formGroup]="form"

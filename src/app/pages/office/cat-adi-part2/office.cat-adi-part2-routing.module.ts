@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { OfficeCatAdiPart2Page } from './office.cat-adi-part2.page';
+import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: OfficeCatAdiPart2Page,
+    component: OfficeCatADI2Page,
   },
 ];
 
