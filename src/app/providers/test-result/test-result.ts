@@ -16,9 +16,8 @@ import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
-// TODO: MES-7147 reinstate pages & selector when they have been implemented
-// import { HomeTestData } from '@pages/office/cat-home-test/office.cat-home-test.page';
-// import { getSpeedRequirementNotMet } from '../../modules/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
+import { HomeTestData } from '@pages/office/cat-home-test/office.cat-home-test.page';
+import { getSpeedRequirementNotMet } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { FaultCountProvider } from '../fault-count/fault-count';
@@ -68,13 +67,11 @@ export class TestResultProvider {
       case TestCategory.EUA2M2:
       case TestCategory.EUAMM2:
         return this.calculateCatEUAM2AndSubCategoryTestResult(TestCategory.EUAM2, testData as TestDataAM2);
-      /*
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
       case TestCategory.K:
         return this.calculateCatHomeTestResult(category, testData);
-      */
       default:
         throw new Error(`Invalid Test Category when trying to calculate test result - ${category}`);
     }
@@ -157,9 +154,9 @@ export class TestResultProvider {
     category: TestCategory,
     testData: TestDataAM1,
   ): Observable<ActivityCode> => {
-    /* if (getSpeedRequirementNotMet(testData)) {
+    if (getSpeedRequirementNotMet(testData)) {
       return of(ActivityCodes.FAIL_PUBLIC_SAFETY);
-    } */
+    }
     if (this.faultCountProvider.getDangerousFaultSumCount(category, testData) > 0) {
       return of(ActivityCodes.FAIL);
     }
@@ -212,7 +209,6 @@ export class TestResultProvider {
     return of(ActivityCodes.PASS);
   };
 
-  /*
   private calculateCatHomeTestResult = (category: TestCategory, testData: HomeTestData): Observable<ActivityCode> => {
     if (this.faultCountProvider.getDangerousFaultSumCount(category, testData) > 0) {
       return of(ActivityCodes.FAIL);
@@ -228,7 +224,6 @@ export class TestResultProvider {
 
     return of(ActivityCodes.PASS);
   };
-  */
 
   private calculateCatCPCTestResult = (testData: TestData): Observable<ActivityCode> => {
     const {

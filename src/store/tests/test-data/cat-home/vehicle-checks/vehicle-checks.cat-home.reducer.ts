@@ -13,22 +13,36 @@ export const initialState: VehicleChecksUnion = {
 
 export const vehicleChecksCatHomeReducer = createReducer(
   initialState,
-  on(vehicleChecksCatHomeActionTypes.ShowMeQuestionSelected, (state, { showMeQuestion, index }) => ({
+  on(vehicleChecksCatHomeActionTypes.ShowMeQuestionSelected, (state, {
+    showMeQuestion,
+    index,
+  }) => ({
     ...state,
-    showMeQuestions: state.showMeQuestions.map((item, localIndex) => localIndex === index ? showMeQuestion : item),
-  })),
-  on(vehicleChecksCatHomeActionTypes.ShowMeQuestionOutcomeChanged, (state, { showMeQuestionOutcome, index }) => ({
-    ...state,
-    showMeQuestions: state.showMeQuestions.map((item, localIndex) => localIndex === index
-      ? { ...item, outcome: showMeQuestionOutcome } : item),
-  })),
-  on(vehicleChecksCatHomeActionTypes.TellMeQuestionSelected, (state, { tellMeQuestion, index }) => ({
-    ...state,
-    tellMeQuestions: state.tellMeQuestions.map(
-      (item, localIndex) => localIndex === index ? tellMeQuestion : item,
+    showMeQuestions: state.showMeQuestions.map(
+      (item, itemIndex) => (index === itemIndex ? showMeQuestion : item),
     ),
   })),
-  on(vehicleChecksCatHomeActionTypes.TellMeQuestionOutcomeChanged, (state, { tellMeQuestionOutcome, index }) => ({
+  on(vehicleChecksCatHomeActionTypes.ShowMeQuestionOutcomeChanged, (state, {
+    showMeQuestionOutcome,
+    index,
+  }) => ({
+    ...state,
+    showMeQuestions: state.showMeQuestions.map((item, itemIndex) => (index === itemIndex ? {
+      ...item,
+      outcome: showMeQuestionOutcome,
+    } : item)),
+  })),
+  on(vehicleChecksCatHomeActionTypes.TellMeQuestionSelected, (state, {
+    tellMeQuestion,
+    index,
+  }) => ({
+    ...state,
+    tellMeQuestions: state.tellMeQuestions.map((item, i) => (i === index ? tellMeQuestion : item)),
+  })),
+  on(vehicleChecksCatHomeActionTypes.TellMeQuestionOutcomeChanged, (state, {
+    tellMeQuestionOutcome,
+    index,
+  }) => ({
     ...state,
     tellMeQuestions: state.tellMeQuestions.map((item, itemIndex) => (index === itemIndex ? {
       ...item,

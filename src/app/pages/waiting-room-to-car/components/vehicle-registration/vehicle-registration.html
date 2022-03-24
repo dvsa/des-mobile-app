@@ -13,7 +13,7 @@
                        class="ion-input-styling increase-width"
                        [class.ng-invalid]="invalid"
                        [value]="vehicleRegistration"
-                       (input)="vehicleRegistrationChanged($event)"
+                       (ionChange)="vehicleRegistrationChanged($event)"
                        [maxlength]="registrationNumberValidator.maxLength">
                 </ion-input>
             </ion-col>
