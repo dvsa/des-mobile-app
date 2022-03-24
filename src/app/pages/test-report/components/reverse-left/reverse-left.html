@@ -1,5 +1,5 @@
 <ion-row>
-  <ion-col size="20" class="ion-no-padding">
+  <ion-col size="17" class="ion-no-padding">
     <competency-button class="reverse-left-tick"
                        [onTap]="toggleReverseLeft"
                        [onPress]="toggleReverseLeft"
@@ -13,7 +13,7 @@
       </span>
     </competency-button>
   </ion-col>
-  <ion-col class="ion-no-padding">
+  <ion-col size="7" class="ion-no-padding">
     <button (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
             [ngClass]="{
         'fault': drivingFaults > 0,

@@ -10,7 +10,7 @@ import { AppComponent } from '@app/app.component';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import {
   CatCVehicleChecks,
-  CatDVehicleChecks,
+  CatDVehicleChecks, CatHomeTestVehicleChecks,
 } from '@shared/unions/test-schema-unions';
 import {
   VehicleChecksCatCModal,
@@ -20,6 +20,9 @@ import {
 } from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import {
+  VehicleChecksCatHomeTestModal,
+} from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;
@@ -41,7 +44,7 @@ export class VehicleChecksComponent implements OnChanges {
   safetyQuestionsScore: SafetyQuestionsScore;
 
   @Input()
-  vehicleChecks: CatCVehicleChecks | CatDVehicleChecks;
+  vehicleChecks: CatCVehicleChecks | CatDVehicleChecks | CatHomeTestVehicleChecks;
 
   @Input()
   vehicleChecksSelectQuestions: string;
@@ -104,6 +107,11 @@ export class VehicleChecksComponent implements OnChanges {
       case TestCategory.DE:
       case TestCategory.D1E:
         return VehicleChecksCatDModal;
+      case TestCategory.F:
+      case TestCategory.G:
+      case TestCategory.H:
+      case TestCategory.K:
+        return VehicleChecksCatHomeTestModal;
       default:
         throw new Error(`Cannot getVehicleCheckModal for category ${this.category}`);
     }
