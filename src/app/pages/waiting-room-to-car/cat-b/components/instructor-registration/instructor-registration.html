@@ -9,12 +9,15 @@
         <ion-row class="spacing-row"></ion-row>
         <ion-row>
             <ion-col size="32">
-                <input type="text"
-                       id="instructor-registration"
-                       class="input-styling-background"
-                       formControlName="instructorRegistration"
-                       [maxLength]="instructorRegistrationNumberValidator.maxLength"
-                       (input)="instructorRegistrationChanged($event)">
+                <ion-input
+                        type="text"
+                        numbersOnly
+                        id="instructor-registration"
+                        class="ion-input-styling increase-width"
+                        formControlName="instructorRegistration"
+                        [maxlength]="instructorRegistrationNumberValidator.maxLength"
+                        (input)="instructorRegistrationChanged($event)">
+                </ion-input>
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">

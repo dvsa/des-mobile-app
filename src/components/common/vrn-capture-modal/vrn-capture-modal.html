@@ -14,14 +14,17 @@
         </ion-row>
         <ion-row>
             <ion-col>
-                <input type="text"
-                       id="registration"
-                       formControlName="vehicleRegistration"
-                       class="input-styling-background input-field"
-                       [class.ng-invalid]="formInvalid"
-                       [ngModel]="vehicleRegistrationNumber" (ngModelChange)="inputChange($event)"
-                       [value]="vehicleRegistrationNumber"
-                       maxlength="7">
+                <ion-input
+                        type="text"
+                           id="registration"
+                           formControlName="vehicleRegistration"
+                           class="ion-input-styling input-field"
+                           [class.ng-invalid]="formInvalid"
+                           [ngModel]="vehicleRegistrationNumber"
+                           (ngModelChange)="inputChange($event)"
+                           [value]="vehicleRegistrationNumber"
+                           maxlength="7">
+                </ion-input>
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-justify-content-center">

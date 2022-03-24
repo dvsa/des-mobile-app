@@ -1,0 +1,14 @@
+:host {
+  div, h3, h2, {
+    display: inline;
+  }
+
+  .align-col-right {
+    text-align: right;
+  }
+
+  #cpc-module-assessment-title, #combination-label, #combination-code-value {
+    font-weight: normal;
+    font-size: 30px;
+  }
+}

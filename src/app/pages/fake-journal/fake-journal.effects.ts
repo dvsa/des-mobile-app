@@ -26,7 +26,7 @@ import {
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   InitialiseVehicleChecks as InitialiseVehicleChecksCatC,
-  SetFullLicenceHeld,
+  SetFullLicenceHeld as SetFullLicenceHeldCatC,
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { Action } from '@ngrx/store';
 import {
@@ -34,6 +34,7 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   InitializeVehicleChecks as InitializeVehicleChecksCatD,
+  SetFullLicenceHeld as SetFullLicenceHeldCatD,
 } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 import { IndependentDrivingTypeChanged, RouteNumberChanged } from '@store/tests/test-summary/test-summary.actions';
 import { createPopulateVehicleDimensionsAction } from '@store/tests/vehicle-details/vehicle-details.action.creator';
@@ -92,10 +93,14 @@ export class FakeJournalEffects {
       if (
         startTestAction.category === TestCategory.C
         || startTestAction.category === TestCategory.C1
-        || startTestAction.category === TestCategory.D
+      ) {
+        arrayOfActions.push(SetFullLicenceHeldCatC(false));
+      }
+      if (
+        startTestAction.category === TestCategory.D
         || startTestAction.category === TestCategory.D1
       ) {
-        arrayOfActions.push(SetFullLicenceHeld(false));
+        arrayOfActions.push(SetFullLicenceHeldCatD(false));
       }
       if (
         startTestAction.category === TestCategory.F

@@ -6,9 +6,9 @@
         <ion-col id="practice-mode-exit-text" size="7" class="practice-title-text ion-no-padding" (click)="exitPracticeMode()">
             EXIT
         </ion-col>
-        <ion-col id="practice-mode-title-text" size="78" class="practice-title-text ion-no-padding">
-            You're in practice mode
+        <ion-col id="practice-mode-title-text" size="73" class="practice-title-text ion-no-padding">
+            {{displayMsg$ | async}}
         </ion-col>
-        <ion-col size="8"></ion-col>
+        <ion-col size="13"></ion-col>
     </ion-row>
 </ion-toolbar>

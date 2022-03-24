@@ -41,6 +41,10 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
+import {
+  AccompanimentCardComponent,
+} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatCPage } from '../office.cat-c.page';
@@ -74,6 +78,8 @@ describe('OfficeCatCPage', () => {
         MockComponent(DateOfTest),
         MockComponent(VehicleChecksOfficeCardComponent),
         MockComponent(TrueLikenessComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(AccompanimentComponent),
       ],
       imports: [
         IonicModule,

@@ -22,8 +22,11 @@
                     <span class="vehicle-checks-result-text" id="vehicle-check-cat-c-sf-label">serious fault</span>
                 </ion-row>
                 <ion-row class="vehicle-checks-result" *ngIf="hasDrivingFault()">
-                    <driving-faults-badge class="badge" showOnZero=true
-                                          [count]='vehicleChecksScore.drivingFaults'></driving-faults-badge>
+                    <driving-faults-badge
+                      class="badge"
+                      showOnZero=true
+                      [count]="vehicleChecksScore.drivingFaults + (safetyQuestionsScore?.drivingFaults || 0)">
+                    </driving-faults-badge>
                     <span class="vehicle-checks-result-text" id="vehicle-check-cat-c-df-label">driving faults</span>
                 </ion-row>
             </ion-col>

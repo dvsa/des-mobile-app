@@ -1,7 +1,6 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import * as preTestDeclarationActions from '../pre-test-declarations.actions';
-import * as catCPreTestDeclarationActions from './pre-test-declarations.cat-c.actions';
 
 export const initialState: CatCUniqueTypes.PreTestDeclarations = {
   insuranceDeclarationAccepted: false,
@@ -43,7 +42,7 @@ export const preTestDeclarationsCatCReducer = createReducer(
     insuranceDeclarationAccepted: declarationStatus,
     residencyDeclarationAccepted: declarationStatus,
   })),
-  on(catCPreTestDeclarationActions.ManoeuvresPassCertNumberChanged, (state, {
+  on(preTestDeclarationActions.ManoeuvresPassCertNumberChanged, (state, {
     manoeuvrePassCertificateNumber,
   }): CatCUniqueTypes.PreTestDeclarations => ({
     ...state,

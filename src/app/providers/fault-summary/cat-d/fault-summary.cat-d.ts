@@ -24,6 +24,12 @@ export type PcvDoorExerciseTypes =
 | CatD1UniqueTypes.PcvDoorExercise
 | CatD1EUniqueTypes.PcvDoorExercise;
 
+export type SafetyQuestionsTypes =
+  | CatDUniqueTypes.SafetyQuestions
+  | CatDEUniqueTypes.SafetyQuestions
+  | CatD1UniqueTypes.SafetyQuestions
+  | CatD1EUniqueTypes.SafetyQuestions;
+
 export class FaultSummaryCatDHelper {
 
   public static getDrivingFaultsNonTrailer(
@@ -36,6 +42,7 @@ export class FaultSummaryCatDHelper {
       ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.DF),
       ...this.getVehicleCheckDrivingFaultsCatD(data.vehicleChecks, category, vehicleChecksScore),
       ...this.getPCVDoorExerciseDrivingFault(data.pcvDoorExercise),
+      ...this.getSafetyQuestionsDrivingFault(data.safetyQuestions),
     ];
   }
 
@@ -71,6 +78,7 @@ export class FaultSummaryCatDHelper {
       ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.DF),
       ...this.getVehicleCheckDrivingFaultsCatD(data.vehicleChecks, category, vehicleChecksScore),
       ...this.getPCVDoorExerciseDrivingFault(data.pcvDoorExercise),
+      ...this.getSafetyQuestionsDrivingFault(data.safetyQuestions),
     ];
   }
 
@@ -81,7 +89,11 @@ export class FaultSummaryCatDHelper {
       ...getCompetencyFaults(data.seriousFaults),
       ...this.getManoeuvreFaultsCatD(data.manoeuvres, CompetencyOutcome.S),
       ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.S),
-      ...this.getVehicleCheckSeriousFaultsTrailer(data.vehicleChecks),
+      ...(
+        get(data, 'vehicleChecks.fullLicenceHeld')
+          ? this.getVehicleCheckSeriousFaultsTrailer(data.vehicleChecks)
+          : this.getVehicleCheckSeriousFaultsNonTrailer(data.vehicleChecks)
+      ),
       ...this.getPCVDoorExerciseSeriousFault(data.pcvDoorExercise),
     ];
   }
@@ -222,15 +234,12 @@ export class FaultSummaryCatDHelper {
     }
 
     return result;
-
-    return result;
   }
 
   private static getUncoupleRecoupleFault(
     uncoupleRecouple: CatDEUniqueTypes.UncoupleRecouple | CatD1EUniqueTypes.UncoupleRecouple,
     faultType: CompetencyOutcome,
-  )
-    : FaultSummary[] {
+  ): FaultSummary[] {
     const returnCompetencies = [];
     if (!uncoupleRecouple || uncoupleRecouple.fault !== faultType) {
       return returnCompetencies;
@@ -246,7 +255,7 @@ export class FaultSummaryCatDHelper {
     return returnCompetencies;
   }
 
-  private static getPCVDoorExerciseDrivingFault(pcvDoorExercise: PcvDoorExerciseTypes) {
+  private static getPCVDoorExerciseDrivingFault(pcvDoorExercise: PcvDoorExerciseTypes): FaultSummary[] {
     if (!pcvDoorExercise || !pcvDoorExercise.drivingFault) {
       return [];
     }
@@ -259,7 +268,7 @@ export class FaultSummaryCatDHelper {
     }];
   }
 
-  private static getPCVDoorExerciseSeriousFault(pcvDoorExercise: PcvDoorExerciseTypes) {
+  private static getPCVDoorExerciseSeriousFault(pcvDoorExercise: PcvDoorExerciseTypes): FaultSummary[] {
     if (!pcvDoorExercise || !pcvDoorExercise.seriousFault) {
       return [];
     }
@@ -272,7 +281,7 @@ export class FaultSummaryCatDHelper {
     }];
   }
 
-  private static getPCVDoorExerciseDangerousFault(pcvDoorExercise: PcvDoorExerciseTypes) {
+  private static getPCVDoorExerciseDangerousFault(pcvDoorExercise: PcvDoorExerciseTypes): FaultSummary[] {
     if (!pcvDoorExercise || !pcvDoorExercise.dangerousFault) {
       return [];
     }
@@ -281,6 +290,27 @@ export class FaultSummaryCatDHelper {
       competencyIdentifier: 'pcvDoorExercise',
       comment: pcvDoorExercise.dangerousFaultComments || '',
       source: CommentSource.PCV_DOOR_EXERCISE,
+      faultCount: 1,
+    }];
+  }
+
+  private static getSafetyQuestionsDrivingFault(safetyQuestions: SafetyQuestionsTypes): FaultSummary[] {
+    if (!safetyQuestions || safetyQuestions.questions.length === 0) {
+      return [];
+    }
+
+    const hasFault: boolean = safetyQuestions.questions
+      .filter((question) => question.outcome === CompetencyOutcome.DF).length > 0;
+
+    if (!hasFault) {
+      return [];
+    }
+
+    return [{
+      competencyDisplayName: CompetencyDisplayName.SAFETY_QUESTIONS,
+      competencyIdentifier: 'safetyQuestions',
+      comment: safetyQuestions.faultComments || '',
+      source: CommentSource.SAFETY_QUESTIONS,
       faultCount: 1,
     }];
   }

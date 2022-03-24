@@ -18,6 +18,8 @@ import {
 import {
   VehicleChecksCatDModal,
 } from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;
@@ -34,6 +36,9 @@ export class VehicleChecksComponent implements OnChanges {
 
   @Input()
   vehicleChecksScore: VehicleChecksScore;
+
+  @Input()
+  safetyQuestionsScore: SafetyQuestionsScore;
 
   @Input()
   vehicleChecks: CatCVehicleChecks | CatDVehicleChecks;
@@ -104,6 +109,13 @@ export class VehicleChecksComponent implements OnChanges {
     }
   };
 
+  private isCatD = (): boolean => isAnyOf(this.category, [
+    TestCategory.D,
+    TestCategory.D1,
+    TestCategory.DE,
+    TestCategory.D1E,
+  ]);
+
   everyQuestionHasOutcome(): boolean {
     const hasOutcome = (question: QuestionResult): boolean => {
       const outcome = get(question, 'outcome', undefined);
@@ -126,6 +138,9 @@ export class VehicleChecksComponent implements OnChanges {
   }
 
   hasDrivingFault(): boolean {
+    if (this.isCatD()) {
+      return this.vehicleChecksScore.drivingFaults > 0 || this.safetyQuestionsScore?.drivingFaults > 0;
+    }
     return this.vehicleChecksScore.drivingFaults > 0;
   }
 

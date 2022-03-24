@@ -142,6 +142,7 @@ export enum TestFlowPageNames {
   REKEY_REASON_PAGE = 'RekeyReasonPage',
   TEST_REPORT_PAGE = 'TEST_REPORT_PAGE',
   WAITING_ROOM_PAGE = 'WaitingRoomPage',
+  VIEW_TEST_RESULT = 'ViewTestResultPage',
   WAITING_ROOM_TO_CAR_PAGE = 'WAITING_ROOM_TO_CAR_PAGE',
   CONFIRM_TEST_DETAILS_PAGE = 'ConfirmTestDetailsPage',
   REKEY_UPLOAD_OUTCOME_PAGE = 'RekeyUploadOutcomePage',

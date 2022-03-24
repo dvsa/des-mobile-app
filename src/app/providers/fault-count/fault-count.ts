@@ -44,6 +44,8 @@ export class FaultCountProvider {
       case TestCategory.D1E: return FaultCountDHelper.getDrivingFaultSumCountCatD1E(data);
       case TestCategory.DE: return FaultCountDHelper.getDrivingFaultSumCountCatDE(data);
       case TestCategory.D: return FaultCountDHelper.getDrivingFaultSumCountCatD(data);
+      case TestCategory.CCPC:
+      case TestCategory.DCPC: return 0;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
@@ -81,6 +83,8 @@ export class FaultCountProvider {
       case TestCategory.D1E: return FaultCountDHelper.getSeriousFaultSumCountCatD1E(data);
       case TestCategory.DE: return FaultCountDHelper.getSeriousFaultSumCountCatDE(data);
       case TestCategory.D: return FaultCountDHelper.getSeriousFaultSumCountCatD(data);
+      case TestCategory.CCPC:
+      case TestCategory.DCPC: return 0;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
@@ -118,6 +122,8 @@ export class FaultCountProvider {
       case TestCategory.D1E: return FaultCountDHelper.getDangerousFaultSumCountCatD1E(data);
       case TestCategory.DE: return FaultCountDHelper.getDangerousFaultSumCountCatDE(data);
       case TestCategory.D: return FaultCountDHelper.getDangerousFaultSumCountCatD(data);
+      case TestCategory.CCPC:
+      case TestCategory.DCPC: return 0;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
@@ -206,8 +212,10 @@ export class FaultCountProvider {
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-      case TestCategory.D: return FaultCountDHelper.getSafetyQuestionsFaultCount(data);
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      case TestCategory.D:
+        return FaultCountDHelper.getSafetyQuestionsFaultCount(data);
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 

@@ -1,5 +1,6 @@
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { TestSummary } from '@dvsa/mes-test-schema/categories/CPC';
+import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as fromCPCTestSummaryActions from './test-summary.cat-cpc.actions';
 import * as fromTestSummaryActions from '../test-summary.actions';
 
@@ -10,10 +11,15 @@ export const initialState: TestSummary = {
   debriefWitnessed: null,
   additionalInformation: null,
   assessmentReport: null,
+  trueLikenessToPhoto: null,
 };
 
 export const testSummaryCPCReducer = createReducer(
   initialState,
+  on(testSummaryActions.TrueLikenessToPhotoChanged, (state, { trueLikeness }): TestSummary => ({
+    ...state,
+    trueLikenessToPhoto: trueLikeness,
+  })),
   on(fromTestSummaryActions.CandidateDescriptionChanged, (state, { candidateDescription }): TestSummary => ({
     ...state,
     candidateDescription,

@@ -1,0 +1,18 @@
+<ion-card>
+    <ion-card-header>
+        <h4 id="view-test-result-rekey-details-title">Rekey details</h4>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <data-row [label]="'Scheduled for'" [value]="scheduledStaffNumber"></data-row>
+
+            <data-row [label]="'Conducted by'" [value]="conductedStaffNumber"></data-row>
+
+            <data-row [label]="'Date of test'" [value]="testDate"></data-row>
+
+            <data-row [label]="'Rekeyed by'" [value]="rekeyedStaffNumber"></data-row>
+
+            <data-row [label]="'Date of rekey'" [value]="rekeyDate" [shouldHaveSeperator]="false"></data-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

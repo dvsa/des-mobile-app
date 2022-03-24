@@ -1,6 +1,8 @@
 import { Action, combineReducers } from '@ngrx/store';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
-import { preTestDeclarationsReducer } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
+import {
+  preTestDeclarationsCatDReducer,
+} from '@store/tests/pre-test-declarations/cat-d/pre-test-declarations.cat-d.reducer';
 import { passCompletionCatDReducer } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.reducer';
 import { testSummaryReducer } from '@store/tests/test-summary/test-summary.reducer';
 import { changeMarkerReducer } from '@store/tests/change-marker/change-marker.reducer';
@@ -41,7 +43,7 @@ export function testsCatDEReducer(
       journalData: journalDataCatDReducer,
       passCompletion: passCompletionCatDReducer,
       postTestDeclarations: postTestDeclarationsReducer,
-      preTestDeclarations: preTestDeclarationsReducer,
+      preTestDeclarations: preTestDeclarationsCatDReducer,
       rekey: rekeyReducer,
       rekeyDate: rekeyDateReducer,
       rekeyReason: rekeyReasonReducer,

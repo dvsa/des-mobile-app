@@ -67,6 +67,7 @@ import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StatusBar } from '@capacitor/status-bar';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { getTestRequirementsCatADI2 } from '@store/tests/test-data/cat-adi-part2/test-requirements/test-requirements.cat-adi-part2.reducer';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
@@ -108,7 +109,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     authenticationProvider: AuthenticationProvider,
     router: Router,
     store$: Store<StoreModel>,
-    private modalController: ModalController,
+    protected modalController: ModalController,
     public testReportValidatorProvider: TestReportValidatorProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
@@ -337,6 +338,10 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         break;
       case ModalEvent.TERMINATE:
         this.store$.dispatch(TerminateTestFromTestReport());
+        await this.router.navigate([nextPage]);
+        break;
+      case ModalEvent.END_WITH_ACTIVITY_CODE_4:
+        this.store$.dispatch(SetActivityCode('4'));
         await this.router.navigate([nextPage]);
         break;
       default:

@@ -1,0 +1,19 @@
+<ion-card>
+    <ion-card-header>
+        <h4 id="view-test-result-contact-details-title">Contact details</h4>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+            <data-row [label]="'Test result preference'" [value]="testResultPreference"></data-row>
+
+            <data-row [label]="'Phone number'" [value]="phoneNumber"></data-row>
+
+            <data-row [label]="'Email'" [value]="emailAddress"></data-row>
+
+            <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
+                <display-address [address]="address"></display-address>
+                <span class="mes-data" *ngIf="!address">None</span>
+            </data-row-custom>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>

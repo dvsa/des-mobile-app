@@ -22,4 +22,8 @@
       z-index: 160;
     }
   }
+
+  .display-red-border {
+    border: 2px solid var(--gds-red) !important;
+  }
 }

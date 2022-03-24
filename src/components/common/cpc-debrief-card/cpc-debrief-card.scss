@@ -1,29 +1,39 @@
-.cpc-line-break {
-  border-bottom: 1px solid;
-  border-bottom-color: var(--gds-grey-3);
-  margin-top: 2em;
-  padding-bottom: 2em;
-}
-
-.cpc-total-padding {
-  margin-top: 2em;
-  margin-bottom: 1em;
-}
-
-.cpc-percentage {
-  margin-left: 1em;
-}
-
-.cpc-answer-icon {
-  width: 25px;
-  height: 25px;
-  min-width: 25px;
-
-  .text-zoom-large & {
-    padding-top: 4px;
+:host {
+  .cpc-line-break {
+    border-bottom: 1px solid;
+    border-bottom-color: var(--gds-grey-3);
+    margin-top: 1.2em;
+    padding-bottom: 1.2em;
+    background: var(--mes-white);
   }
 
-  .text-zoom-x-large & {
-    padding-top: 6px;
+  .cpc-total-padding {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    background: var(--mes-white);
   }
+
+  #combination-label, #combination-value {
+    color: black;
+  }
+
+  .cpc-percentage {
+    margin-left: 1em;
+    color: black;
+  }
+
+  .cpc-answer-icon {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+
+    .text-zoom-large & {
+      padding-top: 4px;
+    }
+
+    .text-zoom-x-large & {
+      padding-top: 6px;
+    }
+  }
+
 }

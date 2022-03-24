@@ -1,0 +1,34 @@
+<ion-card (click)="openTestResult()" class="card-ios">
+    <ion-grid>
+        <ion-row class="top-row">
+            <ion-col size="24" class="first-col">
+                <div id="search-result-cost-code-label">{{searchResult.costCode}}</div>
+            </ion-col>
+            <ion-col class="ion-no-padding">
+                <div id="search-result-app-ref-label">App ref: {{searchResult.applicationReference}}</div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="middle-row ion-align-items-center">
+            <ion-col size="24" class="first-col">
+                <h2 id="search-result-time-label">{{getTime()}}</h2>
+            </ion-col>
+            <ion-col class="ion-no-padding">
+                <h3 id="search-result-name-label">{{getName()}}</h3>
+            </ion-col>
+            <ion-col size="14" class="ion-no-padding">
+                <h2 id="search-result-category-label">{{searchResult.category}}</h2>
+            </ion-col>
+            <ion-col size="10" class="ion-no-padding ion-padding-end">
+                <h2 class="ion-float-right" id="search-result-activity-code-label">{{searchResult.activityCode}}</h2>
+            </ion-col>
+        </ion-row>
+        <ion-row class="bottom-row">
+            <ion-col size="24" class="first-col">
+                <div id="search-result-date-label">{{getDate()}}</div>
+            </ion-col>
+            <ion-col class="ion-no-padding">
+                <div id="search-result-driver-number-label">Driver no: {{searchResult.driverNumber}}</div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-card>

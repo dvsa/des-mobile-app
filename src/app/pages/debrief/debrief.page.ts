@@ -37,6 +37,19 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { getVehicleChecks } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
+import { getEmergencyStop } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
+import { getAvoidance, getAvoidanceAttempted } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
+import { Question, Question5 } from '@dvsa/mes-test-schema/categories/CPC';
+import {
+  getQuestion1,
+  getQuestion2,
+  getQuestion3,
+  getQuestion4,
+  getQuestion5,
+  getTotalPercent,
+} from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
+import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -50,13 +63,23 @@ interface DebriefPageState {
   candidateName$: Observable<string>;
   category$: Observable<CategoryCode>;
   tellMeShowMeQuestions$: Observable<QuestionResult[]>;
+  showEco$: Observable<boolean>;
+  showSpeedCheck$: Observable<boolean>;
+  emergencyStop$: Observable<EmergencyStop>;
+  avoidance$: Observable<Avoidance>;
+  avoidanceAttempted$: Observable<boolean>;
+  question1$: Observable<Question>;
+  question2$: Observable<Question>;
+  question3$: Observable<Question>;
+  question4$: Observable<Question>;
+  question5$: Observable<Question5>;
+  overallScore$: Observable<number>;
 }
 @Component({
   selector: '.debrief-page',
   templateUrl: 'debrief.page.html',
   styleUrls: ['debrief.page.scss'],
 })
-
 export class DebriefPage extends PracticeableBasePageComponent {
 
   pageState: DebriefPageState;
@@ -77,12 +100,12 @@ export class DebriefPage extends PracticeableBasePageComponent {
     store$: Store<StoreModel>,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
+    router: Router,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     private translate: TranslateService,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
-    router: Router,
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider : TestDataByCategoryProvider,
   ) {
@@ -155,6 +178,62 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions]),
         map((checks) => checks.filter((c) => c.code !== undefined)),
       ),
+      question1$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion1),
+      ),
+      question2$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion2),
+      ),
+      question3$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion3),
+      ),
+      question4$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion4),
+      ),
+      question5$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getQuestion5),
+      ),
+      overallScore$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getTotalPercent),
+      ),
+      showEco$: currentTest$.pipe(
+        select(getTestCategory),
+        // Don't display for MOD1
+        map((category) => !isAnyOf(category, [
+          TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1,
+        ])),
+      ),
+      showSpeedCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [
+          TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1,
+        ])),
+      ),
+      emergencyStop$: currentTest$.pipe(
+        select(getTestData),
+        select(getEmergencyStop),
+      ),
+      avoidance$: currentTest$.pipe(
+        select(getTestData),
+        select(getAvoidance),
+      ),
+      avoidanceAttempted$: currentTest$.pipe(
+        select(getTestData),
+        select(getAvoidance),
+        select(getAvoidanceAttempted),
+      ),
     };
 
     const {
@@ -166,14 +245,14 @@ export class DebriefPage extends PracticeableBasePageComponent {
       testResult$.pipe(map((result) => this.outcome = result)),
       etaFaults$.pipe(
         map((eta) => {
-          this.hasPhysicalEta = eta.physical;
-          this.hasVerbalEta = eta.verbal;
+          this.hasPhysicalEta = eta?.physical;
+          this.hasVerbalEta = eta?.verbal;
         }),
       ),
       ecoFaults$.pipe(
         map((eco) => {
-          this.adviceGivenControl = eco.adviceGivenControl;
-          this.adviceGivenPlanning = eco.adviceGivenPlanning;
+          this.adviceGivenControl = eco?.adviceGivenControl;
+          this.adviceGivenPlanning = eco?.adviceGivenPlanning;
         }),
       ),
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
@@ -213,6 +292,14 @@ export class DebriefPage extends PracticeableBasePageComponent {
 
   isCategoryBTest(): boolean {
     return this.testCategory === TestCategory.B;
+  }
+
+  isTerminated(): boolean {
+    return this.outcome === OutcomeType.Terminated;
+  }
+
+  showCPCDebriefCard(): boolean {
+    return isAnyOf(this.testCategory, [TestCategory.CCPC, TestCategory.DCPC]);
   }
 
   showVehicleChecksArrayCard(): boolean {

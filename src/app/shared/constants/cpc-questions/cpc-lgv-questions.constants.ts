@@ -380,7 +380,7 @@ export const lgvQuestion5: Question5 = {
   },
   answer4: {
     selected: false,
-    label: 'Lights/Reflectors',
+    label: 'Lights / Reflectors',
   },
   answer5: {
     selected: false,

@@ -40,6 +40,7 @@
     "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts"
   },
   "dependencies": {
+    "@angular/cdk": "~12.2.13",
     "@angular/common": "~12.2.15",
     "@angular/core": "~12.2.15",
     "@angular/forms": "~12.2.15",
@@ -55,7 +56,7 @@
     "@dvsa/mes-config-schema": "^1.2.1",
     "@dvsa/mes-journal-schema": "1.2.1",
     "@dvsa/mes-search-schema": "1.1.2",
-    "@dvsa/mes-test-schema": "3.38.1",
+    "@dvsa/mes-test-schema": "3.38.2",
     "@ionic-enterprise/auth": "3.9.0",
     "@ionic-native/app-version": "^5.36.0",
     "@ionic-native/core": "^5.36.0",

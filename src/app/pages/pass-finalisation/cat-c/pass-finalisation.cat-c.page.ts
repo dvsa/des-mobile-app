@@ -12,7 +12,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subscription, merge } from 'rxjs';
-import { CategoryCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map } from 'rxjs/operators';
@@ -20,19 +20,20 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getPassCompletion } from '@store/tests/pass-completion/cat-c/pass-completion.cat-c.reducer';
 import { getCode78 } from '@store/tests/pass-completion/cat-c/pass-completion.cat-c.selector';
-import { getTestCategory } from '@store/tests/category/category.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
-import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-c';
 
 interface CatCPassFinalisationPageState {
   code78$: Observable<boolean>;
-  testCategory$: Observable<CategoryCode>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPassFinalisationPageState;
@@ -84,9 +85,6 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
         select(getPassCompletion),
         select(getCode78),
       ),
-      testCategory$: currentTest$.pipe(
-        select(getTestCategory),
-      ),
     };
 
     const {
@@ -102,7 +100,8 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
   }
 
   ionViewWillEnter(): boolean {
-    super.ionViewWillEnter();
+    this.store$.dispatch(PassFinalisationViewDidEnter());
+
     if (this.merged$) {
       this.subscription = this.merged$.subscribe();
     }

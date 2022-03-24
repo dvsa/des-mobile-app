@@ -12,8 +12,8 @@ export class PracticeEndToEndCardComponent {
 
   constructor(private router: Router) { }
 
-  navigateToFakeJournal = () => {
-    this.router.navigate([FAKE_JOURNAL_PAGE]);
+  navigateToFakeJournal = async () => {
+    await this.router.navigate([FAKE_JOURNAL_PAGE]);
   };
 
 }

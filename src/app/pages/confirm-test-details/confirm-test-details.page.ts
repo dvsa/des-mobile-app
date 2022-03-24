@@ -80,6 +80,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   testOutcome: string;
   candidateName: string;
   subscription: Subscription;
+  catSubscription: Subscription;
   merged$: Observable<boolean | string>;
   vehicleDetails: CategorySpecificVehicleDetails;
   slotId: string;
@@ -97,31 +98,6 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     super(platform, authenticationProvider, router, store$);
   }
 
-  ionViewWillEnter(): boolean {
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
-    return true;
-  }
-
-  isADI2(category: TestCategory): boolean {
-    return category === TestCategory.ADI2;
-  }
-
-  displayForCategory = (category: TestCategory): boolean => isAnyOf(category, [
-    TestCategory.ADI2,
-    TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
-    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
-  ]);
-
-  ionViewDidEnter(): void {
-    this.store$.dispatch(ConfirmTestDetailsViewDidEnter());
-  }
-
-  async goBackToDebrief(): Promise<void> {
-    await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
-  }
-
   ngOnInit(): void {
     super.ngOnInit();
 
@@ -131,7 +107,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     );
 
     let category: TestCategory;
-    currentTest$.pipe(select(getTestCategory))
+    this.catSubscription = currentTest$.pipe(select(getTestCategory))
       .subscribe((value) => {
         category = value as TestCategory;
         const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
@@ -204,6 +180,44 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     );
   }
 
+  ionViewWillEnter(): boolean {
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
+    return true;
+  }
+
+  ionViewDidLeave(): void {
+    super.ionViewDidLeave();
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+
+    if (this.catSubscription) {
+      this.catSubscription.unsubscribe();
+    }
+  }
+
+  ionViewDidEnter(): void {
+    this.store$.dispatch(ConfirmTestDetailsViewDidEnter());
+  }
+
+  isADI2(category: TestCategory): boolean {
+    return category === TestCategory.ADI2;
+  }
+
+  displayForCategory = (category: TestCategory): boolean => isAnyOf(category, [
+    TestCategory.ADI2,
+    TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
+    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
+    TestCategory.CCPC, TestCategory.DCPC,
+  ]);
+
+  async goBackToDebrief(): Promise<void> {
+    await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
+  }
+
   isTerminated(testResult: string): boolean {
     return testResult === TestOutcome.Terminated;
   }
@@ -250,12 +264,5 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     this.store$.dispatch(PersistTests());
     await this.router.navigate([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
   };
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
 }
