@@ -1,19 +1,22 @@
-manoeuvre-competency-adi-part2 {
+@import 'src/theme/sass-partials/_buttons.scss';
+
+:host {
   div.manoeuvre-competency-button {
     @extend .mes-test-report-button;
     @extend .mes-test-report-button-ripple-effect;
 
+    margin-bottom: 10px;
     width: 254px;
-
     padding-left: 5px;
     padding-right: 5px;
-
     .label {
       width: 100%;
       justify-content: center;
     }
+
     .competency-label {
       margin-left: 20px;
+      color: black;
     }
 
     .fault-wrapper {

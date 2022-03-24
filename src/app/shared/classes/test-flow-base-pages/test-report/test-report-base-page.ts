@@ -41,6 +41,7 @@ import { hasManoeuvreBeenCompletedCatBE } from '@store/tests/test-data/cat-be/te
 import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { hasManoeuvreBeenCompletedCatD } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
 import { hasManoeuvreBeenCompletedCatHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
+import { hasManoeuvreBeenCompletedCatADIPart2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { TestDataUnion, TestRequirementsUnion } from '@shared/unions/test-schema-unions';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
@@ -66,6 +67,8 @@ import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StatusBar } from '@capacitor/status-bar';
+import { getTestRequirementsCatADI2 } from '@store/tests/test-data/cat-adi-part2/test-requirements/test-requirements.cat-adi-part2.reducer';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -173,6 +176,8 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   getTestRequirements(testData: TestDataUnion, category: CategoryCode): TestRequirementsUnion {
     switch (category) {
+      case TestCategory.ADI2:
+        return getTestRequirementsCatADI2(testData) as CatADI2UniqueTypes.TestRequirements;
       case TestCategory.B:
         return getTestRequirementsCatB(testData) as CatBUniqueTypes.TestRequirements;
       case TestCategory.BE:
@@ -216,6 +221,8 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       case TestCategory.H:
       case TestCategory.K:
         return hasManoeuvreBeenCompletedCatHomeTest(data as CatHUniqueTypes.TestData);
+      case TestCategory.ADI2:
+        return hasManoeuvreBeenCompletedCatADIPart2(data as CatADI2UniqueTypes.Manoeuvres[]);
       default:
         return null;
     }

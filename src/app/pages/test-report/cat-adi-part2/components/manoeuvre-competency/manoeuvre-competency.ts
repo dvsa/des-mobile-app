@@ -34,17 +34,17 @@ interface ManoeuvreCompetencyComponentState {
 @Component({
   selector: 'manoeuvre-competency-adi-part2',
   templateUrl: 'manoeuvre-competency.html',
+  styleUrls: ['manoeuvre-competency.scss'],
 })
 export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
+  @Input()
+  index: number;
 
   @Input()
   competency: ManoeuvreCompetencies;
 
   @Input()
   manoeuvre: ManoeuvreTypes;
-
-  @Input()
-  index: number;
 
   touchStateDelay: number = 100;
 
@@ -63,40 +63,46 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
   isSeriousMode: boolean = false;
   isDangerousMode: boolean = false;
   manoeuvreCompetencyOutcome: ManoeuvreOutcome | null;
+  label: string;
 
   constructor(
-    private store$: Store<StoreModel>,
+      private store$: Store<StoreModel>,
   ) { }
 
   ngOnInit(): void {
+    this.label = manoeuvreCompetencyLabels[this.competency];
+
     const currentTest$ = this.store$.pipe(
-      select(getTests),
-      select(getCurrentTest),
+        select(getTests),
+        select(getCurrentTest),
     );
 
     this.componentState = {
       isRemoveFaultMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isRemoveFaultMode)),
+          select(getTestReportState),
+          select(isRemoveFaultMode),
+      ),
       isSeriousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isSeriousMode)),
+          select(getTestReportState),
+          select(isSeriousMode),
+      ),
       isDangerousMode$: this.store$.pipe(
-        select(getTestReportState),
-        select(isDangerousMode)),
+          select(getTestReportState),
+          select(isDangerousMode),
+      ),
       manoeuvreCompetencyOutcome$: currentTest$.pipe(
-        select(getTestData),
-        select(getManoeuvresADI2),
-        map(manoeuvres => manoeuvres[this.index]),
-        select((manoeuvres: CatADI2UniqueTypes.Manoeuvres) => {
-          if (manoeuvres) {
-            const manoeuvre = manoeuvres[this.manoeuvre];
-            if (typeof manoeuvre !== 'undefined') {
-              return manoeuvre[this.competency];
+          select(getTestData),
+          select(getManoeuvresADI2),
+          map(manoeuvres => manoeuvres[this.index]),
+          select((manoeuvres: CatADI2UniqueTypes.Manoeuvres) => {
+            if (manoeuvres) {
+              const manoeuvre = manoeuvres[this.manoeuvre];
+              if (typeof manoeuvre !== 'undefined') {
+                return manoeuvre[this.competency];
+              }
             }
-          }
-          return null;
-        }),
+            return null;
+          }),
       ),
     };
 
@@ -108,10 +114,10 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
     } = this.componentState;
 
     const merged$ = merge(
-      isRemoveFaultMode$.pipe(map(toggle => this.isRemoveFaultMode = toggle)),
-      isSeriousMode$.pipe(map(toggle => this.isSeriousMode = toggle)),
-      isDangerousMode$.pipe(map(toggle => this.isDangerousMode = toggle)),
-      manoeuvreCompetencyOutcome$.pipe(map(outcome => this.manoeuvreCompetencyOutcome = outcome)),
+        isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
+        isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
+        isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
+        manoeuvreCompetencyOutcome$.pipe(map((outcome) => this.manoeuvreCompetencyOutcome = outcome)),
     );
 
     this.subscription = merged$.subscribe();
@@ -124,8 +130,6 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
     }
   }
 
-  getLabel = (): string => manoeuvreCompetencyLabels[this.competency];
-
   // Not a very good practice to use a boolean variable like wasPress
   // Because at this point it takes effort to understand what does it represents
   addOrRemoveFault = (wasPress: boolean = false): void => {
@@ -137,7 +141,7 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
     } else {
       this.addFault(wasPress);
     }
-  }
+  };
 
   addFault = (wasPress: boolean): void => {
     if (this.hasDrivingFault() || this.hasSeriousFault() || this.hasDangerousFault()) {
@@ -163,12 +167,11 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
 
     if (wasPress) {
       this.store$.dispatch(AddManoeuvreDrivingFault(payload, this.index));
-      return;
     }
-  }
+  };
 
   removeFault = (): void => {
-    // Toggle modes off appropariately if competency outcome doesn't exist, then exit
+    // Toggle modes off appropriately if competency outcome doesn't exist, then exit
     if (this.manoeuvreCompetencyOutcome == null) {
       this.store$.dispatch(ToggleRemoveFaultMode());
       if (this.isSeriousMode) this.store$.dispatch(ToggleSeriousFaultMode());
@@ -196,15 +199,15 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
     }
 
     if (
-      !this.isSeriousMode &&
-      !this.isDangerousMode &&
-      this.isRemoveFaultMode &&
-      this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF
+        !this.isSeriousMode
+        && !this.isDangerousMode
+        && this.isRemoveFaultMode
+        && this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF
     ) {
       this.store$.dispatch(RemoveManoeuvreFault(payload, this.index));
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
-  }
+  };
 
   hasDrivingFault = (): number => this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF ? 1 : 0;
 
@@ -219,12 +222,12 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
   applyRippleEffect = (): any => {
     this.rippleState = true;
     this.rippleTimeout = setTimeout(() => this.removeRippleEffect(), this.rippleEffectAnimationDuration);
-  }
+  };
 
   removeRippleEffect = (): any => {
     this.rippleState = false;
     clearTimeout(this.rippleTimeout);
-  }
+  };
 
   onTouchStart(): void {
     clearTimeout(this.touchTimeout);
