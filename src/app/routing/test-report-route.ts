@@ -1,6 +1,6 @@
 import {
   CAT_A_MOD1,
-  CAT_A_MOD2,
+  CAT_A_MOD2, CAT_ADI_PART2,
   CAT_B,
   CAT_BE,
   CAT_C,
@@ -12,6 +12,11 @@ import {
 import { Routes } from '@angular/router';
 
 export const Test_Report_Route: Routes = [
+  {
+    path: CAT_ADI_PART2.TEST_REPORT_PAGE,
+    loadChildren: () => import('@pages/test-report/cat-adi-part2/test-report.cat-adi-part2.module')
+      .then((m) => m.TestReportCatADIPart2PageModule),
+  },
   {
     path: CAT_A_MOD1.TEST_REPORT_PAGE,
     loadChildren: () => import('@pages/test-report/cat-a-mod1/test-report.cat-a-mod1.module')

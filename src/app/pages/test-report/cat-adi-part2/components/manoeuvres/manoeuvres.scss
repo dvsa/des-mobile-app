@@ -1,0 +1,126 @@
+:host {
+  button {
+    width: 254px;
+    height: 44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--mes-white);
+    border: 1px solid rgba(11, 12, 12, 0.4);
+    box-shadow: 0 1px 0 0 var(--gds-grey-1);
+    border-radius: 10px;
+    position: relative;
+
+    &.promoted {
+      position: relative;
+      z-index: 270;
+    }
+    &.activated {
+      background: #eee;
+    }
+    // Ripple animation effect
+    &.ripple-effect {
+      animation: ripple 0.4s forwards;
+    }
+    @-webkit-keyframes ripple {
+      0% {
+        -webkit-box-shadow: 0 0 5px 0 rgba(65, 60, 60, 1);
+      }
+      50% {
+        -webkit-box-shadow: 0 0 5px 3.5px rgba(65, 60, 60, 0.5);
+      }
+      100% {
+        -webkit-box-shadow: 0 0 5px 7px rgba(65, 60, 60, 0);
+      }
+    }
+    @keyframes ripple {
+      0% {
+        -moz-box-shadow: 0 0 5px 0 rgba(65, 60, 60, 1);
+        box-shadow: 0 0 5px 0 rgba(65, 60, 60, 1);
+      }
+      50% {
+        -moz-box-shadow: 0 0 5px 3.5px rgba(65, 60, 60, 0.5);
+        box-shadow: 0 0 5px 3.5px rgba(65, 60, 60, 0.5);
+      }
+      100% {
+        -moz-box-shadow: 0 0 5px 7px rgba(65, 60, 60, 0);
+        box-shadow: 0 0 5px 7px rgba(65, 60, 60, 0);
+      }
+    }
+    .tickwrapper {
+      display: flex;
+      justify-content: center;
+    }
+    .label-wrapper {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      color: var(--gds-blue);
+      margin-right: 20px;
+      .popover-arrow {
+        -webkit-transition: 0.3s ease-in-out;
+        -moz-transition: 0.3s ease-in-out;
+        -o-transition: 0.3s ease-in-out;
+        transition: 0.3s ease-in-out;
+
+        &.arrow-down {
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          transform: rotate(90deg);
+        }
+      }
+      .label {
+        font-size: 15px;
+        text-align: center;
+        line-height: 25px;
+        letter-spacing: -0.26px;
+        font-weight: 500;
+        align-self: center;
+      }
+      ion-icon {
+        align-self: center;
+        width: 20px;
+      }
+    }
+    .fault-wrapper {
+      display: flex;
+    }
+
+    .tickwrapper {
+      margin-right: 5px;
+    }
+
+    serious-fault-badge {
+      display: inline-block;
+      margin-right: 2px;
+    }
+
+    &.fault {
+      .remove-mode.fault-mode & {
+        z-index: 270;
+      }
+    }
+    &.serious-fault {
+      .remove-mode.serious-mode & {
+        z-index: 270;
+      }
+    }
+    &.dangerous-fault {
+      .remove-mode.dangerous-mode & {
+        z-index: 270;
+      }
+    }
+  }
+
+  .adi-manoeuvres-popover {
+    background-color: var(--mes-light-grey);
+    height: 600px;
+    width: calc(100% - 12px);
+    left: 6px;
+    margin-top: 9px;
+    position: fixed;
+    z-index: 270;
+  }
+}

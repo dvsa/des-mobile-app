@@ -1,0 +1,42 @@
+<ion-row class="mes-validated-row mes-row-separator" id="training-record-card" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Training records</label>
+    </ion-col>
+    <ion-col class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col size="48">
+                <input type="radio"
+                       formControlName="trainingRecordCtrl"
+                       name="trainingRecordCtrl"
+                       id="training-record-yes"
+                       class="gds-radio-button"
+                       [checked]="trainingRecordRadioChecked === true"
+                       [class.ng-invalid]="invalid"
+                       (change)="trainingRecordOutcomeChanged($event.target.value)"
+                       value="Y">
+                <label for="training-record-yes" class="radio-label">Yes</label>
+            </ion-col>
+            <ion-col size="48">
+                <input type="radio"
+                       formControlName="trainingRecordCtrl"
+                       name="trainingRecordCtrl"
+                       id="training-record-no"
+                       class="gds-radio-button"
+                       [checked]="trainingRecordRadioChecked === false"
+                       [class.ng-invalid]="invalid"
+                       (change)="trainingRecordOutcomeChanged($event.target.value)"
+                       value="N">
+                <label for="training-record-no" class="radio-label">No</label>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"
+                 [class.ng-invalid]="invalid"
+                 id="waiting-room-to-car-training-records-validation-text">
+                Select the training records outcome
+            </div>
+        </ion-row>
+    </ion-col>
+</ion-row>

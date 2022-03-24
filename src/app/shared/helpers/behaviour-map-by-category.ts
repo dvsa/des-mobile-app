@@ -7,10 +7,13 @@ import { behaviourMap as CatCPCBehaviourMap } from '@pages/office/office-behavio
 import { behaviourMap as CatDBehaviourMap } from '@pages/office/office-behaviour-map.cat-d';
 import { behaviourMap as CatManoeuvreBehaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { behaviourMap as CatMod1BehaviourMap } from '@pages/office/office-behaviour-map.cat-a-mod1';
+import { behaviourMap as CatADI2BehaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part2';
 import { behaviourMap as CatHomeBehaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
 
 export const getBehaviourMapByCategory = (testCategory: TestCategory): OutcomeBehaviourMapping => {
   switch (testCategory) {
+    case TestCategory.ADI2:
+      return CatADI2BehaviourMap;
     case TestCategory.B:
       return CatBBehaviourMap;
     case TestCategory.BE:

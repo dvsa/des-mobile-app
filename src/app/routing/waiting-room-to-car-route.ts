@@ -1,6 +1,6 @@
 import {
   CAT_A_MOD1,
-  CAT_A_MOD2,
+  CAT_A_MOD2, CAT_ADI_PART2,
   CAT_B,
   CAT_BE,
   CAT_C,
@@ -12,6 +12,11 @@ import {
 import { Routes } from '@angular/router';
 
 export const Waiting_Room_To_Car_Route: Routes = [
+  {
+    path: CAT_ADI_PART2.WAITING_ROOM_TO_CAR_PAGE,
+    loadChildren: () => import('@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.module')
+      .then((m) => m.WaitingRoomToCarCatADIPart2PageModule),
+  },
   {
     path: CAT_A_MOD1.WAITING_ROOM_TO_CAR_PAGE,
     loadChildren: () => import('@pages/waiting-room-to-car/cat-a-mod1/waiting-room-to-car.cat-a-mod1.module')

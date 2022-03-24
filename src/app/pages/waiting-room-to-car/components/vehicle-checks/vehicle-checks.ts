@@ -10,7 +10,8 @@ import { AppComponent } from '@app/app.component';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import {
   CatCVehicleChecks,
-  CatDVehicleChecks, CatHomeTestVehicleChecks,
+  CatDVehicleChecks,
+  CatHomeTestVehicleChecks,
 } from '@shared/unions/test-schema-unions';
 import {
   VehicleChecksCatCModal,
@@ -20,6 +21,8 @@ import {
 } from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { VehicleChecksCatADIPart2Modal } from
+  '@pages/waiting-room-to-car/cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import {
   VehicleChecksCatHomeTestModal,
 } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
@@ -97,6 +100,8 @@ export class VehicleChecksComponent implements OnChanges {
 
   private getVehicleCheckModal = () => {
     switch (this.category) {
+      case TestCategory.ADI2:
+        return VehicleChecksCatADIPart2Modal;
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:

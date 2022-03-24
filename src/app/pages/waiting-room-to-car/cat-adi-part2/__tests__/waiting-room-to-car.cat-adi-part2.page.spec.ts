@@ -4,15 +4,15 @@ import { NavMock } from '@mocks/angular-mocks/nav-mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 
-import { WaitingRoomToCarCatAdiPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
+import { WaitingRoomToCarCatADIPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
 
 describe('WaitingRoomToCar.CatADIPart2Page', () => {
-  let component: WaitingRoomToCarCatAdiPart2Page;
-  let fixture: ComponentFixture<WaitingRoomToCarCatAdiPart2Page>;
+  let component: WaitingRoomToCarCatADIPart2Page;
+  let fixture: ComponentFixture<WaitingRoomToCarCatADIPart2Page>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [WaitingRoomToCarCatAdiPart2Page],
+      declarations: [WaitingRoomToCarCatADIPart2Page],
       imports: [IonicModule.forRoot()],
       providers: [
         { provide: NavController, useClass: NavMock },
@@ -20,7 +20,7 @@ describe('WaitingRoomToCar.CatADIPart2Page', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WaitingRoomToCarCatAdiPart2Page);
+    fixture = TestBed.createComponent(WaitingRoomToCarCatADIPart2Page);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
