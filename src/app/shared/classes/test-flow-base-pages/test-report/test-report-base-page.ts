@@ -275,6 +275,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       testData$.pipe(
         withLatestFrom(category$),
         map(([data, category]) => {
+          this.testCategory = category as TestCategory;
           this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(data, category as TestCategory);
           this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
             data,
