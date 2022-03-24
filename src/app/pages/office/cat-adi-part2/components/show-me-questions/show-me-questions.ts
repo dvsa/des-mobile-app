@@ -87,7 +87,6 @@ export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
   }
 
   showMeQuestionsChanged(showMeQuestions: VehicleChecksQuestion): void {
-    console.log(showMeQuestions);
     const result: QuestionResult = {
       code: showMeQuestions.code,
       description: showMeQuestions.shortName,

@@ -133,7 +133,6 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
         select(getTestData),
         select(getVehicleChecksCatADI2),
         select(getSelectedShowMeQuestions),
-        tap(console.info),
       ),
       vehicleChecksSerious$: currentTest$.pipe(
         select(getTestData),
