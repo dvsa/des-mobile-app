@@ -12,7 +12,7 @@
                        type="text"
                        formControlName="passCertificateNumberCtrl"
                        [class.ng-invalid]="invalid"
-                       (input)="passCertificateNumberChanged($event.target.value)">
+                       (ionChange)="passCertificateNumberChanged($event.target.value)">
                 </ion-input>
             </ion-col>
         </ion-row>
