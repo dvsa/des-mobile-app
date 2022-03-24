@@ -44,6 +44,7 @@
                         <candidate-description [display]="pageState.displayCandidateDescription$ | async" [formGroup]="form"
                                                [candidateDescription]="pageState.candidateDescription$ | async"
                                                [outcome]="pageState.testOutcome$ | async"
+                                               [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
                                                (candidateDescriptionChange)="candidateDescriptionChanged($event)"></candidate-description>
 
                         <identification [display]="pageState.displayIdentification$ | async" [formGroup]="form"
