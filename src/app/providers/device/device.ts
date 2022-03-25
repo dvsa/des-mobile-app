@@ -74,7 +74,9 @@ export class DeviceProvider implements IDeviceProvider {
     );
 
     const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
-      .catch(() => {
+      .catch((err) => {
+        console.error('enableAsamWithRetriesAndTimeout$ err', err);
+
         this.store$.dispatch(SaveLog({
           payload: this.logHelper.createLog(
             LogType.ERROR,
@@ -157,19 +159,19 @@ export class DeviceProvider implements IDeviceProvider {
       );
     });
   };
-
-  forceDisableSingleAppMode = () => {
-    try {
-      const guidedAccess = cordova.plugins.WPGuidedAccess;
-      if (!guidedAccess) return;
-
-      guidedAccess.end(
-        (res) => console.log('end', res),
-        (err) => console.error('end', err),
-      );
-    } catch (err) {
-      console.error('forceDisableSingleAppMode', err);
-    }
-  };
+  //
+  // forceDisableSingleAppMode = () => {
+  //   try {
+  //     const guidedAccess = cordova.plugins.WPGuidedAccess;
+  //     if (!guidedAccess) return;
+  //
+  //     guidedAccess.end(
+  //       (res) => console.log('end', res),
+  //       (err) => console.error('end', err),
+  //     );
+  //   } catch (err) {
+  //     console.error('forceDisableSingleAppMode', err);
+  //   }
+  // };
 
 }

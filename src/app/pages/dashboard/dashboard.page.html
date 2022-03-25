@@ -7,8 +7,9 @@
 <!--      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>-->
 <!--    </ion-buttons>-->
     <ion-buttons slot="end">
-      <ion-button (click)="deviceProvider.enableSingleAppMode()">Enable</ion-button>
-      <ion-button (click)="deviceProvider.disableSingleAppMode()">Disable</ion-button>
+<!--      <ion-button (click)="deviceProvider.enableSingleAppMode()">Enable</ion-button>-->
+<!--      <ion-button (click)="deviceProvider.disableSingleAppMode()">Disable</ion-button>-->
+      <ion-button (click)="toggleGuidedAccess()">Loop</ion-button>
     </ion-buttons>
     <ion-title id="page-title">My dashboard</ion-title>
   </ion-toolbar>
