@@ -20,7 +20,7 @@ import {
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { PersistTests } from '@store/tests/tests.actions';
 import { D255No } from '@store/tests/test-summary/test-summary.actions';
-import { behaviourMap } from '../../office/office-behaviour-map.cat-c';
+import { behaviourMap } from '../../office/office-behaviour-map.cat-adi-part2';
 
 interface CatADI2PassFinalisationPageState {}
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatADI2PassFinalisationPageState;

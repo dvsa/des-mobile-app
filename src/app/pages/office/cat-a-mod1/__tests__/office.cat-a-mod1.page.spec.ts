@@ -46,6 +46,10 @@ import {
 } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/circuit';
+import {
+  VehicleDetailsCardComponent,
+} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatAMod1Page } from '../office.cat-a-mod1.page';
@@ -58,7 +62,7 @@ import { ShowMeQuestionComponent } from '../../components/show-me-question/show-
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 
-fdescribe('OfficeCatAMod1Page', () => {
+describe('OfficeCatAMod1Page', () => {
   let fixture: ComponentFixture<OfficeCatAMod1Page>;
   let component: OfficeCatAMod1Page;
   let store$: Store<StoreModel>;
@@ -81,6 +85,8 @@ fdescribe('OfficeCatAMod1Page', () => {
         MockComponent(TrueLikenessComponent),
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
+        MockComponent(CircuitComponent),
+        MockComponent(VehicleDetailsCardComponent),
       ],
       imports: [
         PipesModule,

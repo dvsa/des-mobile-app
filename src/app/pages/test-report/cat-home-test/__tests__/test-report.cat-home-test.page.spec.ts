@@ -30,6 +30,7 @@ import { ReverseLeftComponent } from '@pages/test-report/components/reverse-left
 import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
 import { TestReportCatHomeTestPage } from '@pages/test-report/cat-home-test/test-report.cat-home-test.page';
+import { HighwayCodeSafetyComponent } from '@pages/test-report/components/highway-code-safety/highway-code-safety';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
 import { ManoeuvreCompetencyComponent } from '../../components/manoeuvre-competency/manoeuvre-competency';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
@@ -64,6 +65,7 @@ describe('TestReportCatHomeTestPage', () => {
         MockComponent(EcoComponent),
         MockComponent(PracticeModeBanner),
         MockComponent(UncoupleRecoupleComponent),
+        MockComponent(HighwayCodeSafetyComponent),
       ],
       imports: [
         IonicModule,

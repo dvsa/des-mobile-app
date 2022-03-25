@@ -1,4 +1,4 @@
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -51,7 +51,6 @@ export class VehicleChecksCatADIPart2Modal {
 
   constructor(
     public store$: Store<StoreModel>,
-    private navController: NavController,
     private faultCountProvider: FaultCountProvider,
     private modalCtrl: ModalController,
     questionProvider: QuestionProvider,
