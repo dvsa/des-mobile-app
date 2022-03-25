@@ -3,13 +3,8 @@
     <ion-buttons id="burger-menu" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-<!--    <ion-buttons slot="end">-->
-<!--      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>-->
-<!--    </ion-buttons>-->
     <ion-buttons slot="end">
-<!--      <ion-button (click)="deviceProvider.enableSingleAppMode()">Enable</ion-button>-->
-<!--      <ion-button (click)="deviceProvider.disableSingleAppMode()">Disable</ion-button>-->
-      <ion-button (click)="toggleGuidedAccess()">Loop</ion-button>
+      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
     </ion-buttons>
     <ion-title id="page-title">My dashboard</ion-title>
   </ion-toolbar>
@@ -19,9 +14,13 @@
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
   <div>
-    <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async"
-                    [role]="pageState.role$ | async"></profile-header>
-    <hr/>
+    <profile-header
+      [disableASAM]="deviceProvider.forceDisableSingleAppMode"
+      [employeeId]="pageState.employeeId$ | async"
+      [name]="pageState.employeeName$ | async"
+      [role]="pageState.role$ | async">
+    </profile-header>
+    <hr />
     <h4 id="date-field" class="date">{{todaysDateFormatted}}</h4>
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
@@ -41,14 +40,14 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())"/>
+    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())" />
     <practice-test-report-card
-            id="testReportPracticeMode"
-            *ngIf="showTestReportPracticeMode()">
+      id="testReportPracticeMode"
+      *ngIf="showTestReportPracticeMode()">
     </practice-test-report-card>
     <practice-end-to-end-card
-            id="endToendPracticeMode"
-            *ngIf="showEndToEndPracticeMode()">
+      id="endToendPracticeMode"
+      *ngIf="showEndToEndPracticeMode()">
     </practice-end-to-end-card>
   </div>
 
