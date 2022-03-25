@@ -61,6 +61,7 @@ interface JournalPageState {
 })
 export class JournalPage extends BasePageComponent implements OnInit {
   private static loadingOpts: LoadingOptions = {
+    id: 'journal_loading_spinner',
     spinner: 'circles',
     backdropDismiss: true,
     translucent: false,

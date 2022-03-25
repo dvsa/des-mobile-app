@@ -235,6 +235,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   async handleLoadingUI(isLoading: boolean): Promise<void> {
     if (isLoading) {
       const loading = await this.loadingController.create({
+        id: 'app_init_spinner',
         spinner: 'circles',
         message: 'App initialising...',
       });
