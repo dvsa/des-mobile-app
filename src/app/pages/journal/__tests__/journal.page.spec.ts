@@ -60,6 +60,7 @@ describe('JournalPage', () => {
   let deviceProvider: DeviceProvider;
   let loaderService: LoadingProvider;
   const loadingOpts: LoadingOptions = {
+    id: 'journal_loading_spinner',
     spinner: 'circles',
     backdropDismiss: true,
     translucent: false,

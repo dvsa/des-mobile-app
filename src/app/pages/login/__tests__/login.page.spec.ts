@@ -319,6 +319,7 @@ describe('LoginPage', () => {
       component.handleLoadingUI(true);
       flushMicrotasks();
       expect(loadingController.create).toHaveBeenCalledWith({
+        id: 'app_init_spinner',
         spinner: 'circles',
         message: 'App initialising...',
       });
