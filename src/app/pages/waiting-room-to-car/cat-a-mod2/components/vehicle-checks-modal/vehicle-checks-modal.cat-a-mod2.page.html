@@ -22,7 +22,7 @@
             </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <vehicle-checks-question *ngFor="let question of safetyQuestionsNumberArray; let i = index; let l = last"
+            <vehicle-checks-question-cat-a-mod2 *ngFor="let question of safetyQuestionsNumberArray; let i = index; let l = last"
                                      [formGroup]="formGroup"
                                      [questionResult]="(pageState.safetyQuestions$ | async)[i]"
                                      [questions]="safetyQuestions"
@@ -30,7 +30,7 @@
                                      [isLastQuestion]="l"
                                      (safetyAndBalanceQuestionChange)="safetyQuestionChanged($event, i)"
                                      (safetyAndBalanceQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)">
-            </vehicle-checks-question>
+            </vehicle-checks-question-cat-a-mod2>
         </ion-card-content>
     </ion-card>
     <ion-card>
@@ -42,15 +42,15 @@
             </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <vehicle-checks-question *ngFor="let question of balanceQuestionsNumberArray; let i = index; let l = last"
-                                     [formGroup]="formGroup"
-                                     [questionResult]="(pageState.balanceQuestions$ | async)[i]"
-                                     [questions]="balanceQuestions"
-                                     [questionsToDisable]="pageState.balanceQuestions$ | async"
-                                     [isLastQuestion]="l"
-                                     (safetyAndBalanceQuestionChange)="balanceQuestionChanged($event, i)"
-                                     (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)">
-            </vehicle-checks-question>
+<!--            <vehicle-checks-question *ngFor="let question of balanceQuestionsNumberArray; let i = index; let l = last"-->
+<!--                                     [formGroup]="formGroup"-->
+<!--                                     [questionResult]="(pageState.balanceQuestions$ | async)[i]"-->
+<!--                                     [questions]="balanceQuestions"-->
+<!--                                     [questionsToDisable]="pageState.balanceQuestions$ | async"-->
+<!--                                     [isLastQuestion]="l"-->
+<!--                                     (safetyAndBalanceQuestionChange)="balanceQuestionChanged($event, i)"-->
+<!--                                     (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)">-->
+<!--            </vehicle-checks-question>-->
         </ion-card-content>
     </ion-card>
     <warning-banner warningText="This will result in 1 riding fault" *ngIf="shouldDisplayBanner()"></warning-banner>

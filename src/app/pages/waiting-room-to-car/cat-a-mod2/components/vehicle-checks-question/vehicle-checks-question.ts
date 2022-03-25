@@ -1,14 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { VehicleChecksQuestion } from '../../../../../providers/question/vehicle-checks-question.model';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
-  selector: 'vehicle-checks-question',
+  selector: 'vehicle-checks-question-cat-a-mod2',
   templateUrl: 'vehicle-checks-question.html',
 })
-export class VehicleChecksQuestionComponent implements OnChanges {
+export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
 
   @Input()
   questionResult: QuestionResult;

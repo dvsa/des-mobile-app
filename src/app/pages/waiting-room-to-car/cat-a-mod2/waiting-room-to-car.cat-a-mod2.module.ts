@@ -28,7 +28,6 @@ import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.p
     EffectsModule.forFeature([
       WaitingRoomToCarAnalyticsEffects,
     ]),
-    WaitingRoomToCarCatAMod2ComponentsModule,
   ],
   declarations: [WaitingRoomToCarCatAMod2Page],
 })
