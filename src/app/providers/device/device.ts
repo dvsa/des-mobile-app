@@ -60,31 +60,31 @@ export class DeviceProvider implements IDeviceProvider {
    * a unique log is sent.
   */
   enableSingleAppMode = async (): Promise<any> => {
-    // if (this.appConfig.getAppConfig().role === ExaminerRole.DLG) {
-    //   return Promise.resolve(false);
-    // }
-    // const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true)).pipe(
-    //   map((didSucceed: boolean): boolean => {
-    //     if (!didSucceed) throw new Error('Call to enable ASAM failed');
-    //     return didSucceed;
-    //   }),
-    //   retry(this.enableASAMRetryLimit),
-    //   timeout(this.enableASAMTimeout),
-    // );
-    //
-    // const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
-    //   .catch(() => {
-    //     this.store$.dispatch(SaveLog({
-    //       payload: this.logHelper.createLog(
-    //         LogType.ERROR,
-    //         null,
-    //         this.enableASAMRetryFailureMessage,
-    //       ),
-    //     }));
-    //   });
-    //
-    // return promisifiedEnableAsamWithRetriesAndTimeout;
-    return this.setSingleAppMode(true);
+    if (this.appConfig.getAppConfig().role === ExaminerRole.DLG) {
+      return Promise.resolve(false);
+    }
+
+    const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true)).pipe(
+      map((didSucceed: boolean): boolean => {
+        if (!didSucceed) throw new Error('Call to enable ASAM failed');
+        return didSucceed;
+      }),
+      retry(this.enableASAMRetryLimit),
+      timeout(this.enableASAMTimeout),
+    );
+
+    const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
+      .catch(() => {
+        this.store$.dispatch(SaveLog({
+          payload: this.logHelper.createLog(
+            LogType.ERROR,
+            null,
+            this.enableASAMRetryFailureMessage,
+          ),
+        }));
+      });
+
+    return promisifiedEnableAsamWithRetriesAndTimeout;
   };
 
   disableSingleAppMode = async (): Promise<boolean> => {
@@ -122,40 +122,40 @@ export class DeviceProvider implements IDeviceProvider {
   };
 
   setSingleAppMode = async (enable: boolean): Promise<boolean> => {
-    try {
-      const guidedAccess = cordova.plugins.WPGuidedAccess;
-      if (!guidedAccess) return;
+    const guidedAccess = cordova.plugins.WPGuidedAccess;
+    if (!guidedAccess) return;
 
-      const started = await this.isStarted();
+    const started = await this.isStarted();
 
-      if (started && enable) {
-        console.log('Guided access has already been started.');
-        return;
-      }
-
-      if (!started && !enable) {
-        console.log('Guided access has already stopped.');
-        return;
-      }
-
-      console.log(`Attempting to ${enable ? 'start' : 'stop'} guided access`);
-
-      if (enable) {
-        guidedAccess.start(
-          () => {},
-          (err) => console.error('start', err),
-        );
-      } else {
-        guidedAccess.end(
-          () => {},
-          (err) => console.error('end', err),
-        );
-      }
-    } catch (err) {
-      console.error('ERR', err);
+    if (started && enable) {
+      console.log('Guided access has already been started.');
+      return Promise.resolve(true);
     }
 
-    return Promise.resolve(true);
+    if (!started && !enable) {
+      console.log('Guided access has already stopped.');
+      return Promise.resolve(true);
+    }
+
+    console.log(`Attempting to ${enable ? 'start' : 'stop'} guided access`);
+
+    const method = enable ? 'start' : 'end';
+
+    return new Promise((resolve, reject) => {
+      guidedAccess[method](
+        (didSucceed) => {
+          const logMessage = `Call to ${enable ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
+          if (!didSucceed) {
+            const logError = `${enable ? 'Enabling' : 'Disabling'} ASAM`;
+            this.store$.dispatch(SaveLog({
+              payload: this.logHelper.createLog(LogType.ERROR, logError, logMessage),
+            }));
+          }
+          return resolve(didSucceed);
+        },
+        (err) => reject(err),
+      );
+    });
   };
 
   forceDisableSingleAppMode = () => {
