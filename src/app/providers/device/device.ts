@@ -60,53 +60,116 @@ export class DeviceProvider implements IDeviceProvider {
    * a unique log is sent.
   */
   enableSingleAppMode = async (): Promise<any> => {
-    if (this.appConfig.getAppConfig().role === ExaminerRole.DLG) {
-      return Promise.resolve(false);
-    }
-    const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true)).pipe(
-      map((didSucceed: boolean): boolean => {
-        if (!didSucceed) throw new Error('Call to enable ASAM failed');
-        return didSucceed;
-      }),
-      retry(this.enableASAMRetryLimit),
-      timeout(this.enableASAMTimeout),
-    );
-
-    const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
-      .catch(() => {
-        this.store$.dispatch(SaveLog({
-          payload: this.logHelper.createLog(
-            LogType.ERROR,
-            null,
-            this.enableASAMRetryFailureMessage,
-          ),
-        }));
-      });
-
-    return promisifiedEnableAsamWithRetriesAndTimeout;
+    // if (this.appConfig.getAppConfig().role === ExaminerRole.DLG) {
+    //   return Promise.resolve(false);
+    // }
+    // const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true)).pipe(
+    //   map((didSucceed: boolean): boolean => {
+    //     if (!didSucceed) throw new Error('Call to enable ASAM failed');
+    //     return didSucceed;
+    //   }),
+    //   retry(this.enableASAMRetryLimit),
+    //   timeout(this.enableASAMTimeout),
+    // );
+    //
+    // const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
+    //   .catch(() => {
+    //     this.store$.dispatch(SaveLog({
+    //       payload: this.logHelper.createLog(
+    //         LogType.ERROR,
+    //         null,
+    //         this.enableASAMRetryFailureMessage,
+    //       ),
+    //     }));
+    //   });
+    //
+    // return promisifiedEnableAsamWithRetriesAndTimeout;
+    return this.setSingleAppMode(true);
   };
 
   disableSingleAppMode = async (): Promise<boolean> => {
     return this.setSingleAppMode(false);
   };
 
+  // setSingleAppMode = (enabled: boolean): Promise<boolean> => {
+  //   return new Promise((resolve, reject) => {
+  //     if (cordova && cordova.plugins && cordova.plugins.ASAM) {
+  //       cordova.plugins.ASAM.toggle(enabled, (didSucceed: boolean) => {
+  //         const logMessage = `Call to ${enabled ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
+  //         if (!didSucceed) {
+  //           const logError = `${enabled ? 'Enabling' : 'Disabling'} ASAM`;
+  //           this.store$.dispatch(SaveLog({
+  //             payload: this.logHelper.createLog(LogType.ERROR, logError, logMessage),
+  //           }));
+  //         }
+  //         return resolve(didSucceed);
+  //       });
+  //     } else {
+  //       return reject(new Error('false'));
+  //     }
+  //   });
+  // };
+
+  isStarted = () => {
+    const guidedAccess = cordova.plugins.WPGuidedAccess;
+    return guidedAccess.isStarted(
+      (success) => {
+        console.log('isStarted success', success);
+      },
+      (err) => {
+        console.error('isStarted error', err);
+      },
+    );
+  };
+
   setSingleAppMode = (enabled: boolean): Promise<boolean> => {
-    return new Promise((resolve, reject) => {
-      if (cordova && cordova.plugins && cordova.plugins.ASAM) {
-        cordova.plugins.ASAM.toggle(enabled, (didSucceed: boolean) => {
-          const logMessage = `Call to ${enabled ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
-          if (!didSucceed) {
-            const logError = `${enabled ? 'Enabling' : 'Disabling'} ASAM`;
-            this.store$.dispatch(SaveLog({
-              payload: this.logHelper.createLog(LogType.ERROR, logError, logMessage),
-            }));
-          }
-          return resolve(didSucceed);
-        });
+    // return new Promise((resolve, reject) => {
+    //   if (cordova && cordova.plugins && cordova.plugins.ASAM) {
+    //     cordova.plugins.ASAM.toggle(enabled, (didSucceed: boolean) => {
+    //       const logMessage = `Call to ${enabled ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
+    //       if (!didSucceed) {
+    //         const logError = `${enabled ? 'Enabling' : 'Disabling'} ASAM`;
+    //         this.store$.dispatch(SaveLog({
+    //           payload: this.logHelper.createLog(LogType.ERROR, logError, logMessage),
+    //         }));
+    //       }
+    //       return resolve(didSucceed);
+    //     });
+    //   } else {
+    //     return reject(new Error('false'));
+    //   }
+    // });
+
+    const guidedAccess = cordova.plugins.WPGuidedAccess;
+    console.log('guidedAccess', guidedAccess);
+
+    if (!guidedAccess) {
+      console.log('Guided access is not defined');
+      return;
+    }
+
+    if (guidedAccess.isStarted() && enabled) {
+      console.log('Guided access has already been started, but has been called to enable.');
+      return;
+    }
+
+    // if (!guidedAccess.isStarted() && !enabled) {
+    //   console.log('Guided access has already stopped and was calling with disable');
+    //   return;
+    // }
+
+    console.log(`Calling guided access with ${enabled}`);
+
+    try {
+      if (enabled) {
+        guidedAccess.start((res) => { console.log(res); }, (err) => { console.error(err); });
       } else {
-        return reject(new Error('false'));
+        guidedAccess.end();
       }
-    });
+    } catch (err) {
+      console.error('ERR', err);
+    }
+    return Promise.resolve(true);
   };
 
 }

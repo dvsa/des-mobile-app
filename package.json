@@ -84,6 +84,7 @@
     "cordova-plugin-app-version": "^0.1.12",
     "cordova-plugin-autonomous-single-app-mode": "git+https://github.com/dvsa/cordova-plugin-autonomous-single-app-mode.git",
     "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
+    "cordova-ios-guided-access": "git+https://github.com/wizpanda/cordova-ios-guided-access.git",
     "cordova-plugin-emm-app-config": "^1.0.2",
     "cordova-plugin-google-analytics": "^1.9.0",
     "cordova-plugin-insomnia": "^4.3.0",
@@ -161,7 +162,8 @@
     "plugins": {
       "cordova-plugin-device": {},
       "cordova-plugin-google-analytics": {},
-      "cordova-plugin-autonomous-single-app-mode": {}
+      "cordova-plugin-autonomous-single-app-mode": {},
+      "cordova-ios-guided-access": {}
     },
     "platforms": [
       "ios"
