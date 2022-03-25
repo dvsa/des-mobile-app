@@ -112,64 +112,64 @@ export class DeviceProvider implements IDeviceProvider {
 
   isStarted = () => {
     const guidedAccess = cordova.plugins.WPGuidedAccess;
-    return guidedAccess.isStarted(
-      (success) => {
-        console.log('isStarted success', success);
-      },
-      (err) => {
-        console.error('isStarted error', err);
-      },
-    );
+
+    return new Promise((resolve, reject) => {
+      guidedAccess.isStarted(
+        (started) => resolve(started),
+        (err) => reject(err),
+      );
+    });
   };
 
-  setSingleAppMode = (enabled: boolean): Promise<boolean> => {
-    // return new Promise((resolve, reject) => {
-    //   if (cordova && cordova.plugins && cordova.plugins.ASAM) {
-    //     cordova.plugins.ASAM.toggle(enabled, (didSucceed: boolean) => {
-    //       const logMessage = `Call to ${enabled ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
-    //       if (!didSucceed) {
-    //         const logError = `${enabled ? 'Enabling' : 'Disabling'} ASAM`;
-    //         this.store$.dispatch(SaveLog({
-    //           payload: this.logHelper.createLog(LogType.ERROR, logError, logMessage),
-    //         }));
-    //       }
-    //       return resolve(didSucceed);
-    //     });
-    //   } else {
-    //     return reject(new Error('false'));
-    //   }
-    // });
-
-    const guidedAccess = cordova.plugins.WPGuidedAccess;
-    console.log('guidedAccess', guidedAccess);
-
-    if (!guidedAccess) {
-      console.log('Guided access is not defined');
-      return;
-    }
-
-    if (guidedAccess.isStarted() && enabled) {
-      console.log('Guided access has already been started, but has been called to enable.');
-      return;
-    }
-
-    // if (!guidedAccess.isStarted() && !enabled) {
-    //   console.log('Guided access has already stopped and was calling with disable');
-    //   return;
-    // }
-
-    console.log(`Calling guided access with ${enabled}`);
-
+  setSingleAppMode = async (enable: boolean): Promise<boolean> => {
     try {
-      if (enabled) {
-        guidedAccess.start((res) => { console.log(res); }, (err) => { console.error(err); });
+      const guidedAccess = cordova.plugins.WPGuidedAccess;
+      if (!guidedAccess) return;
+
+      const started = await this.isStarted();
+
+      if (started && enable) {
+        console.log('Guided access has already been started.');
+        return;
+      }
+
+      if (!started && !enable) {
+        console.log('Guided access has already stopped.');
+        return;
+      }
+
+      console.log(`Attempting to ${enable ? 'start' : 'stop'} guided access`);
+
+      if (enable) {
+        guidedAccess.start(
+          () => {},
+          (err) => console.error('start', err),
+        );
       } else {
-        guidedAccess.end();
+        guidedAccess.end(
+          () => {},
+          (err) => console.error('end', err),
+        );
       }
     } catch (err) {
       console.error('ERR', err);
     }
+
     return Promise.resolve(true);
+  };
+
+  forceDisableSingleAppMode = () => {
+    try {
+      const guidedAccess = cordova.plugins.WPGuidedAccess;
+      if (!guidedAccess) return;
+
+      guidedAccess.end(
+        (res) => console.log('end', res),
+        (err) => console.error('end', err),
+      );
+    } catch (err) {
+      console.error('forceDisableSingleAppMode', err);
+    }
   };
 
 }

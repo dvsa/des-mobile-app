@@ -77,7 +77,7 @@ export class DashboardPage extends BasePageComponent {
     if (super.isIos()) {
       this.screenOrientation.unlock();
       await this.insomnia.allowSleepAgain();
-      // await this.deviceProvider.disableSingleAppMode();
+      await this.deviceProvider.disableSingleAppMode();
     }
     this.store$.dispatch(journalActions.LoadJournalSilent());
   }
