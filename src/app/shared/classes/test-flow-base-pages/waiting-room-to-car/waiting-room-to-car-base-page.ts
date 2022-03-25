@@ -288,5 +288,4 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
     await alert.present();
   }
-
 }

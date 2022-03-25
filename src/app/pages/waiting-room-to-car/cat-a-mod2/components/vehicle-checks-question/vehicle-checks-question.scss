@@ -1,0 +1,20 @@
+vehicle-checks-question {
+  ion-select.select {
+    max-width: 276px;
+    min-width: 276px;
+  }
+  .vehicle-checks-question-select {
+    .alert-wrapper div.alert-radio-group {
+      max-height: 800px;
+
+      @media (orientation: landscape) {
+        max-height: 500px;
+      }
+    }
+    .alert-radio-label {
+      white-space: normal;
+    }
+  }
+}
+
+

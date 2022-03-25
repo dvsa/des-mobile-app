@@ -1,0 +1,65 @@
+<ion-header>
+    <ion-toolbar mode="ios" class="toolbar-spacing">
+        <ion-buttons slot="start" class="toolbar-item-spacing">
+            <ion-button id="closeVehicleChecksModalCatAMod2" (click)="onClose()">
+                <ion-icon class="close-btn" id="close-icon" name="close-outline"></ion-icon>
+                <ion-label class="close-btn" id="close-label">Close</ion-label>
+            </ion-button>
+        </ion-buttons>
+        <ion-title id="vehicle-checks-modal-title" class="ion-text-center toolbar-item-spacing">
+            Safety and Balance Questions - {{ pageState.candidateName$ | async }}
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>
+                <h4>
+                    Safety questions
+                </h4>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <vehicle-checks-question *ngFor="let question of safetyQuestionsNumberArray; let i = index; let l = last"
+                                     [formGroup]="formGroup"
+                                     [questionResult]="(pageState.safetyQuestions$ | async)[i]"
+                                     [questions]="safetyQuestions"
+                                     [questionsToDisable]="pageState.safetyQuestions$ | async"
+                                     [isLastQuestion]="l"
+                                     (safetyAndBalanceQuestionChange)="safetyQuestionChanged($event, i)"
+                                     (safetyAndBalanceQuestionOutcomeChange)="safetyQuestionOutcomeChanged($event, i)">
+            </vehicle-checks-question>
+        </ion-card-content>
+    </ion-card>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>
+                <h4>
+                    Balance questions
+                </h4>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <vehicle-checks-question *ngFor="let question of balanceQuestionsNumberArray; let i = index; let l = last"
+                                     [formGroup]="formGroup"
+                                     [questionResult]="(pageState.balanceQuestions$ | async)[i]"
+                                     [questions]="balanceQuestions"
+                                     [questionsToDisable]="pageState.balanceQuestions$ | async"
+                                     [isLastQuestion]="l"
+                                     (safetyAndBalanceQuestionChange)="balanceQuestionChanged($event, i)"
+                                     (safetyAndBalanceQuestionOutcomeChange)="balanceQuestionOutcomeChanged($event, i)">
+            </vehicle-checks-question>
+        </ion-card-content>
+    </ion-card>
+    <warning-banner warningText="This will result in 1 riding fault" *ngIf="shouldDisplayBanner()"></warning-banner>
+</ion-content>
+
+<ion-footer>
+    <ion-row class="mes-full-width-card box-shadow">
+        <ion-button type="submit" class="mes-primary-button" id="submit-vehicle-checks" (click)="onSubmit()">
+            <h3>Continue</h3>
+        </ion-button>
+    </ion-row>
+</ion-footer>

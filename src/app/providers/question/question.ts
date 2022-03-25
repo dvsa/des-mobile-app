@@ -23,6 +23,7 @@ import showMeQuestionsCatHomeTestConstants
   from '@shared/constants/show-me-questions/show-me-questions.cat-home-test.constants';
 import tellMeQuestionsCatHomeTestConstants
   from '@shared/constants/tell-me-questions/tell-me-questions.cat-home-test.constants';
+import safetyQuestionsCatAMod2Constants from '@shared/constants/safety-questions.cat-a-mod2.constants';
 import { SafetyQuestion } from './safety-question.model';
 import { VehicleChecksQuestion } from './vehicle-checks-question.model';
 
@@ -80,6 +81,18 @@ export class QuestionProvider {
       case TestCategory.G:
       case TestCategory.H:
         return showMeQuestionsCatHomeTestConstants;
+      default:
+        return [];
+    }
+  }
+
+  getSafetyQuestions(testCategory: TestCategory): VehicleChecksQuestion[] {
+    switch (testCategory) {
+      case TestCategory.EUA1M2:
+      case TestCategory.EUA2M2:
+      case TestCategory.EUAM2:
+      case TestCategory.EUAMM2:
+        return safetyQuestionsCatAMod2Constants;
       default:
         return [];
     }

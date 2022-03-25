@@ -11,7 +11,8 @@
                             [formControlName]="questionFieldName"
                             (ionChange)="vehicleChecksQuestionChanged($event?.detail?.value)"
                             [interfaceOptions]="{cssClass:'mes-select vehicle-checks-question-select', enableBackdropDismiss:false}">
-                    <ion-select-option *ngFor="let question of questions" [value]="question"
+                    <ion-select-option *ngFor="let question of questions"
+                                       [value]="question"
                                        [disabled]="isOptionDisabled(question)">
                         {{question.code}} - {{question.shortName}}
                     </ion-select-option>

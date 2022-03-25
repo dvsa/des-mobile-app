@@ -18,9 +18,19 @@ import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-d
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { getTestData } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
+import {
+  getSafetyAndBalanceQuestions,
+} from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.selector';
+import { map } from 'rxjs/operators';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { FaultCountProvider } from '@providers/fault-count/fault-count';
 
 interface CatMod2WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
+  safetyAndBalanceQuestionsScore$: Observable<SafetyQuestionsScore>;
+  safetyAndBalanceQuestions$: Observable<any>;
 }
 
 type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2WaitingRoomToCarPageState;
@@ -41,6 +51,7 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
     store$: Store<StoreModel>,
     routeByCat: RouteByCategoryProvider,
     alertController: AlertController,
+    public faultCountProvider: FaultCountProvider,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
     this.form = new FormGroup({});
@@ -59,6 +70,17 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
       schoolBike$: currentTest$.pipe(
         select(getVehicleDetails),
         select(getSchoolBike),
+      ),
+      safetyAndBalanceQuestionsScore$: currentTest$.pipe(
+        select(getTestData),
+        select(getSafetyAndBalanceQuestions),
+        map((safetyAndBalanceQuestions) => {
+          return this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, safetyAndBalanceQuestions);
+        }),
+      ),
+      safetyAndBalanceQuestions$: currentTest$.pipe(
+        select(getTestData),
+        select(getSafetyAndBalanceQuestions),
       ),
     };
   }
