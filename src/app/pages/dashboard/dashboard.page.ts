@@ -50,7 +50,7 @@ export class DashboardPage extends BasePageComponent {
     private networkStateProvider: NetworkStateProvider,
     private screenOrientation: ScreenOrientation,
     private insomnia: Insomnia,
-    private deviceProvider: DeviceProvider,
+    public deviceProvider: DeviceProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,
@@ -77,7 +77,7 @@ export class DashboardPage extends BasePageComponent {
     if (super.isIos()) {
       this.screenOrientation.unlock();
       await this.insomnia.allowSleepAgain();
-      await this.deviceProvider.disableSingleAppMode();
+      // await this.deviceProvider.disableSingleAppMode();
     }
     this.store$.dispatch(journalActions.LoadJournalSilent());
   }

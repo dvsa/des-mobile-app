@@ -3,10 +3,14 @@
     <ion-buttons id="burger-menu" slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
+<!--    <ion-buttons slot="end">-->
+<!--      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>-->
+<!--    </ion-buttons>-->
     <ion-buttons slot="end">
-      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+      <ion-button (click)="deviceProvider.enableSingleAppMode()">Enable</ion-button>
+      <ion-button (click)="deviceProvider.disableSingleAppMode()">Disable</ion-button>
     </ion-buttons>
-    <ion-title id="page-title">My dashboard</ion-title>
+    <ion-title id="page-title">My dashboard - {{deviceProvider.isStarted()}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
