@@ -90,16 +90,6 @@ export class DashboardPage extends BasePageComponent {
     return true;
   }
 
-  toggleGuidedAccess = async () => {
-    // eslint-disable-next-line no-plusplus
-    for (let x = 0; x < 50; x++) {
-      // eslint-disable-next-line no-await-in-loop
-      await this.deviceProvider.enableSingleAppMode();
-      // eslint-disable-next-line no-await-in-loop
-      await this.deviceProvider.disableSingleAppMode();
-    }
-  };
-
   showTestReportPracticeMode = (): boolean =>
     this.appConfigProvider.getAppConfig().journal.enableTestReportPracticeMode;
 
