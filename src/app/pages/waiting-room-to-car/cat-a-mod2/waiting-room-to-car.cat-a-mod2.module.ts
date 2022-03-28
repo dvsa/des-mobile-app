@@ -10,8 +10,11 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
 import {
-  WaitingRoomToCarCatAMod2ComponentsModule,
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/waiting-room-to-car.cat-a-mod2.components.module';
+  VehicleChecksModalCatAMod2Module,
+} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page.module';
+import {
+  VehicleChecksCatAMod2Component,
+} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks/vehicle-checks';
 import { WaitingRoomToCarCatAMod2PageRoutingModule } from './waiting-room-to-car.cat-a-mod2-routing.module';
 import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.page';
 
@@ -21,14 +24,17 @@ import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.p
     FormsModule,
     IonicModule,
     WaitingRoomToCarCatAMod2PageRoutingModule,
-    WaitingRoomToCarCatAMod2ComponentsModule,
     ReactiveFormsModule,
     ComponentsModule,
     WaitingRoomToCarComponentsModule,
     EffectsModule.forFeature([
       WaitingRoomToCarAnalyticsEffects,
     ]),
+    VehicleChecksModalCatAMod2Module,
   ],
-  declarations: [WaitingRoomToCarCatAMod2Page],
+  declarations: [
+    WaitingRoomToCarCatAMod2Page,
+    VehicleChecksCatAMod2Component,
+  ],
 })
 export class WaitingRoomToCarCatAMod2PageModule {}

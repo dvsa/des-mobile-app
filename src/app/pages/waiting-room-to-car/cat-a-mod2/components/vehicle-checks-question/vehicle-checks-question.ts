@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter, OnChanges,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
@@ -7,6 +9,7 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 @Component({
   selector: 'vehicle-checks-question-cat-a-mod2',
   templateUrl: 'vehicle-checks-question.html',
+  styleUrls: ['vehicle-checks-question.scss'],
 })
 export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
 
@@ -56,10 +59,10 @@ export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
   }
 
   isOptionDisabled(question: VehicleChecksQuestion): boolean {
-    const doesQuestionExist: QuestionResult =
-      this.questionsToDisable.find(
-        questionToDisable => questionToDisable.code === question.code &&
-        questionToDisable.code !== this.questionResult.code);
+    const doesQuestionExist: QuestionResult = this.questionsToDisable.find(
+      (questionToDisable) => questionToDisable.code === question.code
+        && questionToDisable.code !== this.questionResult.code,
+    );
     return doesQuestionExist !== undefined;
   }
 
@@ -83,7 +86,7 @@ export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
   }
 
   findQuestion(): VehicleChecksQuestion {
-    return this.questions.find(question => question.code === this.questionResult.code);
+    return this.questions.find((question) => question.code === this.questionResult.code);
   }
 
   shouldShowOutcomeFields(): boolean {

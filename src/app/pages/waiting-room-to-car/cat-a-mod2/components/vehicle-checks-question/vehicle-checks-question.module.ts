@@ -1,25 +1,22 @@
-import { NgModule } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import {
+  VehicleChecksQuestionCatAMod2Component,
+} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
 import { EffectsModule } from '@ngrx/effects';
+import { IonicModule } from '@ionic/angular';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   WaitingRoomToCarComponentsModule,
 } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
-import { VehicleChecksCatAMod2Modal } from './vehicle-checks-modal.cat-a-mod2.page';
-import { VehicleChecksModalCatAMod2AnalyticsEffects } from './vehicle-checks-modal.cat-a-mod2.analytics.effects';
-import {
-  VehicleChecksQuestionCatAMod2Module
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question.module';
 
 @NgModule({
   declarations: [
-    VehicleChecksCatAMod2Modal,
+    VehicleChecksQuestionCatAMod2Component,
   ],
   imports: [
     EffectsModule.forFeature([
-      VehicleChecksModalCatAMod2AnalyticsEffects,
     ]),
     IonicModule,
     ComponentsModule,
@@ -27,11 +24,11 @@ import {
     ReactiveFormsModule,
     FormsModule,
     WaitingRoomToCarComponentsModule,
-    VehicleChecksQuestionCatAMod2Module,
   ],
   exports: [
+    VehicleChecksQuestionCatAMod2Component,
   ],
 })
-export class VehicleChecksModalCatAMod2Module {
+export class VehicleChecksQuestionCatAMod2Module {
 
 }
