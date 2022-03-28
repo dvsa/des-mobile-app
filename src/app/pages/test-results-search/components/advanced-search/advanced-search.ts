@@ -16,6 +16,9 @@ export class AdvancedSearchComponent {
   @Input()
   showSpinner: boolean;
 
+  @Input()
+  importStaffNumber: string;
+
   @Output()
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
 

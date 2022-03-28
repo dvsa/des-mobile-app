@@ -69,8 +69,9 @@
                     </ion-row>
                 </ion-grid>
             </tab>
-            <tab [tabTitle]="'Advanced search'" *ngIf="displayAdvancedSearch()" id="tab-search-advanced">
+            <tab [tabTitle]="'Advanced search'" id="tab-search-advanced">
                 <advanced-search
+                        [importStaffNumber]="verifyAdvancedSearch()"
                         (onSearchTests)="advancedSearch($event)"
                         [showSpinner]="showAdvancedSearchSpinner">
                 </advanced-search>
