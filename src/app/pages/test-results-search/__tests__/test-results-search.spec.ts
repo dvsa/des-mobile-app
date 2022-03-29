@@ -26,6 +26,7 @@ describe('TestResultsSearchPage', () => {
   let component: TestResultsSearchPage;
   let modalController: ModalController;
   let appConfigProviderMock: AppConfigProvider;
+  let authProviderMock: AuthenticationProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -54,6 +55,7 @@ describe('TestResultsSearchPage', () => {
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);
     appConfigProviderMock = TestBed.inject(AppConfigProvider);
+    authProviderMock = TestBed.inject(AuthenticationProvider);
   }));
 
   describe('DOM', () => {
@@ -72,12 +74,12 @@ describe('TestResultsSearchPage', () => {
       describe('when the user is a DE', () => {
         beforeEach(() => {
           spyOn(appConfigProviderMock, 'getAppConfig').and.returnValue({ role: ExaminerRole.DE } as AppConfig);
+          spyOn(authProviderMock, 'getEmployeeId').and.returnValue('testValue');
           fixture.detectChanges();
         });
 
-        it('only displays the candidate search', () => {
-          expect(fixture.debugElement.query(By.css('#tab-search-candidate-details'))).not.toBeNull();
-          expect(fixture.debugElement.query(By.css('#tab-search-advanced'))).toBeNull();
+        it('verifyAdvancedSearch returns employee ID when the user is a DE', () => {
+          expect(component.verifyAdvancedSearch()).toBe('testValue');
         });
       });
     });

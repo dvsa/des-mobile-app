@@ -79,7 +79,7 @@ export class TestResultsSearchPage extends BasePageComponent {
     if ([ExaminerRole.DLG, ExaminerRole.LDTM].includes(role)) {
       return null;
     }
-    return this.appConfig.getAppConfig().authentication.clientId;
+    return this.authenticationProvider.getEmployeeId();
   }
 
   candidateInfoChanged(val: string): void {
