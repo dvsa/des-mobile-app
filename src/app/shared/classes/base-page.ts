@@ -43,10 +43,7 @@ export abstract class BasePageComponent {
       try {
         await this.authenticationProvider.logout();
       } catch (error) {
-        console.error('logout error', error);
-
-        // @TODO: MES-7133 - Send error through the logging service
-
+        this.authenticationProvider.onLogoutError(error);
       } finally {
         const navigationExtras: NavigationExtras = {
           state: {

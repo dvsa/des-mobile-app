@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { timeout, retry, map } from 'rxjs/operators';
+import { timeout, map } from 'rxjs/operators';
 import { defer, Observable } from 'rxjs';
 import { Device } from '@ionic-native/device/ngx';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { retryWithDelay } from '@shared/helpers/retry-with-delay';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { LogHelper } from '../logs/logs-helper';
@@ -16,7 +17,8 @@ declare let cordova: any;
 @Injectable()
 export class DeviceProvider implements IDeviceProvider {
   private supportedDevices: string[] = [];
-  private enableASAMRetryLimit: number = 3;
+  private enableASAMRetryLimit: number = 4;
+  private enableASAMRetryInternal: number = 750;
   private enableASAMTimeout: number = 10000;
   private enableASAMRetryFailureMessage: string = 'All retries to enable ASAM failed';
 
@@ -69,14 +71,12 @@ export class DeviceProvider implements IDeviceProvider {
         if (!didSucceed) throw new Error('Call to enable ASAM failed');
         return didSucceed;
       }),
-      retry(this.enableASAMRetryLimit),
+      retryWithDelay(this.enableASAMRetryInternal, this.enableASAMRetryLimit),
       timeout(this.enableASAMTimeout),
     );
 
     const promisifiedEnableAsamWithRetriesAndTimeout = enableAsamWithRetriesAndTimeout$.toPromise()
-      .catch((err) => {
-        console.error('enableAsamWithRetriesAndTimeout$ err', err);
-
+      .catch(() => {
         this.store$.dispatch(SaveLog({
           payload: this.logHelper.createLog(
             LogType.ERROR,
@@ -110,7 +110,7 @@ export class DeviceProvider implements IDeviceProvider {
 
     const started = await this.isStarted();
 
-    if ((started && enable) || (!started && !enable)) {
+    if ((typeof started === 'boolean' && started && enable) || (typeof started === 'boolean' && !started && !enable)) {
       return Promise.resolve(true);
     }
 
@@ -119,12 +119,10 @@ export class DeviceProvider implements IDeviceProvider {
     return new Promise((resolve, reject) => {
       guidedAccess[method](
         (didSucceed) => {
-          const logMessage = `Call to ${enable ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
           if (!didSucceed) {
+            const logMessage = `Call to ${enable ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
             const logError = `${enable ? 'Enabling' : 'Disabling'} ASAM`;
-            this.store$.dispatch(SaveLog({
-              payload: this.logHelper.createLog(LogType.ERROR, logError, logMessage),
-            }));
+            this.logEvent(logError, logMessage);
           }
           return resolve(didSucceed);
         },
@@ -133,18 +131,38 @@ export class DeviceProvider implements IDeviceProvider {
     });
   };
 
-  forceDisableSingleAppMode = () => {
+  manuallyDisableSingleAppMode = async () => {
     try {
       const guidedAccess = cordova.plugins.WPGuidedAccess;
       if (!guidedAccess) return;
 
-      guidedAccess.end(
-        (didSucceed) => { if (!didSucceed) throw new Error('Call to end guided access failed'); },
-        (err) => console.error('forceDisableSingleAppMode end', err),
-      );
+      const started = await this.isStarted();
+
+      if (!started) {
+        return;
+      }
+
+      return await new Promise((resolve, reject) => {
+        guidedAccess.end(
+          (didSucceed) => {
+            if (!didSucceed) throw new Error('Call to end guided access failed');
+            resolve(didSucceed);
+          },
+          (err) => {
+            this.logEvent('Manual trigger - Guided access end', err);
+            reject(err);
+          },
+        );
+      });
     } catch (err) {
-      console.error('forceDisableSingleAppMode', err);
+      this.logEvent('Attempting to manually disable SAM error', err);
     }
+  };
+
+  private logEvent = (desc: string, err: any) => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(LogType.ERROR, desc, err),
+    }));
   };
 
 }

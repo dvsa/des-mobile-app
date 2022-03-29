@@ -25,7 +25,7 @@
 			<string>com.getcapacitor.capacitor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>$AUTH_URL_SCHEME</string>
+				<string>uk.gov.dvsa.drivingexaminerservices</string>
 			</array>
 		</dict>
 	</array>
