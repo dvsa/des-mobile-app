@@ -9,12 +9,11 @@
                        class="ion-input-styling"
                        type="text"
                        clearInput
-                       uppercaseAlphanumOnly
                        (ionFocus)="setFocus('dtcNumber')"
                        (ionBlur)="setFocus(null)"
                        [ngClass]="{'input-focus': focusedElement === 'dtcNumber'}"
-                       [value]="dtcNumber"
-                       (ionInput)="dtcNumberChanged($event.target?.value)">
+                       [(ngModel)]="dtcNumber"
+                       (ionChange)="upperCaseAlphaNum($event)">
             </ion-input>
         </ion-col>
         <ion-col size="3"></ion-col>
@@ -26,14 +25,14 @@
                        type="text"
                        class="ion-input-styling custom-font-size"
                        clearInput
-                       uppercaseAlphanumOnly
                        [attr.default]="importStaffNumber ? importStaffNumber : null"
                        [attr.disabled]="importStaffNumber"
                        [attr.placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
+                       [(ngModel)]="staffNumber"
                        (ionFocus)="setFocus('deNumber')"
                        (ionBlur)="setFocus(null)"
                        [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
-                       (ionInput)="staffNumberChanged($event)">
+                       (ionChange)="upperCaseAlphaNum($event)">
             </ion-input>
         </ion-col>
     </ion-row>
