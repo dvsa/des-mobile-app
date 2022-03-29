@@ -12,6 +12,10 @@
     <param name="ios-package" value="IonicAuthConnectStorage"/>
   </feature>
 
+  <feature name="WPGuidedAccessMode">
+    <param name="ios-package" value="WPGuidedAccessMode"/>
+  </feature>
+
   <feature name="AppVersion">
     <param name="ios-package" value="AppVersion"/>
   </feature>
@@ -22,10 +26,6 @@
 
   <feature name="DeviceAuthentication">
     <param name="ios-package" value="DeviceAuthentication"/>
-  </feature>
-
-  <feature name="WPGuidedAccessMode">
-    <param name="ios-package" value="WPGuidedAccessMode"/>
   </feature>
 
   <feature name="EmmAppConfig">

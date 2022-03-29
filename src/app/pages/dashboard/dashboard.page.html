@@ -15,7 +15,7 @@
   <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
   <div>
     <profile-header
-      [disableASAM]="deviceProvider.forceDisableSingleAppMode"
+      [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
       [employeeId]="pageState.employeeId$ | async"
       [name]="pageState.employeeName$ | async"
       [role]="pageState.role$ | async">

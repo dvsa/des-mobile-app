@@ -6,8 +6,11 @@ import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { Subscription } from 'rxjs';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
 import { AppConfigProvider } from '../app-config/app-config';
-import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
+import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
 import { DataStoreProvider } from '../data-store/data-store';
 
@@ -33,6 +36,7 @@ export class AuthenticationProvider {
     private appConfig: AppConfigProvider,
     private testPersistenceProvider: TestPersistenceProvider,
     private store$: Store<StoreModel>,
+    private logHelper: LogHelper,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
   ) {
     this.setStoreSubscription();
@@ -107,7 +111,9 @@ export class AuthenticationProvider {
       }
       return false;
     } catch (err) {
-      console.error('isAuthenticated', err);
+      this.store$.dispatch(SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'isAuthenticated error', err),
+      }));
       return false;
     }
   }
@@ -129,7 +135,9 @@ export class AuthenticationProvider {
       const token = await this.ionicAuth.getIdToken();
       return !!token && token.exp && new Date(token.exp * 1000) > new Date();
     } catch (err) {
-      console.error('valid token', err);
+      this.store$.dispatch(SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'hasValidToken error', err),
+      }));
       return false;
     }
   }
@@ -197,6 +205,12 @@ export class AuthenticationProvider {
     this.subscription?.unsubscribe();
     await this.ionicAuth.logout();
   }
+
+  public onLogoutError = (err: any): void => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(LogType.ERROR, 'Logout error', err),
+    }));
+  };
 
   public async setEmployeeId() {
     const idToken = await this.ionicAuth.getIdToken();

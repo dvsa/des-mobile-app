@@ -94,7 +94,7 @@ describe('DeviceProvider', () => {
 
       await deviceProvider.enableSingleAppMode();
 
-      expect(deviceProvider.setSingleAppMode).toHaveBeenCalledTimes(4);
+      expect(deviceProvider.setSingleAppMode).toHaveBeenCalledTimes(5);
       expect(store$.dispatch).toHaveBeenCalledWith(asamFailureLog);
     });
 

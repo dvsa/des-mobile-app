@@ -1,11 +1,16 @@
 <ion-header>
     <ion-toolbar mode="ios">
-        <ion-buttons start>
+        <ion-buttons slot="start">
             <ion-button *ngIf="(!hasUserLoggedOut && !isUserCancelledError()) || isUnknownError()" (click)="openLogoutModal()" id="logout-button">
                 <span class="colour-white">Logout</span>
             </ion-button>
         </ion-buttons>
-        <ion-title>Driver Examiner Services</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="login()">
+                <span class="colour-white">Login</span>
+            </ion-button>
+        </ion-buttons>
+        <ion-title (click)="deviceProvider.manuallyDisableSingleAppMode()">Driver Examiner Services</ion-title>
     </ion-toolbar>
 </ion-header>
 
