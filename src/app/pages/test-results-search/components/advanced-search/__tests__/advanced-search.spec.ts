@@ -38,7 +38,7 @@ describe('AdvancedSearchComponent', () => {
         value: '12!abC',
       },
     };
-    it('should change the string given to be contain uppercase alphanumeric characters', () => {
+    it('should change the string within the object to contain only uppercase alphanumeric characters', () => {
       component.upperCaseAlphaNum(testItem);
       expect(testItem.target.value).toEqual('12ABC');
     });
