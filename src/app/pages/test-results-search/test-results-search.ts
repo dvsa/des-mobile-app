@@ -74,9 +74,12 @@ export class TestResultsSearchPage extends BasePageComponent {
     this.searchBy = val as SearchBy;
   }
 
-  displayAdvancedSearch(): boolean {
+  verifyAdvancedSearch(): string {
     const role: ExaminerRole = this.appConfig.getAppConfig().role as ExaminerRole;
-    return [ExaminerRole.DLG, ExaminerRole.LDTM].includes(role);
+    if ([ExaminerRole.DLG, ExaminerRole.LDTM].includes(role)) {
+      return null;
+    }
+    return this.authenticationProvider.getEmployeeId();
   }
 
   candidateInfoChanged(val: string): void {

@@ -22,12 +22,14 @@
             <label id="advanced-search-staff-id-label">Staff ID</label>
         </ion-col>
         <ion-col size="28">
-            <ion-input placeholder="DE number"
-                       id="advanced-search-staff-id-input"
+            <ion-input id="advanced-search-staff-id-input"
                        type="text"
                        class="ion-input-styling custom-font-size"
                        clearInput
                        uppercaseAlphanumOnly
+                       [attr.default]="importStaffNumber ? importStaffNumber : null"
+                       [attr.disabled]="importStaffNumber"
+                       [attr.placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
                        (ionFocus)="setFocus('deNumber')"
                        (ionBlur)="setFocus(null)"
                        [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
