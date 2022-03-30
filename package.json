@@ -18,7 +18,7 @@
     "serve:lr:devtools": "npm run schema-version && npm run config:livereload && ionic cap run ios -l --external --configuration livereload",
     "serve:livereload": "npm run schema-version && ionic cap run ios -l --external -configuration development",
     "open:ios": "rm -rf ios && npm run config:dev && ionic build && ionic cap add ios & ionic cap copy ios && npm run copy-resources && ionic cap open ios",
-    "build:test": "npm run schema-version && npm run config:testing && ionic cap build ios --configuration testing && npm run e2e-build",
+    "build:test": "npm run schema-version && npm run config:testing && ionic cap build ios --no-open --configuration testing && npm run e2e-build",
     "build": "npm run copy-resources && ionic build",
     "lint": "node buildScripts/eslint-alloc-patch.js && eslint . --ext .ts",
     "lint:fix:commit": "node buildScripts/eslint-alloc-patch.js && eslint . --cache --fix --quiet --ext .ts",
