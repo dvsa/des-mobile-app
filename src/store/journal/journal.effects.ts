@@ -27,7 +27,8 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { LogHelper } from '@providers/logs/logs-helper';
-
+import { environment } from '@environments/environment';
+import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { StoreModel } from '@shared/models/store.model';
@@ -224,6 +225,7 @@ export class JournalEffects {
         this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
         return false;
       }
+      if ((environment as unknown as TestersEnvironmentFile)?.isTest) return false;
       if (action.callThrough) return true;
 
       return !hasStarted && completedTests && completedTests.length === 0;
