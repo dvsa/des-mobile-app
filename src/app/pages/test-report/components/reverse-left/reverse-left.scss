@@ -1,4 +1,4 @@
-:host {
+:host ::ng-deep {
 
   .reverse-left-tick {
     .competency-button {
@@ -23,7 +23,7 @@
 
   button {
     height: 44px;
-    width: 194px;
+    width: 175px;
     display: flex;
     justify-content: space-between;
     align-items: center;
