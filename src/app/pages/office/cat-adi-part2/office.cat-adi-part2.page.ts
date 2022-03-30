@@ -35,7 +35,7 @@ import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-fa
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { Observable } from 'rxjs';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestOutcome } from '@store/tests/tests.constants';
@@ -156,22 +156,6 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
 
   setupSubscription() {
     super.setupSubscriptions();
-
-    // const {
-    //   testCategory$,
-    //   delegatedTest$,
-    //   testOutcome$,
-    //   testOutcomeText$,
-    //   conductedLanguage$,
-    // } = this.pageState;
-    //
-    // this.pageSubscription = merge(
-    //     conductedLanguage$.pipe(map((result) => this.conductedLanguage = result)),
-    //     testOutcomeText$.pipe(map((result) => this.testOutcomeText = result)),
-    //     testOutcome$.pipe(map((result) => this.testOutcome = result)),
-    //     delegatedTest$.pipe(map((result) => this.isDelegated = result)),
-    //     testCategory$.pipe(map((result) => this.testCategory = result)),
-    // ).subscribe();
   }
 
   ionViewDidLeave(): void {

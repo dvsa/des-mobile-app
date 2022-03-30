@@ -14,10 +14,8 @@ import {
   DangerousFaultBadgeComponent,
 } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { StartTest } from '@store/tests/tests.actions';
-import { By } from '@angular/platform-browser';
 
 import {
-  TellMeQuestionOutcomeChanged,
   ShowMeQuestionAddDrivingFault,
   ShowMeQuestionRemoveDrivingFault,
   VehicleChecksAddSeriousFault,

@@ -1,9 +1,6 @@
 @import 'src/theme/sass-partials/_buttons.scss';
 
 :host {
-  //display: flex;       // this styling is necessary to ensure z-index
-  //flex-flow: column;   // works on competency buttons
-
   div.manoeuvre-competency-button {
     @extend .mes-test-report-button;
     @extend .mes-test-report-button-ripple-effect;

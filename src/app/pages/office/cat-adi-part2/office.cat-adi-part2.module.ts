@@ -20,7 +20,7 @@ import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-ch
 
 @NgModule({
   declarations: [
-      OfficeCatADI2Page,
+    OfficeCatADI2Page,
     VehicleChecksOfficeCardCatADI2Component,
     ShowMeQuestionsCatADI2Component,
   ],

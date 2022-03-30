@@ -37,7 +37,6 @@ import {
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
-import { TestResultCatAM1Schema } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
@@ -51,13 +50,13 @@ import {
   TrainingRecordsCatAdiPart2Component,
 } from '@pages/waiting-room-to-car/cat-adi-part2/components/training-records/training-records.cat-adi-part2';
 import {
-  TrainerRegistrationNumberCatAdiPart2Component,
-} from '@pages/waiting-room-to-car/cat-adi-part2/components/trainer-registration-number/trainer-registration-number.cat-adi-part2';
-import {
   OrditTrainerCatAdiPart2Component,
 } from '@pages/waiting-room-to-car/cat-adi-part2/components/ordit-trainer/ordit-trainer.cat-adi-part2';
-import { WaitingRoomToCarCatADIPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import {
+  TrainerRegistrationNumberCatAdiPart2Component,
+} from '../components/trainer-registration-number/trainer-registration-number.cat-adi-part2';
+import { WaitingRoomToCarCatADIPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
 
 describe('WaitingRoomToCarCatADIPart2Page', () => {
   let component: WaitingRoomToCarCatADIPart2Page;
