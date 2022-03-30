@@ -53,7 +53,7 @@ interface ConfirmTestDetailsPageState {
   testCategory$: Observable<TestCategory>;
   provisionalLicense$?: Observable<boolean>;
   transmission$: Observable<GearboxCategory>;
-  code78$: Observable<boolean>;
+  code78$?: Observable<boolean>;
   d255$: Observable<boolean>;
   slotId$: Observable<string>;
 }
@@ -145,10 +145,6 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
             select(vehicleDetails.vehicleDetails),
             select(getGearboxCategory),
           ),
-          code78$: currentTest$.pipe(
-            select(getPassCompletion),
-            select(getCode78),
-          ),
           d255$: currentTest$.pipe(
             select(getTestSummary),
             select(getD255),
@@ -157,6 +153,10 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
         if (category !== TestCategory.ADI2) {
           this.pageState = {
             ...this.pageState,
+            code78$: currentTest$.pipe(
+              select(getPassCompletion),
+              select(getCode78),
+            ),
             provisionalLicense$: currentTest$.pipe(
               select(getPassCompletion),
               map(isProvisionalLicenseProvided),

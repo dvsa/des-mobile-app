@@ -8,6 +8,8 @@ import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import { vehicleDetails } from '@components/test-slot/test-slot/test-slot.constants';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
   selector: 'fake-test-slot',
@@ -57,5 +59,13 @@ export class FakeTestSlotComponent {
   isPortrait(): boolean {
     return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
       || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
+  }
+
+  showVehicleDetails(): boolean {
+    return vehicleDetails[this.slot.booking.application.testCategory as TestCategory];
+  }
+
+  showAdditionalCandidateDetails(): boolean {
+    return this.slot.booking.application.testCategory === TestCategory.ADI2;
   }
 }

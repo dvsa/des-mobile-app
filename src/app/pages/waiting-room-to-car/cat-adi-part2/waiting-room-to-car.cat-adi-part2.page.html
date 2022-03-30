@@ -1,10 +1,124 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>waiting-room-to-car.cat-adi-part2</ion-title>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons id="wrtc-back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons id="end-test-button" slot="end">
+      <end-test-link [shouldAuthenticate]="false"
+                     [category]="pageState.category$ | async">
+      </end-test-link>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Test Report</ion-button>
+<ion-content force-overscroll="false">
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ion-grid>
+
+        <eyesight-test
+          [formGroup]="form"
+          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+          [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
+          (eyesightTestResultChange)="eyesightTestResultChanged($event)">
+        </eyesight-test>
+
+        <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
+          <eyesight-failure-confirmation
+            [nextPageOnFail]="getDebriefPage()"
+            [cancelFn]="eyesightFailCancelled">
+          </eyesight-failure-confirmation>
+        </ion-row>
+
+        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
+          <ion-col class="ion-no-padding">
+            <test-category [testCategory]="pageState.category$ | async"></test-category>
+
+            <vehicle-checks-vocational
+              [formGroup]="form"
+              [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
+              [vehicleChecks]="pageState.vehicleChecks$ | async"
+              [category]="pageState.category$ | async"
+              [fullLicenceHeld]="false"
+              (onCloseVehicleChecksModal)="closeVehicleChecksModal()">
+            </vehicle-checks-vocational>
+
+            <vehicle-registration
+              [formGroup]="form"
+              [vehicleRegistration]="pageState.registrationNumber$ | async"
+              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+            ></vehicle-registration>
+
+            <transmission
+              [formGroup]="form"
+              [transmission]="pageState.transmission$ | async"
+              (transmissionChange)="transmissionChanged($event)">
+            </transmission>
+
+            <accompaniment-card
+              [formGroup]="form"
+              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()"
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+            </accompaniment-card>
+
+            <vehicle-details-card
+              [formGroup]="form"
+              [schoolVehicleDetails]="pageState.schoolCar$ | async"
+              [dualVehicleDetails]="pageState.dualControls$ | async"
+              (schoolVehicleDetailsChange)="schoolCarToggled()"
+              (dualVehicleDetailsChange)="dualControlsToggled()">
+            </vehicle-details-card>
+
+            <ordit-trainer-cat-adi-part2
+              [formGroup]="form"
+              [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
+              (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)">
+            </ordit-trainer-cat-adi-part2>
+
+            <trainer-registration-number-cat-adi-part2
+              [formGroup]="form"
+              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
+              (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)">
+            </trainer-registration-number-cat-adi-part2>
+
+            <training-records-cat-adi-part2
+              [formGroup]="form"
+              [trainingRecordRadioChecked]="pageState.trainingRecords$ | async"
+              (trainingRecordOutcomeChange)="trainingRecordOutcomeChanged($event)">
+            </training-records-cat-adi-part2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-col size="45" class="ion-text-center">
+      <ion-button
+        shape="round"
+        class="mes-grey-button wrtc-footer-btn"
+        id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
+        <h3>View test centre journal</h3>
+      </ion-button>
+    </ion-col>
+    <ion-col size="6"></ion-col>
+    <ion-col size="45" class="ion-text-center">
+      <ion-button
+        shape="round"
+        class="mes-primary-button wrtc-footer-btn"
+        id="continue-to-test-report-button" (click)="onSubmit()">
+        <h3>Continue to test report</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

@@ -1,0 +1,37 @@
+<ion-row>
+  <ion-col class="ion-no-padding">
+    <button (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
+            [ngClass]="{
+            'fault': drivingFaults > 0,
+            'serious-fault': hasSeriousFault,
+            'dangerous-fault': hasDangerousFault
+      }">
+
+      <div class="tickwrapper">
+        <tick-indicator [ticked]="completed"></tick-indicator>
+      </div>
+
+      <driving-faults-badge class="driving-faults" [count]="drivingFaults"></driving-faults-badge>
+
+      <div class="label-wrapper">
+        <ion-icon class="popover-arrow" [class.arrow-down]="displayPopover" name="caret-forward-outline"></ion-icon>
+        <span id="label">{{controlLabel}}</span>
+      </div>
+
+      <div class="fault-wrapper">
+        <serious-fault-badge [showBadge]="hasSeriousFault"></serious-fault-badge>
+        <dangerous-fault-badge [showBadge]="hasDangerousFault"></dangerous-fault-badge>
+      </div>
+    </button>
+  </ion-col>
+</ion-row>
+
+<div class="adi-manoeuvres-popover" *ngIf="displayPopover">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ng-content></ng-content>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</div>

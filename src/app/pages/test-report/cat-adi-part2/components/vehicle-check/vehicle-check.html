@@ -1,0 +1,36 @@
+<ion-row>
+  <ion-col size="20" class="ion-no-padding">
+    <competency-button class="show-me-question-tick"
+      [onTap]="toggleShowMeQuestion"
+      [onPress]="toggleShowMeQuestion"
+      [ripple]="false"
+      [ngClass]="{
+        'checked' : selectedShowMeQuestion
+      }"
+    >
+      <span class='tickwrapper'>
+        <tick-indicator [ticked]="selectedShowMeQuestion"></tick-indicator>
+      </span>
+    </competency-button>
+  </ion-col>
+  <ion-col class="ion-no-padding">
+    <competency-button class="vehicle-check-competency"
+      [onTap]="onTap"
+      [onPress]="onPress"
+      [ripple]="canButtonRipple()"
+      [ngClass]="{
+        'checked': selectedShowMeQuestion,
+        'fault': hasShowMeDrivingFault(),
+        'serious-fault': hasSeriousFault(),
+        'dangerous-fault': hasDangerousFault()
+      }"
+    >
+      <driving-faults-badge class="driving-faults" [count]="getDrivingFaultCount()"></driving-faults-badge>
+      <div class='competency-label'>SM/TM</div>
+      <div class='vehicle-check-badges'>
+        <serious-fault-badge [showBadge]="hasSeriousFault()"></serious-fault-badge>
+        <dangerous-fault-badge [showBadge]="hasDangerousFault()"></dangerous-fault-badge>
+      </div>
+    </competency-button>
+  </ion-col>
+</ion-row>

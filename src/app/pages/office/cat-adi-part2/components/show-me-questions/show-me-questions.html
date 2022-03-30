@@ -1,0 +1,58 @@
+<ion-grid class="mes-validated-row mes-row-separator ion-nowrap" id="show-me-questions-card" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col class="component-label ion-padding-start" size="32">
+        <label>Show me question</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="40" class="ion-align-self-center ion-padding-start">
+        <ion-select id="show-me-question-selector_{{questionNumber}}"
+                    okText="Submit"
+                    cancelText="Cancel"
+                    placeholder="Select questions"
+                    class="black-text"
+                    [formControlName]="fieldName"
+                    [class.ng-invalid]="invalid"
+                    (ionChange)="showMeQuestionsChanged($event.target?.value)"
+                    [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
+          <ion-select-option *ngFor="let showMeQuestion of questions;"
+                             [disabled]="isOptionDisabled(showMeQuestion)"
+                             [value]="showMeQuestion">
+            {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col size="4"></ion-col>
+      <ion-col class="ion-align-self-center" size="24">
+        <input type="radio"
+               id="showMe_{{questionNumber}}_btn1"
+               class="gds-radio-button"
+               [checked]="showMeChecked"
+               [disabled]="showMeDisabled"
+               (change)="showMeOutcomeChanged($event.target.value)"
+               value="P">
+        <label for="showMe_{{questionNumber}}_btn1" class="radio-label">Correct</label>
+      </ion-col>
+      <ion-col class="ion-align-self-center" size="24">
+        <input type="radio"
+               id="showMe_{{questionNumber}}_btn2"
+               class="gds-radio-button"
+               [checked]="!showMeChecked"
+               [disabled]="showMeDisabled"
+               (change)="showMeOutcomeChanged($event.target.value)"
+               value="DF">
+        <label for="showMe_{{questionNumber}}_btn2" class="radio-label">Incorrect</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <ion-col class="ion-align-items-center ion-padding-start">
+        <div class="validation-text" [class.ng-invalid]="invalid" id="office-showmequestions-validation-text">
+          Select show me question
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-grid>

@@ -1,6 +1,6 @@
 import {
   CAT_A_MOD1,
-  CAT_A_MOD2,
+  CAT_A_MOD2, CAT_ADI_PART2,
   CAT_B,
   CAT_BE,
   CAT_C,
@@ -12,6 +12,11 @@ import {
 import { Routes } from '@angular/router';
 
 export const Pass_Finalisation_Route: Routes = [
+  {
+    path: CAT_ADI_PART2.PASS_FINALISATION_PAGE,
+    loadChildren: () => import('@pages/pass-finalisation/cat-adi-part2/pass-finalisation.cat-adi-part2.module')
+      .then((m) => m.PassFinalisationCatADIPart2PageModule),
+  },
   {
     path: CAT_A_MOD1.PASS_FINALISATION_PAGE,
     loadChildren: () => import('@pages/pass-finalisation/cat-a-mod1/pass-finalisation.cat-a-mod1.module')

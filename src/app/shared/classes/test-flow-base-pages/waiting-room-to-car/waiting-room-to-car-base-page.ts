@@ -63,6 +63,10 @@ import {
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import {
+  OrditTrainedChanged, TrainerRegistrationNumberChanged,
+  TrainingRecordsChanged,
+} from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -261,6 +265,18 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   closeVehicleChecksModal(): void {
     this.store$.dispatch(WaitingRoomToCarViewDidEnter());
+  }
+
+  trainingRecordOutcomeChanged(hasRecords: boolean): void {
+    this.store$.dispatch(TrainingRecordsChanged(hasRecords));
+  }
+
+  orditTrainedOutcomeChanged(wasOrditTrained: boolean): void {
+    this.store$.dispatch(OrditTrainedChanged(wasOrditTrained));
+  }
+
+  trainerRegistrationNumberChanged(instructorRegistration: number): void {
+    this.store$.dispatch(TrainerRegistrationNumberChanged(instructorRegistration));
   }
 
   async practiceModeTestCentreAlert() {

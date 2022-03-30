@@ -1,10 +1,48 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>pass-finalisation.cat-adi-part2</ion-title>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons id="back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="navigateBack()">Back</ion-button>
-  <ion-button (click)="navigateForward()">To Confirm Details</ion-button>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ion-grid>
+        <finalisation-header
+          [candidateName]="pageState.candidateName$ | async"
+          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+          [outcomeText]="pageState.testOutcomeText$ | async">
+        </finalisation-header>
+
+        <language-preferences
+          [formGroup]="form"
+          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+          (welshChanged)="isWelshChanged($event)">
+        </language-preferences>
+
+        <debrief-witnessed
+          [display]="true"
+          [formGroup]="form"
+          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [outcome]="testOutcome" (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+        </debrief-witnessed>
+
+        <warning-banner
+          warningText="Advise PDI to seek development for the Part 3 test from an ORDIT trainer">
+        </warning-banner>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-button class="mes-primary-button" id="pass-finalisation-continue-button" (click)="onSubmit()">
+      <h3>Continue</h3>
+    </ion-button>
+  </ion-row>
+</ion-footer>

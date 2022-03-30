@@ -116,12 +116,6 @@ describe('PassFinalisationCatAMod1Page', () => {
           .toHaveBeenCalledWith(PassFinalisationValidationError('notRequiredControl is blank'));
       }));
     });
-    // describe('shouldHideBanner', () => {
-    //   it('should hide banner when only transmission is selected', () => {
-    //     component.transmission = TransmissionType.Manual;
-    //     expect(component.shouldShowCode78Banner()).toEqual(false);
-    //   });
-    // });
   });
 
 });

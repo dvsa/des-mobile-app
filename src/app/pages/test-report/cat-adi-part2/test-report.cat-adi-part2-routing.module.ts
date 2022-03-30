@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { TestReportCatAdiPart2Page } from './test-report.cat-adi-part2.page';
+import { TestReportCatADI2Page } from './test-report.cat-adi-part2.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: TestReportCatAdiPart2Page,
+    component: TestReportCatADI2Page,
   },
 ];
 

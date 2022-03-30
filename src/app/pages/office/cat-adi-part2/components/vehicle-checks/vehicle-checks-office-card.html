@@ -1,0 +1,27 @@
+<ion-row *ngIf="display" class="mes-validated-row mes-row-separator ion-nowrap" id="vehicle-checks-card">
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <label>Tell me questions</label>
+    </ion-col>
+    <ion-col size="63" class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row *ngFor="let check of checks;" class="check-row">
+            <ion-col size="6" class="ion-align-self-start">
+                <div class="counter-icon">
+                    <img *ngIf="!questionHasFault(check)"
+                         src="assets/imgs/greenCorrectAnswer.png"
+                         alt="Correct Answer"
+                         class="correct-icon icon-image" />
+                    <img *ngIf="questionHasFault(check)"
+                         src="assets/imgs/redWrongAnswer.png"
+                         alt="Wrong Answer"
+                        class="wrong-icon icon-image" />
+                </div>
+            </ion-col>
+            <ion-col size="3" class="ion-no-padding"></ion-col>
+            <ion-col class="ion-align-self-start">
+                <div class="counter-label black-text">{{check.code}} - {{check.description}}</div>
+            </ion-col>
+        </ion-row>
+        <ion-row class="spacing-row"></ion-row>
+    </ion-col>
+</ion-row>

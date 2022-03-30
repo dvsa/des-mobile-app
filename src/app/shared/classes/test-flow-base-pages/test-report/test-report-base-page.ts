@@ -67,6 +67,10 @@ import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.sele
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { StatusBar } from '@capacitor/status-bar';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
+import {
+  hasManoeuvreBeenCompletedCatADIPart2,
+} from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -199,6 +203,8 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
   hasManoeuvreBeenCompleted(data: TestDataUnion, category: CategoryCode) {
     switch (category) {
+      case TestCategory.ADI2:
+        return hasManoeuvreBeenCompletedCatADIPart2((data as CatADI2UniqueTypes.TestData)?.manoeuvres);
       case TestCategory.B:
         return hasManoeuvreBeenCompletedCatB(data as CatBUniqueTypes.TestData);
       case TestCategory.BE:

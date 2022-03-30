@@ -46,6 +46,7 @@ import {
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { WaitingRoomToCarCatAMod1Page } from '../waiting-room-to-car.cat-a-mod1.page';
 
 describe('WaitingRoomToCarCatAMod1Page', () => {
@@ -87,6 +88,7 @@ describe('WaitingRoomToCarCatAMod1Page', () => {
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
         MockComponent(WarningBannerComponent),
+        MockComponent(TransmissionComponent),
       ],
       imports: [
         AppModule,
