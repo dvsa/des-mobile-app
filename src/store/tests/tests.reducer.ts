@@ -101,6 +101,8 @@ export function testsReducer(
   const slotId = deriveSlotId(state, action);
   const category = deriveCategory(state, action, slotId);
   switch (action.type) {
+    case testsActions.UnloadTests.type:
+      return initialState;
     case testsActions.LoadPersistedTestsSuccess.type:
       return (<ReturnType<typeof LoadPersistedTestsSuccess>>action).tests;
     case testsActions.StartTestReportPracticeTest.type:
