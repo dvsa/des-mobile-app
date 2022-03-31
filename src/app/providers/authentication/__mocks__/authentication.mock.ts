@@ -16,7 +16,10 @@ export class AuthenticationProviderMock {
 
   logout = jasmine.createSpy('logout').and.returnValue(Promise.resolve());
 
+  onLogoutError = jasmine.createSpy('onLogoutError');
+
   initialiseAuthentication = jasmine.createSpy('initialiseAuthentication');
+
   determineAuthenticationMode = jasmine.createSpy('determineAuthenticationMode');
 
   logoutEnabled = jasmine.createSpy('logoutEnabled').and.returnValue(true);

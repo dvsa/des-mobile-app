@@ -8,12 +8,11 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
 
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { BasePageComponent } from '../base-page';
-import { RouterMock } from '../../../../../mock/angular-mocks/router-mock';
-import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
 
-describe('Base Page', () => {
-
+describe('BasePageComponent', () => {
   let platform: Platform;
   let authenticationProvider: AuthenticationProvider;
   let router: Router;
