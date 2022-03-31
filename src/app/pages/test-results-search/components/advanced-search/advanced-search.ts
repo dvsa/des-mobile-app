@@ -81,7 +81,7 @@ export class AdvancedSearchComponent {
     const advancedSearchParams: AdvancedSearchParams = {
       startDate: this.startDate,
       endDate: this.endDate,
-      staffNumber: removeLeadingZeros(this.staffNumber),
+      staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
       costCode: this.dtcNumber,
     };
     this.onSearchTests.emit(advancedSearchParams);
