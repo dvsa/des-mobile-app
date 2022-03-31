@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.1.1.4</string>
+	<string>4.2.0.4</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -25,12 +25,12 @@
 			<string>com.getcapacitor.capacitor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>$AUTH_URL_SCHEME</string>
+				<string>uk.gov.dvsa.drivingexaminerservices</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4.1.1.4</string>
+	<string>4.2.0.4</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

@@ -7,6 +7,8 @@ import { CompletedTestPersistenceProvider } from '@providers/completed-test-pers
 import {
   CompletedTestPersistenceProviderMock,
 } from '@providers/completed-test-persistence/__mocks__/completed-test-persistence.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { AuthenticationProvider, Token } from '../authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -35,6 +37,7 @@ describe('AuthenticationProvider', () => {
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: TestPersistenceProvider, useClass: TestPersistenceProviderMock },
         { provide: CompletedTestPersistenceProvider, useClass: CompletedTestPersistenceProviderMock },
+        { provide: LogHelper, useClass: LogHelperMock },
         provideMockStore({ initialState }),
       ],
     });

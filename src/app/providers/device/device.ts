@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { timeout, retry, map } from 'rxjs/operators';
+import { timeout, map } from 'rxjs/operators';
 import { defer, Observable } from 'rxjs';
 import { Device } from '@ionic-native/device/ngx';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
+import { retryWithDelay } from '@shared/helpers/retry-with-delay';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { LogHelper } from '../logs/logs-helper';
@@ -16,7 +17,8 @@ declare let cordova: any;
 @Injectable()
 export class DeviceProvider implements IDeviceProvider {
   private supportedDevices: string[] = [];
-  private enableASAMRetryLimit: number = 3;
+  private enableASAMRetryLimit: number = 4;
+  private enableASAMRetryInternal: number = 750;
   private enableASAMTimeout: number = 10000;
   private enableASAMRetryFailureMessage: string = 'All retries to enable ASAM failed';
 
@@ -63,12 +65,13 @@ export class DeviceProvider implements IDeviceProvider {
     if (this.appConfig.getAppConfig().role === ExaminerRole.DLG) {
       return Promise.resolve(false);
     }
+
     const enableAsamWithRetriesAndTimeout$: Observable<boolean> = defer(() => this.setSingleAppMode(true)).pipe(
       map((didSucceed: boolean): boolean => {
         if (!didSucceed) throw new Error('Call to enable ASAM failed');
         return didSucceed;
       }),
-      retry(this.enableASAMRetryLimit),
+      retryWithDelay(this.enableASAMRetryInternal, this.enableASAMRetryLimit),
       timeout(this.enableASAMTimeout),
     );
 
@@ -90,23 +93,76 @@ export class DeviceProvider implements IDeviceProvider {
     return this.setSingleAppMode(false);
   };
 
-  setSingleAppMode = (enabled: boolean): Promise<boolean> => {
+  isStarted = () => {
+    const guidedAccess = cordova.plugins.WPGuidedAccess;
+
     return new Promise((resolve, reject) => {
-      if (cordova && cordova.plugins && cordova.plugins.ASAM) {
-        cordova.plugins.ASAM.toggle(enabled, (didSucceed: boolean) => {
-          const logMessage = `Call to ${enabled ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
+      guidedAccess.isStarted(
+        (started) => resolve(started),
+        (err) => reject(err),
+      );
+    });
+  };
+
+  setSingleAppMode = async (enable: boolean): Promise<boolean> => {
+    const guidedAccess = cordova.plugins.WPGuidedAccess;
+    if (!guidedAccess) return;
+
+    const started = await this.isStarted();
+
+    if ((typeof started === 'boolean' && started && enable) || (typeof started === 'boolean' && !started && !enable)) {
+      return Promise.resolve(true);
+    }
+
+    const method = enable ? 'start' : 'end';
+
+    return new Promise((resolve, reject) => {
+      guidedAccess[method](
+        (didSucceed) => {
           if (!didSucceed) {
-            const logError = `${enabled ? 'Enabling' : 'Disabling'} ASAM`;
-            this.store$.dispatch(SaveLog({
-              payload: this.logHelper.createLog(LogType.ERROR, logError, logMessage),
-            }));
+            const logMessage = `Call to ${enable ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
+            const logError = `${enable ? 'Enabling' : 'Disabling'} ASAM`;
+            this.logEvent(logError, logMessage);
           }
           return resolve(didSucceed);
-        });
-      } else {
-        return reject(new Error('false'));
-      }
+        },
+        (err) => reject(err),
+      );
     });
+  };
+
+  manuallyDisableSingleAppMode = async () => {
+    try {
+      const guidedAccess = cordova.plugins.WPGuidedAccess;
+      if (!guidedAccess) return;
+
+      const started = await this.isStarted();
+
+      if (!started) {
+        return;
+      }
+
+      return await new Promise((resolve, reject) => {
+        guidedAccess.end(
+          (didSucceed) => {
+            if (!didSucceed) throw new Error('Call to end guided access failed');
+            resolve(didSucceed);
+          },
+          (err) => {
+            this.logEvent('Manual trigger - Guided access end', err);
+            reject(err);
+          },
+        );
+      });
+    } catch (err) {
+      this.logEvent('Attempting to manually disable SAM error', err);
+    }
+  };
+
+  private logEvent = (desc: string, err: any) => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(LogType.ERROR, desc, err),
+    }));
   };
 
 }

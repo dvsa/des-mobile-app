@@ -56,6 +56,7 @@ import {
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import { DeviceProvider } from '@providers/device/device';
 import { behaviourMap } from '../office-behaviour-map';
 
 interface CatBOfficePageState {
@@ -100,6 +101,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
     public questionProvider: QuestionProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -178,6 +180,14 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     };
 
     this.setupSubscriptions();
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   showMeQuestionChanged(showMeQuestion: VehicleChecksQuestion): void {

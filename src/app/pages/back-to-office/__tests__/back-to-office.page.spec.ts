@@ -79,17 +79,8 @@ describe('BackToOfficePage', () => {
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions when in practice mode', async (done) => {
-        component.isEndToEndPracticeMode = true;
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode).not.toHaveBeenCalled();
-        expect(screenOrientation.unlock).toHaveBeenCalled();
-        expect(insomnia.allowSleepAgain).toHaveBeenCalled();
-        done();
-      });
-      it('should disable test inhibitions and disable ASAM when not in practice mode', async (done) => {
-        component.isEndToEndPracticeMode = false;
-        await component.ionViewDidEnter();
-        expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
         expect(screenOrientation.unlock).toHaveBeenCalled();
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
         done();

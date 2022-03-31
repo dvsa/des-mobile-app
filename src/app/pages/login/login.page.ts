@@ -97,6 +97,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       const isAuthenticated = await this.authenticationProvider.isAuthenticated();
 
       await this.hideSplashscreen();
+
       if (!isAuthenticated) {
         await this.authenticationProvider.login();
       }

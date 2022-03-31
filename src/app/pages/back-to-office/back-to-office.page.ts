@@ -81,16 +81,12 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   }
 
   async ionViewDidEnter(): Promise<void> {
+    this.store$.dispatch(BackToOfficeViewDidEnter());
+
     if (super.isIos()) {
       this.screenOrientation.unlock();
       await this.insomnia.allowSleepAgain();
-
-      if (!this.isEndToEndPracticeMode) {
-        await this.deviceProvider.disableSingleAppMode();
-      }
     }
-
-    this.store$.dispatch(BackToOfficeViewDidEnter());
   }
 
   ionViewDidLeave() {
@@ -110,7 +106,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   }
 
   async goToOfficePage() {
-    await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE,
-      this.testCategory);
+    await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
   }
 }
