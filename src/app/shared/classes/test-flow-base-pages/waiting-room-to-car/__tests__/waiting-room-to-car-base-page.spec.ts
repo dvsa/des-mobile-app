@@ -17,19 +17,43 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { PersistTests } from '@store/tests/tests.actions';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { WaitingRoomToCarViewDidEnter } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import {
-  DualControlsToggled, GearboxCategoryChanged, SchoolCarToggled, VehicleRegistrationChanged,
+  WaitingRoomToCarBikeCategoryChanged,
+  WaitingRoomToCarBikeCategorySelected,
+  WaitingRoomToCarViewDidEnter,
+} from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import {
+  DualControlsToggled,
+  GearboxCategoryChanged,
+  SchoolBikeToggled,
+  SchoolCarToggled,
+  VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
-  InstructorAccompanimentToggled, InterpreterAccompanimentToggled, OtherAccompanimentToggled,
+  InstructorAccompanimentToggled,
+  InterpreterAccompanimentToggled,
+  OtherAccompanimentToggled,
   SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
 import { InstructorRegistrationNumberChanged } from '@store/tests/instructor-details/instructor-details.actions';
 import {
-  EyesightTestFailed, EyesightTestPassed,
+  EyesightTestFailed,
+  EyesightTestPassed,
 } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { take } from 'rxjs/operators';
+import {
+  OrditTrainedChanged,
+  TrainerRegistrationNumberChanged,
+  TrainingRecordsChanged,
+} from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
+import {
+  CandidateDeclarationSigned,
+  SetDeclarationStatus,
+} from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
 
 describe('WaitingRoomToCarBasePageComponent', () => {
@@ -52,7 +76,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
             },
           },
           category: TestCategory.B,
-          testData: {},
+          testData: { eyesightTest: { complete: true, seriousFault: false } },
           accompaniment: {
             interpreter: true, ADI: false, supervisor: true, other: false,
           },
@@ -111,30 +135,43 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
       basePageComponent.commonPageState.candidateName$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual('Marge Simpson'));
       basePageComponent.commonPageState.registrationNumber$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual('ABC123'));
       basePageComponent.commonPageState.transmission$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual('Manual'));
       basePageComponent.commonPageState.category$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual(TestCategory.B));
       basePageComponent.commonPageState.showEyesight$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual(true));
       basePageComponent.commonPageState.eyesightTestComplete$
-        .subscribe((res) => expect(res).toEqual(undefined));
+        .pipe(take(1))
+        .subscribe((res) => expect(res).toEqual(true));
       basePageComponent.commonPageState.eyesightTestFailed$
-        .subscribe((res) => expect(res).toEqual(undefined));
+        .pipe(take(1))
+        .subscribe((res) => expect(res).toEqual(false));
       basePageComponent.commonPageState.schoolCar$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual(true));
       basePageComponent.commonPageState.dualControls$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual(true));
       basePageComponent.commonPageState.instructorAccompaniment$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual(false));
       basePageComponent.commonPageState.supervisorAccompaniment$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual(true));
       basePageComponent.commonPageState.otherAccompaniment$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual(false));
       basePageComponent.commonPageState.interpreterAccompaniment$
+        .pipe(take(1))
         .subscribe((res) => expect(res).toEqual(true));
     });
   });
@@ -200,6 +237,52 @@ describe('WaitingRoomToCarBasePageComponent', () => {
       expect(store$.dispatch).toHaveBeenCalledWith(VehicleRegistrationChanged('A1'));
     });
   });
+  describe('categoryCodeChanged', () => {
+    it('should dispatch multiple actions around the category of test', () => {
+      basePageComponent.testCategory = TestCategory.B;
+      basePageComponent.categoryCodeChanged('EUAM2');
+      expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarBikeCategorySelected('EUAM2'));
+      expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarBikeCategoryChanged('EUAM2', TestCategory.B));
+      expect(store$.dispatch).toHaveBeenCalledWith(PopulateTestCategory('EUAM2'));
+    });
+  });
+  describe('candidateDeclarationOutcomeChanged', () => {
+    it('should dispatch the action SetDeclarationStatus with true', () => {
+      basePageComponent.candidateDeclarationOutcomeChanged(true);
+      expect(store$.dispatch).toHaveBeenCalledWith(SetDeclarationStatus(true));
+      expect(store$.dispatch).toHaveBeenCalledWith(CandidateDeclarationSigned());
+    });
+  });
+  describe('closeVehicleChecksModal', () => {
+    it('should dispatch the action WaitingRoomToCarViewDidEnter', () => {
+      basePageComponent.closeVehicleChecksModal();
+      expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarViewDidEnter());
+    });
+  });
+  describe('schoolBikeToggled', () => {
+    it('should dispatch the action SchoolBikeToggled', () => {
+      basePageComponent.schoolBikeToggled();
+      expect(store$.dispatch).toHaveBeenCalledWith(SchoolBikeToggled());
+    });
+  });
+  describe('trainingRecordOutcomeChanged', () => {
+    it('should dispatch the action TrainingRecordsChanged with false', () => {
+      basePageComponent.trainingRecordOutcomeChanged(false);
+      expect(store$.dispatch).toHaveBeenCalledWith(TrainingRecordsChanged(false));
+    });
+  });
+  describe('orditTrainedOutcomeChanged', () => {
+    it('should dispatch the action OrditTrainedChanged with true', () => {
+      basePageComponent.orditTrainedOutcomeChanged(true);
+      expect(store$.dispatch).toHaveBeenCalledWith(OrditTrainedChanged(true));
+    });
+  });
+  describe('trainerRegistrationNumberChanged', () => {
+    it('should dispatch the action TrainerRegistrationNumberChanged with 123', () => {
+      basePageComponent.trainerRegistrationNumberChanged(123);
+      expect(store$.dispatch).toHaveBeenCalledWith(TrainerRegistrationNumberChanged(123));
+    });
+  });
   describe('schoolCarToggled', () => {
     it('should dispatch the action SchoolCarToggled', () => {
       basePageComponent.schoolCarToggled();
@@ -240,6 +323,14 @@ describe('WaitingRoomToCarBasePageComponent', () => {
   describe('getDebriefPage', () => {
     it('should call through to getNextPage and return value', () => {
       expect(basePageComponent.getDebriefPage()).toEqual(TestFlowPageNames.DEBRIEF_PAGE);
+    });
+  });
+  describe('generateDelegatedQuestionResults', () => {
+    it('should create a list X long with each outcome being the value passed in', () => {
+      expect(basePageComponent.generateDelegatedQuestionResults(2, CompetencyOutcome.DF)).toEqual([
+        { outcome: CompetencyOutcome.DF, code: 'DEL' },
+        { outcome: CompetencyOutcome.DF, code: 'DEL' },
+      ] as QuestionResult[]);
     });
   });
 });
