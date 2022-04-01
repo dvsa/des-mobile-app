@@ -77,6 +77,7 @@ interface NonPassFinalisationPageState {
   slotId$: Observable<string>;
   eyesightTestFailed$: Observable<boolean>;
   testCategory$: Observable<CategoryCode>;
+  showADIWarning$: Observable<boolean>;
 }
 
 @Component({
@@ -188,6 +189,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
       ),
+      showADIWarning$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.ADI2])),
+      ),
     };
 
     const {
@@ -284,6 +289,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
 
   showD255 = (): boolean => {
     return !isAnyOf(this.testCategory, [
+      TestCategory.ADI2,
       TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
       TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     ]);

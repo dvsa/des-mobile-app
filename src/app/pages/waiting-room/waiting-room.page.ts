@@ -76,6 +76,7 @@ interface WaitingRoomPageState {
   showManoeuvresPassCertNumber$: Observable<boolean>;
   manoeuvresPassCertNumber$: Observable<string>;
   showCbtNumber$: Observable<boolean>;
+  showResidencyDec$: Observable<boolean>;
   cbtNumber$: Observable<string>;
 }
 
@@ -193,6 +194,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
           TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, // Mod 1
           TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Mod 2
         ])),
+      ),
+      showResidencyDec$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => !isAnyOf(category, [TestCategory.ADI2])),
       ),
       cbtNumber$: currentTest$.pipe(
         select(getPreTestDeclarationsCatAMod1),
