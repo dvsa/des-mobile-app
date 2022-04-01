@@ -57,6 +57,7 @@
                     <h4 id="waiting-room-declaration-intent">{{ 'waitingRoom.declarationIntent' | translate}}:</h4>
                 </ion-col>
             </ion-row>
+
             <div class="waiting-room-declarations">
                 <insurance-declaration
                         [formGroup]="formGroup"
@@ -65,11 +66,15 @@
                 </insurance-declaration>
 
                 <residency-declaration
+                        *ngIf="pageState.showResidencyDec$ | async"
                         [formGroup]="formGroup"
                         [selected]="pageState.residencyDeclarationAccepted$ | async"
                         (residencyDeclarationChange)="residencyDeclarationChanged()">
                 </residency-declaration>
             </div>
+
+            <div *ngIf="!(pageState.showResidencyDec$ | async)" class="signature-area-padding"></div>
+
             <signature
                     [formGroup]="formGroup"
                     [signature]="pageState.signature$ | async"

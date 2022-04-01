@@ -1,5 +1,5 @@
 import {
-  get, forOwn, // transform, endsWith,
+  get, forOwn, transform, endsWith,
 } from 'lodash';
 import { EyesightTest, QuestionResult, Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
@@ -10,7 +10,7 @@ import {
   manoeuvreCompetencyLabels as manoeuvreCompetencyLabelsCatAdiPart2,
   manoeuvreTypeLabels as manoeuvreTypeLabelsCatAdiPart2,
 } from '@shared/constants/competencies/catadi2-manoeuvres';
-import { getCompetencyFaults } from '@shared/helpers/get-competency-faults'; // getCompetencyComment
+import { getCompetencyComment, getCompetencyFaults } from '@shared/helpers/get-competency-faults';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 
@@ -22,7 +22,7 @@ export class FaultSummaryCatAdiPart2Helper {
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
-      ...this.getManoeuvreFaultsCatAdiPart2(data.manoeuvres), // CompetencyOutcome.DF
+      ...this.getManoeuvreFaultsCatAdiPart2(data.manoeuvres, CompetencyOutcome.DF),
       ...this.getControlledStopFault(data.controlledStop, CompetencyOutcome.DF),
       ...this.getVehicleCheckDrivingFaultsCatAdiPart2(data.vehicleChecks, vehicleChecksScore),
     ];
@@ -31,7 +31,7 @@ export class FaultSummaryCatAdiPart2Helper {
   public static getSeriousFaultsCatAdiPart2(data: CatADI2UniqueTypes.TestData): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.seriousFaults),
-      ...this.getManoeuvreFaultsCatAdiPart2(data.manoeuvres), //  CompetencyOutcome.S
+      ...this.getManoeuvreFaultsCatAdiPart2(data.manoeuvres, CompetencyOutcome.S),
       ...this.getControlledStopFault(data.controlledStop, CompetencyOutcome.S),
       ...this.getVehicleCheckSeriousFaultsCatAdiPart2(data.vehicleChecks),
       ...this.getEyesightTestSeriousFault(data.eyesightTest),
@@ -41,7 +41,7 @@ export class FaultSummaryCatAdiPart2Helper {
   public static getDangerousFaultsCatAdiPart2(data: CatADI2UniqueTypes.TestData): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.dangerousFaults),
-      ...this.getManoeuvreFaultsCatAdiPart2(data.manoeuvres), // , CompetencyOutcome.D
+      ...this.getManoeuvreFaultsCatAdiPart2(data.manoeuvres, CompetencyOutcome.D),
       ...this.getControlledStopFault(data.controlledStop, CompetencyOutcome.D),
       ...this.getVehicleCheckDangerousFaultsCatAdiPart2(data.vehicleChecks),
     ];
@@ -181,29 +181,27 @@ export class FaultSummaryCatAdiPart2Helper {
 
   private static getManoeuvreFaultsCatAdiPart2(
     manoeuvres: CatADI2UniqueTypes.Manoeuvres[],
-    // faultType: CompetencyOutcome,
+    faultType: CompetencyOutcome,
   ): FaultSummary[] {
     const faultsEncountered: FaultSummary[] = [];
 
-    manoeuvres.forEach((manoeuv) => { // , position
-      forOwn(manoeuv, (manoeuvre: Manoeuvre) => { // type: ManoeuvreTypes
-        let faults = [];
+    manoeuvres.forEach((manoeuvre, position) => {
+      forOwn(manoeuvre, (man: Manoeuvre, manType: ManoeuvreTypes) => {
+        let faults: FaultSummary[] = [];
 
-        if (!manoeuvre.selected) {
+        if (!man.selected) {
           faults = [];
         } else {
-          /*
-          faults = transform<Manoeuvre, FaultSummary>(manoeuvre as any, (result, value, key: string) => {
-            if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && value === faultType) {
+          faults = transform(man, (res, val, key: string) => {
+            if (endsWith(key, CompetencyIdentifiers.FAULT_SUFFIX) && val === faultType) {
               const competencyComment = getCompetencyComment(
                 key,
-                manoeuvre.controlFaultComments,
-                manoeuvre.observationFaultComments,
+                man.controlFaultComments,
+                man.observationFaultComments,
               );
-              result.push(this.createManoeuvreFaultCatAdiPart2(key, type, competencyComment, position));
+              res.push(this.createManoeuvreFaultCatAdiPart2(key, manType, competencyComment, position));
             }
           }, []);
-          */
         }
 
         faultsEncountered.push(...faults);

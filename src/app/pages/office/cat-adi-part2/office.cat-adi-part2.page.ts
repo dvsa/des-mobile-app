@@ -67,7 +67,7 @@ type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
 })
 export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;
-  readonly maxFaultCount = 6;
+  static readonly maxFaultCount = 6;
   showMeQuestions: VehicleChecksQuestion[];
 
   constructor(

@@ -1,5 +1,6 @@
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
+import { SingleFaultCompetencies } from '@dvsa/mes-test-schema/categories/AM1';
 import { FaultSummaryCatAM1Helper } from '../fault-summary.cat-a-mod1';
 import { catAM1TestDataStateObject } from './cat-AM1-test-data.mock';
 
@@ -19,10 +20,9 @@ describe('FaultSummaryCatAM1Helper', () => {
   });
 
   describe('matchCompetenciesIncludingComments', () => {
-    // @TODO - MOD1 delivery
-    // it('should match competencies with its corresponding comments', () => {
-    // const { singleFaultCompetencies } = catAM1TestDataStateObject;
-    /* const expected = {
+    it('should match competencies with its corresponding comments', () => {
+      const { singleFaultCompetencies } = catAM1TestDataStateObject;
+      const expected = {
         slowControl: CompetencyOutcome.S,
         slowControlComments: 'slowControlComments',
         controlledStop: CompetencyOutcome.S,
@@ -31,14 +31,13 @@ describe('FaultSummaryCatAM1Helper', () => {
         emergencyStopComments: 'emergencyStopComments',
         avoidance: CompetencyOutcome.S,
         avoidanceComments: 'avoidanceComments',
-      };
+      } as Partial<SingleFaultCompetencies>;
       const result = FaultSummaryCatAM1Helper.matchCompetenciesIncludingComments(
         singleFaultCompetencies,
         CompetencyOutcome.S,
       );
       expect(result).toEqual(expected);
-      */
-    // });
+    });
     it('should get called whenever the helper\'s main methods are used', () => {
       spyOn(FaultSummaryCatAM1Helper, 'matchCompetenciesIncludingComments').and.callThrough();
       FaultSummaryCatAM1Helper.getDrivingFaultsCatAM1(catAM1TestDataStateObject);
