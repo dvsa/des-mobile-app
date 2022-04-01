@@ -3,7 +3,10 @@
 
 const webpackTestConfig = require('./webpack.test.js');
 const puppeteer = require('puppeteer');
+const os = require('os');
 process.env.CHROME_BIN = puppeteer.executablePath();
+
+const DEFAULT_PROCESSES_TO_SHARD = 2;
 
 module.exports = function (config) {
   config.set({
@@ -55,7 +58,7 @@ module.exports = function (config) {
     browsers: ['ChromeHeadlessNoSandbox'],
     singleRun: true,
     parallelOptions: {
-      executors: 2
+      executors: os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD,
     },
     customLaunchers: {
       ChromeHeadlessNoSandbox: {

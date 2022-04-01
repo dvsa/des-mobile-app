@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories/index';
+import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import {
   isNull, unset, isObject, cloneDeep,
 } from 'lodash';

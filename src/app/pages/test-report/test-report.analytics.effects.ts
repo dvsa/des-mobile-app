@@ -40,27 +40,18 @@ import { getEco, getTestRequirements, getETA } from '@store/tests/test-data/comm
 import { Eco, TestRequirements, ETA } from '@dvsa/mes-test-schema/categories/common';
 import * as uncoupleRecoupleActions
   from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-// @TODO MES-7130: need to import components
-// import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
 import { getTestData as getCatAmod1TestData } from
   '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
-// @TODO MES-7149: Cat A Mod 1
-// import { getAvoidance } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
-import { EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
+import { getAvoidance } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
+import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
 import { speedCheckToggleValues } from '@shared/constants/competencies/cata-mod1-speed-checks';
 import { getEmergencyStop } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
-// @TODO MES-7149: Cat A Mod 1
-// import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
-// import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import * as singleFaultCompetencyActions from
   '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
-// @TODO MES-7149: Cat A Mod 1
-// import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
-// @TODO MES-7148 - Cat D
-// import * as pcvDoorExerciseActions from
-//   '../../modules/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
+import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
+import * as pcvDoorExerciseActions from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
 import {
   getControlledStop,
 } from '@store/tests/test-data/common/controlled-stop/controlled-stop.reducer';
@@ -77,6 +68,9 @@ import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { VehicleChecksTypes } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { isRemoveFaultMode } from '@pages/test-report/test-report.selector';
+import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
+import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
+import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
 
 @Injectable()
 export class TestReportAnalyticsEffects {
@@ -89,7 +83,7 @@ export class TestReportAnalyticsEffects {
   }
 
   testReportViewDidEnter$ = createEffect(() => this.actions$.pipe(
-    ofType(testReportActions.TestReportViewDidEnter.type),
+    ofType(testReportActions.TestReportViewDidEnter),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -1164,134 +1158,123 @@ export class TestReportAnalyticsEffects {
     }),
   ));
 
-  // @TODO - MES-7149 - enable once component migrated
-  // reverseLeftPopoverOpened$ = this.actions$.pipe(
-  //   ofType(reverseLeftActions.REVERSE_LEFT_POPOVER_OPENED),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(([action, tests]: [reverseLeftActions.ReverseLeftPopoverOpened, TestsModel]) => {
-  //     this.analytics.logEvent(
-  //       formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //       formatAnalyticsText(AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED, tests),
-  //     );
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // );
+  reverseLeftPopoverOpened$ = createEffect(() => this.actions$.pipe(
+    ofType(reverseLeftActions.ReverseLeftPopoverOpened),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverOpened>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED, tests),
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
 
-  // @TODO - MES-7149 - enable once component migrated
-  // reverseLeftPopoverClosed$ = this.actions$.pipe(
-  //   ofType(reverseLeftActions.REVERSE_LEFT_POPOVER_CLOSED),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(([action, tests]: [reverseLeftActions.ReverseLeftPopoverClosed, TestsModel]) => {
-  //     this.analytics.logEvent(
-  //       formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //       formatAnalyticsText(AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED, tests),
-  //     );
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // );
-  //
-  // @TODO - MES-7149 - enable once component migrated
-  // toggleAvoidanceSpeedReq$ = this.actions$.pipe(
-  //   ofType(
-  //     avoidanceActions.ADD_AVOIDANCE_SERIOUS_FAULT,
-  //     avoidanceActions.REMOVE_AVOIDANCE_SERIOUS_FAULT,
-  //   ),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(
-  //     ([action, tests]) => {
-  //       const toggleValue = action.type === avoidanceActions.ADD_AVOIDANCE_SERIOUS_FAULT ?
-  //         speedCheckToggleValues.speedNotMet : speedCheckToggleValues.speedMet;
-  //       this.analytics.logEvent(
-  //         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //         formatAnalyticsText(AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT, tests),
-  //         `${competencyLabels['speedCheckAvoidance']} - ${toggleValue}`,
-  //       );
-  //       return of(new AnalyticRecorded());
-  //     },
-  //   ),
-  // );
-  //
-  // @TODO - MES-7149 - enable once component migrated
-  // recordAvoidanceFirstAttempt$ = this.actions$.pipe(
-  //   ofType(
-  //     avoidanceActions.RECORD_AVOIDANCE_FIRST_ATTEMPT,
-  //   ),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //       this.store$.pipe(
-  //         select(getTests),
-  //         select(getCurrentTest),
-  //         select(getCatAmod1TestData),
-  //         select(getAvoidance),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(
-  //     ([action, tests, avoidance]:
-  //        [avoidanceActions.RecordAvoidanceFirstAttempt, TestsModel, Avoidance]) => {
-  //       const attemptValue = avoidance.firstAttempt;
-  //       this.analytics.logEvent(
-  //         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //         formatAnalyticsText(AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT, tests),
-  //         `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-  //       );
-  //       return of(new AnalyticRecorded());
-  //     },
-  //   ),
-  // );
-  //
-  // @TODO - MES-7149 - enable once component migrated
-  // recordAvoidanceSecondAttempt$ = this.actions$.pipe(
-  //   ofType(
-  //     avoidanceActions.RECORD_AVOIDANCE_SECOND_ATTEMPT,
-  //   ),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //       this.store$.pipe(
-  //         select(getTests),
-  //         select(getCurrentTest),
-  //         select(getCatAmod1TestData),
-  //         select(getAvoidance),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(
-  //     ([action, tests, avoidance]:
-  //        [avoidanceActions.RecordAvoidanceSecondAttempt, TestsModel, Avoidance]) => {
-  //       const attemptValue = avoidance.secondAttempt;
-  //       this.analytics.logEvent(
-  //         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //         formatAnalyticsText(AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT, tests),
-  //         `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-  //       );
-  //       return of(new AnalyticRecorded());
-  //     },
-  //   ),
-  // );
+  reverseLeftPopoverClosed$ = createEffect(() => this.actions$.pipe(
+    ofType(reverseLeftActions.ReverseLeftPopoverClosed),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverClosed>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED, tests),
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  toggleAvoidanceSpeedReq$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      avoidanceActions.AddAvoidanceSeriousFault,
+      avoidanceActions.RemoveAvoidanceSeriousFault,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(
+      ([action, tests]) => {
+        const toggleValue = (action.type === avoidanceActions.AddAvoidanceSeriousFault.type)
+          ? speedCheckToggleValues.speedNotMet
+          : speedCheckToggleValues.speedMet;
+
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+          formatAnalyticsText(AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT, tests),
+          `${competencyLabels['speedCheckAvoidance']} - ${toggleValue}`,
+        );
+        return of(AnalyticRecorded());
+      },
+    ),
+  ));
+
+  recordAvoidanceFirstAttempt$ = createEffect(() => this.actions$.pipe(
+    ofType(avoidanceActions.RecordAvoidanceFirstAttempt),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getCatAmod1TestData),
+          select(getAvoidance),
+        ),
+      ),
+    )),
+    concatMap(([, tests, avoidance]:
+    [ReturnType<typeof avoidanceActions.RecordAvoidanceFirstAttempt>, TestsModel, Avoidance]) => {
+      const attemptValue = avoidance.firstAttempt;
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT, tests),
+        `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  recordAvoidanceSecondAttempt$ = createEffect(() => this.actions$.pipe(
+    ofType(avoidanceActions.RecordAvoidanceSecondAttempt),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getCatAmod1TestData),
+          select(getAvoidance),
+        ),
+      ),
+    )),
+    concatMap(([, tests, avoidance]:
+    [ReturnType<typeof avoidanceActions.RecordAvoidanceSecondAttempt>, TestsModel, Avoidance]) => {
+      const attemptValue = avoidance.secondAttempt;
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT, tests),
+        `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
 
   toggleEmergencyStopSpeedReq$ = createEffect(() => this.actions$.pipe(
     ofType(
@@ -1320,9 +1303,7 @@ export class TestReportAnalyticsEffects {
   ));
 
   recordEmergencyStopFirstAttempt$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      emergencyStopActions.RecordEmergencyStopFirstAttempt,
-    ),
+    ofType(emergencyStopActions.RecordEmergencyStopFirstAttempt),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -1336,24 +1317,19 @@ export class TestReportAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(
-      ([, tests, emergencyStop]:
-      [ReturnType <typeof emergencyStopActions.RecordEmergencyStopFirstAttempt>, TestsModel, EmergencyStop]) => {
-        const attemptValue = emergencyStop.firstAttempt;
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.RECORD_EMERGENCY_STOP_FIRST_ATTEMPT, tests),
-          `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-        );
-        return of(AnalyticRecorded());
-      },
-    ),
+    concatMap(([, tests, emergencyStop]: [ReturnType <typeof emergencyStopActions.RecordEmergencyStopFirstAttempt>, TestsModel, EmergencyStop]) => {
+      const attemptValue = emergencyStop.firstAttempt;
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.RECORD_EMERGENCY_STOP_FIRST_ATTEMPT, tests),
+        `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
+      );
+      return of(AnalyticRecorded());
+    }),
   ));
 
   recordEmergencyStopSecondAttempt$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      emergencyStopActions.RecordEmergencyStopSecondAttempt,
-    ),
+    ofType(emergencyStopActions.RecordEmergencyStopSecondAttempt),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -1367,100 +1343,19 @@ export class TestReportAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(
-      ([, tests, emergencyStop]:
-      [ReturnType <typeof emergencyStopActions.RecordEmergencyStopSecondAttempt>, TestsModel, EmergencyStop]) => {
-        const attemptValue = emergencyStop.secondAttempt;
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.RECORD_EMERGENCY_STOP_SECOND_ATTEMPT, tests),
-          `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-        );
-        return of(AnalyticRecorded());
-      },
-    ),
+    concatMap(([, tests, emergencyStop]: [ReturnType <typeof emergencyStopActions.RecordEmergencyStopSecondAttempt>, TestsModel, EmergencyStop]) => {
+      const attemptValue = emergencyStop.secondAttempt;
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.RECORD_EMERGENCY_STOP_SECOND_ATTEMPT, tests),
+        `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
+      );
+      return of(AnalyticRecorded());
+    }),
   ));
 
-  // @TODO MES-7149 - enable with Cat A Mod 1
-  // @Effect()
-  // speedRequirementNotMetModalOpened$ = this.actions$.pipe(
-  //   ofType(
-  //     testReportCatAMod1Actions.SPEED_REQ_NOT_MET_MODAL_OPENED,
-  //   ),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(
-  //     ([action, tests]:
-  //        [testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened, TestsModel]) => {
-  //       this.analytics.logEvent(
-  //         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //         formatAnalyticsText(AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED, tests),
-  //         ModalReason.SPEED_REQUIREMENTS,
-  //       );
-  //       return of(new AnalyticRecorded());
-  //     },
-  //   ),
-  // );
-
-  // @TODO MES-7149 - enable with Cat A Mod 1
-  // emergencyStopDangerousFaultModelOpened$ = this.actions$.pipe(
-  //   ofType(
-  //     testReportCatAMod1Actions.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED,
-  //   ),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(
-  //     ([action, tests]:
-  //        [testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened, TestsModel]) => {
-  //       this.analytics.logEvent(
-  //         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //         formatAnalyticsText(AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED, tests),
-  //         ModalReason.EMERGENCY_STOP_DANGEROUS,
-  //       );
-  //       return of(new AnalyticRecorded());
-  //     },
-  //   ),
-  // );
-  //
-  // @TODO MES-7149 - enable with Cat A Mod 1
-  // emergencyStopSeriousFaultModelOpened$ = this.actions$.pipe(
-  //   ofType(
-  //     testReportCatAMod1Actions.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED,
-  //   ),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(
-  //     ([action, tests]:
-  //        [testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened, TestsModel]) => {
-  //       this.analytics.logEvent(
-  //         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //         formatAnalyticsText(AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED, tests),
-  //         ModalReason.EMERGENCY_STOP_SERIOUS,
-  //       );
-  //       return of(new AnalyticRecorded());
-  //     },
-  //   ),
-  // );
-  //
-  setSingleFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome,
-    ),
+  speedRequirementNotMetModalOpened$ = createEffect(() => this.actions$.pipe(
+    ofType(testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
@@ -1468,31 +1363,85 @@ export class TestReportAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(
-      ([action, tests]:
-      [ReturnType <typeof singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome>, TestsModel]) => {
-        if (action.outcome === CompetencyOutcome.DF) {
-          this.analytics.logEvent(
-            formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-            formatAnalyticsText(AnalyticsEvents.ADD_SINGLE_FAULT, tests),
-            fullCompetencyLabels[action.competencyName],
-          );
-        } else if (action.outcome === CompetencyOutcome.D) {
-          this.analytics.logEvent(
-            formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-            formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_SINGLE_FAULT, tests),
-            fullCompetencyLabels[action.competencyName],
-          );
-        } else if (action.outcome === CompetencyOutcome.S) {
-          this.analytics.logEvent(
-            formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-            formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_SINGLE_FAULT, tests),
-            fullCompetencyLabels[action.competencyName],
-          );
-        }
-        return of(AnalyticRecorded());
-      },
-    ),
+    concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED, tests),
+        ModalReason.SPEED_REQUIREMENTS,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  emergencyStopDangerousFaultModelOpened$ = createEffect(() => this.actions$.pipe(
+    ofType(testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED, tests),
+        ModalReason.EMERGENCY_STOP_DANGEROUS,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  emergencyStopSeriousFaultModelOpened$ = createEffect(() => this.actions$.pipe(
+    ofType(testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED, tests),
+        ModalReason.EMERGENCY_STOP_SERIOUS,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  setSingleFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
+    ofType(singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome>, TestsModel]) => {
+      if (action.outcome === CompetencyOutcome.DF) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+          formatAnalyticsText(AnalyticsEvents.ADD_SINGLE_FAULT, tests),
+          fullCompetencyLabels[action.competencyName],
+        );
+      } else if (action.outcome === CompetencyOutcome.D) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+          formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_SINGLE_FAULT, tests),
+          fullCompetencyLabels[action.competencyName],
+        );
+      } else if (action.outcome === CompetencyOutcome.S) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+          formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_SINGLE_FAULT, tests),
+          fullCompetencyLabels[action.competencyName],
+        );
+      }
+      return of(AnalyticRecorded());
+    }),
   ));
 
   removeSingleFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
@@ -1504,16 +1453,14 @@ export class TestReportAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(
-      ([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome>, TestsModel]) => {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.REMOVE_SINGLE_FAULT, tests),
-          fullCompetencyLabels[action.competencyName],
-        );
-        return of(AnalyticRecorded());
-      },
-    ),
+    concatMap(([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.REMOVE_SINGLE_FAULT, tests),
+        fullCompetencyLabels[action.competencyName],
+      );
+      return of(AnalyticRecorded());
+    }),
   ));
 
   removeSingleDangerousFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
@@ -1525,16 +1472,14 @@ export class TestReportAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(
-      ([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome>, TestsModel]) => {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT, tests),
-          fullCompetencyLabels[action.competencyName],
-        );
-        return of(AnalyticRecorded());
-      },
-    ),
+    concatMap(([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT, tests),
+        fullCompetencyLabels[action.competencyName],
+      );
+      return of(AnalyticRecorded());
+    }),
   ));
 
   removeSingleSeriousFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
@@ -1546,137 +1491,129 @@ export class TestReportAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(
-      ([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome>, TestsModel]) => {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT, tests),
-          fullCompetencyLabels[action.competencyName],
-        );
-        return of(AnalyticRecorded());
-      },
-    ),
+    concatMap(([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT, tests),
+        fullCompetencyLabels[action.competencyName],
+      );
+      return of(AnalyticRecorded());
+    }),
   ));
 
-  // @TODO MES-7148- Cat D - enable this effect
-  // pcvDoorExerciseAddDrivingFault$ = createEffect(() => this.actions$.pipe(
-  //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(([action, tests]: [pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault, TestsModel]) => {
-  //     this.analytics.logEvent(
-  //       formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //       formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT, tests),
-  //       fullCompetencyLabels.pcvDoorExercise,
-  //     );
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // ));
+  pcvDoorExerciseAddDrivingFault$ = createEffect(() => this.actions$.pipe(
+    ofType(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT, tests),
+        fullCompetencyLabels.pcvDoorExercise,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
 
-  // @TODO MES-7148- Cat D - enable this effect
-  // pcvDoorExerciseAddSeriousFault$ = this.actions$.pipe(
-  //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(([action, tests]: [pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault, TestsModel]) => {
-  //     this.analytics.logEvent(
-  //       formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //       formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT, tests),
-  //       fullCompetencyLabels.pcvDoorExercise,
-  //     );
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // );
-  //
-  // @TODO MES-7148- Cat D - enable this effect
-  // pcvDoorExerciseAddDangerousFault$ = this.actions$.pipe(
-  //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(([action, tests]: [pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault, TestsModel]) => {
-  //     this.analytics.logEvent(
-  //       formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //       formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT, tests),
-  //       fullCompetencyLabels.pcvDoorExercise,
-  //     );
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // );
-  //
-  // @TODO MES-7148- Cat D - enable this effect
-  // pcvDoorExerciseRemoveDrivingFault$ = this.actions$.pipe(
-  //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(([action, tests]: [pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault, TestsModel]) => {
-  //     this.analytics.logEvent(
-  //       formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //       formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT, tests),
-  //       fullCompetencyLabels.pcvDoorExercise,
-  //     );
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // );
-  //
-  // @TODO MES-7148 - Cat D - enable this effect
-  // pcvDoorExerciseRemoveSeriousFault$ = this.actions$.pipe(
-  //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(([action, tests]: [pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault, TestsModel]) => {
-  //     this.analytics.logEvent(
-  //       formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //       formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT, tests),
-  //       fullCompetencyLabels.pcvDoorExercise,
-  //     );
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // );
-  //
-  // @TODO MES-7148 - Cat D - enable this effect
-  // pcvDoorExerciseRemoveDangerousFault$ = this.actions$.pipe(
-  //   ofType(pcvDoorExerciseActions.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT),
-  //   concatMap(action => of(action).pipe(
-  //     withLatestFrom(
-  //       this.store$.pipe(
-  //         select(getTests),
-  //       ),
-  //     ),
-  //   )),
-  //   concatMap(([action, tests]: [pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault, TestsModel]) => {
-  //     this.analytics.logEvent(
-  //       formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-  //       formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT, tests),
-  //       fullCompetencyLabels.pcvDoorExercise,
-  //     );
-  //     return of(new AnalyticRecorded());
-  //   }),
-  // );
+  pcvDoorExerciseAddSeriousFault$ = this.actions$.pipe(
+    ofType(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT, tests),
+        fullCompetencyLabels.pcvDoorExercise,
+      );
+      return of(AnalyticRecorded());
+    }),
+  );
+
+  pcvDoorExerciseAddDangerousFault$ = this.actions$.pipe(
+    ofType(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT, tests),
+        fullCompetencyLabels.pcvDoorExercise,
+      );
+      return of(AnalyticRecorded());
+    }),
+  );
+
+  pcvDoorExerciseRemoveDrivingFault$ = this.actions$.pipe(
+    ofType(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT, tests),
+        fullCompetencyLabels.pcvDoorExercise,
+      );
+      return of(AnalyticRecorded());
+    }),
+  );
+
+  pcvDoorExerciseRemoveSeriousFault$ = this.actions$.pipe(
+    ofType(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT, tests),
+        fullCompetencyLabels.pcvDoorExercise,
+      );
+      return of(AnalyticRecorded());
+    }),
+  );
+
+  pcvDoorExerciseRemoveDangerousFault$ = this.actions$.pipe(
+    ofType(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT, tests),
+        fullCompetencyLabels.pcvDoorExercise,
+      );
+      return of(AnalyticRecorded());
+    }),
+  );
 
   startTimer$ = createEffect(() => this.actions$.pipe(
     ofType(testReportActions.StartTimer),
