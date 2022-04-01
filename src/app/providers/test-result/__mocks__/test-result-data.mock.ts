@@ -52,6 +52,24 @@ export const sixteenDrivingFaultsMock: TestData = {
   },
 };
 
+export const thirteenDrivingFaultsMock: TestData = {
+  drivingFaults: {
+    useOfMirrorsSignalling: 1,
+    useOfMirrorsChangeDirection: 1,
+    useOfMirrorsChangeSpeed: 1,
+    signalsNecessary: 1,
+    signalsCorrectly: 1,
+    signalsTimed: 1,
+    junctionsApproachSpeed: 1,
+    junctionsObservation: 1,
+    junctionsTurningRight: 1,
+    junctionsTurningLeft: 1,
+    junctionsCuttingCorners: 1,
+    controlsAccelerator: 1,
+    controlsClutch: 1,
+  },
+};
+
 export const adi2SevenDrivingFaultsWithDangerousMock: CatADI2UniqueTypes.TestData = {
   drivingFaults: adi2SevenDrivingFaultsMock.drivingFaults,
   dangerousFaults: {
@@ -70,6 +88,13 @@ export const sixteenDrivingFaultsWithDangerousMock: TestData = {
   },
 };
 
+export const thirteenDrivingFaultsWithDangerousMock: TestData = {
+  drivingFaults: thirteenDrivingFaultsMock.drivingFaults,
+  dangerousFaults: {
+    clearance: true,
+  },
+};
+
 export const adi2SevenDrivingFaultsWithSeriousMock: CatADI2UniqueTypes.TestData = {
   drivingFaults: adi2SevenDrivingFaultsMock.drivingFaults,
   seriousFaults: {
@@ -83,6 +108,13 @@ export const adi2SevenDrivingFaultsWithSeriousMock: CatADI2UniqueTypes.TestData 
 
 export const sixteenDrivingFaultsWithSeriousMock: TestData = {
   drivingFaults: sixteenDrivingFaultsMock.drivingFaults,
+  seriousFaults: {
+    positioningNormalDriving: true,
+  },
+};
+
+export const thirteenDrivingFaultsWithSeriousMock: TestData = {
+  drivingFaults: thirteenDrivingFaultsMock.drivingFaults,
   seriousFaults: {
     positioningNormalDriving: true,
   },
@@ -119,6 +151,23 @@ export const fifteenDrivingFaultsMock: TestData = {
   },
 };
 
+export const twelveDrivingFaultsMock: TestData = {
+  drivingFaults: {
+    useOfMirrorsSignalling: 1,
+    useOfMirrorsChangeDirection: 1,
+    useOfMirrorsChangeSpeed: 1,
+    signalsNecessary: 1,
+    signalsCorrectly: 1,
+    signalsTimed: 1,
+    junctionsApproachSpeed: 1,
+    junctionsObservation: 1,
+    junctionsTurningRight: 1,
+    junctionsTurningLeft: 1,
+    junctionsCuttingCorners: 1,
+    controlsAccelerator: 1,
+  },
+};
+
 export const adi2SixDrivingFaultsWithDangerousMock: CatADI2UniqueTypes.TestData = {
   drivingFaults: sixDrivingFaultsMock.drivingFaults,
   dangerousFaults: {
@@ -132,6 +181,13 @@ export const adi2SixDrivingFaultsWithDangerousMock: CatADI2UniqueTypes.TestData 
 
 export const fifteenDrivingFaultsWithDangerousMock: TestData = {
   drivingFaults: fifteenDrivingFaultsMock.drivingFaults,
+  dangerousFaults: {
+    positioningNormalDriving: true,
+  },
+};
+
+export const twelveDrivingFaultsWithDangerousMock: TestData = {
+  drivingFaults: twelveDrivingFaultsMock.drivingFaults,
   dangerousFaults: {
     positioningNormalDriving: true,
   },
@@ -166,6 +222,13 @@ export const adi2DangerousVehicleCheckFaultsMock: CatADI2UniqueTypes.TestData = 
 
 export const fifteenDrivingFaultsWithSeriousMock: TestData = {
   drivingFaults: fifteenDrivingFaultsMock.drivingFaults,
+  seriousFaults: {
+    positioningNormalDriving: true,
+  },
+};
+
+export const twelveDrivingFaultsWithSeriousMock: TestData = {
+  drivingFaults: twelveDrivingFaultsMock.drivingFaults,
   seriousFaults: {
     positioningNormalDriving: true,
   },

@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { gunzipSync } from 'zlib';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { HttpClient } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
-import { DeviceMock } from '@ionic-native-mocks/device';
-import { Device } from '@ionic-native/device';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { configureTestSuite } from 'ng-bullet';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { of } from 'rxjs';
 import { LogHelper } from '../../logs/logs-helper';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -16,11 +16,8 @@ import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { UrlProvider } from '../../url/url';
 import { TestSubmissionProvider, TestToSubmit } from '../test-submission';
 
-// @TODO MES-7150 - reinstate
-xdescribe('TestSubmissionProvider', () => {
-
+describe('TestSubmissionProvider', () => {
   let testSubmissionProvider: TestSubmissionProvider;
-  let httpMock: HttpTestingController;
   let urlProvider: UrlProvider;
   let httpClient: HttpClient;
 
@@ -37,27 +34,24 @@ xdescribe('TestSubmissionProvider', () => {
       providers: [
         TestSubmissionProvider,
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        HttpClient,
         { provide: UrlProvider, useClass: UrlProviderMock },
         Store,
-        LogHelper,
-        { provide: Device, useClass: DeviceMock },
+        { provide: LogHelper, useClass: LogHelperMock },
       ],
     });
   });
 
   beforeEach(() => {
     testSubmissionProvider = TestBed.inject(TestSubmissionProvider);
-    httpMock = TestBed.inject(HttpTestingController);
     httpClient = TestBed.inject(HttpClient);
     urlProvider = TestBed.inject(UrlProvider);
     spyOn(testSubmissionProvider, 'compressData').and.callThrough();
     spyOn(testSubmissionProvider, 'removeNullFieldsDeep').and.callThrough();
     spyOn(testSubmissionProvider, 'submitTest').and.callThrough();
-    spyOn(httpClient, 'post').and.callThrough();
+    spyOn(httpClient, 'post').and.returnValue(of());
   });
 
-  xdescribe('submitTests', () => { // @TODO: MES-7150 fix test - Type '"response"' is not assignable to type '"body"'.
+  describe('submitTests', () => {
     it('should attempt to submit a test', () => {
       testSubmissionProvider.submitTests([{
         index: 0,
@@ -66,13 +60,11 @@ xdescribe('TestSubmissionProvider', () => {
         status: TestStatus.Completed,
       }] as TestToSubmit[]).subscribe();
 
-      httpMock.expectOne('https://www.example.com/api/v1/test-result');
-
       expect(httpClient.post).toHaveBeenCalledWith(
         'https://www.example.com/api/v1/test-result',
         // Compressed and base64 encoded string of and empty object
         'H4sIAAAAAAAAA6uuBQBDv6ajAgAAAA==',
-        // { observe: 'response' },
+        { observe: 'response' as any },
       );
       expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
       expect(testSubmissionProvider.compressData).toHaveBeenCalled();
@@ -101,10 +93,8 @@ xdescribe('TestSubmissionProvider', () => {
       expect(json).toEqual(mockData);
     });
   });
-  xdescribe('removeNullFieldsDeep', () => { // @TODO MES-7150 - fix test
+  describe('removeNullFieldsDeep', () => {
     it('should successfully remove null props from the provided data', () => {
-
-      /*
       // ARRANGE
       const mockData: Partial<CatBUniqueTypes.TestResult> = {
         category: 'B',
@@ -126,12 +116,11 @@ xdescribe('TestSubmissionProvider', () => {
           conductedLanguage: 'English',
         },
         instructorDetails: {},
-      };
+      } as Partial<CatBUniqueTypes.TestResult>;
       // ACT
       const result = testSubmissionProvider.removeNullFieldsDeep(mockData as CatBUniqueTypes.TestResult);
       // ASSERT
       expect(result).toEqual(expected);
-      */
     });
   });
   describe('isPartialSubmission', () => {

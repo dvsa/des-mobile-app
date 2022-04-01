@@ -47,18 +47,12 @@ import {
 } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import * as uncoupleRecoupleActions
   from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-// @TODO - MES-7149 - enable once component migrated
-// import * as reverseLeftActions from '../components/reverse-left/reverse-left.actions';
 import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-// @TODO - MES-7149 - enable with Mod 1
-// import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
+import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import {
   speedCheckToggleValues,
 } from '@shared/constants/competencies/cata-mod1-speed-checks';
-// @TODO - MES-7149 - enable with Mod 1
-// import * as testReportCatAMod1Actions from '../cat-a-mod1/test-report.cat-a-mod1.actions';
-// import { ModalReason } from '../cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import * as emergencyStopActions
   from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
@@ -66,18 +60,17 @@ import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candi
 import * as singleFaultCompetencyActions
   from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-// @TODO - MES-7148 - enable with Cat D
-// import * as pcvDoorExerciseActions from
-//   '../../../modules/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
-import * as highwayCodeActions
-  from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
+import * as pcvDoorExerciseActions from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
+import * as highwayCodeActions from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
 import { testReportReducer } from '@pages/test-report/test-report.reducer';
+import { ModalReason } from '../cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
+import * as testReportCatAMod1Actions from '../cat-a-mod1/test-report.cat-a-mod1.actions';
 import * as testReportActions from '../test-report.actions';
 import { TestReportAnalyticsEffects } from '../test-report.analytics.effects';
+import * as reverseLeftActions from '../components/reverse-left/reverse-left.actions';
 
-describe('Test Report Analytics Effects', () => {
-
+describe('TestReportAnalyticsEffects', () => {
   let effects: TestReportAnalyticsEffects;
   let actions$: ReplaySubject<any>;
   let analyticsProviderMock;
@@ -1496,219 +1489,211 @@ describe('Test Report Analytics Effects', () => {
     });
   });
 
-  // @TODO - MES-7149 - enable once component migrated
-  // describe('reverseLeftPopoverOpened', () => {
-  //   it('should call logEvent with the correct parameters', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-  //     // ACT
-  //     actions$.next(reverseLeftActions.ReverseLeftPopoverOpened());
-  //     // ASSERT
-  //     effects.reverseLeftPopoverOpened$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED}`,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('reverseLeftPopoverOpened', () => {
+    it('should call logEvent with the correct parameters', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
+      // ACT
+      actions$.next(reverseLeftActions.ReverseLeftPopoverOpened());
+      // ASSERT
+      effects.reverseLeftPopoverOpened$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED}`,
+        );
+        done();
+      });
+    });
+  });
 
-  // @TODO - MES-7149 - enable once component migrated
-  // describe('reverseLeftPopoverClosed', () => {
-  //   it('should call logEvent with the correct parameters', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-  //     // ACT
-  //     actions$.next(reverseLeftActions.ReverseLeftPopoverClosed());
-  //     // ASSERT
-  //     effects.reverseLeftPopoverClosed$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED}`,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('reverseLeftPopoverClosed', () => {
+    it('should call logEvent with the correct parameters', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
+      // ACT
+      actions$.next(reverseLeftActions.ReverseLeftPopoverClosed());
+      // ASSERT
+      effects.reverseLeftPopoverClosed$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED}`,
+        );
+        done();
+      });
+    });
+  });
 
-  // @TODO - MES-7149 implement with Cat A Mod 1
-  // describe('toggleAvoidanceSpeedReq', () => {
-  //   it('should log speed not met for this competency', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
-  //     store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
-  //     store$.dispatch(PopulateCandidateDetails(candidateMock));
-  //
-  //     actions$.next(avoidanceActions.AddAvoidanceSeriousFault());
-  //     // ASSERT
-  //     effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
-  //         `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedNotMet}`,
-  //       );
-  //       done();
-  //     });
-  //   });
-  //
-  //   it('should call logEvent for speed met for this competency', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
-  //     store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
-  //     store$.dispatch(PopulateCandidateDetails(candidateMock));
-  //
-  //     // ACT
-  //     actions$.next(avoidanceActions.RemoveAvoidanceSeriousFault());
-  //
-  //     // ASSERT
-  //     effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
-  //         `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedMet}`,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('toggleAvoidanceSpeedReq', () => {
+    it('should log speed not met for this competency', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
+      store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
 
-  // @TODO - MES-7149 implement with Cat A Mod 1
-  // describe('recordAvoidanceFirstAttempt', () => {
-  //   it('should call logEvent for record avoidance first attempt', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
-  //     store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
-  //     store$.dispatch(PopulateCandidateDetails(candidateMock));
-  //     const attemptValue = 27;
-  //     store$.dispatch(avoidanceActions.RecordAvoidanceFirstAttempt(attemptValue));
-  //
-  //     // ACT
-  //     actions$.next(avoidanceActions.RecordAvoidanceFirstAttempt(attemptValue));
-  //
-  //     // ASSERT
-  //     effects.recordAvoidanceFirstAttempt$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT,
-  //         `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+      actions$.next(avoidanceActions.AddAvoidanceSeriousFault());
+      // ASSERT
+      effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
+          `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedNotMet}`,
+        );
+        done();
+      });
+    });
 
-  // @TODO - MES-7149 implement with Cat A Mod 1
-  // describe('recordAvoidanceSecondAttempt', () => {
-  //   it('should call logEvent for record avoidance second attempt', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
-  //     store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
-  //     store$.dispatch(PopulateCandidateDetails(candidateMock));
-  //     const attemptValue = 5;
-  //     store$.dispatch(avoidanceActions.RecordAvoidanceSecondAttempt(attemptValue));
-  //
-  //     // ACT
-  //     actions$.next(avoidanceActions.RecordAvoidanceSecondAttempt(attemptValue));
-  //
-  //     // ASSERT
-  //     effects.recordAvoidanceSecondAttempt$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT,
-  //         `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+    it('should call logEvent for speed met for this competency', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
+      store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
 
-  // @TODO - MES-7149 implement with Cat A Mod 1
-  // describe('speedRequirementNotMetModalOpened', () => {
-  //   it('should call logEvent for speed requirement not met modal opened', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
-  //     store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
-  //     store$.dispatch(PopulateCandidateDetails(candidateMock));
-  //
-  //     // ACT
-  //     actions$.next(testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened());
-  //
-  //     // ASSERT
-  //     effects.speedRequirementNotMetModalOpened$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED,
-  //         ModalReason.SPEED_REQUIREMENTS,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+      // ACT
+      actions$.next(avoidanceActions.RemoveAvoidanceSeriousFault());
 
-  // @TODO - MES-7149 implement with Cat A Mod 1
-  // describe('emergencyStopDangerousFaultModelOpened', () => {
-  //   it('should call logEvent for ememergency stop dangererous fault modal opened', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
-  //     store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
-  //     store$.dispatch(PopulateCandidateDetails(candidateMock));
-  //
-  //     // ACT
-  //     actions$.next(testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened());
-  //
-  //     // ASSERT
-  //     effects.emergencyStopDangerousFaultModelOpened$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED,
-  //         ModalReason.EMERGENCY_STOP_DANGEROUS,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+      // ASSERT
+      effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
+          `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedMet}`,
+        );
+        done();
+      });
+    });
+  });
 
-  // @TODO - MES-7149 implement with Cat A Mod 1
-  // describe('emergencyStopSeriousFaultModelOpened', () => {
-  //   it('should call logEvent for emergency stop serious fault modal opened', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
-  //     store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
-  //     store$.dispatch(PopulateCandidateDetails(candidateMock));
-  //
-  //     // ACT
-  //     actions$.next(testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened());
-  //
-  //     // ASSERT
-  //     effects.emergencyStopSeriousFaultModelOpened$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED,
-  //         ModalReason.EMERGENCY_STOP_SERIOUS,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('recordAvoidanceFirstAttempt', () => {
+    it('should call logEvent for record avoidance first attempt', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
+      store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      const attemptValue = 27;
+      store$.dispatch(avoidanceActions.RecordAvoidanceFirstAttempt(attemptValue));
+
+      // ACT
+      actions$.next(avoidanceActions.RecordAvoidanceFirstAttempt(attemptValue));
+
+      // ASSERT
+      effects.recordAvoidanceFirstAttempt$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT,
+          `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('recordAvoidanceSecondAttempt', () => {
+    it('should call logEvent for record avoidance second attempt', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
+      store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      const attemptValue = 5;
+      store$.dispatch(avoidanceActions.RecordAvoidanceSecondAttempt(attemptValue));
+
+      // ACT
+      actions$.next(avoidanceActions.RecordAvoidanceSecondAttempt(attemptValue));
+
+      // ASSERT
+      effects.recordAvoidanceSecondAttempt$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT,
+          `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('speedRequirementNotMetModalOpened', () => {
+    it('should call logEvent for speed requirement not met modal opened', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
+      store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+
+      // ACT
+      actions$.next(testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened());
+
+      // ASSERT
+      effects.speedRequirementNotMetModalOpened$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED,
+          ModalReason.SPEED_REQUIREMENTS,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('emergencyStopDangerousFaultModelOpened', () => {
+    it('should call logEvent for ememergency stop dangererous fault modal opened', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
+      store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+
+      // ACT
+      actions$.next(testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened());
+
+      // ASSERT
+      effects.emergencyStopDangerousFaultModelOpened$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED,
+          ModalReason.EMERGENCY_STOP_DANGEROUS,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('emergencyStopSeriousFaultModelOpened', () => {
+    it('should call logEvent for emergency stop serious fault modal opened', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.EUAM1));
+      store$.dispatch(PopulateTestCategory(TestCategory.EUAM1));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+
+      // ACT
+      actions$.next(testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened());
+
+      // ASSERT
+      effects.emergencyStopSeriousFaultModelOpened$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED,
+          ModalReason.EMERGENCY_STOP_SERIOUS,
+        );
+        done();
+      });
+    });
+  });
 
   describe('toggleEmergencyStopSpeedReq', () => {
     it('should call logEvent for speed not met', (done) => {
@@ -1959,235 +1944,229 @@ describe('Test Report Analytics Effects', () => {
     });
   });
 
-  // @TODO - MES-7148 enable with Cat D
-  // describe('PcvDoorExerciseAddDrivingFault', () => {
-  //   it('should call logEvent for this competency', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //
-  //       );
-  //       done();
-  //     });
-  //   });
-  //   it('should call logEvent for this competency, prefixed with practice test', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT}`,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('PcvDoorExerciseAddDrivingFault', () => {
+    it('should call logEvent for this competency', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault());
+      // ASSERT
+      effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT,
+          fullCompetencyLabels.pcvDoorExercise,
 
-  // @TODO MES-7148 - enable with Cat D
-  // describe('PcvDoorExerciseSeriousDrivingFault', () => {
-  //   it('should call logEvent for this competency', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //
-  //       );
-  //       done();
-  //     });
-  //   });
-  //   it('should call logEvent for this competency, prefixed with practice test', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT}`,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+        );
+        done();
+      });
+    });
+    it('should call logEvent for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault());
+      // ASSERT
+      effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT}`,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+  });
 
-  // @TODO MES-7148 - enable with Cat D
-  // describe('pcvDoorExerciseAddDangerousFault', () => {
-  //   it('should call logEvent for this competency', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  //   it('should call logEvent for this competency, prefixed with practice test', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT}`,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('PcvDoorExerciseSeriousDrivingFault', () => {
+    it('should call logEvent for this competency', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault());
+      // ASSERT
+      effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT,
+          fullCompetencyLabels.pcvDoorExercise,
 
-  // @TODO MES-7148 - enable with Cat D
-  // describe('PcvDoorExerciseRemoveDrivingFault', () => {
-  //   it('should call logEvent for this competency', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  //   it('should call logEvent for this competency, prefixed with practice test', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT}`,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+        );
+        done();
+      });
+    });
+    it('should call logEvent for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault());
+      // ASSERT
+      effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT}`,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+  });
 
-  // @TODO MES-7148 - enable with Cat D
-  // describe('pcvDoorExerciseRemoveSeriousFaultX', () => {
-  //   it('should call logEvent for this competency', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  //   it('should call logEvent for this competency, prefixed with practice test', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT}`,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('pcvDoorExerciseAddDangerousFault', () => {
+    it('should call logEvent for this competency', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault());
+      // ASSERT
+      effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+    it('should call logEvent for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault());
+      // ASSERT
+      effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT}`,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+  });
 
-  // @TODO MES-7148 - enable with Cat D
-  // describe('pcvDoorExerciseRemoveDangerousFault', () => {
-  //   it('should call logEvent for this competency', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         AnalyticsEventCategories.TEST_REPORT,
-  //         AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  //   it('should call logEvent for this competency, prefixed with practice test', (done) => {
-  //     // ARRANGE
-  //     store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
-  //     // ACT
-  //     actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault());
-  //     // ASSERT
-  //     effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
-  //       expect(result.type).toEqual(AnalyticRecorded.type);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-  //       expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-  //         `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT}`,
-  //         fullCompetencyLabels.pcvDoorExercise,
-  //       );
-  //       done();
-  //     });
-  //   });
-  // });
+  describe('PcvDoorExerciseRemoveDrivingFault', () => {
+    it('should call logEvent for this competency', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault());
+      // ASSERT
+      effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+    it('should call logEvent for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault());
+      // ASSERT
+      effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT}`,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('pcvDoorExerciseRemoveSeriousFaultX', () => {
+    it('should call logEvent for this competency', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault());
+      // ASSERT
+      effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+    it('should call logEvent for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault());
+      // ASSERT
+      effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT}`,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('pcvDoorExerciseRemoveDangerousFault', () => {
+    it('should call logEvent for this competency', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123456, TestCategory.D));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault());
+      // ASSERT
+      effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_REPORT,
+          AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+    it('should call logEvent for this competency, prefixed with practice test', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
+      // ACT
+      actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault());
+      // ASSERT
+      effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT}`,
+          fullCompetencyLabels.pcvDoorExercise,
+        );
+        done();
+      });
+    });
+  });
 
   describe('toggleHighwayCodeSafety', () => {
     it('should call log event with toggle highway code stop completed', (done) => {
