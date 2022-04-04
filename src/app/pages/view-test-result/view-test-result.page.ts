@@ -1,4 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component, Input, OnInit,
+} from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -66,6 +69,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     private loadingProvider: LoadingProvider,
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
+    private ref: ChangeDetectorRef,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -107,7 +111,13 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   handleLoadingUI = async (isLoading: boolean): Promise<void> => {
+    this.isLoading = isLoading;
+
     await this.loadingProvider.handleUILoading(isLoading, { spinner: 'circles' });
+
+    if (!isLoading) {
+      this.ref.detach();
+    }
   };
 
   getTestDetails(): TestDetailsModel {
