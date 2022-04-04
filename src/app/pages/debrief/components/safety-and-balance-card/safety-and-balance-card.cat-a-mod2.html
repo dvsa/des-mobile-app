@@ -1,0 +1,24 @@
+<ion-card id="safety-and-balance-questions" *ngIf="(safetyAndBalanceQuestions$ | async).length > 0; let questions">
+  <ion-card-header>
+    <ion-card-title>
+      <h4 class="fault-heading">{{ 'debrief.safetyAndBalance' | translate }}</h4>
+    </ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row class="ion-align-items-center mes-data" *ngFor="let question of safetyAndBalanceQuestions$| async">
+        <ion-col size="32" class="ion-no-padding"></ion-col>
+        <ion-col size="3" class="ion-no-padding ion-align-self-start">
+          <div class="counter-icon">
+            <img *ngIf="!questionHasFault(question)" src="assets/imgs/greenCorrectAnswer.png" alt="Correct Answer" class="correct-icon"/>
+            <img *ngIf="questionHasFault(question)" src="assets/imgs/redWrongAnswer.png" alt="Wrong Answer" class="wrong-icon"/>
+          </div>
+        </ion-col>
+        <ion-col size="3" class="ion-no-padding"></ion-col>
+        <ion-col class="ion-no-padding">
+          <div class="counter-label">{{question.code}} - {{ 'debrief.safetyAndBalanceQuestions.' + question.code | translate }}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

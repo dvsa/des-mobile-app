@@ -7,11 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   WaitingRoomToCarComponentsModule,
 } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
+import {
+  VehicleChecksQuestionCatAMod2Module,
+} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question.module';
 import { VehicleChecksCatAMod2Modal } from './vehicle-checks-modal.cat-a-mod2.page';
 import { VehicleChecksModalCatAMod2AnalyticsEffects } from './vehicle-checks-modal.cat-a-mod2.analytics.effects';
-import {
-  VehicleChecksQuestionCatAMod2Module
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question.module';
 
 @NgModule({
   declarations: [

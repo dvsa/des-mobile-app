@@ -44,6 +44,7 @@ interface VehicleChecksModalState {
 @Component({
   selector: 'vehicle-checks-modal-cat-a-mod2',
   templateUrl: 'vehicle-checks-modal.cat-a-mod2.page.html',
+  styleUrls: ['vehicle-checks-modal.cat-a-mod2.page.scss'],
 })
 export class VehicleChecksCatAMod2Modal {
 

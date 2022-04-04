@@ -74,6 +74,7 @@ interface DebriefPageState {
   question4$: Observable<Question>;
   question5$: Observable<Question5>;
   overallScore$: Observable<number>;
+  showSafetyAndBalance$: Observable<boolean>;
 }
 @Component({
   selector: '.debrief-page',
@@ -219,6 +220,12 @@ export class DebriefPage extends PracticeableBasePageComponent {
         select(getTestCategory),
         map((category) => isAnyOf(category, [
           TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1,
+        ])),
+      ),
+      showSafetyAndBalance$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [
+          TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2,
         ])),
       ),
       emergencyStop$: currentTest$.pipe(

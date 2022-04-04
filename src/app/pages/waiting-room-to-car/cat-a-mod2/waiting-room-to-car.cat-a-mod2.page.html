@@ -53,7 +53,7 @@
                         [formGroup]="form"
                         [safetyAndBalanceQuestionsScore]="pageState.safetyAndBalanceQuestionsScore$ | async"
                         [safetyAndBalanceQuestions]="pageState.safetyAndBalanceQuestions$ | async"
-                        [onCloseVehicleChecksModal]="closeVehicleChecksModal"
+                        (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
                 ></vehicle-checks-cat-a-mod2>
 
                 <accompaniment-card [formGroup]="form"

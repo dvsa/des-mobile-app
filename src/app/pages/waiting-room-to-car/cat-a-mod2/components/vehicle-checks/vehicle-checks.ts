@@ -1,4 +1,6 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import {
+  Component, EventEmitter, Input, OnChanges, Output,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
@@ -17,7 +19,8 @@ import {
 })
 export class VehicleChecksCatAMod2Component implements OnChanges {
 
-  @Input() onCloseVehicleChecksModal: () => {};
+  @Output()
+  onCloseVehicleChecksModal = new EventEmitter();
 
   @Input() safetyAndBalanceQuestionsScore: SafetyQuestionsScore;
 
@@ -47,7 +50,7 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
     const didDismiss = await modal.onDidDismiss();
 
     if (didDismiss) {
-      this.onCloseVehicleChecksModal();
+      this.onCloseVehicleChecksModal.emit();
     }
   }
 
