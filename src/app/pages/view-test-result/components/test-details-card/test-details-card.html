@@ -34,13 +34,15 @@
             </data-row-custom>
 
             <data-row
-                    *ngIf="data.entitlementCheck"
+                    *ngIf="data.entitlementCheck !== undefined"
                     [label]="'Entitlement check'"
-                    [value]="'Entitlement check is required.'"
-                    [shouldShowIndicator]="true">
+                    [value]="data.entitlementCheck ? 'Entitlement check is required.' : 'No'"
+                    [shouldShowIndicator]="data.entitlementCheck">
             </data-row>
 
-            <data-row-custom [label]="'Additional information'">
+            <data-row-custom
+                    [shouldHaveSeperator]="showAttemptNumber()||showPrn()"
+                    [label]="'Additional information'">
                 <div class="mes-data" *ngIf="data.previousCancellations.length === 0">- None</div>
                 <div class="mes-data" *ngIf="data.previousCancellations.length > 0">- Previous cancellations</div>
                 <div *ngFor="let previousCancellation of data.previousCancellations" class="mes-data">
@@ -57,6 +59,7 @@
             <data-row
                     *ngIf="showAttemptNumber()"
                     [label]="'Attempt number'"
+                    [shouldHaveSeperator]="false"
                     [value]="candidateDetails.attemptNumber">
             </data-row>
         </ion-grid>

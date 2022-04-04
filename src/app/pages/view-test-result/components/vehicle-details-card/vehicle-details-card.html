@@ -20,6 +20,7 @@
 
             <data-row
                     *ngIf="registrationNumber"
+                    [shouldHaveSeperator]=" !!instructorRegistrationNumber || shouldShowDimensions || !!vehicleDetails"
                     [label]="'Vehicle registration number'"
                     [value]="registrationNumber">
             </data-row>
@@ -51,7 +52,7 @@
                         <ion-col *ngIf="shouldShowExtraDimensions" size="16">
                             <span class="mes-data"><span class="mes-data bold">H:</span> {{ vehicleHeight }}</span>
                         </ion-col>
-                        <ion-col *ngIf="shouldShowExtraDimensions" size="16">
+                        <ion-col *ngIf="shouldShowExtraDimensions" size="24">
                             <span class="mes-data"><span class="mes-data bold">Seats:</span> {{ numberOfSeats }}</span>
                         </ion-col>
                     </ion-row>
@@ -66,7 +67,7 @@
 
             <data-row *ngIf="isADI2()" [label]="'Training Records'" [value]="trainingRecords"></data-row>
 
-            <data-row *ngIf="displayVehicleDetails" [label]="'Vehicle Details'" [value]="schoolCarDualControls"></data-row>
+            <data-row *ngIf="displayVehicleDetails" [shouldHaveSeperator]="false" [label]="'Vehicle Details'" [value]="schoolCarDualControls"></data-row>
 
         </ion-grid>
     </ion-card-content>
