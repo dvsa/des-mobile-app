@@ -5,6 +5,8 @@ import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-validators';
 import * as moment from 'moment';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 
 @Component({
   selector: 'advanced-search',
@@ -22,6 +24,54 @@ export class AdvancedSearchComponent {
   @Output()
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
 
+  activityCodes: any[] = this.populateActivityArray();
+
+  testCategories: any[] = [
+    'All',
+    TestCategory.A,
+    TestCategory.A1,
+    TestCategory.A2,
+    TestCategory.ADI2,
+    TestCategory.ADI3,
+    TestCategory.AM,
+    TestCategory.B,
+    TestCategory.B1,
+    TestCategory.BE,
+    TestCategory.C,
+    TestCategory.C1,
+    TestCategory.C1E,
+    TestCategory.C1EM,
+    TestCategory.C1M,
+    TestCategory.CCPC,
+    TestCategory.CE,
+    TestCategory.CEM,
+    TestCategory.CM,
+    TestCategory.D,
+    TestCategory.D1,
+    TestCategory.D1E,
+    TestCategory.D1EM,
+    TestCategory.D1M,
+    TestCategory.DCPC,
+    TestCategory.DE,
+    TestCategory.DEM,
+    TestCategory.DM,
+    TestCategory.EUA1M1,
+    TestCategory.EUA1M2,
+    TestCategory.EUA2M1,
+    TestCategory.EUA2M2,
+    TestCategory.EUAM1,
+    TestCategory.EUAM2,
+    TestCategory.EUAMM1,
+    TestCategory.EUAMM2,
+    TestCategory.F,
+    TestCategory.G,
+    TestCategory.H,
+    TestCategory.K,
+    TestCategory.SC,
+  ];
+
+  selectedActivity: any = this.activityCodes[0];
+  selectedCategory: any = this.testCategories[0];
   dtcNumber: string = '';
   staffNumber: string = '';
   startDate: string = '';
@@ -70,6 +120,15 @@ export class AdvancedSearchComponent {
     }],
   };
 
+  populateActivityArray() {
+    const activityArray: any[] = [];
+    activityArray.push('All');
+    for (let i = 0; i < activityCodeModelList.length; i += 1) {
+      activityArray.push(`${activityCodeModelList[i].activityCode} - ${activityCodeModelList[i].description}`);
+    }
+    return activityArray;
+  }
+
   upperCaseAlphaNum(event: any): void {
     if (nonAlphaNumericValues.test(event.target.value)) {
       event.target.value = event.target.value.replace(nonAlphaNumericValues, '').toUpperCase();
@@ -83,6 +142,8 @@ export class AdvancedSearchComponent {
       endDate: this.endDate,
       staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
       costCode: this.dtcNumber,
+      activityFilter: this.selectedActivity.toString(),
+      categoryFilter: this.selectedCategory.toString(),
     };
     this.onSearchTests.emit(advancedSearchParams);
   }

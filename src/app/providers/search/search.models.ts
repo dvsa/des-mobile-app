@@ -4,4 +4,6 @@ export interface AdvancedSearchParams {
   staffNumber?: string;
   costCode?: string;
   excludeAutoSavedTests?: string;
+  activityFilter?: string
+  categoryFilter?: string
 }
