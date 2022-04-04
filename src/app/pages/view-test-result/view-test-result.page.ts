@@ -201,20 +201,29 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   showDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [
     TestCategory.B, // Cat B
     TestCategory.BE, // Cat BE
-    TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1,
-    TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C
-    TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D
+    TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, // Cat A Mod 1
+    TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Cat A Mod 2
+    TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C3B
+    TestCategory.CM, TestCategory.C1M, TestCategory.C1EM, TestCategory.CEM, // Cat C3A
+    TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D3B
+    TestCategory.DM, TestCategory.D1M, TestCategory.D1EM, TestCategory.DEM, // Cat D3A
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
+    TestCategory.ADI2, // ADI
+    TestCategory.CCPC, TestCategory.DCPC,
   ]);
 
   showVehicleDetailsCommonCard: () => boolean = () => isAnyOf(this.testCategory, [
     TestCategory.B, // Cat B
     TestCategory.BE, // Cat BE
+    TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, // Cat A Mod 1
+    TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, // Cat A Mod 2
     TestCategory.C, TestCategory.C1, TestCategory.C1E, TestCategory.CE, // Cat C 3B
     TestCategory.CM, TestCategory.C1M, TestCategory.C1EM, TestCategory.CEM, // Cat C 3A
     TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D 3B
     TestCategory.DM, TestCategory.D1M, TestCategory.D1EM, TestCategory.DEM, // Cat D 3A
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
+    TestCategory.ADI2, // ADI
+    TestCategory.CCPC, TestCategory.DCPC,
   ]);
 
   getDrivingFaultSumCount(): number {

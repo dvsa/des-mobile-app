@@ -12,18 +12,27 @@ import { Manoeuvre } from '@dvsa/mes-test-schema/categories/common';
 export class FaultSummaryCatManoeuvreHelper {
 
   public static getSeriousFaultsNonTrailer(data: CatManoeuvreTestData): FaultSummary[] {
+    if (!data) {
+      return [];
+    }
     return [
       ...this.getManoeuvreFaultsCatManoeuvre(data.manoeuvres, CompetencyOutcome.S),
     ];
   }
 
   public static getDangerousFaultsNonTrailer(data: CatManoeuvreTestData): FaultSummary[] {
+    if (!data) {
+      return [];
+    }
     return [
       ...this.getManoeuvreFaultsCatManoeuvre(data.manoeuvres, CompetencyOutcome.D),
     ];
   }
 
   public static getSeriousFaultsTrailer(data: CatManoeuvreTestData): FaultSummary[] {
+    if (!data) {
+      return [];
+    }
     return [
       ...this.getManoeuvreFaultsCatManoeuvre(data.manoeuvres, CompetencyOutcome.S),
       ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.S),
@@ -31,6 +40,9 @@ export class FaultSummaryCatManoeuvreHelper {
   }
 
   public static getDangerousFaultsTrailer(data: CatManoeuvreTestData): FaultSummary[] {
+    if (!data) {
+      return [];
+    }
     return [
       ...this.getManoeuvreFaultsCatManoeuvre(data.manoeuvres, CompetencyOutcome.D),
       ...this.getUncoupleRecoupleFault(data.uncoupleRecouple, CompetencyOutcome.D),
