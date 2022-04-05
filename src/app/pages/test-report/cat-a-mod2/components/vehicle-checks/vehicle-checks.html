@@ -1,7 +1,0 @@
-<div class="vehicle-checks-competency">
-  <driving-faults-badge class="driving-faults" [count]="componentState.vehicleChecksDrivingFaultCount$ | async"></driving-faults-badge>
-  <span class="competency-label">Show / Tell</span>
-  <div class="fault-wrapper">
-    <serious-fault-badge [showBadge]="(componentState.vehicleChecksSeriousFaultCount$ | async) > 0"></serious-fault-badge>
-  </div>
-</div>

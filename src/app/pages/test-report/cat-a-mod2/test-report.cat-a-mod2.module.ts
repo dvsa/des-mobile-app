@@ -19,6 +19,7 @@ import { TestReportCatAMod2PageRoutingModule } from './test-report.cat-a-mod2-ro
 import { TestReportCatAMod2Page } from './test-report.cat-a-mod2.page';
 
 @NgModule({
+  declarations: [TestReportCatAMod2Page],
   imports: [
     CommonModule,
     FormsModule,
@@ -37,6 +38,5 @@ import { TestReportCatAMod2Page } from './test-report.cat-a-mod2.page';
     TestReportValidatorProvider,
     TestResultProvider,
   ],
-  declarations: [TestReportCatAMod2Page],
 })
 export class TestReportCatAMod2PageModule {}

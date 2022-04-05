@@ -29,9 +29,5 @@ import { VehicleChecksModalCatAMod2AnalyticsEffects } from './vehicle-checks-mod
     WaitingRoomToCarComponentsModule,
     VehicleChecksQuestionCatAMod2Module,
   ],
-  exports: [
-  ],
 })
-export class VehicleChecksModalCatAMod2Module {
-
-}
+export class VehicleChecksModalCatAMod2Module {}

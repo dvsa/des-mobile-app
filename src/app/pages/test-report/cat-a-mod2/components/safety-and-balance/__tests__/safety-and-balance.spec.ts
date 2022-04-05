@@ -1,8 +1,12 @@
 import { StoreModel } from '@shared/models/store.model';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { MockComponent } from 'ng-mocks';
 import { IonicModule } from '@ionic/angular';
 import { testsReducer } from '@store/tests/tests.reducer';
+import { StartTest } from '@store/tests/tests.actions';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { By } from '@angular/platform-browser';
@@ -19,7 +23,7 @@ describe('SafetyAndBalanceComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SafetyAndBalanceComponent,
-        // MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
       ],
       imports: [
         IonicModule,
@@ -33,10 +37,11 @@ describe('SafetyAndBalanceComponent', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyAndBalanceComponent);
     component = fixture.componentInstance;
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
+    store$.dispatch(StartTest(105, TestCategory.EUA2M2));
   }));
 
   describe('Class', () => {
@@ -61,8 +66,11 @@ describe('SafetyAndBalanceComponent', () => {
   describe('DOM', () => {
     it('should pass the number of S&B riding faults to the driving faults component', () => {
       fixture.detectChanges();
+      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
+        .componentInstance as DrivingFaultsBadgeComponent;
       component.componentState.safetyAndBalanceDrivingFaultCount$ = of(1);
       fixture.detectChanges();
+      expect(drivingFaultsBadge.count).toBe(1);
     });
   });
 });

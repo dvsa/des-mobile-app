@@ -14,12 +14,13 @@ import {
 } from
   '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page.module';
 import {
-  VehicleChecksCatAMod2Component,
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks/vehicle-checks';
+  WaitingRoomToCarCatAMod2ComponentsModule,
+} from '@pages/waiting-room-to-car/cat-a-mod2/components/waiting-room-to-car.cat-a-mod2.components.module';
 import { WaitingRoomToCarCatAMod2PageRoutingModule } from './waiting-room-to-car.cat-a-mod2-routing.module';
 import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.page';
 
 @NgModule({
+  declarations: [WaitingRoomToCarCatAMod2Page],
   imports: [
     CommonModule,
     FormsModule,
@@ -32,10 +33,7 @@ import { WaitingRoomToCarCatAMod2Page } from './waiting-room-to-car.cat-a-mod2.p
       WaitingRoomToCarAnalyticsEffects,
     ]),
     VehicleChecksModalCatAMod2Module,
-  ],
-  declarations: [
-    WaitingRoomToCarCatAMod2Page,
-    VehicleChecksCatAMod2Component,
+    WaitingRoomToCarCatAMod2ComponentsModule,
   ],
 })
 export class WaitingRoomToCarCatAMod2PageModule {}

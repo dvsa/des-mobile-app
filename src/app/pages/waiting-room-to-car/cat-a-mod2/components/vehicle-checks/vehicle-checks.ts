@@ -43,7 +43,6 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   async openVehicleChecksModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: VehicleChecksCatAMod2Modal,
-      componentProps: {},
       cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
     });
     await modal.present();

@@ -1,7 +1,6 @@
 import {
   VehicleChecksQuestionCatAMod2Component,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
-import { EffectsModule } from '@ngrx/effects';
 import { IonicModule } from '@ionic/angular';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { NgModule } from '@angular/core';
@@ -16,8 +15,6 @@ import {
     VehicleChecksQuestionCatAMod2Component,
   ],
   imports: [
-    EffectsModule.forFeature([
-    ]),
     IonicModule,
     ComponentsModule,
     CommonModule,
@@ -29,6 +26,4 @@ import {
     VehicleChecksQuestionCatAMod2Component,
   ],
 })
-export class VehicleChecksQuestionCatAMod2Module {
-
-}
+export class VehicleChecksQuestionCatAMod2Module {}

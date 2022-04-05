@@ -7,11 +7,9 @@ import {
   SafetyAndBalanceComponent,
 } from '@pages/test-report/cat-a-mod2/components/safety-and-balance/safety-and-balance';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
-import { VehicleChecksComponent } from './vehicle-checks/vehicle-checks';
 
 @NgModule({
   declarations: [
-    VehicleChecksComponent,
     SafetyAndBalanceComponent,
   ],
   imports: [
@@ -22,7 +20,6 @@ import { VehicleChecksComponent } from './vehicle-checks/vehicle-checks';
     DirectivesModule,
   ],
   exports: [
-    VehicleChecksComponent,
     SafetyAndBalanceComponent,
   ],
 })

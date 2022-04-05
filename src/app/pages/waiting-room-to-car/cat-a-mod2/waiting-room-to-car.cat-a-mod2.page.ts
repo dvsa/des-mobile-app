@@ -74,9 +74,8 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
       safetyAndBalanceQuestionsScore$: currentTest$.pipe(
         select(getTestData),
         select(getSafetyAndBalanceQuestions),
-        map((safetyAndBalanceQuestions) => {
-          return this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, safetyAndBalanceQuestions);
-        }),
+        map((safetyAndBalanceQuestions) =>
+          this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, safetyAndBalanceQuestions)),
       ),
       safetyAndBalanceQuestions$: currentTest$.pipe(
         select(getTestData),

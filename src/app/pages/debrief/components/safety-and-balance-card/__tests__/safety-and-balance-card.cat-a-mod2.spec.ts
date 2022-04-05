@@ -1,4 +1,4 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { StoreModule, Store } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
@@ -20,9 +20,9 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { StoreModel } from '@shared/models/store.model';
 import { StartTest } from '@store/tests/tests.actions';
+import { default as welshTranslations } from '@assets/i18n/cy.json';
+import { default as englishTranslations } from '@assets/i18n/en.json';
 import { SafetyAndBalanceCardCatAMod2Component } from '../safety-and-balance-card.cat-a-mod2';
-import * as welshTranslations from '../../../../../../assets/i18n/cy.json';
-import * as englishTranslations from '../../../../../../assets/i18n/en.json';
 
 describe('SafetyAndBalanceCardCatAMod2Component', () => {
   let fixture: ComponentFixture<SafetyAndBalanceCardCatAMod2Component>;
@@ -52,13 +52,13 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.EUA2M2));
     store$.dispatch(PopulateTestCategory(TestCategory.EUA2M2));
     store$.dispatch(PopulateCandidateDetails(candidateMock));
-    translate = TestBed.get(TranslateService);
+    translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
   }));
 

@@ -69,7 +69,6 @@ export class VehicleChecksCatAMod2Modal {
     questionProvider: QuestionProvider,
   ) {
     this.formGroup = new FormGroup({});
-
     this.safetyQuestions = questionProvider.getSafetyQuestions(TestCategory.EUAM2);
     this.balanceQuestions = questionProvider.getBalanceQuestions(TestCategory.EUAM2);
   }
@@ -98,9 +97,8 @@ export class VehicleChecksCatAMod2Modal {
       safetyAndBalanceQuestionsScore$: currentTest$.pipe(
         select(getTestData),
         select(safetyAndBalance.getSafetyAndBalanceQuestions),
-        map((safetyAndBalanceQuestions) => {
-          return this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, safetyAndBalanceQuestions);
-        }),
+        map((safetyAndBalanceQuestions) =>
+          this.faultCountProvider.getSafetyAndBalanceFaultCount(TestCategory.EUAM2, safetyAndBalanceQuestions)),
       ),
     };
 

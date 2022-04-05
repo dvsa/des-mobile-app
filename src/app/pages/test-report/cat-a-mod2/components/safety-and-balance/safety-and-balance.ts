@@ -45,11 +45,8 @@ export class SafetyAndBalanceComponent implements OnInit {
         select(getTestData),
         select(getSafetyAndBalanceQuestions),
         withLatestFrom(category$),
-        map(([safetyAndBalance, category]) => {
-          return this.faultCountProvider
-            .getSafetyAndBalanceFaultCount(category, safetyAndBalance)
-            .drivingFaults;
-        }),
+        map(([safetyAndBalance, category]) =>
+          this.faultCountProvider.getSafetyAndBalanceFaultCount(category, safetyAndBalance).drivingFaults),
       ),
     };
   }
