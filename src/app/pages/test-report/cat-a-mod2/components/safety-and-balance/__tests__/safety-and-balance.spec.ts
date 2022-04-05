@@ -61,7 +61,6 @@ describe('SafetyAndBalanceComponent', () => {
   describe('DOM', () => {
     it('should pass the number of S&B riding faults to the driving faults component', () => {
       fixture.detectChanges();
-      const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'));
       component.componentState.safetyAndBalanceDrivingFaultCount$ = of(1);
       fixture.detectChanges();
     });

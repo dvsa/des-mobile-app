@@ -1,11 +1,13 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { IonicModule } from 'ionic-angular';
+import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { configureTestSuite } from 'ng-bullet';
-import { VehicleChecksQuestionComponent } from '../vehicle-checks-question';
-import { AppModule } from '../../../../../../app/app.module';
-import { VehicleChecksQuestion } from '../../../../../../providers/question/vehicle-checks-question.model';
+import {
+  VehicleChecksQuestionCatAMod2Component,
+} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
+import { AppModule } from '@app/app.module';
+import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 const safetyAndBalanceQuestion: VehicleChecksQuestion = {
   code: 'S04',
@@ -13,14 +15,14 @@ const safetyAndBalanceQuestion: VehicleChecksQuestion = {
   shortName: 'Parking brake',
 };
 
-describe('VehicleChecksQuestionComponent', () => {
-  let fixture: ComponentFixture<VehicleChecksQuestionComponent>;
-  let component: VehicleChecksQuestionComponent;
+describe('VehicleChecksQuestionCatAMod2Component', () => {
+  let fixture: ComponentFixture<VehicleChecksQuestionCatAMod2Component>;
+  let component: VehicleChecksQuestionCatAMod2Component;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [
-        VehicleChecksQuestionComponent,
+        VehicleChecksQuestionCatAMod2Component,
       ],
       imports: [
         IonicModule,
@@ -30,7 +32,7 @@ describe('VehicleChecksQuestionComponent', () => {
   });
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(VehicleChecksQuestionComponent);
+    fixture = TestBed.createComponent(VehicleChecksQuestionCatAMod2Component);
     component = fixture.componentInstance;
   }));
 

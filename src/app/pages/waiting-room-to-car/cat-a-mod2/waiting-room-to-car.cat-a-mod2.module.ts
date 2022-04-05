@@ -11,7 +11,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
 import {
   VehicleChecksModalCatAMod2Module,
-} from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page.module';
+} from
+  '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page.module';
 import {
   VehicleChecksCatAMod2Component,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks/vehicle-checks';

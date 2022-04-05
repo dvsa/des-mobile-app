@@ -1,5 +1,5 @@
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
-import { IonicModule, Config } from 'ionic-angular';
+import { IonicModule, Config } from '@ionic/angular';
 import { StoreModule, Store } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import { ConfigMock } from 'ionic-mocks';
@@ -8,21 +8,21 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { configureTestSuite } from 'ng-bullet';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { SafetyAndBalanceCardCatAMod2Component } from '../safety-and-balance-card.cat-a-mod2';
-import { testsReducer } from '../../../../../../modules/tests/tests.reducer';
-import { StoreModel } from '../../../../../../shared/models/store.model';
-import { StartTest } from '../../../../../../modules/tests/tests.actions';
 import {
   SafetyQuestionSelected,
   SafetyQuestionOutcomeChanged,
-} from '../../../../../../modules/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
-import { createTranslateLoader } from '../../../../../app.module';
+} from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
+import { createTranslateLoader } from '@app/app.module';
+import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { PopulateCandidateDetails }
+  from '@store/tests/journal-data/common/candidate/candidate.actions';
+import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { StoreModel } from '@shared/models/store.model';
+import { StartTest } from '@store/tests/tests.actions';
+import { SafetyAndBalanceCardCatAMod2Component } from '../safety-and-balance-card.cat-a-mod2';
 import * as welshTranslations from '../../../../../../assets/i18n/cy.json';
 import * as englishTranslations from '../../../../../../assets/i18n/en.json';
-import { PopulateTestCategory } from '../../../../../../modules/tests/category/category.actions';
-import { PopulateCandidateDetails }
-  from '../../../../../../modules/tests/journal-data/common/candidate/candidate.actions';
-import { candidateMock } from '../../../../../../modules/tests/__mocks__/tests.mock';
 
 describe('SafetyAndBalanceCardCatAMod2Component', () => {
   let fixture: ComponentFixture<SafetyAndBalanceCardCatAMod2Component>;
@@ -55,9 +55,9 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);
     store$ = TestBed.get(Store);
-    store$.dispatch(new StartTest(105, TestCategory.EUA2M2));
-    store$.dispatch(new PopulateTestCategory(TestCategory.EUA2M2));
-    store$.dispatch(new PopulateCandidateDetails(candidateMock));
+    store$.dispatch(StartTest(105, TestCategory.EUA2M2));
+    store$.dispatch(PopulateTestCategory(TestCategory.EUA2M2));
+    store$.dispatch(PopulateCandidateDetails(candidateMock));
     translate = TestBed.get(TranslateService);
     translate.setDefaultLang('en');
   }));
@@ -70,8 +70,8 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
           description: 'Tell me how you would check that the lights and reflectors are clean and working.',
         };
         // Configure show safety and balance questions
-        store$.dispatch(new SafetyQuestionSelected(safetyQuestion, 1));
-        store$.dispatch(new SafetyQuestionOutcomeChanged('P', 1));
+        store$.dispatch(SafetyQuestionSelected(safetyQuestion, 1));
+        store$.dispatch(SafetyQuestionOutcomeChanged('P', 1));
 
         fixture.detectChanges();
 
@@ -88,8 +88,8 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
           description: 'Tell me how you would check that the lights and reflectors are clean and working.',
         };
         // Configure show safety and balance questions
-        store$.dispatch(new SafetyQuestionSelected(safetyQuestion, 1));
-        store$.dispatch(new SafetyQuestionOutcomeChanged('P', 1));
+        store$.dispatch(SafetyQuestionSelected(safetyQuestion, 1));
+        store$.dispatch(SafetyQuestionOutcomeChanged('P', 1));
 
         fixture.detectChanges();
 
