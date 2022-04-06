@@ -71,6 +71,10 @@ import {
   hasManoeuvreBeenCompletedCatADIPart2,
 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import {
+  SpecialLegalRequirementModal
+} from '@pages/test-report/components/special-legal-requirement-modal/special-legal-requirement-modal';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -312,6 +316,15 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     } else if (!this.isEtaValid) {
       this.modal = await this.modalController.create({
         component: EtaInvalidModal,
+        cssClass: modalCssClass,
+      });
+    } else if (
+      !this.manoeuvresCompleted
+      && isAnyOf(this.testCategory, [TestCategory.F, TestCategory.G, TestCategory.H])
+      && this.testCategory !== TestCategory.K
+    ) {
+      this.modal = await this.modalController.create({
+        component: SpecialLegalRequirementModal,
         cssClass: modalCssClass,
       });
     } else {
