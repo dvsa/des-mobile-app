@@ -5,5 +5,3 @@ export const ModeOfTransportChanged = createAction(
   '[Test Summary] [CatAMod2] Mode of transport changed',
   (modeOfTransport: ModeOfTransport) => ({ modeOfTransport }),
 );
-
-export const MODE_OF_TRANSPORT_CHANGED = '[Test Summary] [CatAMod2] Mode of transport changed';
