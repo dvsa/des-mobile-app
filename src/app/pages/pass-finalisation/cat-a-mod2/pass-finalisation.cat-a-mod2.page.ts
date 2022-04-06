@@ -14,7 +14,6 @@ import { FormGroup } from '@angular/forms';
 import { Observable, Subscription, merge } from 'rxjs';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map } from 'rxjs/operators';
 import { PersistTests } from '@store/tests/tests.actions';
 import {
@@ -45,7 +44,6 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
   merged$: Observable<string | boolean>;
   transmission: GearboxCategory;
   subscription: Subscription;
-  testCategory: TestCategory;
 
   constructor(
     platform: Platform,
@@ -68,12 +66,11 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
     };
 
     const {
-      transmission$, testCategory$,
+      transmission$,
     } = this.pageState;
 
     this.merged$ = merge(
       transmission$.pipe(map((value) => this.transmission = value)),
-      testCategory$.pipe(map((value) => this.testCategory = value as TestCategory)),
     );
   }
 
