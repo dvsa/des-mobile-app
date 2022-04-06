@@ -506,12 +506,6 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     ).subscribe();
   }
 
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   async onSubmit() {
     if (await this.isFormValid()) {
       await this.showFinishTestModal();

@@ -8,15 +8,10 @@ import { Component } from '@angular/core';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { merge, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { map, withLatestFrom } from 'rxjs/operators';
-import {
-  WeatherConditions,
-  Identification,
-  IndependentDriving,
-  SafetyQuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
+import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestData, ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import {
@@ -44,7 +39,6 @@ import {
 } from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import {
@@ -53,29 +47,15 @@ import {
 import {
   getSafetyAndBalanceQuestions,
 } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
-import { getNewTestStartTime } from '@shared/helpers/test-start-time';
-import { SetStartDate }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
-import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
+import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import {
   CommonOfficePageState,
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { Router } from '@angular/router';
-import {
-  AdditionalInformationChanged,
-  CandidateDescriptionChanged,
-  IdentificationUsedChanged,
-  IndependentDrivingTypeChanged,
-  RouteNumberChanged,
-  WeatherConditionsChanged,
-} from '@store/tests/test-summary/test-summary.actions';
 import { behaviourMap } from '../office-behaviour-map.cat-a-mod2';
-import {
-  OfficeViewDidEnter,
-  TestStartDateChanged,
-} from '../office.actions';
+import { OfficeViewDidEnter } from '../office.actions';
 
 interface CatAMod2OfficePageState {
   testCategory$: Observable<TestCategory>;
@@ -98,9 +78,6 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
   pageSubscription: Subscription;
   form: FormGroup;
   static readonly maxFaultCount = 10;
-
-  activityCodeOptions: ActivityCodeModel[];
-  conductedLanguage: string;
 
   constructor(
     platform: Platform,
@@ -128,8 +105,6 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
       faultSummaryProvider,
       faultCountProvider,
     );
-    this.form = new FormGroup({});
-    this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = activityCodeModelList;
   }
@@ -193,57 +168,14 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
     this.setupSubscriptions();
   }
 
-  setupSubscriptions() {
-    const {
-      startDateTime$,
-    } = this.pageState;
-    this.subscription = merge(
-      startDateTime$.pipe(map((value) => this.startDateTime = value)),
-    ).subscribe();
-  }
-
   ionViewDidLeave(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
   }
 
-  setIsValidStartDateTime(isValid: boolean) {
-    this.isValidStartDateTime = isValid;
-  }
-
-  dateOfTestChanged(inputDate: string) {
-    const customStartDate = getNewTestStartTime(inputDate, this.startDateTime);
-    this.store$.dispatch(TestStartDateChanged(this.startDateTime, customStartDate));
-    this.store$.dispatch(SetStartDate(customStartDate));
-  }
-
-  identificationChanged(identification: Identification): void {
-    this.store$.dispatch(IdentificationUsedChanged(identification));
-  }
-
-  independentDrivingChanged(independentDriving: IndependentDriving): void {
-    this.store$.dispatch(IndependentDrivingTypeChanged(independentDriving));
-  }
-
   modeOfTransportChanged(modeOfTransport: ModeOfTransport): void {
     this.store$.dispatch(ModeOfTransportChanged(modeOfTransport));
-  }
-
-  weatherConditionsChanged(weatherConditions: WeatherConditions[]): void {
-    this.store$.dispatch(WeatherConditionsChanged(weatherConditions));
-  }
-
-  routeNumberChanged(routeNumber: number) {
-    this.store$.dispatch(RouteNumberChanged(routeNumber));
-  }
-
-  candidateDescriptionChanged(candidateDescription: string) {
-    this.store$.dispatch(CandidateDescriptionChanged(candidateDescription));
-  }
-
-  additionalInformationChanged(additionalInformation: string): void {
-    this.store$.dispatch(AdditionalInformationChanged(additionalInformation));
   }
 
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
@@ -271,10 +203,6 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
     } else if (drivingFaultComment.source === CommentSource.SAFETY_AND_BALANCE_QUESTIONS) {
       this.store$.dispatch(AddSafetyAndBalanceComment(drivingFaultComment.comment));
     }
-  }
-
-  activityCodeChanged(activityCodeModel: ActivityCodeModel) {
-    this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));
   }
 
   shouldDisplayDrivingFaultComments = (data: TestData, category: TestCategory): boolean => {

@@ -84,7 +84,7 @@ describe('PassFinalisationCatAMod2Page', () => {
     fixture = TestBed.createComponent(PassFinalisationCatAMod2Page);
     component = fixture.componentInstance;
     component.subscription = new Subscription();
-    store$ = TestBed.get(Store);
+    store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
   }));
 

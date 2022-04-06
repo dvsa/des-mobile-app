@@ -14,7 +14,7 @@ export const whiteList: TestCategory[] = [
   TestCategory.C1M,
   TestCategory.CEM,
   TestCategory.C1EM,
-  TestCategory.CCPC,
+  // TestCategory.CCPC,
   // TestCategory.DCPC,
   TestCategory.D,
   TestCategory.D1,
