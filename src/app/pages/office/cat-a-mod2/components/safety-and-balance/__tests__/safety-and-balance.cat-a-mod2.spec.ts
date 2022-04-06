@@ -84,7 +84,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
       store$.dispatch(BalanceQuestionOutcomeChanged('P', index));
     });
 
-    translate = TestBed.get(TranslateService);
+    translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
   }));
 
