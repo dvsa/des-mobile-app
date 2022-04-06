@@ -10,6 +10,9 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { EffectsModule } from '@ngrx/effects';
 import { OfficeAnalyticsEffects } from '@pages/office/office.analytics.effects';
 import { OfficeEffects } from '@pages/office/office.effects';
+import {
+  WaitingRoomToCarComponentsModule,
+} from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { OfficeCatHomeTestPage } from './office.cat-home-test.page';
 import { OfficeCatHomeTestPageRoutingModule } from './office.cat-home-test-routing.module';
 
@@ -26,6 +29,7 @@ import { OfficeCatHomeTestPageRoutingModule } from './office.cat-home-test-routi
     ComponentsModule,
     OfficeComponentsModule,
     ReactiveFormsModule,
+    WaitingRoomToCarComponentsModule,
   ],
   declarations: [OfficeCatHomeTestPage],
   providers: [
