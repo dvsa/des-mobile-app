@@ -21,7 +21,7 @@ import { By } from '@angular/platform-browser';
 import {
   ModeOfTransportChanged,
 } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
-import { of, Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { MockComponent } from 'ng-mocks';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import {
@@ -154,15 +154,6 @@ describe('OfficePage', () => {
   }));
 
   describe('DOM', () => {
-    describe('ionViewDidLeave', () => {
-      it('should unsubscribe when subscription', () => {
-        component.subscription = new Subscription();
-        spyOn(component.subscription, 'unsubscribe');
-        component.ionViewDidLeave();
-        expect(component.subscription.unsubscribe).toHaveBeenCalled();
-      });
-    });
-
     describe('modeOfTransportChanged', () => {
       it('should dispatch a Mode Of Transport change action with the new value', () => {
         const mode: ModeOfTransport = 'Car to bike';

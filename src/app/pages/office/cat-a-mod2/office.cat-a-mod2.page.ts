@@ -168,12 +168,6 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
     this.setupSubscriptions();
   }
 
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
   modeOfTransportChanged(modeOfTransport: ModeOfTransport): void {
     this.store$.dispatch(ModeOfTransportChanged(modeOfTransport));
   }

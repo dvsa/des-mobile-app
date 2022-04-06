@@ -1,4 +1,6 @@
-import { ComponentFixture, async, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture, TestBed, waitForAsync,
+} from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { StoreModule, Store } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
@@ -54,7 +56,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);
     store$ = TestBed.inject(Store);
     store$.dispatch(StartTest(105, TestCategory.EUA2M2));
