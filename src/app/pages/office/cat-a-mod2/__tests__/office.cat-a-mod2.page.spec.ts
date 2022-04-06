@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, TestBed, fakeAsync, tick, waitForAsync,
+  ComponentFixture, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import {
   IonicModule,
@@ -18,17 +18,15 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { By } from '@angular/platform-browser';
-import { PersistTests } from '@store/tests/tests.actions';
 import {
   ModeOfTransportChanged,
 } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { MockComponent } from 'ng-mocks';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import {
   activityCodeModelList,
 } from '@shared/constants/activity-code/activity-code.constants';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
@@ -42,9 +40,9 @@ import { QuestionProvider } from '@providers/question/question';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
+import { PipesModule } from '@shared/pipes/pipes.module';
 import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
-import { OfficeValidationError } from '../../office.actions';
 import { IdentificationComponent } from '../../components/identification/identification';
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { WeatherConditionsComponent } from '../../components/weather-conditions/weather-conditions';
@@ -85,6 +83,7 @@ describe('OfficePage', () => {
         IonicModule,
         AppModule,
         ComponentsModule,
+        PipesModule,
         StoreModule.forRoot({
           tests: () => ({
             currentTest: {
@@ -155,6 +154,15 @@ describe('OfficePage', () => {
   }));
 
   describe('DOM', () => {
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe when subscription', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
+
     describe('modeOfTransportChanged', () => {
       it('should dispatch a Mode Of Transport change action with the new value', () => {
         const mode: ModeOfTransport = 'Car to bike';
@@ -174,12 +182,12 @@ describe('OfficePage', () => {
 
     describe('deferring the write up', () => {
       it('should dispatch an action to persist tests + pop navstack to root when pressing save and continue', () => {
+        spyOn(component, 'popToRoot');
         fixture.detectChanges();
-        const saveAndContinueButton = fixture.debugElement.query(By.css('#defer-button'));
+        const saveAndContinueButton = fixture.debugElement.query(By.css('#office-save-button'));
         saveAndContinueButton.triggerEventHandler('click', null);
         fixture.detectChanges();
-
-        expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+        expect(component.popToRoot).toHaveBeenCalled();
       });
     });
 
@@ -242,26 +250,6 @@ describe('OfficePage', () => {
         expect(faultLabels[0].nativeElement.innerHTML).toBe('Signals - Timed');
         expect(faultLabels[1].nativeElement.innerHTML).toBe('Use of speed');
       });
-    });
-
-    describe('onSubmit', () => {
-      it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.form = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
-        });
-
-        component.onSubmit();
-        tick();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(OfficeValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(OfficeValidationError('requiredControl2 is blank'));
-        expect(store$.dispatch)
-          .not
-          .toHaveBeenCalledWith(OfficeValidationError('notRequiredControl is blank'));
-      }));
     });
   });
 });

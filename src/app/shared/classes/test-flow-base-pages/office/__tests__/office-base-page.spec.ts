@@ -68,7 +68,7 @@ import { take } from 'rxjs/operators';
 import {
   AbstractControl, FormControl, FormGroup, Validators,
 } from '@angular/forms';
-import { of, Subscription } from 'rxjs';
+import { of } from 'rxjs';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import { OfficeBasePageComponent } from '../office-base-page';
 
@@ -277,15 +277,6 @@ describe('OfficeBasePageComponent', () => {
       };
       basePageComponent.setupSubscriptions();
       expect(basePageComponent.startDateTime).toEqual('2022-01-01T12:00:00');
-    });
-  });
-
-  describe('ionViewDidLeave', () => {
-    it('should unsubscribe when subscription', () => {
-      basePageComponent.subscription = new Subscription();
-      spyOn(basePageComponent.subscription, 'unsubscribe');
-      basePageComponent.ionViewDidLeave();
-      expect(basePageComponent.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
