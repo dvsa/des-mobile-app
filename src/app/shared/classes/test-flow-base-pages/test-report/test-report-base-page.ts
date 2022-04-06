@@ -73,7 +73,7 @@ import {
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
-  SpecialLegalRequirementModal
+  SpecialLegalRequirementModal,
 } from '@pages/test-report/components/special-legal-requirement-modal/special-legal-requirement-modal';
 
 export interface CommonTestReportPageState {
