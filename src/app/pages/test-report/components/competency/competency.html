@@ -9,12 +9,27 @@
   }"
 >
 
-  <driving-faults-badge id="competency-driving-faults-{{ label }}" class="driving-faults" [count]="faultCount"></driving-faults-badge>
+  <driving-faults-badge
+          id="competency-driving-faults-{{ label }}"
+          class="driving-faults"
+          [count]="faultCount"
+          [competencyDisplayName]="competency"
+  >
+  </driving-faults-badge>
 
   <span id="competency-label-{{ label }}" class='competency-label'>{{ label }}</span>
 
   <div class="fault-wrapper">
-    <serious-fault-badge id="competency-serious-faults-{{ label }}" [showBadge]="hasSeriousFault"></serious-fault-badge>
-    <dangerous-fault-badge id="competency-dangerous-faults-{{ label }}" [showBadge]="hasDangerousFault"></dangerous-fault-badge>
+    <serious-fault-badge
+            id="competency-serious-faults-{{ label }}"
+            [showBadge]="hasSeriousFault"
+            [competencyDisplayName]="competency">
+    </serious-fault-badge>
+    <dangerous-fault-badge
+            id="competency-dangerous-faults-{{ label }}"
+            [showBadge]="hasDangerousFault"
+            [competencyDisplayName]="competency"
+    >
+    </dangerous-fault-badge>
   </div>
 </competency-button>

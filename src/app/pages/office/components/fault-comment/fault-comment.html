@@ -7,23 +7,23 @@
             <dangerous-fault-badge
                     [showBadge]="true"
                     *ngSwitchCase="'dangerous'"
-                    [competencyDisplayName]="faultComment.competencyDisplayName">
+                    [competencyDisplayName]="faultComment.competencyIdentifier">
             </dangerous-fault-badge>
             <serious-fault-badge
                     [showBadge]="true"
                     *ngSwitchCase="'serious'"
-                    [competencyDisplayName]="faultComment.competencyDisplayName">
+                    [competencyDisplayName]="faultComment.competencyIdentifier">
             </serious-fault-badge>
             <driving-faults-badge
                     [count]="faultComment.faultCount"
                     *ngSwitchCase="'driving'"
-                    [competencyDisplayName]="faultComment.competencyDisplayName">
+                    [competencyDisplayName]="faultComment.competencyIdentifier">
             </driving-faults-badge>
         </ion-col>
 
         <ion-col class="component-label ion-align-self-start ion-no-padding" size="28"
                  [attr.col-28]="isDelegatedTest ? null : true">
-            <label class="fault-label" id="fault-comment-label-{{faultType}}-{{faultComment.competencyDisplayName}}">{{faultComment.competencyDisplayName | modifyCompetencyLabel:testCategory:faultComment.competencyDisplayName}}</label>
+            <label class="fault-label" id="fault-comment-label-{{faultType}}-{{faultComment.competencyIdentifier}}">{{faultComment.competencyDisplayName | modifyCompetencyLabel:testCategory:faultComment.competencyDisplayName}}</label>
         </ion-col>
 
         <ion-col *ngIf="!isDelegatedTest" class="text-area-padding" size="60">
@@ -35,14 +35,14 @@
                               [formControlName]="formControlName"
                               [class.ng-invalid]="invalid"
                               charLimit="950"
-                              id="fault-comment-text-{{faultType}}-{{faultComment.competencyDisplayName}}"
+                              id="fault-comment-text-{{faultType}}-{{faultComment.competencyIdentifier}}"
                               charCount (onCharacterCountChanged)="characterCountChanged($event)"
                               [value]="faultComment.comment"
                               (change)="faultCommentChanged($event.target.value)">
                     </textarea>
                     <div class="character-count validation-text"
                          [ngClass]="{'ng-invalid': charactersExceeded()}"
-                         id="fault-comment-character-count-{{faultType}}-{{faultComment.competencyDisplayName}}">
+                         id="fault-comment-character-count-{{faultType}}-{{faultComment.competencyIdentifier}}">
                         {{getCharacterCountText()}}
                     </div>
                 </ion-col>
@@ -50,7 +50,7 @@
             <ion-row class="validation-message-row ion-align-items-center">
                 <div class="validation-text"
                      [class.ng-invalid]="invalid"
-                     id="fault-comment-validation-{{faultType}}-{{faultComment.competencyDisplayName}}"
+                     id="fault-comment-validation-{{faultType}}-{{faultComment.competencyIdentifier}}"
                      *ngIf="invalid && !charactersExceeded()">
                     Provide a comment
                 </div>

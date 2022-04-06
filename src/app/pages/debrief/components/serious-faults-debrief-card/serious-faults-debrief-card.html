@@ -11,12 +11,16 @@
         <ion-col size="32" class="ion-no-padding"></ion-col>
         <ion-col size="2" class="ion-align-self-start ion-no-padding">
           <div class="counter-icon">
-            <serious-fault-badge [showBadge]="true"></serious-fault-badge>
+            <serious-fault-badge
+                    [showBadge]="true"
+                    [competencyDisplayName]="seriousFault"
+            >
+            </serious-fault-badge>
           </div>
         </ion-col>
         <ion-col size="3" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
-          <div class="counter-label">{{ 'debrief.competencies.' + seriousFault | translate | modifyCompetencyLabel:testCategory:seriousFault }}</div>
+          <div class="counter-label" id="{{seriousFault}}-serious-text">{{ 'debrief.competencies.' + seriousFault | translate | modifyCompetencyLabel:testCategory:seriousFault }}</div>
         </ion-col>
       </ion-row>
     </ion-grid>
