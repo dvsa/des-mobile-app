@@ -10,6 +10,9 @@ import {
 import {
   SpeedCheckDebriefCardComponent,
 } from '@pages/debrief/components/speed-check-debrief-card/speed-check-debrief-card';
+import {
+  SafetyAndBalanceCardCatAMod2Component,
+} from '@pages/debrief/components/safety-and-balance-card/safety-and-balance-card.cat-a-mod2';
 import { EtaDebriefCardComponent } from './eta-debrief-card/eta-debrief-card';
 import { DangerousFaultsDebriefCardComponent } from './dangerous-faults-debrief-card/dangerous-faults-debrief-card';
 import { SeriousFaultsDebriefCardComponent } from './serious-faults-debrief-card/serious-faults-debrief-card';
@@ -29,6 +32,7 @@ import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks
     TestOutcomeDebriefCardComponent,
     VehicleChecksCardCatBComponent,
     SpeedCheckDebriefCardComponent,
+    SafetyAndBalanceCardCatAMod2Component,
   ],
   imports: [
     ComponentsModule,
@@ -48,6 +52,7 @@ import { VehicleChecksCardComponent } from './vehicle-checks-card/vehicle-checks
     TestOutcomeDebriefCardComponent,
     VehicleChecksCardCatBComponent,
     SpeedCheckDebriefCardComponent,
+    SafetyAndBalanceCardCatAMod2Component,
   ],
 })
 export class DebriefComponentsModule { }

@@ -46,6 +46,7 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
   }
 
   passCertificateNumberChanged(passCertificateNumber: string): void {
+    this.formControl.updateValueAndValidity();
     const actualLength: number = getByteCount(passCertificateNumber);
     const permittedLength: number = this.passCertificateAMOD1Validator.maxByteLength;
     const validFormat: boolean = this.passCertificateAMOD1Validator.pattern.test(passCertificateNumber);

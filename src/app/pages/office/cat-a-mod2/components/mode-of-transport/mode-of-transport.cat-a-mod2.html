@@ -1,0 +1,61 @@
+<ion-row
+  class="mes-validated-row mes-row-separator" id="mode-of-transport-card"
+  [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid">
+  </div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label>Test conducted on</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <input
+          type="radio"
+          class="gds-radio-button"
+          formControlName="modeOfTransport"
+          name="modeOfTransport"
+          [id]="getModeOfTransportInputId(option1)"
+          [value]="option1"
+          [class.ng-invalid]="invalid"
+          [checked]="modeOfTransport === option1"
+          (change)="modeOfTransportChanged(option1)"
+        />
+        <label [for]="getModeOfTransportInputId(option1)" class="radio-label">{{option1label}}</label>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <input
+          type="radio"
+          class="gds-radio-button"
+          formControlName="modeOfTransport"
+          name="modeOfTransport"
+          [id]="getModeOfTransportInputId(option2)"
+          [value]="option2"
+          [class.ng-invalid]="invalid"
+          [checked]="modeOfTransport === option2"
+          (change)="modeOfTransportChanged(option2)"
+        />
+        <label [for]="getModeOfTransportInputId(option2)" class="radio-label">{{option2label}}</label>
+      </ion-col>
+      <ion-col class="ion-align-self-center" [hidden]="!showNotApplicable">
+        <input
+          type="radio"
+          id="mode-of-transport-na"
+          class="gds-radio-button"
+          formControlName="modeOfTransport"
+          name="modeOfTransport"
+          value='N/A'
+          [class.ng-invalid]="invalid"
+          [checked]="modeOfTransport === 'N/A'"
+          (change)="modeOfTransportChanged('N/A')"
+        />
+        <label for="mode-of-transport-na" class="radio-label">N/A</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="office-mode-of-transport-validation-text">
+        Select how the test was conducted
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

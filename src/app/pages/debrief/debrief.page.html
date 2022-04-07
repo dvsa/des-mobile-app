@@ -41,16 +41,13 @@
             [adviceGivenPlanning]="adviceGivenPlanning">
     </eco-debrief-card>
 
-    <!--    Vehicle check section-->
     <vehicle-checks-card-cat-b *ngIf="isCategoryBTest()"></vehicle-checks-card-cat-b>
     <vehicle-checks-card
             *ngIf="showVehicleChecksArrayCard()"
             [category]="pageState.category$ | async"
             [tellMeShowMeQuestions]="pageState.tellMeShowMeQuestions$ | async">
     </vehicle-checks-card>
-    <!--   ----  -->
 
-    <!-- CPC section -->
     <cpc-debrief-card *ngIf="!isTerminated() && showCPCDebriefCard()"
                       [overallScore]="pageState.overallScore$ | async"
                       [question1]="pageState.question1$ | async"
@@ -60,7 +57,8 @@
                       [question5]="pageState.question5$ | async"
                       [testOutcome]="outcome">
     </cpc-debrief-card>
-    <!-- -->
+    <safety-and-balance-card-cat-a-mod2 *ngIf="pageState.showSafetyAndBalance$ | async">
+    </safety-and-balance-card-cat-a-mod2>
 </ion-content>
 
 <ion-footer>

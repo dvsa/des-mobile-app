@@ -72,7 +72,7 @@ import { of, Subscription } from 'rxjs';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import { OfficeBasePageComponent } from '../office-base-page';
 
-fdescribe('OfficeBasePageComponent', () => {
+describe('OfficeBasePageComponent', () => {
   let platform: Platform;
   let authenticationProvider: AuthenticationProvider;
   let router: Router;
