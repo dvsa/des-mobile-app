@@ -9,7 +9,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Observable, Subscription } from 'rxjs';
-import { FormGroup } from '@angular/forms';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -76,7 +75,6 @@ type OfficePageState = CommonOfficePageState & CatAMod2OfficePageState;
 export class OfficeCatAMod2Page extends OfficeBasePageComponent {
   pageState: OfficePageState;
   pageSubscription: Subscription;
-  form: FormGroup;
   static readonly maxFaultCount = 10;
 
   constructor(
