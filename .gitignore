@@ -18,6 +18,7 @@ ionic.config.json
 *.log
 log.txt
 npm-debug.log*
+.sentryclirc
 
 /.idea
 /.ionic

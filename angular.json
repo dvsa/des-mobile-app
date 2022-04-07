@@ -23,7 +23,9 @@
               {
                 "glob": "**/*",
                 "input": "src/assets/",
-                "ignore": ["**/*.scss"],
+                "ignore": [
+                  "**/*.scss"
+                ],
                 "output": "/assets/"
               },
               {
@@ -53,7 +55,11 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": true,
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -74,13 +80,14 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
-              "aot": false,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
               "vendorChunk": true,
-              "extractLicenses": false,
-              "buildOptimizer": false,
-              "sourceMap": false,
-              "optimization": false,
-              "namedChunks": false
+              "buildOptimizer": true
             },
             "uat": {
               "fileReplacements": [
