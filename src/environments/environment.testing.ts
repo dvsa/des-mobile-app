@@ -5,6 +5,10 @@ export const environment: TestersEnvironmentFile = {
   isTest: true,
   isRemote: true,
   configUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/configuration/dev',
+  sentry: {
+    dsn: null,
+    environment: null,
+  },
   daysToCacheLogs: 7,
   enableDevTools: false,
   logoutClearsTestPersistence: true,

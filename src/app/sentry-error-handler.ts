@@ -35,7 +35,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
       const appVersion = await this.appInfoProvider.getVersionNumber().toPromise();
 
       Sentry.withScope((scope) => {
-        if (employeeID) scope.setTag('employee-id', employeeID);
+        if (employeeID) scope.setUser({ id: employeeID });
         if (role) scope.setTag('role', role);
         if (appVersion) scope.setTag('app-version', appVersion);
 

@@ -44,8 +44,6 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { QuestionProvider } from '@providers/question/question';
-import * as Sentry from '@sentry/capacitor';
-import { init as sentryAngularInit } from '@sentry/angular';
 import { environment } from '@environments/environment';
 import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
 
@@ -111,22 +109,6 @@ if (!window['devToolsExtension'] && !window['__REDUX_DEVTOOLS_EXTENSION__'] && e
 if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);
 }
-
-// Init by passing the sibling SDK's init as the second parameter.
-Sentry.init({
-  dsn: null,
-  // To see what the Sentry SDK is doing; Helps when setting things up
-  debug: !environment?.production,
-  // Whether SDK should be enabled or not
-  enabled: true,
-  release: 'des@test-1',
-  dist: 'test-1',
-  // An environment identifier
-  environment: 'dev',
-  // We recommend adjusting this value in production, or using tracesSampler
-  // for finer control
-  tracesSampleRate: 1.0,
-}, sentryAngularInit);
 
 @NgModule({
   declarations: [AppComponent],
