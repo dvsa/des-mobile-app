@@ -103,6 +103,4 @@ export class DashboardPage extends BasePageComponent {
 
   getEmployeeNumberDisplayValue = (employeeNumber: string): string => employeeNumber || 'NOT_KNOWN';
 
-  stringIt = (str: string) => str.toString();
-
 }
