@@ -219,6 +219,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     TestCategory.DM, TestCategory.D1M, TestCategory.D1EM, TestCategory.DEM, // Cat D3A
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
     TestCategory.ADI2, // ADI
+  ]);
+
+  showCPCDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [
     TestCategory.CCPC, TestCategory.DCPC,
   ]);
 
