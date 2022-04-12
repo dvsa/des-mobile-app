@@ -22,6 +22,10 @@ import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
 import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 import { StatusBar, Style } from '@capacitor/status-bar';
+import { AppInfoProvider } from '@providers/app-info/app-info';
+import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
@@ -38,6 +42,7 @@ describe('AppComponent', () => {
   let dataStore: DataStoreProvider;
   let networkStateProvider: NetworkStateProvider;
   let translate: TranslateService;
+  let appConfigProvider: AppConfigProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -57,6 +62,8 @@ describe('AppComponent', () => {
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         { provide: TranslateService, useValue: translateServiceMock },
+        { provide: AppInfoProvider, useClass: AppInfoProviderMock },
+        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
   });
@@ -74,6 +81,7 @@ describe('AppComponent', () => {
     secureStorage = TestBed.inject(SecureStorage);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     translate = TestBed.inject(TranslateService);
+    appConfigProvider = TestBed.inject(AppConfigProvider);
   }));
 
   it('should create the app', () => {
@@ -92,10 +100,12 @@ describe('AppComponent', () => {
       spyOn(component, 'initialisePersistentStorage').and.returnValue(Promise.resolve());
       spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
+      spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
     });
     it('should run app initialisation code', fakeAsync(() => {
       component.ngOnInit();
       flushMicrotasks();
+      expect(appConfigProvider.initialiseAppConfig).toHaveBeenCalled();
       expect(component.initialiseAuthentication).toHaveBeenCalled();
       expect(component.initialisePersistentStorage).toHaveBeenCalled();
       expect(store$.dispatch).toHaveBeenCalledWith(LoadAppVersion());
