@@ -50,7 +50,7 @@ export class DashboardPage extends BasePageComponent {
     private networkStateProvider: NetworkStateProvider,
     private screenOrientation: ScreenOrientation,
     private insomnia: Insomnia,
-    private deviceProvider: DeviceProvider,
+    public deviceProvider: DeviceProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,

@@ -43,6 +43,8 @@ import {
   AccompanimentCardComponent,
 } from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
@@ -124,6 +126,7 @@ describe('OfficeCatManoeuvrePage', () => {
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
   });

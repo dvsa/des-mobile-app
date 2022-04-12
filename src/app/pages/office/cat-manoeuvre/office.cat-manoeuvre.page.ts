@@ -42,6 +42,7 @@ import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncoup
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { DeviceProvider } from '@providers/device/device';
 
 interface CatManoeuvreOfficePageState {
   delegatedTest$: Observable<boolean>;
@@ -76,6 +77,7 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -141,6 +143,14 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
       testOutcomeText$.pipe(map((result) => this.testOutcomeText = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
     ).subscribe();
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   ionViewDidLeave(): void {

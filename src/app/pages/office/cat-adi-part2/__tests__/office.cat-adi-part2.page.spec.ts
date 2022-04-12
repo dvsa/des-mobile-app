@@ -52,6 +52,8 @@ import {
   VehicleChecksOfficeCardCatADI2Component,
 } from '@pages/office/cat-adi-part2/components/vehicle-checks/vehicle-checks-office-card';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatADI2Page } from '../office.cat-adi-part2.page';
@@ -140,6 +142,7 @@ describe('OfficeCatADI2Page', () => {
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
   });

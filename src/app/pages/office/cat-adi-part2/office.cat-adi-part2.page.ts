@@ -48,6 +48,7 @@ import {
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionProvider } from '@providers/question/question';
+import { DeviceProvider } from '@providers/device/device';
 
 interface CatADI2OfficePageState {
   displayDrivingFaultComments$: Observable<boolean>;
@@ -84,6 +85,7 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
     faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
     private questionProvider: QuestionProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -152,6 +154,14 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
     };
 
     this.setupSubscription();
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   setupSubscription() {

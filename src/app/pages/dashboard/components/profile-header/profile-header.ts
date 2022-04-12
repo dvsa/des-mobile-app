@@ -5,7 +5,6 @@ import { Component, Input } from '@angular/core';
   templateUrl: 'profile-header.html',
   styleUrls: ['profile-header.scss'],
 })
-
 export class ProfileHeaderComponent {
 
   @Input()
@@ -16,5 +15,8 @@ export class ProfileHeaderComponent {
 
   @Input()
   employeeId: string;
+
+  @Input()
+  disableASAM: () => void;
 
 }

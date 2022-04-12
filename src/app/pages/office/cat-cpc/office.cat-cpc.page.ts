@@ -43,6 +43,7 @@ import { getReceiptDeclarationStatus } from '@store/tests/post-test-declarations
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
 import { map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
+import { DeviceProvider } from '@providers/device/device';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
 
 interface CatCPCOfficePageState {
@@ -89,6 +90,7 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -178,6 +180,14 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
       testOutcome$.pipe(map((result) => this.testOutcome = result)),
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
     ).subscribe();
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   ionViewDidLeave(): void {

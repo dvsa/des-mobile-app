@@ -41,6 +41,16 @@ import { QuestionProviderMock } from '@providers/question/__mocks__/question.moc
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import {
+  AccompanimentCardComponent,
+} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import {
+  VehicleDetailsCardComponent,
+} from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
 import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
 import { IdentificationComponent } from '../../components/identification/identification';
@@ -56,7 +66,7 @@ import { VehicleChecksOfficeCardComponent } from '../../components/vehicle-check
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 
-describe('OfficePage', () => {
+describe('OfficeCatAMod2Page', () => {
   let fixture: ComponentFixture<OfficeCatAMod2Page>;
   let component: OfficeCatAMod2Page;
   let store$: Store<StoreModel>;
@@ -78,6 +88,10 @@ describe('OfficePage', () => {
         MockComponent(VehicleChecksOfficeCardComponent),
         MockComponent(CandidateSectionComponent),
         MockComponent(DateOfTest),
+        MockComponent(VehicleDetailsCardComponent),
+        MockComponent(VehicleDetailsComponent),
+        MockComponent(AccompanimentCardComponent),
+        MockComponent(AccompanimentComponent),
       ],
       imports: [
         IonicModule,
@@ -142,6 +156,7 @@ describe('OfficePage', () => {
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
   });

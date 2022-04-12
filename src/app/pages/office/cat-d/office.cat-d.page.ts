@@ -55,6 +55,7 @@ import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-t
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { AddSafetyQuestionComment } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.action';
+import { DeviceProvider } from '@providers/device/device';
 
 interface CatDOfficePageState {
   testCategory$: Observable<CategoryCode>;
@@ -100,6 +101,7 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -187,6 +189,14 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
       testCategory$.pipe(map((result) => this.testCategory = result)),
     ).subscribe();
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   isPass(): boolean {

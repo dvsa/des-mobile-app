@@ -53,6 +53,7 @@ import { PassCertificateNumberReceived } from '@store/tests/post-test-declaratio
 import { vehicleChecksExist } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
 import { getVehicleChecks } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.reducer';
+import { DeviceProvider } from '@providers/device/device';
 
 interface CatCOfficePageState {
   testCategory$: Observable<CategoryCode>;
@@ -98,6 +99,7 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -185,6 +187,14 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       delegatedTest$.pipe(map((result) => this.isDelegated = result)),
       testCategory$.pipe(map((result) => this.testCategory = result)),
     ).subscribe();
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   ionViewDidLeave(): void {

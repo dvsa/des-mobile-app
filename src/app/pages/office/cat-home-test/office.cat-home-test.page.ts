@@ -18,18 +18,16 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { AppConfigProvider } from '@providers/app-config/app-config';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
-import { getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
-import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { Observable } from 'rxjs/Observable';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { getTestData } from '@store/tests/test-data/cat-c/test-data.cat-c.reducer';
-import { vehicleChecksExist } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.selector';
+import { getTestData } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
+import { vehicleChecksExist } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { getVehicleChecks } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
+import { getVehicleChecks } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
 import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { startsWith } from 'lodash';
@@ -47,6 +45,7 @@ import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-fa
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { merge, Subscription } from 'rxjs';
+import { DeviceProvider } from '@providers/device/device';
 
 interface CatHomeOfficePageState {
   testCategory$: Observable<CategoryCode>;
@@ -64,7 +63,7 @@ export type HomeTestData =
 type OfficePageState = CommonOfficePageState & CatHomeOfficePageState;
 
 @Component({
-  selector: 'app-office-cat-home-test',
+  selector: '.office-cat-home-page',
   templateUrl: './office.cat-home-test.page.html',
   styleUrls: ['../office.page.scss'],
 })
@@ -86,7 +85,7 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
     weatherConditionProvider: WeatherConditionProvider,
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
-    private appConfig: AppConfigProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -102,7 +101,7 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
       faultCountProvider,
     );
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig().role === ExaminerRole.DLG);
+    this.activityCodeOptions = activityCodeModelList;
   }
 
   ngOnInit() {
@@ -149,6 +148,14 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
     this.pageSubscription = merge(
       testCategory$.pipe(map((result) => this.testCategory = result)),
     ).subscribe();
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {

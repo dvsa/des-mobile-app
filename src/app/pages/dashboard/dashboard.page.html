@@ -14,9 +14,13 @@
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
   <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
   <div>
-    <profile-header [employeeId]="pageState.employeeId$ | async" [name]="pageState.employeeName$ | async"
-                    [role]="pageState.role$ | async"></profile-header>
-    <hr/>
+    <profile-header
+      [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
+      [employeeId]="pageState.employeeId$ | async"
+      [name]="pageState.employeeName$ | async"
+      [role]="pageState.role$ | async">
+    </profile-header>
+    <hr />
     <h4 id="date-field" class="date">{{todaysDateFormatted}}</h4>
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
@@ -36,14 +40,14 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())"/>
+    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())" />
     <practice-test-report-card
-            id="testReportPracticeMode"
-            *ngIf="showTestReportPracticeMode()">
+      id="testReportPracticeMode"
+      *ngIf="showTestReportPracticeMode()">
     </practice-test-report-card>
     <practice-end-to-end-card
-            id="endToendPracticeMode"
-            *ngIf="showEndToEndPracticeMode()">
+      id="endToendPracticeMode"
+      *ngIf="showEndToEndPracticeMode()">
     </practice-end-to-end-card>
   </div>
 

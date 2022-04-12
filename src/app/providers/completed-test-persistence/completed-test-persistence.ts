@@ -21,7 +21,7 @@ export class CompletedTestPersistenceProvider {
 
   async clearPersistedCompletedTests(): Promise<void> {
     const items: string[] = await this.dataStoreProvider.getKeys();
-    if (items.indexOf(this.completedTestKeychainKey) >= 0) {
+    if (items?.indexOf(this.completedTestKeychainKey) >= 0) {
       await this.dataStoreProvider.removeItem(this.completedTestKeychainKey);
     }
     return Promise.resolve();
