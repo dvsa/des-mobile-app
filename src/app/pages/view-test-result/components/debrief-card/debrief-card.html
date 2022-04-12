@@ -5,7 +5,7 @@
     <ion-card-content>
         <ion-grid>
             <data-row-with-list
-                    *ngIf="!isMod1()"
+                    *ngIf="!isMod1() && showTestRequirement()"
                     [label]="'Test requirements'"
                     [data]="testRequirements">
             </data-row-with-list>
