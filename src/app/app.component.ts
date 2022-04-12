@@ -22,6 +22,7 @@ import { Capacitor } from '@capacitor/core';
 import { environment } from '@environments/environment';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { EnvironmentFile } from '@environments/models/environment.model';
 
 declare let window: any;
 
@@ -167,10 +168,12 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
     const appVersion: string = await this.appInfo.getFullVersionNumber();
 
+    const { sentry } = environment as unknown as EnvironmentFile;
+
     Sentry.init({
-      dsn: environment.sentry?.dsn,
-      enabled: !!environment.sentry?.dsn,
-      environment: environment.sentry?.environment,
+      dsn: sentry?.dsn,
+      enabled: !!sentry?.dsn,
+      environment: sentry?.environment,
       release: `des@${appVersion}`,
       dist: appVersion,
       tracesSampleRate: 1.0,
