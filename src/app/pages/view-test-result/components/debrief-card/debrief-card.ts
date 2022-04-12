@@ -136,6 +136,11 @@ export class DebriefCardComponent implements OnInit {
 
   public isCatADI2 = (): boolean => isAnyOf(this.category, [TestCategory.ADI2]);
 
+  public isCatManoeuvre = (): boolean => isAnyOf(this.category, [
+    TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
+    TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
+  ]);
+
   public isRider = (): boolean => isAnyOf(this.category, [
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1, // Cat Mod1
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2, // Cat Mod2
@@ -333,7 +338,11 @@ export class DebriefCardComponent implements OnInit {
     if (this.isCatADI2()) {
       return this.getManoeuvreADI();
     }
-    const isReverseLeftSelected = get(this.data, 'manoeuvres.reverseLeft.selected', false);
+
+    const isReverseLeftSelected = this.isCatManoeuvre()
+      ? get(this.data, 'manoeuvres.reverseManoeuvre.selected', false)
+      : get(this.data, 'manoeuvres.reverseLeft.selected', false);
+
     return isReverseLeftSelected ? manoeuvreTypeLabelsCatC.reverseLeft : 'None';
   }
 
@@ -352,6 +361,18 @@ export class DebriefCardComponent implements OnInit {
     });
     return selectedManoeuvres.length > 0 ? selectedManoeuvres.join(', ') : 'None';
   }
+
+  showTestRequirement = () => {
+    switch (this.category) {
+      case TestCategory.CM:
+      case TestCategory.C1M:
+      case TestCategory.DM:
+      case TestCategory.D1M:
+        return false;
+      default:
+        return true;
+    }
+  };
 
   public get eco(): DataRowListItem[] {
     return [
