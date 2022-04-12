@@ -1,21 +1,21 @@
 <ion-card (click)="openTestResult()" class="card-ios">
     <ion-grid>
         <ion-row class="top-row">
-            <ion-col size="24" class="first-col">
+            <ion-col size="18" class="first-col">
                 <div id="search-result-cost-code-label">{{searchResult.costCode}}</div>
             </ion-col>
-            <ion-col class="ion-no-padding">
+            <ion-col>
                 <div id="search-result-app-ref-label">App ref: {{searchResult.applicationReference}}</div>
             </ion-col>
         </ion-row>
         <ion-row class="middle-row ion-align-items-center">
-            <ion-col size="24" class="first-col">
+            <ion-col size="18" class="first-col">
                 <h2 id="search-result-time-label">{{getTime()}}</h2>
             </ion-col>
-            <ion-col class="ion-no-padding">
-                <h3 id="search-result-name-label">{{getName()}}</h3>
+            <ion-col size="45">
+                <h3 id="search-result-name-label">{{getName() | titlecase}}</h3>
             </ion-col>
-            <ion-col size="18" class="ion-no-padding">
+            <ion-col size="18">
                 <h2 id="search-result-category-label">{{searchResult.category}}</h2>
             </ion-col>
             <ion-col size="10" class="ion-no-padding ion-padding-end">
@@ -23,11 +23,15 @@
             </ion-col>
         </ion-row>
         <ion-row class="bottom-row">
-            <ion-col size="24" class="first-col">
+            <ion-col size="18" class="first-col">
                 <div id="search-result-date-label">{{getDate()}}</div>
             </ion-col>
-            <ion-col class="ion-no-padding">
+            <ion-col size="45">
                 <div id="search-result-driver-number-label">Driver no: {{searchResult.driverNumber}}</div>
+            </ion-col>
+            <ion-col size="20" class="ion-no-padding"></ion-col>
+            <ion-col *ngIf="searchResult.passCertificateNumber" class="ion-no-padding">
+                <div id="search-result-pass-cert">{{searchResult.passCertificateNumber}}</div>
             </ion-col>
         </ion-row>
     </ion-grid>

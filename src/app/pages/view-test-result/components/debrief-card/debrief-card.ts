@@ -431,7 +431,8 @@ export class DebriefCardComponent implements OnInit {
       const question: QuestionResult = get(this.data, 'vehicleChecks.showMeQuestion', null);
       return question ? [question] : [];
     }
-    return get(this.data, 'vehicleChecks.showMeQuestions', []);
+    return get(this.data, 'vehicleChecks.showMeQuestions', [])
+      .filter((questionRes: QuestionResult) => questionRes.outcome !== undefined);
   }
 
   public get tellMeQuestions(): QuestionResult[] {
@@ -439,7 +440,8 @@ export class DebriefCardComponent implements OnInit {
       const question: QuestionResult = get(this.data, 'vehicleChecks.tellMeQuestion', null);
       return question ? [question] : [];
     }
-    return get(this.data, 'vehicleChecks.tellMeQuestions', []);
+    return get(this.data, 'vehicleChecks.tellMeQuestions', [])
+      .filter((questionRes: QuestionResult) => questionRes.outcome !== undefined);
   }
 
   public get safetyQuestions(): QuestionResult[] {

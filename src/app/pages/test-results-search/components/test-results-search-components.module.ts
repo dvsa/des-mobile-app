@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
 
+import { PipesModule } from '@shared/pipes/pipes.module';
 import { SearchResultComponent } from './search-result/search-result';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search';
 
@@ -18,6 +19,7 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search';
     DirectivesModule,
     IonicModule,
     FormsModule,
+    PipesModule,
   ],
   exports: [
     SearchResultComponent,
