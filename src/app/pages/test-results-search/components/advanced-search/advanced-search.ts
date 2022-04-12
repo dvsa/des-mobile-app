@@ -142,8 +142,10 @@ export class AdvancedSearchComponent {
       endDate: this.endDate,
       staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
       costCode: this.dtcNumber,
-      activityFilter: this.selectedActivity.toString(),
-      categoryFilter: this.selectedCategory.toString(),
+      activityFilter: this.selectedActivity.toString() === this.activityCodes[0]
+        ? '' : this.selectedActivity.toString(),
+      categoryFilter: this.selectedCategory.toString() === this.testCategories[0]
+        ? '' : this.selectedCategory.toString(),
     };
     this.onSearchTests.emit(advancedSearchParams);
   }
