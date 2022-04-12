@@ -50,6 +50,8 @@ import { CircuitComponent } from '@pages/office/cat-a-mod1/components/circuit/ci
 import {
   VehicleDetailsCardComponent,
 } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatAMod1Page } from '../office.cat-a-mod1.page';
@@ -138,6 +140,7 @@ describe('OfficeCatAMod1Page', () => {
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
   });

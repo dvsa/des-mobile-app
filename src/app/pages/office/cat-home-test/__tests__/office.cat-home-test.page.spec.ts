@@ -51,6 +51,8 @@ import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-fault
 import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { of } from 'rxjs';
 import { FaultSummary } from '@shared/models/fault-marking.model';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { OfficeCatHomeTestPage } from '../office.cat-home-test.page';
 
 describe('OfficeCatHomeTestPage', () => {
@@ -89,7 +91,7 @@ describe('OfficeCatHomeTestPage', () => {
             testStatus: {},
             startedTests: {
               123: {
-                category: TestCategory.C,
+                category: TestCategory.F,
                 vehicleDetails: {},
                 accompaniment: {},
                 testData: {
@@ -130,6 +132,7 @@ describe('OfficeCatHomeTestPage', () => {
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
   });

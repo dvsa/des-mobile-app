@@ -45,6 +45,7 @@ import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/eme
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
+import { DeviceProvider } from '@providers/device/device';
 
 interface CatMod1MOfficePageState {
   etaFaults$: Observable<string>;
@@ -84,6 +85,7 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
     public questionProvider: QuestionProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -172,6 +174,14 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
         select(getSchoolBike),
       ),
     };
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary): void {

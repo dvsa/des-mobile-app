@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { configureTestSuite } from 'ng-bullet';
 import { TEST_RESULTS_SEARCH_PAGE } from '@pages/page-names.constants';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { IonicModule } from '@ionic/angular';
 import { TestResultsSearchCardComponent } from '../test-results-search-card';
 
 describe('TestResultsSearchCard ', () => {
@@ -13,6 +14,7 @@ describe('TestResultsSearchCard ', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [TestResultsSearchCardComponent],
+      imports: [IonicModule],
       providers: [
         { provide: Router, useClass: RouterMock },
       ],

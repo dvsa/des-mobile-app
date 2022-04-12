@@ -49,6 +49,8 @@ import { DebriefWitnessedComponent } from '@components/test-finalisation/debrief
 import {
   AccompanimentCardCatCPCComponent,
 } from '@pages/waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatCPCPage } from '../office.cat-cpc.page';
@@ -267,6 +269,7 @@ describe('OfficeCatCPCPage', () => {
         { provide: QuestionProvider, useClass: QuestionProviderMock },
         { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
   });

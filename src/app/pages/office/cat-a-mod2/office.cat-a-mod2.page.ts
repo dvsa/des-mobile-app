@@ -53,6 +53,7 @@ import {
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { Router } from '@angular/router';
+import { DeviceProvider } from '@providers/device/device';
 import { behaviourMap } from '../office-behaviour-map.cat-a-mod2';
 import { OfficeViewDidEnter } from '../office.actions';
 
@@ -89,6 +90,7 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
     weatherConditionProvider: WeatherConditionProvider,
     faultSummaryProvider: FaultSummaryProvider,
     faultCountProvider: FaultCountProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(
       platform,
@@ -164,6 +166,14 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
     };
 
     this.setupSubscriptions();
+  }
+
+  async ionViewWillEnter() {
+    super.ionViewWillEnter();
+
+    if (!this.isPracticeMode) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   modeOfTransportChanged(modeOfTransport: ModeOfTransport): void {

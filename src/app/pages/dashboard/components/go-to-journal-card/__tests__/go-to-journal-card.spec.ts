@@ -2,9 +2,10 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
+import { JOURNAL_PAGE } from '@pages/page-names.constants';
+import { JournalPage } from '@pages/journal/journal.page';
+import { IonicModule } from '@ionic/angular';
 import { GoToJournalCardComponent } from '../go-to-journal-card';
-import { JOURNAL_PAGE } from '../../../../page-names.constants';
-import { JournalPage } from '../../../../journal/journal.page';
 
 describe('GoToJournalCard ', () => {
   let component: GoToJournalCardComponent;
@@ -17,6 +18,7 @@ describe('GoToJournalCard ', () => {
     TestBed.configureTestingModule({
       declarations: [GoToJournalCardComponent],
       imports: [
+        IonicModule,
         RouterTestingModule.withRoutes(
           [
             { path: 'journal', component: JournalPage },
