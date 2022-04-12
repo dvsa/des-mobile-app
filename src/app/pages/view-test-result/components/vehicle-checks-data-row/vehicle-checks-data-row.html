@@ -6,8 +6,8 @@
         <span class="mes-data" *ngIf="isEmptyVehicleChecks(data); else populatedVehicleChecks;">None</span>
         <ng-template #populatedVehicleChecks>
             <div *ngFor="let item of data;">
-                <div class="mes-data large"><span class="mes-data large bold">
-                    {{item.code}}</span>- {{item.description}}
+                <div class="mes-data large">
+                    <span class="mes-data large bold">{{item.code}} </span>- {{item.description}}
                 </div>
                 <div class="mes-data large bold" *ngIf="shouldShowFault(item.outcome)">1 driving fault</div>
             </div>
