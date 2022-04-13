@@ -67,6 +67,7 @@ import {
   OrditTrainedChanged, TrainerRegistrationNumberChanged,
   TrainingRecordsChanged,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
+import { InterpreterAccompanimentToggledCPC, SupervisorAccompanimentToggledCPC } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -211,6 +212,14 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   interpreterAccompanimentToggled(): void {
     this.store$.dispatch(InterpreterAccompanimentToggled());
+  }
+
+  supervisorAccompanimentToggledCPC(): void {
+    this.store$.dispatch(SupervisorAccompanimentToggledCPC());
+  }
+
+  interpreterAccompanimentToggledCPC(): void {
+    this.store$.dispatch(InterpreterAccompanimentToggledCPC());
   }
 
   otherAccompanimentToggled(): void {

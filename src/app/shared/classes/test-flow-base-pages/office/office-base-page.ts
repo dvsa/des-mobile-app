@@ -121,6 +121,10 @@ import {
 } from '@store/tests/accompaniment/accompaniment.selector';
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
+import {
+  InterpreterAccompanimentToggledCPC,
+  SupervisorAccompanimentToggledCPC
+} from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -590,6 +594,14 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
         ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
         : CandidateChoseToProceedWithTestInEnglish('English'),
     );
+  }
+
+  supervisorAccompanimentToggledCPC(): void {
+    this.store$.dispatch(SupervisorAccompanimentToggledCPC());
+  }
+
+  interpreterAccompanimentToggledCPC(): void {
+    this.store$.dispatch(InterpreterAccompanimentToggledCPC());
   }
 
   instructorAccompanimentToggled(): void {

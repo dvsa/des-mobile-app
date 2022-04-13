@@ -54,6 +54,10 @@ import {
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import {
+  InterpreterAccompanimentToggledCPC,
+  SupervisorAccompanimentToggledCPC,
+} from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 import { WaitingRoomToCarBasePageComponent } from '../waiting-room-to-car-base-page';
 
 describe('WaitingRoomToCarBasePageComponent', () => {
@@ -217,6 +221,18 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     it('should dispatch the action SupervisorAccompanimentToggled', () => {
       basePageComponent.supervisorAccompanimentToggled();
       expect(store$.dispatch).toHaveBeenCalledWith(SupervisorAccompanimentToggled());
+    });
+  });
+  describe('supervisorAccompanimentToggledCPC', () => {
+    it('should dispatch the action SupervisorAccompanimentToggledCPC', () => {
+      basePageComponent.supervisorAccompanimentToggledCPC();
+      expect(store$.dispatch).toHaveBeenCalledWith(SupervisorAccompanimentToggledCPC());
+    });
+  });
+  describe('interpreterAccompanimentToggledCPC', () => {
+    it('should dispatch the action InterpreterAccompanimentToggledCPC', () => {
+      basePageComponent.interpreterAccompanimentToggledCPC();
+      expect(store$.dispatch).toHaveBeenCalledWith(InterpreterAccompanimentToggledCPC());
     });
   });
   describe('interpreterAccompanimentToggled', () => {

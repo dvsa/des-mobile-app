@@ -1,9 +1,9 @@
 import { createAction } from '@ngrx/store';
 
-export const InterpreterAccompanimentToggled = createAction(
+export const InterpreterAccompanimentToggledCPC = createAction(
   '[Accompaniment] [Cat CPC] Interpreter accompaniment toggled',
 );
 
-export const SupervisorAccompanimentToggled = createAction(
+export const SupervisorAccompanimentToggledCPC = createAction(
   '[Accompaniment] [Cat CPC] Supervisor accompaniment toggled',
 );

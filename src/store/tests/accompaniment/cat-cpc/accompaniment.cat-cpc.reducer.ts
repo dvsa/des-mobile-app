@@ -6,11 +6,11 @@ const initialState: Accompaniment = {};
 
 export const accompanimentCatCPCReducer = createReducer(
   initialState,
-  on(accompanimentActions.SupervisorAccompanimentToggled, (state): Accompaniment => ({
+  on(accompanimentActions.SupervisorAccompanimentToggledCPC, (state): Accompaniment => ({
     ...state,
     supervisor: !state.supervisor,
   })),
-  on(accompanimentActions.InterpreterAccompanimentToggled, (state): Accompaniment => ({
+  on(accompanimentActions.InterpreterAccompanimentToggledCPC, (state): Accompaniment => ({
     ...state,
     interpreter: !state.interpreter,
   })),
