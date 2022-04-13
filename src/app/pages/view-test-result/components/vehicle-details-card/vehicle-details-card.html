@@ -43,16 +43,16 @@
             <data-row-custom *ngIf="shouldShowDimensions" [label]="'Vehicle dimensions'">
                 <ion-grid>
                     <ion-row>
-                        <ion-col [size]="shouldShowExtraDimensions ? 16 : 32">
+                        <ion-col [size]="shouldShowExtraDimensions ? 20 : 32">
                             <span class="mes-data"><span class="mes-data bold">L:</span> {{ vehicleLength }}</span>
                         </ion-col>
-                        <ion-col [size]="shouldShowExtraDimensions ? 16 : 32">
+                        <ion-col [size]="shouldShowExtraDimensions ? 20 : 32">
                             <span class="mes-data"><span class="mes-data bold">W:</span> {{ vehicleWidth }}</span>
                         </ion-col>
-                        <ion-col *ngIf="shouldShowExtraDimensions" size="16">
+                        <ion-col *ngIf="shouldShowExtraDimensions" size="20">
                             <span class="mes-data"><span class="mes-data bold">H:</span> {{ vehicleHeight }}</span>
                         </ion-col>
-                        <ion-col *ngIf="shouldShowExtraDimensions" size="24">
+                        <ion-col *ngIf="shouldShowExtraDimensions" size="34">
                             <span class="mes-data"><span class="mes-data bold">Seats:</span> {{ numberOfSeats }}</span>
                         </ion-col>
                     </ion-row>
