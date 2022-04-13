@@ -70,6 +70,10 @@ import {
 } from '@angular/forms';
 import { of, Subscription } from 'rxjs';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
+import {
+  InterpreterAccompanimentToggledCPC,
+  SupervisorAccompanimentToggledCPC,
+} from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 import { OfficeBasePageComponent } from '../office-base-page';
 
 describe('OfficeBasePageComponent', () => {
@@ -430,6 +434,18 @@ describe('OfficeBasePageComponent', () => {
     it('should dispatch InterpreterAccompanimentToggled', () => {
       basePageComponent.interpreterAccompanimentToggled();
       expect(store$.dispatch).toHaveBeenCalledWith(InterpreterAccompanimentToggled());
+    });
+  });
+  describe('supervisorAccompanimentToggledCPC', () => {
+    it('should dispatch the action SupervisorAccompanimentToggledCPC', () => {
+      basePageComponent.supervisorAccompanimentToggledCPC();
+      expect(store$.dispatch).toHaveBeenCalledWith(SupervisorAccompanimentToggledCPC());
+    });
+  });
+  describe('interpreterAccompanimentToggledCPC', () => {
+    it('should dispatch the action InterpreterAccompanimentToggledCPC', () => {
+      basePageComponent.interpreterAccompanimentToggledCPC();
+      expect(store$.dispatch).toHaveBeenCalledWith(InterpreterAccompanimentToggledCPC());
     });
   });
   describe('schoolBikeToggled', () => {

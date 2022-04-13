@@ -53,8 +53,8 @@
                                 [formGroup]="form"
                                 [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
                                 [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+                                (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
+                                (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()">
                         </accompaniment-card-cat-cpc>
                     </ion-col>
                 </ion-row>
