@@ -24,17 +24,15 @@ export class AdvancedSearchComponent {
   @Output()
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
 
-  activityCodes: any[] = this.populateActivityArray();
-  testCategories: any[] = [
+  activityCodes: { activityCode: string; description: string; }[] = [
+    { activityCode: '', description: 'All' },
+    ...activityCodeModelList,
+  ];
+
+  testCategories: string[] = [
     'All',
-    TestCategory.A,
-    TestCategory.A1,
-    TestCategory.A2,
     TestCategory.ADI2,
-    TestCategory.ADI3,
-    TestCategory.AM,
     TestCategory.B,
-    TestCategory.B1,
     TestCategory.BE,
     TestCategory.C,
     TestCategory.C1,
@@ -66,11 +64,10 @@ export class AdvancedSearchComponent {
     TestCategory.G,
     TestCategory.H,
     TestCategory.K,
-    TestCategory.SC,
   ];
 
-  selectedActivity: any = this.activityCodes[0];
-  selectedCategory: any = this.testCategories[0];
+  selectedActivity: { activityCode: string; description: string; } = this.activityCodes[0];
+  selectedCategory: string = this.testCategories[0];
   dtcNumber: string = '';
   staffNumber: string = '';
   startDate: string = '';
@@ -119,15 +116,6 @@ export class AdvancedSearchComponent {
     }],
   };
 
-  populateActivityArray() {
-    const activityCodeArray: any[] = [];
-    for (let i = 0; i < activityCodeModelList.length; i += 1) {
-      activityCodeArray.push(`${activityCodeModelList[i].activityCode} - ${activityCodeModelList[i].description}`);
-    }
-    activityCodeArray.unshift('All');
-    return activityCodeArray;
-  }
-
   upperCaseAlphaNum(event: any): void {
     if (nonAlphaNumericValues.test(event.target.value)) {
       event.target.value = event.target.value.replace(nonAlphaNumericValues, '').toUpperCase();
@@ -136,18 +124,24 @@ export class AdvancedSearchComponent {
   }
 
   searchTests(): void {
-    const activitySearchParam = this.selectedActivity.toString().split(' ', 1);
     const advancedSearchParams: AdvancedSearchParams = {
       startDate: this.startDate,
       endDate: this.endDate,
       staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
       costCode: this.dtcNumber,
-      activityFilter: this.selectedActivity.toString() === this.activityCodes[0]
-        ? '' : activitySearchParam,
+      activityFilter: this.selectedActivity.activityCode ?? '',
       categoryFilter: this.selectedCategory.toString() === this.testCategories[0]
         ? '' : this.selectedCategory.toString(),
     };
     this.onSearchTests.emit(advancedSearchParams);
+  }
+
+  activitySelectChange(event: { activityCode: string; description: string; }) {
+    this.selectedActivity = event;
+  }
+
+  categorySelectChange(event: string) {
+    this.selectedCategory = event;
   }
 
   setFocus(focus: string): void {

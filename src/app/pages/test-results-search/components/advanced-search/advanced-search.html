@@ -45,16 +45,23 @@
             <label>Activity code</label>
         </ion-col>
         <ion-col size="22" class="input-padding">
-            <ion-select [(ngModel)]="selectedActivity">
-                <ion-select-option *ngFor="let code of activityCodes">{{code}}</ion-select-option>
+            <ion-select
+                    placeholder="All"
+                    (ionChange)="activitySelectChange($event.target.value)"
+                    [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
+                <ion-select-option [value]="activityCode" *ngFor="let activityCode of activityCodes; let first = first">
+                    <span *ngIf="!first">{{activityCode.activityCode}} - </span>{{activityCode.description}}
+                </ion-select-option>
             </ion-select>
         </ion-col>
         <ion-col class="ion-align-self-center">
             <label>Test category</label>
         </ion-col>
         <ion-col size="22" class="input-padding">
-            <ion-select [(ngModel)]="selectedCategory">
-                <ion-select-option *ngFor="let category of testCategories">{{category}}</ion-select-option>
+            <ion-select placeholder="All"
+                        (ionChange)="categorySelectChange($event.target.value)"
+                        [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
+                <ion-select-option [value]="category" *ngFor="let category of testCategories">{{category}}</ion-select-option>
             </ion-select>
         </ion-col>
     </ion-row>
