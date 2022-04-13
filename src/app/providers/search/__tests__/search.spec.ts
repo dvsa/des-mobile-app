@@ -58,13 +58,15 @@ describe('SearchProvider', () => {
         staffNumber: '12345',
         costCode: 'abc',
         excludeAutoSavedTests: 'true',
+        activityFilter: '1',
+        categoryFilter: 'A',
       };
 
       searchProvider.advancedSearch(params).subscribe();
 
       httpMock.expectOne(
         // eslint-disable-next-line max-len
-        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true',
+        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true&category=A&activityCode=1',
       );
       expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
     });

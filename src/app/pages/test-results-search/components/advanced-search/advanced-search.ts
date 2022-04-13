@@ -25,7 +25,6 @@ export class AdvancedSearchComponent {
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
 
   activityCodes: any[] = this.populateActivityArray();
-
   testCategories: any[] = [
     'All',
     TestCategory.A,
@@ -121,12 +120,12 @@ export class AdvancedSearchComponent {
   };
 
   populateActivityArray() {
-    const activityArray: any[] = [];
-    activityArray.push('All');
+    const activityCodeArray: any[] = [];
     for (let i = 0; i < activityCodeModelList.length; i += 1) {
-      activityArray.push(`${activityCodeModelList[i].activityCode} - ${activityCodeModelList[i].description}`);
+      activityCodeArray.push(`${activityCodeModelList[i].activityCode} - ${activityCodeModelList[i].description}`);
     }
-    return activityArray;
+    activityCodeArray.unshift('All');
+    return activityCodeArray;
   }
 
   upperCaseAlphaNum(event: any): void {
@@ -137,13 +136,14 @@ export class AdvancedSearchComponent {
   }
 
   searchTests(): void {
+    const activitySearchParam = this.selectedActivity.toString().split(' ', 1);
     const advancedSearchParams: AdvancedSearchParams = {
       startDate: this.startDate,
       endDate: this.endDate,
       staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
       costCode: this.dtcNumber,
       activityFilter: this.selectedActivity.toString() === this.activityCodes[0]
-        ? '' : this.selectedActivity.toString(),
+        ? '' : activitySearchParam,
       categoryFilter: this.selectedCategory.toString() === this.testCategories[0]
         ? '' : this.selectedCategory.toString(),
     };
