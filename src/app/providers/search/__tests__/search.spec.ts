@@ -58,8 +58,8 @@ describe('SearchProvider', () => {
         staffNumber: '12345',
         costCode: 'abc',
         excludeAutoSavedTests: 'true',
-        activityFilter: '1',
-        categoryFilter: 'A',
+        activityCode: '1',
+        category: 'A',
       };
 
       searchProvider.advancedSearch(params).subscribe();

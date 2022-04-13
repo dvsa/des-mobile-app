@@ -48,8 +48,8 @@ export class SearchProvider {
           staffNumber: advancedSearchParams.staffNumber,
           dtcCode: advancedSearchParams.costCode,
           excludeAutoSavedTests: advancedSearchParams.excludeAutoSavedTests,
-          category: advancedSearchParams.categoryFilter,
-          activityCode: advancedSearchParams.activityFilter,
+          category: advancedSearchParams.category,
+          activityCode: advancedSearchParams.activityCode,
         },
       },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
