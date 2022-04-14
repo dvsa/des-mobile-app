@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
@@ -44,7 +44,6 @@ import { CategoryWhitelistProvider } from '@providers/category-whitelist/categor
 import { TestCentreJournalProvider } from '@providers/test-centre-journal/test-centre-journal';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { QuestionProvider } from '@providers/question/question';
-
 import { environment } from '@environments/environment';
 import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
 
@@ -65,6 +64,8 @@ import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
+import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RemoteDevToolsProxy } from '../../ngrx-devtool-proxy/remote-devtools-proxy';
@@ -144,6 +145,7 @@ if (enableRehydrationPlugin) {
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
+    { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
     MobileAccessibility,
     AppVersion,
     AppConfigProvider,

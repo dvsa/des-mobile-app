@@ -30,11 +30,11 @@ import { DataStoreProvider } from '../data-store/data-store';
  *
  *  IOS Devices
  *
- *  If the device is IOS it will attempt to create a Environment file in from configuration provided from MDM
+ *  If the device is IOS it will attempt to create an Environment file in from configuration provided from MDM
  *  using loadManagedConfig().
  *
- *  If this fails then it will use the Enviroment configuration
- *  provided by the enviroment file at ../../enviroment/enviroment which is required for the app to build
+ *  If this fails then it will use the Environment configuration
+ *  provided by the environment file at ../../environment/environment which is required for the app to build
  *
  *  In the Login page for an IOS device the App Config initialiseAppConfig() is ran
  *  followed by loadRemoteConfig() which makes an api call to the configuration microservice
@@ -45,12 +45,12 @@ import { DataStoreProvider } from '../data-store/data-store';
  *
  *  Non IOS Devices
  *
- *  Non ios devcies will always use the enviroment file at ../../enviroment/enviroment
+ *  Non ios devices will always use the environment file at ../../environment/environment
  *
  *  In the Login page for a non IOS device initialiseAppConfig() is run which also calls mapRemoteConfig() to
- *  load more config from the enviroment file.
+ *  load more config from the environment file.
  *
- *  As on non-IOS devices we can't authenticate with AWS so the enviroment file should always have the setting
+ *  As on non-IOS devices we can't authenticate with AWS so the environment file should always have the setting
  *  isRemote set to false
  */
 
@@ -116,6 +116,10 @@ export class AppConfigProvider {
     const newEnvFile = {
       production: false,
       configUrl: this.emmAppConfig.getValue('configUrl'),
+      sentry: {
+        dsn: this.emmAppConfig.getValue('sentryDsn'),
+        environment: this.emmAppConfig.getValue('sentryEnv'),
+      },
       daysToCacheJournalData: this.emmAppConfig.getValue('daysToCacheJournalData'),
       daysToCacheLogs: this.emmAppConfig.getValue('daysToCacheLogs'),
       isRemote: true,

@@ -23,7 +23,9 @@
               {
                 "glob": "**/*",
                 "input": "src/assets/",
-                "ignore": ["**/*.scss"],
+                "ignore": [
+                  "**/*.scss"
+                ],
                 "output": "/assets/"
               },
               {
@@ -53,8 +55,12 @@
               ],
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": true,
-              "namedChunks": false,
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
+              "namedChunks": true,
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -74,13 +80,18 @@
                   "with": "src/environments/environment.dev.ts"
                 }
               ],
-              "aot": false,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
               "vendorChunk": true,
-              "extractLicenses": false,
-              "buildOptimizer": false,
-              "sourceMap": false,
-              "optimization": false,
-              "namedChunks": false
+              "buildOptimizer": true
             },
             "uat": {
               "fileReplacements": [
@@ -89,13 +100,18 @@
                   "with": "src/environments/environment.uat.ts"
                 }
               ],
-              "aot": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "buildOptimizer": false,
-              "sourceMap": false,
-              "optimization": false,
-              "namedChunks": false
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             },
             "local": {
               "fileReplacements": [
@@ -119,13 +135,18 @@
                   "with": "src/environments/environment.dev.dev-tools.ts"
                 }
               ],
-              "aot": false,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
               "vendorChunk": true,
-              "extractLicenses": false,
-              "buildOptimizer": false,
-              "sourceMap": false,
-              "optimization": false,
-              "namedChunks": false
+              "buildOptimizer": true
             },
             "livereload": {
               "fileReplacements": [
@@ -134,13 +155,18 @@
                   "with": "src/environments/environment.livereload.ts"
                 }
               ],
-              "aot": false,
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": {
+                "hidden": true,
+                "scripts": true,
+                "styles": true
+              },
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
               "vendorChunk": true,
-              "extractLicenses": false,
-              "buildOptimizer": false,
-              "sourceMap": false,
-              "optimization": false,
-              "namedChunks": false
+              "buildOptimizer": true
             },
             "testing": {
               "fileReplacements": [

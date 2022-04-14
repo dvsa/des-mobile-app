@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Observable, merge, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
+import * as Sentry from '@sentry/capacitor';
+import { init as sentryAngularInit } from '@sentry/angular';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DataStoreProvider } from '@providers/data-store/data-store';
@@ -17,6 +19,10 @@ import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LoadAppVersion, AppResumed, AppSuspended } from '@store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
 import { Capacitor } from '@capacitor/core';
+import { environment } from '@environments/environment';
+import { AppInfoProvider } from '@providers/app-info/app-info';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { EnvironmentFile } from '@environments/models/environment.model';
 
 declare let window: any;
 
@@ -41,6 +47,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected dataStore: DataStoreProvider,
     protected networkStateProvider: NetworkStateProvider,
     protected translate: TranslateService,
+    protected appInfo: AppInfoProvider,
+    protected appConfigProvider: AppConfigProvider,
     router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
@@ -48,6 +56,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     await this.platform.ready();
+    await this.appConfigProvider.initialiseAppConfig();
+    await this.initialiseSentry();
     this.initialiseNetworkState();
     this.initialiseAuthentication();
     await this.initialisePersistentStorage();
@@ -151,5 +161,25 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   configureLocale(): void {
     this.translate.setDefaultLang('en');
   }
+
+  initialiseSentry = async () => {
+    // don't run sentry in browser;
+    if (!this.platform.is('cordova')) return;
+
+    const appVersion: string = await this.appInfo.getFullVersionNumber();
+
+    const { sentry } = environment as unknown as EnvironmentFile;
+
+    Sentry.init({
+      dsn: sentry?.dsn,
+      enabled: !!sentry?.dsn,
+      environment: sentry?.environment,
+      release: `des@${appVersion}`,
+      dist: appVersion,
+      tracesSampleRate: 1.0,
+    }, sentryAngularInit);
+
+    return Promise.resolve();
+  };
 
 }

@@ -14,7 +14,7 @@ DVSA Driving Examiner Application
   - [ScanRepo](https://github.com/UKHomeOffice/repo-security-scanner)
     - latest version: scanrepo-0.4.0-darwin-amd64.tar.gz
     - Add to path (using echo $PATH to find your path)
-- NOTE: you wil need to obtain `ionic-config.json` and `.npmrc` files containing the ionic enterprise licence keys and save to the project root in order to build the app.
+- NOTE: you wil need to obtain `ionic-config.json`, `.npmrc` and `.sentryclirc` files containing the ionic enterprise licence keys / sentry secrets and save to the project root in order to build the app.
 
 ### Get started
 
@@ -67,3 +67,7 @@ Run the following to switch between configurations
 - Once all test have been ran, to get the reports you can use:
   - `npm run test:generate-report`  
 
+### Sentry
+
+- A script has been added (`buildScripts/sentry-deploy.sh`) that will automatically create a new Sentry release and upload sourcemaps
+- If wishing to disable Sentry for any reason, then set the `dsn` value to null
