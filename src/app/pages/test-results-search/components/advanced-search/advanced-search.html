@@ -71,13 +71,13 @@
         </ion-col>
     </ion-row>
     <ion-row class="ion-padding-top ion-padding-bottom">
-        <ion-col class="ion-align-self-center" size="26">
+        <ion-col class="ion-align-self-center" size="18">
             <label id="advanced-search-date-range-label">Date range</label>
         </ion-col>
-        <ion-col size="28">
+        <ion-col size="32">
             <ion-datetime
                     id="advanced-search-start-date-picker"
-                    placeholder="Select start date"
+                    [placeholder]= minStartDatePlaceholder
                     displayFormat="DD/MM/YYYY"
                     [min]="minStartDate"
                     [max]="endDate ? endDate : today"
@@ -88,10 +88,10 @@
         <ion-col class="ion-text-center" size="9">
             <label class="to-label" id="to-label">to</label>
         </ion-col>
-        <ion-col size="28">
+        <ion-col size="32">
             <ion-datetime
                     id="advanced-search-end-date-picker"
-                    placeholder="Select end date"
+                    [placeholder]=todayPlaceholder
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
                     [min]="startDate ? startDate : minStartDate"
