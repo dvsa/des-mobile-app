@@ -48,7 +48,7 @@ export class SearchProvider {
           staffNumber: advancedSearchParams.staffNumber,
           dtcCode: advancedSearchParams.costCode,
           excludeAutoSavedTests: advancedSearchParams.excludeAutoSavedTests,
-          category: advancedSearchParams.category,
+          category: encodeURIComponent(advancedSearchParams.category),
           activityCode: advancedSearchParams.activityCode,
         },
       },
