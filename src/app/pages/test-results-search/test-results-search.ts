@@ -21,6 +21,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { SaveLog } from '@store/logs/logs.actions';
 import { AppComponent } from '@app/app.component';
 import { ErrorPage } from '@pages/error-page/error';
+import { orderBy } from 'lodash';
 import {
   TestResultSearchViewDidEnter, PerformApplicationReferenceSearch, PerformDriverNumberSearch, PerformLDTMSearch,
 } from './test-results-search.actions';
@@ -160,7 +161,7 @@ export class TestResultsSearchPage extends BasePageComponent {
       .pipe(
         tap(() => this.hasSearched = true),
         map((results) => {
-          this.searchResults = results;
+          this.searchResults = orderBy(results, ['testDate', 'category'], ['desc', 'asc']);
           this.showAdvancedSearchSpinner = false;
         }),
         catchError(async (err: HttpErrorResponse) => {
