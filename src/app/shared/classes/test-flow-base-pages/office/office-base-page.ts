@@ -123,7 +123,7 @@ import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
 import {
   InterpreterAccompanimentToggledCPC,
-  SupervisorAccompanimentToggledCPC
+  SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
 
 export interface CommonOfficePageState {
