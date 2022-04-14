@@ -21,7 +21,7 @@ platform :ios do
   automatic_code_signing(
     path: "ios/App/App.xcodeproj",
     use_automatic_signing: false,
-    profile_name: "DrivingExaminerServices",
+    profile_name: "Driving Examiner Services",
     team_id: "K84TL26V3P",
     code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
   )
@@ -42,7 +42,7 @@ platform :ios do
        use_automatic_signing: false,
        team_id: "K84TL26V3P",
        code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency",
-       profile_name: "DrivingExaminerServices",
+       profile_name: "Driving Examiner Services",
        targets: ".*App.*"
     )
 
