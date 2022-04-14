@@ -17,42 +17,49 @@ default_platform(:ios)
 
 platform :ios do
   desc "Signs and builds the app with the DVSA production distribution certificate & provisioning profile"
-  lane :build do
-   upgrade_super_old_xcode_project(
+
+  automatic_code_signing(
     path: "ios/App/App.xcodeproj",
-    team_id: "K84TL26V3P"
+    use_automatic_signing: false,
+    profile_name: "Mobile Examiner App 2022",
+    team_id: "K84TL26V3P",
+    code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
   )
-  disable_automatic_code_signing(path: "ios/App/App.xcodeproj")
-  # Make sure the XCode project is using the VOSA/DVSA team
-  update_project_team(
-   path: "ios/App/App.xcodeproj",
-   teamid: "K84TL26V3P")
 
-   # Update the project's provisioning settings to use our distribution cert
-   update_project_provisioning(
-    xcodeproj: "ios/App/App.xcodeproj",
-    profile: "/Users/des/certs/Driving_Examiner_Services.mobileprovision", 
-    target_filter: ".*App.*", # matches name or type of a target, see https://medium.com/@andersongusmao/xcode-targets-with-multiples-build-configuration-90a575ddc687 for an explanation 
-    build_configuration: "Release",
-    code_signing_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
-  )
-   
+  lane :build do
+  	upgrade_super_old_xcode_project(
+    	path: "ios/App/App.xcodeproj",
+    	team_id: "K84TL26V3P"
+  	)
 
-   build_ios_app(
-    export_options: {
-      provisioningProfiles: {
-        "uk.gov.dvsa.drivingexaminerservices" => "DrivingExaminerServices",
-      }
-    },
-   workspace:  "ios/App/App.xcworkspace",
-        scheme: "App",
-        configuration: "Release",
-        output_directory: "build",
-        silent: false,
-        output_name: "DrivingExaminerService.ipa",
-        export_method: "enterprise",
-        codesigning_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
+  	update_project_team(
+   		path: "ios/App/App.xcodeproj",
+   		teamid: "K84TL26V3P"
+   	)
 
+  	update_code_signing_settings(
+       path: "ios/App/App.xcodeproj",
+       use_automatic_signing: false,
+       team_id: "K84TL26V3P",
+       code_sign_identity: "iPhone Distribution: Vehicle and Operator Services Agency",
+       profile_name: "Mobile Examiner App 2022",
+       targets: ".*App.*"
+    )
+
+	build_ios_app(
+    	export_options: {
+      		provisioningProfiles: {
+        		"uk.gov.dvsa.drivingexaminerservices" => "DrivingExaminerServices",
+      		}
+    	},
+   		workspace:  "ios/App/App.xcworkspace",
+        	scheme: "App",
+        	configuration: "Release",
+        	output_directory: "build",
+        	silent: false,
+        	output_name: "DrivingExaminerService.ipa",
+        	export_method: "enterprise",
+        	codesigning_identity: "iPhone Distribution: Vehicle and Operator Services Agency"
    )
   end
 end
