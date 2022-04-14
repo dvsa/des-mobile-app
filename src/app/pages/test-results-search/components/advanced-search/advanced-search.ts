@@ -78,7 +78,10 @@ export class AdvancedSearchComponent {
   currentDate: any = new Date().toISOString().substring(0, 10);
 
   today = moment().format('YYYY-MM-DD');
+  todayPlaceholder = moment().format('DD/MM/YYYY');
+
   minStartDate = moment().subtract(2, 'years').format('YYYY-MM-DD');
+  minStartDatePlaceholder = moment().subtract(2, 'years').format('DD/MM/YYYY');
 
   customStartDateOptions = {
     buttons: [
@@ -125,8 +128,8 @@ export class AdvancedSearchComponent {
 
   searchTests(): void {
     const advancedSearchParams: AdvancedSearchParams = {
-      startDate: this.startDate,
-      endDate: this.endDate,
+      startDate: this.startDate ? this.startDate : this.minStartDate,
+      endDate: this.endDate ? this.endDate : this.today,
       staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
       costCode: this.dtcNumber,
       activityCode: this.selectedActivity.activityCode ?? '',
