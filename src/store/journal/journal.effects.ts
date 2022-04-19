@@ -236,6 +236,8 @@ export class JournalEffects {
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
         excludeAutoSavedTests: 'false',
+        activityCode: '',
+        category: '',
       };
 
       return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
