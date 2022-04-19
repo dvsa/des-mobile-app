@@ -8,27 +8,10 @@ import {
   EventEmitter, ElementRef, AfterViewInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-// import { SignaturePad } from 'angular2-signaturepad';
+import { SignaturePad } from 'angular2-signaturepad';
 
 const defaultSignatureHeight: number = 256;
 const defaultSignatureWidth: number = 706;
-
-class SignaturePad {
-  fromDataURL = (str: string, opts: any) => {};
-
-  clear = () => {};
-
-  toDataURL = (): string => '';
-
-  queryPad = () => {
-    return {
-      _canvas: {
-        height: 1,
-        width: 1,
-      }
-    };
-  }
-}
 
 @Component({
   selector: 'signature-area',
@@ -122,10 +105,11 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   }
 
   resizeSignaturePad(): void {
-    if (!!this.signaturePad.queryPad() && !!this.signaturePad.queryPad()._canvas) {
-      this.signaturePad.queryPad()._canvas.width = this.getSignatureWidth();
-      this.signaturePad.queryPad()._canvas.height = this.getSignatureHeight();
-    }
+    // if (!!this.signaturePad.queryPad() && !!this.signaturePad.queryPad()._canvas) {
+    //   this.signaturePad.queryPad()._canvas.width = this.getSignatureWidth();
+    //   this.signaturePad.queryPad()._canvas.height = this.getSignatureHeight();
+    // }
+    this.signaturePad.resizeCanvas();
   }
 
   clear(): void {

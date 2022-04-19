@@ -32,9 +32,6 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     JournalForceCheckModule,
     JournalRekeyModalModule,
   ],
-  entryComponents: [
-    PersonalCommitmentSlotComponent,
-  ],
   exports: [
     ActivitySlotComponent,
     EmptySlotComponent,

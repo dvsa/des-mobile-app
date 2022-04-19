@@ -112,7 +112,6 @@ if (enableRehydrationPlugin) {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
     DirectivesModule,
     BrowserModule,

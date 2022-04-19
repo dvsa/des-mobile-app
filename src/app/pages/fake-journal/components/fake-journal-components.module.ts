@@ -17,9 +17,6 @@ import { JournalComponentsModule } from '../../journal/components/journal-compon
     TestSlotComponentsModule,
     PreviewModeModalModule,
   ],
-  entryComponents: [
-    FakeTestSlotComponent,
-  ],
   exports: [
     FakeTestSlotComponent,
   ],
