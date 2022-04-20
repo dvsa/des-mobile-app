@@ -121,6 +121,13 @@ export const getActivityCodeBySlotId = (testsModel: TestsModel, id: number): Act
   return null;
 };
 
+export const getPassCertificateBySlotId = (testsModel: TestsModel, id: number): String => {
+  if (testsModel && testsModel.startedTests && testsModel.startedTests[id]) {
+    return testsModel.startedTests[id].passCompletion.passCertificateNumber;
+  }
+  return null;
+};
+
 const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
   const testDate = new DateTime(test.journalData.testSlotAttributes.start);
   const today = new DateTime();

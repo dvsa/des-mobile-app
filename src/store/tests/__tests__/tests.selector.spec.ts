@@ -21,7 +21,7 @@ import {
   getIncompleteTestsCount,
   getOldestIncompleteTest,
   isDelegatedTest,
-  hasStartedTests,
+  hasStartedTests, getPassCertificateBySlotId,
 } from '../tests.selector';
 import { LogsModel } from '../../logs/logs.model';
 import { TestOutcome } from '../tests.constants';
@@ -325,6 +325,44 @@ describe('testsSelector', () => {
         testStatus: {},
       };
       const result = getActivityCodeBySlotId(testState, 1234);
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('getPassCertificateBySlotId', () => {
+    it('should return a valid pass certificate number if available', () => {
+      const testState: TestsModel = {
+        currentTest: { slotId: null },
+        startedTests: {
+          1234: {
+            version: '0.0.1',
+            category: 'B',
+            activityCode: ActivityCodes.ACCIDENT,
+            journalData: null,
+            rekey: false,
+            changeMarker: false,
+            examinerBooked: 1,
+            examinerConducted: 1,
+            examinerKeyed: 1,
+            passCompletion: {
+              passCertificateNumber: 'C123456X',
+            },
+          },
+        },
+        testStatus: {},
+      };
+      const result = getPassCertificateBySlotId(testState, 1234);
+      expect(result).toEqual('C123456X');
+    });
+    it('should return undefined if no pass certificate number yet', () => {
+      const testState: TestsModel = {
+        currentTest: { slotId: null },
+        startedTests: {
+          1234: null,
+        },
+        testStatus: {},
+      };
+      const result = getPassCertificateBySlotId(testState, 1234);
       expect(result).toBeNull();
     });
   });
