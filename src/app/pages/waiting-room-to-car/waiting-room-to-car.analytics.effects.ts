@@ -17,6 +17,7 @@ import {
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarError,
+  WaitingRoomToCarReportActivityCode,
   WaitingRoomToCarValidationError,
   WaitingRoomToCarViewBikeCategoryModal,
   WaitingRoomToCarViewDidEnter,
@@ -36,6 +37,8 @@ import {
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -203,6 +206,29 @@ export class WaitingRoomToCarAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
         formatAnalyticsText(AnalyticsEvents.BIKE_CATEGORY_MODAL_TRIGGERED, tests),
         'bike category selection modal triggered',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  waitingRoomToCarReportActivityCode$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      WaitingRoomToCarReportActivityCode,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([{ activityCode }, tests]:
+    [ReturnType <typeof WaitingRoomToCarReportActivityCode>, TestsModel]) => {
+      const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+        formatAnalyticsText(AnalyticsEvents.SET_ACTIVITY_CODE, tests),
+        `${code} - ${description}`,
       );
       return of(AnalyticRecorded());
     }),

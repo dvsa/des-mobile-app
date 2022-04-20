@@ -1,4 +1,5 @@
 import { createAction } from '@ngrx/store';
+import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 
 export const WaitingRoomToCarViewBikeCategoryModal = createAction(
   '[WaitingRoomToCarPage] Waiting Room To Car View Bike Category Modal',
@@ -26,4 +27,9 @@ export const WaitingRoomToCarBikeCategorySelected = createAction(
 export const WaitingRoomToCarBikeCategoryChanged = createAction(
   '[WaitingRoomToCarPage] Waiting Room To Car Bike Category Changed',
   (initialBikeCategory: string, selectedBikeCategory: string) => ({ initialBikeCategory, selectedBikeCategory }),
+);
+
+export const WaitingRoomToCarReportActivityCode = createAction(
+  '[WaitingRoomToCarPage] Waiting Room To Car report activity code',
+  (activityCode: ActivityCode) => ({ activityCode }),
 );

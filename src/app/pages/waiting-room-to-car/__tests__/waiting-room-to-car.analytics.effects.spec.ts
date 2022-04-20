@@ -10,6 +10,7 @@ import {
   AnalyticsScreenNames,
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
+  AnalyticsEvents,
 } from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { Application } from '@dvsa/mes-journal-schema';
@@ -23,9 +24,11 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
 import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analytics.effects';
+import { WaitingRoomToCarReportActivityCode } from '../waiting-room-to-car.actions';
 
 describe('WaitingRoomToCar Analytics Effects', () => {
   let effects: WaitingRoomToCarAnalyticsEffects;
@@ -62,6 +65,7 @@ describe('WaitingRoomToCar Analytics Effects', () => {
     effects = TestBed.inject(WaitingRoomToCarAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
+    spyOn(analyticsProviderMock, 'logEvent');
   });
 
   describe('waitingRoomToCarViewDidEnter', () => {
@@ -192,6 +196,26 @@ describe('WaitingRoomToCar Analytics Effects', () => {
       });
     });
 
+  });
+
+  describe('WaitingRoomToCarReportActivityCode', () => {
+    it('should call logEvent for action WaitingRoomToCarReportActivityCode', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      // ACT
+      actions$.next(WaitingRoomToCarReportActivityCode(ActivityCodes.FAIL_EYESIGHT));
+      // ASSERT
+      effects.waitingRoomToCarReportActivityCode$.subscribe((result) => {
+        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.POST_TEST,
+          AnalyticsEvents.SET_ACTIVITY_CODE,
+          '3 - FAIL_EYESIGHT',
+        );
+        done();
+      });
+    });
   });
 
 });
