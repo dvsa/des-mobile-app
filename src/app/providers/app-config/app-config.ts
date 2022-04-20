@@ -237,6 +237,10 @@ export class AppConfigProvider {
   private mapInAppConfig = (data) => {
     this.appConfig = merge({}, this.appConfig, {
       configUrl: data.configUrl,
+      sentry: {
+        dsn: data.sentry.dsn,
+        environment: data.sentry.environment,
+      },
       logoutClearsTestPersistence: data.logoutClearsTestPersistence,
       logsPostApiKey: data.logsPostApiKey,
       logsApiUrl: data.logsApiUrl,
