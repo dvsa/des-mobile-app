@@ -112,6 +112,10 @@ export class AppConfigProvider {
     return this.appConfig;
   };
 
+  public getEnvFile = (): EnvironmentFile => {
+    return this.environmentFile;
+  };
+
   public loadManagedConfig = (): void => {
     const newEnvFile = {
       production: false,
