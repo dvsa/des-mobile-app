@@ -18,7 +18,12 @@ import { StoreModel } from '@shared/models/store.model';
 import { SlotTypes } from '@shared/models/slot-types';
 import { getSlotType } from '@shared/helpers/get-slot-type';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { getActivityCodeBySlotId, getTestById, getTestStatus } from '@store/tests/tests.selector';
+import {
+  getActivityCodeBySlotId,
+  getPassCertificateBySlotId,
+  getTestById,
+  getTestStatus,
+} from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
@@ -28,6 +33,7 @@ import { SlotComponent } from '../slot/slot';
 interface TestSlotComponentState {
   testStatus$: Observable<TestStatus>;
   testActivityCode$: Observable<ActivityCode>;
+  testPassCertificate$: Observable<String>;
   isRekey$: Observable<boolean>;
 }
 
@@ -86,11 +92,15 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     this.componentState = {
       testStatus$: this.store$.pipe(
         select(getTests),
-        select((tests) => getTestStatus(tests, slotId)),
+        select((tests) => this.derivedTestStatus || getTestStatus(tests, slotId)),
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
-        map((tests) => getActivityCodeBySlotId(tests, this.slot.slotDetail.slotId)),
+        map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, this.slot.slotDetail.slotId)),
+      ),
+      testPassCertificate$: this.store$.pipe(
+        select(getTests),
+        map((tests) => this.derivedPassCertificate || getPassCertificateBySlotId(tests, this.slot.slotDetail.slotId)),
       ),
       isRekey$: this.store$.pipe(
         select(getTests),

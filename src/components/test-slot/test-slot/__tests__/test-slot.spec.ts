@@ -441,6 +441,7 @@ describe('TestSlotComponent', () => {
         component.componentState = {
           testStatus$: of(TestStatus.Booked),
           testActivityCode$: of(ActivityCodes.PASS),
+          testPassCertificate$: of('C123456X'),
           isRekey$: of(false),
         };
         fixture.detectChanges();
