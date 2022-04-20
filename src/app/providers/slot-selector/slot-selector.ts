@@ -106,9 +106,6 @@ export class SlotSelectorProvider {
       checkDigit: slotData.booking.application.checkDigit,
     };
 
-    console.log('slot', applicationReference);
-    console.log('complete', completedTests[0]);
-
     const completedTest = completedTests.find((compTest) => {
       return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
     });
