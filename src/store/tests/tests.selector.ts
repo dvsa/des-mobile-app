@@ -3,7 +3,7 @@ import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
-import { startsWith } from 'lodash';
+import { get, startsWith } from 'lodash';
 import {
   ActivityCodeModel,
   activityCodeModelList,
@@ -123,7 +123,7 @@ export const getActivityCodeBySlotId = (testsModel: TestsModel, id: number): Act
 
 export const getPassCertificateBySlotId = (testsModel: TestsModel, id: number): string => {
   if (testsModel && testsModel.startedTests && testsModel.startedTests[id]) {
-    return testsModel.startedTests[id].passCompletion.passCertificateNumber;
+    return get(testsModel.startedTests[id], 'passCompletion.passCertificateNumber', null);
   }
   return null;
 };
