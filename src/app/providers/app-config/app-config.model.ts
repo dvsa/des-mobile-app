@@ -2,6 +2,10 @@ import { ExaminerRole, TestPermissionPeriod } from '@dvsa/mes-config-schema/remo
 
 export type AppConfig = {
   configUrl: string
+  sentry?: {
+    dsn: string;
+    environment: string;
+  },
   googleAnalyticsId: string,
   daysToCacheLogs: number,
   logoutClearsTestPersistence?: boolean;
