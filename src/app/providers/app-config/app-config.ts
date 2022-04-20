@@ -112,10 +112,6 @@ export class AppConfigProvider {
     return this.appConfig;
   };
 
-  public getEnvFile = (): EnvironmentFile => {
-    return this.environmentFile;
-  };
-
   public loadManagedConfig = (): void => {
     const newEnvFile = {
       production: false,
@@ -241,6 +237,10 @@ export class AppConfigProvider {
   private mapInAppConfig = (data) => {
     this.appConfig = merge({}, this.appConfig, {
       configUrl: data.configUrl,
+      sentry: {
+        dsn: data.sentry.dsn,
+        environment: data.sentry.environment,
+      },
       logoutClearsTestPersistence: data.logoutClearsTestPersistence,
       logsPostApiKey: data.logsPostApiKey,
       logsApiUrl: data.logsApiUrl,
