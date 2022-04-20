@@ -19,7 +19,6 @@ import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LoadAppVersion, AppResumed, AppSuspended } from '@store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
 import { Capacitor } from '@capacitor/core';
-import { environment } from '@environments/environment';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { EnvironmentFile } from '@environments/models/environment.model';
@@ -168,7 +167,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
     const appVersion: string = await this.appInfo.getFullVersionNumber();
 
-    const { sentry } = environment as unknown as EnvironmentFile;
+    const { sentry } = this.appConfigProvider.getEnvFile() as unknown as EnvironmentFile;
 
     Sentry.init({
       dsn: sentry?.dsn,
