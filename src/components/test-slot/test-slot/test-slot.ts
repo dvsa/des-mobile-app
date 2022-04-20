@@ -62,6 +62,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   derivedActivityCode: ActivityCode | null = null;
 
   @Input()
+  derivedPassCertificate?: string;
+
+  @Input()
   examinerName: string = null;
 
   @Input()

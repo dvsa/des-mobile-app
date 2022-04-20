@@ -96,6 +96,25 @@ export class SlotSelectorProvider {
     return TestSlotComponent;
   };
 
+  didSlotPass(slotData: TestSlot, completedTests: SearchResultTestSchema[]): string | null {
+    if (isEmpty(completedTests)) {
+      return null;
+    }
+    const applicationReference: ApplicationReference = {
+      applicationId: slotData.booking.application.applicationId,
+      bookingSequence: slotData.booking.application.bookingSequence,
+      checkDigit: slotData.booking.application.checkDigit,
+    };
+
+    console.log('slot', applicationReference);
+    console.log('complete', completedTests[0]);
+
+    const completedTest = completedTests.find((compTest) => {
+      return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
+    });
+    return completedTest ? completedTest.passCertificateNumber : null;
+  }
+
   hasSlotBeenTested(slotData: TestSlot, completedTests: SearchResultTestSchema[]): ActivityCode | null {
     if (isEmpty(completedTests)) {
       return null;
@@ -110,7 +129,6 @@ export class SlotSelectorProvider {
     const completedTest = completedTests.find((compTest) => {
       return compTest.applicationReference === parseInt(formatApplicationReference(applicationReference), 10);
     });
-
     return completedTest ? completedTest.activityCode : null;
   }
 
