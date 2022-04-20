@@ -27,7 +27,7 @@
                     <ion-col size="7" class="exclamation-col align-center">
                         <indicators
                                 [showExclamationIndicator]="isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking()"
-                                [testStatus]="derivedTestStatus || (componentState.testStatus$ | async)"
+                                [testStatus]="componentState.testStatus$ | async"
                                 [applicationId]="slot.booking.application.applicationId">
                         </indicators>
                     </ion-col>

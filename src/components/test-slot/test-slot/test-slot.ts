@@ -96,11 +96,11 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       ),
       testActivityCode$: this.store$.pipe(
         select(getTests),
-        map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, this.slot.slotDetail.slotId)),
+        map((tests) => this.derivedActivityCode || getActivityCodeBySlotId(tests, slotId)),
       ),
       testPassCertificate$: this.store$.pipe(
         select(getTests),
-        map((tests) => this.derivedPassCertificate || getPassCertificateBySlotId(tests, this.slot.slotDetail.slotId)),
+        map((tests) => this.derivedPassCertificate || getPassCertificateBySlotId(tests, slotId)),
       ),
       isRekey$: this.store$.pipe(
         select(getTests),
