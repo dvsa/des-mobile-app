@@ -101,6 +101,7 @@
                                 [applicationId]="slot.booking.application.applicationId"
                                 [testStatus]="derivedTestStatus || (componentState.testStatus$ | async)"
                                 [activityCode]="derivedActivityCode || (componentState.testActivityCode$ | async)"
+                                [passCertificate]="derivedPassCertificate"
                                 [specialRequirements]="isIndicatorNeededForSlot()"
                                 [hasSeenCandidateDetails]="hasSeenCandidateDetails"
                                 [isRekey]="componentState.isRekey$ | async"
