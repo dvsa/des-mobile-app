@@ -121,7 +121,7 @@ export const getActivityCodeBySlotId = (testsModel: TestsModel, id: number): Act
   return null;
 };
 
-export const getPassCertificateBySlotId = (testsModel: TestsModel, id: number): String => {
+export const getPassCertificateBySlotId = (testsModel: TestsModel, id: number): string => {
   if (testsModel && testsModel.startedTests && testsModel.startedTests[id]) {
     return testsModel.startedTests[id].passCompletion.passCertificateNumber;
   }
