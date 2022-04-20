@@ -87,13 +87,10 @@
             Displaying <span>{{searchResults.length}}</span> results
         </p>
 
-        <cdk-virtual-scroll-viewport itemSize="1">
-            <ion-item-divider *virtualHeader="let header" class="list-header"></ion-item-divider>
             <search-result
-                    *cdkVirtualFor="let searchResult of searchResults;"
+                    *ngFor="let searchResult of searchResults;"
                     [searchResult]=searchResult>
             </search-result>
-        </cdk-virtual-scroll-viewport>
     </div>
 
 
