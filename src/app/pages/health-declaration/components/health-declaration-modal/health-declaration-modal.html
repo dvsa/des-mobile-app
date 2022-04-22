@@ -1,0 +1,29 @@
+<ion-card class="modal-alert">
+    <modal-alert-title id="model-title">The candidate has not confirmed the health declaration</modal-alert-title>
+    <ion-row>
+        <ion-col class="ion-no-padding" size="5"></ion-col>
+        <ion-col class="ion-no-padding" size="89">
+            <div class="modal-alert-message mes-data">
+                <div *ngIf="licenseProvided" id='model-text-long' class="mes-data-small">You need to give the provisional licence back to the candidate.<br/>The field 'Driver licence received' will be automatically changed to 'no'.</div>
+                <div id='model-text-short' class="mes-data-small">Remind the candidate to contact DVLA</div>
+            </div>
+        </ion-col>
+        <ion-col class="ion-no-padding" size="5"></ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="column-border-top ion-no-padding">
+            <ion-row>
+                <ion-col>
+                    <ion-button id="cancel-button" fill="clear" class="confirm-submit-cancel-button" (click)="onBack()">
+                        Cancel
+                    </ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button id="continue-button" fill="clear" class="confirm-submit-continue-button" (click)="onCompleteTest()">
+                        Continue
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+</ion-card>
