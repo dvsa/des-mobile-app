@@ -34,6 +34,11 @@ export class JournalSlotComponent {
     completedTests: SearchResultTestSchema[],
   ): ActivityCode | null => this.slotSelector.hasSlotBeenTested(slotData, completedTests);
 
+  didSlotPass = (
+    slotData: TestSlot,
+    completedTests: SearchResultTestSchema[],
+  ): string | null => this.slotSelector.didSlotPass(slotData, completedTests);
+
   slotType = (slot: SlotItem): string => {
     const { slotData, personalCommitment } = slot;
 

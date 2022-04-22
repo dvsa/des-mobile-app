@@ -27,7 +27,7 @@
                     <ion-col size="7" class="exclamation-col align-center">
                         <indicators
                                 [showExclamationIndicator]="isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking()"
-                                [testStatus]="derivedTestStatus || (componentState.testStatus$ | async)"
+                                [testStatus]="componentState.testStatus$ | async"
                                 [applicationId]="slot.booking.application.applicationId">
                         </indicators>
                     </ion-col>
@@ -86,7 +86,7 @@
                 <ion-row>
                     <ion-col class="align-center">
                         <submission-status class="full-width" *ngIf=!isTeamJournal
-                                           [testStatus]="derivedTestStatus || (componentState.testStatus$ | async)">
+                                           [testStatus]="componentState.testStatus$ | async">
                         </submission-status>
                     </ion-col>
                 </ion-row>
@@ -99,8 +99,9 @@
                                 [isDelegatedTest]="delegatedTest"
                                 [examinerId]="getExaminerId()"
                                 [applicationId]="slot.booking.application.applicationId"
-                                [testStatus]="derivedTestStatus || (componentState.testStatus$ | async)"
-                                [activityCode]="derivedActivityCode || (componentState.testActivityCode$ | async)"
+                                [testStatus]="componentState.testStatus$ | async"
+                                [activityCode]="componentState.testActivityCode$ | async"
+                                [passCertificate]="componentState.testPassCertificate$ | async"
                                 [specialRequirements]="isIndicatorNeededForSlot()"
                                 [hasSeenCandidateDetails]="hasSeenCandidateDetails"
                                 [isRekey]="componentState.isRekey$ | async"

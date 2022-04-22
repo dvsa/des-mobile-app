@@ -28,6 +28,7 @@
                 [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
                 [derivedActivityCode]="hasSlotBeenTested(slot.slotData, completedTests)"
                 [derivedTestStatus]="derivedTestStatus(slot?.slotData, completedTests)"
+                [derivedPassCertificate]="didSlotPass(slot.slotData, completedTests)"
                 [showLocation]="showLocation(slot, slots[i - 1])"
                 [delegatedTest]="false"
                 [teamJournalCandidateResult]="false"
