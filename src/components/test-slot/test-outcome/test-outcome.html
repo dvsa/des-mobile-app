@@ -1,5 +1,12 @@
 <div class="activity-alignment outcome" *ngIf="showOutcome()">
-    <h2 id="activity-code-{{applicationId}}">{{activityCode}}</h2>
+    <ion-grid>
+        <ion-row>
+            <h2 id="activity-code-{{applicationId}}" class="activity-code">{{activityCode}}</h2>
+        </ion-row>
+        <ion-row>
+            <p id="pass-certificate-{{applicationId}}">{{passCertificate}}</p>
+        </ion-row>
+    </ion-grid>
 </div>
 <div *ngIf="showTestActionButton && !showOutcome()" class="outcome-position">
     <ion-col *ngIf="showRekeyButton(); else nonRekey">

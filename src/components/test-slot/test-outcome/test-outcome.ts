@@ -76,6 +76,9 @@ export class TestOutcomeComponent implements OnInit {
   category: TestCategory;
 
   @Input()
+  passCertificate?: string;
+
+  @Input()
   showTestActionButton: boolean = true;
 
   @Input()
