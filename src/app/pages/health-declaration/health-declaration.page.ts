@@ -233,6 +233,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       backdropDismiss: false,
       showBackdrop: true,
       componentProps: {
+        onTestDetailsConfirm: async () => this.persistAndNavigate(true),
         licenseProvided: this.licenseProvided,
       },
     });
