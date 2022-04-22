@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AlertController, Platform,
+  ModalController, Platform,
 } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
@@ -47,6 +47,9 @@ import * as postTestDeclarationsActions from '@store/tests/post-test-declaration
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import {
+  HealthDeclarationModal,
+} from '@pages/health-declaration/components/health-declaration-modal/health-declaration-modal';
 
 interface HealthDeclarationPageState {
   healthDeclarationAccepted$: Observable<boolean>;
@@ -85,7 +88,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     store$: Store<StoreModel>,
     private deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
-    public alertController: AlertController,
+    public modalController: ModalController,
     public routeByCat: RouteByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
@@ -222,24 +225,18 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   }
 
   async showConfirmHealthDeclarationModal(): Promise<void> {
-    const shortMessage = 'Remind the candidate to contact DVLA';
-    // eslint-disable-next-line operator-linebreak
-    const extendedMessage =
-      // eslint-disable-next-line max-len
-      `You need to give the provisional licence back to the candidate.<br/>The field 'Driver licence received' will be automatically changed to 'no'.<br/>${shortMessage}`;
 
-    const alert = await this.alertController.create({
-      id: 'health-declaration-alert',
-      header: 'The candidate has not confirmed the health declaration',
-      message: this.licenseProvided ? extendedMessage : shortMessage,
-      cssClass: 'confirm-declaration-modal',
-      buttons: [
-        { text: 'Cancel', handler: () => { } },
-        { text: 'Continue', handler: () => this.persistAndNavigate(true) },
-      ],
+    const modal: HTMLIonModalElement = await this.modalController.create({
+      id: 'HealthDeclarationModal',
+      component: HealthDeclarationModal,
+      cssClass: 'mes-modal-alert text-zoom-regular',
       backdropDismiss: false,
+      showBackdrop: true,
+      componentProps: {
+        licenseProvided: this.licenseProvided,
+      },
     });
-    await alert.present();
+    await modal.present();
   }
 
   async persistAndNavigate(resetLicenseProvided: boolean) {
