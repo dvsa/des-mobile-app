@@ -16,6 +16,7 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import {
   WaitingRoomToCarComponentsModule,
 } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
+import { OfficeCatBPageModule } from '@pages/office/cat-b/office.cat-b.module';
 import { OfficeCatAMod2Page } from './office.cat-a-mod2.page';
 import { OfficeCatAMod2PageRoutingModule } from './office.cat-a-mod2-routing.module';
 
@@ -30,6 +31,7 @@ import { OfficeCatAMod2PageRoutingModule } from './office.cat-a-mod2-routing.mod
     ReactiveFormsModule,
     PipesModule,
     WaitingRoomToCarComponentsModule,
+    OfficeCatBPageModule,
   ],
   declarations: [OfficeCatAMod2Page,
     ModeOfTransportCatAMod2Component,

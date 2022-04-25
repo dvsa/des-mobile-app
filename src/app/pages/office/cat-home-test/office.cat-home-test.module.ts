@@ -13,6 +13,7 @@ import { OfficeEffects } from '@pages/office/office.effects';
 import {
   WaitingRoomToCarComponentsModule,
 } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
+import { OfficeCatBPageModule } from '@pages/office/cat-b/office.cat-b.module';
 import { OfficeCatHomeTestPage } from './office.cat-home-test.page';
 import { OfficeCatHomeTestPageRoutingModule } from './office.cat-home-test-routing.module';
 
@@ -30,6 +31,7 @@ import { OfficeCatHomeTestPageRoutingModule } from './office.cat-home-test-routi
     OfficeComponentsModule,
     ReactiveFormsModule,
     WaitingRoomToCarComponentsModule,
+    OfficeCatBPageModule,
   ],
   declarations: [OfficeCatHomeTestPage],
   providers: [

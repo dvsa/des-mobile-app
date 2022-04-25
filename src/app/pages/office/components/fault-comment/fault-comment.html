@@ -1,8 +1,7 @@
 <ion-grid>
-    <ion-row>
+    <ion-row class="padding">
         <div class="validation-bar" [class.ng-invalid]="invalid">
         </div>
-
         <ion-col class="fault-badge ion-align-self-start ion-no-padding" size="4" [ngSwitch]="faultType">
             <dangerous-fault-badge
                     [showBadge]="true"

@@ -14,6 +14,7 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import {
   ShowMeQuestionsCatADI2Component,
 } from '@pages/office/cat-adi-part2/components/show-me-questions/show-me-questions';
+import { OfficeCatBPageModule } from '@pages/office/cat-b/office.cat-b.module';
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 import { OfficeCatADIPart2PageRoutingModule } from './office.cat-adi-part2-routing.module';
 import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-checks/vehicle-checks-office-card';
@@ -36,6 +37,7 @@ import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-ch
       OfficeAnalyticsEffects,
       OfficeEffects,
     ]),
+    OfficeCatBPageModule,
   ],
   providers: [
     FaultSummaryProvider,

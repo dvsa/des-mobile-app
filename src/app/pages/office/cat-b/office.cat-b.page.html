@@ -148,20 +148,10 @@
                 </ion-card-content>
             </ion-card>
 
-            <ion-card id="eco" *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)">
-                <ion-card-content>
-                    <ion-grid>
-                        <ion-row class="ion-align-items-start mes-data">
-                            <ion-col size="32">
-                                <h4 class="fault-heading">ECO</h4>
-                            </ion-col>
-                            <ion-col class="ion-align-self-start ion-padding-start">
-                                <div id="ecoFaults">{{pageState.ecoFaults$ | async}}</div>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card-content>
-            </ion-card>
+            <eco-card
+                    [ecoDisplay]="pageState.displayEco$"
+                    [ecoFaults]="pageState.ecoFaults$"
+            ></eco-card>
 
             <fault-comment-card id="dangerous-fault-comment-card" [formGroup]="form" [faultComments]="pageState.dangerousFaults$ | async"
                                 [shouldRender]="(pageState.dangerousFaults$ | async).length > 0 && pageState.displayDangerousFault$ | async"
