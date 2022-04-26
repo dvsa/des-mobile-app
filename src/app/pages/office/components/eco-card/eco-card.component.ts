@@ -8,9 +8,5 @@ import { Component, Input } from '@angular/core';
 export class ECOCardComponent {
 
   @Input()
-  ecoFaults: any;
-
-  @Input()
-  ecoDisplay: any;
-
+  ecoFaults: string;
 }

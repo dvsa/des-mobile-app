@@ -207,9 +207,8 @@
                 </ion-card-content>
             </ion-card>
 
-            <eco-card
-                    [ecoDisplay]="pageState.displayEco$"
-                    [ecoFaults]="pageState.ecoFaults$"
+            <eco-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
+                      [ecoFaults]="pageState.ecoFaults$ | async"
             ></eco-card>
 
             <fault-comment-card

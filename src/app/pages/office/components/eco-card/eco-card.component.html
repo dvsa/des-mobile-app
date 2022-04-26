@@ -1,4 +1,4 @@
-<ion-card id="eco" *ngIf="(ecoFaults | async) && (ecoDisplay | async)">
+<ion-card id="eco">
   <ion-card-content>
     <ion-grid>
       <ion-row class="ion-align-items-start mes-data">
@@ -6,7 +6,7 @@
           <h4 class="fault-heading">ECO</h4>
         </ion-col>
         <ion-col class="padding-down ion-align-self-start ion-padding-start">
-          <div id="ecoFaults">{{ecoFaults | async}}</div>
+          <div id="ecoFaults">{{ecoFaults}}</div>
         </ion-col>
       </ion-row>
     </ion-grid>

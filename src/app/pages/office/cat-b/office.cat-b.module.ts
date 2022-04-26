@@ -10,7 +10,6 @@ import { CommonModule } from '@angular/common';
 import {
   WaitingRoomToCarComponentsModule,
 } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
-import { ECOCardComponent } from '@pages/office/components/eco-card/eco-card.component';
 import { OfficeEffects } from '../office.effects';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
 import { OfficeCatBPage } from './office.cat-b.page';
@@ -18,7 +17,6 @@ import { OfficeCatBPage } from './office.cat-b.page';
 @NgModule({
   declarations: [
     OfficeCatBPage,
-    ECOCardComponent,
   ],
   imports: [
     EffectsModule.forFeature([
@@ -35,9 +33,6 @@ import { OfficeCatBPage } from './office.cat-b.page';
   ],
   providers: [
     FaultSummaryProvider,
-  ],
-  exports: [
-    ECOCardComponent,
   ],
 })
 export class OfficeCatBPageModule { }
