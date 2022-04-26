@@ -123,12 +123,29 @@ export class TestsAnalyticsEffects {
 
   startTestAnalyticsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(StartTest),
-    switchMap((action: ReturnType<typeof StartTest>) => {
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    switchMap(([action, tests]: [ReturnType<typeof StartTest>, TestsModel]) => {
+      const test = getCurrentTest(tests);
+      const journalDataOfTest = test.journalData;
+
       const category: AnalyticsEventCategories = this.navigationStateProvider.isRekeySearch()
         ? AnalyticsEventCategories.REKEY_SEARCH
         : AnalyticsEventCategories.JOURNAL;
 
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
+
+      console.log('anal start test');
+      console.log('set APPLICATION_REFERENCE for analytics', journalDataOfTest.applicationReference.toString());
+      this.analytics.addCustomDimension(
+        AnalyticsDimensionIndices.APPLICATION_REFERENCE, journalDataOfTest.applicationReference.toString(),
+      );
+
       this.analytics.logEvent(
         category,
         AnalyticsEvents.START_TEST,
