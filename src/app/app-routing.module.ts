@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { NoPreloading, RouterModule, Routes } from '@angular/router';
 import {
   DASHBOARD_PAGE,
+  DELEGATED_REKEY_SEARCH_PAGE,
   FAKE_JOURNAL_PAGE,
   JOURNAL_PAGE,
   LOGIN_PAGE,
@@ -52,6 +53,11 @@ const routes: Routes = [
   {
     path: REKEY_SEARCH_PAGE,
     loadChildren: () => import('./pages/rekey-search/rekey-search.module').then((m) => m.RekeySearchPageModule),
+  },
+  {
+    path: DELEGATED_REKEY_SEARCH_PAGE,
+    loadChildren: () => import('./pages/delegated-rekey-search/delegated-rekey-search.module')
+      .then((m) => m.DelegatedRekeySearchPageModule),
   },
   {
     path: TestFlowPageNames.DEBRIEF_PAGE,
