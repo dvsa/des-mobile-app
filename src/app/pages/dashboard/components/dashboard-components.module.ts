@@ -9,6 +9,7 @@ import { TestResultsSearchCardComponent } from './test-results-search-card/test-
 import { PracticeEndToEndCardComponent } from './practice-end-to-end-card/practice-end-to-end-card';
 import { PracticeTestReportCardComponent } from './practice-test-report-card/practice-test-report-card';
 import { TestCentreJournalCardComponent } from './test-centre-journal-card/test-centre-journal-card';
+import { DelegatedSearchCardComponent } from './delegated-rekey-card/delegated-rekey-card';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TestCentreJournalCardComponent } from './test-centre-journal-card/test-
     PracticeTestReportCardComponent,
     TestCentreJournalCardComponent,
     PracticeTestModal,
+    DelegatedSearchCardComponent,
   ],
   imports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { TestCentreJournalCardComponent } from './test-centre-journal-card/test-
     PracticeTestReportCardComponent,
     TestCentreJournalCardComponent,
     PracticeTestModal,
+    DelegatedSearchCardComponent,
   ],
 })
 
