@@ -1,4 +1,13 @@
 :host {
+  .fault-badge {
+    padding-top: 5px;
+    padding-left: 10px;
+  }
+
+  .padding {
+    padding-top: 15px;
+  }
+
   .text-area-padding {
     padding-left: var(--ion-padding, 16px);
   }

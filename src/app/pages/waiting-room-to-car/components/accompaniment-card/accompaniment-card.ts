@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 @Component({
   selector: 'accompaniment-card',
   templateUrl: './accompaniment-card.html',
+  styleUrls: ['./accompaniment-card.scss'],
 })
 export class AccompanimentCardComponent {
 

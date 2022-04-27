@@ -207,22 +207,9 @@
                 </ion-card-content>
             </ion-card>
 
-            <ion-card id="eco" *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)">
-                <ion-card-content>
-                    <ion-grid>
-                        <ion-row class="mes-data ion-align-items-start">
-                            <ion-col size="32">
-                                <h4 class="fault-heading">ECO</h4>
-                            </ion-col>
-                            <ion-col class="ion-align-self-start ion-padding-start">
-                                <div id="ecoFaults">
-                                    {{pageState.ecoFaults$ | async}}
-                                </div>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card-content>
-            </ion-card>
+            <eco-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
+                      [ecoFaults]="pageState.ecoFaults$ | async"
+            ></eco-card>
 
             <fault-comment-card
                     [formGroup]="form"
@@ -268,6 +255,7 @@
                     <ion-row class="driving-fault-no-commentary-row"
                              id="driving-fault-commentary-label"
                              *ngFor="let drivingFault of (pageState.drivingFaults$ | async)">
+                        <ion-col size="2.2"></ion-col>
                         <ion-col class="fault-badge ion-align-self-center" size="4">
                             <div class="counter-icon">
                                 <driving-faults-badge
@@ -276,6 +264,7 @@
                                 </driving-faults-badge>
                             </div>
                         </ion-col>
+                        <ion-col size="1"></ion-col>
                         <ion-col class="component-label ion-align-self-center">
                             <label class="fault-label">{{drivingFault.competencyDisplayName}}</label>
                         </ion-col>
