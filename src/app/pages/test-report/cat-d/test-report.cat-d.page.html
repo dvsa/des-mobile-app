@@ -2,6 +2,9 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode || isPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
     <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons id="tr-back-button" slot="start" *ngIf="pageState.delegatedTest$ | async">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
     </ion-buttons>
@@ -71,6 +74,25 @@
           </ion-col>
         </ion-row>
         <ion-row>
+          <ion-col class="ion-no-padding">
+            <div class="dark-divider"></div>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="pageState.delegatedTest$ | async">
+          <ion-col>
+            <reverse-left
+              [completed]="manoeuvresCompleted"
+              [controlLabel]="'Reverse Left'"
+              [clickCallback]="getCallback()"
+              [testCategory]="pageState.category$ | async">
+              <reverse-left-popover
+                [testCategory]="pageState.category$ | async"
+                [disableDrivingFaults]="true">
+              </reverse-left-popover>
+            </reverse-left>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="pageState.delegatedTest$ | async">
           <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>
           </ion-col>

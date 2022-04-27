@@ -47,6 +47,9 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
   @Input()
   manoeuvre: ManoeuvreTypes;
 
+  @Input()
+  disableDrivingFaults?: boolean = false;
+
   touchStateDelay: number = 100;
 
   touchState: boolean = false;
@@ -172,7 +175,7 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (wasPress) {
+    if (wasPress && !this.disableDrivingFaults) {
       this.store$.dispatch(AddManoeuvreDrivingFault(payload));
     }
   };
