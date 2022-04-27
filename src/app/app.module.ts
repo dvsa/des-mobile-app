@@ -64,6 +64,7 @@ import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
+import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -181,6 +182,7 @@ if (enableRehydrationPlugin) {
     OutcomeBehaviourMapProvider,
     BikeCategoryDetailProvider,
     CPCQuestionProvider,
+    PassCertificateValidationProvider,
   ],
   bootstrap: [AppComponent],
 })

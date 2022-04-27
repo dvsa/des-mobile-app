@@ -286,10 +286,15 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         withLatestFrom(category$),
         map(([data, category]) => {
           this.testCategory = category as TestCategory;
-          this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(data, category as TestCategory);
+          this.isTestReportValid = this.testReportValidatorProvider.isTestReportValid(
+            data,
+            category as TestCategory,
+            this.delegatedTest,
+          );
           this.missingLegalRequirements = this.testReportValidatorProvider.getMissingLegalRequirements(
             data,
             category as TestCategory,
+            this.delegatedTest,
           );
           this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
         }),
@@ -310,6 +315,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         component: LegalRequirementsModal,
         componentProps: {
           legalRequirements: this.missingLegalRequirements,
+          isDelegated: this.delegatedTest,
         },
         cssClass: modalCssClass,
       });

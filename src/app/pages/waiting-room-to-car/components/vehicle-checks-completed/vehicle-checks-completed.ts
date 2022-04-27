@@ -42,7 +42,6 @@ export class VehicleChecksToggleComponent implements OnChanges {
   subscription: Subscription;
   merged$: Observable<boolean>;
   drivingFaultsNumberOptions: number[] = [];
-  fullLicenceSelection: string;
 
   @Input()
   vehicleChecksCompleted: boolean;

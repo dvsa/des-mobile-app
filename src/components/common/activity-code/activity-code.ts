@@ -31,7 +31,6 @@ export class ActivityCodeComponent implements OnChanges {
 
   private formControl: FormControl;
   static readonly fieldName: string = 'activityCode';
-  activityCodeListModal: HTMLIonModalElement;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,

@@ -135,10 +135,16 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
         map((licenceHeld) => hasFullLicenceHeldBeenSelected(licenceHeld)),
       ),
     };
+
+    this.setupSubscription();
   }
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   setupSubscription(): void {

@@ -153,7 +153,7 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
   async ionViewWillEnter() {
     super.ionViewWillEnter();
 
-    if (!this.isPracticeMode) {
+    if (!this.isPracticeMode && super.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
     }
   }

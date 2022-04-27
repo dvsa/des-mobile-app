@@ -80,11 +80,11 @@ export const vehicleChecksCatCReducer = createReducer(
     tellMeQuestions: dropRight(state.tellMeQuestions, state.tellMeQuestions.length - 1),
   })),
   on(vehicleChecksCatCActionTypes.DropExtraVehicleChecksDelegated, (state): CatCUniqueTypes.VehicleChecks => {
-    const showMeQuestion1 = state.showMeQuestions.shift();
+    const [showMeQuestion1, ...remainingShowMeQuestions] = state.showMeQuestions;
     return {
       ...state,
       tellMeQuestions: showMeQuestion1 ? [showMeQuestion1] : [],
-      showMeQuestions: state.showMeQuestions || [],
+      showMeQuestions: remainingShowMeQuestions || [],
     };
   }),
   on(vehicleChecksCatCActionTypes.SetFullLicenceHeld, (state, { fullLicenceHeld }): CatCUniqueTypes.VehicleChecks => ({
