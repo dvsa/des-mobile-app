@@ -196,12 +196,14 @@
                 <ion-card-content>
                     <ion-row class="driving-fault-no-commentary-row" id="driving-fault-commentary-label"
                              *ngFor="let drivingFault of (pageState.drivingFaults$ | async)">
+                        <ion-col size="2.2"></ion-col>
                         <ion-col class="fault-badge align-self-center" size="4">
                             <div class="counter-icon">
                                 <driving-faults-badge class="counter driving-faults" [count]="drivingFault.faultCount">
                                 </driving-faults-badge>
                             </div>
                         </ion-col>
+                        <ion-col size="1"></ion-col>
                         <ion-col class="component-label align-self-center">
                             <label class="fault-label">{{drivingFault.competencyDisplayName | modifyCompetencyLabel:(pageState.testCategory$ | async):drivingFault.competencyDisplayName}}</label>
                         </ion-col>
