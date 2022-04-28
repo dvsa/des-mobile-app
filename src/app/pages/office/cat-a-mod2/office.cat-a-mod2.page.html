@@ -29,8 +29,11 @@
                     </date-of-test>
 
                     <activity-code id="activity-code-card" [formGroup]="form"
-                                   [activityCodeModel]="pageState.activityCode$ | async" [activityCodeOptions]="activityCodeOptions"
-                                   (activityCodeChange)="activityCodeChanged($event)" [disabled]="true"></activity-code>
+                                   [activityCodeModel]="pageState.activityCode$ | async"
+                                   [activityCodeOptions]="activityCodeOptions"
+                                   (activityCodeChange)="activityCodeChanged($event)"
+                                   [disabled]="true">
+                    </activity-code>
 
                     <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
                         <route-number
@@ -188,28 +191,11 @@
                     [testCategory]="pageState.testCategory$ | async"
             ></fault-comment-card>
 
-            <ion-card id="driving-fault-no-commentary"
-                      *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async">
-                <ion-card-header>
-                    <h4>Riding faults</h4>
-                </ion-card-header>
-                <ion-card-content>
-                    <ion-row class="driving-fault-no-commentary-row" id="driving-fault-commentary-label"
-                             *ngFor="let drivingFault of (pageState.drivingFaults$ | async)">
-                        <ion-col size="2.2"></ion-col>
-                        <ion-col class="fault-badge align-self-center" size="4">
-                            <div class="counter-icon">
-                                <driving-faults-badge class="counter driving-faults" [count]="drivingFault.faultCount">
-                                </driving-faults-badge>
-                            </div>
-                        </ion-col>
-                        <ion-col size="1"></ion-col>
-                        <ion-col class="component-label align-self-center">
-                            <label class="fault-label">{{drivingFault.competencyDisplayName | modifyCompetencyLabel:(pageState.testCategory$ | async):drivingFault.competencyDisplayName}}</label>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
+            <driving-faults
+                    *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async"
+                    [label]="'Riding faults'"
+                    [faults]="(pageState.drivingFaults$ | async)">
+            </driving-faults>
         </div>
     </form>
 </ion-content>

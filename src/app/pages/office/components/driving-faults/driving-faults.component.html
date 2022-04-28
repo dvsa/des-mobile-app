@@ -1,0 +1,25 @@
+<ion-card id="driving-fault-no-commentary">
+    <ion-card-header>
+        <h4 id="driving-faults-summary-header">{{label}}</h4>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-row class="driving-fault-no-commentary-row" id="driving-fault-commentary-label"
+                 *ngFor="let drivingFault of faults">
+            <ion-col size="2.2"></ion-col>
+            <ion-col class="fault-badge ion-align-self-center" size="4">
+                <div class="counter-icon">
+                    <driving-faults-badge
+                            class="counter driving-faults"
+                            [competencyDisplayName]="drivingFault.competencyIdentifier"
+                            [count]="drivingFault.faultCount">
+                    </driving-faults-badge>
+                </div>
+            </ion-col>
+            <ion-col size="1"></ion-col>
+            <ion-col class="component-label ion-align-self-center">
+                <label class="fault-label"
+                       id="driving-faults-label-{{drivingFault.competencyIdentifier}}">{{drivingFault.competencyDisplayName}}</label>
+            </ion-col>
+        </ion-row>
+    </ion-card-content>
+</ion-card>
