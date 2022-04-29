@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
   selector: 'driving-faults',
@@ -12,4 +13,6 @@ export class DrivingFaultsComponent {
   label: string;
   @Input()
   faults: FaultSummary[];
+  @Input()
+  testCategory?: TestCategory;
 }

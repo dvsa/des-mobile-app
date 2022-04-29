@@ -194,6 +194,7 @@
             <driving-faults
                     *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async"
                     [label]="'Riding faults'"
+                    [testCategory]="(pageState.testCategory$ | async)"
                     [faults]="(pageState.drivingFaults$ | async)">
             </driving-faults>
         </div>
