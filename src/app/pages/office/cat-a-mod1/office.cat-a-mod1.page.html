@@ -81,23 +81,23 @@
                         </weather-conditions>
 
                         <accompaniment-card
-                              [formGroup]="form"
-                              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-                              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                              (otherAccompanimentChange)="otherAccompanimentToggled()"
-                              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+                                [formGroup]="form"
+                                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                                (otherAccompanimentChange)="otherAccompanimentToggled()"
+                                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
                         </accompaniment-card>
 
                         <vehicle-details-card
-                          [formGroup]="form"
-                          [hideSchoolVehicleAndDualControlRow]="true"
-                          [hideSchoolBikeRow]="false"
-                          [schoolVehicleDetails]="pageState.schoolBike$ | async"
-                          (schoolBikeVehicleDetailsChange)="schoolBikeToggled()">
+                                [formGroup]="form"
+                                [hideSchoolVehicleAndDualControlRow]="true"
+                                [hideSchoolBikeRow]="false"
+                                [schoolVehicleDetails]="pageState.schoolBike$ | async"
+                                (schoolBikeVehicleDetailsChange)="schoolBikeToggled()">
                         </vehicle-details-card>
 
                         <additional-information
@@ -171,30 +171,12 @@
                     [testCategory]="pageState.testCategory$ | async">
             </fault-comment-card>
 
-            <ion-card id="driving-fault-no-commentary"
-                      *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async">
-                <ion-card-header>
-                    <h4>Riding faults</h4>
-                </ion-card-header>
-                <ion-card-content>
-                    <ion-row class="driving-fault-no-commentary-row" id="driving-fault-commentary-label"
-                             *ngFor="let drivingFault of (pageState.drivingFaults$ | async)">
-                        <ion-col size="2.2"></ion-col>
-                        <ion-col class="fault-badge ion-align-self-center" size="4">
-                            <div class="counter-icon">
-                                <driving-faults-badge
-                                        class="counter driving-faults"
-                                        [count]="drivingFault.faultCount">
-                                </driving-faults-badge>
-                            </div>
-                        </ion-col>
-                        <ion-col size="1"></ion-col>
-                        <ion-col class="component-label ion-align-self-center">
-                            <label class="fault-label">{{drivingFault.competencyDisplayName | modifyCompetencyLabel:(pageState.testCategory$ | async):drivingFault.competencyDisplayName}}</label>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
+            <driving-faults
+                    *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async"
+                    [label]="'Riding faults'"
+                    [testCategory]="(pageState.testCategory$ | async)"
+                    [faults]="(pageState.drivingFaults$ | async)">
+            </driving-faults>
         </div>
     </form>
 </ion-content>

@@ -50,9 +50,9 @@ import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions
 import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { of } from 'rxjs';
-import { FaultSummary } from '@shared/models/fault-marking.model';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeCatHomeTestPage } from '../office.cat-home-test.page';
 
 describe('OfficeCatHomeTestPage', () => {
@@ -78,6 +78,7 @@ describe('OfficeCatHomeTestPage', () => {
         MockComponent(TrueLikenessComponent),
         MockComponent(AccompanimentCardComponent),
         MockComponent(AccompanimentComponent),
+        MockComponent(DrivingFaultsComponent),
       ],
       imports: [
         IonicModule,
@@ -228,51 +229,5 @@ describe('OfficeCatHomeTestPage', () => {
         expect(drivingFaultCommentCard.shouldRender).toBeFalsy();
       });
     });
-
-    describe('driving fault overview', () => {
-      const drivingFaults: FaultSummary[] = [
-        {
-          competencyIdentifier: 'signalsTimed',
-          competencyDisplayName: 'Signals - Timed',
-          faultCount: 3,
-          comment: 'dummy',
-        },
-        {
-          competencyIdentifier: 'useOfSpeed',
-          competencyDisplayName: 'Use of speed',
-          faultCount: 1,
-          comment: 'dummy',
-        },
-      ];
-      it('should display a driving faults badge with the count for each type of driving fault on the test', () => {
-        fixture.detectChanges();
-        component.pageState.drivingFaults$ = of(drivingFaults);
-        component.pageState.drivingFaultCount$ = of(4);
-        component.pageState.displayDrivingFaultComments$ = of(false);
-        component.pageState.displayDrivingFault$ = of(true);
-
-        fixture.detectChanges();
-
-        const drivingFaultBadges = fixture.debugElement.queryAll(By.css('driving-faults-badge'));
-        expect(drivingFaultBadges.length).toBe(2);
-        expect(drivingFaultBadges[0].componentInstance.count).toBe(3);
-        expect(drivingFaultBadges[1].componentInstance.count).toBe(1);
-      });
-      it('should render the display name for each driving fault', () => {
-        fixture.detectChanges();
-        component.pageState.drivingFaults$ = of(drivingFaults);
-        component.pageState.drivingFaultCount$ = of(4);
-        component.pageState.displayDrivingFaultComments$ = of(false);
-        component.pageState.displayDrivingFault$ = of(true);
-
-        fixture.detectChanges();
-
-        const faultLabels = fixture.debugElement.queryAll(By.css('.fault-label'));
-        expect(faultLabels.length).toBe(2);
-        expect(faultLabels[0].nativeElement.innerHTML).toBe('Signals - Timed');
-        expect(faultLabels[1].nativeElement.innerHTML).toBe('Use of speed');
-      });
-    });
   });
-
 });

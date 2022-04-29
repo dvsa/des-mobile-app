@@ -30,7 +30,8 @@
                             (dateOfTestChange)="dateOfTestChanged($event)">
                     </date-of-test>
 
-                    <ion-row class="mes-component-row mes-row-separator ion-align-items-center" id="application-reference-card" *ngIf="isDelegated">
+                    <ion-row class="mes-component-row mes-row-separator ion-align-items-center"
+                             id="application-reference-card" *ngIf="isDelegated">
                         <ion-col class="component-label" size="32">
                             <label>Application reference</label>
                         </ion-col>
@@ -248,31 +249,11 @@
                     (faultCommentsChange)="drivingFaultCommentChanged($event)">
             </fault-comment-card>
 
-            <ion-card id="driving-fault-no-commentary"
-                      *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) && !isDelegated">
-                <ion-card-header>
-                    <h4>Driving faults</h4>
-                </ion-card-header>
-                <ion-card-content>
-                    <ion-row class="driving-fault-no-commentary-row"
-                             id="driving-fault-commentary-label"
-                             *ngFor="let drivingFault of (pageState.drivingFaults$ | async)">
-                        <ion-col size="2.2"></ion-col>
-                        <ion-col class="fault-badge ion-align-self-center" size="4">
-                            <div class="counter-icon">
-                                <driving-faults-badge
-                                        class="counter driving-faults"
-                                        [count]="drivingFault.faultCount">
-                                </driving-faults-badge>
-                            </div>
-                        </ion-col>
-                        <ion-col size="1"></ion-col>
-                        <ion-col class="component-label ion-align-self-center">
-                            <label class="fault-label">{{drivingFault.competencyDisplayName}}</label>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
+            <driving-faults
+                    *ngIf="(!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async) && !isDelegated"
+                    [label]="'Driving faults'"
+                    [faults]="(pageState.drivingFaults$ | async)">
+            </driving-faults>
         </div>
     </form>
 </ion-content>
@@ -296,7 +277,8 @@
             </ion-button>
         </ion-col>
         <ion-col *ngIf="isDelegated">
-            <ion-button id="submit-button" class="mes-primary-button padding-x-5 full-width" [disabled]="!isValidStartDateTime"
+            <ion-button id="submit-button" class="mes-primary-button padding-x-5 full-width"
+                        [disabled]="!isValidStartDateTime"
                         (click)="onSubmit()">
                 <h3>Submit</h3>
             </ion-button>

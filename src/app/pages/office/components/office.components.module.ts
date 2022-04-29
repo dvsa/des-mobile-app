@@ -8,6 +8,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { ECOCardComponent } from '@pages/office/components/eco-card/eco-card.component';
+import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { FaultCommentComponent } from './fault-comment/fault-comment';
 import { FaultCommentCardComponent } from './fault-comment-card/fault-comment-card';
 import { RouteNumberComponent } from './route-number/route-number';
@@ -38,6 +39,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
     FinishTestModal,
     TrueLikenessComponent,
     ECOCardComponent,
+    DrivingFaultsComponent,
   ],
   imports: [
     CommonModule,
@@ -65,6 +67,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
     FinishTestModal,
     TrueLikenessComponent,
     ECOCardComponent,
+    DrivingFaultsComponent,
   ],
 })
 export class OfficeComponentsModule { }
