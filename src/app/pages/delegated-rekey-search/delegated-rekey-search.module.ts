@@ -13,6 +13,8 @@ import { DelegatedRekeySearchPageRoutingModule } from './delegated-rekey-search-
 import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
 import { DelegatedRekeySearchEffects } from './delegated-rekey-search.effects';
 import { DelegatedRekeySearchPage } from './delegated-rekey-search';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { DelegatedRekeySearchPage } from './delegated-rekey-search';
     TestSlotComponentsModule,
     IonicModule,
     DelegatedRekeySearchPageRoutingModule,
+    CommonModule,
+    ReactiveFormsModule,
   ],
   providers: [
     DelegatedRekeySearchProvider,
