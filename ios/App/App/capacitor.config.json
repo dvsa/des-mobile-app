@@ -8,8 +8,5 @@
 			"launchAutoHide": false
 		}
 	},
-	"cordova": {},
-	"server": {
-		"url": "http://192.168.0.60:8100"
-	}
+	"cordova": {}
 }
