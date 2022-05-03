@@ -85,7 +85,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
 
     this.delegatedRekeyForm = new FormGroup({});
     this.delegatedRekeyForm
-      .addControl('applicationReferenceInput', new FormControl({}, [
+      .addControl('applicationReferenceInput', new FormControl(null, [
         Validators.required,
         Validators.minLength(11),
         Validators.maxLength(11),
@@ -127,6 +127,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   searchTests() {
     this.hasClickedSearch = true;
     const applicationReferenceInputValue: AbstractControl = this.delegatedRekeyForm.get('applicationReferenceInput');
+    applicationReferenceInputValue.updateValueAndValidity({emitEvent: false, onlySelf: true});
     if (applicationReferenceInputValue.valid) {
       this.store$.dispatch(SearchBookedDelegatedTest(this.applicationReference));
     }

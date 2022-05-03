@@ -15,6 +15,7 @@ import { DelegatedRekeySearchEffects } from './delegated-rekey-search.effects';
 import { DelegatedRekeySearchPage } from './delegated-rekey-search';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DirectivesModule } from '@directives/directives.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     DelegatedRekeySearchPageRoutingModule,
     CommonModule,
     ReactiveFormsModule,
+    DirectivesModule,
   ],
   providers: [
     DelegatedRekeySearchProvider,
