@@ -3,6 +3,7 @@ import { NoPreloading, RouterModule, Routes } from '@angular/router';
 import {
   DASHBOARD_PAGE,
   DELEGATED_REKEY_SEARCH_PAGE,
+  DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE,
   FAKE_JOURNAL_PAGE,
   JOURNAL_PAGE,
   LOGIN_PAGE,
@@ -58,6 +59,11 @@ const routes: Routes = [
     path: DELEGATED_REKEY_SEARCH_PAGE,
     loadChildren: () => import('./pages/delegated-rekey-search/delegated-rekey-search.module')
       .then((m) => m.DelegatedRekeySearchPageModule),
+  },
+  {
+    path: DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE,
+    loadChildren: () => import('./pages/delegated-rekey-upload-outcome/delegated-rekey-upload-outcome.module')
+      .then((m) => m.DelegatedRekeyUploadOutcomePageModule),
   },
   {
     path: TestFlowPageNames.DEBRIEF_PAGE,

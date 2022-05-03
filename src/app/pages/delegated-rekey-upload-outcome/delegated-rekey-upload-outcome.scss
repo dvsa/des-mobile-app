@@ -1,0 +1,46 @@
+:host {
+  ion-grid {
+    height: 100%;
+  }
+
+  .message-wrapper {
+    height: 100%;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  .tick-icon,
+  .warning-icon {
+    color: var(--danger);
+    margin: 40px 0 16px;
+    font-size: 84px;
+  }
+
+  .tick-icon {
+    color: var(--gds-dark-green);
+  }
+
+  .retry-button {
+    width: 300px;
+    min-height: 56px;
+  }
+
+  ion-footer {
+    ion-row.mes-full-width-card {
+      padding: 24px 32px;
+      background-color: var(--mes-white);
+
+      button {
+        width: initial;
+        min-height: 56px;
+      }
+
+      .full-width {
+        width: 100%;
+      }
+    }
+  }
+
+}

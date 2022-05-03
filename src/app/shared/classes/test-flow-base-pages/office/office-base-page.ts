@@ -27,8 +27,8 @@ import {
   SavingWriteUpForLater,
   TestStartDateChanged,
 } from '@pages/office/office.actions';
-import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
-import { PersistTests } from '@store/tests/tests.actions';
+import { DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE, JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { getTestSlotAttributes }
@@ -125,6 +125,7 @@ import {
   InterpreterAccompanimentToggledCPC,
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
+import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -516,9 +517,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     }
   }
 
-  async onSubmit() {
+  async onSubmit(isDelegated: boolean = false) {
     if (await this.isFormValid()) {
-      await this.showFinishTestModal();
+      await this.showFinishTestModal(isDelegated);
     }
   }
 
@@ -538,6 +539,13 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     }
     await this.finishTestModal.dismiss();
     await this.popToRoot();
+  };
+
+  completeTestDelegated = async (): Promise<void> => {
+    this.store$.dispatch(SetRekeyDate());
+    this.store$.dispatch(SendCurrentTest());
+    await this.finishTestModal.dismiss();
+    await this.router.navigate([DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE], { replaceUrl: true });
   };
 
   identificationChanged(identification: Identification): void {
@@ -700,7 +708,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     });
   };
 
-  async showFinishTestModal() {
+  async showFinishTestModal(isDelegated: boolean = false) {
     this.finishTestModal = await this.modalController.create({
       id: 'FinishTestModal',
       component: FinishTestModal,
@@ -708,7 +716,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
       backdropDismiss: false,
       showBackdrop: true,
       componentProps: {
-        completeTest: this.completeTest,
+        completeTest: isDelegated ? this.completeTestDelegated : this.completeTest,
       },
     });
     await this.finishTestModal.present();
