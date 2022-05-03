@@ -90,22 +90,11 @@
         </ion-card>
 
         <div no-padding [hidden]="!(pageState.isTestOutcomeSet$ | async)">
-            <ion-card id="ETA" *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)">
-                <ion-card-content>
-                    <ion-grid>
-                        <ion-row class="mes-data ion-align-items-start">
-                            <ion-col size="32">
-                                <h4 class="fault-heading">ETA</h4>
-                            </ion-col>
-                            <ion-col class="ion-align-self-start ion-padding-start">
-                                <div id="etaFaults">
-                                    {{pageState.etaFaults$ | async}}
-                                </div>
-                            </ion-col>
-                        </ion-row>
-                    </ion-grid>
-                </ion-card-content>
-            </ion-card>
+
+            <eta-card
+                    *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)"
+                    [faults]="pageState.etaFaults$ | async">
+            </eta-card>
 
             <eco-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
                       [ecoFaults]="pageState.ecoFaults$ | async"
