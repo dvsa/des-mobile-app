@@ -3,11 +3,6 @@ import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { BasePageComponent } from '@shared/classes/base-page';
-import {
-  DelegatedRekeySearchClearState,
-  DelegatedRekeySearchViewDidEnter,
-  SearchBookedDelegatedTest,
-} from './delegated-rekey-search.actions';
 import { select, Store } from '@ngrx/store';
 import { getDelegatedRekeySearchState } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { StoreModel } from '@shared/models/store.model';
@@ -24,11 +19,18 @@ import {
   getHasSearched,
   getIsLoading,
 } from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl, FormControl, FormGroup, Validators,
+} from '@angular/forms';
 import { ERROR_PAGE } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash';
 import { AppComponent } from '@app/app.component';
+import {
+  DelegatedRekeySearchClearState,
+  DelegatedRekeySearchViewDidEnter,
+  SearchBookedDelegatedTest,
+} from './delegated-rekey-search.actions';
 
 interface DelegatedRekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -42,7 +44,7 @@ interface DelegatedRekeySearchPageState {
   templateUrl: './delegated-rekey-search.html',
   styleUrls: ['./delegated-rekey-search.scss'],
 })
-export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit{
+export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit {
   pageState: DelegatedRekeySearchPageState;
   delegatedRekeyForm: FormGroup;
   hasClickedSearch: boolean = false;
@@ -90,7 +92,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
         Validators.minLength(11),
         Validators.maxLength(11),
       ]));
-    this.delegatedRekeyForm.updateValueAndValidity({onlySelf: true, emitEvent: false});
+    this.delegatedRekeyForm.updateValueAndValidity({ onlySelf: true, emitEvent: false });
   }
 
   get applicationReferenceInvalid(): boolean {
@@ -127,7 +129,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   searchTests() {
     this.hasClickedSearch = true;
     const applicationReferenceInputValue: AbstractControl = this.delegatedRekeyForm.get('applicationReferenceInput');
-    applicationReferenceInputValue.updateValueAndValidity({emitEvent: false, onlySelf: true});
+    applicationReferenceInputValue.updateValueAndValidity({ emitEvent: false, onlySelf: true });
     if (applicationReferenceInputValue.valid) {
       this.store$.dispatch(SearchBookedDelegatedTest(this.applicationReference));
     }
