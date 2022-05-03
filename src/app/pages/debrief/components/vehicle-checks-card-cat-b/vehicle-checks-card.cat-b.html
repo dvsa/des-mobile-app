@@ -6,7 +6,7 @@
         <ion-col size="34">
           <h4 class="fault-heading">{{ 'debrief.vehicleChecks' | translate }}</h4>
         </ion-col>
-        <ion-col class="ion-align-items-start">
+        <ion-col class="down-padding ion-align-items-start">
           <div id="tell-me-question" *ngIf="componentState.tellMeQuestionHasFault$ | async">
             {{ 'debrief.tellMeQuestion' | translate }} - {{ 'debrief.drivingFault' | translate }}
           </div>

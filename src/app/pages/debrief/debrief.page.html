@@ -32,7 +32,8 @@
 
     <driving-faults-debrief-card
             [drivingFaults]="pageState.drivingFaults$ | async"
-            [drivingFaultCount]="pageState.drivingFaultCount$ | async">
+            [drivingFaultCount]="pageState.drivingFaultCount$ | async"
+            [testCategory]="pageState.testCategory$ | async">
     </driving-faults-debrief-card>
 
     <eco-debrief-card

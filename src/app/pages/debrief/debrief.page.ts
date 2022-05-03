@@ -52,6 +52,7 @@ import {
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
 
 interface DebriefPageState {
+  testCategory$: Observable<TestCategory>;
   seriousFaults$: Observable<string[]>;
   dangerousFaults$: Observable<string[]>;
   drivingFaults$: Observable<(FaultSummary)[]>;
@@ -124,6 +125,10 @@ export class DebriefPage extends PracticeableBasePageComponent {
       select(getTestCategory),
     );
     this.pageState = {
+      testCategory$: currentTest$.pipe(
+        select(getTestCategory),
+        map((result) => this.testCategory = result as TestCategory),
+      ),
       seriousFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(testCategory$),
