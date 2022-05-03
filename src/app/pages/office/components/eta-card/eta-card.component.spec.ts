@@ -1,21 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-
+import { configureTestSuite } from 'ng-bullet';
 import { ETACardComponent } from './eta-card.component';
 
 describe('EtaCardComponent', () => {
   let component: ETACardComponent;
   let fixture: ComponentFixture<ETACardComponent>;
 
-  beforeEach(async(() => {
+  configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [ETACardComponent],
-      imports: [IonicModule.forRoot()],
-    }).compileComponents();
+      imports: [IonicModule],
+    });
+  });
 
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ETACardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   }));
 
   it('should create', () => {
