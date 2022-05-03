@@ -6,12 +6,12 @@
         <ion-col size="34">
           <h4 class="fault-heading">{{ 'debrief.etaHeader' | translate }}</h4>
         </ion-col>
-        <ion-col class="ion-align-self-start">
-          <span id="etaFaults" class="hasPhysicalEta" *ngIf="hasPhysicalEta && !hasVerbalEta">{{ 'debrief.etaPhysical'
+        <ion-col class="down-padding ion-align-self-start">
+          <span id="etaFaultsPhysical" class="hasPhysicalEta" *ngIf="hasPhysicalEta && !hasVerbalEta">{{ 'debrief.etaPhysical'
             | translate }}</span>
-          <span id="etaFaults" class="hasVerbalEta" *ngIf="!hasPhysicalEta && hasVerbalEta">{{ 'debrief.etaVerbal' |
+          <span id="etaFaultsVerbal" class="hasVerbalEta" *ngIf="!hasPhysicalEta && hasVerbalEta">{{ 'debrief.etaVerbal' |
             translate }}</span>
-          <span id="etaFaults" class="hasVerbalAndPhysicalEta" *ngIf="hasPhysicalEta && hasVerbalEta">{{
+          <span id="etaFaultsBoth" class="hasVerbalAndPhysicalEta" *ngIf="hasPhysicalEta && hasVerbalEta">{{
             'debrief.etaBoth' | translate }}</span>
         </ion-col>
       </ion-row>

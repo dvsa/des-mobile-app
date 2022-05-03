@@ -20,6 +20,7 @@ interface VehicleChecksCardComponentState {
 @Component({
   selector: 'vehicle-checks-card-cat-b',
   templateUrl: 'vehicle-checks-card.cat-b.html',
+  styleUrls: ['vehicle-checks-card.cat-b.scss'],
 })
 export class VehicleChecksCardCatBComponent implements OnInit, OnDestroy {
 
