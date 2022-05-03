@@ -148,7 +148,7 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
   async ionViewWillEnter() {
     super.ionViewWillEnter();
 
-    if (!this.isPracticeMode) {
+    if (!this.isPracticeMode && super.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
     }
   }

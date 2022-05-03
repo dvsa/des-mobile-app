@@ -23,10 +23,9 @@ function asyncError(errorObject: any) {
   return defer(() => Promise.reject(errorObject));
 }
 
-describe('Delegated Rekey Search Effects', () => {
-
+describe('DelegatedRekeySearchEffects', () => {
   let effects: DelegatedRekeySearchEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let delegatedRekeySearchProvider: DelegatedRekeySearchProvider;
   let searchProvider: SearchProvider;
 

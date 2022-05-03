@@ -141,7 +141,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
         select(isDelegatedTest),
       ),
       transmission$: currentTest$.pipe(
-        select(getTestData),
         select(getVehicleDetails),
         select(getGearboxCategory),
       ),
@@ -192,7 +191,7 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
   async ionViewWillEnter() {
     super.ionViewWillEnter();
 
-    if (!this.isPracticeMode) {
+    if (!this.isPracticeMode && super.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
     }
   }

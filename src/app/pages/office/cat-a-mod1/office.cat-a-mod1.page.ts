@@ -179,7 +179,7 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
   async ionViewWillEnter() {
     super.ionViewWillEnter();
 
-    if (!this.isPracticeMode) {
+    if (!this.isPracticeMode && super.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
     }
   }

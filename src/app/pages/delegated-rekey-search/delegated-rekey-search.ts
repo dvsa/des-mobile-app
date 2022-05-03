@@ -48,7 +48,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   pageState: DelegatedRekeySearchPageState;
   delegatedRekeyForm: FormGroup;
   hasClickedSearch: boolean = false;
-
+  maxCallStackHandler = { onlySelf: true, emitEvent: false };
   applicationReference: string = '';
   subscription: Subscription = Subscription.EMPTY;
   focusedElement: string = null;
@@ -92,12 +92,15 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
         Validators.minLength(11),
         Validators.maxLength(11),
       ]));
-    this.delegatedRekeyForm.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+    this.delegatedRekeyForm.updateValueAndValidity(this.maxCallStackHandler);
   }
 
   get applicationReferenceInvalid(): boolean {
-    const applicationReferenceControl: AbstractControl = this.delegatedRekeyForm.get('applicationReferenceInput');
-    return !applicationReferenceControl.valid && applicationReferenceControl.dirty;
+    return (
+      this.applicationReferenceCtrl.value
+        && !this.applicationReferenceCtrl.valid
+        && this.applicationReferenceCtrl.dirty
+    );
   }
 
   ionViewDidEnter() {
@@ -128,9 +131,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
 
   searchTests() {
     this.hasClickedSearch = true;
-    const applicationReferenceInputValue: AbstractControl = this.delegatedRekeyForm.get('applicationReferenceInput');
-    applicationReferenceInputValue.updateValueAndValidity({ emitEvent: false, onlySelf: true });
-    if (applicationReferenceInputValue.valid) {
+    this.applicationReferenceCtrl.updateValueAndValidity(this.maxCallStackHandler);
+
+    if (this.applicationReferenceCtrl.valid) {
       this.store$.dispatch(SearchBookedDelegatedTest(this.applicationReference));
     }
   }
@@ -162,5 +165,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
 
   setFocus(focus: string): void {
     this.focusedElement = focus;
+  }
+
+  get applicationReferenceCtrl(): AbstractControl {
+    return this.delegatedRekeyForm.get('applicationReferenceInput');
   }
 }
