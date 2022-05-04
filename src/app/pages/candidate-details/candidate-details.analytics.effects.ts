@@ -12,6 +12,7 @@ import {
   AnalyticsEvents,
 } from '@providers/analytics/analytics.model';
 import {
+  CandidateDetailsModalDismiss,
   CandidateDetailsSlotChangeViewed,
   CandidateDetailsViewDidEnter,
 } from '@store/candidate-details/candidate-details.actions';
@@ -21,6 +22,7 @@ import {
   isCandidateSpecialNeeds,
 } from '@store/candidate-details/candidate-details.selector';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { mapAnalyticsScreenName } from '@shared/helpers/map-analytics-screen-name';
 
 @Injectable()
 export class CandidateDetailsAnalyticsEffects {
@@ -42,6 +44,19 @@ export class CandidateDetailsAnalyticsEffects {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, specNeeds ? '1' : '0');
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, candidateCheck ? '1' : '0');
       this.analytics.setCurrentPage(AnalyticsScreenNames.CANDIDATE_DETAILS);
+
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  candidateModalDismiss$ = createEffect(() => this.actions$.pipe(
+    ofType(CandidateDetailsModalDismiss),
+    switchMap((action: ReturnType<typeof CandidateDetailsModalDismiss>) => {
+
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, null);
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_SPECIAL_NEEDS, null);
+      this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_WITH_CHECK, null);
+      this.analytics.setCurrentPage(mapAnalyticsScreenName(action.sourcePage));
 
       return of(AnalyticRecorded());
     }),

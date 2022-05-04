@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, fakeAsync, TestBed, waitForAsync,
+  ComponentFixture, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 
@@ -20,6 +20,8 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import {
   InappropriateUseBannerComponent,
 } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
+import { Router } from '@angular/router';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
@@ -73,6 +75,7 @@ describe('CandidateDetailsPage', () => {
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useValue: mockNavParams },
+        { provide: Router, useClass: RouterMock },
         provideMockStore({ initialState }),
       ],
     });
@@ -132,14 +135,6 @@ describe('CandidateDetailsPage', () => {
       const result = component.specialNeedsIsPopulated(specialNeedsString);
       expect(result).toEqual(false);
     });
-  });
-
-  describe('dismiss', () => {
-    it('should dismiss open modal', fakeAsync(async () => {
-      spyOn(component.modalController, 'dismiss');
-      await component.dismiss();
-      expect(component.modalController.dismiss).toHaveBeenCalled();
-    }));
   });
 
 });

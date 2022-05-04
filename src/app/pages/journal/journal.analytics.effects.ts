@@ -42,7 +42,6 @@ export class JournalAnalyticsEffects {
     ofType(JournalViewDidEnter),
     switchMap(() => {
       this.analytics.setCurrentPage(AnalyticsScreenNames.JOURNAL);
-      console.log('wipe candidate id for analytics');
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, '');
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '');
       return of(AnalyticRecorded());
