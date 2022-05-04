@@ -147,10 +147,16 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
           this.faultCountProvider.getSafetyQuestionsFaultCount(category as TestCategory, safetyQuestions)),
       ),
     };
+
+    this.setupSubscription();
   }
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
+
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   setupSubscription(): void {
