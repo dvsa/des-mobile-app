@@ -44,6 +44,7 @@ import { CompetencyButtonComponent } from '../../components/competency-button/co
 import { CompetencyComponent } from '../../components/competency/competency';
 import { TestReportCatDPage } from '../test-report.cat-d.page';
 import { EcoComponent } from '../../components/eco/eco';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 describe('TestReportCatDPage', () => {
   let fixture: ComponentFixture<TestReportCatDPage>;
@@ -133,6 +134,22 @@ describe('TestReportCatDPage', () => {
       const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
       endTestButton.triggerEventHandler('click', null);
       expect(component.onEndTestClick).toHaveBeenCalled();
+    });
+  });
+
+  describe('showUncoupleRecouple', () => {
+    it('should not show uncouple/recouple when not delegated', () => {
+      component.delegatedTest = false;
+      expect(component.showUncoupleRecouple()).toEqual(false);
+    });
+    [
+      { cat: TestCategory.D, show: false }, { cat: TestCategory.D1, show: false },
+      { cat: TestCategory.DE, show: true }, { cat: TestCategory.D1E, show: true },
+    ].forEach(({ cat, show }) => {
+      it(`should ${show ? 'show' : 'not show'} uncouple/recouple for cat ${cat}`, () => {
+        component.delegatedTest = true;
+        expect(component.showUncoupleRecouple()).toEqual(show);
+      });
     });
   });
 

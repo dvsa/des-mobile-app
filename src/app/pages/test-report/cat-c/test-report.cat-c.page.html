@@ -100,7 +100,7 @@
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>
-        <ion-row class="blank-spacer">
+        <ion-row [ngClass]="{'blank-spacer': !delegatedTest}">
           <ion-col class="ion-no-padding">
             <span class="section-header">Vehicle check</span>
           </ion-col>
@@ -112,6 +112,19 @@
         </ion-row>
         <ion-row>
           <ion-col class="ion-no-padding">
+            <div class="dark-divider"></div>
+          </ion-col>
+        </ion-row>
+        <ion-row [ngStyle]="{'visibility': showUncoupleRecouple() ? 'visible' : 'hidden' }">
+          <ion-col>
+            <uncouple-recouple
+              [category]="pageState.category$ | async"
+              [disableDrivingFaults]="true">
+            </uncouple-recouple>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="showUncoupleRecouple()">
+          <ion-col no-padding>
             <div class="dark-divider"></div>
           </ion-col>
         </ion-row>

@@ -59,5 +59,12 @@
                 </ion-select>
             </ion-col>
         </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"
+                 [class.ng-invalid]="invalidDropdown"
+                 id="wrtc-checks-toggle-validation-text">
+                Select the number of driving faults
+            </div>
+        </ion-row>
     </ion-col>
 </ion-row>

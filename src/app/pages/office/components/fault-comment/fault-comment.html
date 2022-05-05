@@ -20,8 +20,9 @@
             </driving-faults-badge>
         </ion-col>
 
-        <ion-col class="component-label ion-align-self-start ion-no-padding" size="28"
-                 [attr.col-28]="isDelegatedTest ? null : true">
+        <ion-col class="component-label ion-align-self-start ion-no-padding"
+                 [attr.col-28]="isDelegatedTest ? null : true"
+                 [attr.col-90]="isDelegatedTest ? true : null">
             <label class="fault-label" id="fault-comment-label-{{faultType}}-{{faultComment.competencyIdentifier}}">{{faultComment.competencyDisplayName | modifyCompetencyLabel:testCategory:faultComment.competencyDisplayName}}</label>
         </ion-col>
 
