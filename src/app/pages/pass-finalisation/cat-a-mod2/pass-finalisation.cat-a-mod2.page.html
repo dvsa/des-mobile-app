@@ -1,89 +1,86 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
-    <ion-buttons id="back-button" slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-  </ion-toolbar>
+    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+        <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+        <ion-buttons id="back-button" slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <ion-grid>
+    <div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <ion-grid>
 
-        <finalisation-header [candidateName]="pageState.candidateName$ | async"
-                             [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-                             [outcomeText]="pageState.testOutcomeText$ | async"></finalisation-header>
+                <finalisation-header [candidateName]="pageState.candidateName$ | async"
+                                     [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                                     [outcomeText]="pageState.testOutcomeText$ | async"></finalisation-header>
 
-        <ion-row class="mes-component-row mes-row-separator ion-align-items-center" id="application-reference-card">
-          <ion-col class="component-label" size="32">
-            <label>Application reference</label>
-          </ion-col>
-          <ion-col class="ion-padding-left">
-            <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
-          </ion-col>
-        </ion-row>
+                <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
+                </application-reference-number>
 
-        <bike-category-type testType="MOD2"
-                            [testCategory] = "pageState.testCategory$ | async"
-                            (categoryCodeChange)="categoryCodeChanged($event)"
-                            [categoryConfirmed]="true"
-                            [formGroup]="form">
-        </bike-category-type>
+                <bike-category-type testType="MOD2"
+                                    [testCategory]="pageState.testCategory$ | async"
+                                    (categoryCodeChange)="categoryCodeChanged($event)"
+                                    [categoryConfirmed]="true"
+                                    [formGroup]="form">
+                </bike-category-type>
 
-        <license-provided
-                [form]="form"
-                [license]="pageState.provisionalLicense$ | async"
-                [licenseReceivedLabel] = "'Licence Received'"
-                (licenseReceived)="provisionalLicenseReceived()"
-                (licenseNotReceived)="provisionalLicenseNotReceived()">
-        </license-provided>
+                <license-provided
+                        [form]="form"
+                        [license]="pageState.provisionalLicense$ | async"
+                        [licenseReceivedLabel]="'Licence Received'"
+                        (licenseReceived)="provisionalLicenseReceived()"
+                        (licenseNotReceived)="provisionalLicenseNotReceived()">
+                </license-provided>
 
-        <licence-provided-warning-banner [licenceProvided]="pageState.provisionalLicense$ | async"></licence-provided-warning-banner>
+                <licence-provided-warning-banner
+                        [licenceProvided]="pageState.provisionalLicense$ | async"></licence-provided-warning-banner>
 
-        <transmission
-                [formGroup]="form"
-                (transmissionChange)="transmissionChanged($event)">
-        </transmission>
+                <transmission
+                        [formGroup]="form"
+                        (transmissionChange)="transmissionChanged($event)">
+                </transmission>
 
-        <warning-banner *ngIf="displayTransmissionBanner()" warningText="An automatic licence will be issued.">
-        </warning-banner>
+                <warning-banner *ngIf="displayTransmissionBanner()" warningText="An automatic licence will be issued.">
+                </warning-banner>
 
-        <pass-certificate-number
-                [form]="form"
-                [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-                (passCertificateNumberChange)="passCertificateNumberChanged($event)">
-        </pass-certificate-number>
+                <pass-certificate-number
+                        [form]="form"
+                        [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+                        (passCertificateNumberChange)="passCertificateNumberChanged($event)">
+                </pass-certificate-number>
 
-        <d255 [display]=true
-              [d255]="pageState.d255$ | async"
-              [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
-              [outcome]="testOutcome"
-              [formGroup]="form"
-              (d255Change)="d255Changed($event)">
-        </d255>
-        <warning-banner *ngIf="pageState.d255$ | async"
-                        warningText="DVLA will not process the result until a D255 is received">
-        </warning-banner>
+                <d255 [display]=true
+                      [d255]="pageState.d255$ | async"
+                      [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
+                      [outcome]="testOutcome"
+                      [formGroup]="form"
+                      (d255Change)="d255Changed($event)">
+                </d255>
+                <warning-banner *ngIf="pageState.d255$ | async"
+                                warningText="DVLA will not process the result until a D255 is received">
+                </warning-banner>
 
-        <language-preferences [formGroup]="form" [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
-                              (welshChanged)="isWelshChanged($event)"></language-preferences>
+                <language-preferences [formGroup]="form"
+                                      [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+                                      (welshChanged)="isWelshChanged($event)"></language-preferences>
 
-        <debrief-witnessed [display]=true [formGroup]="form" [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-                           [outcome]="testOutcome" (debriefWitnessedChange)="debriefWitnessedChanged($event)">
-        </debrief-witnessed>
+                <debrief-witnessed [display]=true [formGroup]="form"
+                                   [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+                                   [outcome]="testOutcome" (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+                </debrief-witnessed>
 
-      </ion-grid>
-    </form>
-  </div>
+            </ion-grid>
+        </form>
+    </div>
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
-    <ion-button class="mes-primary-button" id="pass-finalisation-continue-button" (click)="onSubmit()">
-      <h3>Continue</h3>
-    </ion-button>
-  </ion-row>
+    <ion-row class="mes-full-width-card box-shadow">
+        <ion-button class="mes-primary-button" id="pass-finalisation-continue-button" (click)="onSubmit()">
+            <h3>Continue</h3>
+        </ion-button>
+    </ion-row>
 </ion-footer>
