@@ -1,4 +1,5 @@
 import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import { PageNameKeys } from '@pages/page-names.constants';
 
 /**
  * Map screen name from page name of component to the enum used for analytics
@@ -9,7 +10,7 @@ export function mapAnalyticsScreenName(sourcePage: string): AnalyticsScreenNames
     JournalPage: AnalyticsScreenNames.JOURNAL,
     TestCentreJournalPage: AnalyticsScreenNames.TEST_CENTRE_JOURNAL,
     RekeySearchPage: AnalyticsScreenNames.REKEY_SEARCH,
-    default: '',
-  };
-  return screenName[sourcePage] || screenName.default;
+  } as Record<PageNameKeys, AnalyticsScreenNames>;
+
+  return screenName[sourcePage] || '';
 }

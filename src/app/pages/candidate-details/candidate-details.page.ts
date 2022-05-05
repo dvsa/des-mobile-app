@@ -92,9 +92,17 @@ export class CandidateDetailsPage implements OnInit {
     await this.modalController.dismiss()
       .then(() => {
         this.store$.dispatch(candidateDetailActions.CandidateDetailsModalDismiss(
-          { sourcePage: this.router.url.substring(1) },
+          { sourcePage: this.formatUrl(this.router.url) },
         ));
       });
+  }
+
+  /**
+   * Strip the slash from the start of the url returned by the router
+   * @param url
+   */
+  formatUrl(url: string): string {
+    return url ? url.substring(1) : null;
   }
 
 }

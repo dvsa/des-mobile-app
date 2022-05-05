@@ -128,7 +128,10 @@ export type PageNameKeys =
   'VEHICLE_CHECKS_MODAL' |
   'REVERSE_DIAGRAM_PAGE' |
   'ConfirmTestDetailsPage' |
-  'RekeyUploadOutcomePage';
+  'RekeyUploadOutcomePage' |
+  'JournalPage' |
+  'TestCentreJournalPage' |
+  'RekeySearchPage';
 
 export enum TestFlowPageNames {
   DEBRIEF_PAGE = 'DebriefPage',

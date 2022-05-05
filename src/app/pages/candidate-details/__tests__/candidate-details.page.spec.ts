@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, TestBed, waitForAsync,
+  ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 
@@ -21,12 +21,12 @@ import {
   InappropriateUseBannerComponent,
 } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { Router } from '@angular/router';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
   let fixture: ComponentFixture<CandidateDetailsPage>;
+  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate', 'url']);
   let store$: MockStore;
   const initialState = {};
 
@@ -75,7 +75,8 @@ describe('CandidateDetailsPage', () => {
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useValue: mockNavParams },
-        { provide: Router, useClass: RouterMock },
+        // { provide: Router, useClass: RouterMock },
+        { provide: Router, useValue: routerSpy },
         provideMockStore({ initialState }),
       ],
     });
@@ -84,6 +85,7 @@ describe('CandidateDetailsPage', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateDetailsPage);
     component = fixture.componentInstance;
+    // router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
   }));
 
@@ -134,6 +136,35 @@ describe('CandidateDetailsPage', () => {
       const specialNeedsString: string = 'No details supplied';
       const result = component.specialNeedsIsPopulated(specialNeedsString);
       expect(result).toEqual(false);
+    });
+  });
+
+  describe('dismiss', () => {
+    it('should dismiss open modal', fakeAsync(async () => {
+      spyOn(component.modalController, 'dismiss').and.callThrough();
+      spyOn(routerSpy, 'url').and.returnValue('/test');
+      spyOn(component, 'formatUrl').and.returnValue('test');
+      spyOn(store$, 'dispatch').and.stub();
+      await component.dismiss().then(() => {
+        flushMicrotasks();
+        expect(store$.dispatch).toHaveBeenCalledWith(candidateDetailActions.CandidateDetailsModalDismiss(
+          { sourcePage: 'test' },
+        ));
+      });
+    }));
+  });
+
+  describe('formatUrl', () => {
+    it('should remove the first character from a string', () => {
+      expect(component.formatUrl('/test')).toEqual('test');
+    });
+
+    it('should return null if url is an empty string', () => {
+      expect(component.formatUrl('')).toEqual(null);
+    });
+
+    it('should return null if url is null', () => {
+      expect(component.formatUrl(null)).toEqual(null);
     });
   });
 
