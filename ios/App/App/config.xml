@@ -32,10 +32,6 @@
     <param name="ios-package" value="JETEmmAppConfig"/>
   </feature>
 
-  <feature name="UniversalAnalytics">
-    <param name="ios-package" value="UniversalAnalyticsPlugin"/>
-  </feature>
-
   <feature name="Insomnia">
     <param name="ios-package" value="Insomnia"/>
   </feature>

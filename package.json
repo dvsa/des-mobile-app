@@ -62,7 +62,6 @@
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/device": "^5.36.0",
     "@ionic-native/emm-app-config": "^5.36.0",
-    "@ionic-native/google-analytics": "^5.30.0",
     "@ionic-native/insomnia": "^5.36.0",
     "@ionic-native/is-debug": "^5.36.0",
     "@ionic-native/mobile-accessibility": "^5.36.0",
@@ -88,7 +87,6 @@
     "cordova-plugin-autonomous-single-app-mode": "git+https://github.com/dvsa/cordova-plugin-autonomous-single-app-mode.git",
     "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
     "cordova-plugin-emm-app-config": "^1.0.2",
-    "cordova-plugin-google-analytics": "^1.9.0",
     "cordova-plugin-insomnia": "^4.3.0",
     "cordova-plugin-is-debug": "^1.0.0",
     "cordova-plugin-network-information": "^2.0.2",
@@ -163,7 +161,6 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-device": {},
-      "cordova-plugin-google-analytics": {},
       "cordova-plugin-autonomous-single-app-mode": {},
       "cordova-ios-guided-access": {}
     },

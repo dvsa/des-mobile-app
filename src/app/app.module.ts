@@ -8,7 +8,6 @@ import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 import { IsDebug } from '@ionic-native/is-debug/ngx';
 import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
 
-import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { SecureStorage } from '@ionic-native/secure-storage/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import {
@@ -155,7 +154,6 @@ if (enableRehydrationPlugin) {
     DateTimeProvider,
     SecureStorage,
     IsDebug,
-    GoogleAnalytics,
     DataStoreProvider,
     Network,
     Device,

@@ -114,7 +114,7 @@ export class AppConfigProvider {
 
   public loadManagedConfig = (): void => {
     const newEnvFile = {
-      production: false,
+      production: this.emmAppConfig.getValue('sentryEnv') === 'prod',
       configUrl: this.emmAppConfig.getValue('configUrl'),
       sentry: {
         dsn: this.emmAppConfig.getValue('sentryDsn'),

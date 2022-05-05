@@ -1,22 +1,25 @@
-import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { createHash } from 'crypto';
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { DateTime } from '@shared/helpers/date-time';
+import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
+
 import { DeviceProvider } from '../device/device';
 import { AppConfigProvider } from '../app-config/app-config';
 import { IAnalyticsProvider, AnalyticsEventCategories, AnalyticsDimensionIndices } from './analytics.model';
 import { AuthenticationProvider } from '../authentication/authentication';
 
+declare const gtag: Function;
+
 @Injectable()
 export class AnalyticsProvider implements IAnalyticsProvider {
-  private analyticsStartupError: string = 'Error starting Google Analytics';
+  private analyticsKeyError: string = 'Missing Google Analytics key';
   googleAnalyticsKey: string = '';
   uniqueDeviceId: string;
   uniqueUserId: string;
+
   constructor(
     private appConfig: AppConfigProvider,
-    private ga: GoogleAnalytics,
     private platform: Platform,
     private device: DeviceProvider,
     private authProvider: AuthenticationProvider,
@@ -24,41 +27,23 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
   initialiseAnalytics = (): Promise<any> => new Promise((resolve) => {
     this.googleAnalyticsKey = this.appConfig.getAppConfig().googleAnalyticsId;
+    this.addGAScript(!this.appConfig.environmentFile?.production);
     this.platform.ready().then(() => {
       this.setDeviceId(this.device.getUniqueDeviceId());
       this.setUserId(this.authProvider.getEmployeeId());
       this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
-      this.enableExceptionReporting();
     });
     resolve(true);
   });
 
-  enableExceptionReporting(): void {
-    this.platform.ready().then(() => {
-      if (this.isIos()) {
-        this.ga
-          .startTrackerWithId(this.googleAnalyticsKey)
-          .then(() => {
-            this.ga.enableUncaughtExceptionReporting(true)
-              .then(() => { })
-              .catch((uncaughtError) => console.log('Error enabling uncaught exceptions', uncaughtError));
-          })
-          .catch((error) => console.log(`enableExceptionReporting: ${this.analyticsStartupError}`, error));
-      }
-    });
-  }
-
   setCurrentPage(name: string): void {
     this.platform.ready().then(() => {
       if (this.isIos()) {
-        this.ga
-          .startTrackerWithId(this.googleAnalyticsKey)
-          .then(() => {
-            this.ga.trackView(name)
-              .then(() => { })
-              .catch((pageError) => console.log('Error setting page', pageError));
-          })
-          .catch((error) => console.log('Error starting Google Analytics', error));
+        try {
+          gtag('config', this.googleAnalyticsKey, { send_page_view: false, page_title: name });
+        } catch (error) {
+          console.error('Analytics error - setCurrentPage', error);
+        }
       }
     });
   }
@@ -66,28 +51,27 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   logEvent(category: string, event: string, label ?: string, value? : number): void {
     this.platform.ready().then(() => {
       if (this.isIos()) {
-        this.ga
-          .startTrackerWithId(this.googleAnalyticsKey)
-          .then(() => {
-            this.ga.trackEvent(category, event, label, value)
-              .then(() => { })
-              .catch((eventError) => console.log('Error tracking event', eventError));
-          })
-          .catch((error) => console.log(`logEvent: ${this.analyticsStartupError}`, error));
+        try {
+          gtag('event', event, {
+            event_category: category,
+            event_label: label,
+            value,
+          });
+        } catch (error) {
+          console.error('Analytics error - logEvent', error);
+        }
       }
     });
   }
 
   addCustomDimension(key: number, value: string): void {
     if (this.isIos()) {
-      this.ga
-        .startTrackerWithId(this.googleAnalyticsKey)
-        .then(() => {
-          this.ga.addCustomDimension(key, value)
-            .then(() => { })
-            .catch((dimError) => console.log('Error adding custom dimension ', dimError));
-        })
-        .catch((error) => console.log(`addCustomDimension: ${this.analyticsStartupError}`, error));
+      try {
+        const [dimension] = getEnumKeyByValue(AnalyticsDimensionIndices, key);
+        gtag('event', dimension, { key: value });
+      } catch (error) {
+        console.error('Analytics error - addCustomDimension', error);
+      }
     }
   }
 
@@ -97,29 +81,23 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
   logException(message: string, fatal: boolean): void {
     if (this.isIos()) {
-      this.ga
-        .startTrackerWithId(this.googleAnalyticsKey)
-        .then(() => {
-          this.ga.trackException(message, fatal)
-            .then(() => { })
-            .catch((trackingError) => console.log('Error logging exception in Google Analytics', trackingError));
-        })
-        .catch((error) => console.log(`logException: ${this.analyticsStartupError}`, error));
+      try {
+        gtag('event', 'exception', { description: message, fatal });
+      } catch (error) {
+        console.error('Analytics error - logException', error);
+      }
     }
   }
 
   setUserId(userId: string): void {
     if (this.isIos()) {
-      this.uniqueUserId = createHash('sha256').update(userId || 'unavailable').digest('hex');
-      this.ga
-        .startTrackerWithId(this.googleAnalyticsKey)
-        .then(() => {
-          this.addCustomDimension(AnalyticsDimensionIndices.USER_ID, this.uniqueUserId);
-          this.ga.setUserId(this.uniqueUserId)
-            .then(() => { })
-            .catch((idError) => console.log(`Error setting userid ${this.uniqueUserId}`, idError));
-        })
-        .catch((error) => console.log(`setUserId: ${this.analyticsStartupError}`, error));
+      try {
+        this.uniqueUserId = createHash('sha256').update(userId || 'unavailable').digest('hex');
+        this.addCustomDimension(AnalyticsDimensionIndices.USER_ID, this.uniqueUserId);
+        gtag('config', this.googleAnalyticsKey, { send_page_view: false, user_id: this.uniqueUserId });
+      } catch (error) {
+        console.log(`Analytics error - setUserId ${this.uniqueUserId}`, error);
+      }
     }
   }
 
@@ -156,5 +134,16 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   }
 
   isIos = (): boolean => this.platform.is('cordova');
+
+  private addGAScript(debugMode: boolean = false): void {
+    if (!this.googleAnalyticsKey) {
+      throw new Error(this.analyticsKeyError);
+    }
+    const gtagScript: HTMLScriptElement = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = `https://www.googletagmanager.com/gtag/js?id=${this.googleAnalyticsKey}`;
+    document.head.prepend(gtagScript);
+    gtag('config', this.googleAnalyticsKey, { send_page_view: false, debugMode });
+  }
 
 }
