@@ -1,5 +1,5 @@
 import {
-  ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync,
+  ComponentFixture, fakeAsync, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
 
@@ -21,12 +21,12 @@ import {
   InappropriateUseBannerComponent,
 } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { Router } from '@angular/router';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
   let fixture: ComponentFixture<CandidateDetailsPage>;
-  const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate', 'url']);
   let store$: MockStore;
   const initialState = {};
 
@@ -75,7 +75,7 @@ describe('CandidateDetailsPage', () => {
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useValue: mockNavParams },
-        { provide: Router, useValue: routerSpy },
+        { provide: Router, useClass: RouterMock },
         provideMockStore({ initialState }),
       ],
     });
@@ -139,16 +139,13 @@ describe('CandidateDetailsPage', () => {
 
   describe('dismiss', () => {
     it('should dismiss open modal', fakeAsync(async () => {
-      spyOn(component.modalController, 'dismiss').and.callThrough();
-      spyOn(routerSpy, 'url').and.returnValue('/test');
-      spyOn(component, 'formatUrl').and.returnValue('test');
-      spyOn(store$, 'dispatch').and.stub();
-      await component.dismiss().then(() => {
-        flushMicrotasks();
-        expect(store$.dispatch).toHaveBeenCalledWith(candidateDetailActions.CandidateDetailsModalDismiss(
-          { sourcePage: 'test' },
-        ));
-      });
+      spyOn(store$, 'dispatch');
+      spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      await component.dismiss();
+      expect(component.modalController.dismiss).toHaveBeenCalled();
+      expect(store$.dispatch).toHaveBeenCalledWith(candidateDetailActions.CandidateDetailsModalDismiss(
+        { sourcePage: 'url' },
+      ));
     }));
   });
 
