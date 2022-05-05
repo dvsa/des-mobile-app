@@ -75,7 +75,6 @@ describe('CandidateDetailsPage', () => {
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useValue: mockNavParams },
-        // { provide: Router, useClass: RouterMock },
         { provide: Router, useValue: routerSpy },
         provideMockStore({ initialState }),
       ],
@@ -85,7 +84,6 @@ describe('CandidateDetailsPage', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateDetailsPage);
     component = fixture.componentInstance;
-    // router = TestBed.inject(Router);
     store$ = TestBed.inject(MockStore);
   }));
 
