@@ -2,6 +2,10 @@ import { createAction, union } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestsModel } from './tests.model';
 
+export const UnloadTests = createAction(
+  '[Tests] Unload Tests',
+);
+
 export const PersistTests = createAction(
   '[Tests] Persist',
 );
@@ -96,6 +100,7 @@ export const SendCurrentTestFailure = createAction(
 );
 
 const actions = union({
+  UnloadTests,
   PersistTests,
   LoadPersistedTests,
   LoadPersistedTestsSuccess,

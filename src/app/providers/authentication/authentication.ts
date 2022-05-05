@@ -6,6 +6,8 @@ import { StoreModel } from '@shared/models/store.model';
 import { selectEmployeeId } from '@store/app-info/app-info.selectors';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
 import { Subscription } from 'rxjs';
+import { UnloadTests } from '@store/tests/tests.actions';
+import { UnloadJournal } from '@store/journal/journal.actions';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
@@ -200,6 +202,8 @@ export class AuthenticationProvider {
       await this.testPersistenceProvider.clearPersistedTests();
       await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
     }
+    this.store$.dispatch(UnloadJournal());
+    this.store$.dispatch(UnloadTests());
     await this.clearTokens();
     this.appConfig.shutDownStoreSubscription();
     this.subscription?.unsubscribe();
