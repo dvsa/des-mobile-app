@@ -19,14 +19,8 @@
                         [outcomeText]="pageState.testOutcomeText$ | async">
                 </finalisation-header>
 
-                <ion-row class="mes-component-row mes-row-separator ion-align-items-center" id="application-reference-card">
-                    <ion-col class="component-label" size="32">
-                        <label>Application reference</label>
-                    </ion-col>
-                    <ion-col class="ion-padding-start">
-                        <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
-                    </ion-col>
-                </ion-row>
+                <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
+                </application-reference-number>
 
                 <pass-certificate-number
                         [form]="form"

@@ -8,6 +8,9 @@ import { LicenseProvidedComponent } from '@pages/pass-finalisation/components/li
 import { LicenceProvidedWarningBannerComponent }
   from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { Code78Component } from '@pages/pass-finalisation/components/code-78/code-78';
+import {
+  ApplicationReferenceComponent,
+} from '@pages/pass-finalisation/components/application-reference/application-reference';
 import { PassCertificateNumberComponent } from './pass-certificate-number/pass-certificate-number';
 
 @NgModule({
@@ -16,6 +19,7 @@ import { PassCertificateNumberComponent } from './pass-certificate-number/pass-c
     PassCertificateNumberComponent,
     Code78Component,
     LicenceProvidedWarningBannerComponent,
+    ApplicationReferenceComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +33,7 @@ import { PassCertificateNumberComponent } from './pass-certificate-number/pass-c
     PassCertificateNumberComponent,
     Code78Component,
     LicenceProvidedWarningBannerComponent,
+    ApplicationReferenceComponent,
   ],
 })
 export class PassFinalisationComponentsModule { }

@@ -13,6 +13,9 @@ import { EffectsModule } from '@ngrx/effects';
 import { PassFinalisationAnalyticsEffects } from '@pages/pass-finalisation/pass-finalisation.analytics.effects';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
+import {
+  PassFinalisationComponentsModule,
+} from '@pages/pass-finalisation/components/pass-finalisation-components.module';
 import { PassFinalisationCatAMod1Page } from './pass-finalisation.cat-a-mod1.page';
 import { PassFinalisationCatAMod1PageRoutingModule } from './pass-finalisation.cat-a-mod1-routing.module';
 
@@ -29,6 +32,7 @@ import { PassFinalisationCatAMod1PageRoutingModule } from './pass-finalisation.c
     EffectsModule.forFeature([
       PassFinalisationAnalyticsEffects,
     ]),
+    PassFinalisationComponentsModule,
   ],
   declarations: [PassFinalisationCatAMod1Page],
   providers: [
