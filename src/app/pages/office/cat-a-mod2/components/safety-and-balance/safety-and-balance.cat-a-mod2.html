@@ -9,7 +9,7 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row class="mes-data align-items-center" *ngFor="let question of safetyAndBalanceQuestions$| async">
       <ion-col size="8" class="no-padding align-self-start">
-        <div class="counter-icon">
+        <div class="counter-icon padding-bottom">
           <img *ngIf="!questionHasFault(question)" src="assets/imgs/greenCorrectAnswer.png" alt="Correct Answer" class="correct-icon"/>
           <img *ngIf="questionHasFault(question)" src="assets/imgs/redWrongAnswer.png" alt="Wrong Answer" class="wrong-icon"/>
         </div>
