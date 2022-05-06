@@ -99,7 +99,6 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     return (
       this.applicationReferenceCtrl.value
         && !this.applicationReferenceCtrl.valid
-        && this.applicationReferenceCtrl.dirty
     );
   }
 
@@ -126,6 +125,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   }
 
   applicationReferenceChanged(val: string) {
+    if (val === '') {
+      this.store$.dispatch(DelegatedRekeySearchClearState());
+    }
     this.applicationReference = val;
   }
 

@@ -24,12 +24,13 @@
                                        class="ion-input-styling custom-font-size"
                                        clearInput
                                        numbersOnly
+                                       maxlength="11"
                                        [class.ng-invalid]="applicationReferenceInvalid"
                                        (ionFocus)="setFocus('appRef')"
                                        (ionBlur)="setFocus(null)"
                                        [ngClass]="{'input-focus': focusedElement === 'appRef'}"
                                        [value]="applicationReference"
-                                       (change)="applicationReferenceChanged($event.target.value)">
+                                       (ionChange)="applicationReferenceChanged($event.target.value)">
                             </ion-input>
                         </ion-col>
                     </ion-row>
