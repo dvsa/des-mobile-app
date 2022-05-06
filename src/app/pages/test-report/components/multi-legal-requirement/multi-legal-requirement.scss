@@ -1,4 +1,4 @@
-:host {
+:host ::ng-deep {
   competency-button {
     position: relative;
 
@@ -16,6 +16,7 @@
 
     &.disabled {
       .competency-button {
+        opacity: .4;
         border: none;
         box-shadow: none;
       }

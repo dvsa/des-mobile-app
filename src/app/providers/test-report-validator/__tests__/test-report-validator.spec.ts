@@ -105,22 +105,25 @@ describe('TestReportValidator', () => {
 
   });
   describe('getMissingLegalRequirements', () => {
+    const emptyLegal = 'should return an empty array if the legal requirements are met for a Cat';
+    const missingLegal = 'should return any missing legal requirements for a Cat';
+
     categories.forEach((cat) => {
-      it(`should return an empty array if the legal requirements are met for a Cat ${cat.category} test`, () => {
+      it(`${emptyLegal} ${cat.category} test`, () => {
         const result = testReportValidatorProvider.getMissingLegalRequirements(cat.validTest, cat.category);
         expect(result).toEqual([]);
       });
-      it(`should return any missing legal requirements for a Cat ${cat.category} test`, () => {
+      it(`${missingLegal} ${cat.category} test`, () => {
         const result = testReportValidatorProvider.getMissingLegalRequirements({}, cat.category);
         expect(result).toEqual(cat.legalReqs);
       });
     });
     delegatedCategories.forEach((cat) => {
-      it(`should return an empty array if the legal requirements are met for a Cat ${cat.category} test`, () => {
+      it(`${emptyLegal} ${cat.category} delegated test`, () => {
         const result = testReportValidatorProvider.getMissingLegalRequirements(cat.validTest, cat.category, true);
         expect(result).toEqual([]);
       });
-      it(`should return any missing legal requirements for a Cat ${cat.category} test`, () => {
+      it(`${missingLegal} ${cat.category} delegated test`, () => {
         const result = testReportValidatorProvider.getMissingLegalRequirements({}, cat.category, true);
         expect(result).toEqual(cat.delegatedRequirements);
       });

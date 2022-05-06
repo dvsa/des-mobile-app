@@ -29,6 +29,7 @@ import { ReverseLeftPopoverComponent } from '@pages/test-report/components/rever
 import { ReverseLeftComponent } from '@pages/test-report/components/reverse-left/reverse-left';
 import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
 import { ManoeuvreCompetencyComponent } from '../../components/manoeuvre-competency/manoeuvre-competency';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
@@ -131,6 +132,22 @@ describe('TestReportCatCPage', () => {
       const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
       endTestButton.triggerEventHandler('click', null);
       expect(component.onEndTestClick).toHaveBeenCalled();
+    });
+  });
+
+  describe('showUncoupleRecouple', () => {
+    it('should not show uncouple/recouple when not delegated', () => {
+      component.delegatedTest = false;
+      expect(component.showUncoupleRecouple()).toEqual(false);
+    });
+    [
+      { cat: TestCategory.C, show: false }, { cat: TestCategory.C1, show: false },
+      { cat: TestCategory.CE, show: true }, { cat: TestCategory.C1E, show: true },
+    ].forEach(({ cat, show }) => {
+      it(`should ${show ? 'show' : 'not show'} uncouple/recouple for cat ${cat}`, () => {
+        component.delegatedTest = true;
+        expect(component.showUncoupleRecouple()).toEqual(show);
+      });
     });
   });
 

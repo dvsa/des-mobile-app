@@ -211,7 +211,7 @@ export const validTestCatC1: CatC1UniqueTypes.TestData = {
   },
 };
 
-export const validDelegatedTestCatCEAndC1E: CatCEUniqueTypes.TestData | CatCEUniqueTypes.TestData = {
+export const validDelegatedTestCatCEAndC1E: CatCEUniqueTypes.TestData | CatC1EUniqueTypes.TestData = {
   testRequirements: {
     angledStartControlledStop: true,
     normalStart2: false,
@@ -526,6 +526,7 @@ export const legalRequirementsCatCEAndC1E = [
 ];
 
 export const delegatedRequirementsCatCEAndC1E = [
+  legalRequirementsLabels.uncoupleRecouple,
   legalRequirementsLabels.angledStartControlledStop,
   legalRequirementsLabels.eco,
 ];
@@ -561,6 +562,7 @@ export const legalRequirementsCatDE = [
 ];
 
 export const delegatedRequirementsCatDEAndD1E = [
+  legalRequirementsLabels.uncoupleRecouple,
   legalRequirementsLabels.angledStartControlledStop,
   legalRequirementsLabels.eco,
 ];

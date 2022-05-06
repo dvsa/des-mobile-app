@@ -14,6 +14,7 @@ import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { Observable } from 'rxjs';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 interface CatCTestReportPageState {}
 type TestReportPageState = CommonTestReportPageState & CatCTestReportPageState;
@@ -66,5 +67,12 @@ export class TestReportCatCPage extends TestReportBasePageComponent implements O
     super.ionViewDidLeave();
     super.cancelSubscription();
   }
+
+  showUncoupleRecouple = (): boolean => {
+    if (!this.delegatedTest) {
+      return false;
+    }
+    return this.testCategory === TestCategory.CE || this.testCategory === TestCategory.C1E;
+  };
 
 }

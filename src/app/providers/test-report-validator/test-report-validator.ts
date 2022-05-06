@@ -351,6 +351,7 @@ export class TestReportValidatorProvider {
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
+    const uncoupleRecouple: boolean = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
       (normalStart1 || normalStart2)
@@ -360,6 +361,7 @@ export class TestReportValidatorProvider {
     ) : (
       angledStartControlledStop
       && eco
+      && uncoupleRecouple
     );
   }
 
@@ -371,8 +373,12 @@ export class TestReportValidatorProvider {
 
     if (!isDelegated) {
       if (!get(data, 'testRequirements.normalStart1', false)
-        && !get(data, 'testRequirements.normalStart2', false))result.push(legalRequirementsLabels.normalStart1);
+        && !get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart1);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
+    }
+    // only check for uncoupleRecouple when delegated
+    if (isDelegated && !get(data, 'uncoupleRecouple.selected', false)) {
+      result.push(legalRequirementsLabels.uncoupleRecouple);
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
@@ -494,6 +500,7 @@ export class TestReportValidatorProvider {
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
+    const uncoupleRecouple = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
       normalStart1
@@ -505,6 +512,7 @@ export class TestReportValidatorProvider {
     ) : (
       angledStartControlledStop
       && eco
+      && uncoupleRecouple
     );
   }
 
@@ -519,6 +527,10 @@ export class TestReportValidatorProvider {
       if (!get(data, 'testRequirements.busStop1', false)) result.push(legalRequirementsLabels.busStop1);
       if (!get(data, 'testRequirements.busStop2', false)) result.push(legalRequirementsLabels.busStop2);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
+    }
+    // only check for uncoupleRecouple when delegated
+    if (isDelegated && !get(data, 'uncoupleRecouple.selected', false)) {
+      result.push(legalRequirementsLabels.uncoupleRecouple);
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
@@ -536,6 +548,7 @@ export class TestReportValidatorProvider {
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
+    const uncoupleRecouple = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
       normalStart1
@@ -545,6 +558,7 @@ export class TestReportValidatorProvider {
     ) : (
       angledStartControlledStop
       && eco
+      && uncoupleRecouple
     );
   }
 
@@ -557,6 +571,10 @@ export class TestReportValidatorProvider {
     if (!isDelegated) {
       if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
+    }
+    // only check for uncoupleRecouple when delegated
+    if (isDelegated && !get(data, 'uncoupleRecouple.selected', false)) {
+      result.push(legalRequirementsLabels.uncoupleRecouple);
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
