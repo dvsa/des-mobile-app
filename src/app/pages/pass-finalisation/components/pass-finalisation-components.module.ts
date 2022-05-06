@@ -10,7 +10,7 @@ import { LicenceProvidedWarningBannerComponent }
 import { Code78Component } from '@pages/pass-finalisation/components/code-78/code-78';
 import {
   ApplicationReferenceComponent,
-} from '@pages/pass-finalisation/components/application-reference/application-reference.component';
+} from '@pages/pass-finalisation/components/application-reference/application-reference';
 import { PassCertificateNumberComponent } from './pass-certificate-number/pass-certificate-number';
 
 @NgModule({

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
-import { ApplicationReferenceComponent } from './application-reference.component';
+import { ApplicationReferenceComponent } from './application-reference';
 
 describe('ApplicationReferenceComponent', () => {
   let component: ApplicationReferenceComponent;
