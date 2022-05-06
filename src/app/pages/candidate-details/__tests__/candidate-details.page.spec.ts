@@ -20,6 +20,8 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import {
   InappropriateUseBannerComponent,
 } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
+import { Router } from '@angular/router';
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
@@ -73,6 +75,7 @@ describe('CandidateDetailsPage', () => {
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useValue: mockNavParams },
+        { provide: Router, useClass: RouterMock },
         provideMockStore({ initialState }),
       ],
     });
@@ -136,10 +139,28 @@ describe('CandidateDetailsPage', () => {
 
   describe('dismiss', () => {
     it('should dismiss open modal', fakeAsync(async () => {
-      spyOn(component.modalController, 'dismiss');
+      spyOn(store$, 'dispatch');
+      spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
       await component.dismiss();
       expect(component.modalController.dismiss).toHaveBeenCalled();
+      expect(store$.dispatch).toHaveBeenCalledWith(candidateDetailActions.CandidateDetailsModalDismiss(
+        { sourcePage: 'url' },
+      ));
     }));
+  });
+
+  describe('formatUrl', () => {
+    it('should remove the first character from a string', () => {
+      expect(component.formatUrl('/test')).toEqual('test');
+    });
+
+    it('should return null if url is an empty string', () => {
+      expect(component.formatUrl('')).toEqual(null);
+    });
+
+    it('should return null if url is null', () => {
+      expect(component.formatUrl(null)).toEqual(null);
+    });
   });
 
 });

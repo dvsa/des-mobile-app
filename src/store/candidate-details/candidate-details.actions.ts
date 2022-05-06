@@ -6,6 +6,11 @@ export const CandidateDetailsViewDidEnter = createAction(
   props<{ slot: TestSlot }>(),
 );
 
+export const CandidateDetailsModalDismiss = createAction(
+  '[CandidateDetailsPage] Candidate details modal dismiss',
+  props<{ sourcePage: string }>(),
+);
+
 export const CandidateDetailsSlotChangeViewed = createAction(
   '[CandidateDetailsPage] Candidate details slot change viewed',
   props<{ slotId: number }>(),

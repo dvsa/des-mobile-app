@@ -19,6 +19,12 @@ import { formatApplicationReference } from '@shared/helpers/formatters';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { Router } from '@angular/router';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
+import {
+  getApplicationNumber,
+} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
+import {
+  getApplicationReference,
+} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
 import { TestsModel } from './tests.model';
 import {
   TestOutcomeChanged,
@@ -26,7 +32,12 @@ import {
   StartTest,
   SendPartialTestsFailure,
 } from './tests.actions';
-import { getTestById, isPassed, getCurrentTest } from './tests.selector';
+import {
+  getTestById,
+  isPassed,
+  getCurrentTest,
+  getJournalData,
+} from './tests.selector';
 import { getTests } from './tests.reducer';
 import { SetTestStatusSubmitted } from './test-status/test-status.actions';
 
@@ -123,12 +134,27 @@ export class TestsAnalyticsEffects {
 
   startTestAnalyticsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(StartTest),
-    switchMap((action: ReturnType<typeof StartTest>) => {
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getJournalData),
+          select(getApplicationReference),
+          select(getApplicationNumber),
+        ),
+      ),
+    )),
+    switchMap(([action, applicationReference]: [ReturnType<typeof StartTest>, string]) => {
       const category: AnalyticsEventCategories = this.navigationStateProvider.isRekeySearch()
         ? AnalyticsEventCategories.REKEY_SEARCH
         : AnalyticsEventCategories.JOURNAL;
 
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.category);
+      this.analytics.addCustomDimension(
+        AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference,
+      );
+
       this.analytics.logEvent(
         category,
         AnalyticsEvents.START_TEST,

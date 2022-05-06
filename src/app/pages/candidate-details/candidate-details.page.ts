@@ -7,11 +7,11 @@ import { StoreModel } from '@shared/models/store.model';
 import * as journalActions from '@store/journal/journal.actions';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import {
-  getBusiness, getCategoryEntitlementCheckText,
-  getDetails,
+  getBusiness, getCategoryEntitlementCheckText, getDetails,
   getTime, isCandidateCheckNeeded, isCategoryEntitlementChecked,
 } from '@store/candidate-details/candidate-details.selector';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { Router } from '@angular/router';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -41,6 +41,7 @@ export class CandidateDetailsPage implements OnInit {
     public modalController: ModalController,
     public navParams: NavParams,
     public store$: Store<StoreModel>,
+    public router: Router,
   ) {
   }
 
@@ -88,7 +89,20 @@ export class CandidateDetailsPage implements OnInit {
   }
 
   async dismiss(): Promise<void> {
-    await this.modalController.dismiss();
+    await this.modalController.dismiss()
+      .then(() => {
+        this.store$.dispatch(candidateDetailActions.CandidateDetailsModalDismiss(
+          { sourcePage: this.formatUrl(this.router.url) },
+        ));
+      });
+  }
+
+  /**
+   * Strip the slash from the start of the url returned by the router
+   * @param url
+   */
+  formatUrl(url: string): string {
+    return url ? url.substring(1) : null;
   }
 
 }
