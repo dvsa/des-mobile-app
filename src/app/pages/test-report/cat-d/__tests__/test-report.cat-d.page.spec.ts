@@ -148,6 +148,7 @@ describe('TestReportCatDPage', () => {
     ].forEach(({ cat, show }) => {
       it(`should ${show ? 'show' : 'not show'} uncouple/recouple for cat ${cat}`, () => {
         component.delegatedTest = true;
+        component.testCategory = cat;
         expect(component.showUncoupleRecouple()).toEqual(show);
       });
     });
