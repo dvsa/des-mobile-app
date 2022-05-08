@@ -37,7 +37,7 @@ export class InstructorRegistrationComponent implements OnChanges {
   }
 
   instructorRegistrationChanged(event: any): void {
-    if (!this.instructorRegistrationNumberValidator.pattern.test(event.target.value)) {
+    if (event.target.value && !this.instructorRegistrationNumberValidator.pattern.test(event.target.value)) {
       event.target.value = event.target.value
         .replace(leadingZero, '')
         .replace(nonNumericValues, '');

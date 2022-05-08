@@ -38,6 +38,7 @@ export class ReverseDiagramPage implements OnInit {
 
   componentState: ReverseDiagramPageState;
   subscription: Subscription;
+  catSubscription: Subscription;
   merged$: Observable<number | CategoryCode>;
   reversingLengthStart: number;
   reversingLengthMiddle: number;
@@ -63,7 +64,7 @@ export class ReverseDiagramPage implements OnInit {
     );
 
     let category: TestCategory;
-    currentTest$.pipe(select(getTestCategory)).subscribe((value) => {
+    this.catSubscription = currentTest$.pipe(select(getTestCategory)).subscribe((value) => {
       category = value as TestCategory;
       const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
       this.componentState = {
@@ -154,9 +155,8 @@ export class ReverseDiagramPage implements OnInit {
   }
 
   ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription?.unsubscribe();
+    this.catSubscription?.unsubscribe();
   }
 
   async closeModal() {
