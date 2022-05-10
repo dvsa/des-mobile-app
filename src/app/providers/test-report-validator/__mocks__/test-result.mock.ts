@@ -472,6 +472,7 @@ export const legalRequirementsAMod2 = [
 
 export const legalRequirementsADIPart2 = [
   legalRequirementsLabels.normalStart1,
+  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.uphillStart,
   legalRequirementsLabels.downhillStart,

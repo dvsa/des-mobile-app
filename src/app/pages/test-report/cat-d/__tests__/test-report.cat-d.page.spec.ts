@@ -35,6 +35,7 @@ import {
 import {
   SafetyQuestionsCatDComponent,
 } from '@pages/test-report/cat-d/components/safety-questions/safety-questions.cat-d';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
 import { testReportReducer } from '../../test-report.reducer';
@@ -44,7 +45,6 @@ import { CompetencyButtonComponent } from '../../components/competency-button/co
 import { CompetencyComponent } from '../../components/competency/competency';
 import { TestReportCatDPage } from '../test-report.cat-d.page';
 import { EcoComponent } from '../../components/eco/eco';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 describe('TestReportCatDPage', () => {
   let fixture: ComponentFixture<TestReportCatDPage>;
