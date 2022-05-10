@@ -96,10 +96,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   }
 
   get applicationReferenceInvalid(): boolean {
-    return (
-      this.applicationReferenceCtrl.value
-        && !this.applicationReferenceCtrl.valid
-    );
+    return !this.applicationReferenceCtrl.valid;
   }
 
   ionViewDidEnter() {
