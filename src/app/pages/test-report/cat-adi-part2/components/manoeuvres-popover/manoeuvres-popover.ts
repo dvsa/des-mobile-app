@@ -15,8 +15,9 @@ import {
   RecordManoeuvresSelection, RecordManoeuvresDeselection,
 } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import { map, tap } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { omit, some } from 'lodash';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 interface ManoeuvresFaultState {
   reverseRight: boolean;
@@ -84,7 +85,7 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
       ),
     );
 
-    this.subscription = this.merged$.subscribe();
+    this.subscription = this.merged$.pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   recordManoeuvreSelection(manoeuvreType: ManoeuvreTypes, index: number): void {

@@ -12,6 +12,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
+import { ActivityCodes } from '@shared/models/activity-codes';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
@@ -61,18 +62,9 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
   }
 
   ionViewWillEnter(): boolean {
+    super.ionViewWillEnter();
     this.store$.dispatch(PassFinalisationViewDidEnter());
-
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
     return true;
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async onSubmit(): Promise<void> {

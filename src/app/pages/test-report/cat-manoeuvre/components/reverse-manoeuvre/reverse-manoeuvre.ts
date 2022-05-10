@@ -15,7 +15,7 @@ import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-m
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import {
   AddManoeuvreDangerousFault,
   AddManoeuvreSeriousFault,
@@ -28,6 +28,7 @@ import {
 } from '@pages/test-report/test-report.actions';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 interface ReverseManoeuvreCompetencyComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -127,7 +128,7 @@ export class ReverseManoeuvreComponent {
       manoeuvreCompetencyOutcome$.pipe(map((outcome) => this.manoeuvreCompetencyOutcome = outcome)),
     );
 
-    this.subscription = merged$.subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

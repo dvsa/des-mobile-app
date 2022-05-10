@@ -112,6 +112,11 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
     ).subscribe();
   }
 
+  ionViewDidLeave(): void {
+    super.ionViewDidLeave();
+    this.subscription?.unsubscribe();
+  }
+
   onEndTestClick = async () => {
     let modal: HTMLIonModalElement = await this.createEtaInvalidModal();
 

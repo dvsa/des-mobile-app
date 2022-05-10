@@ -1,4 +1,4 @@
-<ion-card id="vehicle-checks" *ngIf="hasFault">
+<ion-card id="vehicle-checks" *ngIf="componentState.hasVehicleChecksFault$ | async">
   <ion-card-content>
     <ion-grid>
       <ion-row class="mes-data ion-align-items-start">
@@ -10,7 +10,7 @@
           <div id="tell-me-question" *ngIf="componentState.tellMeQuestionHasFault$ | async">
             {{ 'debrief.tellMeQuestion' | translate }} - {{ 'debrief.drivingFault' | translate }}
           </div>
-          <div id="show-me-question" *ngIf="hasShowMeFault" [ngSwitch]="componentState.showMeQuestionOutcome$ | async">
+          <div id="show-me-question" *ngIf="componentState.hasShowMeFault$ | async" [ngSwitch]="componentState.showMeQuestionOutcome$ | async">
             <span *ngSwitchCase="'DF'" id="show-me-question-outcome-df">
               {{ 'debrief.showMeQuestion' | translate }} - {{ 'debrief.drivingFault' | translate }}
             </span>

@@ -2,7 +2,7 @@ import {
   Component, OnInit, OnDestroy, Input,
 } from '@angular/core';
 import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { StoreModel } from '@shared/models/store.model';
 import { Store, select } from '@ngrx/store';
@@ -18,6 +18,7 @@ import {
   isControlledStopSelected,
   getControlledStopFault,
 } from '@store/tests/test-data/common/controlled-stop/controlled-stop.selectors';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
@@ -26,7 +27,6 @@ interface ControlledStopComponentState {
   isRemoveFaultMode$: Observable<boolean>;
   isSeriousMode$: Observable<boolean>;
   isDangerousMode$: Observable<boolean>;
-
   selectedControlledStop$: Observable<boolean>;
   controlledStopOutcome$: Observable<CompetencyOutcome>;
 }
@@ -102,8 +102,7 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
       isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
       selectedControlledStop$.pipe(map((value) => this.selectedControlledStop = value)),
       controlledStopOutcome$.pipe(map((outcome) => this.controlledStopOutcome = outcome)),
-    ).subscribe();
-
+    ).pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

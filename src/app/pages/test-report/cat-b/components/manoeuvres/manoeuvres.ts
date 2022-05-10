@@ -14,6 +14,8 @@ import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import { OverlayCallback } from '@pages/test-report/test-report.model';
+import { takeUntil } from 'rxjs/operators';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 @Component({
   selector: 'manoeuvres',
@@ -54,17 +56,18 @@ export class ManoeuvresComponent implements OnInit, OnDestroy {
       select(getManoeuvres),
     );
 
-    this.subscription = this.manoeuvres$.subscribe((manoeuvres: CatBUniqueTypes.Manoeuvres) => {
-      this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(
-        TestCategory.B, manoeuvres, CompetencyOutcome.DF,
-      );
-      this.hasSeriousFault = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(
-        TestCategory.B, manoeuvres, CompetencyOutcome.S,
-      ) > 0;
-      this.hasDangerousFault = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(
-        TestCategory.B, manoeuvres, CompetencyOutcome.D,
-      ) > 0;
-    });
+    this.subscription = this.manoeuvres$.pipe(takeUntil(trDestroy$))
+      .subscribe((manoeuvres: CatBUniqueTypes.Manoeuvres) => {
+        this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(
+          TestCategory.B, manoeuvres, CompetencyOutcome.DF,
+        );
+        this.hasSeriousFault = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(
+          TestCategory.B, manoeuvres, CompetencyOutcome.S,
+        ) > 0;
+        this.hasDangerousFault = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres>(
+          TestCategory.B, manoeuvres, CompetencyOutcome.D,
+        ) > 0;
+      });
   }
 
   ngOnDestroy(): void {

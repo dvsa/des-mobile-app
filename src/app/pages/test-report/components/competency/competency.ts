@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -28,6 +28,7 @@ import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
@@ -129,7 +130,7 @@ export class CompetencyComponent {
       isDelegated$.pipe(map((toggle) => this.isDelegated = toggle)),
     ).pipe(tap(this.canButtonRipple));
 
-    this.subscription = merged$.subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
     this.label = this.getLabel();
 
   }

@@ -24,6 +24,7 @@ import { LoadAppConfig } from '@store/app-config/app-config.actions';
 import { StartSendingCompletedTests, LoadPersistedTests } from '@store/tests/tests.actions';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { Subscription } from 'rxjs';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -37,6 +38,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   hasUserLoggedOut = false;
   hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
+  queryParamSub: Subscription;
 
   constructor(
     platform: Platform,
@@ -56,7 +58,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.route.queryParams.subscribe(async () => {
+    this.queryParamSub = this.route.queryParams.subscribe(async () => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
 
@@ -74,8 +76,12 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     if (!this.isIos()) {
       await this.appConfigProvider.initialiseAppConfig();
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
-      await this.router.navigate([DASHBOARD_PAGE]);
+      await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }
+  }
+
+  ionViewDidLeave(): void {
+    this.queryParamSub?.unsubscribe();
   }
 
   login = async (): Promise<any> => {
@@ -220,7 +226,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.hasDeviceTypeError = true;
       this.analytics.logException(`${this.deviceTypeError}-${this.deviceProvider.getDeviceType()}`, true);
     } else {
-      await this.router.navigate([DASHBOARD_PAGE]);
+      await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }
   };
 

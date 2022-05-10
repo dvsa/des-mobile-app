@@ -99,6 +99,7 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
   }
 
   ionViewWillEnter(): boolean {
+    super.ionViewWillEnter();
     this.store$.dispatch(PassFinalisationViewDidEnter());
 
     if (this.merged$) {

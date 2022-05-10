@@ -72,6 +72,7 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
   }
 
   ionViewWillEnter(): boolean {
+    super.ionViewWillEnter();
     this.store$.dispatch(PassFinalisationViewDidEnter());
 
     if (this.subscription.closed && this.merged$) {
