@@ -47,7 +47,7 @@
             [idPrefix]="idPrefix"
             [label]="'Test Category'"
             [value]="pageState.testCategory$ | async"
-            [shouldHaveSeperator]="!displayForCategory(category)">
+            [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category)">
         </data-row>
         <!-- Provisional licence received -->
         <data-row
@@ -67,7 +67,7 @@
         </transmission-display>
         <!-- D255 -->
         <data-row
-            *ngIf="!displayForCategory(category)"
+            *ngIf="!displayD255(category)"
             [idPrefix]="idPrefix"
             [label]="'D255'"
             [value]="getD255Text(pageState.d255$ | async)"
