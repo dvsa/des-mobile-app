@@ -47,6 +47,7 @@
         <ion-col size="22" class="input-padding">
             <ion-select
                     placeholder="All"
+                    class="black-text"
                     (ionChange)="activitySelectChange($event.target.value)"
                     [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
                 <ion-select-option [value]="activityCode" *ngFor="let activityCode of activityCodes; let first = first">
@@ -59,6 +60,7 @@
         </ion-col>
         <ion-col size="22" class="input-padding">
             <ion-select placeholder="All"
+                        class="black-text"
                         (ionChange)="categorySelectChange($event.target.value)"
                         [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
                 <ion-select-option [value]="category" *ngFor="let category of testCategories">{{category}}</ion-select-option>
@@ -79,6 +81,7 @@
                     id="advanced-search-start-date-picker"
                     [placeholder]= minStartDatePlaceholder
                     displayFormat="DD/MM/YYYY"
+                    class="black-text"
                     [min]="minStartDate"
                     [max]="endDate ? endDate : today"
                     [(ngModel)]="startDate"
