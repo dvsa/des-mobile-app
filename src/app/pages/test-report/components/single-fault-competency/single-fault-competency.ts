@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { Store, select } from '@ngrx/store';
-import { map, tap } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -24,6 +24,7 @@ import {
   hasCompetencyDangerousFault,
 } from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.selector';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
@@ -115,7 +116,7 @@ export class SingleFaultCompetencyComponent implements OnInit, OnDestroy {
       hasDangerousFault$.pipe(map((hasfault) => this.hasDangerousFault = hasfault)),
     ).pipe(tap(this.canButtonRipple));
 
-    this.subscription = merged$.subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { get } from 'lodash';
 
 import { StoreModel } from '@shared/models/store.model';
@@ -18,6 +18,7 @@ import { getTestData } from '@store/tests/test-data/cat-d/test-data.cat-d.reduce
 import { getPcvDoorExercise } from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { PcvDoorExerciseTypes } from '@providers/fault-summary/cat-d/fault-summary.cat-d';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { getTestReportState } from '../../../test-report.reducer';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../../test-report.selector';
 import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../../test-report.actions';
@@ -90,7 +91,7 @@ export class PcvDoorExerciseComponent {
       pcvDoorExercise$.pipe(map((toggle) => this.pcvDoorExercise = toggle)),
     ).pipe(tap(this.canButtonRipple));
 
-    this.subscription = merged$.subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

@@ -20,7 +20,8 @@ import {
 } from '@providers/manoeuvres-by-category/manoeuvres-by-category';
 import { ManoeuvreUnion } from '@shared/unions/test-schema-unions';
 import { getReverseLeftSelected } from '@store/tests/test-data/common/manoeuvres/manoeuvres.selectors';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { OverlayCallback } from '../../test-report.model';
 import { ReverseLeftPopoverClosed, ReverseLeftPopoverOpened } from './reverse-left.actions';
 
@@ -68,7 +69,7 @@ export class ReverseLeftComponent implements OnInit, OnDestroy {
       select(this.manoeuvresByCategory.getManoeuvresByCategoryCode(this.testCategory)),
     );
 
-    this.subscription = manoeuvres$.subscribe((manoeuvres: ManoeuvreUnion) => {
+    this.subscription = manoeuvres$.pipe(takeUntil(trDestroy$)).subscribe((manoeuvres: ManoeuvreUnion) => {
       this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<ManoeuvreUnion>(
         this.testCategory, manoeuvres, CompetencyOutcome.DF,
       );

@@ -6,9 +6,10 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
-import { withLatestFrom, map } from 'rxjs/operators';
+import { withLatestFrom, map, takeUntil } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 enum driverType {
   R = 'R',
@@ -62,7 +63,7 @@ export class DrivingFaultSummaryComponent implements OnInit {
 
   ionViewWillEnter(): void {
     if (this.componentState && this.componentState.count$) {
-      this.subscription = this.componentState.count$.subscribe();
+      this.subscription = this.componentState.count$.pipe(takeUntil(trDestroy$)).subscribe();
     }
   }
 

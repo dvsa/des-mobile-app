@@ -39,11 +39,9 @@ interface RekeySearchPageState {
 export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   pageState: RekeySearchPageState;
-
   staffNumber: string = '';
   applicationReference: string = '';
   searchResults: TestSlot[] = [];
-  subscription: Subscription = Subscription.EMPTY;
   focusedElement: string = null;
 
   constructor(
@@ -78,12 +76,6 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
 
   ionViewDidEnter() {
     this.store$.dispatch(RekeySearchViewDidEnter());
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   staffNumberChanged(val: string) {

@@ -17,7 +17,10 @@ import { PersistTests } from '@store/tests/tests.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
-import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 
 interface CatManoeuvrePassFinalisationPageState {}
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatManoeuvrePassFinalisationPageState;
@@ -51,6 +54,10 @@ export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageCompon
     this.pageState = {
       ...this.commonPageState,
     };
+  }
+
+  ionViewDidEnter() {
+    this.store$.dispatch(PassFinalisationViewDidEnter());
   }
 
   async onSubmit(): Promise<void> {

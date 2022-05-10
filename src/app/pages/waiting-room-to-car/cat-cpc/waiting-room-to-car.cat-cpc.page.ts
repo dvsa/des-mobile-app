@@ -122,6 +122,7 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
+    this.subscription?.unsubscribe();
   }
 
   setupSubscription(): void {

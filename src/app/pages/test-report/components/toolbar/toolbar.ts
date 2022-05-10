@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Observable, Subscription, merge } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map, takeUntil, withLatestFrom } from 'rxjs/operators';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { TestDataUnion } from '@shared/unions/test-schema-unions';
 import { getTests } from '@store/tests/tests.reducer';
@@ -10,6 +10,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
@@ -83,7 +84,7 @@ export class ToolbarComponent {
       shouldDisableRemove$.pipe(map((result) => this.shouldDisableRemove = result)),
     );
 
-    this.subscription = merged$.subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {
