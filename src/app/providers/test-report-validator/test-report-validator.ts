@@ -30,6 +30,7 @@ import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
 import { CatD1EUniqueTypes } from '@dvsa/mes-test-schema/categories/D1E';
 import { CatHomeTestData, CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
+import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { SpeedCheckState } from './test-report-validator.constants';
 import { FaultCountProvider } from '../fault-count/fault-count';
 
@@ -310,6 +311,7 @@ export class TestReportValidatorProvider {
     const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
+    const manoeuvre: boolean = hasManoeuvreBeenCompletedCatC(data) || false;
     const eco: boolean = get(data, 'eco.completed', false);
 
     return !isDelegated ? (
@@ -319,6 +321,7 @@ export class TestReportValidatorProvider {
       && eco
     ) : (
       angledStartControlledStop
+        && manoeuvre
         && eco
     );
   }
@@ -333,6 +336,9 @@ export class TestReportValidatorProvider {
       if (!get(data, 'testRequirements.normalStart1', false)
         && !get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart1);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
+    }
+    if (isDelegated && !hasManoeuvreBeenCompletedCatC(data)) {
+      result.push(legalRequirementsLabels.manoeuvre);
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
@@ -351,6 +357,7 @@ export class TestReportValidatorProvider {
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
+    const manoeuvre: boolean = hasManoeuvreBeenCompletedCatC(data) || false;
     const uncoupleRecouple: boolean = get(data, 'uncoupleRecouple.selected', false);
 
     return !isDelegated ? (
@@ -360,6 +367,7 @@ export class TestReportValidatorProvider {
       && eco
     ) : (
       angledStartControlledStop
+      && manoeuvre
       && eco
       && uncoupleRecouple
     );
@@ -376,10 +384,16 @@ export class TestReportValidatorProvider {
         && !get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart1);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    // only check for uncoupleRecouple when delegated
-    if (isDelegated && !get(data, 'uncoupleRecouple.selected', false)) {
-      result.push(legalRequirementsLabels.uncoupleRecouple);
+    // only check for uncoupleRecouple/manoeuvre when delegated
+    if (isDelegated) {
+      if (!hasManoeuvreBeenCompletedCatC(data)) {
+        result.push(legalRequirementsLabels.manoeuvre);
+      }
+      if (!get(data, 'uncoupleRecouple.selected', false)) {
+        result.push(legalRequirementsLabels.uncoupleRecouple);
+      }
     }
+
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
     }
@@ -422,6 +436,7 @@ export class TestReportValidatorProvider {
     const busStop1: boolean = get(data, 'testRequirements.busStop1', false);
     const busStop2: boolean = get(data, 'testRequirements.busStop2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
+    const manoeuvre: boolean = get(data, 'manoeuvres.reverseLeft.selected', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
     const eco: boolean = get(data, 'eco.completed', false);
 
@@ -434,6 +449,7 @@ export class TestReportValidatorProvider {
       && eco
     ) : (
       angledStartControlledStop
+      && manoeuvre
       && eco
     );
   }
@@ -450,6 +466,9 @@ export class TestReportValidatorProvider {
       if (!get(data, 'testRequirements.busStop2', false)) result.push(legalRequirementsLabels.busStop2);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
+    if (isDelegated && !get(data, 'manoeuvres.reverseLeft.selected', false)) {
+      result.push(legalRequirementsLabels.manoeuvre);
+    }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
     }
@@ -462,6 +481,7 @@ export class TestReportValidatorProvider {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
+    const manoeuvre: boolean = get(data, 'manoeuvres.reverseLeft.selected', false);
     const eco: boolean = get(data, 'eco.completed', false);
 
     return !isDelegated ? (
@@ -471,6 +491,7 @@ export class TestReportValidatorProvider {
       && eco
     ) : (
       angledStartControlledStop
+      && manoeuvre
       && eco
     );
   }
@@ -484,6 +505,9 @@ export class TestReportValidatorProvider {
     if (!isDelegated) {
       if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
+    }
+    if (isDelegated && !get(data, 'manoeuvres.reverseLeft.selected', false)) {
+      result.push(legalRequirementsLabels.manoeuvre);
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
@@ -499,6 +523,7 @@ export class TestReportValidatorProvider {
     const busStop2: boolean = get(data, 'testRequirements.busStop2', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
+    const manoeuvre: boolean = get(data, 'manoeuvres.reverseLeft.selected', false);
     const eco: boolean = get(data, 'eco.completed', false);
     const uncoupleRecouple = get(data, 'uncoupleRecouple.selected', false);
 
@@ -511,6 +536,7 @@ export class TestReportValidatorProvider {
       && eco
     ) : (
       angledStartControlledStop
+      && manoeuvre
       && eco
       && uncoupleRecouple
     );
@@ -528,9 +554,14 @@ export class TestReportValidatorProvider {
       if (!get(data, 'testRequirements.busStop2', false)) result.push(legalRequirementsLabels.busStop2);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    // only check for uncoupleRecouple when delegated
-    if (isDelegated && !get(data, 'uncoupleRecouple.selected', false)) {
-      result.push(legalRequirementsLabels.uncoupleRecouple);
+    // only check for uncoupleRecouple/manoeuvre when delegated
+    if (isDelegated) {
+      if (!get(data, 'manoeuvres.reverseLeft.selected', false)) {
+        result.push(legalRequirementsLabels.manoeuvre);
+      }
+      if (!get(data, 'uncoupleRecouple.selected', false)) {
+        result.push(legalRequirementsLabels.uncoupleRecouple);
+      }
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
@@ -547,6 +578,7 @@ export class TestReportValidatorProvider {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
     const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
     const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
+    const manoeuvre: boolean = get(data, 'manoeuvres.reverseLeft.selected', false);
     const eco: boolean = get(data, 'eco.completed', false);
     const uncoupleRecouple = get(data, 'uncoupleRecouple.selected', false);
 
@@ -557,6 +589,7 @@ export class TestReportValidatorProvider {
       && eco
     ) : (
       angledStartControlledStop
+      && manoeuvre
       && eco
       && uncoupleRecouple
     );
@@ -572,9 +605,14 @@ export class TestReportValidatorProvider {
       if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
       if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
     }
-    // only check for uncoupleRecouple when delegated
-    if (isDelegated && !get(data, 'uncoupleRecouple.selected', false)) {
-      result.push(legalRequirementsLabels.uncoupleRecouple);
+    // only check for uncoupleRecouple/manoeuvre when delegated
+    if (isDelegated) {
+      if (!get(data, 'manoeuvres.reverseLeft.selected', false)) {
+        result.push(legalRequirementsLabels.manoeuvre);
+      }
+      if (!get(data, 'uncoupleRecouple.selected', false)) {
+        result.push(legalRequirementsLabels.uncoupleRecouple);
+      }
     }
     if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
       result.push(legalRequirementsLabels.angledStartControlledStop);
