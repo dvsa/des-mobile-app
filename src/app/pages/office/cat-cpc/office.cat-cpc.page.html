@@ -2,6 +2,9 @@
     <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
     <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
         <ion-title>Office</ion-title>
+        <ion-buttons *ngIf="isDelegated" id="office-back-button" slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
@@ -171,7 +174,7 @@
         <ion-col *ngIf="isDelegated">
             <ion-button id="submit-button" class="mes-primary-button padding-x-5 full-width"
                         [disabled]="!isValidStartDateTime"
-                        (click)="onSubmit()">
+                        (click)="onSubmit(isDelegated)">
                 <h3>Submit</h3>
             </ion-button>
         </ion-col>

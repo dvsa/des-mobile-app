@@ -7,6 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'question-del-ex-radio-card',
   templateUrl: 'question-del-ex-radio-card.html',
+  styleUrls: ['question-del-ex-radio-card.scss'],
 })
 export class QuestionDelExRadioCardComponent {
 

@@ -25,7 +25,7 @@
                                        clearInput
                                        numbersOnly
                                        maxlength="11"
-                                       [class.ng-invalid]="applicationReferenceInvalid"
+                                       [class.ng-invalid]="hasClickedSearch && applicationReferenceInvalid"
                                        (ionFocus)="setFocus('appRef')"
                                        (ionBlur)="setFocus(null)"
                                        [ngClass]="{'input-focus': focusedElement === 'appRef'}"

@@ -5,6 +5,9 @@
         <ion-buttons slot="end">
             <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
         </ion-buttons>
+        <ion-buttons id="tr-back-button" slot="start" *ngIf="pageState.delegatedTest$ | async">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 

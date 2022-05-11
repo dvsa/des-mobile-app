@@ -131,7 +131,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   searchTests() {
     this.hasClickedSearch = true;
     this.applicationReferenceCtrl.updateValueAndValidity(this.maxCallStackHandler);
-
+    this.applicationReferenceCtrl.markAsDirty();
     if (this.applicationReferenceCtrl.valid) {
       this.store$.dispatch(SearchBookedDelegatedTest(this.applicationReference));
     }
