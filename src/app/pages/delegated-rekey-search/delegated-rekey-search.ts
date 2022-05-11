@@ -100,7 +100,6 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   }
 
   ionViewDidEnter() {
-    console.log('IonViewDidEnter()');
     this.store$.dispatch(DelegatedRekeySearchViewDidEnter());
     this.setUpSubscription();
   }
