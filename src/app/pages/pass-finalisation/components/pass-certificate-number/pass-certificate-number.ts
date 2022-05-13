@@ -54,7 +54,7 @@ export class PassCertificateNumberComponent implements OnChanges {
   };
 
   passCertificateNumberChanged(passCertificateNumber: string): void {
-    this.passCertificateNumberChange.emit(passCertificateNumber);
+    this.passCertificateNumberChange.emit(passCertificateNumber?.toUpperCase());
   }
 
   isInvalid(): boolean {
