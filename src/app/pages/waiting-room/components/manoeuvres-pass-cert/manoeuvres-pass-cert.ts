@@ -50,7 +50,7 @@ export class ManoeuvresPassCertificateComponent implements OnChanges {
   };
 
   manoeuvresPassCertificateNumberChanged(passCertificateNumber: string): void {
-    this.manoeuvresPassCertificateNumberChange.emit(passCertificateNumber);
+    this.manoeuvresPassCertificateNumberChange.emit(passCertificateNumber?.toUpperCase());
   }
 
   get invalid(): boolean {
