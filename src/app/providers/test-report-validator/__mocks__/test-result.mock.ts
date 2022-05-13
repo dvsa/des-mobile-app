@@ -464,6 +464,7 @@ export const validTestCatK: CatKUniqueTypes.TestData = {
 
 export const legalRequirementsAMod2 = [
   legalRequirementsLabels.normalStart1,
+  legalRequirementsLabels.normalStart2,
   legalRequirementsLabels.angledStart,
   legalRequirementsLabels.hillStart,
   legalRequirementsLabels.safetyAndBalanceQuestions,

@@ -627,18 +627,20 @@ export class TestReportValidatorProvider {
 
   private validateLegalRequirementsCatEUAM2(data: CatAMod2TestData): boolean {
     const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
+    const normalStart2: boolean = get(data, 'testRequirements.normalStart2', false);
     const angledStart: boolean = get(data, 'testRequirements.angledStart', false);
     const hillStart: boolean = get(data, 'testRequirements.hillStart', false);
     const safetyBalanceQuestions: boolean = haveSafetyAndBalanceQuestionsBeenCompleted(data.safetyAndBalanceQuestions);
     const eco: boolean = get(data, 'eco.completed', false);
 
-    return normalStart1 && angledStart && hillStart && safetyBalanceQuestions && eco;
+    return normalStart1 && normalStart2 && angledStart && hillStart && safetyBalanceQuestions && eco;
   }
 
   private getMissingLegalRequirementsCatEUAM2(data: CatAMod2TestData): legalRequirementsLabels[] {
     const result: legalRequirementsLabels[] = [];
 
     if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
+    if (!get(data, 'testRequirements.normalStart2', false)) result.push(legalRequirementsLabels.normalStart2);
     if (!get(data, 'testRequirements.angledStart', false)) result.push(legalRequirementsLabels.angledStart);
     if (!get(data, 'testRequirements.hillStart', false)) result.push(legalRequirementsLabels.hillStart);
     if (!haveSafetyAndBalanceQuestionsBeenCompleted(data.safetyAndBalanceQuestions)) {
