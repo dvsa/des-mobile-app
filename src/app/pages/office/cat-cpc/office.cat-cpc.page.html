@@ -126,7 +126,7 @@
 
                         <combination-office
                                 [combination]="pageState.combination$ | async"
-                                [combinationAdditionalText]="getCombinationAdditionalText(combinationCode)">
+                                [combinationAdditionalText]="getCombinationAdditionalText(pageState.combination$ | async)">
                         </combination-office>
 
                         <assessment-report
