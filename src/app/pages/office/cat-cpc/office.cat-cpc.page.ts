@@ -73,7 +73,6 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
   form: FormGroup;
   isDelegated: boolean;
   testOutcome: string;
-  combinationCode: CombinationCodes;
   public outcome: TestOutcome;
   activityCodeOptions: ActivityCodeModel[];
 
