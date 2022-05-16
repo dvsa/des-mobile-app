@@ -51,6 +51,7 @@ interface CatDWaitingRoomToCarPageState {
   vehicleChecksScore$: Observable<VehicleChecksScore>;
   safetyQuestionsScore$: Observable<SafetyQuestionsScore>;
   vehicleChecks$: Observable<CatDUniqueTypes.VehicleChecks>;
+  safetyQuestions$: Observable<CatDUniqueTypes.SafetyQuestions>;
   fullLicenceHeld$: Observable<boolean>;
   fullLicenceHeldSelection$: Observable<string>;
 }
@@ -136,6 +137,10 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
         select(getVehicleChecksCatD),
         select(getFullLicenceHeld),
         map((licenceHeld) => hasFullLicenceHeldBeenSelected(licenceHeld)),
+      ),
+      safetyQuestions$: currentTest$.pipe(
+        select(getTestData),
+        select(getSafetyQuestionsCatD),
       ),
       safetyQuestionsScore$: currentTest$.pipe(
         select(getTestData),
