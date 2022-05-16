@@ -149,6 +149,8 @@ describe('VehicleChecksComponent', () => {
           showMeQuestions: [{ outcome: 'P' }, { outcome: 'DF' }, { outcome: 'P' }],
           tellMeQuestions: [{ outcome: 'P' }, { outcome: 'DF' }],
         };
+
+        component.safetyQuestions = { questions: [{ outcome: 'P' }, { outcome: 'P' }, { outcome: 'P' }] };
         expect(component.everyQuestionHasOutcome()).toBeTruthy();
       });
     });
