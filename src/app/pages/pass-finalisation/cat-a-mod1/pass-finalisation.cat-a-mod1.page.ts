@@ -5,7 +5,7 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { FormGroup } from '@angular/forms';
-import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCode, GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -23,6 +23,7 @@ import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
+  PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
@@ -41,6 +42,7 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
   subscription: Subscription;
   merged$: Observable<string>;
   transmission: GearboxCategory;
+  activityCode: ActivityCode;
 
   constructor(
     platform: Platform,
@@ -62,10 +64,11 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
       ...this.commonPageState,
     };
 
-    const { transmission$ } = this.pageState;
+    const { transmission$, testOutcome$ } = this.pageState;
 
     this.merged$ = merge(
       transmission$.pipe(map((value) => this.transmission = value)),
+      testOutcome$.pipe(map((value) => this.activityCode = value)),
     );
     this.subscription = this.merged$.subscribe();
   }
@@ -94,6 +97,7 @@ export class PassFinalisationCatAMod1Page extends PassFinalisationPageComponent 
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.activityCode));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }
