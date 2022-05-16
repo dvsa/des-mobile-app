@@ -43,6 +43,7 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
       this.form.addControl(PassCertificateNumberCatAMod1Component.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.passCertificateNumberInput);
+    this.formControl.updateValueAndValidity();
   }
 
   passCertificateNumberChanged(passCertificateNumber: string): void {
