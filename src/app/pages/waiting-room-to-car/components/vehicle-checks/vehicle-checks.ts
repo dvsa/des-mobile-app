@@ -26,6 +26,7 @@ import { VehicleChecksCatADIPart2Modal } from
 import {
   VehicleChecksCatHomeTestModal,
 } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
+import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 
 interface VehicleCheckFormState {
   vehicleChecks: boolean;
@@ -48,6 +49,9 @@ export class VehicleChecksComponent implements OnChanges {
 
   @Input()
   vehicleChecks: CatCVehicleChecks | CatDVehicleChecks | CatHomeTestVehicleChecks;
+
+  @Input()
+  safetyQuestions?: CatDUniqueTypes.SafetyQuestions = null;
 
   @Input()
   vehicleChecksSelectQuestions: string;
@@ -141,9 +145,13 @@ export class VehicleChecksComponent implements OnChanges {
     const tellMeQuestions = (
       this.fullLicenceHeld ? [this.vehicleChecks.tellMeQuestions[0]] : this.vehicleChecks.tellMeQuestions
     );
+    const safetyQuestion: boolean = this.safetyQuestions
+      ? this.safetyQuestions.questions.reduce((res, question) => res && hasOutcome(question), true)
+      : true;
 
     return showMeQuestions.reduce((res, question) => res && hasOutcome(question), true)
-      && tellMeQuestions.reduce((res, question) => res && hasOutcome(question), true);
+      && tellMeQuestions.reduce((res, question) => res && hasOutcome(question), true)
+      && safetyQuestion;
   }
 
   hasSeriousFault(): boolean {
