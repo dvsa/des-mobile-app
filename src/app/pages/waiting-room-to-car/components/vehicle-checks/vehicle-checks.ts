@@ -145,12 +145,13 @@ export class VehicleChecksComponent implements OnChanges {
     const tellMeQuestions = (
       this.fullLicenceHeld ? [this.vehicleChecks.tellMeQuestions[0]] : this.vehicleChecks.tellMeQuestions
     );
+    const safetyQuestion: boolean = this.safetyQuestions
+      ? this.safetyQuestions.questions.reduce((res, question) => res && hasOutcome(question), true)
+      : true;
 
     return showMeQuestions.reduce((res, question) => res && hasOutcome(question), true)
       && tellMeQuestions.reduce((res, question) => res && hasOutcome(question), true)
-      && this.safetyQuestions.questions.reduce(
-        (res, question) => res && hasOutcome(question), true,
-      );
+      && safetyQuestion;
   }
 
   hasSeriousFault(): boolean {
