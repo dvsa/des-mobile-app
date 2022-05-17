@@ -12,6 +12,7 @@ import {
 @Component({
   selector: 'weather-conditions',
   templateUrl: 'weather-conditions.html',
+  styleUrls: ['weather-conditions.scss'],
 })
 export class WeatherConditionsComponent implements OnChanges {
 
