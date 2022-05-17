@@ -1,13 +1,13 @@
 <ion-row class="candidate-top-row mes-full-width-card">
   <ion-col>
-    <h2 id="candidate-name">{{ candidateName }}</h2>
+    <h2 id="candidate-name" class="nameHeader">{{ candidateName }}</h2>
   </ion-col>
 </ion-row>
 <ion-row class="candidate-bottom-row mes-full-width-card" id="candidate-section">
   <ion-col>
     <h3 id="candidate-driver-number">{{ candidateDriverNumber }}</h3>
   </ion-col>
-  <ion-col class="ion-align-self-end">
+  <ion-col class="ion-align-self-end button-column">
     <ion-button (click)="proceed()" id="continue-button" class="mes-primary-button ion-float-right">
       <h3>{{ 'common.continue' | translate }}</h3>
     </ion-button>
