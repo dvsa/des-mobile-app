@@ -12,8 +12,8 @@ import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import {
+  PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
@@ -33,7 +33,6 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatADI2PassFi
 export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;
   form: FormGroup;
-  testOutcome: string = ActivityCodes.PASS;
   merged$: Observable<string | boolean>;
   subscription: Subscription;
 
@@ -81,6 +80,7 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
       await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
       return;
     }

@@ -54,6 +54,7 @@ import {
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 export interface CommonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -75,6 +76,7 @@ export interface CommonPassFinalisationPageState {
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
 
   commonPageState: CommonPassFinalisationPageState;
+  testOutcome: ActivityCodes = ActivityCodes.PASS;
 
   protected constructor(
     platform: Platform,

@@ -13,13 +13,13 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { FormGroup } from '@angular/forms';
 import { Observable, Subscription, merge } from 'rxjs';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { map } from 'rxjs/operators';
 import { PersistTests } from '@store/tests/tests.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
+  PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
@@ -40,7 +40,6 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
 
   pageState: PassFinalisationPageState;
   form: FormGroup;
-  testOutcome: string = ActivityCodes.PASS;
   merged$: Observable<string | boolean>;
   transmission: GearboxCategory;
   subscription: Subscription;
@@ -98,6 +97,7 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }

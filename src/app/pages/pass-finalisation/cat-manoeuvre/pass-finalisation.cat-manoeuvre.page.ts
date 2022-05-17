@@ -17,7 +17,10 @@ import { PersistTests } from '@store/tests/tests.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
-import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationReportActivityCode,
+  PassFinalisationValidationError,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 
 interface CatManoeuvrePassFinalisationPageState {}
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatManoeuvrePassFinalisationPageState;
@@ -58,6 +61,7 @@ export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageCompon
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }

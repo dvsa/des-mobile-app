@@ -19,7 +19,10 @@ import { PersistTests } from '@store/tests/tests.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
-import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationReportActivityCode,
+  PassFinalisationValidationError,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getPassCompletion } from '@store/tests/pass-completion/cat-d/pass-completion.cat-d.reducer';
@@ -28,7 +31,6 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TransmissionType } from '@shared/models/transmission-type';
-import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface CatDPassFinalisationPageState {
   code78$: Observable<boolean>;
@@ -47,7 +49,6 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
   pageState: PassFinalisationPageState;
   form: FormGroup;
   merged$: Observable<string | boolean>;
-
   manualMessage: string = 'A <b><em>manual</em></b> licence will be issued';
   automaticMessage: string = 'An <b><em>automatic</em></b> licence will be issued';
   askCandidateLicenseMessage: string = 'Check that the candidate doesn\'t need their driving licence (e.g CPC Mod4)';
@@ -140,17 +141,12 @@ export class PassFinalisationCatDPage extends PassFinalisationPageComponent impl
     return this.provisionalLicenseIsReceived;
   }
 
-  shouldHideLicenseProvidedBanner(): boolean {
-    return this.provisionalLicenseIsReceived === null;
-  }
-
-  shouldShowCode78 = (): boolean => isAnyOf(this.testCategory, [TestCategory.D, TestCategory.DE]);
-
   async onSubmit(): Promise<void> {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }

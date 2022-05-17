@@ -23,7 +23,6 @@ import { CommonPassFinalisationPageState, PassFinalisationPageComponent }
   from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -46,9 +45,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & PassFinalisat
 })
 export class PassFinalisationCatBPage extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;
-  @ViewChild('passCertificateNumberInput')
-  passCertificateNumberInput: ElementRef;
-  testOutcome: string = ActivityCodes.PASS;
+  @ViewChild('passCertificateNumberInput') passCertificateNumberInput: ElementRef;
   activityCode: ActivityCode;
   form: FormGroup;
   merged$: Observable<string>;
@@ -142,6 +139,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
       }
     });
   }
+
   isNorthernIreland(driverNumber: string): boolean {
     driverNumber = driverNumber?.replace(/\s/g, '');
     return isNumeric(driverNumber);
