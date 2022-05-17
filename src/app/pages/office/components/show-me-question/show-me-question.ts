@@ -11,6 +11,7 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 @Component({
   selector: 'show-me-question',
   templateUrl: 'show-me-question.html',
+  styleUrls: ['show-me-question.scss'],
 })
 export class ShowMeQuestionComponent implements OnChanges {
   @Input()
