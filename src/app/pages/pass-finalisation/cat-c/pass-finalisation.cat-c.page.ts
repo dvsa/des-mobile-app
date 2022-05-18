@@ -13,7 +13,6 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { FormGroup } from '@angular/forms';
 import { Observable, Subscription, merge } from 'rxjs';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map } from 'rxjs/operators';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -25,6 +24,7 @@ import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
+  PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
@@ -47,7 +47,6 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
 
   pageState: PassFinalisationPageState;
   form: FormGroup;
-  testOutcome: string = ActivityCodes.PASS;
   merged$: Observable<string | boolean>;
   manualMessage: string = 'A <b><em>manual</em></b> licence will be issued';
   automaticMessage: string = 'An <b><em>automatic</em></b> licence will be issued';
@@ -144,6 +143,7 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }

@@ -115,15 +115,6 @@ describe('ConfirmTestDetailsPage', () => {
     });
   });
 
-  describe('isTerminated', () => {
-    it('should return true if test outcome is terminated', () => {
-      expect(component.isTerminated(TestOutcome.Terminated)).toEqual(true);
-    });
-    it('should return false if test outcome is not terminated', () => {
-      expect(component.isTerminated(TestOutcome.Passed)).toEqual(false);
-    });
-  });
-
   describe('isPassed', () => {
     it('should return true if test outcome is Passed', () => {
       expect(component.isPassed(TestOutcome.Passed)).toEqual(true);

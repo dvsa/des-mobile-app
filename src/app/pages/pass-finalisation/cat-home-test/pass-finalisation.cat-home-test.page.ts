@@ -6,7 +6,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { PersistTests } from '@store/tests/tests.actions';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
   CommonPassFinalisationPageState,
@@ -18,11 +17,12 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from '../components/pass-certificate-num
 import {
   PassFinalisationViewDidEnter,
   PassFinalisationValidationError,
+  PassFinalisationReportActivityCode,
 } from '../pass-finalisation.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
 
-interface CatCPassFinalisationPageState {}
-type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPassFinalisationPageState;
+interface CatHomePassFinalisationPageState {}
+type PassFinalisationPageState = CommonPassFinalisationPageState & CatHomePassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-home-test',
@@ -31,7 +31,6 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPassFinal
 })
 export class PassFinalisationCatHomeTestPage extends PassFinalisationPageComponent {
   pageState: PassFinalisationPageState;
-  testOutcome: string = ActivityCodes.PASS;
   form: FormGroup;
 
   constructor(
@@ -62,6 +61,7 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }

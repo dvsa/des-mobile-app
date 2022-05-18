@@ -20,13 +20,15 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
-import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationReportActivityCode,
+  PassFinalisationValidationError,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 
 interface CatCPCPassFinalisationPageState {
   testCategory$: Observable<CategoryCode>;
@@ -46,7 +48,6 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
   merged$: Observable<string | boolean>;
   subscription: Subscription;
   testCategory: TestCategory;
-  testOutcome: string = ActivityCodes.PASS;
 
   constructor(
     platform: Platform,
@@ -102,6 +103,7 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
 
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
       await this.routeByCat.navigateToPage(TestFlowPageNames.HEALTH_DECLARATION_PAGE);
       return;
     }

@@ -224,10 +224,6 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
   }
 
-  isTerminated(testResult: string): boolean {
-    return testResult === TestOutcome.Terminated;
-  }
-
   isPassed(testResult: string): boolean {
     return testResult === TestOutcome.Passed;
   }
