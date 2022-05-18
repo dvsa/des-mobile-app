@@ -50,7 +50,7 @@ import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mock
 import { DashboardPage } from '../dashboard.page';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
-import { DashboardViewDidEnter } from '../dashboard.actions';
+import { DashboardViewDidEnter, PracticeTestReportCard } from '../dashboard.actions';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
@@ -217,6 +217,12 @@ describe('DashboardPage', () => {
       });
       it('should return not known if null/undefined', () => {
         expect(component.getEmployeeNumberDisplayValue(null)).toEqual('NOT_KNOWN');
+      });
+    });
+    describe('practiceTestReportCardClicked', () => {
+      it('should dispatch an action', () => {
+        component.practiceTestReportCardClicked();
+        expect(store$.dispatch).toHaveBeenCalledWith(PracticeTestReportCard());
       });
     });
   });

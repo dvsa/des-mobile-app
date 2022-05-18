@@ -21,7 +21,7 @@ import { selectRole } from '@store/app-config/app-config.selectors';
 import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '@store/app-info/app-info.selectors';
 import * as journalActions from '@store/journal/journal.actions';
 
-import { DashboardViewDidEnter } from './dashboard.actions';
+import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -103,4 +103,7 @@ export class DashboardPage extends BasePageComponent {
 
   getEmployeeNumberDisplayValue = (employeeNumber: string): string => employeeNumber || 'NOT_KNOWN';
 
+  practiceTestReportCardClicked = (): void => {
+    this.store$.dispatch(PracticeTestReportCard());
+  };
 }

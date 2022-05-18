@@ -44,6 +44,7 @@ export enum AnalyticsScreenNames {
   VEHICLE_CHECKS = 'vehicle checks screen',
   REVERSE_DIAGRAM = 'reverse diagram screen',
   CONFIRM_TEST_DETAILS = 'confirm test details screen',
+  FAKE_JOURNAL = 'practice journal screen',
 }
 
 export enum AnalyticsEventCategories {
@@ -68,6 +69,8 @@ export enum AnalyticsEventCategories {
   WAITING_ROOM_TO_CAR = 'waiting room to car',
   OFFICE = 'office',
   DELEGATED_TEST = 'DelExRk',
+  DASHBOARD = 'dashboard',
+  FAKE_JOURNAL = 'practice mode journal',
 }
 
 export enum AnalyticsEvents {
@@ -180,6 +183,8 @@ export enum AnalyticsEvents {
   START_TIMER = 'start timer',
   DATE_OF_TEST_CHANGED = 'date of test changed',
   CONFIRM_UPLOAD = 'Confirm upload',
+  PRACTICE_TEST_SELECTED = 'practice test report selected',
+  PRACTICE_FULL_TEST_SELECTED = 'practice full test selected',
 }
 
 export enum AnalyticsLabels {
