@@ -37,7 +37,10 @@ export class TrainerRegistrationNumberCatAdiPart2Component implements OnChanges 
   }
 
   trainerRegistrationChanged(event: any): void {
-    if (!this.trainerRegistrationNumberValidator.pattern.test(event.target.value)) {
+    if (
+      typeof event.target.value === 'string'
+        && !this.trainerRegistrationNumberValidator.pattern.test(event.target.value)
+    ) {
       event.target.value = event.target.value
         .replace(leadingZero, '')
         .replace(nonNumericValues, '');
