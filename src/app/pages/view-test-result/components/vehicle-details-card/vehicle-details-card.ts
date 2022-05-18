@@ -41,6 +41,9 @@ export class VehicleDetailsCardComponent {
   @Input()
   vehicleDetails: string[];
 
+  @Input()
+  instructorDetails: CatBUniqueTypes.InstructorDetails = null;
+
   public shouldHideCard() : boolean {
     return (!this.transmission && !this.registrationNumber && !this.schoolBike && !this.instructorRegistrationNumber);
   }
@@ -110,7 +113,7 @@ export class VehicleDetailsCardComponent {
   public isADI2 = (): boolean => this.category === TestCategory.ADI2;
 
   public get instructorRegistrationNumber(): number {
-    return get(this.data, 'instructorRegistrationNumber');
+    return get(this.instructorDetails, 'registrationNumber');
   }
 
   public get transmission(): string {

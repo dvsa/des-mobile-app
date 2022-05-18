@@ -34,6 +34,7 @@ import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
 
@@ -203,6 +204,16 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       orditTrainedCandidate: get(this.testResult, 'trainerDetails.orditTrainedCandidate'),
       trainingRecords: get(this.testResult, 'trainerDetails.trainingRecords'),
       trainerRegistrationNumber: get(this.testResult, 'trainerDetails.trainerRegistrationNumber'),
+    };
+  }
+
+  getInstructorData(): CatBUniqueTypes.InstructorDetails {
+    if (!this.testResult) {
+      return null;
+    }
+
+    return {
+      registrationNumber: get(this.testResult, 'instructorDetails.registrationNumber'),
     };
   }
 
