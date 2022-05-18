@@ -152,7 +152,7 @@ $card-ios-background-color: var(--mes-white);
   }
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
    * -------------------------------------------
@@ -309,6 +309,10 @@ $card-ios-background-color: var(--mes-white);
 
 .alert-wrapper.sc-ion-alert-ios {
   min-width: 400px;
+}
+
+.picker-wrapper.sc-ion-picker-ios {
+  color: var(--gds-black);
 }
 
 /* Importing Bootstrap SCSS file. */

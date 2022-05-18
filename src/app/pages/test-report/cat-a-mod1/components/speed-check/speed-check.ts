@@ -149,7 +149,10 @@ export class SpeedCheckComponent {
 
   formatSpeedAttempt = (event: any): number | undefined => {
     if (event.target.value === '') return undefined;
-    if (!this.speedCheckValidator.pattern.test(event.target.value)) {
+    if (
+      typeof event.target.value === 'string'
+        && !this.speedCheckValidator.pattern.test(event.target.value)
+    ) {
       event.target.value = event.target.value.replace(nonNumericValues, '');
     }
     return Number(event.target.value);
