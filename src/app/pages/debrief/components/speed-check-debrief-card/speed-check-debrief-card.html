@@ -26,10 +26,10 @@
           </ion-row>
         </ion-col>
 
-        <ion-col size="22" class="ion-no-padding" *ngIf="emergencyStop.secondAttempt !== undefined">
+        <ion-col size="25" class="ion-no-padding" *ngIf="emergencyStop.secondAttempt !== undefined">
           <ion-row class="ion-no-padding">
             <ion-col size="25" class="ion-no-padding">
-              <div class="black-text">2nd:</div>
+              <div class="black-text">2nd: </div>
             </ion-col>
             <ion-col class="ion-no-padding">
               <div>
@@ -86,10 +86,10 @@
           </ion-row>
         </ion-col>
 
-        <ion-col size="22" class="ion-no-padding" *ngIf="avoidance.secondAttempt !== undefined">
+        <ion-col size="25" class="ion-no-padding" *ngIf="avoidance.secondAttempt !== undefined">
           <ion-row class="ion-no-padding">
             <ion-col size="25" class="ion-no-padding">
-              <div class="black-text">2nd:</div>
+              <div class="black-text">2nd: </div>
             </ion-col>
             <ion-col class="ion-no-padding">
               <div>
@@ -100,18 +100,18 @@
         </ion-col>
 
         <ion-col size="4" class="ion-no-padding ion-align-self-start">
-          <div class="counter-icon">
+          <div class="counter-icon icon-centre">
             <img
-              *ngIf="!avoidance.outcome"
-              src="assets/imgs/greenCorrectAnswer.png"
-              alt="Speed Met"
-              class="tick-icon"
+                    *ngIf="!avoidance.outcome"
+                    src="assets/imgs/greenCorrectAnswer.png"
+                    alt="Speed Met"
+                    class="tick-icon"
             />
             <img
-              *ngIf="avoidance.outcome"
-              src="assets/imgs/redWrongAnswer.png"
-              alt="Speed Not Met"
-              class="cross-icon"
+                    *ngIf="avoidance.outcome"
+                    src="assets/imgs/redWrongAnswer.png"
+                    alt="Speed Not Met"
+                    class="cross-icon"
             />
           </div>
         </ion-col>
