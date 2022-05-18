@@ -81,6 +81,7 @@
                     id="advanced-search-start-date-picker"
                     [placeholder]="minStartDatePlaceholder"
                     displayFormat="DD/MM/YYYY"
+                    class="black-text"
                     [min]="minStartDate"
                     [max]="endDate ? endDate : today"
                     [(ngModel)]="startDate"
@@ -94,6 +95,7 @@
             <ion-datetime
                     id="advanced-search-end-date-picker"
                     [placeholder]="todayPlaceholder"
+                    class="black-text"
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
                     [min]="startDate ? startDate : minStartDate"
