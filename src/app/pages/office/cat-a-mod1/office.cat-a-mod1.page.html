@@ -112,7 +112,7 @@
             </ion-card-content>
         </ion-card>
 
-        <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+        <div class="ion-margin-end" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <speed-check-debrief-card
                     *ngIf="pageState.displaySpeedRequirements$ | async"
                     [emergencyStop]="pageState.emergencyStop$ | async"
@@ -120,7 +120,9 @@
                     [avoidanceAttempted]="pageState.avoidanceAttempted$ | async"
                     [isTranslatable]="false">
             </speed-check-debrief-card>
+        </div>
 
+        <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <eta-card
                     *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)"
                     [faults]="pageState.etaFaults$ | async">
