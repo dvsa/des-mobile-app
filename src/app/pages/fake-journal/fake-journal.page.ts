@@ -5,6 +5,9 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Router } from '@angular/router';
 import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import * as moment from 'moment';
+import { StoreModel } from '@shared/models/store.model';
+import { Store } from '@ngrx/store';
+import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 
 @Component({
   selector: 'app-fake-journal',
@@ -20,10 +23,15 @@ export class FakeJournalPage extends BasePageComponent {
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
+    private store$: Store<StoreModel>,
   ) {
     super(platform, authenticationProvider, router);
 
     this.dateToDisplay = moment().format('dddd D MMMM YYYY');
+  }
+
+  ionViewDidEnter(): void {
+    this.store$.dispatch(FakeJournalDidEnter());
   }
 
 }

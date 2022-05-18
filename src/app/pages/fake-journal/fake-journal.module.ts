@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { FakeJournalEffects } from '@pages/fake-journal/fake-journal.effects';
 import { CandidateDetailsPageModule } from '@pages/candidate-details/candidate-details.module';
 import { FakeJournalPage } from './fake-journal.page';
+import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { FakeJournalPage } from './fake-journal.page';
     CandidateDetailsPageModule,
     EffectsModule.forFeature([
       FakeJournalEffects,
+      FakeJournalAnalyticsEffects,
     ]),
   ],
   declarations: [
