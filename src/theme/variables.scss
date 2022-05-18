@@ -311,6 +311,10 @@ $card-ios-background-color: var(--mes-white);
   min-width: 400px;
 }
 
+.picker-wrapper.sc-ion-picker-ios {
+  color: var(--gds-black);
+}
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 

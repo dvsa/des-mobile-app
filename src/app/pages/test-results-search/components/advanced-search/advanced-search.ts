@@ -120,10 +120,12 @@ export class AdvancedSearchComponent {
   };
 
   upperCaseAlphaNum(event: any): void {
+    if (typeof event.target.value !== 'string') return;
+
     if (nonAlphaNumericValues.test(event.target.value)) {
       event.target.value = event.target.value?.replace(nonAlphaNumericValues, '').toUpperCase();
     }
-    event.target.value = event.target.value.toUpperCase();
+    event.target.value = event.target.value?.toUpperCase();
   }
 
   searchTests(): void {

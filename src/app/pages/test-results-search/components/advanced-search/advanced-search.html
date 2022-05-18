@@ -79,7 +79,7 @@
         <ion-col size="32">
             <ion-datetime
                     id="advanced-search-start-date-picker"
-                    [placeholder]= minStartDatePlaceholder
+                    [placeholder]="minStartDatePlaceholder"
                     displayFormat="DD/MM/YYYY"
                     class="black-text"
                     [min]="minStartDate"
@@ -94,7 +94,8 @@
         <ion-col size="32">
             <ion-datetime
                     id="advanced-search-end-date-picker"
-                    [placeholder]=todayPlaceholder
+                    [placeholder]="todayPlaceholder"
+                    class="black-text"
                     displayFormat="DD/MM/YYYY"
                     doneText="Done"
                     [min]="startDate ? startDate : minStartDate"

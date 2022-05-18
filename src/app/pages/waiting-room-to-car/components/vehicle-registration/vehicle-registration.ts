@@ -38,14 +38,17 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   vehicleRegistrationChanged(event: any): void {
-    if (!this.registrationNumberValidator.pattern.test(event.target.value)) {
+    if (
+      typeof event.target.value === 'string'
+        && !this.registrationNumberValidator.pattern.test(event.target.value)
+    ) {
       event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
 
       if (isEmpty(event.target.value)) {
         this.formControl.setErrors({ invalidValue: event.target.value });
       }
     }
-    this.vehicleRegistrationChange.emit(event.target.value.toUpperCase());
+    this.vehicleRegistrationChange.emit(event.target.value?.toUpperCase());
   }
 
   get invalid(): boolean {

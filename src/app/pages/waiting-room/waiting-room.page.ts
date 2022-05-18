@@ -42,7 +42,9 @@ import { isEmpty } from 'lodash';
 import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
-import { ERROR_PAGE, LOGIN_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import {
+  DASHBOARD_PAGE, TestFlowPageNames,
+} from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '@app/app.component';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -60,6 +62,7 @@ import {
   getCBTNumberStatus,
 } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
+import { ErrorPage } from '@pages/error-page/error';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -304,19 +307,17 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async showCandidateDataMissingError(): Promise<void> {
-    const errorModal = await this.modalController.create({
-      component: ERROR_PAGE,
+    const errorModal: HTMLIonModalElement = await this.modalController.create({
+      component: ErrorPage,
       cssClass: `modal-fullscreen ${this.app.getTextZoomClass()}`,
       componentProps: {
-        type: ErrorTypes.JOURNAL_DATA_MISSING,
+        errorType: ErrorTypes.JOURNAL_DATA_MISSING,
+        displayAsModal: true,
       },
     });
 
-    errorModal.onDidDismiss()
-      .then(async () => {
-        await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
-      });
-
     await errorModal.present();
+    await errorModal.onWillDismiss();
+    await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
 }
