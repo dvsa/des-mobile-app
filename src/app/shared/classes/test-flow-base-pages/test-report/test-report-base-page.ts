@@ -22,7 +22,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import {
   CalculateTestResult,
-  ResetFaultMode,
+  ResetFaultMode, ReturnToTest,
   TerminateTestFromTestReport,
   TestReportViewDidEnter,
 } from '@pages/test-report/test-report.actions';
@@ -32,8 +32,9 @@ import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { EtaInvalidModal } from '@pages/test-report/components/eta-invalid-modal/eta-invalid-modal';
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
-import { LegalRequirementsModal } from
-  '@pages/test-report/components/legal-requirements-modal/legal-requirements-modal';
+import {
+  LegalRequirementsModal,
+} from '@pages/test-report/components/legal-requirements-modal/legal-requirements-modal';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { hasManoeuvreBeenCompletedCatB } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
@@ -46,9 +47,7 @@ import { TestDataUnion, TestRequirementsUnion } from '@shared/unions/test-schema
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
-import {
-  getTestRequirementsCatB,
-} from '@store/tests/test-data/cat-b/test-requirements/test-requirements.reducer';
+import { getTestRequirementsCatB } from '@store/tests/test-data/cat-b/test-requirements/test-requirements.reducer';
 import {
   getTestRequirementsCatBE,
 } from '@store/tests/test-data/cat-be/test-requirements/test-requirements.cat-be.reducer';
@@ -362,6 +361,9 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
       case ModalEvent.END_WITH_ACTIVITY_CODE_4:
         this.store$.dispatch(SetActivityCode('4'));
         await this.router.navigate([nextPage]);
+        break;
+      case ModalEvent.CANCEL:
+        this.store$.dispatch(ReturnToTest());
         break;
       default:
         break;
