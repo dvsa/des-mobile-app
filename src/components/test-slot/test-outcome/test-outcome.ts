@@ -26,7 +26,6 @@ import {
   EarlyStartModalDidEnter,
 } from '@store/journal/journal.actions';
 import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
-import { MarkAsNonRekey } from '@store/tests/rekey/rekey.actions';
 import { JournalForceCheckModal } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal';
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
 import { JournalRekeyModal } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal';
@@ -272,9 +271,6 @@ export class TestOutcomeComponent implements OnInit {
         this.startTestAsRekey = false;
         this.isRekey = false;
         await this.startOrResumeTestDependingOnStatus();
-        if (this.testStatus !== null) {
-          this.store$.dispatch(MarkAsNonRekey());
-        }
         break;
       case ModalEvent.REKEY:
         this.startTestAsRekey = true;
