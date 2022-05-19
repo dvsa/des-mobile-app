@@ -271,10 +271,10 @@ export class TestOutcomeComponent implements OnInit {
       case ModalEvent.START:
         this.startTestAsRekey = false;
         this.isRekey = false;
+        await this.startOrResumeTestDependingOnStatus();
         if (this.testStatus !== null) {
           this.store$.dispatch(MarkAsNonRekey());
         }
-        await this.startOrResumeTestDependingOnStatus();
         break;
       case ModalEvent.REKEY:
         this.startTestAsRekey = true;
