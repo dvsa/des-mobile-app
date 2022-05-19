@@ -13,8 +13,8 @@ import { LocationComponent } from '@components/test-slot/location/location';
 import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
-import { FakeJournalPage } from '../fake-journal.page';
 import { provideMockStore } from '@ngrx/store/testing';
+import { FakeJournalPage } from '../fake-journal.page';
 
 describe('FakeJournalPage', () => {
   let component: FakeJournalPage;
