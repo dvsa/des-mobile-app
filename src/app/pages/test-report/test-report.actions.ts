@@ -33,6 +33,10 @@ export const TerminateTestFromTestReport = createAction(
   '[TestReportPage] Terminate test',
 );
 
+export const ReturnToTest = createAction(
+  '[TestReportPage] Return to Test',
+);
+
 export const StartTimer = createAction('[TestReportPage] Start Timer');
 
 export type Types =

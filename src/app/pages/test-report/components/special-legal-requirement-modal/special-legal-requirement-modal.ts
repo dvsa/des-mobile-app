@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store';
+import { StoreModel } from '@shared/models/store.model';
+import { ReturnToTest } from '@pages/test-report/test-report.actions';
 import { ModalEvent } from '../../test-report.constants';
 
 @Component({
@@ -11,10 +14,12 @@ export class SpecialLegalRequirementModal {
 
   constructor(
     private modalCtrl: ModalController,
+    private store$: Store<StoreModel>,
   ) { }
 
   async onCancel() {
     await this.modalCtrl.dismiss(ModalEvent.CANCEL);
+    this.store$.dispatch(ReturnToTest());
   }
 
   async onTerminate() {
