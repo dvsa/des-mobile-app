@@ -34,7 +34,7 @@ import { VehicleCheckComponent } from '../vehicle-check';
 
 describe('VehicleCheckComponent', () => {
 
-  let counter = 105;
+  let counter: number = 105;
   let fixture: ComponentFixture<VehicleCheckComponent>;
   let component: VehicleCheckComponent;
   let store$: Store<StoreModel>;
