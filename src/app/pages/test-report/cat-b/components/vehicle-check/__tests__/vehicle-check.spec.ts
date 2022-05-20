@@ -34,6 +34,7 @@ import { VehicleCheckComponent } from '../vehicle-check';
 
 describe('VehicleCheckComponent', () => {
 
+  let counter: number = 105;
   let fixture: ComponentFixture<VehicleCheckComponent>;
   let component: VehicleCheckComponent;
   let store$: Store<StoreModel>;
@@ -59,7 +60,8 @@ describe('VehicleCheckComponent', () => {
     fixture = TestBed.createComponent(VehicleCheckComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
-    store$.dispatch(StartTest(105, TestCategory.B));
+    store$.dispatch(StartTest(counter, TestCategory.B));
+    counter += 1;
   }));
 
   describe('Class', () => {
@@ -218,8 +220,7 @@ describe('VehicleCheckComponent', () => {
       expect(drivingFaultsBadge.count).toBe(0);
     });
 
-    // @TODO MES-7146 revisit this test in the near future
-    xit('should pass 1 driving faults to the driving faults badge component when there is a tell me fault', () => {
+    it('should pass 1 driving faults to the driving faults badge component when there is a tell me fault', () => {
       store$.dispatch(TellMeQuestionDrivingFault());
       fixture.detectChanges();
       const drivingFaultsBadge = fixture.debugElement.query(By.css('.driving-faults'))
