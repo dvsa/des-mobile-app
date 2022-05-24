@@ -11,6 +11,7 @@
                        class="ion-input-styling increase-width"
                        type="text"
                        formControlName="passCertificateNumberCtrl"
+                       [maxlength]="passCertificateAMOD1Validator.maxLength"
                        [class.ng-invalid]="invalid"
                        (ionChange)="passCertificateNumberChanged($event.target.value)">
                 </ion-input>
