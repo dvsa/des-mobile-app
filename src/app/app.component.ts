@@ -10,6 +10,7 @@ import { Observable, merge, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { init as sentryAngularInit } from '@sentry/angular';
+import { BrowserTracing } from '@sentry/tracing';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DataStoreProvider } from '@providers/data-store/data-store';
@@ -21,6 +22,7 @@ import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
 import { Capacitor } from '@capacitor/core';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 
 declare let window: any;
 
@@ -175,6 +177,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       release: `des@${appVersion}`,
       dist: appVersion,
       tracesSampleRate: 1.0,
+      integrations: [new BrowserTracing()],
+      ignoreErrors: SENTRY_ERRORS,
     }, sentryAngularInit);
 
     return Promise.resolve();

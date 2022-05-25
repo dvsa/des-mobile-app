@@ -78,14 +78,14 @@
     "@ngrx/store-devtools": "^12.2.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
-    "@sentry/angular": "^6.19.4",
-    "@sentry/capacitor": "^0.5.0",
+    "@sentry/angular": "^6.19.7",
+    "@sentry/capacitor": "^0.6.1",
+    "@sentry/tracing": "^6.19.7",
     "angular2-signaturepad": "^3.0.4",
     "bootstrap": "^4.6.1",
     "cordova-ios": "6.2.0",
     "cordova-ios-guided-access": "git+https://github.com/wizpanda/cordova-ios-guided-access.git",
     "cordova-plugin-app-version": "^0.1.12",
-    "cordova-plugin-autonomous-single-app-mode": "git+https://github.com/dvsa/cordova-plugin-autonomous-single-app-mode.git",
     "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
     "cordova-plugin-emm-app-config": "^1.0.2",
     "cordova-plugin-google-analytics": "^1.9.0",
@@ -164,7 +164,6 @@
     "plugins": {
       "cordova-plugin-device": {},
       "cordova-plugin-google-analytics": {},
-      "cordova-plugin-autonomous-single-app-mode": {},
       "cordova-ios-guided-access": {}
     },
     "platforms": [

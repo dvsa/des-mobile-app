@@ -6,11 +6,8 @@
   },
   "files": [
     "src/main.ts",
-    "src/polyfills.ts"
-  ],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts"
+    "src/polyfills.ts",
+    "src/zone-flags.ts"
   ],
   "exclude": [
     "ngrx-devtools-proxy/*.ts",
