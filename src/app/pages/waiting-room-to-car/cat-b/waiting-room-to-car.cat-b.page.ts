@@ -98,26 +98,23 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
     };
   }
 
-  ionViewDidEnter(): void {
-    super.ionViewDidEnter();
-  }
-
-  ionViewWillLeave(): void {
-    super.ionViewWillLeave();
-  }
-
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
-      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
-    } else {
-      Object.keys(this.form.controls).forEach((controlName: string) => {
-        if (this.form.controls[controlName].invalid) {
-          this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
-        }
-      });
+      await this.routeByCategoryProvider.navigateToPage(
+        TestFlowPageNames.TEST_REPORT_PAGE,
+        this.testCategory,
+        { replaceUrl: true },
+      );
+      return;
     }
+
+    Object.keys(this.form.controls).forEach((controlName: string) => {
+      if (this.form.controls[controlName].invalid) {
+        this.store$.dispatch(WaitingRoomToCarValidationError(`${controlName} is blank`));
+      }
+    });
   };
 
   eyesightFailCancelled = (): void => {

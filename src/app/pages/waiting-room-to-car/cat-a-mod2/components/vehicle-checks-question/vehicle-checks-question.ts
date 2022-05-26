@@ -67,6 +67,7 @@ export class VehicleChecksQuestionCatAMod2Component implements OnChanges {
   }
 
   safetyAndBalanceQuestionChanged(safetyAndBalanceQuestion: VehicleChecksQuestion): void {
+    if (!safetyAndBalanceQuestion) return;
 
     const result: QuestionResult = {
       code: safetyAndBalanceQuestion.code,

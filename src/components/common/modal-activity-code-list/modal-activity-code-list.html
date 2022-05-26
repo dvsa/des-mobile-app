@@ -1,6 +1,6 @@
 <ion-content class="content-background">
     <ion-grid>
-        <ion-row *ngFor="let activityCode of activityCodeOptions;"
+        <ion-row *ngFor="let activityCode of activityCodeOptions; trackBy: trackByActivityCode;"
                  [id]="activityCode.activityCode + ' ' + activityCode.description | formatToID: idPrefix"
                  (click)="selectActivityCode(activityCode)">
             <ion-col size="6" [ngClass]="conditionalStyles(activityCode)">

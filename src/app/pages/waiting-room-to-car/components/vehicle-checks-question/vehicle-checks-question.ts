@@ -68,6 +68,8 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   }
 
   vehicleChecksQuestionChanged(vehicleChecksQuestion: VehicleChecksQuestion): void {
+    if (!vehicleChecksQuestion) return;
+
     const result: QuestionResult = {
       code: vehicleChecksQuestion.code,
       description: vehicleChecksQuestion.shortName,
