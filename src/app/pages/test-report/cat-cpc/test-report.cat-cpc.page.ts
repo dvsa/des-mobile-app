@@ -3,7 +3,8 @@ import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
   CommonTestReportPageState,
-  TestReportBasePageComponent, trDestroy$
+  TestReportBasePageComponent,
+  trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
