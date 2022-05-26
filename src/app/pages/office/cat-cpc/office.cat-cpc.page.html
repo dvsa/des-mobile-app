@@ -83,7 +83,7 @@
                                 (debriefWitnessedChange)="debriefWitnessedChanged($event)">
                         </debrief-witnessed>
 
-                        <true-likeness *ngIf="pageState.displayCandidateDescription$ | async"
+                        <true-likeness *ngIf="(pageState.displayCandidateDescription$ | async) && !isDelegated"
                                        [formGroup]="form"
                                        [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
                                        (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
