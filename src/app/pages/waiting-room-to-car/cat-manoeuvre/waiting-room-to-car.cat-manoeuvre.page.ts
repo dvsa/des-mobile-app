@@ -104,7 +104,11 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
-      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
+      await this.routeByCategoryProvider.navigateToPage(
+        TestFlowPageNames.TEST_REPORT_PAGE,
+        this.testCategory,
+        { replaceUrl: true },
+      );
       return;
     }
 
