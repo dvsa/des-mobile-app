@@ -1,5 +1,5 @@
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
@@ -87,6 +87,8 @@ export interface CommonWaitingRoomToCarPageState {
   otherAccompaniment$: Observable<boolean>;
   interpreterAccompaniment$: Observable<boolean>;
 }
+
+export const wrtcDestroy$ = new Subject<{}>();
 
 export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
 

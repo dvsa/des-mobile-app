@@ -18,8 +18,9 @@ import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import {
-  PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
+  PassFinalisationReportActivityCode
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 
 interface CatManoeuvrePassFinalisationPageState {}
@@ -54,6 +55,10 @@ export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageCompon
     this.pageState = {
       ...this.commonPageState,
     };
+  }
+
+  ionViewDidEnter() {
+    this.store$.dispatch(PassFinalisationViewDidEnter());
   }
 
   async onSubmit(): Promise<void> {

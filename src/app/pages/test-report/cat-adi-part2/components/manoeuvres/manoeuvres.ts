@@ -15,6 +15,8 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Manoeuvres } from '@dvsa/mes-test-schema/categories/ADI2/partial';
+import { takeUntil } from 'rxjs/operators';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { OverlayCallback } from '../../../test-report.model';
 
 @Component({
@@ -56,17 +58,18 @@ export class ManoeuvresComponent implements OnInit, OnDestroy {
       select(getManoeuvresADI2),
     );
 
-    this.subscription = this.manoeuvres$.subscribe((manoeuvres: CatADI2UniqueTypes.Manoeuvres[]) => {
-      this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres[]>(
-        TestCategory.ADI2, manoeuvres, CompetencyOutcome.DF,
-      );
-      this.hasSeriousFault = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres[]>(
-        TestCategory.ADI2, manoeuvres, CompetencyOutcome.S,
-      ) > 0;
-      this.hasDangerousFault = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres[]>(
-        TestCategory.ADI2, manoeuvres, CompetencyOutcome.D,
-      ) > 0;
-    });
+    this.subscription = this.manoeuvres$.pipe(takeUntil(trDestroy$))
+      .subscribe((manoeuvres: CatADI2UniqueTypes.Manoeuvres[]) => {
+        this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres[]>(
+          TestCategory.ADI2, manoeuvres, CompetencyOutcome.DF,
+        );
+        this.hasSeriousFault = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres[]>(
+          TestCategory.ADI2, manoeuvres, CompetencyOutcome.S,
+        ) > 0;
+        this.hasDangerousFault = this.faultCountProvider.getManoeuvreFaultCount<Manoeuvres[]>(
+          TestCategory.ADI2, manoeuvres, CompetencyOutcome.D,
+        ) > 0;
+      });
   }
 
   ngOnDestroy(): void {

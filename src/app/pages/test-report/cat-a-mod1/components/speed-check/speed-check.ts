@@ -10,7 +10,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { Store, select } from '@ngrx/store';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { getEmergencyStop }
   from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
 import { getTestData } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
@@ -36,6 +36,7 @@ import {
   getSpeedCheckValidator,
   nonNumericValues,
 } from '@shared/constants/field-validators/field-validators';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 @Component({
   selector: 'speed-check',
@@ -88,7 +89,7 @@ export class SpeedCheckComponent {
 
     this.subscription = merge(
       speedCheckData$,
-    ).subscribe();
+    ).pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

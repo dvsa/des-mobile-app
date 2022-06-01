@@ -4,7 +4,7 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { merge, Observable, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import {
   getFullLicenceHeld,
@@ -17,6 +17,7 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { StoreModel } from '@shared/models/store.model';
 import { vehicleChecksQuestionsByLicenceHeld } from '@shared/helpers/vehicle-checks-questions-by-category';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 
 enum VehicleChecksCompletedResult {
   COMPLETED = 'Completed',
@@ -98,7 +99,7 @@ export class VehicleChecksToggleComponent implements OnChanges {
       ),
     );
 
-    this.subscription = merged$.subscribe();
+    this.subscription = merged$.pipe(takeUntil(wrtcDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

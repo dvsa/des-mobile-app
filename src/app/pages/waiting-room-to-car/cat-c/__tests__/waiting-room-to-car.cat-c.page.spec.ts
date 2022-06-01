@@ -197,7 +197,7 @@ describe('WaitingRoomToCarCatCPage', () => {
         await component.onSubmit();
         tick();
         expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.C,
+          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.C, { replaceUrl: true },
         );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {

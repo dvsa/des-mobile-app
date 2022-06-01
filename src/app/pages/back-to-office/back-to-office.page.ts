@@ -5,7 +5,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { BackToOfficeViewDidEnter, DeferWriteUp } from '@pages/back-to-office/back-to-office.actions';
-import { DeviceProvider } from '@providers/device/device';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -20,6 +19,8 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map } from 'rxjs/operators';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
@@ -40,7 +41,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
 
   constructor(
     store$: Store<StoreModel>,
-    private deviceProvider: DeviceProvider,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
     public screenOrientation: ScreenOrientation,
@@ -78,6 +78,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     );
 
     this.subscription = this.merged$.subscribe();
+    this.destroyTestSubs();
   }
 
   async ionViewDidEnter(): Promise<void> {
@@ -108,4 +109,16 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   async goToOfficePage() {
     await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
   }
+
+  private destroyTestSubs = (): void => {
+    // At this point in a test, you can not go back at all in the journey - therefore shutdown any subscriptions
+    // where takeUntil(wrtcDestroy$) or takeUntil(trDestroy$) has been piped onto.
+
+    // Waiting room to car
+    wrtcDestroy$.next();
+    wrtcDestroy$.complete();
+    // Test report
+    trDestroy$.next();
+    trDestroy$.complete();
+  };
 }

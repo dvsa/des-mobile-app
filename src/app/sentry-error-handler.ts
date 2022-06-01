@@ -12,6 +12,17 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 
+type SentryError = RegExp | string;
+
+// Errors are being thrown via the live-server used to display state on simulator which are useless.
+const SENTRY_ERRORS_LIVERELOAD: SentryError[] = [
+  /^(SocketProtocolError|Socket closed without status code|Server ping timed out).*$/gi,
+];
+
+export const SENTRY_ERRORS: SentryError[] = [
+  ...SENTRY_ERRORS_LIVERELOAD,
+];
+
 @Injectable()
 export class SentryIonicErrorHandler extends ErrorHandler {
   // Cyclic DI dependency error if injecting services via the constructor

@@ -2,7 +2,7 @@ import {
   Component, OnInit, OnDestroy, Input,
 } from '@angular/core';
 import { Observable, Subscription, merge } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { StoreModel } from '@shared/models/store.model';
 import { Store, select } from '@ngrx/store';
@@ -20,6 +20,7 @@ import {
   getHighwayCodeSafetySeriousFault,
   getHighwayCodeSafetyDrivingFault,
 } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.selectors';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
@@ -112,8 +113,7 @@ export class HighwayCodeSafetyComponent implements OnInit, OnDestroy {
       selectedHighwayCodeSafety$.pipe(map((value) => this.selectedHighwayCodeSafety = value)),
       highwayCodeSafetySeriousFault$.pipe(map((value) => this.highwayCodeSafetySeriousFault = value)),
       highwayCodeSafetyDrivingFault$.pipe(map((value) => this.highwayCodeSafetyDrivingFault = value)),
-    ).subscribe();
-
+    ).pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

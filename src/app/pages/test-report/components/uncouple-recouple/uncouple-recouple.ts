@@ -5,7 +5,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { Observable, Subscription, merge } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { get } from 'lodash';
@@ -18,6 +18,7 @@ import {
 } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { getTestReportState } from '../../test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
@@ -109,8 +110,7 @@ export class UncoupleRecoupleComponent implements OnInit, OnDestroy {
       isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
       selectedUncoupleRecouple$.pipe(map((value) => this.selectedUncoupleRecouple = value)),
       uncoupleRecoupleOutcome$.pipe(map((outcome) => this.uncoupleRecoupleOutcome = outcome)),
-    ).subscribe();
-
+    ).pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

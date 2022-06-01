@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { UploadRekeyModalModule } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal.module';
+import { ExitRekeyModalModule } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal.module';
 
 import { IpadIssueComponent } from './ipad-issue/ipad-issue';
 import { TransferComponent } from './transfer/transfer';
@@ -23,6 +24,7 @@ import { OtherReasonComponent } from './other-reason/other-reason';
     ReactiveFormsModule,
     DirectivesModule,
     UploadRekeyModalModule,
+    ExitRekeyModalModule,
   ],
   exports: [
     IpadIssueComponent,

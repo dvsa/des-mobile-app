@@ -11,7 +11,8 @@ import {
   ToggleControlEco,
   TogglePlanningEco,
 } from '@store/tests/test-data/common/eco/eco.actions';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 interface EcoComponentState {
   completed$: Observable<boolean>;
@@ -66,7 +67,7 @@ export class EcoComponent implements OnInit {
       adviceGivenControl$.pipe(map((toggle) => this.adviceGivenControl = toggle)),
     );
 
-    this.subscription = merged$.subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

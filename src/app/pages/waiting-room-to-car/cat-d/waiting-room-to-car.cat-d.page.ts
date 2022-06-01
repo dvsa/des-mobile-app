@@ -195,7 +195,11 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
       if (this.fullLicenceHeld && isAnyOf(this.testCategory, [TestCategory.DE, TestCategory.D1E])) {
         this.store$.dispatch(this.isDelegated ? DropExtraVehicleChecksDelegated() : DropExtraVehicleChecks());
       }
-      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory);
+      await this.routeByCategoryProvider.navigateToPage(
+        TestFlowPageNames.TEST_REPORT_PAGE,
+        this.testCategory,
+        { replaceUrl: !this.isDelegated },
+      );
       return;
     }
 

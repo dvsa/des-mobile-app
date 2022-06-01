@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
@@ -10,11 +10,6 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
   styleUrls: ['./tell-me-question-card.scss'],
 })
 export class TellMeQuestionCardComponent {
-
-  questionFormControl: FormControl;
-  outcomeFormControl: FormControl;
-  questionValid: boolean = true;
-  outcomeValid: boolean = true;
 
   @Input()
   formGroup: FormGroup;

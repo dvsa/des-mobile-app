@@ -19,9 +19,10 @@ import {
   Component, Input, OnInit, OnDestroy,
 } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../../test-report.selector';
 import { getTestReportState } from '../../../test-report.reducer';
 import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
@@ -120,7 +121,7 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
       manoeuvreCompetencyOutcome$.pipe(map((outcome) => this.manoeuvreCompetencyOutcome = outcome)),
     );
 
-    this.subscription = merged$.subscribe();
+    this.subscription = merged$.pipe(takeUntil(trDestroy$)).subscribe();
 
   }
 

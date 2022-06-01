@@ -5,7 +5,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import { map, tap } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { IonSelect } from '@ionic/angular';
@@ -98,12 +98,13 @@ export class ViewJournalsCardComponent implements OnChanges {
   onShowJournalClick = (): void => {
     this.hasClickedShowJournal = true;
     if (!this.journal) {
-      // if no journal, then dont try to pass value into slot creation method
+      // if no journal, then don't try to pass value into slot creation method
       return;
     }
     // createSlots with the selected journal
     of(this.journal)
       .pipe(
+        first(), // auto unsubscribe after first emission
         map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
           examiner: journalData.examiner as Required<Examiner>,
           slotItems: this.slotProvider.detectSlotChanges({}, journalData),

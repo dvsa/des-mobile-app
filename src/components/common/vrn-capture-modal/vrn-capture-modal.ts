@@ -15,6 +15,11 @@ import { getCurrentTest } from '@store/tests/tests.selector';
 import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map } from 'rxjs/operators';
+import { merge, Observable, Subscription } from 'rxjs';
+
+interface ComponentState {
+  vehicleRegistration$: Observable<string>;
+}
 
 @Component({
   selector: 'vrn-capture-modal',
@@ -23,12 +28,12 @@ import { map } from 'rxjs/operators';
 })
 export class VRNCaptureModal implements OnInit {
 
+  componentState: ComponentState;
+  merged$: Observable<string>;
+  subscription: Subscription;
   vehicleRegistrationNumber: string;
-
   formGroup: FormGroup;
-
   vehicleRegistrationFormControlName: string = 'vehicleRegistration';
-
   formInvalid: boolean = false;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
@@ -49,22 +54,37 @@ export class VRNCaptureModal implements OnInit {
     );
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
     );
-    currentTest$.pipe(
-      select(getVehicleDetails),
-      select(getRegistrationNumber),
-      map((registrationNumber) => this.vehicleRegistrationNumber = registrationNumber),
-    ).subscribe();
+
+    this.componentState = {
+      vehicleRegistration$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getRegistrationNumber),
+      ),
+    };
+
+    const {
+      vehicleRegistration$,
+    } = this.componentState;
+
+    this.merged$ = merge(
+      vehicleRegistration$.pipe(map((regNum) => this.vehicleRegistrationNumber = regNum)),
+    );
+
+    this.subscription = this.merged$?.subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 
   inputChange(input: any) {
     if (typeof input === 'string') {
-      input = input.toUpperCase()
-        .replace(nonAlphaNumericValues, '');
+      input = input.toUpperCase().replace(nonAlphaNumericValues, '');
       this.vehicleRegistrationNumber = input;
       this.vehicleRegistrationFormControl.patchValue(input, {
         emitEvent: false,
@@ -76,7 +96,7 @@ export class VRNCaptureModal implements OnInit {
 
   async validateThenDismiss() {
     if (this.registrationNumberValidator.pattern.test(this.vehicleRegistrationNumber)) {
-      this.modalController.dismiss({ vehicleRegNumber: this.vehicleRegistrationNumber });
+      await this.modalController.dismiss({ vehicleRegNumber: this.vehicleRegistrationNumber });
     }
   }
 

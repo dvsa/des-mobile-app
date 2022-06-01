@@ -1,5 +1,5 @@
 import { select, Store } from '@ngrx/store';
-import { merge, Observable, Subscription } from 'rxjs';
+import { merge, Observable, Subject, Subscription } from 'rxjs';
 import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 
@@ -86,6 +86,8 @@ export interface CommonTestReportPageState {
   category$: Observable<CategoryCode>;
   delegatedTest$: Observable<boolean>;
 }
+
+export const trDestroy$ = new Subject<{}>();
 
 export abstract class TestReportBasePageComponent extends PracticeableBasePageComponent {
 

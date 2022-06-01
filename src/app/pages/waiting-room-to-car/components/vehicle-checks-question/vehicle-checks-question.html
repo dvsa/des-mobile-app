@@ -10,7 +10,7 @@
                             cancelText="Cancel"
                             [formControlName]="questionFieldName"
                             (ionChange)="vehicleChecksQuestionChanged($event?.detail?.value)"
-                            [interfaceOptions]="{cssClass:'mes-select vehicle-checks-question-select', enableBackdropDismiss:false}">
+                            [interfaceOptions]="{cssClass:'mes-select vehicle-checks-question-select', backdropDismiss: false}">
                     <ion-select-option *ngFor="let question of questions"
                                        [value]="question"
                                        [disabled]="isOptionDisabled(question)">
