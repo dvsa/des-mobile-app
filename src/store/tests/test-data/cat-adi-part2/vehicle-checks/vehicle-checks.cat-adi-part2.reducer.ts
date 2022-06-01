@@ -62,6 +62,15 @@ export const vehicleChecksCatADI2Reducer = createReducer(
     ...state,
     showMeTellMeComments: payload,
   })),
+  on(vehicleChecksCatADI2ActionTypes.ShowMeQuestionAddDrivingFault, (state, {
+    payload,
+  }): CatADI2UniqueTypes.VehicleChecks => ({
+    ...state,
+    showMeQuestions: state.showMeQuestions.map((item, i) => (i === payload ? {
+      ...item,
+      outcome: CompetencyOutcome.DF,
+    } : item)),
+  })),
   on(vehicleChecksCatADI2ActionTypes.ShowMeQuestionRemoveDrivingFault, (state, {
     payload,
   }): CatADI2UniqueTypes.VehicleChecks => ({
