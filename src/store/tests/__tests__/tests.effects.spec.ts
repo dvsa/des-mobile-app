@@ -313,12 +313,12 @@ describe('TestsEffects', () => {
       // ASSERT
       effects.startTestEffect$
         .pipe(
-          bufferCount(16),
+          bufferCount(17),
         )
-        .subscribe(([, , , , , , , , , , , , , res12, res13, res14]) => {
-          expect(res12).toEqual(StartDelegatedTest());
-          expect(res13).toEqual(OtherSelected(true));
-          expect(res14).toEqual(OtherReasonUpdated('Delegated Examiner'));
+        .subscribe(([, , , , , , , , , , , , , , res13, res14, res15]) => {
+          expect(res13).toEqual(StartDelegatedTest());
+          expect(res14).toEqual(OtherSelected(true));
+          expect(res15).toEqual(OtherReasonUpdated('Delegated Examiner'));
           done();
         });
     });
