@@ -28,7 +28,7 @@ describe('RouteByCategoryProvider', () => {
     it('should call router.navigate', async () => {
       provider.router.config = [];
       await provider.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, TestCategory.B);
-      expect(routerSpy.navigate).toHaveBeenCalledWith(['WaitingRoomToCarCatBPage']);
+      expect(routerSpy.navigate).toHaveBeenCalledWith(['WaitingRoomToCarCatBPage'], {});
     });
   });
 });

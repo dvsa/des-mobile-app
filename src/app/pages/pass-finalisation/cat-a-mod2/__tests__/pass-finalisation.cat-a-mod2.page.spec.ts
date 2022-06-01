@@ -40,6 +40,9 @@ import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationPageComponent
+} from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PassFinalisationCatAMod2Page } from '../pass-finalisation.cat-a-mod2.page';
 
 describe('PassFinalisationCatAMod2Page', () => {
@@ -91,6 +94,7 @@ describe('PassFinalisationCatAMod2Page', () => {
   describe('Class', () => {
     describe('ionViewWillEnter', () => {
       it('should dispatch the VIEW_DID_ENTER action when the function is run', () => {
+        spyOn(PassFinalisationPageComponent.prototype, 'ionViewWillEnter');
         component.ionViewWillEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
         expect(store$.dispatch).toHaveBeenCalledTimes(1);
