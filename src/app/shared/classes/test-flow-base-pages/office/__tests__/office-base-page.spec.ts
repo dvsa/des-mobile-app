@@ -508,6 +508,7 @@ describe('OfficeBasePageComponent', () => {
         showBackdrop: true,
         componentProps: {
           completeTest: basePageComponent.completeTest,
+          destroyTestSubs: basePageComponent.destroyTestSubs,
         },
       });
     });

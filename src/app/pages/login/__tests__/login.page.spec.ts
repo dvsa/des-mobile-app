@@ -291,10 +291,10 @@ describe('LoginPage', () => {
     beforeEach(() => {
       spyOn(routerSpy, 'navigate');
     });
-    it('should navigate to dashboard page', () => {
+    it('should navigate to dashboard page', async () => {
       spyOn(component.deviceProvider, 'validDeviceType').and.returnValue(true);
-      component.validateDeviceType();
-      expect(routerSpy.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE]);
+      await component.validateDeviceType();
+      expect(routerSpy.navigate).toHaveBeenCalledWith([DASHBOARD_PAGE], { replaceUrl: true });
     });
   });
   describe('showErrorDetails', () => {

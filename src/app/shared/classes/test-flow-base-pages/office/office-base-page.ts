@@ -525,7 +525,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     }
   }
 
-  private destroyTestSubs = (): void => {
+  destroyTestSubs = (): void => {
     // At this point in a test, you can not go back at all in the journey - therefore shutdown any subscriptions
     // where takeUntil(wrtcDestroy$) or takeUntil(trDestroy$) has been piped onto.
 

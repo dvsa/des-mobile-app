@@ -32,17 +32,19 @@ describe('FinishTestModal', () => {
     modalComponent = modalFixture.componentInstance;
     spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
     modalComponent.completeTest = jasmine.createSpy('completeTest');
+    modalComponent.destroyTestSubs = jasmine.createSpy('destroyTestSubs');
   }));
 
   describe('onCompleteTest', () => {
     it('expect completeTest to be called', async () => {
       await modalComponent.onCompleteTest();
+      expect(modalComponent.destroyTestSubs).toHaveBeenCalled();
       expect(modalComponent.completeTest).toHaveBeenCalled();
     });
   });
 
   describe('onBack', () => {
-    it('expect completeTest to be called', async () => {
+    it('expect modalController dismiss', async () => {
       await modalComponent.onBack();
       expect(modalComponent.modalController.dismiss).toHaveBeenCalled();
     });
