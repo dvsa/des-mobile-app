@@ -62,18 +62,9 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
   }
 
   ionViewWillEnter(): boolean {
+    super.ionViewWillEnter();
     this.store$.dispatch(PassFinalisationViewDidEnter());
-
-    if (this.merged$) {
-      this.subscription = this.merged$.subscribe();
-    }
     return true;
-  }
-
-  ionViewDidLeave(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 
   async onSubmit(): Promise<void> {

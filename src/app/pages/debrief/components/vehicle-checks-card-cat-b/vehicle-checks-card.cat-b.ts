@@ -1,33 +1,31 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { StoreModel } from '@shared/models/store.model';
+import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subscription, merge } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+
+import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store//tests/tests.selector';
 import { getTestData } from '@store//tests/test-data/cat-b/test-data.reducer';
 import { getVehicleChecks } from '@store//tests/test-data/cat-b/test-data.cat-b.selector';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { map } from 'rxjs/operators';
 
 interface VehicleChecksCardComponentState {
   showMeQuestionOutcome$: Observable<QuestionOutcome>;
   tellMeQuestionHasFault$: Observable<boolean>;
   hasVehicleChecksFault$: Observable<boolean>;
+  hasShowMeFault$: Observable<boolean>;
 }
 
 @Component({
   selector: 'vehicle-checks-card-cat-b',
   templateUrl: 'vehicle-checks-card.cat-b.html',
 })
-export class VehicleChecksCardCatBComponent implements OnInit, OnDestroy {
+export class VehicleChecksCardCatBComponent implements OnInit {
 
   componentState: VehicleChecksCardComponentState;
-  hasFault: boolean = false;
-  hasShowMeFault: boolean = false;
-
-  subscription: Subscription;
 
   constructor(private store$: Store<StoreModel>) { }
 
@@ -49,15 +47,11 @@ export class VehicleChecksCardCatBComponent implements OnInit, OnDestroy {
       hasVehicleChecksFault$: vehicleChecks$.pipe(
         select(VehicleChecksCardCatBComponent.hasVehicleChecksFault),
       ),
+      hasShowMeFault$: vehicleChecks$.pipe(
+        select(VehicleChecksCardCatBComponent.getShowMeQuestionOutcome),
+        map((val) => val !== CompetencyOutcome.P),
+      ),
     };
-
-    const { hasVehicleChecksFault$, showMeQuestionOutcome$ } = this.componentState;
-
-    this.subscription = merge(
-      hasVehicleChecksFault$.pipe(map((val) => this.hasFault = val)),
-      showMeQuestionOutcome$.pipe(map((val) => this.hasShowMeFault = val !== CompetencyOutcome.P)),
-    ).subscribe();
-
   }
 
   static tellMeQuestionHasFault = (vehicleChecks: CatBUniqueTypes.VehicleChecks): boolean =>
@@ -69,11 +63,5 @@ export class VehicleChecksCardCatBComponent implements OnInit, OnDestroy {
   static hasVehicleChecksFault = (vehicleChecks: CatBUniqueTypes.VehicleChecks): boolean =>
     (vehicleChecks.tellMeQuestion.outcome && vehicleChecks.tellMeQuestion.outcome !== CompetencyOutcome.P)
     || (vehicleChecks.showMeQuestion.outcome && vehicleChecks.showMeQuestion.outcome !== CompetencyOutcome.P);
-
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
 
 }

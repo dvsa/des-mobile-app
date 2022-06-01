@@ -53,6 +53,8 @@ import { appConfigReducer } from '@store/app-config/app-config.reducer';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { testsReducer } from '@store/tests/tests.reducer';
+import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
+import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { LogsStoreModule } from '@store/logs/logs.module';
 import { AppInfoStoreModule } from '@store/app-info/app-info.module';
 import { TestsModule } from '@store/tests/tests.module';
@@ -87,6 +89,8 @@ const reducers: ActionReducerMap<any> = {
   appInfo: appInfoReducer,
   appConfig: appConfigReducer,
   tests: testsReducer,
+  rekeySearch: rekeySearchReducer,
+  delegatedRekeySearch: delegatedSearchReducer,
 };
 
 const metaReducers: MetaReducer<any, any>[] = [];

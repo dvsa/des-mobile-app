@@ -17,9 +17,10 @@ import {
   ShowMeQuestionAddDrivingFault,
   ShowMeQuestionRemoveDrivingFault, VehicleChecksCompletedToggle,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
 import { getTestReportState } from '../../../test-report.reducer';
 import { isSeriousMode, isDangerousMode, isRemoveFaultMode } from '../../../test-report.selector';
@@ -98,7 +99,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
       isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
       isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
       isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-    ).subscribe();
+    ).pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

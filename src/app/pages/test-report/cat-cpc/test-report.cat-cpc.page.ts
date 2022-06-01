@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
+  trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
@@ -32,6 +33,7 @@ import { FormGroup } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
 import { TestResultProvider } from '@providers/test-result/test-result';
+import { takeUntil } from 'rxjs/operators';
 
 interface CatCPCTestReportPageState {
   combinationCode$: Observable<CombinationCodes>;
@@ -241,7 +243,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       this.pageState.overallPercentage$,
       this.pageState.category$,
       this.pageState.delegatedTest$,
-    ]).subscribe((
+    ]).pipe(takeUntil(trDestroy$)).subscribe((
       [question1, question2, question3, question4, question5, overallPercentage, category, delegated]:
       [Question, Question, Question, Question, Question5, number, CategoryCode, boolean],
     ) => {

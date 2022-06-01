@@ -77,7 +77,7 @@ import { PopulateTestSchemaVersion } from './schema-version/schema-version.actio
 import { SetExaminerBooked } from './examiner-booked/examiner-booked.actions';
 import { SetExaminerConducted } from './examiner-conducted/examiner-conducted.actions';
 import { SetExaminerKeyed } from './examiner-keyed/examiner-keyed.actions';
-import { MarkAsRekey } from './rekey/rekey.actions';
+import { MarkAsNonRekey, MarkAsRekey } from './rekey/rekey.actions';
 import { PopulateAppVersion } from './app-version/app-version.actions';
 import { JournalModel } from '../journal/journal.model';
 import { PopulateConductedLanguage } from './communication-preferences/communication-preferences.actions';
@@ -240,6 +240,8 @@ export class TestsEffects {
       }
       if (startTestAction.rekey) {
         arrayOfActions.push(MarkAsRekey());
+      } else {
+        arrayOfActions.push(MarkAsNonRekey());
       }
       if (startTestAction.delegatedTest) {
         arrayOfActions.push(StartDelegatedTest());

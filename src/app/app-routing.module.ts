@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NoPreloading, RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import {
   DASHBOARD_PAGE,
   FAKE_JOURNAL_PAGE,
@@ -115,7 +115,7 @@ const ROUTE_DEACTIVATE_GUARDS = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: NoPreloading, relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
   exports: [RouterModule],
   providers: [...ROUTE_DEACTIVATE_GUARDS],

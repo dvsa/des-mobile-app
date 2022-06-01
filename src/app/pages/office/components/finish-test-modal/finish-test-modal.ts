@@ -12,12 +12,15 @@ export class FinishTestModal {
 
   completeTest: Function;
 
+  destroyTestSubs: Function;
+
   constructor(
     public modalController: ModalController,
   ) {
   }
 
   onCompleteTest = async () => {
+    this.destroyTestSubs();
     await this.completeTest();
   };
 

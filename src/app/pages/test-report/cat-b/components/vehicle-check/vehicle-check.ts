@@ -7,7 +7,7 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getVehicleChecks } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { isEmpty } from 'lodash';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { StoreModel } from '@shared/models/store.model';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
@@ -17,6 +17,7 @@ import {
   ShowMeQuestionRemoveFault,
   ShowMeQuestionSeriousFault,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
 import { isSeriousMode, isDangerousMode, isRemoveFaultMode } from '../../../test-report.selector';
 import { getTestReportState } from '../../../test-report.reducer';
@@ -76,8 +77,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
       isSeriousMode$.pipe(map((toggle) => this.isSeriousMode = toggle)),
       isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
       isRemoveFaultMode$.pipe(map((toggle) => this.isRemoveFaultMode = toggle)),
-    ).subscribe();
-
+    ).pipe(takeUntil(trDestroy$)).subscribe();
   }
 
   ngOnDestroy(): void {

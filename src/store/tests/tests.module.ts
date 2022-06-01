@@ -37,7 +37,6 @@ import { testsReducer } from './tests.reducer';
   providers: [
     TestSubmissionProvider,
     FaultCountProvider,
-    // NavigationProvider,
     NavigationStateProvider,
     TestDataByCategoryProvider,
     ManoeuvresByCategoryProvider,

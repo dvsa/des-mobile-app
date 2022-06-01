@@ -158,6 +158,14 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
     }
   }
 
+  ionViewDidLeave(): void {
+    super.ionViewDidLeave();
+
+    if (this.pageSubscription) {
+      this.pageSubscription.unsubscribe();
+    }
+  }
+
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
     if (dangerousFaultComment.source === CommentSource.SIMPLE) {
       this.store$.dispatch(

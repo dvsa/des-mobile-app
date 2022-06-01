@@ -199,6 +199,14 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
     }
   }
 
+  ionViewDidLeave(): void {
+    super.ionViewDidLeave();
+
+    if (this.pageSubscription) {
+      this.pageSubscription.unsubscribe();
+    }
+  }
+
   isPass(): boolean {
     return this.testOutcomeText === TestOutcome.Passed;
   }
