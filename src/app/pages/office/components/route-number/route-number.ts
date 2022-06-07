@@ -28,6 +28,7 @@ export class RouteNumberComponent implements OnChanges {
   @Output()
   routeNumberChange = new EventEmitter<number>();
 
+  routeNum: number;
   private formControl: FormControl;
   static readonly fieldName: string = 'routeNumber';
 
@@ -51,8 +52,20 @@ export class RouteNumberComponent implements OnChanges {
     this.formControl.patchValue(this.routeNumber);
   }
 
-  routeNumberChanged(routeNumber: string): void {
-    this.routeNumberChange.emit(Number.parseInt(routeNumber, 10) || null);
+  routeNumberChanged(): void {
+    console.log(`modal: ${this.routeNum}`);
+
+    let tempString: string = this.routeNum.toString();
+    console.log(`length: ${tempString.length}`);
+
+    if (tempString.length > 2) {
+      console.log('is too long');
+      tempString = tempString.substring(0, 2);
+      this.routeNum = +tempString;
+      console.log(`post change: ${this.routeNum}`);
+    } else {
+      this.routeNumberChange.emit(Number.parseInt(this.routeNum.toString(), 10) || null);
+    }
   }
 
   get invalid(): boolean {
