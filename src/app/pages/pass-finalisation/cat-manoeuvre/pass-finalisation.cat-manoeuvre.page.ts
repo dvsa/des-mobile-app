@@ -20,7 +20,7 @@ import {
 import {
   PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
-  PassFinalisationReportActivityCode
+  PassFinalisationReportActivityCode,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 
 interface CatManoeuvrePassFinalisationPageState {}

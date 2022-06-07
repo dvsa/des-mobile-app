@@ -1,5 +1,7 @@
 import { select, Store } from '@ngrx/store';
-import { merge, Observable, Subject, Subscription } from 'rxjs';
+import {
+  merge, Observable, Subject, Subscription,
+} from 'rxjs';
 import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 

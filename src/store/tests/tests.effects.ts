@@ -238,16 +238,21 @@ export class TestsEffects {
       if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
         arrayOfActions.push(createPopulateVehicleDimensionsAction(startTestAction.category, slot.booking.application));
       }
-      if (startTestAction.rekey) {
-        arrayOfActions.push(MarkAsRekey());
+
+      if (!startTestAction.delegatedTest) {
+        // non-delegated
+        if (startTestAction.rekey) {
+          arrayOfActions.push(MarkAsRekey());
+        } else {
+          arrayOfActions.push(MarkAsNonRekey());
+        }
       } else {
-        arrayOfActions.push(MarkAsNonRekey());
-      }
-      if (startTestAction.delegatedTest) {
+        // delegated
         arrayOfActions.push(StartDelegatedTest());
         arrayOfActions.push(OtherSelected(true));
         arrayOfActions.push(OtherReasonUpdated('Delegated Examiner'));
       }
+
       if (
         startTestAction.category === TestCategory.C
         || startTestAction.category === TestCategory.C1
