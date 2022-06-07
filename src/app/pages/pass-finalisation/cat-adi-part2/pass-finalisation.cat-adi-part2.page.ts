@@ -12,7 +12,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { ActivityCodes } from '@shared/models/activity-codes';
 import {
   PassFinalisationReportActivityCode,
   PassFinalisationValidationError,
