@@ -51,7 +51,7 @@ import { OtherReasonUpdated, OtherSelected } from '../rekey-reason/rekey-reason.
 import { StartDelegatedTest } from '../delegated-test/delegated-test.actions';
 import { PopulateTestCategory } from '../category/category.actions';
 
-fdescribe('TestsEffects', () => {
+describe('TestsEffects', () => {
   let effects: TestsEffects;
   let actions$: any;
   let testPersistenceProviderMock;
