@@ -7,13 +7,14 @@
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
       <ion-col size="12">
-        <ion-input type="number"
+        <ion-input type="text"
+                   maxlength="2"
+                   inputmode="numeric"
                    id="route-number-input"
                    class="vehicle-reg-input ion-input-styling mes-data"
-                   formControlName="routeNumber"
                    numbersOnly
-                   [(ngModel)]="routeNum"
-                   (ionChange)="routeNumberChanged()">
+                   formControlName="routeNumber"
+                   (ionChange)="routeNumberChanged($event.target.value)">
         </ion-input>
       </ion-col>
     </ion-row>
