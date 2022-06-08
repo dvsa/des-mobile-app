@@ -1,6 +1,6 @@
 import { ReplaySubject } from 'rxjs';
 import { TestPersistenceProvider } from '@providers/test-persistence/test-persistence';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestSubmissionProvider } from '@providers/test-submission/test-submission';
 import { Store, StoreModule } from '@ngrx/store';
@@ -305,7 +305,7 @@ describe('TestsEffects', () => {
         });
     });
 
-    it('should set the rekey reason and reason correctly when it is a delegated examiner test', (done) => {
+    it('should set the rekey reason and reason correctly when it is a delegated examiner test', fakeAsync(() => {
       spyOn(navigationStateProviderMock, 'isDelegatedExaminerRekeySearch').and.returnValue(true);
       store$.dispatch(delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess(testSlot));
       // ACT
@@ -313,15 +313,14 @@ describe('TestsEffects', () => {
       // ASSERT
       effects.startTestEffect$
         .pipe(
-          bufferCount(16),
+          bufferCount(17),
         )
-        .subscribe(([, , , , , , , , , , , , , res12, res13, res14]) => {
-          expect(res12).toEqual(StartDelegatedTest());
-          expect(res13).toEqual(OtherSelected(true));
-          expect(res14).toEqual(OtherReasonUpdated('Delegated Examiner'));
-          done();
+        .subscribe(([, , , , , , , , , , , , , , res13, res14, res15]) => {
+          expect(res13).toEqual(StartDelegatedTest());
+          expect(res14).toEqual(OtherSelected(true));
+          expect(res15).toEqual(OtherReasonUpdated('Delegated Examiner'));
         });
-    });
+    }));
   });
 
   describe('activateTestEffect', () => {
