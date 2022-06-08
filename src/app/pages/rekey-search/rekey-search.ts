@@ -3,7 +3,7 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
 import { HttpErrorResponse } from '@angular/common/http';

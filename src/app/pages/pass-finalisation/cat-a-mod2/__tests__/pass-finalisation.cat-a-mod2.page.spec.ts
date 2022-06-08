@@ -41,7 +41,7 @@ import {
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
-  PassFinalisationPageComponent
+  PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { PassFinalisationCatAMod2Page } from '../pass-finalisation.cat-a-mod2.page';
 
