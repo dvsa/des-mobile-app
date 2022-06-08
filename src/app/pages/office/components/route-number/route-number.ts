@@ -28,7 +28,6 @@ export class RouteNumberComponent implements OnChanges {
   @Output()
   routeNumberChange = new EventEmitter<number>();
 
-  routeNum: number;
   private formControl: FormControl;
   static readonly fieldName: string = 'routeNumber';
 
