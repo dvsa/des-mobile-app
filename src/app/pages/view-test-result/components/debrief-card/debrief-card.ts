@@ -73,6 +73,8 @@ export class DebriefCardComponent implements OnInit {
 
   public get testRequirements(): DataRowListItem[] {
     switch (this.category) {
+      case TestCategory.ADI2:
+        return this.getTestRequirementsCatADI2();
       case TestCategory.B:
         return this.getTestRequirementsCatB();
       case TestCategory.BE:
@@ -177,6 +179,31 @@ export class DebriefCardComponent implements OnInit {
     TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E, // Cat D
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
   ]);
+
+  private getTestRequirementsCatADI2 = (): DataRowListItem[] => {
+    return [
+      {
+        label: TestRequirementsLabels.normalStop1,
+        checked: get(this.data, 'testRequirements.normalStart1'),
+      },
+      {
+        label: TestRequirementsLabels.normalStop2,
+        checked: get(this.data, 'testRequirements.normalStart2'),
+      },
+      {
+        label: TestRequirementsLabels.angledStart,
+        checked: get(this.data, 'testRequirements.angledStart'),
+      },
+      {
+        label: TestRequirementsLabels.uphillStart,
+        checked: get(this.data, 'testRequirements.uphillStart'),
+      },
+      {
+        label: TestRequirementsLabels.downhillStart,
+        checked: get(this.data, 'testRequirements.downhillStart'),
+      },
+    ];
+  };
 
   private getTestRequirementsCatB = (): DataRowListItem[] => {
     return [
