@@ -73,6 +73,8 @@ export class DebriefCardComponent implements OnInit {
 
   public get testRequirements(): DataRowListItem[] {
     switch (this.category) {
+      case TestCategory.ADI2:
+        return this.getTestRequirementsCatADI2();
       case TestCategory.B:
         return this.getTestRequirementsCatB();
       case TestCategory.BE:
@@ -178,23 +180,48 @@ export class DebriefCardComponent implements OnInit {
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
   ]);
 
+  private getTestRequirementsCatADI2 = (): DataRowListItem[] => {
+    return [
+      {
+        label: TestRequirementsLabels.normalStop1,
+        checked: get(this.data, 'testRequirements.normalStart1', false),
+      },
+      {
+        label: TestRequirementsLabels.normalStop2,
+        checked: get(this.data, 'testRequirements.normalStart2', false),
+      },
+      {
+        label: TestRequirementsLabels.angledStart,
+        checked: get(this.data, 'testRequirements.angledStart', false),
+      },
+      {
+        label: TestRequirementsLabels.uphillStart,
+        checked: get(this.data, 'testRequirements.uphillStart', false),
+      },
+      {
+        label: TestRequirementsLabels.downhillStart,
+        checked: get(this.data, 'testRequirements.downhillStart', false),
+      },
+    ];
+  };
+
   private getTestRequirementsCatB = (): DataRowListItem[] => {
     return [
       {
         label: TestRequirementsLabels.normalStop1,
-        checked: get(this.data, 'testRequirements.normalStart1'),
+        checked: get(this.data, 'testRequirements.normalStart1', false),
       },
       {
         label: TestRequirementsLabels.normalStop2,
-        checked: get(this.data, 'testRequirements.normalStart2'),
+        checked: get(this.data, 'testRequirements.normalStart2', false),
       },
       {
         label: TestRequirementsLabels.angledStart,
-        checked: get(this.data, 'testRequirements.angledStart'),
+        checked: get(this.data, 'testRequirements.angledStart', false),
       },
       {
         label: TestRequirementsLabels.hillStart,
-        checked: get(this.data, 'testRequirements.hillStart'),
+        checked: get(this.data, 'testRequirements.hillStart', false),
       },
     ];
   };
