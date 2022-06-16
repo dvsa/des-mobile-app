@@ -184,23 +184,23 @@ export class DebriefCardComponent implements OnInit {
     return [
       {
         label: TestRequirementsLabels.normalStop1,
-        checked: get(this.data, 'testRequirements.normalStart1'),
+        checked: get(this.data, 'testRequirements.normalStart1', false),
       },
       {
         label: TestRequirementsLabels.normalStop2,
-        checked: get(this.data, 'testRequirements.normalStart2'),
+        checked: get(this.data, 'testRequirements.normalStart2', false),
       },
       {
         label: TestRequirementsLabels.angledStart,
-        checked: get(this.data, 'testRequirements.angledStart'),
+        checked: get(this.data, 'testRequirements.angledStart', false),
       },
       {
         label: TestRequirementsLabels.uphillStart,
-        checked: get(this.data, 'testRequirements.uphillStart'),
+        checked: get(this.data, 'testRequirements.uphillStart', false),
       },
       {
         label: TestRequirementsLabels.downhillStart,
-        checked: get(this.data, 'testRequirements.downhillStart'),
+        checked: get(this.data, 'testRequirements.downhillStart', false),
       },
     ];
   };
@@ -209,19 +209,19 @@ export class DebriefCardComponent implements OnInit {
     return [
       {
         label: TestRequirementsLabels.normalStop1,
-        checked: get(this.data, 'testRequirements.normalStart1'),
+        checked: get(this.data, 'testRequirements.normalStart1', false),
       },
       {
         label: TestRequirementsLabels.normalStop2,
-        checked: get(this.data, 'testRequirements.normalStart2'),
+        checked: get(this.data, 'testRequirements.normalStart2', false),
       },
       {
         label: TestRequirementsLabels.angledStart,
-        checked: get(this.data, 'testRequirements.angledStart'),
+        checked: get(this.data, 'testRequirements.angledStart', false),
       },
       {
         label: TestRequirementsLabels.hillStart,
-        checked: get(this.data, 'testRequirements.hillStart'),
+        checked: get(this.data, 'testRequirements.hillStart', false),
       },
     ];
   };
