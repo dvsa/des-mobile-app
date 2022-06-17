@@ -19,8 +19,9 @@ import {
   hasManoeuvreBeenCompletedCatB,
   hasVehicleChecksBeenCompletedCatB,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { haveSafetyAndBalanceQuestionsBeenCompleted }
-  from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
+import {
+  haveSafetyAndBalanceQuestionsBeenCompleted,
+} from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
 import { hasManoeuvreBeenCompletedCatBE } from '@store/tests/test-data/cat-be/test-data.cat-be.selector';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -156,14 +157,51 @@ export class TestReportValidatorProvider {
     const emergencyStopFirstAttempt = get(data, 'emergencyStop.firstAttempt');
     const avoidanceFirstAttempt = get(data, 'avoidance.firstAttempt');
 
+    const emergencyStopSecondAttempt = get(data, 'emergencyStop.secondAttempt');
+    const avoidanceSecondAttempt = get(data, 'avoidance.secondAttempt');
+
     const emergencyStopOutcome = get(data, 'singleFaultCompetencies.emergencyStop');
     const avoidanceOutcome = get(data, 'singleFaultCompetencies.avoidance');
 
-    if (emergencyStopNotMet === CompetencyOutcome.S) {
-      if (emergencyStopFirstAttempt === undefined) {
-        return SpeedCheckState.EMERGENCY_STOP_MISSING;
+    if (avoidanceNotMet === CompetencyOutcome.S || emergencyStopNotMet === CompetencyOutcome.S) {
+
+      if (avoidanceNotMet === CompetencyOutcome.S && emergencyStopNotMet === CompetencyOutcome.S) {
+
+        if ((avoidanceFirstAttempt === undefined || avoidanceSecondAttempt === undefined)
+            && (emergencyStopFirstAttempt === undefined || emergencyStopSecondAttempt === undefined)) {
+          return SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
+        }
+        if (avoidanceFirstAttempt === undefined || avoidanceSecondAttempt === undefined) {
+
+          return SpeedCheckState.AVOIDANCE_MISSING;
+        }
+        if (emergencyStopFirstAttempt === undefined || emergencyStopSecondAttempt === undefined) {
+          return SpeedCheckState.EMERGENCY_STOP_MISSING;
+        }
+        return SpeedCheckState.NOT_MET;
       }
 
+      if (avoidanceNotMet === CompetencyOutcome.S) {
+        if (avoidanceFirstAttempt === undefined || avoidanceSecondAttempt === undefined) {
+          if (emergencyStopFirstAttempt === undefined) {
+            return SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
+          }
+          return SpeedCheckState.AVOIDANCE_MISSING;
+        }
+        if (emergencyStopFirstAttempt === undefined) {
+          return SpeedCheckState.EMERGENCY_STOP_MISSING;
+        }
+        return SpeedCheckState.NOT_MET;
+      }
+      if (emergencyStopFirstAttempt === undefined || emergencyStopSecondAttempt === undefined) {
+        if (avoidanceFirstAttempt === undefined) {
+          return SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
+        }
+        return SpeedCheckState.EMERGENCY_STOP_MISSING;
+      }
+      if (avoidanceFirstAttempt === undefined) {
+        return SpeedCheckState.AVOIDANCE_MISSING;
+      }
       return SpeedCheckState.NOT_MET;
     }
 
@@ -173,14 +211,6 @@ export class TestReportValidatorProvider {
 
     if (emergencyStopOutcome === CompetencyOutcome.D) {
       return SpeedCheckState.EMERGENCY_STOP_DANGEROUS_FAULT;
-    }
-
-    if (avoidanceNotMet === CompetencyOutcome.S) {
-      if (avoidanceFirstAttempt === undefined) {
-        return SpeedCheckState.AVOIDANCE_MISSING;
-      }
-
-      return SpeedCheckState.VALID;
     }
 
     if (emergencyStopFirstAttempt === undefined && avoidanceFirstAttempt === undefined) {
