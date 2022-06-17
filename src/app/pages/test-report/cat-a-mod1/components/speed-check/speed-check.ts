@@ -48,6 +48,7 @@ export class SpeedCheckComponent {
   firstAttempt: number;
   secondAttempt: number;
   outcome: SpeedRequirementCompetencyOutcome;
+  notMet: boolean = false;
 
   @Input()
   competency: Competencies;
@@ -99,6 +100,7 @@ export class SpeedCheckComponent {
   }
 
   toggleNotMet = (): void => {
+    this.notMet = !this.notMet;
     if (this.competency === Competencies.speedCheckEmergency) {
       if (this.outcome === CompetencyOutcome.S) {
         this.store$.dispatch(RemoveEmergencyStopSeriousFault());
