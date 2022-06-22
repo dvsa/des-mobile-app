@@ -19,7 +19,7 @@
                 id="{{competency}}SecondAttempt"
                 [disabled]="!firstAttemptValid()"
                 (input)="onSecondAttemptChange($event)"
-                [value]="firstAttemptValid() ? getSecondAttempt() : null"
+                [value]="getSecondAttempt()"
                 [maxLength]="speedCheckValidator.maxLength"
         />
     </ion-col>
