@@ -47,7 +47,6 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
   form: FormGroup;
   pageState: WaitingRoomToCarPageState;
   fullLicenceHeld: boolean = null;
-  isDelegated: boolean = false;
 
   constructor(
     private faultCountProvider: FaultCountProvider,
