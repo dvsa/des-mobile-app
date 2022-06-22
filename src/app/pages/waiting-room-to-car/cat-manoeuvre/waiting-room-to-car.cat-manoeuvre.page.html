@@ -58,9 +58,11 @@
     </div>
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="{
+  delegatedTest: pageState.delegatedTest$ | async
+} as data">
     <ion-row class="mes-full-width-card box-shadow">
-        <ion-col size="45" class="ion-text-center">
+        <ion-col *ngIf="!data?.delegatedTest" size="45" class="ion-text-center">
             <ion-button
                     shape="round"
                     class="mes-grey-button wrtc-footer-btn"
@@ -68,8 +70,8 @@
                 <h3>View test centre journal</h3>
             </ion-button>
         </ion-col>
-        <ion-col size="6"></ion-col>
-        <ion-col size="45" class="ion-text-center">
+        <ion-col *ngIf="!data?.delegatedTest" size="6"></ion-col>
+        <ion-col [size]="data?.delegatedTest ? 96 : 45" class="ion-text-center">
             <ion-button
                     shape="round"
                     class="mes-primary-button wrtc-footer-btn"
