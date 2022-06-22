@@ -66,13 +66,6 @@
                                     (otherAccompanimentChange)="otherAccompanimentToggled()"
                                     (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
                 </accompaniment-card>
-
-                <vehicle-details-card [formGroup]="form"
-                                      [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
-                                      (schoolBikeVehicleDetailsChange)="schoolBikeToggled()"
-                                      [hideSchoolVehicleAndDualControlRow]="true"
-                                      [hideSchoolBikeRow]="false">
-                </vehicle-details-card>
               </ion-col>
             </ion-row>
           </ion-col>

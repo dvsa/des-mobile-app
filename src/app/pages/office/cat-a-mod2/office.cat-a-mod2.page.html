@@ -116,13 +116,6 @@
                                             (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
                         </accompaniment-card>
 
-                        <vehicle-details-card [formGroup]="form"
-                                              [schoolVehicleDetails]="pageState.schoolCar$ | async"
-                                              [dualVehicleDetails]="pageState.dualControls$ | async"
-                                              (schoolVehicleDetailsChange)="schoolCarToggled()"
-                                              (dualVehicleDetailsChange)="dualControlsToggled()">
-                        </vehicle-details-card>
-
                         <additional-information
                                 [display]="pageState.displayAdditionalInformation$ | async"
                                 [additionalInformation]="pageState.additionalInformation$ | async"
