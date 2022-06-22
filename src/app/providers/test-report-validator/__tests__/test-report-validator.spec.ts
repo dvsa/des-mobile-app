@@ -199,6 +199,10 @@ describe('TestReportValidator', () => {
           firstAttempt: undefined,
           outcome: CompetencyOutcome.S,
         },
+        avoidance: {
+          firstAttempt: 1,
+          secondAttempt: 1,
+        },
       } as CatAMod1TestData;
 
       const result = testReportValidatorProvider.validateSpeedChecksCatAMod1(testData);
@@ -210,7 +214,12 @@ describe('TestReportValidator', () => {
       const testData = {
         emergencyStop: {
           firstAttempt: 48,
+          secondAttempt: 1,
           outcome: CompetencyOutcome.S,
+        },
+        avoidance: {
+          firstAttempt: 7,
+          secondAttempt: 5,
         },
       } as CatAMod1TestData;
 
@@ -223,7 +232,12 @@ describe('TestReportValidator', () => {
       const testData = {
         avoidance: {
           firstAttempt: undefined,
+          secondAttempt: undefined,
           outcome: CompetencyOutcome.S,
+        },
+        emergencyStop: {
+          firstAttempt: 1,
+          secondAttempt: 1,
         },
       } as CatAMod1TestData;
 
@@ -236,7 +250,11 @@ describe('TestReportValidator', () => {
       const testData = {
         avoidance: {
           firstAttempt: 48,
-          outcome: CompetencyOutcome.S,
+          secondAttempt: 48,
+        },
+        emergencyStop: {
+          firstAttempt: 56,
+          secondAttempt: 56,
         },
       } as CatAMod1TestData;
 
@@ -249,6 +267,7 @@ describe('TestReportValidator', () => {
       const testData = {
         emergencyStop: {
           firstAttempt: 56,
+          secondAttempt: 56,
         },
         singleFaultCompetencies: {
           avoidance: CompetencyOutcome.S,
@@ -264,7 +283,11 @@ describe('TestReportValidator', () => {
       const testData = {
         avoidance: {
           firstAttempt: 48,
-          outcome: CompetencyOutcome.S,
+          secondAttempt: 48,
+        },
+        emergencyStop: {
+          firstAttempt: 56,
+          secondAttempt: 56,
         },
         singleFaultCompetencies: {
           avoidance: CompetencyOutcome.D,
