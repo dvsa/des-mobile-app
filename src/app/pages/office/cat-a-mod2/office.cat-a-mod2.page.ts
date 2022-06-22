@@ -54,10 +54,13 @@ import {
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { Router } from '@angular/router';
 import { DeviceProvider } from '@providers/device/device';
+import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.reducer';
+import { getSchoolBike } from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.selector';
 import { behaviourMap } from '../office-behaviour-map.cat-a-mod2';
 import { OfficeViewDidEnter } from '../office.actions';
 
 interface CatAMod2OfficePageState {
+  schoolBike$: Observable<boolean>;
   testCategory$: Observable<TestCategory>;
   displayModeOfTransport$: Observable<boolean>;
   modeOfTransport$: Observable<ModeOfTransport>;
@@ -127,6 +130,10 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
 
     this.pageState = {
       ...this.commonPageState,
+      schoolBike$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getSchoolBike),
+      ),
       testCategory$,
       displayModeOfTransport$: currentTest$.pipe(
         select(getTestOutcome),
