@@ -117,10 +117,10 @@
                         </accompaniment-card>
 
                         <vehicle-details-card [formGroup]="form"
-                                              [schoolVehicleDetails]="pageState.schoolCar$ | async"
-                                              [dualVehicleDetails]="pageState.dualControls$ | async"
-                                              (schoolVehicleDetailsChange)="schoolCarToggled()"
-                                              (dualVehicleDetailsChange)="dualControlsToggled()">
+                                              [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
+                                              (schoolBikeVehicleDetailsChange)="schoolBikeToggled()"
+                                              [hideSchoolVehicleAndDualControlRow]="true"
+                                              [hideSchoolBikeRow]="false">
                         </vehicle-details-card>
 
                         <additional-information
