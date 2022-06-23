@@ -1,7 +1,6 @@
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/AM2';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
-import * as vehicleDetailsCatAMod2Actions from './vehicle-details.cat-a-mod2.actions';
 
 const initialState: VehicleDetails = {
   registrationNumber: '',
@@ -25,7 +24,7 @@ export const vehicleDetailsCatAMod2Reducer = createReducer(
     ...state,
     gearboxCategory: null,
   })),
-  on(vehicleDetailsCatAMod2Actions.SchoolBikeToggled, (state): VehicleDetails => ({
+  on(vehicleDetailsActions.SchoolBikeToggled, (state): VehicleDetails => ({
     ...state,
     schoolBike: !state.schoolBike,
   })),
