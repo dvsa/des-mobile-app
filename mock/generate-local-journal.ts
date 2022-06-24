@@ -241,6 +241,57 @@ export const localJournal: ExaminerWorkSchedule = {
     {
       booking: {
         application: {
+          applicationId: 1234578,
+          bookingSequence: 2,
+          checkDigit: 2,
+          entitlementCheck: false,
+          extendedTest: false,
+          progressiveAccess: false,
+          testCategory: 'ADI3',
+          vehicleGearbox: 'Manual',
+          specialNeedsCode: 'NONE',
+          welshTest: false,
+        },
+        candidate: {
+          candidateAddress: {
+            addressLine1: '999 Letsby Avenue',
+            addressLine2: 'Someplace',
+            addressLine3: 'Sometown',
+            addressLine4: ' ',
+            postcode: 'AB67 8CD',
+          },
+          candidateId: 104,
+          candidateName: {
+            firstName: 'Approved',
+            lastName: 'Instructor',
+            title: 'Mr',
+          },
+          driverNumber: 'INST885220A99HC',
+          gender: 'M',
+          mobileTelephone: '07654 123456',
+          dateOfBirth: '1999-11-16',
+          ethnicityCode: 'A',
+          prn: 9283749,
+          previousADITests: 2,
+        },
+      },
+      slotDetail: {
+        duration: 57,
+        slotId: 1017,
+        start: `${today}T12:00:00`,
+      },
+      testCentre: {
+        centreId: 54321,
+        centreName: 'Example Test Centre',
+        costCode: 'EXTC1',
+      },
+      vehicleTypeCode: 'C',
+      vehicleSlotTypeCode: 7,
+      examinerVisiting: false,
+    },
+    {
+      booking: {
+        application: {
           applicationId: 1234571,
           bookingSequence: 2,
           checkDigit: 6,

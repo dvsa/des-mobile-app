@@ -27,6 +27,7 @@ import {
 import { getTests } from '@store/tests/tests.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 

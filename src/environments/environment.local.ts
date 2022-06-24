@@ -73,6 +73,11 @@ export const environment: LocalEnvironmentFile = {
         to: null,
       },
       {
+        testCategory: 'ADI3',
+        from: '2019-01-01',
+        to: null,
+      },
+      {
         testCategory: 'B',
         from: '2019-01-01',
         to: null,

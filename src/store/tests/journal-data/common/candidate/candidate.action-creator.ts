@@ -22,6 +22,7 @@ export const createPopulateCandidateDetailsAction = (
 ): CandidateDetailsUnion => {
   switch (testCategory) {
     case TestCategory.ADI2:
+    case TestCategory.ADI3:
     case TestCategory.B:
     case TestCategory.EUAMM1:
     case TestCategory.EUA1M1:
