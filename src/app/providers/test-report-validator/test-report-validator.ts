@@ -188,9 +188,6 @@ export class TestReportValidatorProvider {
           }
           return SpeedCheckState.AVOIDANCE_MISSING;
         }
-        if (emergencyStopFirstAttempt === undefined) {
-          return SpeedCheckState.EMERGENCY_STOP_MISSING;
-        }
         return SpeedCheckState.NOT_MET;
       }
       if (emergencyStopFirstAttempt === undefined || emergencyStopSecondAttempt === undefined) {
@@ -198,9 +195,6 @@ export class TestReportValidatorProvider {
           return SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
         }
         return SpeedCheckState.EMERGENCY_STOP_MISSING;
-      }
-      if (avoidanceFirstAttempt === undefined) {
-        return SpeedCheckState.AVOIDANCE_MISSING;
       }
       return SpeedCheckState.NOT_MET;
     }
