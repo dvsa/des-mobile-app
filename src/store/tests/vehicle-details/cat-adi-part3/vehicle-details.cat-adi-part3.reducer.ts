@@ -12,9 +12,13 @@ export const vehicleDetailsCatADIPart3Reducer = createReducer(
     ...state,
     registrationNumber,
   })),
-  on(vehicleDetailsActions.DualControlsToggled, (state): VehicleDetails => ({
+  on(vehicleDetailsActions.DualControlsToggledYes, (state): VehicleDetails => ({
     ...state,
-    dualControls: !state.dualControls,
+    dualControls: true,
+  })),
+  on(vehicleDetailsActions.DualControlsToggledNo, (state): VehicleDetails => ({
+    ...state,
+    dualControls: false,
   })),
   on(vehicleDetailsActions.GearboxCategoryChanged, (state, { gearboxCategory }): VehicleDetails => ({
     ...state,
