@@ -176,7 +176,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       environment: sentry?.environment,
       release: `des@${appVersion}`,
       dist: appVersion,
-      tracesSampleRate: 1.0,
+      tracesSampleRate: 0.05,
       integrations: [new BrowserTracing()],
       ignoreErrors: SENTRY_ERRORS,
     }, sentryAngularInit);
