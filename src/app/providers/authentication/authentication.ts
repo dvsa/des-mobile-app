@@ -68,7 +68,13 @@ export class AuthenticationProvider {
   };
 
   public async expireTokens(): Promise<void> {
-    await this.ionicAuth.expire();
+    try {
+      await this.ionicAuth.expire();
+    } catch (error) {
+      this.store$.dispatch(SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'expireTokens error', error),
+      }));
+    }
   }
 
   private async getToken(tokenName: Token): Promise<string | null> {
@@ -130,6 +136,9 @@ export class AuthenticationProvider {
   };
 
   async hasValidToken(): Promise<boolean> {
+    if (this.isInUnAuthenticatedMode()) {
+      return Promise.resolve(true);
+    }
     // refresh token if required
     try {
       await this.ionicAuth.isAuthenticated();
@@ -145,9 +154,15 @@ export class AuthenticationProvider {
   }
 
   async refreshTokenIfExpired(): Promise<void> {
-    const token = await this.ionicAuth.getIdToken();
-    if (token && this.isTokenExpired(token)) {
-      await this.ionicAuth.refreshSession();
+    try {
+      const token = await this.ionicAuth.getIdToken();
+      if (token && this.isTokenExpired(token)) {
+        await this.ionicAuth.refreshSession();
+      }
+    } catch (error) {
+      this.store$.dispatch(SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'refreshTokenIfExpired error', error),
+      }));
     }
   }
 

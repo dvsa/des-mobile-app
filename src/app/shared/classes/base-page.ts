@@ -25,8 +25,9 @@ export abstract class BasePageComponent {
    */
   ionViewWillEnter() {
     if (this.loginRequired && this.isIos()) {
+      // evaluate network status before trying to interact with auth connect methods;
+      this.authenticationProvider.determineAuthenticationMode();
       this.authenticationProvider.hasValidToken().then(async (hasValidToken) => {
-        this.authenticationProvider.determineAuthenticationMode();
         if (!hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
           await this.router.navigate([LOGIN_PAGE]);
         }
