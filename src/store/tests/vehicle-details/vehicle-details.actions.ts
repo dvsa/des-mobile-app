@@ -19,6 +19,14 @@ export const DualControlsToggled = createAction(
   '[Vehicle Details] Dual controls toggled',
 );
 
+export const DualControlsToggledYes = createAction(
+  '[Vehicle Details] Dual controls yes selected',
+);
+
+export const DualControlsToggledNo = createAction(
+  '[Vehicle Details] Dual controls no selected',
+);
+
 export const GearboxCategoryChanged = createAction(
   '[Vehicle Details] Gearbox category changed',
   (gearboxCategory: GearboxCategory) => ({ gearboxCategory }),

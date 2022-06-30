@@ -235,7 +235,11 @@ export class TestsEffects {
         PopulateAppVersion(appVersion),
       ];
 
-      if (startTestAction.category !== TestCategory.B && startTestAction.category !== TestCategory.ADI2) {
+      if (
+        startTestAction.category !== TestCategory.B
+          && startTestAction.category !== TestCategory.ADI2
+          && startTestAction.category !== TestCategory.ADI3
+      ) {
         arrayOfActions.push(createPopulateVehicleDimensionsAction(startTestAction.category, slot.booking.application));
       }
 
