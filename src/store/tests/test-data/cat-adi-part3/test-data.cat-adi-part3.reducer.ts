@@ -8,14 +8,6 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import { reviewReducer } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 
-export const initialState: TestData = {
-  lessonAndTheme: {},
-  lessonPlanning: {},
-  riskManagement: {},
-  teachingLearningStrategies: {},
-  review: {},
-};
-
 export function testDataCatADI3Reducer(
   state: TestData,
   action: Action,

@@ -14,3 +14,8 @@ export const FeedbackChanged = createAction(
   '[Review] Feedback changed',
   (feedback: string) => ({ feedback }),
 );
+
+export const ReasonForNoAdviceGivenChanged = createAction(
+  '[Review] Reason for no advice given changed',
+  (reasonForNoAdviceGiven: string) => ({ reasonForNoAdviceGiven }),
+);

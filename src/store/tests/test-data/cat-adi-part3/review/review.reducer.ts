@@ -6,6 +6,7 @@ export const initialState: Review = {
   immediateDanger: null,
   seekFurtherDevelopment: null,
   feedback: null,
+  reasonForNoAdviceGiven: null,
 };
 
 export const reviewReducer = createReducer(
@@ -21,6 +22,10 @@ export const reviewReducer = createReducer(
   on(reviewActions.FeedbackChanged, (state, { feedback }): Review => ({
     ...state,
     feedback,
+  })),
+  on(reviewActions.ReasonForNoAdviceGivenChanged, (state, { reasonForNoAdviceGiven }): Review => ({
+    ...state,
+    reasonForNoAdviceGiven,
   })),
 );
 
