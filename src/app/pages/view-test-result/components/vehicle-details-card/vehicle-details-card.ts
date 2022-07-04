@@ -141,7 +141,12 @@ export class VehicleDetailsCardComponent {
   }
 
   public get schoolBike(): string {
-    return get(this.data, 'schoolBike', null) ? 'Yes' : 'No';
+    const bike = get(this.data, 'schoolBike');
+
+    if (bike === true || bike === false) {
+      return bike ? 'Yes' : 'No';
+    }
+    return null;
   }
 
   public get trainerPRN(): number {
