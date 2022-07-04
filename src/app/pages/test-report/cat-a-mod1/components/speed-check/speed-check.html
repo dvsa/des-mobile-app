@@ -4,7 +4,6 @@
     </ion-col>
     <ion-col size="32">
         <input
-                [class.speed-box-border]="notMet && !firstAttempt"
                 type="tel"
                 class="speed-input first-speed-input input-styling-background"
                 id="{{competency}}FirstAttempt"
@@ -13,7 +12,6 @@
                 [maxLength]="speedCheckValidator.maxLength"
         />
         <input
-                [class.speed-box-border]="notMet && !secondAttempt"
                 type="tel"
                 class="speed-input second-speed-input input-styling-background"
                 id="{{competency}}SecondAttempt"
