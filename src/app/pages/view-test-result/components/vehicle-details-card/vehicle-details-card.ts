@@ -140,8 +140,8 @@ export class VehicleDetailsCardComponent {
     return get(this.data, 'numberOfSeats', '?').toString();
   }
 
-  public get schoolBike(): boolean {
-    return get(this.data, 'schoolBike');
+  public get schoolBike(): string {
+    return get(this.data, 'schoolBike', null) ? 'Yes' : 'No';
   }
 
   public get trainerPRN(): number {
