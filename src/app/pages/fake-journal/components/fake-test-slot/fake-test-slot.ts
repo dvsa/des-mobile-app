@@ -10,6 +10,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { vehicleDetails } from '@components/test-slot/test-slot/test-slot.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 @Component({
   selector: 'fake-test-slot',
@@ -66,6 +67,6 @@ export class FakeTestSlotComponent {
   }
 
   showAdditionalCandidateDetails(): boolean {
-    return this.slot.booking.application.testCategory === TestCategory.ADI2;
+    return isAnyOf(this.slot.booking.application.testCategory, [TestCategory.ADI2, TestCategory.ADI3]);
   }
 }
