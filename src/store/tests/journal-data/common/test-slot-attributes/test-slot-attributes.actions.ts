@@ -10,3 +10,8 @@ export const SetStartDate = createAction(
   '[[Delegated Office Page] Set Start Time',
   (startDateTime: string) => ({ startDateTime }),
 );
+
+export const SetWelshTestMarker = createAction(
+  '[TestSlotAttributes] Manually set welsh test marker',
+  (welshTest: boolean) => ({ welshTest }),
+);

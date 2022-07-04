@@ -68,7 +68,10 @@ import { TestsModel } from './tests.model';
 import { getJournalState } from '../journal/journal.reducer';
 import { getSlotsOnSelectedDate } from '../journal/journal.selector';
 import { PopulateExaminer } from './journal-data/common/examiner/examiner.actions';
-import { PopulateTestSlotAttributes } from './journal-data/common/test-slot-attributes/test-slot-attributes.actions';
+import {
+  PopulateTestSlotAttributes,
+  SetWelshTestMarker,
+} from './journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import { extractTestSlotAttributes } from './journal-data/common/test-slot-attributes/test-slot-attributes.selector';
 import { PopulateTestCentre } from './journal-data/common/test-centre/test-centre.actions';
 import { extractTestCentre } from './journal-data/common/test-centre/test-centre.selector';
@@ -305,6 +308,12 @@ export class TestsEffects {
         arrayOfActions.push(RouteNumberChanged(88));
         arrayOfActions.push(IndependentDrivingTypeChanged('N/A'));
       }
+      if (
+        startTestAction.category === TestCategory.ADI3
+      ) {
+        arrayOfActions.push(SetWelshTestMarker(false));
+      }
+
       return arrayOfActions;
     }),
   ));

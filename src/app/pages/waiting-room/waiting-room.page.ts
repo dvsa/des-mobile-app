@@ -200,7 +200,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       ),
       showResidencyDec$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => !isAnyOf(category, [TestCategory.ADI2])),
+        map((category) => !isAnyOf(category, [TestCategory.ADI2, TestCategory.ADI3])),
       ),
       cbtNumber$: currentTest$.pipe(
         select(getPreTestDeclarationsCatAMod1),
