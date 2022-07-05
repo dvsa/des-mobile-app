@@ -155,38 +155,15 @@ export class TestReportValidatorProvider {
     const avoidanceNotMet = get(data, 'avoidance.outcome');
 
     const emergencyStopFirstAttempt = get(data, 'emergencyStop.firstAttempt');
-    const avoidanceFirstAttempt = get(data, 'avoidance.firstAttempt');
-
     const emergencyStopSecondAttempt = get(data, 'emergencyStop.secondAttempt');
+
+    const avoidanceFirstAttempt = get(data, 'avoidance.firstAttempt');
     const avoidanceSecondAttempt = get(data, 'avoidance.secondAttempt');
 
     const emergencyStopOutcome = get(data, 'singleFaultCompetencies.emergencyStop');
     const avoidanceOutcome = get(data, 'singleFaultCompetencies.avoidance');
 
-    if (avoidanceNotMet === CompetencyOutcome.S || emergencyStopNotMet === CompetencyOutcome.S) {
-
-      if (avoidanceNotMet === CompetencyOutcome.S && emergencyStopNotMet === CompetencyOutcome.S) {
-
-        if ((avoidanceFirstAttempt === undefined || avoidanceSecondAttempt === undefined)
-            && (emergencyStopFirstAttempt === undefined || emergencyStopSecondAttempt === undefined)) {
-          return SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
-        }
-        if (avoidanceFirstAttempt === undefined || avoidanceSecondAttempt === undefined) {
-
-          return SpeedCheckState.AVOIDANCE_MISSING;
-        }
-        if (emergencyStopFirstAttempt === undefined || emergencyStopSecondAttempt === undefined) {
-          return SpeedCheckState.EMERGENCY_STOP_MISSING;
-        }
-        return SpeedCheckState.NOT_MET;
-      }
-
-      if (avoidanceNotMet === CompetencyOutcome.S) {
-        if (avoidanceFirstAttempt === undefined || avoidanceSecondAttempt === undefined) {
-          return SpeedCheckState.AVOIDANCE_MISSING;
-        }
-        return SpeedCheckState.NOT_MET;
-      }
+    if (emergencyStopNotMet === CompetencyOutcome.S) {
       if (emergencyStopFirstAttempt === undefined || emergencyStopSecondAttempt === undefined) {
         return SpeedCheckState.EMERGENCY_STOP_MISSING;
       }
@@ -199,6 +176,14 @@ export class TestReportValidatorProvider {
 
     if (emergencyStopOutcome === CompetencyOutcome.D) {
       return SpeedCheckState.EMERGENCY_STOP_DANGEROUS_FAULT;
+    }
+
+    if (avoidanceNotMet === CompetencyOutcome.S) {
+      if (avoidanceFirstAttempt === undefined || avoidanceSecondAttempt === undefined) {
+        return SpeedCheckState.AVOIDANCE_MISSING;
+      }
+
+      return SpeedCheckState.VALID;
     }
 
     if (emergencyStopFirstAttempt === undefined && avoidanceFirstAttempt === undefined) {
