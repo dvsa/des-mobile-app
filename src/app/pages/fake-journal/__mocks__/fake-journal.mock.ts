@@ -1955,7 +1955,7 @@ export const fakeJournalTestSlots = [
         applicationId: 1034925,
         bookingSequence: 2,
         checkDigit: 6,
-        entitlementCheck: false,
+        entitlementCheck: true,
         extendedTest: false,
         progressiveAccess: false,
         testCategory: 'ADI3',

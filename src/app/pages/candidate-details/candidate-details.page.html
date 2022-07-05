@@ -54,6 +54,19 @@
                         [label]="'Application number'"
                         [value]="pageState.details.applicationRef">
                 </data-row>
+                <data-row
+                        [idPrefix]="idPrefix"
+                        [label]="'Personal reference number (PRN)'"
+                        *ngIf="slot.booking.candidate.prn"
+                        [dataStyling]="'position: relative;  top: 18px;'"
+                        [value]="slot.booking.candidate.prn">
+                </data-row>
+                <data-row
+                        [idPrefix]="idPrefix"
+                        [label]="'Attempt number'"
+                        *ngIf="slot.booking.candidate.previousADITests"
+                        [value]="slot.booking.candidate.previousADITests">
+                </data-row>
                 <data-row-custom
                         [idPrefix]="idPrefix"
                         [label]="'Special requirements'"
