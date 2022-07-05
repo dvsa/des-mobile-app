@@ -1,0 +1,46 @@
+<ion-row class="mes-validated-row mes-row-separator mes-narrow-row" id="trainee-licence-card"  [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="trainee-licence-label">Trainee licence</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio"
+               id="traineeLicenceYes"
+               formControlName="traineeLicenceCtrl"
+               name="traineeLicenceCtrl"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="traineeLicenceChanged($event.target.value)"
+               value="true"
+               [checked]="traineeLicence === true">
+        <label for="traineeLicenceYes" class="radio-label" id="trainee-licence-yes-label">
+          Yes
+        </label>
+      </ion-col>
+      <ion-col>
+        <input type="radio"
+               id="traineeLicenceNo"
+               formControlName="traineeLicenceCtrl"
+               name="traineeLicenceCtrl"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="traineeLicenceChanged($event.target.value)"
+               value="false"
+               [checked]="traineeLicence === false">
+        <label for="traineeLicenceNo" class="radio-label" id="trainee-licence-no-label">
+          No
+        </label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text"
+           id="trainee-licence-validation-text"
+           [class.ng-invalid]="invalid">
+        Select if a trainee licence was present
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

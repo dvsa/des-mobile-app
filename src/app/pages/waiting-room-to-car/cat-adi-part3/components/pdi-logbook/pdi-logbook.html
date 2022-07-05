@@ -1,0 +1,46 @@
+<ion-row class="mes-validated-row mes-row-separator mes-narrow-row" id="pdi-logbook-card"  [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="pdi-logbook-label">PDI logbook</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio"
+               id="pdiLogbookYes"
+               formControlName="pdiLogbookCtrl"
+               name="pdiLogbookCtrl"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="pdiLogbookChanged($event.target.value)"
+               value="true"
+               [checked]="pdiLogbook === true">
+        <label for="pdiLogbookYes" class="radio-label" id="pdi-logbook-yes-label">
+          Yes
+        </label>
+      </ion-col>
+      <ion-col>
+        <input type="radio"
+               id="pdiLogbookNo"
+               formControlName="pdiLogbookCtrl"
+               name="pdiLogbookCtrl"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               (change)="pdiLogbookChanged($event.target.value)"
+               value="false"
+               [checked]="pdiLogbook === false">
+        <label for="pdiLogbookNo" class="radio-label" id="pdi-logbook-no-label">
+          No
+        </label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text"
+           id="pdi-logbook-validation-text"
+           [class.ng-invalid]="invalid">
+        Select if a PDI logbook was present
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

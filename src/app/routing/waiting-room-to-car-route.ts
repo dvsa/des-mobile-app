@@ -1,6 +1,8 @@
 import {
   CAT_A_MOD1,
-  CAT_A_MOD2, CAT_ADI_PART2,
+  CAT_A_MOD2,
+  CAT_ADI_PART2,
+  CAT_ADI_PART3,
   CAT_B,
   CAT_BE,
   CAT_C,
@@ -16,6 +18,11 @@ export const Waiting_Room_To_Car_Route: Routes = [
     path: CAT_ADI_PART2.WAITING_ROOM_TO_CAR_PAGE,
     loadChildren: () => import('@pages/waiting-room-to-car/cat-adi-part2/waiting-room-to-car.cat-adi-part2.module')
       .then((m) => m.WaitingRoomToCarCatADIPart2PageModule),
+  },
+  {
+    path: CAT_ADI_PART3.WAITING_ROOM_TO_CAR_PAGE,
+    loadChildren: () => import('@pages/waiting-room-to-car/cat-adi-part3/waiting-room-to-car.cat-adi-part3.module')
+      .then((m) => m.WaitingRoomToCarCatADIPart3PageModule),
   },
   {
     path: CAT_A_MOD1.WAITING_ROOM_TO_CAR_PAGE,

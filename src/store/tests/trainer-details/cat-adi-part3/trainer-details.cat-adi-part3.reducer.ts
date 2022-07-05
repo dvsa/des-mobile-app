@@ -1,6 +1,7 @@
 import { TrainerDetails } from '@dvsa/mes-test-schema/categories/ADI3';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
-import * as trainerDetailActions from './trainer-details.cat-adi-part3.actions';
+import * as trainerDetailAdi3Actions from './trainer-details.cat-adi-part3.actions';
+import * as trainerDetailActions from '../cat-adi-part2/trainer-details.cat-adi-part2.actions';
 
 const initialState: TrainerDetails = {
   orditTrainedCandidate: null,
@@ -15,11 +16,11 @@ export const trainerDetailsCatADIPart3Reducer = createReducer(
     ...state,
     orditTrainedCandidate,
   })),
-  on(trainerDetailActions.PDILogbook, (state, { pdiLogbook }): TrainerDetails => ({
+  on(trainerDetailAdi3Actions.PDILogbook, (state, { pdiLogbook }): TrainerDetails => ({
     ...state,
     pdiLogbook,
   })),
-  on(trainerDetailActions.TraineeLicence, (state, { traineeLicence }): TrainerDetails => ({
+  on(trainerDetailAdi3Actions.TraineeLicence, (state, { traineeLicence }): TrainerDetails => ({
     ...state,
     traineeLicence,
   })),
