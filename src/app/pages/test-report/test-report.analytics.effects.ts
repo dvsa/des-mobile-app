@@ -420,6 +420,27 @@ export class TestReportAnalyticsEffects {
     }),
   ));
 
+  returnToTest$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      testReportActions.ReturnToTest,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType <typeof testReportActions.ReturnToTest>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
+        formatAnalyticsText(AnalyticsEvents.RETURN_TO_TEST, tests),
+        'Test Report - Return To Test',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
   controlledStopAddDangerousFault$ = createEffect(() => this.actions$.pipe(
     ofType(
       controlledStopActions.ControlledStopAddDangerousFault,

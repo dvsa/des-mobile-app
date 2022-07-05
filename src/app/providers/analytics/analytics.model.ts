@@ -116,6 +116,7 @@ export enum AnalyticsEvents {
   EXIT_REMOVE_MODE = 'exit remove mode',
   REMOVE_MODE_SELECTED = 'remove mode selected',
   REMOVE_MODE_EXITED = 'remove mode exited',
+  RETURN_TO_TEST = 'return to test',
   APPLICATION_REFERENCE_SEARCH = 'perform application reference search',
   DRIVER_NUMBER_SEARCH = 'perform driver number search',
   LDTM_SEARCH = 'perform ldtm search',
