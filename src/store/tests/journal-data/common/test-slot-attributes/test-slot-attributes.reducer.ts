@@ -18,6 +18,10 @@ export const testSlotsAttributesReducer = createReducer(
     ...state,
     start: startDateTime,
   })),
+  on(testSlotAttributesActions.SetWelshTestMarker, (state, { welshTest }): TestSlotAttributes => ({
+    ...state,
+    welshTest,
+  })),
 );
 
 export const getTestSlotAttributes = createFeatureSelector<TestSlotAttributes>('testSlotAttributes');

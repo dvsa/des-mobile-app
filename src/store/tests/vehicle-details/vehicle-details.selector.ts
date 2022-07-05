@@ -8,6 +8,7 @@ export const isManual = (vehicleDetails: VehicleDetails) => vehicleDetails.gearb
 export const isAutomatic = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Automatic' || false;
 export const showVrnButton = (category: TestCategory): boolean => isAnyOf(category, [
   TestCategory.ADI2,
+  TestCategory.ADI3,
   TestCategory.B,
   TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
   TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
