@@ -26,6 +26,7 @@ import {
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
@@ -137,7 +138,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   showAdditionalCandidateDetails(): boolean {
-    return this.slot.booking.application.testCategory === TestCategory.ADI2;
+    return isAnyOf(this.slot.booking.application.testCategory, [TestCategory.ADI2, TestCategory.ADI3]);
   }
 
   canStartTest(): boolean {
