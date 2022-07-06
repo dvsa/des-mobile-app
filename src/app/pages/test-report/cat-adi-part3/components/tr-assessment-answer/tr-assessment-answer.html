@@ -1,0 +1,41 @@
+<ion-grid>
+  <ion-row class="black-text">{{question}}</ion-row>
+  <ion-row class="ion-padding-top">
+    <ion-col>
+      <input type="checkbox"
+             class="gds-checkbox"
+             (change)="valueChanged($event?.target?.value)"
+             [checked]="answer === 0"
+             value="0"
+             [id]="card + '-' + questionNumber + 'assessment-input-0'">
+      <label [for]="card + '-' + questionNumber + 'assessment-input-0'" class="assessment-label">0</label>
+    </ion-col>
+    <ion-col>
+      <input type="checkbox"
+             class="gds-checkbox"
+             (change)="valueChanged($event?.target?.value)"
+             [checked]="answer === 1"
+             value="1"
+             [id]="card + '-' + questionNumber + 'assessment-input-1'">
+      <label [for]="card + '-' + questionNumber + 'assessment-input-1'" class="assessment-label">1</label>
+    </ion-col>
+    <ion-col>
+      <input type="checkbox"
+             class="gds-checkbox"
+             (change)="valueChanged($event?.target?.value)"
+             [checked]="answer === 2"
+             value="2"
+             [id]="card + '-' + questionNumber + 'assessment-input-2'">
+      <label [for]="card + '-' + questionNumber + 'assessment-input-2'" class="assessment-label">2</label>
+    </ion-col>
+    <ion-col>
+      <input type="checkbox"
+             class="gds-checkbox"
+             (change)="valueChanged($event?.target?.value)"
+             [checked]="answer === 3"
+             value="3"
+             [id]="card + '-' + questionNumber + 'assessment-input-3'">
+      <label [for]="card + '-' + questionNumber + 'assessment-input-3'" class="assessment-label">3</label>
+    </ion-col>
+  </ion-row>
+</ion-grid>

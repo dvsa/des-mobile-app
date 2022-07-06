@@ -28,7 +28,7 @@ export const lessonPlanningReducer = createReducer(
   on(lessonPlanningActions.LessonPlanningQuestionScoreChanged, (state, { question, score }): LessonPlanning => ({
     ...state,
     [`q${question}`]: {
-      ...[`q${question}`],
+      ...state[`q${question}`],
       score,
     },
   })),

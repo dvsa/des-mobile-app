@@ -105,8 +105,8 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
       isDangerousMode$.pipe(map((result) => this.isDangerousMode = result)),
       testData$.pipe(
         map((data) => {
-          this.speedCheckState = this.testReportValidatorProvider.validateSpeedChecksCatAMod1(data);
-          this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, TestCategory.EUAM1);
+          this.speedCheckState = this.testReportValidatorProvider.validateSpeedChecksCatAMod1(data as TestData);
+          this.isEtaValid = this.testReportValidatorProvider.isETAValid(data as TestData, TestCategory.EUAM1);
         }),
       ),
     ).subscribe();

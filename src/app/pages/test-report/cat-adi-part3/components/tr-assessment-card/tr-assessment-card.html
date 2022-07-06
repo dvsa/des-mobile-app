@@ -1,0 +1,83 @@
+<ion-card>
+  <ion-card-header>
+    <ion-row>
+      <ion-col size="66">
+        <h3 [id]="sectionHeader | formatToID">{{sectionHeader}}</h3>
+      </ion-col>
+      <ion-col size="26">
+        <h3 class="ion-float-right" [id]="sectionHeader | formatToID: 'score'">Score - {{sectionData.score}}</h3>
+      </ion-col>
+    </ion-row>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <tr-assessment-answer
+        [questionNumber]="1"
+        [card]="assessmentCard"
+        [question]="sectionData.q1.title"
+        [answer]="sectionData.q1.score"
+        (answerChanged)="trAssessmentAnswerChange(1, $event)">
+      </tr-assessment-answer>
+
+      <tr-assessment-answer
+        [questionNumber]="2"
+        [card]="assessmentCard"
+        [question]="sectionData.q2.title"
+        [answer]="sectionData.q2.score"
+        (answerChanged)="trAssessmentAnswerChange(2, $event)">
+      </tr-assessment-answer>
+
+      <tr-assessment-answer
+        [questionNumber]="3"
+        [card]="assessmentCard"
+        [question]="sectionData.q3.title"
+        [answer]="sectionData.q3.score"
+        (answerChanged)="trAssessmentAnswerChange(3, $event)">
+      </tr-assessment-answer>
+
+      <tr-assessment-answer
+        [questionNumber]="4"
+        [card]="assessmentCard"
+        [question]="sectionData.q4.title"
+        [answer]="sectionData.q4.score"
+        (answerChanged)="trAssessmentAnswerChange(4, $event)">
+      </tr-assessment-answer>
+
+      <tr-assessment-answer
+        *ngIf="sectionData.q5"
+        [questionNumber]="5"
+        [card]="assessmentCard"
+        [question]="sectionData.q5.title"
+        [answer]="sectionData.q5.score"
+        (answerChanged)="trAssessmentAnswerChange(5, $event)">
+      </tr-assessment-answer>
+
+      <tr-assessment-answer
+        *ngIf="sectionData.q6"
+        [questionNumber]="6"
+        [card]="assessmentCard"
+        [question]="sectionData.q6.title"
+        [answer]="sectionData.q6.score"
+        (answerChanged)="trAssessmentAnswerChange(6, $event)">
+      </tr-assessment-answer>
+
+      <tr-assessment-answer
+        *ngIf="sectionData.q7"
+        [questionNumber]="7"
+        [card]="assessmentCard"
+        [question]="sectionData.q7.title"
+        [answer]="sectionData.q7.score"
+        (answerChanged)="trAssessmentAnswerChange(7, $event)">
+      </tr-assessment-answer>
+
+      <tr-assessment-answer
+        *ngIf="sectionData.q8"
+        [questionNumber]="8"
+        [card]="assessmentCard"
+        [question]="sectionData.q8.title"
+        [answer]="sectionData.q8.score"
+        (answerChanged)="trAssessmentAnswerChange(8, $event)">
+      </tr-assessment-answer>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

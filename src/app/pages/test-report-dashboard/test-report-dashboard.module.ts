@@ -11,21 +11,20 @@ import { TestReportAnalyticsEffects } from '@pages/test-report/test-report.analy
 import { TestReportEffects } from '@pages/test-report/test-report.effects';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import {
-  TestReportCatADIPart3ComponentsModule,
-} from '@pages/test-report/cat-adi-part3/components/test-report.cat-adi-part3.components.module';
 import { TestReportComponentsModule } from '@pages/test-report/components/test-report-components.module';
-import { TestReportCatADI3Page } from './test-report.cat-adi-part3.page';
-import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-part3.routing.module';
+import { TestReportDashboardPage } from '@pages/test-report-dashboard/test-report-dashboard.page';
+import {
+  Adi3EndTestModalModule,
+} from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal.module';
+import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.routing-module';
 
 @NgModule({
-  declarations: [TestReportCatADI3Page],
+  declarations: [TestReportDashboardPage],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TestReportCatADIPart3PageRoutingModule,
-    TestReportCatADIPart3ComponentsModule,
+    TestReportDashboardPageRoutingModule,
     ComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([
@@ -33,10 +32,11 @@ import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-pa
       TestReportEffects,
     ]),
     TestReportComponentsModule,
+    Adi3EndTestModalModule,
   ],
   providers: [
     TestReportValidatorProvider,
     TestResultProvider,
   ],
 })
-export class TestReportCatADIPart3PageModule {}
+export class TestReportDashboardPageModule {}

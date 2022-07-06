@@ -11,6 +11,7 @@ import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { TestData as TestDataAM1 } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestData as TestDataAM2 } from '@dvsa/mes-test-schema/categories/AM2';
+import { TestData as TestDataADI3 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatD1UniqueTypes } from '@dvsa/mes-test-schema/categories/D1';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
@@ -20,6 +21,7 @@ import { HomeTestData } from '@pages/office/cat-home-test/office.cat-home-test.p
 import { getSpeedRequirementNotMet } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.selector';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
+import { map } from 'rxjs/operators';
 import { FaultCountProvider } from '../fault-count/fault-count';
 
 @Injectable()
@@ -31,6 +33,10 @@ export class TestResultProvider {
     switch (category) {
       case TestCategory.ADI2:
         return this.calculateCatAdiPart2TestResult(testData as CatADI2UniqueTypes.TestData);
+      case TestCategory.ADI3:
+        return this.calculateTestResultADI3(testData as TestDataADI3).pipe(
+          map((result) => result.activityCode),
+        );
       case TestCategory.B:
         return this.calculateCatBTestResult(testData as CatBUniqueTypes.TestData);
       case TestCategory.BE:
@@ -76,6 +82,27 @@ export class TestResultProvider {
         throw new Error(`Invalid Test Category when trying to calculate test result - ${category}`);
     }
   }
+
+  public calculateTestResultADI3 = (
+    testData: TestDataADI3,
+  ): Observable<{ activityCode: ActivityCode, grade?: string; }> => {
+    const { score: scoreLP = 0 } = testData.lessonPlanning;
+    const { score: scoreRM = 0 } = testData.riskManagement;
+    const { score: scoreTLS = 0 } = testData.teachingLearningStrategies;
+
+    const totalScore: number = scoreLP + scoreRM + scoreTLS;
+
+    // fail if any score is less than 31 or if the RM score is less than 8;
+    if (scoreRM < 8 || totalScore < 31) {
+      return of({ activityCode: ActivityCodes.FAIL });
+    }
+    // Pass - Grade B
+    if (totalScore >= 31 && totalScore <= 42) {
+      return of({ activityCode: ActivityCodes.PASS, grade: 'B' });
+    }
+    // Pass - Grade A
+    return of({ activityCode: ActivityCodes.PASS, grade: 'A' });
+  };
 
   private calculateCatAdiPart2TestResult = (testData: CatADI2UniqueTypes.TestData): Observable<ActivityCode> => {
 

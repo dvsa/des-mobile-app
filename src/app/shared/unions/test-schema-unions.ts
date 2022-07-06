@@ -136,7 +136,6 @@ export type TestDataUnion =
   | CatManoeuvreTestData;
 
 export type TestRequirementsUnion =
-  | CatCUniqueTypes.TestRequirements
   | CatBEUniqueTypes.TestRequirements
   | CatCUniqueTypes.TestRequirements
   | CatDUniqueTypes.TestRequirements

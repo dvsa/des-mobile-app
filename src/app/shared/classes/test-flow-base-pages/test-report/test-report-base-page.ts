@@ -121,7 +121,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     public testReportValidatorProvider: TestReportValidatorProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
-    private routeByCategory: RouteByCategoryProvider,
+    protected routeByCategory: RouteByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
   }

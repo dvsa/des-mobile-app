@@ -1,0 +1,203 @@
+<ion-card>
+  <ion-card-header style="padding-bottom: 0;">
+    <h3 id="lesson-theme-card-title">Lesson theme:</h3>
+  </ion-card-header>
+  <ion-card-content class="card-content-sizing" style="padding-right: 0; padding-left: 8px;" [formGroup]="formGroup">
+    <ion-grid>
+      <ion-row>
+        <div id="lesson-theme-card-sub-title" class="black-text">
+          Please select one or more options
+        </div>
+      </ion-row>
+      <br>
+      <ion-row>
+        <ion-col size="27">
+          <assessment-answer
+            [assessmentLabel]="'Junctions'"
+            [key]="'junctions'"
+            [comparator]="defineComparator('junctions')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col size="34">
+          <assessment-answer
+            [assessmentLabel]="'Town & city driving'"
+            [key]="'townCityDriving'"
+            [comparator]="defineComparator('townCityDriving')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col>
+          <assessment-answer
+            [assessmentLabel]="'Interaction with other road users'"
+            [key]="'interactionWithOtherRoadUsers'"
+            [comparator]="defineComparator('interactionWithOtherRoadUsers')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="27">
+          <assessment-answer
+            [assessmentLabel]="'Motorways'"
+            [key]="'motorways'"
+            [comparator]="defineComparator('motorways')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+<!--          <assessment-answer-->
+<!--            [assessmentLabel]="'Dual carriageway / faster moving roads'"-->
+<!--            [key]="'dualCarriagewayFasterRoads'"-->
+<!--            [comparator]="defineComparator('dualCarriagewayFasterRoads')"-->
+<!--            (answerToggled)="lessonThemeChanged($event)">-->
+<!--          </assessment-answer>-->
+        </ion-col>
+        <ion-col size="34">
+          <assessment-answer
+            [assessmentLabel]="'Defensive driving'"
+            [key]="'defensiveDriving'"
+            [comparator]="defineComparator('defensiveDriving')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col>
+          <assessment-answer
+            [assessmentLabel]="'Effective use of mirrors'"
+            [key]="'effectiveUseOfMirrors'"
+            [comparator]="defineComparator('effectiveUseOfMirrors')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="27">
+          <assessment-answer
+            [assessmentLabel]="'Rural roads'"
+            [key]="'ruralRoads'"
+            [comparator]="defineComparator('ruralRoads')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+<!--          <assessment-answer-->
+<!--            [assessmentLabel]="'Independent driving'"-->
+<!--            [key]="'independentDriving'"-->
+<!--            [comparator]="defineComparator('independentDriving')"-->
+<!--            (answerToggled)="lessonThemeChanged($event)">-->
+<!--          </assessment-answer>-->
+        </ion-col>
+        <ion-col size="34">
+<!--          <assessment-answer-->
+<!--            [assessmentLabel]="'Rural roads'"-->
+<!--            [key]="'ruralRoads'"-->
+<!--            [comparator]="defineComparator('ruralRoads')"-->
+<!--            (answerToggled)="lessonThemeChanged($event)">-->
+<!--          </assessment-answer>-->
+          <assessment-answer
+            [assessmentLabel]="'Independent driving'"
+            [key]="'independentDriving'"
+            [comparator]="defineComparator('independentDriving')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col>
+<!--          <assessment-answer-->
+<!--            [assessmentLabel]="'Motorways'"-->
+<!--            [key]="'motorways'"-->
+<!--            [comparator]="defineComparator('motorways')"-->
+<!--            (answerToggled)="lessonThemeChanged($event)">-->
+<!--          </assessment-answer>-->
+          <assessment-answer
+            [assessmentLabel]="'Dual carriageway / faster moving roads'"
+            [key]="'dualCarriagewayFasterRoads'"
+            [comparator]="defineComparator('dualCarriagewayFasterRoads')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="27">
+<!--          <assessment-answer-->
+<!--            [assessmentLabel]="'Eco-safe driving'"-->
+<!--            [key]="'ecoSafeDriving'"-->
+<!--            [comparator]="defineComparator('ecoSafeDriving')"-->
+<!--            (answerToggled)="lessonThemeChanged($event)">-->
+<!--          </assessment-answer>-->
+          <assessment-answer
+            [assessmentLabel]="'Commentary'"
+            [key]="'commentary'"
+            [comparator]="defineComparator('commentary')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col size="34">
+          <assessment-answer
+            [assessmentLabel]="'Recap a manoeuvre'"
+            [key]="'recapAManoeuvre'"
+            [comparator]="defineComparator('recapAManoeuvre')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col>
+          <assessment-answer
+            [assessmentLabel]="'Eco-safe driving'"
+            [key]="'ecoSafeDriving'"
+            [comparator]="defineComparator('ecoSafeDriving')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+<!--          <assessment-answer-->
+<!--            [assessmentLabel]="'Commentary'"-->
+<!--            [key]="'commentary'"-->
+<!--            [comparator]="defineComparator('commentary')"-->
+<!--            (answerToggled)="lessonThemeChanged($event)">-->
+<!--          </assessment-answer>-->
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="40">
+          <assessment-answer
+            [assessmentLabel]="'Recap emergency stop'"
+            [key]="'recapEmergencyStop'"
+            [comparator]="defineComparator('recapEmergencyStop')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col></ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="25">
+          <assessment-answer
+            [assessmentLabel]="'Other'"
+            [key]="'other'"
+            [comparator]="defineComparator('other')"
+            (answerToggled)="lessonThemeChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col class="ion-align-self-center ion-padding-start">
+          <ion-row class="spacing-row"></ion-row>
+          <ion-row>
+            <ion-col class="textarea-input">
+              <textarea
+                charLimit="950"
+                charCount
+                [class.ng-invalid]="invalid"
+                [value]="otherReason"
+                (change)="otherReasoningChanged($event.target.value)"
+                formControlName="otherReason"
+                class="mes-data input-styling-background">
+              </textarea>
+            </ion-col>
+          </ion-row>
+          <ion-row class="validation-message-row ion-align-items-center" *ngIf="invalid">
+            <div class="validation-text" [class.ng-invalid]="invalid">
+              Please provide a reason when selecting 'Other'
+            </div>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+
+  <warning-banner
+    *ngIf="showOtherSelectedBanner()"
+    [warningText]="'You selected Other, add details in the box'">
+  </warning-banner>
+</ion-card>

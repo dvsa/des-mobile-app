@@ -1,0 +1,50 @@
+<ion-card class="modal-alert">
+  <ion-row class="ion-justify-content-center">
+    <ion-col class="ion-no-padding">
+      <p class="modal-alert-header">
+        Test Outcome: <span [class]="getTestResultClass()">{{getTestResultLabel()}}</span>
+      </p>
+    </ion-col>
+  </ion-row>
+  <modal-result-item
+    [adi3]="true"
+    [showIcon]="false"
+    [label]="'Lesson planning'"
+    [score]="testData.lessonPlanning.score">
+  </modal-result-item>
+  <modal-result-item
+    [adi3]="true"
+    [showIcon]="true"
+    [label]="'Risk management'"
+    [score]="testData.riskManagement.score"
+    [isPass]="testData.riskManagement.score >= 8">
+  </modal-result-item>
+  <modal-result-item
+    [adi3]="true"
+    [showIcon]="false"
+    [label]="'Teaching & learning'"
+    [score]="testData.teachingLearningStrategies.score">
+  </modal-result-item>
+  <modal-result-item
+    [adi3]="true"
+    [showIcon]="true"
+    [label]="'Overall score'"
+    [score]="totalScore"
+    [isPass]="testResult.activityCode === '1'">
+  </modal-result-item>
+  <ion-row class="ion-justify-content-center ">
+    <ion-col size="84">
+      <ion-button class="mes-primary-button" (click)="onContinue()">
+        <h3>Continue to debrief</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top column-border-right ion-no-padding">
+      <ion-button fill="clear" class="terminate-button" (click)="onTerminate()">Terminate test</ion-button>
+    </ion-col>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-button fill="clear" class="return-button" (click)="onCancel()">Return to test</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-card>

@@ -23,7 +23,7 @@ export const teachingLearningStrategiesReducer = createReducer(
   }): TeachingLearningStrategies => ({
     ...state,
     [`q${question}`]: {
-      ...[`q${question}`],
+      ...state[`q${question}`],
       score,
     },
   })),

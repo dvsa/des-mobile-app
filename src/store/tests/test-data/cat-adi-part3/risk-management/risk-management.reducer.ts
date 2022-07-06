@@ -32,7 +32,7 @@ export const riskManagementReducer = createReducer(
   on(riskManagementActions.RiskManagementQuestionScoreChanged, (state, { question, score }): RiskManagement => ({
     ...state,
     [`q${question}`]: {
-      ...[`q${question}`],
+      ...state[`q${question}`],
       score,
     },
   })),

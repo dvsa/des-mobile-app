@@ -8,7 +8,7 @@ export const StudentLevelChanged = createAction(
 
 export const LessonThemeChanged = createAction(
   '[LessonAndTheme] Lesson theme changed',
-  (lessonThemes: LessonTheme[]) => ({ lessonThemes }),
+  (lessonTheme: LessonTheme) => ({ lessonTheme }),
 );
 
 export const OtherChanged = createAction(
