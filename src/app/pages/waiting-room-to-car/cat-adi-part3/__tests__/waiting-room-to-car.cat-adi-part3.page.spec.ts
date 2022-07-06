@@ -155,7 +155,7 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
         await component.onSubmit();
         tick();
         expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.ADI3, { replaceUrl: true },
+          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.ADI3, { replaceUrl: false },
         );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
