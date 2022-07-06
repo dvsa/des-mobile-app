@@ -9,10 +9,10 @@ import {
   vehicleDetailsCatADIPart3Reducer,
 } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
 import { testDataCatADI3Reducer } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { accompanimentCatADI3Reducer } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.reducer';
 import { schemaVersionReducer } from './schema-version/schema-version.reducer';
 import { categoryReducer } from './category/category.reducer';
 import { preTestDeclarationsReducer } from './pre-test-declarations/pre-test-declarations.reducer';
-import { accompanimentReducer } from './accompaniment/accompaniment.reducer';
 import { postTestDeclarationsReducer } from './post-test-declarations/post-test-declarations.reducer';
 import { communicationPreferencesReducer } from './communication-preferences/communication-preferences.reducer';
 import { rekeyReducer } from './rekey/rekey.reducer';
@@ -33,7 +33,7 @@ export function testsCatADIPart3Reducer(
 ): Required<TestResultCatADI3Schema> {
   return combineReducers(
     {
-      accompaniment: accompanimentReducer,
+      accompaniment: accompanimentCatADI3Reducer,
       activityCode: activityCodeReducer,
       appVersion: appVersionReducer,
       category: categoryReducer,

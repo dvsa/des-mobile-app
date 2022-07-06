@@ -4,8 +4,8 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 enum OrditTrained {
-  YES = 'Y',
-  NO = 'N',
+  YES = 'true',
+  NO = 'false',
 }
 
 @Component({
@@ -30,7 +30,9 @@ export class OrditTrainerCatAdiPart2Component {
       this.formControl = new FormControl('', [Validators.required]);
       this.formGroup.addControl('orditTrainedCtrl', this.formControl);
     }
-    this.formControl.patchValue(this.orditTrainedRadioChecked);
+    if (this.orditTrainedRadioChecked === true || this.orditTrainedRadioChecked === false) {
+      this.formControl.patchValue(String(this.orditTrainedRadioChecked));
+    }
   }
 
   get invalid(): boolean {

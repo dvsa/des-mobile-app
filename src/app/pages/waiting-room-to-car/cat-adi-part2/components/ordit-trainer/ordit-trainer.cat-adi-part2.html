@@ -15,7 +15,7 @@
                        [checked]="orditTrainedRadioChecked === true"
                        [class.ng-invalid]="invalid"
                        (change)="orditTrainingOutcomeChanged($event.target.value)"
-                       value="Y">
+                       value="true">
                 <label for="ordit-trained-yes" class="radio-label">Yes</label>
             </ion-col>
             <ion-col size="48">
@@ -27,7 +27,7 @@
                        [checked]="orditTrainedRadioChecked === false"
                        [class.ng-invalid]="invalid"
                        (change)="orditTrainingOutcomeChanged($event.target.value)"
-                       value="N">
+                       value="false">
                 <label for="ordit-trained-no" class="radio-label">No</label>
             </ion-col>
         </ion-row>
