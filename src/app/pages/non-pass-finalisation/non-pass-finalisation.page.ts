@@ -209,6 +209,9 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
 
   ionViewDidEnter(): void {
     this.store$.dispatch(NonPassFinalisationViewDidEnter());
+    if (this.testCategory === TestCategory.ADI2) {
+      this.store$.dispatch(D255No());
+    }
   }
 
   ionViewDidLeave(): void {
