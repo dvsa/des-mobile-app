@@ -1,0 +1,13 @@
+.box-padding {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+ion-content {
+  --ion-background-color: var(--mes-white);
+}
+
+.character-count {
+  color: var(--gds-grey-1);
+  font-weight: initial;
+  letter-spacing: initial;
+}
