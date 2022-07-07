@@ -1,12 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   CommonPassFinalisationPageState, PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  CandidateChoseToProceedWithTestInEnglish,
-  CandidateChoseToProceedWithTestInWelsh,
-} from '@store/tests/communication-preferences/communication-preferences.actions';
+import { FormGroup } from '@angular/forms';
 import { Platform } from '@ionic/angular';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Router } from '@angular/router';
@@ -33,9 +29,6 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   form: FormGroup;
   public isEndToEndPracticeMode: boolean;
   pageState: PassFinalisationPageState;
-  adviceGiven: boolean = null;
-  private formControl: FormControl;
-  noAdviceCharsRemaining: number = null;
 
   constructor(
     platform: Platform,
@@ -59,24 +52,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
 
     // Dispatching this action as D255 is not present in ADI pt2, but it is a mandatory field in TARS
     this.store$.dispatch(D255No());
-    this.allocateFormControl();
     console.log(this.form);
-  }
-
-  allocateFormControl() {
-    if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
-      this.form.addControl('furtherDevelopment', this.formControl);
-    }
-  }
-
-  furtherDevelopmentChanged(furtherDevelopment) {
-    if (furtherDevelopment === 'further-development-yes') {
-      this.adviceGiven = true;
-    } else {
-      this.adviceGiven = false;
-    }
-    console.log(this.adviceGiven);
   }
 
   ionViewWillEnter(): boolean {
@@ -86,29 +62,6 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   }
 
   onSubmit() {
-    console.log('submit');
-  }
-
-  characterCountChanged(charactersRemaining: number) {
-    this.noAdviceCharsRemaining = charactersRemaining;
-  }
-
-  charactersExceeded(): boolean {
-    return this.noAdviceCharsRemaining < 0;
-  }
-
-  getCharacterCountText() {
-    const characterString = Math.abs(this.noAdviceCharsRemaining) === 1 ? 'character' : 'characters';
-    const endString = this.noAdviceCharsRemaining < 0 ? 'too many' : 'remaining';
-    return `You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`;
-  }
-
-  isWelshChanged(isWelsh: boolean) {
-    this.store$.dispatch(
-      isWelsh
-        ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
-        : CandidateChoseToProceedWithTestInEnglish('English'),
-    );
   }
 
 }
