@@ -1,0 +1,91 @@
+<ion-header>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons id="back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ion-grid>
+        <finalisation-header
+                [candidateName]="pageState.candidateName$ | async"
+                [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                [outcomeText]="pageState.testOutcomeText$ | async">
+        </finalisation-header>
+
+        <debrief-witnessed
+                [display]="true"
+                [formGroup]="form"
+                [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+                [outcome]="testOutcome" (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+        </debrief-witnessed>
+
+        <div class="mes-row-separator"></div>
+
+        <div class="box-padding">
+          <ion-col class="component-label ion-align-self-center" size="32">
+            <ion-row>
+              <label>Was advice given to seek further development?</label>
+            </ion-row>
+            <warning-banner
+                    warningText="Placeholder Text to advise ORDIT trainer">
+            </warning-banner>
+            <ion-row>
+              <ion-col size="48">
+                <input type="radio"
+                       formControlName="furtherDevelopment"
+                       id="further-development-yes"
+                       name="furtherDevelopment"
+                       class="gds-radio-button"
+                       [value]=true
+                       (change)="furtherDevelopmentChanged($event.target.id)">
+                <label for="further-development-yes" class="radio-label" id="debrief-witnessed-yes-label">Yes</label>
+              </ion-col>
+              <ion-col>
+                <input type="radio"
+                       formControlName="furtherDevelopment"
+                       id="further-development-no"
+                       name="furtherDevelopment"
+                       class="gds-radio-button"
+                       [value]=false
+                       (change)="furtherDevelopmentChanged($event.target.id)">
+                <label for="further-development-no" class="radio-label" id="debrief-witnessed-no-label">No</label>
+              </ion-col>
+            </ion-row>
+            <div *ngIf="adviceGiven === false" class="mes-row-separator padding-top-10"></div>
+            <ion-row class="padding-top-22" *ngIf="adviceGiven === false">
+              <ion-col>
+                <label>Reason for no advice given:</label>
+              </ion-col>
+              <ion-col>
+                <textarea
+                        class="vehicle-reg-input mes-data input-styling-background ng-untouched ng-pristine"
+                        charLimit="1000"
+                        (onCharacterCountChanged)="characterCountChanged($event)">
+                </textarea>
+                <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+                  {{getCharacterCountText()}}
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </div>
+
+
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-row id="pass-final-background">
+    <ion-button class="mes-primary-button" id="pass-finalisation-continue-button">
+      <h3>Submit</h3>
+    </ion-button>
+  </ion-row>
+</ion-footer>
