@@ -50,7 +50,7 @@
                                 [formGroup]="form"
                                 [hideSchoolVehicleAndDualControlRow]="true"
                                 [hideSchoolBikeRow]="false"
-                                [schoolVehicleDetails]="pageState.schoolBike$ | async"
+                                [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
                                 (schoolBikeVehicleDetailsChange)="schoolBikeToggled()">
                         </vehicle-details-card>
                     </ion-col>
