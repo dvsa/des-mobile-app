@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { Platform } from '@ionic/angular';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -15,8 +15,19 @@ import { PassFinalisationViewDidEnter } from '@pages/pass-finalisation/pass-fina
 import {
   D255No,
 } from '@store/tests/test-summary/test-summary.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { getFurtherDevelopment } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.selector';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { Observable } from 'rxjs';
+import { SeekFurtherDevelopmentChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 
-type PassFinalisationPageState = CommonPassFinalisationPageState;
+interface CatAdi3PassFinalisationPageState {
+  furtherDevelopment$: Observable<boolean>;
+}
+
+type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFinalisationPageState;
 
 @Component({
   selector: 'pass-finalisation.cat-adi-part3.page',
@@ -46,8 +57,18 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   ngOnInit(): void {
     super.onInitialisation();
 
+    const currentTest$ = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+    );
+
     this.pageState = {
       ...this.commonPageState,
+      furtherDevelopment$: currentTest$.pipe(
+        select(getTestData),
+        select(getReview),
+        select(getFurtherDevelopment),
+      ),
     };
 
     // Dispatching this action as D255 is not present in ADI pt2, but it is a mandatory field in TARS
@@ -59,6 +80,10 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     super.ionViewWillEnter();
     this.store$.dispatch(PassFinalisationViewDidEnter());
     return true;
+  }
+
+  furtherDevelopmentChanged(furtherDevelopment: boolean) {
+    this.store$.dispatch(SeekFurtherDevelopmentChanged(furtherDevelopment));
   }
 
   onSubmit() {

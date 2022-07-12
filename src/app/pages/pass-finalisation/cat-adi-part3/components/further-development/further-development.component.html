@@ -1,50 +1,61 @@
-<div class="box-padding">
-  <ion-col class="component-label ion-align-self-center" size="32">
+<ion-row class="mes-validated-row mes-row-separator mes-narrow-row" id="further-development-card"
+         [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label ion-align-self-center" size="32">
+        <ion-row>
+            <label>Was advice given to seek further development?</label>
+        </ion-row>
+    </ion-col>
+    <!--    <warning-banner-->
+    <!--            warningText="Placeholder Text to advise ORDIT trainer">-->
+    <!--    </warning-banner>-->
+    <!--    <ion-row>-->
+    <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <label>Was advice given to seek further development?</label>
-    </ion-row>
-    <warning-banner
-            warningText="Placeholder Text to advise ORDIT trainer">
-    </warning-banner>
-    <ion-row>
-      <ion-col size="48">
+    <ion-col size="48">
         <input type="radio"
                formControlName="furtherDevelopment"
                id="further-development-yes"
                name="furtherDevelopment"
                class="gds-radio-button"
-               [value]=true
-               (change)="furtherDevelopmentChanged($event.target.id)">
-        <label for="further-development-yes" class="radio-label" id="debrief-witnessed-yes-label">Yes</label>
-      </ion-col>
-      <ion-col>
+               value=true
+               [class.ng-invalid]="invalid"
+               (change)="furtherDevelopmentChanged($event.target.value)">
+        <label for="further-development-yes" class="radio-label" id="further-development-yes-label">Yes</label>
+    </ion-col>
+    <ion-col size="48">
         <input type="radio"
                formControlName="furtherDevelopment"
                id="further-development-no"
                name="furtherDevelopment"
                class="gds-radio-button"
-               [value]=false
-               (change)="furtherDevelopmentChanged($event.target.id)">
-        <label for="further-development-no" class="radio-label" id="debrief-witnessed-no-label">No</label>
-      </ion-col>
-    </ion-row>
-    <div *ngIf="adviceGiven === false" class="mes-row-separator padding-top-10"></div>
-    <ion-row class="padding-top-22" *ngIf="adviceGiven === false">
-      <ion-col>
-        <label>Reason for no advice given:</label>
-      </ion-col>
-      <ion-col>
-                <textarea
-                        [defaultValue]="''"
-                        charCount
-                        class="vehicle-reg-input mes-data input-styling-background ng-untouched ng-pristine"
-                        charLimit="1000"
-                        (onCharacterCountChanged)="characterCountChanged($event)">
-                </textarea>
-        <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
-          {{getCharacterCountText()}}
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-col>
-</div>
+               value=false
+               [class.ng-invalid]="invalid"
+               (change)="furtherDevelopmentChanged($event.target.value)">
+        <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
+    </ion-col>
+</ion-row>
+<ion-row class="validation-message-row ion-align-items-center">
+    <div class="validation-text" [class.ng-invalid]="invalid" id="further-development-validation-text">
+        Select the if advice was given
+    </div>
+</ion-row>
+<!--    <div *ngIf="adviceGiven === false" class="mes-row-separator padding-top-10"></div>-->
+<!--    <ion-row class="padding-top-22" *ngIf="adviceGiven === false">-->
+<!--      <ion-col>-->
+<!--        <label>Reason for no advice given:</label>-->
+<!--      </ion-col>-->
+<!--      <ion-col>-->
+<!--                <textarea-->
+<!--                        [defaultValue]="''"-->
+<!--                        charCount-->
+<!--                        class="vehicle-reg-input mes-data input-styling-background ng-untouched ng-pristine"-->
+<!--                        charLimit="1000"-->
+<!--                        (onCharacterCountChanged)="characterCountChanged($event)">-->
+<!--                </textarea>-->
+<!--        <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">-->
+<!--          {{getCharacterCountText()}}-->
+<!--        </div>-->
+<!--      </ion-col>-->
+<!--    </ion-row>-->
+</ion-row>
