@@ -22,11 +22,14 @@
                 [display]="true"
                 [formGroup]="form"
                 [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-                [outcome]="testOutcome" (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+                [outcome]="testOutcome"
+                (debriefWitnessedChange)="debriefWitnessedChanged($event)">
         </debrief-witnessed>
 
         <further-development
-        [formGroup]="form">
+                [formGroup]="form"
+                [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+                (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
 
         <div class="mes-row-separator"></div>

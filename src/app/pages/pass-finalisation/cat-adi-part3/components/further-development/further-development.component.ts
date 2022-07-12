@@ -1,5 +1,5 @@
 import {
-  Component, Input, OnChanges,
+  Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -10,47 +10,51 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class FurtherDevelopmentComponent implements OnChanges {
 
+  formControl: FormControl;
   noAdviceCharsRemaining: number = null;
-  adviceGiven: boolean = null;
-  @Input() formGroup?: FormGroup;
-  formControl: FormControl = null;
 
-  ngOnChanges() {
-    console.log(this.formGroup);
-    this.allocateFormControl();
-  }
+  @Input()
+  formGroup: FormGroup;
 
-  characterCountChanged(charactersRemaining: number) {
-    console.log(charactersRemaining);
-    this.noAdviceCharsRemaining = charactersRemaining;
-  }
+  @Input()
+  furtherDevelopment: boolean;
 
-  allocateFormControl() {
-    if (!this.formControl && this.formGroup) {
+  @Output()
+  furtherDevelopmentChange = new EventEmitter<boolean>();
+
+  ngOnChanges(): void {
+    if (!this.formControl) {
       this.formControl = new FormControl('', [Validators.required]);
-      console.log(this.formControl);
       this.formGroup.addControl('furtherDevelopment', this.formControl);
     }
+
+    this.formControl.patchValue(this.furtherDevelopment);
   }
 
-  furtherDevelopmentChanged(furtherDevelopment) {
-    if (furtherDevelopment === 'further-development-yes') {
-      this.adviceGiven = true;
-    } else {
-      this.adviceGiven = false;
+  furtherDevelopmentChanged(furtherDevelopment: boolean) {
+    if (this.formControl.valid) {
+      this.furtherDevelopmentChange.emit(furtherDevelopment);
     }
-    console.log(this.adviceGiven);
   }
 
-  charactersExceeded(): boolean {
-    return this.noAdviceCharsRemaining < 0;
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
   }
 
-  getCharacterCountText() {
-    const characterString = Math.abs(this.noAdviceCharsRemaining) === 1 ? 'character' : 'characters';
-    const endString = this.noAdviceCharsRemaining < 0 ? 'too many' : 'remaining';
-    console.log(`You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`);
-    return `You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`;
-  }
+  // characterCountChanged(charactersRemaining: number) {
+  //   console.log(charactersRemaining);
+  //   this.noAdviceCharsRemaining = charactersRemaining;
+  // }
+  //
+  // charactersExceeded(): boolean {
+  //   return this.noAdviceCharsRemaining < 0;
+  // }
+  //
+  // getCharacterCountText() {
+  //   const characterString = Math.abs(this.noAdviceCharsRemaining) === 1 ? 'character' : 'characters';
+  //   const endString = this.noAdviceCharsRemaining < 0 ? 'too many' : 'remaining';
+  //   console.log(`You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`);
+  //   return `You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`;
+  // }
 
 }
