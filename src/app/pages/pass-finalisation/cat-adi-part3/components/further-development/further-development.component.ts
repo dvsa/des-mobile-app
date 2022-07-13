@@ -22,6 +22,9 @@ export class FurtherDevelopmentComponent implements OnChanges {
   @Output()
   furtherDevelopmentChange = new EventEmitter<boolean>();
 
+  @Output()
+  adviceReason = new EventEmitter<string>();
+
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl('', [Validators.required]);
@@ -29,6 +32,10 @@ export class FurtherDevelopmentComponent implements OnChanges {
     }
 
     this.formControl.patchValue(this.furtherDevelopment);
+    this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+    console.log(this.formGroup.controls['furtherDevelopment'].value);
+    console.log(this.furtherDevelopment);
+    console.log('::::::: ', this.formGroup.controls['furtherDevelopment'].value === false);
   }
 
   furtherDevelopmentChanged(furtherDevelopment: boolean) {
@@ -41,20 +48,22 @@ export class FurtherDevelopmentComponent implements OnChanges {
     return !this.formControl.valid && this.formControl.dirty;
   }
 
-  // characterCountChanged(charactersRemaining: number) {
-  //   console.log(charactersRemaining);
-  //   this.noAdviceCharsRemaining = charactersRemaining;
-  // }
-  //
-  // charactersExceeded(): boolean {
-  //   return this.noAdviceCharsRemaining < 0;
-  // }
-  //
-  // getCharacterCountText() {
-  //   const characterString = Math.abs(this.noAdviceCharsRemaining) === 1 ? 'character' : 'characters';
-  //   const endString = this.noAdviceCharsRemaining < 0 ? 'too many' : 'remaining';
-  //   console.log(`You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`);
-  //   return `You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`;
-  // }
+  characterCountChanged(charactersRemaining: number) {
+    this.noAdviceCharsRemaining = charactersRemaining;
+  }
+
+  adviceReasonChange(text: string) {
+    this.adviceReason.emit(text);
+  }
+
+  charactersExceeded(): boolean {
+    return this.noAdviceCharsRemaining < 0;
+  }
+
+  getCharacterCountText() {
+    const characterString = Math.abs(this.noAdviceCharsRemaining) === 1 ? 'character' : 'characters';
+    const endString = this.noAdviceCharsRemaining < 0 ? 'too many' : 'remaining';
+    return `You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`;
+  }
 
 }

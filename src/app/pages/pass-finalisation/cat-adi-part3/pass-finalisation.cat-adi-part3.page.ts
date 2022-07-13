@@ -17,14 +17,21 @@ import {
 } from '@store/tests/test-summary/test-summary.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import { getFurtherDevelopment } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import {
+  getFurtherDevelopment,
+  getReasonForNoAdviceGiven,
+} from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { Observable } from 'rxjs';
-import { SeekFurtherDevelopmentChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import {
+  ReasonForNoAdviceGivenChanged,
+  SeekFurtherDevelopmentChanged
+} from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
+  adviceReason$: Observable<string>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFinalisationPageState;
@@ -69,6 +76,11 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         select(getReview),
         select(getFurtherDevelopment),
       ),
+      adviceReason$: currentTest$.pipe(
+        select(getTestData),
+        select(getReview),
+        select(getReasonForNoAdviceGiven),
+      ),
     };
 
     // Dispatching this action as D255 is not present in ADI pt2, but it is a mandatory field in TARS
@@ -84,6 +96,9 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
 
   furtherDevelopmentChanged(furtherDevelopment: boolean) {
     this.store$.dispatch(SeekFurtherDevelopmentChanged(furtherDevelopment));
+  }
+  adviceReasonChanged(adviceReason: string) {
+    this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
   }
 
   onSubmit() {

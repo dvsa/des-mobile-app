@@ -26,13 +26,14 @@
                 (debriefWitnessedChange)="debriefWitnessedChanged($event)">
         </debrief-witnessed>
 
+        <div class="mes-row-separator padding-top-10"></div>
+
         <further-development
                 [formGroup]="form"
                 [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+                (adviceReason)="adviceReasonChanged($event)"
                 (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
-
-        <div class="mes-row-separator"></div>
 
       </ion-grid>
     </form>

@@ -1,61 +1,70 @@
 <ion-row class="mes-validated-row mes-row-separator mes-narrow-row" id="further-development-card"
          [formGroup]="formGroup">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-    <ion-col class="component-label ion-align-self-center" size="32">
-        <ion-row>
-            <label>Was advice given to seek further development?</label>
-        </ion-row>
-    </ion-col>
-    <!--    <warning-banner-->
-    <!--            warningText="Placeholder Text to advise ORDIT trainer">-->
-    <!--    </warning-banner>-->
-    <!--    <ion-row>-->
-    <ion-row class="spacing-row"></ion-row>
-    <ion-row>
-    <ion-col size="48">
-        <input type="radio"
-               formControlName="furtherDevelopment"
-               id="further-development-yes"
-               name="furtherDevelopment"
-               class="gds-radio-button"
-               value=true
-               [class.ng-invalid]="invalid"
-               (change)="furtherDevelopmentChanged($event.target.value)">
-        <label for="further-development-yes" class="radio-label" id="further-development-yes-label">Yes</label>
-    </ion-col>
-    <ion-col size="48">
-        <input type="radio"
-               formControlName="furtherDevelopment"
-               id="further-development-no"
-               name="furtherDevelopment"
-               class="gds-radio-button"
-               value=false
-               [class.ng-invalid]="invalid"
-               (change)="furtherDevelopmentChanged($event.target.value)">
-        <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
-    </ion-col>
-</ion-row>
-<ion-row class="validation-message-row ion-align-items-center">
-    <div class="validation-text" [class.ng-invalid]="invalid" id="further-development-validation-text">
-        Select the if advice was given
+    <div class="component-label ion-align-self-center mes-padding-left">
+        <ion-col class="component-label ion-align-self-center" size="32">
+            <ion-row>
+                <label>Was advice given to seek further development?</label>
+            </ion-row>
+            <ion-row class="spacing-row"></ion-row>
+            <ion-row>
+                <ion-col size="48">
+                    <input type="radio"
+                           formControlName="furtherDevelopment"
+                           id="further-development-yes"
+                           name="furtherDevelopment"
+                           class="gds-radio-button"
+                           value=true
+                           [class.ng-invalid]="invalid"
+                           (change)="furtherDevelopmentChanged($event.target.value)">
+                    <label for="further-development-yes" class="radio-label"
+                           id="further-development-yes-label">Yes</label>
+                </ion-col>
+                <ion-col size="48">
+                    <input type="radio"
+                           formControlName="furtherDevelopment"
+                           id="further-development-no"
+                           name="furtherDevelopment"
+                           class="gds-radio-button"
+                           value=false
+                           [class.ng-invalid]="invalid"
+                           (change)="furtherDevelopmentChanged($event.target.value)">
+                    <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
+                </ion-col>
+            </ion-row>
+        </ion-col>
     </div>
-</ion-row>
-<!--    <div *ngIf="adviceGiven === false" class="mes-row-separator padding-top-10"></div>-->
-<!--    <ion-row class="padding-top-22" *ngIf="adviceGiven === false">-->
-<!--      <ion-col>-->
-<!--        <label>Reason for no advice given:</label>-->
-<!--      </ion-col>-->
-<!--      <ion-col>-->
-<!--                <textarea-->
-<!--                        [defaultValue]="''"-->
-<!--                        charCount-->
-<!--                        class="vehicle-reg-input mes-data input-styling-background ng-untouched ng-pristine"-->
-<!--                        charLimit="1000"-->
-<!--                        (onCharacterCountChanged)="characterCountChanged($event)">-->
-<!--                </textarea>-->
-<!--        <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">-->
-<!--          {{getCharacterCountText()}}-->
-<!--        </div>-->
-<!--      </ion-col>-->
-<!--    </ion-row>-->
+    <ion-row class="validation-message-row ion-align-items-center">
+        <div class="validation-text" [class.ng-invalid]="invalid" id="further-development-validation-text">
+            Select the if advice was given
+        </div>
+    </ion-row>
+    <ion-row class="full-width">
+        <warning-banner class="full-width ion-align-self-center"
+                        warningText="Advise PDI to seek further driver development from an ORDIT trainer">
+        </warning-banner>
+    </ion-row>
+    <div *ngIf="furtherDevelopment === false" class="mes-row-separator padding-top-10"></div>
+    <ion-row *ngIf="furtherDevelopment === false" class="padding-left padding-top-22">
+        <ion-col size="36">
+            <label>Reason for no advice given:</label>
+        </ion-col>
+        <ion-col class="align-items-end text-box" size="60">
+            <ion-row>
+                <textarea
+                        [defaultValue]="''"
+                        charCount
+                        class="vehicle-reg-input mes-data input-styling-background ng-untouched ng-pristine"
+                        charLimit="950"
+                        (change)="adviceReasonChange($event.target.value)"
+                        (onCharacterCountChanged)="characterCountChanged($event)">
+                </textarea>
+            </ion-row>
+            <ion-row>
+                <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+                    {{getCharacterCountText()}}
+                </div>
+            </ion-row>
+        </ion-col>
+    </ion-row>
 </ion-row>
