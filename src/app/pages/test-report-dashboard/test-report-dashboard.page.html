@@ -21,18 +21,17 @@
         </ion-col>
     </ion-row>
 
-    <ion-card (click)="navigateToPage('lessonTheme')">
-        <ion-card-content>
-            <h3>Lesson & theme</h3>
-            <p></p>
-        </ion-card-content>
-    </ion-card>
+    <lesson-and-theme [lessonAndThemeState]="lessonAndThemeState"></lesson-and-theme>
 
   <ion-card (click)="navigateToPage('testReport')">
     <ion-card-content>
       <h3>Test report</h3>
     </ion-card-content>
   </ion-card>
+
+  <ion-buttons>
+    <ion-button (click)="onContinueClick()">Continue</ion-button>
+  </ion-buttons>
 </ion-content>
 
 <ion-footer>
