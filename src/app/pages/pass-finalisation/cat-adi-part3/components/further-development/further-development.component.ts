@@ -31,12 +31,14 @@ export class FurtherDevelopmentComponent implements OnChanges {
       this.formGroup.addControl('furtherDevelopment', this.formControl);
     }
 
-    this.formControl.patchValue(this.furtherDevelopment);
+    if (this.furtherDevelopment === true || this.furtherDevelopment === false) {
+      this.formControl.patchValue(String(this.furtherDevelopment));
+    }
   }
 
-  furtherDevelopmentChanged(furtherDevelopment: boolean) {
+  furtherDevelopmentChanged(furtherDevelopment: string) {
     if (this.formControl.valid) {
-      this.furtherDevelopmentChange.emit(furtherDevelopment);
+      this.furtherDevelopmentChange.emit(furtherDevelopment === 'true');
     }
   }
 

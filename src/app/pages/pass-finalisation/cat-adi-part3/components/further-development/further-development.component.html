@@ -11,25 +11,27 @@
                 <ion-col size="48">
                     <input type="radio"
                            formControlName="furtherDevelopment"
-                           id="further-development-yes"
+                           id="further-development-no"
                            name="furtherDevelopment"
                            class="gds-radio-button"
-                           value=true
+                           value="false"
                            [class.ng-invalid]="invalid"
+                           [checked]="furtherDevelopment === false"
                            (change)="furtherDevelopmentChanged($event.target.value)">
-                    <label for="further-development-yes" class="radio-label"
-                           id="further-development-yes-label">Yes</label>
+                    <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
                 </ion-col>
                 <ion-col size="48">
                     <input type="radio"
                            formControlName="furtherDevelopment"
-                           id="further-development-no"
+                           id="further-development-yes"
                            name="furtherDevelopment"
                            class="gds-radio-button"
-                           value=false
+                           value="true"
                            [class.ng-invalid]="invalid"
+                           [checked]="furtherDevelopment === true"
                            (change)="furtherDevelopmentChanged($event.target.value)">
-                    <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
+                    <label for="further-development-yes" class="radio-label"
+                           id="further-development-yes-label">Yes</label>
                 </ion-col>
             </ion-row>
         </ion-col>
