@@ -32,10 +32,6 @@ export class FurtherDevelopmentComponent implements OnChanges {
     }
 
     this.formControl.patchValue(this.furtherDevelopment);
-    this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
-    console.log(this.formGroup.controls['furtherDevelopment'].value);
-    console.log(this.furtherDevelopment);
-    console.log('::::::: ', this.formGroup.controls['furtherDevelopment'].value === false);
   }
 
   furtherDevelopmentChanged(furtherDevelopment: boolean) {
