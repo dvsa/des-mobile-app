@@ -40,12 +40,12 @@
         </div>
     </ion-row>
     <ion-row class="full-width">
-        <warning-banner class="full-width ion-align-self-center"
+        <warning-banner class="full-width ion-padding-bottom ion-align-self-center"
                         warningText="Advise PDI to seek further driver development from an ORDIT trainer">
         </warning-banner>
     </ion-row>
-    <div *ngIf="furtherDevelopment === false" class="mes-row-separator padding-top-10"></div>
-    <ion-row *ngIf="furtherDevelopment === false" class="padding-left padding-top-22">
+    <div *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'" class="mes-row-separator padding-top-10"></div>
+    <ion-row *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'" class="ion-padding-bottom padding-left padding-top-22">
         <ion-col size="36">
             <label>Reason for no advice given:</label>
         </ion-col>
@@ -60,11 +60,13 @@
                         (onCharacterCountChanged)="characterCountChanged($event)">
                 </textarea>
             </ion-row>
-            <ion-row>
-                <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
-                    {{getCharacterCountText()}}
-                </div>
-            </ion-row>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'">
+        <ion-col class="character-text">
+            <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+                {{getCharacterCountText()}}
+            </div>
         </ion-col>
     </ion-row>
 </ion-row>
