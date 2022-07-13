@@ -26,7 +26,7 @@ import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-
 import { Observable } from 'rxjs';
 import {
   ReasonForNoAdviceGivenChanged,
-  SeekFurtherDevelopmentChanged
+  SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 
 interface CatAdi3PassFinalisationPageState {
