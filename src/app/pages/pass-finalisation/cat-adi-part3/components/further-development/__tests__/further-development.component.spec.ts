@@ -3,6 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
+import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { FurtherDevelopmentComponent } from '../further-development.component';
 
 describe('FurtherDevelopmentComponent', () => {
@@ -13,6 +15,7 @@ describe('FurtherDevelopmentComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         FurtherDevelopmentComponent,
+        MockComponent(WarningBannerComponent),
       ],
       imports: [
         IonicModule,
