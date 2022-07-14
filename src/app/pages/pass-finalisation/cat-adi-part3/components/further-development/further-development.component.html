@@ -59,6 +59,7 @@
                         class="vehicle-reg-input mes-data input-styling-background ng-untouched ng-pristine"
                         charLimit="950"
                         (change)="adviceReasonChange($event.target.value)"
+                        [style]="'border: red'"
                         (onCharacterCountChanged)="characterCountChanged($event)">
                 </textarea>
             </ion-row>
