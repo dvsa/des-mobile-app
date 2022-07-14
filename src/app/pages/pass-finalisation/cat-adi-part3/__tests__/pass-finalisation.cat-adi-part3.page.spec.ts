@@ -26,7 +26,7 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { PassFinalisationCatADIPart3Page } from '../pass-finalisation.cat-adi-part3.page';
 
-fdescribe('PassFinalisation.CatAdiPart3.Page.HtmlPage', () => {
+describe('PassFinalisation.CatAdiPart3.Page.HtmlPage', () => {
   let component: PassFinalisationCatADIPart3Page;
   let fixture: ComponentFixture<PassFinalisationCatADIPart3Page>;
   let store$: Store<StoreModel>;
