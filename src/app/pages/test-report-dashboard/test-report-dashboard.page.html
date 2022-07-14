@@ -21,17 +21,25 @@
         </ion-col>
     </ion-row>
 
-    <lesson-and-theme [lessonAndThemeState]="lessonAndThemeState"></lesson-and-theme>
+    <dashboard-item
+            (click)="navigateToPage('lessonTheme')"
+            [title]="'Lesson & Theme'"
+            [isInvalid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === false"
+            [isValid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === true"
+            [showCompleted]="lessonAndThemeState?.score > 0"
+            [score]="lessonAndThemeState?.score"
+            [maxScore]="2"
+    ></dashboard-item>
 
-  <ion-card (click)="navigateToPage('testReport')">
-    <ion-card-content>
-      <h3>Test report</h3>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-buttons>
-    <ion-button (click)="onContinueClick()">Continue</ion-button>
-  </ion-buttons>
+    <dashboard-item
+            (click)="navigateToPage('testReport')"
+            [title]="'Test Report'"
+            [isInvalid]="testReportState > 0 && testReportState < 17"
+            [isValid]="testReportState > 0 && testReportState === 17"
+            [showCompleted]="testReportState > 0"
+            [score]="testReportState"
+            [maxScore]="17"
+    ></dashboard-item>
 </ion-content>
 
 <ion-footer>

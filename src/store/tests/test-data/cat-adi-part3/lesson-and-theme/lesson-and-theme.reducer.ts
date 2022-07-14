@@ -12,7 +12,7 @@ export const lessonAndThemeReducer = createReducer(
   initialState,
   on(lessonAndThemeActions.StudentLevelChanged, (state, { studentLevel }): LessonAndTheme => ({
     ...state,
-    studentLevel,
+    studentLevel: state.studentLevel === studentLevel ? null : studentLevel,
   })),
   on(lessonAndThemeActions.LessonThemeChanged, (state, { lessonTheme }): LessonAndTheme => ({
     ...state,

@@ -149,6 +149,13 @@ $toolbar-height: 56px;
     color: white;
   }
 
+  ion-footer {
+    ion-button {
+      width: 100%;
+      min-height: 56px;
+    }
+  }
+
   #end-test-button {
     --color: var(--gds-grey-5);
     --background: transparent;

@@ -16,6 +16,9 @@ import { TestReportDashboardPage } from '@pages/test-report-dashboard/test-repor
 import {
   Adi3EndTestModalModule,
 } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal.module';
+import {
+  TestReportCatADIPart3ComponentsModule,
+} from '@pages/test-report-dashboard/components/test-report-dashboard.components.module';
 import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.routing-module';
 
 @NgModule({
@@ -33,6 +36,7 @@ import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.ro
     ]),
     TestReportComponentsModule,
     Adi3EndTestModalModule,
+    TestReportCatADIPart3ComponentsModule,
   ],
   providers: [
     TestReportValidatorProvider,

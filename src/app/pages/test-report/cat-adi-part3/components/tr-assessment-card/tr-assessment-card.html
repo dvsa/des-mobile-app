@@ -5,7 +5,7 @@
         <h3 [id]="sectionHeader | formatToID">{{sectionHeader}}</h3>
       </ion-col>
       <ion-col size="26">
-        <h3 class="ion-float-right" [id]="sectionHeader | formatToID: 'score'">Score - {{sectionData.score}}</h3>
+        <h3 class="ion-float-right" [id]="sectionHeader | formatToID: 'score'">Score - {{sectionData?.score}}</h3>
       </ion-col>
     </ion-row>
   </ion-card-header>
@@ -14,32 +14,32 @@
       <tr-assessment-answer
         [questionNumber]="1"
         [card]="assessmentCard"
-        [question]="sectionData.q1.title"
-        [answer]="sectionData.q1.score"
+        [question]="sectionData?.q1?.title"
+        [answer]="sectionData?.q1?.score"
         (answerChanged)="trAssessmentAnswerChange(1, $event)">
       </tr-assessment-answer>
 
       <tr-assessment-answer
         [questionNumber]="2"
         [card]="assessmentCard"
-        [question]="sectionData.q2.title"
-        [answer]="sectionData.q2.score"
+        [question]="sectionData?.q2?.title"
+        [answer]="sectionData?.q2?.score"
         (answerChanged)="trAssessmentAnswerChange(2, $event)">
       </tr-assessment-answer>
 
       <tr-assessment-answer
         [questionNumber]="3"
         [card]="assessmentCard"
-        [question]="sectionData.q3.title"
-        [answer]="sectionData.q3.score"
+        [question]="sectionData?.q3?.title"
+        [answer]="sectionData?.q3?.score"
         (answerChanged)="trAssessmentAnswerChange(3, $event)">
       </tr-assessment-answer>
 
       <tr-assessment-answer
         [questionNumber]="4"
         [card]="assessmentCard"
-        [question]="sectionData.q4.title"
-        [answer]="sectionData.q4.score"
+        [question]="sectionData?.q4?.title"
+        [answer]="sectionData?.q4?.score"
         (answerChanged)="trAssessmentAnswerChange(4, $event)">
       </tr-assessment-answer>
 

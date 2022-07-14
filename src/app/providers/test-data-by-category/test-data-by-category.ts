@@ -20,8 +20,12 @@ import {
   getTestData as getTestDataCatManoeuvre,
 } from '@store/tests/test-data/cat-manoeuvres/test-data.cat-manoeuvres.reducer';
 import {
+
   getTestData as getTestDataCatADI2,
 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
+import {
+  getTestData as getTestDataCatAdI3,
+} from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 
 @Injectable()
 export class TestDataByCategoryProvider {
@@ -31,6 +35,7 @@ export class TestDataByCategoryProvider {
   public getTestDataByCategoryCode(category: CategoryCode) {
     switch (category) {
       case TestCategory.ADI2: return getTestDataCatADI2;
+      case TestCategory.ADI3: return getTestDataCatAdI3;
       case TestCategory.B: return getTestDataCatB;
       case TestCategory.BE: return getTestDataCatBE;
       case TestCategory.C: return getTestDataC;
