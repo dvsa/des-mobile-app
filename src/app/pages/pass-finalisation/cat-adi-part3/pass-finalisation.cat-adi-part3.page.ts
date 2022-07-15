@@ -9,25 +9,25 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part2';
-import { PassFinalisationViewDidEnter } from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
-  D255No,
-} from '@store/tests/test-summary/test-summary.actions';
+  PassFinalisationReportActivityCode, PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import {
   getFurtherDevelopment,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { getReview } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { Observable } from 'rxjs';
 import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import { PersistTests } from '@store/tests/tests.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
@@ -45,7 +45,6 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFi
 export class PassFinalisationCatADIPart3Page extends PassFinalisationPageComponent implements OnInit {
 
   form: FormGroup;
-  public isEndToEndPracticeMode: boolean;
   pageState: PassFinalisationPageState;
 
   constructor(
@@ -54,11 +53,10 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     router: Router,
     store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
-    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
-    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
+
   }
 
   ngOnInit(): void {
@@ -83,9 +81,6 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
       ),
     };
 
-    // Dispatching this action as D255 is not present in ADI pt2, but it is a mandatory field in TARS
-    this.store$.dispatch(D255No());
-    console.log(this.form);
   }
 
   ionViewWillEnter(): boolean {
@@ -101,7 +96,21 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
   }
 
-  onSubmit() {
+  async onSubmit(): Promise<void> {
+    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+
+    if (this.form.valid) {
+      this.store$.dispatch(PersistTests());
+      this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
+      await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
+      return;
+    }
+
+    Object.keys(this.form.controls).forEach((controlName) => {
+      if (this.form.controls[controlName].invalid) {
+        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+      }
+    });
   }
 
 }
