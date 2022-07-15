@@ -1,11 +1,15 @@
 <ion-card>
-  <ion-card-header>
+  <ion-card-header class="tr-header-padding">
     <ion-row>
       <ion-col size="66">
-        <h3 [id]="sectionHeader | formatToID">{{sectionHeader}}</h3>
+        <h3 [id]="sectionHeader | formatToID">
+          {{sectionHeader}}
+        </h3>
       </ion-col>
       <ion-col size="26">
-        <h3 class="ion-float-right" [id]="sectionHeader | formatToID: 'score'">Score - {{sectionData?.score}}</h3>
+        <h3 class="ion-float-right" [id]="sectionHeader | formatToID: 'score'">
+          Score - {{sectionData.score}}
+        </h3>
       </ion-col>
     </ion-row>
   </ion-card-header>

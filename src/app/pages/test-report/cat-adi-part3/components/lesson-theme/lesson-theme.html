@@ -1,17 +1,19 @@
 <ion-card>
-  <ion-card-header style="padding-bottom: 0;">
-    <h3 id="lesson-theme-card-title">Lesson theme:</h3>
+  <ion-card-header class="tr-header-padding">
+    <h3 id="lesson-theme-card-title">
+      Lesson theme:
+    </h3>
   </ion-card-header>
-  <ion-card-content class="card-content-sizing" style="padding-right: 0; padding-left: 8px;" [formGroup]="formGroup">
+  <ion-card-content class="card-header-sizing" [formGroup]="formGroup">
     <ion-grid>
       <ion-row>
-        <div id="lesson-theme-card-sub-title" class="black-text">
+        <div id="lesson-theme-card-sub-title" class="tr-standard-text">
           Please select one or more options
         </div>
       </ion-row>
-      <br>
+      <ion-row class="ion-padding-top"></ion-row>
       <ion-row>
-        <ion-col size="27">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Junctions'"
             [key]="'junctions'"
@@ -19,7 +21,7 @@
             (answerToggled)="lessonThemeChanged($event)">
           </assessment-answer>
         </ion-col>
-        <ion-col size="34">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Town & city driving'"
             [key]="'townCityDriving'"
@@ -27,7 +29,7 @@
             (answerToggled)="lessonThemeChanged($event)">
           </assessment-answer>
         </ion-col>
-        <ion-col>
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Interaction with other road users'"
             [key]="'interactionWithOtherRoadUsers'"
@@ -37,7 +39,7 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="27">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Motorways'"
             [key]="'motorways'"
@@ -45,7 +47,7 @@
             (answerToggled)="lessonThemeChanged($event)">
           </assessment-answer>
         </ion-col>
-        <ion-col size="34">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Defensive driving'"
             [key]="'defensiveDriving'"
@@ -53,7 +55,7 @@
             (answerToggled)="lessonThemeChanged($event)">
           </assessment-answer>
         </ion-col>
-        <ion-col>
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Effective use of mirrors'"
             [key]="'effectiveUseOfMirrors'"
@@ -63,7 +65,7 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="27">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Rural roads'"
             [key]="'ruralRoads'"
@@ -71,7 +73,7 @@
             (answerToggled)="lessonThemeChanged($event)">
           </assessment-answer>
         </ion-col>
-        <ion-col size="34">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Independent driving'"
             [key]="'independentDriving'"
@@ -79,7 +81,7 @@
             (answerToggled)="lessonThemeChanged($event)">
           </assessment-answer>
         </ion-col>
-        <ion-col>
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Dual carriageway / faster moving roads'"
             [key]="'dualCarriagewayFasterRoads'"
@@ -89,7 +91,7 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="27">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Commentary'"
             [key]="'commentary'"
@@ -97,7 +99,7 @@
             (answerToggled)="lessonThemeChanged($event)">
           </assessment-answer>
         </ion-col>
-        <ion-col size="34">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Recap a manoeuvre'"
             [key]="'recapAManoeuvre'"
@@ -105,7 +107,7 @@
             (answerToggled)="lessonThemeChanged($event)">
           </assessment-answer>
         </ion-col>
-        <ion-col>
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Eco-safe driving'"
             [key]="'ecoSafeDriving'"
@@ -115,7 +117,7 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="40">
+        <ion-col size="32">
           <assessment-answer
             [assessmentLabel]="'Recap emergency stop'"
             [key]="'recapEmergencyStop'"
@@ -127,7 +129,7 @@
         <ion-col></ion-col>
       </ion-row>
       <ion-row>
-        <ion-col size="25">
+        <ion-col size="30">
           <assessment-answer
             [assessmentLabel]="'Other'"
             [key]="'other'"
