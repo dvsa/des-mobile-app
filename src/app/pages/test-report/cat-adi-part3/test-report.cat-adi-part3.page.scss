@@ -1,0 +1,50 @@
+$report-mode-border-width: 4px;
+$toolbar-height: 56px;
+:host ::ng-deep {
+
+  .button-row-colour {
+    background-color: white;
+  }
+
+  .mes-full-width-card {
+    padding: 15px 15px 15px 15px;
+
+    .full-width {
+      width: 100%;
+    }
+  }
+
+  .normal-font-weight {
+    font-weight: normal;
+  }
+
+  .wrtc-footer-btn {
+    width: 100%;
+    min-height: 56px;
+  }
+
+  // ensure the content on the test report page doesn't grow with larger accessibility text
+  ion-content {
+    --ion-background-color: var(--gds-grey-3);
+    div, span, .grid-layout {
+      .text-zoom-regular &,
+      .text-zoom-large &,
+      .text-zoom-x-large & {
+        font-size: 16px;
+        line-height: 26px;
+      }
+    }
+  }
+
+  .title-text {
+    color: white;
+  }
+
+  #end-test-button {
+    --color: var(--gds-grey-5);
+    --background: transparent;
+    &.activated {
+      --background: transparent;
+    }
+  }
+}

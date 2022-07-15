@@ -1,0 +1,58 @@
+<ion-card>
+  <ion-card-header style="padding-bottom: 0;">
+    <h3 id="student-card-title">Student:</h3>
+  </ion-card-header>
+  <ion-card-content class="card-content-sizing" style="padding-top: 0;">
+    <ion-grid>
+      <ion-row>
+        <div id="student-card-sub-title" class="black-text">Please select only one option</div>
+      </ion-row>
+      <br>
+      <ion-row>
+        <ion-col>
+          <assessment-answer
+            [assessmentLabel]="'Beginner'"
+            [key]="'beginner'"
+            [comparator]="studentLevel"
+            (answerToggled)="studentLevelChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col>
+          <assessment-answer
+            [assessmentLabel]="'Partly trained'"
+            [key]="'partlyTrained'"
+            [comparator]="studentLevel"
+            (answerToggled)="studentLevelChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col>
+          <assessment-answer
+            [assessmentLabel]="'Trained'"
+            [key]="'trained'"
+            [comparator]="studentLevel"
+            (answerToggled)="studentLevelChanged($event)">
+          </assessment-answer>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="32">
+          <assessment-answer
+            [assessmentLabel]="'FLH New'"
+            [key]="'flhNew'"
+            [comparator]="studentLevel"
+            (answerToggled)="studentLevelChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col size="50">
+          <assessment-answer
+            [assessmentLabel]="'FLH experienced'"
+            [key]="'flhExperienced'"
+            [comparator]="studentLevel"
+            (answerToggled)="studentLevelChanged($event)">
+          </assessment-answer>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

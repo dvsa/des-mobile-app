@@ -34,9 +34,34 @@ import { TestResultProvider } from '@providers/test-result/test-result';
 import { ActivityCode, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { of } from 'rxjs';
 import { isEmpty } from 'lodash';
+import {
+  LessonPlanningOverallScoreChanged,
+  LessonPlanningQuestionScoreChanged,
+} from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.actions';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
+import { LessonPlanning, RiskManagement, TeachingLearningStrategies } from '@dvsa/mes-test-schema/categories/ADI3';
+import { sumObjectKeyValues } from '@shared/helpers/sum-object-key-values';
+import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
+import {
+  RiskManagementOverallScoreChanged,
+  RiskManagementQuestionScoreChanged,
+} from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
+import {
+  TeachingLearningStrategiesOverallScoreChanged,
+  TeachingLearningStrategiesQuestionScoreChanged,
+} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
+import {
+  getTeachingLearningStrategies,
+} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import * as testReportActions from './test-report.actions';
 
 export type NeverType<T> = T extends null ? never : T;
+
+type ScoreChangedActions =
+    typeof LessonPlanningQuestionScoreChanged
+    | typeof RiskManagementQuestionScoreChanged
+    | typeof TeachingLearningStrategiesQuestionScoreChanged;
 
 @Injectable()
 export class TestReportEffects {
@@ -147,5 +172,48 @@ export class TestReportEffects {
       testReportActions.TerminateTestFromTestReport,
     ),
     map(() => activityCodeActions.SetActivityCode(null)),
+  ));
+
+  assessmentOverallScore$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      LessonPlanningQuestionScoreChanged,
+      RiskManagementQuestionScoreChanged,
+      TeachingLearningStrategiesQuestionScoreChanged,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+          map(getCurrentTest),
+          select(getTestData),
+          select(getLessonPlanning),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          map(getCurrentTest),
+          select(getTestData),
+          select(getRiskManagement),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          map(getCurrentTest),
+          select(getTestData),
+          select(getTeachingLearningStrategies),
+        ),
+      ),
+    )),
+    concatMap((
+      [, lessonPlanning, riskManagement, teachingLearningStrategies]:
+      [ReturnType<ScoreChangedActions>, LessonPlanning, RiskManagement, TeachingLearningStrategies],
+    ) => {
+      const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
+      const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');
+      const totalScoreTLS: number = sumObjectKeyValues<TeachingLearningStrategies>(teachingLearningStrategies, 'score');
+      return of(
+        LessonPlanningOverallScoreChanged(totalScoreLP),
+        RiskManagementOverallScoreChanged(totalScoreRM),
+        TeachingLearningStrategiesOverallScoreChanged(totalScoreTLS),
+      );
+    }),
   ));
 }

@@ -39,15 +39,15 @@ describe('ModalResultItemComponent', () => {
 
   describe('displayScore', () => {
     it('should return a zero if score is null', () => {
-      expect(component.displayScore(null)).toEqual(0);
+      expect(component.displayScore(null)).toEqual('0%');
     });
 
     it('should return a zero if score is undefined', () => {
-      expect(component.displayScore(undefined)).toEqual(0);
+      expect(component.displayScore(undefined)).toEqual('0%');
     });
 
     it('should return score if score is a number', () => {
-      expect(component.displayScore(1)).toEqual(1);
+      expect(component.displayScore(1)).toEqual('1%');
     });
   });
 });

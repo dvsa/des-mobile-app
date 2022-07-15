@@ -1,10 +1,24 @@
-<ion-row class="result-row">
+<ion-row *ngIf="!adi3" class="result-row">
   <ion-col size="84" class="result-item">
     <div class="row">
       <div class="col question-code">{{label}}</div>
-      <div class="col question-score">{{displayScore(score)}}%
-        <img class="outcome-icon" [src]="getOutcomeIcon()"/>
+      <div class="col question-score">{{displayScore(score)}}
+        <img class="outcome-icon" [src]="getOutcomeIcon()" />
       </div>
     </div>
   </ion-col>
 </ion-row>
+
+<ion-grid *ngIf="adi3" class="grid-padding">
+  <ion-row class="result-item-adi3">
+    <ion-col size="63">
+      <div class="col black-text">{{label}}</div>
+    </ion-col>
+    <ion-col size="17">
+      <div class="col black-text">{{displayScore(score)}}</div>
+    </ion-col>
+    <ion-col size="12">
+      <img *ngIf="showIcon" class="outcome-icon" [src]="getOutcomeIcon()">
+    </ion-col>
+  </ion-row>
+</ion-grid>

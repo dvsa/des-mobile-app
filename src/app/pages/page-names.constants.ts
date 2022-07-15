@@ -139,6 +139,7 @@ export type PageNameKeys =
   'RekeyUploadOutcomePage' |
   'JournalPage' |
   'TestCentreJournalPage' |
+  'TestReportDashboardPage' |
   'RekeySearchPage';
 
 export enum TestFlowPageNames {
@@ -153,6 +154,7 @@ export enum TestFlowPageNames {
   REKEY_REASON_PAGE = 'RekeyReasonPage',
   TEST_REPORT_PAGE = 'TEST_REPORT_PAGE',
   WAITING_ROOM_PAGE = 'WaitingRoomPage',
+  TEST_REPORT_DASHBOARD_PAGE = 'TestReportDashboardPage',
   VIEW_TEST_RESULT = 'ViewTestResultPage',
   WAITING_ROOM_TO_CAR_PAGE = 'WAITING_ROOM_TO_CAR_PAGE',
   CONFIRM_TEST_DETAILS_PAGE = 'ConfirmTestDetailsPage',

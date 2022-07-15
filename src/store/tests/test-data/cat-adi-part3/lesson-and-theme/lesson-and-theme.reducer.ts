@@ -14,9 +14,13 @@ export const lessonAndThemeReducer = createReducer(
     ...state,
     studentLevel,
   })),
-  on(lessonAndThemeActions.LessonThemeChanged, (state, { lessonThemes }): LessonAndTheme => ({
+  on(lessonAndThemeActions.LessonThemeChanged, (state, { lessonTheme }): LessonAndTheme => ({
     ...state,
-    lessonThemes,
+    lessonThemes: (
+      state.lessonThemes?.includes(lessonTheme)
+        ? state.lessonThemes.filter((theme) => theme !== lessonTheme)
+        : [...state.lessonThemes, lessonTheme]
+    ),
   })),
   on(lessonAndThemeActions.OtherChanged, (state, { other }): LessonAndTheme => ({
     ...state,
