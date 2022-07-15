@@ -15,8 +15,8 @@ import {
 import {
   TestReportAssessmentCard,
 } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
-import { TestReportComponentsModule } from '../../components/test-report-components.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { TestReportComponentsModule } from '../../components/test-report-components.module';
 
 @NgModule({
   declarations: [
@@ -26,16 +26,16 @@ import { PipesModule } from '@shared/pipes/pipes.module';
     TestReportAssessmentAnswer,
     TestReportAssessmentCard,
   ],
-    imports: [
-        CommonModule,
-        ComponentsModule,
-        TestReportComponentsModule,
-        IonicModule,
-        DirectivesModule,
-        ReactiveFormsModule,
-        FormsModule,
-        PipesModule
-    ],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    TestReportComponentsModule,
+    IonicModule,
+    DirectivesModule,
+    ReactiveFormsModule,
+    FormsModule,
+    PipesModule,
+  ],
   exports: [
     StudentComponent,
     AssessmentAnswerComponent,
