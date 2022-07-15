@@ -13,17 +13,24 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
-import { TestData } from '@dvsa/mes-test-schema/categories/ADI3';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '@pages/test-report/test-report.actions';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import {
+  LessonTheme,
+  TestData,
+} from '@dvsa/mes-test-schema/categories/ADI3';
+import { getTests } from '@store/tests/tests.reducer';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+
+interface TestReportDashboardState {
+  testDataADI3$: Observable<TestData>;
+}
 
 interface TestReportDashboardState {}
 type TestReportDashboardPageState = CommonTestReportPageState & TestReportDashboardState;
@@ -38,6 +45,11 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   pageState: TestReportDashboardPageState;
   localSubscription: Subscription;
   testDataADI3: TestData;
+  lessonAndThemeState: {
+    valid: boolean,
+    score: number,
+  };
+  testReportState: number;
 
   constructor(
     platform: Platform,
@@ -75,10 +87,22 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
     this.localSubscription = currentTest$.pipe(
       select(getTestData),
-    ).subscribe((result: TestData) => this.testDataADI3 = result);
+    ).subscribe((result: TestData) => {
+      this.testDataADI3 = result;
+      this.lessonAndThemeState = this.validateLessonTheme(result.lessonAndTheme);
+      this.testReportState = this.adi3AssessmentProvider.validateTestReport(
+        result.lessonPlanning,
+        result.riskManagement,
+        result.teachingLearningStrategies,
+      );
+
+    });
 
     this.pageState = {
       ...this.commonPageState,
+      testDataADI3$: currentTest$.pipe(
+        select(getTestData),
+      ),
     };
 
     this.setupSubscription();
@@ -99,13 +123,17 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     }
   }
 
-  navigateToPage = async (page: 'lessonTheme' | 'testReport') => {
-    await this.routeByCategory.navigateToPage(
-      TestFlowPageNames.TEST_REPORT_PAGE,
-      TestCategory.ADI3,
-      { state: { page } },
-    );
-  };
+  validateLessonTheme(
+    data: { lessonThemes?: LessonTheme[],
+      other?: string,
+      studentLevel?: string },
+  ): { valid: boolean, score: number } {
+    const result: { valid: boolean; score: number } = { valid: false, score: 0 };
+    result.valid = !!(data.studentLevel && data.studentLevel !== '' && data.lessonThemes.length > 0);
+    result.score = !data.studentLevel && data.lessonThemes.length === 0 ? 0
+      : data.studentLevel && data.lessonThemes.length > 0 ? 2 : 1;
+    return result;
+  }
 
   onContinueClick = async (): Promise<void> => {
     const result = await this.testResultProvider.calculateTestResultADI3(this.testDataADI3).toPromise();
@@ -142,5 +170,13 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       default:
         break;
     }
+  };
+
+  navigateToPage = async (page: 'lessonTheme' | 'testReport') => {
+    await this.routeByCategory.navigateToPage(
+      TestFlowPageNames.TEST_REPORT_PAGE,
+      TestCategory.ADI3,
+      { state: { page } },
+    );
   };
 }
