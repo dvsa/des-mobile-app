@@ -1,13 +1,17 @@
 <ion-row>
-  <ion-col class="checkboxes">
+  <ion-col size="22">
     <input type="checkbox"
            class="gds-checkbox"
            [checked]="key === comparator"
            (change)="valueChanged($event?.target?.value)"
            [value]="key"
            [id]="key + 'Checkbox'">
-    <label [for]="key + 'Checkbox'" [id]="key + 'Label'" class="assessment-label">
-      {{assessmentLabel}}
+    <label [for]="key + 'Checkbox'" >
     </label>
+  </ion-col>
+  <ion-col class="assessment-label-position">
+    <div [id]="key + 'Label'" class="assessment-label-text">
+      {{assessmentLabel}}
+    </div>
   </ion-col>
 </ion-row>

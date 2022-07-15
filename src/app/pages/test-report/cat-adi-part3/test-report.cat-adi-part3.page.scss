@@ -47,4 +47,20 @@ $toolbar-height: 56px;
       --background: transparent;
     }
   }
+
+  .card-header-sizing {
+    height: 100%;
+    padding-right: 0;
+  }
+
+  .tr-standard-text {
+    font-weight: normal;
+    font-size: 20px !important;
+    color: var(--gds-black);
+  }
+
+  .tr-header-padding {
+    padding: 15px 0 0 15px;
+  }
+
 }
