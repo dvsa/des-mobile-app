@@ -19,10 +19,8 @@ import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import {
-  LessonPlanning,
   LessonTheme,
-  RiskManagement,
-  TeachingLearningStrategies, TestData,
+  TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
@@ -92,7 +90,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     ).subscribe((result: TestData) => {
       this.testDataADI3 = result;
       this.lessonAndThemeState = this.validateLessonTheme(result.lessonAndTheme);
-      this.testReportState = this.validateTestReport(
+      this.testReportState = this.adi3AssessmentProvider.validateTestReport(
         result.lessonPlanning,
         result.riskManagement,
         result.teachingLearningStrategies,
@@ -137,25 +135,25 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     return result;
   }
 
-  validateTestReport(
-    lessonPlanning: LessonPlanning,
-    riskManagement: RiskManagement,
-    teachingLearningStrategies: TeachingLearningStrategies,
-  ): number {
-    return (
-      this.countCompletedQuestions(lessonPlanning)
-      + this.countCompletedQuestions(riskManagement)
-      + this.countCompletedQuestions(teachingLearningStrategies));
-  }
-
-  countCompletedQuestions(data: LessonPlanning | RiskManagement | TeachingLearningStrategies): number {
-    return Object.keys(data).filter((key) => {
-      if (key.indexOf('score') > -1) {
-        return false;
-      }
-      return data[key].score !== null;
-    }).length;
-  }
+  // validateTestReport(
+  //   lessonPlanning: LessonPlanning,
+  //   riskManagement: RiskManagement,
+  //   teachingLearningStrategies: TeachingLearningStrategies,
+  // ): number {
+  //   return (
+  //     this.countCompletedQuestions(lessonPlanning)
+  //     + this.countCompletedQuestions(riskManagement)
+  //     + this.countCompletedQuestions(teachingLearningStrategies));
+  // }
+  //
+  // countCompletedQuestions(data: LessonPlanning | RiskManagement | TeachingLearningStrategies): number {
+  //   return Object.keys(data).filter((key) => {
+  //     if (key.indexOf('score') > -1) {
+  //       return false;
+  //     }
+  //     return data[key].score !== null;
+  //   }).length;
+  // }
 
   onContinueClick = async (): Promise<void> => {
     const result = await this.testResultProvider.calculateTestResultADI3(this.testDataADI3).toPromise();

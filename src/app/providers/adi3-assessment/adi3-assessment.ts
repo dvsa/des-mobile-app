@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { TestData } from '@dvsa/mes-test-schema/categories/ADI3';
+import {
+  LessonPlanning,
+  RiskManagement,
+  TeachingLearningStrategies,
+  TestData,
+} from '@dvsa/mes-test-schema/categories/ADI3';
 import { get } from 'lodash';
 
 @Injectable()
@@ -15,5 +20,25 @@ export class ADI3AssessmentProvider {
       return sum;
     }, 0);
   };
+
+  validateTestReport(
+    lessonPlanning: LessonPlanning,
+    riskManagement: RiskManagement,
+    teachingLearningStrategies: TeachingLearningStrategies,
+  ): number {
+    return (
+      this.countCompletedQuestions(lessonPlanning)
+      + this.countCompletedQuestions(riskManagement)
+      + this.countCompletedQuestions(teachingLearningStrategies));
+  }
+
+  countCompletedQuestions(data: LessonPlanning | RiskManagement | TeachingLearningStrategies): number {
+    return Object.keys(data).filter((key) => {
+      if (key.indexOf('score') > -1) {
+        return false;
+      }
+      return data[key].score !== null;
+    }).length;
+  }
 
 }
