@@ -15,7 +15,7 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { Observable, Subscription } from 'rxjs';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
-import { ReturnToTest } from '@pages/test-report/test-report.actions';
+import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '@pages/test-report/test-report.actions';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import {
