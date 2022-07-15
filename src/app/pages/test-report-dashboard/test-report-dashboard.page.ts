@@ -135,26 +135,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     return result;
   }
 
-  // validateTestReport(
-  //   lessonPlanning: LessonPlanning,
-  //   riskManagement: RiskManagement,
-  //   teachingLearningStrategies: TeachingLearningStrategies,
-  // ): number {
-  //   return (
-  //     this.countCompletedQuestions(lessonPlanning)
-  //     + this.countCompletedQuestions(riskManagement)
-  //     + this.countCompletedQuestions(teachingLearningStrategies));
-  // }
-  //
-  // countCompletedQuestions(data: LessonPlanning | RiskManagement | TeachingLearningStrategies): number {
-  //   return Object.keys(data).filter((key) => {
-  //     if (key.indexOf('score') > -1) {
-  //       return false;
-  //     }
-  //     return data[key].score !== null;
-  //   }).length;
-  // }
-
   onContinueClick = async (): Promise<void> => {
     const result = await this.testResultProvider.calculateTestResultADI3(this.testDataADI3).toPromise();
     const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3);
