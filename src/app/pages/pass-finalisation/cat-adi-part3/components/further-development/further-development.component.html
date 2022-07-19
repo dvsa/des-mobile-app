@@ -1,26 +1,11 @@
 <ion-row class="mes-validated-row mes-row-separator mes-narrow-row" id="further-development-card"
          [formGroup]="formGroup">
-    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-    <div class="component-label ion-align-self-center mes-padding-left">
-        <ion-col class="component-label ion-align-self-center" size="32">
-            <ion-row>
-                <label>Was advice given to seek further development?</label>
-            </ion-row>
-            <ion-row class="spacing-row"></ion-row>
-            <ion-row>
-                <ion-col size="48">
-                    <input type="radio"
-                           formControlName="furtherDevelopment"
-                           id="further-development-no"
-                           name="furtherDevelopment"
-                           class="gds-radio-button"
-                           value="false"
-                           [class.ng-invalid]="invalid"
-                           [checked]="furtherDevelopment === false"
-                           (change)="furtherDevelopmentChanged($event.target.value)">
-                    <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
-                </ion-col>
-                <ion-col size="48">
+    <div class="component-label ion-align-self-center mes-padding-left" [class.invalid-bar]="invalid">
+        <ion-row class="padding-top-22">
+            <ion-col size="28">
+                <label>Was advice given to seek further development from an ORDIT trainer?</label>
+            </ion-col>
+                <ion-col class="button-padding button-padding-top" size="37">
                     <input type="radio"
                            formControlName="furtherDevelopment"
                            id="further-development-yes"
@@ -33,43 +18,57 @@
                     <label for="further-development-yes" class="radio-label"
                            id="further-development-yes-label">Yes</label>
                 </ion-col>
-            </ion-row>
-        </ion-col>
+                <ion-col class="button-padding-top">
+                    <input type="radio"
+                           formControlName="furtherDevelopment"
+                           id="further-development-no"
+                           name="furtherDevelopment"
+                           class="gds-radio-button"
+                           value="false"
+                           [class.ng-invalid]="invalid"
+                           [checked]="furtherDevelopment === false"
+                           (change)="furtherDevelopmentChanged($event.target.value)">
+                    <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
+                </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text valid-text" [class.ng-invalid]="invalid"
+                 id="further-development-validation-text">
+                Select if advice was given
+            </div>
+        </ion-row>
     </div>
-    <ion-row class="validation-message-row ion-align-items-center">
-        <div class="validation-text" [class.ng-invalid]="invalid" id="further-development-validation-text">
-            Select the if advice was given
-        </div>
-    </ion-row>
-    <ion-row class="full-width">
-        <warning-banner class="full-width ion-padding-bottom ion-align-self-center"
-                        warningText="Advise PDI to seek further driver development from an ORDIT trainer">
-        </warning-banner>
-    </ion-row>
-    <div *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'" class="mes-row-separator padding-top-10"></div>
-    <ion-row *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'" class="ion-padding-bottom padding-left padding-top-22">
-        <ion-col size="36">
-            <label>Reason for no advice given:</label>
-        </ion-col>
-        <ion-col class="align-items-end text-box" size="85">
-            <ion-row>
+    <div *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'">
+        <div [class.invalid-bar]="!formGroup.get('reasonGiven').valid && formGroup.get('reasonGiven').dirty">
+            <div class="component-label ion-align-self-center mes-padding-left"
+                 *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'">
+                <ion-row class="height-limit ion-padding-bottom">
+                    <ion-col size="36">
+                        <label>Reason for no advice given:</label>
+                    </ion-col>
+                    <ion-col class="align-items-end text-box" size="85">
+                        <ion-row>
                 <textarea
-                        [defaultValue]="''"
+                        formControlName="reasonGiven"
+                        name="reasonGiven"
                         charCount
-                        class="vehicle-reg-input mes-data input-styling-background ng-untouched ng-pristine"
+                        class="mes-data input-styling-background ng-untouched ng-pristine"
                         charLimit="950"
                         (change)="adviceReasonChange($event.target.value)"
                         [style]="noAdviceCharsRemaining < 0 ? 'border-color: var(--mes-validation-error);' : null"
                         (onCharacterCountChanged)="characterCountChanged($event)">
                 </textarea>
-            </ion-row>
-        </ion-col>
-    </ion-row>
-    <ion-row *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'">
-        <ion-col class="character-text">
-            <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
-                {{getCharacterCountText()}}
+                        </ion-row>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="character-text">
+                        <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+                            {{getCharacterCountText()}}
+                        </div>
+                    </ion-col>
+                </ion-row>
             </div>
-        </ion-col>
-    </ion-row>
+        </div>
+    </div>
 </ion-row>

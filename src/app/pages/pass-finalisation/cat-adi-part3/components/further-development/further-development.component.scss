@@ -17,17 +17,43 @@ ion-content {
 }
 
 .text-box {
+  left: 190px;
   position: relative;
-  left: 200px;
-  bottom: 100px;
+  bottom: 70px;
 }
 
 .character-text {
+  left: 190px;
   position: relative;
-  left: 240px;
-  bottom: 120px;
+  bottom: 20px;
+}
+
+.button-padding-top {
+  padding-top: 40px;
+}
+
+.button-padding {
+  padding-left: 44px;
+}
+
+.reason-text {
+  padding-left: 26px;
 }
 
 .padding-left {
   padding-left: 32px;
+}
+
+.height-limit {
+  height: 180px;
+}
+
+.valid-text {
+  position: relative;
+  bottom: 40px;
+  left: 250px;
+}
+
+.invalid-bar {
+  border-left: solid 8px var(--gds-red);
 }

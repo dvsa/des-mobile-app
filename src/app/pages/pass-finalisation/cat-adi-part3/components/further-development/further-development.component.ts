@@ -29,8 +29,13 @@ export class FurtherDevelopmentComponent implements OnChanges {
     if (!this.formControl) {
       this.formControl = new FormControl('', [Validators.required]);
       this.formGroup.addControl('furtherDevelopment', this.formControl);
+      this.formGroup.controls.reasonGiven = new FormControl('', Validators.required);
     }
-
+    if (this.formGroup.controls.furtherDevelopment.value === 'true') {
+      this.formGroup.removeControl('reasonGiven');
+    } else {
+      this.formGroup.controls.reasonGiven = new FormControl('', Validators.required);
+    }
     if (this.furtherDevelopment === true || this.furtherDevelopment === false) {
       this.formControl.patchValue(String(this.furtherDevelopment));
     }

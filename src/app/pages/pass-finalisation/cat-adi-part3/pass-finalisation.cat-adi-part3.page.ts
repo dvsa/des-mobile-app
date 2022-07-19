@@ -28,6 +28,8 @@ import {
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { PersistTests } from '@store/tests/tests.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
@@ -53,9 +55,11 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     router: Router,
     store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
+    private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
 
   }
 
@@ -98,7 +102,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
 
   async onSubmit(): Promise<void> {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
-
+    this.form.updateValueAndValidity();
     if (this.form.valid) {
       this.store$.dispatch(PersistTests());
       this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
