@@ -1,0 +1,356 @@
+<ion-grid>
+    <ion-card class="ion-padding">
+        <ion-row class="tr-standard-text">Total Score</ion-row>
+        <br>
+        <ion-row>
+            <ion-col class="tr-standard-text total-score-positioning" size="10">{{totalScore}}</ion-col>
+            <ion-col>
+                <ion-row>
+                    <p>{{displayGradeDescription()}}</p>
+                </ion-row>
+                <ion-row *ngIf="riskManagement.score < 7">
+                    <p>Scored less than 7 in Risk Management section</p>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <ion-card class="ion-padding">
+        <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
+        <br>
+        <ion-row>
+            <ion-col class="tr-standard-text" size="20">Student</ion-col>
+            <ion-col><p>{{studentValueConst[lessonTheme.studentLevel]}}</p></ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="tr-standard-text" size="20">Theme</ion-col>
+            <ion-col><p>{{lessonThemeValueConst.join(', ')}}</p></ion-col>
+        </ion-row>
+    </ion-card>
+
+    <ion-row class="scoring-text">
+        <ion-col size="14">
+            <ion-row class="black-text">
+                <ion-col size="10"><b>0</b></ion-col>
+                <ion-col size="86"> - No evidence</ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col class="score-1-spacing">
+            <ion-row class="black-text">
+                <ion-col size="5"><b>1</b></ion-col>
+                <ion-col size="91"> - Demonstrated in a few elements</ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col>
+            <ion-row class="black-text">
+                <ion-col size="5"><b>2</b></ion-col>
+                <ion-col size="91"> - Demonstrated in most elements</ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col>
+            <ion-row class="black-text">
+                <ion-col size="5"><b>3</b></ion-col>
+                <ion-col size="91"> - Demonstrated in all elements</ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+    <ion-row class="competencies-row">
+        <ion-col>
+            <ion-row class="tr-standard-text">Lesson Planning
+                - {{lessonPlanning.score}}</ion-row>
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{lessonPlanning.q1.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{lessonPlanning.q1.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{lessonPlanning.q2.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{lessonPlanning.q2.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{lessonPlanning.q3.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{lessonPlanning.q3.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{lessonPlanning.q4.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{lessonPlanning.q4.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+        </ion-col>
+
+        <ion-col>
+            <ion-row class="tr-standard-text">Risk Management
+                - {{riskManagement.score}}</ion-row>
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{riskManagement.q1.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{riskManagement.q1.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{riskManagement.q2.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{riskManagement.q2.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{riskManagement.q3.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{riskManagement.q3.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{riskManagement.q4.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{riskManagement.q4.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+
+            <ion-row>
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{riskManagement.q5.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{riskManagement.q5.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+        </ion-col>
+
+        <ion-col>
+            <ion-row class="tr-standard-text">Teaching & Learning Strategies
+                - {{teachingLearningStrategies.score}}</ion-row>
+
+            <ion-row *ngFor="let item of teachingLearningStrategies | customKeyValue: 'q'">
+<!--                <p>{{item | json}}</p>-->
+                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">
+                    <ion-row>
+                        <ion-col size="10" class="score-padding">
+                            <div class="counter-background">
+                                <span class="count">{{item.score}}</span>
+                            </div>
+                        </ion-col>
+
+                        <ion-col class="title-padding">
+                            {{item.title}}
+                        </ion-col>
+                    </ion-row>
+                </ion-card>
+            </ion-row>
+
+<!--            <ion-row>-->
+<!--                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">-->
+<!--                    <ion-row>-->
+<!--                        <ion-col size="10" class="score-padding">-->
+<!--                            <div class="counter-background">-->
+<!--                                <span class="count">{{teachingLearningStrategies.q1.score}}</span>-->
+<!--                            </div>-->
+<!--                        </ion-col>-->
+
+<!--                        <ion-col class="title-padding">-->
+<!--                            {{teachingLearningStrategies.q1.title}}-->
+<!--                        </ion-col>-->
+<!--                    </ion-row>-->
+<!--                </ion-card>-->
+<!--            </ion-row>-->
+
+<!--            <ion-row>-->
+<!--                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">-->
+<!--                    <ion-row>-->
+<!--                        <ion-col size="10" class="score-padding">-->
+<!--                            <div class="counter-background">-->
+<!--                                <span class="count">{{teachingLearningStrategies.q2.score}}</span>-->
+<!--                            </div>-->
+<!--                        </ion-col>-->
+
+<!--                        <ion-col class="title-padding">-->
+<!--                            {{teachingLearningStrategies.q2.title}}-->
+<!--                        </ion-col>-->
+<!--                    </ion-row>-->
+<!--                </ion-card>-->
+<!--            </ion-row>-->
+
+<!--            <ion-row>-->
+<!--                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">-->
+<!--                    <ion-row>-->
+<!--                        <ion-col size="10" class="score-padding">-->
+<!--                            <div class="counter-background">-->
+<!--                                <span class="count">{{teachingLearningStrategies.q3.score}}</span>-->
+<!--                            </div>-->
+<!--                        </ion-col>-->
+
+<!--                        <ion-col class="title-padding">-->
+<!--                            {{teachingLearningStrategies.q3.title}}-->
+<!--                        </ion-col>-->
+<!--                    </ion-row>-->
+<!--                </ion-card>-->
+<!--            </ion-row>-->
+
+<!--            <ion-row>-->
+<!--                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">-->
+<!--                    <ion-row>-->
+<!--                        <ion-col size="10" class="score-padding">-->
+<!--                            <div class="counter-background">-->
+<!--                                <span class="count">{{teachingLearningStrategies.q4.score}}</span>-->
+<!--                            </div>-->
+<!--                        </ion-col>-->
+
+<!--                        <ion-col class="title-padding">-->
+<!--                            {{teachingLearningStrategies.q4.title}}-->
+<!--                        </ion-col>-->
+<!--                    </ion-row>-->
+<!--                </ion-card>-->
+<!--            </ion-row>-->
+
+<!--            <ion-row>-->
+<!--                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">-->
+<!--                    <ion-row>-->
+<!--                        <ion-col size="10" class="score-padding">-->
+<!--                            <div class="counter-background">-->
+<!--                                <span class="count">{{teachingLearningStrategies.q5.score}}</span>-->
+<!--                            </div>-->
+<!--                        </ion-col>-->
+
+<!--                        <ion-col class="title-padding">-->
+<!--                            {{teachingLearningStrategies.q5.title}}-->
+<!--                        </ion-col>-->
+<!--                    </ion-row>-->
+<!--                </ion-card>-->
+<!--            </ion-row>-->
+
+<!--            <ion-row>-->
+<!--                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">-->
+<!--                    <ion-row>-->
+<!--                        <ion-col size="10" class="score-padding">-->
+<!--                            <div class="counter-background">-->
+<!--                                <span class="count">{{teachingLearningStrategies.q6.score}}</span>-->
+<!--                            </div>-->
+<!--                        </ion-col>-->
+
+<!--                        <ion-col class="title-padding">-->
+<!--                            {{teachingLearningStrategies.q6.title}}-->
+<!--                        </ion-col>-->
+<!--                    </ion-row>-->
+<!--                </ion-card>-->
+<!--            </ion-row>-->
+
+<!--            <ion-row>-->
+<!--                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">-->
+<!--                    <ion-row>-->
+<!--                        <ion-col size="10" class="score-padding">-->
+<!--                            <div class="counter-background">-->
+<!--                                <span class="count">{{teachingLearningStrategies.q7.score}}</span>-->
+<!--                            </div>-->
+<!--                        </ion-col>-->
+
+<!--                        <ion-col class="title-padding">-->
+<!--                            {{teachingLearningStrategies.q7.title}}-->
+<!--                        </ion-col>-->
+<!--                    </ion-row>-->
+<!--                </ion-card>-->
+<!--            </ion-row>-->
+
+<!--            <ion-row>-->
+<!--                <ion-card class="ion-padding question-card black-text semibold-font-family card-padding">-->
+<!--                    <ion-row>-->
+<!--                        <ion-col size="10" class="score-padding">-->
+<!--                            <div class="counter-background">-->
+<!--                                <span class="count">{{teachingLearningStrategies.q8.score}}</span>-->
+<!--                            </div>-->
+<!--                        </ion-col>-->
+
+<!--                        <ion-col class="title-padding">-->
+<!--                            {{teachingLearningStrategies.q8.title}}-->
+<!--                        </ion-col>-->
+<!--                    </ion-row>-->
+<!--                </ion-card>-->
+<!--            </ion-row>-->
+        </ion-col>
+    </ion-row>
+</ion-grid>

@@ -50,6 +50,23 @@ import {
   getTotalPercent,
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
+import {
+  getLessonPlanningScore, getRiskManagementScore,
+  getTeachingLearningScore,
+  getTotalScore,
+} from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.selector';
+import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
+import {
+  LessonAndTheme,
+  LessonPlanning,
+  RiskManagement,
+  TeachingLearningStrategies,
+} from '@dvsa/mes-test-schema/categories/ADI3';
+import {
+  getTeachingLearningStrategies
+} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
+import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
+import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -74,6 +91,11 @@ interface DebriefPageState {
   question4$: Observable<Question>;
   question5$: Observable<Question5>;
   overallScore$: Observable<number>;
+  totalScore$: Observable<number>;
+  lessonTheme$: Observable<LessonAndTheme>
+  lessonPlanning$: Observable<LessonPlanning>;
+  riskManagement$: Observable<RiskManagement>;
+  teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
   showSafetyAndBalance$: Observable<boolean>;
 }
 @Component({
@@ -208,6 +230,31 @@ export class DebriefPage extends PracticeableBasePageComponent {
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTotalPercent),
+      ),
+      totalScore$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getTotalScore),
+      ),
+      lessonTheme$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getLessonAndTheme),
+      ),
+      lessonPlanning$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getLessonPlanning),
+      ),
+      riskManagement$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getRiskManagement),
+      ),
+      teachingLearningStrategies$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getTeachingLearningStrategies),
       ),
       showEco$: currentTest$.pipe(
         select(getTestCategory),

@@ -41,6 +41,7 @@ import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faul
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { MesBackButtonComponent } from './mes-back-button/mes-back-button';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
+import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     ActivityCodeComponent,
     TransmissionDisplayComponent,
     CPCDebriefCardComponent,
+    Adi3DebriefCard,
   ],
   imports: [
     SignaturePadModule,
@@ -119,6 +121,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     ActivityCodeComponent,
     TransmissionDisplayComponent,
     CPCDebriefCardComponent,
+    Adi3DebriefCard,
   ],
 })
 export class ComponentsModule { }
