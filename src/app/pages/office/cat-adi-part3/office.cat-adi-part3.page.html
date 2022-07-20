@@ -1,0 +1,61 @@
+<ion-header>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title>Office</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content force-overscroll="false">
+  <office-candidate-section
+    [candidateName]="pageState.candidateName$ | async"
+    [driverNumber]="pageState.candidateDriverNumber$ | async"
+    [startTime]="pageState.startTime$ | async"
+    [testOutcomeText]="pageState.testOutcomeText$ | async">
+  </office-candidate-section>
+
+  <form [formGroup]="form">
+    <ion-card>
+      <ion-card-header>
+        <h4>Test summary</h4>
+      </ion-card-header>
+
+      <ion-card-content class="card-content-ios ion-no-padding">
+        <ion-grid class="grid">
+          <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+            <additional-information [display]="pageState.displayAdditionalInformation$ | async"
+                                    [additionalInformation]="pageState.additionalInformation$ | async"
+                                    [formGroup]="form"
+                                    [outcome]="pageState.testOutcome$ | async"
+                                    (additionalInformationChange)="additionalInformationChanged($event)">
+            </additional-information>
+          </div>
+        </ion-grid>
+      </ion-card-content>
+
+      <ion-row *ngFor="let item of data | keyvalue">
+        {{item.q}}
+      </ion-row>
+    </ion-card>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-col *ngIf="!(pageState.isRekey$ | async)" class="ion-no-padding ion-text-left">
+      <ion-button id="office-save-button" class="mes-grey-button office-button" (click)="defer()">
+        <h3>Save and continue later</h3>
+      </ion-button>
+    </ion-col>
+    <ion-col *ngIf="!(pageState.isRekey$ | async)" class="ion-no-padding ion-text-end">
+      <ion-button id="office-complete-button" class="mes-primary-button office-button" (click)="onSubmit()">
+        <h3>Mark as complete</h3>
+      </ion-button>
+    </ion-col>
+    <ion-col *ngIf="(pageState.isRekey$ | async)">
+      <ion-button id="reason-for-rekey" class="mes-primary-button padding-x-5 full-width"
+                  (click)="goToReasonForRekey()" [disabled]="!isValidStartDateTime">
+        <h3>Continue</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>
