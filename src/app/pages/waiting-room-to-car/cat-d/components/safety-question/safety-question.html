@@ -17,7 +17,7 @@
                value="P"
                [formControlName]="safetyQuestionOutcomeFieldName"
                (change)="safetyQuestionsPassSelected()">
-        <label [for]="'safetyQuestionsCorrect_'+safetyQuestionId" class="radio-label">Correct</label>
+        <label [for]="'safetyQuestionsCorrect_'+safetyQuestionId" class="radio-label" id="safety-question-correct-{{safetyQuestionId}}">Correct</label>
       </ion-row>
     </ion-col>
     <ion-col size="28">
