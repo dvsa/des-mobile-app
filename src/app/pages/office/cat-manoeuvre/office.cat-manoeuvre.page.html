@@ -147,6 +147,15 @@
         </ion-card>
 
         <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
+            <eta-card
+              *ngIf="(pageState.etaFaults$ | async) && (pageState.displayEta$ | async)"
+              [faults]="pageState.etaFaults$ | async">
+            </eta-card>
+
+            <eco-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
+                      [ecoFaults]="pageState.ecoFaults$ | async"
+            ></eco-card>
+
             <fault-comment-card
                     [formGroup]="form"
                     [faultComments]="pageState.dangerousFaults$ | async"
