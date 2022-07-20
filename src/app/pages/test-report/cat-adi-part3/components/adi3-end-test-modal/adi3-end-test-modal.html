@@ -32,9 +32,17 @@
     [score]="totalScore"
     [isPass]="testResult.activityCode === '1'">
   </modal-result-item>
-  <ion-row class="ion-justify-content-center ">
+  <modal-result-item
+    [adi3]="true"
+    [showIcon]="true"
+    [showScore]="false"
+    [label]="'Review'"
+    [score]="0"
+    [isPass]="!!feedback">
+  </modal-result-item>
+  <ion-row class="ion-justify-content-center">
     <ion-col size="84">
-      <ion-button class="mes-primary-button" (click)="onContinue()">
+      <ion-button *ngIf="!!feedback" class="mes-primary-button" (click)="onContinue()">
         <h3>Continue to debrief</h3>
       </ion-button>
     </ion-col>
