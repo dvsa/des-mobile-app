@@ -17,6 +17,9 @@ export class ModalResultItemComponent {
   adi3: boolean = false;
 
   @Input()
+  showScore: boolean = true;
+
+  @Input()
   showIcon: boolean = true;
 
   @Input()

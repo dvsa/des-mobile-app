@@ -27,12 +27,16 @@ import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import { getFeedback } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import { FeedbackChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import { FormGroup } from '@angular/forms';
 
 interface TestReportDashboardState {
   testDataADI3$: Observable<TestData>;
+  feedback$: Observable<string>;
 }
 
-interface TestReportDashboardState {}
 type TestReportDashboardPageState = CommonTestReportPageState & TestReportDashboardState;
 
 @Component({
@@ -45,11 +49,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   pageState: TestReportDashboardPageState;
   localSubscription: Subscription;
   testDataADI3: TestData;
-  lessonAndThemeState: {
-    valid: boolean,
-    score: number,
-  };
+  lessonAndThemeState: { valid: boolean, score: number };
   testReportState: number;
+  form: FormGroup;
+  feedback: string;
 
   constructor(
     platform: Platform,
@@ -75,6 +78,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       insomnia,
       routeByCategory,
     );
+    this.form = new FormGroup({});
   }
 
   ngOnInit() {
@@ -95,13 +99,18 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         result.riskManagement,
         result.teachingLearningStrategies,
       );
-
+      this.feedback = result.review?.feedback;
     });
 
     this.pageState = {
       ...this.commonPageState,
       testDataADI3$: currentTest$.pipe(
         select(getTestData),
+      ),
+      feedback$: currentTest$.pipe(
+        select(getTestData),
+        select(getReview),
+        select(getFeedback),
       ),
     };
 
@@ -122,6 +131,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       this.localSubscription.unsubscribe();
     }
   }
+
+  feedbackChanged = (feedback: string) => {
+    this.store$.dispatch(FeedbackChanged(feedback));
+  };
 
   validateLessonTheme(
     data: { lessonThemes?: LessonTheme[],
@@ -146,6 +159,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         testData: this.testDataADI3,
         testResult: result,
         totalScore,
+        feedback: this.isValidDashboard ? this.feedback : null,
       },
     });
 
@@ -179,4 +193,12 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       { state: { page } },
     );
   };
+
+  get isValidDashboard(): boolean {
+    return (
+      this.testReportState === 17
+        && this.lessonAndThemeState.valid === true
+        && this.form.valid
+    );
+  }
 }

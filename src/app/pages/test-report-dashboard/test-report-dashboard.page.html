@@ -3,7 +3,7 @@
     <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode || isPracticeMode }">
         <ion-title id="test-report-page-title">Test report - {{pageState.candidateUntitledName$ | async}}</ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="onEndTestClick()" id="end-test-button">End test</ion-button>
+            <ion-button (click)="onContinueClick()" id="end-test-button">End test</ion-button>
         </ion-buttons>
         <ion-buttons id="tr-back-button" slot="start">
             <ion-back-button></ion-back-button>
@@ -28,8 +28,8 @@
             [isValid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === true"
             [showCompleted]="lessonAndThemeState?.score > 0"
             [score]="lessonAndThemeState?.score"
-            [maxScore]="2"
-    ></dashboard-item>
+            [maxScore]="2">
+    </dashboard-item>
 
     <dashboard-item
             (click)="navigateToPage('testReport')"
@@ -38,19 +38,25 @@
             [isValid]="testReportState > 0 && testReportState === 17"
             [showCompleted]="testReportState > 0"
             [score]="testReportState"
-            [maxScore]="17"
-    ></dashboard-item>
+            [maxScore]="17">
+    </dashboard-item>
+
+    <review-feedback
+      [form]="form"
+      [feedback]="pageState.feedback$ | async"
+      (feedbackChange)="feedbackChanged($event)">
+    </review-feedback>
 </ion-content>
 
 <ion-footer>
-<ion-row class="mes-full-width-card box-shadow" style="background-color: white;">
-    <ion-col class="ion-text-center">
-        <ion-button
-                (click)="onContinueClick()"
-                shape="round"
-                class="mes-primary-button wrtc-footer-btn">
-            <h3>Continue</h3>
-        </ion-button>
-    </ion-col>
-</ion-row>
+    <ion-row class="mes-full-width-card box-shadow" style="background-color: white;">
+        <ion-col class="ion-text-center">
+            <ion-button
+              (click)="onContinueClick()"
+              shape="round"
+              class="mes-primary-button wrtc-footer-btn">
+                <h3>Continue</h3>
+            </ion-button>
+        </ion-col>
+    </ion-row>
 </ion-footer>

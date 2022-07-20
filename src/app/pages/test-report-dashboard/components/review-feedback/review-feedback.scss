@@ -1,0 +1,22 @@
+:host {
+  .character-count {
+    color: var(--gds-grey-1);
+    font-weight: initial;
+    letter-spacing: initial;
+
+    &.ng-invalid {
+      font-weight: 600;
+      letter-spacing: -0.49px;
+    }
+  }
+
+  .review-icon {
+    font-size: 60px;
+    position: relative;
+    color: white;
+  }
+
+  .valid {
+    color: var(--gds-green);
+  }
+}
