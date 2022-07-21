@@ -85,7 +85,7 @@ export class TestResultProvider {
 
   public calculateTestResultADI3 = (
     testData: TestDataADI3,
-  ): Observable<{ activityCode: ActivityCode, grade?: string; }> => {
+  ): Observable<{ activityCode: ActivityCode; grade?: string; }> => {
     const { score: scoreLP = 0 } = testData.lessonPlanning;
     const { score: scoreRM = 0 } = testData.riskManagement;
     const { score: scoreTLS = 0 } = testData.teachingLearningStrategies;

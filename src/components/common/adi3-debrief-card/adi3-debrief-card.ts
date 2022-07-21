@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
   LessonAndTheme,
-  LessonPlanning,
+  LessonPlanning, Review,
   RiskManagement,
   TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
-import { studentValues, lessonThemeValues } from '@app/shared/constants/adi3-questions/lesson-theme.constants';
+import { lessonThemeValues, studentValues } from '@app/shared/constants/adi3-questions/lesson-theme.constants';
+import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'adi3-debrief-card',
@@ -28,21 +29,43 @@ export class Adi3DebriefCard implements OnInit {
   @Input()
   public teachingLearningStrategies: TeachingLearningStrategies;
 
+  @Input()
+  public testOutcome: { activityCode: ActivityCode, grade?: string };
+
+  @Input()
+  public review: Review;
+
   studentValueConst = studentValues;
   lessonThemeValueStr: string = '';
+  isTerminated: boolean = false;
 
   ngOnInit(): void {
-    const formattedLessonThemeValues = this.lessonTheme.lessonThemes.map((theme) => lessonThemeValues[theme]);
-    this.lessonThemeValueStr = `${formattedLessonThemeValues.slice(0, -1).join(', ')} & ${formattedLessonThemeValues.slice(-1)}`;
+    const formattedLessonThemeValues = this.lessonTheme.lessonThemes
+      .map((theme) => lessonThemeValues[theme]);
+    this.lessonThemeValueStr = `${formattedLessonThemeValues.slice(0, -1)
+      .join(', ')} & ${this.lessonTheme.other ? this.lessonTheme.other : formattedLessonThemeValues.slice(-1)}`;
+
+    // this.checkForTerminatedTest(this.lessonPlanning);
+    // this.checkForTerminatedTest(this.riskManagement);
+    // this.checkForTerminatedTest(this.teachingLearningStrategies);
   }
 
   displayGradeDescription(): string {
-    let description: string = 'Unsatisfactory Performance';
-    if ((this.totalScore > 30 && this.totalScore <= 42) && this.riskManagement.score >= 8) {
-      description = 'Sufficient competence demonstrated to permit entry to the Register of Approved Driving Instructors';
-    } else if (this.totalScore >= 43 && this.riskManagement.score >= 8) {
-      description = 'A high overall standard of instruction demonstrated';
+    switch (this.testOutcome.grade) {
+      case 'B':
+        return 'Sufficient competence demonstrated to permit entry to the Register of Approved Driving Instructors';
+      case 'A':
+        return 'A high overall standard of instruction demonstrated';
+      default:
+        return 'Unsatisfactory Performance';
     }
-    return description;
   }
+
+  // checkForTerminatedTest(trSection: LessonPlanning | RiskManagement | TeachingLearningStrategies): void {
+  //   Object.keys(trSection).slice(0, -1).forEach((value) => {
+  //     if (!trSection[`${value}`].score) {
+  //       this.isTerminated = true;
+  //     }
+  //   });
+  // }
 }

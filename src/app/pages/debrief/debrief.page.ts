@@ -9,15 +9,13 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  CategoryCode, Eco, ETA, QuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
+import { ActivityCode, CategoryCode, Eco, ETA, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
@@ -50,21 +48,21 @@ import {
   getTotalPercent,
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
-import {
-  getTotalScore,
-} from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.selector';
+import { getTotalScore } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.selector';
 import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
 import {
   LessonAndTheme,
   LessonPlanning,
   RiskManagement,
   TeachingLearningStrategies,
+  TestData as TestDataADI3,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import {
   getTeachingLearningStrategies,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
+import { TestResultProvider } from '@providers/test-result/test-result';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -95,6 +93,7 @@ interface DebriefPageState {
   riskManagement$: Observable<RiskManagement>;
   teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
   showSafetyAndBalance$: Observable<boolean>;
+  adi3TestOutcome$: Observable<{ activityCode: ActivityCode; grade?: string; }>;
 }
 @Component({
   selector: '.debrief-page',
@@ -129,6 +128,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
     private faultSummaryProvider: FaultSummaryProvider,
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider : TestDataByCategoryProvider,
+    private testResultProvider: TestResultProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -286,6 +286,11 @@ export class DebriefPage extends PracticeableBasePageComponent {
         select(getAvoidance),
         select(getAvoidanceAttempted),
       ),
+      adi3TestOutcome$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        switchMap((data) => this.testResultProvider.calculateTestResultADI3(data as TestDataADI3)),
+      ),
     };
 
     const {
@@ -352,6 +357,10 @@ export class DebriefPage extends PracticeableBasePageComponent {
 
   showCPCDebriefCard(): boolean {
     return isAnyOf(this.testCategory, [TestCategory.CCPC, TestCategory.DCPC]);
+  }
+
+  showADI3DebriefCard(): boolean {
+    return isAnyOf(this.testCategory, [TestCategory.ADI3]);
   }
 
   showVehicleChecksArrayCard(): boolean {

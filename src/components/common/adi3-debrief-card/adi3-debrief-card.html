@@ -14,7 +14,7 @@
             </ion-col>
         </ion-row>
     </ion-card>
-    <ion-card class="ion-padding">
+    <ion-card class="ion-padding" *ngIf="lessonTheme.lessonThemes.length > 0 && lessonTheme.studentLevel">
         <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
         <br>
         <ion-row>
@@ -74,5 +74,21 @@
                     [title]="'Teaching & Learning Strategies'">
             </adi3-debrief-card-box>
         </ion-col>
+    </ion-row>
+    <ion-row *ngIf="review">
+        <ion-card class="ion-padding">
+            <ion-row class="tr-standard-text">Review/Feedback</ion-row>
+            <br>
+            <ion-row>
+                <ion-col>
+                    <p>Advised to seek further development from ORDIT trainer?</p>
+                </ion-col>
+                <ion-col class="tr-standard-text">{{review?.seekFurtherDevelopment}}</ion-col>
+            </ion-row>
+            <br>
+            <ion-row>
+                <p>{{review?.feedback}}</p>
+            </ion-row>
+        </ion-card>
     </ion-row>
 </ion-grid>
