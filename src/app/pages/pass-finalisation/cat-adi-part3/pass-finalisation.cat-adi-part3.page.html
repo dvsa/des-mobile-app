@@ -33,8 +33,11 @@
                 [furtherDevelopment]="pageState.furtherDevelopment$ | async"
                 (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
+
+        <div  *ngIf="(pageState.furtherDevelopment$ | async) === true" class="mes-row-separator padding-top-10"></div>
+
         <reason-given
-                *ngIf="!(pageState.furtherDevelopment$ | async)"
+                *ngIf="(pageState.furtherDevelopment$ | async) === false"
                 [controlRemovalCondition]="pageState.furtherDevelopment$ | async"
                 [formGroup]="form"
                 [reasonGivenText]="pageState.adviceReason$ | async"

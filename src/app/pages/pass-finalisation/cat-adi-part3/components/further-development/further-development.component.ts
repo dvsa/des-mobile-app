@@ -21,7 +21,6 @@ export class FurtherDevelopmentComponent implements OnChanges {
   @Output()
   furtherDevelopmentChange = new EventEmitter<boolean>();
 
-
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl('', [Validators.required]);

@@ -11,7 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class ReasonGivenComponent implements OnChanges {
 
   noAdviceCharsRemaining: number = null;
-  formControl: FormControl;
+  formControl: FormControl = null;
 
   @Input()
   controlRemovalCondition: boolean;
@@ -33,12 +33,15 @@ export class ReasonGivenComponent implements OnChanges {
       if (this.reasonGivenText) {
         this.formGroup.controls.reasonGiven.patchValue(this.reasonGivenText);
       }
-      if (this.controlRemovalCondition) {
-        this.formGroup.removeControl('reasonGiven');
-      } else if (!this.formGroup.controls.reasonGiven) {
-        this.formGroup.addControl('reasonGiven', this.formControl);
-      }
     }
+  }
+
+  ngOnInit():void {
+    this.formGroup.addControl('reasonGiven', this.formControl);
+  }
+
+  ngOnDestroy():void {
+    this.formGroup.removeControl('reasonGiven');
   }
 
   characterCountChanged(charactersRemaining: number) {

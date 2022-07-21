@@ -1,4 +1,6 @@
-  <div [class.invalid-bar]="!formGroup.get('reasonGiven').valid && formGroup.get('reasonGiven').dirty">
+<ion-row class="mes-validated-row mes-narrow-row" id="further-development-card"
+         [formGroup]="formGroup">
+<div [class.invalid-bar]="!formGroup?.get('reasonGiven').valid && formGroup?.get('reasonGiven').dirty" class="padding-top-22">
     <div class="component-label ion-align-self-center mes-padding-left">
       <ion-row class="height-limit ion-padding-bottom">
         <ion-col size="36">
@@ -28,3 +30,4 @@
       </ion-row>
     </div>
   </div>
+</ion-row>
