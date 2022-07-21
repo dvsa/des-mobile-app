@@ -38,37 +38,4 @@
             </div>
         </ion-row>
     </div>
-    <div *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'">
-        <div [class.invalid-bar]="!formGroup.get('reasonGiven').valid && formGroup.get('reasonGiven').dirty">
-            <div class="component-label ion-align-self-center mes-padding-left"
-                 *ngIf="formGroup.controls['furtherDevelopment'].value === 'false'">
-                <ion-row class="height-limit ion-padding-bottom">
-                    <ion-col size="36">
-                        <label>Reason for no advice given:</label>
-                    </ion-col>
-                    <ion-col class="align-items-end text-box" size="85">
-                        <ion-row>
-                <textarea
-                        formControlName="reasonGiven"
-                        name="reasonGiven"
-                        charCount
-                        class="mes-data input-styling-background ng-untouched ng-pristine"
-                        charLimit="950"
-                        (change)="adviceReasonChange($event.target.value)"
-                        [style]="noAdviceCharsRemaining < 0 ? 'border-color: var(--mes-validation-error);' : null"
-                        (onCharacterCountChanged)="characterCountChanged($event)">
-                </textarea>
-                        </ion-row>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col class="character-text">
-                        <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
-                            {{getCharacterCountText()}}
-                        </div>
-                    </ion-col>
-                </ion-row>
-            </div>
-        </div>
-    </div>
 </ion-row>

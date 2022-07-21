@@ -30,11 +30,16 @@
 
         <further-development
                 [formGroup]="form"
-                [reasonGiven]="pageState.adviceReason$ | async"
                 [furtherDevelopment]="pageState.furtherDevelopment$ | async"
-                (adviceReason)="adviceReasonChanged($event)"
                 (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
+        <reason-given
+                *ngIf="!(pageState.furtherDevelopment$ | async)"
+                [controlRemovalCondition]="pageState.furtherDevelopment$ | async"
+                [formGroup]="form"
+                [reasonGivenText]="pageState.adviceReason$ | async"
+                (adviceReason)="adviceReasonChanged($event)">
+        </reason-given>
 
       </ion-grid>
     </form>

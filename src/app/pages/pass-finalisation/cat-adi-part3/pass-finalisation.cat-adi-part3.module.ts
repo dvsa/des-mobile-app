@@ -9,6 +9,9 @@ import { DirectivesModule } from '@directives/directives.module';
 import {
   FurtherDevelopmentComponent,
 } from '@pages/pass-finalisation/cat-adi-part3/components/further-development/further-development.component';
+import {
+  ReasonGivenComponent,
+} from '@pages/pass-finalisation/cat-adi-part3/components/reason-given/reason-given.component';
 import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-part3.page';
 import {
   PassFinalisationCatADIPart3PageRoutingModule,
@@ -28,6 +31,7 @@ import {
   declarations: [
     PassFinalisationCatADIPart3Page,
     FurtherDevelopmentComponent,
+    ReasonGivenComponent,
   ],
 })
 export class PassFinalisationCatADIPart3PageModule {}
