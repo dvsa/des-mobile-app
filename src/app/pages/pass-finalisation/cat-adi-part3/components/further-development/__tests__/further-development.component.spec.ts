@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { FurtherDevelopmentComponent } from '../further-development.component';
 
 describe('FurtherDevelopmentComponent', () => {
@@ -25,7 +25,6 @@ describe('FurtherDevelopmentComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(FurtherDevelopmentComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
   }));
 
   it('should create', () => {
