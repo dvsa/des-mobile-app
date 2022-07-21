@@ -19,6 +19,9 @@ export class FurtherDevelopmentComponent implements OnChanges {
   @Input()
   furtherDevelopment: boolean;
 
+  @Input()
+  reasonGiven?: string;
+
   @Output()
   furtherDevelopmentChange = new EventEmitter<boolean>();
 
@@ -38,6 +41,9 @@ export class FurtherDevelopmentComponent implements OnChanges {
     }
     if (this.furtherDevelopment === true || this.furtherDevelopment === false) {
       this.formControl.patchValue(String(this.furtherDevelopment));
+    }
+    if (this.reasonGiven) {
+      this.formGroup.controls.reasonGiven.patchValue(this.reasonGiven);
     }
   }
 
