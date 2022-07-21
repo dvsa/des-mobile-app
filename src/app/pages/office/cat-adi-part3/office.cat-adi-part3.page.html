@@ -10,7 +10,8 @@
     [candidateName]="pageState.candidateName$ | async"
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
-    [testOutcomeText]="pageState.testOutcomeText$ | async">
+    [testOutcomeText]="pageState.testOutcomeText$ | async"
+    [grade]="pageState.testOutcomeGrade$ | async">
   </office-candidate-section>
 
   <form [formGroup]="form">
@@ -21,6 +22,14 @@
 
       <ion-card-content class="card-content-ios ion-no-padding">
         <ion-grid class="grid">
+          <activity-code id="activity-code-card"
+                         [formGroup]="form"
+                         [activityCodeModel]="pageState.activityCode$ | async"
+                         [activityCodeOptions]="activityCodeOptions"
+                         (activityCodeChange)="activityCodeChanged($event)"
+                         [disabled]="true">
+          </activity-code>
+
           <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
             <additional-information [display]="pageState.displayAdditionalInformation$ | async"
                                     [additionalInformation]="pageState.additionalInformation$ | async"
@@ -31,10 +40,6 @@
           </div>
         </ion-grid>
       </ion-card-content>
-
-      <ion-row *ngFor="let item of data | keyvalue">
-        {{item.q}}
-      </ion-row>
     </ion-card>
   </form>
 </ion-content>

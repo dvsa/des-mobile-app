@@ -14,7 +14,7 @@
         <h3>Test outcome:
             <div id="test-outcome-text" class="inline-mode">
                 <span [class]="getTestOutcomeClass(testOutcomeText)">
-                    {{testOutcomeText}}
+                    {{grade ? 'Passed - Grade ' + grade : testOutcomeText}}
                 </span>
             </div>
         </h3>

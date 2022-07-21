@@ -4,7 +4,7 @@ import {
 } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
@@ -18,9 +18,17 @@ import {
   OfficeBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/office/office-base-page';
 import { DeviceProvider } from '@providers/device/device';
-import { TeachingLearningStrategies } from '@dvsa/mes-test-schema/categories/ADI3';
+import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
+import { Observable } from 'rxjs';
+import { getTests } from '@store/tests/tests.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { TestResultProvider } from '@providers/test-result/test-result';
+import { map, switchMap } from 'rxjs/operators';
 
-interface CatADI3OfficePageState {}
+interface CatADI3OfficePageState {
+  testOutcomeGrade$: Observable<string>;
+}
 type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
 
 @Component({
@@ -30,23 +38,6 @@ type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
 })
 export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit {
   pageState: OfficePageState;
-  data: TeachingLearningStrategies = {
-    q1: {},
-    q2: {},
-    q3: {},
-    q4: {},
-    q5: {},
-    q6: {},
-    q7: {},
-    q8: {},
-    score: 5,
-  };
-
-  compareFn = (a, b) => a - b;
-  //
-  // tls = this.data.map((key) => ({
-  //   q: this.data[key],
-  // }));
 
   constructor(
     platform: Platform,
@@ -62,6 +53,7 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
     faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
     public deviceProvider: DeviceProvider,
+    public testResultProvider: TestResultProvider,
   ) {
     super(
       platform,
@@ -76,14 +68,25 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
       faultSummaryProvider,
       faultCountProvider,
     );
+    this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig().role === ExaminerRole.DLG);
   }
 
   ngOnInit(): void {
     super.onInitialisation();
 
+    const currentTest$ = this.store$.pipe(
+      select(getTests),
+      select(getCurrentTest),
+    );
+
     this.pageState = {
       ...this.commonPageState,
+      testOutcomeGrade$: currentTest$.pipe(
+        select(getTestData),
+        switchMap((data) => this.testResultProvider.calculateTestResultADI3(data)),
+        map(({ grade }) => grade || null),
+      ),
     };
 
     super.setupSubscriptions();
@@ -95,10 +98,6 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
     if (!this.isPracticeMode && super.isIos()) {
       await this.deviceProvider.disableSingleAppMode();
     }
-  }
-
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
   }
 
 }
