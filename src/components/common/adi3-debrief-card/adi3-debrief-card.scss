@@ -22,40 +22,8 @@
     margin-left: 0;
   }
 
-  .counter-background {
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    display: flex;
-    justify-content: center;
-    background-color: var(--gds-black);
-    color: var(--mes-white);
-    border-radius: 13px;
-
-    .count {
-      font-size: 15px;
-      font-weight: bold;
-      align-self: center;
-    }
-  }
-
   .total-score-positioning {
     display: flex;
     justify-content: center;
-  }
-
-  .card-padding {
-    padding-right: 0;
-    padding-left: 10px;
-    padding-top: 10px;
-  }
-
-  .score-padding {
-    padding: 0;
-  }
-
-  .title-padding {
-    padding-top: 0;
-    top: -5px;
   }
 }

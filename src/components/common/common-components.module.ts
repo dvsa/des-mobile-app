@@ -25,6 +25,8 @@ import { ActivityCodeComponent } from '@components/common/activity-code/activity
 import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 import { TerminateTestModalModule } from '@components/common/terminate-test-modal/terminate-test-modal.module';
+import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
+import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
 import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
@@ -41,7 +43,6 @@ import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faul
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
 import { MesBackButtonComponent } from './mes-back-button/mes-back-button';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
-import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debri
     TransmissionDisplayComponent,
     CPCDebriefCardComponent,
     Adi3DebriefCard,
+    Adi3DebriefCardBox,
   ],
   imports: [
     SignaturePadModule,
@@ -122,6 +124,7 @@ import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debri
     TransmissionDisplayComponent,
     CPCDebriefCardComponent,
     Adi3DebriefCard,
+    Adi3DebriefCardBox,
   ],
 })
 export class ComponentsModule { }

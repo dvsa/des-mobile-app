@@ -29,19 +29,18 @@ export class Adi3DebriefCard implements OnInit {
   public teachingLearningStrategies: TeachingLearningStrategies;
 
   studentValueConst = studentValues;
-  lessonThemeValueConst: string[] = [];
+  lessonThemeValueStr: string = '';
 
   ngOnInit(): void {
-    this.lessonTheme.lessonThemes.forEach((item) => {
-      this.lessonThemeValueConst.push(lessonThemeValues[`${item}`]);
-    });
+    const formattedLessonThemeValues = this.lessonTheme.lessonThemes.map((theme) => lessonThemeValues[theme]);
+    this.lessonThemeValueStr = `${formattedLessonThemeValues.slice(0, -1).join(', ')} & ${formattedLessonThemeValues.slice(-1)}`;
   }
 
   displayGradeDescription(): string {
     let description: string = 'Unsatisfactory Performance';
-    if (this.totalScore > 30 && this.totalScore < 43) {
+    if ((this.totalScore > 30 && this.totalScore <= 42) && this.riskManagement.score >= 8) {
       description = 'Sufficient competence demonstrated to permit entry to the Register of Approved Driving Instructors';
-    } else if (this.totalScore > 43) {
+    } else if (this.totalScore >= 43 && this.riskManagement.score >= 8) {
       description = 'A high overall standard of instruction demonstrated';
     }
     return description;

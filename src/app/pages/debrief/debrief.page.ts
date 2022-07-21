@@ -51,8 +51,6 @@ import {
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
 import { TestOutcome as OutcomeType } from '@store/tests/tests.constants';
 import {
-  getLessonPlanningScore, getRiskManagementScore,
-  getTeachingLearningScore,
   getTotalScore,
 } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.selector';
 import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
@@ -63,7 +61,7 @@ import {
   TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import {
-  getTeachingLearningStrategies
+  getTeachingLearningStrategies,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
