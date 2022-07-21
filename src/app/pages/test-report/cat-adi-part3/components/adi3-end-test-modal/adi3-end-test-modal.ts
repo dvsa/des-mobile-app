@@ -15,6 +15,7 @@ export class Adi3EndTestModal implements OnInit {
   testResult: { activityCode?: ActivityCode; grade?: string; } = {};
   totalScore: number;
   feedback: string;
+  isValidDashboard: boolean;
 
   constructor(
     private modalCtrl: ModalController,
@@ -26,6 +27,7 @@ export class Adi3EndTestModal implements OnInit {
     this.testResult = this.navParams.get('testResult');
     this.totalScore = this.navParams.get('totalScore');
     this.feedback = this.navParams.get('feedback');
+    this.isValidDashboard = this.navParams.get('isValidDashboard');
   }
 
   async onCancel(): Promise<void> {

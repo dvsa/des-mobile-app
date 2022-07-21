@@ -159,7 +159,8 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         testData: this.testDataADI3,
         testResult: result,
         totalScore,
-        feedback: this.isValidDashboard ? this.feedback : null,
+        feedback: this.feedback,
+        isValidDashboard: this.isValidDashboard,
       },
     });
 
