@@ -17,7 +17,7 @@
     "newEmailLabel": "By email (new email)",
     "newEmailValidation": "Please enter a valid email",
     "title": "Declaration",
-    "privacyNotice": "I agree to DVSA collecting, using, storing and sharing my personal information for the purpose of carrying out the {{drivingOrRiding}} test."
+    "privacyNotice": "I agree to DVSA collecting, using, storing and sharing my personal information for the purpose of carrying out the {{testSpecificMessage}} test."
   },
   "debrief": {
     "safetyAndBalanceQuestions": {

@@ -17,7 +17,7 @@
     "newEmailLabel": "Trwy e-bost (newid e-bost)",
     "newEmailValidation": "Nodwch e-bost dilys",
     "title": "Datganiad",
-    "privacyNotice": "Rwy'n cytuno i DVSA gasglu, defnyddio, storio a rhannu fy ngwybodaeth bersonol at ddibenion cynnal y prawf {{drivingOrRiding}}"
+    "privacyNotice": "Rwy'n cytuno i DVSA gasglu, defnyddio, storio a rhannu fy ngwybodaeth bersonol at ddibenion cynnal y prawf {{testSpecificMessage}}"
   },
   "debrief": {
     "safetyAndBalanceQuestions": {
