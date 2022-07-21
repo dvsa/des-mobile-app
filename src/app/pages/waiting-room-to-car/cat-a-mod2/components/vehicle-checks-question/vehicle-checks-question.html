@@ -3,7 +3,7 @@
              [formGroup]="formGroup">
         <ion-col size="40">
             <ion-row>
-                <ion-select id="vehicle-checks-question-selector"
+                <ion-select id="vehicle-checks-question-selector-{{questionId}}"
                             placeholder="Select a question"
                             okText="Submit"
                             cancelText="Cancel"
@@ -27,7 +27,7 @@
                        value="P"
                        [formControlName]="questionOutcomeFieldName"
                        (change)="safetyAndBalancePassSelected()">
-                <label [for]="'vehicleChecksCorrect_'+questionId" class="radio-label">Correct</label>
+                <label [for]="'vehicleChecksCorrect_'+questionId" class="radio-label" id="vehicle-checks-correct-{{questionId}}">Correct</label>
             </ion-row>
         </ion-col>
         <ion-col size="28" *ngIf="shouldShowOutcomeFields()">
@@ -39,7 +39,7 @@
                        value="DF"
                        [formControlName]="questionOutcomeFieldName"
                        (change)="safetyAndBalanceDrivingFaultSelected()">
-                <label [for]="'vehicleChecksFault_'+questionId" class="radio-label">Wrong answer</label>
+                <label [for]="'vehicleChecksFault_'+questionId" class="radio-label" id="vehicle-checks-fault-{{questionId}}">Wrong answer</label>
             </ion-row>
         </ion-col>
     </ion-row>
