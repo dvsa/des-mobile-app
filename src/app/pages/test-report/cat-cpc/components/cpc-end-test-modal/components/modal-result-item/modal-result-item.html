@@ -15,7 +15,7 @@
       <div class="col black-text">{{label}}</div>
     </ion-col>
     <ion-col size="17">
-      <div class="col black-text">{{displayScore(score)}}</div>
+      <div *ngIf="showScore" class="col black-text">{{displayScore(score)}}</div>
     </ion-col>
     <ion-col size="12">
       <img *ngIf="showIcon" class="outcome-icon" [src]="getOutcomeIcon()">

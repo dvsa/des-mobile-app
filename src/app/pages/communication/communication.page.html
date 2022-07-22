@@ -25,7 +25,10 @@
 
       <div class="mes-full-width-card-separator"></div>
 
-      <privacy-notice [language]="pageState.conductedLanguage$ | async"></privacy-notice>
+      <privacy-notice
+              [language]="pageState.conductedLanguage$ | async"
+              [category]="pageState.testCategory$ | async"
+      ></privacy-notice>
 
       <div class="mes-full-width-card" id="declaration-section">
 
