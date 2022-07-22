@@ -12,9 +12,9 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { EffectsModule } from '@ngrx/effects';
 import { DebriefEffects } from '@pages/debrief/debrief.effects';
 import { DebriefAnalyticsEffects } from '@pages/debrief/debrief.analytics.effects';
+import { TestResultProvider } from '@providers/test-result/test-result';
 import { DebriefPageRoutingModule } from './debrief.routing.module';
 import { DebriefPage } from './debrief.page';
-import { TestResultProvider } from '@providers/test-result/test-result';
 
 @NgModule({
   imports: [
