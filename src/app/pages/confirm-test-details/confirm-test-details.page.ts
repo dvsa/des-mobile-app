@@ -60,7 +60,7 @@ import {
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
-import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
+import { BackToDebrief, ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
 
 interface ConfirmTestDetailsPageState {
@@ -298,6 +298,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   ]);
 
   async goBackToDebrief(): Promise<void> {
+    this.store$.dispatch(BackToDebrief());
     await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
   }
 
