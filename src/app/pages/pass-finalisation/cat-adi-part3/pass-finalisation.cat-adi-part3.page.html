@@ -13,37 +13,36 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-grid>
         <finalisation-header
-                [candidateName]="pageState.candidateName$ | async"
-                [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-                [outcomeText]="pageState.testOutcomeText$ | async">
+          [candidateName]="pageState.candidateName$ | async"
+          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+          [outcomeText]="pageState.testOutcomeText$ | async"
+          [grade]="pageState.testOutcomeGrade$ | async">
         </finalisation-header>
 
         <debrief-witnessed
-                [display]="true"
-                [formGroup]="form"
-                [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-                [outcome]="testOutcome"
-                (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+          [display]="true"
+          [formGroup]="form"
+          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [outcome]="testOutcome"
+          (debriefWitnessedChange)="debriefWitnessedChanged($event)">
         </debrief-witnessed>
 
         <div class="mes-row-separator padding-top-10"></div>
 
         <further-development
-                [formGroup]="form"
-                [furtherDevelopment]="pageState.furtherDevelopment$ | async"
-                (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
+          [formGroup]="form"
+          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
 
-        <div  *ngIf="(pageState.furtherDevelopment$ | async) === true" class="mes-row-separator padding-top-10"></div>
+        <div *ngIf="(pageState.furtherDevelopment$ | async) === true" class="mes-row-separator padding-top-10"></div>
 
         <reason-given
-                *ngIf="(pageState.furtherDevelopment$ | async) === false"
-                [controlRemovalCondition]="pageState.furtherDevelopment$ | async"
-                [formGroup]="form"
-                [reasonGivenText]="pageState.adviceReason$ | async"
-                (adviceReason)="adviceReasonChanged($event)">
+          [formGroup]="form"
+          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          [reasonGivenText]="pageState.adviceReason$ | async"
+          (adviceReason)="adviceReasonChanged($event)">
         </reason-given>
-
       </ion-grid>
     </form>
   </div>

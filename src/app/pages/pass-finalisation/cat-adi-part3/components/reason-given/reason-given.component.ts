@@ -10,11 +10,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ReasonGivenComponent implements OnChanges {
 
-  noAdviceCharsRemaining: number = null;
-  formControl: FormControl = null;
-
   @Input()
-  controlRemovalCondition: boolean;
+  furtherDevelopment: boolean;
 
   @Input()
   formGroup: FormGroup;
@@ -25,23 +22,23 @@ export class ReasonGivenComponent implements OnChanges {
   @Output()
   adviceReason = new EventEmitter<string>();
 
+  noAdviceCharsRemaining: number = null;
+  private formControl: FormControl = null;
+
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new FormControl(null);
       this.formGroup.addControl('reasonGiven', this.formControl);
-
-      if (this.reasonGivenText) {
-        this.formGroup.controls.reasonGiven.patchValue(this.reasonGivenText);
-      }
     }
-  }
 
-  ngOnInit():void {
-    this.formGroup.addControl('reasonGiven', this.formControl);
-  }
+    if (this.furtherDevelopment) {
+      this.formControl.clearValidators();
+    } else {
+      this.formControl.setValidators([Validators.required]);
+    }
 
-  ngOnDestroy():void {
-    this.formGroup.removeControl('reasonGiven');
+    this.formControl.updateValueAndValidity();
+    this.formControl.patchValue(this.reasonGivenText);
   }
 
   characterCountChanged(charactersRemaining: number) {
@@ -60,5 +57,9 @@ export class ReasonGivenComponent implements OnChanges {
     const characterString = Math.abs(this.noAdviceCharsRemaining) === 1 ? 'character' : 'characters';
     const endString = this.noAdviceCharsRemaining < 0 ? 'too many' : 'remaining';
     return `You have ${Math.abs(this.noAdviceCharsRemaining)} ${characterString} ${endString}`;
+  }
+
+  get invalid(): boolean {
+    return this.formControl.invalid && this.formControl.dirty;
   }
 }

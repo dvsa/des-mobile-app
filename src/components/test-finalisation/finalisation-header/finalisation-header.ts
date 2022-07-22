@@ -15,4 +15,7 @@ export class FinalisationHeaderComponent {
 
   @Input()
   outcomeText: string;
+
+  @Input()
+  grade: string;
 }

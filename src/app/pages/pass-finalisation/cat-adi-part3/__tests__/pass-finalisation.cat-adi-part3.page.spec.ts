@@ -1,7 +1,9 @@
 import {
   ComponentFixture, TestBed, waitForAsync,
 } from '@angular/core/testing';
-import { NavController, Platform, IonicModule } from '@ionic/angular';
+import {
+  NavController, Platform, IonicModule,
+} from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -24,6 +26,8 @@ import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
+import { TestResultProvider } from '@providers/test-result/test-result';
 import { PassFinalisationCatADIPart3Page } from '../pass-finalisation.cat-adi-part3.page';
 
 describe('PassFinalisationCatADIPart3Page', () => {
@@ -56,6 +60,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
         { provide: Router, useValue: routerSpy },
         { provide: Store },
         { provide: NavController, useClass: NavControllerMock },
+        { provide: TestResultProvider, useClass: TestResultProviderMock },
         OutcomeBehaviourMapProvider,
       ],
     });

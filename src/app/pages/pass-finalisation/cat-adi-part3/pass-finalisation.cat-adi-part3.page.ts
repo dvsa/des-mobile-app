@@ -20,7 +20,7 @@ import {
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
-import { Observable } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
@@ -30,10 +30,13 @@ import { PersistTests } from '@store/tests/tests.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
+import { TestResultProvider } from '@providers/test-result/test-result';
+import { map, switchMap } from 'rxjs/operators';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
   adviceReason$: Observable<string>;
+  testOutcomeGrade$: Observable<string>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFinalisationPageState;
@@ -41,13 +44,15 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFi
 @Component({
   selector: 'pass-finalisation.cat-adi-part3.page',
   templateUrl: './pass-finalisation.cat-adi-part3.page.html',
-  styleUrls: ['./pass-finalisation.cat-adi-part3.page.scss'],
+  styleUrls: ['./../pass-finalisation.page.scss', './pass-finalisation.cat-adi-part3.page.scss'],
 })
-
 export class PassFinalisationCatADIPart3Page extends PassFinalisationPageComponent implements OnInit {
 
   form: FormGroup;
+  merged$: Observable<boolean>;
   pageState: PassFinalisationPageState;
+  subscription: Subscription;
+  furtherDevelopment: boolean;
 
   constructor(
     platform: Platform,
@@ -56,11 +61,11 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
+    private testResultProvider: TestResultProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-
   }
 
   ngOnInit(): void {
@@ -83,8 +88,19 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         select(getReview),
         select(getReasonForNoAdviceGiven),
       ),
+      testOutcomeGrade$: currentTest$.pipe(
+        select(getTestData),
+        switchMap((data) => this.testResultProvider.calculateTestResultADI3(data)),
+        map(({ grade }) => grade || null),
+      ),
     };
 
+    const { furtherDevelopment$ } = this.pageState;
+
+    this.merged$ = merge(
+      furtherDevelopment$.pipe(map((value) => this.furtherDevelopment = value)),
+    );
+    this.subscription = this.merged$.subscribe();
   }
 
   ionViewWillEnter(): boolean {
@@ -93,17 +109,29 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     return true;
   }
 
+  ionViewDidLeave(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
   furtherDevelopmentChanged(furtherDevelopment: boolean) {
     this.store$.dispatch(SeekFurtherDevelopmentChanged(furtherDevelopment));
   }
+
   adviceReasonChanged(adviceReason: string) {
     this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
   }
 
   async onSubmit(): Promise<void> {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+
     this.form.updateValueAndValidity();
+
     if (this.form.valid) {
+      if (this.furtherDevelopment) {
+        this.adviceReasonChanged(null);
+      }
       this.store$.dispatch(PersistTests());
       this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
       await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);

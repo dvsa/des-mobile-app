@@ -1,59 +1,7 @@
-.box-padding {
-  padding-left: 32px;
-  padding-right: 32px;
-}
-ion-content {
-  --ion-background-color: var(--mes-white);
-}
-
-.character-count {
-  color: var(--gds-grey-1);
-  font-weight: initial;
-  letter-spacing: initial;
-}
-
-.full-width {
-  width: 100%;
-}
-
-.text-box {
-  left: 190px;
-  position: relative;
-  bottom: 70px;
-}
-
-.character-text {
-  left: 190px;
-  position: relative;
-  bottom: 20px;
-}
-
-.button-padding-top {
-  padding-top: 40px;
-}
-
-.button-padding {
-  padding-left: 44px;
-}
-
-.reason-text {
-  padding-left: 26px;
-}
-
-.padding-left {
-  padding-left: 32px;
-}
-
-.height-limit {
-  height: 180px;
-}
-
-.valid-text {
-  position: relative;
-  bottom: 40px;
-  left: 250px;
-}
-
-.invalid-bar {
-  border-left: solid 8px var(--gds-red);
+:host {
+  .character-count {
+    color: var(--gds-grey-1);
+    font-weight: initial;
+    letter-spacing: initial;
+  }
 }

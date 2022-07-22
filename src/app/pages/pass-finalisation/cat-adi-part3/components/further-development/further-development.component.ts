@@ -6,7 +6,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'further-development',
   templateUrl: './further-development.component.html',
-  styleUrls: ['./further-development.component.scss'],
 })
 export class FurtherDevelopmentComponent implements OnChanges {
 
@@ -25,10 +24,10 @@ export class FurtherDevelopmentComponent implements OnChanges {
     if (!this.formControl) {
       this.formControl = new FormControl('', [Validators.required]);
       this.formGroup.addControl('furtherDevelopment', this.formControl);
+    }
 
-      if (this.furtherDevelopment === true || this.furtherDevelopment === false) {
-        this.formControl.patchValue(String(this.furtherDevelopment));
-      }
+    if (this.furtherDevelopment === true || this.furtherDevelopment === false) {
+      this.formControl.patchValue(String(this.furtherDevelopment));
     }
   }
 

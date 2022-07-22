@@ -12,6 +12,7 @@ import {
 import {
   ReasonGivenComponent,
 } from '@pages/pass-finalisation/cat-adi-part3/components/reason-given/reason-given.component';
+import { TestResultProvider } from '@providers/test-result/test-result';
 import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-part3.page';
 import {
   PassFinalisationCatADIPart3PageRoutingModule,
@@ -33,5 +34,6 @@ import {
     FurtherDevelopmentComponent,
     ReasonGivenComponent,
   ],
+  providers: [TestResultProvider],
 })
 export class PassFinalisationCatADIPart3PageModule {}

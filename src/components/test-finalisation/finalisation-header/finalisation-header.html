@@ -8,11 +8,11 @@
     <ion-col>
       <h3 id="finalisation-header-candidate-driver-number">{{candidateDriverNumber}}</h3>
     </ion-col>
-    <ion-col size="40" class="align-col-right">
+    <ion-col [size]="grade ? 60 : 40" class="align-col-right">
       <h3>Test outcome:
         <div id="finalisation-header-test-outcome-text" [ngSwitch]="outcomeText">
           <div class="pass" *ngSwitchCase="'Passed'" id="pass-outcome-text">
-            {{outcomeText}}
+            {{grade ? outcomeText + ' - Grade ' + grade : outcomeText}}
           </div>
           <div class="fail" *ngSwitchCase="'Unsuccessful'" id="unsuccessful-outcome-text">
             {{outcomeText}}
