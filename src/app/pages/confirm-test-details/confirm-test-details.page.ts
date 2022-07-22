@@ -209,15 +209,18 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
 
   displayForCategory = (category: TestCategory): boolean => isAnyOf(category, [
     TestCategory.ADI2,
+    TestCategory.ADI3,
     TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     TestCategory.CCPC, TestCategory.DCPC,
   ]);
 
   displayD255 = (category: TestCategory): boolean => isAnyOf(category, [
+    TestCategory.ADI2,
+    TestCategory.ADI3,
     TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
-    TestCategory.CCPC, TestCategory.DCPC, TestCategory.ADI2,
+    TestCategory.CCPC, TestCategory.DCPC,
   ]);
 
   async goBackToDebrief(): Promise<void> {

@@ -49,6 +49,12 @@ export class VehicleDetailsByCategoryProvider {
           vehicleWidth: null,
           vehicleLength: null,
         };
+      case TestCategory.ADI3:
+        return {
+          vehicleDetails: null,
+          vehicleWidth: null,
+          vehicleLength: null,
+        };
       case TestCategory.B:
         return {
           vehicleDetails: getVehicleDetailsB,
