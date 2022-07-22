@@ -1,0 +1,25 @@
+#pass-final-background {
+  text-align: center;
+  padding: 16px 0;
+  background: var(--mes-white);
+  height: 110px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+}
+#pass-finalisation-continue-button {
+  min-height: 56px;
+  width: 746px;
+  margin: auto;
+}
+.box-padding {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+ion-content {
+  --ion-background-color: var(--mes-white);
+}
+
+.character-count {
+  color: var(--gds-grey-1);
+  font-weight: initial;
+  letter-spacing: initial;
+}

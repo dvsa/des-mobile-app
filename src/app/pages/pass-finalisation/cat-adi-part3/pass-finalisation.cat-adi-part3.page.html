@@ -1,0 +1,57 @@
+<ion-header>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons id="back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <ion-grid>
+        <finalisation-header
+          [candidateName]="pageState.candidateName$ | async"
+          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+          [outcomeText]="pageState.testOutcomeText$ | async"
+          [grade]="pageState.testOutcomeGrade$ | async">
+        </finalisation-header>
+
+        <debrief-witnessed
+          [display]="true"
+          [formGroup]="form"
+          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [outcome]="testOutcome"
+          (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+        </debrief-witnessed>
+
+        <div class="mes-row-separator padding-top-10"></div>
+
+        <further-development
+          [formGroup]="form"
+          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
+        </further-development>
+
+        <div *ngIf="(pageState.furtherDevelopment$ | async) === true" class="mes-row-separator padding-top-10"></div>
+
+        <reason-given
+          [formGroup]="form"
+          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          [reasonGivenText]="pageState.adviceReason$ | async"
+          (adviceReason)="adviceReasonChanged($event)">
+        </reason-given>
+      </ion-grid>
+    </form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-row id="pass-final-background">
+    <ion-button (click)="onSubmit()" class="mes-primary-button" id="pass-finalisation-continue-button">
+      <h3>Submit</h3>
+    </ion-button>
+  </ion-row>
+</ion-footer>

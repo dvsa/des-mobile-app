@@ -1,0 +1,32 @@
+<ion-row *ngIf="furtherDevelopment === false" class="mes-validated-row" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="reason-for-no-advice-label">Reason for no advice given:</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left" size="60">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <textarea
+        formControlName="reasonGiven"
+        name="reasonGiven"
+        charCount
+        class="mes-data input-styling-background"
+        charLimit="950"
+        (change)="adviceReasonChange($event.target.value)"
+        [style]="noAdviceCharsRemaining < 0 ? 'border-color: var(--mes-validation-error);' : null"
+        (onCharacterCountChanged)="characterCountChanged($event)">
+      </textarea>
+      <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+        {{getCharacterCountText()}}
+      </div>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text"
+           [class.ng-invalid]="invalid"
+           *ngIf="invalid && !charactersExceeded()"
+           id="candidate-description-validation-text">Please provide a reason
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>
+

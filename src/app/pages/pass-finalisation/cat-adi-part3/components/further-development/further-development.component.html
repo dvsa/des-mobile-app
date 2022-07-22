@@ -1,0 +1,39 @@
+<ion-row class="mes-validated-row" [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="further-development-label">Was advice given to seek further development from an ORDIT trainer?</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col size="48">
+        <input type="radio"
+               formControlName="furtherDevelopment"
+               id="further-development-yes"
+               name="furtherDevelopment"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               value="true"
+               (change)="furtherDevelopmentChanged($event.target.value)">
+        <label for="further-development-yes" class="radio-label" id="further-development-yes-label">Yes</label>
+      </ion-col>
+      <ion-col>
+        <input type="radio"
+               formControlName="furtherDevelopment"
+               id="further-development-no"
+               name="furtherDevelopment"
+               class="gds-radio-button"
+               [class.ng-invalid]="invalid"
+               value="false"
+               (change)="furtherDevelopmentChanged($event.target.value)">
+        <label for="further-development-no" class="radio-label" id="further-development-no-label">No</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="further-development-validation-text">
+        Select if advice was given
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>
+

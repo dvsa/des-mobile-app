@@ -39,6 +39,10 @@ export class DebriefWitnessedComponent implements OnChanges {
     if (!this.formControl) {
       this.formControl = new FormControl('', [Validators.required]);
       this.formGroup.addControl(DebriefWitnessedComponent.fieldName, this.formControl);
+      this.formGroup.updateValueAndValidity({
+        onlySelf: true,
+        emitEvent: false,
+      });
     }
 
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
