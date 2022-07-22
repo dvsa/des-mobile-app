@@ -1,4 +1,4 @@
-<ion-row>
+<ion-row *ngIf="!radio">
   <ion-col size="22">
     <input type="checkbox"
            class="gds-checkbox"
@@ -13,5 +13,19 @@
     <div [id]="key + 'Label'" class="assessment-label-text">
       {{assessmentLabel}}
     </div>
+  </ion-col>
+</ion-row>
+
+<ion-row *ngIf="radio">
+  <ion-col>
+    <input type="radio"
+           class="gds-radio-button"
+           [id]="key + 'Checkbox'"
+           [checked]="key === comparator"
+           (change)="valueChanged($event.target.value)"
+           [value]="key">
+    <label [for]="key + 'Checkbox'" class="radio-label" [id]="key + 'Label'">
+      {{assessmentLabel}}
+    </label>
   </ion-col>
 </ion-row>
