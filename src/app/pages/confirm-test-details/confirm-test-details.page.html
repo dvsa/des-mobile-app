@@ -32,9 +32,16 @@
         </data-row>
         <!-- Test outcome -->
         <data-row
+            *ngIf="!isADI3(category) || (isADI3(category) && !isPassed(pageState.testOutcomeText$ | async))"
             [idPrefix]="idPrefix"
             [label]="'Test outcome'"
             [value]="pageState.testOutcomeText$ | async">
+        </data-row>
+        <data-row
+            *ngIf="isADI3(category) && isPassed(pageState.testOutcomeText$ | async)"
+            [idPrefix]="idPrefix"
+            [label]="'Test outcome'"
+            [value]="pageState.testOutcomeFullResult$ | async">
         </data-row>
         <!-- Activity Code -->
         <data-row
@@ -47,7 +54,7 @@
             [idPrefix]="idPrefix"
             [label]="'Test Category'"
             [value]="pageState.testCategory$ | async"
-            [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category)">
+            [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)">
         </data-row>
         <!-- Provisional licence received -->
         <data-row
@@ -72,6 +79,54 @@
             [label]="'D255'"
             [value]="getD255Text(pageState.d255$ | async)"
             [shouldHaveSeperator]="false">
+        </data-row>
+         <!-- Student -->
+        <data-row
+          *ngIf="isADI3(category)"
+          [idPrefix]="idPrefix"
+          [label]="'Student'"
+          [value]="pageState.studentLevel$ | async"
+          [shouldHaveSeperator]="true">
+        </data-row>
+        <!-- Lesson theme -->
+        <data-row
+          *ngIf="isADI3(category)"
+          [idPrefix]="idPrefix"
+          [label]="'Lesson theme'"
+          [value]="pageState.lessonTheme$ | async"
+          [shouldHaveSeperator]="true">
+        </data-row>
+        <!-- Lesson planning -->
+        <data-row
+          *ngIf="isADI3(category)"
+          [idPrefix]="idPrefix"
+          [label]="'Lesson planning'"
+          [value]="pageState.lessonPlanningScore$ | async"
+          [shouldHaveSeperator]="true">
+        </data-row>
+        <!-- Risk management -->
+        <data-row
+          *ngIf="isADI3(category)"
+          [idPrefix]="idPrefix"
+          [label]="'Risk management'"
+          [value]="pageState.riskManagementScore$ | async"
+          [shouldHaveSeperator]="true">
+        </data-row>
+        <!-- Teaching & learning strategies -->
+        <data-row
+          *ngIf="isADI3(category)"
+          [idPrefix]="idPrefix"
+          [label]="'Teaching & learning strategies'"
+          [value]="pageState.teachingLearningStrategyScore$ | async"
+          [shouldHaveSeperator]="true">
+        </data-row>
+        <!-- Total score -->
+        <data-row
+          *ngIf="isADI3(category)"
+          [idPrefix]="idPrefix"
+          [label]="'Total score'"
+          [value]="pageState.totalScore$ | async"
+          [shouldHaveSeperator]="false">
         </data-row>
       </ion-grid>
     </ion-card-content>
