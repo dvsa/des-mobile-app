@@ -17,6 +17,7 @@
           <assessment-answer
             [assessmentLabel]="'Beginner'"
             [key]="'beginner'"
+            [radio]="true"
             [comparator]="studentLevel"
             (answerToggled)="studentLevelChanged($event)">
           </assessment-answer>
@@ -25,6 +26,7 @@
           <assessment-answer
             [assessmentLabel]="'Partly trained'"
             [key]="'partlyTrained'"
+            [radio]="true"
             [comparator]="studentLevel"
             (answerToggled)="studentLevelChanged($event)">
           </assessment-answer>
@@ -33,6 +35,7 @@
           <assessment-answer
             [assessmentLabel]="'Trained'"
             [key]="'trained'"
+            [radio]="true"
             [comparator]="studentLevel"
             (answerToggled)="studentLevelChanged($event)">
           </assessment-answer>
@@ -43,6 +46,7 @@
           <assessment-answer
             [assessmentLabel]="'FLH New'"
             [key]="'flhNew'"
+            [radio]="true"
             [comparator]="studentLevel"
             (answerToggled)="studentLevelChanged($event)">
           </assessment-answer>
@@ -51,6 +55,7 @@
           <assessment-answer
             [assessmentLabel]="'FLH experienced'"
             [key]="'flhExperienced'"
+            [radio]="true"
             [comparator]="studentLevel"
             (answerToggled)="studentLevelChanged($event)">
           </assessment-answer>

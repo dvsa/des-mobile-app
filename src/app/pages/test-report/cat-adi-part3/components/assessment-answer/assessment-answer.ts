@@ -10,6 +10,9 @@ import {
 export class AssessmentAnswerComponent {
 
   @Input()
+  radio: boolean = false;
+
+  @Input()
   assessmentLabel: string;
 
   @Input()

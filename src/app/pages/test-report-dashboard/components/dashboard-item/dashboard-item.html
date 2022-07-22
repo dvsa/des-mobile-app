@@ -6,12 +6,18 @@
                 <p *ngIf="showCompleted">{{score}}/{{maxScore}} completed</p>
             </ion-col>
             <ion-col size="14">
+                <ion-icon *ngIf="!showCompleted"
+                          class="chevron-icon"
+                          name="chevron-forward-outline">
+                </ion-icon>
                 <ion-icon *ngIf="isInvalid"
                           class="invalid-icon"
-                          name="close-circle"></ion-icon>
+                          name="close-circle">
+                </ion-icon>
                 <ion-icon *ngIf="isValid"
                           class="valid-icon"
-                          name="checkmark-circle"></ion-icon>
+                          name="checkmark-circle">
+                </ion-icon>
             </ion-col>
         </ion-row>
     </ion-card-content>

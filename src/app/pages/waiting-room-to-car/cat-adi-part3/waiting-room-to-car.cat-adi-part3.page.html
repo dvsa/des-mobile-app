@@ -39,16 +39,6 @@
               (transmissionChange)="transmissionChanged($event)">
             </transmission>
 
-            <accompaniment-card-adi3
-              [formGroup]="form"
-              [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              (trainerAccompanimentChange)="trainerAccompanimentChanged()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()">
-            </accompaniment-card-adi3>
-
             <pdi-logbook
               [formGroup]="form"
               [pdiLogbook]="pageState.pdiLogbook$ | async"
@@ -66,6 +56,16 @@
               [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
               (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)">
             </ordit-trainer-cat-adi-part2>
+
+            <accompaniment-card-adi3
+              [formGroup]="form"
+              [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              (trainerAccompanimentChange)="trainerAccompanimentChanged()"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()">
+            </accompaniment-card-adi3>
 
             <trainer-registration-number-cat-adi-part2
               [formGroup]="form"
