@@ -10,4 +10,7 @@ export class TestOutcomeDebriefCardComponent {
   @Input()
   public outcome: string;
 
+  @Input()
+  public grade?: string;
+
 }

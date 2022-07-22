@@ -44,10 +44,6 @@ export class Adi3DebriefCard implements OnInit {
       .map((theme) => lessonThemeValues[theme]);
     this.lessonThemeValueStr = `${formattedLessonThemeValues.slice(0, -1)
       .join(', ')} & ${this.lessonTheme.other ? this.lessonTheme.other : formattedLessonThemeValues.slice(-1)}`;
-
-    // this.checkForTerminatedTest(this.lessonPlanning);
-    // this.checkForTerminatedTest(this.riskManagement);
-    // this.checkForTerminatedTest(this.teachingLearningStrategies);
   }
 
   displayGradeDescription(): string {
@@ -60,12 +56,4 @@ export class Adi3DebriefCard implements OnInit {
         return 'Unsatisfactory Performance';
     }
   }
-
-  // checkForTerminatedTest(trSection: LessonPlanning | RiskManagement | TeachingLearningStrategies): void {
-  //   Object.keys(trSection).slice(0, -1).forEach((value) => {
-  //     if (!trSection[`${value}`].score) {
-  //       this.isTerminated = true;
-  //     }
-  //   });
-  // }
 }

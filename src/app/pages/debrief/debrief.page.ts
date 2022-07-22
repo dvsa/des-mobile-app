@@ -9,13 +9,17 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  map, switchMap, tap, withLatestFrom,
+} from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { TranslateService } from '@ngx-translate/core';
-import { ActivityCode, CategoryCode, Eco, ETA, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import {
+  ActivityCode, CategoryCode, Eco, ETA, QuestionResult,
+} from '@dvsa/mes-test-schema/categories/common';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
@@ -52,7 +56,7 @@ import { getTotalScore } from '@store/tests/test-data/cat-adi-part3/test-data.ca
 import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
 import {
   LessonAndTheme,
-  LessonPlanning,
+  LessonPlanning, Review,
   RiskManagement,
   TeachingLearningStrategies,
   TestData as TestDataADI3,
@@ -63,6 +67,7 @@ import {
 import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import { TestResultProvider } from '@providers/test-result/test-result';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -92,6 +97,7 @@ interface DebriefPageState {
   lessonPlanning$: Observable<LessonPlanning>;
   riskManagement$: Observable<RiskManagement>;
   teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
+  review$: Observable<Review>;
   showSafetyAndBalance$: Observable<boolean>;
   adi3TestOutcome$: Observable<{ activityCode: ActivityCode; grade?: string; }>;
 }
@@ -253,6 +259,11 @@ export class DebriefPage extends PracticeableBasePageComponent {
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTeachingLearningStrategies),
+      ),
+      review$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
       ),
       showEco$: currentTest$.pipe(
         select(getTestCategory),
