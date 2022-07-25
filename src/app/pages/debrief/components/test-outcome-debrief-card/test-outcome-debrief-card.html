@@ -1,7 +1,12 @@
 <div id="test-outcome-background" [ngSwitch]="outcome">
   <div class="test-outcome-container {{outcome}}">
     <h4 id="outcome-header">{{ 'debrief.outcomeHeader' | translate }}</h4>
-    <h1 id="status-passed" *ngSwitchCase="'Pass'" >{{ 'debrief.passStatus' | translate }}</h1>
+    <div *ngIf="grade">
+      <h1 id="status-passed-grade">Passed - Grade {{grade}}</h1>
+    </div>
+    <div *ngIf="!grade">
+      <h1 id="status-passed" *ngSwitchCase="'Pass'" >{{ 'debrief.passStatus' | translate }}</h1>
+    </div>
     <h1 id="status-fail" *ngSwitchCase="'Fail'" >{{ 'debrief.failStatus' | translate }}</h1>
     <h1 id="status-terminated" *ngSwitchCase="'Terminated'" >{{ 'debrief.terminatedStatus' | translate }}</h1>
   </div>

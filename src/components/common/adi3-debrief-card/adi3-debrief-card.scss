@@ -1,0 +1,29 @@
+:host {
+  .tr-standard-text {
+    font-weight: bold;
+    font-size: 20px !important;
+    color: var(--gds-black);
+  }
+
+  .competencies-row {
+    margin-left: 10px;
+  }
+
+  .scoring-text {
+    font-size: 12.5px;
+  }
+
+  .score-1-spacing {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .question-card {
+    margin-left: 0;
+  }
+
+  .total-score-positioning {
+    display: flex;
+    justify-content: center;
+  }
+}

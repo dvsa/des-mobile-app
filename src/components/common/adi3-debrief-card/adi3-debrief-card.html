@@ -1,0 +1,89 @@
+<ion-grid>
+    <ion-card class="ion-padding">
+        <ion-row class="tr-standard-text">Total Score</ion-row>
+        <br>
+        <ion-row>
+            <ion-col class="tr-standard-text total-score-positioning" size="10">{{totalScore}}</ion-col>
+            <ion-col>
+                <ion-row>
+                    <p>{{displayGradeDescription()}}</p>
+                </ion-row>
+                <ion-row *ngIf="riskManagement.score <= 7">
+                    <p>Scored less than 7 in Risk Management section</p>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <ion-card class="ion-padding" *ngIf="lessonTheme.lessonThemes.length > 0 && lessonTheme.studentLevel">
+        <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
+        <br>
+        <ion-row>
+            <ion-col class="tr-standard-text" size="20">Student</ion-col>
+            <ion-col><p>{{studentValueConst[lessonTheme.studentLevel]}}</p></ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="tr-standard-text" size="20">Theme</ion-col>
+            <ion-col><p>{{lessonThemeValueStr}}</p></ion-col>
+        </ion-row>
+    </ion-card>
+
+    <ion-row class="scoring-text">
+        <ion-col size="14">
+            <ion-row class="black-text">
+                <ion-col size="10"><b>0</b></ion-col>
+                <ion-col size="86"> - No evidence</ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col class="score-1-spacing">
+            <ion-row class="black-text">
+                <ion-col size="5"><b>1</b></ion-col>
+                <ion-col size="91"> - Demonstrated in a few elements</ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col>
+            <ion-row class="black-text">
+                <ion-col size="5"><b>2</b></ion-col>
+                <ion-col size="91"> - Demonstrated in most elements</ion-col>
+            </ion-row>
+        </ion-col>
+        <ion-col>
+            <ion-row class="black-text">
+                <ion-col size="5"><b>3</b></ion-col>
+                <ion-col size="91"> - Demonstrated in all elements</ion-col>
+            </ion-row>
+        </ion-col>
+    </ion-row>
+    <ion-row class="competencies-row">
+        <ion-col>
+            <adi3-debrief-card-box
+                    [testReportSection]="lessonPlanning"
+                    [title]="'Lesson Planning'">
+            </adi3-debrief-card-box>
+        </ion-col>
+
+        <ion-col>
+            <adi3-debrief-card-box
+                    [testReportSection]="riskManagement"
+                    [title]="'Risk Management'">
+            </adi3-debrief-card-box>
+        </ion-col>
+
+        <ion-col>
+            <adi3-debrief-card-box
+                    [testReportSection]="teachingLearningStrategies"
+                    [title]="'Teaching & Learning Strategies'">
+            </adi3-debrief-card-box>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="review">
+        <ion-col>
+            <ion-card class="ion-padding">
+                <ion-row class="tr-standard-text">Feedback</ion-row>
+                <br>
+                <ion-row>
+                    <p>{{review?.feedback}}</p>
+                </ion-row>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-grid>
