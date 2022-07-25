@@ -19,7 +19,7 @@ import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import {
-  LessonTheme,
+  LessonAndTheme,
   TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { getTests } from '@store/tests/tests.reducer';
@@ -136,15 +136,14 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     this.store$.dispatch(FeedbackChanged(feedback));
   };
 
-  validateLessonTheme(
-    data: { lessonThemes?: LessonTheme[],
-      other?: string,
-      studentLevel?: string },
-  ): { valid: boolean, score: number } {
+  validateLessonTheme({ lessonThemes, other, studentLevel }: LessonAndTheme): { valid: boolean; score: number; } {
     const result: { valid: boolean; score: number } = { valid: false, score: 0 };
-    result.valid = !!(data.studentLevel && data.studentLevel !== '' && data.lessonThemes.length > 0);
-    result.score = !data.studentLevel && data.lessonThemes.length === 0 ? 0
-      : data.studentLevel && data.lessonThemes.length > 0 ? 2 : 1;
+    const isOtherValid = lessonThemes?.includes('other') ? !!other : true;
+    result.valid = !!(studentLevel && lessonThemes.length > 0 && isOtherValid);
+    result.score = (!studentLevel && lessonThemes.length === 0)
+      ? 0
+      : studentLevel && lessonThemes.length > 0 && isOtherValid ? 2 : 1;
+
     return result;
   }
 
