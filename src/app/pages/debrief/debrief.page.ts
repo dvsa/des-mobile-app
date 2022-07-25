@@ -10,6 +10,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
 import {
+  filter,
   map, switchMap, tap, withLatestFrom,
 } from 'rxjs/operators';
 import { Component } from '@angular/core';
@@ -299,6 +300,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
       ),
       adi3TestOutcome$: currentTest$.pipe(
         withLatestFrom(testCategory$),
+        filter(([, category]) => category === TestCategory.ADI3),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         switchMap((data) => this.testResultProvider.calculateTestResultADI3(data as TestDataADI3)),
       ),
