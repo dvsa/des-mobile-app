@@ -1,6 +1,7 @@
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
+  trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
@@ -31,6 +32,7 @@ import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.re
 import { getFeedback } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { FeedbackChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { FormGroup } from '@angular/forms';
+import { takeUntil } from 'rxjs/operators';
 
 interface TestReportDashboardState {
   testDataADI3$: Observable<TestData>;
@@ -91,6 +93,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
     this.localSubscription = currentTest$.pipe(
       select(getTestData),
+      takeUntil(trDestroy$),
     ).subscribe((result: TestData) => {
       this.testDataADI3 = result;
       this.lessonAndThemeState = this.validateLessonTheme(result.lessonAndTheme);

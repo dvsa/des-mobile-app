@@ -73,6 +73,7 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestData as TestDataADI3 } from '@dvsa/mes-test-schema/categories/ADI3';
+import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -125,6 +126,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     public modalController: ModalController,
     private route: ActivatedRoute,
     private testResultProvider: TestResultProvider,
+    private testDataByCategoryProvider: TestDataByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
@@ -216,18 +218,23 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         map((category) => isAnyOf(category, [TestCategory.ADI2])),
       ),
       furtherDevelopment$: currentTest$.pipe(
-        select(getTestData),
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getFurtherDevelopment),
       ),
       adviceReason$: currentTest$.pipe(
-        select(getTestData),
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getReasonForNoAdviceGiven),
       ),
       testOutcomeGrade$: currentTest$.pipe(
         withLatestFrom(category$),
         filter(([, category]) => category === TestCategory.ADI3),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         switchMap((data) => this.testResultProvider.calculateTestResultADI3(data as unknown as TestDataADI3)),
         map(({ grade }) => grade || null),
       ),
