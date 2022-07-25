@@ -9,6 +9,7 @@ import {
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
+  BackButtonClick,
   BackToDebrief,
   ConfirmTestDetailsViewDidEnter,
 } from '@pages/confirm-test-details/confirm-test-details.actions';
@@ -50,6 +51,25 @@ export class ConfirmTestDetailsAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.NAVIGATION, tests),
         formatAnalyticsText(AnalyticsEvents.BACK, tests),
         'Back to debrief',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  backButtonClicked$ = createEffect(() => this.actions$.pipe(
+    ofType(BackButtonClick),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap(([, tests]: [ReturnType<typeof BackButtonClick>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.NAVIGATION, tests),
+        formatAnalyticsText(AnalyticsEvents.BACK, tests),
+        'Back to finalise outcome',
       );
       return of(AnalyticRecorded());
     }),

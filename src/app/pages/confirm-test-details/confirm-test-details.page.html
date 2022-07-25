@@ -4,7 +4,7 @@
     <ion-title id="confirm-test-details-title">
       Confirm test details - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
-    <ion-buttons id="confirm-test-details-back-button" slot="start">
+    <ion-buttons id="confirm-test-details-back-button" slot="start" (click)="backButtonClick()">
       <ion-back-button></ion-back-button>
     </ion-buttons>
   </ion-toolbar>

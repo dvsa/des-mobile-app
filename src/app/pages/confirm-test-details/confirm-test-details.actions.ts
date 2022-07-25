@@ -7,3 +7,7 @@ export const ConfirmTestDetailsViewDidEnter = createAction(
 export const BackToDebrief = createAction(
   '[ConfirmTestDetailsPage] Back to debrief clicked',
 );
+
+export const BackButtonClick = createAction(
+  '[ConfirmTestDetailsPage] Back button clicked',
+);
