@@ -20,7 +20,8 @@
 // import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 // import { StoreModel } from '@shared/models/store.model';
 // import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-// import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
+// import { OutcomeBehaviourMapProviderMock }
+// from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 // import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 // import { ReactiveFormsModule } from '@angular/forms';
 // import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
@@ -32,7 +33,8 @@
 // import { TestResultProvider } from '@providers/test-result/test-result';
 // import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
 // import { CandidateSectionComponent } from '@pages/office/components/candidate-section/candidate-section';
-// import { AdditionalInformationComponent } from '@pages/office/components/additional-information/additional-information';
+// import { AdditionalInformationComponent }
+// from '@pages/office/components/additional-information/additional-information';
 // import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 // import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
 //
