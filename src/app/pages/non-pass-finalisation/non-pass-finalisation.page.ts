@@ -373,4 +373,13 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     ]);
   };
+
+  DidTestComplete = (): boolean => {
+    if (this.activityCode) {
+      return isAnyOf(this.activityCode.activityCode, [
+        '1', '2', '4', '5',
+      ]);
+    }
+    return false;
+  };
 }
