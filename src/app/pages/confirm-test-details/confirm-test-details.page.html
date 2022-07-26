@@ -20,114 +20,113 @@
       <ion-grid class="ion-padding">
         <!-- Candidate name -->
         <data-row
-            [idPrefix]="idPrefix"
-            [label]="'Candidate name'"
-            [value]="pageState.candidateName$ | async">
+          [idPrefix]="idPrefix"
+          [label]="'Candidate name'"
+          [value]="pageState.candidateName$ | async">
         </data-row>
         <!-- Date and time of test -->
         <data-row
-            [idPrefix]="idPrefix"
-            [label]="'Date and time of test'"
-            [value]="pageState.startDateTime$ | async | date: 'dd/MM/yyyy HH:mm'">
+          [idPrefix]="idPrefix"
+          [label]="'Date and time of test'"
+          [value]="pageState.startDateTime$ | async | date: 'dd/MM/yyyy HH:mm'">
         </data-row>
         <!-- Test outcome -->
         <data-row
-            *ngIf="!isADI3(category) || (isADI3(category) && !isPassed(pageState.testOutcomeText$ | async))"
-            [idPrefix]="idPrefix"
-            [label]="'Test outcome'"
-            [value]="pageState.testOutcomeText$ | async">
+          *ngIf="!isADI3(category) || (isADI3(category) && !isPassed(pageState.testOutcomeText$ | async))"
+          [idPrefix]="idPrefix"
+          [label]="'Test outcome'"
+          [value]="pageState.testOutcomeText$ | async">
         </data-row>
         <data-row
-            *ngIf="isADI3(category) && isPassed(pageState.testOutcomeText$ | async)"
-            [idPrefix]="idPrefix"
-            [label]="'Test outcome'"
-            [value]="pageState.testOutcomeFullResult$ | async">
+          *ngIf="isADI3(category) && isPassed(pageState.testOutcomeText$ | async)"
+          [idPrefix]="idPrefix"
+          [label]="'Test outcome'"
+          [value]="pageState.testOutcomeFullResult$ | async">
         </data-row>
         <!-- Activity Code -->
         <data-row
-            [idPrefix]="idPrefix"
-            [label]="'Activity Code'"
-            [value]="getActivityCode(pageState.activityCode$ | async)">
+          [idPrefix]="idPrefix"
+          [label]="'Activity Code'"
+          [value]="getActivityCode(pageState.activityCode$ | async)">
         </data-row>
         <!-- Test Category -->
         <data-row
-            [idPrefix]="idPrefix"
-            [label]="'Test Category'"
-            [value]="pageState.testCategory$ | async"
-            [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)">
+          [idPrefix]="idPrefix"
+          [label]="'Test Category'"
+          [value]="pageState.testCategory$ | async"
+          [shouldHaveSeperator]="!displayForCategory(category) || !displayD255(category) || isADI3(category)">
         </data-row>
         <!-- Provisional licence received -->
         <data-row
-            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
-            [idPrefix]="idPrefix"
-            [label]="'Provisional licence'"
-            [label2]="'received'"
-            [value]="getProvisionalText(pageState.provisionalLicense$ | async)">
+          *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
+          [idPrefix]="idPrefix"
+          [label]="'Provisional licence'"
+          [label2]="'received'"
+          [value]="getProvisionalText(pageState.provisionalLicense$ | async)">
         </data-row>
         <!-- Transmission -->
         <transmission-display
-            *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
-            [category]="category"
-            [transmission]="pageState.transmission$ | async"
-            [code78]="pageState.code78$ | async"
-            [isTestSubmitted]="false">
+          *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
+          [category]="category"
+          [transmission]="pageState.transmission$ | async"
+          [code78]="pageState.code78$ | async"
+          [isTestSubmitted]="false">
         </transmission-display>
         <!-- D255 -->
         <data-row
-            *ngIf="!displayD255(category)"
-            [idPrefix]="idPrefix"
-            [label]="'D255'"
-            [value]="getD255Text(pageState.d255$ | async)"
-            [shouldHaveSeperator]="false">
-        </data-row>
-         <!-- Student -->
-        <data-row
-          *ngIf="isADI3(category)"
+          *ngIf="!displayD255(category)"
           [idPrefix]="idPrefix"
-          [label]="'Student'"
-          [value]="pageState.studentLevel$ | async"
-          [shouldHaveSeperator]="true">
-        </data-row>
-        <!-- Lesson theme -->
-        <data-row
-          *ngIf="isADI3(category)"
-          [idPrefix]="idPrefix"
-          [label]="'Lesson theme'"
-          [value]="pageState.lessonTheme$ | async"
-          [shouldHaveSeperator]="true">
-        </data-row>
-        <!-- Lesson planning -->
-        <data-row
-          *ngIf="isADI3(category)"
-          [idPrefix]="idPrefix"
-          [label]="'Lesson planning'"
-          [value]="pageState.lessonPlanningScore$ | async"
-          [shouldHaveSeperator]="true">
-        </data-row>
-        <!-- Risk management -->
-        <data-row
-          *ngIf="isADI3(category)"
-          [idPrefix]="idPrefix"
-          [label]="'Risk management'"
-          [value]="pageState.riskManagementScore$ | async"
-          [shouldHaveSeperator]="true">
-        </data-row>
-        <!-- Teaching & learning strategies -->
-        <data-row
-          *ngIf="isADI3(category)"
-          [idPrefix]="idPrefix"
-          [label]="'Teaching & learning strategies'"
-          [value]="pageState.teachingLearningStrategyScore$ | async"
-          [shouldHaveSeperator]="true">
-        </data-row>
-        <!-- Total score -->
-        <data-row
-          *ngIf="isADI3(category)"
-          [idPrefix]="idPrefix"
-          [label]="'Total score'"
-          [value]="pageState.totalScore$ | async"
+          [label]="'D255'"
+          [value]="getD255Text(pageState.d255$ | async)"
           [shouldHaveSeperator]="false">
         </data-row>
+
+        <div *ngIf="isADI3(category)">
+          <!-- Student -->
+          <data-row
+            *ngIf="pageState.studentLevel$ | async"
+            [idPrefix]="idPrefix"
+            [label]="'Student'"
+            [value]="pageState.studentLevel$ | async"
+            [shouldHaveSeperator]="true">
+          </data-row>
+          <!-- Lesson theme -->
+          <data-row
+            *ngIf="(pageState.lessonTheme$ | async)?.length"
+            [idPrefix]="idPrefix"
+            [label]="'Lesson theme'"
+            [value]="pageState.lessonTheme$ | async"
+            [shouldHaveSeperator]="true">
+          </data-row>
+          <!-- Lesson planning -->
+          <data-row
+            [idPrefix]="idPrefix"
+            [label]="'Lesson planning'"
+            [value]="pageState.lessonPlanningScore$ | async"
+            [shouldHaveSeperator]="true">
+          </data-row>
+          <!-- Risk management -->
+          <data-row
+            [idPrefix]="idPrefix"
+            [label]="'Risk management'"
+            [value]="pageState.riskManagementScore$ | async"
+            [shouldHaveSeperator]="true">
+          </data-row>
+          <!-- Teaching & learning strategies -->
+          <data-row
+            [idPrefix]="idPrefix"
+            [label]="'Teaching & learning strategies'"
+            [value]="pageState.teachingLearningStrategyScore$ | async"
+            [shouldHaveSeperator]="true">
+          </data-row>
+          <!-- Total score -->
+          <data-row
+            [idPrefix]="idPrefix"
+            [label]="'Total score'"
+            [value]="pageState.totalScore$ | async"
+            [shouldHaveSeperator]="false">
+          </data-row>
+        </div>
       </ion-grid>
     </ion-card-content>
   </ion-card>

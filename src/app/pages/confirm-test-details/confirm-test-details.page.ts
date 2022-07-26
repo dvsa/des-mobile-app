@@ -17,7 +17,9 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { map, switchMap, tap } from 'rxjs/operators';
+import {
+  map, switchMap, tap, withLatestFrom,
+} from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
@@ -43,7 +45,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import {
-  getLessonThemes,
+  getLessonThemes, getOther,
   getStudentLevel,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
 import { lessonThemeValues, studentValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
@@ -59,6 +61,7 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.selector';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestResultProvider } from '@providers/test-result/test-result';
+import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
@@ -210,7 +213,18 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
               select(getTestData),
               select(getLessonAndTheme),
               select(getLessonThemes),
-              map((themes) => themes.map((theme) => lessonThemeValues[theme]).join(', ')),
+              withLatestFrom(
+                currentTest$.pipe(
+                  select(getTestData),
+                  select(getLessonAndTheme),
+                  select(getOther),
+                ),
+              ),
+              map(([themes, otherReason]: [LessonTheme[], string]) => themes
+                .map((theme) => lessonThemeValues[theme])
+                .concat(otherReason || null)
+                .filter((theme) => theme && theme !== 'Other')
+                .join(', ')),
             ),
             lessonPlanningScore$: currentTest$.pipe(
               select(getTestData),
