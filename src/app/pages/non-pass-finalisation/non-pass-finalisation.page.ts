@@ -32,8 +32,9 @@ import {
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
 import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
-import { getTestSlotAttributes }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
+import {
+  getTestSlotAttributes,
+} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
@@ -46,10 +47,7 @@ import {
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import {
-  D255No,
-  D255Yes,
-  DebriefUnWitnessed,
-  DebriefWitnessed,
+  D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
 } from '@store/tests/test-summary/test-summary.actions';
 import {
   CandidateChoseToProceedWithTestInEnglish,
@@ -74,6 +72,7 @@ import {
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestData as TestDataADI3 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -245,7 +244,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     };
 
     const {
-      testData$, slotId$, activityCode$, testCategory$,
+      testData$,
+      slotId$,
+      activityCode$,
+      testCategory$,
     } = this.pageState;
 
     this.subscription = merge(
@@ -253,7 +255,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       testData$.pipe(map((testData) => this.testData = testData)),
       activityCode$.pipe(map((activityCode) => this.activityCode = activityCode)),
       testCategory$.pipe(map((result) => this.testCategory = result)),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   ionViewDidEnter(): void {
@@ -300,11 +303,15 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
 
   onReturnToTestReport = async (): Promise<void> => {
     await this.invalidTestDataModal.dismiss();
-    await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory as TestCategory);
+    const page = (this.testCategory === TestCategory.ADI3)
+      ? TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE
+      : TestFlowPageNames.TEST_REPORT_PAGE;
+    await this.routeByCat.navigateToPage(page, this.testCategory as TestCategory);
   };
 
   async continue() {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (this.form.valid) {
       const testDataIsInvalid = await this.activityCodeFinalisationProvider
         .testDataIsInvalid(this.testCategory, this.activityCode.activityCode, this.testData);
@@ -318,11 +325,12 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
       return;
     }
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(NonPassFinalisationValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(NonPassFinalisationValidationError(`${controlName} is blank`));
+        }
+      });
   }
 
   activityCodeChanged(activityCodeModel: ActivityCodeModel) {
@@ -371,10 +379,13 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     ]);
   };
 
-  DidTestComplete = (): boolean => {
+  didTestComplete = (): boolean => {
     if (this.activityCode) {
       return isAnyOf(this.activityCode.activityCode, [
-        '1', '2', '4', '5',
+        ActivityCodes.PASS,
+        ActivityCodes.FAIL,
+        ActivityCodes.FAIL_PUBLIC_SAFETY,
+        ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
       ]);
     }
     return false;
