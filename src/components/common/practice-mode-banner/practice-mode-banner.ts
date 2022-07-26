@@ -11,6 +11,8 @@ import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 
 enum DisplayMessage {
   PRACTICE = 'You\'re in practice mode',
@@ -51,6 +53,19 @@ export class PracticeModeBanner implements OnInit {
   }
 
   async exitPracticeMode(): Promise<void> {
+    this.destroyTestSubs();
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
+
+  private destroyTestSubs = (): void => {
+    // As you can exit at any time from a practice test using the exit button, you might not get to the parts of the
+    // code in which typically shut down the subs.
+
+    // Waiting room to car
+    wrtcDestroy$.next();
+    wrtcDestroy$.complete();
+    // Test report
+    trDestroy$.next();
+    trDestroy$.complete();
+  };
 }

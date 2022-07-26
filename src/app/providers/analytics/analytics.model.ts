@@ -71,6 +71,7 @@ export enum AnalyticsEventCategories {
   DELEGATED_TEST = 'DelExRk',
   DASHBOARD = 'dashboard',
   FAKE_JOURNAL = 'practice mode journal',
+  NAVIGATION = 'navigation',
 }
 
 export enum AnalyticsEvents {
@@ -186,6 +187,7 @@ export enum AnalyticsEvents {
   CONFIRM_UPLOAD = 'Confirm upload',
   PRACTICE_TEST_SELECTED = 'practice test report selected',
   PRACTICE_FULL_TEST_SELECTED = 'practice full test selected',
+  BACK = 'back',
 }
 
 export enum AnalyticsLabels {

@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { configureTestSuite } from 'ng-bullet';
+import { testsReducer } from '@store/tests/tests.reducer';
+import { Store, StoreModule } from '@ngrx/store';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -19,10 +21,16 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          tests: testsReducer,
+        }),
+      ],
       providers: [
         ConfirmTestDetailsAnalyticsEffects,
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
         provideMockActions(() => actions$),
+        Store,
       ],
     });
   });

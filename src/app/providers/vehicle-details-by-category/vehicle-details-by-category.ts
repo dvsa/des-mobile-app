@@ -14,6 +14,8 @@ import { getVehicleDetails as getVehicleDetailsB }
   from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getVehicleDetails as getVehicleDetailsADI2 }
   from '@store/tests/vehicle-details/cat-adi-part2/vehicle-details.cat-adi-part2.reducer';
+import { getVehicleDetails as getVehicleDetailsADI3 }
+  from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
 import { getVehicleDetails as getVehicleDetailsAM1 }
   from '@store/tests/vehicle-details/cat-a-mod1/vehicle-details.cat-a-mod1.reducer';
 import { getVehicleDetails as getVehicleDetailsAM2 }
@@ -46,6 +48,12 @@ export class VehicleDetailsByCategoryProvider {
       case TestCategory.ADI2:
         return {
           vehicleDetails: getVehicleDetailsADI2,
+          vehicleWidth: null,
+          vehicleLength: null,
+        };
+      case TestCategory.ADI3:
+        return {
+          vehicleDetails: getVehicleDetailsADI3,
           vehicleWidth: null,
           vehicleLength: null,
         };

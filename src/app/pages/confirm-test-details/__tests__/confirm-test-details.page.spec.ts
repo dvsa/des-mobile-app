@@ -25,6 +25,9 @@ import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { TestResultProvider } from '@providers/test-result/test-result';
+import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
 import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
 import { ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
@@ -93,6 +96,8 @@ describe('ConfirmTestDetailsPage', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: AlertController, useValue: mockAlertCtrl },
         { provide: ModalController, useClass: ModalControllerMock },
+        { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
+        { provide: TestResultProvider, useClass: TestResultProviderMock },
       ],
     });
   });

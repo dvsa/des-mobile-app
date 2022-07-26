@@ -40,11 +40,11 @@ export class Adi3DebriefCard implements OnInit {
   isTerminated: boolean = false;
 
   ngOnInit(): void {
-    const formattedLessonThemeValues = this.lessonTheme.lessonThemes
-      .map((theme) => lessonThemeValues[theme]);
-    this.lessonThemeValueStr = this.lessonTheme.other
-      ? `${formattedLessonThemeValues.slice(0, -1).join(', ')}, ${this.lessonTheme.other}`
-      : formattedLessonThemeValues.join(', ');
+    this.lessonThemeValueStr = this.lessonTheme.lessonThemes
+      .map((theme) => lessonThemeValues[theme])
+      .concat(this.lessonTheme.other || null)
+      .filter((theme) => theme && theme !== 'Other')
+      .join(', ');
   }
 
   displayGradeDescription(): string {

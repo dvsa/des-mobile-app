@@ -33,7 +33,7 @@ export class ReasonGivenComponent implements OnChanges {
 
     if (this.furtherDevelopment) {
       this.formControl.clearValidators();
-    } else {
+    } else if (this.furtherDevelopment === false) {
       this.formControl.setValidators([Validators.required]);
     }
 

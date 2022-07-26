@@ -17,7 +17,9 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { map, tap } from 'rxjs/operators';
+import {
+  map, switchMap, tap, withLatestFrom,
+} from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
@@ -40,8 +42,28 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ModalController, NavController, Platform } from '@ionic/angular';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
+import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
+import {
+  getLessonThemes, getOther,
+  getStudentLevel,
+} from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
+import { lessonThemeValues, studentValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
+import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
+import { getLessonPlanningScore } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.selector';
+import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
+import { getRiskManagementScore } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.selector';
+import {
+  getTeachingLearningStrategies,
+} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
+import {
+  getTeachingLearningScore,
+} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.selector';
+import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { TestResultProvider } from '@providers/test-result/test-result';
+import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
-import { ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
+import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
 
 interface ConfirmTestDetailsPageState {
@@ -56,6 +78,14 @@ interface ConfirmTestDetailsPageState {
   code78$?: Observable<boolean>;
   d255$: Observable<boolean>;
   slotId$: Observable<string>;
+
+  testOutcomeFullResult$?: Observable<string>;
+  studentLevel$?: Observable<string>;
+  lessonTheme$?: Observable<string>;
+  lessonPlanningScore$?: Observable<number>;
+  riskManagementScore$?: Observable<number>;
+  teachingLearningStrategyScore$?: Observable<number>;
+  totalScore$?: Observable<number>;
 }
 
 enum LicenceReceivedText {
@@ -93,6 +123,8 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     store$: Store<StoreModel>,
     public navController: NavController,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
+    public adi3AssessmentProvider: ADI3AssessmentProvider,
+    public testResultProvider: TestResultProvider,
     private modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
@@ -163,6 +195,58 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
             ),
           };
         }
+        if (category === TestCategory.ADI3) {
+          this.pageState = {
+            ...this.pageState,
+            testOutcomeFullResult$: currentTest$.pipe(
+              select(getTestData),
+              switchMap((data) => this.testResultProvider.calculateTestResultADI3(data)),
+              map((result) => `Passed Grade - ${result.grade}`),
+            ),
+            studentLevel$: currentTest$.pipe(
+              select(getTestData),
+              select(getLessonAndTheme),
+              select(getStudentLevel),
+              map((level) => studentValues[level]),
+            ),
+            lessonTheme$: currentTest$.pipe(
+              select(getTestData),
+              select(getLessonAndTheme),
+              select(getLessonThemes),
+              withLatestFrom(
+                currentTest$.pipe(
+                  select(getTestData),
+                  select(getLessonAndTheme),
+                  select(getOther),
+                ),
+              ),
+              map(([themes, otherReason]: [LessonTheme[], string]) => themes
+                .map((theme) => lessonThemeValues[theme])
+                .concat(otherReason || null)
+                .filter((theme) => theme && theme !== 'Other')
+                .join(', ')),
+            ),
+            lessonPlanningScore$: currentTest$.pipe(
+              select(getTestData),
+              select(getLessonPlanning),
+              select(getLessonPlanningScore),
+            ),
+            riskManagementScore$: currentTest$.pipe(
+              select(getTestData),
+              select(getRiskManagement),
+              select(getRiskManagementScore),
+            ),
+            teachingLearningStrategyScore$: currentTest$.pipe(
+              select(getTestData),
+              select(getTeachingLearningStrategies),
+              select(getTeachingLearningScore),
+            ),
+            totalScore$: currentTest$.pipe(
+              select(getTestData),
+              map((data) => this.adi3AssessmentProvider.getTotalAssessmentScore(data)),
+            ),
+          };
+        }
       });
 
     const {
@@ -207,20 +291,28 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     return category === TestCategory.ADI2;
   }
 
+  isADI3(category: TestCategory): boolean {
+    return category === TestCategory.ADI3;
+  }
+
   displayForCategory = (category: TestCategory): boolean => isAnyOf(category, [
     TestCategory.ADI2,
+    TestCategory.ADI3,
     TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     TestCategory.CCPC, TestCategory.DCPC,
   ]);
 
   displayD255 = (category: TestCategory): boolean => isAnyOf(category, [
+    TestCategory.ADI2,
+    TestCategory.ADI3,
     TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
-    TestCategory.CCPC, TestCategory.DCPC, TestCategory.ADI2,
+    TestCategory.CCPC, TestCategory.DCPC,
   ]);
 
   async goBackToDebrief(): Promise<void> {
+    this.store$.dispatch(BackToDebrief());
     await this.navController.navigateBack(TestFlowPageNames.DEBRIEF_PAGE);
   }
 
@@ -267,4 +359,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     await this.router.navigate([TestFlowPageNames.BACK_TO_OFFICE_PAGE], { replaceUrl: true });
   };
 
+  backButtonClick = (): void => {
+    this.store$.dispatch(BackButtonClick());
+  };
 }
