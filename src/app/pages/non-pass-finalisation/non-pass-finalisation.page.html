@@ -10,9 +10,11 @@
 
 <ion-content>
 
-  <finalisation-header [candidateName]="pageState.candidateName$ | async"
-                       [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-                       [outcomeText]="pageState.testOutcomeText$ | async">
+  <finalisation-header
+    [candidateName]="pageState.candidateName$ | async"
+    [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+    [outcomeText]="pageState.testOutcomeText$ | async"
+    [grade]="pageState.testOutcomeGrade$ | async">
   </finalisation-header>
 
   <form [formGroup]="form">
@@ -41,6 +43,7 @@
         </warning-banner>
 
         <language-preferences
+          *ngIf="showLanguage()"
           [formGroup]="form"
           [isWelsh]="pageState.isWelshTest$ | async"
           (welshChanged)="isWelshChanged($event)">
@@ -57,6 +60,23 @@
           *ngIf="pageState.showADIWarning$ | async"
           warningText="Advise PDI to seek further development from an ORDIT trainer">
         </warning-banner>
+
+        <further-development
+          [hidden]="!(pageState.showADI3Field$ | async)"
+          [formGroup]="form"
+          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
+        </further-development>
+
+        <div *ngIf="(pageState.furtherDevelopment$ | async) !== false" class="mes-row-separator padding-top-10"></div>
+
+        <reason-given
+          [hidden]="!(pageState.showADI3Field$ | async)"
+          [formGroup]="form"
+          [furtherDevelopment]="pageState.furtherDevelopment$ | async"
+          [reasonGivenText]="pageState.adviceReason$ | async"
+          (adviceReason)="adviceReasonChanged($event)">
+        </reason-given>
       </div>
     </ion-grid>
   </form>

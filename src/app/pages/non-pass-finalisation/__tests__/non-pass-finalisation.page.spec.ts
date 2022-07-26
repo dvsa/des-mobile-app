@@ -44,6 +44,10 @@ import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-ma
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { TestResultProvider } from '@providers/test-result/test-result';
+import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
+import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
 import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
 describe('NonPassFinalisationPage', () => {
@@ -79,6 +83,8 @@ describe('NonPassFinalisationPage', () => {
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         { provide: ActivatedRoute, useValue: activatedRouteMock },
         { provide: ModalController, useClass: ModalControllerMock },
+        { provide: TestResultProvider, useClass: TestResultProviderMock },
+        { provide: TestDataByCategoryProvider, useClass: TestDataByCategoryProviderMock },
       ],
     });
   });

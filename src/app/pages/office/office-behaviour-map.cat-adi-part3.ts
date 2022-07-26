@@ -45,6 +45,8 @@ export const behaviourMap: OutcomeBehaviourMapping = {
   },
   21: {
     debriefWitnessed: { display: 'N' },
+    furtherDevelopment: { display: 'Y' },
+    reasonGiven: { display: 'Y' },
     additionalInformation: { display: 'Y' },
   },
   22: {

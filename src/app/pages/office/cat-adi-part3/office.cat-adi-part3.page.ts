@@ -29,6 +29,7 @@ import { map, switchMap } from 'rxjs/operators';
 interface CatADI3OfficePageState {
   testOutcomeGrade$: Observable<string>;
 }
+
 type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
 
 @Component({
@@ -69,7 +70,9 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
       faultCountProvider,
     );
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-    this.activityCodeOptions = getActivityCodeOptions(this.appConfig.getAppConfig().role === ExaminerRole.DLG);
+    this.activityCodeOptions = getActivityCodeOptions(
+      this.appConfig.getAppConfig().role === ExaminerRole.DLG,
+    );
   }
 
   ngOnInit(): void {

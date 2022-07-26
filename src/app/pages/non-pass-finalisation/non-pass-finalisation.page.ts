@@ -21,7 +21,9 @@ import {
   getTestOutcomeText,
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
-import { map, withLatestFrom } from 'rxjs/operators';
+import {
+  filter, map, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
@@ -60,6 +62,18 @@ import {
 } from
   '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import {
+  getFurtherDevelopment,
+  getReasonForNoAdviceGiven,
+} from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import {
+  ReasonForNoAdviceGivenChanged,
+  SeekFurtherDevelopmentChanged,
+} from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import { TestResultProvider } from '@providers/test-result/test-result';
+import { TestData as TestDataADI3 } from '@dvsa/mes-test-schema/categories/ADI3';
+import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -78,6 +92,10 @@ interface NonPassFinalisationPageState {
   eyesightTestFailed$: Observable<boolean>;
   testCategory$: Observable<CategoryCode>;
   showADIWarning$: Observable<boolean>;
+  showADI3Field$: Observable<boolean>;
+  furtherDevelopment$: Observable<boolean>;
+  adviceReason$: Observable<string>;
+  testOutcomeGrade$: Observable<string>;
 }
 
 @Component({
@@ -107,6 +125,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
     public modalController: ModalController,
     private route: ActivatedRoute,
+    private testResultProvider: TestResultProvider,
+    private testDataByCategoryProvider: TestDataByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
@@ -117,10 +137,14 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
 
   ngOnInit(): void {
     super.ngOnInit();
+
     const currentTest$ = this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
     );
+
+    const category$ = currentTest$.pipe(select(getTestCategory));
+
     this.pageState = {
       slotId$: this.store$.pipe(
         select(getTests),
@@ -193,6 +217,31 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         select(getTestCategory),
         map((category) => isAnyOf(category, [TestCategory.ADI2])),
       ),
+      furtherDevelopment$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
+        select(getFurtherDevelopment),
+      ),
+      adviceReason$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
+        select(getReasonForNoAdviceGiven),
+      ),
+      testOutcomeGrade$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        switchMap((data) => this.testResultProvider.calculateTestResultADI3(data as unknown as TestDataADI3)),
+        map(({ grade }) => grade || null),
+      ),
+      showADI3Field$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.ADI3])),
+      ),
     };
 
     const {
@@ -229,11 +278,21 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       componentProps: {
         onCancel: this.onCancel,
         onReturnToTestReport: this.onReturnToTestReport,
+        message: this.testDataValidationMsg,
       },
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
     await this.invalidTestDataModal.present();
   };
+
+  private get testDataValidationMsg(): string {
+    switch (this.testCategory) {
+      case TestCategory.ADI3:
+        return 'Code 4 cannot be selected because the PDI has a Risk Management score of more than 7';
+      default:
+        return 'The level of faults on this practical test does not meet the requirement for code 4 or 5.';
+    }
+  }
 
   onCancel = async (): Promise<void> => {
     await this.invalidTestDataModal.dismiss();
@@ -271,12 +330,20 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     this.store$.dispatch(SetActivityCode(activityCodeModel.activityCode));
   }
 
-  debriefWitnessedChanged(debriefWitnessed: boolean) {
+  debriefWitnessedChanged(debriefWitnessed: boolean): void {
     this.store$.dispatch(debriefWitnessed ? DebriefWitnessed() : DebriefUnWitnessed());
   }
 
   d255Changed(d255: boolean): void {
     this.store$.dispatch(d255 ? D255Yes() : D255No());
+  }
+
+  furtherDevelopmentChanged(furtherDevelopment: boolean): void {
+    this.store$.dispatch(SeekFurtherDevelopmentChanged(furtherDevelopment));
+  }
+
+  adviceReasonChanged(adviceReason: string): void {
+    this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
   }
 
   isWelshChanged(isWelsh: boolean) {
@@ -286,13 +353,19 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         : CandidateChoseToProceedWithTestInEnglish('English'),
     );
   }
+
   async navigateToDebrief(): Promise<void> {
     await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
   }
 
+  showLanguage = (): boolean => {
+    return !isAnyOf(this.testCategory, [TestCategory.ADI3]);
+  };
+
   showD255 = (): boolean => {
     return !isAnyOf(this.testCategory, [
       TestCategory.ADI2,
+      TestCategory.ADI3,
       TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
       TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     ]);

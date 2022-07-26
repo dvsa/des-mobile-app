@@ -10,6 +10,9 @@ import { TestResultProvider } from '@providers/test-result/test-result';
 import { NonPassFinalisationAnalyticsEffects }
   from '@pages/non-pass-finalisation/non-pass-finalisation.analytics.effects';
 import { EffectsModule } from '@ngrx/effects';
+import {
+  PassFinalisationCatADI3ComponentsModule,
+} from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
 import { NonPassFinalisationPageRoutingModule } from './non-pass-finalisation-routing.module';
 import { NonPassFinalisationPage } from './non-pass-finalisation.page';
 
@@ -24,6 +27,7 @@ import { NonPassFinalisationPage } from './non-pass-finalisation.page';
     ComponentsModule,
     TestFinalisationComponentsModule,
     ReactiveFormsModule,
+    PassFinalisationCatADI3ComponentsModule,
   ],
   providers: [
     OutcomeBehaviourMapProvider,

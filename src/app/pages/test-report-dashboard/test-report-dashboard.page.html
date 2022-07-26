@@ -35,7 +35,7 @@
             (click)="navigateToPage('testReport')"
             [title]="'Test Report'"
             [isInvalid]="testReportState > 0 && testReportState < 17"
-            [isValid]="testReportState > 0 && testReportState === 17"
+            [isValid]="testReportState === 17"
             [showCompleted]="testReportState > 0"
             [score]="testReportState"
             [maxScore]="17">

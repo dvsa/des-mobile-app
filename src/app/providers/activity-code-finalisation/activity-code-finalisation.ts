@@ -3,6 +3,7 @@ import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestData as CatAMod1TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/AM2';
+import { TestData as CatADI3TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
@@ -50,6 +51,18 @@ export class ActivityCodeFinalisationProvider {
 
     const isPass = await (
       this.testResultProvider.calculateTestResult(TestCategory.ADI2, testData).toPromise()
+    ) === ActivityCodes.PASS;
+
+    return isPass;
+  }
+
+  async catADIPart3TestDataIsInvalid(
+    activityCode: ActivityCode, testData: CatADI3TestData,
+  ): Promise<boolean> {
+    if (activityCode !== ActivityCodes.FAIL_PUBLIC_SAFETY && testData.riskManagement.score >= 8) return false;
+
+    const isPass = await (
+      this.testResultProvider.calculateTestResult(TestCategory.ADI3, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -125,6 +138,7 @@ export class ActivityCodeFinalisationProvider {
       case TestCategory.ADI2: return this.catADIPart2TestDataIsInvalid(
         activityCode, testData as CatADI2UniqueTypes.TestData,
       );
+      case TestCategory.ADI3: return this.catADIPart3TestDataIsInvalid(activityCode, testData as CatADI3TestData);
       case TestCategory.B: return this.catBTestDataIsInvalid(activityCode, testData as CatBUniqueTypes.TestData);
       case TestCategory.BE: return this.catBETestDataIsInvalid(activityCode, testData as CatBEUniqueTypes.TestData);
       case TestCategory.C1:
