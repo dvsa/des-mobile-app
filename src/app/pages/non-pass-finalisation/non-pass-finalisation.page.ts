@@ -300,6 +300,12 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
 
   onReturnToTestReport = async (): Promise<void> => {
     await this.invalidTestDataModal.dismiss();
+
+    if (this.testCategory === TestCategory.ADI3) {
+      await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE);
+      return;
+    }
+
     await this.routeByCat.navigateToPage(TestFlowPageNames.TEST_REPORT_PAGE, this.testCategory as TestCategory);
   };
 
