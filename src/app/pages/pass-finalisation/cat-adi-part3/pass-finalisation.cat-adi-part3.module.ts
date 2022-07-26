@@ -7,13 +7,13 @@ import { TestFinalisationComponentsModule } from '@components/test-finalisation/
 import { IonicModule } from '@ionic/angular';
 import { DirectivesModule } from '@directives/directives.module';
 import { TestResultProvider } from '@providers/test-result/test-result';
+import {
+  PassFinalisationCatADI3ComponentsModule,
+} from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
 import { PassFinalisationCatADIPart3Page } from './pass-finalisation.cat-adi-part3.page';
 import {
   PassFinalisationCatADIPart3PageRoutingModule,
 } from './pass-finalisation.cat-adi-part3-routing.module';
-import {
-  PassFinalisationCatADI3ComponentsModule,
-} from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
 
 @NgModule({
   imports: [
@@ -25,7 +25,7 @@ import {
     ComponentsModule,
     TestFinalisationComponentsModule,
     ReactiveFormsModule,
-    PassFinalisationCatADI3ComponentsModule
+    PassFinalisationCatADI3ComponentsModule,
   ],
   declarations: [
     PassFinalisationCatADIPart3Page,

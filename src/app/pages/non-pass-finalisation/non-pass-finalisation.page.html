@@ -68,7 +68,7 @@
           (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
 
-        <div *ngIf="(pageState.furtherDevelopment$ | async) === true" class="mes-row-separator padding-top-10"></div>
+        <div *ngIf="(pageState.furtherDevelopment$ | async) !== false" class="mes-row-separator padding-top-10"></div>
 
         <reason-given
           [hidden]="!(pageState.showADI3Field$ | async)"
