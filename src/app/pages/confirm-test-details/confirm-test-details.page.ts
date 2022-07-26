@@ -62,6 +62,8 @@ import {
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
@@ -200,8 +202,10 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
             ...this.pageState,
             testOutcomeFullResult$: currentTest$.pipe(
               select(getTestData),
-              switchMap((data) => this.testResultProvider.calculateTestResultADI3(data)),
-              map((result) => `Passed Grade - ${result.grade}`),
+              select(getReview),
+              select(getGrade),
+              // switchMap((data) => this.testResultProvider.calculateTestResultADI3(data)),
+              map((grade) => `Passed Grade - ${grade}`),
             ),
             studentLevel$: currentTest$.pipe(
               select(getTestData),

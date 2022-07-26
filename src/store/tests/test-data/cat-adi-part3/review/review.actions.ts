@@ -19,3 +19,8 @@ export const ReasonForNoAdviceGivenChanged = createAction(
   '[Review] Reason for no advice given changed',
   (reasonForNoAdviceGiven: string) => ({ reasonForNoAdviceGiven }),
 );
+
+export const GradeChanged = createAction(
+  '[Review] Grade changed',
+  (grade: string) => ({ grade }),
+);
