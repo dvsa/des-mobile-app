@@ -382,7 +382,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   didTestComplete = (): boolean => {
     if (this.activityCode) {
       return isAnyOf(this.activityCode.activityCode, [
-        ActivityCodes.PASS,
         ActivityCodes.FAIL,
         ActivityCodes.FAIL_PUBLIC_SAFETY,
         ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
