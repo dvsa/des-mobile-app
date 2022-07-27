@@ -30,7 +30,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { getFeedback } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { FeedbackChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import { FeedbackChanged, GradeChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { FormGroup } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 
@@ -168,16 +168,18 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
     await modal.present();
     const { data } = await modal.onDidDismiss<ModalEvent>();
-    await this.onModalDismiss(data);
+    await this.onModalDismiss(data, result.grade);
   };
 
-  onModalDismiss = async (event: ModalEvent): Promise<void> => {
+  onModalDismiss = async (event: ModalEvent, grade: string = null): Promise<void> => {
     switch (event) {
       case ModalEvent.CONTINUE:
+        this.store$.dispatch(GradeChanged(grade));
         this.store$.dispatch(CalculateTestResult());
         await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
         break;
       case ModalEvent.TERMINATE:
+        this.store$.dispatch(GradeChanged(null));
         this.store$.dispatch(TerminateTestFromTestReport());
         await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
         break;

@@ -6,7 +6,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
-import { TestResultProvider } from '@providers/test-result/test-result';
 import { NonPassFinalisationAnalyticsEffects }
   from '@pages/non-pass-finalisation/non-pass-finalisation.analytics.effects';
 import { EffectsModule } from '@ngrx/effects';
@@ -32,7 +31,6 @@ import { NonPassFinalisationPage } from './non-pass-finalisation.page';
   providers: [
     OutcomeBehaviourMapProvider,
     ActivityCodeFinalisationProvider,
-    TestResultProvider,
   ],
   declarations: [
     NonPassFinalisationPage,

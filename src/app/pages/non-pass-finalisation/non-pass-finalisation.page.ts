@@ -22,7 +22,7 @@ import {
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
 import {
-  filter, map, switchMap, withLatestFrom,
+  filter, map, withLatestFrom,
 } from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -64,15 +64,13 @@ import {
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import {
-  getFurtherDevelopment,
+  getFurtherDevelopment, getGrade,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { TestResultProvider } from '@providers/test-result/test-result';
-import { TestData as TestDataADI3 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 
 interface NonPassFinalisationPageState {
@@ -125,7 +123,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
     public modalController: ModalController,
     private route: ActivatedRoute,
-    private testResultProvider: TestResultProvider,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
@@ -235,8 +232,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         withLatestFrom(category$),
         filter(([, category]) => category === TestCategory.ADI3),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        switchMap((data) => this.testResultProvider.calculateTestResultADI3(data as unknown as TestDataADI3)),
-        map(({ grade }) => grade || null),
+        select(getReview),
+        select(getGrade),
       ),
       showADI3Field$: currentTest$.pipe(
         select(getTestCategory),

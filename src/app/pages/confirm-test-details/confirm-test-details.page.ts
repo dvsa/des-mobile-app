@@ -18,7 +18,7 @@ import {
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
-  map, switchMap, tap, withLatestFrom,
+  map, tap, withLatestFrom,
 } from 'rxjs/operators';
 import {
   getTestStartDateTime,
@@ -60,8 +60,9 @@ import {
   getTeachingLearningScore,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.selector';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
-import { TestResultProvider } from '@providers/test-result/test-result';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
@@ -124,7 +125,6 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     public navController: NavController,
     public vehicleDetailsProvider: VehicleDetailsByCategoryProvider,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
-    public testResultProvider: TestResultProvider,
     private modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
@@ -200,8 +200,9 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
             ...this.pageState,
             testOutcomeFullResult$: currentTest$.pipe(
               select(getTestData),
-              switchMap((data) => this.testResultProvider.calculateTestResultADI3(data)),
-              map((result) => `Passed Grade - ${result.grade}`),
+              select(getReview),
+              select(getGrade),
+              map((grade) => `Passed Grade - ${grade}`),
             ),
             studentLevel$: currentTest$.pipe(
               select(getTestData),
