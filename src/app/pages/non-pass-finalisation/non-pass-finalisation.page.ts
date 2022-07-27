@@ -32,8 +32,9 @@ import {
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
 import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
-import { getTestSlotAttributes }
-  from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
+import {
+  getTestSlotAttributes,
+} from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
@@ -72,6 +73,7 @@ import {
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { ActivityCodes } from '@shared/models/activity-codes';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -372,5 +374,16 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
       TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     ]);
+  };
+
+  didTestComplete = (): boolean => {
+    if (this.activityCode) {
+      return isAnyOf(this.activityCode.activityCode, [
+        ActivityCodes.FAIL,
+        ActivityCodes.FAIL_PUBLIC_SAFETY,
+        ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
+      ]);
+    }
+    return false;
   };
 }
