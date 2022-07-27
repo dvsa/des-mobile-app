@@ -71,7 +71,6 @@ import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { TestResultProvider } from '@providers/test-result/test-result';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 
 interface NonPassFinalisationPageState {
@@ -124,7 +123,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     public activityCodeFinalisationProvider: ActivityCodeFinalisationProvider,
     public modalController: ModalController,
     private route: ActivatedRoute,
-    private testResultProvider: TestResultProvider,
     private testDataByCategoryProvider: TestDataByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
@@ -236,8 +234,6 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getGrade),
-        // switchMap((data) => this.testResultProvider.calculateTestResultADI3(data as unknown as TestDataADI3)),
-        // map(({ grade }) => grade || null),
       ),
       showADI3Field$: currentTest$.pipe(
         select(getTestCategory),

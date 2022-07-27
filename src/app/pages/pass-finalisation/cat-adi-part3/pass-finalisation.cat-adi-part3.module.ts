@@ -6,7 +6,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestFinalisationComponentsModule } from '@components/test-finalisation/test-finalisation-components.module';
 import { IonicModule } from '@ionic/angular';
 import { DirectivesModule } from '@directives/directives.module';
-import { TestResultProvider } from '@providers/test-result/test-result';
 import {
   PassFinalisationCatADI3ComponentsModule,
 } from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
@@ -30,6 +29,5 @@ import {
   declarations: [
     PassFinalisationCatADIPart3Page,
   ],
-  providers: [TestResultProvider],
 })
 export class PassFinalisationCatADIPart3PageModule {}

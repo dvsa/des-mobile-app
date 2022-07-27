@@ -16,7 +16,7 @@ import {
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import {
-  getFurtherDevelopment,
+  getFurtherDevelopment, getGrade,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
@@ -30,8 +30,7 @@ import { PersistTests } from '@store/tests/tests.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
-import { TestResultProvider } from '@providers/test-result/test-result';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
@@ -61,7 +60,6 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
-    private testResultProvider: TestResultProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
@@ -90,8 +88,8 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
       ),
       testOutcomeGrade$: currentTest$.pipe(
         select(getTestData),
-        switchMap((data) => this.testResultProvider.calculateTestResultADI3(data)),
-        map(({ grade }) => grade || null),
+        select(getReview),
+        select(getGrade),
       ),
     };
 

@@ -11,7 +11,9 @@ import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
 import {
   filter,
-  map, switchMap, tap, withLatestFrom,
+  map,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
@@ -19,7 +21,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import {
-  ActivityCode, CategoryCode, Eco, ETA, QuestionResult,
+  CategoryCode, Eco, ETA, QuestionResult,
 } from '@dvsa/mes-test-schema/categories/common';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
@@ -60,15 +62,14 @@ import {
   LessonPlanning, Review,
   RiskManagement,
   TeachingLearningStrategies,
-  TestData as TestDataADI3,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import {
   getTeachingLearningStrategies,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
-import { TestResultProvider } from '@providers/test-result/test-result';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -100,7 +101,7 @@ interface DebriefPageState {
   teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
   review$: Observable<Review>;
   showSafetyAndBalance$: Observable<boolean>;
-  adi3TestOutcome$: Observable<{ activityCode: ActivityCode; grade?: string; }>;
+  grade$: Observable<string>;
 }
 @Component({
   selector: '.debrief-page',
@@ -135,7 +136,6 @@ export class DebriefPage extends PracticeableBasePageComponent {
     private faultSummaryProvider: FaultSummaryProvider,
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider : TestDataByCategoryProvider,
-    private testResultProvider: TestResultProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -298,11 +298,12 @@ export class DebriefPage extends PracticeableBasePageComponent {
         select(getAvoidance),
         select(getAvoidanceAttempted),
       ),
-      adi3TestOutcome$: currentTest$.pipe(
+      grade$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         filter(([, category]) => category === TestCategory.ADI3),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
-        switchMap((data) => this.testResultProvider.calculateTestResultADI3(data as TestDataADI3)),
+        select(getReview),
+        select(getGrade),
       ),
     };
 

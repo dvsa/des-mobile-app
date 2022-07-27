@@ -26,8 +26,6 @@ import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
-import { TestResultProvider } from '@providers/test-result/test-result';
 import { PassFinalisationCatADIPart3Page } from '../pass-finalisation.cat-adi-part3.page';
 
 describe('PassFinalisationCatADIPart3Page', () => {
@@ -60,7 +58,6 @@ describe('PassFinalisationCatADIPart3Page', () => {
         { provide: Router, useValue: routerSpy },
         { provide: Store },
         { provide: NavController, useClass: NavControllerMock },
-        { provide: TestResultProvider, useClass: TestResultProviderMock },
         OutcomeBehaviourMapProvider,
       ],
     });
