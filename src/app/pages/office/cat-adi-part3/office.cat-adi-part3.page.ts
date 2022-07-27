@@ -23,8 +23,8 @@ import { Observable } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
-import { TestResultProvider } from '@providers/test-result/test-result';
-import { map, switchMap } from 'rxjs/operators';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 
 interface CatADI3OfficePageState {
   testOutcomeGrade$: Observable<string>;
@@ -54,7 +54,6 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
     faultCountProvider: FaultCountProvider,
     private appConfig: AppConfigProvider,
     public deviceProvider: DeviceProvider,
-    public testResultProvider: TestResultProvider,
   ) {
     super(
       platform,
@@ -87,8 +86,8 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
       ...this.commonPageState,
       testOutcomeGrade$: currentTest$.pipe(
         select(getTestData),
-        switchMap((data) => this.testResultProvider.calculateTestResultADI3(data)),
-        map(({ grade }) => grade || null),
+        select(getReview),
+        select(getGrade),
       ),
     };
 

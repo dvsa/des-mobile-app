@@ -6,7 +6,6 @@ import {
   TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { lessonThemeValues, studentValues } from '@app/shared/constants/adi3-questions/lesson-theme.constants';
-import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'adi3-debrief-card',
@@ -30,7 +29,7 @@ export class Adi3DebriefCard implements OnInit {
   public teachingLearningStrategies: TeachingLearningStrategies;
 
   @Input()
-  public testOutcome: { activityCode: ActivityCode, grade?: string };
+  public grade: string = null;
 
   @Input()
   public review: Review;
@@ -48,7 +47,7 @@ export class Adi3DebriefCard implements OnInit {
   }
 
   displayGradeDescription(): string {
-    switch (this.testOutcome.grade) {
+    switch (this.grade) {
       case 'B':
         return 'Sufficient competence demonstrated to permit entry to the Register of Approved Driving Instructors';
       case 'A':

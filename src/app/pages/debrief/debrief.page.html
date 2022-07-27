@@ -6,7 +6,7 @@
         </ion-buttons>
         <ion-title id="page-title">{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title>
     </ion-toolbar>
-    <test-outcome-debrief-card [outcome]="outcome" [grade]="(pageState.adi3TestOutcome$ | async)?.grade" ></test-outcome-debrief-card>
+    <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async" ></test-outcome-debrief-card>
 </ion-header>
 
 <ion-content>
@@ -67,7 +67,7 @@
             [lessonPlanning]="pageState.lessonPlanning$ | async"
             [riskManagement]="pageState.riskManagement$ | async"
             [teachingLearningStrategies]="pageState.teachingLearningStrategies$ | async"
-            [testOutcome]="pageState.adi3TestOutcome$ | async"
+            [grade]="pageState.grade$ | async"
             [review]="pageState.review$ | async">
     </adi3-debrief-card>
 </ion-content>

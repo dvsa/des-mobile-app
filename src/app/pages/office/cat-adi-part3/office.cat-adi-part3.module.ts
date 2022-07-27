@@ -11,7 +11,6 @@ import { OfficeEffects } from '@pages/office/office.effects';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { OfficeCatADIPart3PageRoutingModule } from '@pages/office/cat-adi-part3/office.cat-adi-part3-routing.module';
 import { OfficeCatADI3Page } from '@pages/office/cat-adi-part3/office.cat-adi-part3.page';
-import { TestResultProvider } from '@providers/test-result/test-result';
 
 @NgModule({
   declarations: [
@@ -32,7 +31,6 @@ import { TestResultProvider } from '@providers/test-result/test-result';
   ],
   providers: [
     FaultSummaryProvider,
-    TestResultProvider,
   ],
 })
 export class OfficeCatADIPart3PageModule {}
