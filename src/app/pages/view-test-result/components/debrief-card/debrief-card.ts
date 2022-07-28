@@ -128,7 +128,8 @@ export class DebriefCardComponent implements OnInit {
       case TestCategory.EUA2M2:
       case TestCategory.EUAM2:
       case TestCategory.EUAMM2:
-        return 6; // Mod 2
+      case TestCategory.ADI2:
+        return 6; // Mod 2 && ADI2
       default:
         return 15;
     }
