@@ -33,6 +33,9 @@
             <ion-col *ngIf="searchResult.passCertificateNumber" size="24">
                 <div class="ion-float-right" id="search-result-pass-cert">{{searchResult.passCertificateNumber}}</div>
             </ion-col>
+            <ion-col *ngIf="searchResult.category === 'ADI3' && searchResult.grade" size="24">
+                <div class="ion-float-right" id="search-result-grade"> Grade {{searchResult.grade}}</div>
+            </ion-col>
         </ion-row>
     </ion-grid>
 </ion-card>
