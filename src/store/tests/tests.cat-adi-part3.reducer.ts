@@ -1,7 +1,9 @@
 import { Action, combineReducers } from '@ngrx/store';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { testSummaryADIPart3Reducer } from '@store/tests/test-summary/cat-adi-part3/test-summary.cat-adi-part3.reducer';
-import { passCompletionReducer } from '@store/tests/pass-completion/pass-completion.reducer';
+import {
+    passCompletionCatADI3Reducer
+} from '@store/tests/pass-completion/cat-adi-part3/pass-completion.cat-adi3.reducer';
 import {
   trainerDetailsCatADIPart3Reducer,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.reducer';
@@ -46,7 +48,7 @@ export function testsCatADIPart3Reducer(
       examinerConducted: examinerConductedReducer,
       examinerKeyed: examinerKeyedReducer,
       journalData: journalDataCatADIPart2Reducer,
-      passCompletion: passCompletionReducer,
+      passCompletion: passCompletionCatADI3Reducer,
       postTestDeclarations: postTestDeclarationsReducer,
       preTestDeclarations: preTestDeclarationsCatADI3Reducer,
       rekey: rekeyReducer,
