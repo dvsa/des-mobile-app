@@ -2,7 +2,7 @@ import { Action, combineReducers } from '@ngrx/store';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { testSummaryADIPart3Reducer } from '@store/tests/test-summary/cat-adi-part3/test-summary.cat-adi-part3.reducer';
 import {
-    passCompletionCatADI3Reducer
+  passCompletionCatADI3Reducer,
 } from '@store/tests/pass-completion/cat-adi-part3/pass-completion.cat-adi3.reducer';
 import {
   trainerDetailsCatADIPart3Reducer,
