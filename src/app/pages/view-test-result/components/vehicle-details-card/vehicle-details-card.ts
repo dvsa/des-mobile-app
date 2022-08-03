@@ -113,6 +113,8 @@ export class VehicleDetailsCardComponent {
 
   public isADI2 = (): boolean => this.category === TestCategory.ADI2;
 
+  public isADI3 = (): boolean => this.category === TestCategory.ADI3;
+
   public isBike = (): boolean => isAnyOf(this.category, [
     // Cat Mod1
     TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1, TestCategory.EUAMM1,

@@ -4,7 +4,7 @@ import {
   Accompaniment,
   TestSummary,
   PassCompletion,
-  CommunicationPreferences,
+  CommunicationPreferences, CategoryCode
 } from '@dvsa/mes-test-schema/categories/common';
 import { TestSummary as CatAMod2TestSummary } from '@dvsa/mes-test-schema/categories/AM2';
 import { flattenArray, convertBooleanToString } from '../../view-test-result-helpers';
@@ -26,6 +26,9 @@ export class TestSummaryCardComponent {
 
   @Input()
   communicationPreferences: CommunicationPreferences;
+
+  @Input()
+  category?: CategoryCode;
 
   public get accompaniedBy() : string {
     const accompaniedBy: string[] = [];

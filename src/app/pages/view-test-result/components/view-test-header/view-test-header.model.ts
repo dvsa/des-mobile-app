@@ -6,4 +6,5 @@ export interface ViewTestHeaderModel {
   candidateDriverNumber: string;
   activityCode: ActivityCode;
   testOutcome: TestOutcome;
+  grade: string;
 }

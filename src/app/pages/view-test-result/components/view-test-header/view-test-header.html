@@ -5,8 +5,9 @@
     </ion-col>
     <ion-col size="40" class="ion-text-end">
         <h2 id="activityCode">{{data.activityCode}}</h2>
-        <h3>Test outcome:
-            <span id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">{{data.testOutcome}}</span>
+        <h3 [ngClass]="data.grade ? 'grade-styling' : null " >Test outcome:
+            <span *ngIf="!data.grade" id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">{{data.testOutcome}}</span>
+            <span *ngIf="data.grade" id="gradeTestOutcome" class="mes-green" >{{data.testOutcome}} - Grade {{data.grade}}</span>
         </h3>
     </ion-col>
 </ion-row>
