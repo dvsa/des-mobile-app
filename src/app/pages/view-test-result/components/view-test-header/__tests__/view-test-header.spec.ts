@@ -28,6 +28,7 @@ describe('ViewTestHeaderComponent', () => {
     describe('isPassed', () => {
       it('should return true for activity code 1', () => {
         component.data = {
+          grade: '',
           activityCode: '1',
           candidateDriverNumber: '',
           candidateName: '',
@@ -37,6 +38,7 @@ describe('ViewTestHeaderComponent', () => {
       });
       it('should return false for an activity code that is not 1', () => {
         component.data = {
+          grade: '',
           activityCode: '5',
           candidateDriverNumber: '',
           candidateName: '',

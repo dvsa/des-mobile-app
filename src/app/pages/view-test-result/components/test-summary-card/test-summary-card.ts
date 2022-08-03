@@ -4,7 +4,7 @@ import {
   Accompaniment,
   TestSummary,
   PassCompletion,
-  CommunicationPreferences, CategoryCode
+  CommunicationPreferences, CategoryCode,
 } from '@dvsa/mes-test-schema/categories/common';
 import { TestSummary as CatAMod2TestSummary } from '@dvsa/mes-test-schema/categories/AM2';
 import { flattenArray, convertBooleanToString } from '../../view-test-result-helpers';
