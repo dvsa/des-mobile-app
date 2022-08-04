@@ -21,12 +21,11 @@
                       class="vehicle-reg-input mes-data input-styling-background"
                       charLimit="950"
                       charCount
-                      [class.ng-invalid]="invalid"
                       [value]="feedback"
                       (onCharacterCountChanged)="characterCountChanged($event)"
                       (change)="feedbackChanged($event.target.value)">
             </textarea>
-            <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
+            <div class="character-count validation-text">
               {{getCharacterCountText()}}
             </div>
           </ion-col>
