@@ -32,6 +32,7 @@ export class AdvancedSearchComponent {
   testCategories: string[] = [
     'All',
     TestCategory.ADI2,
+    TestCategory.ADI3,
     TestCategory.B,
     TestCategory.BE,
     TestCategory.C,

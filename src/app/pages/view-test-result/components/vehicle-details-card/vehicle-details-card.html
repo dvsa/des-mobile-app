@@ -20,7 +20,7 @@
 
             <data-row
                     *ngIf="registrationNumber"
-                    [shouldHaveSeperator]=" !!instructorRegistrationNumber || shouldShowDimensions || !!vehicleDetails"
+                    [shouldHaveSeperator]="isADI3() || !!instructorRegistrationNumber || shouldShowDimensions || !!vehicleDetails"
                     [label]="'Vehicle registration number'"
                     [value]="registrationNumber">
             </data-row>
@@ -63,7 +63,7 @@
 
             <data-row *ngIf="trainerPRN" [label]="'Trainer PRN'" [value]="trainerPRN"></data-row>
 
-            <data-row *ngIf="isADI2()" [label]="'ORDIT'" [value]="ordit"></data-row>
+            <data-row *ngIf="isADI2() || isADI3()" [label]="'ORDIT'" [value]="ordit"></data-row>
 
             <data-row *ngIf="isADI2()" [label]="'Training Records'" [value]="trainingRecords"></data-row>
 

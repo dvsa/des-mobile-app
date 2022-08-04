@@ -24,25 +24,32 @@
                     [value]="passCertificateNumber">
             </data-row>
 
-            <data-row [label]="'Route number'" [value]="routeNumber"></data-row>
+            <data-row
+                    *ngIf="!isADI3()"
+                    [label]="'Route number'" [value]="routeNumber"></data-row>
 
             <data-row
                     *ngIf="shouldDisplayTestConductedOn()"
                     [label]="'Test conducted on'"
                     [value]="testConductedOn">
             </data-row>
-
-            <data-row [label]="'Independent driving'" [value]="independentDriving"></data-row>
-
-            <data-row [label]="'Candidate appearance true likeness to photo'" [value]="trueLikenessToPhoto ? 'Yes' : 'No'"></data-row>
-
-            <data-row [label]="'Distinguishing features'" [value]="candidateDescription"></data-row>
+            <data-row
+                    *ngIf="!isADI3()"
+                    [label]="'Independent driving'" [value]="independentDriving"></data-row>
+            <data-row
+                    *ngIf="!isADI3()"
+                    [label]="'Candidate appearance true likeness to photo'" [value]="trueLikenessToPhoto ? 'Yes' : 'No'"></data-row>
+            <data-row
+                    *ngIf="!isADI3()"
+                    [label]="'Distinguishing features'" [value]="candidateDescription"></data-row>
 
             <data-row [label]="'Debrief witnessed'" [value]="debriefWitnessed"></data-row>
-
-            <data-row [label]="'Weather conditions'" [value]="weatherConditions"></data-row>
-
-            <data-row [label]="'D255'" [value]="d255"></data-row>
+            <data-row
+                    *ngIf="!isADI3()"
+                    [label]="'Weather conditions'" [value]="weatherConditions"></data-row>
+            <data-row
+                    *ngIf="!isADI3()"
+                    [label]="'D255'" [value]="d255"></data-row>
 
             <data-row [label]="'Conducted Language'" [value]="conductedLanguage"></data-row>
 

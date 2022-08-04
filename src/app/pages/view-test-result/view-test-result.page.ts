@@ -1,6 +1,5 @@
 import {
-  ChangeDetectorRef,
-  Component, Input, OnInit,
+  ChangeDetectorRef, Component, Input, OnInit,
 } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { BasePageComponent } from '@shared/classes/base-page';
@@ -36,6 +35,11 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
+import {
+  TrainerDetails as CatADI3TrainerDetails,
+  TestData as CatADI3TestData,
+} from '@dvsa/mes-test-schema/categories/ADI3';
+import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
 
 @Component({
@@ -71,6 +75,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
     private ref: ChangeDetectorRef,
+    public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -98,7 +103,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
           await this.handleLoadingUI(false);
           return of();
         }),
-      ).subscribe();
+      )
+      .subscribe();
   }
 
   ionViewDidEnter(): void {
@@ -109,6 +115,13 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  get totalScore(): number {
+    if (this.isCategoryADI3()) {
+      return this.adi3AssessmentProvider.getTotalAssessmentScore(this.testResult.testData as CatADI3TestData);
+    }
+    return null;
   }
 
   handleLoadingUI = async (isLoading: boolean): Promise<void> => {
@@ -151,6 +164,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
       candidateDriverNumber: get(this.testResult, 'journalData.candidate.driverNumber'),
       activityCode: get(this.testResult, 'activityCode'),
       testOutcome: getTestOutcomeText(this.testResult),
+      grade: get(this.testResult, 'testData.review.grade'),
     };
   }
 
@@ -195,7 +209,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     };
   }
 
-  getTrainerData(): CatADI2UniqueTypes.TrainerDetails {
+  getTrainerData(): CatADI3TrainerDetails | CatADI2UniqueTypes.TrainerDetails {
     if (!this.testResult) {
       return null;
     }
@@ -218,6 +232,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   isCategoryB = (): boolean => isAnyOf(this.testCategory, [TestCategory.B]);
+
+  isCategoryADI3 = (): boolean => isAnyOf(this.testCategory, [TestCategory.ADI3]);
 
   showDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [
     TestCategory.B, // Cat B
@@ -246,7 +262,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     TestCategory.D, TestCategory.D1, TestCategory.D1E, TestCategory.DE, // Cat D 3B
     TestCategory.DM, TestCategory.D1M, TestCategory.D1EM, TestCategory.DEM, // Cat D 3A
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
-    TestCategory.ADI2, // ADI
+    TestCategory.ADI2, TestCategory.ADI3, // ADI
     TestCategory.CCPC, TestCategory.DCPC,
   ]);
 
