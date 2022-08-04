@@ -113,4 +113,8 @@ export class TestSummaryCardComponent {
   public get conductedLanguage(): string {
     return get(this.communicationPreferences, 'conductedLanguage', 'None');
   }
+
+  isADI3() {
+    return this.category === 'ADI3';
+  }
 }
