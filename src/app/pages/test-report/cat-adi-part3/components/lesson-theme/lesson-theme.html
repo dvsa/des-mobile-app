@@ -130,19 +130,19 @@
       </ion-row>
       <ion-row>
         <ion-col size="30">
-          <assessment-answer
-            [assessmentLabel]="'Other'"
-            [key]="'other'"
-            [comparator]="defineComparator('other')"
-            (answerToggled)="lessonThemeChanged($event)">
-          </assessment-answer>
+          <ion-row>
+            <ion-col>
+              <label>Other</label>
+            </ion-col>
+          </ion-row>
         </ion-col>
         <ion-col class="ion-align-self-center ion-padding-start">
           <ion-row class="spacing-row"></ion-row>
-          <ion-row>
+          <ion-row>q
             <ion-col class="textarea-input">
               <textarea
                 charLimit="950"
+                maxlength="950"
                 charCount
                 [class.ng-invalid]="invalid"
                 [value]="otherReason"
@@ -152,18 +152,8 @@
               </textarea>
             </ion-col>
           </ion-row>
-          <ion-row class="validation-message-row ion-align-items-center" *ngIf="invalid">
-            <div class="validation-text" [class.ng-invalid]="invalid">
-              Please provide a reason when selecting 'Other'
-            </div>
-          </ion-row>
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card-content>
-
-  <warning-banner
-    *ngIf="showOtherSelectedBanner()"
-    [warningText]="'You selected Other, add details in the box'">
-  </warning-banner>
 </ion-card>

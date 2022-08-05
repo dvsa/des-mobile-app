@@ -30,16 +30,8 @@ export class LessonThemeComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new FormControl(null, [Validators.maxLength(950)]);
       this.formGroup.addControl(LessonThemeComponent.fieldName, this.formControl);
-    }
-    if (!this.defineComparator('other')) {
-      this.formGroup.get(LessonThemeComponent.fieldName).clearValidators();
-    } else {
-      this.formGroup.get(LessonThemeComponent.fieldName).setValidators([
-        Validators.required,
-        Validators.maxLength(950),
-      ]);
     }
     this.formControl.patchValue(this.otherReason);
   }
@@ -53,8 +45,6 @@ export class LessonThemeComponent implements OnChanges {
   };
 
   defineComparator = (key: string) => this.lessonThemes?.includes(key as LessonTheme) ? key : '';
-
-  showOtherSelectedBanner = () => this.lessonThemes?.includes('other');
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
