@@ -43,18 +43,11 @@ export class ReviewFeedback {
 
   characterCountChanged(charactersRemaining: number) {
     this.feedbackCharsRemaining = charactersRemaining;
-    if (charactersRemaining <= -1) {
-      this.form.controls.feedback.patchValue(this.form.controls.feedback.value.slice(0, -1));
-    }
   }
 
   getCharacterCountText() {
     const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
-    const endString = 'remaining';
-    if (this.feedbackCharsRemaining <= 0) {
-      return 'You have 0 characters remaining';
-    }
-    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} ${endString}`;
+    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
   }
 
   charactersExceeded(): boolean {
