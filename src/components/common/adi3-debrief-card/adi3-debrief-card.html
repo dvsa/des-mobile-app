@@ -14,7 +14,8 @@
             </ion-col>
         </ion-row>
     </ion-card>
-    <ion-card class="ion-padding" *ngIf="lessonTheme.lessonThemes.length > 0 && lessonTheme.studentLevel">
+
+    <ion-card class="ion-padding" *ngIf="(lessonTheme.lessonThemes.length > 0 || lessonTheme.other) && lessonTheme.studentLevel">
         <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
         <br>
         <ion-row>

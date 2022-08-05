@@ -26,6 +26,7 @@ export class LessonThemeComponent implements OnChanges {
   otherReasoningChange = new EventEmitter<string>();
 
   private formControl: FormControl;
+  private feedbackCharsRemaining: number;
   static readonly fieldName: string = 'otherReason';
 
   ngOnChanges(): void {
@@ -48,6 +49,19 @@ export class LessonThemeComponent implements OnChanges {
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
+  }
+
+  characterCountChanged(charactersRemaining: number) {
+    this.feedbackCharsRemaining = charactersRemaining;
+  }
+
+  getCharacterCountText() {
+    const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
+    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
+  }
+
+  charactersExceeded(): boolean {
+    return this.feedbackCharsRemaining < 0;
   }
 
 }
