@@ -26,20 +26,13 @@ export class LessonThemeComponent implements OnChanges {
   otherReasoningChange = new EventEmitter<string>();
 
   private formControl: FormControl;
+  private feedbackCharsRemaining: number;
   static readonly fieldName: string = 'otherReason';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new FormControl(null, [Validators.maxLength(950)]);
       this.formGroup.addControl(LessonThemeComponent.fieldName, this.formControl);
-    }
-    if (!this.defineComparator('other')) {
-      this.formGroup.get(LessonThemeComponent.fieldName).clearValidators();
-    } else {
-      this.formGroup.get(LessonThemeComponent.fieldName).setValidators([
-        Validators.required,
-        Validators.maxLength(950),
-      ]);
     }
     this.formControl.patchValue(this.otherReason);
   }
@@ -54,10 +47,21 @@ export class LessonThemeComponent implements OnChanges {
 
   defineComparator = (key: string) => this.lessonThemes?.includes(key as LessonTheme) ? key : '';
 
-  showOtherSelectedBanner = () => this.lessonThemes?.includes('other');
-
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
+  }
+
+  characterCountChanged(charactersRemaining: number) {
+    this.feedbackCharsRemaining = charactersRemaining;
+  }
+
+  getCharacterCountText() {
+    const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
+    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
+  }
+
+  charactersExceeded(): boolean {
+    return this.feedbackCharsRemaining < 0;
   }
 
 }

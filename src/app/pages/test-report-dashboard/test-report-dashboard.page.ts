@@ -141,11 +141,11 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
   validateLessonTheme({ lessonThemes, other, studentLevel }: LessonAndTheme): { valid: boolean; score: number; } {
     const result: { valid: boolean; score: number } = { valid: false, score: 0 };
-    const isOtherValid = lessonThemes?.includes('other') ? !!other : true;
-    result.valid = !!(studentLevel && lessonThemes.length > 0 && isOtherValid);
+    const isOtherPresent = !!other;
+    result.valid = !!(studentLevel && (lessonThemes.length > 0 || isOtherPresent));
     result.score = (!studentLevel && lessonThemes.length === 0)
       ? 0
-      : studentLevel && lessonThemes.length > 0 && isOtherValid ? 2 : 1;
+      : studentLevel && (lessonThemes.length > 0 || isOtherPresent) ? 2 : 1;
 
     return result;
   }

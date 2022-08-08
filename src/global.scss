@@ -74,3 +74,15 @@
 .appear-disabled {
   opacity: 0.4;
 }
+
+.character-count-standard {
+  color: var(--gds-grey-1);
+  font-weight: initial;
+  letter-spacing: initial;
+
+  &.ng-invalid {
+    font-weight: 600;
+    letter-spacing: -0.49px;
+  }
+}
+

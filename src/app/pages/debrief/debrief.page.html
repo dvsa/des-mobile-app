@@ -58,7 +58,9 @@
                       [question5]="pageState.question5$ | async"
                       [testOutcome]="outcome">
     </cpc-debrief-card>
-    <safety-and-balance-card-cat-a-mod2 *ngIf="pageState.showSafetyAndBalance$ | async">
+
+    <safety-and-balance-card-cat-a-mod2
+      *ngIf="pageState.showSafetyAndBalance$ | async">
     </safety-and-balance-card-cat-a-mod2>
 
     <adi3-debrief-card *ngIf="showADI3DebriefCard()"
