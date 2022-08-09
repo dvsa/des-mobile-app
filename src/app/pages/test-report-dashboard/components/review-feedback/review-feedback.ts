@@ -47,8 +47,7 @@ export class ReviewFeedback {
 
   getCharacterCountText() {
     const characterString = Math.abs(this.feedbackCharsRemaining) === 1 ? 'character' : 'characters';
-    const endString = this.feedbackCharsRemaining < 0 ? 'too many' : 'remaining';
-    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} ${endString}`;
+    return `You have ${Math.abs(this.feedbackCharsRemaining)} ${characterString} remaining`;
   }
 
   charactersExceeded(): boolean {
