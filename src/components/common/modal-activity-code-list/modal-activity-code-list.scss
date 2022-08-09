@@ -25,4 +25,10 @@
     font-size: 34px;
     font-weight: bold;
   }
+
+  .dark-mode-override {
+    --background: white;
+    color: black;
+    --background-activated: gray;
+  }
 }
