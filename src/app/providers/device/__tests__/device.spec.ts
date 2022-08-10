@@ -125,4 +125,18 @@ describe('DeviceProvider', () => {
     });
   });
 
+  describe('checkSingleAppMode', () => {
+    it('should return true if single app mode enabled', async () => {
+      spyOn(deviceProvider, 'isStarted').and.returnValue(Promise.resolve(true));
+      const result = await deviceProvider.checkSingleAppMode();
+      expect(result).toBe(true);
+    });
+
+    it('should return false if single app mode not enabled', async () => {
+      spyOn(deviceProvider, 'isStarted').and.returnValue(Promise.resolve(false));
+      const result = await deviceProvider.checkSingleAppMode();
+      expect(result).toBe(false);
+    });
+  });
+
 });

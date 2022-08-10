@@ -14,7 +14,7 @@ import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+// import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -39,7 +39,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   isRekey: boolean;
   merged$: Observable<string | boolean>;
   subscription: Subscription;
-  isStarted: Promise<unknown>;
+  singleAppModeEnabled: boolean;
 
   constructor(
     store$: Store<StoreModel>,
@@ -54,7 +54,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     super(platform, authenticationProvider, router, store$);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     super.ngOnInit();
     this.pageState = {
       isRekey$: this.store$.pipe(
@@ -80,7 +80,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       isRekey$.pipe(map((value) => this.isRekey = value)),
     );
 
-    this.isStarted = this.deviceProvider.isStarted();
+    this.singleAppModeEnabled = await this.deviceProvider.checkSingleAppMode();
 
     this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();
@@ -103,7 +103,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   }
 
   async goToJournal(): Promise<void> {
-    console.log('isStarted', this.isStarted);
+    console.log('singleAppModeEnabled', this.singleAppModeEnabled);
     // if (this.isEndToEndPracticeMode) {
     //   await this.exitPracticeMode();
     //   return;
