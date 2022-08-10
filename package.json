@@ -20,7 +20,7 @@
     "open:ios": "rm -rf ios && npm run config:dev && ionic build && ionic cap add ios & ionic cap copy ios && npm run copy-resources && ionic cap open ios",
     "build:test": "npm run schema-version && npm run config:testing && ionic cap build ios --no-open --configuration testing && npm run e2e-build",
     "build": "npm run copy-resources && ionic build",
-    "lint": "node buildScripts/eslint-alloc-patch.js && eslint . --cache --ext .ts ",
+    "lint": "node buildScripts/eslint-alloc-patch.js && eslint . --cache --ext .ts",
     "lint:fix:commit": "node buildScripts/eslint-alloc-patch.js && eslint . --cache --fix --quiet --ext .ts",
     "lint:fix": "node buildScripts/eslint-alloc-patch.js && eslint . --cache --fix --quiet --ext .ts",
     "stylelint": "stylelint 'src/**/*.scss' fix --config stylelint.json",
