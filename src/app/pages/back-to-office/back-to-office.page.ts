@@ -21,6 +21,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { map } from 'rxjs/operators';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { DeviceProvider } from '@providers/device/device';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
@@ -38,6 +39,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   isRekey: boolean;
   merged$: Observable<string | boolean>;
   subscription: Subscription;
+  isStarted: Promise<unknown>;
 
   constructor(
     store$: Store<StoreModel>,
@@ -47,6 +49,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     public insomnia: Insomnia,
     public router: Router,
     public routeByCategoryProvider: RouteByCategoryProvider,
+    public deviceProvider: DeviceProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -77,6 +80,8 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       isRekey$.pipe(map((value) => this.isRekey = value)),
     );
 
+    this.isStarted = this.deviceProvider.isStarted();
+
     this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();
   }
@@ -98,16 +103,18 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   }
 
   async goToJournal(): Promise<void> {
-    if (this.isEndToEndPracticeMode) {
-      await this.exitPracticeMode();
-      return;
-    }
-    this.store$.dispatch(DeferWriteUp());
-    await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
+    console.log('isStarted', this.isStarted);
+    // if (this.isEndToEndPracticeMode) {
+    //   await this.exitPracticeMode();
+    //   return;
+    // }
+    // this.store$.dispatch(DeferWriteUp());
+    // await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
   }
 
   async goToOfficePage() {
-    await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
+    console.log('isStarted', this.isStarted);
+    // await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
   }
 
   private destroyTestSubs = (): void => {
