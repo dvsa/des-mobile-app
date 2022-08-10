@@ -1,0 +1,22 @@
+@import "src/theme/sass-partials/modal";
+
+:host {
+  @extend .modal-alert-wrapper;
+
+  .modal-alert {
+    width: 400px;
+  }
+
+  .modal-alert-message {
+    margin-bottom: 24px;
+  }
+
+  .mes-align-content-center {
+    text-align: center;
+  }
+
+  .confirm-submit-button {
+    color: var(--gds-black);
+    font-weight: bold;
+  }
+}
