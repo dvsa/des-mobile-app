@@ -14,7 +14,7 @@ import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-// import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -22,6 +22,9 @@ import { map } from 'rxjs/operators';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { DeviceProvider } from '@providers/device/device';
+import {
+  AsamFailureNotificationModal,
+} from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
@@ -50,6 +53,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     public router: Router,
     public routeByCategoryProvider: RouteByCategoryProvider,
     public deviceProvider: DeviceProvider,
+    private modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -102,19 +106,48 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     }
   }
 
-  async goToJournal(): Promise<void> {
-    console.log('singleAppModeEnabled', this.singleAppModeEnabled);
-    // if (this.isEndToEndPracticeMode) {
-    //   await this.exitPracticeMode();
-    //   return;
+  async buttonClick(pageName: string): Promise<void> {
+    if (this.singleAppModeEnabled) {
+      const asamModal = await this.modalController.create({
+        id: 'AsamFailureNotificationModal',
+        component: AsamFailureNotificationModal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+        backdropDismiss: false,
+        showBackdrop: true,
+        componentProps: {
+          onContinue: this.pageExit(pageName),
+        },
+      });
+
+      await asamModal.present();
+      console.log('singleAppModeEnabled', this.singleAppModeEnabled);
+    }
+    // else {
+    //   this.pageExit(pageName);
     // }
-    // this.store$.dispatch(DeferWriteUp());
-    // await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
+  }
+
+  pageExit(pageName: string): void {
+    if (pageName === 'writeUp') {
+      this.goToOfficePage();
+    }
+
+    if (pageName === 'journal') {
+      this.goToJournal();
+    }
+  }
+
+  async goToJournal(): Promise<void> {
+    if (this.isEndToEndPracticeMode) {
+      await this.exitPracticeMode();
+      return;
+    }
+    this.store$.dispatch(DeferWriteUp());
+    await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
   }
 
   async goToOfficePage() {
-    console.log('isStarted', this.isStarted);
-    // await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
+    await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.testCategory);
   }
 
   private destroyTestSubs = (): void => {

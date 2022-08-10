@@ -6,12 +6,12 @@
     <img id='dvsa-logo' src='../../../assets/imgs/back-to-office/logo.png' />
   </div>
   <div class="container">
-    <ion-button class="mes-neutral-button office-button top-button" (click)="goToOfficePage()" id="continue-to-write-up">
+    <ion-button class="mes-neutral-button office-button top-button" (click)="buttonClick('writeUp')" id="continue-to-write-up">
       Continue to write up
     </ion-button>
   </div>
   <div class="container" *ngIf="!(pageState.isRekey$ | async)">
-    <ion-button class="mes-neutral-button office-button bottom-button" (click)="goToJournal()" id="return-to-journal">
+    <ion-button class="mes-neutral-button office-button bottom-button" (click)="buttonClick('journal')" id="return-to-journal">
       Return to journal
     </ion-button>
   </div>
