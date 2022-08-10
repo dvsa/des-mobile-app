@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Store, select } from '@ngrx/store';
@@ -25,6 +25,7 @@ import { DeviceProvider } from '@providers/device/device';
 import {
   AsamFailureNotificationModal,
 } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
+import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
@@ -107,27 +108,27 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   }
 
   async buttonClick(pageName: string): Promise<void> {
-    if (this.singleAppModeEnabled) {
+    if (true) {
       const asamModal = await this.modalController.create({
         id: 'AsamFailureNotificationModal',
         component: AsamFailureNotificationModal,
         cssClass: 'mes-modal-alert text-zoom-regular',
         backdropDismiss: false,
         showBackdrop: true,
-        componentProps: {
-          onContinue: this.pageExit(pageName),
-        },
       });
 
       await asamModal.present();
-      console.log('singleAppModeEnabled', this.singleAppModeEnabled);
+      // console.log('singleAppModeEnabled', this.singleAppModeEnabled);
+      await asamModal.onDidDismiss();
+      await this.onContinue(pageName);
     }
     // else {
-    //   this.pageExit(pageName);
+    //   this.onContinue(pageName);
     // }
   }
 
-  pageExit(pageName: string): void {
+  onContinue(pageName: string): void {
+    console.log('hello there');
     if (pageName === 'writeUp') {
       this.goToOfficePage();
     }

@@ -135,10 +135,7 @@ export class DeviceProvider implements IDeviceProvider {
 
     const started = await this.isStarted();
 
-    if (typeof started === 'boolean' && started) {
-      return Promise.resolve(true);
-    }
-    return Promise.resolve(false);
+    return typeof started === 'boolean' && started;
   };
 
   manuallyDisableSingleAppMode = async () => {

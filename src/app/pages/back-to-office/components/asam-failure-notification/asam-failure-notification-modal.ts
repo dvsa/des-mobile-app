@@ -10,16 +10,13 @@ import { Component } from '@angular/core';
 })
 export class AsamFailureNotificationModal {
 
-  onComplete: Function;
-
   constructor(
     public modalController: ModalController,
   ) {
   }
 
-  onContinue = async () => {
+  onCompleteTest = async () => {
     await this.modalController.dismiss();
-    await this.onComplete();
   };
 
 }
