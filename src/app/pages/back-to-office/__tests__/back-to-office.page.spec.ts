@@ -31,7 +31,7 @@ import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 
-fdescribe('BackToOfficePage', () => {
+describe('BackToOfficePage', () => {
   let fixture: ComponentFixture<BackToOfficePage>;
   let component: BackToOfficePage;
   let modalController: ModalController;
@@ -119,7 +119,16 @@ fdescribe('BackToOfficePage', () => {
     });
 
     describe('onContinue', () => {
-      it('spec name', () => {
+      it('should call goToOfficePage when office is passed in', () => {
+        spyOn(component, 'goToOfficePage');
+        component.onContinue(NavigationTarget.OFFICE);
+        expect(component.goToOfficePage).toHaveBeenCalled();
+      });
+
+      it('should call goToJournal when journal is passed in', () => {
+        spyOn(component, 'goToJournal');
+        component.onContinue(NavigationTarget.JOURNAL);
+        expect(component.goToJournal).toHaveBeenCalled();
       });
     });
 
