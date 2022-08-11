@@ -54,6 +54,13 @@
                 [passCompletion]="testResult.passCompletion">
         </vehicle-details-card>
 
+        <trainer-details-card
+                *ngIf="testResult.category == 'ADI3'"
+                [category]="testResult.category"
+                [trainerData]="getTrainerData()"
+                [reviewData]="getReviewData()">
+        </trainer-details-card>
+
         <debrief-card
                 *ngIf="showDebriefCommonCard()"
                 [drivingFaultCount]="getDrivingFaultSumCount()"

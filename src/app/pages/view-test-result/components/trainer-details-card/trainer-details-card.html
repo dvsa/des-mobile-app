@@ -1,0 +1,49 @@
+<ion-card>
+    <ion-card-header>
+        <h4 id="view-test-result-vehicle-details-title">Trainer details</h4>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-grid>
+
+            <data-row
+                    *ngIf="isADI3()"
+                    [shouldHaveSeperator]="true"
+                    [label]="'PDI logbook'"
+                    [value]="trainerData.pdiLogbook"
+                    >
+            </data-row>
+
+            <data-row
+                    *ngIf="isADI3()"
+                    [shouldHaveSeperator]="true"
+                    [label]="'Did candidate receive training from an ORDIT trainer?'"
+                    [value]="trainerData.orditTrainedCandidate"
+                    >
+            </data-row>
+
+            <data-row
+                    *ngIf="isADI3()"
+                    [shouldHaveSeperator]="true"
+                    [label]="'Was advice given to seek further development from an ORDIT trainer?'"
+                    [value]="reviewData.seekFurtherDevelopment"
+            >
+            </data-row>
+
+            <data-row
+                    *ngIf="isADI3()"
+                    [shouldHaveSeperator]="true"
+                    [label]="'Advice given'"
+                    [value]="reviewData.feedback"
+            >
+            </data-row>
+
+            <data-row
+                    *ngIf="isADI3()"
+                    [shouldHaveSeperator]="false"
+                    [label]="'Trainee licence'"
+                    [value]="trainerData.traineeLicence"
+            >
+            </data-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>
