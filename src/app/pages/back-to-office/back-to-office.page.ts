@@ -25,11 +25,15 @@ import { DeviceProvider } from '@providers/device/device';
 import {
   AsamFailureNotificationModal,
 } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
-import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
   testCategory$: Observable<CategoryCode>;
+}
+
+export enum NavigationTarget {
+  OFFICE = 'office',
+  JOURNAL = 'journal',
 }
 
 @Component({
@@ -44,6 +48,8 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   merged$: Observable<string | boolean>;
   subscription: Subscription;
   singleAppModeEnabled: boolean;
+  office: string = NavigationTarget.OFFICE;
+  journal: string = NavigationTarget.JOURNAL;
 
   constructor(
     store$: Store<StoreModel>,
@@ -54,7 +60,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     public router: Router,
     public routeByCategoryProvider: RouteByCategoryProvider,
     public deviceProvider: DeviceProvider,
-    private modalController: ModalController,
+    public modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
@@ -107,8 +113,12 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     }
   }
 
-  async buttonClick(pageName: string): Promise<void> {
-    if (true) {
+  /**
+   * If single app mode is disabled display error message.
+   * @param navigationTarget
+   */
+  async navigateForward(navigationTarget: string): Promise<void> {
+    if (!this.singleAppModeEnabled) {
       const asamModal = await this.modalController.create({
         id: 'AsamFailureNotificationModal',
         component: AsamFailureNotificationModal,
@@ -118,23 +128,27 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       });
 
       await asamModal.present();
-      // console.log('singleAppModeEnabled', this.singleAppModeEnabled);
       await asamModal.onDidDismiss();
-      await this.onContinue(pageName);
+      await this.onContinue(navigationTarget);
+    } else {
+      this.onContinue(navigationTarget);
     }
-    // else {
-    //   this.onContinue(pageName);
-    // }
   }
 
-  onContinue(pageName: string): void {
-    console.log('hello there');
-    if (pageName === 'writeUp') {
-      this.goToOfficePage();
-    }
-
-    if (pageName === 'journal') {
-      this.goToJournal();
+  /**
+   * Select appropriate function based upon navigation target
+   * @param navigationTarget
+   */
+  onContinue(navigationTarget: string): void {
+    switch (navigationTarget) {
+      case NavigationTarget.OFFICE:
+        this.goToOfficePage();
+        break;
+      case NavigationTarget.JOURNAL:
+        this.goToJournal();
+        break;
+      default:
+        break;
     }
   }
 

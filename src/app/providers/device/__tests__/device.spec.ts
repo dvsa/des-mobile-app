@@ -11,7 +11,7 @@ import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.moc
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
 import { LogHelper } from '../../logs/logs-helper';
 
-fdescribe('DeviceProvider', () => {
+describe('DeviceProvider', () => {
   let deviceProvider: DeviceProvider;
   let store$: Store<any>;
   let logHelper: LogHelper;

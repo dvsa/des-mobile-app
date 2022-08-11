@@ -1,6 +1,6 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import {
-  IonicModule, NavParams, Config, Platform,
+  IonicModule, NavParams, Config, Platform, ModalController,
 } from '@ionic/angular';
 import {
   NavParamsMock, ConfigMock, PlatformMock,
@@ -28,11 +28,13 @@ import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
-import { BackToOfficePage } from '../back-to-office.page';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 
-describe('BackToOfficePage', () => {
+fdescribe('BackToOfficePage', () => {
   let fixture: ComponentFixture<BackToOfficePage>;
   let component: BackToOfficePage;
+  let modalController: ModalController;
   let store$: Store<StoreModel>;
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
@@ -51,15 +53,16 @@ describe('BackToOfficePage', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: Platform, useFactory: () => PlatformMock.instance() },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: ModalController, useClass: ModalControllerMock },
+        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        { provide: Config, useFactory: () => ConfigMock.instance() },
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
   });
@@ -70,6 +73,7 @@ describe('BackToOfficePage', () => {
     screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
+    modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
     router = TestBed.inject(Router);
     spyOn(store$, 'dispatch');
@@ -86,20 +90,53 @@ describe('BackToOfficePage', () => {
         done();
       });
     });
-  });
 
-  describe('goToJournal', () => {
-    it('should call the popTo method in the navcontroller if not in practice mode', () => {
-      component.goToJournal();
-      expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
+    describe('navigateForward', () => {
+      it('should display modal and call onContinue with office when singleAppModeEnabled is false', async () => {
+        component.singleAppModeEnabled = false;
+        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+          present: async () => {},
+          onDidDismiss: () => {},
+        } as HTMLIonModalElement));
+        spyOn(component, 'onContinue');
+        await component.navigateForward(NavigationTarget.OFFICE);
+        expect(modalController.create).toHaveBeenCalledTimes(1);
+        expect(component.onContinue).toHaveBeenCalledWith(NavigationTarget.OFFICE);
+      });
+
+      // eslint-disable-next-line max-len
+      it('should NOT display modal, but still call onContinue with office when singleAppModeEnabled is true', async () => {
+        component.singleAppModeEnabled = true;
+        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+          present: async () => {},
+          onDidDismiss: () => {},
+        } as HTMLIonModalElement));
+        spyOn(component, 'onContinue');
+        await component.navigateForward(NavigationTarget.OFFICE);
+        expect(modalController.create).toHaveBeenCalledTimes(0);
+        expect(component.onContinue).toHaveBeenCalledWith(NavigationTarget.OFFICE);
+      });
     });
-    it('should call the popTo method in the navcontroller if in practice mode', async (done) => {
-      component.isEndToEndPracticeMode = true;
-      spyOn(component, 'exitPracticeMode');
-      await component.goToJournal();
-      expect(component.exitPracticeMode).toHaveBeenCalled();
-      done();
+
+    describe('onContinue', () => {
+      it('spec name', () => {
+      });
     });
+
+    describe('goToJournal', () => {
+      it('should call the popTo method in the navcontroller if not in practice mode', () => {
+        component.goToJournal();
+        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
+      });
+      it('should call the popTo method in the navcontroller if in practice mode', async (done) => {
+        component.isEndToEndPracticeMode = true;
+        spyOn(component, 'exitPracticeMode');
+        await component.goToJournal();
+        expect(component.exitPracticeMode).toHaveBeenCalled();
+        done();
+      });
+    });
+
   });
 
   describe('DOM', () => {
