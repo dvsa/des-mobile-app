@@ -9,7 +9,7 @@ fs.readFile(path, 'utf8', (err, data) => {
     }
     const result = data
         .replace(/--max-old-space-size=4096/g, '')
-        .replace('#!/usr/bin/env node', '#!/usr/bin/env node --max-old-space-size=4096');
+        .replace('#!/usr/bin/env node', '#!/usr/bin/env node --max-old-space-size=8192');
 
     fs.writeFile(path, result, 'utf8', (error) => {
         if (error) return console.log(error);

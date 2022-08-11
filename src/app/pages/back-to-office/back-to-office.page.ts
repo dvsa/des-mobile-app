@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Store, select } from '@ngrx/store';
@@ -21,10 +21,19 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { map } from 'rxjs/operators';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { DeviceProvider } from '@providers/device/device';
+import {
+  AsamFailureNotificationModal,
+} from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
 
 interface BackToOfficePageState {
   isRekey$: Observable<boolean>;
   testCategory$: Observable<CategoryCode>;
+}
+
+export enum NavigationTarget {
+  OFFICE = 'office',
+  JOURNAL = 'journal',
 }
 
 @Component({
@@ -38,6 +47,9 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
   isRekey: boolean;
   merged$: Observable<string | boolean>;
   subscription: Subscription;
+  singleAppModeEnabled: boolean;
+  office: string = NavigationTarget.OFFICE;
+  journal: string = NavigationTarget.JOURNAL;
 
   constructor(
     store$: Store<StoreModel>,
@@ -47,11 +59,13 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     public insomnia: Insomnia,
     public router: Router,
     public routeByCategoryProvider: RouteByCategoryProvider,
+    public deviceProvider: DeviceProvider,
+    public modalController: ModalController,
   ) {
     super(platform, authenticationProvider, router, store$);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     super.ngOnInit();
     this.pageState = {
       isRekey$: this.store$.pipe(
@@ -77,6 +91,8 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       isRekey$.pipe(map((value) => this.isRekey = value)),
     );
 
+    this.singleAppModeEnabled = await this.deviceProvider.checkSingleAppMode();
+
     this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();
   }
@@ -94,6 +110,45 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     super.ionViewDidLeave();
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+  }
+
+  /**
+   * If single app mode is disabled display error message.
+   * @param navigationTarget
+   */
+  async navigateForward(navigationTarget: string): Promise<void> {
+    if (!this.singleAppModeEnabled) {
+      const asamModal = await this.modalController.create({
+        id: 'AsamFailureNotificationModal',
+        component: AsamFailureNotificationModal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+        backdropDismiss: false,
+        showBackdrop: true,
+      });
+
+      await asamModal.present();
+      await asamModal.onDidDismiss();
+      await this.onContinue(navigationTarget);
+    } else {
+      this.onContinue(navigationTarget);
+    }
+  }
+
+  /**
+   * Select appropriate function based upon navigation target
+   * @param navigationTarget
+   */
+  onContinue(navigationTarget: string): void {
+    switch (navigationTarget) {
+      case NavigationTarget.OFFICE:
+        this.goToOfficePage();
+        break;
+      case NavigationTarget.JOURNAL:
+        this.goToJournal();
+        break;
+      default:
+        break;
     }
   }
 

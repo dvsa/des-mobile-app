@@ -131,6 +131,13 @@ export class DeviceProvider implements IDeviceProvider {
     });
   };
 
+  checkSingleAppMode = async (): Promise<boolean> => {
+
+    const started = await this.isStarted();
+
+    return typeof started === 'boolean' && started;
+  };
+
   manuallyDisableSingleAppMode = async () => {
     try {
       const guidedAccess = cordova.plugins.WPGuidedAccess;
