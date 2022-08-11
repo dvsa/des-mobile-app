@@ -1,0 +1,29 @@
+<ion-card class="modal-alert">
+  <modal-alert-title id="model-title"></modal-alert-title>
+  <ion-row>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+    <ion-col class="ion-no-padding" size="66">
+        <div class="modal-alert-message">
+        <div id='model-text' class="mes-data">
+          The feature preventing notifications being received has experienced
+          issues during this test,
+          please restart your device prior to starting your next test to correct this issue.
+        </div>
+          <br>
+          <div id='model-text-lower' class="mes-data">This will not affect your current test.</div>
+        </div>
+    </ion-col>
+    <ion-col class="ion-no-padding" size="15"></ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-row>
+        <ion-col>
+          <ion-button id="continue-button" fill="clear" class="confirm-submit-button" (click)="onCompleteTest()">
+            <h3>Continue</h3>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-card>
