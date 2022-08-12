@@ -19,5 +19,8 @@ export class TrainerDetailsCardComponent {
   @Input()
   category: TestCategory | CategoryCode;
 
+  @Input()
+  driverPRNNumber: number;
+
   public isADI3 = (): boolean => this.category === TestCategory.ADI3;
 }

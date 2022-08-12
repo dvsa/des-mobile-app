@@ -39,9 +39,16 @@
 
             <data-row
                     *ngIf="isADI3()"
-                    [shouldHaveSeperator]="false"
+                    [shouldHaveSeperator]="true"
                     [label]="'Trainee licence'"
                     [value]="trainerData.traineeLicence ? 'Yes' : 'No'"
+            >
+            </data-row>
+            <data-row
+                    *ngIf="isADI3()"
+                    [shouldHaveSeperator]="false"
+                    [label]="'Driver PRN number'"
+                    [value]="driverPRNNumber"
             >
             </data-row>
         </ion-grid>
