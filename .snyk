@@ -1,0 +1,20 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-ANSIREGEX-1583908:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2022-09-07T09:01:15.119Z
+        created: 2022-08-08T09:01:15.122Z
+  SNYK-JS-PROMPTS-1729737:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2022-09-07T09:02:22.124Z
+        created: 2022-08-08T09:02:22.131Z
+  SNYK-JS-SIMPLEPLIST-2413671:
+    - '*':
+        reason: Remediation not yet available
+        expires: 2022-09-07T09:03:18.959Z
+        created: 2022-08-08T09:03:18.968Z
+patch: {}
