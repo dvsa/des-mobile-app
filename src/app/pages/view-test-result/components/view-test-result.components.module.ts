@@ -8,6 +8,9 @@ import { DebriefCardComponent } from '@pages/view-test-result/components/debrief
 import {
   CandidateDetailsComponentsModule,
 } from '@pages/candidate-details/components/candidate-details-components.module';
+import {
+  TrainerDetailsCardComponent,
+} from '@pages/view-test-result/components/trainer-details-card/trainer-details-card';
 import { FaultsDataRowComponent } from './faults-data-row/faults-data-row';
 import { TestDetailsCardComponent } from './test-details-card/test-details-card';
 import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
@@ -40,6 +43,7 @@ import { SpeedCardComponent } from './speed-card/speed-card';
     VehicleDetailsCardComponent,
     DebriefCardComponent,
     SpeedCardComponent,
+    TrainerDetailsCardComponent,
   ],
   imports: [
     CommonModule,
@@ -64,6 +68,7 @@ import { SpeedCardComponent } from './speed-card/speed-card';
     VehicleDetailsCardComponent,
     DebriefCardComponent,
     SpeedCardComponent,
+    TrainerDetailsCardComponent,
   ],
 })
 export class ViewTestResultComponentsModule {}

@@ -37,6 +37,7 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
   TrainerDetails as CatADI3TrainerDetails,
+  Review as CatADI3Review,
   TestData as CatADI3TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
@@ -112,6 +113,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   ionViewDidLeave(): void {
+    console.log(this.testResult);
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
@@ -215,9 +217,22 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     }
 
     return {
+      pdiLogbook: get(this.testResult, 'trainerDetails.pdiLogbook'),
+      traineeLicence: get(this.testResult, 'trainerDetails.traineeLicence'),
       orditTrainedCandidate: get(this.testResult, 'trainerDetails.orditTrainedCandidate'),
       trainingRecords: get(this.testResult, 'trainerDetails.trainingRecords'),
       trainerRegistrationNumber: get(this.testResult, 'trainerDetails.trainerRegistrationNumber'),
+    };
+  }
+
+  getReviewData(): CatADI3Review {
+    if (!this.testResult) {
+      return null;
+    }
+
+    return {
+      feedback: get(this.testResult, 'testData.review.feedback'),
+      seekFurtherDevelopment: get(this.testResult, 'testData.review.seekFurtherDevelopment'),
     };
   }
 

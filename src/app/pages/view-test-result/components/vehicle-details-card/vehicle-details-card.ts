@@ -9,6 +9,7 @@ import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import * as CatAMod1Types from '@dvsa/mes-test-schema/categories/AM1';
+import * as CatADI3Types from '@dvsa/mes-test-schema/categories/ADI3';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
 import { isAnyOf } from '@shared/helpers/simplifiers';
@@ -28,6 +29,7 @@ export class VehicleDetailsCardComponent {
   | CatC1UniqueTypes.VehicleDetails
   | CatC1EUniqueTypes.VehicleDetails
   | CatADI2UniqueTypes.VehicleDetails
+  | CatADI3Types.VehicleDetails
   | CatAMod1Types.VehicleDetails;
 
   @Input()
@@ -176,6 +178,13 @@ export class VehicleDetailsCardComponent {
   public get schoolCarDualControls(): string {
     return get(this.data, 'schoolCar') ? 'School Car' : 'Dual Controls';
   }
+  public get dualControls(): string {
+    return get(this.data, 'schoolCar') ? 'No' : 'Yes';
+  }
 
   getFlattenArray = (data: string[]): string => flattenArray(data);
+
+  displayRegistration() {
+    return this.isADI3() || !!this.instructorRegistrationNumber || this.shouldShowDimensions || !!this.vehicleDetails;
+  }
 }
