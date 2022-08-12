@@ -20,7 +20,7 @@
 
             <data-row
                     *ngIf="registrationNumber"
-                    [shouldHaveSeperator]="isADI3() || !!instructorRegistrationNumber || shouldShowDimensions || !!vehicleDetails"
+                    [shouldHaveSeperator]="displayRegistration()"
                     [label]="'Vehicle registration number'"
                     [value]="registrationNumber">
             </data-row>
@@ -67,7 +67,8 @@
 
             <data-row *ngIf="isADI2()" [label]="'Training Records'" [value]="trainingRecords"></data-row>
 
-            <data-row *ngIf="displayVehicleDetails" [shouldHaveSeperator]="false" [label]="'Vehicle Details'" [value]="schoolCarDualControls"></data-row>
+            <data-row *ngIf="displayVehicleDetails && !isADI3()" [shouldHaveSeperator]="false" [label]="'Vehicle Details'" [value]="schoolCarDualControls"></data-row>
+            <data-row *ngIf="isADI3()" [shouldHaveSeperator]="false" [label]="'Dual Controls'" [value]="dualControls"></data-row>
 
         </ion-grid>
     </ion-card-content>

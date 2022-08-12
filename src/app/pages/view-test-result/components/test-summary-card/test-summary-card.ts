@@ -42,6 +42,9 @@ export class TestSummaryCardComponent {
     if (get(this.accompaniment, 'supervisor')) {
       accompaniedBy.push('Supervisor');
     }
+    if (get(this.accompaniment, 'trainer')) {
+      accompaniedBy.push('Trainer');
+    }
     if (get(this.accompaniment, 'other')) {
       accompaniedBy.push('Other');
     }

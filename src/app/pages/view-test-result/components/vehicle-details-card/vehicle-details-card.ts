@@ -178,6 +178,13 @@ export class VehicleDetailsCardComponent {
   public get schoolCarDualControls(): string {
     return get(this.data, 'schoolCar') ? 'School Car' : 'Dual Controls';
   }
+  public get dualControls(): string {
+    return get(this.data, 'schoolCar') ? 'No' : 'Yes';
+  }
 
   getFlattenArray = (data: string[]): string => flattenArray(data);
+
+  displayRegistration() {
+    return this.isADI3() || !!this.instructorRegistrationNumber || this.shouldShowDimensions || !!this.vehicleDetails;
+  }
 }

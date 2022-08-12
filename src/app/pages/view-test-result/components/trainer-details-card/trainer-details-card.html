@@ -9,7 +9,7 @@
                     *ngIf="isADI3()"
                     [shouldHaveSeperator]="true"
                     [label]="'PDI logbook'"
-                    [value]="trainerData.pdiLogbook"
+                    [value]="trainerData.pdiLogbook ? 'Yes' : 'No'"
                     >
             </data-row>
 
@@ -17,7 +17,7 @@
                     *ngIf="isADI3()"
                     [shouldHaveSeperator]="true"
                     [label]="'Did candidate receive training from an ORDIT trainer?'"
-                    [value]="trainerData.orditTrainedCandidate"
+                    [value]="trainerData.orditTrainedCandidate ? 'Yes' : 'No'"
                     >
             </data-row>
 
@@ -25,7 +25,7 @@
                     *ngIf="isADI3()"
                     [shouldHaveSeperator]="true"
                     [label]="'Was advice given to seek further development from an ORDIT trainer?'"
-                    [value]="reviewData.seekFurtherDevelopment"
+                    [value]="reviewData.seekFurtherDevelopment ? 'Yes' : 'No'"
             >
             </data-row>
 
@@ -41,7 +41,7 @@
                     *ngIf="isADI3()"
                     [shouldHaveSeperator]="false"
                     [label]="'Trainee licence'"
-                    [value]="trainerData.traineeLicence"
+                    [value]="trainerData.traineeLicence ? 'Yes' : 'No'"
             >
             </data-row>
         </ion-grid>
