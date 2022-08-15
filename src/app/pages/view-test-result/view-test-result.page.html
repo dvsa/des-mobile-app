@@ -58,6 +58,7 @@
                 *ngIf="testResult.category == 'ADI3'"
                 [category]="testResult.category"
                 [trainerData]="getTrainerData()"
+                [driverPRNNumber]="testResult.journalData.candidate.prn"
                 [reviewData]="getReviewData()">
         </trainer-details-card>
 

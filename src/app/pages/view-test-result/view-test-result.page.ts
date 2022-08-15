@@ -113,7 +113,6 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   ionViewDidLeave(): void {
-    console.log(this.testResult);
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
