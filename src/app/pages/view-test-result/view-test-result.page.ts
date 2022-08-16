@@ -118,6 +118,10 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     }
   }
 
+  getReason() {
+    return get(this.testResult, 'testData.review.reasonForNoAdviceGiven');
+  }
+
   get totalScore(): number {
     if (this.isCategoryADI3()) {
       return this.adi3AssessmentProvider.getTotalAssessmentScore(this.testResult.testData as CatADI3TestData);
