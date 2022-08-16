@@ -255,6 +255,7 @@ export class TestsEffects {
         }
       } else {
         // delegated
+        arrayOfActions.push(MarkAsRekey());
         arrayOfActions.push(StartDelegatedTest());
         arrayOfActions.push(OtherSelected(true));
         arrayOfActions.push(OtherReasonUpdated('Delegated Examiner'));
