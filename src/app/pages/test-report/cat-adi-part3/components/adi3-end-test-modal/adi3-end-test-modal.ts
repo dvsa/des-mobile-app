@@ -3,6 +3,7 @@ import { NavParams, ModalController } from '@ionic/angular';
 import { TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { ModalEvent } from '../../../test-report.constants';
 
 @Component({
@@ -16,11 +17,14 @@ export class Adi3EndTestModal implements OnInit {
   totalScore: number;
   feedback: string;
   isValidDashboard: boolean;
+  isTestReportPopulated: boolean;
 
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
-  ) {}
+    private adi3AssessmentProvider: ADI3AssessmentProvider,
+  ) {
+  }
 
   ngOnInit(): void {
     this.testData = this.navParams.get('testData');
@@ -28,6 +32,7 @@ export class Adi3EndTestModal implements OnInit {
     this.totalScore = this.navParams.get('totalScore');
     this.feedback = this.navParams.get('feedback');
     this.isValidDashboard = this.navParams.get('isValidDashboard');
+    this.isTestReportPopulated = this.adi3AssessmentProvider.isTestReportPopulated(this.testData);
   }
 
   async onCancel(): Promise<void> {
@@ -43,6 +48,9 @@ export class Adi3EndTestModal implements OnInit {
   }
 
   getTestResultLabel(): string {
+    if (!this.isTestReportPopulated) {
+      return 'No Result';
+    }
     if (this.testResult.activityCode === ActivityCodes.FAIL) {
       return 'Unsuccessful';
     }
@@ -50,7 +58,11 @@ export class Adi3EndTestModal implements OnInit {
   }
 
   getTestResultClass(): string {
-    return (this.testResult.activityCode === ActivityCodes.FAIL ? 'test-result-fail-label' : 'test-result-pass-label');
+    return (!this.isTestReportPopulated
+      ? 'test-result-terminated-label'
+      : this.testResult.activityCode === ActivityCodes.FAIL
+        ? 'test-result-fail-label'
+        : 'test-result-pass-label');
   }
 
   getOutcomeIcon(): string {

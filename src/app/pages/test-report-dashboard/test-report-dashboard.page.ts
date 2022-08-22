@@ -181,7 +181,9 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       case ModalEvent.TERMINATE:
         this.store$.dispatch(GradeChanged(null));
         this.store$.dispatch(TerminateTestFromTestReport());
-        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+        if (this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3)) {
+          await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+        } else await this.router.navigate([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
         break;
       case ModalEvent.CANCEL:
         this.store$.dispatch(ReturnToTest());
@@ -202,8 +204,8 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   get isValidDashboard(): boolean {
     return (
       this.testReportState === 17
-        && this.lessonAndThemeState.valid === true
-        && this.form.valid
+      && this.lessonAndThemeState.valid === true
+      && this.form.valid
     );
   }
 }
