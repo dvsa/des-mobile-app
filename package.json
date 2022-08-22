@@ -154,6 +154,7 @@
     "puppeteer": "^13.3.1",
     "remotedev": "^0.2.9",
     "rxjs-tslint-rules": "^4.34.8",
+    "snyk": "^1.989.0",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^20.0.0",
     "ts-node": "~8.3.0",
