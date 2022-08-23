@@ -10,6 +10,7 @@ import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { TestResultCatAM1Schema } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestResultCatAM2Schema } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
+import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 
 @Component({
   selector: 'rekey-details-card',
@@ -19,6 +20,7 @@ export class RekeyDetailsCardComponent {
 
   @Input()
   data: CatBUniqueTypes.TestResult
+  | TestResultCatADI3Schema
   | CatBEUniqueTypes.TestResult
   | CatCUniqueTypes.TestResult
   | CatCEUniqueTypes.TestResult
@@ -29,11 +31,13 @@ export class RekeyDetailsCardComponent {
   | TestResultCatCPCSchema;
 
   public get scheduledStaffNumber(): string {
-    return get(this.data, 'examinerBooked')?.toString();
+    return get(this.data, 'examinerBooked')
+      ?.toString();
   }
 
   public get conductedStaffNumber(): string {
-    return get(this.data, 'examinerConducted')?.toString();
+    return get(this.data, 'examinerConducted')
+      ?.toString();
   }
 
   public get testDate(): string {
@@ -42,7 +46,8 @@ export class RekeyDetailsCardComponent {
   }
 
   public get rekeyedStaffNumber(): string {
-    return get(this.data, 'examinerKeyed')?.toString();
+    return get(this.data, 'examinerKeyed')
+      ?.toString();
   }
 
   public get rekeyDate(): string {

@@ -32,8 +32,8 @@
             <data-row
                     *ngIf="isADI3()"
                     [shouldHaveSeperator]="true"
-                    [label]="'Advice given'"
-                    [value]="reviewData.feedback"
+                    [label]="'Reason for no advice given'"
+                    [value]="reasonForNoAdviceGiven"
             >
             </data-row>
 
@@ -48,7 +48,7 @@
                     *ngIf="isADI3()"
                     [shouldHaveSeperator]="false"
                     [label]="'Trainer PRN'"
-                    [value]="driverPRNNumber"
+                    [value]="trainerData.trainerRegistrationNumber"
             >
             </data-row>
         </ion-grid>

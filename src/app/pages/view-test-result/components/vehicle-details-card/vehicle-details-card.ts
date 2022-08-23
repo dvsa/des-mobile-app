@@ -185,6 +185,7 @@ export class VehicleDetailsCardComponent {
   getFlattenArray = (data: string[]): string => flattenArray(data);
 
   displayRegistration() {
-    return this.isADI3() || !!this.instructorRegistrationNumber || this.shouldShowDimensions || !!this.vehicleDetails;
+    return this.isADI3() || !this.instructorRegistrationNumber === undefined
+        || this.shouldShowDimensions || !this.vehicleDetails === undefined;
   }
 }

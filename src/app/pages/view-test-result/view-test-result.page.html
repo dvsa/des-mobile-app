@@ -57,8 +57,8 @@
         <trainer-details-card
                 *ngIf="testResult.category == 'ADI3'"
                 [category]="testResult.category"
+                [reasonForNoAdviceGiven]="getReason()"
                 [trainerData]="getTrainerData()"
-                [driverPRNNumber]="testResult.journalData.candidate.prn"
                 [reviewData]="getReviewData()">
         </trainer-details-card>
 
@@ -87,14 +87,14 @@
         ></cpc-debrief-card>
 
         <adi3-debrief-card
-          *ngIf="isCategoryADI3()"
-          [totalScore]="totalScore"
-          [lessonTheme]="testResult.testData['lessonAndTheme']"
-          [lessonPlanning]="testResult.testData['lessonPlanning']"
-          [riskManagement]="testResult.testData['riskManagement']"
-          [teachingLearningStrategies]="testResult.testData['teachingLearningStrategies']"
-          [grade]="testResult.testData['review']?.grade"
-          [review]="testResult.testData['review']">
+                *ngIf="isCategoryADI3()"
+                [totalScore]="totalScore"
+                [lessonTheme]="testResult.testData['lessonAndTheme']"
+                [lessonPlanning]="testResult.testData['lessonPlanning']"
+                [riskManagement]="testResult.testData['riskManagement']"
+                [teachingLearningStrategies]="testResult.testData['teachingLearningStrategies']"
+                [grade]="testResult.testData['review']?.grade"
+                [review]="testResult.testData['review']">
         </adi3-debrief-card>
 
         <test-summary-card
