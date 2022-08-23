@@ -62,17 +62,19 @@
         </warning-banner>
 
         <further-development
-          *ngIf="(pageState.showADI3Field$ | async) && didTestComplete()"
+          [display]="pageState.displayFurtherDevelopment$ | async"
           [formGroup]="form"
+          [outcome]="pageState.testOutcome$ | async"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
           (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
 
-        <div *ngIf="(pageState.showADI3Field$ | async) && didTestComplete() &&
+        <div *ngIf="(pageState.displayFurtherDevelopment$ | async) &&
         ((pageState.furtherDevelopment$ | async) !== false)" class="mes-row-separator padding-top-10"></div>
 
         <reason-given
-          *ngIf="(pageState.showADI3Field$ | async) && didTestComplete()"
+          [display]="pageState.displayAdviceReasonGiven$ | async"
+          [outcome]="pageState.testOutcome$ | async"
           [formGroup]="form"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
           [reasonGivenText]="pageState.adviceReason$ | async"

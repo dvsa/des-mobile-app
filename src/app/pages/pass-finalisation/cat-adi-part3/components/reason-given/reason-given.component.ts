@@ -2,6 +2,7 @@ import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
   selector: 'reason-given',
@@ -14,6 +15,12 @@ export class ReasonGivenComponent implements OnChanges {
   furtherDevelopment: boolean;
 
   @Input()
+  display: boolean;
+
+  @Input()
+  outcome: string;
+
+  @Input()
   formGroup: FormGroup;
 
   @Input()
@@ -24,6 +31,9 @@ export class ReasonGivenComponent implements OnChanges {
 
   noAdviceCharsRemaining: number = null;
   private formControl: FormControl = null;
+  static readonly fieldName: string = 'reasonGiven';
+
+  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -31,10 +41,15 @@ export class ReasonGivenComponent implements OnChanges {
       this.formGroup.addControl('reasonGiven', this.formControl);
     }
 
-    if (this.furtherDevelopment) {
-      this.formControl.clearValidators();
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+      this.outcome,
+      ReasonGivenComponent.fieldName,
+    );
+
+    if (visibilityType === VisibilityType.NotVisible || this.furtherDevelopment) {
+      this.formGroup.get(ReasonGivenComponent.fieldName).clearValidators();
     } else if (this.furtherDevelopment === false) {
-      this.formControl.setValidators([Validators.required]);
+      this.formGroup.get(ReasonGivenComponent.fieldName).setValidators([Validators.required]);
     }
 
     this.formControl.updateValueAndValidity();

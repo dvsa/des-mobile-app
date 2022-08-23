@@ -2,6 +2,7 @@ import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
   selector: 'further-development',
@@ -10,9 +11,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class FurtherDevelopmentComponent implements OnChanges {
 
   formControl: FormControl;
+  static readonly fieldName: string = 'furtherDevelopment';
 
   @Input()
   formGroup: FormGroup;
+
+  @Input()
+  display: boolean;
+
+  @Input()
+  outcome: string;
 
   @Input()
   furtherDevelopment: boolean;
@@ -20,11 +28,30 @@ export class FurtherDevelopmentComponent implements OnChanges {
   @Output()
   furtherDevelopmentChange = new EventEmitter<boolean>();
 
+  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
+
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl('', [Validators.required]);
-      this.formGroup.addControl('furtherDevelopment', this.formControl);
+      this.formGroup.addControl(FurtherDevelopmentComponent.fieldName, this.formControl);
+      this.formGroup.updateValueAndValidity({
+        onlySelf: true,
+        emitEvent: false,
+      });
     }
+
+    const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(
+      this.outcome,
+      FurtherDevelopmentComponent.fieldName,
+    );
+
+    if (visibilityType === VisibilityType.NotVisible) {
+      this.formGroup.get(FurtherDevelopmentComponent.fieldName).clearValidators();
+    } else {
+      this.formGroup.get(FurtherDevelopmentComponent.fieldName).setValidators([Validators.required]);
+    }
+
+    this.formGroup.get(FurtherDevelopmentComponent.fieldName).updateValueAndValidity();
 
     if (this.furtherDevelopment === true || this.furtherDevelopment === false) {
       this.formControl.patchValue(String(this.furtherDevelopment));

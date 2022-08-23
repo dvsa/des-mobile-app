@@ -1,4 +1,4 @@
-<ion-row *ngIf="furtherDevelopment === false" class="mes-validated-row" [formGroup]="formGroup">
+<ion-row *ngIf="display && furtherDevelopment === false" class="mes-validated-row" [formGroup]="formGroup">
   <div class="validation-bar" [class.ng-invalid]="invalid"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label class="reason-text" id="reason-for-no-advice-label">Reason for no advice given:</label>

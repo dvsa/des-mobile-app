@@ -94,7 +94,9 @@ interface NonPassFinalisationPageState {
   showADIWarning$: Observable<boolean>;
   showADI3Field$: Observable<boolean>;
   furtherDevelopment$: Observable<boolean>;
+  displayFurtherDevelopment$: Observable<boolean>;
   adviceReason$: Observable<string>;
+  displayAdviceReasonGiven$: Observable<boolean>;
   testOutcomeGrade$: Observable<string>;
 }
 
@@ -223,12 +225,36 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         select(getReview),
         select(getFurtherDevelopment),
       ),
+      displayFurtherDevelopment$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          withLatestFrom(category$),
+          filter(([, category]) => category === TestCategory.ADI3),
+          map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+          select(getReview),
+          select(getFurtherDevelopment),
+        )),
+        map(([outcome, furtherDevelopment]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'furtherDevelopment', furtherDevelopment)),
+      ),
       adviceReason$: currentTest$.pipe(
         withLatestFrom(category$),
         filter(([, category]) => category === TestCategory.ADI3),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getReasonForNoAdviceGiven),
+      ),
+      displayAdviceReasonGiven$: currentTest$.pipe(
+        select(getTestOutcome),
+        withLatestFrom(currentTest$.pipe(
+          withLatestFrom(category$),
+          filter(([, category]) => category === TestCategory.ADI3),
+          map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+          select(getReview),
+          select(getReasonForNoAdviceGiven),
+        )),
+        map(([outcome, noAdviceGivenReason]) =>
+          this.outcomeBehaviourProvider.isVisible(outcome, 'reasonGiven', noAdviceGivenReason)),
       ),
       testOutcomeGrade$: currentTest$.pipe(
         withLatestFrom(category$),
