@@ -254,7 +254,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
           select(getReasonForNoAdviceGiven),
         )),
         map(([outcome, noAdviceGivenReason]) =>
-          this.outcomeBehaviourProvider.isVisible(outcome, 'furtherDevelopment', noAdviceGivenReason)),
+          this.outcomeBehaviourProvider.isVisible(outcome, 'reasonGiven', noAdviceGivenReason)),
       ),
       testOutcomeGrade$: currentTest$.pipe(
         withLatestFrom(category$),
