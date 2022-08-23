@@ -238,21 +238,5 @@ describe('NonPassFinalisationPage', () => {
         expect(component.showD255()).toEqual(false);
       });
     });
-    describe('didTestComplete', async () => {
-      it('should return true when passed an item on the list', () => {
-        component.activityCode = {
-          activityCode: ActivityCodes.FAIL,
-          description: ActivityCodeDescription.FAIL,
-        };
-        expect(component.didTestComplete()).toEqual(true);
-      });
-      it('should return true when passed an item on the list', () => {
-        component.activityCode = {
-          activityCode: ActivityCodes.BAD_LIGHT,
-          description: ActivityCodeDescription.BAD_LIGHT,
-        };
-        expect(component.didTestComplete()).toEqual(false);
-      });
-    });
   });
 });
