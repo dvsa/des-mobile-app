@@ -3,8 +3,8 @@ import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcom
 export const behaviourMap: OutcomeBehaviourMapping = {
   1: {
     debriefWitnessed: { display: 'Y' },
-    furtherDevelopment: { display: 'N' },
-    reasonGiven: { display: 'N' },
+    furtherDevelopment: { display: 'Y' },
+    reasonGiven: { display: 'Y' },
     additionalInformation: { display: 'Y' },
   },
   2: {

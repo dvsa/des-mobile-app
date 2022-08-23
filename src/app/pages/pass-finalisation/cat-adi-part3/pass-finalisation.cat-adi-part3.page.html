@@ -26,8 +26,9 @@
           [outcome]="testOutcome"
           (debriefWitnessedChange)="debriefWitnessedChanged($event)">
         </debrief-witnessed>
-        
+
         <further-development
+          [display]="true"
           [formGroup]="form"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
           (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
@@ -36,6 +37,7 @@
         <div *ngIf="(pageState.furtherDevelopment$ | async) !== false" class="mes-row-separator padding-top-10"></div>
 
         <reason-given
+          [display]="true"
           [formGroup]="form"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
           [reasonGivenText]="pageState.adviceReason$ | async"
