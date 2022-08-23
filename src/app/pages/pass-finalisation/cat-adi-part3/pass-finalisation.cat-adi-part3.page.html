@@ -30,6 +30,7 @@
         <further-development
           [display]="true"
           [formGroup]="form"
+          [outcome]="testOutcome"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
           (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
         </further-development>
@@ -39,6 +40,7 @@
         <reason-given
           [display]="true"
           [formGroup]="form"
+          [outcome]="testOutcome"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
           [reasonGivenText]="pageState.adviceReason$ | async"
           (adviceReason)="adviceReasonChanged($event)">
