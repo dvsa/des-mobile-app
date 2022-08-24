@@ -30,7 +30,7 @@
             </data-row>
 
             <data-row
-                    *ngIf="isADI3() && !reviewData.seekFurtherDevelopment"
+                    *ngIf="isADI3() && reasonForNoAdviceGiven"
                     [shouldHaveSeperator]="true"
                     [label]="'Reason for no advice given'"
                     [value]="reasonForNoAdviceGiven"
