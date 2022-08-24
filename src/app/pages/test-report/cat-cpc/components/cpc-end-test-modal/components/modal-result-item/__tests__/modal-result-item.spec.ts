@@ -38,12 +38,12 @@ describe('ModalResultItemComponent', () => {
   });
 
   describe('displayScore', () => {
-    it('should return a zero if score is null', () => {
-      expect(component.displayScore(null)).toEqual('0%');
+    it('should return a hyphen if score is null', () => {
+      expect(component.displayScore(null)).toEqual('-%');
     });
 
-    it('should return a zero if score is undefined', () => {
-      expect(component.displayScore(undefined)).toEqual('0%');
+    it('should return a hyphen if score is undefined', () => {
+      expect(component.displayScore(undefined)).toEqual('-%');
     });
 
     it('should return score if score is a number', () => {
