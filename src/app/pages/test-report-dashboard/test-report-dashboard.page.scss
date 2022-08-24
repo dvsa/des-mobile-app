@@ -32,6 +32,12 @@ $toolbar-height: 56px;
     }
   }
 
+  .total-score-card {
+    padding-left: 13px;
+    padding-top: 15px;
+    width: 165px;
+  }
+
   .grid-layout {
     box-sizing: border-box;
     height: calc(100% - #{$toolbar-height});

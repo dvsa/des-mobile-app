@@ -67,7 +67,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private testResultProvider: TestResultProvider,
-    private adi3AssessmentProvider: ADI3AssessmentProvider,
+    public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
     super(
       platform,
