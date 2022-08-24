@@ -32,7 +32,7 @@ export class Adi3EndTestModal implements OnInit {
     this.totalScore = this.navParams.get('totalScore');
     this.feedback = this.navParams.get('feedback');
     this.isValidDashboard = this.navParams.get('isValidDashboard');
-    this.isTestReportPopulated = this.adi3AssessmentProvider.isTestReportPopulated(this.testData);
+    this.isTestReportPopulated = this.navParams.get('isTestReportPopulated');
   }
 
   async onCancel(): Promise<void> {
@@ -69,6 +69,13 @@ export class Adi3EndTestModal implements OnInit {
     const passImage = 'assets/imgs/greenCorrectAnswer.png';
     const failImage = 'assets/imgs/redWrongAnswer.png';
     return (this.testResult.activityCode === ActivityCodes.FAIL ? failImage : passImage);
+  }
+
+  displayScore(score: number): number | string {
+    if (score > 0) {
+      return score;
+    }
+    return '-';
   }
 
 }

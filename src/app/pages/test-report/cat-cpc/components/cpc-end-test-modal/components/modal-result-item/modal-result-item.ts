@@ -11,7 +11,7 @@ export class ModalResultItemComponent {
   label: string;
 
   @Input()
-  score: number;
+  score: number | string;
 
   @Input()
   adi3: boolean = false;

@@ -10,26 +10,26 @@
     [adi3]="true"
     [showIcon]="false"
     [label]="'Lesson planning'"
-    [score]="testData.lessonPlanning.score">
+    [score]="displayScore(testData.lessonPlanning.score)">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
     [showIcon]="true"
     [label]="'Risk management'"
-    [score]="testData.riskManagement.score"
+    [score]="displayScore(testData.riskManagement.score)"
     [isPass]="testData.riskManagement.score >= 8">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
     [showIcon]="false"
     [label]="'Teaching & learning'"
-    [score]="testData.teachingLearningStrategies.score">
+    [score]="displayScore(testData.teachingLearningStrategies.score)">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
     [showIcon]="true"
     [label]="'Overall score'"
-    [score]="totalScore"
+    [score]="displayScore(totalScore)"
     [isPass]="testResult.activityCode === '1'">
   </modal-result-item>
   <modal-result-item

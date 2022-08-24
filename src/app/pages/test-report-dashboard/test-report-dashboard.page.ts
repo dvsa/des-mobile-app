@@ -161,6 +161,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         testData: this.testDataADI3,
         testResult: result,
         totalScore,
+        isTestReportPopulated: this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3),
         feedback: this.feedback,
         isValidDashboard: this.isValidDashboard,
       },
@@ -181,9 +182,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       case ModalEvent.TERMINATE:
         this.store$.dispatch(GradeChanged(null));
         this.store$.dispatch(TerminateTestFromTestReport());
-        if (this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3)) {
-          await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
-        } else await this.router.navigate([TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
+        const populatedTestReport = this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3);
+        await this.router.navigate(populatedTestReport
+          ? [TestFlowPageNames.DEBRIEF_PAGE]
+          : [TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
         break;
       case ModalEvent.CANCEL:
         this.store$.dispatch(ReturnToTest());
