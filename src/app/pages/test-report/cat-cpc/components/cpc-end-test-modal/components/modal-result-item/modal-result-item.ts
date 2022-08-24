@@ -11,7 +11,7 @@ export class ModalResultItemComponent {
   label: string;
 
   @Input()
-  score: number | string;
+  score: number;
 
   @Input()
   adi3: boolean = false;
@@ -32,7 +32,7 @@ export class ModalResultItemComponent {
   }
 
   displayScore(score: number): string {
-    const finalScore = (score || 0);
+    const finalScore = (score || '-');
     return this.adi3 ? finalScore.toString() : `${finalScore}%`;
   }
 

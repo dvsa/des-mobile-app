@@ -70,12 +70,4 @@ export class Adi3EndTestModal implements OnInit {
     const failImage = 'assets/imgs/redWrongAnswer.png';
     return (this.testResult.activityCode === ActivityCodes.FAIL ? failImage : passImage);
   }
-
-  displayScore(score: number): number | string {
-    if (score > 0) {
-      return score;
-    }
-    return '-';
-  }
-
 }
