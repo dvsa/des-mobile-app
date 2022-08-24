@@ -54,6 +54,7 @@ interface CatADI3TestReportPageState {
   riskManagement$: Observable<RiskManagement>;
   teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
 }
+
 type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageState;
 
 @Component({
@@ -153,20 +154,30 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.store$.dispatch(OtherChanged(otherReason));
   };
 
-  lessonPlanningChanged = ({ question, answer }: { question: number; answer: number; }): void => {
+  lessonPlanningChanged = ({
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(LessonPlanningQuestionScoreChanged(question, answer));
   };
 
-  riskManagementChanged = ({ question, answer }: { question: number; answer: number; }): void => {
+  riskManagementChanged = ({
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(RiskManagementQuestionScoreChanged(question, answer));
   };
 
-  teachingLearningStrategyChanged = ({ question, answer }: { question: number; answer: number; }): void => {
+  teachingLearningStrategyChanged = ({
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(TeachingLearningStrategiesQuestionScoreChanged(question, answer));
   };
 
   onContinueClick = (): void => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.invalid) {
       return;
@@ -174,4 +185,18 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.navController.back();
   };
 
+  getTotalScore() {
+    let total = 0;
+    this.pageState.lessonPlanning$.subscribe((value) => {
+      total += value.score;
+    });
+    this.pageState.riskManagement$.subscribe((value) => {
+      total += value.score;
+    });
+    this.pageState.teachingLearningStrategies$.subscribe((value) => {
+      total += value.score;
+    });
+
+    return total;
+  }
 }

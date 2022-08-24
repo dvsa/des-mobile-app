@@ -65,6 +65,20 @@
     </tr-assessment-card>
   </ng-container>
 
+  <ion-row class="ion-justify-content-end ion-padding-bottom padding-right-10">
+      <ion-col size="15">
+        <p>
+          Total score:
+        </p>
+      </ion-col>
+      <ion-col class="score-box" size="5">
+        <p>
+          {{getTotalScore()}}
+        </p>
+      </ion-col>
+  </ion-row>
+
+
     <ion-row class="mes-full-width-card box-shadow button-row-colour">
       <ion-col class="ion-text-center">
         <ion-button
