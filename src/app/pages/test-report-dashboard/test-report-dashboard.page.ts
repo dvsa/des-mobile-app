@@ -173,6 +173,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   };
 
   onModalDismiss = async (event: ModalEvent, grade: string = null): Promise<void> => {
+    const populatedTestReport = this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3);
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(GradeChanged(grade));
@@ -182,7 +183,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       case ModalEvent.TERMINATE:
         this.store$.dispatch(GradeChanged(null));
         this.store$.dispatch(TerminateTestFromTestReport());
-        const populatedTestReport = this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3);
         await this.router.navigate(populatedTestReport
           ? [TestFlowPageNames.DEBRIEF_PAGE]
           : [TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
