@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   LessonPlanning,
   RiskManagement,
-  TeachingLearningStrategies,
+  TeachingLearningStrategies, TestData as CatADI3TestData,
   TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { get } from 'lodash';
@@ -21,11 +21,9 @@ export class ADI3AssessmentProvider {
     }, 0);
   };
 
-  validateTestReport(
-    lessonPlanning: LessonPlanning,
+  validateTestReport(lessonPlanning: LessonPlanning,
     riskManagement: RiskManagement,
-    teachingLearningStrategies: TeachingLearningStrategies,
-  ): number {
+    teachingLearningStrategies: TeachingLearningStrategies): number {
     return (
       this.countCompletedQuestions(lessonPlanning)
       + this.countCompletedQuestions(riskManagement)
@@ -39,6 +37,16 @@ export class ADI3AssessmentProvider {
       }
       return data[key].score !== null;
     }).length;
+  }
+
+  isTestReportPopulated(testData: CatADI3TestData): boolean {
+    return !!(
+      this.validateTestReport(testData.lessonPlanning,
+        testData.riskManagement,
+        testData.teachingLearningStrategies) === 17
+      && testData.lessonAndTheme.studentLevel
+      && (testData.lessonAndTheme.lessonThemes.length > 0 || testData.lessonAndTheme.other)
+      && testData.review.feedback);
   }
 
 }

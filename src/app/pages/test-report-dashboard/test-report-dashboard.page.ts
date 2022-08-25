@@ -161,6 +161,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         testData: this.testDataADI3,
         testResult: result,
         totalScore,
+        isTestReportPopulated: this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3),
         feedback: this.feedback,
         isValidDashboard: this.isValidDashboard,
       },
@@ -172,6 +173,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   };
 
   onModalDismiss = async (event: ModalEvent, grade: string = null): Promise<void> => {
+    const populatedTestReport = this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3);
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(GradeChanged(grade));
@@ -181,7 +183,9 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       case ModalEvent.TERMINATE:
         this.store$.dispatch(GradeChanged(null));
         this.store$.dispatch(TerminateTestFromTestReport());
-        await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
+        await this.router.navigate(populatedTestReport
+          ? [TestFlowPageNames.DEBRIEF_PAGE]
+          : [TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
         break;
       case ModalEvent.CANCEL:
         this.store$.dispatch(ReturnToTest());
@@ -202,8 +206,8 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   get isValidDashboard(): boolean {
     return (
       this.testReportState === 17
-        && this.lessonAndThemeState.valid === true
-        && this.form.valid
+      && this.lessonAndThemeState.valid === true
+      && this.form.valid
     );
   }
 }

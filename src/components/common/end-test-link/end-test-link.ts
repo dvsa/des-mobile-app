@@ -61,6 +61,9 @@ export class EndTestLinkComponent {
     if (this.isDelegated) {
       await this.routerByCategory.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category as TestCategory);
       return;
+    } if (this.category === TestCategory.ADI3) {
+      await this.routerByCategory.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
+      return;
     }
     this.store$.dispatch(SetActivityCode(null));
     await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);

@@ -16,11 +16,13 @@ export class Adi3EndTestModal implements OnInit {
   totalScore: number;
   feedback: string;
   isValidDashboard: boolean;
+  isTestReportPopulated: boolean;
 
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.testData = this.navParams.get('testData');
@@ -28,6 +30,7 @@ export class Adi3EndTestModal implements OnInit {
     this.totalScore = this.navParams.get('totalScore');
     this.feedback = this.navParams.get('feedback');
     this.isValidDashboard = this.navParams.get('isValidDashboard');
+    this.isTestReportPopulated = this.navParams.get('isTestReportPopulated');
   }
 
   async onCancel(): Promise<void> {
@@ -43,6 +46,9 @@ export class Adi3EndTestModal implements OnInit {
   }
 
   getTestResultLabel(): string {
+    if (!this.isTestReportPopulated) {
+      return 'No Result';
+    }
     if (this.testResult.activityCode === ActivityCodes.FAIL) {
       return 'Unsuccessful';
     }
@@ -50,7 +56,11 @@ export class Adi3EndTestModal implements OnInit {
   }
 
   getTestResultClass(): string {
-    return (this.testResult.activityCode === ActivityCodes.FAIL ? 'test-result-fail-label' : 'test-result-pass-label');
+    return (!this.isTestReportPopulated
+      ? 'test-result-terminated-label'
+      : this.testResult.activityCode === ActivityCodes.FAIL
+        ? 'test-result-fail-label'
+        : 'test-result-pass-label');
   }
 
   getOutcomeIcon(): string {
@@ -58,5 +68,4 @@ export class Adi3EndTestModal implements OnInit {
     const failImage = 'assets/imgs/redWrongAnswer.png';
     return (this.testResult.activityCode === ActivityCodes.FAIL ? failImage : passImage);
   }
-
 }
