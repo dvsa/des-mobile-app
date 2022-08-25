@@ -91,7 +91,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       isRekey$.pipe(map((value) => this.isRekey = value)),
     );
 
-    this.singleAppModeEnabled = await this.deviceProvider.checkSingleAppMode();
+    this.singleAppModeEnabled = super.isIos() ? await this.deviceProvider.checkSingleAppMode() : false;
 
     this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();
@@ -118,7 +118,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
    * @param navigationTarget
    */
   async navigateForward(navigationTarget: string): Promise<void> {
-    if (!this.singleAppModeEnabled) {
+    if (!this.singleAppModeEnabled && !this.isPracticeMode) {
       const asamModal = await this.modalController.create({
         id: 'AsamFailureNotificationModal',
         component: AsamFailureNotificationModal,
@@ -131,7 +131,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       await asamModal.onDidDismiss();
       await this.onContinue(navigationTarget);
     } else {
-      this.onContinue(navigationTarget);
+      await this.onContinue(navigationTarget);
     }
   }
 
@@ -139,13 +139,13 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
    * Select appropriate function based upon navigation target
    * @param navigationTarget
    */
-  onContinue(navigationTarget: string): void {
+  async onContinue(navigationTarget: string): Promise<void> {
     switch (navigationTarget) {
       case NavigationTarget.OFFICE:
-        this.goToOfficePage();
+        await this.goToOfficePage();
         break;
       case NavigationTarget.JOURNAL:
-        this.goToJournal();
+        await this.goToJournal();
         break;
       default:
         break;
