@@ -21,11 +21,9 @@ export class ADI3AssessmentProvider {
     }, 0);
   };
 
-  validateTestReport(
-    lessonPlanning: LessonPlanning,
+  validateTestReport(lessonPlanning: LessonPlanning,
     riskManagement: RiskManagement,
-    teachingLearningStrategies: TeachingLearningStrategies,
-  ): number {
+    teachingLearningStrategies: TeachingLearningStrategies): number {
     return (
       this.countCompletedQuestions(lessonPlanning)
       + this.countCompletedQuestions(riskManagement)
@@ -43,11 +41,12 @@ export class ADI3AssessmentProvider {
 
   isTestReportPopulated(testData: CatADI3TestData): boolean {
     return !!(
-      this.validateTestReport(testData.lessonPlanning, testData.riskManagement, testData.teachingLearningStrategies) > 0
-      || testData.lessonAndTheme.studentLevel
-      || testData.lessonAndTheme.lessonThemes.length > 0
-      || testData.lessonAndTheme.other
-      || testData.review.feedback);
+      this.validateTestReport(testData.lessonPlanning,
+        testData.riskManagement,
+        testData.teachingLearningStrategies) === 17
+      && testData.lessonAndTheme.studentLevel
+      && (testData.lessonAndTheme.lessonThemes.length > 0 || testData.lessonAndTheme.other)
+      && testData.review.feedback);
   }
 
 }

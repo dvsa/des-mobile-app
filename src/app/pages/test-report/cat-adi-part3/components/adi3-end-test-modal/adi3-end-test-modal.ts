@@ -3,7 +3,6 @@ import { NavParams, ModalController } from '@ionic/angular';
 import { TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { ModalEvent } from '../../../test-report.constants';
 
 @Component({
@@ -22,7 +21,6 @@ export class Adi3EndTestModal implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
-    private adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
   }
 
