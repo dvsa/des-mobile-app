@@ -65,7 +65,7 @@
     </tr-assessment-card>
   </ng-container>
 
-  <ion-row class="ion-justify-content-end ion-padding-bottom padding-right-10">
+  <ion-row *ngIf="page === 'testReport'" class="ion-justify-content-end ion-padding-bottom padding-right-10">
       <ion-col size="17">
         <h3>
           Total score:
@@ -73,7 +73,7 @@
       </ion-col>
       <ion-col class="score-box" size="5">
         <p>
-          {{adi3AssessmentProvider.getTotalAssessmentScore(testDataADI3)}}
+          {{adi3AssessmentProvider.getTotalAssessmentScore(testDataADI3) === 0 ? '' : adi3AssessmentProvider.getTotalAssessmentScore(testDataADI3)}}
         </p>
       </ion-col>
   </ion-row>
