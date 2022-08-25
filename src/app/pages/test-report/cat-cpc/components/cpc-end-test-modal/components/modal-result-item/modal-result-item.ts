@@ -32,8 +32,8 @@ export class ModalResultItemComponent {
   }
 
   displayScore(score: number): string {
-    const finalScore = (score || '-');
-    return this.adi3 ? finalScore.toString() : `${finalScore}%`;
+    const finalScore = (score || 0);
+    return this.adi3 ? (score || '-').toString() : `${finalScore}%`;
   }
 
 }
