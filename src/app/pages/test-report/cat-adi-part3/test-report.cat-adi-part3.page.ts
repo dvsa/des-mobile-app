@@ -3,7 +3,7 @@ import { ModalController, NavController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
   CommonTestReportPageState,
-  TestReportBasePageComponent,
+  TestReportBasePageComponent, trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
@@ -13,9 +13,9 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import {
-  LessonPlanning, LessonTheme, RiskManagement, StudentLevel, TeachingLearningStrategies,
+  LessonPlanning, LessonTheme, RiskManagement, StudentLevel, TeachingLearningStrategies, TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -45,6 +45,8 @@ import {
 import {
   TeachingLearningStrategiesQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
+import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { takeUntil } from 'rxjs/operators';
 
 interface CatADI3TestReportPageState {
   studentLevel$: Observable<StudentLevel>;
@@ -54,6 +56,7 @@ interface CatADI3TestReportPageState {
   riskManagement$: Observable<RiskManagement>;
   teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
 }
+
 type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageState;
 
 @Component({
@@ -66,6 +69,8 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   form: FormGroup;
   pageState: TestReportPageState;
   page: 'lessonTheme' | 'testReport' = null;
+  private localSubscription: Subscription;
+  testDataADI3: TestData;
 
   constructor(
     platform: Platform,
@@ -78,6 +83,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private navController: NavController,
+    public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
     super(
       platform,
@@ -102,6 +108,13 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       select(getTests),
       select(getCurrentTest),
     );
+
+    this.localSubscription = currentTest$.pipe(
+      select(getTestData),
+      takeUntil(trDestroy$),
+    ).subscribe((result: TestData) => {
+      this.testDataADI3 = result;
+    });
 
     this.pageState = {
       ...this.commonPageState,
@@ -153,25 +166,34 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.store$.dispatch(OtherChanged(otherReason));
   };
 
-  lessonPlanningChanged = ({ question, answer }: { question: number; answer: number; }): void => {
+  lessonPlanningChanged = ({
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(LessonPlanningQuestionScoreChanged(question, answer));
   };
 
-  riskManagementChanged = ({ question, answer }: { question: number; answer: number; }): void => {
+  riskManagementChanged = ({
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(RiskManagementQuestionScoreChanged(question, answer));
   };
 
-  teachingLearningStrategyChanged = ({ question, answer }: { question: number; answer: number; }): void => {
+  teachingLearningStrategyChanged = ({
+    question,
+    answer,
+  }: { question: number; answer: number; }): void => {
     this.store$.dispatch(TeachingLearningStrategiesQuestionScoreChanged(question, answer));
   };
 
   onContinueClick = (): void => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.invalid) {
       return;
     }
     this.navController.back();
   };
-
 }

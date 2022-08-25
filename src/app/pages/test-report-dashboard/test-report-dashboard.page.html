@@ -42,19 +42,20 @@
     </dashboard-item>
 
     <review-feedback
-      [form]="form"
-      [feedback]="pageState.feedback$ | async"
-      (feedbackChange)="feedbackChanged($event)">
+            [form]="form"
+            [feedback]="pageState.feedback$ | async"
+            (feedbackChange)="feedbackChanged($event)">
     </review-feedback>
+
 </ion-content>
 
 <ion-footer>
     <ion-row class="mes-full-width-card box-shadow" style="background-color: white;">
         <ion-col class="ion-text-center">
             <ion-button
-              (click)="onContinueClick()"
-              shape="round"
-              class="mes-primary-button wrtc-footer-btn">
+                    (click)="onContinueClick()"
+                    shape="round"
+                    class="mes-primary-button wrtc-footer-btn">
                 <h3>Continue</h3>
             </ion-button>
         </ion-col>
