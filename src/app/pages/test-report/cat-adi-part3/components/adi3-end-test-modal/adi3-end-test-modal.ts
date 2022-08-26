@@ -11,6 +11,7 @@ import { ModalEvent } from '../../../test-report.constants';
   styleUrls: ['adi3-end-test-modal.scss'],
 })
 export class Adi3EndTestModal implements OnInit {
+  testState: number;
   testData: TestData;
   testResult: { activityCode?: ActivityCode; grade?: string; } = {};
   totalScore: number;
@@ -31,6 +32,8 @@ export class Adi3EndTestModal implements OnInit {
     this.feedback = this.navParams.get('feedback');
     this.isValidDashboard = this.navParams.get('isValidDashboard');
     this.isTestReportPopulated = this.navParams.get('isTestReportPopulated');
+
+    console.log(this.testState);
   }
 
   async onCancel(): Promise<void> {

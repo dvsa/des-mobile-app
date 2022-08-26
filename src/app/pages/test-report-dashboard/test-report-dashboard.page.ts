@@ -94,16 +94,17 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     this.localSubscription = currentTest$.pipe(
       select(getTestData),
       takeUntil(trDestroy$),
-    ).subscribe((result: TestData) => {
-      this.testDataADI3 = result;
-      this.lessonAndThemeState = this.validateLessonTheme(result.lessonAndTheme);
-      this.testReportState = this.adi3AssessmentProvider.validateTestReport(
-        result.lessonPlanning,
-        result.riskManagement,
-        result.teachingLearningStrategies,
-      );
-      this.feedback = result.review?.feedback;
-    });
+    )
+      .subscribe((result: TestData) => {
+        this.testDataADI3 = result;
+        this.lessonAndThemeState = this.validateLessonTheme(result.lessonAndTheme);
+        this.testReportState = this.adi3AssessmentProvider.validateTestReport(
+          result.lessonPlanning,
+          result.riskManagement,
+          result.teachingLearningStrategies,
+        );
+        this.feedback = result.review?.feedback;
+      });
 
     this.pageState = {
       ...this.commonPageState,
@@ -144,16 +145,23 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   /**
-   * Function to detects if a student level has been selected or a lesson theme has been selected or a message is
-   * present inside the 'other' box, if none of them are present, we know there are 0 points scored, otherwise, we check
-   * to see if they are all present, if they are, we set score to 2, and if not, the section is not complete yet,
-   * so we set score to 1
-   * @param lessonThemes
-   * @param other
-   * @param studentLevel
-   */
-  validateLessonTheme({ lessonThemes, other, studentLevel }: LessonAndTheme): { valid: boolean; score: number; } {
-    const result: { valid: boolean; score: number } = { valid: false, score: 0 };
+     * Function to detect if a student level has been selected or a lesson theme has been selected or a message is
+     * present inside the 'other' box, if none of them are present, we know there are 0 points scored, otherwise, we
+     * check to see if they are all present, if they are, we set score to 2, and if not, the section is not complete
+     * yet, so we set score to 1
+     * @param lessonThemes
+     * @param other
+     * @param studentLevel
+     */
+  validateLessonTheme({
+    lessonThemes,
+    other,
+    studentLevel,
+  }: LessonAndTheme): { valid: boolean; score: number; } {
+    const result: { valid: boolean; score: number } = {
+      valid: false,
+      score: 0,
+    };
     const isOtherPresent = (!!other && !this.isEmpty(other));
 
     result.valid = !!(studentLevel && (lessonThemes.length > 0 || isOtherPresent));
@@ -165,13 +173,15 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   onContinueClick = async (): Promise<void> => {
-    const result = await this.testResultProvider.calculateTestResultADI3(this.testDataADI3).toPromise();
+    const result = await this.testResultProvider.calculateTestResultADI3(this.testDataADI3)
+      .toPromise();
     const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3);
 
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: Adi3EndTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
       componentProps: {
+        testState: this.testReportState,
         testData: this.testDataADI3,
         testResult: result,
         totalScore,
@@ -220,8 +230,8 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   get isValidDashboard(): boolean {
     return (
       this.testReportState === 17
-      && this.lessonAndThemeState.valid === true
-      && this.form.valid
+            && this.lessonAndThemeState.valid === true
+            && this.form.valid
     );
   }
 }
