@@ -73,11 +73,12 @@
       </ion-col>
       <ion-col class="score-box" size="5">
         <p>
-          {{adi3AssessmentProvider.getTotalAssessmentScore(testDataADI3) === 0 ? '' : adi3AssessmentProvider.getTotalAssessmentScore(testDataADI3)}}
+          {{adi3AssessmentProvider.validateTestReport(
+                testDataADI3.lessonPlanning, testDataADI3.riskManagement, testDataADI3.teachingLearningStrategies) === 0
+                ? '' : adi3AssessmentProvider.getTotalAssessmentScore(testDataADI3)}}
         </p>
       </ion-col>
   </ion-row>
-
 
     <ion-row class="mes-full-width-card box-shadow button-row-colour">
       <ion-col class="ion-text-center">

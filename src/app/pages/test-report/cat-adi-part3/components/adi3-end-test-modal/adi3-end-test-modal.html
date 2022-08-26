@@ -10,11 +10,13 @@
     [adi3]="true"
     [showIcon]="false"
     [label]="'Lesson planning'"
+    [testState]="adi3AssessmentProvider.countCompletedQuestions(testData.lessonPlanning)"
     [score]="testData.lessonPlanning.score">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="testState > 0"
+    [showIcon]="adi3AssessmentProvider.countCompletedQuestions(testData.riskManagement) > 0"
+    [testState]="adi3AssessmentProvider.countCompletedQuestions(testData.riskManagement)"
     [label]="'Risk management'"
     [score]="testData.riskManagement.score"
     [isPass]="testData.riskManagement.score >= 8">
@@ -22,12 +24,14 @@
   <modal-result-item
     [adi3]="true"
     [showIcon]="false"
+    [testState]="adi3AssessmentProvider.countCompletedQuestions(testData.teachingLearningStrategies)"
     [label]="'Teaching & learning'"
     [score]="testData.teachingLearningStrategies.score">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
     [showIcon]="testState > 0"
+    [testState]="testState"
     [label]="'Overall score'"
     [score]="totalScore"
     [isPass]="testResult.activityCode === '1'">

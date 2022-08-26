@@ -11,6 +11,9 @@ export class ModalResultItemComponent {
   label: string;
 
   @Input()
+  testState?: number;
+
+  @Input()
   score: number;
 
   @Input()
@@ -33,6 +36,9 @@ export class ModalResultItemComponent {
 
   displayScore(score: number): string {
     const finalScore = (score || 0);
+    if (this.testState > 0) {
+      return this.adi3 ? (score || 0).toString() : `${finalScore}%`;
+    }
     return this.adi3 ? (score || '-').toString() : `${finalScore}%`;
   }
 
