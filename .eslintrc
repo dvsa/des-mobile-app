@@ -6,7 +6,8 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "rxjs"
+    "rxjs",
+    "plugin:diff/ci"
   ],
   "extends": [
     "airbnb-typescript/base"
