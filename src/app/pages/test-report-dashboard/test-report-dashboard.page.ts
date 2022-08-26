@@ -143,16 +143,20 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     return (!text || text.trim() === '');
   }
 
+  /**
+   * Function to detects if a student level has been selected or a lesson theme has been selected or a message is
+   * present inside the 'other' box, if none of them are present, we know there are 0 points scored, otherwise, we check
+   * to see if they are all present, if they are, we set score to 2, and if not, the section is not complete yet,
+   * so we set score to 1
+   * @param lessonThemes
+   * @param other
+   * @param studentLevel
+   */
   validateLessonTheme({ lessonThemes, other, studentLevel }: LessonAndTheme): { valid: boolean; score: number; } {
     const result: { valid: boolean; score: number } = { valid: false, score: 0 };
     const isOtherPresent = (!!other && !this.isEmpty(other));
 
     result.valid = !!(studentLevel && (lessonThemes.length > 0 || isOtherPresent));
-
-    /* The code below detects if a student level has been selected or a lesson theme has been selected or a message is
-    present inside the 'other' box, if none of them are present, we know there are 0 points scored, otherwise, we check
-    to see if they are all present, if they are, we set score to 2, and if not, the section is not complete yet,
-    so we set score to 1 */
     result.score = (studentLevel || (lessonThemes.length > 0 || isOtherPresent))
       ? studentLevel && (lessonThemes.length > 0 || isOtherPresent) ? 2 : 1
       : 0;
