@@ -36,10 +36,7 @@ export class ModalResultItemComponent {
 
   displayScore(score: number): string {
     const finalScore = (score || 0);
-    if (this.testState > 0) {
-      return this.adi3 ? (score || 0).toString() : `${finalScore}%`;
-    }
-    return this.adi3 ? (score || '-').toString() : `${finalScore}%`;
+    return this.adi3 ? (score || this.testState > 0 ? 0 : '-').toString() : `${finalScore}%`;
   }
 
 }
