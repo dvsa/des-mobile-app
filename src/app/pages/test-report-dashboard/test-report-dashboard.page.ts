@@ -37,8 +37,8 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { FormGroup } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
-import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
+import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
 
 interface TestReportDashboardState {
   testDataADI3$: Observable<TestData>;
