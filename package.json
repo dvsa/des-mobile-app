@@ -131,6 +131,7 @@
     "cordova-plugin-device": "^2.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-diff": "^2.0.1",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-rxjs": "^2.1.7",
     "fork-ts-checker-webpack-plugin": "^6.5.0",
