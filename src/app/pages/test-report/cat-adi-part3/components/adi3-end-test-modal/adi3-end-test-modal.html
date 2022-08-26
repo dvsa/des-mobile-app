@@ -14,7 +14,7 @@
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="true"
+    [showIcon]="!!testData.riskManagement.score"
     [label]="'Risk management'"
     [score]="testData.riskManagement.score"
     [isPass]="testData.riskManagement.score >= 8">
@@ -27,14 +27,14 @@
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="true"
+    [showIcon]="!!totalScore"
     [label]="'Overall score'"
     [score]="totalScore"
     [isPass]="testResult.activityCode === '1'">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="true"
+    [showIcon]="!!feedback"
     [showScore]="false"
     [label]="'Review'"
     [score]="0"
