@@ -158,6 +158,12 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       component: Adi3EndTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
       componentProps: {
+        modalData: {
+          a: '',
+          b: '',
+          c: '',
+          d: '',
+        },
         testData: this.testDataADI3,
         testResult: result,
         totalScore,
