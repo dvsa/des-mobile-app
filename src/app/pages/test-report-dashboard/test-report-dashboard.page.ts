@@ -222,7 +222,11 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     await this.onModalDismiss(data, result.grade, riskToPublicSafety);
   };
 
-  onModalDismiss = async (event: ModalEvent, grade: string = null, riskToPublicSafety: boolean = false): Promise<void> => {
+  onModalDismiss = async (
+    event: ModalEvent,
+    grade: string = null,
+    riskToPublicSafety: boolean = false,
+  ): Promise<void> => {
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(GradeChanged(grade));
