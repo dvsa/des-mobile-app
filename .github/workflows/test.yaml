@@ -1,0 +1,50 @@
+name: CI-CD
+
+on: push
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create .npmrc
+        run: |
+          echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" > .npmrc
+          echo "//registry.ionicframework.com/:_authToken=${{ secrets.DES_IONIC_KEY }} " >> .npmrc
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+          cache: 'npm'
+
+      - name: Update NPM
+        run: npm i -g npm@6
+
+      - name: Install dependencies
+        run: npm ci
+
+      ##########################################################################
+      # Needed for the Puppeteer download to work in a container
+      - name: Install Deps for Chromium - Puppeteer
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ca-certificates fonts-liberation libappindicator3-1 libasound2 libatk-bridge2.0-0 \
+            libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libglib2.0-0 \
+            libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 \
+            libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
+            lsb-release wget xdg-utils
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@latest
+      - run: chrome --version
+      ##########################################################################
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run Tests
+        run: |
+          npm run schema-version
+          npm run test
