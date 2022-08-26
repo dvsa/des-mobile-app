@@ -10,7 +10,7 @@ import {
   REKEY_SEARCH_PAGE,
   TEST_CENTRE_JOURNAL_PAGE,
   TEST_RESULTS_SEARCH_PAGE,
-  TestFlowPageNames,
+  TestFlowPageNames
 } from '@pages/page-names.constants';
 import { CanWaitingRoomDeactivateGuard } from '@pages/waiting-room/can-waiting-room-deactiviate';
 import { CanDeactivateHealthDeclaration } from '@pages/health-declaration/can-health-declaration-deactivate';
