@@ -15,7 +15,7 @@
     text-align: right;
   }
 
-  #score-value {
+  .score-value {
     display: flex;
     font-size: 30px;
     justify-content: center;
@@ -24,5 +24,6 @@
     width: 60px;
     border: 2px solid grey;
     background-color: #e2e2f9;
+    color: var(--gds-grey-1);
   }
 }
