@@ -3,6 +3,7 @@ import { NavParams, ModalController } from '@ionic/angular';
 import { TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { ModalEvent } from '../../../test-report.constants';
 
 @Component({
@@ -11,6 +12,7 @@ import { ModalEvent } from '../../../test-report.constants';
   styleUrls: ['adi3-end-test-modal.scss'],
 })
 export class Adi3EndTestModal implements OnInit {
+  testState: number;
   testData: TestData;
   testResult: { activityCode?: ActivityCode; grade?: string; } = {};
   totalScore: number;
@@ -21,6 +23,7 @@ export class Adi3EndTestModal implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private navParams: NavParams,
+    public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
   }
 
