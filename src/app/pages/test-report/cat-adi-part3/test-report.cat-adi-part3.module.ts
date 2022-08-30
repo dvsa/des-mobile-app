@@ -15,6 +15,9 @@ import {
   TestReportCatADIPart3ComponentsModule,
 } from '@pages/test-report/cat-adi-part3/components/test-report.cat-adi-part3.components.module';
 import { TestReportComponentsModule } from '@pages/test-report/components/test-report-components.module';
+import {
+  TestReportCatCPCComponentsModule,
+} from '@pages/test-report/cat-cpc/components/test-report.cat-cpc.components.module';
 import { TestReportCatADI3Page } from './test-report.cat-adi-part3.page';
 import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-part3.routing.module';
 
@@ -26,6 +29,7 @@ import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-pa
     IonicModule,
     TestReportCatADIPart3PageRoutingModule,
     TestReportCatADIPart3ComponentsModule,
+    TestReportCatCPCComponentsModule,
     ComponentsModule,
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([

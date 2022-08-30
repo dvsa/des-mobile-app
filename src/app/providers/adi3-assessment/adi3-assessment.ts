@@ -39,6 +39,21 @@ export class ADI3AssessmentProvider {
     }).length;
   }
 
+  /**
+   * Function to return score if any fields have been set, else return dash
+   * @param testData
+   */
+  countScoreIfTouched(testData: CatADI3TestData): string | number {
+    if (this.validateTestReport(
+      testData.lessonPlanning,
+      testData.riskManagement,
+      testData.teachingLearningStrategies,
+    ) === 0) {
+      return '-';
+    }
+    return this.getTotalAssessmentScore(testData);
+  }
+
   isTestReportPopulated(testData: CatADI3TestData): boolean {
     return !!(
       this.validateTestReport(testData.lessonPlanning,
