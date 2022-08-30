@@ -11,5 +11,8 @@ export class Adi3DebriefCardBox {
   public title: string;
 
   @Input()
+  terminatedAndComplete: boolean = false;
+
+  @Input()
   public testReportSection: LessonPlanning | RiskManagement | TeachingLearningStrategies;
 }

@@ -57,6 +57,7 @@
     <ion-row class="competencies-row">
         <ion-col>
             <adi3-debrief-card-box
+                    [terminatedAndComplete]="isCompleted && activityCode !== ('1'||'2'||'3'||'4'||'5')"
                     [testReportSection]="lessonPlanning"
                     [title]="'Lesson Planning'">
             </adi3-debrief-card-box>
@@ -64,6 +65,7 @@
 
         <ion-col>
             <adi3-debrief-card-box
+                    [terminatedAndComplete]="isCompleted && activityCode !== ('1'||'2'||'3'||'4'||'5')"
                     [testReportSection]="riskManagement"
                     [title]="'Risk Management'">
             </adi3-debrief-card-box>
@@ -71,12 +73,13 @@
 
         <ion-col>
             <adi3-debrief-card-box
+                    [terminatedAndComplete]="isCompleted && activityCode !== ('1'||'2'||'3'||'4'||'5')"
                     [testReportSection]="teachingLearningStrategies"
                     [title]="'Teaching & Learning Strategies'">
             </adi3-debrief-card-box>
         </ion-col>
     </ion-row>
-    <ion-row *ngIf="review?.feedback">
+    <ion-row *ngIf="review?.feedback && (isCompleted && activityCode !== ('1'||'2'||'3'||'4'||'5'))">
         <ion-col>
             <ion-card class="ion-padding">
                 <ion-row class="tr-standard-text">Feedback</ion-row>
