@@ -7,7 +7,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { StoreModule } from '@ngrx/store';
 import { testReportReducer } from '@pages/test-report/test-report.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { TestReportAnalyticsEffects } from '@pages/test-report/test-report.analytics.effects';
 import { TestReportEffects } from '@pages/test-report/test-report.effects';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestResultProvider } from '@providers/test-result/test-result';
@@ -19,6 +18,10 @@ import {
 import {
   TestReportCatADIPart3ComponentsModule,
 } from '@pages/test-report-dashboard/components/test-report-dashboard.components.module';
+import {
+  TestReportDashboardAnalyticsEffects,
+} from '@pages/test-report-dashboard/test-report-dashboard.analytics.effects';
+import { TestReportAnalyticsEffects } from '@pages/test-report/test-report.analytics.effects';
 import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.routing-module';
 
 @NgModule({
@@ -32,6 +35,7 @@ import { TestReportDashboardPageRoutingModule } from './test-report-dashboard.ro
     StoreModule.forFeature('testReport', testReportReducer),
     EffectsModule.forFeature([
       TestReportAnalyticsEffects,
+      TestReportDashboardAnalyticsEffects,
       TestReportEffects,
     ]),
     TestReportComponentsModule,

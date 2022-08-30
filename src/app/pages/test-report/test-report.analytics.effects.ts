@@ -2,7 +2,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, concatMap, withLatestFrom } from 'rxjs/operators';
+import {
+  switchMap, concatMap, withLatestFrom, map,
+} from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -68,9 +70,41 @@ import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { VehicleChecksTypes } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { isRemoveFaultMode } from '@pages/test-report/test-report.selector';
-import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
-import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
+import {
+  LessonThemeChanged, OtherChanged,
+  StudentLevelChanged,
+} from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
+import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
+import {
+  getLessonThemes, getOther,
+  getStudentLevel,
+} from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
+import {
+  LessonPlanning,
+  LessonTheme,
+  RiskManagement,
+  StudentLevel,
+  TeachingLearningStrategies,
+} from '@dvsa/mes-test-schema/categories/ADI3';
+import {
+  LessonPlanningQuestionScoreChanged,
+} from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.actions';
+import {
+  RiskManagementQuestionScoreChanged,
+} from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.actions';
+import {
+  TeachingLearningStrategiesQuestionScoreChanged,
+} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
+import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
+import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
+import {
+  getTeachingLearningStrategies,
+} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
+import { sumObjectKeyValues } from '@shared/helpers/sum-object-key-values';
+import { ScoreChangedActions } from '@pages/test-report/test-report.effects';
 import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
+import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
+import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 
 @Injectable()
 export class TestReportAnalyticsEffects {
@@ -1649,6 +1683,200 @@ export class TestReportAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.START_TIMER, tests),
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  studentLevelChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(StudentLevelChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestData),
+          select(getLessonAndTheme),
+          select(getStudentLevel),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, studentLevel]: [ReturnType <typeof StudentLevelChanged>, TestsModel, StudentLevel],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.STUDENT_LEVEL_CHANGED, tests),
+        `student level changed to ${studentLevel}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  lessonThemesChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(LessonThemeChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestData),
+          select(getLessonAndTheme),
+          select(getLessonThemes),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, lessonThemes]: [ReturnType <typeof LessonThemeChanged>, TestsModel, LessonTheme[]],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.LESSON_THEMES_CHANGED, tests),
+        `lesson themes changed to ${lessonThemes.join(', ')}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  otherReasonChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(OtherChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestData),
+          select(getLessonAndTheme),
+          select(getOther),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, other]: [ReturnType <typeof OtherChanged>, TestsModel, string],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.OTHER_REASON_CHANGED, tests),
+        `other reason changed to - ${other}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  lessonPlanningQuestionScoreChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(LessonPlanningQuestionScoreChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap((
+      [{ question, score }, tests]: [ReturnType <typeof LessonPlanningQuestionScoreChanged>, TestsModel],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.LESSON_PLANNING_CHANGED, tests),
+        `lesson planning changed: question ${question}, score ${score}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  riskManagementQuestionScoreChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(RiskManagementQuestionScoreChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap((
+      [{ question, score }, tests]: [ReturnType <typeof RiskManagementQuestionScoreChanged>, TestsModel],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.RISK_MANAGEMENT_CHANGED, tests),
+        `risk management changed: question ${question}, score ${score}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  teachingLearningStrategyQuestionScoreChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(TeachingLearningStrategiesQuestionScoreChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap((
+      [{ question, score }, tests]: [ReturnType <typeof TeachingLearningStrategiesQuestionScoreChanged>, TestsModel],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.TEACHING_LEARNING_STRATEGY_CHANGED, tests),
+        `teaching learning strategy changed: question ${question}, score ${score}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  testReportAssessmentOverallScore$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      LessonPlanningQuestionScoreChanged,
+      RiskManagementQuestionScoreChanged,
+      TeachingLearningStrategiesQuestionScoreChanged,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          map(getCurrentTest),
+          select(getTestData),
+          select(getLessonPlanning),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          map(getCurrentTest),
+          select(getTestData),
+          select(getRiskManagement),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          map(getCurrentTest),
+          select(getTestData),
+          select(getTeachingLearningStrategies),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, lessonPlanning, riskManagement, teachingLearningStrategies]:
+      [ReturnType<ScoreChangedActions>, TestsModel, LessonPlanning, RiskManagement, TeachingLearningStrategies],
+    ) => {
+      const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
+      const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');
+      const totalScoreTLS: number = sumObjectKeyValues<TeachingLearningStrategies>(teachingLearningStrategies, 'score');
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.ASSESSMENT_OVERALL_SCORE_CHANGED, tests),
+        `overall assessment score changed: ${totalScoreLP + totalScoreRM + totalScoreTLS}`,
       );
       return of(AnalyticRecorded());
     }),
