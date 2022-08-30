@@ -8,6 +8,12 @@ import { Component, Input } from '@angular/core';
 export class QuestionScoreComponent {
 
   @Input()
-  score: number;
+  score: number | string;
+
+  @Input()
+  displayPercentage?: boolean = true;
+
+  @Input()
+  label?: string = 'Total:';
 
 }
