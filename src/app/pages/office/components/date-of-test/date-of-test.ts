@@ -49,6 +49,8 @@ export class DateOfTest implements OnInit {
       return;
     }
 
+    this.isInvalid = false;
+
     const formattedCustomTestDate = moment(this.customTestDate).format('YYYY-MM-DD');
     const formattedDateOfTest = moment(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
