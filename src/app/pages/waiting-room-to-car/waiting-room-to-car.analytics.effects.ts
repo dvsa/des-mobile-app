@@ -23,10 +23,10 @@ import {
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
-import { getActivityCode, getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import {
   getApplicationReference,
@@ -40,7 +40,6 @@ import { DualControlsToggledNo, DualControlsToggledYes } from '@store/tests/vehi
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
 import { getDualControls } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
-import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import {
   PDILogbook,
   TraineeLicence,
@@ -269,31 +268,22 @@ export class WaitingRoomToCarAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
       ),
     )),
-    concatMap(([action, tests, activityCode]:
-    [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCodeModel]) => {
-      if (activityCode) {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-          formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
-          action.gearboxCategory,
-        );
-        return of(AnalyticRecorded());
-      }
-      return of(AnalyticNotRecorded());
+    concatMap((
+      [{ gearboxCategory }, tests]: [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
+        gearboxCategory,
+      );
+      return of(AnalyticRecorded());
     }),
   ));
 
   waitingRoomToCarPDILogbookChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      PDILogbook,
-    ),
+    ofType(PDILogbook),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -309,8 +299,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         ),
       )),
     switchMap((
-      [, tests, pdiLogBook]:
-      [ReturnType<typeof PDILogbook>, TestsModel, boolean],
+      [, tests, pdiLogBook]: [ReturnType<typeof PDILogbook>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -322,9 +311,7 @@ export class WaitingRoomToCarAnalyticsEffects {
   ));
 
   waitingRoomToCarTraineeLicenceChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      TraineeLicence,
-    ),
+    ofType(TraineeLicence),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -340,8 +327,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         ),
       )),
     switchMap((
-      [, tests, traineeLicence]:
-      [ReturnType<typeof TraineeLicence>, TestsModel, boolean],
+      [, tests, traineeLicence]: [ReturnType<typeof TraineeLicence>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -353,9 +339,7 @@ export class WaitingRoomToCarAnalyticsEffects {
   ));
 
   waitingRoomToCarOrditTrainedChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      OrditTrainedChanged,
-    ),
+    ofType(OrditTrainedChanged),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -371,8 +355,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         ),
       )),
     switchMap((
-      [, tests, orditTrained]:
-      [ReturnType<typeof OrditTrainedChanged>, TestsModel, boolean],
+      [, tests, orditTrained]: [ReturnType<typeof OrditTrainedChanged>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -384,9 +367,7 @@ export class WaitingRoomToCarAnalyticsEffects {
   ));
 
   waitingRoomToCarTrainerRegistrationNumberChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      TrainerRegistrationNumberChanged,
-    ),
+    ofType(TrainerRegistrationNumberChanged),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -402,8 +383,7 @@ export class WaitingRoomToCarAnalyticsEffects {
         ),
       )),
     switchMap((
-      [, tests, trainerRegistrationNumber]:
-      [ReturnType<typeof TrainerRegistrationNumberChanged>, TestsModel, number],
+      [, tests, trainerRegistrationNumber]: [ReturnType<typeof TrainerRegistrationNumberChanged>, TestsModel, number],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
