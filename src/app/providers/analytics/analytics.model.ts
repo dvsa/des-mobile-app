@@ -152,6 +152,8 @@ export enum AnalyticsEvents {
   RISK_MANAGEMENT_CHANGED = 'risk management changed',
   TEACHING_LEARNING_STRATEGY_CHANGED = 'teaching learning strategy changed',
   ASSESSMENT_OVERALL_SCORE_CHANGED = 'assessment overall score changed',
+  FURTHER_DEVELOPMENT_CHANGED = 'seek further development changed',
+  REASON_FOR_NO_ADVICE_CHANGED = 'reason for no advice changed',
   ASSESSMENT_MODAL_OPENED = 'assessment modal opened',
   BIKE_CATEGORY_SELECTED = 'bike category selected',
   BIKE_CATEGORY_MODAL_TRIGGERED = 'bike category modal triggered',
