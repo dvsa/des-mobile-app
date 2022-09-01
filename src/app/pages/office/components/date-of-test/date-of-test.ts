@@ -2,7 +2,10 @@ import {
   Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild,
 } from '@angular/core';
 import * as moment from 'moment';
-import { isValidStartDate, PRESS_TIME_TO_ENABLE_EDIT } from '@shared/helpers/test-start-time';
+import {
+  isValidStartDate,
+  PRESS_TIME_TO_ENABLE_EDIT,
+} from '@shared/helpers/test-start-time';
 
 @Component({
   selector: 'date-of-test',
@@ -39,6 +42,7 @@ export class DateOfTest implements OnInit {
 
   datePickerChange() {
     const currentDate = moment().format('YYYY-MM-DD');
+
     if (!isValidStartDate(this.customTestDate, currentDate)) {
       this.isInvalid = true;
       this.setIsValidStartDateTime.emit(false);
@@ -46,8 +50,16 @@ export class DateOfTest implements OnInit {
     }
 
     this.isInvalid = false;
+
+    const formattedCustomTestDate = moment(this.customTestDate).format('YYYY-MM-DD');
+    const formattedDateOfTest = moment(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
+
+    if (formattedCustomTestDate === currentDate || formattedDateOfTest === formattedCustomTestDate) {
+      return;
+    }
+
     this.setIsValidStartDateTime.emit(true);
-    this.dateOfTestChange.emit(this.customTestDate);
+    this.dateOfTestChange.emit(formattedCustomTestDate);
     this.disableEdit();
   }
 
@@ -57,16 +69,16 @@ export class DateOfTest implements OnInit {
 
   onTouchStart() {
     this.isPressed = true;
-    this.timeoutId = setTimeout((component: DateOfTest) => {
-      if (component.isPressed) {
-        component.editMode = true;
+
+    setTimeout(() => {
+      if (this.isPressed) {
+        this.editMode = true;
       }
-    }, PRESS_TIME_TO_ENABLE_EDIT, this);
+    }, PRESS_TIME_TO_ENABLE_EDIT);
   }
 
   onTouchEnd() {
     this.isPressed = false;
-    clearTimeout(this.timeoutId);
   }
 
   enableEdit = () => this.editMode = true;

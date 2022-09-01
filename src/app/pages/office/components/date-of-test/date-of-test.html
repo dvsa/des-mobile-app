@@ -2,7 +2,7 @@
   <ion-col class="component-label" size="32">
     <label id="date-of-test-label">Date of test</label>
   </ion-col>
-  <ion-col size="63" class="ion-align-self-center ion-padding-start">
+  <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row [class.spacing-row]="!isInvalid" [class.date-spacing-row]="isInvalid" class="spacing-row"></ion-row>
     <ion-row>
       <ion-col>
@@ -19,7 +19,8 @@
                       [max]="maxDate"
                       (ionChange)="datePickerChange()"
                       (ionCancel)="datePickerCancel()"
-                      [(ngModel)]="customTestDate"></ion-datetime>
+                      [(ngModel)]="customTestDate">
+        </ion-datetime>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
