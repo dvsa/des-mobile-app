@@ -83,11 +83,11 @@
                 [question4]="testResult.testData['question4']"
                 [question5]="testResult.testData['question5']"
                 [overallScore]="testResult.testData['totalPercent']"
-                [combination]="testResult.testData['combination']"
-        ></cpc-debrief-card>
+                [combination]="testResult.testData['combination']">
+        </cpc-debrief-card>
 
         <adi3-debrief-card
-                *ngIf="isCategoryADI3()"
+                *ngIf="isCategoryADI3() && !didTestTerminate()"
                 [totalScore]="totalScore"
                 [lessonTheme]="testResult.testData['lessonAndTheme']"
                 [lessonPlanning]="testResult.testData['lessonPlanning']"
