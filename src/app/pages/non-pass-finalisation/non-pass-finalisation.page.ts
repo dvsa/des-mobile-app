@@ -65,7 +65,7 @@ import {
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import {
-  getFurtherDevelopment, getGrade,
+  getFurtherDevelopment, getGrade, getImmediateDanger,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import {
@@ -98,6 +98,7 @@ interface NonPassFinalisationPageState {
   adviceReason$: Observable<string>;
   displayAdviceReasonGiven$: Observable<boolean>;
   testOutcomeGrade$: Observable<string>;
+  immediateDanger$: Observable<boolean>;
 }
 
 @Component({
@@ -266,6 +267,13 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       showADI3Field$: currentTest$.pipe(
         select(getTestCategory),
         map((category) => isAnyOf(category, [TestCategory.ADI3])),
+      ),
+      immediateDanger$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.ADI3),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
+        select(getImmediateDanger),
       ),
     };
 

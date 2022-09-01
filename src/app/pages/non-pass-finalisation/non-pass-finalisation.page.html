@@ -25,7 +25,7 @@
                      [activityCodeModel]="pageState.activityCode$ | async"
                      [activityCodeOptions]="activityCodeOptions"
                      (activityCodeChange)="activityCodeChanged($event)"
-                     [disabled]="false">
+                     [disabled]="(pageState.immediateDanger$ | async) ? true : false">
       </activity-code>
 
       <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">

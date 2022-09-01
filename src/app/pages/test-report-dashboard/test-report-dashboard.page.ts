@@ -30,10 +30,15 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { getFeedback } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { FeedbackChanged, GradeChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import {
+  FeedbackChanged,
+  GradeChanged,
+  ImmediateDangerChanged,
+} from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { FormGroup } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
+import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 
 interface TestReportDashboardState {
   testDataADI3$: Observable<TestData>;
@@ -184,11 +189,20 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       const code4Modal: HTMLIonModalElement = await this.modalController.create({
         component: Code4Modal,
         cssClass: 'mes-modal-alert text-zoom-regular',
+        backdropDismiss: false,
+        showBackdrop: true,
       });
-
       await code4Modal.present();
+      const { data } = await code4Modal.onWillDismiss();
+      await this.displayEndTestModal(data);
+    } else {
+      await this.displayEndTestModal();
     }
+  };
 
+  displayEndTestModal = async (riskToPublicSafety: boolean = false): Promise<void> => {
+    const result = await this.testResultProvider.calculateTestResultADI3(this.testDataADI3).toPromise();
+    const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3);
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: Adi3EndTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
@@ -200,19 +214,23 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         isTestReportPopulated: this.isTestReportPopulated,
         feedback: this.feedback,
         isValidDashboard: this.isValidDashboard,
+        riskToPublicSafety,
       },
     });
-
     await modal.present();
     const { data } = await modal.onDidDismiss<ModalEvent>();
-    await this.onModalDismiss(data, result.grade);
+    await this.onModalDismiss(data, result.grade, riskToPublicSafety);
   };
 
-  onModalDismiss = async (event: ModalEvent, grade: string = null): Promise<void> => {
+  onModalDismiss = async (event: ModalEvent, grade: string = null, riskToPublicSafety: boolean = false): Promise<void> => {
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(GradeChanged(grade));
         this.store$.dispatch(CalculateTestResult());
+        if (riskToPublicSafety) {
+          this.store$.dispatch(SetActivityCode('4'));
+        }
+        this.store$.dispatch(ImmediateDangerChanged(riskToPublicSafety));
         await this.router.navigate([TestFlowPageNames.DEBRIEF_PAGE]);
         break;
       case ModalEvent.TERMINATE:
