@@ -1,8 +1,10 @@
 <ion-grid>
   <ion-row class="tr-standard-text">{{question}}</ion-row>
-  <ion-row class="ion-padding-top">
+  <ion-row class="ion-padding-top" [formGroup]="formGroup">
     <ion-col>
       <input type="radio"
+             formControlName="trAssessment"
+             [class.ng-invalid]="invalid"
              class="gds-radio-button"
              (change)="valueChanged($event.target.value)"
              [checked]="answer === 0"
@@ -12,6 +14,8 @@
     </ion-col>
     <ion-col>
       <input type="radio"
+             formControlName="trAssessment"
+             [class.ng-invalid]="invalid"
              class="gds-radio-button"
              (change)="valueChanged($event?.target?.value)"
              [checked]="answer === 1"
@@ -21,6 +25,8 @@
     </ion-col>
     <ion-col>
       <input type="radio"
+             formControlName="trAssessment"
+             [class.ng-invalid]="invalid"
              class="gds-radio-button"
              (change)="valueChanged($event?.target?.value)"
              [checked]="answer === 2"
@@ -30,6 +36,8 @@
     </ion-col>
     <ion-col>
       <input type="radio"
+             formControlName="trAssessment"
+             [class.ng-invalid]="invalid"
              class="gds-radio-button"
              (change)="valueChanged($event?.target?.value)"
              [checked]="answer === 3"

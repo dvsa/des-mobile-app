@@ -1,6 +1,7 @@
 import {
   Component, EventEmitter, Input, Output,
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'tr-assessment-answer',
@@ -23,8 +24,26 @@ export class TestReportAssessmentAnswer {
   @Output()
   answerChanged = new EventEmitter<string>();
 
+  @Input()
+  formGroup : FormGroup;
+  formControl: FormControl;
+
+  ngOnChanges(): void {
+    if (!this.formControl) {
+      this.formControl = new FormControl(null, [Validators.required]);
+      this.formGroup.addControl('trAssessment', this.formControl);
+    }
+    this.formControl.patchValue(this.answer);
+  }
+
+
+
   valueChanged = (key: string): void => {
     this.answerChanged.emit((Number(key) === this.answer) ? null : key);
   };
+
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
 
 }

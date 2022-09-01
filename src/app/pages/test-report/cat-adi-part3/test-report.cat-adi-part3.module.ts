@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -23,21 +23,22 @@ import { TestReportCatADIPart3PageRoutingModule } from './test-report.cat-adi-pa
 
 @NgModule({
   declarations: [TestReportCatADI3Page],
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    TestReportCatADIPart3PageRoutingModule,
-    TestReportCatADIPart3ComponentsModule,
-    TestReportCatCPCComponentsModule,
-    ComponentsModule,
-    StoreModule.forFeature('testReport', testReportReducer),
-    EffectsModule.forFeature([
-      TestReportAnalyticsEffects,
-      TestReportEffects,
-    ]),
-    TestReportComponentsModule,
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        TestReportCatADIPart3PageRoutingModule,
+        TestReportCatADIPart3ComponentsModule,
+        TestReportCatCPCComponentsModule,
+        ComponentsModule,
+        StoreModule.forFeature('testReport', testReportReducer),
+        EffectsModule.forFeature([
+            TestReportAnalyticsEffects,
+            TestReportEffects,
+        ]),
+        TestReportComponentsModule,
+        ReactiveFormsModule,
+    ],
   providers: [
     TestReportValidatorProvider,
     TestResultProvider,

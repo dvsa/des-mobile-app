@@ -16,6 +16,7 @@
   <ion-card-content>
     <ion-grid>
       <tr-assessment-answer
+        [formGroup]="form"
         [questionNumber]="1"
         [card]="assessmentCard"
         [question]="sectionData?.q1?.title"
@@ -24,6 +25,7 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [formGroup]="form"
         [questionNumber]="2"
         [card]="assessmentCard"
         [question]="sectionData?.q2?.title"
@@ -32,6 +34,7 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [formGroup]="form"
         [questionNumber]="3"
         [card]="assessmentCard"
         [question]="sectionData?.q3?.title"
@@ -40,6 +43,7 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [formGroup]="form"
         [questionNumber]="4"
         [card]="assessmentCard"
         [question]="sectionData?.q4?.title"
@@ -48,15 +52,18 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [formGroup]="form"
         *ngIf="sectionData['q5']"
         [questionNumber]="5"
         [card]="assessmentCard"
         [question]="sectionData['q5'].title"
         [answer]="sectionData['q5'].score"
         (answerChanged)="trAssessmentAnswerChange(5, $event)">
-      </tr-assessment-answer>
+      </tr-assessment-answer
+              >
 
       <tr-assessment-answer
+        [formGroup]="form"
         *ngIf="sectionData['q6']"
         [questionNumber]="6"
         [card]="assessmentCard"
@@ -66,6 +73,7 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [formGroup]="form"
         *ngIf="sectionData['q7']"
         [questionNumber]="7"
         [card]="assessmentCard"
@@ -75,6 +83,7 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [formGroup]="form"
         *ngIf="sectionData['q8']"
         [questionNumber]="8"
         [card]="assessmentCard"
