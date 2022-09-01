@@ -33,6 +33,7 @@ import { getFeedback } from '@store/tests/test-data/cat-adi-part3/review/review.
 import { FeedbackChanged, GradeChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { FormGroup } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
+import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
 
 interface TestReportDashboardState {
   testDataADI3$: Observable<TestData>;
@@ -51,6 +52,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   pageState: TestReportDashboardPageState;
   localSubscription: Subscription;
   testDataADI3: TestData;
+  isTestReportPopulated: boolean;
   lessonAndThemeState: { valid: boolean, score: number };
   testReportState: number;
   form: FormGroup;
@@ -103,6 +105,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
           result.riskManagement,
           result.teachingLearningStrategies,
         );
+        this.isTestReportPopulated = this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3);
         this.feedback = result.review?.feedback;
       });
 
@@ -177,6 +180,15 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       .toPromise();
     const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3);
 
+    if (this.isTestReportPopulated && this.testDataADI3.riskManagement.score < 8) {
+      const code4Modal: HTMLIonModalElement = await this.modalController.create({
+        component: Code4Modal,
+        cssClass: 'mes-modal-alert text-zoom-regular',
+      });
+
+      await code4Modal.present();
+    }
+
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: Adi3EndTestModal,
       cssClass: 'mes-modal-alert text-zoom-regular',
@@ -185,7 +197,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         testData: this.testDataADI3,
         testResult: result,
         totalScore,
-        isTestReportPopulated: this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3),
+        isTestReportPopulated: this.isTestReportPopulated,
         feedback: this.feedback,
         isValidDashboard: this.isValidDashboard,
       },
@@ -197,7 +209,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   };
 
   onModalDismiss = async (event: ModalEvent, grade: string = null): Promise<void> => {
-    const populatedTestReport = this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3);
     switch (event) {
       case ModalEvent.CONTINUE:
         this.store$.dispatch(GradeChanged(grade));
@@ -207,7 +218,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       case ModalEvent.TERMINATE:
         this.store$.dispatch(GradeChanged(null));
         this.store$.dispatch(TerminateTestFromTestReport());
-        await this.router.navigate(populatedTestReport
+        await this.router.navigate(this.isTestReportPopulated
           ? [TestFlowPageNames.DEBRIEF_PAGE]
           : [TestFlowPageNames.NON_PASS_FINALISATION_PAGE]);
         break;
