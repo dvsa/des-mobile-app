@@ -3,7 +3,7 @@ import { ModalController, Platform } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { merge, Observable, Subscription } from 'rxjs';
-import { ActivityCodeModel, activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
+import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { FormGroup } from '@angular/forms';
@@ -42,7 +42,6 @@ import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/tes
 import {
   NonPassFinalisationReportActivityCode,
   NonPassFinalisationValidationError,
-  NonPassFinalisationViewDidEnter,
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
@@ -132,8 +131,9 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   ) {
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
-    const { behaviourMap } = this.route.snapshot.data;
-    this.activityCodeOptions = activityCodeModelList;
+    const { nonPassData } = this.route.snapshot.data;
+    const [behaviourMap, activityCodeList] = nonPassData;
+    this.activityCodeOptions = activityCodeList;
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
@@ -290,10 +290,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   }
 
   ionViewDidEnter(): void {
-    this.store$.dispatch(NonPassFinalisationViewDidEnter());
-    if (this.testCategory === TestCategory.ADI2) {
-      this.store$.dispatch(D255No());
-    }
+    // this.store$.dispatch(NonPassFinalisationViewDidEnter());
+    // if (this.testCategory === TestCategory.ADI2) {
+    //   this.store$.dispatch(D255No());
+    // }
   }
 
   ionViewDidLeave(): void {

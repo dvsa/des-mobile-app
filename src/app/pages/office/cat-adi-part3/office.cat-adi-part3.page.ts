@@ -71,6 +71,7 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
     this.activityCodeOptions = getActivityCodeOptions(
       this.appConfig.getAppConfig().role === ExaminerRole.DLG,
+      true,
     );
   }
 
