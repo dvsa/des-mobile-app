@@ -307,6 +307,6 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   didTestTerminate(): boolean {
-    return !(getTestOutcome(this.testResult as TestResultCommonSchema) === 'Terminated');
+    return (getTestOutcome(this.testResult as TestResultCommonSchema) === 'Terminated');
   }
 }
