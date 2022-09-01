@@ -69,6 +69,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   form: FormGroup;
   pageState: TestReportPageState;
   page: 'lessonTheme' | 'testReport' = null;
+  showMissing: boolean = false;
   private localSubscription: Subscription;
   testDataADI3: TestData;
 
@@ -101,6 +102,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
 
   ngOnInit(): void {
     this.page = this.router.getCurrentNavigation()?.extras?.state?.page;
+    this.showMissing = this.router.getCurrentNavigation()?.extras?.state?.showMissing;
 
     super.onInitialisation();
 

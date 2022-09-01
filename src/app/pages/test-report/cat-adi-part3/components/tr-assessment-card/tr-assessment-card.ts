@@ -16,6 +16,9 @@ export class TestReportAssessmentCard {
   assessmentCard: string;
 
   @Input()
+  showMissing: boolean = false;
+
+  @Input()
   sectionData: LessonPlanning | RiskManagement | TeachingLearningStrategies;
 
   @Output()
