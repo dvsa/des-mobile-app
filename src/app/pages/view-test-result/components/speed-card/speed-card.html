@@ -1,6 +1,6 @@
 <ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
     <ion-grid>
-        <ion-row>
+        <ion-row *ngIf="emergencyStop && (emergencyStop.firstAttempt || emergencyStop.secondAttempt)">
             <ion-col size="40">
                 <label>Emergency Stop</label>
             </ion-col>
@@ -30,7 +30,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row>
+        <ion-row *ngIf="avoidance && (avoidance.firstAttempt || avoidance.secondAttempt)">
             <ion-col size="40">
                 <label>Avoidance</label>
             </ion-col>

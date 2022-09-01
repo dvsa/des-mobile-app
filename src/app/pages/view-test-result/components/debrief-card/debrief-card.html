@@ -53,7 +53,8 @@
 
             <data-row
                     [label]="'ETA'"
-                    [value]="eTA">
+                    [value]="eTA"
+                    [shouldHaveSeperator]="!(data['emergencyStop'] || data['avoidance'])">
             </data-row>
 
             <vehicle-checks-data-row
