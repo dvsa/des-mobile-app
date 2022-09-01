@@ -87,7 +87,7 @@
         </cpc-debrief-card>
 
         <adi3-debrief-card
-                *ngIf="isCategoryADI3() && !didTestTerminate()"
+                *ngIf="isCategoryADI3() && didTestTerminate()"
                 [totalScore]="totalScore"
                 [lessonTheme]="testResult.testData['lessonAndTheme']"
                 [lessonPlanning]="testResult.testData['lessonPlanning']"

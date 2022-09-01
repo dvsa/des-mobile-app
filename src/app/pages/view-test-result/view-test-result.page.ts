@@ -29,6 +29,7 @@ import { LoadingProvider } from '@providers/loader/loader';
 import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestOutcomeText } from '@store/tests/tests.selector';
+import { getTestOutcome } from '@pages/debrief/debrief.selector';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
@@ -41,6 +42,7 @@ import {
   TestData as CatADI3TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
 
 @Component({
@@ -305,6 +307,6 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   didTestTerminate(): boolean {
-    return !(this.testResult.activityCode === ('1' || '2' || '3' || '4' || '5'));
+    return !(getTestOutcome(this.testResult as TestResultCommonSchema) === 'Terminated');
   }
 }
