@@ -118,6 +118,7 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
         select(getVehicleConfiguration),
       ),
     };
+    this.setupSubscription();
   }
 
   ionViewDidLeave(): void {
