@@ -4,7 +4,7 @@ import {
 import * as moment from 'moment';
 import {
   isValidStartDate,
-  // PRESS_TIME_TO_ENABLE_EDIT,
+  PRESS_TIME_TO_ENABLE_EDIT,
 } from '@shared/helpers/test-start-time';
 
 @Component({
@@ -74,9 +74,7 @@ export class DateOfTest implements OnInit {
       if (this.isPressed) {
         this.editMode = true;
       }
-    }, 3000);
-    // @TODO: Substitute 3000 for the 10000 default;
-    //  }, PRESS_TIME_TO_ENABLE_EDIT);
+    }, PRESS_TIME_TO_ENABLE_EDIT);
   }
 
   onTouchEnd() {
