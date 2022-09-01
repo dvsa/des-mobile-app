@@ -52,7 +52,7 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col class="column-border-top column-border-right ion-no-padding">
+    <ion-col *ngIf="!riskToPublicSafety" class="column-border-top column-border-right ion-no-padding">
       <ion-button fill="clear" class="terminate-button" (click)="onTerminate()">Terminate test</ion-button>
     </ion-col>
     <ion-col class="column-border-top ion-no-padding">
