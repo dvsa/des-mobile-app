@@ -34,9 +34,6 @@ export class Adi3DebriefCard implements OnInit {
   @Input()
   public review: Review;
 
-  @Input()
-  public activityCode: string;
-
   studentValueConst = studentValues;
   lessonThemeValueStr: string = '';
   isTerminated: boolean = false;

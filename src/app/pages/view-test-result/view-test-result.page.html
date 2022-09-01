@@ -88,7 +88,6 @@
 
         <adi3-debrief-card
                 *ngIf="isCategoryADI3() && !didTestTerminate()"
-                [activityCode]="testResult.activityCode"
                 [totalScore]="totalScore"
                 [lessonTheme]="testResult.testData['lessonAndTheme']"
                 [lessonPlanning]="testResult.testData['lessonPlanning']"
