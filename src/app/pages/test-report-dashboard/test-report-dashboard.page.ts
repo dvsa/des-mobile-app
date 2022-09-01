@@ -181,10 +181,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   onContinueClick = async (): Promise<void> => {
-    const result = await this.testResultProvider.calculateTestResultADI3(this.testDataADI3)
-      .toPromise();
-    const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3);
-
     if (this.isTestReportPopulated && this.testDataADI3.riskManagement.score < 8) {
       const code4Modal: HTMLIonModalElement = await this.modalController.create({
         component: Code4Modal,
