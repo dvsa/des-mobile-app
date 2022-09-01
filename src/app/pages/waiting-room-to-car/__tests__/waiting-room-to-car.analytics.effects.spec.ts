@@ -34,7 +34,7 @@ import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analyti
 import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-fdescribe('WaitingRoomToCarAnalyticsEffects', () => {
+describe('WaitingRoomToCarAnalyticsEffects', () => {
   let effects: WaitingRoomToCarAnalyticsEffects;
   let analyticsProviderMock;
   let actions$: ReplaySubject<any>;
