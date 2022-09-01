@@ -69,7 +69,7 @@ import {
 import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
-import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import { getGrade, getImmediateDanger } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -102,6 +102,7 @@ interface DebriefPageState {
   review$: Observable<Review>;
   showSafetyAndBalance$: Observable<boolean>;
   grade$: Observable<string>;
+  immediateDanger$: Observable<boolean>;
 }
 @Component({
   selector: '.debrief-page',
@@ -304,6 +305,13 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getGrade),
+      ),
+      immediateDanger$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        filter(([, category]) => category === TestCategory.ADI3),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getReview),
+        select(getImmediateDanger),
       ),
     };
 

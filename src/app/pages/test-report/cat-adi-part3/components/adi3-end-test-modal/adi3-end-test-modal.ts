@@ -19,6 +19,7 @@ export class Adi3EndTestModal implements OnInit {
   feedback: string;
   isValidDashboard: boolean;
   isTestReportPopulated: boolean;
+  riskToPublicSafety: boolean;
 
   constructor(
     private modalCtrl: ModalController,
@@ -34,6 +35,7 @@ export class Adi3EndTestModal implements OnInit {
     this.feedback = this.navParams.get('feedback');
     this.isValidDashboard = this.navParams.get('isValidDashboard');
     this.isTestReportPopulated = this.navParams.get('isTestReportPopulated');
+    this.riskToPublicSafety = this.navParams.get('riskToPublicSafety');
   }
 
   async onCancel(): Promise<void> {
@@ -52,6 +54,9 @@ export class Adi3EndTestModal implements OnInit {
     if (!this.isTestReportPopulated) {
       return 'No Result';
     }
+    if (this.riskToPublicSafety === true) {
+      return 'Terminated';
+    }
     if (this.testResult.activityCode === ActivityCodes.FAIL) {
       return 'Unsuccessful';
     }
@@ -59,7 +64,7 @@ export class Adi3EndTestModal implements OnInit {
   }
 
   getTestResultClass(): string {
-    return (!this.isTestReportPopulated
+    return (!this.isTestReportPopulated || this.riskToPublicSafety === true
       ? 'test-result-terminated-label'
       : this.testResult.activityCode === ActivityCodes.FAIL
         ? 'test-result-fail-label'
