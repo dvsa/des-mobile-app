@@ -16,7 +16,7 @@ import {
   TestReportAssessmentCard,
 } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
 import { PipesModule } from '@shared/pipes/pipes.module';
-import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
+import { Code4ModalModule } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal.module';
 import { TestReportComponentsModule } from '../../components/test-report-components.module';
 
 @NgModule({
@@ -26,7 +26,6 @@ import { TestReportComponentsModule } from '../../components/test-report-compone
     LessonThemeComponent,
     TestReportAssessmentAnswer,
     TestReportAssessmentCard,
-    Code4Modal,
   ],
   imports: [
     CommonModule,
@@ -37,6 +36,7 @@ import { TestReportComponentsModule } from '../../components/test-report-compone
     ReactiveFormsModule,
     FormsModule,
     PipesModule,
+    Code4ModalModule,
   ],
   exports: [
     StudentComponent,
@@ -44,7 +44,6 @@ import { TestReportComponentsModule } from '../../components/test-report-compone
     LessonThemeComponent,
     TestReportAssessmentAnswer,
     TestReportAssessmentCard,
-    Code4Modal,
   ],
 })
 export class TestReportCatADIPart3ComponentsModule { }
