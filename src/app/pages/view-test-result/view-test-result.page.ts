@@ -303,4 +303,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   async onClose(): Promise<void> {
     await this.modalCtrl.dismiss();
   }
+
+  didTestTerminate(): boolean {
+    return !(this.testResult.activityCode === ('1' || '2' || '3' || '4' || '5'));
+  }
 }

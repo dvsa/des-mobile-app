@@ -83,11 +83,11 @@
                 [question4]="testResult.testData['question4']"
                 [question5]="testResult.testData['question5']"
                 [overallScore]="testResult.testData['totalPercent']"
-                [combination]="testResult.testData['combination']"
-        ></cpc-debrief-card>
+                [combination]="testResult.testData['combination']">
+        </cpc-debrief-card>
 
         <adi3-debrief-card
-                *ngIf="isCategoryADI3()"
+                *ngIf="isCategoryADI3() && !didTestTerminate()"
                 [activityCode]="testResult.activityCode"
                 [totalScore]="totalScore"
                 [lessonTheme]="testResult.testData['lessonAndTheme']"
@@ -95,8 +95,7 @@
                 [riskManagement]="testResult.testData['riskManagement']"
                 [teachingLearningStrategies]="testResult.testData['teachingLearningStrategies']"
                 [grade]="testResult.testData['review']?.grade"
-                [review]="testResult.testData['review']"
-                [isCompleted]="true">
+                [review]="testResult.testData['review']">
         </adi3-debrief-card>
 
         <test-summary-card

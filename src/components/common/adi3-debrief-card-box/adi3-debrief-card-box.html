@@ -1,10 +1,10 @@
-<ion-row class="tr-standard-text">{{title + (terminatedAndComplete ? '' : ' - '+testReportSection.score) }}</ion-row>
+<ion-row class="tr-standard-text">{{title}} - {{testReportSection.score}}</ion-row>
 <ion-row *ngFor="let item of testReportSection | customKeyValue: 'q'; let l = last;">
     <ion-card class="ion-padding question-card black-text semibold-font-family card-padding" *ngIf="!l">
         <ion-row>
             <ion-col size="10" class="score-padding">
                 <div class="counter-background">
-                    <span class="count">{{item.q.score !== null && !terminatedAndComplete ? item.q.score : '-'}}</span>
+                    <span class="count">{{item.q.score !== null ? item.q.score : '-'}}</span>
                 </div>
             </ion-col>
 
