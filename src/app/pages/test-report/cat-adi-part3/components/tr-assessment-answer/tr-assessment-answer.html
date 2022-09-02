@@ -1,6 +1,7 @@
 <ion-grid>
   <ion-row class="tr-standard-text">{{question}}</ion-row>
   <ion-row class="ion-padding-top">
+    <div class="validation-bar" [class.ng-invalid]="hasBeenMissed()"></div>
     <ion-col>
       <input type="radio"
              class="gds-radio-button"
