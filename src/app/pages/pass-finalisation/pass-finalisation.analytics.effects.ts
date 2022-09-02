@@ -29,6 +29,15 @@ import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import * as passFinalisationActions from '@pages/pass-finalisation/pass-finalisation.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import {
+  ReasonForNoAdviceGivenChanged,
+  SeekFurtherDevelopmentChanged,
+} from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import {
+  getFurtherDevelopment,
+  getReasonForNoAdviceGiven,
+} from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import {
   PassFinalisationViewDidEnter,
   PassFinalisationValidationError,
 } from './pass-finalisation.actions';
@@ -294,6 +303,60 @@ export class PassFinalisationAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.SET_ACTIVITY_CODE, tests),
         `${code} - ${description}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  passFinalisationSeekFurtherDevelopment$ = createEffect(() => this.actions$.pipe(
+    ofType(SeekFurtherDevelopmentChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getReview),
+          select(getFurtherDevelopment),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, furtherDevelopment]: [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+        formatAnalyticsText(AnalyticsEvents.FURTHER_DEVELOPMENT_CHANGED, tests),
+        `further development changed to ${furtherDevelopment ? 'Yes' : 'No'}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  passFinalisationReasonGiven$ = createEffect(() => this.actions$.pipe(
+    ofType(ReasonForNoAdviceGivenChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getReview),
+          select(getReasonForNoAdviceGiven),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, reason]: [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+        formatAnalyticsText(AnalyticsEvents.REASON_FOR_NO_ADVICE_CHANGED, tests),
+        `reason for no advice changed ${reason}`,
       );
       return of(AnalyticRecorded());
     }),
