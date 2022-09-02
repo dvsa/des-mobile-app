@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     component: NonPassFinalisationPage,
-    resolve: { behaviourMap: NonPassFinalisationResolver },
+    resolve: { nonPassData: NonPassFinalisationResolver },
   },
 ];
 

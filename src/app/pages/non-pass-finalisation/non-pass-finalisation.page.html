@@ -24,6 +24,7 @@
                      [formGroup]="form"
                      [activityCodeModel]="pageState.activityCode$ | async"
                      [activityCodeOptions]="activityCodeOptions"
+                     [isAdi3]="pageState.showADI3Field$ | async"
                      (activityCodeChange)="activityCodeChanged($event)"
                      [disabled]="(pageState.immediateDanger$ | async) ? true : false">
       </activity-code>
