@@ -267,7 +267,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     await this.routeByCategory.navigateToPage(
       TestFlowPageNames.TEST_REPORT_PAGE,
       TestCategory.ADI3,
-      { state: { page } },
+      { state: { page, showMissing: this.testReportState > 0 && this.testReportState < 17 } },
     );
   };
 

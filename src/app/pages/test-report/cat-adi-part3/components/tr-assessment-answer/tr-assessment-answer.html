@@ -4,6 +4,7 @@
     <ion-col>
       <input type="radio"
              class="gds-radio-button"
+             [ngClass]="errorHighlighting()"
              (change)="valueChanged($event.target.value)"
              [checked]="answer === 0"
              value="0"
@@ -13,6 +14,7 @@
     <ion-col>
       <input type="radio"
              class="gds-radio-button"
+             [ngClass]="errorHighlighting()"
              (change)="valueChanged($event?.target?.value)"
              [checked]="answer === 1"
              value="1"
@@ -22,6 +24,7 @@
     <ion-col>
       <input type="radio"
              class="gds-radio-button"
+             [ngClass]="errorHighlighting()"
              (change)="valueChanged($event?.target?.value)"
              [checked]="answer === 2"
              value="2"
@@ -31,11 +34,19 @@
     <ion-col>
       <input type="radio"
              class="gds-radio-button"
+             [ngClass]="errorHighlighting()"
              (change)="valueChanged($event?.target?.value)"
              [checked]="answer === 3"
              value="3"
              [id]="card + '-' + questionNumber + 'assessment-input-3'">
       <label [for]="card + '-' + questionNumber + 'assessment-input-3'" class="assessment-label">3</label>
     </ion-col>
+  </ion-row>
+  <ion-row *ngIf="hasBeenMissed()">
+    <div class="validation-text"
+         [class.ng-invalid]="true"
+         [id]="card + '-' + questionNumber + 'assessment-validation-text'">
+      Select a score for this competency
+    </div>
   </ion-row>
 </ion-grid>
