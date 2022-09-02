@@ -102,7 +102,7 @@ describe('NonPassFinalisationPage', () => {
   }));
 
   describe('Class', () => {
-    fdescribe('ionViewDidEnter', () => {
+    describe('ionViewDidEnter', () => {
       it('should dispatch a view did enter action', () => {
         component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(NonPassFinalisationViewDidEnter());
