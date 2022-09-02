@@ -66,7 +66,7 @@ type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageStat
 })
 export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit {
 
-  form: FormGroup;
+  public form: FormGroup;
   pageState: TestReportPageState;
   page: 'lessonTheme' | 'testReport' = null;
   private localSubscription: Subscription;
@@ -188,6 +188,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   };
 
   onContinueClick = (): void => {
+    //here
     Object.keys(this.form.controls)
       .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 

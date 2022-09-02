@@ -26,12 +26,13 @@ export class TestReportAssessmentAnswer {
 
   @Input()
   formGroup : FormGroup;
+
   formControl: FormControl;
 
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl(null, [Validators.required]);
-      this.formGroup.addControl('trAssessment', this.formControl);
+      this.formGroup.addControl(this.card + '-' + this.questionNumber, this.formControl);
     }
     this.formControl.patchValue(this.answer);
   }

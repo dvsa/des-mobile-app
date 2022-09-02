@@ -1,9 +1,10 @@
 <ion-grid>
   <ion-row class="tr-standard-text">{{question}}</ion-row>
   <ion-row class="ion-padding-top" [formGroup]="formGroup">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col>
       <input type="radio"
-             formControlName="trAssessment"
+             [formControlName]="card + '-' + questionNumber"
              [class.ng-invalid]="invalid"
              class="gds-radio-button"
              (change)="valueChanged($event.target.value)"
@@ -14,7 +15,7 @@
     </ion-col>
     <ion-col>
       <input type="radio"
-             formControlName="trAssessment"
+             [formControlName]="card + '-' + questionNumber"
              [class.ng-invalid]="invalid"
              class="gds-radio-button"
              (change)="valueChanged($event?.target?.value)"
@@ -25,7 +26,7 @@
     </ion-col>
     <ion-col>
       <input type="radio"
-             formControlName="trAssessment"
+             [formControlName]="card + '-' + questionNumber"
              [class.ng-invalid]="invalid"
              class="gds-radio-button"
              (change)="valueChanged($event?.target?.value)"
@@ -36,7 +37,7 @@
     </ion-col>
     <ion-col>
       <input type="radio"
-             formControlName="trAssessment"
+             [formControlName]="card + '-' + questionNumber"
              [class.ng-invalid]="invalid"
              class="gds-radio-button"
              (change)="valueChanged($event?.target?.value)"

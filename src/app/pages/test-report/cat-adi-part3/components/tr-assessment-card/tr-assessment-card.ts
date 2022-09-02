@@ -30,11 +30,10 @@ export class TestReportAssessmentCard {
   @Output()
   answerChange = new EventEmitter<{ question: number; answer: number; }>();
 
+  @Input()
   form: FormGroup;
 
-  constructor() {
-    this.form = new FormGroup({});
-  }
+
 
 
 
