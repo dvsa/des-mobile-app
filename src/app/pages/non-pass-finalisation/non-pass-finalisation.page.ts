@@ -42,6 +42,7 @@ import { hasEyesightTestGotSeriousFault } from '@store/tests/test-data/cat-b/tes
 import {
   NonPassFinalisationReportActivityCode,
   NonPassFinalisationValidationError,
+  NonPassFinalisationViewDidEnter,
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
@@ -132,8 +133,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
     const { nonPassData } = this.route.snapshot.data;
-    const [behaviourMap] = nonPassData;
-    // this.activityCodeOptions = activityCodeList;
+    const [behaviourMap, activityCodeList] = nonPassData;
+    this.activityCodeOptions = activityCodeList;
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
@@ -290,10 +291,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   }
 
   ionViewDidEnter(): void {
-    // this.store$.dispatch(NonPassFinalisationViewDidEnter());
-    // if (this.testCategory === TestCategory.ADI2) {
-    //   this.store$.dispatch(D255No());
-    // }
+    this.store$.dispatch(NonPassFinalisationViewDidEnter());
+    if (this.testCategory === TestCategory.ADI2) {
+      this.store$.dispatch(D255No());
+    }
   }
 
   ionViewDidLeave(): void {
