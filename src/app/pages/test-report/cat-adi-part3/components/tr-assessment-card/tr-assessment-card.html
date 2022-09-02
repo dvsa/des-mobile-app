@@ -16,6 +16,7 @@
   <ion-card-content>
     <ion-grid>
       <tr-assessment-answer
+        [showMissing]="showMissing"
         [questionNumber]="1"
         [card]="assessmentCard"
         [question]="sectionData?.q1?.title"
@@ -24,6 +25,7 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [showMissing]="showMissing"
         [questionNumber]="2"
         [card]="assessmentCard"
         [question]="sectionData?.q2?.title"
@@ -32,6 +34,7 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [showMissing]="showMissing"
         [questionNumber]="3"
         [card]="assessmentCard"
         [question]="sectionData?.q3?.title"
@@ -40,6 +43,7 @@
       </tr-assessment-answer>
 
       <tr-assessment-answer
+        [showMissing]="showMissing"
         [questionNumber]="4"
         [card]="assessmentCard"
         [question]="sectionData?.q4?.title"
@@ -49,6 +53,7 @@
 
       <tr-assessment-answer
         *ngIf="sectionData['q5']"
+        [showMissing]="showMissing"
         [questionNumber]="5"
         [card]="assessmentCard"
         [question]="sectionData['q5'].title"
@@ -58,6 +63,7 @@
 
       <tr-assessment-answer
         *ngIf="sectionData['q6']"
+        [showMissing]="showMissing"
         [questionNumber]="6"
         [card]="assessmentCard"
         [question]="sectionData['q6'].title"
@@ -67,6 +73,7 @@
 
       <tr-assessment-answer
         *ngIf="sectionData['q7']"
+        [showMissing]="showMissing"
         [questionNumber]="7"
         [card]="assessmentCard"
         [question]="sectionData['q7'].title"
@@ -76,6 +83,7 @@
 
       <tr-assessment-answer
         *ngIf="sectionData['q8']"
+        [showMissing]="showMissing"
         [questionNumber]="8"
         [card]="assessmentCard"
         [question]="sectionData['q8'].title"

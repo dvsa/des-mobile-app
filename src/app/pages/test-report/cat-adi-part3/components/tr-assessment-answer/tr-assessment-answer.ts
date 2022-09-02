@@ -1,6 +1,7 @@
 import {
   Component, EventEmitter, Input, Output,
 } from '@angular/core';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 @Component({
   selector: 'tr-assessment-answer',
@@ -18,6 +19,9 @@ export class TestReportAssessmentAnswer {
   card: string;
 
   @Input()
+  showMissing: boolean = false;
+
+  @Input()
   answer: number;
 
   @Output()
@@ -26,5 +30,14 @@ export class TestReportAssessmentAnswer {
   valueChanged = (key: string): void => {
     this.answerChanged.emit((Number(key) === this.answer) ? null : key);
   };
+
+  hasBeenMissed = (): boolean => this.showMissing && !this.hasValue();
+
+  hasValue = (): boolean => isAnyOf(this.answer, [0, 1, 2, 3]);
+
+  errorHighlighting = () => ({
+    'ng-dirty': this.hasBeenMissed(),
+    'ng-invalid': this.hasBeenMissed(),
+  });
 
 }
