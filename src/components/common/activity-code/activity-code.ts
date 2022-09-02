@@ -26,6 +26,9 @@ export class ActivityCodeComponent implements OnChanges {
   @Input()
   disabled: boolean;
 
+  @Input()
+  isAdi3: boolean;
+
   @Output()
   activityCodeChange = new EventEmitter<ActivityCodeModel>();
 
@@ -69,7 +72,7 @@ export class ActivityCodeComponent implements OnChanges {
 
     const activityCodeModal: HTMLIonModalElement = await this.modalController.create({
       id: 'ActivityCodeListModal',
-      cssClass: 'activity-code-modal text-zoom-regular',
+      cssClass: this.isAdi3 ? 'adi3-activity-code-modal text-zoom-regular' : 'activity-code-modal text-zoom-regular',
       component: ModalActivityCodeListComponent,
       backdropDismiss: false,
       showBackdrop: true,
