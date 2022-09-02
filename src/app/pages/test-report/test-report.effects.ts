@@ -58,7 +58,7 @@ import * as testReportActions from './test-report.actions';
 
 export type NeverType<T> = T extends null ? never : T;
 
-type ScoreChangedActions =
+export type ScoreChangedActions =
     typeof LessonPlanningQuestionScoreChanged
     | typeof RiskManagementQuestionScoreChanged
     | typeof TeachingLearningStrategiesQuestionScoreChanged;

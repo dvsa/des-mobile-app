@@ -39,6 +39,11 @@ import { FormGroup } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
+import {
+  TestReportDashboardModalOpened,
+  TestReportDashboardNavigateToPage,
+  TestReportDashboardViewDidEnter,
+} from '@pages/test-report-dashboard/test-report-dashboard.actions';
 
 interface TestReportDashboardState {
   testDataADI3$: Observable<TestData>;
@@ -129,6 +134,13 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     this.setupSubscription();
   }
 
+  ionViewDidEnter(): void {
+    if (!this.subscription || this.subscription.closed) {
+      super.setupSubscription();
+    }
+    this.store$.dispatch(TestReportDashboardViewDidEnter());
+  }
+
   async ionViewWillEnter() {
     this.ngOnInit();
     await super.ionViewWillEnter();
@@ -214,6 +226,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       },
     });
     await modal.present();
+    this.store$.dispatch(TestReportDashboardModalOpened());
     const { data } = await modal.onDidDismiss<ModalEvent>();
     await this.onModalDismiss(data, result.grade, riskToPublicSafety);
   };
@@ -249,6 +262,8 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   };
 
   navigateToPage = async (page: 'lessonTheme' | 'testReport') => {
+    this.store$.dispatch(TestReportDashboardNavigateToPage(page));
+
     await this.routeByCategory.navigateToPage(
       TestFlowPageNames.TEST_REPORT_PAGE,
       TestCategory.ADI3,

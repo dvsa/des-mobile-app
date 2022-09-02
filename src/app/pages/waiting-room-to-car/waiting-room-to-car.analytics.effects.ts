@@ -36,6 +36,27 @@ import {
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import { DualControlsToggledNo, DualControlsToggledYes } from '@store/tests/vehicle-details/vehicle-details.actions';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
+import { getDualControls } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
+import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  PDILogbook,
+  TraineeLicence,
+} from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.actions';
+import { getTrainerDetails } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.reducer';
+import {
+  getPDILogbook,
+  getTraineeLicence,
+} from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.selector';
+import {
+  OrditTrainedChanged,
+  TrainerRegistrationNumberChanged,
+} from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.actions';
+import {
+  getOrditTrained,
+  getTrainerRegistrationNumber,
+} from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -203,6 +224,171 @@ export class WaitingRoomToCarAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
         formatAnalyticsText(AnalyticsEvents.BIKE_CATEGORY_MODAL_TRIGGERED, tests),
         'bike category selection modal triggered',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  waitingRoomToCarDualControlsChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      DualControlsToggledYes,
+      DualControlsToggledNo,
+    ),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getVehicleDetails),
+            select(getDualControls),
+          ),
+        ),
+      )),
+    switchMap((
+      [, tests, dualControls]:
+      [ReturnType<typeof DualControlsToggledYes | typeof DualControlsToggledNo>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.DUAL_CONTROLS_CHANGED, tests),
+        `dual controls changed to ${dualControls ? 'Yes' : 'No'}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  waitingRoomToCarTransmissionChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(vehicleDetailsActions.GearboxCategoryChanged),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    concatMap((
+      [{ gearboxCategory }, tests]: [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
+        gearboxCategory,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  waitingRoomToCarPDILogbookChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(PDILogbook),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTrainerDetails),
+            select(getPDILogbook),
+          ),
+        ),
+      )),
+    switchMap((
+      [, tests, pdiLogBook]: [ReturnType<typeof PDILogbook>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.PDI_LOGBOOK_CHANGED, tests),
+        `pdi logbook changed to ${pdiLogBook ? 'Yes' : 'No'}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  waitingRoomToCarTraineeLicenceChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(TraineeLicence),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTrainerDetails),
+            select(getTraineeLicence),
+          ),
+        ),
+      )),
+    switchMap((
+      [, tests, traineeLicence]: [ReturnType<typeof TraineeLicence>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.TRAINEE_LICENCE_CHANGED, tests),
+        `trainee licence changed to ${traineeLicence ? 'Yes' : 'No'}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  waitingRoomToCarOrditTrainedChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(OrditTrainedChanged),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTrainerDetails),
+            select(getOrditTrained),
+          ),
+        ),
+      )),
+    switchMap((
+      [, tests, orditTrained]: [ReturnType<typeof OrditTrainedChanged>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.ORDIT_TRAINED_CHANGED, tests),
+        `ordit trained changed to ${orditTrained ? 'Yes' : 'No'}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  waitingRoomToCarTrainerRegistrationNumberChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(TrainerRegistrationNumberChanged),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTrainerDetails),
+            select(getTrainerRegistrationNumber),
+          ),
+        ),
+      )),
+    switchMap((
+      [, tests, trainerRegistrationNumber]: [ReturnType<typeof TrainerRegistrationNumberChanged>, TestsModel, number],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.TRAINER_REG_NUMBER_CHANGED, tests),
+        `trainer registration number changed to ${trainerRegistrationNumber}`,
       );
       return of(AnalyticRecorded());
     }),
