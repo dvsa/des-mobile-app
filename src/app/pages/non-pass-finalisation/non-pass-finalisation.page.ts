@@ -132,8 +132,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     super(platform, authenticationProvider, router, store$);
     this.form = new FormGroup({});
     const { nonPassData } = this.route.snapshot.data;
-    const [behaviourMap, activityCodeList] = nonPassData;
-    this.activityCodeOptions = activityCodeList;
+    const [behaviourMap] = nonPassData;
+    // this.activityCodeOptions = activityCodeList;
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
