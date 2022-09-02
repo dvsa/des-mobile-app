@@ -53,7 +53,13 @@ describe('NonPassFinalisationPage', () => {
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;
   let router: Router;
-  const activatedRouteMock = { snapshot: { data: { behaviourMap: {} } } as Data } as ActivatedRoute;
+  const activatedRouteMock = {
+    snapshot: {
+      data: {
+        nonPassData: [{}, {}],
+      },
+    } as Data,
+  } as ActivatedRoute;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
