@@ -37,8 +37,6 @@ export class TestReportAssessmentAnswer {
     this.formControl.patchValue(this.answer);
   }
 
-
-
   valueChanged = (key: string): void => {
     this.answerChanged.emit((Number(key) === this.answer) ? null : key);
   };

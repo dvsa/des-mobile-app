@@ -33,10 +33,6 @@ export class TestReportAssessmentCard {
   @Input()
   form: FormGroup;
 
-
-
-
-
   trAssessmentAnswerChange = (question: number, answer: string) => {
     this.answerChange.emit({ question, answer: (answer === null) ? null : Number(answer) });
   };
