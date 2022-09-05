@@ -507,4 +507,10 @@ export class DebriefCardComponent implements OnInit {
             && (this.data['emergencyStop']?.firstAttempt || this.data['emergencyStop']?.secondAttempt
                 || this.data['avoidance']?.firstAttempt || this.data['avoidance']?.secondAttempt);
   }
+
+  ETASeparator(): boolean {
+    return (this.isMod2()
+          || this.isValidEmergencyStopOrAvoidance()
+          || (!this.delegatedTest && !this.isMod1() && !this.isMod2()));
+  }
 }
