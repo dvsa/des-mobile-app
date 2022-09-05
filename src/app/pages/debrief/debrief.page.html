@@ -6,11 +6,7 @@
         </ion-buttons>
         <ion-title id="page-title">{{ 'debrief.title' | translate }} - {{pageState.candidateName$ | async}}</ion-title>
     </ion-toolbar>
-    <test-outcome-debrief-card
-            [outcome]="outcome"
-            [grade]="pageState.grade$ | async"
-            [immediateDanger]="pageState.immediateDanger$ | async">
-    </test-outcome-debrief-card>
+    <test-outcome-debrief-card [outcome]="outcome" [grade]="pageState.grade$ | async"></test-outcome-debrief-card>
 </ion-header>
 
 <ion-content>

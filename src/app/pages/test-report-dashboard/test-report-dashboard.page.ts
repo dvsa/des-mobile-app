@@ -109,14 +109,14 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     )
       .subscribe((result: TestData) => {
         this.testDataADI3 = result;
-        this.lessonAndThemeState = this.validateLessonTheme(result.lessonAndTheme);
+        this.lessonAndThemeState = this.validateLessonTheme(result?.lessonAndTheme);
         this.testReportState = this.adi3AssessmentProvider.validateTestReport(
           result.lessonPlanning,
           result.riskManagement,
           result.teachingLearningStrategies,
         );
         this.isTestReportPopulated = this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3);
-        this.feedback = result.review?.feedback;
+        this.feedback = result?.review?.feedback;
       });
 
     this.pageState = {
