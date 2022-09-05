@@ -66,7 +66,7 @@
         </data-row>
         <!-- Transmission -->
         <transmission-display
-          *ngIf="isPassed(pageState.testOutcomeText$ | async) && (isADI3(category) || !displayForCategory(category))"
+          *ngIf="isPassed(pageState.testOutcomeText$ | async) && !displayForCategory(category)"
           [category]="category"
           [transmission]="pageState.transmission$ | async"
           [code78]="pageState.code78$ | async"
