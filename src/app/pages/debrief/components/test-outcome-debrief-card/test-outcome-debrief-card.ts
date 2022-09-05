@@ -13,7 +13,4 @@ export class TestOutcomeDebriefCardComponent {
   @Input()
   public grade?: string;
 
-  @Input()
-  public immediateDanger?: boolean;
-
 }
