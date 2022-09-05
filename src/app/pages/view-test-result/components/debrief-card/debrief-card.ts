@@ -380,11 +380,12 @@ export class DebriefCardComponent implements OnInit {
 
     manoeuvres.map((manoeuvreObject: CatADI2UniqueTypes.Manoeuvres) => {
       if (manoeuvreObject) {
-        Object.keys(manoeuvreObject).map((manoeuvre: string) => {
-          if (manoeuvreObject[manoeuvre].selected) {
-            selectedManoeuvres.push(manoeuvreTypeLabels[manoeuvre]);
-          }
-        });
+        Object.keys(manoeuvreObject)
+          .map((manoeuvre: string) => {
+            if (manoeuvreObject[manoeuvre].selected) {
+              selectedManoeuvres.push(manoeuvreTypeLabels[manoeuvre]);
+            }
+          });
       }
     });
     return selectedManoeuvres.length > 0 ? selectedManoeuvres.join(', ') : 'None';
@@ -499,5 +500,11 @@ export class DebriefCardComponent implements OnInit {
 
   public get balanceQuestions(): QuestionResult[] {
     return get(this.data, 'safetyAndBalanceQuestions.balanceQuestions', []);
+  }
+
+  isValidEmergencyStopOrAvoidance(): boolean {
+    return this.isMod1()
+            && (this.data['emergencyStop']?.firstAttempt || this.data['emergencyStop']?.secondAttempt
+                || this.data['avoidance']?.firstAttempt || this.data['avoidance']?.secondAttempt);
   }
 }
