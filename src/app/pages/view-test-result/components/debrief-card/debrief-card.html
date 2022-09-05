@@ -54,7 +54,7 @@
             <data-row
                     [label]="'ETA'"
                     [value]="eTA"
-                    [shouldHaveSeperator]="!(data['emergencyStop'] || data['avoidance'])">
+                    [shouldHaveSeperator]="ETASeparator()">
             </data-row>
 
             <vehicle-checks-data-row
@@ -70,7 +70,7 @@
             </vehicle-checks-data-row>
 
             <speed-card
-                    *ngIf="(isMod1() && (data['emergencyStop']?.length > 0 || data['avoidance']?.length > 0))"
+                    *ngIf="isValidEmergencyStopOrAvoidance()"
                     [emergencyStop]="data['emergencyStop']"
                     [avoidance]="data['avoidance']"
                     [shouldHaveSeperator]="false">
