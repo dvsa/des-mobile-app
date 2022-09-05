@@ -5,11 +5,14 @@
         <ion-row>
             <ion-col class="tr-standard-text total-score-positioning" size="10">{{totalScore}}</ion-col>
             <ion-col>
+                <ion-row *ngIf="review.immediateDanger">
+                    <p id="terminated-public-safety-text">Terminated in the interest of public safety</p>
+                </ion-row>
                 <ion-row>
-                    <p>{{displayGradeDescription()}}</p>
+                    <p id="grade-description-text">{{displayGradeDescription()}}</p>
                 </ion-row>
                 <ion-row *ngIf="riskManagement.score <= 7">
-                    <p>Scored 7 or less in Risk Management section</p>
+                    <p id="scored-less-than-7-in-rm-text">Scored 7 or less in Risk Management section</p>
                 </ion-row>
             </ion-col>
         </ion-row>
