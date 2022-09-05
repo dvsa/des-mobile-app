@@ -5,6 +5,7 @@ import * as fromTestSummaryActions from '../test-summary.actions';
 export const initialState: TestSummary = {
   debriefWitnessed: null,
   additionalInformation: null,
+  D255: false,
 };
 
 export const testSummaryADIPart3Reducer = createReducer(
