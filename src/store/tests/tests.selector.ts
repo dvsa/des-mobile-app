@@ -50,7 +50,6 @@ export const getTestOutcomeText = (test: TestResultSchemasUnion) => {
     || test.activityCode === ActivityCodes.FAIL_CANDIDATE_STOPS_TEST
     || test.activityCode === ActivityCodes.FAIL_EYESIGHT
     || test.activityCode === ActivityCodes.FAIL_PUBLIC_SAFETY)
-    && !get(test, 'testData.review.immediateDanger', false)
   ) {
     return TestOutcome.Failed;
   }
