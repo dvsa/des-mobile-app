@@ -26,9 +26,9 @@ import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { AppComponent } from '../app.component';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
   jasmine.getEnv().allowRespy(true);
