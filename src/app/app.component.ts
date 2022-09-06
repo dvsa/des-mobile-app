@@ -23,6 +23,7 @@ import { Capacitor } from '@capacitor/core';
 import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
+import { DeviceProvider } from '@providers/device/device';
 
 declare let window: any;
 
@@ -49,6 +50,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     protected translate: TranslateService,
     protected appInfo: AppInfoProvider,
     protected appConfigProvider: AppConfigProvider,
+    protected deviceProvider: DeviceProvider,
     router: Router,
   ) {
     super(platform, authenticationProvider, alertController, router);
@@ -56,6 +58,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     await this.platform.ready();
+    if (this.platform.is('cordova')) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
     await this.appConfigProvider.initialiseAppConfig();
     await this.initialiseSentry();
     this.initialiseNetworkState();

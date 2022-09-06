@@ -26,6 +26,8 @@ import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
@@ -43,6 +45,7 @@ describe('AppComponent', () => {
   let networkStateProvider: NetworkStateProvider;
   let translate: TranslateService;
   let appConfigProvider: AppConfigProvider;
+  let deviceProvider: DeviceProvider;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -64,6 +67,7 @@ describe('AppComponent', () => {
         { provide: TranslateService, useValue: translateServiceMock },
         { provide: AppInfoProvider, useClass: AppInfoProviderMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
   });
@@ -82,6 +86,7 @@ describe('AppComponent', () => {
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     translate = TestBed.inject(TranslateService);
     appConfigProvider = TestBed.inject(AppConfigProvider);
+    deviceProvider = TestBed.inject(DeviceProvider);
   }));
 
   it('should create the app', () => {
@@ -101,6 +106,7 @@ describe('AppComponent', () => {
       spyOn(component, 'configureStatusBar').and.returnValue(Promise.resolve());
       spyOn(component, 'disableMenuSwipe').and.returnValue(Promise.resolve());
       spyOn(appConfigProvider, 'initialiseAppConfig').and.returnValue(Promise.resolve());
+      spyOn(deviceProvider, 'disableSingleAppMode');
     });
     it('should run app initialisation code', fakeAsync(() => {
       component.ngOnInit();
