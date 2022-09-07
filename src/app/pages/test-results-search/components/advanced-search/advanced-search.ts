@@ -84,41 +84,42 @@ export class AdvancedSearchComponent {
   minStartDate = moment().subtract(2, 'years').format('YYYY-MM-DD');
   minStartDatePlaceholder = moment().subtract(2, 'years').format('DD/MM/YYYY');
 
-  customStartDateOptions = {
-    buttons: [
-      { text: 'Clear', handler: () => this.startDate = '' },
-      {
-        text: 'Done',
-        handler: ({ year, month, day }) => {
-          const selectedDate: string = `${year.text}-${month.text}-${day.text}`;
-
-          if (selectedDate && this.endDate && moment(selectedDate).isSameOrAfter(this.endDate)) {
-            this.startDate = this.endDate;
-            return;
-          }
-          this.startDate = selectedDate;
-        },
-      }],
-  };
-
-  customEndDateOptions = {
-    buttons: [{
-      text: 'Clear',
-      handler: () => this.endDate = '',
-    },
-    {
-      text: 'Done',
-      handler: ({ year, month, day }) => {
-        const selectedDate: string = `${year.text}-${month.text}-${day.text}`;
-
-        if (selectedDate && this.startDate && moment(selectedDate).isSameOrBefore(this.startDate)) {
-          this.endDate = this.startDate;
-          return;
-        }
-        this.endDate = selectedDate;
-      },
-    }],
-  };
+  // @TODO: Refactor
+  // customStartDateOptions = {
+  //   buttons: [
+  //     { text: 'Clear', handler: () => this.startDate = '' },
+  //     {
+  //       text: 'Done',
+  //       handler: ({ year, month, day }) => {
+  //         const selectedDate: string = `${year.text}-${month.text}-${day.text}`;
+  //
+  //         if (selectedDate && this.endDate && moment(selectedDate).isSameOrAfter(this.endDate)) {
+  //           this.startDate = this.endDate;
+  //           return;
+  //         }
+  //         this.startDate = selectedDate;
+  //       },
+  //     }],
+  // };
+  //
+  // customEndDateOptions = {
+  //   buttons: [{
+  //     text: 'Clear',
+  //     handler: () => this.endDate = '',
+  //   },
+  //   {
+  //     text: 'Done',
+  //     handler: ({ year, month, day }) => {
+  //       const selectedDate: string = `${year.text}-${month.text}-${day.text}`;
+  //
+  //       if (selectedDate && this.startDate && moment(selectedDate).isSameOrBefore(this.startDate)) {
+  //         this.endDate = this.startDate;
+  //         return;
+  //       }
+  //       this.endDate = selectedDate;
+  //     },
+  //   }],
+  // };
 
   upperCaseAlphaNum(event: any): void {
     if (typeof event.target.value !== 'string') return;
