@@ -35,6 +35,7 @@ import {
 import {
   SafetyQuestionsCatDComponent,
 } from '@pages/test-report/cat-d/components/safety-questions/safety-questions.cat-d';
+import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
@@ -67,6 +68,7 @@ describe('TestReportCatDPage', () => {
         MockComponent(PcvDoorExerciseComponent),
         MockComponent(MultiLegalRequirementComponent),
         MockComponent(SafetyQuestionsCatDComponent),
+        MockComponent(UncoupleRecoupleComponent),
       ],
       imports: [
         IonicModule,

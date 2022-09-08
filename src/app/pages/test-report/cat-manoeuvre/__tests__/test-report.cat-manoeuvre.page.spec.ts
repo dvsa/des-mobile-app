@@ -33,6 +33,7 @@ import { ToastControllerMock } from '@mocks/ionic-mocks/toast-controller.mock';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { StoreModel } from '@shared/models/store.model';
 import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { EtaComponent } from '@pages/test-report/components/examiner-takes-action/eta';
 import { testReportReducer } from '../../test-report.reducer';
 import { TestReportCatManoeuvrePage } from '../test-report.cat-manoeuvre.page';
 
@@ -50,6 +51,7 @@ describe('TestReportCatManoeuvrePage', () => {
         MockComponent(ToolbarComponent),
         MockComponent(UncoupleRecoupleComponent),
         MockComponent(ReverseManoeuvreComponent),
+        MockComponent(EtaComponent),
       ],
       imports: [
         AppModule,
