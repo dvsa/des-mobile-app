@@ -13,3 +13,4 @@
 /src/assets/*
 /build
 /config
+/.angular/cache

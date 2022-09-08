@@ -7,6 +7,7 @@ import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-
 import * as moment from 'moment';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
+import { IonDatetime } from '@ionic/angular';
 
 @Component({
   selector: 'advanced-search',
@@ -84,43 +85,6 @@ export class AdvancedSearchComponent {
   minStartDate = moment().subtract(2, 'years').format('YYYY-MM-DD');
   minStartDatePlaceholder = moment().subtract(2, 'years').format('DD/MM/YYYY');
 
-  // @TODO: Refactor
-  // customStartDateOptions = {
-  //   buttons: [
-  //     { text: 'Clear', handler: () => this.startDate = '' },
-  //     {
-  //       text: 'Done',
-  //       handler: ({ year, month, day }) => {
-  //         const selectedDate: string = `${year.text}-${month.text}-${day.text}`;
-  //
-  //         if (selectedDate && this.endDate && moment(selectedDate).isSameOrAfter(this.endDate)) {
-  //           this.startDate = this.endDate;
-  //           return;
-  //         }
-  //         this.startDate = selectedDate;
-  //       },
-  //     }],
-  // };
-  //
-  // customEndDateOptions = {
-  //   buttons: [{
-  //     text: 'Clear',
-  //     handler: () => this.endDate = '',
-  //   },
-  //   {
-  //     text: 'Done',
-  //     handler: ({ year, month, day }) => {
-  //       const selectedDate: string = `${year.text}-${month.text}-${day.text}`;
-  //
-  //       if (selectedDate && this.startDate && moment(selectedDate).isSameOrBefore(this.startDate)) {
-  //         this.endDate = this.startDate;
-  //         return;
-  //       }
-  //       this.endDate = selectedDate;
-  //     },
-  //   }],
-  // };
-
   upperCaseAlphaNum(event: any): void {
     if (typeof event.target.value !== 'string') return;
 
@@ -154,4 +118,44 @@ export class AdvancedSearchComponent {
   setFocus(focus: string): void {
     this.focusedElement = focus;
   }
+
+  handleClear = (dateTime: IonDatetime, startEnd: 'start' | 'end'): Promise<void> => {
+    if (startEnd === 'start') {
+      this.startDate = '';
+    } else {
+      this.endDate = '';
+    }
+    return dateTime.cancel(true);
+  };
+
+  handleDone = (dateTime: IonDatetime, startEnd: 'start' | 'end'): Promise<void> => {
+    return dateTime.confirm(false)
+      .then(
+        () => {
+          // if date not set, then close the modal on done click as fail safe before handling the data;
+          if (!dateTime.value) {
+            return dateTime.confirm(true);
+          }
+
+          const selectedDate: string = moment(dateTime.value).format('YYYY-MM-DD');
+
+          // start picker
+          if (startEnd === 'start') {
+            if (selectedDate && this.endDate && moment(selectedDate).isSameOrAfter(this.endDate)) {
+              this.startDate = this.endDate;
+            } else {
+              this.startDate = selectedDate;
+            }
+            return;
+          }
+
+          // end picker
+          if (selectedDate && this.startDate && moment(selectedDate).isSameOrBefore(this.startDate)) {
+            this.endDate = this.startDate;
+          } else {
+            this.endDate = selectedDate;
+          }
+        },
+      ).finally(() => dateTime.confirm(true));
+  };
 }

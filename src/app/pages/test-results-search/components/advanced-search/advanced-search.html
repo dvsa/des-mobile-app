@@ -77,37 +77,47 @@
             <label id="advanced-search-date-range-label">Date range</label>
         </ion-col>
         <ion-col size="32">
-            <ion-datetime
-                    id="advanced-search-start-date-picker"
-                    displayFormat="DD/MM/YYYY"
-                    class="black-text"
-                    clearText="Clear"
-                    doneText="Done"
-                    presentation="date"
-                    [showClearButton]="true"
-                    [min]="minStartDate"
-                    [max]="endDate ? endDate : today"
-                    [(ngModel)]="startDate"
-                    [preferWheel]="true">
-            </ion-datetime>
+            <ion-datetime-button datetime="datetime-from"></ion-datetime-button>
+            <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
+                <ng-template>
+                    <ion-datetime
+                      #datetimeFrom
+                      presentation="date"
+                      id="datetime-from"
+                      [min]="minStartDate"
+                      [max]="endDate ? endDate : today"
+                      [value]="startDate"
+                      [(ngModel)]="minStartDate">
+                        <ion-buttons slot="buttons">
+                            <ion-button color="primary" (click)="handleClear(datetimeFrom, 'start')">Clear</ion-button>
+                            <ion-button color="primary" (click)="handleDone(datetimeFrom, 'start')">Done</ion-button>
+                        </ion-buttons>
+                    </ion-datetime>
+                </ng-template>
+            </ion-modal>
         </ion-col>
         <ion-col class="ion-text-center" size="9">
             <label class="to-label" id="to-label">to</label>
         </ion-col>
         <ion-col size="32">
-            <ion-datetime
-                    id="advanced-search-end-date-picker"
-                    class="black-text"
-                    displayFormat="DD/MM/YYYY"
-                    clearText="Clear"
-                    doneText="Done"
-                    presentation="date"
-                    [showClearButton]="true"
-                    [min]="startDate ? startDate : minStartDate"
-                    [max]="today"
-                    [(ngModel)]="endDate"
-                    [preferWheel]="true">
-            </ion-datetime>
+            <ion-datetime-button datetime="datetime-to"></ion-datetime-button>
+            <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
+                <ng-template>
+                    <ion-datetime
+                      #datetimeTo
+                      presentation="date"
+                      id="datetime-to"
+                      [min]="startDate ? startDate : minStartDate"
+                      [max]="today"
+                      [value]="endDate"
+                      [(ngModel)]="today">
+                        <ion-buttons slot="buttons">
+                            <ion-button color="primary" (click)="handleClear(datetimeTo, 'end')">Clear</ion-button>
+                            <ion-button color="primary" (click)="handleDone(datetimeTo, 'end')">Done</ion-button>
+                        </ion-buttons>
+                    </ion-datetime>
+                </ng-template>
+            </ion-modal>
         </ion-col>
     </ion-row>
     <ion-row>
