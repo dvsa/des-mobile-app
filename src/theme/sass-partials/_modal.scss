@@ -16,17 +16,11 @@
 .mes-modal-alert {
   --background: none;
 
-  .modal-wrapper {
-    --height: 100%;
-    top: initial;
-    left: initial;
-    --background: none;
-    .ion-page {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
+  .ion-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
 
