@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
+    "vulnerability-check": "snyk test --severity-threshold=high",
     "postinstall": "node buildScripts/eslint-alloc-patch.js",
     "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch",
     "test:reload": "run-s update-mock-data copy-mock-data config:dev && ng test --watch",
@@ -49,11 +50,10 @@
     "@angular/platform-browser": "~13.3.11",
     "@angular/platform-browser-dynamic": "~13.3.11",
     "@angular/router": "~13.3.11",
-    "@capacitor/cli": "^3.4.1",
-    "@capacitor/core": "^3.4.1",
-    "@capacitor/ios": "^3.4.1",
-    "@capacitor/splash-screen": "^1.2.0",
-    "@capacitor/status-bar": "^1.0.6",
+    "@capacitor/core": "^4.0.0",
+    "@capacitor/ios": "^4.0.0",
+    "@capacitor/splash-screen": "^4.0.0",
+    "@capacitor/status-bar": "^4.0.0",
     "@dvsa/mes-config-schema": "^1.2.1",
     "@dvsa/mes-journal-schema": "1.2.1",
     "@dvsa/mes-search-schema": "1.1.4",
@@ -121,6 +121,7 @@
     "@angular/compiler": "~13.3.11",
     "@angular/compiler-cli": "~13.3.11",
     "@angular/language-service": "~13.3.11",
+    "@capacitor/cli": "^4.0.0",
     "@ionic-native-mocks/app-version": "^2.0.12",
     "@ionic-native-mocks/device": "^2.0.12",
     "@ionic-native-mocks/is-debug": "^2.0.12",
@@ -177,11 +178,5 @@
     "platforms": [
       "ios"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "snyk test && npm run lint",
-      "pre-push": "run-s test gitSecrets"
-    }
   }
 }

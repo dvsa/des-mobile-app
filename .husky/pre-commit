@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-snyk test && npm run lint
+npm run vulnerability-check && npm run lint
