@@ -4,17 +4,7 @@ version: v1.25.0
 ignore:
   SNYK-JS-ANSIREGEX-1583908:
     - '*':
-        reason: Remediation not yet available
-        expires: 2022-09-07T09:01:15.119Z
+        reason: Remediation not yet available - https://github.com/getsentry/sentry-capacitor/issues/211
+        expires: 2022-11-07T09:01:15.119Z
         created: 2022-08-08T09:01:15.122Z
-  SNYK-JS-PROMPTS-1729737:
-    - '*':
-        reason: Remediation not yet available
-        expires: 2022-09-07T09:02:22.124Z
-        created: 2022-08-08T09:02:22.131Z
-  SNYK-JS-SIMPLEPLIST-2413671:
-    - '*':
-        reason: Remediation not yet available
-        expires: 2022-09-07T09:03:18.959Z
-        created: 2022-08-08T09:03:18.968Z
 patch: {}
