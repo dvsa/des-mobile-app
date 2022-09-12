@@ -46,6 +46,7 @@
 @import "./theme/sass-partials/typography";
 @import "./theme/sass-partials/validation";
 @import "./theme/sass-partials/images";
+@import "./theme/sass-partials/datetime";
 
 .no-results {
   margin-top: 24px;
@@ -85,4 +86,3 @@
     letter-spacing: -0.49px;
   }
 }
-

@@ -6,6 +6,7 @@ import {
   isValidStartDate,
   PRESS_TIME_TO_ENABLE_EDIT,
 } from '@shared/helpers/test-start-time';
+import { IonDatetime } from '@ionic/angular';
 
 @Component({
   selector: 'date-of-test',
@@ -40,31 +41,36 @@ export class DateOfTest implements OnInit {
     this.minDate = moment().subtract(1, 'years').format('YYYY-MM-DD');
   }
 
-  datePickerChange() {
-    const currentDate = moment().format('YYYY-MM-DD');
-
-    if (!isValidStartDate(this.customTestDate, currentDate)) {
-      this.isInvalid = true;
-      this.setIsValidStartDateTime.emit(false);
-      return;
-    }
-
-    this.isInvalid = false;
-
-    const formattedCustomTestDate = moment(this.customTestDate).format('YYYY-MM-DD');
-    const formattedDateOfTest = moment(this.dateOfTest, 'DD/MM/YYYY').format('YYYY-MM-DD');
-
-    if (formattedCustomTestDate === currentDate || formattedDateOfTest === formattedCustomTestDate) {
-      return;
-    }
-
-    this.setIsValidStartDateTime.emit(true);
-    this.dateOfTestChange.emit(formattedCustomTestDate);
-    this.disableEdit();
+  handleCancel(dateTime: IonDatetime): Promise<void> {
+    return dateTime.cancel(true).then(
+      () => { this.disableEdit(); },
+    );
   }
 
-  datePickerCancel() {
-    this.disableEdit();
+  handleDone(dateTime: IonDatetime): Promise<void> {
+    return dateTime.confirm(false).then(
+      () => {
+        // if date not set, then close the modal on done click as fail safe before handling the data;
+        if (!dateTime.value) {
+          return dateTime.confirm(true);
+        }
+
+        const currentDate: string = moment().format('YYYY-MM-DD');
+        const selectedDate: string = moment(dateTime.value).format('YYYY-MM-DD');
+
+        if (!isValidStartDate(selectedDate, currentDate)) {
+          this.isInvalid = true;
+          this.setIsValidStartDateTime.emit(false);
+          return;
+        }
+
+        this.isInvalid = false;
+        this.customTestDate = dateTime.value as string;
+        this.setIsValidStartDateTime.emit(true);
+        this.dateOfTestChange.emit(this.customTestDate);
+        this.disableEdit();
+      },
+    ).finally(() => dateTime.confirm(true));
   }
 
   onTouchStart() {
