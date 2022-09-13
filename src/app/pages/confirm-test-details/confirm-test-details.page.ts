@@ -127,7 +127,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     public adi3AssessmentProvider: ADI3AssessmentProvider,
     private modalController: ModalController,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, false);
   }
 
   ngOnInit(): void {
