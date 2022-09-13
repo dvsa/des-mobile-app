@@ -55,6 +55,7 @@ import {
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { Inject } from '@angular/core';
 
 export interface CommonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -83,8 +84,9 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
     authenticationProvider: AuthenticationProvider,
     router: Router,
     store$: Store<StoreModel>,
+    @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, loginRequired);
   }
 
   onInitialisation(): void {

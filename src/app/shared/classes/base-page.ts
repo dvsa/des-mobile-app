@@ -24,14 +24,16 @@ export abstract class BasePageComponent {
    //
    */
   ionViewWillEnter() {
-    if (this.loginRequired && this.isIos()) {
+    if (this.isIos()) {
       // evaluate network status before trying to interact with auth connect methods;
       this.authenticationProvider.determineAuthenticationMode();
-      this.authenticationProvider.hasValidToken().then(async (hasValidToken) => {
-        if (!hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
-          await this.router.navigate([LOGIN_PAGE]);
-        }
-      });
+      this.authenticationProvider
+        .hasValidToken()
+        .then(async (hasValidToken) => {
+          if (this.loginRequired && !hasValidToken && !this.authenticationProvider.isInUnAuthenticatedMode()) {
+            await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
+          }
+        });
     }
   }
 
@@ -39,7 +41,7 @@ export abstract class BasePageComponent {
     return this.platform.is('cordova');
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     if (this.isIos()) {
       try {
         await this.authenticationProvider.logout();
@@ -47,6 +49,7 @@ export abstract class BasePageComponent {
         this.authenticationProvider.onLogoutError(error);
       } finally {
         const navigationExtras: NavigationExtras = {
+          replaceUrl: true,
           state: {
             hasLoggedOut: true,
           },

@@ -91,7 +91,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     public modalController: ModalController,
     public routeByCat: RouteByCategoryProvider,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, false);
     this.formGroup = new FormGroup({});
   }
 

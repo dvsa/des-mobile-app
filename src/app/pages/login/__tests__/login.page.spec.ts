@@ -30,6 +30,8 @@ import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
 import { AlertControllerMock } from '@mocks/ionic-mocks/alert-controller.mock';
 import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
 
@@ -74,6 +76,7 @@ describe('LoginPage', () => {
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
         provideMockStore({ ...{} }),
       ],
     });
