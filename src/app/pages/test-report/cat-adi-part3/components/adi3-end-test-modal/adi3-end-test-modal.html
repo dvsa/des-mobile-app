@@ -44,16 +44,14 @@
     [score]="0"
     [isPass]="!!feedback">
   </modal-result-item>
-  <ion-row>
-      <ion-col>
-        <p class="ion-padding ion-justify-content-center" *ngIf="!isValidDashboard">Please complete all sections of the test report to continue to debrief</p>
-      </ion-col>
-  </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col size="84">
-      <ion-button *ngIf="!!isValidDashboard || isTestReportPopulated" class="mes-primary-button" (click)="onContinue()">
+      <ion-button *ngIf="!!isValidDashboard || isTestReportPopulated; else missingSections" class="mes-primary-button" (click)="onContinue()">
         <h3>Continue to debrief</h3>
       </ion-button>
+      <ng-template  #missingSections>
+        <p class="ion-padding ion-justify-content-center">Please complete all sections of the test report to continue to debrief</p>
+      </ng-template>
     </ion-col>
   </ion-row>
   <ion-row>
