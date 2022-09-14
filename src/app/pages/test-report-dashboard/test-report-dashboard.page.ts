@@ -145,6 +145,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     this.ngOnInit();
     await super.ionViewWillEnter();
     this.setupSubscription();
+    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
   }
 
   ionViewDidLeave(): void {
