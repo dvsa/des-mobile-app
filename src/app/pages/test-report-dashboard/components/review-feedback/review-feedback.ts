@@ -39,7 +39,7 @@ export class ReviewFeedback {
   };
 
   get invalid(): boolean {
-    return !this.formControl.valid;
+    return !this.formControl.valid && this.formControl.dirty;
   }
 
   characterCountChanged(charactersRemaining: number) {
