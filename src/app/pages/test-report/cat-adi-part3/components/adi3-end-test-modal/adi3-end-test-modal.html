@@ -15,7 +15,7 @@
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="adi3AssessmentProvider.countCompletedQuestions(testData.riskManagement) > 0"
+    [showIcon]="false"
     [testState]="adi3AssessmentProvider.countCompletedQuestions(testData.riskManagement)"
     [label]="'Risk management'"
     [score]="testData.riskManagement.score"
@@ -30,7 +30,7 @@
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="testState > 0"
+    [showIcon]="false"
     [testState]="testState"
     [label]="'Overall score'"
     [score]="totalScore"
@@ -38,7 +38,7 @@
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="true"
+    [showIcon]="false"
     [showScore]="false"
     [label]="'Review'"
     [score]="0"
@@ -46,9 +46,12 @@
   </modal-result-item>
   <ion-row class="ion-justify-content-center">
     <ion-col size="84">
-      <ion-button *ngIf="!!isValidDashboard || isTestReportPopulated" class="mes-primary-button" (click)="onContinue()">
+      <ion-button *ngIf="!!isValidDashboard || isTestReportPopulated; else missingSections" class="mes-primary-button" (click)="onContinue()">
         <h3>Continue to debrief</h3>
       </ion-button>
+      <ng-template  #missingSections>
+        <p class="ion-padding ion-justify-content-center">Please complete all sections of the test report to continue to debrief</p>
+      </ng-template>
     </ion-col>
   </ion-row>
   <ion-row>
