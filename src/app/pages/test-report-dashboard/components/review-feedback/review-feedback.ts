@@ -31,7 +31,6 @@ export class ReviewFeedback {
     this.form.get('feedback').setValidators([Validators.required, Validators.maxLength(950)]);
 
     this.formControl.patchValue(this.feedback);
-    // this.formControl.markAsDirty();
   }
 
   feedbackChanged = (feedback: string) => {
