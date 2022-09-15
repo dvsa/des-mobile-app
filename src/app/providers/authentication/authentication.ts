@@ -213,21 +213,27 @@ export class AuthenticationProvider {
   }
 
   public async logout(): Promise<void> {
-    if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
-      await this.testPersistenceProvider.clearPersistedTests();
-      await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+    try {
+      if (this.appConfig.getAppConfig()?.logoutClearsTestPersistence) {
+        await this.testPersistenceProvider.clearPersistedTests();
+        await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
+      }
+      this.store$.dispatch(UnloadJournal());
+      this.store$.dispatch(UnloadTests());
+      await this.clearTokens();
+      this.appConfig.shutDownStoreSubscription();
+      this.subscription?.unsubscribe();
+      await this.ionicAuth.logout();
+    } catch (err) {
+      this.onLogoutError(err, 'Authentication provider');
     }
-    this.store$.dispatch(UnloadJournal());
-    this.store$.dispatch(UnloadTests());
-    await this.clearTokens();
-    this.appConfig.shutDownStoreSubscription();
-    this.subscription?.unsubscribe();
-    await this.ionicAuth.logout();
   }
 
-  public onLogoutError = (err: any): void => {
+  public onLogoutError = (err: any, prefix?: string): void => {
+    const basicDesc = 'Logout error';
+    const desc = prefix ? `${prefix} - ${basicDesc}` : basicDesc;
     this.store$.dispatch(SaveLog({
-      payload: this.logHelper.createLog(LogType.ERROR, 'Logout error', err),
+      payload: this.logHelper.createLog(LogType.ERROR, desc, err),
     }));
   };
 

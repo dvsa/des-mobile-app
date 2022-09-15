@@ -128,6 +128,7 @@ import {
 import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { Inject } from '@angular/core';
 
 export interface CommonOfficePageState {
   activityCode$: Observable<ActivityCodeModel>;
@@ -204,8 +205,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     public weatherConditionProvider: WeatherConditionProvider,
     public faultSummaryProvider: FaultSummaryProvider,
     public faultCountProvider: FaultCountProvider,
+    @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, loginRequired);
     this.form = new FormGroup({});
     this.activityCodeOptions = activityCodeModelList;
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();

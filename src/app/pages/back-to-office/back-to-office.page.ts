@@ -62,7 +62,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     public deviceProvider: DeviceProvider,
     public modalController: ModalController,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, false);
   }
 
   async ngOnInit(): Promise<void> {

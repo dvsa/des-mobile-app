@@ -71,6 +71,7 @@ import {
   InterpreterAccompanimentToggledCPC,
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
+import { Inject } from '@angular/core';
 
 export interface CommonWaitingRoomToCarPageState {
   candidateName$: Observable<string>;
@@ -112,8 +113,9 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     store$: Store<StoreModel>,
     protected routeByCategoryProvider: RouteByCategoryProvider,
     public alertController: AlertController,
+    @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, loginRequired);
   }
 
   onInitialisation(): void {

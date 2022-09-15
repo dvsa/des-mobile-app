@@ -22,7 +22,7 @@ export class PostDebriefHoldingPage extends PracticeableBasePageComponent implem
     store$: Store<StoreModel>,
     public routeByCat: RouteByCategoryProvider,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, false);
   }
 
   ngOnInit(): void {

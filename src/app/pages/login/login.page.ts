@@ -25,6 +25,7 @@ import { StartSendingCompletedTests, LoadPersistedTests } from '@store/tests/tes
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Subscription } from 'rxjs';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -53,20 +54,21 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     private logHelper: LogHelper,
     private analytics: AnalyticsProvider,
     public deviceProvider: DeviceProvider,
+    public networkStateProvider: NetworkStateProvider,
   ) {
     super(platform, authenticationProvider, alertController, router);
   }
 
   async ngOnInit() {
-    this.queryParamSub = this.route.queryParams.subscribe(async () => {
-      if (this.router.getCurrentNavigation()?.extras.state) {
-        this.hasUserLoggedOut = this.router.getCurrentNavigation().extras.state.hasLoggedOut;
+    if (this.router.getCurrentNavigation()?.extras.state) {
+      this.hasUserLoggedOut = !!(this.router.getCurrentNavigation().extras.state.hasLoggedOut);
 
-        if (this.hasUserLoggedOut) {
-          await this.closeSideMenuIfOpen();
-        }
+      if (this.hasUserLoggedOut) {
+        await this.closeSideMenuIfOpen();
       }
-    });
+    }
+
+    this.networkStateProvider.initialiseNetworkState();
 
     // Trigger Authentication if ios device
     if (!this.hasUserLoggedOut && this.isIos()) {
@@ -78,6 +80,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
       await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }
+  }
+
+  async ionViewDidEnter(): Promise<void> {
+    await this.deviceProvider.disableSingleAppMode();
   }
 
   ionViewDidLeave(): void {

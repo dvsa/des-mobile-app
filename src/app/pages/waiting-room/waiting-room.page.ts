@@ -110,7 +110,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private modalController: ModalController,
     private app: AppComponent,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, false);
     this.formGroup = new FormGroup({});
   }
 
