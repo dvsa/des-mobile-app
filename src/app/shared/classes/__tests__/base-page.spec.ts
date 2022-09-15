@@ -74,7 +74,6 @@ describe('Base Page', () => {
       expect(router.navigate).not.toHaveBeenCalled();
       flushMicrotasks();
     }));
-    // tslint:disable-next-line:max-line-length
     it('should not allow access if user is not authd, auth is required and is ios', fakeAsync(() => {
       basePageComponent.isIos = jasmine.createSpy().and.returnValue(true);
       authenticationProvider.hasValidToken = jasmine.createSpy('authenticationProvider.hasValidToken')
@@ -86,7 +85,7 @@ describe('Base Page', () => {
       basePageComponent.loginRequired = true;
       basePageComponent.ionViewWillEnter();
       flushMicrotasks();
-      expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE]);
+      expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], { replaceUrl: true });
     }));
 
   });

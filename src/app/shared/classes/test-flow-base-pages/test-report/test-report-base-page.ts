@@ -76,6 +76,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import {
   SpecialLegalRequirementModal,
 } from '@pages/test-report/components/special-legal-requirement-modal/special-legal-requirement-modal';
+import { Inject } from '@angular/core';
 
 export interface CommonTestReportPageState {
   candidateUntitledName$: Observable<string>;
@@ -122,8 +123,9 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     protected routeByCategory: RouteByCategoryProvider,
+    @Inject(false) public loginRequired: boolean = false,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, loginRequired);
   }
 
   getCallback(): OverlayCallback {

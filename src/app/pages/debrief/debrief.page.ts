@@ -138,7 +138,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
     protected routeByCategoryProvider: RouteByCategoryProvider,
     private testDataByCategoryProvider : TestDataByCategoryProvider,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, false);
   }
 
   ngOnInit(): void {

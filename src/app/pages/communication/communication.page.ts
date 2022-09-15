@@ -94,7 +94,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
   ) {
-    super(platform, authenticationProvider, router, store$);
+    super(platform, authenticationProvider, router, store$, false);
     this.form = new FormGroup(this.getFormValidation());
   }
 
