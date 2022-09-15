@@ -404,6 +404,7 @@ describe('TestSlotComponent', () => {
       it('should pass the special needs status to a indicator component', () => {
 
         component.slot.booking.application.specialNeeds = '';
+        component.ngOnChanges();
         fixture.detectChanges();
         const indicatorComponent = fixture.debugElement.query(
           By.directive(MockComponent(IndicatorsComponent)),
@@ -413,12 +414,14 @@ describe('TestSlotComponent', () => {
       });
 
       it('should pass something to sub-component time input', () => {
+        component.ngOnChanges();
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(By.directive(MockComponent(TimeComponent))).componentInstance;
         expect(subByDirective.time).toBe(startTime);
       });
 
       it('should pass something to sub-component candidate input', () => {
+        component.ngOnChanges();
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(CandidateLinkComponent)),
@@ -429,6 +432,7 @@ describe('TestSlotComponent', () => {
       });
 
       it('should pass something to sub-component test-category input', () => {
+        component.ngOnChanges();
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(TestCategoryComponent)),
@@ -437,6 +441,7 @@ describe('TestSlotComponent', () => {
       });
 
       it('should pass something to sub-component test-outcome input', () => {
+        component.ngOnChanges();
         fixture.detectChanges();
         component.componentState = {
           testStatus$: of(TestStatus.Booked),
@@ -455,6 +460,7 @@ describe('TestSlotComponent', () => {
       });
 
       it('should pass test status decided to the test-outcome component when the outcome observable changes', () => {
+        component.ngOnChanges();
         fixture.detectChanges();
         store$.dispatch(
           StartTest(mockSlot.slotDetail.slotId, mockSlot.booking.application.testCategory as TestCategory),
@@ -471,6 +477,7 @@ describe('TestSlotComponent', () => {
 
       it('should pass something to sub-component vehicle-details input', () => {
         spyOn(component, 'showVehicleDetails').and.returnValue(true);
+        component.ngOnChanges();
         fixture.detectChanges();
 
         const subByDirective = fixture.debugElement.query(
@@ -486,6 +493,7 @@ describe('TestSlotComponent', () => {
       });
 
       it('should pass something to sub-component language input', () => {
+        component.ngOnChanges();
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(LanguageComponent)),
@@ -494,6 +502,7 @@ describe('TestSlotComponent', () => {
       });
 
       it('should pass something to sub-component location input', () => {
+        component.ngOnChanges();
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(LocationComponent)),
