@@ -26,7 +26,7 @@
                      [activityCodeOptions]="activityCodeOptions"
                      [isAdi3]="pageState.showADI3Field$ | async"
                      (activityCodeChange)="activityCodeChanged($event)"
-                     [disabled]="(pageState.immediateDanger$ | async) ? true : false">
+                     [disabled]="!!(pageState.immediateDanger$ | async)">
       </activity-code>
 
       <div class="ion-no-padding" [hidden]="!(pageState.isTestOutcomeSet$ | async)">
