@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { get, isNil } from 'lodash';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { select, Store } from '@ngrx/store';
@@ -43,7 +43,7 @@ interface TestSlotComponentState {
   templateUrl: 'test-slot.html',
   styleUrls: ['test-slot.scss'],
 })
-export class TestSlotComponent implements SlotComponent, OnInit {
+export class TestSlotComponent implements SlotComponent, OnChanges {
   @Input()
   slot: TestSlot;
 
@@ -86,9 +86,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     public store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
-  ) { }
+  ) {
+  }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     const { slotId } = this.slot.slotDetail;
     this.componentState = {
       testStatus$: this.store$.pipe(
