@@ -83,7 +83,9 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   async ionViewDidEnter(): Promise<void> {
-    await this.deviceProvider.disableSingleAppMode();
+    if (this.platform.is('cordova')) {
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   ionViewDidLeave(): void {
