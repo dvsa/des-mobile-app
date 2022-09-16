@@ -110,6 +110,7 @@ describe('Base Page', () => {
       expect(authenticationProvider.logout).toHaveBeenCalledTimes(1);
       expect(router.navigate).toHaveBeenCalledTimes(1);
       expect(router.navigate).toHaveBeenCalledWith([LOGIN_PAGE], {
+        replaceUrl: true,
         state: {
           hasLoggedOut: true,
         },
