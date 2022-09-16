@@ -5,7 +5,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { IndicatorsComponent } from '../indicators';
 
-xdescribe('IndicatorsComponent', () => {
+describe('IndicatorsComponent', () => {
   let component: IndicatorsComponent;
   let fixture: ComponentFixture<IndicatorsComponent>;
 
@@ -59,6 +59,37 @@ xdescribe('IndicatorsComponent', () => {
         fixture.detectChanges();
         const renderedImages = fixture.debugElement.queryAll(By.css('.green-tick-indicator'));
         expect(renderedImages.length).toBe(0);
+      });
+    });
+  });
+
+  describe('Class', () => {
+    describe('shouldShowExclamationIndicator', () => {
+      it('should render when visibility is configured', () => {
+        component.showExclamationIndicator = true;
+        component.testStatus = TestStatus.Booked;
+        expect(component.shouldShowExclamationIndicator()).toEqual(true);
+      });
+      it('should not be rendered when visibility is turned off', () => {
+        component.showExclamationIndicator = false;
+        component.testStatus = TestStatus.Booked;
+        expect(component.shouldShowExclamationIndicator()).toEqual(false);
+      });
+      it('should not be rendered when test status is submitted', () => {
+        component.showExclamationIndicator = false;
+        component.testStatus = TestStatus.Submitted;
+        expect(component.shouldShowExclamationIndicator()).toEqual(false);
+      });
+    });
+    describe('shouldShowGreenTickIndicator', () => {
+      it('should be rendered when test status is submitted', () => {
+        component.testStatus = TestStatus.Submitted;
+        expect(component.shouldShowGreenTickIndicator()).toEqual(true);
+
+      });
+      it('should not rendered when test status is not submitted', () => {
+        component.testStatus = TestStatus.Booked;
+        expect(component.shouldShowGreenTickIndicator()).toEqual(false);
       });
     });
   });
