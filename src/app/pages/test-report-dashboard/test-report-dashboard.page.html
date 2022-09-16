@@ -24,7 +24,7 @@
     <dashboard-item
             (click)="navigateToPage('lessonTheme')"
             [title]="'Lesson & Theme'"
-            [isInvalid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === false"
+            [isInvalid]="(invalidFlag || lessonAndThemeState.score > 0) && lessonAndThemeState?.valid === false"
             [isValid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === true"
             [showCompleted]="lessonAndThemeState?.score > 0 || (!!testDataADI3.lessonAndTheme.other && !isEmpty(testDataADI3.lessonAndTheme.other))"
             [score]="lessonAndThemeState?.score"
@@ -34,7 +34,7 @@
     <dashboard-item
             (click)="navigateToPage('testReport')"
             [title]="'Test Report'"
-            [isInvalid]="testReportState > 0 && testReportState < 17"
+            [isInvalid]="(invalidFlag || testReportState > 0) && testReportState < 17"
             [isValid]="testReportState === 17"
             [showCompleted]="testReportState > 0"
             [score]="testReportState"

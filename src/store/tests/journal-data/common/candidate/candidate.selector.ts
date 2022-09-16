@@ -1,11 +1,17 @@
 import { Candidate } from '@dvsa/mes-test-schema/categories/common';
 
 export const getCandidateName = (candidate: Candidate): string => {
+  if (!candidate.candidateName) {
+    return '';
+  }
   const { title, firstName, lastName } = candidate.candidateName;
   return title ? `${title} ${firstName} ${lastName}` : `${firstName} ${lastName}`;
 };
 
 export const getUntitledCandidateName = (candidate: Candidate): string => {
+  if (!candidate.candidateName) {
+    return '';
+  }
   const { firstName, lastName } = candidate.candidateName;
   return `${firstName} ${lastName}`;
 };

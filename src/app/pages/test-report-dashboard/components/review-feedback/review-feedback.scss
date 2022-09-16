@@ -23,4 +23,8 @@
   .invalid {
     color: var(--gds-red)
   }
+
+  .invalid-border {
+    border: var(--gds-red) 5px solid;
+  }
 }
