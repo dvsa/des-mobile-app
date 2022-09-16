@@ -1,12 +1,18 @@
 <ion-card class="modal-alert">
-    <ion-row class="ion-justify-content-center">
-        <ion-col>
-            <p class="modal-alert-header">
-                At any point did the candidate behave in a way which put you, the pupil, or any third party in immediate
-                danger, so that you had to stop the lesson?
-            </p>
+    <modal-alert-title id="model-title">Public Safety</modal-alert-title>
+    <ion-row>
+        <ion-col class="ion-no-padding" size="15"></ion-col>
+        <ion-col class="ion-no-padding" size="66">
+            <div class="modal-alert-message">
+                <div id='model-text' class="mes-data">
+                    At any point did the candidate behave in a way which put you, the pupil,
+                    or any third party in immediate danger, so that you had to stop the lesson?
+                </div>
+            </div>
         </ion-col>
+        <ion-col class="ion-no-padding" size="15"></ion-col>
     </ion-row>
+
     <ion-row>
         <ion-col class="column-border-top column-border-right ion-no-padding">
             <ion-button fill="clear" class="button-styling" (click)="dismiss(true)">Yes</ion-button>
