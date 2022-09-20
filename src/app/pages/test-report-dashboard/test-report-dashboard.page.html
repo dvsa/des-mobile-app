@@ -26,7 +26,7 @@
             [title]="'Lesson & Theme'"
             [isInvalid]="(hasClickedComplete || lessonAndThemeState?.score > 0) && lessonAndThemeState?.valid === false"
             [isValid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === true"
-            [showCompleted]="lessonAndThemeState?.score > 0 || (!!testDataADI3.lessonAndTheme.other && !isEmpty(testDataADI3.lessonAndTheme.other))"
+            [showCompleted]="lessonAndThemeState?.score > 0 || (!!testDataADI3?.lessonAndTheme?.other && !isEmpty(testDataADI3?.lessonAndTheme?.other))"
             [score]="lessonAndThemeState?.score"
             [maxScore]="2">
     </dashboard-item>

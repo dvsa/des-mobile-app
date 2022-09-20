@@ -73,7 +73,7 @@
     </ng-container>
 
     <question-score *ngIf="page === 'testReport'"
-                    [score]="adi3AssessmentProvider.countScoreIfTouched(testDataADI3)"
+                    [score]="adi3AssessmentProvider.countScoreIfTouched(pageState.adi3TestData$ | async)"
                     [displayPercentage]=false
                     [label]="'Total Score:'">
     </question-score>
