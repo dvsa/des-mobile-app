@@ -3,7 +3,7 @@ import { ModalController, NavController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
   CommonTestReportPageState,
-  TestReportBasePageComponent, trDestroy$,
+  TestReportBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
@@ -13,7 +13,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   LessonPlanning, LessonTheme, RiskManagement, StudentLevel, TeachingLearningStrategies, TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
@@ -46,7 +46,6 @@ import {
   TeachingLearningStrategiesQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
-import { takeUntil } from 'rxjs/operators';
 
 interface CatADI3TestReportPageState {
   studentLevel$: Observable<StudentLevel>;
@@ -55,6 +54,7 @@ interface CatADI3TestReportPageState {
   lessonPlanning$: Observable<LessonPlanning>;
   riskManagement$: Observable<RiskManagement>;
   teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
+  adi3TestData$: Observable<TestData>;
 }
 
 type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageState;
@@ -70,8 +70,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   pageState: TestReportPageState;
   page: 'lessonTheme' | 'testReport' = null;
   showMissing: boolean = false;
-  private localSubscription: Subscription;
-  testDataADI3: TestData;
 
   constructor(
     platform: Platform,
@@ -111,13 +109,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       select(getCurrentTest),
     );
 
-    this.localSubscription = currentTest$.pipe(
-      select(getTestData),
-      takeUntil(trDestroy$),
-    ).subscribe((result: TestData) => {
-      this.testDataADI3 = result;
-    });
-
     this.pageState = {
       ...this.commonPageState,
       studentLevel$: currentTest$.pipe(
@@ -146,6 +137,9 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       teachingLearningStrategies$: currentTest$.pipe(
         select(getTestData),
         select(getTeachingLearningStrategies),
+      ),
+      adi3TestData$: currentTest$.pipe(
+        select(getTestData),
       ),
     };
     this.setupSubscription();
@@ -190,8 +184,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   };
 
   onContinueClick = (): void => {
-    Object.keys(this.form.controls)
-      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.invalid) {
       return;

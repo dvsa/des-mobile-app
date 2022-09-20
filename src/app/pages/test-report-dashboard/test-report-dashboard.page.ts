@@ -1,7 +1,6 @@
 import {
   CommonTestReportPageState,
   TestReportBasePageComponent,
-  trDestroy$,
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { Component, OnInit } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
@@ -14,7 +13,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import { Observable, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '@pages/test-report/test-report.actions';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
@@ -36,7 +35,7 @@ import {
   ImmediateDangerChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { FormGroup } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
 import {
@@ -68,6 +67,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   form: FormGroup;
   feedback: string;
   hasClickedComplete: boolean = false;
+  merged$: Observable<string | void>;
 
   constructor(
     platform: Platform,
@@ -104,22 +104,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       select(getCurrentTest),
     );
 
-    this.localSubscription = currentTest$.pipe(
-      select(getTestData),
-      takeUntil(trDestroy$),
-    )
-      .subscribe((result: TestData) => {
-        this.testDataADI3 = result;
-        this.lessonAndThemeState = this.validateLessonTheme(result?.lessonAndTheme);
-        this.testReportState = this.adi3AssessmentProvider.validateTestReport(
-          result.lessonPlanning,
-          result.riskManagement,
-          result.teachingLearningStrategies,
-        );
-        this.isTestReportPopulated = this.adi3AssessmentProvider.isTestReportPopulated(this.testDataADI3);
-        this.feedback = result?.review?.feedback;
-      });
-
     this.pageState = {
       ...this.commonPageState,
       testDataADI3$: currentTest$.pipe(
@@ -131,6 +115,24 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
         select(getFeedback),
       ),
     };
+
+    const { feedback$, testDataADI3$ } = this.pageState;
+
+    this.merged$ = merge(
+      feedback$.pipe(tap((feedback: string) => this.feedback = feedback)),
+      testDataADI3$.pipe(
+        map((testData: TestData) => {
+          this.testDataADI3 = testData;
+          this.lessonAndThemeState = this.validateLessonTheme(testData.lessonAndTheme);
+          this.isTestReportPopulated = this.adi3AssessmentProvider.isTestReportPopulated(testData);
+          this.testReportState = this.adi3AssessmentProvider.validateTestReport(
+            testData.lessonPlanning,
+            testData.riskManagement,
+            testData.teachingLearningStrategies,
+          );
+        }),
+      ),
+    );
 
     this.setupSubscription();
   }
@@ -146,6 +148,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     this.ngOnInit();
     await super.ionViewWillEnter();
     this.setupSubscription();
+
+    if (this.merged$) {
+      this.localSubscription = this.merged$.subscribe();
+    }
   }
 
   ionViewDidLeave(): void {
@@ -165,15 +171,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     return (!text || text.trim() === '');
   }
 
-  /**
-     * Function to detect if a student level has been selected or a lesson theme has been selected or a message is
-     * present inside the 'other' box, if none of them are present, we know there are 0 points scored, otherwise, we
-     * check to see if they are all present, if they are, we set score to 2, and if not, the section is not complete
-     * yet, so we set score to 1
-     * @param lessonThemes
-     * @param other
-     * @param studentLevel
-     */
   validateLessonTheme({
     lessonThemes,
     other,
@@ -275,10 +272,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   };
 
   get isValidDashboard(): boolean {
-    return (
-      this.testReportState === 17
-            && this.lessonAndThemeState.valid === true
-            && this.form.valid
-    );
+    return this.testReportState === 17 && this.lessonAndThemeState.valid === true && this.form.valid;
   }
 }
