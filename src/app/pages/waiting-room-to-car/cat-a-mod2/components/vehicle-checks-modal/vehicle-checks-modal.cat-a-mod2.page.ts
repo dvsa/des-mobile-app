@@ -65,7 +65,7 @@ export class VehicleChecksCatAMod2Modal {
     public store$: Store<StoreModel>,
     private navController: NavController,
     private faultCountProvider: FaultCountProvider,
-    private modalCtrl: ModalController,
+    public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
   ) {
     this.formGroup = new FormGroup({});

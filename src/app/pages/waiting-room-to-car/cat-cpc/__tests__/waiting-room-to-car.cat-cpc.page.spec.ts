@@ -52,6 +52,7 @@ import { PopulateCombination } from '@store/tests/test-data/cat-cpc/combination/
 import { PopulateQuestions } from '@store/tests/test-data/cat-cpc/questions/questions.action';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
 import { CpcQuestionsMock } from '@providers/cpc-questions/_mocks_/cpc-questions.mock';
+import { Subscription } from 'rxjs';
 import { WaitingRoomToCarCatCPCPage } from '../waiting-room-to-car.cat-cpc.page';
 
 describe('WaitingRoomToCarCatCPCPage', () => {
@@ -154,6 +155,14 @@ describe('WaitingRoomToCarCatCPCPage', () => {
       it('should dispatch the PopulateVehicleConfiguration action', () => {
         component.vehicleConfiguration('Articulated');
         expect(store$.dispatch).toHaveBeenCalledWith(PopulateVehicleConfiguration('Articulated'));
+      });
+    });
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from the subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
     describe('onSubmit', () => {

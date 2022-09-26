@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 
@@ -30,8 +30,45 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
     fixture = TestBed.createComponent(TrainerRegistrationNumberCatAdiPart2Component);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null);
+    component.formControl = new FormControl(null, [Validators.required]);
   }));
+
+  describe('ngOnChanges', () => {
+    it('should have trainerRegistration form control be added to '
+        + 'form if there is no form control already there', () => {
+      component.formControl = null;
+      component.ngOnChanges();
+
+      expect(component.formGroup.controls.trainerRegistration).toBeTruthy();
+    });
+  });
+
+  describe('invalid', () => {
+    it('should return true if the formControl is invalid and dirty', () => {
+      component.formControl.setValue(null);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeTruthy();
+    });
+    it('should return false if the formControl is valid and dirty', () => {
+      component.formControl.setValue(1);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is invalid and clean', () => {
+      component.formControl.setValue(null);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is valid and clean', () => {
+      component.formControl.setValue(1);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+  });
 
   describe('vehicleRegistrationChanged', () => {
     beforeEach(() => {

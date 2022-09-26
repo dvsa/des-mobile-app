@@ -71,7 +71,7 @@ export class VehicleChecksCatCModal {
   showMeQuestions: VehicleChecksQuestion[];
   tellMeQuestions: VehicleChecksQuestion[];
 
-  category : TestCategory;
+  category: TestCategory;
   fullLicenceHeld: boolean = null;
   showMeQuestionsNumberArray: number[];
   tellMeQuestionsNumberArray: number[];
@@ -83,7 +83,7 @@ export class VehicleChecksCatCModal {
   constructor(
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
-    private modalCtrl: ModalController,
+    public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
     params: NavParams,
   ) {
@@ -142,7 +142,11 @@ export class VehicleChecksCatCModal {
       ),
     };
 
-    const { vehicleChecksScore$, vehicleChecks$, fullLicenceHeld$ } = this.pageState;
+    const {
+      vehicleChecksScore$,
+      vehicleChecks$,
+      fullLicenceHeld$,
+    } = this.pageState;
 
     const merged$ = merge(
       vehicleChecksScore$.pipe(map((score) => (this.vehicleChecksScore = score))),
@@ -227,15 +231,15 @@ export class VehicleChecksCatCModal {
   isNonTrailerBanner(): boolean {
     return (
       this.vehicleChecksScore.drivingFaults === 4
-    && this.vehicleChecksScore.seriousFaults === 1
+            && this.vehicleChecksScore.seriousFaults === 1
     );
   }
 
   isTrailerBanner(): boolean {
     return (
       this.vehicleChecksScore.drivingFaults === 1
-      && this.vehicleChecksScore.seriousFaults === 1
-      && isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E])
+            && this.vehicleChecksScore.seriousFaults === 1
+            && isAnyOf(this.category, [TestCategory.CE, TestCategory.C1E])
     );
   }
 
@@ -245,19 +249,19 @@ export class VehicleChecksCatCModal {
     }
     return (
       this.vehicleChecksScore.drivingFaults === (this.fullLicenceHeld ? 1 : 4)
-      && this.vehicleChecksScore.seriousFaults === 1
+            && this.vehicleChecksScore.seriousFaults === 1
     );
   };
 
-  private hasFullLicenceHeldBeenSelected = (
+  hasFullLicenceHeldBeenSelected = (
     fullLicenceHeld: boolean,
   ): string => (fullLicenceHeld === null) ? null : fullLicenceHeld ? 'Y' : 'N';
 
-  private getNumberOfShowMeQuestions = (
+  getNumberOfShowMeQuestions = (
     fullLicenceHeld: boolean,
   ): number => fullLicenceHeld ? NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER : NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER_EXTRA;
 
-  private getNumberOfTellMeQuestions = (
+  getNumberOfTellMeQuestions = (
     fullLicenceHeld: boolean,
   ): number => fullLicenceHeld ? NUMBER_OF_TELL_ME_QUESTIONS_TRAILER : NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA;
 }

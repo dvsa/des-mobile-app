@@ -4,6 +4,7 @@ import { AppModule } from '@app/app.module';
 import { SafetyQuestion } from '@providers/question/safety-question.model';
 import { EventEmitter } from '@angular/core';
 import { configureTestSuite } from 'ng-bullet';
+import { FormControl, FormGroup } from '@angular/forms';
 import { SafetyQuestionComponent } from '../safety-question';
 
 const safetyQuestion: SafetyQuestion = {
@@ -29,6 +30,7 @@ describe('SafetyQuestionComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyQuestionComponent);
     component = fixture.componentInstance;
+    component.formGroup = new FormGroup({});
   }));
 
   describe('Class', () => {
@@ -62,6 +64,43 @@ describe('SafetyQuestionComponent', () => {
         component.questions = [safetyQuestion];
         component.questionResult = { description: 'Bad question' };
         expect(component.findQuestion()).toEqual(undefined);
+      });
+    });
+    describe('ngOnChanges', () => {
+      it('should have safetyQuestionFormControl form control be added to '
+          + 'form if there is no form control already there', () => {
+        component.safetyQuestionFormControl = null;
+        component.ngOnChanges();
+        expect(component.formGroup.controls[component.safetyQuestionFieldName])
+          .toBe(component.safetyQuestionFormControl);
+      });
+      it('should have safetyQuestionFormControl form control be patched with '
+          + 'findQuestion() if questionResult is already valid', () => {
+        spyOn(component, 'findQuestion').and.returnValue({
+          outcome: 'P',
+          description: 'Description',
+        });
+        component.questionResult = {
+          outcome: 'P',
+          description: 'Description',
+        };
+        component.safetyQuestionFormControl = new FormControl();
+        component.ngOnChanges();
+        expect(component.safetyQuestionFormControl.value).toBe(component.findQuestion());
+      });
+      it('should have safetyQuestionOutcomeFormControl form control be patched with '
+          + 'questionResult.outcome if questionResult is already valid', () => {
+        spyOn(component, 'findQuestion').and.returnValue({
+          outcome: 'P',
+          description: 'Description',
+        });
+        component.questionResult = {
+          outcome: 'P',
+          description: 'Description',
+        };
+        component.safetyQuestionOutcomeFormControl = new FormControl();
+        component.ngOnChanges();
+        expect(component.safetyQuestionOutcomeFormControl.value).toBe(component.questionResult.outcome);
       });
     });
   });

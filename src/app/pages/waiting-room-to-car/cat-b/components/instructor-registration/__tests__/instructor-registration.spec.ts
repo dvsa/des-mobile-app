@@ -1,5 +1,7 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl, FormGroup, ReactiveFormsModule, Validators,
+} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { InstructorRegistrationComponent } from '../instructor-registration';
@@ -31,8 +33,45 @@ describe('InstructorRegistrationComponent', () => {
     fixture = TestBed.createComponent(InstructorRegistrationComponent);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null);
+    component.formControl = new FormControl(null, [Validators.required]);
   }));
+
+  describe('ngOnChanges', () => {
+    it('should have instructorRegistration form control be added to '
+        + 'form if there is no form control already there', () => {
+      component.formControl = null;
+      component.ngOnChanges();
+
+      expect(component.formGroup.controls.instructorRegistration).toBeTruthy();
+    });
+  });
+
+  describe('invalid', () => {
+    it('should return true if the formControl is invalid and dirty', () => {
+      component.formControl.setValue(null);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeTruthy();
+    });
+    it('should return false if the formControl is valid and dirty', () => {
+      component.formControl.setValue(1);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is invalid and clean', () => {
+      component.formControl.setValue(null);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is valid and clean', () => {
+      component.formControl.setValue(1);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+  });
 
   describe('vehicleRegistrationChanged', () => {
     beforeEach(() => {

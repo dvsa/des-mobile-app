@@ -23,7 +23,7 @@ export class CombinationComponent {
   @Output()
   combinationChange = new EventEmitter();
 
-  private formControl: FormControl;
+  formControl: FormControl;
 
   static readonly fieldName: string = 'combination';
 

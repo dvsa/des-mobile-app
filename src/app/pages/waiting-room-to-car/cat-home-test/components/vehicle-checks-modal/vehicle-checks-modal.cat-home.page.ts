@@ -62,7 +62,7 @@ export class VehicleChecksCatHomeTestModal {
 
   constructor(
     public store$: Store<StoreModel>,
-    private modalCtrl: ModalController,
+    public modalCtrl: ModalController,
     private faultCountProvider: FaultCountProvider,
     private questionProvider: QuestionProvider,
     params: NavParams,

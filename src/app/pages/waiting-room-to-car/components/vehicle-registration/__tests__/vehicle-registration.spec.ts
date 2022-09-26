@@ -4,13 +4,13 @@ import {
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
+import { AppModule } from '@app/app.module';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
   mockBlankRegistrationNumber,
   mockInvalidRegistrationNumber,
   mockValidRegistrationNumber,
 } from './vehicle-registration.mock';
-import { AppModule } from '../../../../../app.module';
 
 describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
@@ -35,6 +35,43 @@ describe('VehicleRegistrationComponent', () => {
     component.formGroup = new FormGroup({});
     component.formControl = new FormControl(null, [Validators.required]);
   }));
+
+  describe('ngOnChanges', () => {
+    it('should have vehicleRegistration form control be added to '
+        + 'form if there is no form control already there', () => {
+      component.formControl = null;
+      component.ngOnChanges();
+
+      expect(component.formGroup.controls.vehicleRegistration).toBeTruthy();
+    });
+  });
+
+  describe('invalid', () => {
+    it('should return true if the formControl is invalid and dirty', () => {
+      component.formControl.setValue(null);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeTruthy();
+    });
+    it('should return false if the formControl is valid and dirty', () => {
+      component.formControl.setValue(1);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is invalid and clean', () => {
+      component.formControl.setValue(null);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is valid and clean', () => {
+      component.formControl.setValue(1);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+  });
 
   describe('vehicleRegistrationChanged', () => {
     beforeEach(() => {

@@ -49,9 +49,6 @@ import { TransmissionComponent } from '@components/common/transmission/transmiss
 import {
   TrainingRecordsCatAdiPart2Component,
 } from '@pages/waiting-room-to-car/cat-adi-part2/components/training-records/training-records.cat-adi-part2';
-import {
-  OrditTrainerCatAdiPart2Component,
-} from '@pages/waiting-room-to-car/cat-adi-part2/components/ordit-trainer/ordit-trainer.cat-adi-part2';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
   TrainerRegistrationNumberCatAdiPart2Component,
@@ -101,7 +98,7 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         MockComponent(TransmissionComponent),
         MockComponent(TrainingRecordsCatAdiPart2Component),
         MockComponent(TrainerRegistrationNumberCatAdiPart2Component),
-        MockComponent(OrditTrainerCatAdiPart2Component),
+        MockComponent(WaitingRoomToCarCatADIPart2Page),
       ],
       imports: [
         AppModule,
@@ -144,6 +141,14 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
         expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+      });
+    });
+    describe('eyesightFailCancelled', () => {
+      it('should reset eyesight control', () => {
+        const control = new FormControl('value');
+        component.form.addControl('eyesightCtrl', control);
+        component.eyesightFailCancelled();
+        expect(component.form.get('eyesightCtrl').value).toEqual(null);
       });
     });
     describe('onSubmit', () => {

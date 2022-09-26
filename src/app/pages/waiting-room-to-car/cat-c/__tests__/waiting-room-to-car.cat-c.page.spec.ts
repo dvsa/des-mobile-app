@@ -63,6 +63,7 @@ import {
 } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { Subscription } from 'rxjs';
 import { WaitingRoomToCarCatCPage } from '../waiting-room-to-car.cat-c.page';
 
 describe('WaitingRoomToCarCatCPage', () => {
@@ -170,6 +171,14 @@ describe('WaitingRoomToCarCatCPage', () => {
       it('should dispatch the action SetFullLicenceHeld with input', () => {
         component.fullLicenceHeldChange(false);
         expect(store$.dispatch).toHaveBeenCalledWith(SetFullLicenceHeld(false));
+      });
+    });
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from a subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
       });
     });
     describe('showFullLicenceHeld', () => {

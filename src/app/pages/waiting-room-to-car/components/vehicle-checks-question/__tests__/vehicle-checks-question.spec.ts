@@ -5,6 +5,7 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { FormControl, FormGroup } from '@angular/forms';
 import { VehicleChecksQuestionComponent } from '../vehicle-checks-question';
 
 const vehicleChecksQuestion: VehicleChecksQuestion = {
@@ -32,6 +33,7 @@ describe('VehicleChecksQuestionComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksQuestionComponent);
     component = fixture.componentInstance;
+    component.formGroup = new FormGroup({});
   }));
 
   describe('Class', () => {
@@ -59,6 +61,46 @@ describe('VehicleChecksQuestionComponent', () => {
         component.questionsToDisable = [{ code: 'S04' }];
         const result = component.isOptionDisabled({ code: 'S05', description: '', shortName: '' });
         expect(result).toEqual(false);
+      });
+    });
+    describe('ngOnChanges', () => {
+      it('should have questionFormControl form control be added to '
+          + 'form if there is no form control already there', () => {
+        component.questionFormControl = null;
+        component.ngOnChanges();
+        expect(component.formGroup.controls[component.questionFieldName]).toBe(component.questionFormControl);
+      });
+      it('should have questionFormControl form control be patched with '
+          + 'findQuestion() if questionResult is already valid', () => {
+        spyOn(component, 'findQuestion').and.returnValue({
+          shortName: 'shortName',
+          code: 'test',
+          description: 'Description',
+        });
+        component.questionResult = {
+          outcome: 'P',
+          code: 'test',
+          description: 'Description',
+        };
+        component.questionFormControl = new FormControl();
+        component.ngOnChanges();
+        expect(component.questionFormControl.value).toBe(component.findQuestion());
+      });
+      it('should have questionOutcomeFormControl form control be patched with '
+          + 'questionResult.outcome if questionResult is already valid', () => {
+        spyOn(component, 'findQuestion').and.returnValue({
+          shortName: 'shortName',
+          code: 'test',
+          description: 'Description',
+        });
+        component.questionResult = {
+          outcome: 'P',
+          code: 'test',
+          description: 'Description',
+        };
+        component.questionOutcomeFormControl = new FormControl();
+        component.ngOnChanges();
+        expect(component.questionOutcomeFormControl.value).toBe(component.questionResult.outcome);
       });
     });
     describe('vehicleChecksQuestionChanged', () => {
