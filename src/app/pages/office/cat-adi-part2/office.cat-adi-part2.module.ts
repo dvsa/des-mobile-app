@@ -14,6 +14,9 @@ import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import {
   ShowMeQuestionsCatADI2Component,
 } from '@pages/office/cat-adi-part2/components/show-me-questions/show-me-questions';
+import {
+  WaitingRoomToCarComponentsModule,
+} from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 import { OfficeCatADIPart2PageRoutingModule } from './office.cat-adi-part2-routing.module';
 import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-checks/vehicle-checks-office-card';
@@ -36,9 +39,11 @@ import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-ch
       OfficeAnalyticsEffects,
       OfficeEffects,
     ]),
+    WaitingRoomToCarComponentsModule,
   ],
   providers: [
     FaultSummaryProvider,
   ],
 })
-export class OfficeCatADIPart2PageModule {}
+export class OfficeCatADIPart2PageModule {
+}
