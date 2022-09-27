@@ -171,6 +171,7 @@ export function getPageNameByCategoryAndKey(category: TestCategory, pageNameKey:
     case TestCategory.ADI2:
       return CAT_ADI_PART2[pageNameKey];
     case TestCategory.ADI3:
+    case TestCategory.SC:
       return CAT_ADI_PART3[pageNameKey];
     case TestCategory.B:
       return CAT_B[pageNameKey];

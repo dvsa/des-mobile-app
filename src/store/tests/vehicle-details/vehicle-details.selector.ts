@@ -9,6 +9,7 @@ export const isAutomatic = (vehicleDetails: VehicleDetails) => vehicleDetails.ge
 export const showVrnButton = (category: TestCategory): boolean => isAnyOf(category, [
   TestCategory.ADI2,
   TestCategory.ADI3,
+  TestCategory.SC,
   TestCategory.B,
   TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E,
   TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,

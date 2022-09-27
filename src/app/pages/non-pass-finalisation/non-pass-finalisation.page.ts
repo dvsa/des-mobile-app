@@ -21,9 +21,7 @@ import {
   getTestOutcomeText,
   isTestOutcomeSet,
 } from '@store/tests/tests.selector';
-import {
-  filter, map, withLatestFrom,
-} from 'rxjs/operators';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
@@ -46,12 +44,7 @@ import {
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import {
-  D255No,
-  D255Yes,
-  DebriefUnWitnessed,
-  DebriefWitnessed,
-} from '@store/tests/test-summary/test-summary.actions';
+import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
@@ -60,12 +53,13 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
   TestFinalisationInvalidTestDataModal,
-} from
-  '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
+} from '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import {
-  getFurtherDevelopment, getGrade, getImmediateDanger,
+  getFurtherDevelopment,
+  getGrade,
+  getImmediateDanger,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import {
@@ -222,7 +216,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       ),
       furtherDevelopment$: currentTest$.pipe(
         withLatestFrom(category$),
-        filter(([, category]) => category === TestCategory.ADI3),
+        filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getFurtherDevelopment),
@@ -231,7 +225,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(
           withLatestFrom(category$),
-          filter(([, category]) => category === TestCategory.ADI3),
+          filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
           map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
           select(getReview),
           select(getFurtherDevelopment),
@@ -241,7 +235,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       ),
       adviceReason$: currentTest$.pipe(
         withLatestFrom(category$),
-        filter(([, category]) => category === TestCategory.ADI3),
+        filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getReasonForNoAdviceGiven),
@@ -250,7 +244,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         select(getTestOutcome),
         withLatestFrom(currentTest$.pipe(
           withLatestFrom(category$),
-          filter(([, category]) => category === TestCategory.ADI3),
+          filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
           map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
           select(getReview),
           select(getReasonForNoAdviceGiven),
@@ -260,18 +254,18 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       ),
       testOutcomeGrade$: currentTest$.pipe(
         withLatestFrom(category$),
-        filter(([, category]) => category === TestCategory.ADI3),
+        filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getGrade),
       ),
       showADI3Field$: currentTest$.pipe(
         select(getTestCategory),
-        map((category) => isAnyOf(category, [TestCategory.ADI3])),
+        map((category) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
       ),
       immediateDanger$: currentTest$.pipe(
         withLatestFrom(category$),
-        filter(([, category]) => category === TestCategory.ADI3),
+        filter(([, category]) => category === TestCategory.ADI3 || category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getImmediateDanger),
@@ -322,6 +316,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   private get testDataValidationMsg(): string {
     switch (this.testCategory) {
       case TestCategory.ADI3:
+      case TestCategory.SC:
         return 'Code 4 cannot be selected because the PDI has a Risk Management score of more than 7';
       default:
         return 'The level of faults on this practical test does not meet the requirement for code 4 or 5.';
@@ -420,5 +415,9 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       ]);
     }
     return false;
+  };
+
+  isADI3 = (): boolean => {
+    return isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]);
   };
 }

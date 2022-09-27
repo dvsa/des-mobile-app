@@ -17,6 +17,7 @@ export const getBehaviourMapByCategory = (testCategory: TestCategory): OutcomeBe
     case TestCategory.ADI2:
       return CatADI2BehaviourMap;
     case TestCategory.ADI3:
+    case TestCategory.SC:
       return CatADI3BehaviourMap;
     case TestCategory.B:
       return CatBBehaviourMap;

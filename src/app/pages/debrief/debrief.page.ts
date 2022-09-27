@@ -9,20 +9,13 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
-import {
-  filter,
-  map,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { TranslateService } from '@ngx-translate/core';
-import {
-  CategoryCode, Eco, ETA, QuestionResult,
-} from '@dvsa/mes-test-schema/categories/common';
+import { CategoryCode, Eco, ETA, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
@@ -59,7 +52,8 @@ import { getTotalScore } from '@store/tests/test-data/cat-adi-part3/test-data.ca
 import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
 import {
   LessonAndTheme,
-  LessonPlanning, Review,
+  LessonPlanning,
+  Review,
   RiskManagement,
   TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
@@ -382,7 +376,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
   }
 
   showADI3DebriefCard(): boolean {
-    return isAnyOf(this.testCategory, [TestCategory.ADI3]);
+    return isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]);
   }
 
   showVehicleChecksArrayCard(): boolean {

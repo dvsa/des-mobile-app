@@ -27,6 +27,7 @@ export class PrivacyNoticeComponent implements OnInit {
   categorySpecificTestContext(cat: CategoryCode): string {
     switch (cat) {
       case TestCategory.ADI3:
+      case TestCategory.SC:
         return 'ADI';
       case TestCategory.EUA1M1:
       case TestCategory.EUA1M2:

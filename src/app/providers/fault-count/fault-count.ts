@@ -26,7 +26,9 @@ export class FaultCountProvider {
   public getDrivingFaultSumCount = (category: TestCategory, data: object): number => {
     switch (category) {
       case TestCategory.ADI2: return FaultCountADIPart2Helper.getDrivingFaultSumCountCatADIPart2(data);
-      case TestCategory.ADI3: return 0;
+      case TestCategory.ADI3:
+      case TestCategory.SC:
+        return 0;
       case TestCategory.B: return FaultCountBHelper.getDrivingFaultSumCountCatB(data);
       case TestCategory.BE: return FaultCountBEHelper.getDrivingFaultSumCountCatBE(data);
       case TestCategory.C1: return FaultCountCHelper.getDrivingFaultSumCountCatC1(data);
@@ -66,7 +68,9 @@ export class FaultCountProvider {
   public getSeriousFaultSumCount = (category: TestCategory, data: object): number => {
     switch (category) {
       case TestCategory.ADI2: return FaultCountADIPart2Helper.getSeriousFaultSumCountCatADIPart2(data);
-      case TestCategory.ADI3: return 0;
+      case TestCategory.ADI3:
+      case TestCategory.SC:
+        return 0;
       case TestCategory.B: return FaultCountBHelper.getSeriousFaultSumCountCatB(data);
       case TestCategory.BE: return FaultCountBEHelper.getSeriousFaultSumCountCatBE(data);
       case TestCategory.C1: return FaultCountCHelper.getSeriousFaultSumCountCatC1(data);
@@ -106,7 +110,9 @@ export class FaultCountProvider {
   public getDangerousFaultSumCount = (category: TestCategory, data: object): number => {
     switch (category) {
       case TestCategory.ADI2: return FaultCountADIPart2Helper.getDangerousFaultSumCountCatADIPart2(data);
-      case TestCategory.ADI3: return 0;
+      case TestCategory.ADI3:
+      case TestCategory.SC:
+        return 0;
       case TestCategory.B: return FaultCountBHelper.getDangerousFaultSumCountCatB(data);
       case TestCategory.BE: return FaultCountBEHelper.getDangerousFaultSumCountCatBE(data);
       case TestCategory.C1: return FaultCountCHelper.getDangerousFaultSumCountCatC1(data);
