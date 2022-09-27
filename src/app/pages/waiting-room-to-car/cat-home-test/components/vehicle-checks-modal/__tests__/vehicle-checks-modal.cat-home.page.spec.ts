@@ -14,7 +14,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   VehicleChecksCatHomeTestModal,
 } from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
-import { merge, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ComponentsModule } from '@components/common/common-components.module';
 import {
   WaitingRoomToCarComponentsModule,
@@ -25,12 +25,15 @@ import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
   ShowMeQuestionOutcomeChanged,
-  ShowMeQuestionSelected, TellMeQuestionOutcomeChanged, TellMeQuestionSelected,
+  ShowMeQuestionSelected,
+  TellMeQuestionOutcomeChanged,
+  TellMeQuestionSelected,
 } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
-import { map, take } from 'rxjs/operators';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { take } from 'rxjs/operators';
+import { CatFUniqueTypes } from '@dvsa/mes-test-schema/categories/F';
 import { TestsModel } from '@store/tests/tests.model';
 import { StoreModel } from '@shared/models/store.model';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 describe('VehicleChecksCatHomeTestModal', () => {
   let component: VehicleChecksCatHomeTestModal;
@@ -55,7 +58,6 @@ describe('VehicleChecksCatHomeTestModal', () => {
           },
           testData: {
             vehicleChecks: {
-              fullLicenceHeld: false,
               showMeQuestions: [
                 {
                   code: 'Q1',
@@ -71,29 +73,11 @@ describe('VehicleChecksCatHomeTestModal', () => {
                 },
               ],
             },
-            safetyQuestions: {
-              questions: [
-                {
-                  outcome: 'DF',
-                  description: 'Fire Extinguisher',
-                },
-                {
-                  outcome: 'DF',
-                  description: 'Emergency exit',
-                },
-                {
-                  outcome: 'P',
-                  description: 'Fuel cutoff',
-                },
-              ],
-              faultComments: '',
-            },
           },
-        } as CatDUniqueTypes.TestResult,
+        } as CatFUniqueTypes.TestResult,
       },
     } as TestsModel,
   } as StoreModel;
-
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -140,6 +124,7 @@ describe('VehicleChecksCatHomeTestModal', () => {
     fixture = TestBed.createComponent(VehicleChecksCatHomeTestModal);
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});
+    component.category = TestCategory.F;
 
   }));
 
@@ -162,18 +147,8 @@ describe('VehicleChecksCatHomeTestModal', () => {
       describe('ngOnInit', () => {
         it('should merge the correct data into the subscription', () => {
           component.ngOnInit();
-
-          const {
-            vehicleChecksScore$,
-          } = component.pageState;
-
           expect(component.subscription)
-            .toEqual(
-              merge(
-                vehicleChecksScore$.pipe(map((score) => (component.vehicleChecksScore = score))),
-              )
-                .subscribe(),
-            );
+            .toBeDefined();
         });
         it('should resolve state variables', () => {
           component.ngOnInit();

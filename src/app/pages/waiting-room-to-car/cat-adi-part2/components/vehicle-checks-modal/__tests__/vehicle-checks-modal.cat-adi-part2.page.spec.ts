@@ -20,12 +20,13 @@ import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksQuestionComponent,
 } from '@pages/waiting-room-to-car/components/vehicle-checks-question/vehicle-checks-question';
-import { merge, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestsModel } from '@store/tests/tests.model';
 import { provideMockStore } from '@ngrx/store/testing';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { VehicleChecksCatADIPart2Modal } from '../vehicle-checks-modal.cat-adi-part2.page';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-adi-part2.actions';
 
@@ -43,7 +44,19 @@ describe('VehicleChecksCatADIPart2Modal', () => {
       testStatus: {},
       startedTests: {
         123: {
+          version: '1',
+          rekey: false,
+          activityCode: '1',
+          category: TestCategory.CE,
+          changeMarker: null,
+          examinerBooked: null,
+          examinerConducted: null,
+          examinerKeyed: null,
           journalData: {
+            examiner: null,
+            testCentre: null,
+            testSlotAttributes: null,
+            applicationReference: null,
             candidate: {
               candidateName: {
                 firstName: 'Firstname',
@@ -87,7 +100,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
               faultComments: '',
             },
           },
-        } as CatDUniqueTypes.TestResult,
+        } as CatADI2UniqueTypes.TestResult,
       },
     } as TestsModel,
   } as StoreModel;
@@ -138,18 +151,8 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     describe('ngOnInit', () => {
       it('should merge the correct data into the subscription', () => {
         component.ngOnInit();
-
-        const {
-          vehicleChecksScore$,
-        } = component.pageState;
-
         expect(component.subscription)
-          .toEqual(
-            merge(
-              vehicleChecksScore$.pipe(map((score) => (component.vehicleChecksScore = score))),
-            )
-              .subscribe(),
-          );
+          .toBeDefined();
       });
       it('should resolve state variables', () => {
         component.ngOnInit();

@@ -28,14 +28,14 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import {
   VehicleChecksQuestionComponent,
 } from '@pages/waiting-room-to-car/components/vehicle-checks-question/vehicle-checks-question';
-import { merge, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER,
 } from '@shared/constants/show-me-questions/show-me-questions.vocational.constants';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER,
 } from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestsModel } from '@store/tests/tests.model';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
@@ -87,10 +87,6 @@ describe('VehicleChecksCatDModal', () => {
             },
             safetyQuestions: {
               questions: [
-                {
-                  outcome: 'DF',
-                  description: 'Fire Extinguisher',
-                },
                 {
                   outcome: 'DF',
                   description: 'Emergency exit',
@@ -201,6 +197,7 @@ describe('VehicleChecksCatDModal', () => {
     store$ = TestBed.inject(Store);
     faultCountProvider = TestBed.inject(FaultCountProvider);
     spyOn(store$, 'dispatch');
+    component.category = TestCategory.D;
   }));
 
   describe('Class', () => {
@@ -236,24 +233,8 @@ describe('VehicleChecksCatDModal', () => {
     describe('ngOnInit', () => {
       it('should merge the correct data into the subscription', () => {
         component.ngOnInit();
-
-        const {
-          vehicleChecksScore$,
-          safetyQuestionsScore$,
-          vehicleChecks$,
-          fullLicenceHeld$,
-        } = component.pageState;
-
         expect(component.subscription)
-          .toEqual(
-            merge(
-              vehicleChecksScore$.pipe(map((score) => (component.vehicleChecksScore = score))),
-              safetyQuestionsScore$.pipe(map((score) => (component.safetyQuestionsScore = score))),
-              vehicleChecks$.pipe(map((checks) => (component.vehicleChecks = checks))),
-              fullLicenceHeld$.pipe(map((held) => (component.fullLicenceHeld = held))),
-            )
-              .subscribe(),
-          );
+          .toBeDefined();
       });
       it('should resolve state variables', () => {
         component.ngOnInit();
@@ -287,10 +268,6 @@ describe('VehicleChecksCatDModal', () => {
             .toEqual([
               {
                 outcome: 'DF',
-                description: 'Fire Extinguisher',
-              },
-              {
-                outcome: 'DF',
                 description: 'Emergency exit',
               },
               {
@@ -298,13 +275,6 @@ describe('VehicleChecksCatDModal', () => {
                 description: 'Fuel cutoff',
               },
             ]));
-        component.pageState.vehicleChecksScore$
-          .pipe(take(1))
-          .subscribe((res) => expect(res)
-            .toEqual({
-              seriousFaults: 0,
-              drivingFaults: 1,
-            }));
         component.pageState.vehicleChecks$
           .pipe(take(1))
           .subscribe((res) => expect(res)
@@ -317,17 +287,25 @@ describe('VehicleChecksCatDModal', () => {
                   description: 'All doors secure',
                 },
               ],
-              tellMeQuestions: [{
-                code: 'Q3',
-                outcome: 'P',
-                description: 'Safety factors while loading',
-              },
+              tellMeQuestions: [
+                {
+                  code: 'Q3',
+                  outcome: 'P',
+                  description: 'Safety factors while loading',
+                },
               ],
+            }));
+        component.pageState.vehicleChecksScore$
+          .pipe(take(1))
+          .subscribe((res) => expect(res)
+            .toEqual({
+              seriousFaults: 0,
+              drivingFaults: 1,
             }));
         component.pageState.safetyQuestionsScore$
           .pipe(take(1))
           .subscribe((res) => expect(res)
-            .toEqual({ drivingFaults: 2 }));
+            .toEqual({ drivingFaults: 1 }));
         component.pageState.fullLicenceHeld$
           .pipe(take(1))
           .subscribe((res) => expect(res)

@@ -23,16 +23,16 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import {
   VehicleChecksQuestionComponent,
 } from '@pages/waiting-room-to-car/components/vehicle-checks-question/vehicle-checks-question';
-import { merge, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER,
 } from '@shared/constants/show-me-questions/show-me-questions.vocational.constants';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER,
 } from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
+import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestsModel } from '@store/tests/tests.model';
 import { provideMockStore } from '@ngrx/store/testing';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-c.actions';
@@ -54,7 +54,19 @@ describe('VehicleChecksCatCModal', () => {
       testStatus: {},
       startedTests: {
         123: {
+          version: '1',
+          rekey: false,
+          activityCode: '1',
+          category: TestCategory.CE,
+          changeMarker: null,
+          examinerBooked: null,
+          examinerConducted: null,
+          examinerKeyed: null,
           journalData: {
+            examiner: null,
+            testCentre: null,
+            testSlotAttributes: null,
+            applicationReference: null,
             candidate: {
               candidateName: {
                 firstName: 'Firstname',
@@ -98,7 +110,7 @@ describe('VehicleChecksCatCModal', () => {
               faultComments: '',
             },
           },
-        } as CatDUniqueTypes.TestResult,
+        } as CatCUniqueTypes.TestResult,
       },
     } as TestsModel,
   } as StoreModel;
@@ -190,6 +202,7 @@ describe('VehicleChecksCatCModal', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     faultCountProvider = TestBed.inject(FaultCountProvider);
+    component.category = TestCategory.C;
     spyOn(store$, 'dispatch');
   }));
 
@@ -219,22 +232,8 @@ describe('VehicleChecksCatCModal', () => {
     describe('ngOnInit', () => {
       it('should merge the correct data into the subscription', () => {
         component.ngOnInit();
-
-        const {
-          vehicleChecksScore$,
-          vehicleChecks$,
-          fullLicenceHeld$,
-        } = component.pageState;
-
         expect(component.subscription)
-          .toEqual(
-            merge(
-              vehicleChecksScore$.pipe(map((score) => (component.vehicleChecksScore = score))),
-              vehicleChecks$.pipe(map((checks) => (component.vehicleChecks = checks))),
-              fullLicenceHeld$.pipe(map((held) => (component.fullLicenceHeld = held))),
-            )
-              .subscribe(),
-          );
+          .toBeDefined();
       });
       it('should resolve state variables', () => {
         component.ngOnInit();
