@@ -41,6 +41,7 @@ import {
   PassFinalisationViewDidEnter,
   PassFinalisationValidationError,
 } from './pass-finalisation.actions';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 
 @Injectable()
 export class PassFinalisationAnalyticsEffects {
@@ -318,6 +319,7 @@ export class PassFinalisationAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
           select(getCurrentTest),
+          select(getTestData),
           select(getReview),
           select(getFurtherDevelopment),
         ),
@@ -345,6 +347,7 @@ export class PassFinalisationAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
           select(getCurrentTest),
+          select(getTestData),
           select(getReview),
           select(getReasonForNoAdviceGiven),
         ),

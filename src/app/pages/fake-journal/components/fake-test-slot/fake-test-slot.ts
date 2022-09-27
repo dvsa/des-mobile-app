@@ -67,6 +67,6 @@ export class FakeTestSlotComponent {
   }
 
   showAdditionalCandidateDetails(): boolean {
-    return isAnyOf(this.slot.booking.application.testCategory, [TestCategory.ADI2, TestCategory.ADI3]);
+    return isAnyOf(this.slot.booking.application.testCategory, [TestCategory.ADI2, TestCategory.ADI3, TestCategory.SC]);
   }
 }

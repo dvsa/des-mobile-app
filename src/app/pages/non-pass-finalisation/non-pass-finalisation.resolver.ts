@@ -52,7 +52,10 @@ export class NonPassFinalisationResolver implements Resolve<Observable<
     return this.store$.pipe(
       select(getTests),
       select(getCurrentTest),
-      map((test) => getActivityCodeOptions(get(test, 'delegatedTest', false), test.category === TestCategory.ADI3)),
+      map((test) => getActivityCodeOptions(
+        get(test, 'delegatedTest', false),
+        test.category === TestCategory.ADI3 || test.category === TestCategory.SC,
+      )),
     ).pipe(
       take(1),
       catchError((err) => of(err)),

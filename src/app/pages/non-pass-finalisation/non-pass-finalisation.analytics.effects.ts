@@ -37,6 +37,7 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import * as nonPassFinalisationActions from './non-pass-finalisation.actions';
 import { NonPassFinalisationValidationError, NonPassFinalisationViewDidEnter } from './non-pass-finalisation.actions';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 
 @Injectable()
 export class NonPassFinalisationAnalyticsEffects {
@@ -237,6 +238,7 @@ export class NonPassFinalisationAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
           select(getCurrentTest),
+          select(getTestData),
           select(getReview),
           select(getFurtherDevelopment),
         ),
@@ -264,6 +266,7 @@ export class NonPassFinalisationAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
           select(getCurrentTest),
+          select(getTestData),
           select(getReview),
           select(getReasonForNoAdviceGiven),
         ),

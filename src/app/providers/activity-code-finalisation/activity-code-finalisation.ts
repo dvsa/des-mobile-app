@@ -138,7 +138,9 @@ export class ActivityCodeFinalisationProvider {
       case TestCategory.ADI2: return this.catADIPart2TestDataIsInvalid(
         activityCode, testData as CatADI2UniqueTypes.TestData,
       );
-      case TestCategory.ADI3: return this.catADIPart3TestDataIsInvalid(activityCode, testData as CatADI3TestData);
+      case TestCategory.ADI3:
+      case TestCategory.SC:
+        return this.catADIPart3TestDataIsInvalid(activityCode, testData as CatADI3TestData);
       case TestCategory.B: return this.catBTestDataIsInvalid(activityCode, testData as CatBUniqueTypes.TestData);
       case TestCategory.BE: return this.catBETestDataIsInvalid(activityCode, testData as CatBEUniqueTypes.TestData);
       case TestCategory.C1:

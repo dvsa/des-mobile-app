@@ -202,7 +202,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   async onSubmit(): Promise<void> {
     Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
-
     if (!this.form.valid) {
       Object.keys(this.form.controls).forEach((controlName) => {
         if (this.form.controls[controlName].invalid) {

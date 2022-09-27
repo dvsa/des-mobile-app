@@ -21,6 +21,7 @@ export const createPopulateCandidateDetailsAction = (
   booking: Booking,
 ): CandidateDetailsUnion => {
   switch (testCategory) {
+    case TestCategory.SC:
     case TestCategory.ADI2:
     case TestCategory.ADI3:
     case TestCategory.B:

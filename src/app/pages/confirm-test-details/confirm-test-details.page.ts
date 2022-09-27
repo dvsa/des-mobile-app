@@ -5,9 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { getTests } from '@store/tests/tests.reducer';
-import {
-  getActivityCode, getCurrentTest, getJournalData, getTestOutcomeText,
-} from '@store/tests/tests.selector';
+import { getActivityCode, getCurrentTest, getJournalData, getTestOutcomeText } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   getCandidateName,
@@ -17,9 +15,7 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  map, tap, withLatestFrom,
-} from 'rxjs/operators';
+import { map, tap, withLatestFrom } from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
@@ -45,7 +41,8 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import {
-  getLessonThemes, getOther,
+  getLessonThemes,
+  getOther,
   getStudentLevel,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
 import { lessonThemeValues, studentValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
@@ -195,7 +192,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
             ),
           };
         }
-        if (category === TestCategory.ADI3) {
+        if (category === TestCategory.ADI3 || category === TestCategory.SC) {
           this.pageState = {
             ...this.pageState,
             testOutcomeFullResult$: currentTest$.pipe(
@@ -293,12 +290,13 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   }
 
   isADI3(category: TestCategory): boolean {
-    return category === TestCategory.ADI3;
+    return category === TestCategory.ADI3 || category === TestCategory.SC;
   }
 
   displayForCategory = (category: TestCategory): boolean => isAnyOf(category, [
     TestCategory.ADI2,
     TestCategory.ADI3,
+    TestCategory.SC,
     TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     TestCategory.CCPC, TestCategory.DCPC,
@@ -307,6 +305,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   displayD255 = (category: TestCategory): boolean => isAnyOf(category, [
     TestCategory.ADI2,
     TestCategory.ADI3,
+    TestCategory.SC,
     TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
     TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     TestCategory.CCPC, TestCategory.DCPC,

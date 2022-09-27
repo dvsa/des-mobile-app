@@ -34,6 +34,7 @@ export class TestResultProvider {
       case TestCategory.ADI2:
         return this.calculateCatAdiPart2TestResult(testData as CatADI2UniqueTypes.TestData);
       case TestCategory.ADI3:
+      case TestCategory.SC:
         return this.calculateTestResultADI3(testData as TestDataADI3).pipe(
           map((result) => result.activityCode),
         );

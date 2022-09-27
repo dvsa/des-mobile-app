@@ -35,7 +35,9 @@ export class TestDataByCategoryProvider {
   public getTestDataByCategoryCode(category: CategoryCode) {
     switch (category) {
       case TestCategory.ADI2: return getTestDataCatADI2;
-      case TestCategory.ADI3: return getTestDataCatAdI3;
+      case TestCategory.ADI3:
+      case TestCategory.SC:
+        return getTestDataCatAdI3;
       case TestCategory.B: return getTestDataCatB;
       case TestCategory.BE: return getTestDataCatBE;
       case TestCategory.C: return getTestDataC;
