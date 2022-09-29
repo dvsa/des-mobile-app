@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'eco-capture-reason',
@@ -14,8 +14,12 @@ export class EcoCaptureReasonComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new FormControl(null, Validators.required);
       this.formGroup.addControl('ecoCaptureReason', this.formControl);
     }
+  }
+
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
   }
 }
