@@ -44,7 +44,9 @@ import {
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
+import {
+  D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
+} from '@store/tests/test-summary/test-summary.actions';
 import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
@@ -53,7 +55,8 @@ import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
   TestFinalisationInvalidTestDataModal,
-} from '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
+} from
+  '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import {

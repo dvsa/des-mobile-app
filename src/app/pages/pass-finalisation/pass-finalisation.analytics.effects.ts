@@ -37,11 +37,11 @@ import {
   getFurtherDevelopment,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
   PassFinalisationViewDidEnter,
   PassFinalisationValidationError,
 } from './pass-finalisation.actions';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 
 @Injectable()
 export class PassFinalisationAnalyticsEffects {
