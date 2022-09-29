@@ -1,12 +1,12 @@
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { AppModule } from '@app/app.module';
 import { VehicleChecksToggleComponent } from '../vehicle-checks-completed';
-import { AppModule } from '../../../../../app.module';
 
 describe('VehicleChecksToggleComponent', () => {
   let fixture: ComponentFixture<VehicleChecksToggleComponent>;
@@ -40,7 +40,8 @@ describe('VehicleChecksToggleComponent', () => {
       vehicleChecksCompletedRadio.triggerEventHandler('change', { target: { value: 'Completed' } });
 
       fixture.detectChanges();
-      expect(component.vehicleChecksToggleResultChanged).toHaveBeenCalledWith('Completed');
+      expect(component.vehicleChecksToggleResultChanged)
+        .toHaveBeenCalledWith('Completed');
     });
     it('should call VehicleChecksToggleResultChanged with Not completed when not selected', () => {
       spyOn(component, 'vehicleChecksToggleResultChanged');
@@ -50,7 +51,22 @@ describe('VehicleChecksToggleComponent', () => {
 
       vehicleChecksCompletedRadio.triggerEventHandler('change', { target: { value: 'Not completed' } });
       fixture.detectChanges();
-      expect(component.vehicleChecksToggleResultChanged).toHaveBeenCalledWith('Not completed');
+      expect(component.vehicleChecksToggleResultChanged)
+        .toHaveBeenCalledWith('Not completed');
+    });
+  });
+  describe('vehicleChecksToggleResultChanged', () => {
+    it('should output true if result is set to "Completed" and formControl is valid', () => {
+      component.formControl = new FormControl(1);
+      spyOn(component.vehicleChecksCompletedOutcomeChange, 'emit');
+      component.vehicleChecksToggleResultChanged('Completed');
+      expect(component.vehicleChecksCompletedOutcomeChange.emit).toHaveBeenCalledWith(true);
+    });
+    it('should output false if result is not set to "Completed" and formControl is valid', () => {
+      component.formControl = new FormControl(1);
+      spyOn(component.vehicleChecksCompletedOutcomeChange, 'emit');
+      component.vehicleChecksToggleResultChanged('Not completed');
+      expect(component.vehicleChecksCompletedOutcomeChange.emit).toHaveBeenCalledWith(false);
     });
   });
 });

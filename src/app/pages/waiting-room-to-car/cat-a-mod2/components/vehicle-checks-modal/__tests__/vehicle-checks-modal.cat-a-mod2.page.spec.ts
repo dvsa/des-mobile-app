@@ -3,7 +3,7 @@ import {
   IonicModule, Config, ModalController, NavParams,
 } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConfigMock, ModalControllerMock, NavParamsMock } from 'ionic-mocks';
+import { ConfigMock, NavParamsMock } from 'ionic-mocks';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import {
@@ -22,6 +22,9 @@ import {
 import {
   VehicleChecksQuestionCatAMod2Component,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
+import { Subscription } from 'rxjs';
+import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksCatAMod2Modal } from '../vehicle-checks-modal.cat-a-mod2.page';
 
 describe('VehicleChecksCatAMod2Modal', () => {
@@ -42,13 +45,21 @@ describe('VehicleChecksCatAMod2Modal', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        {
+          provide: Config,
+          useFactory: () => ConfigMock.instance(),
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: NavParams,
+          useFactory: () => NavParamsMock.instance(),
+        },
       ],
     });
   });
-
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatAMod2Modal);
     component = fixture.componentInstance;
@@ -58,10 +69,21 @@ describe('VehicleChecksCatAMod2Modal', () => {
 
   describe('Class', () => {
     it('should compile', () => {
-      expect(component).toBeDefined();
+      expect(component)
+        .toBeDefined();
     });
 
-    describe('safetyQuestionChanged()', () => {
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from the subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('safetyQuestionChanged', () => {
       it('should dispatch a new ShowMeQuestionSelected action', () => {
         const safetyQuestionPayload: QuestionResult = {
           code: '01',
@@ -70,11 +92,12 @@ describe('VehicleChecksCatAMod2Modal', () => {
         };
         const index = 1;
         component.safetyQuestionChanged(safetyQuestionPayload, index);
-        expect(component.store$.dispatch).toHaveBeenCalledWith(SafetyQuestionSelected(safetyQuestionPayload, index));
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(SafetyQuestionSelected(safetyQuestionPayload, index));
       });
     });
 
-    describe('safetyQuestionOutcomeChanged()', () => {
+    describe('safetyQuestionOutcomeChanged', () => {
       it('should dispatch a new safetyQuestionOutcomeChanged action', () => {
         const safetyQuestionOutcomePayload: QuestionOutcome = 'P';
         const index = 1;
@@ -84,7 +107,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
       });
     });
 
-    describe('balanceQuestionChanged()', () => {
+    describe('balanceQuestionChanged', () => {
       it('should dispatch a new BalanceQuestionSelected action', () => {
         const balanceQuestionPayload: QuestionResult = {
           code: 'T01',
@@ -93,11 +116,12 @@ describe('VehicleChecksCatAMod2Modal', () => {
         };
         const index = 1;
         component.balanceQuestionChanged(balanceQuestionPayload, index);
-        expect(component.store$.dispatch).toHaveBeenCalledWith(BalanceQuestionSelected(balanceQuestionPayload, index));
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(BalanceQuestionSelected(balanceQuestionPayload, index));
       });
     });
 
-    describe('balanceQuestionOutcomeChanged()', () => {
+    describe('balanceQuestionOutcomeChanged', () => {
       it('should dispatch a new balanceQuestionOutcomeChanged action', () => {
         const balanceQuestionOutcomePayload: QuestionOutcome = 'P';
         const index = 1;
@@ -107,13 +131,41 @@ describe('VehicleChecksCatAMod2Modal', () => {
       });
     });
 
+    describe('ionViewDidEnter', () => {
+      it('should dispatch the store with VehicleChecksViewDidEnter', () => {
+        spyOn(component.store$, 'dispatch');
+        component.ionViewDidEnter();
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(vehicleChecksModalActions.VehicleChecksViewDidEnter());
+      });
+    });
+
+    describe('onClose', () => {
+      it('should dismiss the modal card', async () => {
+        spyOn(component.modalCtrl, 'dismiss');
+        await component.onClose();
+        expect(component.modalCtrl.dismiss)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('onSubmit', () => {
+      it('should dismiss the modal card', async () => {
+        spyOn(component.modalCtrl, 'dismiss');
+        await component.onSubmit();
+        expect(component.modalCtrl.dismiss)
+          .toHaveBeenCalled();
+      });
+    });
+
     describe('shouldDisplayBanner', () => {
       it('should return false if there are no riding faults', () => {
         component.safetyAndBalanceQuestionsScore = {
           drivingFaults: 0,
         };
 
-        expect(component.shouldDisplayBanner()).toBeFalsy();
+        expect(component.shouldDisplayBanner())
+          .toBeFalsy();
       });
 
       it('should return true if there is 1 riding fault', () => {
@@ -121,7 +173,8 @@ describe('VehicleChecksCatAMod2Modal', () => {
           drivingFaults: 1,
         };
 
-        expect(component.shouldDisplayBanner()).toBeTruthy();
+        expect(component.shouldDisplayBanner())
+          .toBeTruthy();
       });
     });
   });

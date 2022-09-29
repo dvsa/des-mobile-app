@@ -58,6 +58,7 @@ import {
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { EyesightTestReset } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { WaitingRoomToCarCatHomeTestPage } from '../waiting-room-to-car.cat-home-test.page';
 
 describe('WaitingRoomToCarCatHomeTestPage', () => {
@@ -76,11 +77,20 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
           accompaniment: {},
           category: TestCategory.F,
           testData: {
-            vehicleChecks: { tellMeQuestions: [{}], showMeQuestions: [{}], fullLicenceHeld: null },
+            vehicleChecks: {
+              tellMeQuestions: [{}],
+              showMeQuestions: [{}],
+              fullLicenceHeld: null,
+            },
             seriousFaults: {},
           },
           journalData: {
-            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs' } },
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
           },
         } as CatCUniqueTypes.TestResult,
       },
@@ -108,13 +118,34 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: Router, useClass: RouterMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: QuestionProvider, useClass: QuestionProviderMock },
-        { provide: FaultCountProvider, useClass: FaultCountProvider },
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Platform,
+          useFactory: () => PlatformMock.instance(),
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: QuestionProvider,
+          useClass: QuestionProviderMock,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -131,16 +162,34 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
     fixture.destroy();
   });
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
+          .toHaveBeenCalled();
       });
     });
+    describe('eyesightFailCancelled', () => {
+      it('should call the dismiss method', () => {
+        spyOn(store$, 'dispatch');
+        component.eyesightFailCancelled();
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(EyesightTestReset());
+      });
+      it('should reset the eyesightCtrl form property', () => {
+        component.form.addControl('eyesightCtrl', new FormControl());
+        component.form.controls.eyesightCtrl.setValue(1);
+        component.eyesightFailCancelled();
+        expect(component.form.controls.eyesightCtrl.value)
+          .toBe(null);
+      });
+    });
+
     describe('onSubmit', () => {
       beforeEach(() => {
         spyOn(routeByCategoryProvider, 'navigateToPage');
@@ -152,9 +201,10 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         component.testCategory = TestCategory.F;
         await component.onSubmit();
         tick();
-        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.F, { replaceUrl: true },
-        );
+        expect(routeByCategoryProvider.navigateToPage)
+          .toHaveBeenCalledWith(
+            TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.F, { replaceUrl: true },
+          );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new FormGroup({
@@ -164,8 +214,10 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         });
         await component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .not
           .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));

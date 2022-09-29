@@ -35,8 +35,8 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   @Output()
   vehicleChecksQuestionOutcomeChange = new EventEmitter<QuestionOutcome>();
 
-  private questionFormControl: FormControl;
-  private questionOutcomeFormControl: FormControl;
+  questionFormControl: FormControl;
+  questionOutcomeFormControl: FormControl;
 
   readonly questionId: string = uniqueId();
   readonly questionOutcomeFieldName: string = `vehicleChecksQuestionOutcome_${this.questionId}`;
@@ -92,9 +92,6 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   }
 
   shouldShowOutcomeFields(): boolean {
-    if (this.questionResult && this.questionResult.code && this.questionResult.description) {
-      return true;
-    }
-    return false;
+    return !!(this.questionResult && this.questionResult.code && this.questionResult.description);
   }
 }

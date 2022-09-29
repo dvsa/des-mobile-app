@@ -21,7 +21,7 @@ export class TellMeQuestionOutcomeComponent implements OnChanges {
   @Output()
   tellMeQuestionOutcomeChange = new EventEmitter<string>();
 
-  private formControl: FormControl;
+  formControl: FormControl;
 
   ngOnChanges(): void {
     if (!this.formControl) {

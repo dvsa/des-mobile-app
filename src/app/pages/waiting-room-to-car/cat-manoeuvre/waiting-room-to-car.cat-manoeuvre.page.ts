@@ -95,10 +95,6 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
     };
   }
 
-  ionViewDidLeave(): void {
-    super.ionViewDidLeave();
-  }
-
   onSubmit = async (): Promise<void> => {
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 

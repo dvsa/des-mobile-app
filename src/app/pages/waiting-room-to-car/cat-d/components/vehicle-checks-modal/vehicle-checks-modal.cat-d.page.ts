@@ -48,21 +48,21 @@ import {
   getSafetyQuestions,
 } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
 import { ModalController, NavParams } from '@ionic/angular';
-import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-d.actions';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER,
   NUMBER_OF_SHOW_ME_QUESTIONS_EXTRA as NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER_EXTRA,
-} from '../../../../../shared/constants/show-me-questions/show-me-questions.vocational-trailer.constants';
+} from '@shared/constants/show-me-questions/show-me-questions.vocational-trailer.constants';
 import {
   NUMBER_OF_SHOW_ME_QUESTIONS as NUMBER_OF_SHOW_ME_QUESTIONS_NON_TRAILER,
-} from '../../../../../shared/constants/show-me-questions/show-me-questions.vocational.constants';
+} from '@shared/constants/show-me-questions/show-me-questions.vocational.constants';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER,
-} from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
+} from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
 import {
   NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER,
   NUMBER_OF_TELL_ME_QUESTIONS_EXTRA as NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA,
-} from '../../../../../shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
+} from '@shared/constants/tell-me-questions/tell-me-questions.vocational-trailer.constants';
+import * as vehicleChecksModalActions from './vehicle-checks-modal.cat-d.actions';
 
 interface VehicleChecksModalCatDState {
   candidateName$: Observable<string>;
@@ -108,7 +108,7 @@ export class VehicleChecksCatDModal {
   constructor(
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
-    private modalCtrl: ModalController,
+    public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
     params: NavParams,
   ) {
@@ -289,11 +289,11 @@ export class VehicleChecksCatDModal {
     fullLicenceHeld: boolean,
   ): string => (fullLicenceHeld === null) ? null : fullLicenceHeld ? 'Y' : 'N';
 
-  private getNumberOfShowMeQuestions = (
+  getNumberOfShowMeQuestions = (
     fullLicenceHeld: boolean,
   ): number => fullLicenceHeld ? NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER : NUMBER_OF_SHOW_ME_QUESTIONS_TRAILER_EXTRA;
 
-  private getNumberOfTellMeQuestions = (
+  getNumberOfTellMeQuestions = (
     fullLicenceHeld: boolean,
   ): number => fullLicenceHeld ? NUMBER_OF_TELL_ME_QUESTIONS_TRAILER : NUMBER_OF_TELL_ME_QUESTIONS_TRAILER_EXTRA;
 }

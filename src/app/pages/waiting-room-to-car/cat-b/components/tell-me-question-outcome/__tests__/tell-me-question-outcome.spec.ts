@@ -1,10 +1,12 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl, FormGroup, ReactiveFormsModule, Validators,
+} from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { AppModule } from '@app/app.module';
 import { TellMeQuestionOutcomeComponent } from '../tell-me-question-outcome';
-import { AppModule } from '../../../../../../app.module';
 
 describe('TellMeQuestionOutcomeComponent', () => {
   let fixture: ComponentFixture<TellMeQuestionOutcomeComponent>;
@@ -28,6 +30,21 @@ describe('TellMeQuestionOutcomeComponent', () => {
     component = fixture.componentInstance;
     component.formGroup = new FormGroup({});
   }));
+
+  describe('tellMeQuestionChanged', () => {
+    it('should emit the correct event with the parameter'
+        + 'given when form control is valid', () => {
+      component.formControl = new FormControl(1, [Validators.required]);
+      spyOn(component.tellMeQuestionOutcomeChange, 'emit');
+      component.tellMeQuestionOutcomeChanged('test');
+      expect(component.tellMeQuestionOutcomeChange.emit).toHaveBeenCalledWith('test');
+    });
+    it('should emit nothing if form control is invalid', () => {
+      spyOn(component.tellMeQuestionOutcomeChange, 'emit');
+      component.formControl = new FormControl(null, [Validators.required]);
+      expect(component.tellMeQuestionOutcomeChange.emit).not.toHaveBeenCalled();
+    });
+  });
 
   describe('DOM', () => {
     it('should call tellMeQuestionOutcomeChanged  with P when Pass is pressed', () => {

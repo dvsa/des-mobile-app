@@ -141,6 +141,14 @@ describe('WaitingRoomToCarCatAMod2Page', () => {
         expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
       });
     });
+    describe('eyesightFailCancelled', () => {
+      it('should reset eyesight control', () => {
+        const control = new FormControl('value');
+        component.form.addControl('eyesightCtrl', control);
+        component.eyesightFailCancelled();
+        expect(component.form.get('eyesightCtrl').value).toEqual(null);
+      });
+    });
     describe('onSubmit', () => {
       beforeEach(() => {
         spyOn(routeByCategoryProvider, 'navigateToPage');

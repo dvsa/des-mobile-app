@@ -1,7 +1,9 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl, FormGroup, ReactiveFormsModule, Validators,
+} from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
@@ -31,6 +33,17 @@ describe('VehicleDetailsComponent', () => {
     component.formGroup = new FormGroup({});
   }));
 
+  describe('vehicleDetailsChanged', () => {
+    it('should emit vehicleDetailsChange if formControl is valid', () => {
+      component.formControl = new FormControl(null, [Validators.required]);
+      component.formControl.setValue(1);
+      spyOn(component.vehicleDetailsChange, 'emit');
+      component.vehicleDetailsChanged();
+      expect(component.vehicleDetailsChange.emit)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('DOM', () => {
     describe('setting optional vehicle details', () => {
       it('should call vehicleDetailsChanged when school car is selected', () => {
@@ -41,7 +54,8 @@ describe('VehicleDetailsComponent', () => {
         const schoolCarCb = fixture.debugElement.query(By.css(`#${component.formControlName}`));
         schoolCarCb.triggerEventHandler('change', { target: {} });
         fixture.detectChanges();
-        expect(component.vehicleDetailsChanged).toHaveBeenCalled();
+        expect(component.vehicleDetailsChanged)
+          .toHaveBeenCalled();
       });
       it('should call vehicleDetailsChanged when dual controls is selected', () => {
         spyOn(component, 'vehicleDetailsChanged');
@@ -51,7 +65,8 @@ describe('VehicleDetailsComponent', () => {
         const dualControlCb = fixture.debugElement.query(By.css(`#${component.formControlName}`));
         dualControlCb.triggerEventHandler('change', { target: {} });
         fixture.detectChanges();
-        expect(component.vehicleDetailsChanged).toHaveBeenCalled();
+        expect(component.vehicleDetailsChanged)
+          .toHaveBeenCalled();
       });
     });
   });

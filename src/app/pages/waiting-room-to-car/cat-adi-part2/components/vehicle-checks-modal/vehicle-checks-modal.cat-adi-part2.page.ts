@@ -52,7 +52,7 @@ export class VehicleChecksCatADIPart2Modal {
   constructor(
     public store$: Store<StoreModel>,
     private faultCountProvider: FaultCountProvider,
-    private modalCtrl: ModalController,
+    public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
   ) {
     this.formGroup = new FormGroup({});

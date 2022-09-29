@@ -52,6 +52,12 @@ import {
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategoryComponent } from '@pages/waiting-room-to-car/components/test-category/test-category';
 import { DualControlsComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/dual-controls/dual-controls';
+import { DualControlsToggledNo, DualControlsToggledYes } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  PDILogbook,
+  TraineeLicence,
+} from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.actions';
+import { TrainerAccompanimentToggled } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.actions';
 import { WaitingRoomToCarCatADIPart3Page } from '../waiting-room-to-car.cat-adi-part3.page';
 import {
   TrainerRegistrationNumberCatAdiPart2Component,
@@ -75,7 +81,12 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
           category: TestCategory.ADI3,
           trainerDetails: {},
           journalData: {
-            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs' } },
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
           },
         } as TestResultCatADI3Schema,
       },
@@ -105,13 +116,34 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: Router, useClass: RouterMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: QuestionProvider, useClass: QuestionProviderMock },
-        { provide: FaultCountProvider, useClass: FaultCountProvider },
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Platform,
+          useFactory: () => PlatformMock.instance(),
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: QuestionProvider,
+          useClass: QuestionProviderMock,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -132,7 +164,8 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('Class', () => {
@@ -140,7 +173,46 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
+          .toHaveBeenCalled();
+      });
+    });
+    describe('dualControlsOutcomeToggled', () => {
+      it('should dispatch DualControlsToggledYes() if dualControls is true', () => {
+        spyOn(component.store$, 'dispatch');
+        component.dualControlsOutcomeToggled(true);
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(DualControlsToggledYes());
+      });
+      it('should dispatch DualControlsToggledNo() if dualControls is false', () => {
+        spyOn(component.store$, 'dispatch');
+        component.dualControlsOutcomeToggled(false);
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(DualControlsToggledNo());
+      });
+    });
+    describe('pdiLogbookChanged', () => {
+      it('should dispatch with PDILogbook', () => {
+        spyOn(component.store$, 'dispatch');
+        component.pdiLogbookChanged(true);
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(PDILogbook(true));
+      });
+    });
+    describe('traineeLicenceChanged', () => {
+      it('should dispatch with TraineeLicence', () => {
+        spyOn(component.store$, 'dispatch');
+        component.traineeLicenceChanged(true);
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(TraineeLicence(true));
+      });
+    });
+    describe('trainerAccompanimentChanged', () => {
+      it('should dispatch with TrainerAccompanimentToggled', () => {
+        spyOn(component.store$, 'dispatch');
+        component.trainerAccompanimentChanged();
+        expect(component.store$.dispatch)
+          .toHaveBeenCalledWith(TrainerAccompanimentToggled());
       });
     });
     describe('onSubmit', () => {
@@ -154,9 +226,10 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
         component.testCategory = TestCategory.ADI3;
         await component.onSubmit();
         tick();
-        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE,
-        );
+        expect(routeByCategoryProvider.navigateToPage)
+          .toHaveBeenCalledWith(
+            TestFlowPageNames.TEST_REPORT_DASHBOARD_PAGE,
+          );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new FormGroup({
@@ -167,8 +240,10 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
 
         await component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .not
           .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));

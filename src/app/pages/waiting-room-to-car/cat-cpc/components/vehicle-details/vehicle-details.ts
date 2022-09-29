@@ -19,7 +19,7 @@ export class VehicleDetailsCatCPCComponent {
   @Output()
   vehicleDetailsChange = new EventEmitter();
 
-  private formControl: FormControl;
+  formControl: FormControl;
 
   static readonly fieldName: string = 'configuration';
 

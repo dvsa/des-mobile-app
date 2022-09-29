@@ -30,8 +30,8 @@ export class SafetyQuestionComponent implements OnChanges {
   @Output()
   safetyQuestionOutcomeChange = new EventEmitter<QuestionOutcome>();
 
-  private safetyQuestionFormControl: FormControl;
-  private safetyQuestionOutcomeFormControl: FormControl;
+  safetyQuestionFormControl: FormControl;
+  safetyQuestionOutcomeFormControl: FormControl;
 
   readonly safetyQuestionId: string = uniqueId();
   readonly safetyQuestionOutcomeFieldName: string = `safetyQuestionOutcome_${this.safetyQuestionId}`;

@@ -12,6 +12,7 @@ import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksCatAMod2Modal,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
+import { OverlayEventDetail } from '@ionic/core';
 import { VehicleChecksCatAMod2Component } from '../vehicle-checks';
 
 class MockStore { }
@@ -61,8 +62,16 @@ describe('VehicleChecksCatAMod2Component', () => {
           cssClass: 'modal-fullscreen regular',
         });
       });
+      it('should emit onCloseVehicleChecksModal when onDidDismiss', async () => {
+        spyOn(component.onCloseVehicleChecksModal, 'emit');
+        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+          present: async () => {},
+          onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
+        } as HTMLIonModalElement));
+        await component.openVehicleChecksModal();
+        expect(component.onCloseVehicleChecksModal.emit).toHaveBeenCalled();
+      });
     });
-
     describe('hasRidingFault', () => {
       it('should return true if safety and balance score has riding fault', () => {
         component.safetyAndBalanceQuestionsScore = {

@@ -102,7 +102,7 @@ export class VehicleChecksComponent implements OnChanges {
     }
   }
 
-  private getVehicleCheckModal = () => {
+  getVehicleCheckModal = () => {
     switch (this.category) {
       case TestCategory.ADI2:
         return VehicleChecksCatADIPart2Modal;

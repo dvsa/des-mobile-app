@@ -1,9 +1,9 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
-  IonicModule, ModalController, Config, NavParams,
+  Config, IonicModule, ModalController, NavParams,
 } from '@ionic/angular';
-import { ModalControllerMock, ConfigMock, NavParamsMock } from 'ionic-mocks';
+import { ConfigMock, ModalControllerMock, NavParamsMock } from 'ionic-mocks';
 import { AppComponent } from '@app/app.component';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -18,6 +18,17 @@ import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksCatCModal,
 } from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
+import { OverlayEventDetail } from '@ionic/core';
+import {
+  VehicleChecksCatDModal,
+} from '@pages/waiting-room-to-car/cat-d/components/vehicle-checks-modal/vehicle-checks-modal.cat-d.page';
+import {
+  VehicleChecksCatHomeTestModal,
+} from '@pages/waiting-room-to-car/cat-home-test/components/vehicle-checks-modal/vehicle-checks-modal.cat-home.page';
+import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
+import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
+import { VehicleChecksCatADIPart2Modal }
+  from '../../../cat-adi-part2/components/vehicle-checks-modal/vehicle-checks-modal.cat-adi-part2.page';
 import { VehicleChecksComponent } from '../vehicle-checks';
 
 describe('VehicleChecksComponent', () => {
@@ -42,10 +53,22 @@ describe('VehicleChecksComponent', () => {
         }),
       ],
       providers: [
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
-        { provide: AppComponent, useClass: MockAppComponent },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        {
+          provide: ModalController,
+          useFactory: () => ModalControllerMock.instance(),
+        },
+        {
+          provide: AppComponent,
+          useClass: MockAppComponent,
+        },
+        {
+          provide: Config,
+          useFactory: () => ConfigMock.instance(),
+        },
+        {
+          provide: NavParams,
+          useFactory: () => NavParamsMock.instance(),
+        },
         Store,
       ],
     });
@@ -63,18 +86,35 @@ describe('VehicleChecksComponent', () => {
   describe('Class', () => {
     describe('openVehicleChecksModal', () => {
       it('should create the correct model', async () => {
-        spyOn(appComponent, 'getTextZoomClass').and.returnValue('regular');
+        spyOn(appComponent, 'getTextZoomClass')
+          .and
+          .returnValue('regular');
         component.category = TestCategory.C1E;
         await component.openVehicleChecksModal();
-        expect(modalController.create).toHaveBeenCalledTimes(1);
-        expect(modalController.create).toHaveBeenCalledWith({
-          component: VehicleChecksCatCModal,
-          componentProps: { category: TestCategory.C1E },
-          cssClass: 'modal-fullscreen regular',
-        });
+        expect(modalController.create)
+          .toHaveBeenCalledTimes(1);
+        expect(modalController.create)
+          .toHaveBeenCalledWith({
+            component: VehicleChecksCatCModal,
+            componentProps: { category: TestCategory.C1E },
+            cssClass: 'modal-fullscreen regular',
+          });
+      });
+      it('should emit onCloseVehicleChecksModal when onDidDismiss', async () => {
+        spyOn(component.onCloseVehicleChecksModal, 'emit');
+        spyOn(modalController, 'create')
+          .and
+          .returnValue(Promise.resolve({
+            present: async () => {
+            },
+            onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
+          } as HTMLIonModalElement));
+        component.category = TestCategory.C1E;
+        await component.openVehicleChecksModal();
+        expect(component.onCloseVehicleChecksModal.emit)
+          .toHaveBeenCalled();
       });
     });
-
     describe('hasSeriousFault', () => {
       it('should return true if vehicle checks score has serious fault', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
@@ -82,7 +122,8 @@ describe('VehicleChecksComponent', () => {
           seriousFaults: 1,
           drivingFaults: 4,
         };
-        expect(component.hasSeriousFault()).toBeTruthy();
+        expect(component.hasSeriousFault())
+          .toBeTruthy();
       });
 
       it('should return false if vehicle checks score does not have serious fault', () => {
@@ -91,18 +132,77 @@ describe('VehicleChecksComponent', () => {
           seriousFaults: 0,
           drivingFaults: 3,
         };
-        expect(component.hasSeriousFault()).toBeFalsy();
+        expect(component.hasSeriousFault())
+          .toBeFalsy();
+      });
+    });
+
+    describe('getVehicleCheckModal', () => {
+      it('should return an error on default', () => {
+        expect(() => {
+          component.category = TestCategory.A;
+          component.getVehicleCheckModal();
+        })
+          .toThrowError('Cannot getVehicleCheckModal for category A');
+      });
+      it('should return VehicleChecksCatADIPart2Modal for ADI2', () => {
+        component.category = TestCategory.ADI2;
+        expect(component.getVehicleCheckModal())
+          .toEqual(VehicleChecksCatADIPart2Modal);
+      });
+      [TestCategory.C, TestCategory.C1, TestCategory.CE, TestCategory.C1E].forEach((category) => {
+        it(`should return VehicleChecksCatCModal for Cat${category}`, () => {
+          component.category = category;
+          expect(component.getVehicleCheckModal())
+            .toEqual(VehicleChecksCatCModal);
+        });
+      });
+      [TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K].forEach((category) => {
+        it('should return VehicleChecksCatHomeTestModal for Home Test', () => {
+          component.category = category;
+          expect(component.getVehicleCheckModal())
+            .toEqual(VehicleChecksCatHomeTestModal);
+        });
+      });
+      [TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E].forEach((category) => {
+        it(`should return VehicleChecksCatDModal for Cat${category}`, () => {
+          component.category = category;
+          expect(component.getVehicleCheckModal())
+            .toEqual(VehicleChecksCatDModal);
+        });
       });
     });
 
     describe('hasDrivingFault', () => {
+      it('should return true when Cat D and vehicleChecksScore has a drivingFault', () => {
+        component.category = TestCategory.D;
+        component.vehicleChecksScore = { drivingFaults: 1 } as VehicleChecksScore;
+        component.safetyQuestionsScore = { drivingFaults: 0 } as SafetyQuestionsScore;
+        expect(component.hasDrivingFault())
+          .toEqual(true);
+      });
+      it('should return true when Cat D and safetyQuestionsScore has a drivingFault', () => {
+        component.category = TestCategory.D;
+        component.vehicleChecksScore = { drivingFaults: 0 } as VehicleChecksScore;
+        component.safetyQuestionsScore = { drivingFaults: 1 } as SafetyQuestionsScore;
+        expect(component.hasDrivingFault())
+          .toEqual(true);
+      });
+      it('should return false when Cat B and vehicleChecksScore has no drivingFaults', () => {
+        component.category = TestCategory.B;
+        component.vehicleChecksScore = { drivingFaults: 0 } as VehicleChecksScore;
+        expect(component.hasDrivingFault())
+          .toEqual(false);
+      });
+
       it('should return true if vehicle checks score has driving fault', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
         component.vehicleChecksScore = {
           seriousFaults: 0,
           drivingFaults: 1,
         };
-        expect(component.hasDrivingFault()).toBeTruthy();
+        expect(component.hasDrivingFault())
+          .toBeTruthy();
       });
 
       it('should return false if vehicle checks score does not have driving fault', () => {
@@ -111,7 +211,8 @@ describe('VehicleChecksComponent', () => {
           seriousFaults: 0,
           drivingFaults: 0,
         };
-        expect(component.hasDrivingFault()).toBeFalsy();
+        expect(component.hasDrivingFault())
+          .toBeFalsy();
       });
     });
 
@@ -122,7 +223,8 @@ describe('VehicleChecksComponent', () => {
           showMeQuestions: [{}, {}, {}],
           tellMeQuestions: [{}, {}],
         };
-        expect(component.everyQuestionHasOutcome()).toBeFalsy();
+        expect(component.everyQuestionHasOutcome())
+          .toBeFalsy();
       });
 
       it('should return false when not all show me questions have outcome', () => {
@@ -131,7 +233,8 @@ describe('VehicleChecksComponent', () => {
           showMeQuestions: [{}, {}, {}],
           tellMeQuestions: [{ outcome: 'P' }, { outcome: 'DF' }],
         };
-        expect(component.everyQuestionHasOutcome()).toBeFalsy();
+        expect(component.everyQuestionHasOutcome())
+          .toBeFalsy();
       });
 
       it('should return false when not all tell me questions have outcome', () => {
@@ -140,7 +243,8 @@ describe('VehicleChecksComponent', () => {
           showMeQuestions: [{ outcome: 'P' }, { outcome: 'DF' }, { outcome: 'P' }],
           tellMeQuestions: [{}, {}],
         };
-        expect(component.everyQuestionHasOutcome()).toBeFalsy();
+        expect(component.everyQuestionHasOutcome())
+          .toBeFalsy();
       });
 
       it('should return true when all show / tell me questions have outcome', () => {
@@ -151,7 +255,8 @@ describe('VehicleChecksComponent', () => {
         };
 
         component.safetyQuestions = { questions: [{ outcome: 'P' }, { outcome: 'P' }, { outcome: 'P' }] };
-        expect(component.everyQuestionHasOutcome()).toBeTruthy();
+        expect(component.everyQuestionHasOutcome())
+          .toBeTruthy();
       });
     });
 
@@ -159,25 +264,32 @@ describe('VehicleChecksComponent', () => {
       it('should return vehicle checks as false', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
         const result = component.incompleteVehicleChecks();
-        expect(result).toEqual({ vehicleChecks: false });
+        expect(result)
+          .toEqual({ vehicleChecks: false });
       });
     });
 
     describe('validateVehicleChecks', () => {
       it('should call incompleteVehicleChecks() if all questions have NOT been answered', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(false);
+        spyOn(component, 'everyQuestionHasOutcome')
+          .and
+          .returnValue(false);
         spyOn(component, 'incompleteVehicleChecks');
         component.validateVehicleChecks();
-        expect(component.incompleteVehicleChecks).toHaveBeenCalled();
+        expect(component.incompleteVehicleChecks)
+          .toHaveBeenCalled();
       });
 
       it('should return null if all questions have been answered', () => {
         store$.dispatch(StartTest(12345, TestCategory.C));
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
+        spyOn(component, 'everyQuestionHasOutcome')
+          .and
+          .returnValue(true);
         spyOn(component, 'incompleteVehicleChecks');
         const result = component.validateVehicleChecks();
-        expect(result).toEqual(null);
+        expect(result)
+          .toEqual(null);
       });
     });
 
@@ -196,13 +308,15 @@ describe('VehicleChecksComponent', () => {
           component.formControl.markAsDirty();
           component.formControl.setErrors({ vehicleChecks: false });
           const result = component.invalid;
-          expect(result).toEqual(true);
+          expect(result)
+            .toEqual(true);
         });
 
         it('should return FALSE if the form control is valid', () => {
           component.formControl.markAsDirty();
           const result = component.invalid;
-          expect(result).toEqual(false);
+          expect(result)
+            .toEqual(false);
         });
       });
 
@@ -210,7 +324,8 @@ describe('VehicleChecksComponent', () => {
         it('should return FALSE if the form control is invalid', () => {
           component.formControl.markAsPristine();
           const result = component.invalid;
-          expect(result).toEqual(false);
+          expect(result)
+            .toEqual(false);
         });
       });
     });
@@ -221,10 +336,13 @@ describe('VehicleChecksComponent', () => {
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
+        spyOn(component, 'everyQuestionHasOutcome')
+          .and
+          .returnValue(true);
         component.ngOnChanges();
         const result = component.formGroup.contains('vehicleChecksSelectQuestions');
-        expect(result).toEqual(true);
+        expect(result)
+          .toEqual(true);
       });
 
       it('should validate the vehicle checks', () => {
@@ -232,10 +350,13 @@ describe('VehicleChecksComponent', () => {
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
-        spyOn(component, 'everyQuestionHasOutcome').and.returnValue(true);
+        spyOn(component, 'everyQuestionHasOutcome')
+          .and
+          .returnValue(true);
         spyOn(component, 'validateVehicleChecks');
         component.ngOnChanges();
-        expect(component.validateVehicleChecks).toHaveBeenCalled();
+        expect(component.validateVehicleChecks)
+          .toHaveBeenCalled();
       });
 
       it('should patch the form control value', () => {
@@ -245,7 +366,8 @@ describe('VehicleChecksComponent', () => {
         });
         component.formControl = formBuilder.control({});
         component.ngOnChanges();
-        expect(component.formControl.value).toEqual('Select questions');
+        expect(component.formControl.value)
+          .toEqual('Select questions');
       });
     });
   });
