@@ -115,6 +115,10 @@
                                             (weatherConditionsChange)="weatherConditionsChanged($event)">
                         </weather-conditions>
 
+                        <eco-capture-reason
+                                [formGroup]="form">
+                        </eco-capture-reason>
+
                         <accompaniment-card [formGroup]="form"
                                             [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
                                             [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
