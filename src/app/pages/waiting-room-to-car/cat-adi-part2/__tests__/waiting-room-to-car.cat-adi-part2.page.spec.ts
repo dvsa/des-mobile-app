@@ -51,6 +51,9 @@ import {
 } from '@pages/waiting-room-to-car/cat-adi-part2/components/training-records/training-records.cat-adi-part2';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
+  OrditTrainerCatAdiPart2Component,
+} from '@pages/waiting-room-to-car/cat-adi-part2/components/ordit-trainer/ordit-trainer.cat-adi-part2';
+import {
   TrainerRegistrationNumberCatAdiPart2Component,
 } from '../components/trainer-registration-number/trainer-registration-number.cat-adi-part2';
 import { WaitingRoomToCarCatADIPart2Page } from '../waiting-room-to-car.cat-adi-part2.page';
@@ -76,7 +79,12 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
             seriousFaults: {},
           },
           journalData: {
-            candidate: { candidateName: { firstName: 'Joe', lastName: 'Bloggs' } },
+            candidate: {
+              candidateName: {
+                firstName: 'Joe',
+                lastName: 'Bloggs',
+              },
+            },
           },
         } as CatADI2UniqueTypes.TestResult,
       },
@@ -98,20 +106,41 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         MockComponent(TransmissionComponent),
         MockComponent(TrainingRecordsCatAdiPart2Component),
         MockComponent(TrainerRegistrationNumberCatAdiPart2Component),
-        MockComponent(WaitingRoomToCarCatADIPart2Page),
+        MockComponent(OrditTrainerCatAdiPart2Component),
       ],
       imports: [
         AppModule,
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: Router, useClass: RouterMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: QuestionProvider, useClass: QuestionProviderMock },
-        { provide: FaultCountProvider, useClass: FaultCountProvider },
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Platform,
+          useFactory: () => PlatformMock.instance(),
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: QuestionProvider,
+          useClass: QuestionProviderMock,
+        },
+        {
+          provide: FaultCountProvider,
+          useClass: FaultCountProvider,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -132,7 +161,8 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('Class', () => {
@@ -140,7 +170,8 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
+          .toHaveBeenCalled();
       });
     });
     describe('eyesightFailCancelled', () => {
@@ -148,7 +179,8 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         const control = new FormControl('value');
         component.form.addControl('eyesightCtrl', control);
         component.eyesightFailCancelled();
-        expect(component.form.get('eyesightCtrl').value).toEqual(null);
+        expect(component.form.get('eyesightCtrl').value)
+          .toEqual(null);
       });
     });
     describe('onSubmit', () => {
@@ -162,9 +194,10 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         component.testCategory = TestCategory.ADI2;
         await component.onSubmit();
         tick();
-        expect(routeByCategoryProvider.navigateToPage).toHaveBeenCalledWith(
-          TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.ADI2, { replaceUrl: true },
-        );
+        expect(routeByCategoryProvider.navigateToPage)
+          .toHaveBeenCalledWith(
+            TestFlowPageNames.TEST_REPORT_PAGE, TestCategory.ADI2, { replaceUrl: true },
+          );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
         component.form = new FormGroup({
@@ -175,8 +208,10 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
 
         await component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .not
           .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));

@@ -18,7 +18,7 @@ import {
   AccompanimentCardADI3Component,
 } from '@pages/waiting-room-to-car/cat-adi-part3/components/accompaniment-card/accompaniment-card';
 
-describe('TrainingRecordsCatAdiPart2Component', () => {
+describe('AccompanimentCardADI3Component', () => {
   let component: AccompanimentCardADI3Component;
   let fixture: ComponentFixture<AccompanimentCardADI3Component>;
 

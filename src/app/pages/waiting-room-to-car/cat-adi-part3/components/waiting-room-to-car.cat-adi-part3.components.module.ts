@@ -11,14 +11,16 @@ import {
 import {
   AccompanimentCardADI3Component,
 } from '@pages/waiting-room-to-car/cat-adi-part3/components/accompaniment-card/accompaniment-card';
+import { DualControlsComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/dual-controls/dual-controls';
+import { PDILogbookComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/pdi-logbook/pdi-logbook';
 import { WaitingRoomToCarComponentsModule } from '../../components/waiting-room-to-car.components.module';
 
 @NgModule({
   declarations: [
-    AccompanimentCardADI3Component,
-    TraineeLicenceComponent,
     TraineeLicenceComponent,
     AccompanimentCardADI3Component,
+    DualControlsComponent,
+    PDILogbookComponent,
   ],
   imports: [
     CommonModule,
@@ -29,10 +31,11 @@ import { WaitingRoomToCarComponentsModule } from '../../components/waiting-room-
     ReactiveFormsModule,
   ],
   exports: [
-    AccompanimentCardADI3Component,
-    TraineeLicenceComponent,
+    DualControlsComponent,
+    PDILogbookComponent,
     TraineeLicenceComponent,
     AccompanimentCardADI3Component,
   ],
 })
-export class WaitingRoomToCarCatADIPart3ComponentsModule { }
+export class WaitingRoomToCarCatADIPart3ComponentsModule {
+}
