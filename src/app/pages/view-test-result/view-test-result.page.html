@@ -19,7 +19,10 @@
     </error-message>
 
     <div *ngIf="!isLoading && !showErrorMessage && testResult">
-        <view-test-header [data]="getHeaderDetails()"></view-test-header>
+        <view-test-header
+                [data]="getHeaderDetails()"
+                [appVersion]="testResult.appVersion"
+        ></view-test-header>
 
         <activity-code-card
                 [activityCode]="testResult.activityCode">
