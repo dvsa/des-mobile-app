@@ -14,6 +14,9 @@ export class ViewTestHeaderComponent {
   @Input()
   data: ViewTestHeaderModel;
 
+  @Input()
+  appVersion: string;
+
   getActivityCodeDescription() {
     const description = getEnumKeyByValue(ActivityCodes, this.data.activityCode);
     return ActivityCodeDescription[description[0]];

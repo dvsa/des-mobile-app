@@ -9,5 +9,8 @@
             <span *ngIf="!data.grade" id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">{{data.testOutcome}}</span>
             <span *ngIf="data.grade" id="gradeTestOutcome" class="mes-green" >{{data.testOutcome}} - Grade {{data.grade}}</span>
         </h3>
+        <h3>
+            <span *ngIf="appVersion" id="appVersion">App Version: {{appVersion}}</span>
+        </h3>
     </ion-col>
 </ion-row>
