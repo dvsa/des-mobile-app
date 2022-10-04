@@ -47,6 +47,7 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionProvider } from '@providers/question/question';
 import { DeviceProvider } from '@providers/device/device';
+import { EcoFaultChanged, FEDChanged } from '@store/tests/test-summary/test-summary.actions';
 
 interface CatADI2OfficePageState {
   displayDrivingFaultComments$: Observable<boolean>;
@@ -266,4 +267,13 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   showMeQuestionsChanged(result: QuestionResult, index: number): void {
     this.store$.dispatch(ShowMeQuestionSelected(result, index));
   }
+
+  ecoFaultChanged(fault: FaultSummary[]): void {
+    this.store$.dispatch(EcoFaultChanged(fault));
+  }
+
+  fedChanged(fuelEfficientDriving: boolean): void {
+    this.store$.dispatch(FEDChanged(fuelEfficientDriving));
+  }
+
 }

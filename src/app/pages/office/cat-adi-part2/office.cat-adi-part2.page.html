@@ -150,6 +150,18 @@
                     <ion-grid>
                         <eco-card [ecoFaults]="pageState.ecoFaults$ | async"></eco-card>
 
+                        <fuel-efficient-driving
+                                [formGroup]="form"
+                                (fedChange)="fedChanged($event)"
+                        ></fuel-efficient-driving>
+
+                        <eco-related-fault
+                                *ngIf="(pageState.ecoFaults$ | async) && (pageState.drivingFaultCount$ | async) > 0"
+                                [formGroup]="form"
+                                [drivingFaults]="pageState.drivingFaults$ | async"
+                                (ecoFaultChange)="ecoFaultChanged($event)">
+                        </eco-related-fault>
+
                         <eco-capture-reason
                                 *ngIf="(pageState.ecoFaults$ | async) && (pageState.drivingFaultCount$ | async) > 0"
                                 [formGroup]="form">
