@@ -65,10 +65,10 @@ export const fakeJournalTestSlots = [
         progressiveAccess: false,
         testCategory: 'C',
         vehicleGearbox: 'Manual',
-        vehicleHeight: 15,
-        vehicleLength: 30,
+        vehicleHeight: 4,
+        vehicleLength: 12,
         vehicleSeats: 2,
-        vehicleWidth: 15,
+        vehicleWidth: 2.8,
         welshTest: false,
       },
       candidate: {
