@@ -7,6 +7,9 @@ import {
   teachingLearningStrategiesReducer,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import { reviewReducer } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
+import { endTimeReducer } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.reducer';
+import { startTimeReducer } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.reducer';
+import { totalScoreReducer } from '@store/tests/test-data/cat-adi-part3/total-score/total-score.reducer';
 
 export function testDataCatADI3Reducer(
   state: TestData,
@@ -18,6 +21,9 @@ export function testDataCatADI3Reducer(
     riskManagement: riskManagementReducer,
     teachingLearningStrategies: teachingLearningStrategiesReducer,
     review: reviewReducer,
+    endTime: endTimeReducer,
+    startTime: startTimeReducer,
+    totalScore: totalScoreReducer,
   })(state as Required<TestData>, action);
 }
 

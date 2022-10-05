@@ -34,3 +34,8 @@ export const ManoeuvresPassCertNumberChanged = createAction(
   '[PreTestDeclarations] Manoeuvres pass certificate number changed',
   (manoeuvrePassCertificateNumber: string) => ({ manoeuvrePassCertificateNumber }),
 );
+
+export const ValidPassCertChanged = createAction(
+  '[PreTestDeclarations] Valid certificate cert changed',
+  (validCertificate: boolean) => ({ validCertificate }),
+);
