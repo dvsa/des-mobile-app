@@ -12,4 +12,7 @@ export class Adi3DebriefCardBox {
 
   @Input()
   public testReportSection: LessonPlanning | RiskManagement | TeachingLearningStrategies;
+
+  @Input()
+  idSelector:string;
 }

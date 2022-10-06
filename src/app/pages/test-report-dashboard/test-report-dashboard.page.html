@@ -28,7 +28,8 @@
             [isValid]="lessonAndThemeState?.score > 0 && lessonAndThemeState?.valid === true"
             [showCompleted]="lessonAndThemeState?.score > 0 || (!!testDataADI3?.lessonAndTheme?.other && !isEmpty(testDataADI3?.lessonAndTheme?.other))"
             [score]="lessonAndThemeState?.score"
-            [maxScore]="2">
+            [maxScore]="2"
+            [idSelector]="'lesson-and-theme'">
     </dashboard-item>
 
     <dashboard-item
@@ -38,7 +39,8 @@
             [isValid]="testReportState === 17"
             [showCompleted]="testReportState > 0"
             [score]="testReportState"
-            [maxScore]="17">
+            [maxScore]="17"
+            [idSelector]="'test-report'">
     </dashboard-item>
 
     <review-feedback
@@ -55,8 +57,9 @@
             <ion-button
                     (click)="onContinueClick()"
                     shape="round"
-                    class="mes-primary-button wrtc-footer-btn">
-                <h3>Continue</h3>
+                    class="mes-primary-button wrtc-footer-btn"
+                    id="continue-button">
+                <h3 id="continue-text">Continue</h3>
             </ion-button>
         </ion-col>
     </ion-row>

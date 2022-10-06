@@ -14,7 +14,8 @@
         charLimit="950"
         (change)="adviceReasonChange($event.target.value)"
         [style]="noAdviceCharsRemaining < 0 ? 'border-color: var(--mes-validation-error);' : null"
-        (onCharacterCountChanged)="characterCountChanged($event)">
+        (onCharacterCountChanged)="characterCountChanged($event)"
+        id="ordit-reason-for-advice-textarea">
       </textarea>
       <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
         {{getCharacterCountText()}}

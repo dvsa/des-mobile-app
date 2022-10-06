@@ -23,4 +23,7 @@ export class DashboardItemComponent {
 
   @Input()
   showCompleted: boolean;
+
+  @Input()
+  idSelector: string;
 }
