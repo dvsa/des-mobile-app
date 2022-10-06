@@ -1,7 +1,7 @@
 <ion-row class="mes-validated-row mes-row-separator" id="ordit-trainer-card" [formGroup]="formGroup">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col class="component-label ion-align-self-center" size="32">
-        <label>Did the candidate receive training from an ORDIT trainer?</label>
+        <label>Did the {{notSC ? 'candidate' : 'ADI'}} receive training from an ORDIT trainer?</label>
     </ion-col>
     <ion-col class="ion-align-self-center ion-padding-start">
         <ion-row class="spacing-row"></ion-row>

@@ -20,6 +20,9 @@ export class OrditTrainerCatAdiPart2Component {
   @Input()
   formGroup: FormGroup;
 
+  @Input()
+  notSC: boolean = true;
+
   formControl: FormControl;
 
   @Output()

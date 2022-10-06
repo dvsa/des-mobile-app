@@ -40,12 +40,14 @@
             </transmission>
 
             <pdi-logbook
+              *ngIf="notSC(pageState.category$ | async)"
               [formGroup]="form"
               [pdiLogbook]="pageState.pdiLogbook$ | async"
               (pdiLogbookChange)="pdiLogbookChanged($event)">
             </pdi-logbook>
 
             <trainee-licence
+              *ngIf="notSC(pageState.category$ | async)"
               [formGroup]="form"
               [traineeLicence]="pageState.traineeLicence$ | async"
               (traineeLicenceChange)="traineeLicenceChanged($event)">
@@ -53,6 +55,7 @@
 
             <ordit-trainer-cat-adi-part2
               [formGroup]="form"
+              [notSC]="notSC(pageState.category$ | async)"
               [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
               (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)">
             </ordit-trainer-cat-adi-part2>

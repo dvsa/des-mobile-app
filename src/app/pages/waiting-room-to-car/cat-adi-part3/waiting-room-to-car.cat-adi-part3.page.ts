@@ -34,6 +34,8 @@ import {
 import { TrainerAccompanimentToggled } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.actions';
 import { getAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.reducer';
 import { getTrainerAccompaniment } from '@store/tests/accompaniment/cat-adi3/accompaniment.cat-adi3.selector';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 interface CatAdi3WaitingRoomToCarPageState {
   orditTrained$: Observable<boolean>;
@@ -130,6 +132,10 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
 
   trainerAccompanimentChanged(): void {
     this.store$.dispatch(TrainerAccompanimentToggled());
+  }
+
+  notSC(category: CategoryCode): boolean {
+    return category !== TestCategory.SC;
   }
 
 }
