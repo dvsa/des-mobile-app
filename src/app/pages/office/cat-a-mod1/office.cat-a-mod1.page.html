@@ -133,7 +133,7 @@
                     header="Dangerous faults"
                     [formGroup]="form"
                     [faultComments]="pageState.dangerousFaults$ | async"
-                    [shouldRender]="(pageState.dangerousFaults$ | async).length > 0 && pageState.displayDangerousFault$ | async"
+                    [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
                     [outcome]="pageState.testOutcome$ | async"
                     (faultCommentsChange)="dangerousFaultCommentChanged($event)"
                     [testCategory]="pageState.testCategory$ | async">
@@ -144,7 +144,7 @@
                     header="Serious faults"
                     [formGroup]="form"
                     [faultComments]="pageState.seriousFaults$ | async"
-                    [shouldRender]="(pageState.seriousFaults$ | async).length > 0  && pageState.displaySeriousFault$ | async"
+                    [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
                     [outcome]="pageState.testOutcome$ | async"
                     (faultCommentsChange)="seriousFaultCommentChanged($event)"
                     [testCategory]="pageState.testCategory$ | async">
