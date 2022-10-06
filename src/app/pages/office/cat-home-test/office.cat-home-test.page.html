@@ -102,7 +102,7 @@
 
             <fault-comment-card [formGroup]="form"
                                 [faultComments]="pageState.dangerousFaults$ | async"
-                                [shouldRender]="(pageState.dangerousFaults$ | async).length > 0 && pageState.displayDangerousFault$ | async"
+                                [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && pageState.displayDangerousFault$ | async"
                                 [outcome]="pageState.testOutcome$ | async"
                                 faultType="dangerous"
                                 header="Dangerous faults"
@@ -112,7 +112,7 @@
 
             <fault-comment-card [formGroup]="form"
                                 [faultComments]="pageState.seriousFaults$ | async"
-                                [shouldRender]="(pageState.seriousFaults$ | async).length > 0  && pageState.displaySeriousFault$ | async"
+                                [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && pageState.displaySeriousFault$ | async"
                                 [outcome]="pageState.testOutcome$ | async"
                                 faultType="serious"
                                 header="Serious faults"
