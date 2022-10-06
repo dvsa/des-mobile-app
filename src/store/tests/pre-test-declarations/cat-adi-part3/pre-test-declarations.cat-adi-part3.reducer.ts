@@ -6,6 +6,7 @@ export const initialState: PreTestDeclarations = {
   insuranceDeclarationAccepted: false,
   residencyDeclarationAccepted: false,
   preTestSignature: '',
+  validCertificate: null,
 };
 
 export const preTestDeclarationsCatADI3Reducer = createReducer(
@@ -28,6 +29,10 @@ export const preTestDeclarationsCatADI3Reducer = createReducer(
   on(preTestDeclarationActions.SignatureDataCleared, (state): PreTestDeclarations => ({
     ...state,
     preTestSignature: '',
+  })),
+  on(preTestDeclarationActions.ValidPassCertChanged, (state, { validCertificate }): PreTestDeclarations => ({
+    ...state,
+    validCertificate,
   })),
   on(preTestDeclarationActions.SetDeclarationStatus, (state, { declarationStatus }): PreTestDeclarations => ({
     ...state,
