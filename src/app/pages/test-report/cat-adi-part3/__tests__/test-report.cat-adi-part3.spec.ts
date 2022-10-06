@@ -47,6 +47,7 @@ import {
   TeachingLearningStrategiesQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
+import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { testReportReducer } from '../../test-report.reducer';
 
 describe('TestReportCatADI3Page', () => {
@@ -95,7 +96,11 @@ describe('TestReportCatADI3Page', () => {
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
         { provide: NavController, useClass: NavControllerMock },
-        provideMockStore({}),
+        provideMockStore({
+          initialState: {
+            appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
+          },
+        }),
       ],
     });
   });

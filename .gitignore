@@ -21,6 +21,7 @@ log.txt
 npm-debug.log*
 .sentryclirc
 
+/.angular/cache
 /.idea
 /.ionic
 /.sass-cache

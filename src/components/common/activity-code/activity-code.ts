@@ -27,7 +27,7 @@ export class ActivityCodeComponent implements OnChanges {
   disabled: boolean;
 
   @Input()
-  isAdi3: boolean;
+  isAdi3: boolean = false;
 
   @Output()
   activityCodeChange = new EventEmitter<ActivityCodeModel>();
