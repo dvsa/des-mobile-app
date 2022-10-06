@@ -158,7 +158,7 @@
     "postcss": "^8.4.6",
     "puppeteer": "^16.2.0",
     "remotedev": "^0.2.9",
-    "snyk": "^1.989.0",
+    "snyk": "^1.1022.0",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^20.0.0",
     "ts-node": "~10.7.0",
