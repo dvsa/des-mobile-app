@@ -28,7 +28,8 @@
                       (onCharacterCountChanged)="characterCountChanged($event)"
                       (change)="feedbackChanged($event.target.value)">
             </textarea>
-            <div class="character-count validation-text">
+            <div class="character-count validation-text"
+                 id="review-character-count-text">
               {{getCharacterCountText()}}
             </div>
           </ion-col>

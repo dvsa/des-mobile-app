@@ -2,21 +2,24 @@
     <ion-card-content>
         <ion-row>
             <ion-col size="82">
-                <h2>{{title}}</h2>
-                <p *ngIf="isInvalid || showCompleted">{{score}}/{{maxScore}} completed</p>
+                <h2 id="{{idSelector}}-card-header">{{title}}</h2>
+                <p *ngIf="isInvalid || showCompleted" id="{{idSelector}}-score">{{score}}/{{maxScore}} completed</p>
             </ion-col>
             <ion-col size="14">
                 <ion-icon *ngIf="!isInvalid && !showCompleted"
                           class="chevron-icon"
-                          name="chevron-forward-outline">
+                          name="chevron-forward-outline"
+                          id="{{idSelector}}-chevron">
                 </ion-icon>
                 <ion-icon *ngIf="isInvalid"
                           class="invalid-icon"
-                          name="close-circle">
+                          name="close-circle"
+                          id="{{idSelector}}-invalid-icon">
                 </ion-icon>
                 <ion-icon *ngIf="isValid"
                           class="valid-icon"
-                          name="checkmark-circle">
+                          name="checkmark-circle"
+                          id="{{idSelector}}-valid-icon">
                 </ion-icon>
             </ion-col>
         </ion-row>

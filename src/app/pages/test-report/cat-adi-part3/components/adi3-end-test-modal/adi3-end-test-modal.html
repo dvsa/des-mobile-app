@@ -1,7 +1,7 @@
 <ion-card class="modal-alert">
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding">
-      <p class="modal-alert-header">
+      <p class="modal-alert-header" id="test-outcome-text">
         Test Outcome: <span [class]="getTestResultClass()">{{getTestResultLabel()}}</span>
       </p>
     </ion-col>
@@ -11,7 +11,8 @@
     [showIcon]="false"
     [label]="'Lesson planning'"
     [testState]="adi3AssessmentProvider.countCompletedQuestions(testData.lessonPlanning)"
-    [score]="testData.lessonPlanning.score">
+    [score]="testData.lessonPlanning.score"
+    [idSelector]="'lesson-planning'">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
@@ -19,14 +20,16 @@
     [testState]="adi3AssessmentProvider.countCompletedQuestions(testData.riskManagement)"
     [label]="'Risk management'"
     [score]="testData.riskManagement.score"
-    [isPass]="testData.riskManagement.score >= 8">
+    [isPass]="testData.riskManagement.score >= 8"
+    [idSelector]="'risk-management'">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
     [showIcon]="false"
     [testState]="adi3AssessmentProvider.countCompletedQuestions(testData.teachingLearningStrategies)"
     [label]="'Teaching & learning'"
-    [score]="testData.teachingLearningStrategies.score">
+    [score]="testData.teachingLearningStrategies.score"
+    [idSelector]="'teaching-and-learning'">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
@@ -34,7 +37,8 @@
     [testState]="testState"
     [label]="'Overall score'"
     [score]="totalScore"
-    [isPass]="testResult.activityCode === '1'">
+    [isPass]="testResult.activityCode === '1'"
+    [idSelector]="'overall-score'">
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
@@ -42,12 +46,13 @@
     [showScore]="false"
     [label]="'Review'"
     [score]="0"
-    [isPass]="!!feedback">
+    [isPass]="!!feedback"
+    [idSelector]="'review'">
   </modal-result-item>
   <ion-row class="ion-justify-content-center">
     <ion-col size="84">
-      <ion-button *ngIf="!!isValidDashboard || isTestReportPopulated; else missingSections" class="mes-primary-button" (click)="onContinue()">
-        <h3>Continue to debrief</h3>
+      <ion-button *ngIf="!!isValidDashboard || isTestReportPopulated; else missingSections" class="mes-primary-button" (click)="onContinue()" id="continue-to-debrief-button">
+        <h3 id="continue-to-debrief-text">Continue to debrief</h3>
       </ion-button>
       <ng-template  #missingSections>
         <p class="ion-padding ion-justify-content-center">Please complete all sections to continue to debrief</p>
@@ -56,10 +61,16 @@
   </ion-row>
   <ion-row>
     <ion-col *ngIf="!riskToPublicSafety" class="column-border-top column-border-right ion-no-padding">
-      <ion-button fill="clear" class="terminate-button" (click)="onTerminate()">Terminate test</ion-button>
+      <ion-button fill="clear"
+                  class="terminate-button"
+                  (click)="onTerminate()"
+                  id="terminate-test-button">Terminate test</ion-button>
     </ion-col>
     <ion-col class="column-border-top ion-no-padding">
-      <ion-button fill="clear" class="return-button" (click)="onCancel()">Return to test</ion-button>
+      <ion-button fill="clear"
+                  class="return-button"
+                  (click)="onCancel()"
+                  id="return-to-test-button">Return to test</ion-button>
     </ion-col>
   </ion-row>
 </ion-card>

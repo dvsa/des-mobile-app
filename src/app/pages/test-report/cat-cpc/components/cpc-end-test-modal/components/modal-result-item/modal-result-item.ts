@@ -28,6 +28,9 @@ export class ModalResultItemComponent {
   @Input()
   isPass: boolean;
 
+  @Input()
+  idSelector:string;
+
   getOutcomeIcon(): string {
     const passImage = 'assets/imgs/greenCorrectAnswer.png';
     const failImage = 'assets/imgs/redWrongAnswer.png';

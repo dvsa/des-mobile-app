@@ -3,7 +3,7 @@
         <ion-row class="tr-standard-text">Total Score</ion-row>
         <br>
         <ion-row>
-            <ion-col class="tr-standard-text total-score-positioning" size="10">{{totalScore}}</ion-col>
+            <ion-col class="tr-standard-text total-score-positioning" size="10" id="total-score-text">{{totalScore}}</ion-col>
             <ion-col>
                 <ion-row *ngIf="review.immediateDanger">
                     <p id="terminated-public-safety-text">Terminated in the interest of public safety</p>
@@ -23,11 +23,11 @@
         <br>
         <ion-row>
             <ion-col class="tr-standard-text" size="20">Student</ion-col>
-            <ion-col><p>{{studentValueConst[lessonTheme.studentLevel]}}</p></ion-col>
+            <ion-col><p id="student-value-text">{{studentValueConst[lessonTheme.studentLevel]}}</p></ion-col>
         </ion-row>
         <ion-row>
             <ion-col class="tr-standard-text" size="20">Theme</ion-col>
-            <ion-col><p>{{lessonThemeValueStr}}</p></ion-col>
+            <ion-col><p id="theme-value-text">{{lessonThemeValueStr}}</p></ion-col>
         </ion-row>
     </ion-card>
 
@@ -61,21 +61,24 @@
         <ion-col>
             <adi3-debrief-card-box
                     [testReportSection]="lessonPlanning"
-                    [title]="'Lesson Planning'">
+                    [title]="'Lesson Planning'"
+                    [idSelector]="'lesson-planning'">
             </adi3-debrief-card-box>
         </ion-col>
 
         <ion-col>
             <adi3-debrief-card-box
                     [testReportSection]="riskManagement"
-                    [title]="'Risk Management'">
+                    [title]="'Risk Management'"
+                    [idSelector]="'risk-management'">
             </adi3-debrief-card-box>
         </ion-col>
 
         <ion-col>
             <adi3-debrief-card-box
                     [testReportSection]="teachingLearningStrategies"
-                    [title]="'Teaching & Learning Strategies'">
+                    [title]="'Teaching & Learning Strategies'"
+                    [idSelector]="'teaching-and-learning-strategies'">
             </adi3-debrief-card-box>
         </ion-col>
     </ion-row>
@@ -85,7 +88,7 @@
                 <ion-row class="tr-standard-text">Feedback</ion-row>
                 <br>
                 <ion-row>
-                    <p>{{review?.feedback}}</p>
+                    <p id="review-feedback-text">{{review?.feedback}}</p>
                 </ion-row>
             </ion-card>
         </ion-col>
