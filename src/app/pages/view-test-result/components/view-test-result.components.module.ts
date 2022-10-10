@@ -11,6 +11,9 @@ import {
 import {
   TrainerDetailsCardComponent,
 } from '@pages/view-test-result/components/trainer-details-card/trainer-details-card';
+import {
+  SafetyDataRowComponent,
+} from '@pages/view-test-result/components/safety-question-data-row/safety-question-data-row';
 import { FaultsDataRowComponent } from './faults-data-row/faults-data-row';
 import { TestDetailsCardComponent } from './test-details-card/test-details-card';
 import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
@@ -36,6 +39,7 @@ import { SpeedCardComponent } from './speed-card/speed-card';
     RekeyDetailsCardComponent,
     RekeyReasonCardComponent,
     VehicleChecksDataRowComponent,
+    SafetyDataRowComponent,
     SafetyAndBalanceDataRowComponent,
     TestSummaryCardComponent,
     ContactDetailsCardComponent,
@@ -62,6 +66,7 @@ import { SpeedCardComponent } from './speed-card/speed-card';
     RekeyReasonCardComponent,
     VehicleChecksDataRowComponent,
     SafetyAndBalanceDataRowComponent,
+    SafetyDataRowComponent,
     TestSummaryCardComponent,
     ContactDetailsCardComponent,
     BusinessDetailsCardComponent,
@@ -71,4 +76,5 @@ import { SpeedCardComponent } from './speed-card/speed-card';
     TrainerDetailsCardComponent,
   ],
 })
-export class ViewTestResultComponentsModule {}
+export class ViewTestResultComponentsModule {
+}

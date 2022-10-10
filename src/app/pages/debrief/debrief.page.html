@@ -59,18 +59,30 @@
                       [testOutcome]="outcome">
     </cpc-debrief-card>
 
+
+    <ion-card
+            *ngIf="isCatD()">
+        <safety-question-data-row
+                [label]="'Safety question(s)'"
+                [data]="safetyQuestionsCatD"
+                [isDebrief]="true"
+                [shouldHaveSeperator]="false">
+        </safety-question-data-row>
+    </ion-card>
+
+
     <safety-and-balance-card-cat-a-mod2
-      *ngIf="pageState.showSafetyAndBalance$ | async">
+            *ngIf="pageState.showSafetyAndBalance$ | async">
     </safety-and-balance-card-cat-a-mod2>
 
     <adi3-debrief-card *ngIf="showADI3DebriefCard()"
-            [totalScore]="pageState.totalScore$ | async"
-            [lessonTheme]="pageState.lessonTheme$ | async"
-            [lessonPlanning]="pageState.lessonPlanning$ | async"
-            [riskManagement]="pageState.riskManagement$ | async"
-            [teachingLearningStrategies]="pageState.teachingLearningStrategies$ | async"
-            [grade]="pageState.grade$ | async"
-            [review]="pageState.review$ | async">
+                       [totalScore]="pageState.totalScore$ | async"
+                       [lessonTheme]="pageState.lessonTheme$ | async"
+                       [lessonPlanning]="pageState.lessonPlanning$ | async"
+                       [riskManagement]="pageState.riskManagement$ | async"
+                       [teachingLearningStrategies]="pageState.teachingLearningStrategies$ | async"
+                       [grade]="pageState.grade$ | async"
+                       [review]="pageState.review$ | async">
     </adi3-debrief-card>
 </ion-content>
 

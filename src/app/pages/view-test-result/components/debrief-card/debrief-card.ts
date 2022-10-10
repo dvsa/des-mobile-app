@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { get } from 'lodash';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { QuestionResult, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { manoeuvreTypeLabelsCatC } from '@shared/constants/competencies/catc-manoeuvres';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { flattenArray } from '@pages/view-test-result/view-test-result-helpers';
@@ -52,6 +52,7 @@ export class DebriefCardComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('Data: ', this.data);
     this.showMeQuestion = this.getShowMeQuestion();
     this.tellMeQuestion = this.getTellMeQuestion();
     this.manoeuvres = this.getManoeuvres();
@@ -155,6 +156,11 @@ export class DebriefCardComponent implements OnInit {
 
   public isMod2 = (): boolean => isAnyOf(this.category, [
     TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2, TestCategory.EUAMM2, // Cat Mod2
+  ]);
+
+  public isCatD = (): boolean => isAnyOf(this.category, [
+    TestCategory.D, TestCategory.DM, TestCategory.D1, TestCategory.D1M,
+    TestCategory.D1E, TestCategory.DE,
   ]);
 
   public hideManoeuvre = (): boolean => isAnyOf(this.category, [
@@ -494,6 +500,10 @@ export class DebriefCardComponent implements OnInit {
       .filter((questionRes: QuestionResult) => questionRes.outcome !== undefined);
   }
 
+  public get safetyQuestionsCatD(): SafetyQuestionResult[] {
+    return get(this.data, 'safetyQuestions.questions', []);
+  }
+
   public get safetyQuestions(): QuestionResult[] {
     return get(this.data, 'safetyAndBalanceQuestions.safetyQuestions', []);
   }
@@ -510,7 +520,7 @@ export class DebriefCardComponent implements OnInit {
 
   ETASeparator(): boolean {
     return (this.isMod2()
-          || this.isValidEmergencyStopOrAvoidance()
-          || (!this.delegatedTest && !this.isMod1() && !this.isMod2()));
+            || this.isValidEmergencyStopOrAvoidance()
+            || (!this.delegatedTest && !this.isMod1() && !this.isMod2()));
   }
 }
