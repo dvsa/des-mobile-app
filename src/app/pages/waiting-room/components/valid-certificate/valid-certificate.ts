@@ -29,15 +29,12 @@ export class ValidCertificateComponent implements OnChanges {
     if (this.validCertificate === true || this.validCertificate === false) {
       this.formControl.patchValue(this.validCertificate);
     }
-
-    console.log('formControl:', this.formControl);
   }
 
   validCertificateChanged(validCertificate:string): void {
-    console.log('validCertificate:', validCertificate);
-    // if (this.formControl.valid) {
-    this.validCertificateChange.emit(validCertificate === 'valid-certificate-yes');
-    // }
+    if (this.formControl.valid) {
+      this.validCertificateChange.emit(validCertificate === 'valid-certificate-yes');
+    }
   }
 
   get invalid(): boolean {

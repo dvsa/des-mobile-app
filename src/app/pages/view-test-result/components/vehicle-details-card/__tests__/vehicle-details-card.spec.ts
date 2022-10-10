@@ -219,8 +219,6 @@ describe('VehicleDetailsCardComponent', () => {
           .returnValue(false);
         component.vehicleDetails = undefined;
 
-        console.log(component.displayRegistration());
-
         expect(component.displayRegistration)!.toBeTruthy();
       });
     });
