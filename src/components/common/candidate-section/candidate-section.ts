@@ -12,6 +12,7 @@ import {
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'candidate-section',
@@ -34,6 +35,12 @@ export class CandidateSectionComponent {
 
   @Input()
   showVRNButton: boolean;
+
+  @Input()
+  candidatePrnNumber: number;
+
+  @Input()
+  testCategory: CategoryCode;
 
   @Output()
   continueClickEvent = new EventEmitter<boolean>();

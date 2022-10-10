@@ -20,9 +20,18 @@
         <candidate-section
                 [candidateName]="pageState.candidateName$ | async"
                 [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                [candidatePrnNumber]="pageState.prn$ | async"
+                [testCategory]="pageState.testCategory$ | async"
                 (continueClickEvent)="onSubmit()"
                 [showVRNButton]="pageState.showVrnBtn$ | async">
         </candidate-section>
+
+        <valid-certificate
+                *ngIf="pageState.showValidPassCertificate$ | async"
+                [formGroup]="formGroup"
+                [validCertificate]="pageState.validCertificate$ | async"
+                (validCertificateChange)="validCertificateChanged($event)"
+        ></valid-certificate>
 
         <manoeuvres-pass-cert
                 *ngIf="pageState.showManoeuvresPassCertNumber$ | async"
@@ -49,8 +58,8 @@
         </conducted-language>
 
         <div [ngClass]="{
-            'mes-full-width-card-no-padding-top': ((pageState.showManoeuvresPassCertNumber$ | async) || (pageState.showCbtNumber$ | async)),
-            'mes-full-width-card': (!(pageState.showManoeuvresPassCertNumber$ | async) && !(pageState.showCbtNumber$ | async))
+            'mes-full-width-card-no-padding-top': ((pageState.showManoeuvresPassCertNumber$ | async) || (pageState.showValidPassCertificate$ | async) || (pageState.showCbtNumber$ | async)),
+            'mes-full-width-card': (!(pageState.showManoeuvresPassCertNumber$ | async) && !(pageState.showValidPassCertificate$ | async) &&  !(pageState.showCbtNumber$ | async))
         }" id="declaration-section">
             <ion-row>
                 <ion-col>

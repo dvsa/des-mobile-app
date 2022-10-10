@@ -15,7 +15,7 @@ import {
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
-  getCandidateName, getCandidateDriverNumber, formatDriverNumber, getUntitledCandidateName,
+  getCandidateName, getCandidateDriverNumber, formatDriverNumber, getUntitledCandidateName, getCandidatePrn,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { map, tap } from 'rxjs/operators';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -63,6 +63,10 @@ import {
 } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import { ErrorPage } from '@pages/error-page/error';
+import {
+  getValidCertificateStatus,
+} from '@store/tests/pre-test-declarations/cat-adi-part3/pre-test-declarations.cat-adi-part3.selector';
+import { ValidPassCertChanged } from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -81,6 +85,9 @@ interface WaitingRoomPageState {
   showCbtNumber$: Observable<boolean>;
   showResidencyDec$: Observable<boolean>;
   cbtNumber$: Observable<string>;
+  prn$: Observable<number>;
+  validCertificate$: Observable<boolean>;
+  showValidPassCertificate$: Observable<boolean>;
 }
 
 @Component({
@@ -206,6 +213,19 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         select(getPreTestDeclarationsCatAMod1),
         select(getCBTNumberStatus),
       ),
+      prn$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidatePrn),
+      ),
+      validCertificate$: currentTest$.pipe(
+        select(getPreTestDeclarations),
+        select(getValidCertificateStatus),
+      ),
+      showValidPassCertificate$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC])),
+      ),
     };
 
     const {
@@ -285,6 +305,10 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   cbtNumberChanged(cbtNumber: string): void {
     this.store$.dispatch(CbtNumberChanged(cbtNumber));
+  }
+
+  validCertificateChanged(validCertificate: boolean): void {
+    this.store$.dispatch(ValidPassCertChanged(validCertificate));
   }
 
   async onSubmit(): Promise<void> {
