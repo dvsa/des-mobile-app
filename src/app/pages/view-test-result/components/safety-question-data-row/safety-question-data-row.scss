@@ -35,6 +35,8 @@
 
 .completed-test-padding {
   padding-left: 265px;
+  position: relative;
+  top: -40px;
 }
 
 .completed-icon-padding {
@@ -48,6 +50,15 @@
   right: 53px;
 }
 
-.search-card-padding {
-  padding-left: 0px;
+.debrief-position-fix {
+  position: relative;
+  top: -22px;
+  height: 225px;
+}
+
+.search-card-padding-and-position {
+  padding-left: 0;
+  height: 110px;
+  position: relative;
+  top: -15px;
 }
