@@ -52,7 +52,6 @@ export class DebriefCardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('Data: ', this.data);
     this.showMeQuestion = this.getShowMeQuestion();
     this.tellMeQuestion = this.getTellMeQuestion();
     this.manoeuvres = this.getManoeuvres();
@@ -159,7 +158,7 @@ export class DebriefCardComponent implements OnInit {
   ]);
 
   public isCatD = (): boolean => isAnyOf(this.category, [
-    TestCategory.D, TestCategory.DM, TestCategory.D1, TestCategory.D1M,
+    TestCategory.D, TestCategory.D1,
     TestCategory.D1E, TestCategory.DE,
   ]);
 

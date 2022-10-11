@@ -404,7 +404,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
   }
 
   public isCatD = (): boolean => isAnyOf(this.testCategory, [
-    TestCategory.D, TestCategory.DM, TestCategory.D1, TestCategory.D1M,
+    TestCategory.D, TestCategory.D1,
     TestCategory.D1E, TestCategory.DE,
   ]);
 
