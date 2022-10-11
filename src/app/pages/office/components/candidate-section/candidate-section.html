@@ -8,7 +8,7 @@
 </ion-row>
 <ion-row id="candidate-number-section" class="candidate-side-padding">
     <ion-col size="44" class="ion-no-padding">
-        <h3 id="candidate-driver-number">{{driverNumber}}</h3>
+        <h3 id="candidate-driver-number">{{ isStandardsCheck ? 'PRN: ' + candidatePrnNumber : driverNumber}}</h3>
     </ion-col>
     <ion-col size="52" class="align-col-right ion-no-padding">
         <h3>Test outcome:

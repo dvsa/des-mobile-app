@@ -12,7 +12,6 @@ import {
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'candidate-section',
@@ -40,7 +39,7 @@ export class CandidateSectionComponent {
   candidatePrnNumber: number;
 
   @Input()
-  testCategory: CategoryCode;
+  isStandardsCheck: boolean;
 
   @Output()
   continueClickEvent = new EventEmitter<boolean>();

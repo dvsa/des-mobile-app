@@ -30,7 +30,7 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import {
   formatDriverNumber,
   getCandidateDriverNumber,
-  getCandidateName,
+  getCandidateName, getCandidatePrn,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { map, tap } from 'rxjs/operators';
@@ -63,6 +63,8 @@ interface HealthDeclarationPageState {
   conductedLanguage$: Observable<string>;
   testCategory$: Observable<CategoryCode>;
   showHealthDec$: Observable<boolean>;
+  prn$: Observable<number>;
+  isStandardsCheck$: Observable<boolean>;
 }
 @Component({
   selector: 'app-health-declaration',
@@ -166,6 +168,15 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
           TestCategory.CM, TestCategory.C1M, TestCategory.CEM, TestCategory.C1EM,
           TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
         ])),
+      ),
+      prn$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidatePrn),
+      ),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC])),
       ),
     };
 

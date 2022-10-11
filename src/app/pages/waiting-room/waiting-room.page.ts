@@ -87,7 +87,7 @@ interface WaitingRoomPageState {
   cbtNumber$: Observable<string>;
   prn$: Observable<number>;
   validCertificate$: Observable<boolean>;
-  showValidPassCertificate$: Observable<boolean>;
+  isStandardsCheck$: Observable<boolean>;
 }
 
 @Component({
@@ -222,7 +222,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         select(getPreTestDeclarations),
         select(getValidCertificateStatus),
       ),
-      showValidPassCertificate$: currentTest$.pipe(
+      isStandardsCheck$: currentTest$.pipe(
         select(getTestCategory),
         map((category) => isAnyOf(category, [TestCategory.SC])),
       ),

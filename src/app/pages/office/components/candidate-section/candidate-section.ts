@@ -17,6 +17,12 @@ export class CandidateSectionComponent {
   startTime: string;
 
   @Input()
+  candidatePrnNumber: number;
+
+  @Input()
+  isStandardsCheck: boolean;
+
+  @Input()
   testOutcomeText: TestOutcome;
 
   @Input()

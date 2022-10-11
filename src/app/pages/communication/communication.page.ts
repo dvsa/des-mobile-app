@@ -19,7 +19,7 @@ import {
   formatDriverNumber,
   getCandidateDriverNumber,
   getCandidateEmailAddress,
-  getCandidateName,
+  getCandidateName, getCandidatePrn,
   getPostalAddress,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
@@ -45,6 +45,7 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { showVrnButton } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 
 interface CommunicationPageState {
   candidateName$: Observable<string>;
@@ -57,6 +58,8 @@ interface CommunicationPageState {
   conductedLanguage$: Observable<Language>;
   testCategory$: Observable<CategoryCode>;
   showVrnBtn$: Observable<boolean>;
+  prn$: Observable<number>;
+  isStandardsCheck$: Observable<boolean>;
 }
 
 @Component({
@@ -152,6 +155,15 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       showVrnBtn$: currentTest$.pipe(
         select(getTestCategory),
         select(showVrnButton),
+      ),
+      prn$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidatePrn),
+      ),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC])),
       ),
     };
 
