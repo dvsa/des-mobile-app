@@ -12,25 +12,25 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { EffectsModule } from '@ngrx/effects';
 import { DebriefEffects } from '@pages/debrief/debrief.effects';
 import { DebriefAnalyticsEffects } from '@pages/debrief/debrief.analytics.effects';
+import { ViewTestResultComponentsModule } from '@pages/view-test-result/components/view-test-result.components.module';
 import { DebriefPageRoutingModule } from './debrief.routing.module';
 import { DebriefPage } from './debrief.page';
-import { ViewTestResultComponentsModule } from '@pages/view-test-result/components/view-test-result.components.module';
 
 @NgModule({
-    imports: [
-        DebriefComponentsModule,
-        ComponentsModule,
-        CommonModule,
-        FormsModule,
-        IonicModule,
-        DebriefPageRoutingModule,
-        TranslateModule,
-        EffectsModule.forFeature([
-            DebriefEffects,
-            DebriefAnalyticsEffects,
-        ]),
-        ViewTestResultComponentsModule,
-    ],
+  imports: [
+    DebriefComponentsModule,
+    ComponentsModule,
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    DebriefPageRoutingModule,
+    TranslateModule,
+    EffectsModule.forFeature([
+      DebriefEffects,
+      DebriefAnalyticsEffects,
+    ]),
+    ViewTestResultComponentsModule,
+  ],
   declarations: [DebriefPage],
   providers: [
     FaultSummaryProvider,
