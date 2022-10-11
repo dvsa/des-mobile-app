@@ -1,0 +1,64 @@
+:host {
+  .mes-data.bold {
+    font-weight: bold;
+  }
+
+  .mes-data.large {
+    line-height: 33px;
+  }
+
+  img {
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+  }
+
+  .counter-icon {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    padding: 2px 4px 4px;
+
+    .text-zoom-large & {
+      padding-top: 4px;
+    }
+
+    .text-zoom-x-large & {
+      padding-top: 6px;
+    }
+  }
+}
+
+.debrief-padding {
+  padding-right: 40px;
+}
+
+.completed-test-padding {
+  padding-left: 265px;
+  position: relative;
+  top: -40px;
+}
+
+.completed-icon-padding {
+  padding-right: 40px;
+  padding-top: 2px;
+}
+
+.debrief-card-padding {
+  position: relative;
+  top: 46px;
+  right: 53px;
+}
+
+.debrief-position-fix {
+  position: relative;
+  top: -22px;
+  height: 225px;
+}
+
+.search-card-padding-and-position {
+  padding-left: 0;
+  height: 110px;
+  position: relative;
+  top: -15px;
+}

@@ -28,4 +28,5 @@ import {
     ActivityCodeCard,
   ],
 })
-export class ViewTestResultPageModule {}
+export class ViewTestResultPageModule {
+}

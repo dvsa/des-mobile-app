@@ -76,6 +76,13 @@
                     [shouldHaveSeperator]="false">
             </speed-card>
 
+            <safety-question-data-row
+                    *ngIf="isCatD()"
+                    [label]="'Safety question(s)'"
+                    [data]="safetyQuestionsCatD"
+                    [shouldHaveSeperator]="false">
+            </safety-question-data-row>
+
             <safety-and-balance-data-row
                     *ngIf="isMod2()"
                     [label]="'Safety question(s)'"

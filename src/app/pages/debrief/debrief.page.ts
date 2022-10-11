@@ -18,7 +18,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import {
-  CategoryCode, Eco, ETA, QuestionResult,
+  CategoryCode, Eco, ETA, QuestionResult, SafetyQuestionResult,
 } from '@dvsa/mes-test-schema/categories/common';
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
@@ -68,6 +68,10 @@ import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-p
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { getGrade, getImmediateDanger } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import {
+  getSafetyQuestions,
+  getSafetyQuestionsCatD,
+} from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
 
 interface DebriefPageState {
   seriousFaults$: Observable<string[]>;
@@ -101,7 +105,9 @@ interface DebriefPageState {
   showSafetyAndBalance$: Observable<boolean>;
   grade$: Observable<string>;
   immediateDanger$: Observable<boolean>;
+  safetyQuestions$: Observable<SafetyQuestionResult[]>
 }
+
 @Component({
   selector: '.debrief-page',
   templateUrl: 'debrief.page.html',
@@ -134,7 +140,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
     private faultCountProvider: FaultCountProvider,
     private faultSummaryProvider: FaultSummaryProvider,
     protected routeByCategoryProvider: RouteByCategoryProvider,
-    private testDataByCategoryProvider : TestDataByCategoryProvider,
+    private testDataByCategoryProvider: TestDataByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$, false);
   }
@@ -204,6 +210,15 @@ export class DebriefPage extends PracticeableBasePageComponent {
         select(getVehicleChecks),
         map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions]),
         map((checks) => checks.filter((c) => c.code !== undefined)),
+      ),
+      safetyQuestions$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        filter(([, category]) => isAnyOf(category, [
+          TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E,
+        ])),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getSafetyQuestionsCatD),
+        select(getSafetyQuestions),
       ),
       question1$: currentTest$.pipe(
         withLatestFrom(testCategory$),
@@ -314,7 +329,11 @@ export class DebriefPage extends PracticeableBasePageComponent {
     };
 
     const {
-      testResult$, etaFaults$, ecoFaults$, conductedLanguage$, category$,
+      testResult$,
+      etaFaults$,
+      ecoFaults$,
+      conductedLanguage$,
+      category$,
     } = this.pageState;
 
     this.subscription = merge(
@@ -333,7 +352,8 @@ export class DebriefPage extends PracticeableBasePageComponent {
         }),
       ),
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   ionViewDidEnter(): void {
@@ -374,6 +394,11 @@ export class DebriefPage extends PracticeableBasePageComponent {
   isTerminated(): boolean {
     return this.outcome === OutcomeType.Terminated;
   }
+
+  public isCatD = (): boolean => isAnyOf(this.testCategory, [
+    TestCategory.D, TestCategory.D1,
+    TestCategory.D1E, TestCategory.DE,
+  ]);
 
   showCPCDebriefCard(): boolean {
     return isAnyOf(this.testCategory, [TestCategory.CCPC, TestCategory.DCPC]);
