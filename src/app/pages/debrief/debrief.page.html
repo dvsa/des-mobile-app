@@ -64,7 +64,7 @@
             *ngIf="isCatD()">
         <safety-question-data-row
                 [label]="'Safety question(s)'"
-                [data]="safetyQuestionsCatD"
+                [data]="pageState.safetyQuestions$ | async"
                 [isDebrief]="true"
                 [shouldHaveSeperator]="false">
         </safety-question-data-row>

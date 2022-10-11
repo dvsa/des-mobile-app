@@ -395,14 +395,6 @@ export class DebriefPage extends PracticeableBasePageComponent {
     return this.outcome === OutcomeType.Terminated;
   }
 
-  public get safetyQuestionsCatD(): SafetyQuestionResult[] {
-    let obs;
-    this.pageState.safetyQuestions$.subscribe((sub) => {
-      obs = sub;
-    });
-    return obs;
-  }
-
   public isCatD = (): boolean => isAnyOf(this.testCategory, [
     TestCategory.D, TestCategory.D1,
     TestCategory.D1E, TestCategory.DE,

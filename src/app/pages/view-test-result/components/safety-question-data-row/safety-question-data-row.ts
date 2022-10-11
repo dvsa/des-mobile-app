@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { QuestionOutcome, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 @Component({
   selector: 'safety-question-data-row',
@@ -21,6 +22,6 @@ export class SafetyDataRowComponent {
   isDebrief: boolean = false;
 
   public shouldShowFault(outcome: QuestionOutcome): boolean {
-    return outcome === 'DF';
+    return outcome === CompetencyOutcome.DF;
   }
 }
