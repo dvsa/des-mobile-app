@@ -63,6 +63,7 @@ import {
 } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import { ErrorPage } from '@pages/error-page/error';
+import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -116,6 +117,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(waitingRoomActions.WaitingRoomViewDidEnter());
+    this.store$.dispatch(GetCandidateLicenceData());
 
     if (super.isIos()) {
       await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
@@ -291,7 +293,13 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 
     if (this.formGroup.valid) {
-      await this.router.navigate([TestFlowPageNames.COMMUNICATION_PAGE]);
+      try {
+        await this.deviceAuthenticationProvider.triggerLockScreen();
+      } catch {
+        return;
+      }
+      // navigate after successful device auth and when form is valid;
+      await this.router.navigate([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
       return;
     }
 

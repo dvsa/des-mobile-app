@@ -16,7 +16,7 @@
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="false"
+    [showIcon]="adi3AssessmentProvider.countCompletedQuestions(testData.riskManagement) > 0"
     [testState]="adi3AssessmentProvider.countCompletedQuestions(testData.riskManagement)"
     [label]="'Risk management'"
     [score]="testData.riskManagement.score"
@@ -33,7 +33,7 @@
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="false"
+    [showIcon]="testState > 0"
     [testState]="testState"
     [label]="'Overall score'"
     [score]="totalScore"
@@ -42,7 +42,7 @@
   </modal-result-item>
   <modal-result-item
     [adi3]="true"
-    [showIcon]="false"
+    [showIcon]="true"
     [showScore]="false"
     [label]="'Review'"
     [score]="0"

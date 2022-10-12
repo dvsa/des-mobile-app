@@ -46,5 +46,10 @@ export type AppConfig = {
   user: {
     findUserUrl: string,
   }
+  driver: {
+    photographUrl: string;
+    signatureUrl: string;
+    standardUrl: string;
+  },
   requestTimeout: number
 };

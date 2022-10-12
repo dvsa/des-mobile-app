@@ -1,0 +1,45 @@
+<ion-card id="candidate-licence-info-card" *ngIf="candidateData">
+  <ion-card-header>
+    <h4 id="candidate-licence-info-card-title">Licence information</h4>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <data-row
+        [idPrefix]="idPrefix"
+        [shouldHaveSeperator]="true"
+        [label]="'Driver number'"
+        [value]="driverNumber">
+      </data-row>
+      <data-row
+        [idPrefix]="idPrefix"
+        [shouldHaveSeperator]="true"
+        [label]="'Name'"
+        [value]="name">
+      </data-row>
+      <data-row
+        [idPrefix]="idPrefix"
+        [shouldHaveSeperator]="true"
+        [label]="'Age'"
+        [value]="age">
+      </data-row>
+      <data-row
+        [idPrefix]="idPrefix"
+        [shouldHaveSeperator]="true"
+        [label]="'Gender'"
+        [value]="gender">
+      </data-row>
+      <data-row
+        [idPrefix]="idPrefix"
+        [shouldHaveSeperator]="true"
+        [label]="'Card expiry date'"
+        [value]="cardExpiryDate">
+      </data-row>
+      <data-row
+        [idPrefix]="idPrefix"
+        [shouldHaveSeperator]="true"
+        [label]="'Signature'"
+        [value]="signature">
+      </data-row>
+    </ion-grid>
+  </ion-card-content>
+</ion-card>

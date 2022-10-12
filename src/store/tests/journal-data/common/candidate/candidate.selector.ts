@@ -34,3 +34,7 @@ export const getPostalAddress = (candidate: Candidate) => candidate.candidateAdd
 export const getCandidateId = (candidate: Candidate) => candidate.candidateId;
 
 export const getCandidatePrn = (candidate: Candidate) => candidate.prn;
+
+export const getGender = (candidate: Candidate) => candidate.gender;
+
+export const getDateOfBirth = (candidate: Candidate) => candidate.dateOfBirth;

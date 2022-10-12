@@ -1,0 +1,34 @@
+:host {
+  .driver-photograph {
+    object-fit: contain;
+    height: 420px;
+    width: auto;
+    display: block;
+    margin: auto;
+    border: 1px solid black;
+  }
+
+  .row-border-top {
+    border-top: 2px solid #efefef;
+  }
+
+  .error-card {
+    width: 100%;
+    height: 180px;
+  }
+
+  .driver-photograph-spinner {
+    height: 420px;
+    display: block;
+    margin: auto;
+  }
+
+  .alert-icon {
+    color: var(--gds-black);
+    font-size: 48px;
+  }
+
+  .center-icon {
+    text-align: center;
+  }
+}

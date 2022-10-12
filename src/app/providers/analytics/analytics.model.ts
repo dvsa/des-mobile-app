@@ -30,6 +30,7 @@ export enum AnalyticsScreenNames {
   WAITING_ROOM_TO_CAR = 'waiting room to car screen',
   WELCOME = 'welcome screen',
   CANDIDATE_DETAILS = 'candidate details screen',
+  CANDIDATE_LICENCE_INFO = 'candidate licence info screen',
   PASS_DEBRIEF = 'pass debrief screen',
   FAIL_DEBRIEF = 'fail debrief screen',
   LOGIN = 'login screen',

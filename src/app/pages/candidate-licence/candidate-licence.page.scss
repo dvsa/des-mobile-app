@@ -1,0 +1,16 @@
+:host {
+  ion-content {
+    --ion-background-color: var(--mes-white);
+  }
+
+  ion-row {
+    text-align: center;
+    padding: 0 8px 5px 8px;
+
+    .continue {
+      min-height: 56px;
+      width: 746px;
+      margin-top: 11px;
+    }
+  }
+}

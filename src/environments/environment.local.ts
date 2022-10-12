@@ -247,9 +247,9 @@ export const environment: LocalEnvironmentFile = {
     findUserUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/users/{staffNumber}',
   },
   driver: {
-    photographUrl: null,
-    signatureUrl: null,
-    standardUrl: null,
+    signatureUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/signature/{drivingLicenceNumber}',
+    photographUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/photograph/{drivingLicenceNumber}',
+    standardUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/standard',
   },
   requestTimeout: 20000,
 };
