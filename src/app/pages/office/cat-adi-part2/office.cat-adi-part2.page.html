@@ -152,19 +152,23 @@
 
                         <fuel-efficient-driving
                                 [formGroup]="form"
+                                [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
                                 (fedChange)="fedChanged($event)"
                         ></fuel-efficient-driving>
 
                         <eco-related-fault
-                                *ngIf="(pageState.ecoFaults$ | async) && (pageState.drivingFaultCount$ | async) > 0"
+                                *ngIf="(pageState.fuelEfficientDriving$ | async)"
                                 [formGroup]="form"
-                                [drivingFaults]="pageState.drivingFaults$ | async"
+                                [drivingFaults]="pageState.adi2DrivingFaults$ | async"
+                                [ecoRelatedFault]="pageState.ecoRelatedFault$ | async"
                                 (ecoFaultChange)="ecoFaultChanged($event)">
                         </eco-related-fault>
 
                         <eco-capture-reason
-                                *ngIf="(pageState.ecoFaults$ | async) && (pageState.drivingFaultCount$ | async) > 0"
-                                [formGroup]="form">
+                                *ngIf="(pageState.fuelEfficientDriving$ | async)"
+                                [formGroup]="form"
+                                [ecoCaptureReason]="pageState.ecoCaptureReason$ | async"
+                                (ecoCaptureReasonChange)="ecoCaptureReasonChanged($event)">
                         </eco-capture-reason>
                     </ion-grid>
                 </ion-card-content>

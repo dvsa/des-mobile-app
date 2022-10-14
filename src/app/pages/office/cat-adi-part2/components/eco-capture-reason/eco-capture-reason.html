@@ -1,4 +1,4 @@
-<ion-row [formGroup]="formGroup" class="mes-validated-row">
+<ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator-top">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col class="component-label ion-align-self-start" size="32">
         <ion-row class="spacing-row"></ion-row>
@@ -11,7 +11,9 @@
             <ion-col>
         <textarea id="eco-capture-reason-text"
                   formControlName="ecoCaptureReason"
-                  class="mes-data input-styling-background">
+                  class="mes-data input-styling-background"
+                  [value]="ecoCaptureReason"
+                  (change)="ecoCaptureReasonChanged($event.target.value)">
         </textarea>
             </ion-col>
         </ion-row>

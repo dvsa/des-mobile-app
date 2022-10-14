@@ -19,12 +19,14 @@ export class FaultSummaryCatAdiPart2Helper {
   public static getDrivingFaultsCatAdiPart2(
     data: CatADI2UniqueTypes.TestData,
     vehicleChecksScore: VehicleChecksScore,
+    includeVehicleCheckFaults: boolean = true,
   ): FaultSummary[] {
     return [
       ...getCompetencyFaults(data.drivingFaults),
       ...this.getManoeuvreFaultsCatAdiPart2(data.manoeuvres, CompetencyOutcome.DF),
       ...this.getControlledStopFault(data.controlledStop, CompetencyOutcome.DF),
-      ...this.getVehicleCheckDrivingFaultsCatAdiPart2(data.vehicleChecks, vehicleChecksScore),
+      ...includeVehicleCheckFaults
+        ? this.getVehicleCheckDrivingFaultsCatAdiPart2(data.vehicleChecks, vehicleChecksScore) : [],
     ];
   }
 

@@ -16,8 +16,11 @@ export class EcoRelatedFaultComponent implements OnChanges {
   @Input()
   drivingFaults: FaultSummary[];
 
+  @Input()
+  ecoRelatedFault: string;
+
   @Output()
-  ecoFaultChange = new EventEmitter<FaultSummary[]>();
+  ecoFaultChange = new EventEmitter<string>();
 
   private formControl: FormControl;
 
@@ -26,9 +29,13 @@ export class EcoRelatedFaultComponent implements OnChanges {
       this.formControl = new FormControl(null, Validators.required);
       this.formGroup.addControl('ecoRelatedFault', this.formControl);
     }
+
+    if (this.ecoRelatedFault) {
+      this.formControl.patchValue(this.ecoRelatedFault);
+    }
   }
 
-  ecoFaultChanged(ecoFaults: FaultSummary[]): void {
+  ecoFaultChanged(ecoFaults: string): void {
     this.ecoFaultChange.emit(ecoFaults);
   }
 

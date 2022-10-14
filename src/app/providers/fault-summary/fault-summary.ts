@@ -25,7 +25,11 @@ export class FaultSummaryProvider {
 
   constructor(private faultCountProvider: FaultCountProvider) { }
 
-  public getDrivingFaultsList(data: object, category: TestCategory): FaultSummary[] {
+  public getDrivingFaultsList(
+    data: object,
+    category: TestCategory,
+    includeVehicleCheckFaults: boolean = true,
+  ): FaultSummary[] {
     switch (category) {
       case TestCategory.ADI2:
         return FaultSummaryCatAdiPart2Helper.getDrivingFaultsCatAdiPart2(
@@ -34,6 +38,7 @@ export class FaultSummaryProvider {
             TestCategory.ADI2,
             (<CatADI2UniqueTypes.TestData>data).vehicleChecks,
           ),
+          includeVehicleCheckFaults,
         );
       case TestCategory.B:
         return FaultSummaryCatBHelper.getDrivingFaultsCatB(data);

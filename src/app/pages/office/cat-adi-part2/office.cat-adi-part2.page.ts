@@ -47,7 +47,18 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionProvider } from '@providers/question/question';
 import { DeviceProvider } from '@providers/device/device';
-import { EcoFaultChanged, FEDChanged } from '@store/tests/test-summary/test-summary.actions';
+import {
+  getEco,
+  getEcoCaptureReason,
+  getEcoRelatedFault,
+  getFuelEfficientDriving,
+} from '@store/tests/test-data/common/test-data.selector';
+import {
+  AddEcoCaptureReason,
+  AddEcoRelatedFault,
+  ToggleFuelEfficientDriving,
+} from '@store/tests/test-data/common/eco/eco.actions';
+import { getTestCategory } from '@store/tests/category/category.reducer';
 
 interface CatADI2OfficePageState {
   displayDrivingFaultComments$: Observable<boolean>;
@@ -57,6 +68,10 @@ interface CatADI2OfficePageState {
   vehicleChecksSerious$: Observable<boolean>;
   vehicleChecksDangerous$: Observable<boolean>;
   showMeQuestionsFaults$: Observable<number>;
+  adi2DrivingFaults$: Observable<FaultSummary[]>
+  fuelEfficientDriving$: Observable<boolean>;
+  ecoRelatedFault$: Observable<string>;
+  ecoCaptureReason$: Observable<string>;
 }
 
 type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
@@ -113,6 +128,10 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
       select(getCurrentTest),
     );
 
+    const testCategory$ = currentTest$.pipe(
+      select(getTestCategory),
+    );
+
     this.pageState = {
       ...this.commonPageState,
       displayDrivingFaultComments$: currentTest$.pipe(
@@ -155,6 +174,27 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
         select(getTestData),
         select(getVehicleChecksCatADI2),
         map((data) => this.faultCountProvider.getShowMeFaultCount(TestCategory.ADI2, data).drivingFaults),
+      ),
+      adi2DrivingFaults$: currentTest$.pipe(
+        select(getTestData),
+        withLatestFrom(testCategory$),
+        map(([data, category]) =>
+          this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)),
+      ),
+      fuelEfficientDriving$: currentTest$.pipe(
+        select(getTestData),
+        select(getEco),
+        select(getFuelEfficientDriving),
+      ),
+      ecoRelatedFault$: currentTest$.pipe(
+        select(getTestData),
+        select(getEco),
+        select(getEcoRelatedFault),
+      ),
+      ecoCaptureReason$: currentTest$.pipe(
+        select(getTestData),
+        select(getEco),
+        select(getEcoCaptureReason),
       ),
     };
 
@@ -268,12 +308,17 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
     this.store$.dispatch(ShowMeQuestionSelected(result, index));
   }
 
-  ecoFaultChanged(fault: FaultSummary[]): void {
-    this.store$.dispatch(EcoFaultChanged(fault));
+  ecoFaultChanged(fault: string): void {
+    this.store$.dispatch(AddEcoRelatedFault(fault));
+  }
+
+  ecoCaptureReasonChanged(ecoCaptureReason: string): void {
+    console.log('ecoCaptureReason:', ecoCaptureReason);
+    this.store$.dispatch(AddEcoCaptureReason(ecoCaptureReason));
   }
 
   fedChanged(fuelEfficientDriving: boolean): void {
-    this.store$.dispatch(FEDChanged(fuelEfficientDriving));
+    this.store$.dispatch(ToggleFuelEfficientDriving(fuelEfficientDriving));
   }
 
 }

@@ -1,6 +1,5 @@
 import { createAction } from '@ngrx/store';
 import { WeatherConditions, Identification, IndependentDriving } from '@dvsa/mes-test-schema/categories/common';
-import { FaultSummary } from '@shared/models/fault-marking.model';
 
 export const AdditionalInformationChanged = createAction(
   '[Test Summary] Additional Information changed',
@@ -51,14 +50,4 @@ export const D255No = createAction(
 export const WeatherConditionsChanged = createAction(
   '[Test Summary] Weather conditions changed',
   (weatherConditions: WeatherConditions[]) => ({ weatherConditions }),
-);
-
-export const EcoFaultChanged = createAction(
-  '[Test Summary] Eco related fault(s) changed',
-  (faultSummary: FaultSummary[]) => ({ faultSummary }),
-);
-
-export const FEDChanged = createAction(
-  '[Test Summary] Fuel efficient driving changed',
-  (fuelEfficientDriving: boolean) => ({ fuelEfficientDriving }),
 );

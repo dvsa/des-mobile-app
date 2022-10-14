@@ -15,7 +15,7 @@
                        name="fuelEfficientDriving"
                        formControlName="fuelEfficientDriving"
                        value="true"
-                       (change)="fedChanged($event.target.value)">
+                       (change)="fedChanged($event.target.id)">
                 <label for="fuel-efficient-driving-yes" class="radio-label" id="fuel-efficient-driving-yes-label">Yes</label>
             </ion-col>
             <ion-col class="ion-align-self-center">
@@ -25,7 +25,7 @@
                        name="fuelEfficientDriving"
                        formControlName="fuelEfficientDriving"
                        value="false"
-                       (change)="fedChanged($event.target.value)">
+                       (change)="fedChanged($event.target.id)">
                 <label for="fuel-efficient-driving-no" class="radio-label" id="fuel-efficient-driving-no-label">No</label>
             </ion-col>
         </ion-row>
