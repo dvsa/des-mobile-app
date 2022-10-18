@@ -454,28 +454,4 @@ describe('OfficeAnalyticsEffects', () => {
       });
     });
   });
-
-  describe('modeOfTransportChanged$', () => {
-    it('should log a MODE_OF_TRANSPORT_CHANGED event', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123, TestCategory.EUAM2));
-      store$.dispatch(PopulateTestCategory(TestCategory.EUAM2));
-      store$.dispatch(PopulateCandidateDetails(candidateMock));
-      store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
-      store$.dispatch(applicationReferenceActions.PopulateApplicationReference(mockApplication));
-      // ACT
-      actions$.next(catAMod2TestSummaryActions.ModeOfTransportChanged('Car to bike'));
-      // ASSERT
-      effects.setModeOfTransport$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.OFFICE,
-            AnalyticsEvents.MODE_OF_TRANSPORT_CHANGED,
-            'Car to bike selected',
-          );
-        done();
-      });
-    });
-  });
 });
