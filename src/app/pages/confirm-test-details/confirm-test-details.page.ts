@@ -201,7 +201,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
               select(getTestData),
               select(getReview),
               select(getGrade),
-              map((grade) => `Passed Grade - ${grade}`),
+              map((grade) => `Passed - Grade ${grade}`),
             ),
             studentLevel$: currentTest$.pipe(
               select(getTestData),
