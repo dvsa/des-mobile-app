@@ -15,6 +15,9 @@ export class EcoCaptureReasonComponent implements OnChanges {
   @Input()
   ecoCaptureReason: string;
 
+  @Input()
+  fuelEfficientDriving: boolean = false;
+
   @Output()
   ecoCaptureReasonChange = new EventEmitter<string>();
 
@@ -22,10 +25,14 @@ export class EcoCaptureReasonComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, Validators.required);
+      this.formControl = new FormControl(null);
       this.formGroup.addControl('ecoCaptureReason', this.formControl);
     }
-    this.formControl.patchValue(this.ecoCaptureReason);
+
+    this.formControl.setValidators(this.fuelEfficientDriving ? Validators.required : null);
+    this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+
+    this.formControl.patchValue(this.ecoCaptureReason, { onlySelf: true, emitEvent: false });
   }
 
   ecoCaptureReasonChanged(ecoCaptureReason: string): void {

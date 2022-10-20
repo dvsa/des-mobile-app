@@ -18,9 +18,9 @@ export const ecoReducer = createReducer(
     ...state,
     adviceGivenPlanning: !state.adviceGivenPlanning,
   })),
-  on(ecoActions.ToggleFuelEfficientDriving, (state): Eco => ({
+  on(ecoActions.ToggleFuelEfficientDriving, (state, { fuelEfficientDriving }): Eco => ({
     ...state,
-    fuelEfficientDriving: !state.fuelEfficientDriving,
+    fuelEfficientDriving,
   })),
   on(ecoActions.AddEcoRelatedFault, (state, { ecoRelatedFault }): Eco => ({
     ...state,

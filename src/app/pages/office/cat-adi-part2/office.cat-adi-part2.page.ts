@@ -313,7 +313,6 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   }
 
   ecoCaptureReasonChanged(ecoCaptureReason: string): void {
-    console.log('ecoCaptureReason:', ecoCaptureReason);
     this.store$.dispatch(AddEcoCaptureReason(ecoCaptureReason));
   }
 

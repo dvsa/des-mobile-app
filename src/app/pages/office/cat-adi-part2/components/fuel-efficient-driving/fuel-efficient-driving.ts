@@ -9,10 +9,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class FuelEfficientDriving implements OnChanges {
   @Input()
-  formGroup: FormGroup;
+  fuelEfficientDriving: boolean;
 
   @Input()
-  fuelEfficientDriving: boolean;
+  formGroup: FormGroup;
 
   @Output()
   fedChange = new EventEmitter<boolean>();
@@ -21,9 +21,11 @@ export class FuelEfficientDriving implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, Validators.required);
+      this.formControl = new FormControl(null, [Validators.required]);
       this.formGroup.addControl('fuelEfficientDriving', this.formControl);
     }
+
+    this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
 
     if (this.fuelEfficientDriving === true || this.fuelEfficientDriving === false) {
       this.formControl.patchValue(String(this.fuelEfficientDriving));
@@ -31,7 +33,9 @@ export class FuelEfficientDriving implements OnChanges {
   }
 
   fedChanged(fuelEfficientDriving: string): void {
-    this.fedChange.emit(fuelEfficientDriving === 'fuel-efficient-driving-yes');
+    if (this.formControl.valid) {
+      this.fedChange.emit(fuelEfficientDriving === 'fuel-efficient-driving-yes');
+    }
   }
 
   get invalid(): boolean {

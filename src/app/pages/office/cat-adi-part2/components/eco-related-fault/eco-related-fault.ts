@@ -11,13 +11,16 @@ import { FaultSummary } from '@shared/models/fault-marking.model';
 
 export class EcoRelatedFaultComponent implements OnChanges {
   @Input()
+  fuelEfficientDriving: boolean;
+
+  @Input()
+  ecoRelatedFault: string;
+
+  @Input()
   formGroup: FormGroup;
 
   @Input()
   drivingFaults: FaultSummary[];
-
-  @Input()
-  ecoRelatedFault: string;
 
   @Output()
   ecoFaultChange = new EventEmitter<string>();
@@ -26,18 +29,23 @@ export class EcoRelatedFaultComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, Validators.required);
+      this.formControl = new FormControl(null);
       this.formGroup.addControl('ecoRelatedFault', this.formControl);
     }
 
-    if (this.ecoRelatedFault) {
-      this.formControl.patchValue(this.ecoRelatedFault);
-    }
+    this.formControl.setValidators(this.fuelEfficientDriving ? Validators.required : null);
+    this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+
+    this.formControl.patchValue(this.ecoRelatedFault, { onlySelf: true, emitEvent: false });
   }
 
   ecoFaultChanged(ecoFaults: string): void {
     this.ecoFaultChange.emit(ecoFaults);
   }
+
+  trackByIndex = (_: number, fs: FaultSummary) => {
+    return `${fs.competencyIdentifier}`;
+  };
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
