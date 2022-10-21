@@ -292,7 +292,7 @@ describe('TestSlotComponent', () => {
         expect(canViewCandidateDetails).toEqual(false);
       });
 
-      it('should return true if slot date is after latest viewable date and user IS whitelisted for ADI', () => {
+      it('should return false if slot date is after latest viewable date and user is not whitelisted for ADI2', () => {
         jasmine.clock().mockDate(new Date('2020-07-25'));
         spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
         spyOn(component.appConfig, 'getAppConfig').and.returnValue({
@@ -306,7 +306,7 @@ describe('TestSlotComponent', () => {
         } as AppConfig);
         component.slot.slotDetail.start = '2020-07-25T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails).toEqual(true);
+        expect(canViewCandidateDetails).toEqual(false);
       });
 
       it('should return true if slot date is after latest viewable date and user IS whitelisted for ADI', () => {
