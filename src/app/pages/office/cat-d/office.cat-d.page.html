@@ -209,7 +209,7 @@
             <fault-comment-card
                     [formGroup]="form"
                     [faultComments]="pageState.dangerousFaults$ | async"
-                    [shouldRender]="(pageState.dangerousFaults$ | async).length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegated)"
+                    [shouldRender]="(pageState.dangerousFaults$ | async)?.length > 0 && ((pageState.displayDangerousFault$ | async) || isDelegated)"
                     [isDelegatedTest]="pageState.delegatedTest$ | async"
                     [outcome]="pageState.testOutcome$ | async"
                     faultType="dangerous"
@@ -220,7 +220,7 @@
             <fault-comment-card
                     [formGroup]="form"
                     [faultComments]="pageState.seriousFaults$ | async"
-                    [shouldRender]="(pageState.seriousFaults$ | async).length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegated)"
+                    [shouldRender]="(pageState.seriousFaults$ | async)?.length > 0  && ((pageState.displaySeriousFault$ | async) || isDelegated)"
                     [isDelegatedTest]="pageState.delegatedTest$ | async"
                     [outcome]="pageState.testOutcome$ | async"
                     faultType="serious"
@@ -232,7 +232,7 @@
                     id="driving-fault-comment-card"
                     [formGroup]="form"
                     [faultComments]="pageState.drivingFaults$ | async"
-                    [shouldRender]="((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)) || (isDelegated && (pageState.drivingFaults$ | async).length > 0 )"
+                    [shouldRender]="((pageState.displayDrivingFaultComments$ | async) && (pageState.displayDrivingFault$ | async)) || (isDelegated && (pageState.drivingFaults$ | async)?.length > 0 )"
                     [isDelegatedTest]="pageState.delegatedTest$ | async"
                     [outcome]="pageState.testOutcome$ | async"
                     faultType="driving"

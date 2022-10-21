@@ -150,7 +150,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     const { testPermissionPeriods } = this.appConfig.getAppConfig().journal;
     const currentDateTime = new Date();
     const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
-      return (period.testCategory === TestCategory.ADI2 || period.testCategory === TestCategory.ADI3)
+      return (period.testCategory === TestCategory.ADI2)
         && new Date(period.from) <= currentDateTime
         && (new Date(period.to) >= currentDateTime || period.to === null);
     });
