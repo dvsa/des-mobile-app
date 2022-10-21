@@ -50,7 +50,7 @@
     "@angular/platform-browser": "~13.3.11",
     "@angular/platform-browser-dynamic": "~13.3.11",
     "@angular/router": "~13.3.11",
-    "@capacitor/core": "^4.0.0",
+    "@capacitor/core": "^4.3.0",
     "@capacitor/ios": "^4.0.0",
     "@capacitor/splash-screen": "^4.0.0",
     "@capacitor/status-bar": "^4.0.0",
