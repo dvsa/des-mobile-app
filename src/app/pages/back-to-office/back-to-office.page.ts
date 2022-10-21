@@ -4,7 +4,11 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { BackToOfficeViewDidEnter, DeferWriteUp } from '@pages/back-to-office/back-to-office.actions';
+import {
+  ASAMPopupPresented,
+  BackToOfficeViewDidEnter,
+  DeferWriteUp,
+} from '@pages/back-to-office/back-to-office.actions';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { merge, Observable, Subscription } from 'rxjs';
@@ -127,6 +131,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
         showBackdrop: true,
       });
 
+      this.store$.dispatch(ASAMPopupPresented());
       await asamModal.present();
       await asamModal.onDidDismiss();
       await this.onContinue(navigationTarget);
