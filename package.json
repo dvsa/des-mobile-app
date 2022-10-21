@@ -52,7 +52,7 @@
     "@angular/router": "~13.3.11",
     "@capacitor/core": "^4.0.0",
     "@capacitor/ios": "^4.0.0",
-    "@capacitor/splash-screen": "^4.0.0",
+    "@capacitor/splash-screen": "^4.1.0",
     "@capacitor/status-bar": "^4.0.0",
     "@dvsa/mes-config-schema": "^1.2.2",
     "@dvsa/mes-journal-schema": "1.2.2",
