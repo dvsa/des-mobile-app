@@ -246,5 +246,10 @@ export const environment: LocalEnvironmentFile = {
   user: {
     findUserUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/users/{staffNumber}',
   },
+  driver: {
+    photographUrl: null,
+    signatureUrl: null,
+    standardUrl: null,
+  },
   requestTimeout: 20000,
 };
