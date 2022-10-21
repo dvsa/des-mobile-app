@@ -206,6 +206,7 @@ export enum AnalyticsEvents {
   PRACTICE_TEST_SELECTED = 'practice test report selected',
   PRACTICE_FULL_TEST_SELECTED = 'practice full test selected',
   BACK = 'back',
+  ASAM = 'Single App Mode (SAM)',
 }
 
 export enum AnalyticsLabels {

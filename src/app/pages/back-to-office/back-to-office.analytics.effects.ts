@@ -22,6 +22,7 @@ import {
   getApplicationNumber,
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import {
+  ASAMPopupPresented,
   BackToOfficeViewDidEnter,
   DeferWriteUp,
 } from './back-to-office.actions';
@@ -88,6 +89,25 @@ export class BackToOfficeAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.BACK_TO_OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.DEFER_WRITE_UP, tests),
         isTestPassed ? 'pass' : 'fail',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  asamPopupShown$ = createEffect(() => this.actions$.pipe(
+    ofType(ASAMPopupPresented),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+      ),
+    )),
+    switchMap(([, tests]: [ReturnType<typeof ASAMPopupPresented>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.ERROR, tests),
+        formatAnalyticsText(AnalyticsEvents.ASAM, tests),
+        'Modal Triggered',
       );
       return of(AnalyticRecorded());
     }),

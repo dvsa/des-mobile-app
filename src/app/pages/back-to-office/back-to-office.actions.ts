@@ -7,3 +7,7 @@ export const BackToOfficeViewDidEnter = createAction(
 export const DeferWriteUp = createAction(
   '[BackToOfficePage] Defer write-up',
 );
+
+export const ASAMPopupPresented = createAction(
+  '[BackToOfficePage] ASAM popup presented',
+);
