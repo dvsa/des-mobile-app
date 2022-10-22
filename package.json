@@ -79,7 +79,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@sentry/angular": "^6.19.7",
-    "@sentry/capacitor": "^0.6.1",
+    "@sentry/capacitor": "^0.10.0",
     "@sentry/tracing": "^6.19.7",
     "angular2-signaturepad": "^3.0.4",
     "assert": "^2.0.0",
