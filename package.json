@@ -63,7 +63,7 @@
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/device": "^5.36.0",
     "@ionic-native/emm-app-config": "^5.36.0",
-    "@ionic-native/google-analytics": "^5.30.0",
+    "@ionic-native/google-analytics": "^5.36.0",
     "@ionic-native/insomnia": "^5.36.0",
     "@ionic-native/is-debug": "^5.36.0",
     "@ionic-native/mobile-accessibility": "^5.36.0",
