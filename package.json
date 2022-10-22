@@ -88,7 +88,7 @@
     "buffer": "^6.0.3",
     "cordova-ios": "6.2.0",
     "cordova-ios-guided-access": "git+https://github.com/wizpanda/cordova-ios-guided-access.git",
-    "cordova-plugin-app-version": "^0.1.12",
+    "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
     "cordova-plugin-emm-app-config": "^1.0.2",
     "cordova-plugin-google-analytics": "^1.9.0",
