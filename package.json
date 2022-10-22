@@ -69,7 +69,7 @@
     "@ionic-native/mobile-accessibility": "^5.36.0",
     "@ionic-native/network": "^5.36.0",
     "@ionic-native/screen-orientation": "^5.36.0",
-    "@ionic-native/secure-storage": "^5.29.0",
+    "@ionic-native/secure-storage": "^5.36.0",
     "@ionic/angular": "^6.3.2",
     "@ionic/core": "^6.3.2",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
