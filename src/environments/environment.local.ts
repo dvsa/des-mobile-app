@@ -16,6 +16,7 @@ export const environment: LocalEnvironmentFile = {
   enableRehydrationPlugin: true,
   googleAnalyticsId: 'UA-129489007-3',
   logsPostApiKey: '',
+  taxMotApiKey: '',
   logsApiUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/logs',
   logsAutoSendInterval: 6000,
   employeeNameKey: 'name',

@@ -8,6 +8,7 @@ import {
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
+import { VehicleDetailsApiService } from '@providers/vehicle-details-api/vehicle-details-api.service';
 
 @Component({
   selector: 'vehicle-registration',
@@ -29,6 +30,9 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
+  constructor(private vehicleProvider: VehicleDetailsApiService) {
+  }
+
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null, [Validators.required]);
@@ -37,10 +41,15 @@ export class VehicleRegistrationComponent implements OnChanges {
     this.formControl.patchValue(this.vehicleRegistration);
   }
 
+  getMOTandTax(identifier: string) {
+    this.vehicleProvider.getVehicleByIdentifier(identifier)
+      .subscribe((response) => console.log(response));
+  }
+
   vehicleRegistrationChanged(event: any): void {
     if (
       typeof event.target.value === 'string'
-        && !this.registrationNumberValidator.pattern.test(event.target.value)
+            && !this.registrationNumberValidator.pattern.test(event.target.value)
     ) {
       event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
 

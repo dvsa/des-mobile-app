@@ -26,6 +26,14 @@ export class UrlProvider {
     return this.appConfigProvider.getAppConfig().tests.testSubmissionUrl;
   }
 
+  getTaxMotApiKey(): string {
+    return this.appConfigProvider.getAppConfig().taxMotApiKey;
+  }
+
+  getTaxMotUrl(): string {
+    return this.appConfigProvider.getAppConfig().vehicle.taxMotUrl;
+  }
+
   getDelegatedExaminerSearchBookingUrl(applicationReference: string): string {
     const urlTemplate = this.appConfigProvider.getAppConfig().journal.delegatedExaminerSearchBookingUrl;
     return urlTemplate.replace(
