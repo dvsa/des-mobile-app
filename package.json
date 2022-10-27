@@ -63,13 +63,13 @@
     "@ionic-native/core": "^5.36.0",
     "@ionic-native/device": "^5.36.0",
     "@ionic-native/emm-app-config": "^5.36.0",
-    "@ionic-native/google-analytics": "^5.30.0",
+    "@ionic-native/google-analytics": "^5.36.0",
     "@ionic-native/insomnia": "^5.36.0",
     "@ionic-native/is-debug": "^5.36.0",
     "@ionic-native/mobile-accessibility": "^5.36.0",
     "@ionic-native/network": "^5.36.0",
     "@ionic-native/screen-orientation": "^5.36.0",
-    "@ionic-native/secure-storage": "^5.29.0",
+    "@ionic-native/secure-storage": "^5.36.0",
     "@ionic/angular": "^6.3.2",
     "@ionic/core": "^6.3.2",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
@@ -88,7 +88,7 @@
     "buffer": "^6.0.3",
     "cordova-ios": "6.2.0",
     "cordova-ios-guided-access": "git+https://github.com/wizpanda/cordova-ios-guided-access.git",
-    "cordova-plugin-app-version": "^0.1.12",
+    "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
     "cordova-plugin-emm-app-config": "^1.0.2",
     "cordova-plugin-google-analytics": "^1.9.0",
@@ -112,7 +112,7 @@
     "url": "^0.11.0",
     "util": "^0.12.4",
     "uuid": "^8.3.2",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.3.9",
