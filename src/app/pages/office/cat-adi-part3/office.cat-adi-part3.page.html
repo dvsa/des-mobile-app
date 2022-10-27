@@ -11,7 +11,9 @@
     [driverNumber]="pageState.candidateDriverNumber$ | async"
     [startTime]="pageState.startTime$ | async"
     [testOutcomeText]="pageState.testOutcomeText$ | async"
-    [grade]="pageState.testOutcomeGrade$ | async">
+    [grade]="pageState.testOutcomeGrade$ | async"
+    [candidatePrnNumber]="pageState.prn$ | async"
+    [isStandardsCheck]="pageState.isStandardsCheck$ | async">
   </office-candidate-section>
 
   <form [formGroup]="form">

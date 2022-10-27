@@ -1,4 +1,4 @@
-import { Subscription, merge } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -21,10 +21,7 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { ActivateTest, StartTest } from '@store/tests/tests.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 import { SetExaminerBooked } from '@store/tests/examiner-booked/examiner-booked.actions';
-import {
-  ResumingWriteUp,
-  EarlyStartModalDidEnter,
-} from '@store/journal/journal.actions';
+import { EarlyStartModalDidEnter, ResumingWriteUp } from '@store/journal/journal.actions';
 import { StartE2EPracticeTest } from '@pages/fake-journal/fake-journal.actions';
 import { JournalForceCheckModal } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal';
 import { JournalEarlyStartModal } from '@pages/journal/components/journal-early-start-modal/journal-early-start-modal';
@@ -196,7 +193,12 @@ export class TestOutcomeComponent implements OnInit {
     } else {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, this.startTestAsRekey || this.isRekey));
     }
-    await this.router.navigate([TestFlowPageNames.WAITING_ROOM_PAGE]);
+
+    await this.router.navigate(
+      [this.category !== TestCategory.SC
+        ? TestFlowPageNames.WAITING_ROOM_PAGE
+        : TestFlowPageNames.COMMUNICATION_PAGE],
+    );
   }
 
   async rekeyTest() {

@@ -35,6 +35,12 @@ export class CandidateSectionComponent {
   @Input()
   showVRNButton: boolean;
 
+  @Input()
+  candidatePrnNumber: number;
+
+  @Input()
+  isStandardsCheck: boolean;
+
   @Output()
   continueClickEvent = new EventEmitter<boolean>();
 

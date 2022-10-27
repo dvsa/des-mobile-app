@@ -19,9 +19,18 @@
     <form [formGroup]="form">
       <candidate-section [candidateName]="pageState.candidateName$ | async"
                          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                         [candidatePrnNumber]="pageState.prn$ | async"
+                         [isStandardsCheck]="pageState.isStandardsCheck$ | async"
                          (continueClickEvent)="onSubmit()"
                          [showVRNButton]="pageState.showVrnBtn$ | async">
       </candidate-section>
+
+      <valid-certificate
+              *ngIf="pageState.isStandardsCheck$ | async"
+              [formGroup]="form"
+              [validCertificate]="pageState.validCertificate$ | async"
+              (validCertificateChange)="validCertificateChanged($event)"
+      ></valid-certificate>
 
       <div class="mes-full-width-card-separator"></div>
 

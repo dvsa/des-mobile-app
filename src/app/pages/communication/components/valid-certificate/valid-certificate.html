@@ -1,0 +1,43 @@
+<ion-row class="mes-validated-row-short mes-row-separator mes-row-separator-top" id="valid-certificate-row"
+         [formGroup]="formGroup">
+  <div class="validation-bar" [class.ng-invalid]="invalid">
+  </div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="candidate-appearance-valid-certificate-label">Valid Certificate</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center ion-padding-start">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row>
+      <ion-col class="ion-align-self-center" size="48">
+        <input type="radio"
+               id="valid-certificate-yes"
+               class="gds-radio-button"
+               name="validCertificate"
+               formControlName="validCertificate"
+               [value]="true"
+               [checked]="validCertificate === true"
+               (change)="validCertificateChanged($event.target.id)">
+        <label for="valid-certificate-yes" class="radio-label" id="valid-certificate-yes-label">Yes</label>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <input type="radio"
+               id="valid-certificate-no"
+               class="gds-radio-button"
+               name="validCertificate"
+               formControlName="validCertificate"
+               [value]="false"
+               [checked]="validCertificate === false"
+               (change)="validCertificateChanged($event.target.id)">
+        <label for="valid-certificate-no" class="radio-label" id="valid-certificate-no-label">No</label>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div
+              class="validation-text"
+              id="valid-certificate-validation-text"
+              [class.ng-invalid]="invalid">
+        A valid certificate must be held to continue
+      </div>
+    </ion-row>
+  </ion-col>
+</ion-row>

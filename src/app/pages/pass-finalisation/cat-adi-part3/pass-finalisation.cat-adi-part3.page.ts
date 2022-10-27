@@ -14,7 +14,7 @@ import {
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import {
   getFurtherDevelopment, getGrade,
   getReasonForNoAdviceGiven,
@@ -31,11 +31,18 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { map } from 'rxjs/operators';
+import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
   adviceReason$: Observable<string>;
   testOutcomeGrade$: Observable<string>;
+  prn$: Observable<number>;
+  isStandardsCheck$: Observable<boolean>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFinalisationPageState;
@@ -90,6 +97,15 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         select(getTestData),
         select(getReview),
         select(getGrade),
+      ),
+      prn$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidatePrn),
+      ),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC])),
       ),
     };
 

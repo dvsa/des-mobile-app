@@ -22,6 +22,12 @@ export class CandidateSectionComponent {
   @Input()
   grade?: string;
 
+  @Input()
+  candidatePrnNumber: number;
+
+  @Input()
+  isStandardsCheck: boolean;
+
   public getTestOutcomeClass = (testOutcome: TestOutcome): string => {
     // eslint-disable-next-line default-case
     switch (testOutcome) {

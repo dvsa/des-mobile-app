@@ -14,6 +14,12 @@ export class FinalisationHeaderComponent {
   candidateDriverNumber: string;
 
   @Input()
+  candidatePrnNumber: number;
+
+  @Input()
+  isStandardsCheck: boolean;
+
+  @Input()
   outcomeText: string;
 
   @Input()
