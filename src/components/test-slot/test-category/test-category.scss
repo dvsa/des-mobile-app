@@ -1,5 +1,12 @@
-h2 {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+:host{
+  h2 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .text-regular {
+    font-size: 32px;
+    line-height: 40px;
+  }
 }
