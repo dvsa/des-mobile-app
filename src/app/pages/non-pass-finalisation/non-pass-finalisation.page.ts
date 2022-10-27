@@ -25,7 +25,7 @@ import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
-  getCandidateDriverNumber,
+  getCandidateDriverNumber, getCandidatePrn,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
@@ -96,6 +96,8 @@ interface NonPassFinalisationPageState {
   displayAdviceReasonGiven$: Observable<boolean>;
   testOutcomeGrade$: Observable<string>;
   immediateDanger$: Observable<boolean>;
+  prn$: Observable<number>;
+  isStandardsCheck$: Observable<boolean>;
 }
 
 @Component({
@@ -272,6 +274,15 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getImmediateDanger),
+      ),
+      prn$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidatePrn),
+      ),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC])),
       ),
     };
 

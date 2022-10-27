@@ -32,3 +32,5 @@ export const getCandidateEmailAddress = (candidate: Candidate) => (
 export const getPostalAddress = (candidate: Candidate) => candidate.candidateAddress;
 
 export const getCandidateId = (candidate: Candidate) => candidate.candidateId;
+
+export const getCandidatePrn = (candidate: Candidate) => candidate.prn;

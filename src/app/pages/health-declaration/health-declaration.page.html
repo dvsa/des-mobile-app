@@ -18,6 +18,8 @@
         <candidate-section
                 [candidateName]="pageState.candidateName$ | async"
                 [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                [candidatePrnNumber]="pageState.prn$ | async"
+                [isStandardsCheck]="pageState.isStandardsCheck$ | async"
                 (continueClickEvent)="onSubmit()"
                 [showVRNButton]="false">
         </candidate-section>

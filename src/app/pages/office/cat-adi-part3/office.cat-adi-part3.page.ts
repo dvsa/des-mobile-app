@@ -21,13 +21,21 @@ import { DeviceProvider } from '@providers/device/device';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
 import { Observable } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
+import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/candidate.selector';
+import { map } from 'rxjs/operators';
 
 interface CatADI3OfficePageState {
   testOutcomeGrade$: Observable<string>;
+  isStandardsCheck$: Observable<boolean>;
+  prn$: Observable<number>;
 }
 
 type OfficePageState = CommonOfficePageState & CatADI3OfficePageState;
@@ -89,6 +97,15 @@ export class OfficeCatADI3Page extends OfficeBasePageComponent implements OnInit
         select(getTestData),
         select(getReview),
         select(getGrade),
+      ),
+      isStandardsCheck$: currentTest$.pipe(
+        select(getTestCategory),
+        map((category) => isAnyOf(category, [TestCategory.SC])),
+      ),
+      prn$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidatePrn),
       ),
     };
 
