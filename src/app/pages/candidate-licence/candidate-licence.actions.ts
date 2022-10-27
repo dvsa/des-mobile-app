@@ -1,9 +1,16 @@
 import { createAction } from '@ngrx/store';
 
+// Page actions
 export const CandidateLicenceViewDidEnter = createAction(
-  '[Candidate licence] View did enter',
+  '[CandidateLicencePage] View did enter',
 );
 
+export const CandidateLicenceDataValidationError = createAction(
+  '[CandidateLicencePage] Validation Error',
+  (errorMessage: string) => ({ errorMessage }),
+);
+
+// Data actions
 export const GetCandidateLicenceData = createAction(
   '[Candidate licence] Get licence data',
 );
@@ -16,6 +23,7 @@ export const GetCandidateLicenceDataError = createAction(
   '[Candidate licence] Get licence data error',
 );
 
+// @TODO: Dispatch action.
 export const ClearCandidateLicenceData = createAction(
   '[Candidate licence] Clear licence data',
 );

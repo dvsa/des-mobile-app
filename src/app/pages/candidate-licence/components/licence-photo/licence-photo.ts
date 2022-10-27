@@ -12,6 +12,6 @@ export class LicencePhoto {
   imageSrc: SafeUrl | string;
 
   @Input()
-  candidateDataError: boolean = false;
+  hasError: boolean = false;
 
 }

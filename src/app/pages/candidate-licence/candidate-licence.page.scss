@@ -3,13 +3,13 @@
     --ion-background-color: var(--mes-white);
   }
 
-  ion-row {
+  ion-footer {
     text-align: center;
     padding: 0 8px 5px 8px;
 
     .continue {
       min-height: 56px;
-      width: 746px;
+      width: 100%;
       margin-top: 11px;
     }
   }

@@ -1,4 +1,4 @@
-<ion-card id="candidate-licence-info-card" *ngIf="candidateData">
+<ion-card id="candidate-licence-info-card" *ngIf="candidateData || isPracticeMode">
   <ion-card-header>
     <h4 id="candidate-licence-info-card-title">Licence information</h4>
   </ion-card-header>
@@ -38,7 +38,7 @@
         [idPrefix]="idPrefix"
         [shouldHaveSeperator]="true"
         [label]="'Signature'"
-        [value]="signature">
+        [imgSrc]="signature">
       </data-row>
     </ion-grid>
   </ion-card-content>

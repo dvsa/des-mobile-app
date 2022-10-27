@@ -50,6 +50,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { SignatureComponent } from '@components/common/signature/signature';
+import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
 import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
@@ -58,7 +59,7 @@ import { WaitingRoomPage } from '../waiting-room.page';
 import { ManoeuvresPassCertificateComponent } from '../components/manoeuvres-pass-cert/manoeuvres-pass-cert';
 import { CBTNumberComponent } from '../components/cbt-number/cbt-number';
 
-describe('WaitingRoomPage', () => {
+fdescribe('WaitingRoomPage', () => {
   let fixture: ComponentFixture<WaitingRoomPage>;
   let component: WaitingRoomPage;
   let store$: Store<StoreModel>;
@@ -189,7 +190,6 @@ describe('WaitingRoomPage', () => {
     });
 
     describe('ionViewDidEnter', () => {
-
       it('should not enable single app mode if on ios and in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         component.isEndToEndPracticeMode = true;
@@ -219,6 +219,10 @@ describe('WaitingRoomPage', () => {
         expect(insomnia.keepAwake).toHaveBeenCalled();
       });
 
+      it('should dispatch the action which calls out for candidate licence data', async () => {
+        await component.ionViewDidEnter();
+        expect(store$.dispatch).toHaveBeenCalledWith(GetCandidateLicenceData());
+      });
     });
 
     describe('canDeActivate', () => {

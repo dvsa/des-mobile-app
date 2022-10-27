@@ -29,15 +29,18 @@ import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getTrueLikenessToPhoto } from '@store/tests/test-summary/test-summary.selector';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { CandidateLicence } from '@providers/candidate-licence/candidate-licence';
+import { CandidateLicenceProvider, CandidateLicenceErr } from '@providers/candidate-licence/candidate-licence';
 import {
   getApplicationReference,
 } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
 import {
   getApplicationNumber,
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
-import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
-import { CandidateLicenceViewDidEnter } from '@pages/candidate-licence/candidate-licence.actions';
+import { DriverLicenceSchema, DriverPhotograph } from '@dvsa/mes-driver-schema';
+import {
+  CandidateLicenceDataValidationError,
+  CandidateLicenceViewDidEnter,
+} from '@pages/candidate-licence/candidate-licence.actions';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
@@ -64,6 +67,8 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
   pageState: CandidateLicencePageState;
   driverDataReturned: boolean = false;
   candidateDataError: boolean = false;
+  candidateDataUnavailable: boolean = false;
+  offlineError: boolean = false;
 
   constructor(
     platform: Platform,
@@ -71,7 +76,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     router: Router,
     store$: Store<StoreModel>,
     private networkStateProvider: NetworkStateProvider,
-    private candidateLicenceProvider: CandidateLicence,
+    private candidateLicenceProvider: CandidateLicenceProvider,
     private domSanitizer: DomSanitizer,
   ) {
     super(platform, authenticationProvider, router, store$, false);
@@ -141,13 +146,25 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         filter(([, , isRekeyTest]) => !this.isPracticeMode && !isRekeyTest),
         switchMap((
           [driverNumber, appRef],
-        ) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef).pipe(
-          catchError(() => {
+        ) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
+        catchError((err) => {
+          if (err instanceof Error) {
+            switch (err.message) {
+              case CandidateLicenceErr.OFFLINE:
+                this.offlineError = true;
+                break;
+              case CandidateLicenceErr.UNAVAILABLE:
+                this.candidateDataUnavailable = true;
+                break;
+              default:
+                this.candidateDataError = true;
+            }
+          } else {
             this.candidateDataError = true;
-            this.driverDataReturned = false;
-            return of(null);
-          }),
-        )),
+          }
+          this.driverDataReturned = false;
+          return of(null);
+        }),
         tap(() => this.driverDataReturned = true),
       ),
     };
@@ -161,16 +178,16 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     this.store$.dispatch(TrueLikenessToPhotoChanged(trueLikeness));
   }
 
-  getImage = (img: string = null, driverLicence: DriverLicenceSchema): SafeUrl => {
+  getImage = (img: string = null, driverPhotograph: DriverPhotograph): SafeUrl => {
     // practice mode will use silhouettes;
     if (img && this.isPracticeMode) {
       return img;
     }
     // means not in practice mode, but data not yet returned from EP or no data exists;
-    if (!img || !this.driverDataReturned || !driverLicence?.driverPhotograph) {
+    if (!img || !this.driverDataReturned || !driverPhotograph) {
       return null;
     }
-    const { image, imageFormat } = driverLicence?.driverPhotograph?.photograph;
+    const { image, imageFormat } = driverPhotograph?.photograph;
     return this.domSanitizer.bypassSecurityTrustUrl(`data:${imageFormat};base64,${image}`);
   };
 
@@ -183,12 +200,11 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
       return;
     }
 
-    Object.keys(this.formGroup.controls)
-      .forEach((controlName) => {
-        if (this.formGroup.controls[controlName].invalid) {
-          // this.store$.dispatch(CandidateIdentificationValidationError(`${controlName} is blank`));
-        }
-      });
+    Object.keys(this.formGroup.controls).forEach((controlName) => {
+      if (this.formGroup.controls[controlName].invalid) {
+        this.store$.dispatch(CandidateLicenceDataValidationError(`${controlName} is blank`));
+      }
+    });
   }
 
 }

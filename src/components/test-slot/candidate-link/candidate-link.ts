@@ -31,10 +31,17 @@ export class CandidateLinkComponent {
   @Input()
   isPortrait: boolean;
 
-  constructor(public modalController: ModalController, public app: AppComponent) {
+  constructor(
+    public modalController: ModalController,
+    public app: AppComponent,
+  ) {
   }
 
-  async openCandidateDetailsModal() {
+  async openCandidateDetailsModal(): Promise<void> {
+    if (await this.modalController.getTop()) {
+      // stop double clicks spawning multiple modals;
+      return;
+    }
 
     // Modals are at the same level as the ion-nav so are not getting the zoom level class,
     // this needs to be passed in the create options.

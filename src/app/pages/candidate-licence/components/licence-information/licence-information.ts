@@ -3,6 +3,7 @@ import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
 import { get } from 'lodash';
 import * as moment from 'moment';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SIGNATURE_MOCK } from '@pages/candidate-licence/candidate-licence.mock';
 
 @Component({
   selector: 'licence-information',
@@ -23,7 +24,7 @@ export class LicenceInformation {
   bookingName: string;
 
   @Input()
-  bookingAge: string | number;
+  bookingAge: number;
 
   @Input()
   bookingGender: string;
@@ -54,7 +55,7 @@ export class LicenceInformation {
     return `${firstNames} ${lastName}`;
   }
 
-  get age(): string | number {
+  get age(): number {
     const dob = get(this.candidateData, 'driverStandard.driver.dateOfBirth');
     const age = moment().diff(dob, 'years');
 
@@ -77,8 +78,10 @@ export class LicenceInformation {
 
   get signature(): string {
     if (this.isPracticeMode) {
-      return 'EXAMPLE SIGNATURE';
+      const { image, imageFormat } = SIGNATURE_MOCK;
+      return this.domSanitizer.bypassSecurityTrustUrl(`data:${imageFormat};base64,${image}`) as string;
     }
+
     if (!this.candidateData) {
       return '';
     }

@@ -1,22 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   DriverLicenceSchema, DriverPhotograph, DriverSignature, DriverStandard,
 } from '@dvsa/mes-driver-schema';
 import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { forkJoin, Observable, of } from 'rxjs';
-import { map, tap, timeout } from 'rxjs/operators';
+import {
+  forkJoin, Observable, of, throwError,
+} from 'rxjs';
+import {
+  catchError, map, tap, timeout,
+} from 'rxjs/operators';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
+import { HttpStatusCodes } from '@shared/models/http-status-codes';
 
 export type DriverLicenceDetails = (DriverLicenceSchema & { drivingLicenceNumber: string; });
+
+export enum CandidateLicenceErr {
+  OFFLINE = 'Offline and no data in cache',
+  NOT_FOUND = 'Driver not found with info supplied',
+  UNAVAILABLE = 'Candidate licence can\'t be returned',
+}
 
 @Injectable({
   providedIn: 'root',
 })
-export class CandidateLicence {
+export class CandidateLicenceProvider {
 
   private driverLicenceResponse: DriverLicenceDetails = null;
+  private requestError: string = null;
 
   constructor(
     private http: HttpClient,
@@ -26,36 +38,50 @@ export class CandidateLicence {
   ) { }
 
   public getCandidateData = (drivingLicenceNumber: string, appRef: string): Observable<DriverLicenceSchema> => {
-    // if (this.driverLicenceResponse?.drivingLicenceNumber === drivingLicenceNumber) {
-    //   console.log(`Returning from in-memory cache for ${drivingLicenceNumber}`);
-    //   return of(this.driverLicenceResponse);
-    // }
-
-    if (this.networkStateProvider.getNetworkState() !== ConnectionStatus.ONLINE) {
-      this.driverLicenceResponse = null;
-      console.error('Offline and not in cache - returning null');
-      return of(null);
+    // used as temporary cache, this is checked before anything else as we should either have data or an error on
+    // entering the candidate-licence component
+    if (this.driverLicenceResponse?.drivingLicenceNumber === drivingLicenceNumber) {
+      // if data has been called for using the licence number which errored due to not being found or in-case its
+      // unavailable, then don't re-query endpoint.
+      if (this.requestError) {
+        throw new Error(this.requestError);
+      }
+      return of(this.driverLicenceResponse);
     }
-
-    console.log(`Getting new data for ${drivingLicenceNumber}`);
-
-    const mockDrivingLicenceNumber = 'LCQXD601211WI9PF';
-
+    // throw offline error when no data already retained
+    if (this.networkStateProvider.getNetworkState() !== ConnectionStatus.ONLINE) {
+      throw new Error(CandidateLicenceErr.OFFLINE);
+    }
     return forkJoin([
-      this.getDriverPhoto(mockDrivingLicenceNumber),
-      this.getDriverSignature(mockDrivingLicenceNumber),
-      this.getDriverStandardData(mockDrivingLicenceNumber, appRef),
+      this.getDriverPhoto(drivingLicenceNumber),
+      this.getDriverSignature(drivingLicenceNumber),
+      this.getDriverStandardData(drivingLicenceNumber, appRef),
     ]).pipe(
-      map(([driverPhotograph, driverSignature, driverStandard]) => ({
-        driverPhotograph,
-        driverSignature,
-        driverStandard,
-      } as DriverLicenceSchema)),
+      map(([driverPhotograph, driverSignature, driverStandard]) => {
+        // response is returned as a 200 when data exists for licence, but it can't be retrieved.
+        if (('error' in driverPhotograph) || ('error' in driverSignature) || ('error' in driverStandard)) {
+          this.requestError = CandidateLicenceErr.UNAVAILABLE;
+          this.driverLicenceResponse = { ...this.driverLicenceResponse, drivingLicenceNumber } as DriverLicenceDetails;
+          throw new Error(CandidateLicenceErr.UNAVAILABLE);
+        }
+        // re-shape data to be one object containing all successful endpoint data responses.
+        return {
+          driverPhotograph,
+          driverSignature,
+          driverStandard,
+        } as DriverLicenceSchema;
+      }),
       tap((driverDetails) => {
-        this.driverLicenceResponse = {
-          ...driverDetails,
-          drivingLicenceNumber,
-        } as DriverLicenceDetails;
+        this.requestError = null;
+        this.driverLicenceResponse = { ...driverDetails, drivingLicenceNumber } as DriverLicenceDetails;
+      }),
+      catchError((errorResponse: HttpErrorResponse) => {
+        // if no record found using licence number, store this so the endpoint is not re-queried for same search params;
+        if (errorResponse?.status === HttpStatusCodes.NOT_FOUND) {
+          this.requestError = CandidateLicenceErr.NOT_FOUND;
+          this.driverLicenceResponse = { ...this.driverLicenceResponse, drivingLicenceNumber } as DriverLicenceDetails;
+        }
+        return throwError(errorResponse);
       }),
     );
   };
@@ -83,9 +109,8 @@ export class CandidateLicence {
   };
 
   clearDriverData = (): void => {
-    console.log('Clearing candidate data');
     this.driverLicenceResponse = null;
-    console.log('candidateData', this.driverLicenceResponse);
+    this.requestError = null;
   };
 
 }

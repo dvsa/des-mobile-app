@@ -2,7 +2,7 @@
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
   <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
     <ion-buttons id="candidate-licence-back-button" slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="WaitingRoomPage"></ion-back-button>
     </ion-buttons>
     <ion-title id="candidate-licence-page-title">
       DVLA Licence information - {{pageState.candidateUntitledName$ | async}}
@@ -14,11 +14,20 @@
 </ion-header>
 
 <ion-content>
+  <offline-banner [isOffline]="!!offlineError"></offline-banner>
+
   <ion-grid *ngIf="{ candidateLicence: pageState.candidateData$ | async } as data">
     <licence-photo
-      [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence)"
-      [candidateDataError]="candidateDataError">
+      [hasError]="(offlineError || candidateDataError || candidateDataUnavailable)"
+      [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)">
     </licence-photo>
+
+    <licence-data-error
+      *ngIf="!isPracticeMode && (offlineError || candidateDataError || candidateDataUnavailable)"
+      [candidateDataError]="candidateDataError"
+      [candidateDataUnavailable]="candidateDataUnavailable"
+      [isOfflineError]="offlineError">
+    </licence-data-error>
 
     <true-likeness
       [formGroup]="formGroup"
@@ -28,7 +37,6 @@
 
     <!-- Decide if candidateDataError should hide the DVLA card or show a card for TARS/booking data -->
     <licence-information
-      *ngIf="!candidateDataError"
       [isPracticeMode]="isPracticeMode"
       [candidateData]="data.candidateLicence"
       [bookingDriverNumber]="pageState.candidateDriverNumber$ | async"
@@ -37,10 +45,12 @@
       [bookingGender]="pageState.genderDescription$ | async">
     </licence-information>
   </ion-grid>
+</ion-content>
 
+<ion-footer>
   <ion-row>
     <ion-button id="candidate-licence-continue-button" class="mes-primary-button continue" (click)="onContinue()">
       <h3>Continue</h3>
     </ion-button>
   </ion-row>
-</ion-content>
+</ion-footer>

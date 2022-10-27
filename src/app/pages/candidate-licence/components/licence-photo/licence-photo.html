@@ -1,5 +1,5 @@
-<ion-row class="row-border-top">
-  <ion-col *ngIf="!candidateDataError; else errorPicture;">
+<ion-row *ngIf="!hasError" class="row-border-top">
+  <ion-col>
     <ion-spinner
       *ngIf="!imageSrc; else showImage;"
       class="driver-photograph-spinner"
@@ -16,24 +16,4 @@
       >
     </ng-template>
   </ion-col>
-
-  <ng-template #errorPicture>
-    <ion-card class="ion-text-center error-card">
-      <ion-card-header>
-        <ion-row>
-          <ion-col class="center-icon ion-no-padding">
-            <ion-icon id="model-alert-title-icon" class="alert-icon" ios="alert-circle"></ion-icon>
-          </ion-col>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-          <ion-col class="ion-no-padding">
-            <h4 id="driver-photograph-error-header">Error obtaining details</h4>
-          </ion-col>
-        </ion-row>
-      </ion-card-header>
-      <ion-card-content id="driver-photograph-error-text" class="black-text">
-        We are unable to return DVLA data for given candidate.
-      </ion-card-content>
-    </ion-card>
-  </ng-template>
 </ion-row>
