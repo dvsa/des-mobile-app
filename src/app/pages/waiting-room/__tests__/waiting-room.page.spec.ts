@@ -51,6 +51,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { SignatureComponent } from '@components/common/signature/signature';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
 import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
@@ -59,7 +60,7 @@ import { WaitingRoomPage } from '../waiting-room.page';
 import { ManoeuvresPassCertificateComponent } from '../components/manoeuvres-pass-cert/manoeuvres-pass-cert';
 import { CBTNumberComponent } from '../components/cbt-number/cbt-number';
 
-fdescribe('WaitingRoomPage', () => {
+describe('WaitingRoomPage', () => {
   let fixture: ComponentFixture<WaitingRoomPage>;
   let component: WaitingRoomPage;
   let store$: Store<StoreModel>;
@@ -233,12 +234,12 @@ fdescribe('WaitingRoomPage', () => {
     });
 
     describe('onSubmit', () => {
-      it('should navigate to the COMMUNICATION_PAGE if the form is valid', () => {
+      it('should navigate to the CandidateLicencePage if the form is valid', async () => {
         const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
         formGroup.get('insuranceCheckbox').setValue(true);
-        component.onSubmit();
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['CommunicationPage']);
+        await component.onSubmit();
+        expect(routerSpy.navigate).toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
         const { formGroup } = component;

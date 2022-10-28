@@ -191,7 +191,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     return this.domSanitizer.bypassSecurityTrustUrl(`data:${imageFormat};base64,${image}`);
   };
 
-  async onContinue(): Promise<void> {
+  onContinue = async (): Promise<void> => {
     Object.keys(this.formGroup.controls)
       .forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 

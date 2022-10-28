@@ -58,7 +58,7 @@ describe('LicenceInformation', () => {
       });
       it('should return the drivingLicenceNumber from the candidateData', () => {
         component.isPracticeMode = false;
-        expect(component.driverNumber).toEqual('GDJS123LXL3FD');
+        expect(component.driverNumber).toEqual('GDJS123LXL3');
       });
     });
     describe('get name', () => {

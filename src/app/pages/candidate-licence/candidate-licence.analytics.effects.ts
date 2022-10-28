@@ -13,7 +13,7 @@ import { CandidateLicenceViewDidEnter } from '@pages/candidate-licence/candidate
 import { StoreModel } from '@shared/models/store.model';
 
 @Injectable()
-export class CandidateDetailsAnalyticsEffects {
+export class CandidateLicenceAnalyticsEffects {
 
   constructor(
     public analytics: AnalyticsProvider,

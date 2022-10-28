@@ -22,4 +22,9 @@ export const environmentResponseMock = {
   user: {
     findUser: 'https://www.example.com/api/v1/users/12345',
   },
+  driver: {
+    photographUrl: '',
+    signatureUrl: '',
+    standardUrl: '',
+  },
 };
