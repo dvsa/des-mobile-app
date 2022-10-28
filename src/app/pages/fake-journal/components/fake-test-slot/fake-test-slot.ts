@@ -11,6 +11,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { vehicleDetails } from '@components/test-slot/test-slot/test-slot.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { AppComponent } from '@app/app.component';
 
 @Component({
   selector: 'fake-test-slot',
@@ -40,6 +41,7 @@ export class FakeTestSlotComponent {
     public screenOrientation: ScreenOrientation,
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
+    public appComponent: AppComponent,
   ) {
   }
 
@@ -52,6 +54,15 @@ export class FakeTestSlotComponent {
     return specialNeeds || checkNeeded || categoryCheckNeeded || nonStandardTest;
   }
 
+  getColSize(): any {
+    switch (this.appComponent.getTextZoomClass()) {
+      case 'text-zoom-x-large':
+        return '40';
+      default:
+        return '44';
+    }
+  }
+
   isSpecialNeedsSlot(): boolean {
     const specialNeeds = get(this.slot, 'booking.application.specialNeeds', '');
     return !isNil(specialNeeds) && specialNeeds.length > 0;
@@ -59,7 +70,7 @@ export class FakeTestSlotComponent {
 
   isPortrait(): boolean {
     return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
-      || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
+            || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
   }
 
   showVehicleDetails(): boolean {

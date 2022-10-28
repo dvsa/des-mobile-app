@@ -28,6 +28,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { AppComponent } from '@app/app.component';
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 
@@ -86,6 +87,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     public store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
+    public appComponent: AppComponent,
   ) { }
 
   ngOnInit(): void {
@@ -111,6 +113,15 @@ export class TestSlotComponent implements SlotComponent, OnInit {
         select(isRekey),
       ),
     };
+  }
+
+  getColSize(): any {
+    switch (this.appComponent.getTextZoomClass()) {
+      case 'text-zoom-x-large':
+        return '40';
+      default:
+        return '44';
+    }
   }
 
   isIndicatorNeededForSlot(): boolean {

@@ -11,6 +11,9 @@
 
     &.candidate-name-portrait {
       max-width: 285px;
+      &.extra-large-mode {
+        max-width: 236px;
+      }
     }
 
     &.candidate-name-landscape {

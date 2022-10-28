@@ -31,7 +31,7 @@ export class CandidateLinkComponent {
   @Input()
   isPortrait: boolean;
 
-  constructor(public modalController: ModalController, private app: AppComponent) {
+  constructor(public modalController: ModalController, public app: AppComponent) {
   }
 
   async openCandidateDetailsModal() {
