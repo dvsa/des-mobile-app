@@ -31,12 +31,13 @@
                                 [applicationId]="slot.booking.application.applicationId">
                         </indicators>
                     </ion-col>
-                    <ion-col size="17" class="align-center">
-                        <time id="time-{{slot.booking.application.applicationId}}" [time]="slot.slotDetail.start">
+                    <ion-col size="17" class="text-regular align-center">
+                        <time id="time-{{slot.booking.application.applicationId}}"
+                              [time]="slot.slotDetail.start">
                         </time>
                     </ion-col>
                     <ion-col size="2"></ion-col>
-                    <ion-col size="44" class="vertical-align-center">
+                    <ion-col [size]="getColSize()" class="vertical-align-center">
                         <ng-content *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate">
                         </ng-content>
                     </ion-col>
