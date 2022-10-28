@@ -125,6 +125,9 @@ if (enableRehydrationPlugin) {
     IonicModule.forRoot({
       swipeBackEnabled: false,
       animated: !(environment as unknown as TestersEnvironmentFile)?.isTest ?? true,
+      mode: 'ios',
+      scrollAssist: false,
+      scrollPadding: false,
     }),
     AppRoutingModule,
     HttpClientModule,
