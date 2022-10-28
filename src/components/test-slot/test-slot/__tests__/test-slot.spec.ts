@@ -40,6 +40,8 @@ import { LocationComponent } from '@components/test-slot/location/location';
 import { DateComponent } from '@components/test-slot/date/date';
 import { AdditionalCandidateDetailsComponent }
   from '@components/test-slot/additional-candidate-details/additional-candidate-details';
+import { AppComponent } from '@app/app.component';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 
 describe('TestSlotComponent', () => {
   let fixture: ComponentFixture<TestSlotComponent>;
@@ -134,6 +136,7 @@ describe('TestSlotComponent', () => {
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        { provide: AppComponent, useClass: MockAppComponent },
         { provide: SlotProvider, useClass: SlotProvider },
         CategoryWhitelistProvider,
       ],
