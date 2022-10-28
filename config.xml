@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="uk.gov.dvsa.drivingexaminerservices" version="4.6.1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="uk.gov.dvsa.drivingexaminerservices" version="4.6.1.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>DES 4</name>
     <description>A template ionic 5 application</description>
     <content src="index.html" />
