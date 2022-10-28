@@ -37,7 +37,7 @@
                         </time>
                     </ion-col>
                     <ion-col size="2"></ion-col>
-                    <ion-col [size]="getColSize()" class="vertical-align-center">
+                    <ion-col [size]="colSizeService.getColSize()" class="vertical-align-center">
                         <ng-content *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate">
                         </ng-content>
                     </ion-col>

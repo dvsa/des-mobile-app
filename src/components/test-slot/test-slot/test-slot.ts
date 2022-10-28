@@ -28,7 +28,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
-import { AppComponent } from '@app/app.component';
+import { ColSizeService } from '@providers/col-size/col-size.service';
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 
@@ -87,8 +87,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     public store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
-    public appComponent: AppComponent,
-  ) { }
+    public colSizeService: ColSizeService,
+  ) {
+  }
 
   ngOnInit(): void {
     const { slotId } = this.slot.slotDetail;
@@ -115,15 +116,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     };
   }
 
-  getColSize(): any {
-    switch (this.appComponent.getTextZoomClass()) {
-      case 'text-zoom-x-large':
-        return '40';
-      default:
-        return '44';
-    }
-  }
-
   isIndicatorNeededForSlot(): boolean {
     const specialNeeds: boolean = this.isSpecialNeedsSlot();
     const checkNeeded: boolean = this.slot.booking.application.entitlementCheck || false;
@@ -140,8 +132,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   isPortrait(): boolean {
     return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
-      || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_SECONDARY
-      || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
+            || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_SECONDARY
+            || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
   }
 
   showVehicleDetails(): boolean {
@@ -154,7 +146,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   canStartTest(): boolean {
     return this.slotProvider.canStartTest(this.slot)
-      && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
+            && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
   }
 
   canViewCandidateDetails(): boolean {
@@ -162,8 +154,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     const currentDateTime = new Date();
     const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
       return (period.testCategory === TestCategory.ADI2)
-        && new Date(period.from) <= currentDateTime
-        && (new Date(period.to) >= currentDateTime || period.to === null);
+                && new Date(period.from) <= currentDateTime
+                && (new Date(period.to) >= currentDateTime || period.to === null);
     });
     const slotStart = moment(this.slot.slotDetail.start).startOf('day');
     const maxViewStart = moment(this.getLatestViewableSlotDateTime()).startOf('day');

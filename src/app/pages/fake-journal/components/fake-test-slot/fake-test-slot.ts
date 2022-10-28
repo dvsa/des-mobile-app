@@ -11,7 +11,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { vehicleDetails } from '@components/test-slot/test-slot/test-slot.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { AppComponent } from '@app/app.component';
+import { ColSizeService } from '@providers/col-size/col-size.service';
 
 @Component({
   selector: 'fake-test-slot',
@@ -41,7 +41,7 @@ export class FakeTestSlotComponent {
     public screenOrientation: ScreenOrientation,
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
-    public appComponent: AppComponent,
+    public colSizeService: ColSizeService,
   ) {
   }
 
@@ -52,15 +52,6 @@ export class FakeTestSlotComponent {
     const nonStandardTest: boolean = getSlotType(this.slot) !== SlotTypes.STANDARD_TEST;
 
     return specialNeeds || checkNeeded || categoryCheckNeeded || nonStandardTest;
-  }
-
-  getColSize(): any {
-    switch (this.appComponent.getTextZoomClass()) {
-      case 'text-zoom-x-large':
-        return '40';
-      default:
-        return '44';
-    }
   }
 
   isSpecialNeedsSlot(): boolean {

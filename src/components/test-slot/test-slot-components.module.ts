@@ -1,6 +1,7 @@
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ColSizeService } from '@providers/col-size/col-size.service';
 import { CandidateLinkComponent } from './candidate-link/candidate-link';
 import { IndicatorsComponent } from './indicators/indicators';
 import { LanguageComponent } from './language/language';
@@ -40,6 +41,9 @@ import { ExaminerNameComponent } from './examiner-name/examiner-name';
   entryComponents: [
     TestSlotComponent,
   ],
+  providers: [
+    ColSizeService,
+  ],
   exports: [
     AdditionalCandidateDetailsComponent,
     CandidateLinkComponent,
@@ -57,4 +61,5 @@ import { ExaminerNameComponent } from './examiner-name/examiner-name';
     ExaminerNameComponent,
   ],
 })
-export class TestSlotComponentsModule { }
+export class TestSlotComponentsModule {
+}
