@@ -80,7 +80,7 @@
     "@ngx-translate/http-loader": "^6.0.0",
     "@sentry/angular": "7.13.0",
     "@sentry/capacitor": "0.10.1",
-    "@sentry/tracing": "7.13.0",
+    "@sentry/tracing": "7.14.2",
     "angular2-signaturepad": "^3.0.4",
     "assert": "^2.0.0",
     "bootstrap": "^5.1.3",
