@@ -91,7 +91,7 @@
     "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-device-authentication": "git+https://github.com/dvsa/cordova-plugin-device-authentication.git",
     "cordova-plugin-emm-app-config": "^1.0.2",
-    "cordova-plugin-google-analytics": "^1.9.0",
+    "cordova-plugin-google-analytics": "^1.9.2",
     "cordova-plugin-insomnia": "^4.3.0",
     "cordova-plugin-is-debug": "^1.0.0",
     "cordova-plugin-network-information": "^2.0.2",
