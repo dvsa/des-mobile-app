@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { IonDatetime } from '@ionic/angular';
+import { AppComponent } from '@app/app.component';
 
 @Component({
   selector: 'advanced-search',
@@ -84,6 +85,11 @@ export class AdvancedSearchComponent {
 
   minStartDate = moment().subtract(2, 'years').format('YYYY-MM-DD');
   minStartDatePlaceholder = moment().subtract(2, 'years').format('DD/MM/YYYY');
+
+  constructor(
+    public appComponent: AppComponent,
+  ) {
+  }
 
   upperCaseAlphaNum(event: any): void {
     if (typeof event.target.value !== 'string') return;

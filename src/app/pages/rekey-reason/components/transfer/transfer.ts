@@ -2,10 +2,12 @@ import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AppComponent } from '@app/app.component';
 
 @Component({
   selector: 'transfer',
   templateUrl: 'transfer.html',
+  styleUrls: ['transfer.scss'],
 })
 export class TransferComponent implements OnChanges {
 
@@ -31,6 +33,11 @@ export class TransferComponent implements OnChanges {
 
   @Output()
   staffNumberChange = new EventEmitter<number>();
+
+  constructor(
+    public appComponent: AppComponent,
+  ) {
+  }
 
   ngOnChanges(): void {
     if (!this.checkBoxFormControl) {
