@@ -5,6 +5,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
+import { AppComponent } from '@app/app.component';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { PassCertificateNumberComponent } from '../pass-certificate-number';
 
 describe('passCertificateNumberComponent', () => {
@@ -21,6 +23,8 @@ describe('passCertificateNumberComponent', () => {
       ],
       providers: [
         PassCertificateValidationProvider,
+        { provide: AppComponent, useClass: MockAppComponent },
+
       ],
     });
   });

@@ -2,6 +2,8 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
+import { AppComponent } from '@app/app.component';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AdvancedSearchComponent } from '../advanced-search';
 
 describe('AdvancedSearchComponent', () => {
@@ -18,6 +20,7 @@ describe('AdvancedSearchComponent', () => {
         IonicModule,
       ],
       providers: [
+        { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
   });
