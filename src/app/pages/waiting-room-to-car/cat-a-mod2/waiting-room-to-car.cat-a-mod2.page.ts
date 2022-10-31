@@ -26,6 +26,7 @@ import {
 import { map } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
+import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 
 interface CatMod2WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -88,6 +89,8 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
+      this.store$.dispatch(ClearCandidateLicenceData());
+
       await this.routeByCategoryProvider.navigateToPage(
         TestFlowPageNames.TEST_REPORT_PAGE,
         this.testCategory,

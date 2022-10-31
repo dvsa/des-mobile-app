@@ -40,6 +40,7 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
+import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 
 interface CatCWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -138,6 +139,8 @@ export class WaitingRoomToCarCatCPCPage extends WaitingRoomToCarBasePageComponen
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
+      this.store$.dispatch(ClearCandidateLicenceData());
+
       await this.routeByCategoryProvider.navigateToPage(
         TestFlowPageNames.TEST_REPORT_PAGE,
         this.testCategory,

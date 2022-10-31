@@ -7,8 +7,9 @@ import {
     SafeUrl,
     SafeValue
 } from '@angular/platform-browser';
-import { SecurityContext } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 
+@Injectable()
 export class DomSanitizerMock extends DomSanitizer {
     bypassSecurityTrustUrl(value: string): SafeUrl {
         return 'some url';

@@ -41,6 +41,7 @@ import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { getSafetyQuestionsCatD } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.selector';
+import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 
 interface CatDWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -195,6 +196,8 @@ export class WaitingRoomToCarCatDPage extends WaitingRoomToCarBasePageComponent 
       if (this.fullLicenceHeld && isAnyOf(this.testCategory, [TestCategory.DE, TestCategory.D1E])) {
         this.store$.dispatch(this.isDelegated ? DropExtraVehicleChecksDelegated() : DropExtraVehicleChecks());
       }
+      this.store$.dispatch(ClearCandidateLicenceData());
+
       await this.routeByCategoryProvider.navigateToPage(
         TestFlowPageNames.TEST_REPORT_PAGE,
         this.testCategory,

@@ -23,7 +23,6 @@ export const GetCandidateLicenceDataError = createAction(
   '[Candidate licence] Get licence data error',
 );
 
-// @TODO: Dispatch action.
 export const ClearCandidateLicenceData = createAction(
   '[Candidate licence] Clear licence data',
 );

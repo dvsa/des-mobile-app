@@ -1,11 +1,11 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
-import { Platform, ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { Observable, merge, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
 import * as preTestDeclarationsActions from '@store/tests/pre-test-declarations/pre-test-declarations.actions';
 import {
@@ -15,7 +15,10 @@ import {
 } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
-  getCandidateName, getCandidateDriverNumber, formatDriverNumber, getUntitledCandidateName,
+  formatDriverNumber,
+  getCandidateDriverNumber,
+  getCandidateName,
+  getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { map, tap } from 'rxjs/operators';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -29,8 +32,8 @@ import { isWelshTest } from '@store/tests/journal-data/common/test-slot-attribut
 import { getCommunicationPreference } from '@store/tests/communication-preferences/communication-preferences.reducer';
 import { getConductedLanguage } from '@store/tests/communication-preferences/communication-preferences.selector';
 import {
-  CandidateChoseToProceedWithTestInWelsh,
   CandidateChoseToProceedWithTestInEnglish,
+  CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
@@ -42,9 +45,7 @@ import { isEmpty } from 'lodash';
 import { Router } from '@angular/router';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
-import {
-  DASHBOARD_PAGE, TestFlowPageNames,
-} from '@pages/page-names.constants';
+import { DASHBOARD_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { AppComponent } from '@app/app.component';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -64,6 +65,8 @@ import {
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import { ErrorPage } from '@pages/error-page/error';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
+import { isRekey } from '@store/tests/rekey/rekey.selector';
 import * as waitingRoomActions from './waiting-room.actions';
 
 interface WaitingRoomPageState {
@@ -82,6 +85,7 @@ interface WaitingRoomPageState {
   showCbtNumber$: Observable<boolean>;
   showResidencyDec$: Observable<boolean>;
   cbtNumber$: Observable<string>;
+  isRekey$: Observable<boolean>;
 }
 
 @Component({
@@ -96,6 +100,8 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   pageState: WaitingRoomPageState;
   formGroup: UntypedFormGroup;
   subscription: Subscription;
+  testCategory: TestCategory;
+  isRekey: boolean;
   merged$: Observable<boolean | string | JournalData>;
 
   constructor(
@@ -208,11 +214,17 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
         select(getPreTestDeclarationsCatAMod1),
         select(getCBTNumberStatus),
       ),
+      isRekey$: currentTest$.pipe(
+        select(getRekeyIndicator),
+        select(isRekey),
+      ),
     };
 
     const {
       welshTest$,
       conductedLanguage$,
+      testCategory$,
+      isRekey$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -226,6 +238,8 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       ),
       welshTest$,
       conductedLanguage$.pipe(tap((value) => configureI18N(value as Language, this.translate))),
+      testCategory$.pipe(tap((value) => this.testCategory = (value as TestCategory))),
+      isRekey$.pipe(tap((value) => this.isRekey = value)),
     );
   }
 
@@ -254,7 +268,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   isJournalDataInvalid = (journalData: JournalData): boolean => {
     return isEmpty(journalData.examiner.staffNumber)
-      || (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber));
+            || (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber));
   };
 
   manoeuvresPassCertNumberChanged(manoeuvresPassCert: string): void {
@@ -293,25 +307,34 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 
     if (this.formGroup.valid) {
-      try {
-        await this.deviceAuthenticationProvider.triggerLockScreen();
-      } catch {
-        return;
+      const shouldNavToCandidateLicenceDetails: boolean = this.shouldNavigateToCandidateLicenceDetails();
+
+      if (shouldNavToCandidateLicenceDetails) {
+        try {
+          await this.deviceAuthenticationProvider.triggerLockScreen();
+        } catch {
+          return;
+        }
       }
-      // navigate after successful device auth and when form is valid;
-      await this.router.navigate([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
+      // navigate after successful device auth (if required) and when form is valid;
+      await this.router.navigate(
+        shouldNavToCandidateLicenceDetails
+          ? [TestFlowPageNames.CANDIDATE_LICENCE_PAGE]
+          : [TestFlowPageNames.COMMUNICATION_PAGE],
+      );
       return;
     }
 
-    Object.keys(this.formGroup.controls).forEach((controlName) => {
-      if (this.formGroup.controls[controlName].invalid) {
-        if (controlName === CBT_NUMBER_CTRL) {
-          this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is invalid`));
-        } else {
-          this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is blank`));
+    Object.keys(this.formGroup.controls)
+      .forEach((controlName) => {
+        if (this.formGroup.controls[controlName].invalid) {
+          if (controlName === CBT_NUMBER_CTRL) {
+            this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is invalid`));
+          } else {
+            this.store$.dispatch(waitingRoomActions.WaitingRoomValidationError(`${controlName} is blank`));
+          }
         }
-      }
-    });
+      });
   }
 
   async showCandidateDataMissingError(): Promise<void> {
@@ -328,4 +351,12 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     await errorModal.onWillDismiss();
     await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
   }
+
+  private shouldNavigateToCandidateLicenceDetails = (): boolean => {
+    // skip the candidate licence page when test is marked as a re-key or for non licence acquisition based categories.
+    if (this.isRekey || (isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]))) {
+      return false;
+    }
+    return true;
+  };
 }

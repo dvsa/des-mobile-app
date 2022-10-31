@@ -21,6 +21,7 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.
 import { isAutomatic, isManual } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { WaitingRoomToCarValidationError } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 
 interface CatMod1WaitingRoomToCarPageState {
   schoolBike$: Observable<boolean>;
@@ -81,6 +82,8 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
+      this.store$.dispatch(ClearCandidateLicenceData());
+
       await this.routeByCategoryProvider.navigateToPage(
         TestFlowPageNames.TEST_REPORT_PAGE,
         this.testCategory,

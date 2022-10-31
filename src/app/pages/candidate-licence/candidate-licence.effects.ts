@@ -29,6 +29,9 @@ import { LogHelper } from '@providers/logs/logs-helper';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { getTestCategory } from '@store/tests/category/category.reducer';
+import { isAnyOf } from '@shared/helpers/simplifiers';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Injectable()
 export class CandidateLicenceEffects {
@@ -69,11 +72,14 @@ export class CandidateLicenceEffects {
           select(getRekeyIndicator),
           select(isRekey),
         ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestCategory),
+        ),
       ),
     )),
-    filter((
-      [, driverNumber, appRef, isPracticeTest, isRekeyTest],
-    ) => driverNumber && appRef && !isPracticeTest && !isRekeyTest),
+    filter(this.isEligibleForLicenceData),
     // above filter means test must a value for driverNumber (might be missing for un-named test slots) & appRef
     // whilst also not being in practice mode or a rekey test.
     switchMap(([, driverNumber, appRef]) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
@@ -87,7 +93,19 @@ export class CandidateLicenceEffects {
     repeat(),
   ));
 
-  // @TODO: Decide when to dump data
+  private isEligibleForLicenceData = (
+    [, driverNumber, appRef, isPracticeTest, isRekeyTest, category]:
+    [ReturnType<typeof GetCandidateLicenceData>, string, string, boolean, boolean, TestCategory],
+  ): boolean => {
+    return (
+      driverNumber
+        && appRef
+        && !isPracticeTest
+        && !isRekeyTest
+        && !isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])
+    );
+  };
+
   clearCandidateLicenceData$ = createEffect(() => this.actions$.pipe(
     ofType(ClearCandidateLicenceData),
     map(() => this.candidateLicenceProvider.clearDriverData()),
