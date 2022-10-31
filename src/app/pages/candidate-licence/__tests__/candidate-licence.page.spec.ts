@@ -8,7 +8,9 @@ import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl, FormGroup, ReactiveFormsModule, Validators,
+} from '@angular/forms';
 
 import { CandidateLicencePage } from '@pages/candidate-licence/candidate-licence.page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -33,11 +35,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { DriverPhotograph } from '@dvsa/mes-driver-schema';
 
-fdescribe('CandidateLicencePage', () => {
+describe('CandidateLicencePage', () => {
   let component: CandidateLicencePage;
   let fixture: ComponentFixture<CandidateLicencePage>;
   let store$: Store<StoreModel>;
+  let router: Router;
+  let domSanitizer: DomSanitizer;
   const initialState = {};
 
   configureTestSuite(() => {
@@ -70,7 +75,16 @@ fdescribe('CandidateLicencePage', () => {
     fixture = TestBed.createComponent(CandidateLicencePage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
+    router = TestBed.inject(Router);
+    domSanitizer = TestBed.inject(DomSanitizer);
+
     spyOn(store$, 'dispatch');
+    spyOn(router, 'navigate');
+
+    component.isPracticeMode = false;
+    component.formGroup = new FormGroup({
+      ctrl1: new FormControl(null, []),
+    });
   }));
 
   describe('Class', () => {
@@ -86,28 +100,35 @@ fdescribe('CandidateLicencePage', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(TrueLikenessToPhotoChanged(true));
       });
     });
+    describe('getImage', () => {
+      it('should return img when in practice mode', () => {
+        component.isPracticeMode = true;
+        expect(component.getImage('some img string', null)).toEqual('some img string');
+      });
+      it('should return null when img not defined', () => {
+        expect(component.getImage(null, null)).toEqual(null);
+      });
+      it('should use the values from driverPhotograph and pass into dom sanitizer method', () => {
+        spyOn(domSanitizer, 'bypassSecurityTrustUrl');
+        component.driverDataReturned = true;
+        component.getImage('some img', {
+          photograph: { image: 'licence image', imageFormat: 'image format' },
+        } as DriverPhotograph);
+        expect(domSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('data:image format;base64,licence image');
+      });
+    });
     describe('onContinue', () => {
-      it('should  ', async () => {
+      it('should navigate the user to the COMMUNICATION_PAGE when form is valid', async () => {
         await component.onContinue();
-        expect(store$.dispatch).toHaveBeenCalledWith(TrueLikenessToPhotoChanged(true));
+        expect(store$.dispatch).not.toHaveBeenCalled();
+        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.COMMUNICATION_PAGE]);
+      });
+      it('should dispatch an action recording the form error', async () => {
+        const ctrl2 = new FormControl(null, [Validators.required]);
+        component.formGroup.addControl('ctrl2', ctrl2);
+        await component.onContinue();
+        expect(store$.dispatch).toHaveBeenCalledWith(CandidateLicenceDataValidationError('ctrl2 is blank'));
       });
     });
   });
-
-  //   async onContinue(): Promise<void> {
-  //     Object.keys(this.formGroup.controls)
-  //         .forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
-  //
-  //     if (this.formGroup.valid) {
-  //     await this.router.navigate([TestFlowPageNames.COMMUNICATION_PAGE]);
-  //     return;
-  //   }
-  //
-  //   Object.keys(this.formGroup.controls).forEach((controlName) => {
-  //     if (this.formGroup.controls[controlName].invalid) {
-  //       this.store$.dispatch(CandidateLicenceDataValidationError(`${controlName} is blank`));
-  //     }
-  //   });
-  // }
-
 });

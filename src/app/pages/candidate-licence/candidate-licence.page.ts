@@ -205,6 +205,6 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         this.store$.dispatch(CandidateLicenceDataValidationError(`${controlName} is blank`));
       }
     });
-  }
+  };
 
 }
