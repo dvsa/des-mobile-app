@@ -83,6 +83,9 @@ export class TestOutcomeComponent implements OnInit {
   @Input()
   slotChanged: boolean;
 
+  @Input()
+  isPracticeMode?: boolean = false;
+
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
   subscription: Subscription;
@@ -287,21 +290,23 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   clickStartOrResumeTest = async (): Promise<void> => {
-    if (this.specialRequirements && !this.hasSeenCandidateDetails) {
-      await this.displayForceCheckModal();
-      return;
-    }
-    if (this.shouldDisplayRekeyModal() && !this.isE2EPracticeMode()) {
-      await this.displayRekeyModal();
-      return;
-    }
-    if (this.isE2EPracticeMode() && !this.categoryWhitelistProvider.isWhiteListed(this.category)) {
-      await this.displayCategoryPreviewModeModal();
-      return;
-    }
-    if (this.shouldDisplayCheckStartModal() && !this.isE2EPracticeMode()) {
-      await this.displayCheckStartModal();
-      return;
+    if (!this.isPracticeMode) {
+      if (this.specialRequirements && !this.hasSeenCandidateDetails) {
+        await this.displayForceCheckModal();
+        return;
+      }
+      if (this.shouldDisplayRekeyModal() && !this.isE2EPracticeMode()) {
+        await this.displayRekeyModal();
+        return;
+      }
+      if (this.isE2EPracticeMode() && !this.categoryWhitelistProvider.isWhiteListed(this.category)) {
+        await this.displayCategoryPreviewModeModal();
+        return;
+      }
+      if (this.shouldDisplayCheckStartModal() && !this.isE2EPracticeMode()) {
+        await this.displayCheckStartModal();
+        return;
+      }
     }
     await this.startOrResumeTestDependingOnStatus();
   };

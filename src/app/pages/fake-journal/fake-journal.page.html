@@ -20,11 +20,10 @@
 
     <location location='Example Test Centre'></location>
 
-    <fake-test-slot
+    <test-slot
             *ngFor="let slot of slots;"
             [slot]="slot"
-            [hasSlotChanged]="false"
-            [testStatus]="'Booked'"
-            [canStartTest]="true">
-    </fake-test-slot>
+            [isPracticeMode]="true"
+            [hasSlotChanged]="false">
+    </test-slot>
 </ion-content>
