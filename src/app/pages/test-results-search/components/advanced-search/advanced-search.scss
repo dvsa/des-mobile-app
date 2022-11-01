@@ -7,13 +7,6 @@
     width: 100%;
   }
 
-  .increase-height {
-    height: 50px;
-    &.ng-invalid {
-      height: 50px !important;
-    }
-  }
-
   .search-spinner {
     margin-top: 32px;
     margin-left: 700px;

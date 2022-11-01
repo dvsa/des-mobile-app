@@ -4,10 +4,3 @@
     color: var(--gds-black);
   }
 }
-
-.increase-height {
-  height: 50px;
-  &.ng-invalid {
-    height: 50px !important;
-  }
-}

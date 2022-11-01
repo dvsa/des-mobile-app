@@ -7,7 +7,6 @@ import { AppComponent } from '@app/app.component';
 @Component({
   selector: 'transfer',
   templateUrl: 'transfer.html',
-  styleUrls: ['transfer.scss'],
 })
 export class TransferComponent implements OnChanges {
 
