@@ -7,7 +7,6 @@ import { MockComponent } from 'ng-mocks';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { FakeTestSlotComponent } from '@pages/fake-journal/components/fake-test-slot/fake-test-slot';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { StoreModel } from '@shared/models/store.model';
@@ -26,7 +25,6 @@ describe('FakeJournalPage', () => {
     TestBed.configureTestingModule({
       declarations: [
         FakeJournalPage,
-        MockComponent(FakeTestSlotComponent),
         MockComponent(PracticeModeBanner),
         MockComponent(LocationComponent),
       ],
