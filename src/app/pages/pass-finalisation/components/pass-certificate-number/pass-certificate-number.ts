@@ -8,6 +8,7 @@ import {
 import {
   PASS_CERTIFICATE_LENGTH,
 } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
+import { AppComponent } from '@app/app.component';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constants';
 
 @Component({
@@ -17,7 +18,10 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.constant
 })
 export class PassCertificateNumberComponent implements OnChanges {
 
-  constructor(private passCertficateValidationProvider: PassCertificateValidationProvider) {
+  constructor(
+    private passCertficateValidationProvider: PassCertificateValidationProvider,
+    public appComponent: AppComponent,
+  ) {
   }
 
   @Input()

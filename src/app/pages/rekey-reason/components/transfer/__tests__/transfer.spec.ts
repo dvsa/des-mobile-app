@@ -4,6 +4,8 @@ import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { AppComponent } from '@app/app.component';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { TransferComponent } from '../transfer';
 
 describe('TransferComponent', () => {
@@ -19,6 +21,10 @@ describe('TransferComponent', () => {
         IonicModule,
         AppModule,
         ReactiveFormsModule,
+      ],
+      providers: [
+        { provide: AppComponent, useClass: MockAppComponent },
+
       ],
     });
   });

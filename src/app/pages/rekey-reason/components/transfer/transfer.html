@@ -20,18 +20,20 @@
             </ion-row>
             <ion-row>
                 <ion-item class="ion-no-padding" lines="none">
-                    <ion-input placeholder="Staff Number"
-                               type="text"
-                               id="staffNumber"
-                               class="ion-input-styling"
-                               pattern="\d*"
-                               [maxlength]="14"
-                               [class.ng-invalid]="invalid"
-                               formControlName="staffNumber"
-                               [value]="staffNumber"
-                               (ionChange)="staffNumberValueChanged($event.detail.value)"
-                               clearInput
-                               numbersOnly>
+                    <ion-input
+                            [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+                            placeholder="Staff Number"
+                            type="text"
+                            id="staffNumber"
+                            class="ion-input-styling"
+                            pattern="\d*"
+                            [maxlength]="14"
+                            [class.ng-invalid]="invalid"
+                            formControlName="staffNumber"
+                            [value]="staffNumber"
+                            (ionChange)="staffNumberValueChanged($event.detail.value)"
+                            clearInput
+                            numbersOnly>
                     </ion-input>
                 </ion-item>
             </ion-row>

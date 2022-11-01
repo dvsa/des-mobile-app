@@ -4,6 +4,7 @@ import {
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
+import { AppComponent } from '@app/app.component';
 
 @Component({
   selector: 'manoeuvres-pass-cert',
@@ -24,7 +25,10 @@ export class ManoeuvresPassCertificateComponent implements OnChanges {
   formControl: FormControl;
   static readonly fieldName: string = 'manoeuvresPassCertificateNumberCtrl';
 
-  constructor(private passCertValidationProvider: PassCertificateValidationProvider) {
+  constructor(
+    private passCertValidationProvider: PassCertificateValidationProvider,
+    public appComponent: AppComponent,
+  ) {
   }
 
   ngOnChanges(): void {

@@ -86,3 +86,10 @@
     letter-spacing: -0.49px;
   }
 }
+
+.increase-height {
+  height: 50px !important;
+  &.ng-invalid {
+    height: 50px !important;
+  }
+}

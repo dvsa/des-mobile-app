@@ -8,6 +8,7 @@
         <ion-row [formGroup]="form">
             <ion-col>
                 <ion-input
+                        [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
                         formControlName="passCertificateNumberCtrl"
                         [class.ng-invalid]="isInvalid()"
                         type="text"

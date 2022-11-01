@@ -4,16 +4,18 @@
             <label id="advanced-search-test-centre-label">Test centre</label>
         </ion-col>
         <ion-col size="28">
-            <ion-input placeholder="DTC number"
-                       id="advanced-search-test-centre-input"
-                       class="ion-input-styling"
-                       type="text"
-                       clearInput
-                       (ionFocus)="setFocus('dtcNumber')"
-                       (ionBlur)="setFocus(null)"
-                       [ngClass]="{'input-focus': focusedElement === 'dtcNumber'}"
-                       [(ngModel)]="dtcNumber"
-                       (ionChange)="upperCaseAlphaNum($event)">
+            <ion-input
+                    [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+                    placeholder="DTC number"
+                    id="advanced-search-test-centre-input"
+                    class="ion-input-styling"
+                    type="text"
+                    clearInput
+                    (ionFocus)="setFocus('dtcNumber')"
+                    (ionBlur)="setFocus(null)"
+                    [ngClass]="{'input-focus': focusedElement === 'dtcNumber'}"
+                    [(ngModel)]="dtcNumber"
+                    (ionChange)="upperCaseAlphaNum($event)">
             </ion-input>
         </ion-col>
         <ion-col size="3"></ion-col>
@@ -21,17 +23,19 @@
             <label id="advanced-search-staff-id-label">Staff ID</label>
         </ion-col>
         <ion-col size="28">
-            <ion-input id="advanced-search-staff-id-input"
-                       type="text"
-                       class="ion-input-styling custom-font-size"
-                       clearInput
-                       [attr.disabled]="importStaffNumber"
-                       [attr.placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
-                       [(ngModel)]="staffNumber"
-                       (ionFocus)="setFocus('deNumber')"
-                       (ionBlur)="setFocus(null)"
-                       [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
-                       (ionChange)="upperCaseAlphaNum($event)">
+            <ion-input
+                    [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+                    id="advanced-search-staff-id-input"
+                    type="text"
+                    class="ion-input-styling custom-font-size"
+                    clearInput
+                    [attr.disabled]="importStaffNumber"
+                    [attr.placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
+                    [(ngModel)]="staffNumber"
+                    (ionFocus)="setFocus('deNumber')"
+                    (ionBlur)="setFocus(null)"
+                    [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
+                    (ionChange)="upperCaseAlphaNum($event)">
             </ion-input>
         </ion-col>
     </ion-row>
@@ -63,7 +67,9 @@
                         class="black-text"
                         (ionChange)="categorySelectChange($event.target.value)"
                         [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
-                <ion-select-option [value]="category" *ngFor="let category of testCategories">{{category}}</ion-select-option>
+                <ion-select-option [value]="category"
+                                   *ngFor="let category of testCategories">{{category}}
+                </ion-select-option>
             </ion-select>
         </ion-col>
     </ion-row>
@@ -81,13 +87,13 @@
             <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
                 <ng-template>
                     <ion-datetime
-                      #datetimeFrom
-                      presentation="date"
-                      id="datetime-from"
-                      [min]="minStartDate"
-                      [max]="endDate ? endDate : today"
-                      [value]="startDate"
-                      [(ngModel)]="minStartDate">
+                        #datetimeFrom
+                        presentation="date"
+                        id="datetime-from"
+                        [min]="minStartDate"
+                        [max]="endDate ? endDate : today"
+                        [value]="startDate"
+                        [(ngModel)]="minStartDate">
                         <ion-buttons slot="buttons">
                             <ion-button color="primary" (click)="handleClear(datetimeFrom, 'start')">Clear</ion-button>
                             <ion-button color="primary" (click)="handleDone(datetimeFrom, 'start')">Done</ion-button>
@@ -104,13 +110,13 @@
             <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
                 <ng-template>
                     <ion-datetime
-                      #datetimeTo
-                      presentation="date"
-                      id="datetime-to"
-                      [min]="startDate ? startDate : minStartDate"
-                      [max]="today"
-                      [value]="endDate"
-                      [(ngModel)]="today">
+                        #datetimeTo
+                        presentation="date"
+                        id="datetime-to"
+                        [min]="startDate ? startDate : minStartDate"
+                        [max]="today"
+                        [value]="endDate"
+                        [(ngModel)]="today">
                         <ion-buttons slot="buttons">
                             <ion-button color="primary" (click)="handleClear(datetimeTo, 'end')">Clear</ion-button>
                             <ion-button color="primary" (click)="handleDone(datetimeTo, 'end')">Done</ion-button>

@@ -3,6 +3,8 @@ import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
+import { AppComponent } from '@app/app.component';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { ManoeuvresPassCertificateComponent } from '../manoeuvres-pass-cert';
 
 describe('ManoeuvresPassCertificateComponent', () => {
@@ -19,6 +21,7 @@ describe('ManoeuvresPassCertificateComponent', () => {
       ],
       providers: [
         PassCertificateValidationProvider,
+        { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
   });
