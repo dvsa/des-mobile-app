@@ -95,12 +95,13 @@
                     <ion-col class="align-center">
                         <test-outcome
                                 *ngIf="!teamJournalCandidateResult"
+                                [isPracticeMode]="isPracticeMode"
                                 [slotDetail]="slot.slotDetail"
                                 [canStartTest]="canStartTest()"
                                 [isDelegatedTest]="delegatedTest"
                                 [examinerId]="getExaminerId()"
                                 [applicationId]="slot.booking.application.applicationId"
-                                [testStatus]="componentState.testStatus$ | async"
+                                [testStatus]="isPracticeMode ? practiceTestStatus : componentState.testStatus$ | async"
                                 [activityCode]="componentState.testActivityCode$ | async"
                                 [passCertificate]="componentState.testPassCertificate$ | async"
                                 [specialRequirements]="isIndicatorNeededForSlot()"

@@ -78,7 +78,12 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   @Input()
   isTeamJournal: boolean = false;
 
+  @Input()
+  isPracticeMode?: boolean = false;
+
   componentState: TestSlotComponentState;
+
+  practiceTestStatus: TestStatus = TestStatus.Booked;
 
   constructor(
     public screenOrientation: ScreenOrientation,
@@ -88,7 +93,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     private slotProvider: SlotProvider,
     public categoryWhitelist: CategoryWhitelistProvider,
     public appComponent: AppComponent,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     const { slotId } = this.slot.slotDetail;
@@ -140,8 +146,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   isPortrait(): boolean {
     return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
-      || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_SECONDARY
-      || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
+            || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_SECONDARY
+            || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
   }
 
   showVehicleDetails(): boolean {
@@ -153,8 +159,12 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   }
 
   canStartTest(): boolean {
+    if (this.isPracticeMode) {
+      return true;
+    }
     return this.slotProvider.canStartTest(this.slot)
-      && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
+            && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
+
   }
 
   canViewCandidateDetails(): boolean {
@@ -162,8 +172,8 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     const currentDateTime = new Date();
     const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
       return (period.testCategory === TestCategory.ADI2)
-        && new Date(period.from) <= currentDateTime
-        && (new Date(period.to) >= currentDateTime || period.to === null);
+                && new Date(period.from) <= currentDateTime
+                && (new Date(period.to) >= currentDateTime || period.to === null);
     });
     const slotStart = moment(this.slot.slotDetail.start).startOf('day');
     const maxViewStart = moment(this.getLatestViewableSlotDateTime()).startOf('day');
