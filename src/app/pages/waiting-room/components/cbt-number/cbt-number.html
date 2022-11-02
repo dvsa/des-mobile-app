@@ -4,17 +4,19 @@
         <label id="cbt-label">DL196 CBT Certificate Number</label>
     </ion-col>
     <ion-col class="ion-align-self-center mes-padding-left">
-      <ion-row class="spacing-row"></ion-row>
-      <ion-row [formGroup]="formGroup">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row [formGroup]="formGroup">
             <ion-col>
-                <ion-input id="cbt-number"
-                       type="number"
-                       class="ion-input-styling increase-width"
-                       formControlName="cbtNumber"
-                       numbersOnly
-                       maxlength="7"
-                       [class.ng-invalid]="invalid"
-                       (ionChange)="cbtNumberChanged($event.target.value)">
+                <ion-input
+                        id="cbt-number"
+                        [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+                        type="number"
+                        class="ion-input-styling increase-width"
+                        formControlName="cbtNumber"
+                        numbersOnly
+                        maxlength="7"
+                        [class.ng-invalid]="invalid"
+                        (ionChange)="cbtNumberChanged($event.target.value)">
                 </ion-input>
             </ion-col>
         </ion-row>
