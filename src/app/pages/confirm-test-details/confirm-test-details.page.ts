@@ -62,6 +62,7 @@ import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessme
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { getGrade } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { ConfirmSubmitModal } from './components/confirm-submit-modal/confirm-submit-modal';
 import { BackButtonClick, BackToDebrief, ConfirmTestDetailsViewDidEnter } from './confirm-test-details.actions';
 import { TestFlowPageNames } from '../page-names.constants';
@@ -285,6 +286,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
 
   ionViewDidEnter(): void {
     this.store$.dispatch(ConfirmTestDetailsViewDidEnter());
+    this.store$.dispatch(ClearCandidateLicenceData());
   }
 
   isADI2(category: TestCategory): boolean {

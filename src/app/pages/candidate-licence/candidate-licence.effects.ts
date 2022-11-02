@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  catchError, concatMap, filter, map, repeat, switchMap, withLatestFrom,
+  catchError, concatMap, filter, map, repeat, switchMap, tap, withLatestFrom,
 } from 'rxjs/operators';
 import {
   ClearCandidateLicenceData,
@@ -79,9 +79,15 @@ export class CandidateLicenceEffects {
         ),
       ),
     )),
-    filter(this.isEligibleForLicenceData),
-    // above filter means test must a value for driverNumber (might be missing for un-named test slots) & appRef
-    // whilst also not being in practice mode or a rekey test.
+    filter((
+      [, driverNumber, appRef, isPracticeTest, isRekeyTest, category],
+    ) =>
+      driverNumber
+        && appRef
+        && !isPracticeTest
+        && !isRekeyTest
+        && !isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
+    // above filter means we will not call through to candidate service when any of the above conditions fail.
     switchMap(([, driverNumber, appRef]) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
     map(() => GetCandidateLicenceDataSuccess()),
     catchError((err) => {
@@ -92,19 +98,6 @@ export class CandidateLicenceEffects {
     }),
     repeat(),
   ));
-
-  private isEligibleForLicenceData = (
-    [, driverNumber, appRef, isPracticeTest, isRekeyTest, category]:
-    [ReturnType<typeof GetCandidateLicenceData>, string, string, boolean, boolean, TestCategory],
-  ): boolean => {
-    return (
-      driverNumber
-        && appRef
-        && !isPracticeTest
-        && !isRekeyTest
-        && !isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])
-    );
-  };
 
   clearCandidateLicenceData$ = createEffect(() => this.actions$.pipe(
     ofType(ClearCandidateLicenceData),
