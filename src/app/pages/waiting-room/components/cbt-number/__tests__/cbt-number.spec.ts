@@ -3,6 +3,8 @@ import { IonicModule } from '@ionic/angular';
 import { AppModule } from 'src/app/app.module';
 import { FormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { AppComponent } from '@app/app.component';
 import { CBTNumberComponent } from '../cbt-number';
 
 describe('CBTNumberComponent', () => {
@@ -17,6 +19,9 @@ describe('CBTNumberComponent', () => {
       imports: [
         IonicModule,
         AppModule,
+      ],
+      providers: [
+        { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
   });
