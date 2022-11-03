@@ -1,5 +1,4 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { getManoeuvres as getManoeuvresBE } from '@store/tests/test-data/cat-be/test-data.cat-be.selector';
 import {
   getManoeuvres as getManoeuvresC,
 } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
@@ -21,9 +20,6 @@ describe('ManoeuvresByCategoryProvider', () => {
   describe('getManoeuvresByCategoryCode', () => {
 
     const categories = {
-      BE: [
-        { category: TestCategory.BE },
-      ],
       C: [
         { category: TestCategory.C },
         { category: TestCategory.C1 },
@@ -43,17 +39,6 @@ describe('ManoeuvresByCategoryProvider', () => {
         { category: TestCategory.K },
       ],
     };
-
-    describe('CAT BE', () => {
-      categories.BE.forEach((cat) => {
-        it(`should return Cat ${cat.category} manoeuvre information for a ${cat.category} Category Code`, () => {
-          expect(() => {
-            const manoeuvreData = provider.getManoeuvresByCategoryCode(cat.category);
-            expect(manoeuvreData).toEqual(getManoeuvresBE);
-          }).not.toThrowError('Error getting test category manoeuvres');
-        });
-      });
-    });
 
     describe('CAT C', () => {
       categories.C.forEach((cat) => {

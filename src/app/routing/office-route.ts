@@ -4,7 +4,6 @@ import {
   CAT_ADI_PART2,
   CAT_ADI_PART3,
   CAT_B,
-  CAT_BE,
   CAT_C,
   CAT_CPC,
   CAT_D,
@@ -38,11 +37,6 @@ export const Office_Route: Routes = [
     path: CAT_B.OFFICE_PAGE,
     loadChildren: () => import('@pages/office/cat-b/office.cat-b.module')
       .then((m) => m.OfficeCatBPageModule),
-  },
-  {
-    path: CAT_BE.OFFICE_PAGE,
-    loadChildren: () => import('@pages/office/cat-be/office.cat-be.module')
-      .then((m) => m.OfficeCatBEPageModule),
   },
   {
     path: CAT_C.OFFICE_PAGE,

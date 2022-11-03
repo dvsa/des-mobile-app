@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { get } from 'lodash';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
@@ -22,7 +21,6 @@ import {
 import {
   haveSafetyAndBalanceQuestionsBeenCompleted,
 } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.selector';
-import { hasManoeuvreBeenCompletedCatBE } from '@store/tests/test-data/cat-be/test-data.cat-be.selector';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
@@ -48,8 +46,6 @@ export class TestReportValidatorProvider {
         return this.validateLegalRequirementsCatAdiPart2(data);
       case TestCategory.B:
         return this.validateLegalRequirementsCatB(data);
-      case TestCategory.BE:
-        return this.validateLegalRequirementsCatBE(data, isDelegated);
       case TestCategory.C1:
       case TestCategory.C:
         return this.validateLegalRequirementsCNonTrailer(data, isDelegated);
@@ -99,8 +95,6 @@ export class TestReportValidatorProvider {
         return this.getMissingLegalRequirementsCatAdiPart2(data);
       case TestCategory.B:
         return this.getMissingLegalRequirementsCatB(data);
-      case TestCategory.BE:
-        return this.getMissingLegalRequirementsCatBE(data, isDelegated);
       case TestCategory.C1:
       case TestCategory.C:
         return this.getMissingLegalRequirementsCNonTrailer(data, isDelegated);
@@ -264,47 +258,6 @@ export class TestReportValidatorProvider {
     if (!hasManoeuvreBeenCompletedCatB(data)) result.push(legalRequirementsLabels.manoeuvre);
     if (!hasVehicleChecksBeenCompletedCatB(data)) result.push(legalRequirementsLabels.vehicleChecks);
     if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
-
-    return result;
-  }
-
-  private validateLegalRequirementsCatBE(data: CatBEUniqueTypes.TestData, isDelegated: boolean): boolean {
-    const normalStart1: boolean = get(data, 'testRequirements.normalStart1', false);
-    const uphillStart: boolean = get(data, 'testRequirements.uphillStart', false);
-    const angledStartControlledStop: boolean = get(data, 'testRequirements.angledStartControlledStop', false);
-    const manoeuvre: boolean = hasManoeuvreBeenCompletedCatBE(data) || false;
-    const eco: boolean = get(data, 'eco.completed', false);
-    const uncoupleRecouple: boolean = get(data, 'uncoupleRecouple.selected', false);
-
-    return !isDelegated ? (
-      normalStart1
-      && uphillStart
-      && angledStartControlledStop
-      && manoeuvre
-      && eco
-      && uncoupleRecouple
-    ) : (
-      angledStartControlledStop
-      && manoeuvre
-      && eco
-    );
-  }
-
-  private getMissingLegalRequirementsCatBE(
-    data: CatBEUniqueTypes.TestData,
-    isDelegated: boolean,
-  ): legalRequirementsLabels[] {
-    const result: legalRequirementsLabels[] = [];
-    if (!isDelegated) {
-      if (!get(data, 'testRequirements.normalStart1', false)) result.push(legalRequirementsLabels.normalStart1);
-      if (!get(data, 'testRequirements.uphillStart', false)) result.push(legalRequirementsLabels.uphillStart);
-    }
-    if (!get(data, 'testRequirements.angledStartControlledStop', false)) {
-      result.push(legalRequirementsLabels.angledStartControlledStop);
-    }
-    if (!hasManoeuvreBeenCompletedCatBE(data)) result.push(legalRequirementsLabels.manoeuvre);
-    if (!get(data, 'eco.completed', false)) result.push(legalRequirementsLabels.eco);
-    if (!get(data, 'uncoupleRecouple.selected', false)) result.push(legalRequirementsLabels.uncoupleRecouple);
 
     return result;
   }

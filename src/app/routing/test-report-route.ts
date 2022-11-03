@@ -4,7 +4,6 @@ import {
   CAT_ADI_PART2,
   CAT_ADI_PART3,
   CAT_B,
-  CAT_BE,
   CAT_C,
   CAT_CPC,
   CAT_D,
@@ -38,11 +37,6 @@ export const Test_Report_Route: Routes = [
     path: CAT_B.TEST_REPORT_PAGE,
     loadChildren: () => import('@pages/test-report/cat-b/test-report.cat-b.module')
       .then((m) => m.TestReportCatBPageModule),
-  },
-  {
-    path: CAT_BE.TEST_REPORT_PAGE,
-    loadChildren: () => import('@pages/test-report/cat-be/test-report.cat-be.module')
-      .then((m) => m.TestReportCatBEPageModule),
   },
   {
     path: CAT_C.TEST_REPORT_PAGE,

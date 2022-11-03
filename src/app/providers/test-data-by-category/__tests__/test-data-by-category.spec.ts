@@ -12,7 +12,6 @@ describe('TestDataByCategoryProvider', () => {
   describe('getTestDataByCategoryCode()', () => {
     const categories = [
       { category: TestCategory.B },
-      { category: TestCategory.BE },
       { category: TestCategory.C },
       { category: TestCategory.C1 },
       { category: TestCategory.CE },
