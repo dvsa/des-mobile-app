@@ -83,6 +83,7 @@
     "@sentry/tracing": "^6.19.7",
     "angular2-signaturepad": "^3.0.4",
     "bootstrap": "^4.6.1",
+    "capacitor-native-biometric": "^4.1.3",
     "cordova-ios": "6.2.0",
     "cordova-ios-guided-access": "git+https://github.com/wizpanda/cordova-ios-guided-access.git",
     "cordova-plugin-app-version": "^0.1.12",
