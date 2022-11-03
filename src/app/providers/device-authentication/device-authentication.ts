@@ -37,13 +37,9 @@ export class DeviceAuthenticationProvider {
   };
 
   private performBiometricVerification = async (): Promise<boolean> => {
-    // fallback to passcode if biometric authentication unavailable
-    const result = await NativeBiometric.isAvailable({ useFallback: true });
-    if (!result.isAvailable) throw new Error('Biometrics not available');
-
     return NativeBiometric.verifyIdentity({
       reason: 'Please authenticate',
-      useFallback: true,
+      useFallback: true, // fallback to passcode if biometric authentication unavailable
     });
   };
 }
