@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { environment } from '@environments/environment';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
-import { NativeBiometric } from 'capacitor-native-biometric';
-import { Platform } from '@ionic/angular';
 import { AppConfigProvider } from '../app-config/app-config';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
+
+declare let cordova: any;
 
 @Injectable()
 export class DeviceAuthenticationProvider {
@@ -15,31 +16,34 @@ export class DeviceAuthenticationProvider {
   ) { }
 
   triggerLockScreen = async (): Promise<boolean> => {
-    try {
-      await this.platform.ready();
-
-      if (this.shouldBypassDeviceAuth()) {
-        return false;
-      }
-
-      return await this.performBiometricVerification();
-    } catch (err) {
-      throw new Error(err);
+    if (this.appConfig.getAppConfig().role === ExaminerRole.DLG
+        || (environment as unknown as TestersEnvironmentFile)?.isTest) {
+      return Promise.resolve(false);
     }
-  };
 
-  private shouldBypassDeviceAuth = (): boolean => {
-    return (
-      !this.platform.is('cordova')
-        || this.appConfig.getAppConfig()?.role === ExaminerRole.DLG
-        || (environment as unknown as TestersEnvironmentFile)?.isTest
-    );
-  };
+    return new Promise<boolean>((resolve, reject) => {
 
-  private performBiometricVerification = async (): Promise<boolean> => {
-    return NativeBiometric.verifyIdentity({
-      reason: 'Please authenticate',
-      useFallback: true, // fallback to passcode if biometric authentication unavailable
+      this.platform.ready().then(() => {
+
+        if (!this.platform.is('cordova')) {
+          return resolve(true);
+        }
+        if (cordova && cordova.plugins && cordova.plugins.DeviceAuthentication) {
+
+          cordova.plugins.DeviceAuthentication.runAuthentication(
+            'Please enter your passcode',
+            (successful: boolean) => {
+              return successful ? resolve(true) : reject(new Error('device authentication failed'));
+            },
+            (error) => {
+              return reject(new Error(error));
+            },
+          );
+
+        } else {
+          return reject(new Error('no device authentication plugin found'));
+        }
+      });
     });
   };
 }
