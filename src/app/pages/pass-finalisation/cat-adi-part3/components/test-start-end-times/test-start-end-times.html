@@ -1,0 +1,53 @@
+<ion-row class="ion-padding-top ion-padding-bottom ion-padding-start">
+    <ion-col class="ion-align-self-center" size="30">
+        <label id="test-start-end-times-label">Test start - end time</label>
+    </ion-col>
+    <ion-col size="20">
+        <ion-datetime-button datetime="duration-start"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
+            <ng-template>
+                <ion-datetime
+                        style=" width: 300px; height: 270px;"
+                        id="duration-start"
+                        presentation="time"
+                        locale="en-GB"
+                        max=""
+                        [showDefaultButtons]="true"
+                        [showDefaultTitle]="true"
+                        [value]="startTime"
+                        (ionChange)="startTimeChanged($event.target.value)">
+                </ion-datetime>
+            </ng-template>
+        </ion-modal>
+    </ion-col>
+
+    <ion-col class="ion-align-self-center" size="4">
+        <label class="to-label" id="to-label">-</label>
+    </ion-col>
+    <ion-col size="20">
+        <ion-datetime-button datetime="duration-end"></ion-datetime-button>
+        <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
+            <ng-template>
+                <ion-datetime
+                        style=" width: 300px; height: 270px;"
+                        id="duration-end"
+                        presentation="time"
+                        locale="en-GB"
+                        [showDefaultButtons]="true"
+                        [showDefaultTitle]="true"
+                        [value]="endTime"
+                        (ionChange)="endTimeChanged($event.target.value)">
+                </ion-datetime>
+            </ng-template>
+        </ion-modal>
+<!--        <ion-datetime-button datetime="datetime-end">-->
+<!--            <ion-modal [keepContentsMounted]="true" mode="ios">-->
+<!--                <ng-template>-->
+<!--                    <ion-datetime presentation="time" id="datetime-end"></ion-datetime>-->
+<!--                </ng-template>-->
+<!--            </ion-modal>-->
+<!--        </ion-datetime-button>-->
+    </ion-col>
+</ion-row>
+
+
