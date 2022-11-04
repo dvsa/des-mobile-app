@@ -6,6 +6,7 @@ import { Platform } from '@ionic/angular';
 import { AppConfigProvider } from '../app-config/app-config';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 import { DeviceProvider } from '@providers/device/device';
+import { LoadingProvider } from '@providers/loader/loader';
 
 @Injectable()
 export class DeviceAuthenticationProvider {
@@ -14,6 +15,7 @@ export class DeviceAuthenticationProvider {
     private platform: Platform,
     public appConfig: AppConfigProvider,
     private deviceProvider: DeviceProvider,
+    private loadingProvider: LoadingProvider,
   ) { }
 
   triggerLockScreen = async (): Promise<void> => {
@@ -38,7 +40,7 @@ export class DeviceAuthenticationProvider {
     );
   };
 
-  private performBiometricVerification = async (): Promise<void> => {
+  public performBiometricVerification = async (): Promise<void> => {
     const deviceType = this.deviceProvider.getDeviceType();
     const isASAMEnabled: boolean = await this.deviceProvider.checkSingleAppMode();
     // handle bug caused by accessing touch id while ASAM enabled in iPad 8th only
@@ -53,7 +55,9 @@ export class DeviceAuthenticationProvider {
       })
     } finally {
       if(shouldToggleASAM) {
+        await this.loadingProvider.handleUILoading(true)
         await this.deviceProvider.enableSingleAppMode();
+        await this.loadingProvider.handleUILoading(false);
       }
     }
   };
