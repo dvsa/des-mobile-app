@@ -249,7 +249,7 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       // ACT
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged('Automatic'));
       // ASSERT
-      effects.waitingRoomToCarDualControlsChanged$.subscribe((result) => {
+      effects.waitingRoomToCarTransmissionChanged$.subscribe((result) => {
         expect(result.type === AnalyticRecorded.type).toBe(true);
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.WAITING_ROOM_TO_CAR}`,

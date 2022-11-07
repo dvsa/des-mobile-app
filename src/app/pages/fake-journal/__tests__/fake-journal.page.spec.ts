@@ -13,6 +13,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { provideMockStore } from '@ngrx/store/testing';
+import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { FakeJournalPage } from '../fake-journal.page';
 
 describe('FakeJournalPage', () => {
@@ -27,6 +28,7 @@ describe('FakeJournalPage', () => {
         FakeJournalPage,
         MockComponent(PracticeModeBanner),
         MockComponent(LocationComponent),
+        MockComponent(TestSlotComponent),
       ],
       imports: [
         IonicModule,
