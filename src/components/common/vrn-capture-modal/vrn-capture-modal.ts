@@ -7,7 +7,7 @@ import {
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -16,6 +16,7 @@ import { getVehicleDetails } from '@store/tests/vehicle-details/vehicle-details.
 import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { map } from 'rxjs/operators';
 import { merge, Observable, Subscription } from 'rxjs';
+import { AppComponent } from '@app/app.component';
 
 interface ComponentState {
   vehicleRegistration$: Observable<string>;
@@ -35,12 +36,15 @@ export class VRNCaptureModal implements OnInit {
   formGroup: FormGroup;
   vehicleRegistrationFormControlName: string = 'vehicleRegistration';
   formInvalid: boolean = false;
+  textZoom: string = this.navParams.get('textZoom');
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   constructor(
     public modalController: ModalController,
     private store$: Store<StoreModel>,
+    public appComponent: AppComponent,
+    public navParams: NavParams,
   ) {
     this.formGroup = new FormGroup({});
     this.formGroup.addControl(

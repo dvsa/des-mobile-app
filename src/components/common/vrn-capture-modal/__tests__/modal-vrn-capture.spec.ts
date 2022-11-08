@@ -6,11 +6,15 @@ import { IonicModule, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { NavParamsMock } from 'ionic-mocks';
 import { Store } from '@ngrx/store';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
+import { AppComponent } from '@app/app.component';
 
 describe('VRNCaptureModal', () => {
   let fixture: ComponentFixture<VRNCaptureModal>;
   let component: VRNCaptureModal;
-  class StoreMock { }
+
+  class StoreMock {
+  }
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -26,6 +30,7 @@ describe('VRNCaptureModal', () => {
       providers: [
         { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         { provide: Store, useClass: StoreMock },
+        { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
   });
