@@ -1,9 +1,6 @@
 import {
   Component, EventEmitter, Input, OnChanges, OnInit, Output,
 } from '@angular/core';
-import { IonDatetime } from '@ionic/angular';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -32,10 +29,6 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
   public minTime: string;
   public maxTime: string;
 
-  constructor(
-    public store$: Store<StoreModel>,
-  ) {}
-
   ngOnInit() {
     this.minTime = this.startTime;
     this.maxTime = this.endTime;
@@ -52,15 +45,6 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
       this.formGroup.addControl('endTime', this.formControlEnd);
     }
   }
-
-  handleClear = (dateTime: IonDatetime, startEnd: 'start' | 'end'): Promise<void> => {
-    if (startEnd === 'start') {
-      this.startTime = '';
-    } else {
-      this.endTime = '';
-    }
-    return dateTime.cancel(true);
-  };
 
   startTimeChanged(startTime: string) {
     this.minTime = startTime;
