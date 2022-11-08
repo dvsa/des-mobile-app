@@ -48,26 +48,14 @@
           (adviceReason)="adviceReasonChanged($event)">
         </reason-given>
 
-        <test-start-end-times *ngIf="(pageState.testCategory$ | async) === 'SC'"></test-start-end-times>
-<!--        <ion-row>-->
-<!--          <ion-col class="component-label ion-align-self-center" size="32">-->
-<!--            <label id="test-start-end-times">Test start - end time</label>-->
-<!--          </ion-col>-->
-<!--          <ion-col>-->
-<!--            <div class="time-background">-->
-<!--              <ion-text>-->
-<!--                10:00-->
-<!--              </ion-text>-->
-<!--            </div>-->
-<!--          </ion-col>-->
-<!--          <ion-col>-->
-<!--            <div class="time-background">-->
-<!--              <ion-text>-->
-<!--                10:45-->
-<!--              </ion-text>-->
-<!--            </div>-->
-<!--          </ion-col>-->
-<!--        </ion-row>-->
+        <test-start-end-times
+                *ngIf="(pageState.testCategory$ | async) === 'SC'"
+                [formGroup]="form"
+                [startTime]="pageState.testStartTime$ | async"
+                [endTime]="pageState.testEndTime$ | async"
+                (testStartTimeChange)="testStartTimeChanged($event)"
+                (testEndTimeChange)="testEndTimeChanged($event)">
+        </test-start-end-times>
       </ion-grid>
     </form>
   </div>
