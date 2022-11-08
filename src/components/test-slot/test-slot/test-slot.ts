@@ -163,8 +163,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       return true;
     }
     return this.slotProvider.canStartTest(this.slot)
-            && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
-
+        && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
   }
 
   canViewCandidateDetails(): boolean {
