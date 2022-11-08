@@ -5,13 +5,13 @@ import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { environment } from '@environments/environment';
 import { NativeBiometricMock } from '@mocks/@capacitor/biometrics';
+import { LoadingProvider } from '@providers/loader/loader';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DeviceAuthenticationProvider } from '../device-authentication';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { AppConfig } from '../../app-config/app-config.model';
-import { LoadingProvider } from '@providers/loader/loader';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 
 describe('DeviceAuthenticationProvider', () => {
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
