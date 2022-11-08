@@ -90,6 +90,7 @@
     "cordova-plugin-emm-app-config": "^1.0.2",
     "cordova-plugin-google-analytics": "^1.9.0",
     "cordova-plugin-insomnia": "^4.3.0",
+    "cordova-plugin-ios-disableshaketoedit": "^1.0.0",
     "cordova-plugin-is-debug": "^1.0.0",
     "cordova-plugin-network-information": "^2.0.2",
     "cordova-plugin-screen-orientation": "^3.0.2",
