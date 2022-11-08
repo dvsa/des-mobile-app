@@ -32,6 +32,11 @@
     <param name="ios-package" value="Insomnia"/>
   </feature>
 
+  <feature name="DisableShakeToEdit">
+    <param name="ios-package" value="DisableShakeToEdit"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   <feature name="IsDebug">
     <param name="ios-package" value="IsDebug"/>
   </feature>
