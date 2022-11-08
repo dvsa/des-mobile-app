@@ -7,6 +7,7 @@ import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { retryWithDelay } from '@shared/helpers/retry-with-delay';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { LogHelper } from '../logs/logs-helper';
@@ -46,6 +47,8 @@ export class DeviceProvider implements IDeviceProvider {
   getUniqueDeviceId = (): string => {
     return this.device.uuid;
   };
+
+  is8thGenDevice = (deviceType: string): boolean => isAnyOf(deviceType, ['iPad11,6', 'iPad11,7']);
 
   /**
    * [enableSingleAppMode description]
