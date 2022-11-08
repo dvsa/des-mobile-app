@@ -71,6 +71,11 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { ActivityCodes } from '@shared/models/activity-codes';
+import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.selector';
+import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
+import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
+import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
+import moment from 'moment/moment';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -98,6 +103,8 @@ interface NonPassFinalisationPageState {
   immediateDanger$: Observable<boolean>;
   prn$: Observable<number>;
   isStandardsCheck$: Observable<boolean>;
+  testStartTime$: Observable<string>;
+  testEndTime$: Observable<string>;
 }
 
 @Component({
@@ -284,6 +291,20 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         select(getTestCategory),
         map((category) => isAnyOf(category, [TestCategory.SC])),
       ),
+      testStartTime$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getTestStartTime),
+        map((time: string) => time || moment().toISOString()),
+      ),
+      testEndTime$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getTestEndTime),
+        map((time: string) => time || moment().add(1, 'hour').toISOString()),
+      ),
     };
 
     const {
@@ -401,6 +422,14 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         ? CandidateChoseToProceedWithTestInWelsh('Cymraeg')
         : CandidateChoseToProceedWithTestInEnglish('English'),
     );
+  }
+
+  testStartTimeChanged(startTime: string): void {
+    this.store$.dispatch(StartTimeChanged(startTime));
+  }
+
+  testEndTimeChanged(endTime: string): void {
+    this.store$.dispatch(EndTimeChanged(endTime));
   }
 
   async navigateToDebrief(): Promise<void> {

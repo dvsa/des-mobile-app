@@ -2,7 +2,6 @@ import {
   Component, EventEmitter, Input, OnChanges, OnInit, Output,
 } from '@angular/core';
 import { IonDatetime } from '@ionic/angular';
-import * as moment from 'moment';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -30,20 +29,16 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
 
   private formControlStart: FormControl = null;
   private formControlEnd: FormControl = null;
-  public minStartTime: string;
-  public maxEndTime: string;
+  public minTime: string;
+  public maxTime: string;
 
   constructor(
     public store$: Store<StoreModel>,
   ) {}
 
   ngOnInit() {
-    if (!this.startTime) {
-      this.startTime = moment().toISOString();
-    }
-    if (!this.endTime) {
-      this.endTime = moment().toISOString();
-    }
+    this.minTime = this.startTime;
+    this.maxTime = this.endTime;
   }
 
   ngOnChanges(): void {
@@ -68,12 +63,12 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
   };
 
   startTimeChanged(startTime: string) {
-    this.minStartTime = startTime;
+    this.minTime = startTime;
     this.testStartTimeChange.emit(startTime);
   }
 
   endTimeChanged(endTime: string) {
-    this.maxEndTime = endTime;
+    this.maxTime = endTime;
     this.testEndTimeChange.emit(endTime);
   }
 }

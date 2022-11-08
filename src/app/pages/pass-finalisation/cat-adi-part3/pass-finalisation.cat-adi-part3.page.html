@@ -49,7 +49,7 @@
         </reason-given>
 
         <test-start-end-times
-                *ngIf="(pageState.testCategory$ | async) === 'SC'"
+                *ngIf="pageState.isStandardsCheck$ | async"
                 [formGroup]="form"
                 [startTime]="pageState.testStartTime$ | async"
                 [endTime]="pageState.testEndTime$ | async"

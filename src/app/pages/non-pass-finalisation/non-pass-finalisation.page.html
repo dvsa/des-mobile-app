@@ -84,6 +84,15 @@
           [reasonGivenText]="pageState.adviceReason$ | async"
           (adviceReason)="adviceReasonChanged($event)">
         </reason-given>
+
+        <test-start-end-times
+                *ngIf="pageState.isStandardsCheck$ | async"
+                [formGroup]="form"
+                [startTime]="pageState.testStartTime$ | async"
+                [endTime]="pageState.testEndTime$ | async"
+                (testStartTimeChange)="testStartTimeChanged($event)"
+                (testEndTimeChange)="testEndTimeChanged($event)">
+        </test-start-end-times>
       </div>
     </ion-grid>
   </form>
