@@ -10,11 +10,15 @@ import {
   ReasonGivenComponent,
 } from '@pages/pass-finalisation/cat-adi-part3/components/reason-given/reason-given.component';
 import { DirectivesModule } from '@directives/directives.module';
+import {
+  TestStartEndTimesComponent,
+} from '@pages/pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times';
 
 @NgModule({
   declarations: [
     FurtherDevelopmentComponent,
     ReasonGivenComponent,
+    TestStartEndTimesComponent,
   ],
   imports: [
     IonicModule,
@@ -26,6 +30,7 @@ import { DirectivesModule } from '@directives/directives.module';
   exports: [
     FurtherDevelopmentComponent,
     ReasonGivenComponent,
+    TestStartEndTimesComponent,
   ],
 })
 export class PassFinalisationCatADI3ComponentsModule {}

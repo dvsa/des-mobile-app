@@ -36,6 +36,11 @@ import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/cand
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
+import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
+import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
+import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.selector';
+import moment from 'moment';
 
 interface CatAdi3PassFinalisationPageState {
   furtherDevelopment$: Observable<boolean>;
@@ -43,6 +48,8 @@ interface CatAdi3PassFinalisationPageState {
   testOutcomeGrade$: Observable<string>;
   prn$: Observable<number>;
   isStandardsCheck$: Observable<boolean>;
+  testStartTime$: Observable<string>;
+  testEndTime$: Observable<string>;
 }
 
 type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFinalisationPageState;
@@ -107,6 +114,16 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         select(getTestCategory),
         map((category) => isAnyOf(category, [TestCategory.SC])),
       ),
+      testStartTime$: currentTest$.pipe(
+        select(getTestData),
+        select(getTestStartTime),
+        map((time: string) => time || moment().toISOString()),
+      ),
+      testEndTime$: currentTest$.pipe(
+        select(getTestData),
+        select(getTestEndTime),
+        map((time: string) => time || moment().add(1, 'hour').toISOString()),
+      ),
     };
 
     const { furtherDevelopment$ } = this.pageState;
@@ -135,6 +152,14 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
 
   adviceReasonChanged(adviceReason: string) {
     this.store$.dispatch(ReasonForNoAdviceGivenChanged(adviceReason));
+  }
+
+  testStartTimeChanged(startTime: string): void {
+    this.store$.dispatch(StartTimeChanged(startTime));
+  }
+
+  testEndTimeChanged(endTime: string): void {
+    this.store$.dispatch(EndTimeChanged(endTime));
   }
 
   async onSubmit(): Promise<void> {
