@@ -10,16 +10,15 @@ import { Language } from '@store/tests/communication-preferences/communication-p
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
-import { configureTestSuite } from 'ng-bullet';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { DangerousFaultsDebriefCardComponent } from '../dangerous-faults-debrief-card';
 
-describe('DangerousFaultsDebriefCardComponent', () => {
+fdescribe('DangerousFaultsDebriefCardComponent', () => {
   let fixture: ComponentFixture<DangerousFaultsDebriefCardComponent>;
   let component: DangerousFaultsDebriefCardComponent;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DangerousFaultsDebriefCardComponent],
       imports: [
@@ -31,9 +30,7 @@ describe('DangerousFaultsDebriefCardComponent', () => {
         PipesModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DangerousFaultsDebriefCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

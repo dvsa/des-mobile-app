@@ -3,7 +3,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
-import { configureTestSuite } from 'ng-bullet';
 import {
   AlertController,
   IonicModule, ModalController,
@@ -30,7 +29,7 @@ import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
 import { ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
 
-describe('ConfirmTestDetailsPage', () => {
+fdescribe('ConfirmTestDetailsPage', () => {
   let fixture: ComponentFixture<ConfirmTestDetailsPage>;
   let component: ConfirmTestDetailsPage;
   let modalController: ModalController;
@@ -55,7 +54,7 @@ describe('ConfirmTestDetailsPage', () => {
     vehicleTypeCode: '',
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -97,9 +96,7 @@ describe('ConfirmTestDetailsPage', () => {
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ConfirmTestDetailsPage);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);

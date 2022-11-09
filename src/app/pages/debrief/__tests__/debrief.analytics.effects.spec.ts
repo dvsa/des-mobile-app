@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -16,23 +16,21 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { DebriefAnalyticsEffects } from '../debrief.analytics.effects';
 import * as debriefActions from '../debrief.actions';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-describe('Debrief Analytics Effects', () => {
-
+fdescribe('DebriefAnalyticsEffects', () => {
   let effects: DebriefAnalyticsEffects;
   let analyticsProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenNamePass = AnalyticsScreenNames.PASS_DEBRIEF;
   const screenNameFail = AnalyticsScreenNames.FAIL_DEBRIEF;
   const screenNamePracticeModePass = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.PASS_DEBRIEF}`;
   const screenNamePracticeModeFail = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.FAIL_DEBRIEF}`;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -46,14 +44,12 @@ describe('Debrief Analytics Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(DebriefAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  });
+  }));
 
   describe('debriefViewDidEnter', () => {
     it('should call setCurrentPage with pass page', (done) => {
@@ -65,8 +61,7 @@ describe('Debrief Analytics Effects', () => {
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePass);
+        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNamePass);
         done();
       });
     });
@@ -79,8 +74,7 @@ describe('Debrief Analytics Effects', () => {
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNameFail);
+        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNameFail);
         done();
       });
     });
@@ -93,8 +87,7 @@ describe('Debrief Analytics Effects', () => {
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeModePass);
+        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNamePracticeModePass);
         done();
       });
     });
@@ -107,8 +100,7 @@ describe('Debrief Analytics Effects', () => {
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage)
-          .toHaveBeenCalledWith(screenNamePracticeModeFail);
+        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNamePracticeModeFail);
         done();
       });
     });

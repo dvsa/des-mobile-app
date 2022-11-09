@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { PracticeTestModal } from '../practice-test-modal';
 
-describe('PracticeTestModal', () => {
+fdescribe('PracticeTestModal', () => {
   let fixture: ComponentFixture<PracticeTestModal>;
   let modalComponent: PracticeTestModal;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeTestModal],
       imports: [IonicModule],
@@ -17,9 +16,7 @@ describe('PracticeTestModal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PracticeTestModal);
     modalComponent = fixture.componentInstance;
     spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));

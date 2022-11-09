@@ -3,17 +3,16 @@ import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angu
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
-import { configureTestSuite } from 'ng-bullet';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { createTranslateLoader } from '@app/app.module';
 import { ProvidedEmailComponent } from '../provided-email';
 
-describe('ProvidedEmailComponent', () => {
+fdescribe('ProvidedEmailComponent', () => {
   let fixture: ComponentFixture<ProvidedEmailComponent>;
   let component: ProvidedEmailComponent;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ProvidedEmailComponent,
@@ -31,9 +30,7 @@ describe('ProvidedEmailComponent', () => {
         }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ProvidedEmailComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

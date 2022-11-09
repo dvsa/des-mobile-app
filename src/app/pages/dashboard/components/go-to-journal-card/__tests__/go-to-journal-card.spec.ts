@@ -1,18 +1,17 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { JournalPage } from '@pages/journal/journal.page';
 import { IonicModule } from '@ionic/angular';
 import { GoToJournalCardComponent } from '../go-to-journal-card';
 
-describe('GoToJournalCard ', () => {
+fdescribe('GoToJournalCard', () => {
   let component: GoToJournalCardComponent;
   let fixture: ComponentFixture<GoToJournalCardComponent>;
   let routerSpy;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
     TestBed.configureTestingModule({
@@ -27,9 +26,7 @@ describe('GoToJournalCard ', () => {
       ],
       providers: [{ provide: Router, useValue: routerSpy }],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(GoToJournalCardComponent);
     component = fixture.componentInstance;
   }));

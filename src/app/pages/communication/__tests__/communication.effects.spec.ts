@@ -1,19 +1,18 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as testStatusActions from '@store/tests/test-status/test-status.actions';
 import * as testsActions from '@store/tests/tests.actions';
-import { configureTestSuite } from 'ng-bullet';
 import * as communicationActions from '../communication.actions';
 import { CommunicationEffects } from '../communication.effects';
 
-describe('CommunicationEffects', () => {
+fdescribe('CommunicationEffects', () => {
   let effects: CommunicationEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   const currentSlotId = '1234';
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -32,12 +31,10 @@ describe('CommunicationEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(CommunicationEffects);
-  });
+  }));
 
   describe('submitCommunicationInfoEffect', () => {
     it('should return SET_STATUS_DECIDED & PERSIST_TESTS actions', (done) => {

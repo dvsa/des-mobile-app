@@ -1,17 +1,16 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { configureTestSuite } from 'ng-bullet';
 import { TEST_RESULTS_SEARCH_PAGE } from '@pages/page-names.constants';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { IonicModule } from '@ionic/angular';
 import { TestResultsSearchCardComponent } from '../test-results-search-card';
 
-describe('TestResultsSearchCard ', () => {
+fdescribe('TestResultsSearchCard ', () => {
   let component: TestResultsSearchCardComponent;
   let fixture: ComponentFixture<TestResultsSearchCardComponent>;
   let router: Router;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TestResultsSearchCardComponent],
       imports: [IonicModule],
@@ -19,9 +18,7 @@ describe('TestResultsSearchCard ', () => {
         { provide: Router, useClass: RouterMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestResultsSearchCardComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);

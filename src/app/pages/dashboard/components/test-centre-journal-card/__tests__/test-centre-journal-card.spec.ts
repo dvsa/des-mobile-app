@@ -2,16 +2,15 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { configureTestSuite } from 'ng-bullet';
+import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { TestCentreJournalCardComponent } from '../test-centre-journal-card';
-import { TEST_CENTRE_JOURNAL_PAGE } from '../../../../page-names.constants';
 
-describe('TestCentreJournalCard', () => {
+fdescribe('TestCentreJournalCard', () => {
   let component: TestCentreJournalCardComponent;
   let fixture: ComponentFixture<TestCentreJournalCardComponent>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalCardComponent],
       imports: [
@@ -22,9 +21,7 @@ describe('TestCentreJournalCard', () => {
         { provide: Router, useValue: routerSpy },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestCentreJournalCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

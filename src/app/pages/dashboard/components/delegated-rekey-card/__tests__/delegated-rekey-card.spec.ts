@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { configureTestSuite } from 'ng-bullet';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { IonicModule } from '@ionic/angular';
 import { DelegatedSearchCardComponent } from '../delegated-rekey-card';
 
-describe('DelegatedSearchCardComponent', () => {
+fdescribe('DelegatedSearchCardComponent', () => {
   let component: DelegatedSearchCardComponent;
   let fixture: ComponentFixture<DelegatedSearchCardComponent>;
   let router: Router;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DelegatedSearchCardComponent],
       imports: [IonicModule],
@@ -19,9 +18,7 @@ describe('DelegatedSearchCardComponent', () => {
         { provide: Router, useClass: RouterMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DelegatedSearchCardComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);

@@ -6,15 +6,14 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { configureTestSuite } from 'ng-bullet';
 import { EcoDebriefCardComponent } from '../eco-debrief-card';
 
-describe('EcoDebriefCardComponent', () => {
+fdescribe('EcoDebriefCardComponent', () => {
   let fixture: ComponentFixture<EcoDebriefCardComponent>;
   let component: EcoDebriefCardComponent;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EcoDebriefCardComponent],
       imports: [
@@ -25,9 +24,7 @@ describe('EcoDebriefCardComponent', () => {
         TranslateModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EcoDebriefCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

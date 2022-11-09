@@ -3,7 +3,6 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { VehicleChecksCardCatBComponent } from '../vehicle-checks-card.cat-b';
 
 describe('vehicleChecksCardSelector', () => {
-
   describe('getShowMeQuestionOutcome', () => {
     it('should return the show me question outcome', () => {
       let vehicleChecks: CatBUniqueTypes.VehicleChecks = {

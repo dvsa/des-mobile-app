@@ -4,16 +4,15 @@ import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { configureTestSuite } from 'ng-bullet';
 import { createTranslateLoader } from '@app/app.module';
 import { NewEmailComponent } from '../new-email';
 
-describe('NewEmailComponent', () => {
+fdescribe('NewEmailComponent', () => {
   let fixture: ComponentFixture<NewEmailComponent>;
   let component: NewEmailComponent;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NewEmailComponent,
@@ -31,9 +30,7 @@ describe('NewEmailComponent', () => {
         }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(NewEmailComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

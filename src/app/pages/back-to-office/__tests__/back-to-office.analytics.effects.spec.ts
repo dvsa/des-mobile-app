@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -23,16 +23,14 @@ import * as applicationReferenceActions
 import * as activityCodeActions from '@store//tests/activity-code/activity-code.actions';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { BackToOfficeAnalyticsEffects } from '../back-to-office.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as backToOfficeActions from '../back-to-office.actions';
 
-describe('Back To Office Analytics Effects', () => {
-
+fdescribe('BackToOfficeAnalyticsEffects', () => {
   let effects: BackToOfficeAnalyticsEffects;
   let analyticsProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.BACK_TO_OFFICE;
   const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.BACK_TO_OFFICE}`;
@@ -42,7 +40,7 @@ describe('Back To Office Analytics Effects', () => {
     checkDigit: 9,
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -56,15 +54,13 @@ describe('Back To Office Analytics Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(BackToOfficeAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
-  });
+  }));
 
   describe('backToOfficeViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {
