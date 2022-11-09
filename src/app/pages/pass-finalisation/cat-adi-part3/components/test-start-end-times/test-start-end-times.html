@@ -1,6 +1,6 @@
 <ion-row class="ion-margin-start ion-padding-top ion-padding-bottom ion-padding-start">
-    <ion-col class="ion-align-self-center" size="30">
-        <label id="test-start-end-times-label">Test start - end time</label>
+    <ion-col class="ion-align-self-center" size="28">
+        <label id="test-start-end-times-label">Test start/end time</label>
     </ion-col>
     <ion-col size="20">
         <ion-datetime-button datetime="duration-start"></ion-datetime-button>
@@ -21,9 +21,10 @@
         </ion-modal>
     </ion-col>
 
-    <ion-col class="ion-align-self-center" size="4">
-        <label class="to-label" id="to-label">-</label>
+    <ion-col size="10">
+        <label class="to-label" id="to-label"></label>
     </ion-col>
+
     <ion-col size="20">
         <ion-datetime-button datetime="duration-end"></ion-datetime-button>
         <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
