@@ -42,7 +42,7 @@ import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.sele
 import { getReceiptDeclarationStatus } from '@store/tests/post-test-declarations/post-test-declarations.selector';
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
 import { map } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { DeviceProvider } from '@providers/device/device';
 import { getTestOutcome as getTestOutcomeDebrief } from '../../debrief/debrief.selector';
 
@@ -70,7 +70,7 @@ export class OfficeCatCPCPage extends OfficeBasePageComponent implements OnInit 
 
   pageState: OfficePageState;
   pageSubscription: Subscription;
-  form: FormGroup;
+  form: UntypedFormGroup;
   isDelegated: boolean;
   testOutcome: string;
   public outcome: TestOutcome;

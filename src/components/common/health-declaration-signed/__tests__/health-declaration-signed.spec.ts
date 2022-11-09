@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { HealthDeclarationSignedComponent } from '../health-declaration-signed';
 
@@ -23,7 +23,7 @@ describe('HealthDeclarationSignedComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HealthDeclarationSignedComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {

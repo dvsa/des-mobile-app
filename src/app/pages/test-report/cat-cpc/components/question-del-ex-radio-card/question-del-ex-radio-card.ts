@@ -2,7 +2,7 @@ import {
   Component, EventEmitter, Input, Output,
 } from '@angular/core';
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'question-del-ex-radio-card',
@@ -18,12 +18,12 @@ export class QuestionDelExRadioCardComponent {
   questionNumber: number;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   questionScore = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   answerArray = [0, 5, 10, 15, 20];
 
   questionScoreChanged = (value: number): void => {
@@ -35,7 +35,7 @@ export class QuestionDelExRadioCardComponent {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(`cpcQuestion${this.questionNumber}ResultCtrl`, this.formControl);
     }
 

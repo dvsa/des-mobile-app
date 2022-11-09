@@ -8,7 +8,7 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import { getUntitledCandidateName }
   from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { Observable, merge, Subscription } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
@@ -43,7 +43,7 @@ interface VehicleChecksModalCatADIPart2State {
 })
 export class VehicleChecksCatADIPart2Modal {
   pageState: VehicleChecksModalCatADIPart2State;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
   readonly tellMeQuestionsNumberArray: number[] = Array(NUMBER_OF_TELL_ME_QUESTIONS);
   vehicleChecksScore: VehicleChecksScore;
@@ -55,7 +55,7 @@ export class VehicleChecksCatADIPart2Modal {
     public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
   ) {
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.ADI2);
   }
 

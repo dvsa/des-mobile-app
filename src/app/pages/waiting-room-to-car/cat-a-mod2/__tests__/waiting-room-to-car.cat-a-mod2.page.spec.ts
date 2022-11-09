@@ -33,7 +33,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -143,7 +143,7 @@ describe('WaitingRoomToCarCatAMod2Page', () => {
     });
     describe('eyesightFailCancelled', () => {
       it('should reset eyesight control', () => {
-        const control = new FormControl('value');
+        const control = new UntypedFormControl('value');
         component.form.addControl('eyesightCtrl', control);
         component.eyesightFailCancelled();
         expect(component.form.get('eyesightCtrl').value).toEqual(null);
@@ -154,8 +154,8 @@ describe('WaitingRoomToCarCatAMod2Page', () => {
         spyOn(routeByCategoryProvider, 'navigateToPage');
       });
       it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
-        component.form = new FormGroup({
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          notRequiredControl: new UntypedFormControl(null),
         });
         component.testCategory = TestCategory.EUAM2;
         await component.onSubmit();
@@ -165,10 +165,10 @@ describe('WaitingRoomToCarCatAMod2Page', () => {
         );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-        component.form = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
 
         await component.onSubmit();

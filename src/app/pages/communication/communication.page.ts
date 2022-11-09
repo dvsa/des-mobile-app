@@ -9,7 +9,7 @@ import { StoreModel } from '@shared/models/store.model';
 import {
   Address, CategoryCode, CommunicationMethod, ConductedLanguage,
 } from '@dvsa/mes-test-schema/categories/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription, merge, Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { getTests } from '@store/tests/tests.reducer';
@@ -83,7 +83,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   static readonly welshLanguage: ConductedLanguage = 'Cymraeg';
   static readonly englishLanguage: ConductedLanguage = 'English';
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   subscription: Subscription;
   emailType: string;
   pageState: CommunicationPageState;
@@ -104,7 +104,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     private translate: TranslateService,
   ) {
     super(platform, authenticationProvider, router, store$, false);
-    this.form = new FormGroup(this.getFormValidation());
+    this.form = new UntypedFormGroup(this.getFormValidation());
   }
 
   ngOnInit(): void {
@@ -285,9 +285,9 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     return this.communicationType === CommunicationPage.post;
   }
 
-  getFormValidation(): { [key: string]: FormControl } {
+  getFormValidation(): { [key: string]: UntypedFormControl } {
     return {
-      radioCtrl: new FormControl('', Validators.required),
+      radioCtrl: new UntypedFormControl('', Validators.required),
     };
   }
 

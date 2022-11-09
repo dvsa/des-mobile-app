@@ -2,7 +2,7 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
@@ -28,7 +28,7 @@ describe('EyesightTestComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EyesightTestComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('DOM', () => {
@@ -77,7 +77,7 @@ describe('EyesightTestComponent', () => {
   });
   describe('eyesightTestResultChanged', () => {
     it('should emit true if result is set to P and formControl is valid', () => {
-      component.formControl = new FormControl(null, [Validators.required]);
+      component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formControl.setValue(true);
       spyOn(component.eyesightTestResultChange, 'emit');
 

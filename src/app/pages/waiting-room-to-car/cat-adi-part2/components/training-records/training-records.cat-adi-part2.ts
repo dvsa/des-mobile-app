@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum TrainingRecorded {
   YES = 'Y',
@@ -18,16 +18,16 @@ export class TrainingRecordsCatAdiPart2Component {
   trainingRecordRadioChecked: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   @Output()
   trainingRecordOutcomeChange = new EventEmitter<boolean>();
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl('trainingRecordCtrl', this.formControl);
     }
     this.formControl.patchValue(this.trainingRecordRadioChecked);

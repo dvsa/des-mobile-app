@@ -7,7 +7,7 @@ import {
   TranslateLoader,
   TranslateParser,
 } from '@ngx-translate/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { InsuranceDeclarationComponent } from '../insurance-declaration';
 
@@ -42,7 +42,7 @@ describe('InsuranceDeclarationComponent', () => {
     describe('ngOnChanges', () => {
       it('should correctly setup the form control', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.selected = true;
         // ACT
         component.ngOnChanges();
@@ -56,7 +56,7 @@ describe('InsuranceDeclarationComponent', () => {
     describe('insuranceDeclarationChanged', () => {
       it('should emit a insuranceDeclarationChange event', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.insuranceDeclarationChange = new EventEmitter();
         spyOn(component.insuranceDeclarationChange, 'emit');
@@ -72,7 +72,7 @@ describe('InsuranceDeclarationComponent', () => {
     describe('isInvalid', () => {
       it('should validate the field when it is valid', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.selected = true;
         component.ngOnChanges();
         fixture.detectChanges();
@@ -84,7 +84,7 @@ describe('InsuranceDeclarationComponent', () => {
       });
       it('should not validate the field when it is dirty', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.formControl.markAsDirty();
         fixture.detectChanges();

@@ -1,5 +1,5 @@
 import { waitForAsync, TestBed, ComponentFixture } from '@angular/core/testing';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
@@ -36,8 +36,8 @@ describe('ProvidedEmailComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ProvidedEmailComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formGroup.addControl('radioCtrl', new FormControl());
+    component.formGroup = new UntypedFormGroup({});
+    component.formGroup.addControl('radioCtrl', new UntypedFormControl());
     component.shouldRender = true;
     component.isProvidedEmailAddressChosen = true;
     translate = TestBed.inject(TranslateService);

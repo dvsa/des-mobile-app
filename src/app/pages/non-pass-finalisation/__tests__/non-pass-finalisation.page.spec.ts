@@ -7,7 +7,7 @@ import {
 import { NavControllerMock, PlatformMock } from 'ionic-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
 import { Store } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
@@ -202,10 +202,10 @@ describe('NonPassFinalisationPage', () => {
       });
 
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.form = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
 
         component.activityCode = {

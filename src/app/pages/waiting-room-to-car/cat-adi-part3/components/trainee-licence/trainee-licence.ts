@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'trainee-licence',
@@ -13,17 +13,17 @@ export class TraineeLicenceComponent implements OnChanges {
   traineeLicence: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   traineeLicenceChange = new EventEmitter<boolean>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'traineeLicenceCtrl';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(TraineeLicenceComponent.fieldName, this.formControl);
     }
 

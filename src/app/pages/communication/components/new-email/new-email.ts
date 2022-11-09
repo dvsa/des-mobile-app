@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'new-email',
@@ -15,7 +15,7 @@ export class NewEmailComponent implements OnChanges {
   static readonly radioCtrl: string = 'radioCtrl';
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   newEmailAddress: string;
@@ -29,17 +29,17 @@ export class NewEmailComponent implements OnChanges {
   @Output()
   newEmailTextChange = new EventEmitter<string>();
 
-  formControl: FormControl;
-  radioButtonControl: FormControl;
+  formControl: UntypedFormControl;
+  radioButtonControl: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.radioButtonControl) {
-      this.radioButtonControl = new FormControl('', Validators.required);
+      this.radioButtonControl = new UntypedFormControl('', Validators.required);
       this.formGroup.addControl(NewEmailComponent.radioCtrl, this.radioButtonControl);
     }
 
     if (!this.formControl) {
-      this.formControl = new FormControl('', Validators.required);
+      this.formControl = new UntypedFormControl('', Validators.required);
       if (this.isNewEmailAddressChosen) {
         this.formControl.setValidators(Validators.compose([
           Validators.required,

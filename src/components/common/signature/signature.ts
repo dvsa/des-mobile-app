@@ -3,7 +3,7 @@ import {
   ViewChild, OnChanges,
   Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 
 @Component({
@@ -20,7 +20,7 @@ export class SignatureComponent implements OnChanges {
   signature: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   signatureDataChange = new EventEmitter<string>();
@@ -28,12 +28,12 @@ export class SignatureComponent implements OnChanges {
   @Output()
   signatureCleared = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'signature';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl(SignatureComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.signature);

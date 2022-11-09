@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Platform, ModalController } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -93,7 +93,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   @ViewChild(SignatureAreaComponent)
   signatureAreaComponent: SignatureAreaComponent;
   pageState: WaitingRoomPageState;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalData>;
 
@@ -111,7 +111,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     private app: AppComponent,
   ) {
     super(platform, authenticationProvider, router, store$, false);
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
   }
 
   async ionViewDidEnter(): Promise<void> {

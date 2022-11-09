@@ -3,7 +3,7 @@ import { EventEmitter } from '@angular/core';
 import {
   TranslateModule,
 } from '@ngx-translate/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { ReceiptDeclarationComponent } from '../receipt-declaration';
@@ -34,7 +34,7 @@ describe('ReceiptDeclarationComponent', () => {
     describe('ngOnChanges', () => {
       it('should correctly setup the form control', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.selected = true;
         // ACT
         component.ngOnChanges();
@@ -48,7 +48,7 @@ describe('ReceiptDeclarationComponent', () => {
     describe('receiptDeclarationChanged', () => {
       it('should emit a receiptDeclarationChange event', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.receiptDeclarationChange = new EventEmitter();
         spyOn(component.receiptDeclarationChange, 'emit');
@@ -64,7 +64,7 @@ describe('ReceiptDeclarationComponent', () => {
     describe('isInvalid', () => {
       it('should validate the field when it is valid', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.selected = true;
         component.ngOnChanges();
         fixture.detectChanges();
@@ -76,7 +76,7 @@ describe('ReceiptDeclarationComponent', () => {
       });
       it('should not validate the field when it is dirty', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.formControl.markAsDirty();
         fixture.detectChanges();

@@ -5,7 +5,7 @@ import {
   CommonWaitingRoomToCarPageState,
   WaitingRoomToCarBasePageComponent,
 } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -42,7 +42,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod2Waitin
 })
 export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     platform: Platform,
@@ -54,7 +54,7 @@ export class WaitingRoomToCarCatAMod2Page extends WaitingRoomToCarBasePageCompon
     public faultCountProvider: FaultCountProvider,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {

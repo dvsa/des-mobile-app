@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {
   OutcomeBehaviourMapProvider,
   VisibilityType,
@@ -23,19 +23,19 @@ export class RouteNumberComponent implements OnChanges {
   routeNumber: number;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   routeNumberChange = new EventEmitter<number>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'routeNumber';
 
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(RouteNumberComponent.fieldName, this.formControl);
     }
 

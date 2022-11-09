@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, Output,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -20,7 +20,7 @@ export class QuestionFooterComponent {
   questionNumber: number;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   isDelegated?: boolean = false;

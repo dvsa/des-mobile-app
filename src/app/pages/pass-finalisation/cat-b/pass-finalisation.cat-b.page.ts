@@ -1,7 +1,7 @@
 import {
   Component, ViewChild, ElementRef, OnInit,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, merge } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -47,7 +47,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
   pageState: PassFinalisationPageState;
   @ViewChild('passCertificateNumberInput') passCertificateNumberInput: ElementRef;
   activityCode: ActivityCode;
-  form: FormGroup;
+  form: UntypedFormGroup;
   merged$: Observable<string>;
   transmission: GearboxCategory;
   candidateDriverNumber: string;
@@ -63,7 +63,7 @@ export class PassFinalisationCatBPage extends PassFinalisationPageComponent impl
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

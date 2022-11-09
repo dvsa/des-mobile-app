@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
@@ -10,11 +10,11 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 })
 export class FurtherDevelopmentComponent implements OnChanges {
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'furtherDevelopment';
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   display: boolean;
@@ -32,7 +32,7 @@ export class FurtherDevelopmentComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl(FurtherDevelopmentComponent.fieldName, this.formControl);
       this.formGroup.updateValueAndValidity({
         onlySelf: true,

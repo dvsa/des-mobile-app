@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
 import {
@@ -30,8 +30,8 @@ describe('PassCertificateNumberCatAMod1Component', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassCertificateNumberCatAMod1Component);
     component = fixture.componentInstance;
-    component.form = new FormGroup({});
-    component.formControl = new FormControl(null, [
+    component.form = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [
       Validators.maxLength(PASS_CERTIFICATE_LENGTH_A_MOD1),
       Validators.minLength(PASS_CERTIFICATE_LENGTH_A_MOD1),
       Validators.pattern(component.passCertificateAMOD1Validator.pattern),

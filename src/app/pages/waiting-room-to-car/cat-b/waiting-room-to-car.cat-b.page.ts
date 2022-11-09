@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -49,7 +49,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatBWaitingRo
 export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent implements OnInit {
 
   pageState: WaitingRoomToCarPageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
   tellMeQuestions: VehicleChecksQuestion[];
 
   constructor(
@@ -63,7 +63,7 @@ export class WaitingRoomToCarCatBPage extends WaitingRoomToCarBasePageComponent 
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
     this.tellMeQuestions = questionProvider.getTellMeQuestions(TestCategory.B);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {

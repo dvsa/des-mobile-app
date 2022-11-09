@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { VehicleDetailsCatCPCComponent } from '../vehicle-details';
@@ -24,8 +24,8 @@ describe('VehicleDetailsCatCPCComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleDetailsCatCPCComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null, [Validators.required]);
+    component.formGroup = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [Validators.required]);
 
   }));
 

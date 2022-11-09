@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { LicenseProvidedComponent } from '../license-provided';
@@ -23,7 +23,7 @@ describe('licenseProvidedComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LicenseProvidedComponent);
     component = fixture.componentInstance;
-    component.form = new FormGroup({});
+    component.form = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {

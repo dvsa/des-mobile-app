@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { Identification } from '@dvsa/mes-test-schema/categories/common';
 import {
@@ -24,18 +24,18 @@ export class IdentificationComponent implements OnChanges {
   identification: Identification;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   identificationChange = new EventEmitter<Identification>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   private formField: string = 'identification';
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('Licence');
+      this.formControl = new UntypedFormControl('Licence');
       this.formGroup.addControl(this.formField, this.formControl);
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome, this.formField);

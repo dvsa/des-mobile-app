@@ -5,7 +5,7 @@ import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { VehicleChecksQuestionComponent } from '../vehicle-checks-question';
 
 const vehicleChecksQuestion: VehicleChecksQuestion = {
@@ -33,7 +33,7 @@ describe('VehicleChecksQuestionComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksQuestionComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {
@@ -82,7 +82,7 @@ describe('VehicleChecksQuestionComponent', () => {
           code: 'test',
           description: 'Description',
         };
-        component.questionFormControl = new FormControl();
+        component.questionFormControl = new UntypedFormControl();
         component.ngOnChanges();
         expect(component.questionFormControl.value).toBe(component.findQuestion());
       });
@@ -98,7 +98,7 @@ describe('VehicleChecksQuestionComponent', () => {
           code: 'test',
           description: 'Description',
         };
-        component.questionOutcomeFormControl = new FormControl();
+        component.questionOutcomeFormControl = new UntypedFormControl();
         component.ngOnChanges();
         expect(component.questionOutcomeFormControl.value).toBe(component.questionResult.outcome);
       });

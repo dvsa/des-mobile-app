@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'vehicle-details',
@@ -16,16 +16,16 @@ export class VehicleDetailsComponent implements OnChanges {
   vehicleDetailsType: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   vehicleDetailsChange = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(this.formControlName, this.formControl);
     }
     this.formControl.patchValue(this.vehicleDetails);

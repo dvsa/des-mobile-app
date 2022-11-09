@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'accompaniment',
@@ -16,16 +16,16 @@ export class AccompanimentComponent implements OnChanges {
   accompanimentType: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   accompanimentChange = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(this.formControlName, this.formControl);
     }
     this.formControl.patchValue(this.accompaniment);

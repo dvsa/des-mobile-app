@@ -1,7 +1,7 @@
 import {
   Component, Input, EventEmitter, Output, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { getDL196CBTCertificateNumberValidator } from '@shared/constants/field-validators/field-validators';
 import { AppComponent } from '@app/app.component';
 
@@ -16,12 +16,12 @@ export class CBTNumberComponent implements OnChanges {
   cbtNumber: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   cbtNumberChange = new EventEmitter<string>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'cbtNumber';
   readonly dl196cbtCertNumberValidator = getDL196CBTCertificateNumberValidator();
 
@@ -32,7 +32,7 @@ export class CBTNumberComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [
+      this.formControl = new UntypedFormControl(null, [
         Validators.maxLength(+this.dl196cbtCertNumberValidator.maxLength),
         Validators.minLength(+this.dl196cbtCertNumberValidator.maxLength),
         Validators.pattern(this.dl196cbtCertNumberValidator.pattern),

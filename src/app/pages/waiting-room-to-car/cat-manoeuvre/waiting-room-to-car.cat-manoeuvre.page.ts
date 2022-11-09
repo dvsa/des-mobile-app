@@ -3,7 +3,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -44,7 +44,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatManoeuvreW
   styleUrls: ['./waiting-room-to-car.cat-manoeuvre.page.scss'],
 })
 export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
   fullLicenceHeld: boolean = null;
 
@@ -59,7 +59,7 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
     alertController: AlertController,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {

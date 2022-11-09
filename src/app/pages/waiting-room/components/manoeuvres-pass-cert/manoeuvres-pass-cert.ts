@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
 import { AppComponent } from '@app/app.component';
@@ -17,12 +17,12 @@ export class ManoeuvresPassCertificateComponent implements OnChanges {
   manoeuvresPassCertificateNumber: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   manoeuvresPassCertificateNumberChange = new EventEmitter<string>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'manoeuvresPassCertificateNumberCtrl';
 
   constructor(
@@ -33,7 +33,7 @@ export class ManoeuvresPassCertificateComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [
+      this.formControl = new UntypedFormControl(null, [
         Validators.maxLength(PASS_CERTIFICATE_LENGTH),
         Validators.minLength(PASS_CERTIFICATE_LENGTH),
         Validators.required,
@@ -44,7 +44,7 @@ export class ManoeuvresPassCertificateComponent implements OnChanges {
     this.formControl.patchValue(this.manoeuvresPassCertificateNumber);
   }
 
-  validateManoeuvresPassCertificate = (c: FormControl) => {
+  validateManoeuvresPassCertificate = (c: UntypedFormControl) => {
     return this.passCertValidationProvider.isPassCertificateValid(c.value) ? null
       : {
         validatePassCertificate: {

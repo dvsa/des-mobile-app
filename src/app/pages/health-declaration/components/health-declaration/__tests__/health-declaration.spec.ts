@@ -6,7 +6,7 @@ import {
   TranslateLoader,
   TranslateParser,
 } from '@ngx-translate/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { HealthDeclarationComponent } from '../health-declaration';
@@ -42,7 +42,7 @@ describe('HealthDeclarationComponent', () => {
     describe('ngOnChanges', () => {
       it('should correctly setup the form control', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.selected = true;
         // ACT
         component.ngOnChanges();
@@ -54,7 +54,7 @@ describe('HealthDeclarationComponent', () => {
     describe('healthDeclarationChanged', () => {
       it('should emit a healthDeclarationChange event', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.healthDeclarationChange = new EventEmitter();
         spyOn(component.healthDeclarationChange, 'emit');
@@ -70,7 +70,7 @@ describe('HealthDeclarationComponent', () => {
     describe('isInvalid', () => {
       it('should validate the field when it is valid', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.selected = true;
         component.ngOnChanges();
         fixture.detectChanges();

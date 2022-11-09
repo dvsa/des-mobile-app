@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import {
   OutcomeBehaviourMapProvider,
@@ -33,19 +33,19 @@ export class ModeOfTransportCatAMod2Component implements OnChanges {
   modeOfTransport: ModeOfTransport;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   modeOfTransportChange = new EventEmitter<ModeOfTransport>();
 
   showNotApplicable: boolean;
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'modeOfTransport';
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl('modeOfTransport', this.formControl);
     }
     this.showNotApplicable = this.outcomeBehaviourProvider.showNotApplicable(this.outcome,

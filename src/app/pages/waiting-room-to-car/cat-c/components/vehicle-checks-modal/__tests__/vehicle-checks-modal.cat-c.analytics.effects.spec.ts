@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { ReplaySubject } from 'rxjs';
@@ -19,7 +19,7 @@ import {
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-c.actions';
 import { VehicleChecksModalCatCAnalyticsEffects } from '../vehicle-checks-modal.cat-c.analytics.effects';
 
-describe('VehicleChecksModalCatCAnalyticsEffects', () => {
+fdescribe('VehicleChecksModalCatCAnalyticsEffects', () => {
   let effects: VehicleChecksModalCatCAnalyticsEffects;
   let analyticsProviderMock;
   let actions$: any;

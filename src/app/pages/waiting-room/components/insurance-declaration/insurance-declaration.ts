@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'insurance-declaration',
@@ -14,17 +14,17 @@ export class InsuranceDeclarationComponent implements OnChanges {
   selected: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   insuranceDeclarationChange = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'insuranceCheckbox';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.requiredTrue]);
+      this.formControl = new UntypedFormControl('', [Validators.requiredTrue]);
 
       this.formGroup.addControl(InsuranceDeclarationComponent.fieldName, this.formControl);
     }

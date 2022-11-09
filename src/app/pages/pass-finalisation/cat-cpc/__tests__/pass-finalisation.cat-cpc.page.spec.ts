@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PersistTests } from '@store/tests/tests.actions';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
@@ -84,11 +84,11 @@ describe('PassFinalisationCatCPCPage', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
       });
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.form = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          [PASS_CERTIFICATE_NUMBER_CTRL]: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
 
         component.onSubmit();

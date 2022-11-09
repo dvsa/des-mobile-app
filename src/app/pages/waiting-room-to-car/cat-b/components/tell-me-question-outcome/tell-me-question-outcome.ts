@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'tell-me-question-outcome',
@@ -13,7 +13,7 @@ export class TellMeQuestionOutcomeComponent implements OnChanges {
   tellMeQuestionOutcome: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   tellMeQuestionSelected: boolean;
@@ -21,11 +21,11 @@ export class TellMeQuestionOutcomeComponent implements OnChanges {
   @Output()
   tellMeQuestionOutcomeChange = new EventEmitter<string>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl('tellMeQuestionOutcome', this.formControl);
     }
     this.formControl.patchValue(this.tellMeQuestionOutcome);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from '@app/app.module';
@@ -25,8 +25,8 @@ describe('CombinationComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CombinationComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null, [Validators.required]);
+    component.formGroup = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [Validators.required]);
   }));
 
   describe('ngOnChanges', () => {

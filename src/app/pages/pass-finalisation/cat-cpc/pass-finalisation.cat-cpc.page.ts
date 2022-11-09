@@ -4,7 +4,7 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cpc';
@@ -43,7 +43,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatCPCPassFin
 })
 export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   pageState: PassFinalisationPageState;
   merged$: Observable<string | boolean>;
   subscription: Subscription;
@@ -58,7 +58,7 @@ export class PassFinalisationCatCPCPage extends PassFinalisationPageComponent im
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

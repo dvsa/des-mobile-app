@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import {
   DrivingFaultsBadgeComponent,
 } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CommentSource } from '@shared/models/fault-marking.model';
 import { configureTestSuite } from 'ng-bullet';
@@ -42,8 +42,8 @@ describe('FaultCommentComponent', () => {
     behaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     behaviourMapProvider.setBehaviourMap(behaviourMap);
     component = fixture.componentInstance;
-    component.parentForm = new FormGroup({});
-    const control = new FormControl(null);
+    component.parentForm = new UntypedFormGroup({});
+    const control = new UntypedFormControl(null);
     component.parentForm.addControl(`faultComment-${CommentSource.SIMPLE}-driving-id`, control);
   }));
 
@@ -77,7 +77,7 @@ describe('FaultCommentComponent', () => {
       component.faultCount = 16;
       component.outcome = '5';
       component.shouldRender = true;
-      const control = new FormControl(null);
+      const control = new UntypedFormControl(null);
       component.parentForm.addControl(`faultComment-${CommentSource.SIMPLE}-driving-signalsTimed`, control);
 
       component.ngOnChanges();
@@ -98,7 +98,7 @@ describe('FaultCommentComponent', () => {
       component.faultType = 'driving';
       component.faultCount = 15;
       component.outcome = '5';
-      const control = new FormControl(null);
+      const control = new UntypedFormControl(null);
       component.parentForm.addControl(`faultComment-${CommentSource.SIMPLE}-driving-signalsTimed`, control);
 
       component.ngOnChanges();
@@ -120,7 +120,7 @@ describe('FaultCommentComponent', () => {
       component.faultCount = 16;
       component.outcome = '5';
       component.shouldRender = false;
-      const control = new FormControl(null);
+      const control = new UntypedFormControl(null);
       component.parentForm.addControl(`faultComment-${CommentSource.SIMPLE}-driving-signalsTimed`, control);
 
       component.ngOnChanges();

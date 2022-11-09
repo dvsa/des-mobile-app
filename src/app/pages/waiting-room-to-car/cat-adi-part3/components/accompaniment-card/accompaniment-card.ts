@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'accompaniment-card-adi3',
@@ -20,7 +20,7 @@ export class AccompanimentCardADI3Component {
   otherAccompaniment: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   trainerAccompanimentChange = new EventEmitter();

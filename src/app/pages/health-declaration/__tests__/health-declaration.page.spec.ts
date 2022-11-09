@@ -51,7 +51,7 @@ import {
   ReceiptDeclarationComponent,
 } from '@pages/health-declaration/components/receipt-declaration/receipt-declaration';
 import {
-  Validators, FormControl, FormGroup, ReactiveFormsModule,
+  Validators, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule,
 } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
@@ -200,10 +200,10 @@ describe('HealthDeclarationPage', () => {
       }));
 
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.formGroup = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.formGroup = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
 
         component.onSubmit();

@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { configureTestSuite } from 'ng-bullet';
 import { TransmissionComponent } from '../transmission';
@@ -24,7 +24,7 @@ describe('TransmissionComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TransmissionComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {

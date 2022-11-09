@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'vehicle-details-card',
@@ -19,7 +19,7 @@ export class VehicleDetailsCardComponent {
   schoolBikeVehicleDetails: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   hideSchoolVehicleAndDualControlRow: boolean = false;

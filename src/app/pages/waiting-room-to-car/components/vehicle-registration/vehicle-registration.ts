@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { isEmpty } from 'lodash';
 import {
   FieldValidators,
@@ -20,18 +20,18 @@ export class VehicleRegistrationComponent implements OnChanges {
   vehicleRegistration: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   vehicleRegistrationChange = new EventEmitter<string>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl('vehicleRegistration', this.formControl);
     }
     this.formControl.patchValue(this.vehicleRegistration);

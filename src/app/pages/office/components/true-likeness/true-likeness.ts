@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'true-likeness',
@@ -12,17 +12,17 @@ export class TrueLikenessComponent implements OnChanges {
   trueLikeness: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   trueLikenessChange = new EventEmitter<boolean>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   private formField: string = 'trueLikeness';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(this.formField, this.formControl);
     }
 

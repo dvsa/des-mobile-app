@@ -1,7 +1,7 @@
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -28,7 +28,7 @@ describe('VehicleChecksToggleComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksToggleComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('DOM', () => {
@@ -57,13 +57,13 @@ describe('VehicleChecksToggleComponent', () => {
   });
   describe('vehicleChecksToggleResultChanged', () => {
     it('should output true if result is set to "Completed" and formControl is valid', () => {
-      component.formControl = new FormControl(1);
+      component.formControl = new UntypedFormControl(1);
       spyOn(component.vehicleChecksCompletedOutcomeChange, 'emit');
       component.vehicleChecksToggleResultChanged('Completed');
       expect(component.vehicleChecksCompletedOutcomeChange.emit).toHaveBeenCalledWith(true);
     });
     it('should output false if result is not set to "Completed" and formControl is valid', () => {
-      component.formControl = new FormControl(1);
+      component.formControl = new UntypedFormControl(1);
       spyOn(component.vehicleChecksCompletedOutcomeChange, 'emit');
       component.vehicleChecksToggleResultChanged('Not completed');
       expect(component.vehicleChecksCompletedOutcomeChange.emit).toHaveBeenCalledWith(false);

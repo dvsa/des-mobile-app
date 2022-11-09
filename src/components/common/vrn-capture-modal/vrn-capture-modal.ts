@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl, FormControl, FormGroup, Validators,
+  AbstractControl, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import {
   FieldValidators,
@@ -33,7 +33,7 @@ export class VRNCaptureModal implements OnInit {
   merged$: Observable<string>;
   subscription: Subscription;
   vehicleRegistrationNumber: string;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   vehicleRegistrationFormControlName: string = 'vehicleRegistration';
   formInvalid: boolean = false;
   textZoom: string = this.navParams.get('textZoom');
@@ -46,9 +46,9 @@ export class VRNCaptureModal implements OnInit {
     public appComponent: AppComponent,
     public navParams: NavParams,
   ) {
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.formGroup.addControl(
-      this.vehicleRegistrationFormControlName, new FormControl(
+      this.vehicleRegistrationFormControlName, new UntypedFormControl(
         null, [
           Validators.required,
           Validators.pattern('^[A-Z0-9]{1,7}$'),

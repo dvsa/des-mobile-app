@@ -5,7 +5,7 @@ import {
 import { Router } from '@angular/router';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, take, withLatestFrom } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { startsWith } from 'lodash';
 
@@ -59,7 +59,7 @@ export class OfficeCatManoeuvrePage extends OfficeBasePageComponent implements O
 
   pageState: OfficePageState;
   pageSubscription: Subscription;
-  form: FormGroup;
+  form: UntypedFormGroup;
   testOutcomeText: string;
   conductedLanguage: string;
   isDelegated: boolean;

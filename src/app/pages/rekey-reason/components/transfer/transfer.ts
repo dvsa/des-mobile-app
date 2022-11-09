@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { AppComponent } from '@app/app.component';
 
 @Component({
@@ -12,8 +12,8 @@ export class TransferComponent implements OnChanges {
 
   static readonly checkBoxCtrl: string = 'transferSelected';
   static readonly fieldName: string = 'staffNumber';
-  private checkBoxFormControl: FormControl;
-  private formControl: FormControl;
+  private checkBoxFormControl: UntypedFormControl;
+  private formControl: UntypedFormControl;
 
   @Input()
   selected: boolean;
@@ -25,7 +25,7 @@ export class TransferComponent implements OnChanges {
   isStaffNumberInvalid: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   selectedChange = new EventEmitter<boolean>();
@@ -40,12 +40,12 @@ export class TransferComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.checkBoxFormControl) {
-      this.checkBoxFormControl = new FormControl(null);
+      this.checkBoxFormControl = new UntypedFormControl(null);
       this.formGroup.addControl(TransferComponent.checkBoxCtrl, this.checkBoxFormControl);
     }
 
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(TransferComponent.fieldName, this.formControl);
     }
 

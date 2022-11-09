@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 enum EyesightTestResult {
   Pass = 'P',
@@ -14,7 +14,7 @@ enum EyesightTestResult {
 })
 export class EyesightTestComponent implements OnChanges {
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   @Input()
   eyesightPassRadioChecked: boolean;
@@ -23,14 +23,14 @@ export class EyesightTestComponent implements OnChanges {
   eyesightFailRadioChecked: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   eyesightTestResultChange = new EventEmitter<boolean>();
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl('eyesightCtrl', this.formControl);
     }
     if (this.eyesightPassRadioChecked || this.eyesightFailRadioChecked) {

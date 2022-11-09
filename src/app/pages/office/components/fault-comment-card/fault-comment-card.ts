@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
@@ -15,7 +15,7 @@ export class FaultCommentCardComponent {
   outcome: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   faultComments: FaultSummary[];
@@ -48,7 +48,7 @@ export class FaultCommentCardComponent {
 
   ngOnChanges() {
     this.faultComments.forEach((value) => {
-      const control = new FormControl(null);
+      const control = new UntypedFormControl(null);
       this.formGroup.addControl(
         `faultComment-${value.source}-${this.faultType}-${value.competencyIdentifier}`, control,
       );

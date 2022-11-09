@@ -2,7 +2,7 @@ import {
   PassCertificateValidationProvider,
 } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { AppComponent } from '@app/app.component';
@@ -32,7 +32,7 @@ describe('passCertificateNumberComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassCertificateNumberComponent);
     component = fixture.componentInstance;
-    component.form = new FormGroup({});
+    component.form = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {

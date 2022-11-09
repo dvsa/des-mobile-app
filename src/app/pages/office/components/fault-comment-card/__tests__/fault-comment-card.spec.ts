@@ -3,7 +3,7 @@ import { MockComponent } from 'ng-mocks';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { AppModule } from 'src/app/app.module';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { FaultCommentComponent } from '../../fault-comment/fault-comment';
@@ -31,7 +31,7 @@ describe('FaultCommentCardComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(FaultCommentCardComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('DOM', () => {

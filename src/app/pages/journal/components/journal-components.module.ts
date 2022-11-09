@@ -17,30 +17,27 @@ import { JournalNavigationComponent } from './journal-navigation/journal-navigat
 import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-commitment';
 
 @NgModule({
-  declarations: [
-    ActivitySlotComponent,
-    EmptySlotComponent,
-    JournalNavigationComponent,
-    PersonalCommitmentSlotComponent,
-    JournalSlotComponent,
-  ],
-  imports: [
-    CommonModule,
-    IonicModule,
-    TestSlotComponentsModule,
-    JournalEarlyStartModule,
-    JournalForceCheckModule,
-    JournalRekeyModalModule,
-  ],
-  entryComponents: [
-    PersonalCommitmentSlotComponent,
-  ],
-  exports: [
-    ActivitySlotComponent,
-    EmptySlotComponent,
-    JournalNavigationComponent,
-    PersonalCommitmentSlotComponent,
-    JournalSlotComponent,
-  ],
+    declarations: [
+        ActivitySlotComponent,
+        EmptySlotComponent,
+        JournalNavigationComponent,
+        PersonalCommitmentSlotComponent,
+        JournalSlotComponent,
+    ],
+    imports: [
+        CommonModule,
+        IonicModule,
+        TestSlotComponentsModule,
+        JournalEarlyStartModule,
+        JournalForceCheckModule,
+        JournalRekeyModalModule,
+    ],
+    exports: [
+        ActivitySlotComponent,
+        EmptySlotComponent,
+        JournalNavigationComponent,
+        PersonalCommitmentSlotComponent,
+        JournalSlotComponent,
+    ]
 })
 export class JournalComponentsModule { }

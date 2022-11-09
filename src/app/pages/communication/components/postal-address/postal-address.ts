@@ -2,7 +2,7 @@ import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
 import { Address } from '@dvsa/mes-test-schema/categories/common';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'postal-address',
@@ -14,7 +14,7 @@ export class PostalAddressComponent {
   readonly postalType = 'Post';
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   postalAddress: Address;

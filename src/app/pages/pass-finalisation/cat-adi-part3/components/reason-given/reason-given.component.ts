@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
@@ -21,7 +21,7 @@ export class ReasonGivenComponent implements OnChanges {
   outcome: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   reasonGivenText: string;
@@ -30,14 +30,14 @@ export class ReasonGivenComponent implements OnChanges {
   adviceReason = new EventEmitter<string>();
 
   noAdviceCharsRemaining: number = null;
-  private formControl: FormControl = null;
+  private formControl: UntypedFormControl = null;
   static readonly fieldName: string = 'reasonGiven';
 
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl('reasonGiven', this.formControl);
     }
 

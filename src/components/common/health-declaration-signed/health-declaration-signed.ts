@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 export enum HealthDeclatationValidValues {
   SIGNED = 'Signed',
@@ -18,7 +18,7 @@ export class HealthDeclarationSignedComponent implements OnChanges {
   healthDeclaration: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   label: string;
@@ -26,12 +26,12 @@ export class HealthDeclarationSignedComponent implements OnChanges {
   @Output()
   healthDeclarationChange = new EventEmitter<boolean>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'healthDeclarationCtrl';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(HealthDeclarationSignedComponent.fieldName, this.formControl);
 
       // set to null on form creation to allow validation to fire if no user interaction

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-cm';
 import { PersistTests } from '@store/tests/tests.actions';
 import {
@@ -33,7 +33,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatManoeuvreP
 })
 export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   pageState: PassFinalisationPageState;
 
   constructor(
@@ -45,7 +45,7 @@ export class PassFinalisationCatManoeuvrePage extends PassFinalisationPageCompon
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

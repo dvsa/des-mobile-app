@@ -2,7 +2,7 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
@@ -28,20 +28,20 @@ describe('TellMeQuestionOutcomeComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TellMeQuestionOutcomeComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('tellMeQuestionChanged', () => {
     it('should emit the correct event with the parameter'
         + 'given when form control is valid', () => {
-      component.formControl = new FormControl(1, [Validators.required]);
+      component.formControl = new UntypedFormControl(1, [Validators.required]);
       spyOn(component.tellMeQuestionOutcomeChange, 'emit');
       component.tellMeQuestionOutcomeChanged('test');
       expect(component.tellMeQuestionOutcomeChange.emit).toHaveBeenCalledWith('test');
     });
     it('should emit nothing if form control is invalid', () => {
       spyOn(component.tellMeQuestionOutcomeChange, 'emit');
-      component.formControl = new FormControl(null, [Validators.required]);
+      component.formControl = new UntypedFormControl(null, [Validators.required]);
       expect(component.tellMeQuestionOutcomeChange.emit).not.toHaveBeenCalled();
     });
   });

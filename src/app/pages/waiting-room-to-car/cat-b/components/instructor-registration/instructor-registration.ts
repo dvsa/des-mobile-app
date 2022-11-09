@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import {
   FieldValidators,
   getInstructorRegistrationNumberValidator,
@@ -19,18 +19,18 @@ export class InstructorRegistrationComponent implements OnChanges {
   instructorRegistration: number;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   instructorRegistrationChange = new EventEmitter<number>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   readonly instructorRegistrationNumberValidator: FieldValidators = getInstructorRegistrationNumberValidator();
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl('instructorRegistration', this.formControl);
     }
     this.formControl.patchValue(this.instructorRegistration);

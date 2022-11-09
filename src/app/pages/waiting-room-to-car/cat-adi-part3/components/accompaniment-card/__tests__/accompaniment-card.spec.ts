@@ -11,7 +11,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
-  FormGroup, ReactiveFormsModule,
+  UntypedFormGroup, ReactiveFormsModule,
 } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
@@ -60,7 +60,7 @@ describe('AccompanimentCardADI3Component', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AccompanimentCardADI3Component);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   it('should create', () => {

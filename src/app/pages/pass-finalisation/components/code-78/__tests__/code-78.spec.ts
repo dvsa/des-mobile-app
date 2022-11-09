@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { Code78Component } from '../code-78';
@@ -23,7 +23,7 @@ describe('code78Component', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(Code78Component);
     component = fixture.componentInstance;
-    component.form = new FormGroup({});
+    component.form = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {

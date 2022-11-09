@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { QuestionOutcome, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
 
@@ -22,7 +22,7 @@ export class SafetyQuestionComponent implements OnChanges {
   questions: SafetyQuestionResult[];
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   isLastSafetyQuestion: boolean;
@@ -30,8 +30,8 @@ export class SafetyQuestionComponent implements OnChanges {
   @Output()
   safetyQuestionOutcomeChange = new EventEmitter<QuestionOutcome>();
 
-  safetyQuestionFormControl: FormControl;
-  safetyQuestionOutcomeFormControl: FormControl;
+  safetyQuestionFormControl: UntypedFormControl;
+  safetyQuestionOutcomeFormControl: UntypedFormControl;
 
   readonly safetyQuestionId: string = uniqueId();
   readonly safetyQuestionOutcomeFieldName: string = `safetyQuestionOutcome_${this.safetyQuestionId}`;
@@ -39,12 +39,12 @@ export class SafetyQuestionComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.safetyQuestionFormControl) {
-      this.safetyQuestionFormControl = new FormControl({ disabled: true });
+      this.safetyQuestionFormControl = new UntypedFormControl({ disabled: true });
       this.formGroup.addControl(this.safetyQuestionFieldName, this.safetyQuestionFormControl);
     }
 
     if (!this.safetyQuestionOutcomeFormControl) {
-      this.safetyQuestionOutcomeFormControl = new FormControl();
+      this.safetyQuestionOutcomeFormControl = new UntypedFormControl();
       this.formGroup.addControl(this.safetyQuestionOutcomeFieldName, this.safetyQuestionOutcomeFormControl);
     }
 

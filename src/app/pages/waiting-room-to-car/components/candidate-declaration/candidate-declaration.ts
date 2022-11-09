@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum DeclarationSigned {
   YES = 'Y',
@@ -21,16 +21,16 @@ export class CandidateDeclarationSignedComponent {
   candidateSigned: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   @Output()
   candidateDeclarationChange = new EventEmitter<boolean>();
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl('candidateDeclarationCtrl', this.formControl);
     }
 

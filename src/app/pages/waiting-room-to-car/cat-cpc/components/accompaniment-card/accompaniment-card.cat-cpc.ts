@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'accompaniment-card-cat-cpc',
@@ -10,7 +10,7 @@ import { FormGroup } from '@angular/forms';
 export class AccompanimentCardCatCPCComponent {
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   supervisorAccompaniment: boolean;

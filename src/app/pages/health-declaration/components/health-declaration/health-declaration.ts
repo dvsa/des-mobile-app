@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'health-declaration',
@@ -14,17 +14,17 @@ export class HealthDeclarationComponent implements OnChanges {
   selected: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   healthDeclarationChange = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'healthCheckbox';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', []);
+      this.formControl = new UntypedFormControl('', []);
       this.formGroup.addControl(HealthDeclarationComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.selected);

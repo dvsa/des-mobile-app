@@ -11,8 +11,8 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
-  FormControl,
-  FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl,
+  UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DualControlsComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/dual-controls/dual-controls';
@@ -59,8 +59,8 @@ describe('DualControlsComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DualControlsComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null, [Validators.required]);
+    component.formGroup = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [Validators.required]);
   }));
 
   it('should create', () => {

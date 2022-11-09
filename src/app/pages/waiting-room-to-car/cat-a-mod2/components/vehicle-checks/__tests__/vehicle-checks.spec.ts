@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { IonicModule, ModalController, Config } from '@ionic/angular';
 import { ModalControllerMock, ConfigMock } from 'ionic-mocks';
 import { AppComponent } from '@app/app.component';
@@ -46,7 +46,7 @@ describe('VehicleChecksCatAMod2Component', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatAMod2Component);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     modalController = TestBed.inject(ModalController);
     appComponent = TestBed.inject(AppComponent);
   }));
@@ -147,7 +147,7 @@ describe('VehicleChecksCatAMod2Component', () => {
 
     describe('invalid', () => {
       beforeEach(() => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -180,7 +180,7 @@ describe('VehicleChecksCatAMod2Component', () => {
 
     describe('ngOnChanges', () => {
       it('should add the form control', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -191,7 +191,7 @@ describe('VehicleChecksCatAMod2Component', () => {
       });
 
       it('should validate the vehicle checks', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -202,7 +202,7 @@ describe('VehicleChecksCatAMod2Component', () => {
       });
 
       it('should patch the form control value', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });

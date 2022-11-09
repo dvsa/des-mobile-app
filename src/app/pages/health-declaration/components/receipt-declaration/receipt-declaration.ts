@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'receipt-declaration',
@@ -14,7 +14,7 @@ export class ReceiptDeclarationComponent implements OnChanges {
   selected: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   certificateNumber: string;
@@ -22,12 +22,12 @@ export class ReceiptDeclarationComponent implements OnChanges {
   @Output()
   receiptDeclarationChange = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'receiptCheckbox';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.requiredTrue]);
+      this.formControl = new UntypedFormControl('', [Validators.requiredTrue]);
 
       this.formGroup.addControl(ReceiptDeclarationComponent.fieldName, this.formControl);
     }

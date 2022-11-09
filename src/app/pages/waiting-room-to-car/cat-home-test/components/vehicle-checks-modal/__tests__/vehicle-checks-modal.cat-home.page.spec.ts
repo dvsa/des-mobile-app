@@ -9,7 +9,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   VehicleChecksCatHomeTestModal,
@@ -123,7 +123,7 @@ describe('VehicleChecksCatHomeTestModal', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatHomeTestModal);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     component.category = TestCategory.F;
 
   }));

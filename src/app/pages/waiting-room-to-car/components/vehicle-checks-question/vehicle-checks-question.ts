@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
@@ -24,7 +24,7 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   questionsToDisable: QuestionResult[];
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   isLastQuestion: boolean;
@@ -35,8 +35,8 @@ export class VehicleChecksQuestionComponent implements OnChanges {
   @Output()
   vehicleChecksQuestionOutcomeChange = new EventEmitter<QuestionOutcome>();
 
-  questionFormControl: FormControl;
-  questionOutcomeFormControl: FormControl;
+  questionFormControl: UntypedFormControl;
+  questionOutcomeFormControl: UntypedFormControl;
 
   readonly questionId: string = uniqueId();
   readonly questionOutcomeFieldName: string = `vehicleChecksQuestionOutcome_${this.questionId}`;
@@ -44,12 +44,12 @@ export class VehicleChecksQuestionComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.questionFormControl) {
-      this.questionFormControl = new FormControl({ disabled: true });
+      this.questionFormControl = new UntypedFormControl({ disabled: true });
       this.formGroup.addControl(this.questionFieldName, this.questionFormControl);
     }
 
     if (!this.questionOutcomeFormControl) {
-      this.questionOutcomeFormControl = new FormControl();
+      this.questionOutcomeFormControl = new UntypedFormControl();
       this.formGroup.addControl(this.questionOutcomeFieldName, this.questionOutcomeFormControl);
     }
 

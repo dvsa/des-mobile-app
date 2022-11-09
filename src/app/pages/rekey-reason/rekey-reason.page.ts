@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { Observable, merge, Subscription } from 'rxjs';
 import { IpadIssue, Transfer, Other } from '@dvsa/mes-test-schema/categories/common';
 import { TestSlot } from '@dvsa/mes-journal-schema';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Store, select } from '@ngrx/store';
 import {
   map,
@@ -85,7 +85,7 @@ interface RekeyReasonPageState {
 export class RekeyReasonPage extends BasePageComponent implements OnInit {
 
   private static loadingOpts: LoadingOptions = { spinner: 'circles', message: 'Uploading...' };
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   pageState: RekeyReasonPageState;
   subscription: Subscription = Subscription.EMPTY;
   isStaffNumberInvalid: boolean = false;
@@ -104,7 +104,7 @@ export class RekeyReasonPage extends BasePageComponent implements OnInit {
     private loaderService: LoadingProvider,
   ) {
     super(platform, authenticationProvider, router);
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {

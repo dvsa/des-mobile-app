@@ -27,7 +27,7 @@ export class HealthDeclarationEffects {
         ),
       ),
     )),
-    concatMap(([,]) => {
+    concatMap(() => {
       return [
         testsActions.PersistTests(),
       ];

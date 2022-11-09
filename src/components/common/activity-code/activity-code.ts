@@ -1,7 +1,7 @@
 import {
   ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ModalController } from '@ionic/angular';
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
@@ -21,7 +21,7 @@ export class ActivityCodeComponent implements OnChanges {
   activityCodeOptions: ActivityCodeModel[];
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   disabled: boolean;
@@ -32,7 +32,7 @@ export class ActivityCodeComponent implements OnChanges {
   @Output()
   activityCodeChange = new EventEmitter<ActivityCodeModel>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'activityCode';
 
   constructor(
@@ -47,7 +47,7 @@ export class ActivityCodeComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl({ disabled: true }, [Validators.required]);
+      this.formControl = new UntypedFormControl({ disabled: true }, [Validators.required]);
       this.formGroup.addControl(ActivityCodeComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.activityCodeModel);

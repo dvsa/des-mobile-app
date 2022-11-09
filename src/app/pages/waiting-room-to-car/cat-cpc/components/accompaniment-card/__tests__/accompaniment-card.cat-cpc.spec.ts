@@ -10,7 +10,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   AccompanimentCardCatCPCComponent,
@@ -58,7 +58,7 @@ describe('AccompanimentCardCatCPCComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AccompanimentCardCatCPCComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   it('should create', () => {

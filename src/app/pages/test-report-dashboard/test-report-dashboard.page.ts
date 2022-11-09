@@ -34,7 +34,7 @@ import {
   GradeChanged,
   ImmediateDangerChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { map, tap } from 'rxjs/operators';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { Code4Modal } from '@pages/test-report/cat-adi-part3/components/code-4-modal/code-4-modal';
@@ -64,7 +64,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   isTestReportPopulated: boolean;
   lessonAndThemeState: { valid: boolean, score: number };
   testReportState: number;
-  form: FormGroup;
+  form: UntypedFormGroup;
   feedback: string;
   hasClickedComplete: boolean = false;
   merged$: Observable<string | void>;
@@ -93,7 +93,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       insomnia,
       routeByCategory,
     );
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
   }
 
   ngOnInit() {

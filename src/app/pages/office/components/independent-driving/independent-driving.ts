@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { IndependentDriving } from '@dvsa/mes-test-schema/categories/common';
 import {
   OutcomeBehaviourMapProvider,
@@ -41,19 +41,19 @@ export class IndependentDrivingComponent implements OnChanges {
   independentDriving: IndependentDriving;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   independentDrivingChange = new EventEmitter<IndependentDriving>();
 
   showNotApplicable: boolean;
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'independentDriving';
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl('independentDriving', this.formControl);
     }
     this.showNotApplicable = this.outcomeBehaviourProvider.showNotApplicable(this.outcome,

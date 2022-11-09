@@ -2,7 +2,7 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { configureTestSuite } from 'ng-bullet';
 import { OtherReasonComponent } from '../other-reason';
 
@@ -26,7 +26,7 @@ describe('OtherReasonComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(OtherReasonComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     component.ngOnChanges();
   }));
 

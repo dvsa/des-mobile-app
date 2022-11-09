@@ -5,7 +5,7 @@ import {
 import { Router } from '@angular/router';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { Subscription, Observable, merge } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
@@ -76,7 +76,7 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
 
   pageState: OfficePageState;
   pageSubscription: Subscription;
-  form: FormGroup;
+  form: UntypedFormGroup;
   static readonly maxFaultCount = 12;
 
   activityCodeOptions: ActivityCodeModel[];

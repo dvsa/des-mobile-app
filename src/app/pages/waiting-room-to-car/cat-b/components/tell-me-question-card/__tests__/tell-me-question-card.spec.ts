@@ -11,8 +11,8 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
-  FormControl,
-  FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl,
+  UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
@@ -61,7 +61,7 @@ describe('TellMeQuestionCardComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TellMeQuestionCardComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   it('should create', () => {
@@ -103,7 +103,7 @@ describe('TellMeQuestionCardComponent', () => {
         });
         it('should return true if there is a tellMeQuestion and the outcome is both '
                     + 'not valid and dirty', () => {
-          const formControl = new FormControl(null, [Validators.required]);
+          const formControl = new UntypedFormControl(null, [Validators.required]);
           component.formGroup.addControl('tellMeQuestion', formControl);
           component.formGroup.controls.tellMeQuestion.markAsDirty();
           expect(component.questionInvalid)
@@ -111,7 +111,7 @@ describe('TellMeQuestionCardComponent', () => {
         });
         it('should return false if there is a tellMeQuestion and the outcome is both '
                     + 'valid and dirty', () => {
-          const formControl = new FormControl(1, [Validators.required]);
+          const formControl = new UntypedFormControl(1, [Validators.required]);
           component.formGroup.addControl('tellMeQuestion', formControl);
           component.formGroup.controls.tellMeQuestion.markAsDirty();
           expect(component.questionInvalid)
@@ -119,7 +119,7 @@ describe('TellMeQuestionCardComponent', () => {
         });
         it('should return false if there is a tellMeQuestion and the outcome is both '
                     + 'valid and clean', () => {
-          const formControl = new FormControl(1, [Validators.required]);
+          const formControl = new UntypedFormControl(1, [Validators.required]);
           component.formGroup.addControl('tellMeQuestion', formControl);
           component.formGroup.controls.tellMeQuestion.markAsPristine();
           expect(component.questionInvalid)
@@ -127,7 +127,7 @@ describe('TellMeQuestionCardComponent', () => {
         });
         it('should return false if there is a tellMeQuestion and the outcome is both '
                     + 'not valid and clean', () => {
-          const formControl = new FormControl(null, [Validators.required]);
+          const formControl = new UntypedFormControl(null, [Validators.required]);
           component.formGroup.addControl('tellMeQuestion', formControl);
           component.formGroup.controls.tellMeQuestion.markAsPristine();
           expect(component.questionInvalid)
@@ -143,7 +143,7 @@ describe('TellMeQuestionCardComponent', () => {
         });
         it('should return true if there is a tellMeQuestionOutcome and the outcome is both '
                     + 'not valid and dirty', () => {
-          const formControl = new FormControl(null, [Validators.required]);
+          const formControl = new UntypedFormControl(null, [Validators.required]);
           component.formGroup.addControl('tellMeQuestionOutcome', formControl);
           component.formGroup.controls.tellMeQuestionOutcome.markAsDirty();
           expect(component.outcomeInvalid)
@@ -151,7 +151,7 @@ describe('TellMeQuestionCardComponent', () => {
         });
         it('should return false if there is a tellMeQuestionOutcome and the outcome is both '
                     + 'valid and dirty', () => {
-          const formControl = new FormControl(1, [Validators.required]);
+          const formControl = new UntypedFormControl(1, [Validators.required]);
           component.formGroup.addControl('tellMeQuestionOutcome', formControl);
           component.formGroup.controls.tellMeQuestionOutcome.markAsDirty();
           expect(component.outcomeInvalid)
@@ -159,7 +159,7 @@ describe('TellMeQuestionCardComponent', () => {
         });
         it('should return false if there is a tellMeQuestionOutcome and the outcome is both '
                     + 'valid and clean', () => {
-          const formControl = new FormControl(1, [Validators.required]);
+          const formControl = new UntypedFormControl(1, [Validators.required]);
           component.formGroup.addControl('tellMeQuestionOutcome', formControl);
           component.formGroup.controls.tellMeQuestionOutcome.markAsPristine();
           expect(component.outcomeInvalid)
@@ -167,7 +167,7 @@ describe('TellMeQuestionCardComponent', () => {
         });
         it('should return false if there is a tellMeQuestionOutcome and the outcome is both '
                     + 'not valid and clean', () => {
-          const formControl = new FormControl(null, [Validators.required]);
+          const formControl = new UntypedFormControl(null, [Validators.required]);
           component.formGroup.addControl('tellMeQuestionOutcome', formControl);
           component.formGroup.controls.tellMeQuestionOutcome.markAsPristine();
           expect(component.outcomeInvalid)

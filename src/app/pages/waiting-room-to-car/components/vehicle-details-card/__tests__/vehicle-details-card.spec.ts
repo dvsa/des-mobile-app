@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  FormGroup, ReactiveFormsModule,
+  UntypedFormGroup, ReactiveFormsModule,
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { configureTestSuite } from 'ng-bullet';
@@ -29,7 +29,7 @@ describe('VehicleDetailsCardComponent', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleDetailsCardComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('schoolVehicleDetailsChanged', () => {

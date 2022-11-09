@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 import { Circuit } from '@dvsa/mes-test-schema/categories/AM1';
 import {
@@ -25,18 +25,18 @@ export class CircuitComponent implements OnChanges {
   circuit: Circuit;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   circuitChange = new EventEmitter<Circuit>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   private formField: string = 'circuit';
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(CircuitType.Left);
+      this.formControl = new UntypedFormControl(CircuitType.Left);
       this.formGroup.addControl(this.formField, this.formControl);
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome, this.formField);

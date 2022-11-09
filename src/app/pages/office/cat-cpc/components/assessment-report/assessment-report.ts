@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'assessment-report',
@@ -13,17 +13,17 @@ export class AssessmentReportComponent implements OnChanges {
   assessmentReport: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   assessmentReportChange = new EventEmitter<string>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'assessmentReport';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(AssessmentReportComponent.fieldName, this.formControl);
       this.formGroup.get(AssessmentReportComponent.fieldName).setValidators([Validators.required]);
     }

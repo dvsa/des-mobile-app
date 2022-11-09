@@ -8,7 +8,7 @@ import {
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
 import { AppModule } from '@app/app.module';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 const safetyAndBalanceQuestion: VehicleChecksQuestion = {
   code: 'S04',
@@ -35,7 +35,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksQuestionCatAMod2Component);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {
@@ -68,7 +68,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
           code: 'test',
           description: 'Description',
         };
-        component.questionFormControl = new FormControl();
+        component.questionFormControl = new UntypedFormControl();
         component.ngOnChanges();
         expect(component.questionFormControl.value)
           .toBe(component.findQuestion());
@@ -87,7 +87,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
           code: 'test',
           description: 'Description',
         };
-        component.questionOutcomeFormControl = new FormControl();
+        component.questionOutcomeFormControl = new UntypedFormControl();
         component.ngOnChanges();
         expect(component.questionOutcomeFormControl.value)
           .toBe(component.questionResult.outcome);

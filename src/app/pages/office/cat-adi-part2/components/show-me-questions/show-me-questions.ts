@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges, OnInit,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { uniqueId } from 'lodash';
 import {
@@ -30,7 +30,7 @@ export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
   questionsToDisable: QuestionResult[];
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   outcome: string;
@@ -47,7 +47,7 @@ export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
   @Output()
   showMeQuestionsChange = new EventEmitter<QuestionResult>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
 
   readonly questionId: string = uniqueId();
   fieldName: string;
@@ -65,7 +65,7 @@ export class ShowMeQuestionsCatADI2Component implements OnChanges, OnInit {
     this.fieldName = `showMeQuestion_${this.questionNumber}`;
 
     if (!this.formControl) {
-      this.formControl = new FormControl({ disabled: true });
+      this.formControl = new UntypedFormControl({ disabled: true });
       this.formGroup.addControl(this.fieldName, this.formControl);
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -31,7 +31,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatHomePassFi
 })
 export class PassFinalisationCatHomeTestPage extends PassFinalisationPageComponent {
   pageState: PassFinalisationPageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     platform: Platform,
@@ -42,7 +42,7 @@ export class PassFinalisationCatHomeTestPage extends PassFinalisationPageCompone
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 
