@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -17,7 +17,6 @@ import * as applicationReferenceActions
 import * as activityCodeActions from '@store/tests/activity-code/activity-code.actions';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { CircuitType } from '@shared/models/circuit-type';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -38,10 +37,10 @@ import * as officeActions from '../office.actions';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-describe('OfficeAnalyticsEffects', () => {
+fdescribe('OfficeAnalyticsEffects', () => {
   let effects: OfficeAnalyticsEffects;
   let analyticsProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenNamePass = AnalyticsScreenNames.PASS_TEST_SUMMARY;
   const screenNameFail = AnalyticsScreenNames.FAIL_TEST_SUMMARY;
@@ -55,7 +54,7 @@ describe('OfficeAnalyticsEffects', () => {
     checkDigit: 9,
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -69,15 +68,13 @@ describe('OfficeAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(OfficeAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
-  });
+  }));
 
   describe('officeViewDidEnter', () => {
     it('should call setCurrentPage with pass page and addCustomDimension', (done) => {

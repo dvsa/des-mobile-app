@@ -4,16 +4,15 @@ import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { AppModule } from 'src/app/app.module';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { FaultCommentComponent } from '../../fault-comment/fault-comment';
 import { FaultCommentCardComponent } from '../fault-comment-card';
 
-describe('FaultCommentCardComponent', () => {
+fdescribe('FaultCommentCardComponent', () => {
   let fixture: ComponentFixture<FaultCommentCardComponent>;
   let component: FaultCommentCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         FaultCommentCardComponent,
@@ -26,9 +25,7 @@ describe('FaultCommentCardComponent', () => {
         PipesModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(FaultCommentCardComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

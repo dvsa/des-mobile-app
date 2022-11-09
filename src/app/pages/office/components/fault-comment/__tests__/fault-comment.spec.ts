@@ -8,18 +8,17 @@ import {
 import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { CommentSource } from '@shared/models/fault-marking.model';
-import { configureTestSuite } from 'ng-bullet';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { behaviourMap } from '../../../office-behaviour-map';
 import { FaultCommentComponent } from '../fault-comment';
 
-describe('FaultCommentComponent', () => {
+fdescribe('FaultCommentComponent', () => {
   let fixture: ComponentFixture<FaultCommentComponent>;
   let component: FaultCommentComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         FaultCommentComponent,
@@ -35,9 +34,7 @@ describe('FaultCommentComponent', () => {
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(FaultCommentComponent);
     behaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     behaviourMapProvider.setBehaviourMap(behaviourMap);

@@ -14,7 +14,6 @@ import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { AppModule } from 'src/app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -67,15 +66,13 @@ import { CandidateDescriptionComponent } from '../../components/candidate-descri
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 import { TrueLikenessComponent } from '../../components/true-likeness/true-likeness';
 
-// TODO - MES-7286 - increase code coverage of unit tests in this file.
-
-describe('OfficeCatBPage', () => {
+fdescribe('OfficeCatBPage', () => {
   let fixture: ComponentFixture<OfficeCatBPage>;
   let component: OfficeCatBPage;
   let store$: Store<StoreModel>;
   let faultCountProvider: FaultCountProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatBPage,
@@ -161,9 +158,7 @@ describe('OfficeCatBPage', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(OfficeCatBPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

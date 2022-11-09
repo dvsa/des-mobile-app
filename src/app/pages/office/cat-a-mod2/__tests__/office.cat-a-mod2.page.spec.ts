@@ -29,7 +29,6 @@ import {
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
-import { configureTestSuite } from 'ng-bullet';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
@@ -51,6 +50,7 @@ import {
 } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
+import { ReactiveFormsModule } from '@angular/forms';
 import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
 import { IdentificationComponent } from '../../components/identification/identification';
@@ -66,12 +66,12 @@ import { VehicleChecksOfficeCardComponent } from '../../components/vehicle-check
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 
-describe('OfficeCatAMod2Page', () => {
+fdescribe('OfficeCatAMod2Page', () => {
   let fixture: ComponentFixture<OfficeCatAMod2Page>;
   let component: OfficeCatAMod2Page;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatAMod2Page,
@@ -145,6 +145,7 @@ describe('OfficeCatAMod2Page', () => {
           }),
         }),
         TranslateModule,
+        ReactiveFormsModule,
       ],
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -160,9 +161,7 @@ describe('OfficeCatAMod2Page', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(OfficeCatAMod2Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

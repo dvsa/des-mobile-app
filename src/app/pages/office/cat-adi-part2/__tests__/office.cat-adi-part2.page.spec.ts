@@ -11,8 +11,11 @@ import {
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
+import { of } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
+import { ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+
 import { ComponentsModule } from '@components/common/common-components.module';
 import { AppModule } from 'src/app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -26,17 +29,14 @@ import { QuestionProviderMock } from '@providers/question/__mocks__/question.moc
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeModel, ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { By } from '@angular/platform-browser';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
 import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { of } from 'rxjs';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import {
@@ -65,12 +65,12 @@ import { WeatherConditionsComponent } from '../../components/weather-conditions/
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 
-describe('OfficeCatADI2Page', () => {
+fdescribe('OfficeCatADI2Page', () => {
   let fixture: ComponentFixture<OfficeCatADI2Page>;
   let component: OfficeCatADI2Page;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatADI2Page,
@@ -146,9 +146,7 @@ describe('OfficeCatADI2Page', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(OfficeCatADI2Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

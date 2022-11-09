@@ -10,7 +10,6 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
 import { Store } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -48,7 +47,7 @@ import { TestDataByCategoryProvider } from '@providers/test-data-by-category/tes
 import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
 import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
-describe('NonPassFinalisationPage', () => {
+fdescribe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;
@@ -61,7 +60,7 @@ describe('NonPassFinalisationPage', () => {
     } as Data,
   } as ActivatedRoute;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -90,9 +89,7 @@ describe('NonPassFinalisationPage', () => {
         { provide: TestDataByCategoryProvider, useClass: TestDataByCategoryProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(NonPassFinalisationPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

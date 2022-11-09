@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -20,7 +20,6 @@ import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candi
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -30,14 +29,14 @@ import * as nonPassFinalisationActions from '../non-pass-finalisation.actions';
 import { NonPassFinalisationAnalyticsEffects } from '../non-pass-finalisation.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-describe('NonPassFinalisationAnalyticsEffects', () => {
+fdescribe('NonPassFinalisationAnalyticsEffects', () => {
   let effects: NonPassFinalisationAnalyticsEffects;
-  let analyticsProviderMock: any;
-  let actions$: any;
+  let analyticsProviderMock: AnalyticsProvider;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.NON_PASS_FINALISATION;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -51,15 +50,13 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(NonPassFinalisationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
-  });
+  }));
 
   describe('nonPassFinalisationViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

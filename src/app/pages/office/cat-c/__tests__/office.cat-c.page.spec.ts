@@ -12,7 +12,6 @@ import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { AppModule } from 'src/app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -59,12 +58,12 @@ import { ShowMeQuestionComponent } from '../../components/show-me-question/show-
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 
-describe('OfficeCatCPage', () => {
+fdescribe('OfficeCatCPage', () => {
   let fixture: ComponentFixture<OfficeCatCPage>;
   let component: OfficeCatCPage;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatCPage,
@@ -140,9 +139,7 @@ describe('OfficeCatCPage', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(OfficeCatCPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

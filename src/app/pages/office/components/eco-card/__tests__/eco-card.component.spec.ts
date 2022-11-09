@@ -1,13 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { ECOCardComponent } from '../eco-card.component';
 
-import { ECOCardComponent } from './eco-card.component';
-
-describe('ECOCardComponent', () => {
+fdescribe('ECOCardComponent', () => {
   let component: ECOCardComponent;
   let fixture: ComponentFixture<ECOCardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ECOCardComponent],
       imports: [IonicModule.forRoot()],

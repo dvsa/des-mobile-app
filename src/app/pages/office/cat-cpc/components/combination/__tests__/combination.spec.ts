@@ -1,14 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { CombinationComponent } from '../combination';
 
-describe('CombinationComponent', () => {
+fdescribe('CombinationComponent', () => {
   let fixture: ComponentFixture<CombinationComponent>;
   let component: CombinationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CombinationComponent,
@@ -18,9 +17,7 @@ describe('CombinationComponent', () => {
         AppModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CombinationComponent);
     component = fixture.componentInstance;
   }));

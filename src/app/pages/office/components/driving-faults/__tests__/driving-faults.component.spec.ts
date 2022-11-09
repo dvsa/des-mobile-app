@@ -1,23 +1,20 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { By } from '@angular/platform-browser';
 import { FaultSummary } from '@shared/models/fault-marking.model';
-import { DrivingFaultsComponent } from './driving-faults.component';
+import { DrivingFaultsComponent } from '../driving-faults.component';
 
-describe('DrivingFaultsComponent', () => {
+fdescribe('DrivingFaultsComponent', () => {
   let component: DrivingFaultsComponent;
   let fixture: ComponentFixture<DrivingFaultsComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DrivingFaultsComponent],
       imports: [IonicModule, OfficeComponentsModule],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DrivingFaultsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
