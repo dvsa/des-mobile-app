@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -17,22 +17,20 @@ import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candi
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import * as healthDeclarationActions from '../health-declaration.actions';
 import { HealthDeclarationAnalyticsEffects } from '../health-declaration.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-describe('Health Declaration Analytics Effects', () => {
-
+fdescribe('HealthDeclarationAnalyticsEffects', () => {
   let effects: HealthDeclarationAnalyticsEffects;
   let analyticsProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.HEALTH_DECLARATION;
   // eslint-disable-next-line max-len
   const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.HEALTH_DECLARATION}`;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -46,14 +44,12 @@ describe('Health Declaration Analytics Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(HealthDeclarationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-  });
+  }));
 
   describe('healthDeclarationViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

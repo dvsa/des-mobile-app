@@ -7,15 +7,14 @@ import {
   TranslateParser,
 } from '@ngx-translate/core';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { HealthDeclarationComponent } from '../health-declaration';
 
-describe('HealthDeclarationComponent', () => {
+fdescribe('HealthDeclarationComponent', () => {
   let fixture: ComponentFixture<HealthDeclarationComponent>;
   let component: HealthDeclarationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         HealthDeclarationComponent,
@@ -31,9 +30,7 @@ describe('HealthDeclarationComponent', () => {
         TranslateParser,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HealthDeclarationComponent);
     component = fixture.componentInstance;
   }));

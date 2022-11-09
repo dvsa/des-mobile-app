@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { initialState, delegatedSearchReducer } from '../delegated-rekey-search.reducer';
 import * as delegatedRekeySearchActions from '../delegated-rekey-search.actions';
 
-describe('delegatedSearchReducer', () => {
+fdescribe('delegatedSearchReducer', () => {
   it('should turn on loading state when searching for tests', () => {
     const state = {
       ...initialState,

@@ -4,7 +4,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { DelegatedRekeySearchProvider } from '@providers/delegated-rekey-search/delegated-rekey-search';
 import { SearchProvider } from '@providers/search/search';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
@@ -23,7 +22,7 @@ function asyncError(errorObject: any) {
   return defer(() => Promise.reject(errorObject));
 }
 
-describe('DelegatedRekeySearchEffects', () => {
+fdescribe('DelegatedRekeySearchEffects', () => {
   let effects: DelegatedRekeySearchEffects;
   let actions$: ReplaySubject<any>;
   let delegatedRekeySearchProvider: DelegatedRekeySearchProvider;
@@ -39,7 +38,7 @@ describe('DelegatedRekeySearchEffects', () => {
 
   const appRef = '123456';
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -57,9 +56,7 @@ describe('DelegatedRekeySearchEffects', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(DelegatedRekeySearchEffects);
     delegatedRekeySearchProvider = TestBed.inject(DelegatedRekeySearchProvider);

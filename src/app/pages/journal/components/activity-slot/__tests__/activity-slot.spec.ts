@@ -3,21 +3,19 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { ConfigMock } from 'ionic-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { NonTestActivity } from '@dvsa/mes-journal-schema';
 import { CommonModule } from '@angular/common';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';
-
 import { ActivitySlotComponent } from '../activity-slot';
 
-describe('ActivitySlotComponent', () => {
+fdescribe('ActivitySlotComponent', () => {
   let fixture: ComponentFixture<ActivitySlotComponent>;
   let component: ActivitySlotComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ActivitySlotComponent,
@@ -30,9 +28,7 @@ describe('ActivitySlotComponent', () => {
       ],
       imports: [IonicModule, CommonModule],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ActivitySlotComponent);
     component = fixture.componentInstance;
   }));

@@ -4,15 +4,14 @@ import {
   TranslateModule,
 } from '@ngx-translate/core';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { ReceiptDeclarationComponent } from '../receipt-declaration';
 
-describe('ReceiptDeclarationComponent', () => {
+fdescribe('ReceiptDeclarationComponent', () => {
   let fixture: ComponentFixture<ReceiptDeclarationComponent>;
   let component: ReceiptDeclarationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ReceiptDeclarationComponent,
@@ -23,9 +22,7 @@ describe('ReceiptDeclarationComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ReceiptDeclarationComponent);
     component = fixture.componentInstance;
   }));
