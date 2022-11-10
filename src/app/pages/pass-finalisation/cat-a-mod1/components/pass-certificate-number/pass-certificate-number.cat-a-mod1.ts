@@ -6,6 +6,7 @@ import {
   getByteCount,
   getPassCertificateAMOD1Validator,
 } from '@shared/constants/field-validators/field-validators';
+import { AppComponent } from '@app/app.component';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mod1.constants';
 
 @Component({
@@ -28,6 +29,11 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;
 
   readonly passCertificateAMOD1Validator = getPassCertificateAMOD1Validator();
+
+  constructor(
+    public appComponent: AppComponent,
+  ) {
+  }
 
   ngOnChanges(): void {
     if (!this.formControl) {
