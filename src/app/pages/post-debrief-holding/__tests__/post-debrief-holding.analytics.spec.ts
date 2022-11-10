@@ -9,7 +9,6 @@ import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candi
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { AnalyticsScreenNames, AnalyticsEventCategories } from '@providers/analytics/analytics.model';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -20,13 +19,13 @@ import * as postDebriefHoldingActions from '../post-debrief-holding.actions';
 
 describe('PostDebriefHoldingAnalyticsEffects', () => {
   let effects: PostDebriefHoldingAnalyticsEffects;
-  let analyticsProviderMock;
-  let actions$: any;
+  let analyticsProviderMock: AnalyticsProvider;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.POST_DEBRIEF_HOLDING;
   const practiceScreenName = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.POST_DEBRIEF_HOLDING}`;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -40,9 +39,7 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(PostDebriefHoldingAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

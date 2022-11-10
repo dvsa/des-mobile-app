@@ -5,14 +5,13 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { CommunicationPreferences, Candidate } from '@dvsa/mes-test-schema/categories/common';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
-import { configureTestSuite } from 'ng-bullet';
 import { ContactDetailsCardComponent } from '../contact-details-card';
 
 describe('ContactDetailsCardComponent', () => {
   let fixture: ComponentFixture<ContactDetailsCardComponent>;
   let component: ContactDetailsCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ContactDetailsCardComponent,
@@ -24,9 +23,7 @@ describe('ContactDetailsCardComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ContactDetailsCardComponent);
     component = fixture.componentInstance;
   }));

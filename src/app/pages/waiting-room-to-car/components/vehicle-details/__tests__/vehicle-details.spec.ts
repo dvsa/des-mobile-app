@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import {
   UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { VehicleDetailsComponent } from '../vehicle-details';
@@ -13,7 +12,7 @@ describe('VehicleDetailsComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsComponent>;
   let component: VehicleDetailsComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleDetailsComponent,
@@ -25,9 +24,7 @@ describe('VehicleDetailsComponent', () => {
         PipesModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleDetailsComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

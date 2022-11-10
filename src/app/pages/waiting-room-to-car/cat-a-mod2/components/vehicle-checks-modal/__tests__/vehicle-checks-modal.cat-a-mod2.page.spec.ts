@@ -12,7 +12,6 @@ import {
 } from '@dvsa/mes-test-schema/categories/common';
 import { StoreModel } from '@shared/models/store.model';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import { configureTestSuite } from 'ng-bullet';
 import {
   SafetyQuestionOutcomeChanged,
   BalanceQuestionSelected,
@@ -32,7 +31,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
   let component: VehicleChecksCatAMod2Modal;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatAMod2Modal,
@@ -45,22 +44,12 @@ describe('VehicleChecksCatAMod2Modal', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        {
-          provide: Config,
-          useFactory: () => ConfigMock.instance(),
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
-        },
-        {
-          provide: NavParams,
-          useFactory: () => NavParamsMock.instance(),
-        },
+        { provide: Config, useFactory: () => ConfigMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
+        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
       ],
     });
-  });
-  beforeEach(waitForAsync(() => {
+
     fixture = TestBed.createComponent(VehicleChecksCatAMod2Modal);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

@@ -3,7 +3,6 @@ import {
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -70,7 +69,7 @@ describe('WaitingRoomPage', () => {
   let translate: TranslateService;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -131,9 +130,6 @@ describe('WaitingRoomPage', () => {
       ],
     });
 
-  });
-
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WaitingRoomPage);
     component = fixture.componentInstance;
     deviceProvider = TestBed.inject(DeviceProvider);

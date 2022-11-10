@@ -5,7 +5,6 @@ import { IonicModule, NavController, Platform } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { configureTestSuite } from 'ng-bullet';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
@@ -51,7 +50,7 @@ describe('PassFinalisationCatAMod2Page', () => {
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -81,9 +80,7 @@ describe('PassFinalisationCatAMod2Page', () => {
         OutcomeBehaviourMapProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassFinalisationCatAMod2Page);
     component = fixture.componentInstance;
     component.subscription = new Subscription();

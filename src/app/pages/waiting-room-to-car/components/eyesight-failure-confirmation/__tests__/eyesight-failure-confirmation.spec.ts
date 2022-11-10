@@ -3,7 +3,6 @@ import { IonicModule, Config } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ConfigMock } from 'ionic-mocks';
 import { StoreModule, Store } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 
 import { StoreModel } from '@shared/models/store.model';
 import { CAT_B } from '@pages/page-names.constants';
@@ -21,7 +20,7 @@ describe('EyesightFailureConfirmationComponent', () => {
   let router: Router;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         EyesightFailureConfirmationComponent,
@@ -39,9 +38,7 @@ describe('EyesightFailureConfirmationComponent', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EyesightFailureConfirmationComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);

@@ -17,7 +17,6 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -33,14 +32,14 @@ import { PassFinalisationAnalyticsEffects } from '../pass-finalisation.analytics
 
 describe('PassFinalisationAnalyticsEffects', () => {
   let effects: PassFinalisationAnalyticsEffects;
-  let analyticsProviderMock;
-  let actions$: any;
+  let analyticsProviderMock: AnalyticsProvider;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.PASS_FINALISATION;
   // eslint-disable-next-line max-len
   const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.PASS_FINALISATION}`;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -54,9 +53,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(PassFinalisationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

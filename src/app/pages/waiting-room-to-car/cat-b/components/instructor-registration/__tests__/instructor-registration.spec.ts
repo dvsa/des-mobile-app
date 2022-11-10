@@ -3,7 +3,6 @@ import {
   UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { InstructorRegistrationComponent } from '../instructor-registration';
 import {
   mockBlankInstructorRegistrationNumber,
@@ -17,7 +16,7 @@ describe('InstructorRegistrationComponent', () => {
   let fixture: ComponentFixture<InstructorRegistrationComponent>;
   let component: InstructorRegistrationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorRegistrationComponent,
@@ -27,9 +26,7 @@ describe('InstructorRegistrationComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(InstructorRegistrationComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

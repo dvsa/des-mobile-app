@@ -3,7 +3,6 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import {
   UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { CandidateDeclarationSignedComponent } from '../candidate-declaration';
@@ -12,7 +11,7 @@ describe('CandidateDeclarationSignedComponent', () => {
   let fixture: ComponentFixture<CandidateDeclarationSignedComponent>;
   let component: CandidateDeclarationSignedComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CandidateDeclarationSignedComponent,
@@ -23,9 +22,7 @@ describe('CandidateDeclarationSignedComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateDeclarationSignedComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

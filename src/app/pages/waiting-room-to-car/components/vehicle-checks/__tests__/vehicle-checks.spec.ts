@@ -14,7 +14,6 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import { StartTest } from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksCatCModal,
 } from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
@@ -38,7 +37,7 @@ describe('VehicleChecksComponent', () => {
   let store$: Store<StoreModel>;
   let appComponent: AppComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksComponent,
@@ -72,9 +71,7 @@ describe('VehicleChecksComponent', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

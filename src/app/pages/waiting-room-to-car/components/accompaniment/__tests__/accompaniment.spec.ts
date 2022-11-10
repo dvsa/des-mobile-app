@@ -3,7 +3,6 @@ import { IonicModule } from '@ionic/angular';
 import {
   UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { AppModule } from '@app/app.module';
@@ -12,7 +11,7 @@ describe('AccompanimentComponent', () => {
   let fixture: ComponentFixture<AccompanimentComponent>;
   let component: AccompanimentComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AccompanimentComponent,
@@ -24,9 +23,7 @@ describe('AccompanimentComponent', () => {
         PipesModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AccompanimentComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

@@ -16,7 +16,6 @@ import {
   QuestionOutcome,
   QuestionResult,
 } from '@dvsa/mes-test-schema/categories/common';
-import { configureTestSuite } from 'ng-bullet';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksModalCatAMod2AnalyticsEffects } from '../vehicle-checks-modal.cat-a-mod2.analytics.effects';
 
@@ -27,7 +26,7 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.VEHICLE_CHECKS;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -41,9 +40,7 @@ describe('VehicleChecksModalCatAMod2AnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(VehicleChecksModalCatAMod2AnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import {
   UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { EyesightTestComponent } from '../eyesight-test';
 
@@ -12,7 +11,7 @@ describe('EyesightTestComponent', () => {
   let fixture: ComponentFixture<EyesightTestComponent>;
   let component: EyesightTestComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         EyesightTestComponent,
@@ -23,9 +22,7 @@ describe('EyesightTestComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EyesightTestComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

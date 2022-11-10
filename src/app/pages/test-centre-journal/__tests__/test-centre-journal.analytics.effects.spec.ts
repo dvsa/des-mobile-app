@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -22,7 +21,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.TEST_CENTRE_JOURNAL;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         TestCentreJournalAnalyticsEffects,
@@ -30,9 +29,7 @@ describe('TestCentreJournalAnalyticsEffects', () => {
         provideMockActions(() => actions$),
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestCentreJournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

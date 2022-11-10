@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { By } from '@angular/platform-browser';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { IonicModule } from '@ionic/angular';
@@ -9,7 +8,7 @@ describe('LicenceProvidedWarningBannerComponent', () => {
   let fixture: ComponentFixture<LicenceProvidedWarningBannerComponent>;
   let component: LicenceProvidedWarningBannerComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         LicenceProvidedWarningBannerComponent,
@@ -22,9 +21,7 @@ describe('LicenceProvidedWarningBannerComponent', () => {
         LicenceProvidedWarningBannerComponent,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LicenceProvidedWarningBannerComponent);
     component = fixture.componentInstance;
   }));

@@ -10,7 +10,6 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { Subscription } from 'rxjs';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -47,7 +46,7 @@ describe('PassFinalisationCatADI2Page', () => {
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -75,9 +74,7 @@ describe('PassFinalisationCatADI2Page', () => {
         OutcomeBehaviourMapProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassFinalisationCatADI2Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

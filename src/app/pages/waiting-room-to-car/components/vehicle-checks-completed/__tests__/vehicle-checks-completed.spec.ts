@@ -2,7 +2,6 @@ import { By } from '@angular/platform-browser';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AppModule } from '@app/app.module';
@@ -12,7 +11,7 @@ describe('VehicleChecksToggleComponent', () => {
   let fixture: ComponentFixture<VehicleChecksToggleComponent>;
   let component: VehicleChecksToggleComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksToggleComponent,
@@ -23,9 +22,7 @@ describe('VehicleChecksToggleComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksToggleComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

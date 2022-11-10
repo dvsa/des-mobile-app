@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksQuestionCatAMod2Component,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
@@ -20,7 +19,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
   let fixture: ComponentFixture<VehicleChecksQuestionCatAMod2Component>;
   let component: VehicleChecksQuestionCatAMod2Component;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksQuestionCatAMod2Component,
@@ -30,9 +29,7 @@ describe('VehicleChecksQuestionCatAMod2Component', () => {
         AppModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksQuestionCatAMod2Component);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

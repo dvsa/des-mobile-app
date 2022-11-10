@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, Platform } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';

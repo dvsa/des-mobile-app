@@ -8,7 +8,6 @@ import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksCatAMod2Modal,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
@@ -23,7 +22,7 @@ describe('VehicleChecksCatAMod2Component', () => {
   let modalController: ModalController;
   let appComponent: AppComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatAMod2Component,
@@ -41,9 +40,7 @@ describe('VehicleChecksCatAMod2Component', () => {
         { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatAMod2Component);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

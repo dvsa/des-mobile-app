@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProvider } from '@providers/question/question';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -78,7 +77,8 @@ describe('VehicleChecksCatHomeTestModal', () => {
       },
     } as TestsModel,
   } as StoreModel;
-  configureTestSuite(() => {
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -118,19 +118,15 @@ describe('VehicleChecksCatHomeTestModal', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatHomeTestModal);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
     component.category = TestCategory.F;
-
   }));
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('Class',

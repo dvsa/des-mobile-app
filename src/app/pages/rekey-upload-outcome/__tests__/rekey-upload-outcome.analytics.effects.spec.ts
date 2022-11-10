@@ -2,7 +2,6 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModule, Store } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -20,12 +19,12 @@ import * as rekeyUploadedActions from '../rekey-upload-outcome.actions';
 
 describe('RekeyUploadOutcomeAnalyticsEffects', () => {
   let effects: RekeyUploadOutcomeAnalyticsEffects;
-  let analyticsProviderMock;
-  let actions$: any;
+  let analyticsProviderMock: AnalyticsProvider;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.REKEY_UPLOADED;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -39,9 +38,7 @@ describe('RekeyUploadOutcomeAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(RekeyUploadOutcomeAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

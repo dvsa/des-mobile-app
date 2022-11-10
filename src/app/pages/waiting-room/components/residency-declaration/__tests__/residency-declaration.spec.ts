@@ -8,14 +8,13 @@ import {
   TranslateParser,
 } from '@ngx-translate/core';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { ResidencyDeclarationComponent } from '../residency-declaration';
 
 describe('ResidencyDeclarationComponent', () => {
   let fixture: ComponentFixture<ResidencyDeclarationComponent>;
   let component: ResidencyDeclarationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ResidencyDeclarationComponent,
@@ -31,9 +30,7 @@ describe('ResidencyDeclarationComponent', () => {
         TranslateParser,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ResidencyDeclarationComponent);
     component = fixture.componentInstance;
   }));

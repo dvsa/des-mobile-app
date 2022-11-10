@@ -3,7 +3,6 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { QuestionProvider } from '@providers/question/question';
 import { AppModule } from '@app/app.module';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -20,7 +19,7 @@ describe('AccompanimentCardCatCPCComponent', () => {
   let component: AccompanimentCardCatCPCComponent;
   let fixture: ComponentFixture<AccompanimentCardCatCPCComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -53,17 +52,14 @@ describe('AccompanimentCardCatCPCComponent', () => {
         },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AccompanimentCardCatCPCComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
   }));
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('Class',

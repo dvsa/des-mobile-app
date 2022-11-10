@@ -1,6 +1,5 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -10,7 +9,7 @@ describe('AdvancedSearchComponent', () => {
   let fixture: ComponentFixture<AdvancedSearchComponent>;
   let component: AdvancedSearchComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AdvancedSearchComponent,
@@ -23,9 +22,7 @@ describe('AdvancedSearchComponent', () => {
         { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AdvancedSearchComponent);
     component = fixture.componentInstance;
   }));

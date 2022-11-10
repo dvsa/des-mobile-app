@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { OverlayEventDetail } from '@ionic/core';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -61,7 +60,7 @@ describe('RekeyReasonPage', () => {
   let router: Router;
   const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -140,9 +139,7 @@ describe('RekeyReasonPage', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(RekeyReasonPage);
     component = fixture.componentInstance;
     loaderService = TestBed.inject(LoadingProvider);

@@ -3,7 +3,6 @@ import { IonicModule } from '@ionic/angular';
 import {
   UntypedFormGroup, ReactiveFormsModule,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import {
   AccompanimentCardComponent,
@@ -14,7 +13,7 @@ describe('AccompanimentCardComponent', () => {
   let fixture: ComponentFixture<AccompanimentCardComponent>;
   let component: AccompanimentCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AccompanimentCardComponent,
@@ -26,9 +25,7 @@ describe('AccompanimentCardComponent', () => {
         PipesModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AccompanimentCardComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

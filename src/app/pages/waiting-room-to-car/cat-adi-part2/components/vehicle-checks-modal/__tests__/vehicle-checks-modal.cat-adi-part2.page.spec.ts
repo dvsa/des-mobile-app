@@ -16,7 +16,6 @@ import {
   TellMeQuestionOutcomeChanged,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksQuestionComponent,
 } from '@pages/waiting-room-to-car/components/vehicle-checks-question/vehicle-checks-question';
@@ -105,7 +104,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatADIPart2Modal,
@@ -133,9 +132,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatADIPart2Modal);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

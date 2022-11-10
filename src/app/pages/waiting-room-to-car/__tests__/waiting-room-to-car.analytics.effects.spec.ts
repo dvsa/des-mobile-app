@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -36,7 +35,7 @@ import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
 describe('WaitingRoomToCarAnalyticsEffects', () => {
   let effects: WaitingRoomToCarAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.WAITING_ROOM_TO_CAR;
@@ -47,7 +46,7 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
     checkDigit: 9,
   };
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -61,9 +60,7 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(WaitingRoomToCarAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

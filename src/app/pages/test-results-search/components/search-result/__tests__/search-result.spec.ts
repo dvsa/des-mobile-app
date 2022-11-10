@@ -1,6 +1,5 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppComponent } from '@app/app.component';
 import { AppModule } from '@app/app.module';
@@ -11,7 +10,7 @@ describe('SearchResultComponent', () => {
   let fixture: ComponentFixture<SearchResultComponent>;
   let component: SearchResultComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SearchResultComponent,
@@ -24,9 +23,7 @@ describe('SearchResultComponent', () => {
         { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SearchResultComponent);
     component = fixture.componentInstance;
   }));

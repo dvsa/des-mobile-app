@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { NeverType } from '@pages/test-report/test-report.effects';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { DataRowComponent } from '@components/common/data-row/data-row';
@@ -11,7 +10,7 @@ describe('RekeyDetailsCardComponent', () => {
   let fixture: ComponentFixture<RekeyDetailsCardComponent>;
   let component: RekeyDetailsCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         RekeyDetailsCardComponent,
@@ -21,9 +20,7 @@ describe('RekeyDetailsCardComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(RekeyDetailsCardComponent);
     component = fixture.componentInstance;
   }));

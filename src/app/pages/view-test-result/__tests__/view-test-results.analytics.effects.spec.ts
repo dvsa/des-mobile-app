@@ -5,17 +5,16 @@ import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsScreenNames, AnalyticsDimensionIndices } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { configureTestSuite } from 'ng-bullet';
 import * as viewTestResultActions from '../view-test-result.actions';
 import { ViewTestResultAnalyticsEffects } from '../view-test-result.analytics.effects';
 
 describe('ViewTestResultAnalyticsEffects', () => {
   let effects: ViewTestResultAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.VIEW_TEST_RESULT;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ViewTestResultAnalyticsEffects,
@@ -23,9 +22,7 @@ describe('ViewTestResultAnalyticsEffects', () => {
         provideMockActions(() => actions$),
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(ViewTestResultAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

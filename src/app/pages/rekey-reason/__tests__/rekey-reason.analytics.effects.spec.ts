@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -19,12 +18,12 @@ import { RekeyReasonAnalyticsEffects } from '../rekey-reason.analytics.effects';
 
 describe('RekeyReasonAnalyticsEffects', () => {
   let effects: RekeyReasonAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.REKEY_REASON;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -38,9 +37,7 @@ describe('RekeyReasonAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(RekeyReasonAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

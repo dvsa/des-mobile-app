@@ -3,7 +3,6 @@ import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { SafetyQuestion } from '@providers/question/safety-question.model';
 import { EventEmitter } from '@angular/core';
-import { configureTestSuite } from 'ng-bullet';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SafetyQuestionComponent } from '../safety-question';
 
@@ -15,7 +14,7 @@ describe('SafetyQuestionComponent', () => {
   let fixture: ComponentFixture<SafetyQuestionComponent>;
   let component: SafetyQuestionComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SafetyQuestionComponent,
@@ -25,9 +24,7 @@ describe('SafetyQuestionComponent', () => {
         AppModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyQuestionComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

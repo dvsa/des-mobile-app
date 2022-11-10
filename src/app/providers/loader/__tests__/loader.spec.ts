@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { LoadingController } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 import { LoadingProvider } from '../loader';
 

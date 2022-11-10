@@ -1,13 +1,7 @@
-import {
-  TestBed, tick, fakeAsync,
-} from '@angular/core/testing';
-import {
-  ReplaySubject, Observable, EMPTY,
-} from 'rxjs';
+import { TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Actions } from '@ngrx/effects';
 import { StoreModule, Store } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';

@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import {
   UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { TellMeQuestionOutcomeComponent } from '../tell-me-question-outcome';
 
@@ -12,7 +11,7 @@ describe('TellMeQuestionOutcomeComponent', () => {
   let fixture: ComponentFixture<TellMeQuestionOutcomeComponent>;
   let component: TellMeQuestionOutcomeComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TellMeQuestionOutcomeComponent,
@@ -23,17 +22,14 @@ describe('TellMeQuestionOutcomeComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TellMeQuestionOutcomeComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('tellMeQuestionChanged', () => {
-    it('should emit the correct event with the parameter'
-        + 'given when form control is valid', () => {
+    it('should emit the correct event with the parameter given when form control is valid', () => {
       component.formControl = new UntypedFormControl(1, [Validators.required]);
       spyOn(component.tellMeQuestionOutcomeChange, 'emit');
       component.tellMeQuestionOutcomeChanged('test');

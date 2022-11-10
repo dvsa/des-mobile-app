@@ -7,7 +7,6 @@ import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { StoreModule } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 
 import { IsDebugMock } from '@mocks/ionic-mocks/is-debug.mock';
 import { AppConfigProvider } from '../app-config';

@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 
 import { TrainerRegistrationNumberCatAdiPart2Component } from '../trainer-registration-number.cat-adi-part2';
 import {
@@ -15,7 +14,7 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
   let fixture: ComponentFixture<TrainerRegistrationNumberCatAdiPart2Component>;
   let component: TrainerRegistrationNumberCatAdiPart2Component;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TrainerRegistrationNumberCatAdiPart2Component,
@@ -24,9 +23,7 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TrainerRegistrationNumberCatAdiPart2Component);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

@@ -2,14 +2,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
-import { configureTestSuite } from 'ng-bullet';
 import { ExaminerDetailsCardComponent } from '../examiner-details';
 
 describe('ExaminerDetailsCardComponent', () => {
   let fixture: ComponentFixture<ExaminerDetailsCardComponent>;
   let component: ExaminerDetailsCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ExaminerDetailsCardComponent,
@@ -19,9 +18,7 @@ describe('ExaminerDetailsCardComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ExaminerDetailsCardComponent);
     component = fixture.componentInstance;
   }));
