@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { QuestionFooterComponent } from '../question-footer';
 
@@ -8,7 +7,7 @@ describe('QuestionFooterComponent', () => {
   let fixture: ComponentFixture<QuestionFooterComponent>;
   let component: QuestionFooterComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         QuestionFooterComponent,
@@ -18,9 +17,7 @@ describe('QuestionFooterComponent', () => {
         AppModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(QuestionFooterComponent);
     component = fixture.componentInstance;
   }));

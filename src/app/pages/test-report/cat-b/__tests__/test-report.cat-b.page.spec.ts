@@ -29,7 +29,6 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { StatusBar } from '@capacitor/status-bar';
 import { ModalEvent } from '../../test-report.constants';
@@ -54,7 +53,7 @@ describe('TestReportCatBPage', () => {
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestReportCatBPage,
         MockComponent(ManoeuvresPopoverComponent),
@@ -104,9 +103,7 @@ describe('TestReportCatBPage', () => {
         { provide: Insomnia, useClass: InsomniaMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestReportCatBPage);
     component = fixture.componentInstance;
     screenOrientation = TestBed.inject(ScreenOrientation);

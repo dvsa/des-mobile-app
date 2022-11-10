@@ -15,7 +15,6 @@ import {
 } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { StartTest } from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import {
   HighwayCodeSafetyAddDrivingFault,
@@ -33,7 +32,7 @@ describe('HighwayCodeSafetyComponent', () => {
   let store$: Store<StoreModel>;
   let testDataByCategoryProvider: TestDataByCategoryProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         HighwayCodeSafetyComponent,
@@ -54,9 +53,7 @@ describe('HighwayCodeSafetyComponent', () => {
         StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HighwayCodeSafetyComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

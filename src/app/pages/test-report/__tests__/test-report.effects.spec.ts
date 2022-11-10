@@ -1,9 +1,8 @@
 import { waitForAsync, TestBed } from '@angular/core/testing';
 import {
-  ReplaySubject, Observable, EMPTY, of,
+  ReplaySubject, of,
 } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Actions } from '@ngrx/effects';
 import { StoreModule, Store } from '@ngrx/store';
 import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
 import * as testsActions from '@store/tests/tests.actions';
@@ -16,28 +15,16 @@ import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { configureTestSuite } from 'ng-bullet';
 import * as testReportActions from '../test-report.actions';
 import { TestReportEffects } from '../test-report.effects';
 
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream$(source$: Observable<any>) {
-    this.source = source$;
-  }
-}
-
-describe('Test Report Effects', () => {
-
+describe('TestReportEffects', () => {
   let effects: TestReportEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let testResultProvider: TestResultProvider;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -52,9 +39,7 @@ describe('Test Report Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     testResultProvider = TestBed.inject(TestResultProvider);
     effects = TestBed.inject(TestReportEffects);

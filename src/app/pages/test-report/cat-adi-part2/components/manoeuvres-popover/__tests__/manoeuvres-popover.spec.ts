@@ -17,12 +17,11 @@ import { NavigationStateProvider } from '@providers/navigation-state/navigation-
 import {
   NavigationStateProviderMock,
 } from '@providers/navigation-state/__mocks__/navigation-state.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { testReportReducer } from '../../../../test-report.reducer';
 import { ManoeuvresPopoverComponentAdiPart2 } from '../manoeuvres-popover';
 import { ManoeuvreCompetencyComponentAdiPart2 } from '../../manoeuvre-competency/manoeuvre-competency';
 
-describe('ADI2 ManoeuvresPopoverComponent', () => {
+describe('ManoeuvresPopoverComponentAdiPart2', () => {
   let fixture: ComponentFixture<ManoeuvresPopoverComponentAdiPart2>;
   let component: ManoeuvresPopoverComponentAdiPart2;
   let store$: Store<StoreModel>;
@@ -48,7 +47,7 @@ describe('ADI2 ManoeuvresPopoverComponent', () => {
     eyesightTest: {},
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvresPopoverComponentAdiPart2,
@@ -90,9 +89,7 @@ describe('ADI2 ManoeuvresPopoverComponent', () => {
         { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ManoeuvresPopoverComponentAdiPart2);
     component = fixture.componentInstance;
     fixture.detectChanges();

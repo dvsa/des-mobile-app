@@ -8,7 +8,6 @@ import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-i
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { testReportReducer } from '@pages/test-report/test-report.reducer';
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponent } from 'ng-mocks';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -18,7 +17,7 @@ describe('ManoeuvresComponent', () => {
   let fixture: ComponentFixture<ManoeuvresComponent>;
   let component: ManoeuvresComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvresComponent,
@@ -81,9 +80,7 @@ describe('ManoeuvresComponent', () => {
         { provide: DateTimeProvider, useCalss: DateTimeProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ManoeuvresComponent);
     component = fixture.componentInstance;
   }));

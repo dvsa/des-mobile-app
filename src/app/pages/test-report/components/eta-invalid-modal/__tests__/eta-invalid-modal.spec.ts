@@ -4,14 +4,13 @@ import { ModalControllerMock } from 'ionic-mocks';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { configureTestSuite } from 'ng-bullet';
 import { EtaInvalidModal } from '../eta-invalid-modal';
 
 describe('EtaInvalidModal', () => {
   let fixture: ComponentFixture<EtaInvalidModal>;
   let component: EtaInvalidModal;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         EtaInvalidModal,
@@ -25,9 +24,7 @@ describe('EtaInvalidModal', () => {
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EtaInvalidModal);
     component = fixture.componentInstance;
     component.onCancel = () => Promise.resolve();

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { NavParamsMock } from '@pages/journal/components/journal-early-start-modal/__mocks__/nav-params.mock';
 import { IonicModule, ModalController, NavParams } from '@ionic/angular';
@@ -13,7 +12,7 @@ describe('ActivityCode4Modal', () => {
   let component: ActivityCode4Modal;
   const navMock: NavParamsMock = new NavParamsMock();
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ActivityCode4Modal,
@@ -28,9 +27,7 @@ describe('ActivityCode4Modal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ActivityCode4Modal);
     component = fixture.componentInstance;
   }));

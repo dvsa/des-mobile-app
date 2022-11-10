@@ -4,7 +4,6 @@ import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
@@ -27,11 +26,10 @@ import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import * as reverseDiagramModalActions from '../reverse-diagram-modal.actions';
 import { ReverseDiagramModalAnalyticsEffects } from '../reverse-diagram-modal.analytics.effects';
 
-describe('Reverse Diagram Modal Analytics Effects', () => {
-
+describe('ReverseDiagramModalAnalyticsEffects', () => {
   let effects: ReverseDiagramModalAnalyticsEffects;
   let analyticsProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.REVERSE_DIAGRAM;
   const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.REVERSE_DIAGRAM}`;
@@ -41,7 +39,7 @@ describe('Reverse Diagram Modal Analytics Effects', () => {
     checkDigit: 9,
   };
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -55,9 +53,7 @@ describe('Reverse Diagram Modal Analytics Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(ReverseDiagramModalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

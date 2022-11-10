@@ -11,7 +11,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -43,7 +42,7 @@ describe('TestReportCatManoeuvrePage', () => {
   let toastController: ToastController;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -85,9 +84,7 @@ describe('TestReportCatManoeuvrePage', () => {
         { provide: ToastController, useClass: ToastControllerMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestReportCatManoeuvrePage);
     component = fixture.componentInstance;
     toastController = TestBed.inject(ToastController);

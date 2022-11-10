@@ -6,7 +6,6 @@ import {
   ConfigMock, ModalControllerMock, NavParamsMock, PlatformMock,
 } from 'ionic-mocks';
 import { MockComponent } from 'ng-mocks';
-
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -24,7 +23,6 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { configureTestSuite } from 'ng-bullet';
 import {
   SafetyAndBalanceComponent,
 } from '@pages/test-report/cat-a-mod2/components/safety-and-balance/safety-and-balance';
@@ -43,7 +41,7 @@ describe('TestReportCatAMod2Page', () => {
   let fixture: ComponentFixture<TestReportCatAMod2Page>;
   let component: TestReportCatAMod2Page;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatAMod2Page,
@@ -91,9 +89,7 @@ describe('TestReportCatAMod2Page', () => {
         { provide: Insomnia, useClass: InsomniaMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestReportCatAMod2Page);
     component = fixture.componentInstance;
   });

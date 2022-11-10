@@ -11,7 +11,6 @@ import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { SafetyAndBalanceComponent } from '../safety-and-balance';
 
 describe('SafetyAndBalanceComponent', () => {
@@ -19,7 +18,7 @@ describe('SafetyAndBalanceComponent', () => {
   let component: SafetyAndBalanceComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SafetyAndBalanceComponent,
@@ -35,9 +34,7 @@ describe('SafetyAndBalanceComponent', () => {
         FaultCountProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyAndBalanceComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

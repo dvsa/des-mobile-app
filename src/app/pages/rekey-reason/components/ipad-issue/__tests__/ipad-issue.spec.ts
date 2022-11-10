@@ -3,14 +3,13 @@ import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { IpadIssueComponent } from '../ipad-issue';
 
 describe('IpadIssueComponent', () => {
   let fixture: ComponentFixture<IpadIssueComponent>;
   let component: IpadIssueComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         IpadIssueComponent,
@@ -21,9 +20,7 @@ describe('IpadIssueComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(IpadIssueComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

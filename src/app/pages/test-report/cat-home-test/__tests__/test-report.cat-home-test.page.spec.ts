@@ -24,7 +24,6 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { ReverseLeftPopoverComponent } from '@pages/test-report/components/reverse-left-popover/reverse-left-popover';
 import { ReverseLeftComponent } from '@pages/test-report/components/reverse-left/reverse-left';
 import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
@@ -46,7 +45,7 @@ describe('TestReportCatHomeTestPage', () => {
   let fixture: ComponentFixture<TestReportCatHomeTestPage>;
   let component: TestReportCatHomeTestPage;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatHomeTestPage,
@@ -99,9 +98,7 @@ describe('TestReportCatHomeTestPage', () => {
         { provide: Insomnia, useClass: InsomniaMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestReportCatHomeTestPage);
     component = fixture.componentInstance;
   });

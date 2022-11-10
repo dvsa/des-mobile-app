@@ -24,7 +24,6 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksCompactCatDComponent,
 } from '@pages/test-report/cat-d/components/vehicle-checks-compact/vehicle-checks-compact.cat-d';
@@ -51,7 +50,7 @@ describe('TestReportCatDPage', () => {
   let fixture: ComponentFixture<TestReportCatDPage>;
   let component: TestReportCatDPage;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatDPage,
@@ -102,9 +101,7 @@ describe('TestReportCatDPage', () => {
         { provide: Insomnia, useClass: InsomniaMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestReportCatDPage);
     component = fixture.componentInstance;
   });

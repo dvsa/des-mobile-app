@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
 import { NavParamsMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -12,7 +11,7 @@ describe('SpeedCheckModal', () => {
   let fixture: ComponentFixture<SpeedCheckModal>;
   let component: SpeedCheckModal;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SpeedCheckModal,
@@ -27,9 +26,7 @@ describe('SpeedCheckModal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SpeedCheckModal);
     component = fixture.componentInstance;
     component.onCancel = async () => {};

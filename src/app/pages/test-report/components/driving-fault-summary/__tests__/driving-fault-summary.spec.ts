@@ -13,7 +13,6 @@ import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { configureTestSuite } from 'ng-bullet';
 import { DrivingFaultSummaryComponent } from '../driving-fault-summary';
 
 describe('DrivingFaultSummary', () => {
@@ -21,7 +20,7 @@ describe('DrivingFaultSummary', () => {
   let component: DrivingFaultSummaryComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         DrivingFaultSummaryComponent,
@@ -35,9 +34,7 @@ describe('DrivingFaultSummary', () => {
         FaultCountProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DrivingFaultSummaryComponent);
     component = fixture.componentInstance;
     component.subscription = new Subscription();

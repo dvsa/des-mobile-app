@@ -53,7 +53,6 @@ import {
 import {
   Validators, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
@@ -76,7 +75,7 @@ xdescribe('HealthDeclarationPage', () => {
     vehicleTypeCode: '',
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -125,9 +124,7 @@ xdescribe('HealthDeclarationPage', () => {
         { provide: Router, useValue: routerSpy },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HealthDeclarationPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

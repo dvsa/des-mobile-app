@@ -45,16 +45,11 @@ import {
   legalRequirementsLabels,
   legalRequirementToggleValues,
 } from '@shared/constants/legal-requirements/legal-requirements.constants';
-import * as uncoupleRecoupleActions
-  from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-import { configureTestSuite } from 'ng-bullet';
+import * as uncoupleRecoupleActions from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
-import {
-  speedCheckToggleValues,
-} from '@shared/constants/competencies/cata-mod1-speed-checks';
-import * as emergencyStopActions
-  from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
+import { speedCheckToggleValues } from '@shared/constants/competencies/cata-mod1-speed-checks';
+import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
 import * as singleFaultCompetencyActions
@@ -76,7 +71,7 @@ describe('TestReportAnalyticsEffects', () => {
   let analyticsProviderMock;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -91,9 +86,7 @@ describe('TestReportAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestReportAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

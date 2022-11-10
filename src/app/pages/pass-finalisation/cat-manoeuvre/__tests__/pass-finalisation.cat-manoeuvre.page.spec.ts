@@ -10,7 +10,6 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
@@ -50,7 +49,7 @@ describe('PassFinalisationCatManoeuvrePage', () => {
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -78,9 +77,7 @@ describe('PassFinalisationCatManoeuvrePage', () => {
         OutcomeBehaviourMapProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassFinalisationCatManoeuvrePage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

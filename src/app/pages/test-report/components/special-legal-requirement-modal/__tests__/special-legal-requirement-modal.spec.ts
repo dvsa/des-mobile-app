@@ -4,14 +4,13 @@ import { NavParamsMock, ModalControllerMock } from 'ionic-mocks';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { configureTestSuite } from 'ng-bullet';
 import { SpecialLegalRequirementModal } from '../special-legal-requirement-modal';
 
 describe('LegalRequirementsModal', () => {
   let fixture: ComponentFixture<SpecialLegalRequirementModal>;
   let component: SpecialLegalRequirementModal;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SpecialLegalRequirementModal,
@@ -26,18 +25,13 @@ describe('LegalRequirementsModal', () => {
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SpecialLegalRequirementModal);
     component = fixture.componentInstance;
     component.onCancel = () => Promise.resolve();
     component.onTerminate = () => Promise.resolve();
     component.onProceed = () => Promise.resolve();
   }));
-
-  describe('Class', () => {
-  });
 
   describe('DOM', () => {
     it('should call onCancel when the Return to test button is clicked', () => {

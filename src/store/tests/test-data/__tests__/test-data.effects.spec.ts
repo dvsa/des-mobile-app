@@ -1,5 +1,4 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
@@ -12,15 +11,13 @@ import * as testsActions from '../../tests.actions';
 import { testsReducer } from '../../tests.reducer';
 import { Competencies } from '../test-data.constants';
 import { FaultPayload } from '../test-data.models';
-// import * as ecoActions from '../common/eco/eco.actions';
 
-describe('Test Data Effects', () => {
-
+describe('TestDataEffects', () => {
   let effects: TestDataEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -33,9 +30,7 @@ describe('Test Data Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestDataEffects);
     store$ = TestBed.inject(Store);

@@ -4,7 +4,6 @@ import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModel } from '@shared/models/store.model';
 import { Store, StoreModule } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponent } from 'ng-mocks';
 import { IonicModule } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -36,7 +35,7 @@ describe('SpeedCheckComponent', () => {
   let component: SpeedCheckComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SpeedCheckComponent,
@@ -51,9 +50,7 @@ describe('SpeedCheckComponent', () => {
         StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SpeedCheckComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

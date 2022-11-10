@@ -1,5 +1,4 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from 'src/app/app.module';
 import {
   Config, IonicModule, NavController, NavParams, Platform,
@@ -24,7 +23,7 @@ describe('reverseDiagramModal', () => {
   const mockFile: ReverseDiagramModalMock = new ReverseDiagramModalMock();
   mockFile.ngOnInit();
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ReverseDiagramPage],
       imports: [
@@ -75,13 +74,13 @@ describe('reverseDiagramModal', () => {
         ReversingDistancesProvider,
       ],
     });
-  });
-  beforeEach(waitForAsync(() => {
+
     fixture = TestBed.createComponent(ReverseDiagramPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
   }));
+
   describe('Class', () => {
     const vehicleDetails: Map<TestCategory, VehicleData> = mockFile.getVehicleDetails();
     const vehicleDetailsKeys = Array.from(vehicleDetails.keys());

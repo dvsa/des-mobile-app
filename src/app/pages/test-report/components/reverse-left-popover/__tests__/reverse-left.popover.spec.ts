@@ -1,20 +1,18 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ManoeuvreCompetencies } from '@store/tests/test-data/test-data.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ReverseDiagramLinkComponent } from '../../reverse-diagram-link/reverse-diagram-link';
-import { ManoeuvreCompetencyComponent }
-  from '../../manoeuvre-competency/manoeuvre-competency';
+import { ManoeuvreCompetencyComponent } from '../../manoeuvre-competency/manoeuvre-competency';
 import { ReverseLeftPopoverComponent } from '../reverse-left-popover';
 
 describe('reverseLeftComponent', () => {
   let fixture: ComponentFixture<ReverseLeftPopoverComponent>;
   let component: ReverseLeftPopoverComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ReverseLeftPopoverComponent,
@@ -28,9 +26,7 @@ describe('reverseLeftComponent', () => {
         FaultCountProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ReverseLeftPopoverComponent);
     component = fixture.componentInstance;
   }));

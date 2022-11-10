@@ -10,7 +10,6 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { Subscription } from 'rxjs';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -183,7 +182,7 @@ describe('PassFinalisationCatCPage', () => {
     },
   ];
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -212,9 +211,7 @@ describe('PassFinalisationCatCPage', () => {
         OutcomeBehaviourMapProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassFinalisationCatCPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

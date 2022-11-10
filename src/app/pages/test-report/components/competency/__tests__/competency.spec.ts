@@ -28,7 +28,6 @@ import { IonicModule } from '@ionic/angular';
 import {
   DangerousFaultBadgeComponent,
 } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { configureTestSuite } from 'ng-bullet';
 import { testReportReducer } from '../../../test-report.reducer';
 import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
@@ -39,7 +38,7 @@ describe('CompetencyComponent', () => {
   let component: CompetencyComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CompetencyComponent,
@@ -110,9 +109,7 @@ describe('CompetencyComponent', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CompetencyComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

@@ -4,7 +4,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { IonicModule } from '@ionic/angular';
@@ -22,7 +21,7 @@ describe('VehicleChecksCompactComponent', () => {
   let component: VehicleChecksCompactCatDComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCompactCatDComponent,
@@ -40,9 +39,7 @@ describe('VehicleChecksCompactComponent', () => {
         TestDataByCategoryProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCompactCatDComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

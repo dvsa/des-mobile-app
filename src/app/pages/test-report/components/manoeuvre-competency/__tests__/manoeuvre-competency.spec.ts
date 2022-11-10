@@ -24,7 +24,6 @@ import { MockComponent } from 'ng-mocks';
 import { StoreModule, Store } from '@ngrx/store';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { configureTestSuite } from 'ng-bullet';
 import {
   ToggleDangerousFaultMode,
   ToggleSeriousFaultMode,
@@ -38,7 +37,7 @@ describe('ManoeuvreCompetencyComponent', () => {
   let component: ManoeuvreCompetencyComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvreCompetencyComponent,
@@ -108,9 +107,7 @@ describe('ManoeuvreCompetencyComponent', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ManoeuvreCompetencyComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

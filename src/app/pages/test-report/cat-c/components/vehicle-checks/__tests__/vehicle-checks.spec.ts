@@ -12,7 +12,6 @@ import { TestDataByCategoryProvider } from '@providers/test-data-by-category/tes
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { VehicleChecksComponent } from '../vehicle-checks';
 
@@ -21,7 +20,7 @@ describe('VehicleChecksComponent', () => {
   let component: VehicleChecksComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksComponent,
@@ -39,9 +38,7 @@ describe('VehicleChecksComponent', () => {
         TestDataByCategoryProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ReplaySubject } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -12,13 +11,12 @@ import { TestStatusAnalyticsEffects } from '../test-status.analytics.effects';
 import { testsReducer } from '../../tests.reducer';
 import * as testStatusActions from '../test-status.actions';
 
-describe('Test Status Analytics Effects', () => {
-
+describe('TestStatusAnalyticsEffects', () => {
   let effects: TestStatusAnalyticsEffects;
-  let analyticsProviderMock;
-  let actions$: any;
+  let analyticsProviderMock: AnalyticsProvider;
+  let actions$: ReplaySubject<any>;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -32,9 +30,7 @@ describe('Test Status Analytics Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestStatusAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

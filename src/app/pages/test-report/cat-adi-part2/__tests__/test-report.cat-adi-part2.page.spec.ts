@@ -24,7 +24,6 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { TestReportCatADI2Page } from '@pages/test-report/cat-adi-part2/test-report.cat-adi-part2.page';
 import { ManoeuvresComponent } from '@pages/test-report/cat-adi-part2/components/manoeuvres/manoeuvres';
 import {
@@ -48,7 +47,7 @@ describe('TestReportCatADI2Page', () => {
   let fixture: ComponentFixture<TestReportCatADI2Page>;
   let component: TestReportCatADI2Page;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatADI2Page,

@@ -13,18 +13,17 @@ import {
 }
   from '@store/tests/test-data/common/eco/eco.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { testReportReducer } from '../../../test-report.reducer';
 import { EcoComponent } from '../eco';
 
-describe('Eco component', () => {
+describe('EcoComponent', () => {
   let fixture: ComponentFixture<EcoComponent>;
   let component: EcoComponent;
   let store$: Store<StoreModel>;
   let storeDispatchSpy: jasmine.Spy;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         EcoComponent,
@@ -36,9 +35,7 @@ describe('Eco component', () => {
         StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EcoComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

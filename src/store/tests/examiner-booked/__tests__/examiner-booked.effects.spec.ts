@@ -3,7 +3,6 @@ import { ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { StoreModel } from '@shared/models/store.model';
 
 import { testsReducer } from '../../tests.reducer';
@@ -13,13 +12,12 @@ import { SetChangeMarker } from '../../change-marker/change-marker.actions';
 import { StartTest } from '../../tests.actions';
 import { SetExaminerConducted } from '../../examiner-conducted/examiner-conducted.actions';
 
-describe('Examiner Booked Effects', () => {
-
+describe('ExaminerBookedEffects', () => {
   let effects: ExaminerBookedEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -32,9 +30,7 @@ describe('Examiner Booked Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(ExaminerBookedEffects);
     store$ = TestBed.inject(Store);

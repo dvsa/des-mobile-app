@@ -11,7 +11,6 @@ import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { Subscription } from 'rxjs';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -50,7 +49,7 @@ describe('PassFinalisationCatBPage', () => {
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -79,9 +78,7 @@ describe('PassFinalisationCatBPage', () => {
         OutcomeBehaviourMapProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassFinalisationCatBPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

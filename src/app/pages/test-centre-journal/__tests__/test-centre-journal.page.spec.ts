@@ -2,7 +2,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { StoreModule } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
@@ -38,7 +37,7 @@ describe('TestCenterJournalPage', () => {
   const initialState = {
     testCentreJournal: { lastRefreshed: new Date('2021-03-22') },
   } as StoreModel;
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [TestCentreJournalPage],
@@ -63,8 +62,7 @@ describe('TestCenterJournalPage', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
-  beforeEach(waitForAsync(() => {
+
     fixture = TestBed.createComponent(TestCentreJournalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
