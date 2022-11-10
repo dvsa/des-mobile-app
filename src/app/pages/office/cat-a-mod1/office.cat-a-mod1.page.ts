@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
-  Avoidance, Circuit, EmergencyStop, TestData,
+  Avoidance, Circuit, EmergencyStop,
 } from '@dvsa/mes-test-schema/categories/AM1';
 
 import {
@@ -126,7 +126,11 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(testCategory$),
-        map(([data, category]) => this.shouldDisplayDrivingFaultComments(data, category)),
+        map(([data, category]) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
+          data,
+          category,
+          OfficeCatAMod1Page.maxFaultCount,
+        )),
       ),
       displayCircuit$: currentTest$.pipe(
         select(getTestOutcome),
@@ -234,13 +238,4 @@ export class OfficeCatAMod1Page extends OfficeBasePageComponent implements OnIni
       ));
     }
   }
-
-  shouldDisplayDrivingFaultComments = (data: TestData, category: TestCategory): boolean => {
-    const drivingFaultCount: number = this.faultCountProvider.getDrivingFaultSumCount(category, data);
-    const seriousFaultCount: number = this.faultCountProvider.getSeriousFaultSumCount(category, data);
-    const dangerousFaultCount: number = this.faultCountProvider.getDangerousFaultSumCount(category, data);
-
-    return dangerousFaultCount === 0 && seriousFaultCount === 0 && drivingFaultCount > OfficeCatAMod1Page.maxFaultCount;
-  };
-
 }

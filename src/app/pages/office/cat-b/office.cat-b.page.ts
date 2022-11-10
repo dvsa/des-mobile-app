@@ -1,35 +1,28 @@
 import {
-  NavController,
-  Platform,
-  ToastController,
-  ModalController,
+  ModalController, NavController, Platform, ToastController,
 } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import { Observable } from 'rxjs';
-import {
-  getCurrentTest,
-  getTestOutcome,
-} from '@store/tests/tests.selector';
+import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { QuestionProvider } from '@providers/question/question';
 import {
-  getETA,
-  getETAFaultText,
   getEco,
   getEcoFaultText,
+  getETA,
+  getETAFaultText,
   getShowMeQuestionOptions,
 } from '@store/tests/test-data/common/test-data.selector';
 import {
-  getVehicleChecks,
   getSelectedTellMeQuestionText,
   getShowMeQuestion,
   getTellMeQuestion,
+  getVehicleChecks,
 } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
@@ -175,7 +168,11 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
       ),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
-        map((data) => this.shouldDisplayDrivingFaultComments(data)),
+        map((data) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
+          data,
+          TestCategory.B,
+          OfficeCatBPage.maxFaultCount,
+        )),
       ),
     };
 
@@ -273,13 +270,4 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     }
 
   }
-
-  // TODO: MES-7281 centralise this code into faultCountProvider
-  shouldDisplayDrivingFaultComments = (data: CatBUniqueTypes.TestData): boolean => {
-    const drivingFaultCount: number = this.faultCountProvider.getDrivingFaultSumCount(TestCategory.B, data);
-    const seriousFaultCount: number = this.faultCountProvider.getSeriousFaultSumCount(TestCategory.B, data);
-    const dangerousFaultCount: number = this.faultCountProvider.getDangerousFaultSumCount(TestCategory.B, data);
-
-    return dangerousFaultCount === 0 && seriousFaultCount === 0 && drivingFaultCount > 15;
-  };
 }

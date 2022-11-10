@@ -1,15 +1,8 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  ComponentFixture, waitForAsync, TestBed,
-} from '@angular/core/testing';
-import {
-  IonicModule,
-  NavController,
-  Platform,
-  ToastController, ModalController,
+  IonicModule, ModalController, NavController, Platform, ToastController,
 } from '@ionic/angular';
-import {
-  PlatformMock,
-} from 'ionic-mocks';
+import { PlatformMock } from 'ionic-mocks';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -46,9 +39,8 @@ import {
   VehicleDetailsCardComponent,
 } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
-import {
-  AccompanimentCardComponent,
-} from '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
+import { AccompanimentCardComponent } from
+  '@pages/waiting-room-to-car/components/accompaniment-card/accompaniment-card';
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
@@ -193,7 +185,9 @@ describe('OfficeCatBPage', () => {
           .and
           .returnValue(0);
 
-        const result = component.shouldDisplayDrivingFaultComments({});
+        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments({},
+          TestCategory.B,
+          OfficeCatBPage.maxFaultCount);
         expect(result)
           .toEqual(false);
       });
@@ -208,7 +202,9 @@ describe('OfficeCatBPage', () => {
           .and
           .returnValue(0);
 
-        const result = component.shouldDisplayDrivingFaultComments({});
+        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments({},
+          TestCategory.B,
+          OfficeCatBPage.maxFaultCount);
         expect(result)
           .toEqual(true);
       });
@@ -223,7 +219,9 @@ describe('OfficeCatBPage', () => {
           .and
           .returnValue(0);
 
-        const result = component.shouldDisplayDrivingFaultComments({});
+        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments({},
+          TestCategory.B,
+          OfficeCatBPage.maxFaultCount);
         expect(result)
           .toEqual(false);
       });
@@ -238,7 +236,9 @@ describe('OfficeCatBPage', () => {
           .and
           .returnValue(1);
 
-        const result = component.shouldDisplayDrivingFaultComments({});
+        const result = component.faultCountProvider.shouldDisplayDrivingFaultComments({},
+          TestCategory.B,
+          OfficeCatBPage.maxFaultCount);
         expect(result)
           .toEqual(false);
       });

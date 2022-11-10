@@ -7,6 +7,8 @@ import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 
 import { sumManoeuvreFaults } from '@shared/helpers/faults';
+import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
+import { TestOutcome } from '@store/tests/tests.constants';
 import { FaultCountBHelper } from './cat-b/fault-count.cat-b';
 import { FaultCountCHelper } from './cat-c/fault-count.cat-c';
 import { FaultCountDHelper } from './cat-d/fault-count.cat-d';
@@ -297,6 +299,26 @@ export class FaultCountProvider {
       default:
         throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
+  };
+
+  public shouldDisplayDrivingFaultComments = (
+    data: TestData,
+    category?: TestCategory,
+    maxFaultCount?: number,
+    testOutcomeText?: TestOutcome,
+  ): boolean => {
+    const drivingFaultCount: number = this.getDrivingFaultSumCount(category, data);
+    const seriousFaultCount: number = this.getSeriousFaultSumCount(category, data);
+    const dangerousFaultCount: number = this.getDangerousFaultSumCount(category, data);
+
+    if (testOutcomeText === undefined) {
+      testOutcomeText = TestOutcome.Failed;
+    }
+
+    return dangerousFaultCount === 0
+            && seriousFaultCount === 0
+            && drivingFaultCount > maxFaultCount
+            && testOutcomeText === TestOutcome.Failed;
   };
 
   public getShowMeFaultCount = (category: TestCategory, data: VehicleChecks): VehicleChecksScore => {

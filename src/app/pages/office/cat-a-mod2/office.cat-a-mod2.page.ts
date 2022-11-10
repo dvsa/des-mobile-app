@@ -12,7 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestData, ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
+import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import {
   getCurrentTest,
   getTestOutcome,
@@ -163,7 +163,11 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
         withLatestFrom(
           testCategory$,
         ),
-        map(([data, category]) => this.shouldDisplayDrivingFaultComments(data, category)),
+        map(([data, category]) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
+          data,
+          category,
+          OfficeCatAMod2Page.maxFaultCount,
+        )),
       ),
       safetyAndBalanceQuestions$: currentTest$.pipe(
         select(getTestData),
@@ -214,11 +218,4 @@ export class OfficeCatAMod2Page extends OfficeBasePageComponent {
     }
   }
 
-  shouldDisplayDrivingFaultComments = (data: TestData, category: TestCategory): boolean => {
-    const drivingFaultCount: number = this.faultCountProvider.getDrivingFaultSumCount(category, data);
-    const seriousFaultCount: number = this.faultCountProvider.getSeriousFaultSumCount(category, data);
-    const dangerousFaultCount: number = this.faultCountProvider.getDangerousFaultSumCount(category, data);
-
-    return dangerousFaultCount === 0 && seriousFaultCount === 0 && drivingFaultCount > OfficeCatAMod2Page.maxFaultCount;
-  };
 }
