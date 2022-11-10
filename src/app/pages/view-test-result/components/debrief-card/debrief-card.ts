@@ -77,8 +77,6 @@ export class DebriefCardComponent implements OnInit {
         return this.getTestRequirementsCatADI2();
       case TestCategory.B:
         return this.getTestRequirementsCatB();
-      case TestCategory.BE:
-        return this.getTestRequirementsCatBE();
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:
@@ -228,35 +226,6 @@ export class DebriefCardComponent implements OnInit {
       {
         label: TestRequirementsLabels.hillStart,
         checked: get(this.data, 'testRequirements.hillStart', false),
-      },
-    ];
-  };
-
-  private getTestRequirementsCatBE = (): DataRowListItem[] => {
-    return [
-      {
-        label: TestRequirementsLabels.normalStop1,
-        checked: get(this.data, 'testRequirements.normalStart1', false),
-      },
-      {
-        label: TestRequirementsLabels.normalStop2,
-        checked: get(this.data, 'testRequirements.normalStart2', false),
-      },
-      {
-        label: TestRequirementsLabels.uphillStart,
-        checked: get(this.data, 'testRequirements.uphillStart', false),
-      },
-      {
-        label: TestRequirementsLabels.downhillStart,
-        checked: get(this.data, 'testRequirements.downhillStart', false),
-      },
-      {
-        label: TestRequirementsLabels.angledStartControlledStop,
-        checked: get(this.data, 'testRequirements.angledStartControlledStop', false),
-      },
-      {
-        label: TestRequirementsLabels.uncoupleRecouple,
-        checked: get(this.data, 'uncoupleRecouple.selected', false),
       },
     ];
   };

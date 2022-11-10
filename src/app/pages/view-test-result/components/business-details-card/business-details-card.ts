@@ -1,14 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { get } from 'lodash';
 import { Address } from '@dvsa/mes-test-schema/categories/common';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 
 export type CandidateWithBusinessDetails =
-  | CatBEUniqueTypes.Candidate
   | CatCUniqueTypes.Candidate
   | CatC1UniqueTypes.Candidate
   | CatCEUniqueTypes.Candidate

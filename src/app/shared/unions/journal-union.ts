@@ -1,5 +1,4 @@
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
@@ -16,7 +15,6 @@ import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 
 export type JournalDataUnion =
  JournalData |
- CatBEUniqueTypes.JournalData |
  CatCUniqueTypes.JournalData |
  CatC1UniqueTypes.JournalData |
  CatCEUniqueTypes.JournalData |

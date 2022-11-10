@@ -8,7 +8,6 @@ import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.mode
 
 import { sumManoeuvreFaults } from '@shared/helpers/faults';
 import { FaultCountBHelper } from './cat-b/fault-count.cat-b';
-import { FaultCountBEHelper } from './cat-be/fault-count.cat-be';
 import { FaultCountCHelper } from './cat-c/fault-count.cat-c';
 import { FaultCountDHelper } from './cat-d/fault-count.cat-d';
 
@@ -25,16 +24,21 @@ export class FaultCountProvider {
 
   public getDrivingFaultSumCount = (category: TestCategory, data: object): number => {
     switch (category) {
-      case TestCategory.ADI2: return FaultCountADIPart2Helper.getDrivingFaultSumCountCatADIPart2(data);
+      case TestCategory.ADI2:
+        return FaultCountADIPart2Helper.getDrivingFaultSumCountCatADIPart2(data);
       case TestCategory.ADI3:
       case TestCategory.SC:
         return 0;
-      case TestCategory.B: return FaultCountBHelper.getDrivingFaultSumCountCatB(data);
-      case TestCategory.BE: return FaultCountBEHelper.getDrivingFaultSumCountCatBE(data);
-      case TestCategory.C1: return FaultCountCHelper.getDrivingFaultSumCountCatC1(data);
-      case TestCategory.C1E: return FaultCountCHelper.getDrivingFaultSumCountCatC1E(data);
-      case TestCategory.CE: return FaultCountCHelper.getDrivingFaultSumCountCatCE(data);
-      case TestCategory.C: return FaultCountCHelper.getDrivingFaultSumCountCatC(data);
+      case TestCategory.B:
+        return FaultCountBHelper.getDrivingFaultSumCountCatB(data);
+      case TestCategory.C1:
+        return FaultCountCHelper.getDrivingFaultSumCountCatC1(data);
+      case TestCategory.C1E:
+        return FaultCountCHelper.getDrivingFaultSumCountCatC1E(data);
+      case TestCategory.CE:
+        return FaultCountCHelper.getDrivingFaultSumCountCatCE(data);
+      case TestCategory.C:
+        return FaultCountCHelper.getDrivingFaultSumCountCatC(data);
       case TestCategory.CM:
       case TestCategory.C1M:
       case TestCategory.CEM:
@@ -42,41 +46,56 @@ export class FaultCountProvider {
       case TestCategory.DM:
       case TestCategory.D1M:
       case TestCategory.DEM:
-      case TestCategory.D1EM: return 0; // No driving faults for manoeuvre categories;
-      case TestCategory.D1: return FaultCountDHelper.getDrivingFaultSumCountCatD1(data);
-      case TestCategory.D1E: return FaultCountDHelper.getDrivingFaultSumCountCatD1E(data);
-      case TestCategory.DE: return FaultCountDHelper.getDrivingFaultSumCountCatDE(data);
-      case TestCategory.D: return FaultCountDHelper.getDrivingFaultSumCountCatD(data);
+      case TestCategory.D1EM:
+        return 0; // No driving faults for manoeuvre categories;
+      case TestCategory.D1:
+        return FaultCountDHelper.getDrivingFaultSumCountCatD1(data);
+      case TestCategory.D1E:
+        return FaultCountDHelper.getDrivingFaultSumCountCatD1E(data);
+      case TestCategory.DE:
+        return FaultCountDHelper.getDrivingFaultSumCountCatDE(data);
+      case TestCategory.D:
+        return FaultCountDHelper.getDrivingFaultSumCountCatD(data);
       case TestCategory.CCPC:
-      case TestCategory.DCPC: return 0;
+      case TestCategory.DCPC:
+        return 0;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1: return FaultCountAM1Helper.getRidingFaultSumCountCatAM1(data);
+      case TestCategory.EUAMM1:
+        return FaultCountAM1Helper.getRidingFaultSumCountCatAM1(data);
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2: return FaultCountAM2Helper.getRidingFaultSumCountCatAM2(data);
+      case TestCategory.EUAMM2:
+        return FaultCountAM2Helper.getRidingFaultSumCountCatAM2(data);
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
-      case TestCategory.K: return FaultCountHomeTestHelper.getDrivingFaultSumCountCatHomeTest(data);
-      default: throw new Error(`${FaultCountProvider.getFaultSumCountErrMsg}`);
+      case TestCategory.K:
+        return FaultCountHomeTestHelper.getDrivingFaultSumCountCatHomeTest(data);
+      default:
+        throw new Error(`${FaultCountProvider.getFaultSumCountErrMsg}`);
     }
   };
 
   public getSeriousFaultSumCount = (category: TestCategory, data: object): number => {
     switch (category) {
-      case TestCategory.ADI2: return FaultCountADIPart2Helper.getSeriousFaultSumCountCatADIPart2(data);
+      case TestCategory.ADI2:
+        return FaultCountADIPart2Helper.getSeriousFaultSumCountCatADIPart2(data);
       case TestCategory.ADI3:
       case TestCategory.SC:
         return 0;
-      case TestCategory.B: return FaultCountBHelper.getSeriousFaultSumCountCatB(data);
-      case TestCategory.BE: return FaultCountBEHelper.getSeriousFaultSumCountCatBE(data);
-      case TestCategory.C1: return FaultCountCHelper.getSeriousFaultSumCountCatC1(data);
-      case TestCategory.C1E: return FaultCountCHelper.getSeriousFaultSumCountCatC1E(data);
-      case TestCategory.CE: return FaultCountCHelper.getSeriousFaultSumCountCatCE(data);
-      case TestCategory.C: return FaultCountCHelper.getSeriousFaultSumCountCatC(data);
+      case TestCategory.B:
+        return FaultCountBHelper.getSeriousFaultSumCountCatB(data);
+      case TestCategory.C1:
+        return FaultCountCHelper.getSeriousFaultSumCountCatC1(data);
+      case TestCategory.C1E:
+        return FaultCountCHelper.getSeriousFaultSumCountCatC1E(data);
+      case TestCategory.CE:
+        return FaultCountCHelper.getSeriousFaultSumCountCatCE(data);
+      case TestCategory.C:
+        return FaultCountCHelper.getSeriousFaultSumCountCatC(data);
       case TestCategory.CM:
       case TestCategory.C1M:
       case TestCategory.CEM:
@@ -84,41 +103,56 @@ export class FaultCountProvider {
       case TestCategory.DM:
       case TestCategory.D1M:
       case TestCategory.DEM:
-      case TestCategory.D1EM: return FaultCountManoeuvreTestHelper.getSeriousFaultSumCountManoeuvreTest(data);
-      case TestCategory.D1: return FaultCountDHelper.getSeriousFaultSumCountCatD1(data);
-      case TestCategory.D1E: return FaultCountDHelper.getSeriousFaultSumCountCatD1E(data);
-      case TestCategory.DE: return FaultCountDHelper.getSeriousFaultSumCountCatDE(data);
-      case TestCategory.D: return FaultCountDHelper.getSeriousFaultSumCountCatD(data);
+      case TestCategory.D1EM:
+        return FaultCountManoeuvreTestHelper.getSeriousFaultSumCountManoeuvreTest(data);
+      case TestCategory.D1:
+        return FaultCountDHelper.getSeriousFaultSumCountCatD1(data);
+      case TestCategory.D1E:
+        return FaultCountDHelper.getSeriousFaultSumCountCatD1E(data);
+      case TestCategory.DE:
+        return FaultCountDHelper.getSeriousFaultSumCountCatDE(data);
+      case TestCategory.D:
+        return FaultCountDHelper.getSeriousFaultSumCountCatD(data);
       case TestCategory.CCPC:
-      case TestCategory.DCPC: return 0;
+      case TestCategory.DCPC:
+        return 0;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1: return FaultCountAM1Helper.getSeriousFaultSumCountCatAM1(data);
+      case TestCategory.EUAMM1:
+        return FaultCountAM1Helper.getSeriousFaultSumCountCatAM1(data);
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2: return FaultCountAM2Helper.getSeriousFaultSumCountCatAM2(data);
+      case TestCategory.EUAMM2:
+        return FaultCountAM2Helper.getSeriousFaultSumCountCatAM2(data);
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
-      case TestCategory.K: return FaultCountHomeTestHelper.getSeriousFaultSumCountHomeTest(data);
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      case TestCategory.K:
+        return FaultCountHomeTestHelper.getSeriousFaultSumCountHomeTest(data);
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 
   public getDangerousFaultSumCount = (category: TestCategory, data: object): number => {
     switch (category) {
-      case TestCategory.ADI2: return FaultCountADIPart2Helper.getDangerousFaultSumCountCatADIPart2(data);
+      case TestCategory.ADI2:
+        return FaultCountADIPart2Helper.getDangerousFaultSumCountCatADIPart2(data);
       case TestCategory.ADI3:
       case TestCategory.SC:
         return 0;
-      case TestCategory.B: return FaultCountBHelper.getDangerousFaultSumCountCatB(data);
-      case TestCategory.BE: return FaultCountBEHelper.getDangerousFaultSumCountCatBE(data);
-      case TestCategory.C1: return FaultCountCHelper.getDangerousFaultSumCountCatC1(data);
-      case TestCategory.C1E: return FaultCountCHelper.getDangerousFaultSumCountCatC1E(data);
-      case TestCategory.CE: return FaultCountCHelper.getDangerousFaultSumCountCatCE(data);
-      case TestCategory.C: return FaultCountCHelper.getDangerousFaultSumCountCatC(data);
+      case TestCategory.B:
+        return FaultCountBHelper.getDangerousFaultSumCountCatB(data);
+      case TestCategory.C1:
+        return FaultCountCHelper.getDangerousFaultSumCountCatC1(data);
+      case TestCategory.C1E:
+        return FaultCountCHelper.getDangerousFaultSumCountCatC1E(data);
+      case TestCategory.CE:
+        return FaultCountCHelper.getDangerousFaultSumCountCatCE(data);
+      case TestCategory.C:
+        return FaultCountCHelper.getDangerousFaultSumCountCatC(data);
       case TestCategory.CM:
       case TestCategory.C1M:
       case TestCategory.CEM:
@@ -126,26 +160,36 @@ export class FaultCountProvider {
       case TestCategory.DM:
       case TestCategory.D1M:
       case TestCategory.DEM:
-      case TestCategory.D1EM: return FaultCountManoeuvreTestHelper.getDangerousFaultSumCountManoeuvreTest(data);
-      case TestCategory.D1: return FaultCountDHelper.getDangerousFaultSumCountCatD1(data);
-      case TestCategory.D1E: return FaultCountDHelper.getDangerousFaultSumCountCatD1E(data);
-      case TestCategory.DE: return FaultCountDHelper.getDangerousFaultSumCountCatDE(data);
-      case TestCategory.D: return FaultCountDHelper.getDangerousFaultSumCountCatD(data);
+      case TestCategory.D1EM:
+        return FaultCountManoeuvreTestHelper.getDangerousFaultSumCountManoeuvreTest(data);
+      case TestCategory.D1:
+        return FaultCountDHelper.getDangerousFaultSumCountCatD1(data);
+      case TestCategory.D1E:
+        return FaultCountDHelper.getDangerousFaultSumCountCatD1E(data);
+      case TestCategory.DE:
+        return FaultCountDHelper.getDangerousFaultSumCountCatDE(data);
+      case TestCategory.D:
+        return FaultCountDHelper.getDangerousFaultSumCountCatD(data);
       case TestCategory.CCPC:
-      case TestCategory.DCPC: return 0;
+      case TestCategory.DCPC:
+        return 0;
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1: return FaultCountAM1Helper.getDangerousFaultSumCountCatAM1(data);
+      case TestCategory.EUAMM1:
+        return FaultCountAM1Helper.getDangerousFaultSumCountCatAM1(data);
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2: return FaultCountAM2Helper.getDangerousFaultSumCountCatAM2(data);
+      case TestCategory.EUAMM2:
+        return FaultCountAM2Helper.getDangerousFaultSumCountCatAM2(data);
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
-      case TestCategory.K: return FaultCountHomeTestHelper.getDangerousFaultSumCountHomeTest(data);
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      case TestCategory.K:
+        return FaultCountHomeTestHelper.getDangerousFaultSumCountHomeTest(data);
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 
@@ -164,45 +208,61 @@ export class FaultCountProvider {
         return data.reduce((acc, manoeuvre) => {
           return acc + sumManoeuvreFaults(manoeuvre, faultType);
         }, 0);
-      case TestCategory.B: return sumManoeuvreFaults(data, faultType);
-      case TestCategory.BE: return sumManoeuvreFaults(data, faultType);
+      case TestCategory.B:
+        return sumManoeuvreFaults(data, faultType);
+      case TestCategory.BE:
+        return sumManoeuvreFaults(data, faultType);
       case TestCategory.C1:
       case TestCategory.C1E:
       case TestCategory.CE:
-      case TestCategory.C: return sumManoeuvreFaults(data, faultType);
+      case TestCategory.C:
+        return sumManoeuvreFaults(data, faultType);
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-      case TestCategory.D: return sumManoeuvreFaults(data, faultType);
+      case TestCategory.D:
+        return sumManoeuvreFaults(data, faultType);
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1: return sumManoeuvreFaults(data, faultType);
+      case TestCategory.EUAMM1:
+        return sumManoeuvreFaults(data, faultType);
       case TestCategory.F:
       case TestCategory.G:
-      case TestCategory.H: return sumManoeuvreFaults(data, faultType);
-      case TestCategory.K: return 0; // NOTE: no manoeuvres on cat K
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      case TestCategory.H:
+        return sumManoeuvreFaults(data, faultType);
+      case TestCategory.K:
+        return 0; // NOTE: no manoeuvres on cat K
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 
   public getVehicleChecksFaultCount = (category: TestCategory, data: object): VehicleChecksScore => {
     switch (category) {
-      case TestCategory.ADI2: return FaultCountADIPart2Helper.getVehicleChecksFaultCountCatADIPart2(data);
-      case TestCategory.BE: return FaultCountBEHelper.getVehicleChecksFaultCountCatBE(data);
-      case TestCategory.C: return FaultCountCHelper.getVehicleChecksFaultCountCatC(data);
-      case TestCategory.C1: return FaultCountCHelper.getVehicleChecksFaultCountCatC1(data);
+      case TestCategory.ADI2:
+        return FaultCountADIPart2Helper.getVehicleChecksFaultCountCatADIPart2(data);
+      case TestCategory.C:
+        return FaultCountCHelper.getVehicleChecksFaultCountCatC(data);
+      case TestCategory.C1:
+        return FaultCountCHelper.getVehicleChecksFaultCountCatC1(data);
       case TestCategory.C1E:
-      case TestCategory.CE: return FaultCountCHelper.getVehicleChecksFaultCount(data);
-      case TestCategory.D: return FaultCountDHelper.getVehicleChecksFaultCountCatD(data);
-      case TestCategory.D1: return FaultCountDHelper.getVehicleChecksFaultCountCatD1(data);
+      case TestCategory.CE:
+        return FaultCountCHelper.getVehicleChecksFaultCount(data);
+      case TestCategory.D:
+        return FaultCountDHelper.getVehicleChecksFaultCountCatD(data);
+      case TestCategory.D1:
+        return FaultCountDHelper.getVehicleChecksFaultCountCatD1(data);
       case TestCategory.D1E:
-      case TestCategory.DE: return FaultCountDHelper.getVehicleChecksFaultCount(data);
+      case TestCategory.DE:
+        return FaultCountDHelper.getVehicleChecksFaultCount(data);
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
-      case TestCategory.K: return FaultCountHomeTestHelper.getVehicleChecksFaultCountCatHomeTest(data);
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      case TestCategory.K:
+        return FaultCountHomeTestHelper.getVehicleChecksFaultCountCatHomeTest(data);
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 
@@ -211,8 +271,10 @@ export class FaultCountProvider {
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2: return FaultCountAM2Helper.getSafetyAndBalanceFaultCountCatAM2(data);
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      case TestCategory.EUAMM2:
+        return FaultCountAM2Helper.getSafetyAndBalanceFaultCountCatAM2(data);
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 
@@ -230,15 +292,19 @@ export class FaultCountProvider {
 
   public getTellMeFaultCount = (category: TestCategory, data: VehicleChecks): VehicleChecksScore => {
     switch (category) {
-      case TestCategory.ADI2: return FaultCountADIPart2Helper.getTellMeFaultCount(data);
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      case TestCategory.ADI2:
+        return FaultCountADIPart2Helper.getTellMeFaultCount(data);
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 
   public getShowMeFaultCount = (category: TestCategory, data: VehicleChecks): VehicleChecksScore => {
     switch (category) {
-      case TestCategory.ADI2: return FaultCountADIPart2Helper.getShowMeFaultCount(data);
-      default: throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
+      case TestCategory.ADI2:
+        return FaultCountADIPart2Helper.getShowMeFaultCount(data);
+      default:
+        throw new Error(FaultCountProvider.getFaultSumCountErrMsg);
     }
   };
 }

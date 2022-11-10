@@ -1,4 +1,3 @@
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1EUniqueTypes } from '@dvsa/mes-test-schema/categories/C1E';
 import { CatDEUniqueTypes } from '@dvsa/mes-test-schema/categories/DE';
@@ -8,7 +7,6 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as uncoupleRecoupleActions from './uncouple-recouple.actions';
 
 export type UncoupleRecouple =
-  | CatBEUniqueTypes.UncoupleRecouple
   | CatCEUniqueTypes.UncoupleRecouple
   | CatC1EUniqueTypes.UncoupleRecouple
   | CatDEUniqueTypes.UncoupleRecouple

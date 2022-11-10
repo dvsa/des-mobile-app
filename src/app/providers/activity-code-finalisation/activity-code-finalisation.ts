@@ -6,7 +6,6 @@ import { TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/A
 import { TestData as CatADI3TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import {
   CatCTestData,
@@ -78,16 +77,6 @@ export class ActivityCodeFinalisationProvider {
     return isPass;
   }
 
-  async catBETestDataIsInvalid(activityCode: ActivityCode, testData: CatBEUniqueTypes.TestData): Promise<boolean> {
-    if (!this.activityCodeIs4or5(activityCode)) return false;
-
-    const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.BE, testData).toPromise()
-    ) === ActivityCodes.PASS;
-
-    return isPass;
-  }
-
   async catCTestDataIsInvalid(activityCode: ActivityCode, testData: CatCTestData): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
@@ -142,7 +131,6 @@ export class ActivityCodeFinalisationProvider {
       case TestCategory.SC:
         return this.catADIPart3TestDataIsInvalid(activityCode, testData as CatADI3TestData);
       case TestCategory.B: return this.catBTestDataIsInvalid(activityCode, testData as CatBUniqueTypes.TestData);
-      case TestCategory.BE: return this.catBETestDataIsInvalid(activityCode, testData as CatBEUniqueTypes.TestData);
       case TestCategory.C1:
       case TestCategory.C1E:
       case TestCategory.CE:

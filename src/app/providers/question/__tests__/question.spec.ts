@@ -6,10 +6,6 @@ import tellMeQuestionsCatBConstants
   from '@shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
 import showMeQuestionsCatBConstants
   from '@shared/constants/show-me-questions/show-me-questions.cat-b.constants';
-import tellMeQuestionsCatBeConstants
-  from '@shared/constants/tell-me-questions/tell-me-questions.cat-be.constants';
-import showMeQuestionsCatBeConstants
-  from '@shared/constants/show-me-questions/show-me-questions.cat-be.constants';
 import tellMeQuestionsVocationalConstants
   from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
 import showMeQuestionsVocationalConstants
@@ -41,9 +37,6 @@ describe('question provider', () => {
   describe('getTellMeQuestions', () => {
     it('should return the correct questions for a category B test', () => {
       expect(questionProvider.getTellMeQuestions(TestCategory.B)).toEqual(tellMeQuestionsCatBConstants);
-    });
-    it('should return the correct questions for a category B+E test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.BE)).toEqual(tellMeQuestionsCatBeConstants);
     });
     it('should return the correct questions for a category C test', () => {
       expect(questionProvider.getTellMeQuestions(TestCategory.C)).toEqual(tellMeQuestionsVocationalConstants);
@@ -77,9 +70,6 @@ describe('question provider', () => {
   describe('getShowMeQuestions', () => {
     it('should return the correct questions for a category B test', () => {
       expect(questionProvider.getShowMeQuestions(TestCategory.B)).toEqual(showMeQuestionsCatBConstants);
-    });
-    it('should return the correct questions for a category B+E test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.BE)).toEqual(showMeQuestionsCatBeConstants);
     });
     it('should return the correct questions for a category C test', () => {
       expect(questionProvider.getShowMeQuestions(TestCategory.C)).toEqual(showMeQuestionsVocationalConstants);

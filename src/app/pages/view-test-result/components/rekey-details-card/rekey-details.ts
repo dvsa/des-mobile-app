@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { get } from 'lodash';
 import { DateTime } from '@shared/helpers/date-time';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
@@ -21,7 +20,6 @@ export class RekeyDetailsCardComponent {
   @Input()
   data: CatBUniqueTypes.TestResult
   | TestResultCatADI3Schema
-  | CatBEUniqueTypes.TestResult
   | CatCUniqueTypes.TestResult
   | CatCEUniqueTypes.TestResult
   | CatC1UniqueTypes.TestResult
