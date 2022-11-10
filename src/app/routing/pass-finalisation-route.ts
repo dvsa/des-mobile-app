@@ -4,7 +4,6 @@ import {
   CAT_ADI_PART2,
   CAT_ADI_PART3,
   CAT_B,
-  CAT_BE,
   CAT_C,
   CAT_CPC,
   CAT_D,
@@ -38,11 +37,6 @@ export const Pass_Finalisation_Route: Routes = [
     path: CAT_B.PASS_FINALISATION_PAGE,
     loadChildren: () => import('@pages/pass-finalisation/cat-b/pass-finalisation.cat-b.module')
       .then((m) => m.PassFinalisationCatBPageModule),
-  },
-  {
-    path: CAT_BE.PASS_FINALISATION_PAGE,
-    loadChildren: () => import('@pages/pass-finalisation/cat-be/pass-finalisation.cat-be.module')
-      .then((m) => m.PassFinalisationCatBEPageModule),
   },
   {
     path: CAT_C.PASS_FINALISATION_PAGE,

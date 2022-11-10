@@ -13,7 +13,6 @@ describe('TestReportValidator', () => {
   const categories = [
     { category: TestCategory.EUAM2, validTest: mocks.validTestCatAMod2, legalReqs: mocks.legalRequirementsAMod2 },
     { category: TestCategory.B, validTest: mocks.validTestCatB, legalReqs: mocks.legalRequirementsB },
-    { category: TestCategory.BE, validTest: mocks.validTestCatBE, legalReqs: mocks.legalRequirementsBE },
     { category: TestCategory.C, validTest: mocks.validTestCatC, legalReqs: mocks.legalRequirementsCatCAndC1 },
     { category: TestCategory.C1, validTest: mocks.validTestCatC1, legalReqs: mocks.legalRequirementsCatCAndC1 },
     { category: TestCategory.CE, validTest: mocks.validTestCatCE, legalReqs: mocks.legalRequirementsCatCEAndC1E },
@@ -29,11 +28,6 @@ describe('TestReportValidator', () => {
     { category: TestCategory.ADI2, validTest: mocks.validTestCatADIPart2, legalReqs: mocks.legalRequirementsADIPart2 },
   ];
   const delegatedCategories = [
-    {
-      category: TestCategory.BE,
-      validTest: mocks.validDelegatedTestCatBE,
-      delegatedRequirements: mocks.delegatedRequirementsBE,
-    },
     {
       category: TestCategory.C,
       validTest: mocks.validDelegatedTestCatCAndC1,

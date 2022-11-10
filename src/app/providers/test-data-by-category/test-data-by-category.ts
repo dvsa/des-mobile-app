@@ -5,7 +5,6 @@ import { getTestData as getTestDataC } from '@store/tests/test-data/cat-c/test-d
 import { getTestData as getTestDataC1 } from '@store/tests/test-data/cat-c/test-data.cat-c1.reducer';
 import { getTestData as getTestDataCE } from '@store/tests/test-data/cat-c/test-data.cat-ce.reducer';
 import { getTestData as getTestDataC1E } from '@store/tests/test-data/cat-c/test-data.cat-c1e.reducer';
-import { getTestData as getTestDataCatBE } from '@store/tests/test-data/cat-be/test-data.cat-be.reducer';
 import { getTestData as getTestDataCatD } from '@store/tests/test-data/cat-d/test-data.cat-d.reducer';
 import { getTestData as getTestDataCatD1 } from '@store/tests/test-data/cat-d/test-data.cat-d1.reducer';
 import { getTestData as getTestDataCatDE } from '@store/tests/test-data/cat-d/test-data.cat-de.reducer';
@@ -39,7 +38,6 @@ export class TestDataByCategoryProvider {
       case TestCategory.SC:
         return getTestDataCatAdI3;
       case TestCategory.B: return getTestDataCatB;
-      case TestCategory.BE: return getTestDataCatBE;
       case TestCategory.C: return getTestDataC;
       case TestCategory.C1: return getTestDataC1;
       case TestCategory.CE: return getTestDataCE;

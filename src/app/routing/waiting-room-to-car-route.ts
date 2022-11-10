@@ -4,7 +4,6 @@ import {
   CAT_ADI_PART2,
   CAT_ADI_PART3,
   CAT_B,
-  CAT_BE,
   CAT_C,
   CAT_CPC,
   CAT_D,
@@ -38,11 +37,6 @@ export const Waiting_Room_To_Car_Route: Routes = [
     path: CAT_B.WAITING_ROOM_TO_CAR_PAGE,
     loadChildren: () => import('@pages/waiting-room-to-car/cat-b/waiting-room-to-car.cat-b.module')
       .then((m) => m.WaitingRoomToCarCatBPageModule),
-  },
-  {
-    path: CAT_BE.WAITING_ROOM_TO_CAR_PAGE,
-    loadChildren: () => import('@pages/waiting-room-to-car/cat-be/waiting-room-to-car.cat-be.module')
-      .then((m) => m.WaitingRoomToCarCatBEPageModule),
   },
   {
     path: CAT_C.WAITING_ROOM_TO_CAR_PAGE,

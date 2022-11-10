@@ -6,7 +6,6 @@ export const whiteList: TestCategory[] = [
   TestCategory.ADI2,
   TestCategory.ADI3,
   TestCategory.B,
-  TestCategory.BE,
   TestCategory.C,
   TestCategory.C1,
   TestCategory.CE,

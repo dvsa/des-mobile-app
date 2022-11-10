@@ -12,7 +12,6 @@ import {
 import {
   getManoeuvres as getManoeuvresHomeTest,
 } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
-import { getManoeuvres as getManoeuvresBE } from '@store/tests/test-data/cat-be/test-data.cat-be.selector';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Injectable } from '@angular/core';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -24,7 +23,6 @@ export class ManoeuvresByCategoryProvider {
 
   public getManoeuvresByCategoryCode(category: CategoryCode): (testData: TestDataUnion) => ManoeuvreUnion {
     switch (category) {
-      case TestCategory.BE: return getManoeuvresBE;
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.CE:

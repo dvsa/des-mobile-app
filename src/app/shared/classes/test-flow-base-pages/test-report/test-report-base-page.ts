@@ -40,19 +40,14 @@ import {
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { hasManoeuvreBeenCompletedCatB } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
-import { hasManoeuvreBeenCompletedCatBE } from '@store/tests/test-data/cat-be/test-data.cat-be.selector';
 import { hasManoeuvreBeenCompletedCatC } from '@store/tests/test-data/cat-c/test-data.cat-c.selector';
 import { hasManoeuvreBeenCompletedCatD } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
 import { hasManoeuvreBeenCompletedCatHomeTest } from '@store/tests/test-data/cat-home/test-data.cat-home.selector';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { TestDataUnion, TestRequirementsUnion } from '@shared/unions/test-schema-unions';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { getTestRequirementsCatB } from '@store/tests/test-data/cat-b/test-requirements/test-requirements.reducer';
-import {
-  getTestRequirementsCatBE,
-} from '@store/tests/test-data/cat-be/test-requirements/test-requirements.cat-be.reducer';
 import {
   getTestRequirementsCatC,
 } from '@store/tests/test-data/cat-c/test-requirements/test-requirements.cat-c.reducer';
@@ -189,8 +184,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     switch (category) {
       case TestCategory.B:
         return getTestRequirementsCatB(testData) as CatBUniqueTypes.TestRequirements;
-      case TestCategory.BE:
-        return getTestRequirementsCatBE(testData) as CatBEUniqueTypes.TestRequirements;
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.C1E:
@@ -216,8 +209,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
         return hasManoeuvreBeenCompletedCatADIPart2((data as CatADI2UniqueTypes.TestData)?.manoeuvres);
       case TestCategory.B:
         return hasManoeuvreBeenCompletedCatB(data as CatBUniqueTypes.TestData);
-      case TestCategory.BE:
-        return hasManoeuvreBeenCompletedCatBE(data as CatBEUniqueTypes.TestData);
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.C1E:

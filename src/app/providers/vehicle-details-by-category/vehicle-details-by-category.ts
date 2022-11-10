@@ -8,8 +8,6 @@ import { getVehicleDetails as getVehicleDetailsManoeuvre }
   from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.reducer';
 import { getVehicleDetails as getVehicleDetailsD }
   from '@store/tests/vehicle-details/cat-d/vehicle-details.cat-d.reducer';
-import { getVehicleDetails as getVehicleDetailsBE }
-  from '@store/tests/vehicle-details/cat-be/vehicle-details.cat-be.reducer';
 import { getVehicleDetails as getVehicleDetailsB }
   from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
 import { getVehicleDetails as getVehicleDetailsADI2 }
@@ -22,8 +20,6 @@ import { getVehicleDetails as getVehicleDetailsAM2 }
   from '@store/tests/vehicle-details/cat-a-mod2/vehicle-details.cat-a-mod2.reducer';
 import { getVehicleDetails as getVehicleDetailsCPC }
   from '@store/tests/vehicle-details/cat-cpc/vehicle-details.cat-cpc.reducer';
-import { getVehicleWidth as getVehicleWidthBE, getVehicleLength as getVehicleLengthBE }
-  from '@store/tests/vehicle-details/cat-be/vehicle-details.cat-be.selector';
 import { getVehicleWidth as getVehicleWidthC, getVehicleLength as getVehicleLengthC }
   from '@store/tests/vehicle-details/cat-c/vehicle-details.cat-c.selector';
 import { getVehicleWidth as getVehicleWidthD, getVehicleLength as getVehicleLengthD }
@@ -63,12 +59,6 @@ export class VehicleDetailsByCategoryProvider {
           vehicleDetails: getVehicleDetailsB,
           vehicleWidth: null,
           vehicleLength: null,
-        };
-      case TestCategory.BE:
-        return {
-          vehicleDetails: getVehicleDetailsBE,
-          vehicleWidth: getVehicleWidthBE,
-          vehicleLength: getVehicleLengthBE,
         };
       case TestCategory.C:
       case TestCategory.C1:
