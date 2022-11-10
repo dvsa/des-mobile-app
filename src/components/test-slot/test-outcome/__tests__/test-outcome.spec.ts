@@ -13,7 +13,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import {
-  CAT_B, CAT_BE, CAT_C, CAT_D, CAT_A_MOD1, CAT_A_MOD2, TestFlowPageNames,
+  CAT_B, CAT_C, CAT_D, CAT_A_MOD1, CAT_A_MOD2, TestFlowPageNames,
 } from '@pages/page-names.constants';
 import { StoreModel } from '@shared/models/store.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
@@ -52,7 +52,6 @@ describe('TestOutcomeComponent', () => {
 
   const categoryPages = [
     { category: TestCategory.B, pageConstant: CAT_B },
-    { category: TestCategory.BE, pageConstant: CAT_BE },
     { category: TestCategory.C, pageConstant: CAT_C },
     { category: TestCategory.CE, pageConstant: CAT_C },
     { category: TestCategory.C1, pageConstant: CAT_C },

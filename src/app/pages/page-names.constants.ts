@@ -27,15 +27,6 @@ export const CAT_B: BasePageNames = {
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatBPage',
 };
 
-export const CAT_BE: BasePageNames = {
-  OFFICE_PAGE: 'OfficeCatBEPage',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatBEPage',
-  TEST_REPORT_PAGE: 'TestReportCatBEPage',
-  WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatBEPage',
-  VEHICLE_CHECKS_MODAL: 'VehicleChecksCatBEModal',
-  VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatBEPage',
-};
-
 export const CAT_C: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatCPage',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatCPage',
@@ -175,8 +166,6 @@ export function getPageNameByCategoryAndKey(category: TestCategory, pageNameKey:
       return CAT_ADI_PART3[pageNameKey];
     case TestCategory.B:
       return CAT_B[pageNameKey];
-    case TestCategory.BE:
-      return CAT_BE[pageNameKey];
     case TestCategory.C:
     case TestCategory.C1:
     case TestCategory.CE:

@@ -2,7 +2,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Booking } from '@dvsa/mes-journal-schema';
 import { get } from 'lodash';
 import { PopulateCandidateDetails } from './candidate.actions';
-import { PopulateCandidateDetailsCatBE } from '../../cat-be/candidate/candidate.cat-be.actions';
 import { PopulateCandidateDetailsCatC } from '../../cat-c/candidate/candidate.cat-c.actions';
 import { PopulateCandidateDetailsCatD } from '../../cat-d/candidate/candidate.cat-d.actions';
 import { PopulateCandidateDetailsCatHome } from '../../cat-home/candidate/candidate.cat-home.actions';
@@ -10,7 +9,6 @@ import { PopulateCandidateDetailsCatManoeuvre } from '../../cat-manoeuvre/candid
 
 type CandidateDetailsUnion =
   ReturnType<typeof PopulateCandidateDetails> |
-  ReturnType<typeof PopulateCandidateDetailsCatBE> |
   ReturnType<typeof PopulateCandidateDetailsCatC> |
   ReturnType<typeof PopulateCandidateDetailsCatD> |
   ReturnType<typeof PopulateCandidateDetailsCatManoeuvre> |
@@ -36,13 +34,6 @@ export const createPopulateCandidateDetailsAction = (
     case TestCategory.CCPC:
     case TestCategory.DCPC:
       return PopulateCandidateDetails(booking.candidate);
-    case TestCategory.BE:
-      return PopulateCandidateDetailsCatBE({
-        ...booking.candidate,
-        businessAddress: get(booking, 'business.businessAddress'),
-        businessName: get(booking, 'business.businessName'),
-        businessTelephone: get(booking, 'business.telephone'),
-      });
     case TestCategory.C1E:
     case TestCategory.CE:
     case TestCategory.C1:

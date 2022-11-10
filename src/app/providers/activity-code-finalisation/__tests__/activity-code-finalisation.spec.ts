@@ -63,11 +63,6 @@ describe('Activity code finalisation Provider', () => {
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.ADI2, {});
     });
 
-    it('should call testResultProvider with the correct category for BE', () => {
-      activityCodeFinalisationProvider.catBETestDataIsInvalid(ActivityCodes.FAIL_PUBLIC_SAFETY, {});
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.BE, {});
-    });
-
     it('should call testResultProvider with the correct category for Home', () => {
       activityCodeFinalisationProvider.catHomeTestDataIsInvalid(ActivityCodes.FAIL_PUBLIC_SAFETY, {});
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.F, {});
@@ -84,10 +79,6 @@ describe('Activity code finalisation Provider', () => {
     });
     it('should return false when activity code is not 4/5 for B', async () => {
       const result = await activityCodeFinalisationProvider.catBTestDataIsInvalid(ActivityCodes.ACCIDENT, {});
-      expect(result).toBe(false);
-    });
-    it('should return false when activity code is not 4/5 for BE', async () => {
-      const result = await activityCodeFinalisationProvider.catBETestDataIsInvalid(ActivityCodes.CANDIDATE_LATE, {});
       expect(result).toBe(false);
     });
     it('should return false when activity code is not 4/5 for C', async () => {

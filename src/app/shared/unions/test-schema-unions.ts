@@ -1,7 +1,6 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
@@ -24,7 +23,6 @@ import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
 
 // Vehicle Details
 export type VehicleDetailsUnion =
-  | CatBEUniqueTypes.VehicleDetails
   | CatCUniqueTypes.VehicleDetails
   | CatC1UniqueTypes.VehicleDetails
   | CatCEUniqueTypes.VehicleDetails
@@ -94,7 +92,6 @@ export type CatHomeTestManoeuvres =
   | CatHUniqueTypes.Manoeuvres;
 
 export type ManoeuvreUnion =
-  | CatBEUniqueTypes.Manoeuvres
   | CatCUniqueTypes.Manoeuvres
   | CatC1UniqueTypes.Manoeuvres
   | CatCEUniqueTypes.Manoeuvres
@@ -129,14 +126,12 @@ export type HomeTestRequirements =
 // Test Data
 export type TestDataUnion =
   | CatBUniqueTypes.TestData
-  | CatBEUniqueTypes.TestData
   | CatCTestData
   | CatDTestData
   | CatHomeTestData
   | CatManoeuvreTestData;
 
 export type TestRequirementsUnion =
-  | CatBEUniqueTypes.TestRequirements
   | CatCUniqueTypes.TestRequirements
   | CatDUniqueTypes.TestRequirements
   | CatHUniqueTypes.TestRequirements;

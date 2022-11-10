@@ -128,19 +128,6 @@ describe('TestReportValidator', () => {
       const result = testReportValidatorProvider.isETAValid({}, TestCategory.B);
       expect(result).toEqual(true);
     });
-    it('should return true if there is a ETA and a Serious Fault', () => {
-      const data: TestData = {
-        ETA: {
-          physical: true,
-        },
-        seriousFaults: {
-          ancillaryControls: true,
-        },
-      };
-
-      const result = testReportValidatorProvider.isETAValid(data, TestCategory.BE);
-      expect(result).toEqual(true);
-    });
     it('should return true if there is a ETA and a Dangerous Fault', () => {
       const data: TestData = {
         ETA: {
@@ -154,16 +141,6 @@ describe('TestReportValidator', () => {
       const result = testReportValidatorProvider.isETAValid(data, TestCategory.B);
       expect(result).toEqual(true);
     });
-    it('should return true if there is a Serious Fault and no ETA', () => {
-      const data: TestData = {
-        seriousFaults: {
-          clearance: true,
-        },
-      };
-
-      const result = testReportValidatorProvider.isETAValid(data, TestCategory.BE);
-      expect(result).toEqual(true);
-    });
     it('should return true if there is a Dangerous Fault and no ETA', () => {
       const data: TestData = {
         dangerousFaults: {
@@ -173,16 +150,6 @@ describe('TestReportValidator', () => {
 
       const result = testReportValidatorProvider.isETAValid(data, TestCategory.B);
       expect(result).toEqual(true);
-    });
-    it('should return false if there is a ETA and no Serious or Dangerous Faults', () => {
-      const data: TestData = {
-        ETA: {
-          verbal: true,
-        },
-      };
-
-      const result = testReportValidatorProvider.isETAValid(data, TestCategory.BE);
-      expect(result).toEqual(false);
     });
   });
 

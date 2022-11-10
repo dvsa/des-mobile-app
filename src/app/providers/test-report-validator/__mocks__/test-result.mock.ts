@@ -1,5 +1,4 @@
 import { TestData as CatAMod2TestData } from '@dvsa/mes-test-schema/categories/AM2';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
@@ -122,44 +121,6 @@ export const validTestCatB: CatBUniqueTypes.TestData = {
   },
   eco: {
     completed: true,
-  },
-};
-
-export const validTestCatBE: CatBEUniqueTypes.TestData = {
-  testRequirements: {
-    angledStartControlledStop: true,
-    normalStart1: true,
-    uphillStart: true,
-  },
-  manoeuvres: {
-    reverseLeft: {
-      selected: true,
-    },
-  },
-  eco: {
-    completed: true,
-  },
-  uncoupleRecouple: {
-    selected: true,
-  },
-};
-
-export const validDelegatedTestCatBE: CatBEUniqueTypes.TestData = {
-  testRequirements: {
-    angledStartControlledStop: true,
-    normalStart1: false,
-    uphillStart: false,
-  },
-  manoeuvres: {
-    reverseLeft: {
-      selected: true,
-    },
-  },
-  eco: {
-    completed: true,
-  },
-  uncoupleRecouple: {
-    selected: true,
   },
 };
 

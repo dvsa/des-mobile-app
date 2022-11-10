@@ -9,7 +9,6 @@ import * as mocks from '../__mocks__/test-result-data.mock';
 describe('TestResultCalculatorProvider', () => {
   const fifteenCategories: TestCategory[] = [
     TestCategory.B,
-    TestCategory.BE,
     TestCategory.F,
     TestCategory.G,
     TestCategory.H,

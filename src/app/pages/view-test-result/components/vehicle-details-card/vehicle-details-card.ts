@@ -3,7 +3,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { get } from 'lodash';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
@@ -23,7 +22,6 @@ export class VehicleDetailsCardComponent {
 
   @Input()
   data: CatBUniqueTypes.VehicleDetails
-  | CatBEUniqueTypes.VehicleDetails
   | CatCUniqueTypes.VehicleDetails
   | CatCEUniqueTypes.VehicleDetails
   | CatC1UniqueTypes.VehicleDetails

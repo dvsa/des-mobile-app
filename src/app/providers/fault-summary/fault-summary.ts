@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatCEUniqueTypes } from '@dvsa/mes-test-schema/categories/CE';
 import { CatC1UniqueTypes } from '@dvsa/mes-test-schema/categories/C1';
@@ -15,7 +14,6 @@ import { FaultSummaryCatManoeuvreHelper } from '@providers/fault-summary/cat-man
 import { FaultSummaryCatHomeTestHelper } from './cat-home-test/fault-summary.cat-home-test';
 import { FaultSummaryCatDHelper } from './cat-d/fault-summary.cat-d';
 import { FaultSummaryCatCHelper } from './cat-c/fault-summary.cat-c';
-import { FaultSummaryCatBEHelper } from './cat-be/fault-summary.cat-be';
 import { FaultSummaryCatBHelper } from './cat-b/fault-summary.cat-b';
 import { FaultCountProvider } from '../fault-count/fault-count';
 import { FaultSummaryCatAM1Helper } from './cat-a-mod1/fault-summary.cat-a-mod1';
@@ -39,14 +37,6 @@ export class FaultSummaryProvider {
         );
       case TestCategory.B:
         return FaultSummaryCatBHelper.getDrivingFaultsCatB(data);
-      case TestCategory.BE:
-        return FaultSummaryCatBEHelper.getDrivingFaultsCatBE(
-          data,
-          this.faultCountProvider.getVehicleChecksFaultCount(
-            TestCategory.BE,
-            (<CatBEUniqueTypes.TestData>data).vehicleChecks,
-          ),
-        );
       case TestCategory.C:
         return FaultSummaryCatCHelper.getDrivingFaultsNonTrailer(
           data,
@@ -154,8 +144,6 @@ export class FaultSummaryProvider {
         return FaultSummaryCatAdiPart2Helper.getSeriousFaultsCatAdiPart2(data);
       case TestCategory.B:
         return FaultSummaryCatBHelper.getSeriousFaultsCatB(data);
-      case TestCategory.BE:
-        return FaultSummaryCatBEHelper.getSeriousFaultsCatBE(data);
       case TestCategory.C1:
       case TestCategory.C:
         return FaultSummaryCatCHelper.getSeriousFaultsNonTrailer(data);
@@ -204,8 +192,6 @@ export class FaultSummaryProvider {
         return FaultSummaryCatAdiPart2Helper.getDangerousFaultsCatAdiPart2(data);
       case TestCategory.B:
         return FaultSummaryCatBHelper.getDangerousFaultsCatB(data);
-      case TestCategory.BE:
-        return FaultSummaryCatBEHelper.getDangerousFaultsCatBE(data);
       case TestCategory.C1:
       case TestCategory.C:
         return FaultSummaryCatCHelper.getDangerousFaultsNonTrailer(data);

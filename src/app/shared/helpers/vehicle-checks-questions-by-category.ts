@@ -1,11 +1,5 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
-  NUMBER_OF_SHOW_ME_QUESTIONS,
-} from '../constants/show-me-questions/show-me-questions.cat-be.constants';
-import {
-  NUMBER_OF_TELL_ME_QUESTIONS,
-} from '../constants/tell-me-questions/tell-me-questions.cat-be.constants';
-import {
   NUMBER_OF_TELL_ME_QUESTIONS as NUMBER_OF_TELL_ME_QUESTIONS_NON_TRAILER,
 } from '../constants/tell-me-questions/tell-me-questions.vocational.constants';
 
@@ -23,8 +17,6 @@ import {
 
 export const vehicleChecksQuestionsByCategory = (category: TestCategory): number => {
   switch (category) {
-    case TestCategory.BE:
-      return NUMBER_OF_SHOW_ME_QUESTIONS + NUMBER_OF_TELL_ME_QUESTIONS;
     case TestCategory.C:
     case TestCategory.C1:
     case TestCategory.D:

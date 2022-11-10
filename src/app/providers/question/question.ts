@@ -7,8 +7,6 @@ import showMeQuestionsCatAdiPart2Constants
   from '@shared/constants/show-me-questions/show-me-questions.cat-adi-part2.constants';
 import tellMeQuestionsCatBConstants from '@shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
 import showMeQuestionsCatBConstants from '@shared/constants/show-me-questions/show-me-questions.cat-b.constants';
-import tellMeQuestionsCatBeConstants from '@shared/constants/tell-me-questions/tell-me-questions.cat-be.constants';
-import showMeQuestionsCatBeConstants from '@shared/constants/show-me-questions/show-me-questions.cat-be.constants';
 import tellMeQuestionsVocationalConstants
   from '@shared/constants/tell-me-questions/tell-me-questions.vocational.constants';
 import tellMeQuestionsVocationalTrailerConstants
@@ -36,8 +34,6 @@ export class QuestionProvider {
         return tellMeQuestionsCatAdiPart2Constants;
       case TestCategory.B:
         return tellMeQuestionsCatBConstants;
-      case TestCategory.BE:
-        return tellMeQuestionsCatBeConstants;
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.D:
@@ -64,8 +60,6 @@ export class QuestionProvider {
         return showMeQuestionsCatAdiPart2Constants;
       case TestCategory.B:
         return showMeQuestionsCatBConstants;
-      case TestCategory.BE:
-        return showMeQuestionsCatBeConstants;
       case TestCategory.C:
       case TestCategory.C1:
       case TestCategory.D:

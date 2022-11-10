@@ -1,6 +1,5 @@
 import { ActivityCode, JournalData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestResultCatCPCSchema } from '@dvsa/mes-test-schema/categories/CPC';
 import { get, startsWith } from 'lodash';
@@ -34,7 +33,7 @@ export const getTestById = (tests: TestsModel, slotId: string): TestResultSchema
 
 export const getJournalData = (
   test: TestResultCommonSchema,
-): JournalData | CatBEUniqueTypes.JournalData => test.journalData;
+): JournalData => test.journalData;
 
 export const getTestStatus = (tests: TestsModel, slotId: number) => tests.testStatus[slotId] || TestStatus.Booked;
 
