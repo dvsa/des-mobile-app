@@ -59,7 +59,4 @@ describe('ConductedLanguageComponent', () => {
       });
     });
   });
-  describe('DOM', () => {
-
-  });
 });

@@ -70,10 +70,5 @@ describe('TimerComponent', () => {
         expect(component.timerString).toBe('15:00:00');
       });
     });
-
-  });
-
-  describe('DOM', () => {
-
   });
 });

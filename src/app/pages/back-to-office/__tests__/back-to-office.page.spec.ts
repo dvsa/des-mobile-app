@@ -79,12 +79,11 @@ describe('BackToOfficePage', () => {
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
-      it('should disable test inhibitions when in practice mode', async (done) => {
+      it('should disable test inhibitions when in practice mode', async () => {
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode).not.toHaveBeenCalled();
         expect(screenOrientation.unlock).toHaveBeenCalled();
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
-        done();
       });
     });
 
@@ -134,15 +133,13 @@ describe('BackToOfficePage', () => {
         component.goToJournal();
         expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
       });
-      it('should call the popTo method in the navcontroller if in practice mode', async (done) => {
+      it('should call the popTo method in the navcontroller if in practice mode', async () => {
         component.isEndToEndPracticeMode = true;
         spyOn(component, 'exitPracticeMode');
         await component.goToJournal();
         expect(component.exitPracticeMode).toHaveBeenCalled();
-        done();
       });
     });
-
   });
 
   describe('DOM', () => {

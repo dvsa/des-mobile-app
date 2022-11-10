@@ -38,7 +38,7 @@ describe('DebriefEffects', () => {
   }));
 
   describe('endDebriefEffect', () => {
-    it('should return SET_TEST_STATUS_DECIDED & PERSIST_TESTS actions when passed test', (done) => {
+    it('should return SET_TEST_STATUS_DECIDED & PERSIST_TESTS actions when passed test', () => {
       // Set activity code as passed
       store$.dispatch(testsActions.StartTest(1234, TestCategory.B));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
@@ -52,11 +52,10 @@ describe('DebriefEffects', () => {
         if (result.type === testsActions.PersistTests.type) {
           expect(result).toEqual(testsActions.PersistTests());
         }
-        done();
       });
     });
 
-    it('should return SET_TEST_STATUS_DECIDED & PERSIST_TESTS actions when failed test', (done) => {
+    it('should return SET_TEST_STATUS_DECIDED & PERSIST_TESTS actions when failed test', () => {
       // Set activity code as failed
       store$.dispatch(testsActions.StartTest(1234, TestCategory.B));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
@@ -70,7 +69,6 @@ describe('DebriefEffects', () => {
         if (result.type === testsActions.PersistTests.type) {
           expect(result).toEqual(testsActions.PersistTests());
         }
-        done();
       });
     });
 

@@ -148,7 +148,7 @@ describe('JournalEffects', () => {
     });
   });
 
-  it('should save a log if an actual error occurs', (done) => {
+  it('should save a log if an actual error occurs', () => {
     // ARRANGE
     spyOn(journalProvider, 'getJournal').and.callThrough();
     spyOn(journalProvider, 'saveJournalForOffline').and.callThrough();
@@ -169,11 +169,10 @@ describe('JournalEffects', () => {
       expect(result.type === '[JournalPage] Load Journal Success').toBe(false);
       expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh(JournalRefreshModes.MANUAL));
       // expect(store$.dispatch).toHaveBeenCalledWith(jasmine.any(SaveLog));
-      done();
     });
   });
 
-  it('should dispatch the failure action when the journal fails to load', (done) => {
+  it('should dispatch the failure action when the journal fails to load', () => {
     // ARRANGE
     spyOn(journalProvider, 'getJournal').and.callThrough();
     spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
@@ -197,11 +196,10 @@ describe('JournalEffects', () => {
       } else {
         fail('Unknown Action Sent');
       }
-      done();
     });
   });
 
-  it('should dispatch the SetSelectedDate action with the correct date in the select next day effect', (done) => {
+  it('should dispatch the SetSelectedDate action with the correct date in the select next day effect', () => {
     // ARRANGE
     const selectedDate: string = new DateTime().format('YYYY-MM-DD');
     const nextDay: string = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
@@ -222,7 +220,6 @@ describe('JournalEffects', () => {
       if (result.type === '[JournalPage] Navigate Day') {
         expect(result).toEqual(journalActions.JournalNavigateDay(nextDay));
       }
-      done();
     });
   });
 

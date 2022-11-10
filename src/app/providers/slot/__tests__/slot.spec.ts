@@ -300,7 +300,6 @@ describe('SlotProvider', () => {
         expect(result[1].slotData.activityCode).toBe('091');
       });
     });
-
   });
 
   describe('getSlotDate', () => {
@@ -327,10 +326,6 @@ describe('SlotProvider', () => {
 
       expect(numberOfDays).toBe(7);
     });
-  });
-
-  describe('getRelevantSlots', () => {
-
   });
 
   describe('canStartTest', () => {

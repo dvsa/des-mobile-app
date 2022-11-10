@@ -21,8 +21,4 @@ describe('SeriousTooltipComponenet', () => {
       expect(component).toBeDefined();
     });
   });
-
-  describe('DOM', () => {
-
-  });
 });

@@ -29,8 +29,8 @@ export const getPreviousWorkingDayAsIsoDate = () => {
   return previousWorkingDay.toISOString().split('T')[0];
 };
 
-export const inNext2Days = (section: any): boolean => {
-  const slotDate: string = get(section, 'slotDetail.start', '');
+export const inNext2Days = <T>(section: T): boolean => {
+  const slotDate = get(section, 'slotDetail.start', '') as string;
 
   const today: boolean = moment(slotDate).isSame(moment(), 'day');
   const tomorrow: boolean = moment(slotDate).isSame(moment().add(1, 'day'), 'day');

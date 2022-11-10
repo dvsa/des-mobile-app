@@ -37,7 +37,7 @@ describe('CommunicationEffects', () => {
   }));
 
   describe('submitCommunicationInfoEffect', () => {
-    it('should return SET_STATUS_DECIDED & PERSIST_TESTS actions', (done) => {
+    it('should return SET_STATUS_DECIDED & PERSIST_TESTS actions', () => {
       actions$.next(communicationActions.CommunicationSubmitInfo());
       effects.communicationSubmitInfoEffect$.subscribe((result) => {
         if (result.type === testStatusActions.SetTestStatusStarted.type) {
@@ -46,7 +46,6 @@ describe('CommunicationEffects', () => {
         if (result.type === testsActions.PersistTests.type) {
           expect(result.type).toEqual(testsActions.PersistTests().type);
         }
-        done();
       });
     });
   });

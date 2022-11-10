@@ -21,8 +21,4 @@ describe('DangerousTooltipComponent', () => {
       expect(component).toBeDefined();
     });
   });
-
-  describe('DOM', () => {
-
-  });
 });

@@ -200,7 +200,7 @@ describe('OfficeEffects', () => {
   });
 
   describe('submitWaitingRoomInfoEffect', () => {
-    it('should return SET_STATUS_DECIDED & PERSIST_TESTS actions', (done) => {
+    it('should return SET_STATUS_DECIDED & PERSIST_TESTS actions', () => {
       actions$.next(officeActions.CompleteTest());
       effects.completeTestEffect$.subscribe((result) => {
         if (result.type === testStatusActions.SetTestStatusCompleted.type) {
@@ -209,7 +209,6 @@ describe('OfficeEffects', () => {
         if (result.type === testActions.PersistTests.type) {
           expect(result.type).toEqual(testActions.PersistTests().type);
         }
-        done();
       });
     });
   });
