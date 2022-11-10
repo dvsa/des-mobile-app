@@ -6,7 +6,7 @@ import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { SpeedCheckDebriefCardComponent } from '../speed-check-debrief-card';
 
-fdescribe('SeriousFaultsDebriefCardComponent', () => {
+describe('SeriousFaultsDebriefCardComponent', () => {
   let translate: TranslateService;
   let fixture: ComponentFixture<SpeedCheckDebriefCardComponent>;
   let component: SpeedCheckDebriefCardComponent;

@@ -65,7 +65,7 @@ import { WeatherConditionsComponent } from '../../components/weather-conditions/
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 
-fdescribe('OfficeCatADI2Page', () => {
+describe('OfficeCatADI2Page', () => {
   let fixture: ComponentFixture<OfficeCatADI2Page>;
   let component: OfficeCatADI2Page;
   let store$: Store<StoreModel>;

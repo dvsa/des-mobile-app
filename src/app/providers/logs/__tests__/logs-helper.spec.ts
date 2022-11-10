@@ -3,14 +3,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Device } from '@ionic-native/device/ngx';
 import { Store, StoreModule } from '@ngrx/store';
 import { DeviceMock } from '@ionic-native-mocks/device';
-import { configureTestSuite } from 'ng-bullet';
 import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '../logs-helper';
 
 describe('LogHelper', () => {
   let logHelper: LogHelper;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -26,9 +25,7 @@ describe('LogHelper', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     logHelper = TestBed.inject(LogHelper);
   });
 

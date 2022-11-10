@@ -1,21 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 
-describe('ADI3 Assessment Provider', () => {
-
+describe('ADI3AssessmentProvider', () => {
   let adi3AssessmentProvider: ADI3AssessmentProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ADI3AssessmentProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     adi3AssessmentProvider = TestBed.inject(ADI3AssessmentProvider);
   });
 

@@ -21,7 +21,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { VehicleChecksCardCatBComponent } from '../vehicle-checks-card.cat-b';
 
-fdescribe('VehicleChecksCardCatBComponent', () => {
+describe('VehicleChecksCardCatBComponent', () => {
   let fixture: ComponentFixture<VehicleChecksCardCatBComponent>;
   let store$: Store<StoreModel>;
   let translate: TranslateService;

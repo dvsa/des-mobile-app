@@ -1,6 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
 import { SearchProvider } from '../search';
@@ -9,12 +8,11 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 
 describe('SearchProvider', () => {
-
   let searchProvider: SearchProvider;
   let urlProvider: UrlProvider;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -25,9 +23,7 @@ describe('SearchProvider', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
     searchProvider = TestBed.inject(SearchProvider);
     urlProvider = TestBed.inject(UrlProvider);

@@ -29,7 +29,7 @@ import * as nonPassFinalisationActions from '../non-pass-finalisation.actions';
 import { NonPassFinalisationAnalyticsEffects } from '../non-pass-finalisation.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-fdescribe('NonPassFinalisationAnalyticsEffects', () => {
+describe('NonPassFinalisationAnalyticsEffects', () => {
   let effects: NonPassFinalisationAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;

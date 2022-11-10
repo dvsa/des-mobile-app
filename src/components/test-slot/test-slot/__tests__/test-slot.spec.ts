@@ -9,7 +9,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import * as moment from 'moment';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -108,7 +107,7 @@ describe('TestSlotComponent', () => {
     },
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestSlotComponent,
@@ -141,9 +140,7 @@ describe('TestSlotComponent', () => {
         CategoryWhitelistProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestSlotComponent);
     component = fixture.componentInstance;
     component.slot = cloneDeep(mockSlot);

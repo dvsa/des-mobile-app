@@ -15,7 +15,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { FakeJournalPage } from '../fake-journal.page';
 
-fdescribe('FakeJournalPage', () => {
+describe('FakeJournalPage', () => {
   let component: FakeJournalPage;
   let fixture: ComponentFixture<FakeJournalPage>;
   let store$: Store<StoreModel>;

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { TestCentreJournalCardComponent } from '../test-centre-journal-card';
 
-fdescribe('TestCentreJournalCard', () => {
+describe('TestCentreJournalCard', () => {
   let component: TestCentreJournalCardComponent;
   let fixture: ComponentFixture<TestCentreJournalCardComponent>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);

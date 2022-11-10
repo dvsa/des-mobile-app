@@ -14,7 +14,7 @@ import { Competencies } from '@store/tests/test-data/test-data.constants';
 import * as officeActions from '../office.actions';
 import { OfficeEffects } from '../office.effects';
 
-fdescribe('OfficeEffects', () => {
+describe('OfficeEffects', () => {
   let effects: OfficeEffects;
   let actions$: ReplaySubject<any>;
   const currentSlotId = '1234';

@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { LogType } from '@shared/models/log.model';
 import { UrlProvider } from '../../url/url';
@@ -14,7 +13,7 @@ describe('LogsProvider', () => {
   let httpMock: HttpTestingController;
   let urlProviderMock: UrlProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -31,9 +30,7 @@ describe('LogsProvider', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
     logsProvider = TestBed.inject(LogsProvider);
     urlProviderMock = TestBed.inject(UrlProvider);

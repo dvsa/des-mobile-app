@@ -12,7 +12,7 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { ConfirmTestDetailsAnalyticsEffects } from '@pages/confirm-test-details/confirm-test-details.analytics.effects';
 import * as confirmTestDetailsActions from '../confirm-test-details.actions';
 
-fdescribe('ConfirmTestDetailsAnalyticsEffects', () => {
+describe('ConfirmTestDetailsAnalyticsEffects', () => {
   let effects: ConfirmTestDetailsAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;

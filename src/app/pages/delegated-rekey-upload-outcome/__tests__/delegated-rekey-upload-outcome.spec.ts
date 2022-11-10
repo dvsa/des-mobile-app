@@ -24,7 +24,7 @@ import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { DelegatedRekeyUploadOutcomePage } from '../delegated-rekey-upload-outcome';
 
-fdescribe('DelegatedRekeyUploadOutcomePage', () => {
+describe('DelegatedRekeyUploadOutcomePage', () => {
   let fixture: ComponentFixture<DelegatedRekeyUploadOutcomePage>;
   let component: DelegatedRekeyUploadOutcomePage;
   let router: Router;

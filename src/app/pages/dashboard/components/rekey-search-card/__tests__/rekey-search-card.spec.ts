@@ -5,7 +5,7 @@ import { REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { IonicModule } from '@ionic/angular';
 import { RekeySearchCardComponent } from '../rekey-search-card';
 
-fdescribe('RekeySearchCardComponent', () => {
+describe('RekeySearchCardComponent', () => {
   let component: RekeySearchCardComponent;
   let fixture: ComponentFixture<RekeySearchCardComponent>;
   let router: Router;

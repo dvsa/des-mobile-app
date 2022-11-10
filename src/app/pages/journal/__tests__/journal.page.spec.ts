@@ -50,7 +50,7 @@ import { LoadingOptions } from '@ionic/core';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 
-fdescribe('JournalPage', () => {
+describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
   let component: JournalPage;
   let store$: Store<StoreModel>;

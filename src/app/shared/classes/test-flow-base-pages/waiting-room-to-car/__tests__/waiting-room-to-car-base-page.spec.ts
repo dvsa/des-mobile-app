@@ -96,7 +96,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -107,9 +107,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);

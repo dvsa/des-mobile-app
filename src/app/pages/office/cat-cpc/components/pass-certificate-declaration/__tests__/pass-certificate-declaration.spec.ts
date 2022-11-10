@@ -4,7 +4,7 @@ import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { PassCertificateDeclarationComponent } from '../pass-certificate-declaration';
 
-fdescribe('PassCertificateDeclarationComponent', () => {
+describe('PassCertificateDeclarationComponent', () => {
   let fixture: ComponentFixture<PassCertificateDeclarationComponent>;
   let component: PassCertificateDeclarationComponent;
 

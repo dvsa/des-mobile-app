@@ -10,7 +10,7 @@ import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { JournalRekeyModal } from '../journal-rekey-modal';
 
-fdescribe('JournalRekeyModal', () => {
+describe('JournalRekeyModal', () => {
   let fixture: ComponentFixture<JournalRekeyModal>;
   let component: JournalRekeyModal;
 

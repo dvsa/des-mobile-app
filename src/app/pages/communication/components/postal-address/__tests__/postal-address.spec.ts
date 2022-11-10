@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PostalAddressComponent } from '../postal-address';
 
-fdescribe('PostalAddressComponent', () => {
+describe('PostalAddressComponent', () => {
   let fixture: ComponentFixture<PostalAddressComponent>;
   let component: PostalAddressComponent;
   let translate: TranslateService;

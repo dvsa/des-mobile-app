@@ -21,7 +21,7 @@ import * as healthDeclarationActions from '../health-declaration.actions';
 import { HealthDeclarationAnalyticsEffects } from '../health-declaration.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-fdescribe('HealthDeclarationAnalyticsEffects', () => {
+describe('HealthDeclarationAnalyticsEffects', () => {
   let effects: HealthDeclarationAnalyticsEffects;
   let analyticsProviderMock;
   let actions$: ReplaySubject<any>;

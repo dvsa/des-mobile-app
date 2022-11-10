@@ -20,7 +20,7 @@ import { DebriefAnalyticsEffects } from '../debrief.analytics.effects';
 import * as debriefActions from '../debrief.actions';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-fdescribe('DebriefAnalyticsEffects', () => {
+describe('DebriefAnalyticsEffects', () => {
   let effects: DebriefAnalyticsEffects;
   let analyticsProviderMock;
   let actions$: ReplaySubject<any>;

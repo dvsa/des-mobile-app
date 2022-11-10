@@ -13,7 +13,7 @@ import { JournalEarlyStartModalMock } from '../__mocks__/journal-early-start-mod
 import { NavParamsMock } from '../__mocks__/nav-params.mock';
 import { ModalEvent } from '../journal-early-start-modal.constants';
 
-fdescribe('JournalEarlyStartModal', () => {
+describe('JournalEarlyStartModal', () => {
   let modalFixture: ComponentFixture<JournalEarlyStartModal>;
   let modalComponent: JournalEarlyStartModal;
   const mockFile: JournalEarlyStartModalMock = new JournalEarlyStartModalMock();

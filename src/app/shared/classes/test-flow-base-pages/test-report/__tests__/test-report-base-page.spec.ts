@@ -3,7 +3,6 @@ import {
   TestBed,
 } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
@@ -51,7 +50,7 @@ describe('TestReportBasePageComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -61,9 +60,7 @@ describe('TestReportBasePageComponent', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);

@@ -6,7 +6,7 @@ import * as testsActions from '@store/tests/tests.actions';
 import { HealthDeclarationEffects } from '../health-declaration.effects';
 import * as healthDeclarationActions from '../health-declaration.actions';
 
-fdescribe('HealthDeclarationEffects', () => {
+describe('HealthDeclarationEffects', () => {
   let effects: HealthDeclarationEffects;
   let actions$: ReplaySubject<any>;
   const currentSlotId = '1234';

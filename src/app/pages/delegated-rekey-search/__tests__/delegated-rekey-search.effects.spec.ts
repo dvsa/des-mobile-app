@@ -22,7 +22,7 @@ function asyncError(errorObject: any) {
   return defer(() => Promise.reject(errorObject));
 }
 
-fdescribe('DelegatedRekeySearchEffects', () => {
+describe('DelegatedRekeySearchEffects', () => {
   let effects: DelegatedRekeySearchEffects;
   let actions$: ReplaySubject<any>;
   let delegatedRekeySearchProvider: DelegatedRekeySearchProvider;

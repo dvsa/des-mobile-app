@@ -6,7 +6,6 @@ import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -82,7 +81,7 @@ describe('WaitingRoomToCarCatAMod2Page', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -113,9 +112,7 @@ describe('WaitingRoomToCarCatAMod2Page', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WaitingRoomToCarCatAMod2Page);
     component = fixture.componentInstance;
     fixture.detectChanges();

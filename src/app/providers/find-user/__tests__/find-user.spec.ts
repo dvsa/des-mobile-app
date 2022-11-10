@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UrlProvider } from '../../url/url';
 import { UrlProviderMock } from '../../url/__mocks__/url.mock';
@@ -13,7 +12,7 @@ describe('FindUserProvider', () => {
   let urlProvider: UrlProvider;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -24,9 +23,7 @@ describe('FindUserProvider', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
     findUserProvider = TestBed.inject(FindUserProvider);
     urlProvider = TestBed.inject(UrlProvider);

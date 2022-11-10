@@ -12,7 +12,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import * as debriefActions from '../debrief.actions';
 import { DebriefEffects } from '../debrief.effects';
 
-fdescribe('DebriefEffects', () => {
+describe('DebriefEffects', () => {
   let effects: DebriefEffects;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;

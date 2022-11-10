@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { AppVersionMock } from '@mocks/ionic-mocks/app-version.mock';
 import { AppInfoProvider } from '../app-info';
@@ -10,16 +9,14 @@ describe('AppInfoProvider', () => {
   let appInfoProvider: AppInfoProvider;
   let appVersionMock: AppVersionMock;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AppInfoProvider,
         { provide: AppVersion, useClass: AppVersionMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     appInfoProvider = TestBed.inject(AppInfoProvider);
     appVersionMock = TestBed.inject(AppVersion);
     spyOn(appVersionMock, 'getVersionNumber').and.returnValue(Promise.resolve(APP_VERSION_NUMBER));

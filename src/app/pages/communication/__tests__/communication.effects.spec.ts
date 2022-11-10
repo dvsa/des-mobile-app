@@ -7,7 +7,7 @@ import * as testsActions from '@store/tests/tests.actions';
 import * as communicationActions from '../communication.actions';
 import { CommunicationEffects } from '../communication.effects';
 
-fdescribe('CommunicationEffects', () => {
+describe('CommunicationEffects', () => {
   let effects: CommunicationEffects;
   let actions$: ReplaySubject<any>;
   const currentSlotId = '1234';

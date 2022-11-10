@@ -37,7 +37,7 @@ import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-fdescribe('CommunicationPage', () => {
+describe('CommunicationPage', () => {
   let fixture: ComponentFixture<CommunicationPage>;
   let component: CommunicationPage;
   let store$: Store<StoreModel>;

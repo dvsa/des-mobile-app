@@ -37,7 +37,7 @@ import * as officeActions from '../office.actions';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 
-fdescribe('OfficeAnalyticsEffects', () => {
+describe('OfficeAnalyticsEffects', () => {
   let effects: OfficeAnalyticsEffects;
   let analyticsProviderMock;
   let actions$: ReplaySubject<any>;

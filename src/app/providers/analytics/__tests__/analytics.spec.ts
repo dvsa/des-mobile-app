@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { PlatformMock, GoogleAnalyticsMock } from 'ionic-mocks';
 import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
 import { Platform } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { AnalyticsProvider } from '../analytics';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 import { DeviceProviderMock } from '../../device/__mocks__/device.mock';
@@ -11,12 +10,11 @@ import { AppConfigProvider } from '../../app-config/app-config';
 import { DeviceProvider } from '../../device/device';
 import { AuthenticationProvider } from '../../authentication/authentication';
 
-describe('Analytics Provider', () => {
-
+describe('AnalyticsProvider', () => {
   let analyticsProvider: AnalyticsProvider;
   let googleAnalyticsMock: GoogleAnalyticsMock;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AnalyticsProvider,
@@ -27,12 +25,9 @@ describe('Analytics Provider', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     analyticsProvider = TestBed.inject(AnalyticsProvider);
     googleAnalyticsMock = TestBed.inject(GoogleAnalytics);
-
   });
 
   describe('setUserId', () => {

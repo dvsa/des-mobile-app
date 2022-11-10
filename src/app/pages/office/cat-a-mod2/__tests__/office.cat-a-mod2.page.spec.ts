@@ -66,7 +66,7 @@ import { VehicleChecksOfficeCardComponent } from '../../components/vehicle-check
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 
-fdescribe('OfficeCatAMod2Page', () => {
+describe('OfficeCatAMod2Page', () => {
   let fixture: ComponentFixture<OfficeCatAMod2Page>;
   let component: OfficeCatAMod2Page;
   let store$: Store<StoreModel>;

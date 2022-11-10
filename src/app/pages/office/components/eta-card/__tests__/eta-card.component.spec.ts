@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ETACardComponent } from '../eta-card.component';
 
-fdescribe('EtaCardComponent', () => {
+describe('EtaCardComponent', () => {
   let component: ETACardComponent;
   let fixture: ComponentFixture<ETACardComponent>;
 

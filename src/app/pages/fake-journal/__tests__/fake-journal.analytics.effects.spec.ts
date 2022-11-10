@@ -11,7 +11,7 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { FakeJournalAnalyticsEffects } from '../fake-journal.analytics.effects';
 import * as fakeJournalActions from '../fake-journal.actions';
 
-fdescribe('FakeJournalAnalyticsEffects', () => {
+describe('FakeJournalAnalyticsEffects', () => {
   let effects: FakeJournalAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;

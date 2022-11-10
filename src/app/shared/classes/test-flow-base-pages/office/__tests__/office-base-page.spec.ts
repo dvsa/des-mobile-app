@@ -8,7 +8,6 @@ import {
   Platform,
   ToastController,
 } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
@@ -102,7 +101,7 @@ describe('OfficeBasePageComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -118,9 +117,7 @@ describe('OfficeBasePageComponent', () => {
         { provide: FaultCountProvider, useClass: FaultCountProvider },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);

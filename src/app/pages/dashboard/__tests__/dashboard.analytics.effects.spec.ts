@@ -10,7 +10,7 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { DashboardAnalyticsEffects } from '../dashboard.analytics.effects';
 import * as dashboardActions from '../dashboard.actions';
 
-fdescribe('DashboardAnalyticsEffects', () => {
+describe('DashboardAnalyticsEffects', () => {
   let effects: DashboardAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;

@@ -4,14 +4,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
-import { configureTestSuite } from 'ng-bullet';
 import { SignatureComponent } from '../signature';
 
 describe('SignatureComponent', () => {
   let fixture: ComponentFixture<SignatureComponent>;
   let component: SignatureComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SignatureComponent,
@@ -23,9 +22,7 @@ describe('SignatureComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SignatureComponent);
     component = fixture.componentInstance;
   }));

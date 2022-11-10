@@ -1,16 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { Router } from '@angular/router';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 
 describe('RouteByCategoryProvider', () => {
-
   let provider: RouteByCategoryProvider;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
@@ -18,9 +16,7 @@ describe('RouteByCategoryProvider', () => {
         { provide: Router, useValue: routerSpy },
       ],
     });
-  });
 
-  beforeEach(() => {
     provider = TestBed.inject(RouteByCategoryProvider);
   });
 

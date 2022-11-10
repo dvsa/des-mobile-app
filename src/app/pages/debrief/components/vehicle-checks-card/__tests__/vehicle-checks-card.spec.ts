@@ -12,7 +12,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { getMalformedVehicleChecks } from '../__mocks__/vehicle-checks-card.mock';
 import { VehicleChecksCardComponent } from '../vehicle-checks-card';
 
-fdescribe('VehicleChecksCardComponent', () => {
+describe('VehicleChecksCardComponent', () => {
   let fixture: ComponentFixture<VehicleChecksCardComponent>;
   let component: VehicleChecksCardComponent;
   let translate: TranslateService;

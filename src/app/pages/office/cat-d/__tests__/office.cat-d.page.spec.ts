@@ -58,7 +58,7 @@ import { ShowMeQuestionComponent } from '../../components/show-me-question/show-
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 
-fdescribe('OfficeCatDPage', () => {
+describe('OfficeCatDPage', () => {
   let fixture: ComponentFixture<OfficeCatDPage>;
   let component: OfficeCatDPage;
   let store$: Store<StoreModel>;

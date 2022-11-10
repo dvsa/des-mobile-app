@@ -30,7 +30,7 @@ import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 
-fdescribe('BackToOfficePage', () => {
+describe('BackToOfficePage', () => {
   let fixture: ComponentFixture<BackToOfficePage>;
   let component: BackToOfficePage;
   let modalController: ModalController;

@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { gzipSync } from 'zlib';
-import { configureTestSuite } from 'ng-bullet';
 import { categoryBTestResultMock } from '@shared/mocks/cat-b-test-result.mock';
 import { CompressionProvider } from '../compression';
 
@@ -8,15 +7,13 @@ describe('Compression Provider', () => {
 
   let compressionProvider: CompressionProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CompressionProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     compressionProvider = TestBed.inject(CompressionProvider);
   });
 

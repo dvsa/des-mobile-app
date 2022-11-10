@@ -7,7 +7,7 @@ import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ReceiptDeclarationComponent } from '../receipt-declaration';
 
-fdescribe('ReceiptDeclarationComponent', () => {
+describe('ReceiptDeclarationComponent', () => {
   let fixture: ComponentFixture<ReceiptDeclarationComponent>;
   let component: ReceiptDeclarationComponent;
 

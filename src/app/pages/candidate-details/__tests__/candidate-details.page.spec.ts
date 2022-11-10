@@ -23,7 +23,7 @@ import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
-fdescribe('CandidateDetailsPage', () => {
+describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
   let fixture: ComponentFixture<CandidateDetailsPage>;
   let store$: MockStore;

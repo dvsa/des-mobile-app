@@ -3,8 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
-
 import { AppModule } from '@app/app.module';
 import { FullLicenceHeldComponent } from '../full-licence-held-toggle';
 
@@ -12,7 +10,7 @@ describe('FullLicenceHeldComponent', () => {
   let fixture: ComponentFixture<FullLicenceHeldComponent>;
   let component: FullLicenceHeldComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         FullLicenceHeldComponent,
@@ -23,9 +21,7 @@ describe('FullLicenceHeldComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(FullLicenceHeldComponent);
     component = fixture.componentInstance;
     component.formGroup = new UntypedFormGroup({});

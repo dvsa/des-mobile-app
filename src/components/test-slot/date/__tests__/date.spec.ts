@@ -2,7 +2,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { DateComponent } from '../date';
@@ -11,7 +10,7 @@ xdescribe('TimeComponent', () => {
   let component: DateComponent;
   let fixture: ComponentFixture<DateComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DateComponent],
       imports: [IonicModule],
@@ -19,9 +18,7 @@ xdescribe('TimeComponent', () => {
         { provide: LogHelper, useClass: LogHelperMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DateComponent);
     component = fixture.componentInstance;
     component.date = '2018-12-31T10:04:00+00:00';

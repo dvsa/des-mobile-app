@@ -10,7 +10,7 @@ import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { HealthDeclarationComponent } from '../health-declaration';
 
-fdescribe('HealthDeclarationComponent', () => {
+describe('HealthDeclarationComponent', () => {
   let fixture: ComponentFixture<HealthDeclarationComponent>;
   let component: HealthDeclarationComponent;
 

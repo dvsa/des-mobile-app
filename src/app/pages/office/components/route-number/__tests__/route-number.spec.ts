@@ -5,7 +5,7 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { RouteNumberComponent } from '../route-number';
 
-fdescribe('RouteNumberComponent', () => {
+describe('RouteNumberComponent', () => {
   let fixture: ComponentFixture<RouteNumberComponent>;
   let component: RouteNumberComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;

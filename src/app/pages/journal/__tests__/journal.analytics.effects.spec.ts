@@ -17,7 +17,7 @@ import * as journalActions from '@store/journal/journal.actions';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { JournalAnalyticsEffects } from '../journal.analytics.effects';
 
-fdescribe('JournalAnalyticsEffects', () => {
+describe('JournalAnalyticsEffects', () => {
   let effects: JournalAnalyticsEffects;
   let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;

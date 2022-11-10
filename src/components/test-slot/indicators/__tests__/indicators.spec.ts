@@ -1,7 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { IndicatorsComponent } from '../indicators';
 
@@ -9,14 +8,12 @@ describe('IndicatorsComponent', () => {
   let component: IndicatorsComponent;
   let fixture: ComponentFixture<IndicatorsComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [IndicatorsComponent],
       imports: [IonicModule],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(IndicatorsComponent);
     component = fixture.componentInstance;
   }));

@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { of, ReplaySubject } from 'rxjs';
@@ -34,17 +33,16 @@ import * as journalActions from '../journal.actions';
 import { JournalEffects } from '../journal.effects';
 import { JournalModel } from '../journal.model';
 
-describe('Journal Effects', () => {
-
+describe('JournalEffects', () => {
   let effects: JournalEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let journalProvider: JournalProvider;
   let slotProvider: SlotProvider;
   let store$: Store<JournalModel>;
   let networkStateProvider: NetworkStateProvider;
   let appConfigProvider: AppConfigProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -70,9 +68,7 @@ describe('Journal Effects', () => {
         SlotProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     // ARRANGE
     actions$ = new ReplaySubject(1);
     journalProvider = TestBed.inject(JournalProvider);

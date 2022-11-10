@@ -127,16 +127,13 @@ describe('FaultSummaryProvider', () => {
 
   let faultSummaryProvider: FaultSummaryProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         FaultSummaryProvider,
         FaultCountProvider,
       ],
     });
-  });
-
-  beforeEach(() => {
     faultSummaryProvider = TestBed.inject(FaultSummaryProvider);
 
     spyOn(FaultSummaryCatBHelper, 'getDrivingFaultsCatB').and.callThrough();

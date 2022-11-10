@@ -5,7 +5,7 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { behaviourMap } from '@pages/office/office-behaviour-map';
 import { CandidateDescriptionComponent } from '../candidate-description';
 
-fdescribe('CandidateDescriptionComponent', () => {
+describe('CandidateDescriptionComponent', () => {
   let fixture: ComponentFixture<CandidateDescriptionComponent>;
   let component: CandidateDescriptionComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;

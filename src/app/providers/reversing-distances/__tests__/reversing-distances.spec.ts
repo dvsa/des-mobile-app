@@ -1,21 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { VehicleDetailsUnion } from '@shared/unions/test-schema-unions';
 import { ReversingDistancesProvider } from '../reversing-distances';
 
 describe('ReversingDistancesProvider', () => {
   let reversingDistancesProvider: ReversingDistancesProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ReversingDistancesProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     reversingDistancesProvider = TestBed.inject(ReversingDistancesProvider);
   });
 

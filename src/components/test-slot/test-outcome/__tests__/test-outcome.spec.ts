@@ -5,7 +5,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 
 import { LogHelper } from '@providers/logs/logs-helper';
@@ -72,7 +71,7 @@ describe('TestOutcomeComponent', () => {
     { category: TestCategory.EUA1M2, pageConstant: CAT_A_MOD2 },
   ];
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TestOutcomeComponent],
       imports: [
@@ -103,9 +102,7 @@ describe('TestOutcomeComponent', () => {
         CategoryWhitelistProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestOutcomeComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

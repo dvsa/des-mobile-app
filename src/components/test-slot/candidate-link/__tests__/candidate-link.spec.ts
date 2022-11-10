@@ -11,7 +11,6 @@ import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { SecureStorage } from '@ionic-native/secure-storage';
 import { SecureStorageMock } from '@ionic-native-mocks/secure-storage';
-import { configureTestSuite } from 'ng-bullet';
 // import { TranslateService } from '@ngx-translate/core';
 // import { AppComponent } from '../../../../app/app.component';
 import { DataStoreProvider } from '@providers/data-store/data-store';
@@ -32,7 +31,7 @@ xdescribe('CandidateLinkComponent', () => {
 
   const modalControllerMock = ModalControllerMock.instance();
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       // declarations: [CandidateLinkComponent],
       // imports: [IonicModule.forRoot(CandidateLinkComponent)],
@@ -45,9 +44,7 @@ xdescribe('CandidateLinkComponent', () => {
         // { provide: TranslateService, useValue: translateServiceMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     // fixture = TestBed.createComponent(CandidateLinkComponent);
     component = fixture.componentInstance;
     component.name = { title: '', firstName: '', lastName: '' };

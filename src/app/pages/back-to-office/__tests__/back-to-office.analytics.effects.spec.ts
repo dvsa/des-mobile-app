@@ -27,7 +27,7 @@ import { BackToOfficeAnalyticsEffects } from '../back-to-office.analytics.effect
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as backToOfficeActions from '../back-to-office.actions';
 
-fdescribe('BackToOfficeAnalyticsEffects', () => {
+describe('BackToOfficeAnalyticsEffects', () => {
   let effects: BackToOfficeAnalyticsEffects;
   let analyticsProviderMock;
   let actions$: ReplaySubject<any>;

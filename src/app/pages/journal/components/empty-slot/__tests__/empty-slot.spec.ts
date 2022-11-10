@@ -11,7 +11,7 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { EmptySlotComponent } from '../empty-slot';
 
-fdescribe('EmptySlotComponent', () => {
+describe('EmptySlotComponent', () => {
   let fixture: ComponentFixture<EmptySlotComponent>;
   let component: EmptySlotComponent;
   const mockSlot = {

@@ -11,7 +11,7 @@ import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { ActivitySlotComponent } from '../activity-slot';
 
-fdescribe('ActivitySlotComponent', () => {
+describe('ActivitySlotComponent', () => {
   let fixture: ComponentFixture<ActivitySlotComponent>;
   let component: ActivitySlotComponent;
 

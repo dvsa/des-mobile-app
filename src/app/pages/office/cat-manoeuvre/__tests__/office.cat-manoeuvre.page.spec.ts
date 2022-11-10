@@ -54,7 +54,7 @@ import { WeatherConditionsComponent } from '../../components/weather-conditions/
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 
-fdescribe('OfficeCatManoeuvrePage', () => {
+describe('OfficeCatManoeuvrePage', () => {
   let fixture: ComponentFixture<OfficeCatManoeuvrePage>;
   let component: OfficeCatManoeuvrePage;
   let store$: Store<StoreModel>;

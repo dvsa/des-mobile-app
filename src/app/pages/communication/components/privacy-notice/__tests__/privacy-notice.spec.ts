@@ -5,7 +5,7 @@ import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PrivacyNoticeComponent } from '../privacy-notice';
 
-fdescribe('PrivacyNoticeComponent', () => {
+describe('PrivacyNoticeComponent', () => {
   let fixture: ComponentFixture<PrivacyNoticeComponent>;
   let component: PrivacyNoticeComponent;
 

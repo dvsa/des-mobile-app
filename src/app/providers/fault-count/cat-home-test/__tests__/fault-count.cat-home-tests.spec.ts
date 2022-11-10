@@ -1,6 +1,3 @@
-import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountHomeTestHelper } from '../fault-count.cat-home-test';
 
@@ -14,12 +11,6 @@ import { catHTestDataStateObject, catHTestDataVCStateObject } from '../../__mock
 import { catKTestDataStateObject, catKTestDataVCStateObject } from '../../__mocks__/cat-K-test-data-state-object.mock';
 
 describe('FaultCountHomeTestHelper', () => {
-
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-    });
-  });
-
   describe('getManoeuvreCountIfAny', () => {
     const manouevreTests = [
       {

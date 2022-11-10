@@ -6,7 +6,7 @@ import { TestOutcome } from '@store/tests/tests.constants';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CandidateSectionComponent } from '../candidate-section';
 
-fdescribe('CandidateSectionComponent', () => {
+describe('CandidateSectionComponent', () => {
   let fixture: ComponentFixture<CandidateSectionComponent>;
   let component: CandidateSectionComponent;
 

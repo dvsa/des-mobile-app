@@ -5,7 +5,7 @@ import { MockComponent } from 'ng-mocks';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
 import { AsamFailureNotificationModal } from '../asam-failure-notification-modal';
 
-fdescribe('AsamFailureNotificationModal', () => {
+describe('AsamFailureNotificationModal', () => {
   let component: AsamFailureNotificationModal;
   let fixture: ComponentFixture<AsamFailureNotificationModal>;
 

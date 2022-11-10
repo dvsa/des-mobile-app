@@ -1,7 +1,7 @@
 import { DelegatedRekeySearchModel, initialState } from '../delegated-rekey-search.reducer';
 import { getIsLoading, getHasSearched, getBookedTestSlot } from '../delegated-rekey-search.selector';
 
-fdescribe('Delegated Rekey Search Selector', () => {
+describe('Delegated Rekey Search Selector', () => {
   describe('getIsLoading', () => {
     it('should return the correct isLoading value', () => {
       const state: DelegatedRekeySearchModel = {

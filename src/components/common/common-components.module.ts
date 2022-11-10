@@ -41,7 +41,6 @@ import { CandidateSectionComponent } from './candidate-section/candidate-section
 import { DangerousFaultBadgeComponent } from './dangerous-fault-badge/dangerous-fault-badge';
 import { DrivingFaultsBadgeComponent } from './driving-faults-badge/driving-faults-badge';
 import { EndTestLinkComponent } from './end-test-link/end-test-link';
-import { MesBackButtonComponent } from './mes-back-button/mes-back-button';
 import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.module';
 
 @NgModule({
@@ -71,7 +70,6 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     SeriousFaultBadgeComponent,
     TickIndicatorComponent,
     TransmissionComponent,
-    MesBackButtonComponent,
     SignatureComponent,
     ActivityCodeComponent,
     TransmissionDisplayComponent,
@@ -117,7 +115,6 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     SeriousFaultBadgeComponent,
     TickIndicatorComponent,
     TransmissionComponent,
-    MesBackButtonComponent,
     SignatureComponent,
     TranslateModule,
     ActivityCodeComponent,

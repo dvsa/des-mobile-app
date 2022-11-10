@@ -47,7 +47,7 @@ import { TestDataByCategoryProvider } from '@providers/test-data-by-category/tes
 import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
 import { NonPassFinalisationViewDidEnter, NonPassFinalisationValidationError } from '../non-pass-finalisation.actions';
 
-fdescribe('NonPassFinalisationPage', () => {
+describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;

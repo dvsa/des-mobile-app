@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ECOCardComponent } from '../eco-card.component';
 
-fdescribe('ECOCardComponent', () => {
+describe('ECOCardComponent', () => {
   let component: ECOCardComponent;
   let fixture: ComponentFixture<ECOCardComponent>;
 

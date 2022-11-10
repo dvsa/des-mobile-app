@@ -1,25 +1,21 @@
-import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { UrlProvider } from '../url';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
 
 describe('UrlProvider', () => {
-
   let urlProvider: UrlProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         UrlProvider,
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     urlProvider = TestBed.inject(UrlProvider);
-  });
+  }));
 
   describe('getPersonalJournalUrl', () => {
     it('should format the URL template from the AppConfigProvider with the provided staffNumber', () => {

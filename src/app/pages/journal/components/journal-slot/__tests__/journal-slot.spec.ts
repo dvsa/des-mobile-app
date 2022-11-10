@@ -8,7 +8,7 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 
-fdescribe('JournalSlotComponent', () => {
+describe('JournalSlotComponent', () => {
   let fixture: ComponentFixture<JournalSlotComponent>;
   let component: JournalSlotComponent;
   let slotSelector: SlotSelectorProvider;

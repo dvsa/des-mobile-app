@@ -16,7 +16,7 @@ import { ErrorMessageComponent } from '@components/common/error-message/error-me
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ErrorPage } from '../error';
 
-fdescribe('ErrorPage', () => {
+describe('ErrorPage', () => {
   let fixture: ComponentFixture<ErrorPage>;
   let component: ErrorPage;
 

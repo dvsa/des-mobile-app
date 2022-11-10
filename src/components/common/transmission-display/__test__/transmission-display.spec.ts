@@ -15,7 +15,7 @@ describe('TransmissionDisplayComponent', () => {
   let fixture: ComponentFixture<TransmissionDisplayComponent>;
   let component: TransmissionDisplayComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         IonicModule,
@@ -24,9 +24,7 @@ describe('TransmissionDisplayComponent', () => {
         TransmissionDisplayComponent,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TransmissionDisplayComponent);
     component = fixture.componentInstance;
   }));

@@ -1,25 +1,23 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { ReplaySubject } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
+import { journalReducer } from '@store/journal/journal.reducer';
 import { ExaminerConductedEffects } from '../examiner-conducted.effects';
 import { SetExaminerConducted } from '../examiner-conducted.actions';
 import { testsReducer } from '../../tests.reducer';
 import { SetChangeMarker } from '../../change-marker/change-marker.actions';
 import { StartTest } from '../../tests.actions';
 import { SetExaminerBooked } from '../../examiner-booked/examiner-booked.actions';
-import { journalReducer } from '../../../journal/journal.reducer';
 
-describe('Examiner Conducted Effects', () => {
-
+describe('ExaminerConductedEffects', () => {
   let effects: ExaminerConductedEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -33,9 +31,7 @@ describe('Examiner Conducted Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(ExaminerConductedEffects);
     store$ = TestBed.inject(Store);

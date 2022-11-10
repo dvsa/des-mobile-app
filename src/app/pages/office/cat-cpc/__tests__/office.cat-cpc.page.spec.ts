@@ -57,7 +57,7 @@ import { IdentificationComponent } from '../../components/identification/identif
 import { AdditionalInformationComponent } from '../../components/additional-information/additional-information';
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 
-fdescribe('OfficeCatCPCPage', () => {
+describe('OfficeCatCPCPage', () => {
   let fixture: ComponentFixture<OfficeCatCPCPage>;
   let component: OfficeCatCPCPage;
   let store$: Store<StoreModel>;

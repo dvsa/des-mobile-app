@@ -8,7 +8,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { FaultCommentComponent } from '../../fault-comment/fault-comment';
 import { FaultCommentCardComponent } from '../fault-comment-card';
 
-fdescribe('FaultCommentCardComponent', () => {
+describe('FaultCommentCardComponent', () => {
   let fixture: ComponentFixture<FaultCommentCardComponent>;
   let component: FaultCommentCardComponent;
 

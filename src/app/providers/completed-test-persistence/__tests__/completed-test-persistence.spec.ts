@@ -1,19 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { configureTestSuite } from 'ng-bullet';
 import { LoadCompletedTestsSuccess } from '@store/journal/journal.actions';
+import { StoreModel } from '@shared/models/store.model';
 import { DataStoreProvider } from '../../data-store/data-store';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
 import { CompletedTestPersistenceProvider } from '../completed-test-persistence';
-import { StoreModel } from '../../../shared/models/store.model';
 
 describe('TestPersistenceProvider', () => {
   let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
   let dataStoreProvider;
   let store$: Store<StoreModel>;
+  const completedTests = [
+    { applicationReference: 1234 },
+    { applicationReference: 567 },
+  ] as SearchResultTestSchema[];
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       providers: [
@@ -26,14 +29,7 @@ describe('TestPersistenceProvider', () => {
         }),
       ],
     });
-  });
 
-  const completedTests = [
-    { applicationReference: 1234 },
-    { applicationReference: 567 },
-  ] as SearchResultTestSchema[];
-
-  beforeEach(() => {
     dataStoreProvider = TestBed.inject(DataStoreProvider);
     completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
     store$ = TestBed.inject(Store);

@@ -29,7 +29,7 @@ import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
 import { ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
 
-fdescribe('ConfirmTestDetailsPage', () => {
+describe('ConfirmTestDetailsPage', () => {
   let fixture: ComponentFixture<ConfirmTestDetailsPage>;
   let component: ConfirmTestDetailsPage;
   let modalController: ModalController;

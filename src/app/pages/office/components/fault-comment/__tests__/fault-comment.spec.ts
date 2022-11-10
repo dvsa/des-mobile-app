@@ -13,7 +13,7 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { behaviourMap } from '../../../office-behaviour-map';
 import { FaultCommentComponent } from '../fault-comment';
 
-fdescribe('FaultCommentComponent', () => {
+describe('FaultCommentComponent', () => {
   let fixture: ComponentFixture<FaultCommentComponent>;
   let component: FaultCommentComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;

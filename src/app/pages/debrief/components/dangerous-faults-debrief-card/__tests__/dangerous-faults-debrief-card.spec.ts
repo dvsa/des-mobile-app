@@ -13,7 +13,7 @@ import { Competencies } from '@store/tests/test-data/test-data.constants';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { DangerousFaultsDebriefCardComponent } from '../dangerous-faults-debrief-card';
 
-fdescribe('DangerousFaultsDebriefCardComponent', () => {
+describe('DangerousFaultsDebriefCardComponent', () => {
   let fixture: ComponentFixture<DangerousFaultsDebriefCardComponent>;
   let component: DangerousFaultsDebriefCardComponent;
   let translate: TranslateService;

@@ -6,7 +6,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-fdescribe('FinishTestModal', () => {
+describe('FinishTestModal', () => {
   let modalFixture: ComponentFixture<FinishTestModal>;
   let modalComponent: FinishTestModal;
 

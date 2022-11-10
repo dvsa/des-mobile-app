@@ -2,7 +2,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { TestDataByCategoryProvider } from '../test-data-by-category';
 
 describe('TestDataByCategoryProvider', () => {
-
   let provider: TestDataByCategoryProvider;
 
   beforeEach(() => {

@@ -5,7 +5,7 @@ import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { IonicModule } from '@ionic/angular';
 import { PracticeEndToEndCardComponent } from '../practice-end-to-end-card';
 
-fdescribe('PracticeEndToEndCard ', () => {
+describe('PracticeEndToEndCard ', () => {
   let component: PracticeEndToEndCardComponent;
   let fixture: ComponentFixture<PracticeEndToEndCardComponent>;
   let router: Router;

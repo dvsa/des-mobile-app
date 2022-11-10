@@ -26,12 +26,11 @@ import { LogHelper } from '../../logs/logs-helper';
 import { LogHelperMock } from '../../logs/__mocks__/logs-helper.mock';
 
 describe('AppConfigProvider', () => {
-
   let appConfig: AppConfigProvider;
   let httpMock: HttpTestingController;
   let platform: Platform;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -53,9 +52,7 @@ describe('AppConfigProvider', () => {
         EmmAppConfig,
       ],
     });
-  });
 
-  beforeEach(() => {
     appConfig = TestBed.inject(AppConfigProvider);
     httpMock = TestBed.inject(HttpTestingController);
     platform = TestBed.inject(Platform);

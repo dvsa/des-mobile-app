@@ -13,7 +13,7 @@ import {
 import { NavParamsMock } from '@pages/journal/components/journal-early-start-modal/__mocks__/nav-params.mock';
 import { ConfirmSubmitModal } from '../confirm-submit-modal';
 
-fdescribe('ConfirmSubmitModal', () => {
+describe('ConfirmSubmitModal', () => {
   let modalFixture: ComponentFixture<ConfirmSubmitModal>;
   let modalComponent: ConfirmSubmitModal;
   const mockFile: JournalEarlyStartModalMock = new JournalEarlyStartModalMock();

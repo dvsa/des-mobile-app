@@ -1,6 +1,5 @@
 import { Question } from '@dvsa/mes-test-schema/categories/CPC';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -13,7 +12,7 @@ describe('CPCDebriefCardComponent', () => {
   let component: CPCDebriefCardComponent;
   let question: Question;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         IonicModule,
@@ -23,9 +22,7 @@ describe('CPCDebriefCardComponent', () => {
         TranslateModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CPCDebriefCardComponent);
     component = fixture.componentInstance;
     question = {

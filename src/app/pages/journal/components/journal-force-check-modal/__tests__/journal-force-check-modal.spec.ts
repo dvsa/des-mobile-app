@@ -5,7 +5,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { JournalForceCheckModal } from '../journal-force-check-modal';
 
-fdescribe('JournalForceCheckModal', () => {
+describe('JournalForceCheckModal', () => {
   let fixture: ComponentFixture<JournalForceCheckModal>;
   let component: JournalForceCheckModal;
 

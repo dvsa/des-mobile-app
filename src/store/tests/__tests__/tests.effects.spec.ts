@@ -18,7 +18,6 @@ import { journalReducer } from '@store/journal/journal.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { bufferCount } from 'rxjs/operators';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -53,7 +52,7 @@ import { PopulateTestCategory } from '../category/category.actions';
 
 describe('TestsEffects', () => {
   let effects: TestsEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let testPersistenceProviderMock;
   let store$: Store<StoreModel>;
   let navigationStateProviderMock: NavigationStateProviderMock;
@@ -77,7 +76,7 @@ describe('TestsEffects', () => {
     },
   };
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -100,9 +99,7 @@ describe('TestsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestsEffects);
     testPersistenceProviderMock = TestBed.inject(TestPersistenceProvider);

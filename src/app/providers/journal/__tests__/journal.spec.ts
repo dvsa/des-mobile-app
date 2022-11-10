@@ -1,7 +1,6 @@
 import { fakeAsync, flushMicrotasks, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import { configureTestSuite } from 'ng-bullet';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 import { of } from 'rxjs';
 import { DateTime, Duration } from '@shared/helpers/date-time';
@@ -32,7 +31,7 @@ describe('JournalProvider', () => {
   let cacheDays: number = 7;
   const mockJournalUrl: string = 'https://www.example.com/api/v1/journals/12345678/personal';
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       imports: [
@@ -48,9 +47,7 @@ describe('JournalProvider', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
     journalProvider = TestBed.inject(JournalProvider);
     authProviderMock = TestBed.inject(AuthenticationProvider);

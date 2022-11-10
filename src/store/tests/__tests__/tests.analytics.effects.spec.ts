@@ -13,7 +13,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { Application } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
@@ -31,12 +30,11 @@ import * as applicationReferenceActions
 
 import { candidateMock } from '../__mocks__/tests.mock';
 
-describe('Tests Analytics Effects', () => {
-
+describe('TestsAnalyticsEffects', () => {
   let effects: TestsAnalyticsEffects;
   let analyticsProviderMock;
   let navigationStateProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const mockApplication: Application = {
     applicationId: 123456,
@@ -44,7 +42,7 @@ describe('Tests Analytics Effects', () => {
     checkDigit: 9,
   };
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -60,9 +58,7 @@ describe('Tests Analytics Effects', () => {
         { provide: Router, useClass: RouterMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

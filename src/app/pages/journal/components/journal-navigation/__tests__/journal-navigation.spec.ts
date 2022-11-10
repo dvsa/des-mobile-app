@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { JournalNavigationComponent } from '../journal-navigation';
 
-fdescribe('JournalNavigationComponent', () => {
+describe('JournalNavigationComponent', () => {
   let fixture: ComponentFixture<JournalNavigationComponent>;
   let component: JournalNavigationComponent;
 

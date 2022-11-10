@@ -31,7 +31,7 @@ import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as communicationActions from '../communication.actions';
 import { CommunicationAnalyticsEffects } from '../communication.analytics.effects';
 
-fdescribe('CommunicationAnalyticsEffects', () => {
+describe('CommunicationAnalyticsEffects', () => {
   let effects: CommunicationAnalyticsEffects;
   let analyticsProviderMock;
   let actions$: ReplaySubject<any>;

@@ -11,14 +11,13 @@ import { journalReducer } from '@store/journal/journal.reducer';
 import { SlotProvider } from '@providers/slot/slot';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { IncompleteTestsBanner } from '../incomplete-tests-banner';
 
 describe('IncompleteTestsBanner', () => {
   let fixture: ComponentFixture<IncompleteTestsBanner>;
   let component: IncompleteTestsBanner;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [IncompleteTestsBanner],
       imports: [
@@ -35,9 +34,7 @@ describe('IncompleteTestsBanner', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(IncompleteTestsBanner);
     component = fixture.componentInstance;
   }));

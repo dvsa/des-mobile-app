@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { EtaDebriefCardComponent } from '../eta-debrief-card';
 
-fdescribe('EtaDebriefCardComponent', () => {
+describe('EtaDebriefCardComponent', () => {
   let fixture: ComponentFixture<EtaDebriefCardComponent>;
   let component: EtaDebriefCardComponent;
   let translate: TranslateService;

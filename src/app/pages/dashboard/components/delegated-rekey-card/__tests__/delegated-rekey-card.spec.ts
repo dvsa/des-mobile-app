@@ -5,7 +5,7 @@ import { DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { IonicModule } from '@ionic/angular';
 import { DelegatedSearchCardComponent } from '../delegated-rekey-card';
 
-fdescribe('DelegatedSearchCardComponent', () => {
+describe('DelegatedSearchCardComponent', () => {
   let component: DelegatedSearchCardComponent;
   let fixture: ComponentFixture<DelegatedSearchCardComponent>;
   let router: Router;

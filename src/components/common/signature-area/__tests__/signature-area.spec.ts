@@ -4,17 +4,15 @@ import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { SignatureAreaComponent } from '../signature-area';
 
-class TestStore {
-}
+class TestStore {}
 
 describe('SignatureAreaComponent', () => {
   let fixture: ComponentFixture<SignatureAreaComponent>;
   let component: SignatureAreaComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SignatureAreaComponent,
@@ -30,20 +28,16 @@ describe('SignatureAreaComponent', () => {
         },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SignatureAreaComponent);
     component = fixture.componentInstance;
     /* eslint-disable*/
     component.signaturePad = {
-      fromDataURL(dataURL: string, options?: any) {
-      },
+      fromDataURL(dataURL: string, options?: any) {},
       toDataURL(imageType?: string, quality?: number): string {
         return 'dummyString';
       },
-      clear() {
-      },
+      clear() {},
     } as SignaturePad;
     /* eslint-enable */
   }));

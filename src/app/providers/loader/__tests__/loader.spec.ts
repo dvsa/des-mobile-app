@@ -8,16 +8,14 @@ describe('LoadingProvider', () => {
   let service: LoadingProvider;
   let loadingCtrl: LoadingController;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         LoadingProvider,
         { provide: LoadingController, useClass: LoadingControllerMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     service = TestBed.inject(LoadingProvider);
     loadingCtrl = TestBed.inject(LoadingController);
     spyOn(loadingCtrl, 'create').and.returnValue(Promise.resolve({

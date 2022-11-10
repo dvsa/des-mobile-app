@@ -1,21 +1,18 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { DrivingFaultsBadgeComponent } from '../driving-faults-badge';
 
 describe('DrivingFaultsBadgeComponent', () => {
   let fixture: ComponentFixture<DrivingFaultsBadgeComponent>;
   let component: DrivingFaultsBadgeComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         DrivingFaultsBadgeComponent,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DrivingFaultsBadgeComponent);
     component = fixture.componentInstance;
   }));

@@ -54,7 +54,7 @@ import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { OfficeCatHomeTestPage } from '../office.cat-home-test.page';
 
-fdescribe('OfficeCatHomeTestPage', () => {
+describe('OfficeCatHomeTestPage', () => {
   let fixture: ComponentFixture<OfficeCatHomeTestPage>;
   let component: OfficeCatHomeTestPage;
   let store$: Store<StoreModel>;

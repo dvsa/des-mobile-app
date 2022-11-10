@@ -13,7 +13,7 @@ import {
 import { NavParamsMock } from '@pages/journal/components/journal-early-start-modal/__mocks__/nav-params.mock';
 import { HealthDeclarationModal } from '../health-declaration-modal';
 
-fdescribe('healthDeclarationModal', () => {
+describe('healthDeclarationModal', () => {
   let modalFixture: ComponentFixture<HealthDeclarationModal>;
   let modalComponent: HealthDeclarationModal;
   const mockFile: JournalEarlyStartModalMock = new JournalEarlyStartModalMock();

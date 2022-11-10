@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { CombinationComponent } from '../combination';
 
-fdescribe('CombinationComponent', () => {
+describe('CombinationComponent', () => {
   let fixture: ComponentFixture<CombinationComponent>;
   let component: CombinationComponent;
 

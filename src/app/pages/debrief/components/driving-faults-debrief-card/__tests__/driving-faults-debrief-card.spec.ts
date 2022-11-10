@@ -14,7 +14,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { DrivingFaultsDebriefCardComponent } from '../driving-faults-debrief-card';
 
-fdescribe('DrivingFaultsDebriefCardComponent', () => {
+describe('DrivingFaultsDebriefCardComponent', () => {
   let fixture: ComponentFixture<DrivingFaultsDebriefCardComponent>;
   let component: DrivingFaultsDebriefCardComponent;
   let translate: TranslateService;

@@ -27,7 +27,7 @@ import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { default as englishTranslations } from '@assets/i18n/en.json';
 import { SafetyAndBalanceCardCatAMod2Component } from '../safety-and-balance.cat-a-mod2';
 
-fdescribe('SafetyAndBalanceCardCatAMod2Component', () => {
+describe('SafetyAndBalanceCardCatAMod2Component', () => {
   let fixture: ComponentFixture<SafetyAndBalanceCardCatAMod2Component>;
   let store$: Store<StoreModel>;
   let translate: TranslateService;

@@ -5,7 +5,7 @@ import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { IonicModule } from '@ionic/angular';
 import { TestResultsSearchCardComponent } from '../test-results-search-card';
 
-fdescribe('TestResultsSearchCard ', () => {
+describe('TestResultsSearchCard ', () => {
   let component: TestResultsSearchCardComponent;
   let fixture: ComponentFixture<TestResultsSearchCardComponent>;
   let router: Router;

@@ -66,7 +66,7 @@ import { CandidateDescriptionComponent } from '../../components/candidate-descri
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 import { TrueLikenessComponent } from '../../components/true-likeness/true-likeness';
 
-fdescribe('OfficeCatBPage', () => {
+describe('OfficeCatBPage', () => {
   let fixture: ComponentFixture<OfficeCatBPage>;
   let component: OfficeCatBPage;
   let store$: Store<StoreModel>;

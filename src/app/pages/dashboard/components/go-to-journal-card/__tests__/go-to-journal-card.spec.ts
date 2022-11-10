@@ -6,7 +6,7 @@ import { JournalPage } from '@pages/journal/journal.page';
 import { IonicModule } from '@ionic/angular';
 import { GoToJournalCardComponent } from '../go-to-journal-card';
 
-fdescribe('GoToJournalCard', () => {
+describe('GoToJournalCard', () => {
   let component: GoToJournalCardComponent;
   let fixture: ComponentFixture<GoToJournalCardComponent>;
   let routerSpy;

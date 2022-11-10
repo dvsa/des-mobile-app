@@ -1,22 +1,19 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { LocationComponent } from '../location';
 
 describe('LocationComponent', () => {
   let component: LocationComponent;
   let fixture: ComponentFixture<LocationComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LocationComponent],
       imports: [IonicModule],
       providers: [],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LocationComponent);
     component = fixture.componentInstance;
     component.location = 'Example Test Centre';

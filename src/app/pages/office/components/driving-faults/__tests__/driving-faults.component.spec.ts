@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { DrivingFaultsComponent } from '../driving-faults.component';
 
-fdescribe('DrivingFaultsComponent', () => {
+describe('DrivingFaultsComponent', () => {
   let component: DrivingFaultsComponent;
   let fixture: ComponentFixture<DrivingFaultsComponent>;
 

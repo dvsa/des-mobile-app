@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -19,7 +18,7 @@ describe('EndTestLinkComponent', () => {
   let component: EndTestLinkComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EndTestLinkComponent],
       imports: [
@@ -32,9 +31,7 @@ describe('EndTestLinkComponent', () => {
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EndTestLinkComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

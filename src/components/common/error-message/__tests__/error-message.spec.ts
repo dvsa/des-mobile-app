@@ -1,5 +1,4 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { Location } from '@angular/common';
 import { ErrorTypes } from '@shared/models/error-message';
 import { ErrorMessageComponent, additionalText } from '../error-message';
@@ -10,19 +9,16 @@ describe('ErrorMessageComponent', () => {
   let location: Location;
   const locationSpy = jasmine.createSpyObj('Location', ['back']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ErrorMessageComponent],
       providers: [
         { provide: Location, useValue: locationSpy },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ErrorMessageComponent);
     component = fixture.componentInstance;
-
     location = TestBed.inject(Location);
   }));
 

@@ -63,7 +63,7 @@ import { ShowMeQuestionComponent } from '../../components/show-me-question/show-
 import { CandidateDescriptionComponent } from '../../components/candidate-description/candidate-description';
 import { RouteNumberComponent } from '../../components/route-number/route-number';
 
-fdescribe('OfficeCatAMod1Page', () => {
+describe('OfficeCatAMod1Page', () => {
   let fixture: ComponentFixture<OfficeCatAMod1Page>;
   let component: OfficeCatAMod1Page;
   let store$: Store<StoreModel>;

@@ -1,6 +1,3 @@
-import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
 import { FaultSummaryCatHomeTestHelper } from '../fault-summary.cat-home-test';
 import {
   catFTestDataStateObject,
@@ -20,12 +17,6 @@ import {
 } from '../../../fault-count/__mocks__/cat-K-test-data-state-object.mock';
 
 describe('FaultSummaryCatHomeTestHelper', () => {
-
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-    });
-  });
-
   describe('getDrivingFaultsCatHomeTest (No VehicleChecks)', () => {
     it('should return 4 driving fault count for category F', () => {
       const result = FaultSummaryCatHomeTestHelper.getDrivingFaultsCatHomeTest(catFTestDataStateObject);

@@ -7,7 +7,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { createTranslateLoader } from '@app/app.module';
 import { NewEmailComponent } from '../new-email';
 
-fdescribe('NewEmailComponent', () => {
+describe('NewEmailComponent', () => {
   let fixture: ComponentFixture<NewEmailComponent>;
   let component: NewEmailComponent;
   let translate: TranslateService;

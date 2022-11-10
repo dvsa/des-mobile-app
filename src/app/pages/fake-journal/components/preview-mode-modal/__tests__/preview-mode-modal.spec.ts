@@ -7,7 +7,7 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal.constants';
 import { PreviewModeModal } from '../preview-mode-modal';
 
-fdescribe('PreviewModeModal', () => {
+describe('PreviewModeModal', () => {
   let fixture: ComponentFixture<PreviewModeModal>;
   let component: PreviewModeModal;
   let modalController: ModalController;

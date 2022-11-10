@@ -8,14 +8,13 @@ import {
   TranslateParser,
 } from '@ngx-translate/core';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { InsuranceDeclarationComponent } from '../insurance-declaration';
 
 describe('InsuranceDeclarationComponent', () => {
   let fixture: ComponentFixture<InsuranceDeclarationComponent>;
   let component: InsuranceDeclarationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         InsuranceDeclarationComponent,
@@ -31,9 +30,7 @@ describe('InsuranceDeclarationComponent', () => {
         TranslateParser,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(InsuranceDeclarationComponent);
     component = fixture.componentInstance;
   }));

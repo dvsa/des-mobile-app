@@ -22,7 +22,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { OverlayEventDetail } from '@ionic/core';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
 
-fdescribe('PracticeTestReportCardComponent', () => {
+describe('PracticeTestReportCardComponent', () => {
   let component: PracticeTestReportCardComponent;
   let fixture: ComponentFixture<PracticeTestReportCardComponent>;
   let store$: Store<StoreModel>;

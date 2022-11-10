@@ -1,21 +1,18 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { DisplayAddressComponent } from '../display-address';
 
 describe('DisplayAddressComponent', () => {
   let fixture: ComponentFixture<DisplayAddressComponent>;
   let component: DisplayAddressComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         DisplayAddressComponent,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DisplayAddressComponent);
     component = fixture.componentInstance;
   }));

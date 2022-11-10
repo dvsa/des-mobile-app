@@ -4,7 +4,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { PracticeTestModal } from '../practice-test-modal';
 
-fdescribe('PracticeTestModal', () => {
+describe('PracticeTestModal', () => {
   let fixture: ComponentFixture<PracticeTestModal>;
   let modalComponent: PracticeTestModal;
 
