@@ -107,7 +107,7 @@ describe('TestReportCatADI3Page', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);
     spyOn(store$, 'dispatch');
-  });
+  }));
 
   describe('Class', () => {
     describe('studentLevelChanged', () => {

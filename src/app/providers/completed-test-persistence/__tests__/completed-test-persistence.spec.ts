@@ -7,7 +7,7 @@ import { DataStoreProvider } from '../../data-store/data-store';
 import { DataStoreProviderMock } from '../../data-store/__mocks__/data-store.mock';
 import { CompletedTestPersistenceProvider } from '../completed-test-persistence';
 
-describe('TestPersistenceProvider', () => {
+describe('CompletedTestPersistenceProvider', () => {
   let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
   let dataStoreProvider;
   let store$: Store<StoreModel>;

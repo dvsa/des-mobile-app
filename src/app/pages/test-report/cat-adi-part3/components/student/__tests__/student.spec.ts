@@ -20,7 +20,7 @@ describe('StudentComponent', () => {
         IonicModule,
       ],
     });
-  });
+  }));
 
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(StudentComponent);

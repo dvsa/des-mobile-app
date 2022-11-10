@@ -81,6 +81,7 @@ describe('TestReportCatHomeTestPage', () => {
                 journalData: {
                   candidate: candidateMock,
                 },
+                delegatedTest: false,
               },
             },
           })),

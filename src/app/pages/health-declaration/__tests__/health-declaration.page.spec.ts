@@ -59,8 +59,7 @@ import { default as welshTranslations } from '@assets/i18n/cy.json';
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-// @TODO: Failing spec
-xdescribe('HealthDeclarationPage', () => {
+describe('HealthDeclarationPage', () => {
   let fixture: ComponentFixture<HealthDeclarationPage>;
   let component: HealthDeclarationPage;
   let store$: Store<StoreModel>;
@@ -166,7 +165,6 @@ xdescribe('HealthDeclarationPage', () => {
       });
     });
     describe('onSubmit', () => {
-
       it('should call the persist and navigate method if all fields set', fakeAsync(() => {
         spyOn(component, 'persistAndNavigate');
         const { formGroup } = component;
@@ -195,6 +193,7 @@ xdescribe('HealthDeclarationPage', () => {
         fixture.detectChanges();
         expect(formGroup.valid).toEqual(true);
         expect(component.showConfirmHealthDeclarationModal).toHaveBeenCalled();
+        flush();
       }));
 
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {

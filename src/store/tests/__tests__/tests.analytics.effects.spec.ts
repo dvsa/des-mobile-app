@@ -168,14 +168,15 @@ describe('TestsAnalyticsEffects', () => {
     it('should log the correct event if it triggered from the journal page', (done) => {
       // ARRANGE
       spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(false);
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       // ACT
-      actions$.next(testsActions.StartTest(12345, TestCategory.BE));
+      actions$.next(testsActions.StartTest(12345, TestCategory.B));
       // ASSERT
       effects.startTestAnalyticsEffect$.subscribe((result) => {
         expect(result.type).toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension).toHaveBeenCalledWith(
           AnalyticsDimensionIndices.TEST_CATEGORY,
-          TestCategory.BE,
+          TestCategory.B,
         );
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
@@ -188,6 +189,7 @@ describe('TestsAnalyticsEffects', () => {
     it('should log the correct event if it is triggered from the Rekey Search page', (done) => {
       // ARRANGE
       spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
+      store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       // ACT
       actions$.next(testsActions.StartTest(12345, TestCategory.B));
       // ASSERT

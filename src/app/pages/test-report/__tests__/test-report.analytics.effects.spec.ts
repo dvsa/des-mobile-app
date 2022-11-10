@@ -68,7 +68,7 @@ import * as reverseLeftActions from '../components/reverse-left/reverse-left.act
 describe('TestReportAnalyticsEffects', () => {
   let effects: TestReportAnalyticsEffects;
   let actions$: ReplaySubject<any>;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let store$: Store<StoreModel>;
 
   beforeEach(() => {
@@ -91,7 +91,6 @@ describe('TestReportAnalyticsEffects', () => {
     effects = TestBed.inject(TestReportAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
-    // analyticsProviderMock.logEvent.calls.reset()
     spyOn(analyticsProviderMock, 'logEvent');
   });
 
@@ -134,7 +133,6 @@ describe('TestReportAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       // ACT
-      store$.dispatch(testReportActions.ToggleRemoveFaultMode());
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
       // ASSERT
       effects.toggleRemoveFaultMode$.subscribe((result) => {
@@ -1178,8 +1176,6 @@ describe('TestReportAnalyticsEffects', () => {
     it('should call logEvent for normal start uncompleted', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      store$.dispatch(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
-
       // ACT
       actions$.next(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
       // ASSERT
@@ -1215,7 +1211,6 @@ describe('TestReportAnalyticsEffects', () => {
     it('should call logEvent for eco uncompleted', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      store$.dispatch(ecoActions.ToggleEco());
       // ACT
       actions$.next(ecoActions.ToggleEco());
       // ASSERT
@@ -2185,7 +2180,6 @@ describe('TestReportAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.F));
       store$.dispatch(PopulateTestCategory(TestCategory.F));
-      store$.dispatch(highwayCodeActions.ToggleHighwayCodeSafety());
       // ACT
       actions$.next(highwayCodeActions.ToggleHighwayCodeSafety());
       // ASSERT
@@ -2220,10 +2214,9 @@ describe('TestReportAnalyticsEffects', () => {
         done();
       });
     });
-    it('should call log event with toggle eco control unselected ', (done) => {
+    it('should call log event with toggle eco control unselected', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      store$.dispatch(ecoActions.ToggleControlEco());
       // ACT
       actions$.next(ecoActions.ToggleControlEco());
       // ASSERT
@@ -2258,10 +2251,9 @@ describe('TestReportAnalyticsEffects', () => {
         done();
       });
     });
-    it('should call log event with toggle eco planning unselected ', (done) => {
+    it('should call log event with toggle eco planning unselected', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      store$.dispatch(ecoActions.TogglePlanningEco());
       // ACT
       actions$.next(ecoActions.TogglePlanningEco());
       // ASSERT
@@ -2296,10 +2288,9 @@ describe('TestReportAnalyticsEffects', () => {
         done();
       });
     });
-    it('should call log event with toggle eta physical unselected ', (done) => {
+    it('should call log event with toggle eta physical unselected', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      store$.dispatch(etaActions.ToggleETA(ExaminerActions.physical));
       // ACT
       actions$.next(etaActions.ToggleETA(ExaminerActions.physical));
       // ASSERT
@@ -2332,10 +2323,9 @@ describe('TestReportAnalyticsEffects', () => {
         done();
       });
     });
-    it('should call log event with toggle eta verba unselected ', (done) => {
+    it('should call log event with toggle eta verbal unselected', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      store$.dispatch(etaActions.ToggleETA(ExaminerActions.verbal));
       // ACT
       actions$.next(etaActions.ToggleETA(ExaminerActions.verbal));
       // ASSERT
@@ -2391,7 +2381,6 @@ describe('TestReportAnalyticsEffects', () => {
     it('should call log event with toggle controlled stop uncompleted', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
-      store$.dispatch(controlledStopActions.ToggleControlledStop());
       // ACT
       actions$.next(controlledStopActions.ToggleControlledStop());
       // ASSERT
