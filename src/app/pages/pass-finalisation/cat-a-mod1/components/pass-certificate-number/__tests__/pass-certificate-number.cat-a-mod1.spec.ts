@@ -5,6 +5,8 @@ import { configureTestSuite } from 'ng-bullet';
 import {
   PASS_CERTIFICATE_LENGTH_A_MOD1,
 } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
+import { AppComponent } from '@app/app.component';
+import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { PassCertificateNumberCatAMod1Component } from '../pass-certificate-number.cat-a-mod1';
 
 describe('PassCertificateNumberCatAMod1Component', () => {
@@ -18,6 +20,9 @@ describe('PassCertificateNumberCatAMod1Component', () => {
       ],
       imports: [
         IonicModule,
+      ],
+      providers: [
+        { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
   });

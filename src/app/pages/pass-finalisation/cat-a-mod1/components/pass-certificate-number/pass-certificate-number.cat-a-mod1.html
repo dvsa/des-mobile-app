@@ -8,12 +8,13 @@
         <ion-row [formGroup]="form">
             <ion-col>
                 <ion-input id="pass-certificate-number"
-                       class="ion-input-styling increase-width"
-                       type="text"
-                       formControlName="passCertificateNumberCtrl"
-                       [maxlength]="passCertificateAMOD1Validator.maxLength"
-                       [class.ng-invalid]="invalid"
-                       (ionChange)="passCertificateNumberChanged($event.target.value)">
+                           [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+                           class="ion-input-styling increase-width"
+                           type="text"
+                           formControlName="passCertificateNumberCtrl"
+                           [maxlength]="passCertificateAMOD1Validator.maxLength"
+                           [class.ng-invalid]="invalid"
+                           (ionChange)="passCertificateNumberChanged($event.target.value)">
                 </ion-input>
             </ion-col>
         </ion-row>

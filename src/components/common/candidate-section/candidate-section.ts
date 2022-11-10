@@ -12,6 +12,7 @@ import {
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
+import { AppComponent } from '@app/app.component';
 
 @Component({
   selector: 'candidate-section',
@@ -23,6 +24,7 @@ export class CandidateSectionComponent {
   constructor(
     public modalController: ModalController,
     public store$: Store<StoreModel>,
+    public appComponent: AppComponent,
   ) {
   }
 
@@ -60,6 +62,9 @@ export class CandidateSectionComponent {
       backdropDismiss: false,
       showBackdrop: true,
       cssClass: 'mes-modal-alert text-zoom-regular',
+      componentProps: {
+        textZoom: this.appComponent.getTextZoomClass(),
+      },
     });
     await this.vrnModal.present();
     const { data } = await this.vrnModal.onDidDismiss();
