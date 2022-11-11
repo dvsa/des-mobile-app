@@ -41,25 +41,17 @@ export class DeviceAuthenticationProvider {
   };
 
   private performBiometricVerification = async (): Promise<void> => {
-    const deviceType: string = this.deviceProvider.getDeviceType();
-    const isASAMEnabled: boolean = await this.deviceProvider.checkSingleAppMode();
-    // handle bug caused by accessing touch id while ASAM enabled in iPad 8th only
-    const shouldToggleASAM: boolean = isASAMEnabled && this.deviceProvider.is8thGenDevice(deviceType);
-    if (shouldToggleASAM) {
-      await this.deviceProvider.disableSingleAppMode();
-    }
-
     try {
+      await this.deviceProvider.disableSingleAppMode();
+
       await NativeBiometric.verifyIdentity({
         reason: 'Please authenticate',
         useFallback: true, // fallback to passcode if biometric authentication unavailable
       });
     } finally {
-      if (shouldToggleASAM) {
-        await this.loadingProvider.handleUILoading(true);
-        await this.deviceProvider.enableSingleAppMode();
-        await this.loadingProvider.handleUILoading(false);
-      }
+      await this.loadingProvider.handleUILoading(true);
+      await this.deviceProvider.enableSingleAppMode();
+      await this.loadingProvider.handleUILoading(false);
     }
   };
 }
