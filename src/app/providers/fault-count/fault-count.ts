@@ -311,10 +311,6 @@ export class FaultCountProvider {
     const seriousFaultCount: number = this.getSeriousFaultSumCount(category, data);
     const dangerousFaultCount: number = this.getDangerousFaultSumCount(category, data);
 
-    if (testOutcomeText === undefined) {
-      testOutcomeText = TestOutcome.Failed;
-    }
-
     if (category === TestCategory.ADI2) {
       return (drivingFaultCount > 0
                 && testOutcomeText === TestOutcome.Failed);
