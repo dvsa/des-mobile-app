@@ -3,7 +3,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
@@ -54,7 +54,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatAdi3Waitin
 })
 export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     private questionProvider: QuestionProvider,
@@ -67,7 +67,7 @@ export class WaitingRoomToCarCatADIPart3Page extends WaitingRoomToCarBasePageCom
     alertController: AlertController,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {

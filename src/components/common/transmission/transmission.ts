@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -20,14 +20,14 @@ export class TransmissionComponent implements OnChanges {
   hideConfirmTransmissionLabel: boolean = true;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   transmissionChange = new EventEmitter<GearboxCategory>();
 
   uniqueId: string;
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'transmissionCtrl';
 
   ngOnInit() {
@@ -36,7 +36,7 @@ export class TransmissionComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('Transmission', [Validators.required]);
+      this.formControl = new UntypedFormControl('Transmission', [Validators.required]);
       this.formGroup.addControl(TransmissionComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.transmission);

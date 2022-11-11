@@ -1,5 +1,4 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { IonicModule } from '@ionic/angular';
 import { TransmissionDisplayComponent } from '../transmission-display';
@@ -15,7 +14,7 @@ describe('TransmissionDisplayComponent', () => {
   let fixture: ComponentFixture<TransmissionDisplayComponent>;
   let component: TransmissionDisplayComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         IonicModule,
@@ -24,9 +23,7 @@ describe('TransmissionDisplayComponent', () => {
         TransmissionDisplayComponent,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TransmissionDisplayComponent);
     component = fixture.componentInstance;
   }));

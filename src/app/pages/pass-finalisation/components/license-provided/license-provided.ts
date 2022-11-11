@@ -6,8 +6,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import {
-  FormGroup,
-  FormControl,
+  UntypedFormGroup,
+  UntypedFormControl,
   Validators,
 } from '@angular/forms';
 import {
@@ -42,14 +42,14 @@ export class LicenseProvidedComponent implements OnChanges {
   licenseNotReceived = new EventEmitter<typeof ProvisionalLicenseNotReceived>();
 
   @Input()
-  form: FormGroup;
+  form: UntypedFormGroup;
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'provisionalLicenseProvidedCtrl';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.form.addControl(LicenseProvidedComponent.fieldName, this.formControl);
     }
 

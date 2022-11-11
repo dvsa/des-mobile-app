@@ -24,7 +24,6 @@ import {
   UncoupleRecoupleRemoveFault,
 } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { ToggleSeriousFaultMode } from '../../../test-report.actions';
 import { UncoupleRecoupleComponent } from '../uncouple-recouple';
@@ -34,7 +33,7 @@ describe('UncoupleRecoupleComponent', () => {
   let component: UncoupleRecoupleComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         UncoupleRecoupleComponent,
@@ -52,9 +51,7 @@ describe('UncoupleRecoupleComponent', () => {
         TestDataByCategoryProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(UncoupleRecoupleComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

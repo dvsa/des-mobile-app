@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {
   OutcomeBehaviourMapProvider,
   VisibilityType,
@@ -23,7 +23,7 @@ export class DebriefWitnessedComponent implements OnChanges {
   debriefWitnessed: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   debriefWitnessedChange = new EventEmitter<boolean>();
@@ -31,13 +31,13 @@ export class DebriefWitnessedComponent implements OnChanges {
   @Input()
   isDelegated: boolean = false;
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'debriefWitnessed';
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl(DebriefWitnessedComponent.fieldName, this.formControl);
       this.formGroup.updateValueAndValidity({
         onlySelf: true,

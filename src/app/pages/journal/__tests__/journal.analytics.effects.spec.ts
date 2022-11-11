@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
@@ -24,7 +23,7 @@ describe('JournalAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.JOURNAL;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -38,14 +37,12 @@ describe('JournalAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(JournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     spyOn(analyticsProviderMock, 'logEvent');
-  });
+  }));
 
   describe('journalView', () => {
     it('should call setCurrentPage', (done) => {

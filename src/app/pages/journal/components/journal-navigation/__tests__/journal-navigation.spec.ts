@@ -1,22 +1,19 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { JournalNavigationComponent } from '../journal-navigation';
 
 describe('JournalNavigationComponent', () => {
   let fixture: ComponentFixture<JournalNavigationComponent>;
   let component: JournalNavigationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [JournalNavigationComponent],
       imports: [
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(JournalNavigationComponent);
     component = fixture.componentInstance;
   }));
@@ -24,5 +21,4 @@ describe('JournalNavigationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });

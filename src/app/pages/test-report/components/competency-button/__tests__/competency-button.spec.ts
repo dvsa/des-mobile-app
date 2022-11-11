@@ -1,5 +1,4 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
@@ -11,7 +10,7 @@ describe('CompetencyButtonComponent', () => {
   let fixture: ComponentFixture<CompetencyButtonComponent>;
   let component: CompetencyButtonComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CompetencyButtonComponent,
@@ -24,9 +23,7 @@ describe('CompetencyButtonComponent', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CompetencyButtonComponent);
     component = fixture.componentInstance;
   }));

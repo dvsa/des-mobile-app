@@ -1,15 +1,14 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TransmissionType } from '@shared/models/transmission-type';
-import { configureTestSuite } from 'ng-bullet';
 import { TransmissionComponent } from '../transmission';
 
 describe('TransmissionComponent', () => {
   let fixture: ComponentFixture<TransmissionComponent>;
   let component: TransmissionComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TransmissionComponent,
@@ -19,12 +18,10 @@ describe('TransmissionComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TransmissionComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {

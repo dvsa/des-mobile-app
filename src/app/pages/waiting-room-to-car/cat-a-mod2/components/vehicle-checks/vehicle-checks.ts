@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
 import { SafetyAndBalanceQuestions } from '@dvsa/mes-test-schema/categories/AM2';
 import { get } from 'lodash';
@@ -30,9 +30,9 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
   safetyAndBalanceSelectQuestions: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   constructor(
     private modalController: ModalController,
@@ -76,7 +76,7 @@ export class VehicleChecksCatAMod2Component implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl({
+      this.formControl = new UntypedFormControl({
         value: 'Select questions',
         disabled: false,
       },

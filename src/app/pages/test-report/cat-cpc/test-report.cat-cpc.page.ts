@@ -29,7 +29,7 @@ import { QuestionNumber } from '@shared/constants/cpc-questions/cpc-question-com
 import { AnswerToggled, PopulateQuestionScore } from '@store/tests/test-data/cat-cpc/questions/questions.action';
 import { PopulateTestScore } from '@store/tests/test-data/cat-cpc/overall-score/total-percentage.action';
 import { CPCQuestionProvider } from '@providers/cpc-questions/cpc-questions';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { CPCEndTestModal } from '@pages/test-report/cat-cpc/components/cpc-end-test-modal/cpc-end-test-modal';
 import { TestResultProvider } from '@providers/test-result/test-result';
@@ -67,7 +67,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
 
   pageState: TestReportPageState;
   pageNumber: number = 1;
-  form: FormGroup;
+  form: UntypedFormGroup;
   questions: (Question | Question5) [];
   overallPercentage: number;
   category: CategoryCode;
@@ -99,7 +99,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       insomnia,
       routeByCategory,
     );
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.displayOverlay = false;
   }
 

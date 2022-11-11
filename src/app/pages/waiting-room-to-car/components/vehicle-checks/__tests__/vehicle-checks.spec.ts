@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   Config, IonicModule, ModalController, NavParams,
 } from '@ionic/angular';
@@ -14,7 +14,6 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import { StartTest } from '@store/tests/tests.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksCatCModal,
 } from '@pages/waiting-room-to-car/cat-c/components/vehicle-checks-modal/vehicle-checks-modal.cat-c.page';
@@ -38,7 +37,7 @@ describe('VehicleChecksComponent', () => {
   let store$: Store<StoreModel>;
   let appComponent: AppComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksComponent,
@@ -72,12 +71,10 @@ describe('VehicleChecksComponent', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     modalController = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
     appComponent = TestBed.inject(AppComponent);
@@ -296,7 +293,7 @@ describe('VehicleChecksComponent', () => {
     describe('invalid', () => {
       beforeEach(() => {
         store$.dispatch(StartTest(12345, TestCategory.C));
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -332,7 +329,7 @@ describe('VehicleChecksComponent', () => {
 
     describe('ngOnChanges', () => {
       it('should add the form control', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -346,7 +343,7 @@ describe('VehicleChecksComponent', () => {
       });
 
       it('should validate the vehicle checks', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -360,7 +357,7 @@ describe('VehicleChecksComponent', () => {
       });
 
       it('should patch the form control value', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });

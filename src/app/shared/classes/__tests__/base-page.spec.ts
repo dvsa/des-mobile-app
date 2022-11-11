@@ -2,25 +2,21 @@ import {
   waitForAsync, fakeAsync, flushMicrotasks, TestBed,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { LOGIN_PAGE } from '@pages/page-names.constants';
-
+import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { BasePageComponent } from '../base-page';
-import { RouterMock } from '../../../../../mock/angular-mocks/router-mock';
-import { PlatformMock } from '../../../../../mock/ionic-mocks/platform-mock';
 
-describe('Base Page', () => {
-
+describe('BasePageComponent', () => {
   let platform: Platform;
   let authenticationProvider: AuthenticationProvider;
   let router: Router;
-
   let basePageComponent: BasePageComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Platform, useClass: PlatformMock },
@@ -28,9 +24,6 @@ describe('Base Page', () => {
         { provide: Router, useClass: RouterMock },
       ],
     });
-  });
-
-  beforeEach(waitForAsync(() => {
 
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);

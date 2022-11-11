@@ -3,7 +3,6 @@ import {
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -11,7 +10,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { MockComponent } from 'ng-mocks';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
 
 import { AppModule } from '@app/app.module';
@@ -70,7 +69,7 @@ describe('WaitingRoomPage', () => {
   let translate: TranslateService;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -131,9 +130,6 @@ describe('WaitingRoomPage', () => {
       ],
     });
 
-  });
-
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WaitingRoomPage);
     component = fixture.componentInstance;
     deviceProvider = TestBed.inject(DeviceProvider);
@@ -235,14 +231,14 @@ describe('WaitingRoomPage', () => {
     describe('onSubmit', () => {
       it('should navigate to the COMMUNICATION_PAGE if the form is valid', () => {
         const { formGroup } = component;
-        formGroup.addControl('insuranceCheckbox', new FormControl('', [Validators.requiredTrue]));
+        formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
         formGroup.get('insuranceCheckbox').setValue(true);
         component.onSubmit();
         expect(routerSpy.navigate).toHaveBeenCalledWith(['CommunicationPage']);
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
         const { formGroup } = component;
-        formGroup.addControl('insuranceCheckbox', new FormControl('', [Validators.requiredTrue]));
+        formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
         formGroup.get('insuranceCheckbox').setValue(false);
         component.onSubmit();
         tick();

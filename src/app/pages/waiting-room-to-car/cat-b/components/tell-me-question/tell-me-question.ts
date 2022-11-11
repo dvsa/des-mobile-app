@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
@@ -18,16 +18,16 @@ export class TellMeQuestionComponent implements OnChanges {
   tellMeQuestions: VehicleChecksQuestion[];
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   tellMeQuestionChange = new EventEmitter<VehicleChecksQuestion>();
 
-  public formControl: FormControl;
+  public formControl: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('TellMeQuestion', [Validators.required]);
+      this.formControl = new UntypedFormControl('TellMeQuestion', [Validators.required]);
       this.formGroup.addControl('tellMeQuestion', this.formControl);
     }
     this.formControl.patchValue(this.tellMeQuestion);

@@ -118,7 +118,6 @@ if (enableRehydrationPlugin) {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
     DirectivesModule,
     BrowserModule,
@@ -151,10 +150,23 @@ if (enableRehydrationPlugin) {
     HammerModule,
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfig },
-    { provide: ErrorHandler, useClass: SentryIonicErrorHandler },
+    {
+      provide: RouteReuseStrategy,
+      useClass: IonicRouteStrategy,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: IonicGestureConfig,
+    },
+    {
+      provide: ErrorHandler,
+      useClass: SentryIonicErrorHandler,
+    },
     MobileAccessibility,
     AppVersion,
     AppConfigProvider,

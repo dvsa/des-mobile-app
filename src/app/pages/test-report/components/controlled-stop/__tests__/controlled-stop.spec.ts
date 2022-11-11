@@ -20,7 +20,6 @@ import {
 } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { TestDataByCategoryProviderMock } from '@providers/test-data-by-category/__mocks__/test-data-by-category.mock';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
@@ -32,7 +31,7 @@ describe('ControlledStopComponent', () => {
   let component: ControlledStopComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ControlledStopComponent,
@@ -53,9 +52,7 @@ describe('ControlledStopComponent', () => {
         StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ControlledStopComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

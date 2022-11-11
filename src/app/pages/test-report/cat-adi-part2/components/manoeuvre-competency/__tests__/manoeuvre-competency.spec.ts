@@ -28,7 +28,6 @@ import { NavigationStateProvider } from '@providers/navigation-state/navigation-
 import {
   NavigationStateProviderMock,
 } from '@providers/navigation-state/__mocks__/navigation-state.mock';
-import { configureTestSuite } from 'ng-bullet';
 import {
   ToggleDangerousFaultMode,
   ToggleSeriousFaultMode,
@@ -42,7 +41,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
   let component: ManoeuvreCompetencyComponentAdiPart2;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvreCompetencyComponentAdiPart2,
@@ -113,9 +112,7 @@ describe('ManoeuvreCompetencyComponentAdiPart2', () => {
         { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ManoeuvreCompetencyComponentAdiPart2);
     component = fixture.componentInstance;
     component.index = 0;

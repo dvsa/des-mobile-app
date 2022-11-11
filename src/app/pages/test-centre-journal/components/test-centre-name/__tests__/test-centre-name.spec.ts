@@ -1,22 +1,19 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCentreNameComponent } from '../test-centre-name';
 
 describe('TestCentreNameComponent', () => {
   let fixture: ComponentFixture<TestCentreNameComponent>;
   let component: TestCentreNameComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestCentreNameComponent,
       ],
       imports: [IonicModule],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestCentreNameComponent);
     component = fixture.componentInstance;
   }));

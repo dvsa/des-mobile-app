@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'pdi-logbook',
@@ -13,17 +13,17 @@ export class PDILogbookComponent implements OnChanges {
   pdiLogbook: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   pdiLogbookChange = new EventEmitter<boolean>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'pdiLogbookCtrl';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(PDILogbookComponent.fieldName, this.formControl);
     }
 

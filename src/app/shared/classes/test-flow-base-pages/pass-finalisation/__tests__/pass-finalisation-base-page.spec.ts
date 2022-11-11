@@ -3,7 +3,6 @@ import {
   TestBed,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
@@ -62,7 +61,7 @@ describe('PassFinalisationPageComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -71,9 +70,7 @@ describe('PassFinalisationPageComponent', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     store$ = TestBed.inject(MockStore);

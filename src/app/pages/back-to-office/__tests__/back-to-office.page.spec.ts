@@ -23,7 +23,6 @@ import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -41,7 +40,7 @@ describe('BackToOfficePage', () => {
   let deviceProvider: DeviceProvider;
   let router: Router;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         BackToOfficePage,
@@ -65,9 +64,7 @@ describe('BackToOfficePage', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(BackToOfficePage);
     component = fixture.componentInstance;
     screenOrientation = TestBed.inject(ScreenOrientation);
@@ -82,12 +79,11 @@ describe('BackToOfficePage', () => {
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
-      it('should disable test inhibitions when in practice mode', async (done) => {
+      it('should disable test inhibitions when in practice mode', async () => {
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode).not.toHaveBeenCalled();
         expect(screenOrientation.unlock).toHaveBeenCalled();
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
-        done();
       });
     });
 
@@ -137,15 +133,13 @@ describe('BackToOfficePage', () => {
         component.goToJournal();
         expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
       });
-      it('should call the popTo method in the navcontroller if in practice mode', async (done) => {
+      it('should call the popTo method in the navcontroller if in practice mode', async () => {
         component.isEndToEndPracticeMode = true;
         spyOn(component, 'exitPracticeMode');
         await component.goToJournal();
         expect(component.exitPracticeMode).toHaveBeenCalled();
-        done();
       });
     });
-
   });
 
   describe('DOM', () => {

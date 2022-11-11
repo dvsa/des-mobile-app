@@ -4,7 +4,6 @@ import { NavParamsMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
@@ -15,7 +14,7 @@ describe('JournalRekeyModal', () => {
   let fixture: ComponentFixture<JournalRekeyModal>;
   let component: JournalRekeyModal;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         JournalRekeyModal,
@@ -31,9 +30,7 @@ describe('JournalRekeyModal', () => {
         { provide: LogHelper, useClass: LogHelperMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(JournalRekeyModal);
     component = fixture.componentInstance;
     component.onStartTest = async () => {};

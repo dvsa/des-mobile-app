@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {
   OutcomeBehaviourMapProvider,
   VisibilityType,
@@ -27,19 +27,19 @@ export class ShowMeQuestionComponent implements OnChanges {
   showMeQuestionOptions: VehicleChecksQuestion[];
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   showMeQuestionChange = new EventEmitter<VehicleChecksQuestion>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'showMeQuestion';
 
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl([]);
+      this.formControl = new UntypedFormControl([]);
       this.formGroup.addControl(ShowMeQuestionComponent.fieldName, this.formControl);
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,

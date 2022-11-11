@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 @Component({
@@ -17,7 +17,7 @@ export class FullLicenceHeldComponent implements OnChanges {
   fullLicenceHeld: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   required: boolean = false;
@@ -27,11 +27,11 @@ export class FullLicenceHeldComponent implements OnChanges {
 
   static formControlName: string = 'fullLicenceHeldCtrl';
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, this.required ? [Validators.required] : []);
+      this.formControl = new UntypedFormControl(null, this.required ? [Validators.required] : []);
       this.formGroup.addControl(FullLicenceHeldComponent.formControlName, this.formControl);
     }
     this.formControl.patchValue(this.fullLicenceHeld);

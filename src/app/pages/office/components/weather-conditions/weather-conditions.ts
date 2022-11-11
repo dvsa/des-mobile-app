@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
 import { WeatherConditionSelection } from '@providers/weather-conditions/weather-conditions.model';
 import {
@@ -29,19 +29,19 @@ export class WeatherConditionsComponent implements OnChanges {
   weatherConditionsOptions: WeatherConditionSelection[];
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   weatherConditionsChange = new EventEmitter<WeatherConditions[]>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'weatherConditions';
 
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl([]);
+      this.formControl = new UntypedFormControl([]);
       this.formGroup.addControl(WeatherConditionsComponent.fieldName, this.formControl);
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,

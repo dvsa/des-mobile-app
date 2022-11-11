@@ -1,14 +1,13 @@
 import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { LockScreenIndicator } from '../lock-screen-indicator';
 
 describe('LockScreenIndicator', () => {
   let fixture: ComponentFixture<LockScreenIndicator>;
   let component: LockScreenIndicator;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         LockScreenIndicator,
@@ -20,12 +19,11 @@ describe('LockScreenIndicator', () => {
         { provide: TranslateService, useValue: translateServiceMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LockScreenIndicator);
     component = fixture.componentInstance;
   }));
+
   describe('Class', () => {
     it('should create', () => {
       expect(component).toBeDefined();

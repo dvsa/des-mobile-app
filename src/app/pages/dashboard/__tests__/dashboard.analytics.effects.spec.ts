@@ -1,7 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -17,7 +16,7 @@ describe('DashboardAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.DASHBOARD;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         DashboardAnalyticsEffects,
@@ -25,14 +24,12 @@ describe('DashboardAnalyticsEffects', () => {
         provideMockActions(() => actions$),
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(DashboardAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     spyOn(analyticsProviderMock, 'logEvent');
-  });
+  }));
 
   describe('dashboardViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

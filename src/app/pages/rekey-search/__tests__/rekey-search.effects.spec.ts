@@ -1,7 +1,6 @@
 import { waitForAsync, TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { ReplaySubject, defer } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 
@@ -21,10 +20,9 @@ function asyncError(errorObject: any) {
   return defer(() => Promise.reject(errorObject));
 }
 
-describe('Rekey Search Effects', () => {
-
+describe('RekeySearchEffects', () => {
   let effects: RekeySearchEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let rekeySearchProvider: RekeySearchProvider;
   let compressionProvider: CompressionProvider;
   let testSearchProvider: SearchProvider;
@@ -40,7 +38,7 @@ describe('Rekey Search Effects', () => {
     });
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -56,9 +54,7 @@ describe('Rekey Search Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(RekeySearchEffects);
     testSearchProvider = TestBed.inject(SearchProvider);

@@ -1,8 +1,7 @@
 import {
   ComponentFixture, TestBed, waitForAsync,
 } from '@angular/core/testing';
-import { FormGroup } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
+import { UntypedFormGroup } from '@angular/forms';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
@@ -11,7 +10,7 @@ describe('LanguagePreferencesComponent', () => {
   let fixture: ComponentFixture<LanguagePreferencesComponent>;
   let component: LanguagePreferencesComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         LanguagePreferencesComponent,
@@ -21,12 +20,10 @@ describe('LanguagePreferencesComponent', () => {
         AppModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LanguagePreferencesComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('ngOnChanges', () => {

@@ -1,13 +1,7 @@
-import {
-  TestBed, tick, fakeAsync,
-} from '@angular/core/testing';
-import {
-  ReplaySubject, Observable, EMPTY,
-} from 'rxjs';
+import { TestBed, tick, fakeAsync } from '@angular/core/testing';
+import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Actions } from '@ngrx/effects';
 import { StoreModule, Store } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
@@ -26,25 +20,14 @@ import { LogsEffects } from '../logs.effects';
 import * as logsActions from '../logs.actions';
 import { logsReducer } from '../logs.reducer';
 
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream$(source$: Observable<any>) {
-    this.source = source$;
-  }
-}
-
-describe('Logs Effects', () => {
-
+describe('LogsEffects', () => {
   let effects: LogsEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let cacheDays: number;
   let appConfigProviderMock: AppConfigProvider;
   let dataStoreMock: DataStoreProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -62,9 +45,7 @@ describe('Logs Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     // ARRANGE
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(LogsEffects);

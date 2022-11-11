@@ -6,7 +6,7 @@ import { merge, Observable, Subscription } from 'rxjs';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -115,7 +115,7 @@ interface NonPassFinalisationPageState {
 export class NonPassFinalisationPage extends PracticeableBasePageComponent implements OnInit {
 
   pageState: NonPassFinalisationPageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
   activityCodeOptions: ActivityCodeModel[];
   slotId: string;
   testData: CatBUniqueTypes.TestData;
@@ -137,7 +137,7 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
     private testDataByCategoryProvider: TestDataByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$, false);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     const { nonPassData } = this.route.snapshot.data;
     const [behaviourMap, activityCodeList] = nonPassData;
     this.activityCodeOptions = activityCodeList;

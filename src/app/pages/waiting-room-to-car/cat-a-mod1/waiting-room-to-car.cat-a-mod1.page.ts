@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
@@ -37,7 +37,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatMod1Waitin
 })
 export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageComponent implements OnInit {
   pageState: WaitingRoomToCarPageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   constructor(
     private questionProvider: QuestionProvider,
@@ -49,7 +49,7 @@ export class WaitingRoomToCarCatAMod1Page extends WaitingRoomToCarBasePageCompon
     alertController: AlertController,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {

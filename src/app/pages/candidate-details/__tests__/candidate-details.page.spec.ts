@@ -8,7 +8,6 @@ import {
   MockStore,
 } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
@@ -60,7 +59,7 @@ describe('CandidateDetailsPage', () => {
     },
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CandidateDetailsPage,
@@ -79,9 +78,7 @@ describe('CandidateDetailsPage', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateDetailsPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);

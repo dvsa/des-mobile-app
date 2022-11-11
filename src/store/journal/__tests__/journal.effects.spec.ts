@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { of, ReplaySubject } from 'rxjs';
@@ -34,17 +33,16 @@ import * as journalActions from '../journal.actions';
 import { JournalEffects } from '../journal.effects';
 import { JournalModel } from '../journal.model';
 
-describe('Journal Effects', () => {
-
+describe('JournalEffects', () => {
   let effects: JournalEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let journalProvider: JournalProvider;
   let slotProvider: SlotProvider;
   let store$: Store<JournalModel>;
   let networkStateProvider: NetworkStateProvider;
   let appConfigProvider: AppConfigProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -70,9 +68,7 @@ describe('Journal Effects', () => {
         SlotProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     // ARRANGE
     actions$ = new ReplaySubject(1);
     journalProvider = TestBed.inject(JournalProvider);
@@ -152,7 +148,7 @@ describe('Journal Effects', () => {
     });
   });
 
-  it('should save a log if an actual error occurs', (done) => {
+  it('should save a log if an actual error occurs', () => {
     // ARRANGE
     spyOn(journalProvider, 'getJournal').and.callThrough();
     spyOn(journalProvider, 'saveJournalForOffline').and.callThrough();
@@ -173,11 +169,10 @@ describe('Journal Effects', () => {
       expect(result.type === '[JournalPage] Load Journal Success').toBe(false);
       expect(store$.dispatch).toHaveBeenCalledWith(journalActions.JournalRefresh(JournalRefreshModes.MANUAL));
       // expect(store$.dispatch).toHaveBeenCalledWith(jasmine.any(SaveLog));
-      done();
     });
   });
 
-  it('should dispatch the failure action when the journal fails to load', (done) => {
+  it('should dispatch the failure action when the journal fails to load', () => {
     // ARRANGE
     spyOn(journalProvider, 'getJournal').and.callThrough();
     spyOn(slotProvider, 'detectSlotChanges').and.callThrough();
@@ -201,11 +196,10 @@ describe('Journal Effects', () => {
       } else {
         fail('Unknown Action Sent');
       }
-      done();
     });
   });
 
-  it('should dispatch the SetSelectedDate action with the correct date in the select next day effect', (done) => {
+  it('should dispatch the SetSelectedDate action with the correct date in the select next day effect', () => {
     // ARRANGE
     const selectedDate: string = new DateTime().format('YYYY-MM-DD');
     const nextDay: string = DateTime.at(selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
@@ -226,7 +220,6 @@ describe('Journal Effects', () => {
       if (result.type === '[JournalPage] Navigate Day') {
         expect(result).toEqual(journalActions.JournalNavigateDay(nextDay));
       }
-      done();
     });
   });
 

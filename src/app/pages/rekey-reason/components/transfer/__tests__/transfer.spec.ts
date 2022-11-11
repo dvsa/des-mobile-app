@@ -2,8 +2,7 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { TransferComponent } from '../transfer';
@@ -12,7 +11,7 @@ describe('TransferComponent', () => {
   let fixture: ComponentFixture<TransferComponent>;
   let component: TransferComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TransferComponent,
@@ -27,12 +26,10 @@ describe('TransferComponent', () => {
 
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TransferComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     component.ngOnChanges();
   }));
 

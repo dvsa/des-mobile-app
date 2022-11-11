@@ -1,5 +1,4 @@
-import { configureTestSuite } from 'ng-bullet';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { UrlProvider } from '../../url/url';
@@ -16,7 +15,7 @@ describe('TestCentreJournalProvider', () => {
   let appConfigProviderMock: AppConfigProvider;
   const mockTestCentreJournalUrl = 'https://www.example.com/api/v1/journals/testcentre';
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -27,14 +26,12 @@ describe('TestCentreJournalProvider', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
     testCentreJournalProvider = TestBed.inject(TestCentreJournalProvider);
     urlProviderMock = TestBed.inject(UrlProvider);
     appConfigProviderMock = TestBed.inject(AppConfigProvider);
-  });
+  }));
 
   describe('getTestCentreJournal', () => {
     beforeEach(() => {

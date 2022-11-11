@@ -1,9 +1,8 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { VehicleRegistrationComponent } from '../vehicle-registration';
 import {
@@ -16,7 +15,7 @@ describe('VehicleRegistrationComponent', () => {
   let fixture: ComponentFixture<VehicleRegistrationComponent>;
   let component: VehicleRegistrationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleRegistrationComponent,
@@ -27,13 +26,11 @@ describe('VehicleRegistrationComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleRegistrationComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null, [Validators.required]);
+    component.formGroup = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [Validators.required]);
   }));
 
   describe('ngOnChanges', () => {

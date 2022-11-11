@@ -3,7 +3,6 @@ import { IonicModule, Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { StoreModule, Store } from '@ngrx/store';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
@@ -34,7 +33,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
   let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DelegatedRekeyUploadOutcomePage],
       imports: [
@@ -54,9 +53,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DelegatedRekeyUploadOutcomePage);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);

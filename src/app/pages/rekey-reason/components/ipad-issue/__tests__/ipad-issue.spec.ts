@@ -2,15 +2,14 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IpadIssueComponent } from '../ipad-issue';
 
 describe('IpadIssueComponent', () => {
   let fixture: ComponentFixture<IpadIssueComponent>;
   let component: IpadIssueComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         IpadIssueComponent,
@@ -21,12 +20,10 @@ describe('IpadIssueComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(IpadIssueComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     component.ngOnChanges();
   }));
 

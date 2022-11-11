@@ -2,7 +2,6 @@ import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { StoreModule, Store } from '@ngrx/store';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from '@app/app.module';
 import { StoreModel } from '@shared/models/store.model';
@@ -37,7 +36,7 @@ describe('ReverseManoeuvreComponent', () => {
   let component: ReverseManoeuvreComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ReverseManoeuvreComponent,
@@ -94,9 +93,7 @@ describe('ReverseManoeuvreComponent', () => {
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ReverseManoeuvreComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

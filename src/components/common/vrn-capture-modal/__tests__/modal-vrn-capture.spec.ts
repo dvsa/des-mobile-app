@@ -1,4 +1,3 @@
-import { configureTestSuite } from 'ng-bullet';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-capture-modal';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +15,7 @@ describe('VRNCaptureModal', () => {
   class StoreMock {
   }
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VRNCaptureModal,
@@ -33,9 +32,7 @@ describe('VRNCaptureModal', () => {
         { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VRNCaptureModal);
     component = fixture.componentInstance;
   }));

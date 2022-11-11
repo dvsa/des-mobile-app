@@ -9,7 +9,6 @@ import {
   ToggleLegalRequirement,
 } from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import { LegalRequirements } from '@store/tests/test-data/test-data.constants';
-import { configureTestSuite } from 'ng-bullet';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { MultiLegalRequirementComponent } from '../multi-legal-requirement';
 
@@ -19,7 +18,7 @@ describe('MultiLegalRequirementComponent', () => {
   let store$: Store<StoreModel>;
   let storeDispatchSpy: jasmine.Spy;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         MultiLegalRequirementComponent,
@@ -30,12 +29,8 @@ describe('MultiLegalRequirementComponent', () => {
         IonicModule,
         StoreModule.forRoot({ tests: testsReducer }),
       ],
-      providers: [
-      ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(MultiLegalRequirementComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

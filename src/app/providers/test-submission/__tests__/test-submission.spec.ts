@@ -1,11 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { gunzipSync } from 'zlib';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { HttpClient } from '@angular/common/http';
 import { StoreModule, Store } from '@ngrx/store';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
-import { configureTestSuite } from 'ng-bullet';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
 import { of } from 'rxjs';
@@ -21,7 +20,7 @@ describe('TestSubmissionProvider', () => {
   let urlProvider: UrlProvider;
   let httpClient: HttpClient;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
@@ -39,9 +38,7 @@ describe('TestSubmissionProvider', () => {
         { provide: LogHelper, useClass: LogHelperMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     testSubmissionProvider = TestBed.inject(TestSubmissionProvider);
     httpClient = TestBed.inject(HttpClient);
     urlProvider = TestBed.inject(UrlProvider);
@@ -49,7 +46,7 @@ describe('TestSubmissionProvider', () => {
     spyOn(testSubmissionProvider, 'removeNullFieldsDeep').and.callThrough();
     spyOn(testSubmissionProvider, 'submitTest').and.callThrough();
     spyOn(httpClient, 'post').and.returnValue(of());
-  });
+  }));
 
   describe('submitTests', () => {
     it('should attempt to submit a test', () => {

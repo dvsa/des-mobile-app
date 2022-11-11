@@ -19,18 +19,17 @@ import {
   QuestionOutcome,
   QuestionResult,
 } from '@dvsa/mes-test-schema/categories/common';
-import { configureTestSuite } from 'ng-bullet';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-d.actions';
 import { VehicleChecksModalCatDAnalyticsEffects } from '../vehicle-checks-modal.cat-d.analytics.effects';
 
 describe('VehicleChecksModalCatDAnalyticsEffects', () => {
   let effects: VehicleChecksModalCatDAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.VEHICLE_CHECKS;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -44,9 +43,7 @@ describe('VehicleChecksModalCatDAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(VehicleChecksModalCatDAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

@@ -5,7 +5,6 @@ import {
 import {
   ConfigMock, NavControllerMock, NavParamsMock, PlatformMock,
 } from 'ionic-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { By } from '@angular/platform-browser';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -24,7 +23,7 @@ describe('TerminateTestModal', () => {
   let component: TerminateTestModal;
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [TerminateTestModal],
       imports: [IonicModule, AppModule],
@@ -38,9 +37,7 @@ describe('TerminateTestModal', () => {
         { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TerminateTestModal);
     component = fixture.componentInstance;
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);

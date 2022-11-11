@@ -8,7 +8,6 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { Store } from '@ngrx/store';
 import { cloneDeep } from 'lodash';
-import { configureTestSuite } from 'ng-bullet';
 import {
   getSlotsOnSelectedDate,
   getLastRefreshed,
@@ -29,7 +28,7 @@ class MockStore { }
 describe('JournalSelector', () => {
   let slotProvider: SlotProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         SlotProvider,
@@ -39,9 +38,7 @@ describe('JournalSelector', () => {
         { provide: Store, useClass: MockStore },
       ],
     });
-  });
 
-  beforeEach(() => {
     slotProvider = TestBed.inject(SlotProvider);
   });
 

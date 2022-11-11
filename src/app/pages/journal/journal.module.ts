@@ -36,7 +36,6 @@ import { JournalAnalyticsEffects } from './journal.analytics.effects';
     ComponentsModule,
     CandidateDetailsPageModule,
   ],
-  entryComponents: [],
   providers: [
     JournalProvider,
     NavParams,

@@ -6,8 +6,7 @@ import { InputRestrictionUppercaseAlphanumDirective } from '../input-restriction
 @Component({
   template: '<input type="text" uppercaseAlphanumOnly>',
 })
-class TestAlphaNumComponent {
-}
+class TestAlphaNumComponent {}
 
 describe('Directive: InputRestrictionUppercaseAlphanumDirective', () => {
   let fixture: ComponentFixture<TestAlphaNumComponent>;

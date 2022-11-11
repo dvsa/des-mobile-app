@@ -1,6 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from 'src/app/app.module';
 import { TestOutcome } from '@store/tests/tests.constants';
@@ -11,7 +10,7 @@ describe('CandidateSectionComponent', () => {
   let fixture: ComponentFixture<CandidateSectionComponent>;
   let component: CandidateSectionComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CandidateSectionComponent,
@@ -22,9 +21,7 @@ describe('CandidateSectionComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;
   }));

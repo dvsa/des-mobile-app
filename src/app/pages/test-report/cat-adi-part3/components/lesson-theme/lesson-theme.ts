@@ -2,7 +2,7 @@ import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
 import { LessonTheme } from '@dvsa/mes-test-schema/categories/ADI3';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'lesson-theme',
@@ -17,7 +17,7 @@ export class LessonThemeComponent implements OnChanges {
   otherReason: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   lessonThemeChange = new EventEmitter<LessonTheme>();
@@ -25,13 +25,13 @@ export class LessonThemeComponent implements OnChanges {
   @Output()
   otherReasoningChange = new EventEmitter<string>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   private feedbackCharsRemaining: number;
   static readonly fieldName: string = 'otherReason';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.maxLength(950)]);
+      this.formControl = new UntypedFormControl(null, [Validators.maxLength(950)]);
       this.formGroup.addControl(LessonThemeComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.otherReason);

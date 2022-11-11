@@ -9,19 +9,16 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import * as debriefActions from '../debrief.actions';
 import { DebriefEffects } from '../debrief.effects';
 
-describe('Debrief Effects', () => {
-
+describe('DebriefEffects', () => {
   let effects: DebriefEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
-
   const currentSlotId = '1234';
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -34,17 +31,14 @@ describe('Debrief Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(DebriefEffects);
     store$ = TestBed.inject(Store);
   }));
 
   describe('endDebriefEffect', () => {
-
-    it('should return SET_TEST_STATUS_DECIDED & PERSIST_TESTS actions when passed test', (done) => {
+    it('should return SET_TEST_STATUS_DECIDED & PERSIST_TESTS actions when passed test', () => {
       // Set activity code as passed
       store$.dispatch(testsActions.StartTest(1234, TestCategory.B));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.PASS));
@@ -58,11 +52,10 @@ describe('Debrief Effects', () => {
         if (result.type === testsActions.PersistTests.type) {
           expect(result).toEqual(testsActions.PersistTests());
         }
-        done();
       });
     });
 
-    it('should return SET_TEST_STATUS_DECIDED & PERSIST_TESTS actions when failed test', (done) => {
+    it('should return SET_TEST_STATUS_DECIDED & PERSIST_TESTS actions when failed test', () => {
       // Set activity code as failed
       store$.dispatch(testsActions.StartTest(1234, TestCategory.B));
       store$.dispatch(activityCodeActions.SetActivityCode(ActivityCodes.FAIL));
@@ -76,7 +69,6 @@ describe('Debrief Effects', () => {
         if (result.type === testsActions.PersistTests.type) {
           expect(result).toEqual(testsActions.PersistTests());
         }
-        done();
       });
     });
 

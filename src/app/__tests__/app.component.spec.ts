@@ -3,7 +3,6 @@ import {
   ComponentFixture, fakeAsync, flushMicrotasks, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
@@ -47,7 +46,7 @@ describe('AppComponent', () => {
   let appConfigProvider: AppConfigProvider;
   let deviceProvider: DeviceProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -70,13 +69,10 @@ describe('AppComponent', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     platform = TestBed.inject(Platform);
     menuController = TestBed.inject(MenuController);

@@ -13,7 +13,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
-import { configureTestSuite } from 'ng-bullet';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -27,7 +26,7 @@ describe('PostDebriefHoldingPage', () => {
   let routeByCat: RouteByCategoryProvider;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -46,9 +45,7 @@ describe('PostDebriefHoldingPage', () => {
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PostDebriefHoldingPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

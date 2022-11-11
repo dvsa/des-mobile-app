@@ -1,5 +1,3 @@
-import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountADIPart2Helper } from '../fault-count.cat-adi-part2';
 import {
@@ -13,11 +11,6 @@ import {
 } from '../../__mocks__/cat-ADI2-test-data-state-object.mock';
 
 describe('FaultCountADIPart2Helper', () => {
-
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({});
-  });
-
   describe('getDrivingFaultSumCountCatADIPart2', () => {
     it('Should return 0 when no driving faults exist', () => {
       const temp = FaultCountADIPart2Helper

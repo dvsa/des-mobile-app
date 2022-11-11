@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestData } from '@dvsa/mes-test-schema/categories/common';
 import { TestData as CatAMod1TestData } from '@dvsa/mes-test-schema/categories/AM1';
-import { configureTestSuite } from 'ng-bullet';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import * as mocks from '../__mocks__/test-result.mock';
 import { FaultCountProvider } from '../../fault-count/fault-count';
@@ -72,18 +71,16 @@ describe('TestReportValidator', () => {
 
   let testReportValidatorProvider: TestReportValidatorProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         TestReportValidatorProvider,
         FaultCountProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     testReportValidatorProvider = TestBed.inject(TestReportValidatorProvider);
-  });
+  }));
 
   describe('isTestReportValid', () => {
     categories.forEach((cat) => {

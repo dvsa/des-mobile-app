@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Device } from '@ionic-native/device/ngx';
 import { StoreModule, Store } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { DeviceMock } from '@mocks/ionic-mocks/device.mock';
@@ -16,7 +15,7 @@ describe('DeviceProvider', () => {
   let store$: Store<any>;
   let logHelper: LogHelper;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -33,9 +32,7 @@ describe('DeviceProvider', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     store$ = TestBed.inject(Store);
     deviceProvider = TestBed.inject(DeviceProvider);
     logHelper = TestBed.inject(LogHelper);

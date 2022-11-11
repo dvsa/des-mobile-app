@@ -2,7 +2,7 @@ import { ModalController, NavParams } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, merge } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map } from 'rxjs/operators';
@@ -51,7 +51,7 @@ interface VehicleChecksModalCatHomeTestState {
 })
 export class VehicleChecksCatHomeTestModal {
   pageState: VehicleChecksModalCatHomeTestState;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   showMeQuestions: VehicleChecksQuestion[];
   tellMeQuestions: VehicleChecksQuestion[];
   category: TestCategory;
@@ -68,7 +68,7 @@ export class VehicleChecksCatHomeTestModal {
     params: NavParams,
   ) {
     this.category = params.get('category');
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.showMeQuestions = this.questionProvider.getShowMeQuestions(this.category);
     this.tellMeQuestions = this.questionProvider.getTellMeQuestions(this.category);
   }

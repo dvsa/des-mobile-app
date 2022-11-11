@@ -18,7 +18,6 @@ import { journalReducer } from '@store/journal/journal.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { rekeySearchReducer } from '@pages/rekey-search/rekey-search.reducer';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { bufferCount } from 'rxjs/operators';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
@@ -53,7 +52,7 @@ import { PopulateTestCategory } from '../category/category.actions';
 
 describe('TestsEffects', () => {
   let effects: TestsEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let testPersistenceProviderMock;
   let store$: Store<StoreModel>;
   let navigationStateProviderMock: NavigationStateProviderMock;
@@ -77,7 +76,7 @@ describe('TestsEffects', () => {
     },
   };
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -100,9 +99,7 @@ describe('TestsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestsEffects);
     testPersistenceProviderMock = TestBed.inject(TestPersistenceProvider);
@@ -112,7 +109,7 @@ describe('TestsEffects', () => {
   });
 
   describe('persistTestsEffect', () => {
-    it('should respond to a PERSIST_TESTS action and delegate to the persistence provider', (done) => {
+    it('should respond to a PERSIST_TESTS action and delegate to the persistence provider', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       testPersistenceProviderMock.persistTests.and.returnValue(Promise.resolve());
@@ -121,7 +118,6 @@ describe('TestsEffects', () => {
       // ASSERT
       effects.persistTestsEffect$.subscribe(() => {
         expect(testPersistenceProviderMock.persistTests).toHaveBeenCalled();
-        done();
       });
     });
   });
@@ -149,7 +145,7 @@ describe('TestsEffects', () => {
   });
 
   describe('startPracticeTestEffect', () => {
-    it('should dispatch the PopulateApplicationReference and PopulateCandidateDetails action', (done) => {
+    it('should dispatch the PopulateApplicationReference and PopulateCandidateDetails action', () => {
       // ACT
       actions$.next(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
       // ASSERT
@@ -160,13 +156,12 @@ describe('TestsEffects', () => {
         if (result.type === PopulateCandidateDetails.type) {
           expect(result).toEqual(PopulateCandidateDetails(candidateMock));
         }
-        done();
       });
     });
   });
 
   describe('sendCompletedTestsEffect', () => {
-    it('should dispatch use the order of the responses to coordinate subsequent dispatching of actions', (done) => {
+    it('should dispatch use the order of the responses to coordinate subsequent dispatching of actions', () => {
       // ARRANGE
       // Adds three tests as 'Completed' for the sendCompletedTestsEffect to consume
       // The http responses are mocked in test-submission.mock.ts
@@ -199,13 +194,12 @@ describe('TestsEffects', () => {
             fail('Practice test should not be submitted');
           }
         }
-        done();
       });
     });
   });
 
   describe('sendCurrentTestSuccessEffect', () => {
-    it('should dispatch the TestStatusSubmitted action', (done) => {
+    it('should dispatch the TestStatusSubmitted action', () => {
       const currentTestSlotId = '12345';
       store$.dispatch(testsActions.StartTest(12345, TestCategory.B));
       // ACT
@@ -218,7 +212,6 @@ describe('TestsEffects', () => {
         if (result.type === testsActions.PersistTests.type) {
           expect(result).toEqual(testsActions.PersistTests());
         }
-        done();
       });
     });
   });

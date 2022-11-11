@@ -1,6 +1,5 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
@@ -14,7 +13,7 @@ describe('JournalSlotComponent', () => {
   let component: JournalSlotComponent;
   let slotSelector: SlotSelectorProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         JournalSlotComponent,
@@ -27,9 +26,7 @@ describe('JournalSlotComponent', () => {
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(JournalSlotComponent);
     component = fixture.componentInstance;
     slotSelector = TestBed.inject(SlotSelectorProvider);

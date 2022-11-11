@@ -1,4 +1,3 @@
-import { configureTestSuite } from 'ng-bullet';
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
@@ -35,15 +34,12 @@ describe('FaultCountProvider', () => {
 
   let faultCountProvider: FaultCountProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         FaultCountProvider,
       ],
     });
-  });
-
-  beforeEach(() => {
 
     faultCountProvider = TestBed.inject(FaultCountProvider);
 

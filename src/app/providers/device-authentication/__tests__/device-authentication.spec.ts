@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { TestersEnvironmentFile } from '@environments/models/environment.model';
 import { environment } from '@environments/environment';
@@ -18,7 +17,7 @@ describe('DeviceAuthenticationProvider', () => {
   let platform: Platform;
   let loadingProvider: LoadingProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         DeviceAuthenticationProvider,
@@ -28,9 +27,7 @@ describe('DeviceAuthenticationProvider', () => {
         LoadingProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     platform = TestBed.inject(Platform);
     loadingProvider = TestBed.inject(LoadingProvider);

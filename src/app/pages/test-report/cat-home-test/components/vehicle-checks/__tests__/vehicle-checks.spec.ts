@@ -1,5 +1,5 @@
 import { StoreModel } from '@shared/models/store.model';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { SeriousFaultBadgeComponent }
@@ -15,7 +15,6 @@ import { TestDataByCategoryProvider } from '@providers/test-data-by-category/tes
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { VehicleChecksComponent } from '../vehicle-checks';
 
 describe('VehicleChecksComponent', () => {
@@ -23,7 +22,7 @@ describe('VehicleChecksComponent', () => {
   let component: VehicleChecksComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksComponent,
@@ -41,9 +40,7 @@ describe('VehicleChecksComponent', () => {
         TestDataByCategoryProvider,
       ],
     });
-  });
 
-  beforeEach(async(() => {
     fixture = TestBed.createComponent(VehicleChecksComponent);
     component = fixture.componentInstance;
     store$ = TestBed.get(Store);

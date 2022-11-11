@@ -51,9 +51,8 @@ import {
   ReceiptDeclarationComponent,
 } from '@pages/health-declaration/components/receipt-declaration/receipt-declaration';
 import {
-  Validators, FormControl, FormGroup, ReactiveFormsModule,
+  Validators, UntypedFormControl, UntypedFormGroup, ReactiveFormsModule,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
@@ -75,7 +74,7 @@ describe('HealthDeclarationPage', () => {
     vehicleTypeCode: '',
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -124,9 +123,7 @@ describe('HealthDeclarationPage', () => {
         { provide: Router, useValue: routerSpy },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(HealthDeclarationPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
@@ -168,7 +165,6 @@ describe('HealthDeclarationPage', () => {
       });
     });
     describe('onSubmit', () => {
-
       it('should call the persist and navigate method if all fields set', fakeAsync(() => {
         spyOn(component, 'persistAndNavigate');
         const { formGroup } = component;
@@ -197,13 +193,14 @@ describe('HealthDeclarationPage', () => {
         fixture.detectChanges();
         expect(formGroup.valid).toEqual(true);
         expect(component.showConfirmHealthDeclarationModal).toHaveBeenCalled();
+        flush();
       }));
 
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.formGroup = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.formGroup = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
 
         component.onSubmit();

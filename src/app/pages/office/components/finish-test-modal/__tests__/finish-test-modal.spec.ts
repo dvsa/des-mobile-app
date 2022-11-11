@@ -1,6 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -11,7 +10,7 @@ describe('FinishTestModal', () => {
   let modalFixture: ComponentFixture<FinishTestModal>;
   let modalComponent: FinishTestModal;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         FinishTestModal,
@@ -26,8 +25,7 @@ describe('FinishTestModal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
-  });
-  beforeEach(waitForAsync(() => {
+
     modalFixture = TestBed.createComponent(FinishTestModal);
     modalComponent = modalFixture.componentInstance;
     spyOn(modalComponent.modalController, 'dismiss').and.returnValue(Promise.resolve(true));

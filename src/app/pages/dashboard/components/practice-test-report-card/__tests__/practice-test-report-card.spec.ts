@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   IonicModule,
   ModalController,
 } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { configureTestSuite } from 'ng-bullet';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -30,7 +29,7 @@ describe('PracticeTestReportCardComponent', () => {
   let routeByCategory: RouteByCategoryProvider;
   let modalController: ModalController;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeTestReportCardComponent],
       imports: [IonicModule, StoreModule.forRoot({})],
@@ -39,20 +38,16 @@ describe('PracticeTestReportCardComponent', () => {
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(PracticeTestReportCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     routeByCategory = TestBed.inject(RouteByCategoryProvider);
     store$ = TestBed.inject(Store);
     modalController = TestBed.inject(ModalController);
-
     spyOn(routeByCategory, 'navigateToPage');
     spyOn(store$, 'dispatch');
-  });
+  }));
 
   it('should create', () => {
     expect(component).toBeTruthy();

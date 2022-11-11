@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable, Subscription, merge } from 'rxjs';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { map } from 'rxjs/operators';
@@ -39,7 +39,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatAMod2PassF
 export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent implements OnInit {
 
   pageState: PassFinalisationPageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
   merged$: Observable<string | boolean>;
   transmission: GearboxCategory;
   subscription: Subscription;
@@ -53,7 +53,7 @@ export class PassFinalisationCatAMod2Page extends PassFinalisationPageComponent 
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

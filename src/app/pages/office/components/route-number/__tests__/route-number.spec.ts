@@ -3,7 +3,6 @@ import { IonicModule } from '@ionic/angular';
 import { AppModule } from 'src/app/app.module';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
-import { configureTestSuite } from 'ng-bullet';
 import { RouteNumberComponent } from '../route-number';
 
 describe('RouteNumberComponent', () => {
@@ -11,7 +10,7 @@ describe('RouteNumberComponent', () => {
   let component: RouteNumberComponent;
   let behaviourMapProvider: OutcomeBehaviourMapProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         RouteNumberComponent,
@@ -24,9 +23,7 @@ describe('RouteNumberComponent', () => {
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(RouteNumberComponent);
     behaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     behaviourMapProvider.setBehaviourMap(behaviourMap);

@@ -1,17 +1,16 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MockComponent } from 'ng-mocks';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
-import { configureTestSuite } from 'ng-bullet';
 import { SignatureComponent } from '../signature';
 
 describe('SignatureComponent', () => {
   let fixture: ComponentFixture<SignatureComponent>;
   let component: SignatureComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SignatureComponent,
@@ -23,9 +22,7 @@ describe('SignatureComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SignatureComponent);
     component = fixture.componentInstance;
   }));
@@ -34,7 +31,7 @@ describe('SignatureComponent', () => {
     describe('ngOnChanges', () => {
       it('should correctly setup the form control', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.signature = 'abcdefg';
         // ACT
         component.ngOnChanges();
@@ -48,7 +45,7 @@ describe('SignatureComponent', () => {
     describe('isInvalid', () => {
       it('should validate the field when it is valid', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.signature = 'test data';
         component.ngOnChanges();
         fixture.detectChanges();
@@ -60,7 +57,7 @@ describe('SignatureComponent', () => {
       });
       it('should not validate the field when it is dirty', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.formControl.markAsDirty();
         fixture.detectChanges();

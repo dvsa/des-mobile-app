@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ReasonGivenComponent } from '../reason-given.component';
 
 describe('ReasonGivenComponent', () => {
   let component: ReasonGivenComponent;
   let fixture: ComponentFixture<ReasonGivenComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ReasonGivenComponent,
@@ -20,12 +19,10 @@ describe('ReasonGivenComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ReasonGivenComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   it('should create', () => {

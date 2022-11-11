@@ -1,21 +1,18 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { ProgressiveAccessComponent } from '../progressive-access';
 
 describe('ProgressiveAccessComponent', () => {
   let component: ProgressiveAccessComponent;
   let fixture: ComponentFixture<ProgressiveAccessComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ProgressiveAccessComponent],
       imports: [IonicModule],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ProgressiveAccessComponent);
     component = fixture.componentInstance;
   }));

@@ -3,14 +3,13 @@ import { IonicModule } from '@ionic/angular';
 
 import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
-import { configureTestSuite } from 'ng-bullet';
 import { ActivityCodeCard } from '../activity-code-card';
 
 describe('ActivityCodeCard', () => {
   let component: ActivityCodeCard;
   let fixture: ComponentFixture<ActivityCodeCard>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ActivityCodeCard,
@@ -20,9 +19,7 @@ describe('ActivityCodeCard', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ActivityCodeCard);
     component = fixture.componentInstance;
   }));

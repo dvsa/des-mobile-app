@@ -44,7 +44,7 @@ import {
   getCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { getNewTestStartTime } from '@shared/helpers/test-start-time';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import {
@@ -184,7 +184,7 @@ export interface CommonOfficePageState {
 export abstract class OfficeBasePageComponent extends PracticeableBasePageComponent {
 
   commonPageState: CommonOfficePageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
   toast: HTMLIonToastElement;
   subscription: Subscription;
   startDateTime: string;
@@ -208,7 +208,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     @Inject(false) public loginRequired: boolean = false,
   ) {
     super(platform, authenticationProvider, router, store$, loginRequired);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.activityCodeOptions = activityCodeModelList;
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();
   }

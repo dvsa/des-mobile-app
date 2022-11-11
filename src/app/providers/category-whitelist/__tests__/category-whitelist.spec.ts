@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CategoryWhitelistProvider } from '../category-whitelist';
 
@@ -6,7 +5,6 @@ describe('CategoryWhitelistProvider', () => {
   let provider: CategoryWhitelistProvider;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
     provider = new CategoryWhitelistProvider();
   });
 

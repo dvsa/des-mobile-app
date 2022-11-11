@@ -1,5 +1,3 @@
-import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { FaultCountAM2Helper } from '../fault-count.cat-a-mod2';
 import {
   catAM2TestDataStateObject,
@@ -10,12 +8,6 @@ import {
 } from '../../__mocks__/cat-AM2-test-data-state-object.mock';
 
 describe('FaultCountAM2Helper', () => {
-
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-    });
-  });
-
   describe('getSafetyAndBalanceFaultCountCatAM2', () => {
     it('0 driving faults', () => {
       const output = { drivingFaults: 0 };

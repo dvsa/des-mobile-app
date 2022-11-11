@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, Platform } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
@@ -96,7 +95,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -107,9 +106,7 @@ describe('WaitingRoomToCarBasePageComponent', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);

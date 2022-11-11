@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { SafetyDataRowComponent } from '../safety-question-data-row';
 
 describe('SafetyDataRowComponent', () => {
   let fixture: ComponentFixture<SafetyDataRowComponent>;
   let component: SafetyDataRowComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SafetyDataRowComponent,
@@ -16,9 +15,7 @@ describe('SafetyDataRowComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyDataRowComponent);
     component = fixture.componentInstance;
   }));

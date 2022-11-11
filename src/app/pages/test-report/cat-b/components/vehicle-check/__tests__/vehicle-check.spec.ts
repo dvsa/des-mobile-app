@@ -15,7 +15,6 @@ import {
 import { By } from '@angular/platform-browser';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import {
   ShowMeQuestionDangerousFault,
@@ -39,7 +38,7 @@ describe('VehicleCheckComponent', () => {
   let component: VehicleCheckComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleCheckComponent,
@@ -54,9 +53,7 @@ describe('VehicleCheckComponent', () => {
         StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleCheckComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

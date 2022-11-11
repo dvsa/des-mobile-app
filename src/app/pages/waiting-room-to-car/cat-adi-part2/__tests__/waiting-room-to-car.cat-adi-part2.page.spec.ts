@@ -6,7 +6,6 @@ import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -33,7 +32,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -91,7 +90,7 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -113,44 +112,20 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        {
-          provide: RouteByCategoryProvider,
-          useClass: RouteByCategoryProviderMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: Platform,
-          useFactory: () => PlatformMock.instance(),
-        },
-        {
-          provide: Router,
-          useClass: RouterMock,
-        },
-        {
-          provide: DateTimeProvider,
-          useClass: DateTimeProviderMock,
-        },
-        {
-          provide: QuestionProvider,
-          useClass: QuestionProviderMock,
-        },
-        {
-          provide: FaultCountProvider,
-          useClass: FaultCountProvider,
-        },
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Router, useClass: RouterMock },
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        { provide: QuestionProvider, useClass: QuestionProviderMock },
+        { provide: FaultCountProvider, useClass: FaultCountProvider },
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WaitingRoomToCarCatADIPart2Page);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     store$ = TestBed.inject(Store);
     routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
     spyOn(store$, 'dispatch');
@@ -161,8 +136,7 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
   });
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('Class', () => {
@@ -170,17 +144,15 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
       it('should call through to the base page init method', () => {
         spyOn(WaitingRoomToCarBasePageComponent.prototype, 'onInitialisation');
         component.ngOnInit();
-        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation)
-          .toHaveBeenCalled();
+        expect(WaitingRoomToCarBasePageComponent.prototype.onInitialisation).toHaveBeenCalled();
       });
     });
     describe('eyesightFailCancelled', () => {
       it('should reset eyesight control', () => {
-        const control = new FormControl('value');
+        const control = new UntypedFormControl('value');
         component.form.addControl('eyesightCtrl', control);
         component.eyesightFailCancelled();
-        expect(component.form.get('eyesightCtrl').value)
-          .toEqual(null);
+        expect(component.form.get('eyesightCtrl').value).toEqual(null);
       });
     });
     describe('onSubmit', () => {
@@ -188,8 +160,8 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
         spyOn(routeByCategoryProvider, 'navigateToPage');
       });
       it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
-        component.form = new FormGroup({
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          notRequiredControl: new UntypedFormControl(null),
         });
         component.testCategory = TestCategory.ADI2;
         await component.onSubmit();
@@ -200,18 +172,16 @@ describe('WaitingRoomToCarCatADIPart2Page', () => {
           );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-        component.form = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
 
         await component.onSubmit();
         tick();
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl1 is blank'));
+        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomToCarValidationError('requiredControl2 is blank'));
         expect(store$.dispatch)
           .not
           .toHaveBeenCalledWith(WaitingRoomToCarValidationError('notRequiredControl is blank'));

@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'other-reason',
@@ -11,8 +11,8 @@ export class OtherReasonComponent implements OnChanges {
 
   static readonly checkBoxCtrl: string = 'otherSelected';
   static readonly fieldName: string = 'reason';
-  private checkBoxFormControl: FormControl;
-  private formControl: FormControl;
+  private checkBoxFormControl: UntypedFormControl;
+  private formControl: UntypedFormControl;
   public reasonDescriptionCharsRemaining: number = null;
 
   @Input()
@@ -22,7 +22,7 @@ export class OtherReasonComponent implements OnChanges {
   reason: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   selectedChange = new EventEmitter<boolean>();
@@ -32,12 +32,12 @@ export class OtherReasonComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.checkBoxFormControl) {
-      this.checkBoxFormControl = new FormControl(null);
+      this.checkBoxFormControl = new UntypedFormControl(null);
       this.formGroup.addControl(OtherReasonComponent.checkBoxCtrl, this.checkBoxFormControl);
     }
 
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(OtherReasonComponent.fieldName, this.formControl);
     }
 

@@ -3,7 +3,6 @@ import { By } from '@angular/platform-browser';
 import { StoreModule, Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -40,7 +39,7 @@ describe('PcvDoorExerciseComponent', () => {
   let component: PcvDoorExerciseComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         PcvDoorExerciseComponent,
@@ -112,16 +111,13 @@ describe('PcvDoorExerciseComponent', () => {
         { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PcvDoorExerciseComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
   }));
 
   describe('Class', () => {
-
     describe('addDrivingFault', () => {
       it('should dispatch a THROTTLE_ADD_DRIVING_FAULT action for press', () => {
         component.pcvDoorExercise = { drivingFault: false };

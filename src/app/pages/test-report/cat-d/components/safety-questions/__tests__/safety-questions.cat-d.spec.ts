@@ -5,7 +5,6 @@ import { MockComponent } from 'ng-mocks';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.model';
@@ -21,7 +20,7 @@ describe('SafetyQuestionsComponent', () => {
   let component: SafetyQuestionsCatDComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SafetyQuestionsCatDComponent,
@@ -38,9 +37,7 @@ describe('SafetyQuestionsComponent', () => {
         TestDataByCategoryProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyQuestionsCatDComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

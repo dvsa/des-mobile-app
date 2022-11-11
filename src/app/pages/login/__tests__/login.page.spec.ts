@@ -4,7 +4,6 @@ import {
 import {
   AlertController, IonicModule, LoadingController, MenuController, Platform,
 } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
@@ -51,7 +50,7 @@ describe('LoginPage', () => {
   let logHelper: LogHelper;
   let analytics: AnalyticsProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [LoginPage],
@@ -80,9 +79,7 @@ describe('LoginPage', () => {
         provideMockStore({ ...{} }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -4,7 +4,6 @@ import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
-import { configureTestSuite } from 'ng-bullet';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestSummaryCardComponent } from '../test-summary-card';
 
@@ -12,7 +11,7 @@ describe('TestSummaryCardComponent', () => {
   let fixture: ComponentFixture<TestSummaryCardComponent>;
   let component: TestSummaryCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestSummaryCardComponent,
@@ -23,9 +22,7 @@ describe('TestSummaryCardComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestSummaryCardComponent);
     component = fixture.componentInstance;
   }));

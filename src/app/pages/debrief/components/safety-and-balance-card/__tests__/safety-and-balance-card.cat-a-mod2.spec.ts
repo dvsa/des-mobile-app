@@ -6,7 +6,6 @@ import { ConfigMock } from 'ionic-mocks';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import {
   SafetyQuestionSelected,
@@ -29,7 +28,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
   let store$: Store<StoreModel>;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SafetyAndBalanceCardCatAMod2Component,
@@ -50,16 +49,14 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
         { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SafetyAndBalanceCardCatAMod2Component);
     store$ = TestBed.inject(Store);
+    translate = TestBed.inject(TranslateService);
+    translate.setDefaultLang('en');
     store$.dispatch(StartTest(105, TestCategory.EUA2M2));
     store$.dispatch(PopulateTestCategory(TestCategory.EUA2M2));
     store$.dispatch(PopulateCandidateDetails(candidateMock));
-    translate = TestBed.inject(TranslateService);
-    translate.setDefaultLang('en');
   }));
 
   describe('DOM', () => {

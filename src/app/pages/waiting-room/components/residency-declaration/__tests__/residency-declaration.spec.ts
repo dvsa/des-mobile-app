@@ -7,15 +7,14 @@ import {
   TranslateLoader,
   TranslateParser,
 } from '@ngx-translate/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ResidencyDeclarationComponent } from '../residency-declaration';
 
 describe('ResidencyDeclarationComponent', () => {
   let fixture: ComponentFixture<ResidencyDeclarationComponent>;
   let component: ResidencyDeclarationComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ResidencyDeclarationComponent,
@@ -31,9 +30,7 @@ describe('ResidencyDeclarationComponent', () => {
         TranslateParser,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ResidencyDeclarationComponent);
     component = fixture.componentInstance;
   }));
@@ -42,7 +39,7 @@ describe('ResidencyDeclarationComponent', () => {
     describe('ngOnChanges', () => {
       it('should correctly setup the form control', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.selected = true;
         // ACT
         component.ngOnChanges();
@@ -56,7 +53,7 @@ describe('ResidencyDeclarationComponent', () => {
     describe('residencyDeclarationChanged', () => {
       it('should emit a residencyDeclarationChange event', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.residencyDeclarationChange = new EventEmitter();
         spyOn(component.residencyDeclarationChange, 'emit');
@@ -72,7 +69,7 @@ describe('ResidencyDeclarationComponent', () => {
     describe('isInvalid', () => {
       it('should validate the field when it is valid', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.selected = true;
         component.ngOnChanges();
         fixture.detectChanges();
@@ -84,7 +81,7 @@ describe('ResidencyDeclarationComponent', () => {
       });
       it('should not validate the field when it is dirty', () => {
         // ARRANGE
-        component.formGroup = new FormGroup({});
+        component.formGroup = new UntypedFormGroup({});
         component.ngOnChanges();
         component.formControl.markAsDirty();
         fixture.detectChanges();

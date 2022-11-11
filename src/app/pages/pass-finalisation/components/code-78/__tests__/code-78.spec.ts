@@ -1,14 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
+import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Code78Component } from '../code-78';
 
-describe('code78Component', () => {
+describe('Code78Component', () => {
   let fixture: ComponentFixture<Code78Component>;
   let component: Code78Component;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         Code78Component,
@@ -18,12 +17,10 @@ describe('code78Component', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(Code78Component);
     component = fixture.componentInstance;
-    component.form = new FormGroup({});
+    component.form = new UntypedFormGroup({});
   }));
 
   describe('Class', () => {

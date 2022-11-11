@@ -8,7 +8,6 @@ import {
   Platform,
   ToastController,
 } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
@@ -66,7 +65,7 @@ import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-su
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { take } from 'rxjs/operators';
 import {
-  AbstractControl, FormControl, FormGroup, Validators,
+  AbstractControl, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { of, Subscription } from 'rxjs';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
@@ -102,7 +101,7 @@ describe('OfficeBasePageComponent', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: Platform, useFactory: () => PlatformMock.instance() },
@@ -118,9 +117,7 @@ describe('OfficeBasePageComponent', () => {
         { provide: FaultCountProvider, useClass: FaultCountProvider },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     platform = TestBed.inject(Platform);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     router = TestBed.inject(Router);
@@ -199,7 +196,7 @@ describe('OfficeBasePageComponent', () => {
 
   describe('activityCodeChanged', () => {
     beforeEach(() => {
-      basePageComponent.form.addControl('showMeQuestion', new FormControl('', []));
+      basePageComponent.form.addControl('showMeQuestion', new UntypedFormControl('', []));
       spyOn(basePageComponent.form.controls['showMeQuestion'], 'setValue');
     });
     it('should dispatch a SetActivityCode action with the activity code', () => {
@@ -520,10 +517,10 @@ describe('OfficeBasePageComponent', () => {
     });
 
     it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-      basePageComponent.form = new FormGroup({
-        requiredControl1: new FormControl(null, [Validators.required]),
-        requiredControl2: new FormControl(null, [Validators.required]),
-        notRequiredControl: new FormControl(null),
+      basePageComponent.form = new UntypedFormGroup({
+        requiredControl1: new UntypedFormControl(null, [Validators.required]),
+        requiredControl2: new UntypedFormControl(null, [Validators.required]),
+        notRequiredControl: new UntypedFormControl(null),
       });
 
       basePageComponent.isFormValid();

@@ -1,5 +1,4 @@
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 
@@ -13,7 +12,7 @@ describe('PreviewModeModal', () => {
   let component: PreviewModeModal;
   let modalController: ModalController;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         PreviewModeModal,
@@ -26,9 +25,7 @@ describe('PreviewModeModal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PreviewModeModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);

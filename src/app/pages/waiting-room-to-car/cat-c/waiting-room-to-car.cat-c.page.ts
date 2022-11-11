@@ -11,7 +11,7 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { Observable, merge } from 'rxjs';
@@ -61,7 +61,7 @@ type WaitingRoomToCarPageState = CommonWaitingRoomToCarPageState & CatCWaitingRo
 })
 export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   pageState: WaitingRoomToCarPageState;
   fullLicenceHeld: boolean = null;
   isDelegated: boolean = false;
@@ -76,7 +76,7 @@ export class WaitingRoomToCarCatCPage extends WaitingRoomToCarBasePageComponent 
     alertController: AlertController,
   ) {
     super(platform, authenticationProvider, router, store$, routeByCat, alertController);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {

@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { TestSlot, NonTestActivity } from '@dvsa/mes-journal-schema';
-import { configureTestSuite } from 'ng-bullet';
 import { ActivitySlotComponent } from '@pages/journal/components/activity-slot/activity-slot';
 import { EmptySlotComponent } from '@pages/journal/components/empty-slot/empty-slot';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
@@ -9,18 +8,16 @@ import { Slot } from '@store/journal/journal.model';
 import { SlotSelectorProvider } from '../slot-selector';
 import { SlotItem } from '../slot-item';
 
-describe('Slot Selector', () => {
+describe('SlotSelectorProvider', () => {
   let slotSelector: SlotSelectorProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         SlotSelectorProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     slotSelector = TestBed.inject(SlotSelectorProvider);
   });
 

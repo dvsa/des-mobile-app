@@ -1,7 +1,6 @@
 import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { ConfigMock } from 'ionic-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
@@ -15,7 +14,7 @@ describe('PracticeModeBanner', () => {
   let component: PracticeModeBanner;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PracticeModeBanner],
       imports: [IonicModule, RouterTestingModule, StoreModule.forRoot({
@@ -31,9 +30,7 @@ describe('PracticeModeBanner', () => {
         CategoryWhitelistProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PracticeModeBanner);
     component = fixture.componentInstance;
   }));

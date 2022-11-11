@@ -1,7 +1,6 @@
 import { ReplaySubject, defer } from 'rxjs';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule, Store } from '@ngrx/store';
@@ -28,11 +27,11 @@ function asyncError(errorObject: any) {
 
 describe('RekeyReasonEffects', () => {
   let effects: RekeyReasonEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let findUserProvider: FindUserProvider;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -48,9 +47,7 @@ describe('RekeyReasonEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(RekeyReasonEffects);
     store$ = TestBed.inject(Store);

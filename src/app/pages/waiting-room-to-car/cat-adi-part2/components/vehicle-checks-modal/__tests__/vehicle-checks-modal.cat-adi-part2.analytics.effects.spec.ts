@@ -16,18 +16,17 @@ import {
   QuestionOutcome,
   QuestionResult,
 } from '@dvsa/mes-test-schema/categories/common';
-import { configureTestSuite } from 'ng-bullet';
 import { VehicleChecksViewDidEnter } from '../vehicle-checks-modal.cat-adi-part2.actions';
 import { VehicleChecksModalAnalyticsEffects } from '../vehicle-checks-modal.cat-adi-part2.analytics.effects';
 
 describe('VehicleChecksModalAnalyticsEffects', () => {
   let effects: VehicleChecksModalAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.VEHICLE_CHECKS;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -41,9 +40,7 @@ describe('VehicleChecksModalAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(VehicleChecksModalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

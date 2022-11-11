@@ -3,7 +3,6 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { QuestionProvider } from '@providers/question/question';
 import { AppModule } from '@app/app.module';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -11,7 +10,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import {
   OrditTrainerCatAdiPart2Component,
@@ -22,7 +21,7 @@ describe('OrditTrainerCatAdiPart2Component', () => {
   let component: OrditTrainerCatAdiPart2Component;
   let fixture: ComponentFixture<OrditTrainerCatAdiPart2Component>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -33,40 +32,22 @@ describe('OrditTrainerCatAdiPart2Component', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        {
-          provide: RouteByCategoryProvider,
-          useClass: RouteByCategoryProviderMock,
-        },
-        {
-          provide: AuthenticationProvider,
-          useClass: AuthenticationProviderMock,
-        },
-        {
-          provide: DateTimeProvider,
-          useClass: DateTimeProviderMock,
-        },
-        {
-          provide: QuestionProvider,
-          useClass: QuestionProviderMock,
-        },
-        {
-          provide: FaultCountProvider,
-          useClass: FaultCountProvider,
-        },
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        { provide: QuestionProvider, useClass: QuestionProviderMock },
+        { provide: FaultCountProvider, useClass: FaultCountProvider },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(OrditTrainerCatAdiPart2Component);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null, [Validators.required]);
+    component.formGroup = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [Validators.required]);
   }));
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('Class',

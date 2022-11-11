@@ -1,7 +1,7 @@
 import {
   Component, Input, OnChanges, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {
   getByteCount,
   getPassCertificateAMOD1Validator,
@@ -19,12 +19,12 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
   passCertificateNumberInput: string;
 
   @Input()
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Output()
   passCertificateNumberChange = new EventEmitter<string>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;
 
@@ -37,7 +37,7 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [
+      this.formControl = new UntypedFormControl(null, [
         Validators.pattern(this.passCertificateAMOD1Validator.pattern),
         Validators.required,
       ]);

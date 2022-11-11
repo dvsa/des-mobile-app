@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { RekeyReasonCardComponent } from '../rekey-reason';
 
@@ -9,7 +8,7 @@ describe('RekeyReasonCardComponent', () => {
   let fixture: ComponentFixture<RekeyReasonCardComponent>;
   let component: RekeyReasonCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         RekeyReasonCardComponent,
@@ -19,9 +18,7 @@ describe('RekeyReasonCardComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(RekeyReasonCardComponent);
     component = fixture.componentInstance;
   }));

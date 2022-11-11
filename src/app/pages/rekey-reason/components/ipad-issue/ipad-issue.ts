@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'ipad-issue',
@@ -32,7 +32,7 @@ export class IpadIssueComponent implements OnChanges {
   broken: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   selectedChange = new EventEmitter<boolean>();
@@ -49,41 +49,41 @@ export class IpadIssueComponent implements OnChanges {
   @Output()
   brokenChange = new EventEmitter<boolean>();
 
-  private checkBoxFormControl: FormControl;
-  private technicalFaultFormControl: FormControl;
-  private lostFormControl: FormControl;
-  private stolenFormControl: FormControl;
-  private brokenFormControl: FormControl;
-  private ipadIssueControl: FormControl;
+  private checkBoxFormControl: UntypedFormControl;
+  private technicalFaultFormControl: UntypedFormControl;
+  private lostFormControl: UntypedFormControl;
+  private stolenFormControl: UntypedFormControl;
+  private brokenFormControl: UntypedFormControl;
+  private ipadIssueControl: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.ipadIssueControl) {
-      this.ipadIssueControl = new FormControl(null, [Validators.required]);
+      this.ipadIssueControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(IpadIssueComponent.ipadIssueCtrl, this.ipadIssueControl);
     }
 
     if (!this.checkBoxFormControl) {
-      this.checkBoxFormControl = new FormControl(null);
+      this.checkBoxFormControl = new UntypedFormControl(null);
       this.formGroup.addControl(IpadIssueComponent.checkBoxCtrl, this.checkBoxFormControl);
     }
 
     if (!this.technicalFaultFormControl) {
-      this.technicalFaultFormControl = new FormControl(null);
+      this.technicalFaultFormControl = new UntypedFormControl(null);
       this.formGroup.addControl(IpadIssueComponent.technicalFaultCtrl, this.technicalFaultFormControl);
     }
 
     if (!this.lostFormControl) {
-      this.lostFormControl = new FormControl(null);
+      this.lostFormControl = new UntypedFormControl(null);
       this.formGroup.addControl(IpadIssueComponent.lostCtrl, this.lostFormControl);
     }
 
     if (!this.stolenFormControl) {
-      this.stolenFormControl = new FormControl(null);
+      this.stolenFormControl = new UntypedFormControl(null);
       this.formGroup.addControl(IpadIssueComponent.stolenCtrl, this.stolenFormControl);
     }
 
     if (!this.brokenFormControl) {
-      this.brokenFormControl = new FormControl(null);
+      this.brokenFormControl = new UntypedFormControl(null);
       this.formGroup.addControl(IpadIssueComponent.brokenCtrl, this.brokenFormControl);
     }
 

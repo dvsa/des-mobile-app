@@ -10,8 +10,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
@@ -50,7 +49,7 @@ describe('PassFinalisationCatBPage', () => {
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -79,9 +78,7 @@ describe('PassFinalisationCatBPage', () => {
         OutcomeBehaviourMapProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(PassFinalisationCatBPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
@@ -110,11 +107,11 @@ describe('PassFinalisationCatBPage', () => {
       });
 
       it('should dispatch the appropriate ValidationError actions', fakeAsync(() => {
-        component.form = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          [PASS_CERTIFICATE_NUMBER_CTRL]: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          [PASS_CERTIFICATE_NUMBER_CTRL]: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
 
         component.onSubmit();

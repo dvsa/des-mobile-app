@@ -3,7 +3,6 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { QuestionProvider } from '@providers/question/question';
 import { AppModule } from '@app/app.module';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -11,8 +10,8 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
-  FormControl,
-  FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl,
+  UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DualControlsComponent } from '@pages/waiting-room-to-car/cat-adi-part3/components/dual-controls/dual-controls';
@@ -21,7 +20,7 @@ describe('DualControlsComponent', () => {
   let component: DualControlsComponent;
   let fixture: ComponentFixture<DualControlsComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -54,13 +53,11 @@ describe('DualControlsComponent', () => {
         },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DualControlsComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null, [Validators.required]);
+    component.formGroup = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [Validators.required]);
   }));
 
   it('should create', () => {

@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'language-preferences',
@@ -14,7 +14,7 @@ export class LanguagePreferencesComponent implements OnChanges {
   isWelsh: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   isDelegated: boolean = false;
@@ -22,11 +22,11 @@ export class LanguagePreferencesComponent implements OnChanges {
   @Output()
   welshChanged = new EventEmitter<boolean>();
 
-  private languagePref: FormControl;
+  private languagePref: UntypedFormControl;
 
   ngOnChanges(): void {
     if (!this.languagePref) {
-      this.languagePref = new FormControl(null, Validators.required);
+      this.languagePref = new UntypedFormControl(null, Validators.required);
       this.formGroup.addControl('languagePreferences', this.languagePref);
       this.formGroup.get('languagePreferences').setValidators([Validators.required]);
     }

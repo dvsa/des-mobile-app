@@ -1,4 +1,3 @@
-import { configureTestSuite } from 'ng-bullet';
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestData } from '@dvsa/mes-test-schema/categories/CPC';
@@ -14,15 +13,13 @@ import { CPCQuestionProvider } from '../cpc-questions';
 describe('CPC Question Provider', () => {
   let cpcQuestionProvider: CPCQuestionProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CPCQuestionProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     cpcQuestionProvider = TestBed.inject(CPCQuestionProvider);
   });
 

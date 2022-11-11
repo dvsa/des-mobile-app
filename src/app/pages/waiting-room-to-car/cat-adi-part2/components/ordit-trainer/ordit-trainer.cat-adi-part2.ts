@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum OrditTrained {
   YES = 'true',
@@ -18,19 +18,19 @@ export class OrditTrainerCatAdiPart2Component {
   orditTrainedRadioChecked: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   notSC: boolean = true;
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   @Output()
   orditTrainedOutcomeChange = new EventEmitter<boolean>();
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl('orditTrainedCtrl', this.formControl);
     }
     if (this.orditTrainedRadioChecked === true || this.orditTrainedRadioChecked === false) {

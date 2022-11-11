@@ -3,7 +3,6 @@ import { IonicModule, NavParams, ModalController } from '@ionic/angular';
 import { NavParamsMock } from 'ionic-mocks';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -16,7 +15,7 @@ describe('CPCEndTestModal', () => {
   let component: CPCEndTestModal;
   let modalController: ModalController;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CPCEndTestModal,
@@ -31,9 +30,7 @@ describe('CPCEndTestModal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CPCEndTestModal);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);

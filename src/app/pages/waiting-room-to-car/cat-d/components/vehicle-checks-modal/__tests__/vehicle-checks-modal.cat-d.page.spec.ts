@@ -21,7 +21,6 @@ import {
   SafetyQuestionOutcomeChanged,
 } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.action';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { VehicleChecksScore } from '@shared/models/vehicle-checks-score.model';
@@ -155,7 +154,7 @@ describe('VehicleChecksCatDModal', () => {
     },
   ];
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatDModal,
@@ -189,9 +188,7 @@ describe('VehicleChecksCatDModal', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatDModal);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

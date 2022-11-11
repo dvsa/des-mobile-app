@@ -441,7 +441,7 @@ export class TestsEffects {
           ),
         ),
       )),
-    map(([,]) => testActions.SendCompletedTests()),
+    map(() => testActions.SendCompletedTests()),
   ));
 
   sendCurrentTestEffect$ = createEffect(() => this.actions$.pipe(

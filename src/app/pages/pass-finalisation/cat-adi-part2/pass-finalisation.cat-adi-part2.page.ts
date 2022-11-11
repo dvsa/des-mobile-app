@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import {
   PassFinalisationReportActivityCode,
@@ -32,7 +32,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatADI2PassFi
 })
 export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent implements OnInit {
   pageState: PassFinalisationPageState;
-  form: FormGroup;
+  form: UntypedFormGroup;
   merged$: Observable<string | boolean>;
   subscription: Subscription;
 
@@ -45,7 +45,7 @@ export class PassFinalisationCatADI2Page extends PassFinalisationPageComponent i
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

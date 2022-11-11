@@ -2,7 +2,6 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { Platform, ModalController } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from '@app/app.module';
 import { AppComponent } from '@app/app.component';
@@ -28,7 +27,7 @@ describe('TestResultsSearchPage', () => {
   let appConfigProviderMock: AppConfigProvider;
   let authProviderMock: AuthenticationProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -48,9 +47,7 @@ describe('TestResultsSearchPage', () => {
         { provide: AppComponent, useClass: MockAppComponent },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestResultsSearchPage);
     component = fixture.componentInstance;
     modalController = TestBed.inject(ModalController);

@@ -20,7 +20,6 @@ import { NavigationStateProvider } from '@providers/navigation-state/navigation-
 import {
   NavigationStateProviderMock,
 } from '@providers/navigation-state/__mocks__/navigation-state.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { testReportReducer } from '../../../../test-report.reducer';
 import { ManoeuvresComponent } from '../manoeuvres';
 
@@ -28,11 +27,11 @@ describe('ManoeuvresComponent', () => {
   let fixture: ComponentFixture<ManoeuvresComponent>;
   let component: ManoeuvresComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ManoeuvresComponent,
-        TickIndicatorComponent,
+        MockComponent(TickIndicatorComponent),
         MockComponent(DrivingFaultsBadgeComponent),
         MockComponent(SeriousFaultBadgeComponent),
         MockComponent(DangerousFaultBadgeComponent),
@@ -92,9 +91,7 @@ describe('ManoeuvresComponent', () => {
         { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ManoeuvresComponent);
     component = fixture.componentInstance;
   }));

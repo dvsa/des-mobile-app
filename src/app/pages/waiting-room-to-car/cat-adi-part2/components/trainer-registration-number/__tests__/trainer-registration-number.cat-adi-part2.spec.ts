@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 
 import { TrainerRegistrationNumberCatAdiPart2Component } from '../trainer-registration-number.cat-adi-part2';
 import {
@@ -15,7 +14,7 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
   let fixture: ComponentFixture<TrainerRegistrationNumberCatAdiPart2Component>;
   let component: TrainerRegistrationNumberCatAdiPart2Component;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TrainerRegistrationNumberCatAdiPart2Component,
@@ -24,13 +23,11 @@ describe('TrainerRegistrationNumberCatAdiPart2Component', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TrainerRegistrationNumberCatAdiPart2Component);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formControl = new FormControl(null, [Validators.required]);
+    component.formGroup = new UntypedFormGroup({});
+    component.formControl = new UntypedFormControl(null, [Validators.required]);
   }));
 
   describe('ngOnChanges', () => {

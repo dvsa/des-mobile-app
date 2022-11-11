@@ -1,15 +1,14 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing'; // ComponentFixture
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { AppModule } from '../../../../app/app.module';
+import { AppModule } from '@app/app.module';
 import { SubmissionStatusComponent } from '../submission-status';
 
-xdescribe('PracticeTestModal', () => {
+describe('PracticeTestModal', () => {
   let fixture: ComponentFixture<SubmissionStatusComponent>;
   let component: SubmissionStatusComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SubmissionStatusComponent,
@@ -19,9 +18,7 @@ xdescribe('PracticeTestModal', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SubmissionStatusComponent);
     component = fixture.componentInstance;
   }));

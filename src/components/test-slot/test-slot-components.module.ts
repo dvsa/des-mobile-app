@@ -37,9 +37,6 @@ import { ExaminerNameComponent } from './examiner-name/examiner-name';
     CommonModule,
     IonicModule,
   ],
-  entryComponents: [
-    TestSlotComponent,
-  ],
   exports: [
     AdditionalCandidateDetailsComponent,
     CandidateLinkComponent,

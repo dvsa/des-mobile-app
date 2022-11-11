@@ -1,14 +1,13 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { EventEmitter } from '@angular/core';
-import { configureTestSuite } from 'ng-bullet';
 import { ConductedLanguageComponent } from '../conducted-language';
 
 describe('ConductedLanguageComponent', () => {
   let fixture: ComponentFixture<ConductedLanguageComponent>;
   let component: ConductedLanguageComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ConductedLanguageComponent,
@@ -17,9 +16,7 @@ describe('ConductedLanguageComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ConductedLanguageComponent);
     component = fixture.componentInstance;
   }));
@@ -61,8 +58,5 @@ describe('ConductedLanguageComponent', () => {
         expect(component.englishIsSelected).toEqual(true);
       });
     });
-  });
-  describe('DOM', () => {
-
   });
 });

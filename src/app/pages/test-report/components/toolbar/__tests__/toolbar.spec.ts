@@ -7,7 +7,6 @@ import { MockComponent } from 'ng-mocks';
 
 import { testsReducer } from '@store/tests/tests.reducer';
 import { StoreModel } from '@shared/models/store.model';
-import { configureTestSuite } from 'ng-bullet';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { ToolbarComponent } from '../toolbar';
 import { DrivingFaultSummaryComponent } from '../../driving-fault-summary/driving-fault-summary';
@@ -23,7 +22,7 @@ describe('ToolbarComponent', () => {
   let store$: Store<StoreModel>;
   let storeDispatchSpy: jasmine.Spy;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ToolbarComponent,
@@ -42,9 +41,7 @@ describe('ToolbarComponent', () => {
         { provide: FaultCountProvider, useClass: FaultCountProvider },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ToolbarComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import {
   AssessmentAnswerComponent,
 } from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
@@ -11,7 +10,7 @@ describe('StudentComponent', () => {
   let fixture: ComponentFixture<StudentComponent>;
   let component: StudentComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         StudentComponent,
@@ -21,7 +20,7 @@ describe('StudentComponent', () => {
         IonicModule,
       ],
     });
-  });
+  }));
 
   beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(StudentComponent);

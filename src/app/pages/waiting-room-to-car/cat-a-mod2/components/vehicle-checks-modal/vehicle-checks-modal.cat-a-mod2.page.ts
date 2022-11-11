@@ -8,7 +8,7 @@ import { getCandidate } from '@store/tests/journal-data/common/candidate/candida
 import { getUntitledCandidateName }
   from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { Observable, merge, Subscription } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { QuestionProvider } from '@providers/question/question';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { QuestionResult, QuestionOutcome } from '@dvsa/mes-test-schema/categories/common';
@@ -49,7 +49,7 @@ interface VehicleChecksModalState {
 export class VehicleChecksCatAMod2Modal {
 
   pageState: VehicleChecksModalState;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   safetyQuestions: VehicleChecksQuestion[];
   balanceQuestions: VehicleChecksQuestion[];
@@ -68,7 +68,7 @@ export class VehicleChecksCatAMod2Modal {
     public modalCtrl: ModalController,
     questionProvider: QuestionProvider,
   ) {
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.safetyQuestions = questionProvider.getSafetyQuestions(TestCategory.EUAM2);
     this.balanceQuestions = questionProvider.getBalanceQuestions(TestCategory.EUAM2);
   }

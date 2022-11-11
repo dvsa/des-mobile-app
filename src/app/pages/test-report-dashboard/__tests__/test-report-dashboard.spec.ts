@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import { IonicModule, ModalController } from '@ionic/angular';
@@ -18,7 +17,7 @@ describe('TestReportDashboardPage', () => {
   let fixture: ComponentFixture<TestReportDashboardPage>;
   let component: TestReportDashboardPage;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportDashboardPage,
@@ -39,9 +38,7 @@ describe('TestReportDashboardPage', () => {
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestReportDashboardPage);
     component = fixture.componentInstance;
   }));

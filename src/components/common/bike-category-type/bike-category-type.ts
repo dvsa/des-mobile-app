@@ -1,7 +1,7 @@
 import {
   Component, OnChanges, Input, ViewChild, Output, EventEmitter,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { IonSelect } from '@ionic/angular';
 import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
@@ -23,7 +23,7 @@ export class BikeCategoryTypeComponent implements OnChanges {
   @ViewChild('categorySelect') selectRef: IonSelect;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   testCategory: CategoryCode;
@@ -37,7 +37,7 @@ export class BikeCategoryTypeComponent implements OnChanges {
   @Output()
   categoryCodeChange = new EventEmitter<CategoryCode>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   bikeCategoryDetails: BikeCategoryDetail[];
 
   constructor(
@@ -54,7 +54,7 @@ export class BikeCategoryTypeComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl({
+      this.formControl = new UntypedFormControl({
         value: 'Select cat type..',
         disabled: false,
       },

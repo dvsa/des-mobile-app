@@ -6,14 +6,13 @@ import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -101,7 +100,7 @@ describe('WaitingRoomToCarCatBPage', () => {
     } as TestsModel,
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -133,9 +132,7 @@ describe('WaitingRoomToCarCatBPage', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(WaitingRoomToCarCatBPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -180,8 +177,8 @@ describe('WaitingRoomToCarCatBPage', () => {
         spyOn(routeByCategoryProvider, 'navigateToPage');
       });
       it('should recongnise a valid form and navigate to test report', fakeAsync(async () => {
-        component.form = new FormGroup({
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          notRequiredControl: new UntypedFormControl(null),
         });
         component.testCategory = TestCategory.B;
         await component.onSubmit();
@@ -191,10 +188,10 @@ describe('WaitingRoomToCarCatBPage', () => {
         );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-        component.form = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
 
         await component.onSubmit();

@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { OutcomeBehaviourMapProvider } from '../outcome-behaviour-map';
 import { OutcomeBehaviourMapping } from '../outcome-behaviour-map.model';
 
@@ -27,16 +26,14 @@ describe('OutcomeBehaviourMapProvider', () => {
     },
   };
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
         OutcomeBehaviourMapProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     outcomeBehaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     outcomeBehaviourMapProvider.setBehaviourMap(simpleBehaviourMap);
   });

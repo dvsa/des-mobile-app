@@ -1,21 +1,18 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { SeriousFaultBadgeComponent } from '../serious-fault-badge';
 
-describe('SeriousFaultBadgeComponenet', () => {
+describe('SeriousFaultBadgeComponent', () => {
   let fixture: ComponentFixture<SeriousFaultBadgeComponent>;
   let component: SeriousFaultBadgeComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         SeriousFaultBadgeComponent,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(SeriousFaultBadgeComponent);
     component = fixture.componentInstance;
   }));

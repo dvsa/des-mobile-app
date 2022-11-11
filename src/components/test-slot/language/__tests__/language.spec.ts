@@ -1,21 +1,18 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { LanguageComponent } from '../language';
 
 describe('LanguageComponent', () => {
   let component: LanguageComponent;
   let fixture: ComponentFixture<LanguageComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LanguageComponent],
       imports: [IonicModule],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LanguageComponent);
     component = fixture.componentInstance;
   }));

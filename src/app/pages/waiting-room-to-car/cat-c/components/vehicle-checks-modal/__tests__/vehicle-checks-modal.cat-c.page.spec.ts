@@ -8,7 +8,6 @@ import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { StoreModel } from '@shared/models/store.model';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
   SetFullLicenceHeld,
@@ -166,13 +165,13 @@ describe('VehicleChecksCatCModal', () => {
     },
   ];
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatCModal,
         MockComponent(FullLicenceHeldComponent),
         MockComponent(VehicleChecksQuestionComponent),
-        WarningBannerComponent,
+        MockComponent(WarningBannerComponent),
       ],
       imports: [
         IonicModule,
@@ -180,24 +179,13 @@ describe('VehicleChecksCatCModal', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        {
-          provide: Config,
-          useFactory: () => ConfigMock.instance(),
-        },
-        {
-          provide: ModalController,
-          useClass: ModalControllerMock,
-        },
-        {
-          provide: NavParams,
-          useFactory: () => NavParamsMock.instance(),
-        },
+        { provide: Config, useFactory: () => ConfigMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
+        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatCModal);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
@@ -210,30 +198,26 @@ describe('VehicleChecksCatCModal', () => {
     [TestCategory.CE, TestCategory.C1E].forEach((category: TestCategory) => {
       it(`should return false for category ${category} and set fullLicenceHeldSelected to Y`, () => {
         component.category = category;
-        expect(component.showFullLicenceHeld())
-          .toEqual(true);
+        expect(component.showFullLicenceHeld()).toEqual(true);
       });
     });
     [TestCategory.CE, TestCategory.C1E].forEach((category: TestCategory) => {
       it(`should return true for category ${category}`, () => {
         component.category = category;
-        expect(component.showFullLicenceHeld())
-          .toEqual(true);
+        expect(component.showFullLicenceHeld()).toEqual(true);
       });
     });
   });
 
   describe('Class', () => {
     it('should compile', () => {
-      expect(component)
-        .toBeDefined();
+      expect(component).toBeDefined();
     });
 
     describe('ngOnInit', () => {
       it('should merge the correct data into the subscription', () => {
         component.ngOnInit();
-        expect(component.subscription)
-          .toBeDefined();
+        expect(component.subscription).toBeDefined();
       });
       it('should resolve state variables', () => {
         component.ngOnInit();

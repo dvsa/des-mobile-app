@@ -1,7 +1,7 @@
 import {
   Component, Input, OnChanges, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 enum ValidCode78Values {
   YES = 'yes',
@@ -15,7 +15,7 @@ enum ValidCode78Values {
 
 export class Code78Component implements OnChanges {
   @Input()
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @Input()
   code78: boolean;
@@ -23,12 +23,12 @@ export class Code78Component implements OnChanges {
   @Output()
   code78Present = new EventEmitter<boolean>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'code78Ctrl';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.form.addControl(Code78Component.fieldName, this.formControl);
     }
 

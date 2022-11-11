@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponent } from 'ng-mocks';
 import { AppModule } from '@app/app.module';
 
@@ -11,7 +10,7 @@ describe('QuestionDelExRadioCardComponent', () => {
   let fixture: ComponentFixture<QuestionDelExRadioCardComponent>;
   let component: QuestionDelExRadioCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         QuestionDelExRadioCardComponent,
@@ -22,9 +21,7 @@ describe('QuestionDelExRadioCardComponent', () => {
         AppModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(QuestionDelExRadioCardComponent);
     component = fixture.componentInstance;
   }));

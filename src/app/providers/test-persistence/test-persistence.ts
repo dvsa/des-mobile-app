@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Injectable } from '@angular/core';
+import { omit } from 'lodash';
 import { DateTime } from '@shared/helpers/date-time';
 import { TestsModel } from '@store/tests/tests.model';
 import { DataStoreProvider } from '../data-store/data-store';
@@ -68,11 +69,8 @@ export class TestPersistenceProvider {
     });
   }
 
-  deleteTestsFromTestObject(testObject: any, keysToDelete: string[]): any {
-    keysToDelete.forEach((key) => {
-      delete testObject[key];
-    });
-    return testObject;
+  deleteTestsFromTestObject(testObject: { [slotId: string]: any; }, keysToDelete: string[]): any {
+    return omit(testObject, keysToDelete);
   }
 
   shouldResetCurrentTest(slotId: string, keysToDelete: string[]): boolean {

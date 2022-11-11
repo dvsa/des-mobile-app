@@ -6,16 +6,15 @@ import { StoreModel } from '@shared/models/store.model';
 import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { MockComponent } from 'ng-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { EtaComponent } from '../eta';
 
-describe('Examiner Takes Action Component', () => {
+describe('EtaComponent', () => {
   let fixture: ComponentFixture<EtaComponent>;
   let component: EtaComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         EtaComponent,
@@ -26,9 +25,7 @@ describe('Examiner Takes Action Component', () => {
         StoreModule.forRoot({ tests: testsReducer }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EtaComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

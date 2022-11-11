@@ -2,7 +2,6 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponent } from 'ng-mocks';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -22,7 +21,7 @@ describe('FakeJournalPage', () => {
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         FakeJournalPage,
@@ -40,13 +39,10 @@ describe('FakeJournalPage', () => {
         provideMockStore({ initialState: {} }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(FakeJournalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
   }));

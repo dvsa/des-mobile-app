@@ -12,7 +12,7 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
   LessonPlanning, LessonTheme, RiskManagement, StudentLevel, TeachingLearningStrategies, TestData,
@@ -66,7 +66,7 @@ type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageStat
 })
 export class TestReportCatADI3Page extends TestReportBasePageComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   pageState: TestReportPageState;
   page: 'lessonTheme' | 'testReport' = null;
   showMissing: boolean = false;
@@ -95,7 +95,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       insomnia,
       routeByCategory,
     );
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
   }
 
   ngOnInit(): void {

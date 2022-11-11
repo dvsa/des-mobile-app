@@ -1,4 +1,3 @@
-import { configureTestSuite } from 'ng-bullet';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -13,7 +12,7 @@ describe('CandidateSearchCardComponent', () => {
   let component: CandidateSearchCardComponent;
   let fixture: ComponentFixture<CandidateSearchCardComponent>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateSearchCardComponent],
       imports: [
@@ -23,9 +22,7 @@ describe('CandidateSearchCardComponent', () => {
         TestCentreJournalComponentsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateSearchCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

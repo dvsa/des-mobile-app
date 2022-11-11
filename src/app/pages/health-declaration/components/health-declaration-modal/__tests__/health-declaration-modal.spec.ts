@@ -1,6 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -20,7 +19,7 @@ describe('healthDeclarationModal', () => {
   const mockFile: JournalEarlyStartModalMock = new JournalEarlyStartModalMock();
   const navMock: NavParamsMock = new NavParamsMock();
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [
@@ -39,8 +38,7 @@ describe('healthDeclarationModal', () => {
         provideMockStore({}),
       ],
     });
-  });
-  beforeEach(waitForAsync(() => {
+
     const mockValue = mockFile.mockSlotDetail();
     spyOn(navMock, 'get').and.returnValue(mockValue);
     modalFixture = TestBed.createComponent(HealthDeclarationModal);

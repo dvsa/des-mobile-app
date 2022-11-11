@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { provideMockActions } from '@ngrx/effects/testing';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -16,11 +15,11 @@ import { TestResultsSearchAnalyticsEffects } from '../test-results-search.analyt
 
 describe('TestResultsSearchAnalyticsEffects', () => {
   let effects: TestResultsSearchAnalyticsEffects;
-  let analyticsProviderMock;
+  let analyticsProviderMock: AnalyticsProvider;
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.TEST_RESULTS_SEARCH;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         TestResultsSearchAnalyticsEffects,
@@ -28,9 +27,7 @@ describe('TestResultsSearchAnalyticsEffects', () => {
         provideMockActions(() => actions$),
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(TestResultsSearchAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

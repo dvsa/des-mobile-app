@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 
 import tellMeQuestionsCatBConstants
   from '@shared/constants/tell-me-questions/tell-me-questions.cat-b.constants';
@@ -19,18 +18,15 @@ import safetyQuestionsCatDConstants
 import { QuestionProvider } from '../question';
 
 describe('question provider', () => {
-
   let questionProvider: QuestionProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         QuestionProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     questionProvider = TestBed.inject(QuestionProvider);
   });
 

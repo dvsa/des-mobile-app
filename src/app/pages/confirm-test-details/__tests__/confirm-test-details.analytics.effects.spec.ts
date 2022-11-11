@@ -1,7 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { Store, StoreModule } from '@ngrx/store';
 
@@ -19,7 +18,7 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.CONFIRM_TEST_DETAILS;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -33,13 +32,11 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(ConfirmTestDetailsAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
-  });
+  }));
 
   describe('confirmTestDetailsView$', () => {
     it('should call setCurrentPage', (done) => {

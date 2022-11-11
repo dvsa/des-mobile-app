@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subscription } from 'rxjs';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { QuestionResult, QuestionOutcome, SafetyQuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map } from 'rxjs/operators';
@@ -84,7 +84,7 @@ interface VehicleChecksModalCatDState {
 })
 export class VehicleChecksCatDModal {
   pageState: VehicleChecksModalCatDState;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   showMeQuestions: VehicleChecksQuestion[];
   tellMeQuestions: VehicleChecksQuestion[];
@@ -113,7 +113,7 @@ export class VehicleChecksCatDModal {
     params: NavParams,
   ) {
     this.category = params.get('category');
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
     this.safetyQuestionsNumberArray = Array(NUMBER_OF_SAFETY_QUESTIONS);
     this.showMeQuestions = questionProvider.getShowMeQuestions(this.category);
     this.tellMeQuestions = questionProvider.getTellMeQuestions(this.category);

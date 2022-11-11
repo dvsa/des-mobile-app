@@ -23,7 +23,6 @@ import * as applicationReferenceActions
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VRNModalCancelled,
   VRNModalOpened,
@@ -32,11 +31,10 @@ import {
 import * as waitingRoomActions from '../waiting-room.actions';
 import { WaitingRoomAnalyticsEffects } from '../waiting-room.analytics.effects';
 
-describe('Waiting Room Analytics Effects', () => {
-
+describe('WaitingRoomAnalyticsEffects', () => {
   let effects: WaitingRoomAnalyticsEffects;
   let analyticsProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.WAITING_ROOM;
   const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.WAITING_ROOM}`;
@@ -46,7 +44,7 @@ describe('Waiting Room Analytics Effects', () => {
     checkDigit: 9,
   };
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -60,9 +58,7 @@ describe('Waiting Room Analytics Effects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(WaitingRoomAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);

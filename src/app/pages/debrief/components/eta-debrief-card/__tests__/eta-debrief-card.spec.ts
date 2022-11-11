@@ -6,7 +6,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { configureTestSuite } from 'ng-bullet';
 import { EtaDebriefCardComponent } from '../eta-debrief-card';
 
 describe('EtaDebriefCardComponent', () => {
@@ -14,7 +13,7 @@ describe('EtaDebriefCardComponent', () => {
   let component: EtaDebriefCardComponent;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [EtaDebriefCardComponent],
       imports: [
@@ -25,9 +24,7 @@ describe('EtaDebriefCardComponent', () => {
         TranslateModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EtaDebriefCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

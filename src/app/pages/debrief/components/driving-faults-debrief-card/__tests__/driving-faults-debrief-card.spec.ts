@@ -10,7 +10,6 @@ import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { DrivingFaultsDebriefCardComponent } from '../driving-faults-debrief-card';
@@ -20,7 +19,7 @@ describe('DrivingFaultsDebriefCardComponent', () => {
   let component: DrivingFaultsDebriefCardComponent;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DrivingFaultsDebriefCardComponent],
       imports: [
@@ -32,9 +31,7 @@ describe('DrivingFaultsDebriefCardComponent', () => {
         PipesModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DrivingFaultsDebriefCardComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

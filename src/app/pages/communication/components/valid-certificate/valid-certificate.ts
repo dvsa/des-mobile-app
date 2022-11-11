@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'valid-certificate',
@@ -12,17 +12,17 @@ export class ValidCertificateComponent implements OnChanges {
   validCertificate: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   validCertificateChange = new EventEmitter<boolean>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   private formField: string = 'validCertificate';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.requiredTrue]);
+      this.formControl = new UntypedFormControl(null, [Validators.requiredTrue]);
       this.formGroup.addControl(this.formField, this.formControl);
     }
 

@@ -3,7 +3,6 @@ import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { VehicleDetails } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
@@ -13,7 +12,7 @@ describe('VehicleDetailsCardComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsCardComponent>;
   let component: VehicleDetailsCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleDetailsCardComponent,
@@ -25,9 +24,7 @@ describe('VehicleDetailsCardComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleDetailsCardComponent);
     component = fixture.componentInstance;
   }));
@@ -218,8 +215,6 @@ describe('VehicleDetailsCardComponent', () => {
           .and
           .returnValue(false);
         component.vehicleDetails = undefined;
-
-        console.log(component.displayRegistration());
 
         expect(component.displayRegistration)!.toBeTruthy();
       });

@@ -1,9 +1,8 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  FormGroup, ReactiveFormsModule,
+  UntypedFormGroup, ReactiveFormsModule,
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleDetailsCardComponent,
 } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
@@ -13,7 +12,7 @@ describe('VehicleDetailsCardComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsCardComponent>;
   let component: VehicleDetailsCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleDetailsCardComponent,
@@ -24,12 +23,10 @@ describe('VehicleDetailsCardComponent', () => {
         ReactiveFormsModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleDetailsCardComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('schoolVehicleDetailsChanged', () => {

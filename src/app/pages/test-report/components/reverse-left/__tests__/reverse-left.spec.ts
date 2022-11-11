@@ -1,14 +1,11 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { configureTestSuite } from 'ng-bullet';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { DrivingFaultsBadgeComponent }
-  from '@components/common/driving-faults-badge/driving-faults-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { MockComponent } from 'ng-mocks';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { DangerousFaultBadgeComponent }
-  from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { AppModule } from 'src/app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -23,12 +20,12 @@ import { testReportReducer } from '../../../test-report.reducer';
 import { CompetencyButtonComponent } from '../../competency-button/competency-button';
 import { ReverseLeftComponent } from '../reverse-left';
 
-describe('reverseLeftComponent', () => {
+describe('ReverseLeftComponent', () => {
   let fixture: ComponentFixture<ReverseLeftComponent>;
   let component: ReverseLeftComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ReverseLeftComponent,
@@ -94,9 +91,7 @@ describe('reverseLeftComponent', () => {
         ManoeuvresByCategoryProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ReverseLeftComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

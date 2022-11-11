@@ -1,8 +1,7 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { ReplaySubject } from 'rxjs';
-import { configureTestSuite } from 'ng-bullet';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -26,7 +25,7 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.VEHICLE_CHECKS;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -40,15 +39,13 @@ describe('VehicleChecksModalCatCAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(VehicleChecksModalCatCAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
-  });
+  }));
 
   describe('vehicleChecksModalViewDidEnter$ effect', () => {
     it('should call analytics.setCurrentPage', (done) => {

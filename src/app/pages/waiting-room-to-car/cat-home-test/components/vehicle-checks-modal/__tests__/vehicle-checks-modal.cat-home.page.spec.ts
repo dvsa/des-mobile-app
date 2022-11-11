@@ -2,14 +2,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProvider } from '@providers/question/question';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
   VehicleChecksCatHomeTestModal,
@@ -78,7 +77,8 @@ describe('VehicleChecksCatHomeTestModal', () => {
       },
     } as TestsModel,
   } as StoreModel;
-  configureTestSuite(() => {
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -118,19 +118,15 @@ describe('VehicleChecksCatHomeTestModal', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatHomeTestModal);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     component.category = TestCategory.F;
-
   }));
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('Class',

@@ -1,6 +1,5 @@
 import { IonicModule } from '@ionic/angular';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { StoreModel } from '@shared/models/store.model';
 import { Store, StoreModule } from '@ngrx/store';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -13,7 +12,7 @@ describe('TimerComponent', () => {
   let component: TimerComponent;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TimerComponent,
@@ -23,9 +22,7 @@ describe('TimerComponent', () => {
         StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TimerComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
@@ -73,10 +70,5 @@ describe('TimerComponent', () => {
         expect(component.timerString).toBe('15:00:00');
       });
     });
-
-  });
-
-  describe('DOM', () => {
-
   });
 });

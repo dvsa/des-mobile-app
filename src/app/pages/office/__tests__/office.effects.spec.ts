@@ -1,5 +1,5 @@
-import { EMPTY, ReplaySubject, Observable } from 'rxjs';
-import { TestBed } from '@angular/core/testing';
+import { ReplaySubject } from 'rxjs';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
@@ -10,28 +10,16 @@ import {
 import * as testActions from '@store/tests/tests.actions';
 import * as testStatusActions from '@store/tests/test-status/test-status.actions';
 import { StoreModule, Store } from '@ngrx/store';
-import { Actions } from '@ngrx/effects';
 import { Competencies } from '@store/tests/test-data/test-data.constants';
-import { configureTestSuite } from 'ng-bullet';
 import * as officeActions from '../office.actions';
 import { OfficeEffects } from '../office.effects';
 
-export class TestActions extends Actions {
-  constructor() {
-    super(EMPTY);
-  }
-
-  set stream$(source$: Observable<any>) {
-    this.source = source$;
-  }
-}
-
 describe('OfficeEffects', () => {
   let effects: OfficeEffects;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   const currentSlotId = '1234';
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -50,12 +38,10 @@ describe('OfficeEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(OfficeEffects);
-  });
+  }));
 
   describe('additionalInformationChanged effect', () => {
     it('should invoke the PersistTest action', (done) => {
@@ -214,7 +200,7 @@ describe('OfficeEffects', () => {
   });
 
   describe('submitWaitingRoomInfoEffect', () => {
-    it('should return SET_STATUS_DECIDED & PERSIST_TESTS actions', (done) => {
+    it('should return SET_STATUS_DECIDED & PERSIST_TESTS actions', () => {
       actions$.next(officeActions.CompleteTest());
       effects.completeTestEffect$.subscribe((result) => {
         if (result.type === testStatusActions.SetTestStatusCompleted.type) {
@@ -223,7 +209,6 @@ describe('OfficeEffects', () => {
         if (result.type === testActions.PersistTests.type) {
           expect(result.type).toEqual(testActions.PersistTests().type);
         }
-        done();
       });
     });
   });

@@ -1,5 +1,4 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { StoreModel } from '@shared/models/store.model';
@@ -27,7 +26,7 @@ describe('AuthenticationProvider', () => {
   let dataStoreProvider: DataStoreProvider;
   const initialState = { appInfo: { employeeId: '1234567' } } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       providers: [
@@ -41,9 +40,7 @@ describe('AuthenticationProvider', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     authenticationProvider = TestBed.inject(AuthenticationProvider);
     appConfigProvider = TestBed.inject(AppConfigProvider);

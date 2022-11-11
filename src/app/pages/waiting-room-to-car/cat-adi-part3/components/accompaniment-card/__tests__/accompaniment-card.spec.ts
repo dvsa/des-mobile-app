@@ -3,7 +3,6 @@ import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.m
 import { QuestionProvider } from '@providers/question/question';
 import { AppModule } from '@app/app.module';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -11,7 +10,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import {
-  FormGroup, ReactiveFormsModule,
+  UntypedFormGroup, ReactiveFormsModule,
 } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import {
@@ -22,7 +21,7 @@ describe('AccompanimentCardADI3Component', () => {
   let component: AccompanimentCardADI3Component;
   let fixture: ComponentFixture<AccompanimentCardADI3Component>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -55,12 +54,10 @@ describe('AccompanimentCardADI3Component', () => {
         },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(AccompanimentCardADI3Component);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   it('should create', () => {

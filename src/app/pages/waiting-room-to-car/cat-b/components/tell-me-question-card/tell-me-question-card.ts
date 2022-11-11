@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 
 @Component({
@@ -12,7 +12,7 @@ import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-questi
 export class TellMeQuestionCardComponent {
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   tellMeQuestion: VehicleChecksQuestion;

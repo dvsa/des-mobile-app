@@ -6,7 +6,6 @@ import {
 } from 'ionic-mocks';
 import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import {
   AlertController, Config, IonicModule, ModalController, NavParams,
 } from '@ionic/angular';
@@ -21,7 +20,7 @@ describe('ErrorPage', () => {
   let fixture: ComponentFixture<ErrorPage>;
   let component: ErrorPage;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ErrorPage,
@@ -39,9 +38,7 @@ describe('ErrorPage', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ErrorPage);
     component = fixture.componentInstance;
   }));

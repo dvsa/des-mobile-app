@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {
   OutcomeBehaviourMapProvider,
   VisibilityType,
@@ -26,12 +26,12 @@ export class D255Component implements OnChanges {
   eyesightTestFailed: boolean = false;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   d255Change = new EventEmitter<boolean>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'd255';
 
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {
@@ -39,7 +39,7 @@ export class D255Component implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(D255Component.fieldName, this.formControl);
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome, D255Component.fieldName);

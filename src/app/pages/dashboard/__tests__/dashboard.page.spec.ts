@@ -3,7 +3,6 @@ import { AlertController, IonicModule, Platform } from '@ionic/angular';
 import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { configureTestSuite } from 'ng-bullet';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
@@ -70,7 +69,7 @@ describe('DashboardPage', () => {
     tests: { testStatus: {} },
   } as StoreModel;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DashboardPage],
       imports: [
@@ -103,20 +102,16 @@ describe('DashboardPage', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DashboardPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     appConfigProvider = TestBed.inject(AppConfigProvider);
     store$ = TestBed.inject(MockStore);
     deviceProvider = TestBed.inject(DeviceProvider);
     screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
     completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
-
     spyOn(store$, 'dispatch');
   }));
 

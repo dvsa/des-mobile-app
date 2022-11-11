@@ -2,14 +2,13 @@ import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { IonicModule, Config } from '@ionic/angular';
 import { ConfigMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { DangerBannerComponent } from '../danger-banner';
 
 describe('DangerBanner', () => {
   let fixture: ComponentFixture<DangerBannerComponent>;
   let component: DangerBannerComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DangerBannerComponent],
       imports: [
@@ -19,9 +18,7 @@ describe('DangerBanner', () => {
         { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(DangerBannerComponent);
     component = fixture.componentInstance;
   }));

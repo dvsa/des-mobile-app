@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestResultProvider } from '../test-result';
 import { FaultCountProvider } from '../../fault-count/fault-count';
@@ -37,18 +36,16 @@ describe('TestResultCalculatorProvider', () => {
   ];
   let testResultProvider: TestResultProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         TestResultProvider,
         FaultCountProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     testResultProvider = TestBed.inject(TestResultProvider);
-  });
+  }));
 
   describe('calculateTestResult', () => {
     describe(`${allCategories.join(', ')}`, () => {

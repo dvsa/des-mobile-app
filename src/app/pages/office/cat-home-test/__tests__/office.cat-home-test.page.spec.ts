@@ -12,7 +12,6 @@ import { WeatherConditionProvider } from '@providers/weather-conditions/weather-
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { StoreModel } from '@shared/models/store.model';
-import { configureTestSuite } from 'ng-bullet';
 import { MockComponent } from 'ng-mocks';
 import { RouteNumberComponent } from '@pages/office/components/route-number/route-number';
 import { CandidateDescriptionComponent } from '@pages/office/components/candidate-description/candidate-description';
@@ -60,7 +59,7 @@ describe('OfficeCatHomeTestPage', () => {
   let component: OfficeCatHomeTestPage;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatHomeTestPage,
@@ -136,9 +135,7 @@ describe('OfficeCatHomeTestPage', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(OfficeCatHomeTestPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

@@ -4,7 +4,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
-import { configureTestSuite } from 'ng-bullet';
 import { CatManoeuvreTestData } from '@shared/unions/test-schema-unions';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import { FaultSummaryCatCHelper } from '../cat-c/fault-summary.cat-c';
@@ -127,16 +126,13 @@ describe('FaultSummaryProvider', () => {
 
   let faultSummaryProvider: FaultSummaryProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         FaultSummaryProvider,
         FaultCountProvider,
       ],
     });
-  });
-
-  beforeEach(() => {
     faultSummaryProvider = TestBed.inject(FaultSummaryProvider);
 
     spyOn(FaultSummaryCatBHelper, 'getDrivingFaultsCatB').and.callThrough();

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { IonicModule } from '@ionic/angular';
 import { D255Component } from '../d255';
@@ -10,18 +9,16 @@ describe('D255Component', () => {
   let component: D255Component;
   let outcomeBehaviourMapProvider: OutcomeBehaviourMapProvider;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [D255Component],
       imports: [IonicModule],
       providers: [OutcomeBehaviourMapProvider],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(D255Component);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     outcomeBehaviourMapProvider = TestBed.inject(OutcomeBehaviourMapProvider);
   }));
 

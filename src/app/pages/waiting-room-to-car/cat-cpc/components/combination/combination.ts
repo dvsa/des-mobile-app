@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Combination } from '@shared/constants/cpc-questions/cpc-question-combinations.constants';
 
 @Component({
@@ -12,7 +12,7 @@ import { Combination } from '@shared/constants/cpc-questions/cpc-question-combin
 export class CombinationComponent {
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   combinations: Combination[];
@@ -23,13 +23,13 @@ export class CombinationComponent {
   @Output()
   combinationChange = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   static readonly fieldName: string = 'combination';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(CombinationComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.combination);

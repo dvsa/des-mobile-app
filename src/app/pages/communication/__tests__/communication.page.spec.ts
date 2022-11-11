@@ -26,7 +26,6 @@ import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-
 import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -36,6 +35,7 @@ import * as communicationPreferencesActions
   from '@store/tests/communication-preferences/communication-preferences.actions';
 import { By } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 describe('CommunicationPage', () => {
   let fixture: ComponentFixture<CommunicationPage>;
@@ -44,7 +44,7 @@ describe('CommunicationPage', () => {
   let translate: TranslateService;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -66,6 +66,7 @@ describe('CommunicationPage', () => {
           testStatus: {},
           startedTests: {
             123: {
+              category: TestCategory.B,
               preTestDeclarations: preTestDeclarationInitialState,
               postTestDeclarations: {
                 healthDeclarationAccepted: false,
@@ -96,9 +97,6 @@ describe('CommunicationPage', () => {
       ],
     });
 
-  });
-
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CommunicationPage);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);

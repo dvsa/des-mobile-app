@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 
 @Component({
   selector: 'additional-information',
@@ -18,17 +18,17 @@ export class AdditionalInformationComponent implements OnChanges {
   additionalInformation: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   additionalInformationChange = new EventEmitter<string>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   static readonly fieldName: string = 'additionalInformation';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(AdditionalInformationComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.additionalInformation);

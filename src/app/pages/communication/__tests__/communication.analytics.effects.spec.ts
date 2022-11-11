@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { StoreModule, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -16,7 +16,6 @@ import * as applicationReferenceActions
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
-import { configureTestSuite } from 'ng-bullet';
 import {
   AnalyticsDimensionIndices,
   AnalyticsScreenNames,
@@ -35,7 +34,7 @@ import { CommunicationAnalyticsEffects } from '../communication.analytics.effect
 describe('CommunicationAnalyticsEffects', () => {
   let effects: CommunicationAnalyticsEffects;
   let analyticsProviderMock;
-  let actions$: any;
+  let actions$: ReplaySubject<any>;
   let store$: Store<StoreModel>;
   const screenName = AnalyticsScreenNames.COMMUNICATION;
   const screenNamePracticeMode = `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsScreenNames.COMMUNICATION}`;
@@ -45,7 +44,7 @@ describe('CommunicationAnalyticsEffects', () => {
     checkDigit: 9,
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
@@ -59,15 +58,13 @@ describe('CommunicationAnalyticsEffects', () => {
         Store,
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(CommunicationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
     spyOn(analyticsProviderMock, 'logEvent');
-  });
+  }));
 
   describe('communicationViewDidEnter', () => {
     it('should call setCurrentPage and addCustomDimension', (done) => {

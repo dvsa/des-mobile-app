@@ -24,7 +24,6 @@ import {
   VehicleChecksRemoveDangerousFault,
 } from '@store/tests/test-data/cat-adi-part2/vehicle-checks/vehicle-checks.cat-adi-part2.action';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { CompetencyButtonComponent } from '../../../../components/competency-button/competency-button';
@@ -63,7 +62,7 @@ describe('VehicleCheckComponent', () => {
     eyesightTest: {},
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleCheckComponent,
@@ -106,9 +105,7 @@ describe('VehicleCheckComponent', () => {
         FaultCountProvider,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleCheckComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

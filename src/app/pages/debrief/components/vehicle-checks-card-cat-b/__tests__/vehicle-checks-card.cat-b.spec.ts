@@ -17,7 +17,6 @@ import { ConfigMock } from 'ionic-mocks';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '@app/app.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { configureTestSuite } from 'ng-bullet';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { VehicleChecksCardCatBComponent } from '../vehicle-checks-card.cat-b';
@@ -27,7 +26,7 @@ describe('VehicleChecksCardCatBComponent', () => {
   let store$: Store<StoreModel>;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCardCatBComponent,
@@ -48,14 +47,12 @@ describe('VehicleChecksCardCatBComponent', () => {
         { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCardCatBComponent);
     store$ = TestBed.inject(Store);
-    store$.dispatch(StartTest(105, TestCategory.B));
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
+    store$.dispatch(StartTest(105, TestCategory.B));
   }));
 
   describe('DOM', () => {

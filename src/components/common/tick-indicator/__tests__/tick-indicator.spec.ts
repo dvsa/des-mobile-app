@@ -2,14 +2,13 @@ import { Config, IonicModule } from '@ionic/angular';
 import { ConfigMock } from 'ionic-mocks';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { TickIndicatorComponent } from '../tick-indicator';
 
 describe('TickIndicatorComponent', () => {
   let fixture: ComponentFixture<TickIndicatorComponent>;
   let component: TickIndicatorComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TickIndicatorComponent,
@@ -21,9 +20,7 @@ describe('TickIndicatorComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TickIndicatorComponent);
     component = fixture.componentInstance;
   }));

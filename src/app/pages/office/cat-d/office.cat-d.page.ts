@@ -21,7 +21,7 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { merge, Observable, Subscription } from 'rxjs';
 
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -78,7 +78,7 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
 
   pageState: OfficePageState;
   pageSubscription: Subscription;
-  form: FormGroup;
+  form: UntypedFormGroup;
   static readonly maxFaultCount = 12;
 
   activityCodeOptions: ActivityCodeModel[];

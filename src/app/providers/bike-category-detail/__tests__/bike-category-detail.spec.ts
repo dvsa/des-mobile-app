@@ -2,7 +2,6 @@ import { BikeCategoryDetailProvider } from '../bike-category-detail';
 import { BikeCategoryDetail, BikeTestType } from '../bike-category-detail.model';
 
 describe('BikeCategoryDetailProvider', () => {
-
   let provider: BikeCategoryDetailProvider;
 
   beforeEach(() => {

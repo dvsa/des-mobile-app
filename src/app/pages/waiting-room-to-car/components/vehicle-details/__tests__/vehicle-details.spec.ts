@@ -2,9 +2,8 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
-import { configureTestSuite } from 'ng-bullet';
 import { AppModule } from '@app/app.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { VehicleDetailsComponent } from '../vehicle-details';
@@ -13,7 +12,7 @@ describe('VehicleDetailsComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsComponent>;
   let component: VehicleDetailsComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleDetailsComponent,
@@ -25,17 +24,15 @@ describe('VehicleDetailsComponent', () => {
         PipesModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleDetailsComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
   }));
 
   describe('vehicleDetailsChanged', () => {
     it('should emit vehicleDetailsChange if formControl is valid', () => {
-      component.formControl = new FormControl(null, [Validators.required]);
+      component.formControl = new UntypedFormControl(null, [Validators.required]);
       component.formControl.setValue(1);
       spyOn(component.vehicleDetailsChange, 'emit');
       component.vehicleDetailsChanged();

@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
@@ -37,9 +37,9 @@ interface ComponentState {
 })
 export class VehicleChecksToggleComponent implements OnChanges {
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   componentState: ComponentState;
-  drivingFaultNumberFormControl: FormControl;
+  drivingFaultNumberFormControl: UntypedFormControl;
   subscription: Subscription;
   merged$: Observable<boolean>;
   drivingFaultsNumberOptions: number[] = [];
@@ -51,7 +51,7 @@ export class VehicleChecksToggleComponent implements OnChanges {
   testCategory: TestCategory | CategoryCode;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   vehicleChecksCompletedOutcomeChange = new EventEmitter<boolean>();
@@ -110,11 +110,11 @@ export class VehicleChecksToggleComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl('', [Validators.required]);
+      this.formControl = new UntypedFormControl('', [Validators.required]);
       this.formGroup.addControl('vehicleChecksToggleCtrl', this.formControl);
     }
     if (!this.drivingFaultNumberFormControl) {
-      this.drivingFaultNumberFormControl = new FormControl(null, [Validators.required]);
+      this.drivingFaultNumberFormControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl('vehicleChecksDrivingFaultsNumber', this.drivingFaultNumberFormControl);
     }
     this.formControl.patchValue(this.vehicleChecksCompleted);

@@ -2,7 +2,6 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
 import { NavParamsMock } from 'ionic-mocks';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { AppModule } from '@app/app.module';
@@ -12,7 +11,7 @@ describe('UploadRekeyModal', () => {
   let fixture: ComponentFixture<UploadRekeyModal>;
   let component: UploadRekeyModal;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [UploadRekeyModal],
       imports: [IonicModule, AppModule],
@@ -21,9 +20,7 @@ describe('UploadRekeyModal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(UploadRekeyModal);
     component = fixture.componentInstance;
     component.onCancel = async () => {};

@@ -1,15 +1,7 @@
-import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
 import { FaultCountCHelper } from '../fault-count.cat-c';
 import { vehicleChecksTwoFaults, vehicleChecksFiveFaults } from '../../__mocks__/cat-C-test-data-state-object.mock';
 
 describe('FaultCountCHelper', () => {
-
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-    });
-  });
 
   describe('getVehicleChecksFaultCountCatC', () => {
     it('5 driving faults result in 1 serious and 4 driving faults', () => {

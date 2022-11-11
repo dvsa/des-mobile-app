@@ -2,9 +2,8 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { configureTestSuite } from 'ng-bullet';
 import { createTranslateLoader } from '@app/app.module';
 import { NewEmailComponent } from '../new-email';
 
@@ -13,7 +12,7 @@ describe('NewEmailComponent', () => {
   let component: NewEmailComponent;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         NewEmailComponent,
@@ -31,18 +30,16 @@ describe('NewEmailComponent', () => {
         }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(NewEmailComponent);
     component = fixture.componentInstance;
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
-    component.formGroup = new FormGroup({});
-    const radioCtrl = new FormControl('radioCtrl');
+    component.formGroup = new UntypedFormGroup({});
+    const radioCtrl = new UntypedFormControl('radioCtrl');
     component.formGroup.addControl('radioCtrl', radioCtrl);
     component.radioButtonControl = radioCtrl;
-    const newEmailCtrl = new FormControl('newEmailCtrl');
+    const newEmailCtrl = new UntypedFormControl('newEmailCtrl');
     component.formGroup.addControl('newEmailCtrl', newEmailCtrl);
     component.formControl = newEmailCtrl;
     component.isNewEmailAddressChosen = true;

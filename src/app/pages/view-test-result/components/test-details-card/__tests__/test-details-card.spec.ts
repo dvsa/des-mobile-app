@@ -3,7 +3,6 @@ import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DataRowComponent } from '@components/common/data-row/data-row';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { TestDetailsModel } from '../test-details-card.model';
@@ -13,7 +12,7 @@ describe('TestDetailsCardComponent', () => {
   let fixture: ComponentFixture<TestDetailsCardComponent>;
   let component: TestDetailsCardComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestDetailsCardComponent,
@@ -25,9 +24,7 @@ describe('TestDetailsCardComponent', () => {
         IonicModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TestDetailsCardComponent);
     component = fixture.componentInstance;
   }));

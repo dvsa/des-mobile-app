@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { MockComponent } from 'ng-mocks';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
@@ -10,7 +9,7 @@ describe('AsamFailureNotificationModal', () => {
   let component: AsamFailureNotificationModal;
   let fixture: ComponentFixture<AsamFailureNotificationModal>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         AsamFailureNotificationModal,
@@ -23,17 +22,13 @@ describe('AsamFailureNotificationModal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
-  });
-  beforeEach(waitForAsync(() => {
+
     fixture = TestBed.createComponent(AsamFailureNotificationModal);
     component = fixture.componentInstance;
-    spyOn(component.modalController, 'dismiss')
-      .and
-      .returnValue(Promise.resolve(true));
+    spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
   }));
 
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
 });

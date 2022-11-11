@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 
 @Component({
@@ -11,7 +11,7 @@ import { Configuration } from '@dvsa/mes-test-schema/categories/CPC';
 export class VehicleDetailsCatCPCComponent {
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   configuration: Configuration;
@@ -19,13 +19,13 @@ export class VehicleDetailsCatCPCComponent {
   @Output()
   vehicleDetailsChange = new EventEmitter();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   static readonly fieldName: string = 'configuration';
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl(VehicleDetailsCatCPCComponent.fieldName, this.formControl);
     }
     this.formControl.patchValue(this.configuration);

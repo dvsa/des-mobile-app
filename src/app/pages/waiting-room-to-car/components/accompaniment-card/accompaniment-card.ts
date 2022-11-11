@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'accompaniment-card',
@@ -23,7 +23,7 @@ export class AccompanimentCardComponent {
   interpreterAccompaniment: boolean;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   instructorAccompanimentChange = new EventEmitter();

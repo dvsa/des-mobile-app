@@ -5,7 +5,7 @@ import {
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
 import { Observable, Subscription, merge } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { select, Store } from '@ngrx/store';
@@ -74,12 +74,12 @@ interface HealthDeclarationPageState {
 export class HealthDeclarationPage extends PracticeableBasePageComponent implements OnInit {
 
   pageState: HealthDeclarationPageState;
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
   licenseProvided: boolean;
   healthDeclarationAccepted: boolean;
   subscription: Subscription;
   merged$: Observable<boolean | string>;
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   showHealthDec: boolean = true;
   static readonly fieldName: string = 'healthCheckbox';
 
@@ -94,7 +94,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     public routeByCat: RouteByCategoryProvider,
   ) {
     super(platform, authenticationProvider, router, store$, false);
-    this.formGroup = new FormGroup({});
+    this.formGroup = new UntypedFormGroup({});
   }
 
   ionViewDidEnter(): void {

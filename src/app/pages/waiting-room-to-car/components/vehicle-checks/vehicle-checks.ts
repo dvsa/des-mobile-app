@@ -1,7 +1,7 @@
 import {
   Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { get } from 'lodash';
 import { CategoryCode, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -57,7 +57,7 @@ export class VehicleChecksComponent implements OnChanges {
   vehicleChecksSelectQuestions: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Input()
   category: TestCategory | CategoryCode;
@@ -68,7 +68,7 @@ export class VehicleChecksComponent implements OnChanges {
   @Output()
   onCloseVehicleChecksModal = new EventEmitter<void>();
 
-  formControl: FormControl;
+  formControl: UntypedFormControl;
 
   constructor(
     private modalController: ModalController,
@@ -78,7 +78,7 @@ export class VehicleChecksComponent implements OnChanges {
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl({
+      this.formControl = new UntypedFormControl({
         value: 'Select questions',
         disabled: false,
       },

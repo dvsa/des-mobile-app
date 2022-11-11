@@ -6,7 +6,6 @@ import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
@@ -45,7 +44,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import {
-  FormControl, FormGroup, ReactiveFormsModule, Validators,
+  UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators,
 } from '@angular/forms';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -96,7 +95,8 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
       },
     } as TestsModel,
   } as StoreModel;
-  configureTestSuite(() => {
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -149,8 +149,7 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
-  beforeEach(waitForAsync(() => {
+
     fixture = TestBed.createComponent(WaitingRoomToCarCatHomeTestPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -158,13 +157,15 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
     routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
     spyOn(store$, 'dispatch');
   }));
+
   afterEach(() => {
     fixture.destroy();
   });
+
   it('should create', () => {
-    expect(component)
-      .toBeTruthy();
+    expect(component).toBeTruthy();
   });
+
   describe('Class', () => {
     describe('ngOnInit', () => {
       it('should call through to the base page init method', () => {
@@ -182,7 +183,7 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
           .toHaveBeenCalledWith(EyesightTestReset());
       });
       it('should reset the eyesightCtrl form property', () => {
-        component.form.addControl('eyesightCtrl', new FormControl());
+        component.form.addControl('eyesightCtrl', new UntypedFormControl());
         component.form.controls.eyesightCtrl.setValue(1);
         component.eyesightFailCancelled();
         expect(component.form.controls.eyesightCtrl.value)
@@ -195,8 +196,8 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
         spyOn(routeByCategoryProvider, 'navigateToPage');
       });
       it('should recognise a valid form and navigate to test report', fakeAsync(async () => {
-        component.form = new FormGroup({
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          notRequiredControl: new UntypedFormControl(null),
         });
         component.testCategory = TestCategory.F;
         await component.onSubmit();
@@ -207,10 +208,10 @@ describe('WaitingRoomToCarCatHomeTestPage', () => {
           );
       }));
       it('should dispatch the appropriate WaitingRoomToCarValidationError actions', fakeAsync(async () => {
-        component.form = new FormGroup({
-          requiredControl1: new FormControl(null, [Validators.required]),
-          requiredControl2: new FormControl(null, [Validators.required]),
-          notRequiredControl: new FormControl(null),
+        component.form = new UntypedFormGroup({
+          requiredControl1: new UntypedFormControl(null, [Validators.required]),
+          requiredControl2: new UntypedFormControl(null, [Validators.required]),
+          notRequiredControl: new UntypedFormControl(null),
         });
         await component.onSubmit();
         tick();

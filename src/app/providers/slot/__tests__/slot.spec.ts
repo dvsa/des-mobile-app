@@ -6,7 +6,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { DateTime, Duration } from '@shared/helpers/date-time';
-import { configureTestSuite } from 'ng-bullet';
 import { SpecialNeedsCode } from '@shared/helpers/get-slot-type';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -80,7 +79,7 @@ describe('SlotProvider', () => {
     },
   };
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
@@ -91,9 +90,7 @@ describe('SlotProvider', () => {
         SlotProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     store$ = TestBed.inject(Store);
     slotProvider = TestBed.inject(SlotProvider);
     appConfigProvider = TestBed.inject(AppConfigProvider);
@@ -303,7 +300,6 @@ describe('SlotProvider', () => {
         expect(result[1].slotData.activityCode).toBe('091');
       });
     });
-
   });
 
   describe('getSlotDate', () => {
@@ -330,10 +326,6 @@ describe('SlotProvider', () => {
 
       expect(numberOfDays).toBe(7);
     });
-  });
-
-  describe('getRelevantSlots', () => {
-
   });
 
   describe('canStartTest', () => {

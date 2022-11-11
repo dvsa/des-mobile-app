@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { IonicModule, ModalController, Config } from '@ionic/angular';
 import { ModalControllerMock, ConfigMock } from 'ionic-mocks';
 import { AppComponent } from '@app/app.component';
@@ -8,7 +8,6 @@ import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
 import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { configureTestSuite } from 'ng-bullet';
 import {
   VehicleChecksCatAMod2Modal,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-modal/vehicle-checks-modal.cat-a-mod2.page';
@@ -23,7 +22,7 @@ describe('VehicleChecksCatAMod2Component', () => {
   let modalController: ModalController;
   let appComponent: AppComponent;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatAMod2Component,
@@ -41,12 +40,10 @@ describe('VehicleChecksCatAMod2Component', () => {
         { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(VehicleChecksCatAMod2Component);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
+    component.formGroup = new UntypedFormGroup({});
     modalController = TestBed.inject(ModalController);
     appComponent = TestBed.inject(AppComponent);
   }));
@@ -147,7 +144,7 @@ describe('VehicleChecksCatAMod2Component', () => {
 
     describe('invalid', () => {
       beforeEach(() => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -180,7 +177,7 @@ describe('VehicleChecksCatAMod2Component', () => {
 
     describe('ngOnChanges', () => {
       it('should add the form control', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -191,7 +188,7 @@ describe('VehicleChecksCatAMod2Component', () => {
       });
 
       it('should validate the vehicle checks', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });
@@ -202,7 +199,7 @@ describe('VehicleChecksCatAMod2Component', () => {
       });
 
       it('should patch the form control value', () => {
-        const formBuilder: FormBuilder = new FormBuilder();
+        const formBuilder: UntypedFormBuilder = new UntypedFormBuilder();
         component.formGroup = formBuilder.group({
           vehicleChecksSelectQuestions: null,
         });

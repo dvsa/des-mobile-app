@@ -1,9 +1,8 @@
 import { waitForAsync, TestBed, ComponentFixture } from '@angular/core/testing';
-import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
-import { configureTestSuite } from 'ng-bullet';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { createTranslateLoader } from '@app/app.module';
 import { ProvidedEmailComponent } from '../provided-email';
@@ -13,7 +12,7 @@ describe('ProvidedEmailComponent', () => {
   let component: ProvidedEmailComponent;
   let translate: TranslateService;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ProvidedEmailComponent,
@@ -31,13 +30,11 @@ describe('ProvidedEmailComponent', () => {
         }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ProvidedEmailComponent);
     component = fixture.componentInstance;
-    component.formGroup = new FormGroup({});
-    component.formGroup.addControl('radioCtrl', new FormControl());
+    component.formGroup = new UntypedFormGroup({});
+    component.formGroup.addControl('radioCtrl', new UntypedFormControl());
     component.shouldRender = true;
     component.isProvidedEmailAddressChosen = true;
     translate = TestBed.inject(TranslateService);

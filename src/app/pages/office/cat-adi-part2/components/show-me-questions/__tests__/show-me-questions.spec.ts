@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { EventEmitter } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AppModule } from '@app/app.module';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
@@ -18,7 +17,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
   let fixture: ComponentFixture<ShowMeQuestionsCatADI2Component>;
   let component: ShowMeQuestionsCatADI2Component;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ShowMeQuestionsCatADI2Component,
@@ -28,9 +27,7 @@ describe('ShowMeQuestionsCatADI2Component', () => {
         AppModule,
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(ShowMeQuestionsCatADI2Component);
     component = fixture.componentInstance;
   }));

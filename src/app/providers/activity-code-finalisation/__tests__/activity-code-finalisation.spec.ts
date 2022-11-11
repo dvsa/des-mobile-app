@@ -1,19 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-import { configureTestSuite } from 'ng-bullet';
 import { of } from 'rxjs';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { FaultCountProvider } from '../../fault-count/fault-count';
 import { TestResultProvider } from '../../test-result/test-result';
 import { ActivityCodeFinalisationProvider } from '../activity-code-finalisation';
 
-describe('Activity code finalisation Provider', () => {
+describe('ActivityCodeFinalisationProvider', () => {
 
   let testResultProvider: TestResultProvider;
   let activityCodeFinalisationProvider: ActivityCodeFinalisationProvider;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         TestResultProvider,
@@ -21,9 +20,7 @@ describe('Activity code finalisation Provider', () => {
         ActivityCodeFinalisationProvider,
       ],
     });
-  });
 
-  beforeEach(() => {
     testResultProvider = TestBed.inject(TestResultProvider);
     activityCodeFinalisationProvider = TestBed.inject(ActivityCodeFinalisationProvider);
   });

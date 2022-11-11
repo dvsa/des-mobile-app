@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   Config, IonicModule, ModalController, NavController, NavParams, Platform,
 } from '@ionic/angular';
@@ -22,7 +22,6 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { TestReportCatADI3Page } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.page';
 import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -55,7 +54,7 @@ describe('TestReportCatADI3Page', () => {
   let component: TestReportCatADI3Page;
   let store$: Store<StoreModel>;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatADI3Page,
@@ -103,14 +102,12 @@ describe('TestReportCatADI3Page', () => {
         }),
       ],
     });
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(TestReportCatADI3Page);
     component = fixture.componentInstance;
     store$ = TestBed.inject(MockStore);
     spyOn(store$, 'dispatch');
-  });
+  }));
 
   describe('Class', () => {
     describe('studentLevelChanged', () => {

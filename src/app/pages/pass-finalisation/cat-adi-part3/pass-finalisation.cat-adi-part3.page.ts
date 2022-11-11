@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   CommonPassFinalisationPageState, PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Platform } from '@ionic/angular';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Router } from '@angular/router';
@@ -61,7 +61,7 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFi
 })
 export class PassFinalisationCatADIPart3Page extends PassFinalisationPageComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   merged$: Observable<boolean>;
   pageState: PassFinalisationPageState;
   subscription: Subscription;
@@ -76,7 +76,7 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
     private outcomeBehaviourProvider: OutcomeBehaviourMapProvider,
   ) {
     super(platform, authenticationProvider, router, store$);
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
   }
 

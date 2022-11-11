@@ -20,7 +20,7 @@ import {
   getIsLoading,
 } from '@pages/delegated-rekey-search/delegated-rekey-search.selector';
 import {
-  AbstractControl, FormControl, FormGroup, Validators,
+  AbstractControl, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
 import { ERROR_PAGE } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
@@ -46,7 +46,7 @@ interface DelegatedRekeySearchPageState {
 })
 export class DelegatedRekeySearchPage extends BasePageComponent implements OnInit {
   pageState: DelegatedRekeySearchPageState;
-  delegatedRekeyForm: FormGroup;
+  delegatedRekeyForm: UntypedFormGroup;
   hasClickedSearch: boolean = false;
   maxCallStackHandler = { onlySelf: true, emitEvent: false };
   applicationReference: string = '';
@@ -85,9 +85,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
       ),
     };
 
-    this.delegatedRekeyForm = new FormGroup({});
+    this.delegatedRekeyForm = new UntypedFormGroup({});
     this.delegatedRekeyForm
-      .addControl('applicationReferenceInput', new FormControl(null, [
+      .addControl('applicationReferenceInput', new UntypedFormControl(null, [
         Validators.required,
         Validators.minLength(11),
         Validators.maxLength(11),

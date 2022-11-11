@@ -1,7 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -18,7 +17,7 @@ describe('FakeJournalAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   const screenName = AnalyticsScreenNames.FAKE_JOURNAL;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
         FakeJournalAnalyticsEffects,
@@ -26,14 +25,12 @@ describe('FakeJournalAnalyticsEffects', () => {
         provideMockActions(() => actions$),
       ],
     });
-  });
 
-  beforeEach(() => {
     actions$ = new ReplaySubject(1);
     effects = TestBed.inject(FakeJournalAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     spyOn(analyticsProviderMock, 'logEvent');
-  });
+  }));
 
   describe('fakeJournalViewDidEnter', () => {
     it('should call setCurrentPage', (done) => {

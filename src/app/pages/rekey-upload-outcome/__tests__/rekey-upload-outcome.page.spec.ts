@@ -4,7 +4,6 @@ import { PlatformMock } from 'ionic-mocks';
 import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
 import { Insomnia } from '@ionic-native/insomnia/ngx';
 import { Router } from '@angular/router';
@@ -36,7 +35,7 @@ describe('RekeyUploadOutcomePage', () => {
   let router: Router;
   const routerSpy = jasmine.createSpyObj('Router', ['navigate']);
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
       declarations: [
@@ -60,9 +59,7 @@ describe('RekeyUploadOutcomePage', () => {
         { provide: DeviceProvider, useClass: DeviceProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(RekeyUploadOutcomePage);
     component = fixture.componentInstance;
     screenOrientation = TestBed.inject(ScreenOrientation);

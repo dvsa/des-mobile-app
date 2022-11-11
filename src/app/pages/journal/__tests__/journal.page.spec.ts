@@ -13,7 +13,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { configureTestSuite } from 'ng-bullet';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { JournalPage } from '@pages/journal/journal.page';
@@ -66,7 +65,7 @@ describe('JournalPage', () => {
     translucent: false,
   };
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -97,9 +96,7 @@ describe('JournalPage', () => {
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(JournalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();

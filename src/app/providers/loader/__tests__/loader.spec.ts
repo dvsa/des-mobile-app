@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { LoadingController } from '@ionic/angular';
-import { configureTestSuite } from 'ng-bullet';
 import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 import { LoadingProvider } from '../loader';
 
@@ -8,16 +7,14 @@ describe('LoadingProvider', () => {
   let service: LoadingProvider;
   let loadingCtrl: LoadingController;
 
-  configureTestSuite(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         LoadingProvider,
         { provide: LoadingController, useClass: LoadingControllerMock },
       ],
     });
-  });
 
-  beforeEach(() => {
     service = TestBed.inject(LoadingProvider);
     loadingCtrl = TestBed.inject(LoadingController);
     spyOn(loadingCtrl, 'create').and.returnValue(Promise.resolve({

@@ -3,14 +3,13 @@ import { IonicModule, NavParams, ModalController } from '@ionic/angular';
 import { NavParamsMock, ModalControllerMock } from 'ionic-mocks';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
-import { configureTestSuite } from 'ng-bullet';
 import { EndTestModal } from '../end-test-modal';
 
 describe('EndTestModal', () => {
   let fixture: ComponentFixture<EndTestModal>;
   let component: EndTestModal;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         EndTestModal,
@@ -24,9 +23,7 @@ describe('EndTestModal', () => {
         { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(EndTestModal);
     component = fixture.componentInstance;
     component.onContinue = () => Promise.resolve();

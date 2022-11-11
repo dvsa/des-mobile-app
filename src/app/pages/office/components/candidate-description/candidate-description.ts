@@ -1,7 +1,7 @@
 import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {
   OutcomeBehaviourMapProvider,
   VisibilityType,
@@ -26,19 +26,19 @@ export class CandidateDescriptionComponent implements OnChanges {
   candidateDescription: string;
 
   @Input()
-  formGroup: FormGroup;
+  formGroup: UntypedFormGroup;
 
   @Output()
   candidateDescriptionChange = new EventEmitter<string>();
 
-  private formControl: FormControl;
+  private formControl: UntypedFormControl;
   candidateDescriptionCharsRemaining: number = null;
 
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new FormControl(null);
+      this.formControl = new UntypedFormControl(null);
       this.formGroup.addControl(CANDIDATE_DESCRIPTION_CONTROL, this.formControl);
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome,
