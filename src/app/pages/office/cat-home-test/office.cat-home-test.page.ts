@@ -131,7 +131,11 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
       ),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
-        map((data) => this.shouldDisplayDrivingFaultComments(data as HomeTestData)),
+        map((data) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
+          data as HomeTestData,
+          this.testCategory as TestCategory,
+          this.maxFaultCount,
+        )),
       ),
     };
 
@@ -252,15 +256,4 @@ export class OfficeCatHomeTestPage extends OfficeBasePageComponent implements On
       this.store$.dispatch(HighwayCodeSafetyAddComment(drivingFaultComment.comment));
     }
   }
-
-  shouldDisplayDrivingFaultComments = (data: HomeTestData): boolean => {
-    const drivingFaultCount = this.faultCountProvider.getDrivingFaultSumCount(this.testCategory as TestCategory, data);
-    const seriousFaultCount = this.faultCountProvider.getSeriousFaultSumCount(this.testCategory as TestCategory, data);
-    const dangerousFaultCount = this.faultCountProvider.getDangerousFaultSumCount(
-      this.testCategory as TestCategory, data,
-    );
-
-    return dangerousFaultCount === 0 && seriousFaultCount === 0 && (drivingFaultCount > this.maxFaultCount);
-  };
-
 }

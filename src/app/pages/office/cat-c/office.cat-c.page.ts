@@ -4,11 +4,10 @@ import {
 } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { Subscription, Observable, merge } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { CategoryCode, GearboxCategory, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
-import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { startsWith } from 'lodash';
 
@@ -23,7 +22,7 @@ import { WeatherConditionProvider } from '@providers/weather-conditions/weather-
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-c';
-import { getActivityCodeOptions, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
+import { ActivityCodeModel, getActivityCodeOptions } from '@shared/constants/activity-code/activity-code.constants';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details.selector';
@@ -39,7 +38,7 @@ import { getPassCompletion } from '@store/tests/pass-completion/cat-c/pass-compl
 import { isProvisionalLicenseProvided } from '@store/tests/pass-completion/pass-completion.selector';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { FaultSummary, CommentSource } from '@shared/models/fault-marking.model';
+import { CommentSource, FaultSummary } from '@shared/models/fault-marking.model';
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
@@ -150,7 +149,11 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       ),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
-        map((data) => this.shouldDisplayDrivingFaultComments(data)),
+        map((data) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
+          data,
+          TestCategory.C,
+          OfficeCatCPage.maxFaultCount,
+        )),
       ),
       displayVehicleChecks$: currentTest$.pipe(
         select(getTestOutcome),
@@ -203,16 +206,6 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       this.pageSubscription.unsubscribe();
     }
   }
-
-  shouldDisplayDrivingFaultComments = (data: CatCUniqueTypes.TestData): boolean => {
-    const drivingFaultCount = this.faultCountProvider.getDrivingFaultSumCount(this.testCategory as TestCategory, data);
-    const seriousFaultCount = this.faultCountProvider.getSeriousFaultSumCount(this.testCategory as TestCategory, data);
-    const dangerousFaultCount = this.faultCountProvider.getDangerousFaultSumCount(
-      this.testCategory as TestCategory, data,
-    );
-
-    return dangerousFaultCount === 0 && seriousFaultCount === 0 && (drivingFaultCount > OfficeCatCPage.maxFaultCount);
-  };
 
   isPass(): boolean {
     return this.testOutcomeText === TestOutcome.Passed;

@@ -36,9 +36,7 @@ import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerou
 import { Observable } from 'rxjs';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestOutcome } from '@store/tests/tests.constants';
 import {
   getSelectedShowMeQuestions,
   getVehicleChecksCatADI2, getVehicleChecksDangerous,
@@ -59,6 +57,7 @@ interface CatADI2OfficePageState {
   vehicleChecksDangerous$: Observable<boolean>;
   showMeQuestionsFaults$: Observable<number>;
 }
+
 type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
 
 @Component({
@@ -118,7 +117,12 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(currentTest$.pipe(select(getTestOutcomeText))),
-        map(([testData, testOutcomeText]) => this.shouldDisplayDrivingFaultComments(testData, testOutcomeText)),
+        map(([testData, testOutcomeText]) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
+          testData,
+          TestCategory.ADI2,
+          0,
+          testOutcomeText,
+        )),
       ),
       displayTellMeQuestions$: currentTest$.pipe(
         select(getTestOutcome),
@@ -259,16 +263,7 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
     }
   }
 
-  shouldDisplayDrivingFaultComments = (
-    testData: CatADI2UniqueTypes.TestData,
-    testOutcomeText: TestOutcome,
-  ): boolean => {
-    const drivingFaultCount: number = this.faultCountProvider.getDrivingFaultSumCount(TestCategory.ADI2, testData);
-    return (drivingFaultCount > 0 && testOutcomeText === TestOutcome.Failed);
-  };
-
   showMeQuestionsChanged(result: QuestionResult, index: number): void {
     this.store$.dispatch(ShowMeQuestionSelected(result, index));
   }
-
 }

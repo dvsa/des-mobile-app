@@ -38,7 +38,6 @@ import { isProvisionalLicenseProvided } from '@store/tests/pass-completion/pass-
 import { vehicleChecksExist } from '@store/tests/test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.selector';
 import { getVehicleChecks } from '@store/tests/test-data/cat-d/test-data.cat-d.selector';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { CatDUniqueTypes } from '@dvsa/mes-test-schema/categories/D';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
@@ -67,6 +66,7 @@ interface CatDOfficePageState {
   displayVehicleChecks$: Observable<boolean>;
   vehicleChecks$: Observable<QuestionResult[]>;
 }
+
 type OfficePageState = CommonOfficePageState & CatDOfficePageState;
 
 @Component({
@@ -152,7 +152,11 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
       ),
       displayDrivingFaultComments$: currentTest$.pipe(
         select(getTestData),
-        map((data) => this.shouldDisplayDrivingFaultComments(data)),
+        map((data) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
+          data,
+          TestCategory.D,
+          OfficeCatDPage.maxFaultCount,
+        )),
       ),
       displayVehicleChecks$: currentTest$.pipe(
         select(getTestOutcome),
@@ -218,16 +222,6 @@ export class OfficeCatDPage extends OfficeBasePageComponent implements OnInit {
     this.store$.dispatch(PassCertificateNumberChanged(passCertificateNumber));
     this.store$.dispatch(PassCertificateNumberReceived(this.form.get('passCertificateNumberCtrl').valid));
   }
-
-  shouldDisplayDrivingFaultComments = (data: CatDUniqueTypes.TestData): boolean => {
-    const drivingFaultCount = this.faultCountProvider.getDrivingFaultSumCount(this.testCategory as TestCategory, data);
-    const seriousFaultCount = this.faultCountProvider.getSeriousFaultSumCount(this.testCategory as TestCategory, data);
-    const dangerousFaultCount = this.faultCountProvider.getDangerousFaultSumCount(
-      this.testCategory as TestCategory, data,
-    );
-
-    return dangerousFaultCount === 0 && seriousFaultCount === 0 && (drivingFaultCount > OfficeCatDPage.maxFaultCount);
-  };
 
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
     if (dangerousFaultComment.source === CommentSource.SIMPLE) {
