@@ -315,6 +315,11 @@ export class FaultCountProvider {
       testOutcomeText = TestOutcome.Failed;
     }
 
+    if (category === TestCategory.ADI2) {
+      return (drivingFaultCount > 0
+                && testOutcomeText === TestOutcome.Failed);
+    }
+
     return dangerousFaultCount === 0
             && seriousFaultCount === 0
             && drivingFaultCount > maxFaultCount

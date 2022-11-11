@@ -120,7 +120,7 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
         map(([testData, testOutcomeText]) => this.faultCountProvider.shouldDisplayDrivingFaultComments(
           testData,
           TestCategory.ADI2,
-          OfficeCatADI2Page.maxFaultCount,
+          0,
           testOutcomeText,
         )),
       ),
@@ -266,5 +266,4 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   showMeQuestionsChanged(result: QuestionResult, index: number): void {
     this.store$.dispatch(ShowMeQuestionSelected(result, index));
   }
-
 }
