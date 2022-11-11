@@ -303,8 +303,8 @@ export class FaultCountProvider {
 
   public shouldDisplayDrivingFaultComments = (
     data: TestData,
-    category?: TestCategory,
-    maxFaultCount?: number,
+    category: TestCategory,
+    maxFaultCount: number,
     testOutcomeText?: TestOutcome,
   ): boolean => {
     const drivingFaultCount: number = this.getDrivingFaultSumCount(category, data);
@@ -322,8 +322,7 @@ export class FaultCountProvider {
 
     return dangerousFaultCount === 0
             && seriousFaultCount === 0
-            && drivingFaultCount > maxFaultCount
-            && testOutcomeText === TestOutcome.Failed;
+            && drivingFaultCount > maxFaultCount;
   };
 
   public getShowMeFaultCount = (category: TestCategory, data: VehicleChecks): VehicleChecksScore => {
