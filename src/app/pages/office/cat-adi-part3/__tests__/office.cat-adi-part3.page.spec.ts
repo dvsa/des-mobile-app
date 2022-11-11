@@ -41,7 +41,7 @@ import {
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
 
-xdescribe('OfficeCatADI3Page', () => {
+describe('OfficeCatADI3Page', () => {
   let fixture: ComponentFixture<OfficeCatADI3Page>;
   let component: OfficeCatADI3Page;
   let store$: Store<StoreModel>;
