@@ -15,6 +15,14 @@ import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
 
 declare let cordova: any;
 
+// Descriptive / Friendly mappings found here - https://www.theiphonewiki.com/wiki/Models
+enum FriendlyDeviceModel {
+  iPAD_AIR_3RD_GEN = 'iPad Air (3rd generation)',
+  iPAD_8TH_GEN = 'iPad (8th generation)',
+  iPAD_9TH_GEN = 'iPad (9th generation)',
+  iPAD_PRO_10_5_INCH = 'iPad Pro (10.5-inch)',
+}
+
 @Injectable()
 export class DeviceProvider implements IDeviceProvider {
   private supportedDevices: string[] = [];
@@ -42,6 +50,25 @@ export class DeviceProvider implements IDeviceProvider {
 
   getDeviceType = (): string => {
     return this.device.model;
+  };
+
+  getDescriptiveDeviceName = (): string => {
+    const deviceModel = this.getDeviceType();
+
+    switch (deviceModel) {
+      case 'iPad7,3':
+      case 'iPad7,4':
+        return FriendlyDeviceModel.iPAD_PRO_10_5_INCH;
+      case 'iPad11,4':
+        return FriendlyDeviceModel.iPAD_AIR_3RD_GEN;
+      case 'iPad11,6':
+      case 'iPad11,7':
+        return FriendlyDeviceModel.iPAD_8TH_GEN;
+      case 'iPad12,2':
+        return FriendlyDeviceModel.iPAD_9TH_GEN;
+      default:
+        return deviceModel;
+    }
   };
 
   getUniqueDeviceId = (): string => {
