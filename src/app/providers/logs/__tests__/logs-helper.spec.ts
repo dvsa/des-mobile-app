@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Device } from '@ionic-native/device/ngx';
 import { Store, StoreModule } from '@ngrx/store';
-import { DeviceMock } from '@ionic-native-mocks/device';
+import { DeviceMock } from '@mocks/ionic-mocks/device.mock';
 import { LogType } from '@shared/models/log.model';
 import { LogHelper } from '../logs-helper';
 
