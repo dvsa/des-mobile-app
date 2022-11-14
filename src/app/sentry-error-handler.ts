@@ -19,8 +19,14 @@ const SENTRY_ERRORS_LIVERELOAD: SentryError[] = [
   /^(SocketProtocolError|Socket closed without status code|Server ping timed out).*$/gi,
 ];
 
+// Errors being thrown within packages are filtering into the Sentry reports, these are inflating the stats.
+const SENTRY_ERRORS_NODE_MODULES: SentryError[] = [
+  'this._data[this._data.length-1].push',
+];
+
 export const SENTRY_ERRORS: SentryError[] = [
   ...SENTRY_ERRORS_LIVERELOAD,
+  ...SENTRY_ERRORS_NODE_MODULES,
 ];
 
 @Injectable()

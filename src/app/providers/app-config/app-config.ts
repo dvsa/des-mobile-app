@@ -109,6 +109,9 @@ export class AppConfigProvider {
   }
 
   public getAppConfig = (): AppConfig => {
+    if (!this.appConfig) {
+      this.initialiseAppConfig();
+    }
     return this.appConfig;
   };
 
