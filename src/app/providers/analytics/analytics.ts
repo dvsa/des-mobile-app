@@ -28,6 +28,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
       this.setDeviceId(this.device.getUniqueDeviceId());
       this.setUserId(this.authProvider.getEmployeeId());
       this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
+      this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_MODEL, this.device.getDescriptiveDeviceName());
       this.enableExceptionReporting();
     });
     resolve(true);

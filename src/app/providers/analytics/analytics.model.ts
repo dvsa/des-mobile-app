@@ -223,6 +223,7 @@ export enum AnalyticsDimensionIndices {
   APPLICATION_REFERENCE = 6,
   TEST_CATEGORY = 7,
   USER_ID = 11,
+  DEVICE_MODEL = 12,
 }
 
 export enum JournalRefreshModes {
