@@ -19,6 +19,7 @@ import {
   TestReportDashboardNavigateToPage,
   TestReportDashboardViewDidEnter,
 } from '@pages/test-report-dashboard/test-report-dashboard.actions';
+import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 
 @Injectable()
 export class TestReportDashboardAnalyticsEffects {
@@ -31,8 +32,18 @@ export class TestReportDashboardAnalyticsEffects {
 
   testReportDashboardViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(TestReportDashboardViewDidEnter),
-    switchMap(() => {
-      this.analytics.setCurrentPage(AnalyticsScreenNames.TEST_REPORT_DASHBOARD);
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+        ),
+      )),
+    switchMap((
+      [, tests]: [ReturnType<typeof TestReportDashboardViewDidEnter>, TestsModel],
+    ) => {
+      this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.TEST_REPORT_DASHBOARD, tests));
       return of(AnalyticRecorded());
     }),
   ));
@@ -94,6 +105,7 @@ export class TestReportDashboardAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
             select(getCurrentTest),
+            select(getTestData),
             select(getReview),
             select(getFeedback),
           ),
@@ -106,7 +118,7 @@ export class TestReportDashboardAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT_DASHBOARD, tests),
         formatAnalyticsText(AnalyticsEvents.FEEDBACK_CHANGED, tests),
-        `feedback changed to ${feedback}`,
+        `feedback changed to - ${feedback}`,
       );
       return of(AnalyticRecorded());
     }),
