@@ -59,29 +59,21 @@ describe('VehicleDetailsCardComponent', () => {
       }) => {
         it(`should ${outcome ? 'hide' : 'not hide'} for cat ${category}`, () => {
           component.category = category as TestCategory;
-          expect(component.shouldShowDimensions)
-            .toEqual(outcome);
+          expect(component.shouldShowDimensions).toEqual(outcome);
         });
       });
     });
     describe('shouldHideCard', () => {
       it('should return true if the data is missing', () => {
-        expect(component.shouldHideCard())
-          .toEqual(true);
+        expect(component.shouldHideCard()).toEqual(true);
       });
       it('should return false if there is a gearbox category', () => {
-        spyOnProperty(component, 'transmission')
-          .and
-          .returnValue('Tests');
-        expect(component.shouldHideCard())
-          .toEqual(false);
+        spyOnProperty(component, 'transmission').and.returnValue('Tests');
+        expect(component.shouldHideCard()).toEqual(false);
       });
       it('should return false if there is a vehicle registration number', () => {
-        spyOnProperty(component, 'registrationNumber')
-          .and
-          .returnValue('Tests');
-        expect(component.shouldHideCard())
-          .toEqual(false);
+        spyOnProperty(component, 'registrationNumber').and.returnValue('Tests');
+        expect(component.shouldHideCard()).toEqual(false);
       });
     });
     describe('getTransmission', () => {
@@ -91,12 +83,10 @@ describe('VehicleDetailsCardComponent', () => {
         };
         component.data = data;
         fixture.detectChanges();
-        expect(component.transmission)
-          .toEqual('Manual');
+        expect(component.transmission).toEqual('Manual');
       });
       it('should return undefined if the data is missing', () => {
-        expect(component.transmission)
-          .toEqual(undefined);
+        expect(component.transmission).toEqual(undefined);
       });
     });
     describe('getRegistrationNumber', () => {
@@ -106,12 +96,10 @@ describe('VehicleDetailsCardComponent', () => {
         };
         component.data = data;
         fixture.detectChanges();
-        expect(component.registrationNumber)
-          .toEqual('ABC 1234');
+        expect(component.registrationNumber).toEqual('ABC 1234');
       });
       it('should return undefined if the data is missing', () => {
-        expect(component.registrationNumber)
-          .toEqual(undefined);
+        expect(component.registrationNumber).toEqual(undefined);
       });
     });
     describe('getVehicleLength', () => {
@@ -120,12 +108,10 @@ describe('VehicleDetailsCardComponent', () => {
           vehicleLength: 10,
         };
         fixture.detectChanges();
-        expect(component.vehicleLength)
-          .toEqual('10');
+        expect(component.vehicleLength).toEqual('10');
       });
       it('should return ? if the data is missing', () => {
-        expect(component.vehicleLength)
-          .toEqual('?');
+        expect(component.vehicleLength).toEqual('?');
       });
     });
     describe('getVehicleWidth', () => {
@@ -134,88 +120,46 @@ describe('VehicleDetailsCardComponent', () => {
           vehicleWidth: 4,
         };
         fixture.detectChanges();
-        expect(component.vehicleWidth)
-          .toEqual('4');
+        expect(component.vehicleWidth).toEqual('4');
       });
       it('should return ? if the data is missing', () => {
-        expect(component.vehicleWidth)
-          .toEqual('?');
+        expect(component.vehicleWidth).toEqual('?');
       });
     });
     describe('displayRegistration', () => {
       it('should return the correct value if the category is ADI3', () => {
-
-        spyOn(component, 'isADI3')
-          .and
-          .returnValue(true);
-        spyOnProperty(component, 'registrationNumber')
-          .and
-          .returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions')
-          .and
-          .returnValue(false);
+        spyOn(component, 'isADI3').and.returnValue(true);
+        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
         component.vehicleDetails = undefined;
-
         expect(component.displayRegistration).toBeTruthy();
       });
       it('should return the correct value if the registration number is present', () => {
-
-        spyOn(component, 'isADI3')
-          .and
-          .returnValue(false);
-        spyOnProperty(component, 'registrationNumber')
-          .and
-          .returnValue(1);
-        spyOnProperty(component, 'shouldShowDimensions')
-          .and
-          .returnValue(false);
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'registrationNumber').and.returnValue('1');
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
         component.vehicleDetails = undefined;
-
         expect(component.displayRegistration).toBeTruthy();
       });
       it('should return the correct value if should show dimensions is true', () => {
-
-        spyOn(component, 'isADI3')
-          .and
-          .returnValue(false);
-        spyOnProperty(component, 'registrationNumber')
-          .and
-          .returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions')
-          .and
-          .returnValue(true);
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(true);
         component.vehicleDetails = undefined;
-
         expect(component.displayRegistration).toBeTruthy();
       });
       it('should return the correct value if vehicle details is defined', () => {
-
-        spyOn(component, 'isADI3')
-          .and
-          .returnValue(false);
-        spyOnProperty(component, 'registrationNumber')
-          .and
-          .returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions')
-          .and
-          .returnValue(false);
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
         component.vehicleDetails = ['d', 'e', 'f', 'i', 'n', 'e', 'd'];
-
         expect(component.displayRegistration).toBeTruthy();
       });
       it('should return the correct value if nothing is defined', () => {
-
-        spyOn(component, 'isADI3')
-          .and
-          .returnValue(false);
-        spyOnProperty(component, 'registrationNumber')
-          .and
-          .returnValue(undefined);
-        spyOnProperty(component, 'shouldShowDimensions')
-          .and
-          .returnValue(false);
+        spyOn(component, 'isADI3').and.returnValue(false);
+        spyOnProperty(component, 'registrationNumber').and.returnValue(undefined);
+        spyOnProperty(component, 'shouldShowDimensions').and.returnValue(false);
         component.vehicleDetails = undefined;
-
         expect(component.displayRegistration)!.toBeTruthy();
       });
     });
