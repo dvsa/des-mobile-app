@@ -45,6 +45,9 @@ export class TestOutcomeComponent implements OnInit {
   slotDetail: SlotDetail;
 
   @Input()
+  onRekayPage: boolean = false;
+
+  @Input()
   canStartTest: boolean;
 
   @Input()
@@ -143,7 +146,7 @@ export class TestOutcomeComponent implements OnInit {
       return false;
     }
 
-    if (this.showStartTestButton()) {
+    if (this.showStartTestButton() && !this.onRekayPage) {
       return false;
     }
 

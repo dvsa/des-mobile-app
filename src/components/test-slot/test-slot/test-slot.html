@@ -95,6 +95,7 @@
                     <ion-col class="align-center">
                         <test-outcome
                                 *ngIf="!teamJournalCandidateResult"
+                                [onRekayPage]="onRekayPage"
                                 [isPracticeMode]="isPracticeMode"
                                 [slotDetail]="slot.slotDetail"
                                 [canStartTest]="canStartTest()"
