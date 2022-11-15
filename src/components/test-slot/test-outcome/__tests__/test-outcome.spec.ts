@@ -83,7 +83,8 @@ describe('TestOutcomeComponent', () => {
               1234: {
                 category: 'B',
                 activityCode: ActivityCodes.BAD_LIGHT,
-                journalData: {},
+                journalData: {
+                },
                 rekey: false,
               },
             },
@@ -214,7 +215,6 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.testStatus = TestStatus.Booked;
         component.isTestSlotOnRekeySearch = true;
-        spyOn(component, 'showStartTestButton').and.returnValue(false);
 
         component.showRekeyButton();
 
@@ -372,10 +372,8 @@ describe('TestOutcomeComponent', () => {
       it('should call the rekeyDelegatedTest method when `Rekey` is clicked', () => {
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.BE;
-
         spyOn(component, 'showDelegatedExaminerRekeyButton').and.returnValue(true);
         spyOn(component, 'rekeyDelegatedTest');
-
         fixture.detectChanges();
         const rekeyDelegatedButton = fixture.debugElement.query(By.css('.mes-delegated-button'));
         rekeyDelegatedButton.triggerEventHandler('click', null);
