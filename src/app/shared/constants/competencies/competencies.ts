@@ -59,7 +59,7 @@ export enum fullCompetencyLabels {
   positioningNormalRiding = 'Normal riding',
   bends = 'Bends',
   controlsBalanceSlowControl = 'Balance / Slow control',
-  clearanceOrObstructions = 'Clearance/obstructions',
+  clearanceOrObstructions = 'Clearance / obstructions',
   rearObservationSignalling = 'Rear Observation - Signalling',
   rearObservationChangeDirection = 'Rear Observation - Change Direction',
   rearObservationChangeSpeed = 'Rear Observation - Change Speed',
