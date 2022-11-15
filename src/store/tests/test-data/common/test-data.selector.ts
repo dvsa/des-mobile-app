@@ -30,6 +30,12 @@ export const hasExaminerTakenAction = (data: ETA, action: ExaminerActions) => {
 
 export const getEco = (data: TestData) => data.eco;
 
+export const getFuelEfficientDriving = (data: Eco) => data.fuelEfficientDriving;
+
+export const getEcoRelatedFault = (data: Eco) => data.ecoRelatedFault;
+
+export const getEcoCaptureReason = (data: Eco) => data.ecoCaptureReason;
+
 export const getEcoFaultText = (data: Eco) => {
   if (!data || (!data.adviceGivenControl && !data.adviceGivenPlanning)) return;
   if (data.adviceGivenControl && !data.adviceGivenPlanning) return 'Control';

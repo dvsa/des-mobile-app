@@ -145,9 +145,34 @@
                     [faults]="pageState.etaFaults$ | async">
             </eta-card>
 
-            <eco-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)"
-                      [ecoFaults]="pageState.ecoFaults$ | async"
-            ></eco-card>
+            <ion-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)">
+                <ion-card-content>
+                    <ion-grid>
+                        <eco-card [ecoFaults]="pageState.ecoFaults$ | async"></eco-card>
+
+                        <fuel-efficient-driving
+                                [formGroup]="form"
+                                [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
+                                (fedChange)="fedChanged($event)"
+                        ></fuel-efficient-driving>
+
+                        <eco-related-fault
+                                [formGroup]="form"
+                                [drivingFaults]="pageState.adi2DrivingFaults$ | async"
+                                [ecoRelatedFault]="pageState.ecoRelatedFault$ | async"
+                                [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
+                                (ecoFaultChange)="ecoFaultChanged($event)">
+                        </eco-related-fault>
+
+                        <eco-capture-reason
+                                [formGroup]="form"
+                                [ecoCaptureReason]="pageState.ecoCaptureReason$ | async"
+                                [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
+                                (ecoCaptureReasonChange)="ecoCaptureReasonChanged($event)">
+                        </eco-capture-reason>
+                    </ion-grid>
+                </ion-card-content>
+            </ion-card>
 
             <fault-comment-card
                     [formGroup]="form" [faultComments]="pageState.dangerousFaults$ | async"

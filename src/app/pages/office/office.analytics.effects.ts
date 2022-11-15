@@ -39,6 +39,18 @@ import {
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import {
+  AddEcoCaptureReason,
+  AddEcoRelatedFault,
+  ToggleFuelEfficientDriving,
+} from '@store/tests/test-data/common/eco/eco.actions';
+import {
+  getEco,
+  getEcoCaptureReason,
+  getEcoRelatedFault,
+  getFuelEfficientDriving,
+} from '@store/tests/test-data/common/test-data.selector';
+import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 
 @Injectable()
 export class OfficeAnalyticsEffects {
@@ -313,6 +325,90 @@ export class OfficeAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
         formatAnalyticsText(AnalyticsEvents.MODE_OF_TRANSPORT_CHANGED, tests),
         `${action.modeOfTransport} selected`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  setFuelEfficientDriving$ = createEffect(() => this.actions$.pipe(
+    ofType(ToggleFuelEfficientDriving),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestData),
+          select(getEco),
+          select(getFuelEfficientDriving),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, fuelEfficientDriving]: [ReturnType<typeof ToggleFuelEfficientDriving>, TestsModel, boolean],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
+        formatAnalyticsText(AnalyticsEvents.TOGGLE_FUEL_EFFICIENT_DRIVING, tests),
+        `${fuelEfficientDriving ? 'Yes' : 'No'}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  setEcoRelatedFault$ = createEffect(() => this.actions$.pipe(
+    ofType(AddEcoRelatedFault),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestData),
+          select(getEco),
+          select(getEcoRelatedFault),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, ecoRelatedFault]: [ReturnType<typeof AddEcoRelatedFault>, TestsModel, string],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
+        formatAnalyticsText(AnalyticsEvents.ECO_RELATED_FAULT_CHANGED, tests),
+        ecoRelatedFault,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  setEcoCaptureReason$ = createEffect(() => this.actions$.pipe(
+    ofType(AddEcoCaptureReason),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
+        this.store$.pipe(
+          select(getTests),
+        ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getTestData),
+          select(getEco),
+          select(getEcoCaptureReason),
+        ),
+      ),
+    )),
+    concatMap((
+      [, tests, ecoCaptureReason]: [ReturnType<typeof AddEcoCaptureReason>, TestsModel, string],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
+        formatAnalyticsText(AnalyticsEvents.ECO_CAPTURE_REASON_CHANGED, tests),
+        ecoCaptureReason,
       );
       return of(AnalyticRecorded());
     }),

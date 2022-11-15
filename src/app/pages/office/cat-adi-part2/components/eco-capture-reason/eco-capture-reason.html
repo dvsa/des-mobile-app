@@ -1,0 +1,29 @@
+<ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator-top" id="eco-capture-reason-row" *ngIf="fuelEfficientDriving">
+    <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+    <ion-col class="component-label ion-align-self-start" size="32">
+        <ion-row class="spacing-row"></ion-row>
+        <label id="eco-capture-reason-label">Reason for ECO capture</label>
+    </ion-col>
+
+    <ion-col size="58" class="ion-align-self-center ion-padding-start">
+        <ion-row class="spacing-row"></ion-row>
+        <ion-row>
+            <ion-col>
+        <textarea id="eco-capture-reason-text"
+                  formControlName="ecoCaptureReason"
+                  class="mes-data input-styling-background"
+                  [value]="ecoCaptureReason"
+                  (change)="ecoCaptureReasonChanged($event.target.value)">
+        </textarea>
+            </ion-col>
+        </ion-row>
+        <ion-row class="validation-message-row ion-align-items-center">
+            <div class="validation-text"
+                 [class.ng-invalid]="invalid"
+                 *ngIf="invalid"
+                 id="eco-capture-reason-validation-text">Please provide a reason for ECO capture
+            </div>
+        </ion-row>
+    </ion-col>
+</ion-row>
+

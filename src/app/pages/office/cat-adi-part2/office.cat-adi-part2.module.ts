@@ -17,6 +17,13 @@ import {
 import {
   WaitingRoomToCarComponentsModule,
 } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
+import {
+  EcoCaptureReasonComponent,
+} from '@pages/office/cat-adi-part2/components/eco-capture-reason/eco-capture-reason';
+import { EcoRelatedFaultComponent } from '@pages/office/cat-adi-part2/components/eco-related-fault/eco-related-fault';
+import {
+  FuelEfficientDriving,
+} from '@pages/office/cat-adi-part2/components/fuel-efficient-driving/fuel-efficient-driving';
 import { OfficeCatADI2Page } from './office.cat-adi-part2.page';
 import { OfficeCatADIPart2PageRoutingModule } from './office.cat-adi-part2-routing.module';
 import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-checks/vehicle-checks-office-card';
@@ -26,6 +33,9 @@ import { VehicleChecksOfficeCardCatADI2Component } from './components/vehicle-ch
     OfficeCatADI2Page,
     VehicleChecksOfficeCardCatADI2Component,
     ShowMeQuestionsCatADI2Component,
+    EcoCaptureReasonComponent,
+    EcoRelatedFaultComponent,
+    FuelEfficientDriving,
   ],
   imports: [
     CommonModule,
