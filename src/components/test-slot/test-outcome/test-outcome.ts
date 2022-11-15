@@ -143,6 +143,10 @@ export class TestOutcomeComponent implements OnInit {
       return false;
     }
 
+    if (this.showStartTestButton()) {
+      return false;
+    }
+
     if (this.isTestSlotOnRekeySearch) {
       return true; // because the test is incomplete AND this is the rekey search
     }
