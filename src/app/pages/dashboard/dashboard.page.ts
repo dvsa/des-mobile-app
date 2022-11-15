@@ -21,6 +21,7 @@ import { selectRole } from '@store/app-config/app-config.selectors';
 import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '@store/app-info/app-info.selectors';
 import * as journalActions from '@store/journal/journal.actions';
 
+import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -88,6 +89,10 @@ export class DashboardPage extends BasePageComponent {
     this.todaysDateFormatted = this.dateTimeProvider.now().format('dddd Do MMMM YYYY');
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
     return true;
+  }
+
+  async ionViewDidLeave() {
+    this.store$.dispatch(RekeySearchClearState());
   }
 
   showTestReportPracticeMode = (): boolean =>

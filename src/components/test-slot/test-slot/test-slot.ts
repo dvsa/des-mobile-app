@@ -52,9 +52,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   hasSlotChanged: boolean;
 
   @Input()
-  onRekayPage: boolean = false;
-
-  @Input()
   hasSeenCandidateDetails: boolean;
 
   @Input()

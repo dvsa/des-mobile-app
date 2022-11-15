@@ -262,7 +262,6 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
-        spyOn(component, 'showStartTestButton').and.returnValue(false);
 
         component.showRekeyButton();
 
@@ -272,7 +271,6 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Started;
-        spyOn(component, 'showStartTestButton').and.returnValue(false);
 
         component.showRekeyButton();
 
@@ -282,7 +280,6 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
-        spyOn(component, 'showStartTestButton').and.returnValue(false);
 
         component.showRekeyButton();
 
@@ -292,7 +289,6 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.slotDetail.start = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Booked;
-        spyOn(component, 'showStartTestButton').and.returnValue(false);
 
         component.showRekeyButton();
 
@@ -302,7 +298,6 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail = testSlotDetail;
         component.slotDetail.start = new DateTime().format('YYYY-MM-DDTHH:mm:ss');
         component.testStatus = TestStatus.Started;
-        spyOn(component, 'showStartTestButton').and.returnValue(false);
 
         component.showRekeyButton();
 
@@ -353,7 +348,6 @@ describe('TestOutcomeComponent', () => {
 
     describe('rekey a test', () => {
       it('should call the rekeyTest method when `Rekey` is clicked', () => {
-        spyOn(component, 'showStartTestButton').and.returnValue(false);
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.B;
         component.testStatus = TestStatus.Booked;
