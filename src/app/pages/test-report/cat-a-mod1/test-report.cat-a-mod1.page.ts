@@ -8,8 +8,8 @@ import { merge, Observable } from 'rxjs';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Router } from '@angular/router';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';

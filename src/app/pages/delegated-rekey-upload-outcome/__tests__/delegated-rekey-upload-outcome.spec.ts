@@ -5,8 +5,8 @@ import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { StoreModule, Store } from '@ngrx/store';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';

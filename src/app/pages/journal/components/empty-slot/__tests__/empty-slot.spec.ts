@@ -7,7 +7,7 @@ import { cloneDeep } from 'lodash';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { EmptySlotComponent } from '../empty-slot';
 

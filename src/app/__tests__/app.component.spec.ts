@@ -5,7 +5,7 @@ import {
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { SecureStorage, SecureStorageObject } from '@ionic-native/secure-storage/ngx';
+import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { AlertControllerMock } from 'ionic-mocks';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';

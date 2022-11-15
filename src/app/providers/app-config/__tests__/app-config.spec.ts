@@ -1,8 +1,6 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
-import { IsDebug } from '@ionic-native/is-debug/ngx';
-import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
+import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 
 import { Platform } from '@ionic/angular';
 import { PlatformMock } from 'ionic-mocks';
@@ -48,7 +46,6 @@ describe('AppConfigProvider', () => {
         { provide: AppInfoProvider, useClass: AppInfoProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: IsDebug, useClass: IsDebugMock },
-        EmmAppConfig,
       ],
     });
 

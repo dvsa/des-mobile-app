@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { PlatformMock, GoogleAnalyticsMock } from 'ionic-mocks';
-import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
+import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { Platform } from '@ionic/angular';
 import { AnalyticsProvider } from '../analytics';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';

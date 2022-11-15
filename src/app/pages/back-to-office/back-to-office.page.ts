@@ -9,8 +9,8 @@ import {
   BackToOfficeViewDidEnter,
   DeferWriteUp,
 } from '@pages/back-to-office/back-to-office.actions';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { merge, Observable, Subscription } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';

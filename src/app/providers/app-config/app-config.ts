@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { map, timeout } from 'rxjs/operators';
 import { isEmpty, merge } from 'lodash';
 import { ValidatorResult, ValidationError } from 'jsonschema';
-import { IsDebug } from '@ionic-native/is-debug/ngx';
-import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
+import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
+import { ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
 import { Subscription } from 'rxjs';
 
 import { environment } from '@environments/environment';
@@ -72,7 +72,7 @@ export class AppConfigProvider {
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private isDebug: IsDebug,
-    private emmAppConfig: EmmAppConfig,
+    // private emmAppConfig: EmmAppConfig,
   ) {
     this.setStoreSubscription();
   }
@@ -81,7 +81,7 @@ export class AppConfigProvider {
     try {
       if (this.platform.is('cordova')) {
         await this.getDebugMode();
-        this.loadManagedConfig();
+        await this.loadManagedConfig();
       }
 
       this.mapInAppConfig(this.environmentFile);
@@ -115,27 +115,27 @@ export class AppConfigProvider {
     return this.appConfig;
   };
 
-  public loadManagedConfig = (): void => {
+  public loadManagedConfig = async (): Promise<void> => {
     const newEnvFile = {
       production: false,
-      configUrl: this.emmAppConfig.getValue('configUrl'),
+      configUrl: (await ManagedConfigurations.getString({ key: 'configUrl' })).value,
       sentry: {
-        dsn: this.emmAppConfig.getValue('sentryDsn'),
-        environment: this.emmAppConfig.getValue('sentryEnv'),
+        dsn: (await ManagedConfigurations.getString({ key: 'sentryDsn' })).value,
+        environment: (await ManagedConfigurations.getString({ key: 'sentryEnv' })).value,
       },
-      daysToCacheJournalData: this.emmAppConfig.getValue('daysToCacheJournalData'),
-      daysToCacheLogs: this.emmAppConfig.getValue('daysToCacheLogs'),
+      daysToCacheJournalData: (await ManagedConfigurations.getNumber({ key: 'daysToCacheJournalData' })).value,
+      daysToCacheLogs: (await ManagedConfigurations.getNumber({ key: 'daysToCacheLogs' })).value,
       isRemote: true,
-      logsPostApiKey: this.emmAppConfig.getValue('logsPostApiKey'),
-      logsApiUrl: this.emmAppConfig.getValue('logsApiUrl'),
-      logsAutoSendInterval: this.emmAppConfig.getValue('logsAutoSendInterval'),
+      logsPostApiKey: (await ManagedConfigurations.getString({ key: 'logsPostApiKey' })).value,
+      logsApiUrl: (await ManagedConfigurations.getString({ key: 'logsApiUrl' })).value,
+      logsAutoSendInterval: (await ManagedConfigurations.getNumber({ key: 'logsApiUrl' })).value,
       authentication: {
-        clientId: this.emmAppConfig.getValue('clientId'),
-        context: this.emmAppConfig.getValue('authenticationContext'),
-        employeeIdKey: this.emmAppConfig.getValue('employeeIdKey'),
-        logoutUrl: this.emmAppConfig.getValue('logoutUrl'),
-        redirectUrl: this.emmAppConfig.getValue('redirectUrl'),
-        resourceUrl: this.emmAppConfig.getValue('resourceUrl'),
+        clientId: (await ManagedConfigurations.getString({ key: 'clientId' })).value,
+        context: (await ManagedConfigurations.getString({ key: 'authenticationContext' })).value,
+        employeeIdKey: (await ManagedConfigurations.getString({ key: 'employeeIdKey' })).value,
+        logoutUrl: (await ManagedConfigurations.getString({ key: 'logoutUrl' })).value,
+        redirectUrl: (await ManagedConfigurations.getString({ key: 'redirectUrl' })).value,
+        resourceUrl: (await ManagedConfigurations.getString({ key: 'resourceUrl' })).value,
       },
     } as EnvironmentFile;
 

@@ -3,24 +3,22 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/pla
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { AppVersion } from '@ionic-native/app-version/ngx';
-import { EmmAppConfig } from '@ionic-native/emm-app-config/ngx';
-import { IsDebug } from '@ionic-native/is-debug/ngx';
-import { MobileAccessibility } from '@ionic-native/mobile-accessibility/ngx';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
+import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 
-import { GoogleAnalytics } from '@ionic-native/google-analytics/ngx';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
-import { Network } from '@ionic-native/network/ngx';
+import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
+import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
+import { Network } from '@awesome-cordova-plugins/network/ngx';
 import {
   ActionReducer, ActionReducerMap, MetaReducer, StoreModule,
 } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CommonModule } from '@angular/common';
@@ -167,7 +165,6 @@ if (enableRehydrationPlugin) {
       provide: ErrorHandler,
       useClass: SentryIonicErrorHandler,
     },
-    MobileAccessibility,
     AppVersion,
     AppConfigProvider,
     AuthenticationProvider,
@@ -187,7 +184,6 @@ if (enableRehydrationPlugin) {
     LogsProvider,
     LogHelper,
     SchemaValidatorProvider,
-    EmmAppConfig,
     TestPersistenceProvider,
     CompletedTestPersistenceProvider,
     CategoryWhitelistProvider,

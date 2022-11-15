@@ -23,8 +23,8 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import {
   TestReportValidatorProviderMock,
 } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';

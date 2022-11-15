@@ -36,8 +36,8 @@ import {
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { DeviceProvider } from '@providers/device/device';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { CategoryCode, JournalData } from '@dvsa/mes-test-schema/categories/common';

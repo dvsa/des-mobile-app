@@ -9,8 +9,8 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Observable } from 'rxjs';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';

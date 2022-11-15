@@ -9,8 +9,8 @@ import { MockComponent } from 'ng-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';

@@ -4,7 +4,7 @@ import { IonicModule, Config } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ConfigMock } from 'ionic-mocks';
 import { cloneDeep } from 'lodash';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';

@@ -4,8 +4,8 @@ import { PlatformMock } from 'ionic-mocks';
 import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Router } from '@angular/router';
 
 import { AppModule } from '@app/app.module';

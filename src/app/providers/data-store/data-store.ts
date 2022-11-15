@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { SecureStorageObject } from '@ionic-native/secure-storage/ngx';
+import { SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { LogType } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
@@ -11,10 +11,7 @@ import { LogHelper } from '../logs/logs-helper';
 export class DataStoreProvider {
 
   defaultStoreName = 'DES';
-
   secureContainer: SecureStorageObject = null;
-
-  tempStorage: [];
 
   constructor(
     public platform: Platform,
