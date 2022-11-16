@@ -91,7 +91,7 @@ export class DashboardPage extends BasePageComponent {
     return true;
   }
 
-  async ionViewDidLeave() {
+  ionViewDidLeave() {
     this.store$.dispatch(RekeySearchClearState());
   }
 
