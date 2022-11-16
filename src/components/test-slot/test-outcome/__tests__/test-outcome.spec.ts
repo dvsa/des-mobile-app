@@ -354,10 +354,8 @@ describe('TestOutcomeComponent', () => {
         component.slotDetail.start = new DateTime().subtract(1, Duration.DAY).format('YYYY-MM-DDTHH:mm:ss');
         fixture.detectChanges();
         spyOn(component, 'rekeyTest');
-
         const rekeyButton = fixture.debugElement.query(By.css('.mes-rekey-button'));
         rekeyButton.triggerEventHandler('click', null);
-
         expect(component.rekeyTest).toHaveBeenCalled();
       });
       categoryPages.forEach((cat) => {
@@ -374,10 +372,8 @@ describe('TestOutcomeComponent', () => {
       it('should call the rekeyDelegatedTest method when `Rekey` is clicked', () => {
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.BE;
-
         spyOn(component, 'showDelegatedExaminerRekeyButton').and.returnValue(true);
         spyOn(component, 'rekeyDelegatedTest');
-
         fixture.detectChanges();
         const rekeyDelegatedButton = fixture.debugElement.query(By.css('.mes-delegated-button'));
         rekeyDelegatedButton.triggerEventHandler('click', null);
