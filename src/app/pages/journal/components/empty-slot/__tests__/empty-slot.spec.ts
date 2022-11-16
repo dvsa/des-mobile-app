@@ -1,8 +1,7 @@
 import { MockComponent } from 'ng-mocks';
 import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { ConfigMock } from 'ionic-mocks';
 import { cloneDeep } from 'lodash';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TimeComponent } from '@components/test-slot/time/time';
@@ -81,7 +80,6 @@ describe('EmptySlotComponent', () => {
       ],
       imports: [IonicModule],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
       ],
     });

@@ -1,8 +1,8 @@
-import { IonicModule, Config, NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
-import { ConfigMock, NavControllerMock } from 'ionic-mocks';
+import { NavControllerMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -36,8 +36,7 @@ describe('ToolbarComponent', () => {
         StoreModule.forRoot({ tests: testsReducer, testReport: testReportReducer }),
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: NavController, useClass: NavControllerMock },
         { provide: FaultCountProvider, useClass: FaultCountProvider },
       ],
     });

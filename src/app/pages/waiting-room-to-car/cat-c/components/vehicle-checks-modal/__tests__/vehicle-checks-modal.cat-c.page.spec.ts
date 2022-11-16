@@ -1,9 +1,9 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  Config, IonicModule, ModalController, NavParams,
+  IonicModule, ModalController, NavParams,
 } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConfigMock, NavParamsMock } from 'ionic-mocks';
+import { NavParamsMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import { QuestionOutcome, QuestionResult } from '@dvsa/mes-test-schema/categories/common';
@@ -179,9 +179,8 @@ describe('VehicleChecksCatCModal', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
         provideMockStore({ initialState }),
       ],
     });

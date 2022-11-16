@@ -1,6 +1,6 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { ModalControllerMock } from 'ionic-mocks';
+import { ModalControllerMock } from '@mocks/index.mock';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -21,7 +21,7 @@ describe('EtaInvalidModal', () => {
         IonicModule,
       ],
       providers: [
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
 

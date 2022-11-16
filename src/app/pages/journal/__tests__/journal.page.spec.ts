@@ -5,7 +5,7 @@ import {
   ModalController,
   Platform,
 } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -21,7 +21,6 @@ import { JournalComponentsModule } from '@pages/journal/components/journal-compo
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 import { journalReducer } from '@store/journal/journal.reducer';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { SlotProvider } from '@providers/slot/slot';
@@ -81,7 +80,7 @@ describe('JournalPage', () => {
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: LoadingProvider, useClass: LoaderProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
@@ -108,6 +107,7 @@ describe('JournalPage', () => {
     loaderService = TestBed.inject(LoadingProvider);
     spyOn(store$, 'dispatch');
     spyOn(loaderService, 'handleUILoading');
+    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
   }));
 
   describe('Class', () => {

@@ -4,7 +4,7 @@ import {
 } from '@ionic/angular';
 import {
   PlatformMock, ModalControllerMock,
-} from 'ionic-mocks';
+} from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -131,9 +131,9 @@ describe('RekeyReasonPage', () => {
       providers: [
         { provide: Router, useValue: routerSpy },
         { provide: LoadingProvider, useClass: LoaderProviderMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: FindUserProvider, useClass: FindUserProviderMock },
         { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
         Store,

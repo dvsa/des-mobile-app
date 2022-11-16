@@ -1,14 +1,10 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
-
 import { Platform } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { IsDebugMock, PlatformMock } from '@mocks/index.mock';
 import { StoreModule } from '@ngrx/store';
-
-import { IsDebugMock } from '@mocks/ionic-mocks/is-debug.mock';
 import { AppConfigProvider } from '../app-config';
-
 import { environmentResponseMock } from '../__mocks__/environment-response.mock';
 import { remoteEnvironmentMock } from '../__mocks__/environment.mock';
 import { NetworkStateProvider } from '../../network-state/network-state';
@@ -42,7 +38,7 @@ describe('AppConfigProvider', () => {
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: SchemaValidatorProvider, useClass: SchemaValidatorProviderMock },
         { provide: AppConfigProvider, useClass: AppConfigProvider, environmentFile: remoteEnvironmentMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AppInfoProvider, useClass: AppInfoProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: IsDebug, useClass: IsDebugMock },

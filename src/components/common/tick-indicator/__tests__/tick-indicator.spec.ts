@@ -1,5 +1,4 @@
-import { Config, IonicModule } from '@ionic/angular';
-import { ConfigMock } from 'ionic-mocks';
+import { IonicModule } from '@ionic/angular';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { TickIndicatorComponent } from '../tick-indicator';
@@ -12,9 +11,6 @@ describe('TickIndicatorComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         TickIndicatorComponent,
-      ],
-      providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
       imports: [
         IonicModule,

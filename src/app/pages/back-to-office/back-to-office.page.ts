@@ -175,10 +175,10 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     // where takeUntil(wrtcDestroy$) or takeUntil(trDestroy$) has been piped onto.
 
     // Waiting room to car
-    wrtcDestroy$.next();
+    wrtcDestroy$.next(null);
     wrtcDestroy$.complete();
     // Test report
-    trDestroy$.next();
+    trDestroy$.next(null);
     trDestroy$.complete();
   };
 }

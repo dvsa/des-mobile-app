@@ -2,12 +2,12 @@ import {
   ComponentFixture, waitForAsync, TestBed, fakeAsync,
 } from '@angular/core/testing';
 import {
-  NavParamsMock, ConfigMock, AlertControllerMock,
-} from 'ionic-mocks';
+  NavParamsMock, AlertControllerMock,
+} from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
 import {
-  AlertController, Config, IonicModule, ModalController, NavParams,
+  AlertController, IonicModule, ModalController, NavParams,
 } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -31,10 +31,9 @@ describe('ErrorPage', () => {
       ],
       providers: [
         { provide: Router, useFactory: () => {} },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: AlertController, useClass: AlertControllerMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
       ],
     });

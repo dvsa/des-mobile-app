@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  Config, IonicModule, ModalController, NavController, NavParams, Platform,
+  IonicModule, ModalController, NavController, NavParams, Platform,
 } from '@ionic/angular';
 import {
-  ConfigMock, ModalControllerMock, NavParamsMock, PlatformMock,
-} from 'ionic-mocks';
+  ModalControllerMock, NavParamsMock, PlatformMock,
+} from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
@@ -85,12 +85,11 @@ describe('TestReportCatADI3Page', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },

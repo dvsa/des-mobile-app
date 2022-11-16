@@ -4,7 +4,7 @@ import {
 import {
   NavControllerMock,
   PlatformMock,
-} from 'ionic-mocks';
+} from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store } from '@ngrx/store';
@@ -20,7 +20,7 @@ import {
   PassCertificateNumberComponent,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number';
 import {
-  IonicModule, NavController, Platform,
+  NavController, Platform,
 } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
@@ -55,11 +55,10 @@ describe('PassFinalisationCatCPCPage', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        IonicModule,
         AppModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },

@@ -62,10 +62,10 @@ export class PracticeModeBanner implements OnInit {
     // code in which typically shut down the subs.
 
     // Waiting room to car
-    wrtcDestroy$.next();
+    wrtcDestroy$.next(null);
     wrtcDestroy$.complete();
     // Test report
-    trDestroy$.next();
+    trDestroy$.next(null);
     trDestroy$.complete();
   };
 }

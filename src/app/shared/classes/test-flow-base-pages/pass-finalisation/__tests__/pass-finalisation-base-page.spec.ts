@@ -4,7 +4,7 @@ import {
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -64,7 +64,7 @@ describe('PassFinalisationPageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useValue: routerSpy },
         provideMockStore({ initialState }),

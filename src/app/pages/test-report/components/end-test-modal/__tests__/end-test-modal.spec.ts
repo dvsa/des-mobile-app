@@ -1,6 +1,6 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { NavParamsMock, ModalControllerMock } from 'ionic-mocks';
+import { NavParamsMock, ModalControllerMock } from '@mocks/index.mock';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { EndTestModal } from '../end-test-modal';
@@ -19,8 +19,8 @@ describe('EndTestModal', () => {
         IonicModule,
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: ModalController, useClass: ModalControllerMock },
       ],
     });
 

@@ -1,12 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  Config, IonicModule, NavController, NavParams, Platform,
+  IonicModule, NavController, NavParams, Platform,
 } from '@ionic/angular';
-import {
-  ConfigMock, NavControllerMock, NavParamsMock, PlatformMock,
-} from 'ionic-mocks';
+import { NavControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { By } from '@angular/platform-browser';
-
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -28,10 +25,9 @@ describe('TerminateTestModal', () => {
       declarations: [TerminateTestModal],
       imports: [IonicModule, AppModule],
       providers: [
-        { provide: NavController, useFactory: () => NavControllerMock.instance() },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: NavController, useClass: NavControllerMock },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },

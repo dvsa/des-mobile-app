@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { IonicModule, ModalController, Config } from '@ionic/angular';
-import { ModalControllerMock, ConfigMock } from 'ionic-mocks';
+import { IonicModule, ModalController } from '@ionic/angular';
+import { ModalControllerMock } from '@mocks/index.mock';
+import { MockComponent } from 'ng-mocks';
 import { AppComponent } from '@app/app.component';
 import { Store } from '@ngrx/store';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -26,18 +27,15 @@ describe('VehicleChecksCatAMod2Component', () => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatAMod2Component,
-        SeriousFaultBadgeComponent,
-        DrivingFaultsBadgeComponent,
-        TickIndicatorComponent,
+        MockComponent(SeriousFaultBadgeComponent),
+        MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(TickIndicatorComponent),
       ],
-      imports: [
-        IonicModule,
-      ],
+      imports: [IonicModule],
       providers: [
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: AppComponent, useClass: MockAppComponent },
         { provide: Store, useClass: MockStore },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
 
@@ -46,14 +44,18 @@ describe('VehicleChecksCatAMod2Component', () => {
     component.formGroup = new UntypedFormGroup({});
     modalController = TestBed.inject(ModalController);
     appComponent = TestBed.inject(AppComponent);
+
+    spyOn(appComponent, 'getTextZoomClass').and.returnValue('regular');
+    spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+      present: async () => {},
+      onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
+    } as HTMLIonModalElement));
   }));
 
   describe('Class', () => {
     describe('openVehicleChecksModal', () => {
-      it('should create the correct model', async () => {
-        spyOn(appComponent, 'getTextZoomClass').and.returnValue('regular');
+      it('should call through to the create method of modalController', async () => {
         await component.openVehicleChecksModal();
-        expect(modalController.create).toHaveBeenCalledTimes(1);
         expect(modalController.create).toHaveBeenCalledWith({
           component: VehicleChecksCatAMod2Modal,
           cssClass: 'modal-fullscreen regular',
@@ -61,10 +63,6 @@ describe('VehicleChecksCatAMod2Component', () => {
       });
       it('should emit onCloseVehicleChecksModal when onDidDismiss', async () => {
         spyOn(component.onCloseVehicleChecksModal, 'emit');
-        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-          present: async () => {},
-          onDidDismiss: () => ({ data: '' }) as OverlayEventDetail,
-        } as HTMLIonModalElement));
         await component.openVehicleChecksModal();
         expect(component.onCloseVehicleChecksModal.emit).toHaveBeenCalled();
       });

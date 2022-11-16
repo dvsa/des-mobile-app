@@ -9,12 +9,11 @@ import {
   ToastController,
 } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { PlatformMock } from 'ionic-mocks';
+import { ModalControllerMock, RouterMock, PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { StoreModel } from '@shared/models/store.model';
@@ -25,7 +24,6 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import {
   Identification, IndependentDriving, WeatherConditions,
@@ -128,7 +126,7 @@ describe('OfficeBasePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useClass: RouterMock },
         provideMockStore({ initialState }),

@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
-import { ConfigMock } from 'ionic-mocks';
+import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { StoreModule } from '@ngrx/store';
@@ -28,7 +27,6 @@ describe('IncompleteTestsBanner', () => {
         }),
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: SlotProvider, useClass: SlotProvider },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },

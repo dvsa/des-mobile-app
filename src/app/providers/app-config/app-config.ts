@@ -6,7 +6,7 @@ import { map, timeout } from 'rxjs/operators';
 import { isEmpty, merge } from 'lodash';
 import { ValidatorResult, ValidationError } from 'jsonschema';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
-import { ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
+import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
 import { Subscription } from 'rxjs';
 
 import { environment } from '@environments/environment';
@@ -118,24 +118,24 @@ export class AppConfigProvider {
   public loadManagedConfig = async (): Promise<void> => {
     const newEnvFile = {
       production: false,
-      configUrl: (await ManagedConfigurations.getString({ key: 'configUrl' })).value,
-      sentry: {
-        dsn: (await ManagedConfigurations.getString({ key: 'sentryDsn' })).value,
-        environment: (await ManagedConfigurations.getString({ key: 'sentryEnv' })).value,
-      },
-      daysToCacheJournalData: (await ManagedConfigurations.getNumber({ key: 'daysToCacheJournalData' })).value,
-      daysToCacheLogs: (await ManagedConfigurations.getNumber({ key: 'daysToCacheLogs' })).value,
       isRemote: true,
-      logsPostApiKey: (await ManagedConfigurations.getString({ key: 'logsPostApiKey' })).value,
-      logsApiUrl: (await ManagedConfigurations.getString({ key: 'logsApiUrl' })).value,
-      logsAutoSendInterval: (await ManagedConfigurations.getNumber({ key: 'logsApiUrl' })).value,
+      configUrl: await this.getManagedConfigValue('configUrl'),
+      sentry: {
+        dsn: await this.getManagedConfigValue('sentryDsn'),
+        environment: await this.getManagedConfigValue('sentryEnv'),
+      },
+      daysToCacheJournalData: await this.getManagedConfigValue('daysToCacheJournalData'),
+      daysToCacheLogs: await this.getManagedConfigValue('daysToCacheLogs'),
+      logsPostApiKey: await this.getManagedConfigValue('logsPostApiKey'),
+      logsApiUrl: await this.getManagedConfigValue('logsApiUrl'),
+      logsAutoSendInterval: await this.getManagedConfigValue('logsAutoSendInterval'),
       authentication: {
-        clientId: (await ManagedConfigurations.getString({ key: 'clientId' })).value,
-        context: (await ManagedConfigurations.getString({ key: 'authenticationContext' })).value,
-        employeeIdKey: (await ManagedConfigurations.getString({ key: 'employeeIdKey' })).value,
-        logoutUrl: (await ManagedConfigurations.getString({ key: 'logoutUrl' })).value,
-        redirectUrl: (await ManagedConfigurations.getString({ key: 'redirectUrl' })).value,
-        resourceUrl: (await ManagedConfigurations.getString({ key: 'resourceUrl' })).value,
+        clientId: await this.getManagedConfigValue('clientId'),
+        context: await this.getManagedConfigValue('authenticationContext'),
+        employeeIdKey: await this.getManagedConfigValue('employeeIdKey'),
+        logoutUrl: await this.getManagedConfigValue('logoutUrl'),
+        redirectUrl: await this.getManagedConfigValue('redirectUrl'),
+        resourceUrl: await this.getManagedConfigValue('resourceUrl'),
       },
     } as EnvironmentFile;
 
@@ -148,6 +148,11 @@ export class AppConfigProvider {
     if (!this.isDebugMode) {
       throw new Error(AppConfigError.MISSING_REMOTE_CONFIG_URL_ERROR);
     }
+  };
+
+  private getManagedConfigValue = async <T>(key: string): Promise<T> => {
+    const data: GetResult<string> = await ManagedConfigurations.getString({ key });
+    return data?.value as unknown as T;
   };
 
   public loadRemoteConfig = (): Promise<any> => this.getRemoteData()

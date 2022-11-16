@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpRequest } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from '@mocks/index.mock';
 import { of } from 'rxjs';
 import { JournalProvider } from '../../journal/journal';
 import { AuthInterceptor } from '../interceptor';
@@ -36,7 +36,7 @@ describe('Authentication interceptor', () => {
       providers: [
         AuthInterceptor,
         JournalProvider,
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: UrlProvider, useClass: UrlProviderMock },

@@ -2,9 +2,8 @@ import {
   ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
 import { Router } from '@angular/router';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { RouterMock, PlatformMock } from '@mocks/index.mock';
 import { provideMockStore } from '@ngrx/store/testing';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -127,7 +126,7 @@ describe('WaitingRoomToCarCatBPage', () => {
       providers: [
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: Router, useClass: RouterMock },
         provideMockStore({ initialState }),
       ],

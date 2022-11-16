@@ -3,7 +3,7 @@ import { VRNCaptureModal } from '@components/common/vrn-capture-modal/vrn-captur
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule, NavParams } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { NavParamsMock } from 'ionic-mocks';
+import { NavParamsMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
@@ -27,7 +27,7 @@ describe('VRNCaptureModal', () => {
         CommonModule,
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
         { provide: Store, useClass: StoreMock },
         { provide: AppComponent, useClass: MockAppComponent },
       ],

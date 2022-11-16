@@ -2,7 +2,7 @@ import {
   ComponentFixture, waitForAsync, TestBed, fakeAsync, tick,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { Subscription } from 'rxjs';
@@ -121,7 +121,7 @@ describe('WaitingRoomPage', () => {
       ],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

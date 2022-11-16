@@ -2,7 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   IonicModule, ModalController, NavController, Platform, ToastController,
 } from '@ionic/angular';
-
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store, StoreModule } from '@ngrx/store';
@@ -33,10 +33,8 @@ import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PlatformMock } from 'ionic-mocks';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { QuestionProvider } from '@providers/question/question';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
@@ -122,7 +120,7 @@ describe('OfficeCatHomeTestPage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },

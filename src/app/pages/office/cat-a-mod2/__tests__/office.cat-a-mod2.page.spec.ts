@@ -6,10 +6,7 @@ import {
   Platform,
   ToastController, ModalController, NavController,
 } from '@ionic/angular';
-import {
-  PlatformMock,
-  ToastControllerMock,
-} from 'ionic-mocks';
+import { ModalControllerMock, PlatformMock, ToastControllerMock } from '@mocks/index.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { AppModule } from '@app/app.module';
 import { TranslateModule } from '@ngx-translate/core';
@@ -30,7 +27,6 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { WeatherConditionProvider } from '@providers/weather-conditions/weather-condition';
@@ -148,7 +144,7 @@ describe('OfficeCatAMod2Page', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },

@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { MockComponent } from 'ng-mocks';
 
@@ -33,7 +33,7 @@ describe('FakeJournalPage', () => {
         IonicModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useValue: routerSpy },
         provideMockStore({ initialState: {} }),

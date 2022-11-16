@@ -6,7 +6,9 @@ import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { SecureStorage, SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
-import { AlertControllerMock } from 'ionic-mocks';
+import {
+  AlertControllerMock, PlatformMock, MenuControllerMock, SecureStorageMock,
+} from '@mocks/index.mock';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Capacitor } from '@capacitor/core';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -16,9 +18,6 @@ import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-stor
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { LoadAppVersion } from '@store/app-info/app-info.actions';
-import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
-import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
-import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AppInfoProvider } from '@providers/app-info/app-info';
@@ -59,7 +58,7 @@ describe('AppComponent', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useValue: routerSpy },
         { provide: MenuController, useClass: MenuControllerMock },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: AlertController, useClass: AlertControllerMock },
         { provide: SecureStorage, useClass: SecureStorageMock },
         { provide: DataStoreProvider, useClass: DataStoreProviderMock },
         { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },

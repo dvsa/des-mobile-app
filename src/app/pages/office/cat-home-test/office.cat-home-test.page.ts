@@ -22,7 +22,7 @@ import { behaviourMap } from '@pages/office/office-behaviour-map.cat-home-test';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getTestOutcome } from '@store/tests/tests.selector';
-import { Observable } from 'rxjs/Observable';
+import { merge, Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { getTestData } from '@store/tests/test-data/cat-home/test-data.cat-f.reducer';
 import { vehicleChecksExist } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
@@ -44,7 +44,6 @@ import {
 import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { merge, Subscription } from 'rxjs';
 import { DeviceProvider } from '@providers/device/device';
 
 interface CatHomeOfficePageState {

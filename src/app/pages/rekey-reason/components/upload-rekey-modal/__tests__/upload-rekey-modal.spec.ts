@@ -1,6 +1,6 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { NavParamsMock } from 'ionic-mocks';
+import { NavParamsMock } from '@mocks/index.mock';
 import { By } from '@angular/platform-browser';
 
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
@@ -16,7 +16,7 @@ describe('UploadRekeyModal', () => {
       declarations: [UploadRekeyModal],
       imports: [IonicModule, AppModule],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });

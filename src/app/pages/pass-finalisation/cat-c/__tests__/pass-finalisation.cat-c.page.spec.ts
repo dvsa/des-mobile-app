@@ -4,7 +4,7 @@ import {
 import {
   NavControllerMock,
   PlatformMock,
-} from 'ionic-mocks';
+} from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Store } from '@ngrx/store';
@@ -27,7 +27,7 @@ import {
   LicenceProvidedWarningBannerComponent,
 } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import {
-  IonicModule, NavController, Platform,
+  NavController, Platform,
 } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { D255Component } from '@components/test-finalisation/d255/d255';
@@ -200,11 +200,10 @@ describe('PassFinalisationCatCPage', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        IonicModule,
         AppModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },

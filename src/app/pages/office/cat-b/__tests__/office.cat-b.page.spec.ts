@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   IonicModule, ModalController, NavController, Platform, ToastController,
 } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -19,7 +19,6 @@ import { QuestionProvider } from '@providers/question/question';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { ShowMeQuestionSelected } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { By } from '@angular/platform-browser';
@@ -137,7 +136,7 @@ describe('OfficeCatBPage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },

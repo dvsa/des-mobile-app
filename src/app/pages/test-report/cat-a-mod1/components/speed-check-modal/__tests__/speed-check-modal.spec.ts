@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { NavParamsMock } from 'ionic-mocks';
+import { NavParamsMock } from '@mocks/index.mock';
 import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
@@ -13,16 +13,14 @@ describe('SpeedCheckModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        SpeedCheckModal,
-      ],
+      declarations: [SpeedCheckModal],
       imports: [
         AppModule,
         IonicModule,
         ComponentsModule,
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });

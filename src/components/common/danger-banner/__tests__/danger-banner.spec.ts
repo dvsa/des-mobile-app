@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
-import { ConfigMock } from 'ionic-mocks';
+import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { DangerBannerComponent } from '../danger-banner';
 
@@ -13,9 +12,6 @@ describe('DangerBanner', () => {
       declarations: [DangerBannerComponent],
       imports: [
         IonicModule,
-      ],
-      providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
 

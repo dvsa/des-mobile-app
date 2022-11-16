@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { DelegatedRekeyUploadOutcomePage } from '../delegated-rekey-upload-outcome';
 
@@ -45,7 +45,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
       ],
       providers: [
         { provide: Router, useClass: RouterMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
@@ -63,6 +63,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
     insomnia = TestBed.inject(Insomnia);
     spyOn(store$, 'dispatch');
     spyOn(router, 'navigate');
+    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
   }));
 
   describe('Class', () => {

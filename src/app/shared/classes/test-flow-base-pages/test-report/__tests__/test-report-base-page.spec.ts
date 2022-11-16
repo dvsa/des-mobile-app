@@ -4,12 +4,11 @@ import {
 } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { PlatformMock } from 'ionic-mocks';
+import { RouterMock, PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { StoreModel } from '@shared/models/store.model';
@@ -53,7 +52,7 @@ describe('TestReportBasePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useClass: RouterMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },

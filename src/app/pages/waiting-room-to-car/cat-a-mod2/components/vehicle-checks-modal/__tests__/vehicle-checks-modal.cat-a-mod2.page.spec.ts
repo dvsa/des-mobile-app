@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  IonicModule, Config, ModalController, NavParams,
+  IonicModule, ModalController, NavParams,
 } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConfigMock, NavParamsMock } from 'ionic-mocks';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import {
@@ -22,7 +22,6 @@ import {
   VehicleChecksQuestionCatAMod2Component,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
 import { Subscription } from 'rxjs';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksCatAMod2Modal } from '../vehicle-checks-modal.cat-a-mod2.page';
 
@@ -44,9 +43,8 @@ describe('VehicleChecksCatAMod2Modal', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
       ],
     });
 

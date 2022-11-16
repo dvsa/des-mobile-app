@@ -1,8 +1,7 @@
 import { MockComponent } from 'ng-mocks';
 import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { ConfigMock } from 'ionic-mocks';
 import { cloneDeep } from 'lodash';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Store, StoreModule } from '@ngrx/store';
@@ -131,7 +130,6 @@ describe('TestSlotComponent', () => {
         }),
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

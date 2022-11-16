@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { NavParamsMock } from 'ionic-mocks';
+import { NavParamsMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -26,7 +26,7 @@ describe('CPCEndTestModal', () => {
         IonicModule,
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },
       ],
     });

@@ -1,6 +1,5 @@
 import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
-import { ConfigMock } from 'ionic-mocks';
+import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
@@ -26,7 +25,6 @@ describe('PracticeModeBanner', () => {
       })],
       providers: [
         { provide: Router, useValue: routerSpy },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         CategoryWhitelistProvider,
       ],
     });

@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule, Platform } from '@ionic/angular';
-import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
+import { AlertControllerMock, PlatformMock } from '@mocks/index.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -85,8 +85,8 @@ describe('DashboardPage', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
+        { provide: AlertController, useClass: AlertControllerMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

@@ -1,7 +1,7 @@
 import {
   waitForAsync, ComponentFixture, TestBed, fakeAsync, tick,
 } from '@angular/core/testing';
-import { IonicModule, NavController, Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -24,7 +24,7 @@ import {
 } from '@pages/pass-finalisation/components/licence-provided-warning-banner/licence-provided-warning-banner';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppModule } from '@app/app.module';
-import { NavControllerMock, PlatformMock } from 'ionic-mocks';
+import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -69,11 +69,10 @@ describe('PassFinalisationCatAMod2Page', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        IonicModule,
         AppModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },

@@ -12,7 +12,7 @@ import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/te
 import {
   DrivingFaultsBadgeComponent,
 } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { NavControllerMock } from 'ionic-mocks';
+import { NavControllerMock } from '@mocks/index.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import {
   NavigationStateProviderMock,
@@ -85,7 +85,7 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
         }),
       ],
       providers: [
-        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: NavController, useClass: NavControllerMock },
         { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
       ],
     });

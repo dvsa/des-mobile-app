@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { ConfigMock } from 'ionic-mocks';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '@app/app.module';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
@@ -32,9 +31,6 @@ describe('VehicleChecksCardComponent', () => {
             deps: [HttpClient],
           },
         }),
-      ],
-      providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
 
