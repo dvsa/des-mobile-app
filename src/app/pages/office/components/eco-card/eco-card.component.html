@@ -1,8 +1,23 @@
-<ion-row class="ion-padding-start mes-data mes-row-separator">
+<ion-card id="eco" *ngIf="!isADI2">
+    <ion-card-content>
+        <ion-grid>
+            <ion-row class="ion-padding-start mes-data">
+                <ion-col size="32">
+                    <h4 class="fault-heading">ECO</h4>
+                </ion-col>
+                <ion-col class="padding-down ion-align-self-start ion-padding-start">
+                    <div id="ecoFaults-non-adi2">{{ecoFaults}}</div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card-content>
+</ion-card>
+
+<ion-row *ngIf="isADI2" class="ion-padding-start mes-data mes-row-separator">
     <ion-col size="32">
         <h4 class="fault-heading">ECO</h4>
     </ion-col>
     <ion-col class="padding-down ion-align-self-start ion-padding-start">
-        <div id="ecoFaults">{{ecoFaults}}</div>
+        <div id="ecoFaults-adi2">{{ecoFaults}}</div>
     </ion-col>
 </ion-row>

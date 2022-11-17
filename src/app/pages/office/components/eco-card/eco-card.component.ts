@@ -9,4 +9,7 @@ export class ECOCardComponent {
 
   @Input()
   ecoFaults: string;
+
+  @Input()
+  isADI2: boolean = false;
 }
