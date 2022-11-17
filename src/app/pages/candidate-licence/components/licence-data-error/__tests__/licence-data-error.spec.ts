@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { LicenceDataError } from '@pages/candidate-licence/components/licence-data-error/licence-data-error';
 
@@ -7,14 +6,12 @@ describe('LicenceDataError', () => {
   let fixture: ComponentFixture<LicenceDataError>;
   let component: LicenceDataError;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LicenceDataError],
       imports: [IonicModule],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LicenceDataError);
     component = fixture.componentInstance;
     component.candidateDataUnavailable = false;

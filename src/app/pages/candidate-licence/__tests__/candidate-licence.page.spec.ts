@@ -4,7 +4,6 @@ import {
 import { Platform } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
-import { configureTestSuite } from 'ng-bullet';
 import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -45,7 +44,7 @@ describe('CandidateLicencePage', () => {
   let domSanitizer: DomSanitizer;
   const initialState = {};
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -69,9 +68,7 @@ describe('CandidateLicencePage', () => {
         provideMockStore({ initialState }),
       ],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(CandidateLicencePage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);

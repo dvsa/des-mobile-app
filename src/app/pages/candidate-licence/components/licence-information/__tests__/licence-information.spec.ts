@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { IonicModule } from '@ionic/angular';
 import { DriverLicenceSchema } from '@dvsa/mes-driver-schema';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,15 +11,13 @@ describe('LicenceInformation', () => {
   let component: LicenceInformation;
   let domSanitizer: DomSanitizer;
 
-  configureTestSuite(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [LicenceInformation],
       imports: [IonicModule],
       providers: [{ provide: DomSanitizer, useClass: DomSanitizerMock }],
     });
-  });
 
-  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(LicenceInformation);
     component = fixture.componentInstance;
     domSanitizer = TestBed.inject(DomSanitizer);
