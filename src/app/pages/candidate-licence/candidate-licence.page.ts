@@ -113,14 +113,14 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         select(getJournalData),
         select(getCandidate),
         select(getGender),
-        map((gender) => `assets/imgs/candidate-id/silhouette-${gender === 'M' ? 1 : 2}.png`),
+        map((gender) => `assets/imgs/candidate-id/silhouette-${gender === 'F' ? 2 : 1}.png`),
         take(1),
       ),
       genderDescription$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getGender),
-        map((gender) => (gender === 'M') ? 'Male' : 'Female'),
+        map((gender) => (gender === 'F') ? 'Female' : 'Male'),
       ),
       age$: currentTest$.pipe(
         select(getJournalData),
