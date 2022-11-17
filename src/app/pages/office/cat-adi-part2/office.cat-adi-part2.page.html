@@ -148,7 +148,10 @@
             <ion-card *ngIf="(pageState.ecoFaults$ | async) && (pageState.displayEco$ | async)">
                 <ion-card-content>
                     <ion-grid>
-                        <eco-card [ecoFaults]="pageState.ecoFaults$ | async"></eco-card>
+                        <eco-card
+                                [ecoFaults]="pageState.ecoFaults$ | async"
+                                [isADI2]="true"
+                        ></eco-card>
 
                         <fuel-efficient-driving
                                 [formGroup]="form"
