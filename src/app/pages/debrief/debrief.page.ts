@@ -105,7 +105,8 @@ interface DebriefPageState {
   showSafetyAndBalance$: Observable<boolean>;
   grade$: Observable<string>;
   immediateDanger$: Observable<boolean>;
-  safetyQuestions$: Observable<SafetyQuestionResult[]>
+  safetyQuestions$: Observable<SafetyQuestionResult[]>;
+  showSafetyQuestions$: Observable<boolean>;
 }
 
 @Component({
@@ -292,6 +293,16 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map((category) => isAnyOf(category, [
           TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1,
         ])),
+      ),
+      showSafetyQuestions$: currentTest$.pipe(
+        withLatestFrom(testCategory$),
+        filter(([, category]) => isAnyOf(category, [
+          TestCategory.D, TestCategory.D1, TestCategory.DE, TestCategory.D1E,
+        ])),
+        map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
+        select(getSafetyQuestionsCatD),
+        select(getSafetyQuestions),
+        map((questions) => questions.some((question) => question.outcome)),
       ),
       showSafetyAndBalance$: currentTest$.pipe(
         select(getTestCategory),
