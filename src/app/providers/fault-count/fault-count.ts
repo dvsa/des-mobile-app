@@ -9,6 +9,7 @@ import { SafetyQuestionsScore } from '@shared/models/safety-questions-score.mode
 import { sumManoeuvreFaults } from '@shared/helpers/faults';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestOutcome } from '@store/tests/tests.constants';
+import { FaultCountBEHelper } from '@providers/fault-count/cat-be/fault-count.cat-be';
 import { FaultCountBHelper } from './cat-b/fault-count.cat-b';
 import { FaultCountCHelper } from './cat-c/fault-count.cat-c';
 import { FaultCountDHelper } from './cat-d/fault-count.cat-d';
@@ -17,6 +18,7 @@ import { FaultCountAM1Helper } from './cat-a-mod1/fault-count.cat-a-mod1';
 import { FaultCountAM2Helper } from './cat-a-mod2/fault-count.cat-a-mod2';
 import { FaultCountHomeTestHelper } from './cat-home-test/fault-count.cat-home-test';
 import { FaultCountADIPart2Helper } from './cat-adi-part2/fault-count.cat-adi-part2';
+
 import { FaultCountManoeuvreTestHelper } from './cat-manoeuvre/fault-count.cat-manoeuvre';
 
 @Injectable()
@@ -29,6 +31,8 @@ export class FaultCountProvider {
       case TestCategory.ADI2:
         return FaultCountADIPart2Helper.getDrivingFaultSumCountCatADIPart2(data);
       case TestCategory.ADI3:
+      case TestCategory.BE:
+        return FaultCountBEHelper.getDrivingFaultSumCountCatBE(data);
       case TestCategory.SC:
         return 0;
       case TestCategory.B:
@@ -90,6 +94,8 @@ export class FaultCountProvider {
         return 0;
       case TestCategory.B:
         return FaultCountBHelper.getSeriousFaultSumCountCatB(data);
+      case TestCategory.BE:
+        return FaultCountBEHelper.getSeriousFaultSumCountCatBE(data);
       case TestCategory.C1:
         return FaultCountCHelper.getSeriousFaultSumCountCatC1(data);
       case TestCategory.C1E:
@@ -147,6 +153,8 @@ export class FaultCountProvider {
         return 0;
       case TestCategory.B:
         return FaultCountBHelper.getDangerousFaultSumCountCatB(data);
+      case TestCategory.BE:
+        return FaultCountBEHelper.getDangerousFaultSumCountCatBE(data);
       case TestCategory.C1:
         return FaultCountCHelper.getDangerousFaultSumCountCatC1(data);
       case TestCategory.C1E:
@@ -244,6 +252,8 @@ export class FaultCountProvider {
     switch (category) {
       case TestCategory.ADI2:
         return FaultCountADIPart2Helper.getVehicleChecksFaultCountCatADIPart2(data);
+      case TestCategory.BE:
+        return FaultCountBEHelper.getVehicleChecksFaultCountCatBE(data);
       case TestCategory.C:
         return FaultCountCHelper.getVehicleChecksFaultCountCatC(data);
       case TestCategory.C1:
