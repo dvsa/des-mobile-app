@@ -27,7 +27,9 @@ import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { Identification, IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
+import {
+  Identification, IndependentDriving, WeatherConditions,
+} from '@dvsa/mes-test-schema/categories/common';
 import {
   AdditionalInformationChanged,
   CandidateDescriptionChanged, D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
@@ -40,7 +42,7 @@ import { SetActivityCode } from '@store/tests/activity-code/activity-code.action
 import {
   CompleteTest, OfficeValidationError, OfficeViewDidEnter, SavingWriteUpForLater, TestStartDateChanged,
 } from '@pages/office/office.actions';
-import { PersistTests } from '@store/tests/tests.actions';
+import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { FinishTestModal } from '@pages/office/components/finish-test-modal/finish-test-modal';
@@ -62,7 +64,7 @@ import {
   SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
-import { TestFlowPageNames } from '@pages/page-names.constants';
+import { DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { take } from 'rxjs/operators';
 import {
   AbstractControl, UntypedFormControl, UntypedFormGroup, Validators,
@@ -70,9 +72,11 @@ import {
 import { of, Subscription } from 'rxjs';
 import { SetStartDate } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.actions';
 import {
-  InterpreterAccompanimentToggledCPC,
   SupervisorAccompanimentToggledCPC,
 } from '@store/tests/accompaniment/cat-cpc/accompaniment.cat-cpc.actions';
+import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
+import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
 import { OfficeBasePageComponent } from '../office-base-page';
 
 describe('OfficeBasePageComponent', () => {
@@ -94,7 +98,27 @@ describe('OfficeBasePageComponent', () => {
       currentTest: { slotId: '1234' },
       startedTests: {
         1234: {
+          testData: {
+            eco: {
+              completed: true,
+              adviceGivenControl: true,
+              adviceGivenPlanning: true,
+              ecoRelatedFault: 'description',
+              ecoCaptureReason: 'reason',
+              fuelEfficientDriving: true,
+            },
+            ETA: {
+              physical: false,
+              verbal: false,
+            },
+          },
           activityCode: '1',
+          testSummary: {
+            routeNumber: 3,
+            independentDriving: 'Sat nav',
+            candidateDescription: 'description',
+            identification: 'Licence',
+          },
         } as TestResultSchemasUnion,
       },
       testStatus: { 1234: TestStatus.Booked },
@@ -148,6 +172,7 @@ describe('OfficeBasePageComponent', () => {
         super(plat, auth, rout, sto$, nav, toa, mod, beh, wea, fsp, fcp);
       }
     }
+
     basePageComponent = new BasePageClass(
       platform,
       authenticationProvider,
@@ -162,13 +187,39 @@ describe('OfficeBasePageComponent', () => {
       faultCountProvider,
     );
   }));
-
   describe('onInitialisation', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
       basePageComponent.commonPageState.activityCode$
         .pipe(take(1))
         .subscribe((res: ActivityCodeModel) => expect(res.activityCode).toEqual('1'));
+      basePageComponent.commonPageState.routeNumber$
+        .pipe(take(1))
+        .subscribe((res: number) => expect(res).toEqual(3));
+      basePageComponent.commonPageState.independentDriving$
+        .pipe(take(1))
+        .subscribe((res: string) => expect(res).toEqual('Sat nav'));
+      basePageComponent.commonPageState.candidateDescription$
+        .pipe(take(1))
+        .subscribe((res: string) => expect(res).toEqual('description'));
+      basePageComponent.commonPageState.identification$
+        .pipe(take(1))
+        .subscribe((res: Identification) => expect(res).toEqual('Licence'));
+      basePageComponent.commonPageState.displayDrivingFault$
+        .pipe(take(1))
+        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+      basePageComponent.commonPageState.displayDangerousFault$
+        .pipe(take(1))
+        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+      basePageComponent.commonPageState.displaySeriousFault$
+        .pipe(take(1))
+        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+      basePageComponent.commonPageState.displayEta$
+        .pipe(take(1))
+        .subscribe((res: boolean) => expect(!!res).toEqual(false));
+      basePageComponent.commonPageState.displayEco$
+        .pipe(take(1))
+        .subscribe((res: boolean) => expect(!!res).toEqual(false));
     });
   });
 
@@ -439,12 +490,6 @@ describe('OfficeBasePageComponent', () => {
       expect(store$.dispatch).toHaveBeenCalledWith(SupervisorAccompanimentToggledCPC());
     });
   });
-  describe('interpreterAccompanimentToggledCPC', () => {
-    it('should dispatch the action InterpreterAccompanimentToggledCPC', () => {
-      basePageComponent.interpreterAccompanimentToggledCPC();
-      expect(store$.dispatch).toHaveBeenCalledWith(InterpreterAccompanimentToggledCPC());
-    });
-  });
   describe('schoolBikeToggled', () => {
     it('should dispatch SchoolBikeToggled', () => {
       basePageComponent.schoolBikeToggled();
@@ -508,6 +553,41 @@ describe('OfficeBasePageComponent', () => {
           destroyTestSubs: basePageComponent.destroyTestSubs,
         },
       });
+    });
+  });
+  describe('destroyTestSubs', () => {
+    it('should run next and complete on both wrtcDestroy$ and trDestroy$', () => {
+      spyOn(wrtcDestroy$, 'next');
+      spyOn(wrtcDestroy$, 'complete');
+      spyOn(trDestroy$, 'next');
+      spyOn(trDestroy$, 'complete');
+
+      basePageComponent.destroyTestSubs();
+
+      expect(wrtcDestroy$.next).toHaveBeenCalled();
+      expect(wrtcDestroy$.complete).toHaveBeenCalled();
+      expect(trDestroy$.next).toHaveBeenCalled();
+      expect(trDestroy$.complete).toHaveBeenCalled();
+    });
+  });
+  describe('completeTestDelegated', () => {
+    it('should dispatch store and then navigate to '
+            + 'rekey upload after the modal is dismissed', async () => {
+      await basePageComponent.showFinishTestModal();
+
+      spyOn(store$, 'dispatch');
+      spyOn(basePageComponent.finishTestModal, 'dismiss');
+      spyOn(basePageComponent.router, 'navigate');
+
+      await basePageComponent.completeTestDelegated();
+
+      expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
+      expect(store$.dispatch).toHaveBeenCalledWith(SendCurrentTest());
+      expect(basePageComponent.finishTestModal.dismiss).toHaveBeenCalled();
+      expect(basePageComponent.router.navigate).toHaveBeenCalledWith(
+        [DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE],
+        { replaceUrl: true },
+      );
     });
   });
   describe('isFormValid', () => {
