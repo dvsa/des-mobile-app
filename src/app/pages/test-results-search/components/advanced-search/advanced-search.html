@@ -83,7 +83,11 @@
             <label id="advanced-search-date-range-label">Date range</label>
         </ion-col>
         <ion-col size="32">
-            <ion-datetime-button datetime="datetime-from"></ion-datetime-button>
+            <ion-button (click)="styleDatePicker()">date</ion-button>
+            <ion-datetime-button
+                    class="date-picker"
+                    datetime="datetime-from">
+            </ion-datetime-button>
             <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
                 <ng-template>
                     <ion-datetime
@@ -106,7 +110,10 @@
             <label class="to-label" id="to-label">to</label>
         </ion-col>
         <ion-col size="32">
-            <ion-datetime-button datetime="datetime-to"></ion-datetime-button>
+            <ion-datetime-button
+                    class="date-picker"
+                    datetime="datetime-to">
+            </ion-datetime-button>
             <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
                 <ng-template>
                     <ion-datetime

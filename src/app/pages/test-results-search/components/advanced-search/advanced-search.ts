@@ -91,6 +91,15 @@ export class AdvancedSearchComponent {
   ) {
   }
 
+  styleDatePicker() {
+    const input = document.getElementsByClassName('date-picker');
+    const inputArrays = Array.from(input);
+    inputArrays.forEach((data) => {
+      const element = data.shadowRoot.getElementById('date-button');
+      element.className = 'date-picker-input-styling';
+    });
+  }
+
   upperCaseAlphaNum(event: any): void {
     if (typeof event.target.value !== 'string') return;
 
