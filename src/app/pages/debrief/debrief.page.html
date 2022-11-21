@@ -61,7 +61,7 @@
 
 
     <ion-card
-            *ngIf="isCatD()">
+            *ngIf="isCatD() && pageState.showSafetyQuestions$ | async">
         <safety-question-data-row
                 [label]="'Safety question(s)'"
                 [data]="pageState.safetyQuestions$ | async"

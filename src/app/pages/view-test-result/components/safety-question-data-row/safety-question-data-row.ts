@@ -22,6 +22,6 @@ export class SafetyDataRowComponent {
   isDebrief: boolean = false;
 
   public shouldShowFault(outcome: QuestionOutcome): boolean {
-    return outcome === CompetencyOutcome.DF;
+    return outcome === CompetencyOutcome.DF || outcome === undefined;
   }
 }
