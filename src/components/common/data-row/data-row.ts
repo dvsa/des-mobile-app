@@ -14,6 +14,9 @@ export class DataRowComponent {
   dataStyling?: string;
 
   @Input()
+  imgSrc: string;
+
+  @Input()
   label2: string = null;
 
   @Input()

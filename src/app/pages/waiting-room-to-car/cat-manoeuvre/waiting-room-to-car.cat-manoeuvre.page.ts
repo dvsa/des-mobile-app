@@ -27,6 +27,7 @@ import {
   getVehicleLength,
   getVehicleWidth,
 } from '@store/tests/vehicle-details/cat-manoeuvres/vehicle-details.cat-manoeuvre.selector';
+import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 
 interface CatManoeuvreWaitingRoomToCarPageState {
   delegatedTest$: Observable<boolean>;
@@ -99,6 +100,8 @@ export class WaitingRoomToCarCatManoeuvrePage extends WaitingRoomToCarBasePageCo
     Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.valid) {
+      this.store$.dispatch(ClearCandidateLicenceData());
+
       await this.routeByCategoryProvider.navigateToPage(
         TestFlowPageNames.TEST_REPORT_PAGE,
         this.testCategory,

@@ -152,7 +152,6 @@ export class AppConfigProvider {
 
   public loadRemoteConfig = (): Promise<any> => this.getRemoteData()
     .then((data: any) => {
-
       const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
       if (result?.errors?.length > 0) {
         return Promise.reject(result.errors);
@@ -289,6 +288,11 @@ export class AppConfigProvider {
       },
       user: {
         findUserUrl: data.user.findUserUrl,
+      },
+      driver: {
+        signatureUrl: data.driver.signatureUrl,
+        photographUrl: data.driver.photographUrl,
+        standardUrl: data.driver.standardUrl,
       },
       requestTimeout: data.requestTimeout,
     } as AppConfig);

@@ -57,6 +57,11 @@ export class AppConfigProviderMock {
       user: {
         findUserUrl: localEnvironmentMock.user.findUserUrl,
       },
+      driver: {
+        standardUrl: localEnvironmentMock.driver.standardUrl,
+        signatureUrl: localEnvironmentMock.driver.signatureUrl,
+        photographUrl: localEnvironmentMock.driver.photographUrl,
+      },
       requestTimeout: localEnvironmentMock.requestTimeout,
     };
   }

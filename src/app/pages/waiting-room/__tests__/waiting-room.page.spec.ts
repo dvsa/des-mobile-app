@@ -50,6 +50,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { SignatureComponent } from '@components/common/signature/signature';
+import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { ResidencyDeclarationComponent } from '../components/residency-declaration/residency-declaration';
 import { InsuranceDeclarationComponent } from '../components/insurance-declaration/insurance-declaration';
 import { ConductedLanguageComponent } from '../components/conducted-language/conducted-language';
@@ -189,7 +191,6 @@ describe('WaitingRoomPage', () => {
     });
 
     describe('ionViewDidEnter', () => {
-
       it('should not enable single app mode if on ios and in practice mode', async () => {
         spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
         component.isEndToEndPracticeMode = true;
@@ -219,6 +220,10 @@ describe('WaitingRoomPage', () => {
         expect(insomnia.keepAwake).toHaveBeenCalled();
       });
 
+      it('should dispatch the action which calls out for candidate licence data', async () => {
+        await component.ionViewDidEnter();
+        expect(store$.dispatch).toHaveBeenCalledWith(GetCandidateLicenceData());
+      });
     });
 
     describe('canDeActivate', () => {
@@ -229,12 +234,12 @@ describe('WaitingRoomPage', () => {
     });
 
     describe('onSubmit', () => {
-      it('should navigate to the COMMUNICATION_PAGE if the form is valid', () => {
+      it('should navigate to the CandidateLicencePage if the form is valid', async () => {
         const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
         formGroup.get('insuranceCheckbox').setValue(true);
-        component.onSubmit();
-        expect(routerSpy.navigate).toHaveBeenCalledWith(['CommunicationPage']);
+        await component.onSubmit();
+        expect(routerSpy.navigate).toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
         const { formGroup } = component;

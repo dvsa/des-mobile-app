@@ -1,0 +1,20 @@
+:host {
+  .driver-photograph {
+    object-fit: contain;
+    height: 420px;
+    width: auto;
+    display: block;
+    margin: auto;
+  }
+
+  .row-border-top {
+    border-top: 2px solid #efefef;
+  }
+
+  .driver-photograph-spinner {
+    height: 420px;
+    display: block;
+    margin: auto;
+    color: black;
+  }
+}

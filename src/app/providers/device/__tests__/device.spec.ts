@@ -115,6 +115,7 @@ describe('DeviceProvider', () => {
         journal: undefined,
         tests: undefined,
         user: undefined,
+        driver: undefined,
         requestTimeout: undefined,
       });
       const result = await deviceProvider.enableSingleAppMode();

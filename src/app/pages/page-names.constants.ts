@@ -146,6 +146,7 @@ export enum TestFlowPageNames {
   TEST_REPORT_PAGE = 'TEST_REPORT_PAGE',
   WAITING_ROOM_PAGE = 'WaitingRoomPage',
   TEST_REPORT_DASHBOARD_PAGE = 'TestReportDashboardPage',
+  CANDIDATE_LICENCE_PAGE = 'CandidateLicencePage',
   VIEW_TEST_RESULT = 'ViewTestResultPage',
   WAITING_ROOM_TO_CAR_PAGE = 'WAITING_ROOM_TO_CAR_PAGE',
   CONFIRM_TEST_DETAILS_PAGE = 'ConfirmTestDetailsPage',

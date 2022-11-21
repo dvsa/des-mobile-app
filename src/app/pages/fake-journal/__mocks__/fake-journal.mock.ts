@@ -34,6 +34,8 @@ export const fakeJournalTestSlots = [
           lastName: 'Craig',
           title: 'Captain',
         },
+        gender: 'M',
+        dateOfBirth: '1994-04-26',
         driverNumber: 'CRAIG375220A99HC',
         primaryTelephone: '01234 567890',
         emailAddress: 'captain@jeremy.com',

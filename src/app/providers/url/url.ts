@@ -47,4 +47,18 @@ export class UrlProvider {
     return this.appConfigProvider.getAppConfig().journal.teamJournalUrl;
   }
 
+  getCandidateSignatureUrl(drivingLicenceNumber: string): string {
+    const urlTemplate = this.appConfigProvider.getAppConfig().driver.signatureUrl;
+    return urlTemplate.replace('{drivingLicenceNumber}', drivingLicenceNumber);
+  }
+
+  getCandidatePhotoUrl(drivingLicenceNumber: string): string {
+    const urlTemplate = this.appConfigProvider.getAppConfig().driver.photographUrl;
+    return urlTemplate.replace('{drivingLicenceNumber}', drivingLicenceNumber);
+  }
+
+  getCandidateStandardDataUrl(): string {
+    return this.appConfigProvider.getAppConfig().driver.standardUrl;
+  }
+
 }

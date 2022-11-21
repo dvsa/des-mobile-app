@@ -119,6 +119,11 @@ const routes: Routes = [
     loadChildren: () => import('@pages/test-report-dashboard/test-report-dashboard.module')
       .then((m) => m.TestReportDashboardPageModule),
   },
+  {
+    path: TestFlowPageNames.CANDIDATE_LICENCE_PAGE,
+    loadChildren: () => import('@pages/candidate-licence/candidate-licence.module')
+      .then((m) => m.CandidateLicencePageModule),
+  },
   ...Waiting_Room_To_Car_Route,
   ...Test_Report_Route,
   ...Pass_Finalisation_Route,

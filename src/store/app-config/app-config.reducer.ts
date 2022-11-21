@@ -47,6 +47,11 @@ export const initialState: AppConfig = {
   user: {
     findUserUrl: null,
   },
+  driver: {
+    photographUrl: null,
+    signatureUrl: null,
+    standardUrl: null,
+  },
   requestTimeout: null,
 };
 
