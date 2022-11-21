@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { FaultCountProvider } from '../fault-count';
@@ -8,6 +9,7 @@ import { FaultCountProvider } from '../fault-count';
 import { catAM1TestDataStateObject } from '../__mocks__/cat-AM1-test-data-state-object.mock';
 import { catAM2TestDataStateObject } from '../__mocks__/cat-AM2-test-data-state-object.mock';
 import { catBTestDataStateObject } from '../__mocks__/cat-B-test-data-state-object.mock';
+import { catBETestDataStateObject } from '../__mocks__/cat-BE-test-data-state-object.mock';
 import { catCTestDataStateObject } from '../__mocks__/cat-C-test-data-state-object.mock';
 import { catCETestDataStateObject } from '../__mocks__/cat-CE-test-data-state-object.mock';
 import { catC1ETestDataStateObject } from '../__mocks__/cat-C1E-test-data-state-object.mock';
@@ -18,6 +20,7 @@ import { catD1ETestDataStateObject } from '../__mocks__/cat-D1E-test-data-state-
 import { catD1TestDataStateObject } from '../__mocks__/cat-D1-test-data-state-object.mock';
 
 import { FaultCountBHelper } from '../cat-b/fault-count.cat-b';
+import { FaultCountBEHelper } from '../cat-be/fault-count.cat-be';
 import { FaultCountCHelper } from '../cat-c/fault-count.cat-c';
 import { FaultCountDHelper } from '../cat-d/fault-count.cat-d';
 
@@ -50,6 +53,10 @@ describe('FaultCountProvider', () => {
     spyOn(FaultCountBHelper, 'getDrivingFaultSumCountCatB').and.callThrough();
     spyOn(FaultCountBHelper, 'getSeriousFaultSumCountCatB').and.callThrough();
     spyOn(FaultCountBHelper, 'getDangerousFaultSumCountCatB').and.callThrough();
+
+    spyOn(FaultCountBEHelper, 'getDrivingFaultSumCountCatBE').and.callThrough();
+    spyOn(FaultCountBEHelper, 'getSeriousFaultSumCountCatBE').and.callThrough();
+    spyOn(FaultCountBEHelper, 'getDangerousFaultSumCountCatBE').and.callThrough();
 
     spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatC').and.callThrough();
     spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatC').and.callThrough();
@@ -116,6 +123,10 @@ describe('FaultCountProvider', () => {
         faultCountProvider.getDrivingFaultSumCount(TestCategory.B, catBTestDataStateObject);
         expect((FaultCountBHelper as any).getDrivingFaultSumCountCatB).toHaveBeenCalled();
       });
+      it('should call the category BE specific method for getting the driving fault sum count', () => {
+        faultCountProvider.getDrivingFaultSumCount(TestCategory.BE, catBETestDataStateObject);
+        expect((FaultCountBEHelper as any).getDrivingFaultSumCountCatBE).toHaveBeenCalled();
+      });
     });
 
     describe('CAT C', () => {
@@ -180,6 +191,10 @@ describe('FaultCountProvider', () => {
       it('should call the category B specific method for getting the serious fault sum count', () => {
         faultCountProvider.getSeriousFaultSumCount(TestCategory.B, catBTestDataStateObject);
         expect((FaultCountBHelper as any).getSeriousFaultSumCountCatB).toHaveBeenCalled();
+      });
+      it('should call the category BE specific method for getting the serious fault sum count', () => {
+        faultCountProvider.getSeriousFaultSumCount(TestCategory.BE, catBETestDataStateObject);
+        expect((FaultCountBEHelper as any).getSeriousFaultSumCountCatBE).toHaveBeenCalled();
       });
     });
 
@@ -246,6 +261,10 @@ describe('FaultCountProvider', () => {
         faultCountProvider.getDangerousFaultSumCount(TestCategory.B, catBTestDataStateObject);
         expect((FaultCountBHelper as any).getDangerousFaultSumCountCatB).toHaveBeenCalled();
       });
+      it('should call the category BE specific method for getting the dangerous fault sum count', () => {
+        faultCountProvider.getDangerousFaultSumCount(TestCategory.BE, catBETestDataStateObject);
+        expect((FaultCountBEHelper as any).getDangerousFaultSumCountCatBE).toHaveBeenCalled();
+      });
     });
 
     describe('CAT C', () => {
@@ -290,6 +309,12 @@ describe('FaultCountProvider', () => {
   describe('getDrivingFaultSumCountCatB', () => {
     it('should return the driving fault for cat B count correctly', () => {
       expect((FaultCountBHelper as any).getDrivingFaultSumCountCatB(catBTestDataStateObject)).toBe(4);
+    });
+  });
+
+  describe('getDrivingFaultSumCountCatBE', () => {
+    it('should return the driving fault for cat BE count correctly', () => {
+      expect((FaultCountBEHelper as any).getDrivingFaultSumCountCatBE(catBETestDataStateObject)).toBe(5);
     });
   });
 
@@ -408,6 +433,58 @@ describe('FaultCountProvider', () => {
         },
       };
       expect((FaultCountBHelper as any).getDangerousFaultSumCountCatB(failedState)).toBe(4);
+    });
+  });
+
+  describe('getSeriousFaultSumCountCatBE', () => {
+    it('should return the serious faults count', () => {
+      expect((FaultCountBEHelper as any).getSeriousFaultSumCountCatBE(catBETestDataStateObject)).toBe(1);
+    });
+    it('should return the correct count of serious faults', () => {
+      const failedState: CatBEUniqueTypes.TestData = {
+        ...catBETestDataStateObject,
+        vehicleChecks: {
+          tellMeQuestions: [{
+            code: 'string',
+            description: 'string',
+            outcome: 'DF',
+          }],
+          showMeQuestions: [{
+            code: 'string',
+            description: 'string',
+            outcome: 'DF',
+          }],
+        },
+        eyesightTest: {
+          complete: true,
+          seriousFault: true,
+        },
+      };
+      expect((FaultCountBEHelper as any).getSeriousFaultSumCountCatBE(failedState)).toBe(2);
+    });
+  });
+
+  describe('getDangerousFaultSumCountCatBE', () => {
+    it('should return the dangerous faults count', () => {
+      expect((FaultCountBEHelper as any).getDangerousFaultSumCountCatBE(catBETestDataStateObject)).toBe(1);
+    });
+    it('should return the correct number of dangerous faults', () => {
+      const failedState: CatBEUniqueTypes.TestData = {
+        ...catBETestDataStateObject,
+        vehicleChecks: {
+          tellMeQuestions: [{
+            code: 'string',
+            description: 'string',
+            outcome: 'DF',
+          }],
+          showMeQuestions: [{
+            code: 'string',
+            description: 'string',
+            outcome: 'DF',
+          }],
+        },
+      };
+      expect((FaultCountBEHelper as any).getDangerousFaultSumCountCatBE(failedState)).toBe(1);
     });
   });
 
