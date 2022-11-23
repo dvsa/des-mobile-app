@@ -7,7 +7,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  Address, CategoryCode, CommunicationMethod, ConductedLanguage,
+  Address, CategoryCode, CommunicationMethod,
 } from '@dvsa/mes-test-schema/categories/common';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription, merge, Observable } from 'rxjs';
@@ -80,8 +80,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   static readonly email: CommunicationMethod = 'Email';
   static readonly post: CommunicationMethod = 'Post';
   static readonly notProvided: CommunicationMethod = 'Not provided';
-  static readonly welshLanguage: ConductedLanguage = 'Cymraeg';
-  static readonly englishLanguage: ConductedLanguage = 'English';
 
   form: UntypedFormGroup;
   subscription: Subscription;
@@ -358,5 +356,15 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   validCertificateChanged(validCertificate: boolean): void {
     this.store$.dispatch(ValidPassCertChanged(validCertificate));
+  }
+
+  async canDeActivate(): Promise<boolean> {
+    try {
+      console.log('comms called deactivate');
+      await this.deviceAuthenticationProvider.triggerLockScreen();
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

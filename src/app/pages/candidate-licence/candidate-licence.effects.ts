@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  catchError, concatMap, filter, map, repeat, switchMap, tap, withLatestFrom,
+  catchError, concatMap, filter, map, repeat, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 import {
   ClearCandidateLicenceData,

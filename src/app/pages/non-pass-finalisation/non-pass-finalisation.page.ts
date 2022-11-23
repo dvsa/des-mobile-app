@@ -75,7 +75,7 @@ import { getTestStartTime } from '@store/tests/test-data/cat-adi-part3/start-tim
 import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.selector';
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
-import moment from 'moment/moment';
+import * as moment from 'moment';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
