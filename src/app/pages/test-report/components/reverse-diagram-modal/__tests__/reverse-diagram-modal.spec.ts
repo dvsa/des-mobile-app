@@ -1,11 +1,11 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppModule } from 'src/app/app.module';
 import {
-  Config, IonicModule, NavController, NavParams, Platform,
+  IonicModule, NavController, NavParams, Platform,
 } from '@ionic/angular';
 import {
-  ConfigMock, NavControllerMock, NavParamsMock, PlatformMock,
-} from 'ionic-mocks';
+  NavControllerMock, NavParamsMock, PlatformMock,
+} from '@mocks/index.mock';
 import { ReversingDistancesProvider } from '@providers/reversing-distances/reversing-distances';
 import { MockAppComponent } from 'src/app/__mocks__/app.component.mock';
 import { AppComponent } from 'src/app/app.component';
@@ -66,10 +66,9 @@ describe('reverseDiagramModal', () => {
         }),
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: NavController, useFactory: () => NavControllerMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: NavController, useClass: NavControllerMock },
         { provide: AppComponent, useClass: MockAppComponent },
         ReversingDistancesProvider,
       ],

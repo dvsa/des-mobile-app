@@ -5,18 +5,17 @@ import {
   tick, waitForAsync, flush,
 } from '@angular/core/testing';
 import {
-  IonicModule,
   NavParams,
-  Config,
   Platform,
-  AlertController, NavController,
+  AlertController,
+  NavController,
 } from '@ionic/angular';
 import {
   NavParamsMock,
-  ConfigMock,
   PlatformMock,
-  AlertControllerMock, NavControllerMock,
-} from 'ionic-mocks';
+  AlertControllerMock,
+  NavControllerMock,
+} from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { HealthDeclarationPage } from '@pages/health-declaration/health-declaration.page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -84,7 +83,6 @@ describe('HealthDeclarationPage', () => {
         MockComponent(ReceiptDeclarationComponent),
       ],
       imports: [
-        IonicModule,
         ReactiveFormsModule,
         AppModule,
         ComponentsModule,
@@ -113,10 +111,9 @@ describe('HealthDeclarationPage', () => {
       ],
       providers: [
         { provide: NavController, useClass: NavControllerMock },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: AlertController, useClass: AlertControllerMock },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { SecureStorage } from '@ionic-native/secure-storage/ngx';
+import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { Observable, merge, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';

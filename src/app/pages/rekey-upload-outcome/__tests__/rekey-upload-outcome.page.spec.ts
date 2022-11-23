@@ -1,11 +1,11 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, Platform } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from '@mocks/index.mock';
 import { StoreModule, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Router } from '@angular/router';
 
 import { AppModule } from '@app/app.module';
@@ -22,6 +22,7 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import { RekeyUploadOutcomePage } from '@pages/rekey-upload-outcome/rekey-upload-outcome.page';
 import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { EndRekey } from '@store/tests/rekey/rekey.actions';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
 import { rekeyReasonReducer } from '../../rekey-reason/rekey-reason.reducer';
 
@@ -50,7 +51,7 @@ describe('RekeyUploadOutcomePage', () => {
         }),
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
@@ -69,6 +70,7 @@ describe('RekeyUploadOutcomePage', () => {
     router = TestBed.inject(Router);
     spyOn(router, 'navigate');
     spyOn(store$, 'dispatch');
+    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
   }));
 
   describe('Class', () => {

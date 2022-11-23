@@ -1,6 +1,6 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { Platform, ModalController } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { By } from '@angular/platform-browser';
 
 import { AppModule } from '@app/app.module';
@@ -14,7 +14,6 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { ComponentsModule } from '@components/common/common-components.module';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
@@ -39,7 +38,7 @@ describe('TestResultsSearchPage', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: SearchProvider, useClass: SearchProviderMock },

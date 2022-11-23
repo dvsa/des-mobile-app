@@ -25,10 +25,9 @@ import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { Log, LogType } from '@shared/models/log.model';
 import { SaveLog, SendLogs } from '@store/logs/logs.actions';
-import { MenuControllerMock } from '@mocks/ionic-mocks/menu-controller';
-import { AlertControllerMock } from '@mocks/ionic-mocks/alert-controller.mock';
-import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
-import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
+import {
+  AlertControllerMock, LoadingControllerMock, MenuControllerMock, PlatformMock,
+} from '@mocks/index.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { DASHBOARD_PAGE } from '../../page-names.constants';

@@ -8,7 +8,7 @@ import { CandidateLinkComponent } from '@components/test-slot/candidate-link/can
 import { CommonModule } from '@angular/common';
 import { CandidateDetailsPageModule } from '@pages/candidate-details/candidate-details.module';
 
-fdescribe('CandidateLinkComponent', () => {
+describe('CandidateLinkComponent', () => {
   let fixture: ComponentFixture<CandidateLinkComponent>;
   let component: CandidateLinkComponent;
 

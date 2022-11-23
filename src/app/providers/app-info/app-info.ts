@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppVersion } from '@ionic-native/app-version/ngx';
+import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { from, Observable } from 'rxjs';
 
 @Injectable()

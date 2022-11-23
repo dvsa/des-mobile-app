@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  IonicModule, Config, NavController, ModalController,
+  IonicModule, NavController, ModalController,
 } from '@ionic/angular';
 import { Store, StoreModule } from '@ngrx/store';
-import { ConfigMock, NavControllerMock } from 'ionic-mocks';
+import { NavControllerMock } from '@mocks/index.mock';
 import { AppModule } from '@app/app.module';
 import { MockComponent } from 'ng-mocks';
 import {
@@ -118,16 +118,12 @@ describe('VehicleChecksCatADIPart2Modal', () => {
       ],
       providers: [
         {
-          provide: Config,
-          useFactory: () => ConfigMock.instance(),
-        },
-        {
           provide: ModalController,
           useClass: ModalControllerMock,
         },
         {
           provide: NavController,
-          useFactory: () => NavControllerMock.instance(),
+          useClass: NavControllerMock,
         },
         provideMockStore({ initialState }),
       ],

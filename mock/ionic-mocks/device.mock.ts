@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 
 @Injectable()
 export class DeviceMock implements Device {
@@ -11,4 +11,5 @@ export class DeviceMock implements Device {
     serial: string;
     uuid: string;
     version: string;
+    isiOSAppOnMac: string;
 }

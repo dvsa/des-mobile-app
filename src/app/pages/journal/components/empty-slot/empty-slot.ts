@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { SlotComponent } from '@components/test-slot/slot/slot';
 

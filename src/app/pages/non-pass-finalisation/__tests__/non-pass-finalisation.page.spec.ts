@@ -4,7 +4,7 @@ import {
 import {
   IonicModule, ModalController, NavController, Platform,
 } from '@ionic/angular';
-import { NavControllerMock, PlatformMock } from 'ionic-mocks';
+import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
@@ -80,7 +80,7 @@ describe('NonPassFinalisationPage', () => {
       providers: [
         { provide: Router, useClass: RouterMock },
         { provide: NavController, useClass: NavControllerMock },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: ActivityCodeFinalisationProvider, useClass: ActivityCodeFinalisationMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },

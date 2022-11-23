@@ -6,9 +6,7 @@ import {
   ToastController,
   ModalController,
 } from '@ionic/angular';
-import {
-  PlatformMock,
-} from 'ionic-mocks';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -23,7 +21,6 @@ import {
   OutcomeBehaviourMapProviderMock,
 }
   from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { PipesModule } from '@shared/pipes/pipes.module';
@@ -84,7 +81,7 @@ describe('OfficeCatADI3Page', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },

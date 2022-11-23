@@ -3,7 +3,7 @@ import {
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -39,7 +39,7 @@ describe('PostDebriefHoldingPage', () => {
         StoreModule.forFeature('tests', () => ({})),
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },

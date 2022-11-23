@@ -2,7 +2,7 @@ import {
   ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
-import { PlatformMock } from 'ionic-mocks';
+import { PlatformMock } from '@mocks/ionic-mocks/platform-mock';
 import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -125,7 +125,7 @@ describe('WaitingRoomToCarCatADIPart3Page', () => {
         },
         {
           provide: Platform,
-          useFactory: () => PlatformMock.instance(),
+          useClass: PlatformMock,
         },
         {
           provide: Router,

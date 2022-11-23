@@ -1,8 +1,7 @@
 import { By } from '@angular/platform-browser';
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
-import { ConfigMock } from 'ionic-mocks';
 import { NonTestActivity } from '@dvsa/mes-journal-schema';
 import { CommonModule } from '@angular/common';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -24,7 +23,6 @@ describe('ActivitySlotComponent', () => {
       ],
       providers: [
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
       imports: [IonicModule, CommonModule],
     });

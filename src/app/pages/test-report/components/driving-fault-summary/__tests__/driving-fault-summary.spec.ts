@@ -1,10 +1,9 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { IonicModule, Config } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { ConfigMock } from 'ionic-mocks';
 import { Subscription } from 'rxjs';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { StartTest } from '@store/tests/tests.actions';
@@ -30,7 +29,6 @@ describe('DrivingFaultSummary', () => {
         StoreModule.forRoot({ tests: testsReducer }),
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         FaultCountProvider,
       ],
     });

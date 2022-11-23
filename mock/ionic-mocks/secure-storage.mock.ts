@@ -1,4 +1,4 @@
-import { SecureStorageObject } from '@ionic-native/secure-storage';
+import { SecureStorageObject } from '@awesome-cordova-plugins/secure-storage/ngx';
 
 export class SecureStorageMock {
 

@@ -103,7 +103,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.destroy$.next();
+    this.destroy$.next(null);
     this.destroy$.complete();
   }
 

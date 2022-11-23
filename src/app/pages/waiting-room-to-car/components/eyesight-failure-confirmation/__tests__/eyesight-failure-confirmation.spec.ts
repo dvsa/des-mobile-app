@@ -1,14 +1,13 @@
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
-import { ConfigMock } from 'ionic-mocks';
 import { StoreModule, Store } from '@ngrx/store';
 
 import { StoreModel } from '@shared/models/store.model';
 import { CAT_B } from '@pages/page-names.constants';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
@@ -33,7 +32,6 @@ describe('EyesightFailureConfirmationComponent', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
         { provide: Router, useClass: RouterMock },
         Store,
       ],

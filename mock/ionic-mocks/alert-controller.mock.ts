@@ -1,5 +1,7 @@
 import { AlertOptions } from '@ionic/core';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class AlertControllerMock {
 
   create(options: AlertOptions): Promise<HTMLIonAlertElement> {

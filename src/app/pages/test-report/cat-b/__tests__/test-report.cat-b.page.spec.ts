@@ -1,13 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  IonicModule, NavParams, Config, Platform, ModalController,
+  IonicModule, NavParams, Platform, ModalController,
 } from '@ionic/angular';
 import {
   NavParamsMock,
-  ConfigMock,
   PlatformMock,
   ModalControllerMock,
-} from 'ionic-mocks';
+} from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
@@ -23,14 +22,15 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import {
   TestReportValidatorProviderMock,
 } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { StatusBar } from '@capacitor/status-bar';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { ModalEvent } from '../../test-report.constants';
 import { VehicleCheckComponent } from '../components/vehicle-check/vehicle-check';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
@@ -92,12 +92,11 @@ describe('TestReportCatBPage', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: ModalController, useFactory: () => ModalControllerMock.instance() },
+        { provide: ModalController, useClass: ModalControllerMock },
         { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
@@ -108,6 +107,8 @@ describe('TestReportCatBPage', () => {
     component = fixture.componentInstance;
     screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
+    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+    spyOn(screenOrientation, 'lock').and.returnValue(Promise.resolve());
   });
 
   describe('Class', () => {
@@ -138,12 +139,10 @@ describe('TestReportCatBPage', () => {
         expect(insomnia.keepAwake).toHaveBeenCalled();
         expect(StatusBar.hide).toHaveBeenCalled();
       });
-
     });
   });
 
   describe('DOM', () => {
-
     describe('Fault Modes Styling', () => {
       it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { StoreModule, Store } from '@ngrx/store';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';

@@ -1,13 +1,12 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { NavParamsMock } from 'ionic-mocks';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { By } from '@angular/platform-browser';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { JournalRekeyModal } from '../journal-rekey-modal';
 
 describe('JournalRekeyModal', () => {
@@ -24,7 +23,7 @@ describe('JournalRekeyModal', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, Config } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { StoreModule, Store } from '@ngrx/store';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { StoreModel } from '@shared/models/store.model';
@@ -13,7 +13,6 @@ import {
   ShowMeQuestionDangerousFault,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { By } from '@angular/platform-browser';
-import { ConfigMock } from 'ionic-mocks';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from '@app/app.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -42,9 +41,6 @@ describe('VehicleChecksCardCatBComponent', () => {
             deps: [HttpClient],
           },
         }),
-      ],
-      providers: [
-        { provide: Config, useFactory: () => ConfigMock.instance() },
       ],
     });
 

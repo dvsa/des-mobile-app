@@ -1,10 +1,10 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import {
-  IonicModule, NavParams, Config, Platform, ModalController,
+  IonicModule, NavParams, Platform, ModalController,
 } from '@ionic/angular';
 import {
-  NavParamsMock, ConfigMock, PlatformMock,
-} from 'ionic-mocks';
+  NavParamsMock, PlatformMock,
+} from '@mocks/index.mock';
 
 import { AppModule } from 'src/app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -13,8 +13,8 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { StoreModule, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
@@ -28,6 +28,7 @@ import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-c
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 
 describe('BackToOfficePage', () => {
@@ -52,15 +53,14 @@ describe('BackToOfficePage', () => {
         StoreModule.forRoot({}),
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: ScreenOrientation, useClass: ScreenOrientationMock },
         { provide: Insomnia, useClass: InsomniaMock },
         { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: NavParams, useFactory: () => NavParamsMock.instance() },
-        { provide: Config, useFactory: () => ConfigMock.instance() },
+        { provide: NavParams, useClass: NavParamsMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
@@ -75,6 +75,8 @@ describe('BackToOfficePage', () => {
     router = TestBed.inject(Router);
     spyOn(store$, 'dispatch');
     spyOn(router, 'navigate').and.returnValue(Promise.resolve(true));
+    spyOn(screenOrientation, 'unlock');
+    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
   }));
 
   describe('Class', () => {

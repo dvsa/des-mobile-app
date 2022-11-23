@@ -2,9 +2,9 @@ import {
   ComponentFixture, TestBed, waitForAsync,
 } from '@angular/core/testing';
 import {
-  NavController, Platform, IonicModule,
+  NavController, Platform,
 } from '@ionic/angular';
-import { NavControllerMock, PlatformMock } from 'ionic-mocks';
+import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -45,14 +45,10 @@ describe('PassFinalisationCatADIPart3Page', () => {
       ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        IonicModule,
         AppModule,
       ],
       providers: [
-        {
-          provide: Platform,
-          useFactory: () => PlatformMock.instance(),
-        },
+        { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useValue: routerSpy },
         { provide: Store },
@@ -69,23 +65,20 @@ describe('PassFinalisationCatADIPart3Page', () => {
 
   describe('class', () => {
     it('should create', () => {
-      expect(component)
-        .toBeTruthy();
+      expect(component).toBeTruthy();
     });
 
     describe('furtherDevelopmentChanged', () => {
       it('should dispatch SeekFurtherDevelopmentChanged using the parameter given ', () => {
         component.furtherDevelopmentChanged(true);
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(SeekFurtherDevelopmentChanged(true));
+        expect(store$.dispatch).toHaveBeenCalledWith(SeekFurtherDevelopmentChanged(true));
       });
     });
 
     describe('adviceReasonChanged', () => {
       it('should dispatch ReasonForNoAdviceGivenChanged using the parameter given ', () => {
         component.adviceReasonChanged('test');
-        expect(store$.dispatch)
-          .toHaveBeenCalledWith(ReasonForNoAdviceGivenChanged('test'));
+        expect(store$.dispatch).toHaveBeenCalledWith(ReasonForNoAdviceGivenChanged('test'));
       });
     });
   });

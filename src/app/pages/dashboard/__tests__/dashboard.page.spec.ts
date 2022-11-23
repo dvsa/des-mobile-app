@@ -1,13 +1,13 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AlertController, IonicModule, Platform } from '@ionic/angular';
-import { AlertControllerMock, PlatformMock } from 'ionic-mocks';
+import { AlertControllerMock, PlatformMock } from '@mocks/index.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { of } from 'rxjs';
-import { Insomnia } from '@ionic-native/insomnia/ngx';
-import { ScreenOrientation } from '@ionic-native/screen-orientation/ngx';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -85,8 +85,8 @@ describe('DashboardPage', () => {
         ComponentsModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: AlertController, useFactory: () => AlertControllerMock.instance() },
+        { provide: Platform, useClass: PlatformMock },
+        { provide: AlertController, useClass: AlertControllerMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DateTimeProvider, useClass: DateTimeProviderMock },

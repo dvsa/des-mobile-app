@@ -5,14 +5,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TestSlotAttributes } from '@dvsa/mes-test-schema/categories/common';
 import {
   AlertController,
-  IonicModule, ModalController,
+  IonicModule,
+  ModalController,
   NavController,
   Platform,
 } from '@ionic/angular';
 import { AppModule } from 'src/app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
-import { NavControllerMock, PlatformMock } from 'ionic-mocks';
+import { AlertControllerMock, NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { Subscription } from 'rxjs';
@@ -25,6 +26,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { ConfirmTestDetailsPage } from '../confirm-test-details.page';
 import { ConfirmTestDetailsViewDidEnter } from '../confirm-test-details.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
@@ -35,15 +37,6 @@ describe('ConfirmTestDetailsPage', () => {
   let modalController: ModalController;
   let store$: Store<StoreModel>;
   let router: Router;
-
-  const mockAlertCtrl = {
-    create: () => {
-      return {
-        present: () => {
-        },
-      };
-    },
-  };
 
   const testSlotAttributes: TestSlotAttributes = {
     welshTest: false,
@@ -57,9 +50,7 @@ describe('ConfirmTestDetailsPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        ConfirmTestDetailsPage,
-      ],
+      declarations: [ConfirmTestDetailsPage],
       imports: [
         IonicModule,
         AppModule,
@@ -88,12 +79,13 @@ describe('ConfirmTestDetailsPage', () => {
         TranslateModule,
       ],
       providers: [
-        { provide: Platform, useFactory: () => PlatformMock.instance() },
-        { provide: NavController, useFactory: () => NavControllerMock },
+        { provide: Platform, useClass: PlatformMock },
+        { provide: NavController, useClass: NavControllerMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: AlertController, useValue: mockAlertCtrl },
+        { provide: AlertController, useClass: AlertControllerMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
+        VehicleDetailsByCategoryProvider,
       ],
     });
 

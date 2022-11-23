@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import { merge } from 'rxjs';
-import { Device } from '@ionic-native/device/ngx';
+import { Device } from '@awesome-cordova-plugins/device/ngx';
 
 import { LogType, Log } from '@shared/models/log.model';
 import { StoreModel } from '@shared/models/store.model';
