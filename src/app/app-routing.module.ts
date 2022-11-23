@@ -12,6 +12,7 @@ import {
   TEST_RESULTS_SEARCH_PAGE,
   TestFlowPageNames,
 } from '@pages/page-names.constants';
+import { CanCommunicationDeactivateGuard } from '@pages/communication/can-communication-deactivate';
 import { CanWaitingRoomDeactivateGuard } from '@pages/waiting-room/can-waiting-room-deactiviate';
 import { CanDeactivateHealthDeclaration } from '@pages/health-declaration/can-health-declaration-deactivate';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
@@ -131,6 +132,7 @@ const routes: Routes = [
 ];
 
 const ROUTE_DEACTIVATE_GUARDS = [
+  CanCommunicationDeactivateGuard,
   CanWaitingRoomDeactivateGuard,
   CanDeactivateHealthDeclaration,
 ];
