@@ -359,11 +359,12 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   async canDeActivate(): Promise<boolean> {
-    try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
-      return true;
-    } catch {
-      return false;
-    }
+    // @TODO: Re-introduce when CandidateID goes live;
+    // try {
+    //   await this.deviceAuthenticationProvider.triggerLockScreen();
+    return true;
+    // } catch {
+    //   return false;
+    // }
   }
 }
