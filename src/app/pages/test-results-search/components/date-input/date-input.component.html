@@ -1,0 +1,30 @@
+<div id="dateItem + {{control}}">
+    <ion-input
+            class="input-box"
+            id="{{inputId}}"
+            [(ngModel)]="displayDate"
+            [disabled]="disabled"
+            [placeholder]="formatDisplayDate(this.initialValue)">
+    </ion-input>
+    <ion-modal
+            class="calendar-modal"
+            trigger="dateItem + {{control}}"
+            [keepContentsMounted]="true"
+            mode="ios"
+            [backdropDismiss]="false">
+        <ng-template>
+            <ion-datetime
+                #date
+                id="{{pickerId}}"
+                show-default-buttons="true"
+                [showClearButton]="showClearButton"
+                size="cover"
+                presentation="date"
+                [(ngModel)]="displayDate"
+                [max]="maxValue"
+                [min]="minValue"
+                (ngModelChange)="onDateSelected(date)">
+            </ion-datetime>
+        </ng-template>
+    </ion-modal>
+</div>

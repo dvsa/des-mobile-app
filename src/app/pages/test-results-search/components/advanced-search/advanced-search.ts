@@ -91,15 +91,6 @@ export class AdvancedSearchComponent {
   ) {
   }
 
-  styleDatePicker() {
-    const input = document.getElementsByClassName('date-picker');
-    const inputArrays = Array.from(input);
-    inputArrays.forEach((data) => {
-      const element = data.shadowRoot.getElementById('date-button');
-      element.className = 'date-picker-input-styling';
-    });
-  }
-
   upperCaseAlphaNum(event: any): void {
     if (typeof event.target.value !== 'string') return;
 
@@ -173,4 +164,17 @@ export class AdvancedSearchComponent {
         },
       ).finally(() => dateTime.confirm(true));
   };
+
+  changeDate(event: { control: string, date: string }) {
+    switch (event.control) {
+      case 'start-date':
+        this.startDate = event.date;
+        break;
+      case 'end-date':
+        this.endDate = event.date;
+        break;
+      default:
+        break;
+    }
+  }
 }

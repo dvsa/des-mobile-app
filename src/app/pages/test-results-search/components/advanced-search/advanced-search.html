@@ -83,54 +83,33 @@
             <label id="advanced-search-date-range-label">Date range</label>
         </ion-col>
         <ion-col size="32">
-            <ion-button (click)="styleDatePicker()">date</ion-button>
-            <ion-datetime-button
-                    class="date-picker"
-                    datetime="datetime-from">
-            </ion-datetime-button>
-            <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
-                <ng-template>
-                    <ion-datetime
-                        #datetimeFrom
-                        presentation="date"
-                        id="datetime-from"
-                        [min]="minStartDate"
-                        [max]="endDate ? endDate : today"
-                        [value]="startDate"
-                        [(ngModel)]="minStartDate">
-                        <ion-buttons slot="buttons">
-                            <ion-button color="primary" (click)="handleClear(datetimeFrom, 'start')">Clear</ion-button>
-                            <ion-button color="primary" (click)="handleDone(datetimeFrom, 'start')">Done</ion-button>
-                        </ion-buttons>
-                    </ion-datetime>
-                </ng-template>
-            </ion-modal>
+            <date-input
+                    [minValue]="minStartDate"
+                    [maxValue]="endDate ? endDate : today"
+                    [initialValue]="minStartDate"
+                    (onDatePicked)="changeDate($event)"
+                    [control]="'start-date'"
+                    [pickerId]="'date-picker-start'"
+                    [inputId]="'date-input-start'"
+                    [showClearButton]=false
+                    [disabled]=false
+            ></date-input>
         </ion-col>
         <ion-col class="ion-align-self-center" size="9">
             <label class="to-label" id="to-label">to</label>
         </ion-col>
         <ion-col size="32">
-            <ion-datetime-button
-                    class="date-picker"
-                    datetime="datetime-to">
-            </ion-datetime-button>
-            <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
-                <ng-template>
-                    <ion-datetime
-                        #datetimeTo
-                        presentation="date"
-                        id="datetime-to"
-                        [min]="startDate ? startDate : minStartDate"
-                        [max]="today"
-                        [value]="endDate"
-                        [(ngModel)]="today">
-                        <ion-buttons slot="buttons">
-                            <ion-button color="primary" (click)="handleClear(datetimeTo, 'end')">Clear</ion-button>
-                            <ion-button color="primary" (click)="handleDone(datetimeTo, 'end')">Done</ion-button>
-                        </ion-buttons>
-                    </ion-datetime>
-                </ng-template>
-            </ion-modal>
+            <date-input
+                    [minValue]="startDate ? startDate : minStartDate"
+                    [maxValue]="today"
+                    [initialValue]="today"
+                    (onDatePicked)="changeDate($event)"
+                    [control]="'end-date'"
+                    [pickerId]="'date-picker-end'"
+                    [inputId]="'date-input-end'"
+                    [showClearButton]=false
+                    [disabled]=false
+            ></date-input>
         </ion-col>
     </ion-row>
     <ion-row>
