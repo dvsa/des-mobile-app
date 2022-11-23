@@ -360,7 +360,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   async canDeActivate(): Promise<boolean> {
     try {
-      console.log('comms called deactivate');
       await this.deviceAuthenticationProvider.triggerLockScreen();
       return true;
     } catch {
