@@ -45,7 +45,7 @@
         </ion-col>
     </ion-row>
     <ion-row>
-        <ion-col class="ion-align-self-center">
+        <ion-col size="18" class="ion-align-self-center">
             <label>Activity code</label>
         </ion-col>
         <ion-col size="22" class="input-padding">
@@ -59,7 +59,7 @@
                 </ion-select-option>
             </ion-select>
         </ion-col>
-        <ion-col class="ion-align-self-center">
+        <ion-col size="18" class="ion-align-self-center">
             <label>Test category</label>
         </ion-col>
         <ion-col size="22" class="input-padding">
@@ -82,34 +82,36 @@
         <ion-col class="ion-align-self-center" size="18">
             <label id="advanced-search-date-range-label">Date range</label>
         </ion-col>
-        <ion-col size="32">
-            <date-input
+        <ion-col class="ion-date" size="32">
+            <datetime-input
                     [minValue]="minStartDate"
                     [maxValue]="endDate ? endDate : today"
                     [initialValue]="minStartDate"
                     (onDatePicked)="changeDate($event)"
                     [control]="'start-date'"
                     [pickerId]="'date-picker-start'"
-                    [inputId]="'date-input-start'"
+                    [inputId]="'datetime-input-start'"
                     [showClearButton]=false
                     [disabled]=false
-            ></date-input>
+                    [displayType]="'date'"
+            ></datetime-input>
         </ion-col>
-        <ion-col class="ion-align-self-center" size="9">
+        <ion-col class="ion-align-self-center" size="7">
             <label class="to-label" id="to-label">to</label>
         </ion-col>
-        <ion-col size="32">
-            <date-input
+        <ion-col class="ion-date" size="32">
+            <datetime-input
                     [minValue]="startDate ? startDate : minStartDate"
                     [maxValue]="today"
                     [initialValue]="today"
                     (onDatePicked)="changeDate($event)"
                     [control]="'end-date'"
                     [pickerId]="'date-picker-end'"
-                    [inputId]="'date-input-end'"
+                    [inputId]="'datetime-input-end'"
                     [showClearButton]=false
                     [disabled]=false
-            ></date-input>
+                    [displayType]="'date'"
+            ></datetime-input>
         </ion-col>
     </ion-row>
     <ion-row>

@@ -4,16 +4,19 @@ import {
 import { IonDatetime } from '@ionic/angular';
 
 @Component({
-  selector: 'date-input',
-  templateUrl: './date-input.component.html',
-  styleUrls: ['./date-input.component.scss'],
+  selector: 'datetime-input',
+  templateUrl: './date-time-input.component.html',
+  styleUrls: ['./date-time-input.component.scss'],
 })
-export class DateInputComponent {
+export class DateTimeInputComponent {
   @Input()
   maxValue?: string;
 
   @Input()
   minValue?: string;
+
+  @Input()
+  displayType: string;
 
   @Input()
   initialValue?: string;
@@ -31,9 +34,9 @@ export class DateInputComponent {
   showClearButton?: boolean;
 
   @Input()
-  disabled?: boolean;
+  disabled?: boolean = false;
 
-  displayDate: string;
+  displayValue: string;
 
   @Output()
   onDatePicked = new EventEmitter<{ control: string, date: string }>();
@@ -49,6 +52,6 @@ export class DateInputComponent {
       date: outputDate,
       control: this.control,
     });
-    this.displayDate = this.formatDisplayDate(outputDate);
+    this.displayValue = this.formatDisplayDate(outputDate);
   }
 }

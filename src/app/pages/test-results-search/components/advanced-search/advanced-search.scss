@@ -1,11 +1,5 @@
 :host {
 
-  .date-picker-input-styling {
-    background-color: blue !important;
-    font-size: 100px;
-    height: 400px;
-  }
-
   #dtc-number {
     width: 100%;
   }
@@ -58,5 +52,9 @@
 
   .more-padding {
     padding-right: 8px;
+  }
+
+  .ion-date {
+    padding-left: 40px;
   }
 }
