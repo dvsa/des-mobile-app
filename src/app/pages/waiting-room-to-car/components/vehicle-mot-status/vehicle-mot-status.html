@@ -1,0 +1,13 @@
+<ion-col class="vertical-align-center">
+    <img *ngIf="icon && positiveOutcome"
+         src="assets/imgs/greenCorrectAnswer.png"
+         alt="valid"
+         class="correct-icon img-size"
+    />
+    <img *ngIf="icon && !positiveOutcome"
+         src="assets/imgs/redWrongAnswer.png"
+         alt="invalid"
+         class="wrong-icon img-size"
+    />
+    <label [ngClass]="{'label-icon-padding' : icon}">{{label}}</label>
+</ion-col>

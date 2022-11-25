@@ -19,6 +19,7 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   @Input()
   vehicleRegistration: string;
+  motStatus: string = null;
 
   @Input()
   formGroup: UntypedFormGroup;
@@ -30,7 +31,9 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
-  constructor(private vehicleProvider: VehicleDetailsApiService) {
+  constructor(
+    private vehicleProvider: VehicleDetailsApiService,
+  ) {
   }
 
   ngOnChanges(): void {
@@ -43,7 +46,9 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   getMOTandTax(identifier: string) {
     this.vehicleProvider.getVehicleByIdentifier(identifier)
-      .subscribe((response) => console.log(response));
+      .subscribe((response: any) => {
+        return this.motStatus = response?.vehicle?.motStatus;
+      });
   }
 
   vehicleRegistrationChanged(event: any): void {
