@@ -93,7 +93,7 @@ export class DateOfTest implements OnInit {
 
   disableEdit = () => this.editMode = false;
 
-  handleEvents(dateTime: IonDatetime, buttonType: string) {
+  handleEvents(dateTime: IonDatetime, buttonType: string): Promise<void> {
     switch (buttonType) {
       case 'clear':
         return dateTime.reset();

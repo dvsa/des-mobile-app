@@ -27,6 +27,7 @@ import { ModalActivityCodeListComponent } from '@components/common/modal-activit
 import { TerminateTestModalModule } from '@components/common/terminate-test-modal/terminate-test-modal.module';
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
+import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
 import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
@@ -45,6 +46,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
 
 @NgModule({
   declarations: [
+    DateTimeInputComponent,
     SignatureAreaComponent,
     BikeCategoryTypeComponent,
     CandidateSectionComponent,
@@ -90,6 +92,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     TerminateTestModalModule,
   ],
   exports: [
+    DateTimeInputComponent,
     SignatureAreaComponent,
     BikeCategoryTypeComponent,
     CandidateSectionComponent,
@@ -124,4 +127,5 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     Adi3DebriefCardBox,
   ],
 })
-export class ComponentsModule { }
+export class ComponentsModule {
+}

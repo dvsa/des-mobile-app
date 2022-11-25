@@ -165,7 +165,7 @@ export class AdvancedSearchComponent {
       ).finally(() => dateTime.confirm(true));
   };
 
-  changeDate(event: { control?: string; data: string }) {
+  changeDate(event: { control?: string; data: string }): void {
     switch (event.control) {
       case 'start-date':
         this.startDate = event.data;

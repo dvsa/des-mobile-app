@@ -4,11 +4,17 @@ import {
 import { IonDatetime } from '@ionic/angular';
 import moment from 'moment';
 
+export enum DisplayType {
+  Date = 'date',
+  Time = 'time',
+}
+
 @Component({
   selector: 'datetime-input',
   templateUrl: './date-time-input.component.html',
   styleUrls: ['./date-time-input.component.scss'],
 })
+
 export class DateTimeInputComponent {
   @Input()
   maxValue?: string;
@@ -17,7 +23,7 @@ export class DateTimeInputComponent {
   minValue?: string;
 
   @Input()
-  displayType: string;
+  displayType: DisplayType;
 
   @Input()
   initialValue?: string;
@@ -57,14 +63,14 @@ export class DateTimeInputComponent {
     return moment.utc(time).format('HH:mm');
   }
 
-  onSelected(event: IonDatetime, control: string) {
+  onSelected(event: IonDatetime, control: DisplayType) {
     let output: string;
     switch (control) {
-      case 'date':
+      case DisplayType.Date:
         this.displayValue = this.formatDisplayDate(event.value as string);
         output = moment(event.value).format('YYYY-MM-DD');
         break;
-      case 'time':
+      case DisplayType.Time:
         this.displayValue = this.formatDisplayTime(event.value as string);
         this.outputValue = moment(event.value).format('YYYY-MM-DDTHH:mm');
         output = moment(event.value).format('YYYY-MM-DDTHH:mm');

@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
 
 import { PipesModule } from '@shared/pipes/pipes.module';
-import { DateTimeInputComponent } from '@pages/test-results-search/components/datetime-input/date-time-input.component';
+import { ComponentsModule } from '@components/common/common-components.module';
 import { SearchResultComponent } from './search-result/search-result';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search';
 
@@ -13,9 +13,9 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search';
   declarations: [
     SearchResultComponent,
     AdvancedSearchComponent,
-    DateTimeInputComponent,
   ],
   imports: [
+    ComponentsModule,
     CommonModule,
     IonicModule,
     DirectivesModule,
@@ -26,7 +26,6 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search';
   exports: [
     SearchResultComponent,
     AdvancedSearchComponent,
-    DateTimeInputComponent,
   ],
 })
 export class TestResultsSearchComponentsModule {}

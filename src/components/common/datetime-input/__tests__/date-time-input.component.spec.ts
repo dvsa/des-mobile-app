@@ -1,6 +1,6 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { DateTimeInputComponent } from '@pages/test-results-search/components/datetime-input/date-time-input.component';
+import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
 
 describe('DateTimeInputComponent', () => {
   let fixture: ComponentFixture<DateTimeInputComponent>;
