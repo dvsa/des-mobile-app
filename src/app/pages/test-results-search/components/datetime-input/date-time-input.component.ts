@@ -2,6 +2,7 @@ import {
   Component, EventEmitter, Input, Output,
 } from '@angular/core';
 import { IonDatetime } from '@ionic/angular';
+import moment from 'moment';
 
 @Component({
   selector: 'datetime-input',
@@ -36,22 +37,53 @@ export class DateTimeInputComponent {
   @Input()
   disabled?: boolean = false;
 
+  @Input()
+  emitButtonEvents?: boolean = false;
+
   displayValue: string;
+  outputValue: string;
 
   @Output()
-  onDatePicked = new EventEmitter<{ control: string, date: string }>();
+  onDataPicked = new EventEmitter<{ control?: string, data: string }>();
+
+  @Output()
+  customButtonEvent = new EventEmitter<{ buttonType: string, data: IonDatetime }>();
 
   formatDisplayDate(date: string) {
-    const parts = date.match(/(\d+)/g);
-    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    return moment.utc(date).format('DD/MM/YYYY');
   }
 
-  onDateSelected(date: IonDatetime) {
-    const outputDate = date.value.toString().substring(0, date.value.toString().indexOf('T'));
-    this.onDatePicked.emit({
-      date: outputDate,
+  formatDisplayTime(time: string) {
+    return moment.utc(time).format('HH:mm');
+  }
+
+  onSelected(event: IonDatetime, control: string) {
+    let output: string;
+    switch (control) {
+      case 'date':
+        this.displayValue = this.formatDisplayDate(event.value as string);
+        output = moment(event.value).format('YYYY-MM-DD');
+        break;
+      case 'time':
+        this.displayValue = this.formatDisplayTime(event.value as string);
+        this.outputValue = moment(event.value).format('YYYY-MM-DDTHH:mm');
+        output = moment(event.value).format('YYYY-MM-DDTHH:mm');
+        break;
+      default:
+        this.displayValue = '';
+        output = '';
+        break;
+    }
+    this.onDataPicked.emit({
       control: this.control,
+      data: output,
     });
-    this.displayValue = this.formatDisplayDate(outputDate);
+  }
+
+  buttonEmit(dateTime: IonDatetime, buttonType: string) {
+    this.customButtonEvent.emit({
+      buttonType,
+      data: dateTime,
+    });
   }
 }

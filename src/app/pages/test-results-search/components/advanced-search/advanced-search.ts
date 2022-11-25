@@ -165,13 +165,13 @@ export class AdvancedSearchComponent {
       ).finally(() => dateTime.confirm(true));
   };
 
-  changeDate(event: { control: string, date: string }) {
+  changeDate(event: { control?: string; data: string }) {
     switch (event.control) {
       case 'start-date':
-        this.startDate = event.date;
+        this.startDate = event.data;
         break;
       case 'end-date':
-        this.endDate = event.date;
+        this.endDate = event.data;
         break;
       default:
         break;

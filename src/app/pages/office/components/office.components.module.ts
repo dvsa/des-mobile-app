@@ -10,6 +10,9 @@ import { TrueLikenessComponent } from '@pages/office/components/true-likeness/tr
 import { ECOCardComponent } from '@pages/office/components/eco-card/eco-card.component';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { ETACardComponent } from '@pages/office/components/eta-card/eta-card.component';
+import {
+  TestResultsSearchComponentsModule,
+} from '@pages/test-results-search/components/test-results-search-components.module';
 import { FaultCommentComponent } from './fault-comment/fault-comment';
 import { FaultCommentCardComponent } from './fault-comment-card/fault-comment-card';
 import { RouteNumberComponent } from './route-number/route-number';
@@ -52,6 +55,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
     FormsModule,
     PipesModule,
     ReactiveFormsModule,
+    TestResultsSearchComponentsModule,
   ],
   exports: [
     FaultCommentComponent,

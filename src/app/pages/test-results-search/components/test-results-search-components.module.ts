@@ -26,6 +26,7 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search';
   exports: [
     SearchResultComponent,
     AdvancedSearchComponent,
+    DateTimeInputComponent,
   ],
 })
 export class TestResultsSearchComponentsModule {}

@@ -13,6 +13,9 @@ import { DirectivesModule } from '@directives/directives.module';
 import {
   TestStartEndTimesComponent,
 } from '@pages/pass-finalisation/cat-adi-part3/components/test-start-end-times/test-start-end-times';
+import {
+  TestResultsSearchComponentsModule,
+} from '@pages/test-results-search/components/test-results-search-components.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import {
     ComponentsModule,
     ReactiveFormsModule,
     DirectivesModule,
+    TestResultsSearchComponentsModule,
   ],
   exports: [
     FurtherDevelopmentComponent,

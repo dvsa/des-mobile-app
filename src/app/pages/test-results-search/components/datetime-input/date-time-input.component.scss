@@ -1,6 +1,15 @@
-.calendar-modal::part(content) {
-    height: 350px;
-    width: 400px;
+.date-modal::part(content) {
+  width: 400px;
+  height: 350px;
+}
+
+.time-modal::part(content) {
+  width: 400px;
+  height: 270px;
+}
+
+.time-modal-content {
+  height: 270px;
 }
 
 .input-box {

@@ -43,7 +43,9 @@ export class DateOfTest implements OnInit {
 
   handleCancel(dateTime: IonDatetime): Promise<void> {
     return dateTime.cancel(true).then(
-      () => { this.disableEdit(); },
+      () => {
+        this.disableEdit();
+      },
     );
   }
 
@@ -91,4 +93,20 @@ export class DateOfTest implements OnInit {
 
   disableEdit = () => this.editMode = false;
 
+  handleEvents(dateTime: IonDatetime, buttonType: string) {
+    switch (buttonType) {
+      case 'clear':
+        return dateTime.reset();
+      case 'done':
+        return dateTime.confirm().then(() => {
+          this.handleDone(dateTime).then(null);
+        });
+      case 'cancel':
+        return dateTime.cancel().then(() => {
+          this.handleCancel(dateTime).then(null);
+        });
+      default:
+        break;
+    }
+  }
 }

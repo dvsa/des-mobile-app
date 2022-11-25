@@ -3,22 +3,17 @@
         <label id="test-start-end-times-label">Test start - end time</label>
     </ion-col>
     <ion-col size="20">
-        <ion-datetime-button datetime="duration-start"></ion-datetime-button>
-        <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
-            <ng-template>
-                <ion-datetime
-                        class="time-styling"
-                        id="duration-start"
-                        presentation="time"
-                        locale="en-GB"
-                        [max]="maxTime"
-                        [showDefaultButtons]="true"
-                        [showDefaultTitle]="true"
-                        [value]="startTime"
-                        (ionChange)="startTimeChanged($event.target.value)">
-                </ion-datetime>
-            </ng-template>
-        </ion-modal>
+        <datetime-input
+                [initialValue]="startTime"
+                (onDataPicked)="timeChanged($event)"
+                [control]="'start-time'"
+                [pickerId]="'time-picker-start'"
+                [inputId]="'time-input-start'"
+                [maxValue]="maxTime"
+                [showClearButton]=false
+                [disabled]=false
+                [displayType]="'time'">
+        </datetime-input>
     </ion-col>
 
     <ion-col class="centre-col" size="10">
@@ -26,22 +21,17 @@
     </ion-col>
 
     <ion-col size="20">
-        <ion-datetime-button datetime="duration-end"></ion-datetime-button>
-        <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
-            <ng-template>
-                <ion-datetime
-                        class="time-styling"
-                        id="duration-end"
-                        presentation="time"
-                        locale="en-GB"
-                        [min]="minTime"
-                        [showDefaultButtons]="true"
-                        [showDefaultTitle]="true"
-                        [value]="endTime"
-                        (ionChange)="endTimeChanged($event.target.value)">
-                </ion-datetime>
-            </ng-template>
-        </ion-modal>
+        <datetime-input
+                [initialValue]="endTime"
+                (onDataPicked)="timeChanged($event)"
+                [control]="'end-time'"
+                [pickerId]="'time-picker-end'"
+                [inputId]="'time-input-end'"
+                [minValue]="minTime"
+                [showClearButton]=false
+                [disabled]=false
+                [displayType]="'time'">
+        </datetime-input>
     </ion-col>
 </ion-row>
 
