@@ -188,7 +188,7 @@ describe('JournalSelector', () => {
             },
           ],
         },
-        selectedDate: '2019-02-04',
+        selectedDate: '2019-02-14',
         examiner: { staffNumber: '123', individualId: 456 },
         completedTests: [],
       };
