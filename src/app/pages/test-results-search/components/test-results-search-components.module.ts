@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
 
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { ComponentsModule } from '@components/common/common-components.module';
 import { SearchResultComponent } from './search-result/search-result';
 import { AdvancedSearchComponent } from './advanced-search/advanced-search';
 
@@ -14,6 +15,7 @@ import { AdvancedSearchComponent } from './advanced-search/advanced-search';
     AdvancedSearchComponent,
   ],
   imports: [
+    ComponentsModule,
     CommonModule,
     IonicModule,
     DirectivesModule,

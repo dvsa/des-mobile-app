@@ -11,26 +11,20 @@
           (touchstart)="onTouchStart()"
           (touchend)="onTouchEnd()">{{dateOfTest}}
         </span>
-
-        <ion-datetime-button *ngIf="editMode" datetime="dateOfTest" class="date-of-test-picker"></ion-datetime-button>
-        <ion-modal [keepContentsMounted]="true" mode="ios" [backdropDismiss]="false">
-          <ng-template>
-            <ion-datetime
-                #dateOfTest
-                presentation="date"
-                id="dateOfTest"
-                mode="ios"
-                [min]="minDate"
-                [max]="maxDate"
-                [value]="customTestDate"
-                [(ngModel)]="customTestDate">
-              <ion-buttons slot="buttons">
-                <ion-button color="primary" (click)="handleCancel(dateOfTest)">Clear</ion-button>
-                <ion-button color="primary" (click)="handleDone(dateOfTest)">Done</ion-button>
-              </ion-buttons>
-            </ion-datetime>
-          </ng-template>
-        </ion-modal>
+        <datetime-input
+                *ngIf="editMode"
+                [minValue]="minDate"
+                [maxValue]="maxDate"
+                [initialValue]="customTestDate"
+                [control]="'end-date'"
+                [pickerId]="'dateOfTest-picker'"
+                [inputId]="'dateOfTest-input'"
+                [showClearButton]=false
+                [emitButtonEvents]=true
+                [disabled]=false
+                (customButtonEvent)="handleEvents($event.data, $event.buttonType)"
+                [displayType]="'date'"
+        ></datetime-input>
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
