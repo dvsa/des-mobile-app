@@ -359,7 +359,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   async canDeActivate(): Promise<boolean> {
-    // @TODO: Re-introduce when CandidateID goes live;
     try {
       await this.deviceAuthenticationProvider.triggerLockScreen();
       return true;

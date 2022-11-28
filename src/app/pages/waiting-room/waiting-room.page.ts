@@ -123,7 +123,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(waitingRoomActions.WaitingRoomViewDidEnter());
-    // @TODO: Re-introduce when CandidateID goes live;
     this.store$.dispatch(GetCandidateLicenceData());
 
     if (super.isIos()) {
@@ -359,6 +358,5 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
       return false;
     }
     return true;
-    // @TODO: Re-introduce when CandidateID goes live;
   };
 }
