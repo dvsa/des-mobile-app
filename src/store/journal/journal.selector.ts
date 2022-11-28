@@ -59,9 +59,9 @@ export const hasSlotsAfterSelectedDate = (journal: JournalModel): boolean => {
 
 export const canNavigateToNextDay = (journal: JournalModel): boolean => {
   const nextDayAsDate = DateTime.at(journal.selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
-  const sevenDaysAhead = DateTime.at(DateTime.today()).add(7, Duration.DAY).format('YYYY-MM-DD');
+  const fourteenDaysAhead = DateTime.at(DateTime.today()).add(14, Duration.DAY).format('YYYY-MM-DD');
 
-  return (nextDayAsDate < sevenDaysAhead);
+  return (nextDayAsDate < fourteenDaysAhead);
 };
 
 export const getAllSlots = (journal: JournalModel): SlotItem[] => {
