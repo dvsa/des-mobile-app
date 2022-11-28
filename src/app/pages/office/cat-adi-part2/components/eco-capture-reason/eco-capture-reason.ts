@@ -29,7 +29,8 @@ export class EcoCaptureReasonComponent implements OnChanges {
       this.formGroup.addControl('ecoCaptureReason', this.formControl);
     }
 
-    this.formControl.setValidators(this.fuelEfficientDriving ? Validators.required : null);
+    this.formControl.setValidators(this.fuelEfficientDriving
+      ? Validators.compose([Validators.required, Validators.maxLength(1000)]) : null);
     this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
 
     this.formControl.patchValue(this.ecoCaptureReason, { onlySelf: true, emitEvent: false });

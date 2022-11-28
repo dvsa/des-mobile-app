@@ -13,6 +13,7 @@
                   formControlName="ecoCaptureReason"
                   class="mes-data input-styling-background"
                   [value]="ecoCaptureReason"
+                  [maxLength]="1000"
                   (change)="ecoCaptureReasonChanged($event.target.value)">
         </textarea>
             </ion-col>

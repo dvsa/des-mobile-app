@@ -160,6 +160,7 @@
                         ></fuel-efficient-driving>
 
                         <eco-related-fault
+                                *ngIf="(pageState.adi2DrivingFaults$ | async).length > 0"
                                 [formGroup]="form"
                                 [drivingFaults]="pageState.adi2DrivingFaults$ | async"
                                 [ecoRelatedFault]="pageState.ecoRelatedFault$ | async"

@@ -33,7 +33,9 @@ export class EcoRelatedFaultComponent implements OnChanges {
       this.formGroup.addControl('ecoRelatedFault', this.formControl);
     }
 
-    this.formControl.setValidators(this.fuelEfficientDriving ? Validators.required : null);
+    this.formControl.setValidators((
+      this.fuelEfficientDriving && this.drivingFaults.length > 0)
+      ? Validators.required : null);
     this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
 
     this.formControl.patchValue(this.ecoRelatedFault, { onlySelf: true, emitEvent: false });
