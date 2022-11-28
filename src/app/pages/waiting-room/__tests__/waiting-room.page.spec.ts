@@ -221,7 +221,7 @@ describe('WaitingRoomPage', () => {
       });
 
       // @TODO: Re-introduce when CandidateID goes live;
-      xit('should dispatch the action which calls out for candidate licence data', async () => {
+      it('should dispatch the action which calls out for candidate licence data', async () => {
         await component.ionViewDidEnter();
         expect(store$.dispatch).toHaveBeenCalledWith(GetCandidateLicenceData());
       });
@@ -236,7 +236,7 @@ describe('WaitingRoomPage', () => {
 
     describe('onSubmit', () => {
       // @TODO: Re-introduce when CandidateID goes live;
-      xit('should navigate to the CandidateLicencePage if the form is valid', async () => {
+      it('should navigate to the CandidateLicencePage if the form is valid', async () => {
         const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
         formGroup.get('insuranceCheckbox').setValue(true);

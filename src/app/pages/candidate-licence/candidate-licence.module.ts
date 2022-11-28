@@ -11,6 +11,9 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { CandidateLicenceEffects } from '@pages/candidate-licence/candidate-licence.effects';
 import { CandidateLicenceAnalyticsEffects } from '@pages/candidate-licence/candidate-licence.analytics.effects';
+import {
+  CandidateDetailsComponentsModule,
+} from '@pages/candidate-details/components/candidate-details-components.module';
 import { CandidateLicencePageRoutingModule } from './candidate-licence-routing.module';
 import { CandidateLicencePage } from './candidate-licence.page';
 
@@ -29,6 +32,7 @@ import { CandidateLicencePage } from './candidate-licence.page';
       CandidateLicenceEffects,
       CandidateLicenceAnalyticsEffects,
     ]),
+    CandidateDetailsComponentsModule,
   ],
 })
 export class CandidateLicencePageModule {}
