@@ -14,19 +14,23 @@
                            [class.ng-invalid]="invalid"
                            [value]="vehicleRegistration"
                            (ionChange)="vehicleRegistrationChanged($event)"
+                           (ionBlur)="getMOTandTax(vehicleRegistration)"
                            [maxlength]="registrationNumberValidator.maxLength">
                 </ion-input>
             </ion-col>
-            <ion-col size="22">
-                <ion-button
-                        [disabled]="vehicleRegistration.length === 0"
-                        class="mes-primary-button"
-                        (click)="getMOTandTax(vehicleRegistration)">
-                    <h3>Check</h3>
-                </ion-button>
-            </ion-col>
+<!--            <ion-col size="22">-->
+<!--                <ion-button-->
+<!--                        [disabled]="vehicleRegistration.length === 0"-->
+<!--                        class="mes-primary-button"-->
+<!--                        (click)="getMOTandTax(vehicleRegistration)">-->
+<!--                    <h3>Check</h3>-->
+<!--                </ion-button>-->
+<!--            </ion-col>-->
             <ion-col class="vertical-align-center">
-                <vehicle-mot-status [motStatus]="motStatus">
+                <vehicle-mot-status
+                        [showSpinner]="showSearchSpinner"
+                        [motStatus]="motStatus"
+                        [reset]="vehicleRegistrationReset">
                 </vehicle-mot-status>
             </ion-col>
         </ion-row>

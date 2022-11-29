@@ -4,6 +4,11 @@
     align-items: center;
   }
 
+  .mot-spinner {
+    padding-left: 80px;
+    color: var(--gds-black);
+  }
+
   .img-size {
     width: 25px;
     height: 25px;
@@ -11,6 +16,6 @@
   }
 
   .label-icon-padding {
-    padding-left: 4px;
+    padding-left: 10px;
   }
 }

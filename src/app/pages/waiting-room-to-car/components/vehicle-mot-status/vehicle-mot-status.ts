@@ -13,15 +13,38 @@ export class VehicleMotStatusComponent implements OnChanges {
   @Input()
   motStatus: string = null;
 
+  @Input()
+  showSpinner: boolean;
+
+  @Input()
+  reset: boolean;
+
   icon: boolean = false;
   positiveOutcome: boolean = false;
   label: string = '';
+  confirmed: boolean = false;
+  registrationConfirmed: string = '';
 
   ngOnChanges(): void {
+    // reset  on registration change
+    if (this.reset) {
+      console.log('RESET');
+      this.resetValues();
+    }
+
     this.setMOTStatus(this.motStatus);
   }
 
+  resetValues(): void {
+    this.icon = false;
+    this.positiveOutcome = false;
+    this.label = '';
+    this.confirmed = false;
+    // this.registrationConfirmed = '';
+  }
+
   setMOTStatus(status: string): void {
+    console.log('status', status);
     if (status === null) {
       this.icon = false;
       this.positiveOutcome = false;
@@ -49,5 +72,16 @@ export class VehicleMotStatusComponent implements OnChanges {
     this.icon = false;
     this.positiveOutcome = false;
     this.label = `MOT: ${status}`;
+  }
+
+  setConfirmRegistration(): void {
+    this.confirmed = true;
+    // this.registrationConfirmed = this.vehicleRegistration;
+  }
+
+  displayConfirmRegistration(): boolean {
+    return this.motStatus?.length > 0
+      && !this.positiveOutcome
+      && !this.confirmed;
   }
 }
