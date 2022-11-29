@@ -17,6 +17,8 @@
   <offline-banner [isOffline]="!!offlineError"></offline-banner>
 
   <ion-grid *ngIf="{ candidateLicence: pageState.candidateData$ | async } as data">
+    <inappropriate-use-banner>
+    </inappropriate-use-banner>
     <licence-photo
       [hasError]="(offlineError || candidateDataError || candidateDataUnavailable)"
       [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)">

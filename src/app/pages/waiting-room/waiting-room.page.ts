@@ -64,7 +64,7 @@ import {
 } from '@store/tests/pre-test-declarations/cat-a-mod1/pre-test-declarations.cat-a-mod1.selector';
 import { CBT_NUMBER_CTRL } from '@pages/waiting-room/components/cbt-number/cbt-number.constants';
 import { ErrorPage } from '@pages/error-page/error';
-// import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
+import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
 import * as waitingRoomActions from './waiting-room.actions';
@@ -123,8 +123,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(waitingRoomActions.WaitingRoomViewDidEnter());
-    // @TODO: Re-introduce when CandidateID goes live;
-    // this.store$.dispatch(GetCandidateLicenceData());
+    this.store$.dispatch(GetCandidateLicenceData());
 
     if (super.isIos()) {
       await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
@@ -355,11 +354,9 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   private shouldNavigateToCandidateLicenceDetails = (): boolean => {
     // skip the candidate licence page when test is marked as a re-key or for non licence acquisition based categories.
-    // if (this.isRekey || (isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]))) {
-    //   return false;
-    // }
-    // return true;
-    // @TODO: Re-introduce when CandidateID goes live;
-    return false;
+    if (this.isRekey || (isAnyOf(this.testCategory, [TestCategory.ADI3, TestCategory.SC]))) {
+      return false;
+    }
+    return true;
   };
 }
