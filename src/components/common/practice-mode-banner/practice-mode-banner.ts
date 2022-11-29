@@ -16,7 +16,7 @@ import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/tes
 
 enum DisplayMessage {
   PRACTICE = 'You\'re in practice mode',
-  PREVIEW = 'This is a preview of a category not yet available in DES 4',
+  PREVIEW = 'This is a preview of a category not yet available in DES',
 }
 
 @Component({
