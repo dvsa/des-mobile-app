@@ -149,14 +149,18 @@
                 <ion-card-content>
                     <ion-grid>
                         <eco-card
+                                [displaySeperator]="((pageState.adi2DrivingFaults$ | async).length > 0) || displayFuelEfficient()"
                                 [ecoFaults]="pageState.ecoFaults$ | async"
                                 [isADI2]="true"
                         ></eco-card>
 
                         <fuel-efficient-driving
+                                *ngIf="(pageState.adi2DrivingFaults$ | async).length > 0 || displayFuelEfficient()"
                                 [formGroup]="form"
+                                [disabled]="displayFuelEfficient()"
                                 [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
                                 (fedChange)="fedChanged($event)"
+                                [displaySeperator]="((pageState.adi2DrivingFaults$ | async).length > 0)"
                         ></fuel-efficient-driving>
 
                         <eco-related-fault

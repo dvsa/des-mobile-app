@@ -13,7 +13,10 @@
     </ion-card-content>
 </ion-card>
 
-<ion-row *ngIf="isADI2" class="ion-padding-start mes-data mes-row-separator">
+<ion-row
+        *ngIf="isADI2"
+        [class.mes-row-separator]="displaySeperator"
+        class="ion-padding-start mes-data">
     <ion-col size="32">
         <h4 class="fault-heading">ECO</h4>
     </ion-col>

@@ -12,12 +12,18 @@ export class FuelEfficientDriving implements OnChanges {
   fuelEfficientDriving: boolean;
 
   @Input()
+  disabled: boolean;
+
+  @Input()
   formGroup: FormGroup;
 
   @Output()
   fedChange = new EventEmitter<boolean>();
 
   private formControl: FormControl;
+
+  @Input()
+  displaySeperator: boolean = false;
 
   ngOnChanges(): void {
     if (!this.formControl) {
