@@ -160,7 +160,6 @@
                                 [disabled]="displayFuelEfficient()"
                                 [fuelEfficientDriving]="pageState.fuelEfficientDriving$ | async"
                                 (fedChange)="fedChanged($event)"
-                                [displaySeperator]="((pageState.adi2DrivingFaults$ | async).length > 0)"
                         ></fuel-efficient-driving>
 
                         <eco-related-fault

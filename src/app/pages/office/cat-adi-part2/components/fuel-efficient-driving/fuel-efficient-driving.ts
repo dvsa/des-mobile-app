@@ -20,21 +20,21 @@ export class FuelEfficientDriving implements OnChanges {
   @Output()
   fedChange = new EventEmitter<boolean>();
 
-  private formControl: FormControl;
-
-  @Input()
-  displaySeperator: boolean = false;
+  private formControl: FormControl = null;
 
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new FormControl(null, [Validators.required]);
       this.formGroup.addControl('fuelEfficientDriving', this.formControl);
+      if (this.disabled) {
+        this.formGroup.controls.fuelEfficientDriving.setValue(false);
+      }
     }
 
     this.formControl.updateValueAndValidity({ onlySelf: true, emitEvent: false });
 
-    if (this.fuelEfficientDriving === true || this.fuelEfficientDriving === false) {
-      this.formControl.patchValue(String(this.fuelEfficientDriving));
+    if (this.fuelEfficientDriving !== undefined) {
+      this.formControl.patchValue(this.fuelEfficientDriving);
     }
   }
 

@@ -1,4 +1,5 @@
-<ion-row [formGroup]="formGroup" class="mes-validated-row" *ngIf="fuelEfficientDriving">
+<ion-row class="mes-row-separator" *ngIf="fuelEfficientDriving"></ion-row>
+    <ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator" *ngIf="fuelEfficientDriving">
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col class="component-label ion-align-self-start" size="32">
         <ion-row class="spacing-row"></ion-row>
