@@ -27,7 +27,8 @@ export class FuelEfficientDriving implements OnChanges {
       this.formControl = new FormControl(null, [Validators.required]);
       this.formGroup.addControl('fuelEfficientDriving', this.formControl);
       if (this.disabled) {
-        this.formGroup.controls.fuelEfficientDriving.setValue(false);
+        this.formControl.patchValue(false);
+        return;
       }
     }
 
