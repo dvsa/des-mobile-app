@@ -6,7 +6,6 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { DirectivesModule } from '@directives/directives.module';
 
 import { PipesModule } from '@shared/pipes/pipes.module';
-import { VehicleMotStatusComponent } from '@pages/waiting-room-to-car/components/vehicle-mot-status/vehicle-mot-status';
 import { EyesightTestComponent } from './eyesight-test/eyesight-test';
 import { EyesightFailureConfirmationComponent } from './eyesight-failure-confirmation/eyesight-failure-confirmation';
 import { VehicleRegistrationComponent } from './vehicle-registration/vehicle-registration';
@@ -26,7 +25,6 @@ import { VehicleChecksQuestionComponent } from './vehicle-checks-question/vehicl
     EyesightTestComponent,
     EyesightFailureConfirmationComponent,
     VehicleRegistrationComponent,
-    VehicleMotStatusComponent,
     AccompanimentCardComponent,
     AccompanimentComponent,
     VehicleDetailsCardComponent,
@@ -51,7 +49,6 @@ import { VehicleChecksQuestionComponent } from './vehicle-checks-question/vehicl
     EyesightTestComponent,
     EyesightFailureConfirmationComponent,
     VehicleRegistrationComponent,
-    VehicleMotStatusComponent,
     AccompanimentCardComponent,
     AccompanimentComponent,
     VehicleDetailsCardComponent,

@@ -6,32 +6,17 @@
     <ion-col class="ion-align-self-center mes-padding-left">
         <ion-row class="spacing-row"></ion-row>
         <ion-row>
-            <ion-col size="28">
+            <ion-col size="32">
                 <ion-input type="text"
-                           id="registration"
-                           formControlName="vehicleRegistration"
-                           class="ion-input-styling"
-                           [class.ng-invalid]="invalid"
-                           [value]="vehicleRegistration"
-                           (ionChange)="vehicleRegistrationChanged($event)"
-                           (ionBlur)="getMOTandTax(vehicleRegistration)"
-                           [maxlength]="registrationNumberValidator.maxLength">
+                       id="registration"
+                       formControlName="vehicleRegistration"
+                       class="ion-input-styling increase-width"
+                       [class.ng-invalid]="invalid"
+                       [value]="vehicleRegistration"
+                       (ionChange)="vehicleRegistrationChanged($event)"
+                       (ionBlur)="getMOTandTax(vehicleRegistration)"
+                       [maxlength]="registrationNumberValidator.maxLength">
                 </ion-input>
-            </ion-col>
-<!--            <ion-col size="22">-->
-<!--                <ion-button-->
-<!--                        [disabled]="vehicleRegistration.length === 0"-->
-<!--                        class="mes-primary-button"-->
-<!--                        (click)="getMOTandTax(vehicleRegistration)">-->
-<!--                    <h3>Check</h3>-->
-<!--                </ion-button>-->
-<!--            </ion-col>-->
-            <ion-col class="vertical-align-center">
-                <vehicle-mot-status
-                        [showSpinner]="showSearchSpinner"
-                        [motStatus]="motStatus"
-                        [reset]="vehicleRegistrationReset">
-                </vehicle-mot-status>
             </ion-col>
         </ion-row>
         <ion-row class="validation-message-row ion-align-items-center">

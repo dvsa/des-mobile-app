@@ -26,8 +26,9 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Output()
   vehicleRegistrationChange = new EventEmitter<string>();
 
-  showSearchSpinner: boolean = false;
-  vehicleRegistrationReset: boolean = false;
+  @Output()
+  motStatusChange = new EventEmitter<string>();
+
   motStatus: string;
   formControl: UntypedFormControl;
 
@@ -44,18 +45,13 @@ export class VehicleRegistrationComponent implements OnChanges {
       this.formGroup.addControl('vehicleRegistration', this.formControl);
     }
     this.formControl.patchValue(this.vehicleRegistration);
-    console.log('here');
   }
 
-  getMOTandTax(identifier: string) {
-    console.log('CALL END POINT:', identifier);
-    this.showSearchSpinner = true;
-    this.vehicleRegistrationReset = false;
+  getMOTandTax(identifier: string): void {
+    console.log('here');
     this.vehicleProvider.getVehicleByIdentifier(identifier)
       .subscribe((response: any) => {
-        this.showSearchSpinner = false;
-        console.log('response', response);
-        return this.motStatus = response?.vehicle?.motStatus ? response?.vehicle?.motStatus : 'No details found';
+        this.motStatusChange.emit(response?.vehicle?.motStatus ? response?.vehicle?.motStatus : 'No details found');
       });
   }
 
@@ -70,7 +66,6 @@ export class VehicleRegistrationComponent implements OnChanges {
         this.formControl.setErrors({ invalidValue: event.target.value });
       }
     }
-    this.vehicleRegistrationReset = true;
     this.vehicleRegistrationChange.emit(event.target.value?.toUpperCase());
   }
 
