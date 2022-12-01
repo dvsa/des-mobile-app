@@ -209,7 +209,7 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
           select(getTestData),
           withLatestFrom(testCategory$),
           map(([testData, category]) =>
-            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
         ),
         currentTest$.pipe(
           select(getTestData),
