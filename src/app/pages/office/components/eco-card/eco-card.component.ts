@@ -12,4 +12,7 @@ export class ECOCardComponent {
 
   @Input()
   isADI2: boolean = false;
+
+  @Input()
+  displaySeperator: boolean = false;
 }

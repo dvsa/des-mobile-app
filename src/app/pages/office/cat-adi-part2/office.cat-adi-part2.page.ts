@@ -33,7 +33,7 @@ import { AddControlledStopComment } from '@store/tests/test-data/common/controll
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
 import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -72,6 +72,7 @@ interface CatADI2OfficePageState {
   fuelEfficientDriving$: Observable<boolean>;
   ecoRelatedFault$: Observable<string>;
   ecoCaptureReason$: Observable<string>;
+  displayFuelEfficient$: Observable<boolean>;
 }
 
 type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
@@ -85,6 +86,7 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   pageState: OfficePageState;
   static readonly maxFaultCount = 6;
   showMeQuestions: VehicleChecksQuestion[];
+  showDisabledFuelEfficient: boolean;
 
   constructor(
     platform: Platform,
@@ -196,8 +198,31 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
         select(getEco),
         select(getEcoCaptureReason),
       ),
+      displayFuelEfficient$: combineLatest([
+        currentTest$.pipe(
+          select(getTestData),
+          withLatestFrom(testCategory$),
+          map(([testData, category]) =>
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+        ),
+        currentTest$.pipe(
+          select(getTestData),
+          withLatestFrom(testCategory$),
+          map(([testData, category]) =>
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+        ),
+        currentTest$.pipe(
+          select(getTestData),
+          withLatestFrom(testCategory$),
+          map(([data, category]) =>
+            this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)),
+        ),
+      ]).pipe(
+        map((
+          [seriousF, dangerousF, drivingF],
+        ) => !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)),
+      ),
     };
-
     this.setupSubscription();
   }
 
