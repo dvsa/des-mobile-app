@@ -137,6 +137,7 @@ export enum AnalyticsEvents {
   TOGGLE_LICENSE_RECEIVED = 'toggle licence received',
   D255 = 'set D255',
   GEARBOX_CATEGORY_CHANGED = 'set transmission',
+  MOT_STATUS_CHANGED = 'set mot status',
   LANGUAGE_CHANGED = 'language changed',
   CBT_CHANGED = 'cbt changed',
   BIKE_CATEGORY_CHANGED = 'bike category changed',
