@@ -68,5 +68,4 @@ export class UrlProvider {
   getCandidateStandardDataUrl(): string {
     return this.appConfigProvider.getAppConfig().driver.standardUrl;
   }
-
 }

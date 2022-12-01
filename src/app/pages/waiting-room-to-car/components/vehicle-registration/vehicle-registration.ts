@@ -29,7 +29,6 @@ export class VehicleRegistrationComponent implements OnChanges {
   @Output()
   motStatusChange = new EventEmitter<string>();
 
-  motStatus: string;
   formControl: UntypedFormControl;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
