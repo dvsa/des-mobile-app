@@ -127,6 +127,7 @@ export class AppConfigProvider {
       daysToCacheJournalData: await this.getManagedConfigValue('daysToCacheJournalData'),
       daysToCacheLogs: await this.getManagedConfigValue('daysToCacheLogs'),
       logsPostApiKey: await this.getManagedConfigValue('logsPostApiKey'),
+      taxMotApiKey: await this.getManagedConfigValue('taxMotApiKey'),
       logsApiUrl: await this.getManagedConfigValue('logsApiUrl'),
       logsAutoSendInterval: await this.getManagedConfigValue('logsAutoSendInterval'),
       authentication: {
@@ -250,6 +251,7 @@ export class AppConfigProvider {
       },
       logoutClearsTestPersistence: data.logoutClearsTestPersistence,
       logsPostApiKey: data.logsPostApiKey,
+      taxMotApiKey: data.taxMotApiKey,
       logsApiUrl: data.logsApiUrl,
       logsAutoSendInterval: data.logsAutoSendInterval,
       authentication: {
@@ -298,6 +300,9 @@ export class AppConfigProvider {
         signatureUrl: data.driver.signatureUrl,
         photographUrl: data.driver.photographUrl,
         standardUrl: data.driver.standardUrl,
+      },
+      vehicle: {
+        taxMotUrl: data.vehicle.taxMotUrl,
       },
       requestTimeout: data.requestTimeout,
     } as AppConfig);

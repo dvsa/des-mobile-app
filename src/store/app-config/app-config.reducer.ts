@@ -11,6 +11,7 @@ export const initialState: AppConfig = {
   daysToCacheLogs: null,
   logoutClearsTestPersistence: null,
   logsPostApiKey: null,
+  taxMotApiKey: null,
   logsApiUrl: null,
   logsAutoSendInterval: null,
   authentication: {
@@ -51,6 +52,9 @@ export const initialState: AppConfig = {
     photographUrl: null,
     signatureUrl: null,
     standardUrl: null,
+  },
+  vehicle: {
+    taxMotUrl: null,
   },
   requestTimeout: null,
 };

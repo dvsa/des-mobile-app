@@ -27,7 +27,7 @@ import {
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
   DualControlsToggled,
-  GearboxCategoryChanged, SchoolBikeToggled,
+  GearboxCategoryChanged, MotStatusChanged, SchoolBikeToggled,
   SchoolCarToggled,
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
@@ -235,6 +235,10 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
 
   vehicleRegistrationChanged(vehicleRegistration: string): void {
     this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
+  }
+
+  motStatusChanged(motStatus: string): void {
+    this.store$.dispatch(MotStatusChanged(motStatus));
   }
 
   schoolCarToggled(): void {

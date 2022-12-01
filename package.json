@@ -69,7 +69,7 @@
     "@dvsa/mes-driver-schema": "^0.0.1",
     "@dvsa/mes-journal-schema": "1.2.2",
     "@dvsa/mes-search-schema": "1.1.5",
-    "@dvsa/mes-test-schema": "3.39.8",
+    "@dvsa/mes-test-schema": "3.39.10",
     "@ionic-enterprise/auth": "3.9.5",
     "@ionic/angular": "^6.3.2",
     "@ionic/core": "^6.3.2",

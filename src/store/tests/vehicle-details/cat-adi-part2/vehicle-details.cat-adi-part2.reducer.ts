@@ -14,6 +14,10 @@ export const vehicleDetailsCatADIPart2Reducer = createReducer(
     ...state,
     registrationNumber,
   })),
+  on(vehicleDetailsActions.MotStatusChanged, (state, { motStatus }): CatADI2UniqueTypes.VehicleDetails => ({
+    ...state,
+    motStatus,
+  })),
   on(vehicleDetailsActions.SchoolCarToggled, (state): CatADI2UniqueTypes.VehicleDetails => ({
     ...state,
     schoolCar: !state.schoolCar,

@@ -15,6 +15,12 @@ export const vehicleDetailsReducer = createReducer(
     ...state,
     registrationNumber,
   })),
+  on(vehicleDetailsActions.MotStatusChanged, (state, {
+    motStatus,
+  }): CatBUniqueTypes.VehicleDetails => ({
+    ...state,
+    motStatus,
+  })),
   on(vehicleDetailsActions.SchoolCarToggled, (state): CatBUniqueTypes.VehicleDetails => ({
     ...state,
     schoolCar: !state.schoolCar,

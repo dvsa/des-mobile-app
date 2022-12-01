@@ -7,6 +7,11 @@ export const VehicleRegistrationChanged = createAction(
   (registrationNumber: string) => ({ registrationNumber }),
 );
 
+export const MotStatusChanged = createAction(
+  '[Vehicle Details] Mot status changed',
+  (motStatus: string) => ({ motStatus }),
+);
+
 export const SchoolCarToggled = createAction(
   '[Vehicle Details] School car toggled',
 );

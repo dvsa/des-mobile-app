@@ -1,1 +1,6 @@
-:host {}
+:host {
+  .vertical-align-center {
+    display: flex;
+    align-items: center;
+  }
+}
