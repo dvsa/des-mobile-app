@@ -72,6 +72,7 @@ interface CatADI2OfficePageState {
   fuelEfficientDriving$: Observable<boolean>;
   ecoRelatedFault$: Observable<string>;
   ecoCaptureReason$: Observable<string>;
+  displayFuelEfficient$: Observable<boolean>;
 }
 
 type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
@@ -197,6 +198,30 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
         select(getEco),
         select(getEcoCaptureReason),
       ),
+      displayFuelEfficient$: combineLatest([
+        currentTest$.pipe(
+          select(getTestData),
+          withLatestFrom(testCategory$),
+          map(([testData, category]) =>
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+        ),
+        currentTest$.pipe(
+          select(getTestData),
+          withLatestFrom(testCategory$),
+          map(([testData, category]) =>
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+        ),
+        currentTest$.pipe(
+          select(getTestData),
+          withLatestFrom(testCategory$),
+          map(([data, category]) =>
+            this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory, false)),
+        ),
+      ]).pipe(
+        map((
+          [seriousF, dangerousF, drivingF],
+        ) => !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)),
+      ),
     };
     this.setupSubscription();
   }
@@ -215,17 +240,6 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
 
   ionViewDidLeave(): void {
     super.ionViewDidLeave();
-  }
-
-  displayFuelEfficient(): boolean {
-    let display: boolean;
-    combineLatest([
-      this.pageState.seriousFaults$,
-      this.pageState.dangerousFaults$,
-      this.pageState.adi2DrivingFaults$]).subscribe((data) => {
-      display = data[0].length === 0 && data[1].length === 0 && data[2].length === 0;
-    });
-    return display;
   }
 
   dangerousFaultCommentChanged(dangerousFaultComment: FaultSummary) {
