@@ -1,4 +1,4 @@
-import { createAction } from '@ngrx/store';
+import { createAction, union } from '@ngrx/store';
 import { LessonTheme, StudentLevel } from '@dvsa/mes-test-schema/categories/ADI3';
 
 export const StudentLevelChanged = createAction(
@@ -11,7 +11,27 @@ export const LessonThemeChanged = createAction(
   (lessonTheme: LessonTheme) => ({ lessonTheme }),
 );
 
+export const LessonThemeAdded = createAction(
+  '[LessonAndTheme] Lesson theme added',
+  (lessonTheme: LessonTheme) => ({ lessonTheme }),
+);
+
+export const LessonThemeRemoved = createAction(
+  '[LessonAndTheme] Lesson theme removed',
+  (lessonTheme: LessonTheme) => ({ lessonTheme }),
+);
+
 export const OtherChanged = createAction(
   '[LessonAndTheme] Other changed',
   (other: string) => ({ other }),
 );
+
+const actions = union({
+  StudentLevelChanged,
+  LessonThemeChanged,
+  LessonThemeAdded,
+  LessonThemeRemoved,
+  OtherChanged,
+});
+
+export type LessonAndThemeActions = typeof actions;

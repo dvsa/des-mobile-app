@@ -149,6 +149,8 @@ export enum AnalyticsEvents {
   FEEDBACK_CHANGED = 'feedback changed',
   STUDENT_LEVEL_CHANGED = 'student level changed',
   LESSON_THEMES_CHANGED = 'lesson themes changed',
+  LESSON_THEME_ADDED = 'lesson theme added',
+  LESSON_THEME_REMOVED = 'lesson theme removed',
   OTHER_REASON_CHANGED = 'other reason changed',
   LESSON_PLANNING_CHANGED = 'lesson planning changed',
   RISK_MANAGEMENT_CHANGED = 'risk management changed',
