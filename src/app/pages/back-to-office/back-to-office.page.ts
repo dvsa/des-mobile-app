@@ -7,6 +7,7 @@ import { StoreModel } from '@shared/models/store.model';
 import {
   ASAMPopupPresented,
   BackToOfficeViewDidEnter,
+  ClearVehicleData,
   DeferWriteUp,
 } from '@pages/back-to-office/back-to-office.actions';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
@@ -103,6 +104,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(BackToOfficeViewDidEnter());
+    this.store$.dispatch(ClearVehicleData());
 
     if (super.isIos()) {
       this.screenOrientation.unlock();

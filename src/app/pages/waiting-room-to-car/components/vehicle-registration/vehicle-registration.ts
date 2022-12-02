@@ -48,14 +48,16 @@ export class VehicleRegistrationComponent implements OnChanges {
   }
 
   /**
-   * Call service to get vehicle payload
+   * Call service to get vehicle payload, only if an identifier has been supplied
    * @param identifier
    */
   getMotAndTax(identifier: string): void {
-    this.vehicleProvider.getVehicleByIdentifier(identifier)
-      .subscribe((response: any) => {
-        this.motStatusChange.emit(response?.vehicle?.motStatus);
-      });
+    if (identifier) {
+      this.vehicleProvider.getVehicleByIdentifier(identifier)
+        .subscribe((response: any) => {
+          this.motStatusChange.emit(response?.vehicle?.motStatus);
+        });
+    }
   }
 
   vehicleRegistrationChanged(event: any): void {
