@@ -54,7 +54,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   getMotAndTax(identifier: string): void {
     this.vehicleProvider.getVehicleByIdentifier(identifier)
       .subscribe((response: any) => {
-        this.motStatusChange.emit(response?.vehicle?.motStatus ? response?.vehicle?.motStatus : 'No details found');
+        this.motStatusChange.emit(response?.vehicle?.motStatus);
       });
   }
 

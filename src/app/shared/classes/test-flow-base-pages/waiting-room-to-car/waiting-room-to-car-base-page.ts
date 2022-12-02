@@ -90,6 +90,9 @@ export interface CommonWaitingRoomToCarPageState {
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
+enum MotStatus {
+  NODETAILS = 'No details found',
+}
 
 export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
 
@@ -238,7 +241,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   }
 
   motStatusChanged(motStatus: string): void {
-    this.store$.dispatch(MotStatusChanged(motStatus));
+    this.store$.dispatch(MotStatusChanged(motStatus || MotStatus.NODETAILS));
   }
 
   schoolCarToggled(): void {
