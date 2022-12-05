@@ -8,15 +8,25 @@ const initialState: CatDUniqueTypes.VehicleDetails = {
 
 export const vehicleDetailsCatDReducer = createReducer(
   initialState,
-  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, { registrationNumber }) => ({
+  on(vehicleDetailsActions.VehicleRegistrationChanged, (state, {
+    registrationNumber,
+  }): CatDUniqueTypes.VehicleDetails => ({
     ...state,
     registrationNumber,
   })),
-  on(vehicleDetailsActions.GearboxCategoryChanged, (state, { gearboxCategory }) => ({
+  on(vehicleDetailsActions.MotStatusChanged, (state, {
+    motStatus,
+  }): CatDUniqueTypes.VehicleDetails => ({
+    ...state,
+    motStatus,
+  })),
+  on(vehicleDetailsActions.GearboxCategoryChanged, (state, {
+    gearboxCategory,
+  }): CatDUniqueTypes.VehicleDetails => ({
     ...state,
     gearboxCategory,
   })),
-  on(vehicleDetailsActions.ClearGearboxCategory, (state) => ({
+  on(vehicleDetailsActions.ClearGearboxCategory, (state): CatDUniqueTypes.VehicleDetails => ({
     ...state,
     gearboxCategory: null,
   })),

@@ -1,32 +1,16 @@
 import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { environment as devEnvironment } from '@environments/environment.dev';
 import { LocalEnvironmentFile } from './models/environment.model';
 
 export const environment: LocalEnvironmentFile = {
   // this is required by main.ts so that Ionic knows when to enable production mode
-  production: false,
+  ...devEnvironment,
   isRemote: false,
-  configUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/configuration/dev',
-  sentry: {
-    dsn: 'https://512f889416474a07b8acbee34d2e8f90@o444637.ingest.sentry.io/5844883',
-    environment: 'dev',
-  },
-  daysToCacheLogs: 7,
   enableDevTools: true,
   enableRehydrationPlugin: true,
   googleAnalyticsId: 'UA-129489007-3',
-  logsPostApiKey: '',
-  logsApiUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/logs',
-  logsAutoSendInterval: 6000,
   employeeNameKey: 'name',
-  authentication: {
-    context: 'https://login.microsoftonline.com/6c448d90-4ca1-4caf-ab59-0a2aa67d7801',
-    resourceUrl: '923b07d4-80ee-4524-8f38-c1230aefe151',
-    clientId: '923b07d4-80ee-4524-8f38-c1230aefe151',
-    redirectUrl: 'mesmobileappscheme://callback',
-    logoutUrl: 'mesmobileappscheme://callback?logout=true',
-    employeeIdKey: 'employeeid',
-  },
   approvedDeviceIdentifiers: [
     'iPad7,4',
     'x86_64',
@@ -250,6 +234,9 @@ export const environment: LocalEnvironmentFile = {
     signatureUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/signature/{drivingLicenceNumber}',
     photographUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/photograph/{drivingLicenceNumber}',
     standardUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/standard',
+  },
+  vehicle: {
+    taxMotUrl: 'https://api.dvla.test.smc.dvsacloud.uk/1.0/vehicle',
   },
   requestTimeout: 20000,
 };

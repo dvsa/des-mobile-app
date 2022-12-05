@@ -15,6 +15,10 @@ export const vehicleDetailsCatCPCReducer = createReducer(
     ...state,
     registrationNumber,
   })),
+  on(vehicleDetailsActions.MotStatusChanged, (state, { motStatus }): VehicleDetails => ({
+    ...state,
+    motStatus,
+  })),
   on(vehicleDetailsActions.GearboxCategoryChanged, (state, { gearboxCategory }): VehicleDetails => ({
     ...state,
     gearboxCategory,

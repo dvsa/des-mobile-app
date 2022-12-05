@@ -10,6 +10,7 @@ import { BackToOfficeAnalyticsEffects } from '@pages/back-to-office/back-to-offi
 import {
   AsamFailureNotificationModal,
 } from '@pages/back-to-office/components/asam-failure-notification/asam-failure-notification-modal';
+import { BackToOfficeEffects } from '@pages/back-to-office/back-to-office.effects';
 import { BackToOfficePageRoutingModule } from './back-to-office-routing.module';
 
 import { BackToOfficePage } from './back-to-office.page';
@@ -22,6 +23,7 @@ import { BackToOfficePage } from './back-to-office.page';
     BackToOfficePageRoutingModule,
     ComponentsModule,
     EffectsModule.forFeature([
+      BackToOfficeEffects,
       BackToOfficeAnalyticsEffects,
     ]),
   ],

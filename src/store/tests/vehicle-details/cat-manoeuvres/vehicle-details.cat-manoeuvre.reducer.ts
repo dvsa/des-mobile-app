@@ -15,6 +15,12 @@ export const vehicleDetailsCatManoeuvreReducer = createReducer(
     ...state,
     registrationNumber,
   })),
+  on(vehicleDetailsActions.MotStatusChanged, (state, {
+    motStatus,
+  }): CatCMUniqueTypes.VehicleDetails => ({
+    ...state,
+    motStatus,
+  })),
   on(manoeuvreVehicleDetailsActions.PopulateManoeuvreVehicleDimensions, (state, {
     vehicleWidth,
     vehicleLength,

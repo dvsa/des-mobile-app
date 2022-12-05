@@ -36,7 +36,11 @@ import {
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
-import { DualControlsToggledNo, DualControlsToggledYes } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  DualControlsToggledNo,
+  DualControlsToggledYes,
+  MotStatusChanged,
+} from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
 import { getDualControls } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
@@ -57,6 +61,7 @@ import {
   getOrditTrained,
   getTrainerRegistrationNumber,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
+import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -389,6 +394,37 @@ export class WaitingRoomToCarAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
         formatAnalyticsText(AnalyticsEvents.TRAINER_REG_NUMBER_CHANGED, tests),
         `trainer registration number changed to ${trainerRegistrationNumber}`,
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  motStatusChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      MotStatusChanged,
+    ),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getVehicleDetails),
+            select(getMotStatus),
+          ),
+        ),
+      )),
+    switchMap((
+      [, tests, motStatus]:
+      [ReturnType<typeof MotStatusChanged>, TestsModel, string],
+    ) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+        formatAnalyticsText(AnalyticsEvents.MOT_STATUS_CHANGED, tests),
+        `mot status: ${motStatus}`,
       );
       return of(AnalyticRecorded());
     }),

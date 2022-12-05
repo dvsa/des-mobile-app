@@ -117,6 +117,8 @@ describe('DeviceProvider', () => {
         user: undefined,
         driver: undefined,
         requestTimeout: undefined,
+        taxMotApiKey: '',
+        vehicle: null,
       });
       const result = await deviceProvider.enableSingleAppMode();
       expect(result).toBe(false);

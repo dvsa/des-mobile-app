@@ -10,6 +10,7 @@ export type AppConfig = {
   daysToCacheLogs: number,
   logoutClearsTestPersistence?: boolean;
   logsPostApiKey: string;
+  taxMotApiKey: string;
   logsApiUrl: string;
   logsAutoSendInterval: number;
   authentication: {
@@ -50,6 +51,9 @@ export type AppConfig = {
     photographUrl: string;
     signatureUrl: string;
     standardUrl: string;
+  },
+  vehicle: {
+    taxMotUrl: string,
   },
   requestTimeout: number
 };

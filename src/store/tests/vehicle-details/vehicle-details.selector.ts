@@ -4,6 +4,7 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 
 export const getRegistrationNumber = (vehicleDetails: VehicleDetails) => vehicleDetails.registrationNumber;
 export const getGearboxCategory = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory;
+export const getMotStatus = (vehicleDetails: VehicleDetails) => vehicleDetails.motStatus;
 export const isManual = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Manual' || false;
 export const isAutomatic = (vehicleDetails: VehicleDetails) => vehicleDetails.gearboxCategory === 'Automatic' || false;
 export const showVrnButton = (category: TestCategory): boolean => isAnyOf(category, [

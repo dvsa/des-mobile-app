@@ -32,7 +32,8 @@
                         <vehicle-registration
                                 [formGroup]="form"
                                 [vehicleRegistration]="pageState.registrationNumber$ | async"
-                                (vehicleRegistrationChange)="vehicleRegistrationChanged($event)">
+                                (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+                                (motStatusChange)="motStatusChanged($event)">
                         </vehicle-registration>
 
                         <vehicle-details-cat-cpc

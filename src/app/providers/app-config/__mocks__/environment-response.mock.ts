@@ -27,4 +27,7 @@ export const environmentResponseMock = {
     signatureUrl: '',
     standardUrl: '',
   },
+  vehicle: {
+    taxMotUrl: 'https://www.example.com/api/v1/vehicle/12345',
+  },
 };
