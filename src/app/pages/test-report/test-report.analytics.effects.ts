@@ -73,17 +73,16 @@ import { VehicleChecksTypes } from '@store/tests/test-data/cat-b/vehicle-checks/
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { isRemoveFaultMode } from '@pages/test-report/test-report.selector';
 import {
-  LessonThemeChanged, OtherChanged,
+  OtherChanged,
   StudentLevelChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import {
-  getLessonThemes, getOther,
+  getOther,
   getStudentLevel,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
 import {
   LessonPlanning,
-  LessonTheme,
   RiskManagement,
   StudentLevel,
   TeachingLearningStrategies,
@@ -1713,34 +1712,6 @@ export class TestReportAnalyticsEffects {
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.STUDENT_LEVEL_CHANGED, tests),
         `student level changed to ${studentLevel}`,
-      );
-      return of(AnalyticRecorded());
-    }),
-  ));
-
-  lessonThemesChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(LessonThemeChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getLessonAndTheme),
-          select(getLessonThemes),
-        ),
-      ),
-    )),
-    concatMap((
-      [, tests, lessonThemes]: [ReturnType <typeof LessonThemeChanged>, TestsModel, LessonTheme[]],
-    ) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.LESSON_THEMES_CHANGED, tests),
-        `lesson themes changed to ${lessonThemes.join(', ')}`,
       );
       return of(AnalyticRecorded());
     }),

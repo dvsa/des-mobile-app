@@ -27,8 +27,9 @@ import {
   getStudentLevel,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
 import {
+  LessonThemeChanged,
   LessonThemeAdded,
-  LessonThemeChanged, LessonThemeRemoved,
+  LessonThemeRemoved,
   OtherChanged,
   StudentLevelChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';

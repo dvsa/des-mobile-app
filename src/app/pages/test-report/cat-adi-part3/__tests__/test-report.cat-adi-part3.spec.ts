@@ -34,7 +34,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
   LessonThemeAdded,
-  LessonThemeChanged,
   LessonThemeRemoved,
   OtherChanged,
   StudentLevelChanged,
@@ -119,14 +118,12 @@ describe('TestReportCatADI3Page', () => {
       });
     });
     describe('lessonThemeChanged', () => {
-      it('should dispatch the LessonThemeChanged & lessonThemeAdded actions', () => {
+      it('should dispatch the lessonThemeAdded action', () => {
         component.lessonThemeChanged({ lessonTheme: 'junctions', added: true });
-        expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeChanged('junctions'));
         expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeAdded('junctions'));
       });
-      it('should dispatch the LessonThemeChanged & lessonThemeRemoved actions', () => {
+      it('should dispatch the lessonThemeRemoved action', () => {
         component.lessonThemeChanged({ lessonTheme: 'junctions', added: false });
-        expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeChanged('junctions'));
         expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeRemoved('junctions'));
       });
     });
