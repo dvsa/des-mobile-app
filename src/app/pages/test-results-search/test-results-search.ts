@@ -199,6 +199,6 @@ export class TestResultsSearchPage extends BasePageComponent {
   }
 
   isEmpty(input: string) {
-    return input === null || input.match(/^ *$/) !== null;
+    return input === null || input.match(/^ *$/) !== null || input.trim() === '';
   }
 }

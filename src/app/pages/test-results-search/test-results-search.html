@@ -41,8 +41,9 @@
                     <ion-row class="ion-padding-top">
                         <ion-col size="96">
                             <ion-input
+                                    *ngIf="searchBy !== 'appReference'"
                                     id="test-result-search-{{searchBy}}-input"
-                                    [placeholder]="searchBy === 'appReference' ? 'Enter an application reference' : 'Enter a driver number'"
+                                    [placeholder]="'Enter a driver number'"
                                     type="text"
                                     class="ion-input-styling custom-font-size"
                                     clearInput
@@ -51,7 +52,21 @@
                                     (ionBlur)="setFocus(null)"
                                     [value]="candidateInfo"
                                     [ngClass]="{'input-focus': focusedElement === 'field'}"
-                                    (ionInput)="candidateInfoChanged($event.target.value)">
+                                    (ionChange)="candidateInfoChanged($event.target.value)">
+                            </ion-input>
+                            <ion-input
+                                    *ngIf="searchBy === 'appReference'"
+                                    id="test-result-search-{{searchBy}}-input"
+                                    [placeholder]="'Enter an application reference'"
+                                    type="text"
+                                    class="ion-input-styling custom-font-size"
+                                    clearInput
+                                    numbersOnly
+                                    (ionFocus)="setFocus('field')"
+                                    (ionBlur)="setFocus(null)"
+                                    [value]="candidateInfo"
+                                    [ngClass]="{'input-focus': focusedElement === 'field'}"
+                                    (ionChange)="candidateInfoChanged($event.target.value)">
                             </ion-input>
                         </ion-col>
                     </ion-row>
