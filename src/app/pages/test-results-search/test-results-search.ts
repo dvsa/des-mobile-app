@@ -197,4 +197,8 @@ export class TestResultsSearchPage extends BasePageComponent {
   setFocus(focus: string): void {
     this.focusedElement = focus;
   }
+
+  isEmpty(input: string) {
+    return input === null || input.match(/^ *$/) !== null;
+  }
 }

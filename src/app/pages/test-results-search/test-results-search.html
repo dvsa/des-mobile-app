@@ -58,7 +58,7 @@
                     <ion-row class="ion-padding-top">
                         <ion-button
                                 id="test-result-search-button"
-                                [attr.disabled]="showSearchSpinner ? 'true' : null"
+                                [attr.disabled]="showSearchSpinner ? 'true' : isEmpty(candidateInfo)"
                                 class="mes-primary-button search-tests" (click)="searchTests()">
                             <h3 id="test-result-search-button-text">
                                 <ion-icon name="search" class="search-icon"></ion-icon>
