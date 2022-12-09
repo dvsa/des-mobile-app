@@ -9,6 +9,8 @@ div {
     background-color: var(--gds-black);
     color: var(--mes-white);
     border-radius: 13px;
+    position: absolute;
+    left: 34px;
 
     .count {
       font-size: 15px;
