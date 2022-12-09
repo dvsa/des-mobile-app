@@ -24,6 +24,7 @@ import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
+import { LOGIN_PAGE } from '@pages/page-names.constants';
 
 declare let window: any;
 
@@ -57,24 +58,28 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.platform.ready();
-    if (this.platform.is('cordova')) {
-      await this.deviceProvider.disableSingleAppMode();
+    try {
+      await this.platform.ready();
+      if (this.platform.is('cordova')) {
+        await this.deviceProvider.disableSingleAppMode();
+      }
+      await this.appConfigProvider.initialiseAppConfig();
+      await this.initialiseSentry();
+      this.initialiseNetworkState();
+      this.initialiseAuthentication();
+      await this.initialisePersistentStorage();
+      this.store$.dispatch(LoadAppVersion());
+      await this.configureStatusBar();
+      this.configureLocale();
+      if (this.platform.is('cordova')) {
+        this.configureAccessibility();
+        this.configurePlatformSubscriptions();
+      }
+      await this.disableMenuSwipe();
+      this.logoutEnabled$ = this.store$.select(selectLogoutEnabled);
+    } catch {
+      await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
     }
-    await this.appConfigProvider.initialiseAppConfig();
-    await this.initialiseSentry();
-    this.initialiseNetworkState();
-    this.initialiseAuthentication();
-    await this.initialisePersistentStorage();
-    this.store$.dispatch(LoadAppVersion());
-    await this.configureStatusBar();
-    this.configureLocale();
-    if (this.platform.is('cordova')) {
-      this.configureAccessibility();
-      this.configurePlatformSubscriptions();
-    }
-    await this.disableMenuSwipe();
-    this.logoutEnabled$ = this.store$.select(selectLogoutEnabled);
   }
 
   ionViewWillUnload() {
