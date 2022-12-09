@@ -73,6 +73,7 @@ interface CatADI2OfficePageState {
   ecoRelatedFault$: Observable<string>;
   ecoCaptureReason$: Observable<string>;
   displayFuelEfficient$: Observable<boolean>;
+  allowDrivingFaultComment$: Observable<boolean>
 }
 
 type OfficePageState = CommonOfficePageState & CatADI2OfficePageState;
@@ -86,7 +87,6 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
   pageState: OfficePageState;
   static readonly maxFaultCount = 6;
   showMeQuestions: VehicleChecksQuestion[];
-  showDisabledFuelEfficient: boolean;
 
   constructor(
     platform: Platform,
@@ -221,6 +221,24 @@ export class OfficeCatADI2Page extends OfficeBasePageComponent implements OnInit
         map((
           [seriousF, dangerousF, drivingF],
         ) => !!(seriousF?.length === 0 && dangerousF?.length === 0 && drivingF?.length === 0)),
+      ),
+      allowDrivingFaultComment$: combineLatest([
+        currentTest$.pipe(
+          select(getTestData),
+          withLatestFrom(testCategory$),
+          map(([testData, category]) =>
+            this.faultSummaryProvider.getSeriousFaultsList(testData, category as TestCategory)),
+        ),
+        currentTest$.pipe(
+          select(getTestData),
+          withLatestFrom(testCategory$),
+          map(([testData, category]) =>
+            this.faultSummaryProvider.getDangerousFaultsList(testData, category as TestCategory)),
+        ),
+      ]).pipe(
+        map((
+          [seriousF, dangerousF],
+        ) => !!(seriousF?.length === 0 && dangerousF?.length === 0)),
       ),
     };
     this.setupSubscription();
