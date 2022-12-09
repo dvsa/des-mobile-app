@@ -118,7 +118,7 @@ export class TestReportDashboardAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT_DASHBOARD, tests),
         formatAnalyticsText(AnalyticsEvents.FEEDBACK_CHANGED, tests),
-        `feedback changed to - ${feedback}`,
+        feedback,
       );
       return of(AnalyticRecorded());
     }),
