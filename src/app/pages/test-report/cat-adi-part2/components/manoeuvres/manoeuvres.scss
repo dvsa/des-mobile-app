@@ -1,7 +1,7 @@
 :host {
   #manoeuvers-tick {
     position: absolute;
-    left: 14px;
+    left: 10px;
   }
   button {
     width: 254px;
@@ -89,6 +89,9 @@
       }
     }
     .fault-wrapper {
+      right: 10px;
+      display: flex;
+      position: absolute;
       display: flex;
     }
 
@@ -126,5 +129,9 @@
     margin-top: 9px;
     position: fixed;
     z-index: 270;
+  }
+  .driving-faults-manoeuvers {
+    position: absolute;
+    left: 34px;
   }
 }
