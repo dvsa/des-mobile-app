@@ -72,7 +72,6 @@ export class AppConfigProvider {
     private store$: Store<StoreModel>,
     private logHelper: LogHelper,
     private isDebug: IsDebug,
-    // private emmAppConfig: EmmAppConfig,
   ) {
     this.setStoreSubscription();
   }
@@ -119,24 +118,24 @@ export class AppConfigProvider {
     const newEnvFile = {
       production: false,
       isRemote: true,
-      configUrl: await this.getManagedConfigValue('configUrl'),
+      configUrl: await this.getManagedConfigValueString('configUrl'),
       sentry: {
-        dsn: await this.getManagedConfigValue('sentryDsn'),
-        environment: await this.getManagedConfigValue('sentryEnv'),
+        dsn: await this.getManagedConfigValueString('sentryDsn'),
+        environment: await this.getManagedConfigValueString('sentryEnv'),
       },
-      daysToCacheJournalData: await this.getManagedConfigValue('daysToCacheJournalData'),
-      daysToCacheLogs: await this.getManagedConfigValue('daysToCacheLogs'),
-      logsPostApiKey: await this.getManagedConfigValue('logsPostApiKey'),
-      taxMotApiKey: await this.getManagedConfigValue('taxMotApiKey'),
-      logsApiUrl: await this.getManagedConfigValue('logsApiUrl'),
-      logsAutoSendInterval: await this.getManagedConfigValue('logsAutoSendInterval'),
+      daysToCacheJournalData: await this.getManagedConfigValueNumber('daysToCacheJournalData'),
+      daysToCacheLogs: await this.getManagedConfigValueNumber('daysToCacheLogs'),
+      logsPostApiKey: await this.getManagedConfigValueString('logsPostApiKey'),
+      taxMotApiKey: await this.getManagedConfigValueString('taxMotApiKey'),
+      logsApiUrl: await this.getManagedConfigValueString('logsApiUrl'),
+      logsAutoSendInterval: await this.getManagedConfigValueNumber('logsAutoSendInterval'),
       authentication: {
-        clientId: await this.getManagedConfigValue('clientId'),
-        context: await this.getManagedConfigValue('authenticationContext'),
-        employeeIdKey: await this.getManagedConfigValue('employeeIdKey'),
-        logoutUrl: await this.getManagedConfigValue('logoutUrl'),
-        redirectUrl: await this.getManagedConfigValue('redirectUrl'),
-        resourceUrl: await this.getManagedConfigValue('resourceUrl'),
+        clientId: await this.getManagedConfigValueString('clientId'),
+        context: await this.getManagedConfigValueString('authenticationContext'),
+        employeeIdKey: await this.getManagedConfigValueString('employeeIdKey'),
+        logoutUrl: await this.getManagedConfigValueString('logoutUrl'),
+        redirectUrl: await this.getManagedConfigValueString('redirectUrl'),
+        resourceUrl: await this.getManagedConfigValueString('resourceUrl'),
       },
     } as EnvironmentFile;
 
@@ -151,9 +150,14 @@ export class AppConfigProvider {
     }
   };
 
-  private getManagedConfigValue = async <T>(key: string): Promise<T> => {
+  private getManagedConfigValueString = async (key: string): Promise<string> => {
     const data: GetResult<string> = await ManagedConfigurations.getString({ key });
-    return data?.value as unknown as T;
+    return data?.value;
+  };
+
+  private getManagedConfigValueNumber = async (key: string): Promise<number> => {
+    const data: GetResult<number> = await ManagedConfigurations.getNumber({ key });
+    return data?.value;
   };
 
   public loadRemoteConfig = (): Promise<any> => this.getRemoteData()
