@@ -212,9 +212,11 @@
                     [faultCount]="pageState.drivingFaultCount$ | async"
                     (faultCommentsChange)="drivingFaultCommentChanged($event)">
             </fault-comment-card>
-
             <driving-faults
-                    *ngIf="!(pageState.displayDrivingFaultComments$ | async) && (pageState.drivingFaultCount$ | async) > 0 && pageState.displayDrivingFault$ | async"
+                    *ngIf="!((pageState.displayDrivingFaultComments$ | async) &&
+                    (pageState.displayDrivingFault$ | async) &&
+                    (pageState.drivingFaultCount$ | async) > 0 &&
+                    (pageState.allowDrivingFaultComment$ | async))"
                     [label]="'Driving faults'"
                     [faults]="(pageState.drivingFaults$ | async)">
             </driving-faults>
