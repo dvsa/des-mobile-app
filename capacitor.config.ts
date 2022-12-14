@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'uk.gov.dvsa.drivingexaminerservices',
-  appName: 'DES 4',
+  appName: 'DES',
   bundledWebRuntime: false,
   webDir: 'www',
   plugins: {
