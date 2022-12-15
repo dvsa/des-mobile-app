@@ -20,7 +20,7 @@ export class LessonThemeComponent implements OnChanges {
   formGroup: UntypedFormGroup;
 
   @Output()
-  lessonThemeChange = new EventEmitter<LessonTheme>();
+  lessonThemeChange = new EventEmitter<{ lessonTheme: LessonTheme; added: boolean; }>();
 
   @Output()
   otherReasoningChange = new EventEmitter<string>();
@@ -38,7 +38,8 @@ export class LessonThemeComponent implements OnChanges {
   }
 
   lessonThemeChanged = (lessonTheme: string): void => {
-    this.lessonThemeChange.emit(lessonTheme as LessonTheme);
+    const added = !this.lessonThemes.includes(lessonTheme as LessonTheme);
+    this.lessonThemeChange.emit({ lessonTheme: lessonTheme as LessonTheme, added });
   };
 
   otherReasoningChanged = (otherReason: string): void => {

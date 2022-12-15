@@ -28,6 +28,8 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
 import {
   LessonThemeChanged,
+  LessonThemeAdded,
+  LessonThemeRemoved,
   OtherChanged,
   StudentLevelChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
@@ -154,8 +156,13 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.store$.dispatch(StudentLevelChanged(studentLeveL));
   };
 
-  lessonThemeChanged = (lessonTheme: string): void => {
+  lessonThemeChanged = ({ lessonTheme, added }: { lessonTheme: LessonTheme, added: boolean }): void => {
     this.store$.dispatch(LessonThemeChanged(lessonTheme as LessonTheme));
+    if (added) {
+      this.store$.dispatch(LessonThemeAdded(lessonTheme));
+    } else {
+      this.store$.dispatch(LessonThemeRemoved(lessonTheme));
+    }
   };
 
   otherReasonChanged = (otherReason: string): void => {

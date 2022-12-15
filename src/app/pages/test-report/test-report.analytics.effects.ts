@@ -22,6 +22,7 @@ import * as seriousFaultsActions from '@store/tests/test-data/common/serious-fau
 import * as manoeuvresActions from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import * as manoeuvresADIPart2Actions from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import * as vehicleChecksActions from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
+import * as lessonThemeActions from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
 import * as testRequirementsActions
   from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import * as ecoActions from '@store/tests/test-data/common/eco/eco.actions';
@@ -31,6 +32,7 @@ import {
   manoeuvreCompetencyLabels,
   manoeuvreTypeLabels,
 } from '@shared/constants/competencies/catb-manoeuvres';
+import { lessonThemeValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
 import { AnalyticRecorded, AnalyticNotRecorded } from '@providers/analytics/analytics.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
@@ -71,17 +73,16 @@ import { VehicleChecksTypes } from '@store/tests/test-data/cat-b/vehicle-checks/
 import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { isRemoveFaultMode } from '@pages/test-report/test-report.selector';
 import {
-  LessonThemeChanged, OtherChanged,
+  OtherChanged,
   StudentLevelChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import {
-  getLessonThemes, getOther,
+  getOther,
   getStudentLevel,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
 import {
   LessonPlanning,
-  LessonTheme,
   RiskManagement,
   StudentLevel,
   TeachingLearningStrategies,
@@ -1716,29 +1717,43 @@ export class TestReportAnalyticsEffects {
     }),
   ));
 
-  lessonThemesChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(LessonThemeChanged),
+  addLessonTheme$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      lessonThemeActions.LessonThemeAdded,
+    ),
     concatMap((action) => of(action).pipe(
       withLatestFrom(
         this.store$.pipe(
           select(getTests),
         ),
+      ),
+    )),
+    concatMap(([action, tests]: [ReturnType <typeof lessonThemeActions.LessonThemeAdded>, TestsModel]) => {
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.LESSON_THEME_ADDED, tests),
+        lessonThemeValues[action.lessonTheme],
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  removeLessonTheme$ = createEffect(() => this.actions$.pipe(
+    ofType(
+      lessonThemeActions.LessonThemeRemoved,
+    ),
+    concatMap((action) => of(action).pipe(
+      withLatestFrom(
         this.store$.pipe(
           select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getLessonAndTheme),
-          select(getLessonThemes),
         ),
       ),
     )),
-    concatMap((
-      [, tests, lessonThemes]: [ReturnType <typeof LessonThemeChanged>, TestsModel, LessonTheme[]],
-    ) => {
+    concatMap(([action, tests]: [ReturnType <typeof lessonThemeActions.LessonThemeRemoved>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.LESSON_THEMES_CHANGED, tests),
-        `lesson themes changed to ${lessonThemes.join(', ')}`,
+        formatAnalyticsText(AnalyticsEvents.LESSON_THEME_REMOVED, tests),
+        lessonThemeValues[action.lessonTheme],
       );
       return of(AnalyticRecorded());
     }),
