@@ -20,7 +20,8 @@
       "@capacitor/*": ["mock/@capacitor/*"],
       "crypto": ["node_modules/crypto-browserify"],
       "stream": ["node_modules/stream-browserify"],
-      "zlib": ["node_modules/browserify-zlib"]
+      "zlib": ["node_modules/browserify-zlib"],
+      "@asam": ["mock/@capacitor/asam"]
     }
   },
   "files": [

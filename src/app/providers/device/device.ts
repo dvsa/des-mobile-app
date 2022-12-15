@@ -8,12 +8,11 @@ import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { retryWithDelay } from '@shared/helpers/retry-with-delay';
 import { isAnyOf } from '@shared/helpers/simplifiers';
+import { Asam } from '@dvsa/capacitor-plugin-asam';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { LogHelper } from '../logs/logs-helper';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
-
-declare let cordova: any;
 
 // Descriptive / Friendly mappings found here - https://www.theiphonewiki.com/wiki/Models
 enum FriendlyDeviceModel {
@@ -123,76 +122,24 @@ export class DeviceProvider implements IDeviceProvider {
     return this.setSingleAppMode(false);
   };
 
-  isStarted = () => {
-    const guidedAccess = cordova.plugins.WPGuidedAccess;
-
-    return new Promise((resolve, reject) => {
-      guidedAccess.isStarted(
-        (started) => resolve(started),
-        (err) => reject(err),
-      );
-    });
-  };
-
   setSingleAppMode = async (enable: boolean): Promise<boolean> => {
-    const guidedAccess = cordova.plugins.WPGuidedAccess;
-    if (!guidedAccess) return;
-
-    const started = await this.isStarted();
-
-    if ((typeof started === 'boolean' && started && enable) || (typeof started === 'boolean' && !started && !enable)) {
-      return Promise.resolve(true);
+    const asamResult = await Asam.setSingleAppMode({ shouldEnable: enable });
+    if (!asamResult.didSucceed) {
+      const logMessage = `Call to ${enable ? 'enable' : 'disable'} ASAM failed`;
+      const logError = `${enable ? 'Enabling' : 'Disabling'} ASAM`;
+      this.logEvent(logError, logMessage);
     }
-
-    const method = enable ? 'start' : 'end';
-
-    return new Promise((resolve, reject) => {
-      guidedAccess[method](
-        (didSucceed) => {
-          if (!didSucceed) {
-            const logMessage = `Call to ${enable ? 'enable' : 'disable'} ASAM ${didSucceed ? 'succeeded' : 'failed'}`;
-            const logError = `${enable ? 'Enabling' : 'Disabling'} ASAM`;
-            this.logEvent(logError, logMessage);
-          }
-          return resolve(didSucceed);
-        },
-        (err) => reject(err),
-      );
-    });
+    return asamResult.didSucceed;
   };
 
   checkSingleAppMode = async (): Promise<boolean> => {
-
-    const started = await this.isStarted();
-
-    return typeof started === 'boolean' && started;
+    return (await Asam.isSingleAppModeEnabled()).isEnabled;
   };
 
   manuallyDisableSingleAppMode = async () => {
-    try {
-      const guidedAccess = cordova.plugins.WPGuidedAccess;
-      if (!guidedAccess) return;
-
-      const started = await this.isStarted();
-
-      if (!started) {
-        return;
-      }
-
-      return await new Promise((resolve, reject) => {
-        guidedAccess.end(
-          (didSucceed) => {
-            if (!didSucceed) throw new Error('Call to end guided access failed');
-            resolve(didSucceed);
-          },
-          (err) => {
-            this.logEvent('Manual trigger - Guided access end', err);
-            reject(err);
-          },
-        );
-      });
-    } catch (err) {
-      this.logEvent('Attempting to manually disable SAM error', err);
+    const disable = await Asam.setSingleAppMode({ shouldEnable: false });
+    if (!disable.didSucceed) {
+      this.logEvent('Failed to manually disable ASAM', 'no error details');
     }
   };
 
