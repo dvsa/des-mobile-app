@@ -1,4 +1,4 @@
-import { AsamPlugin, AsamResult, AsamStatus } from '../../../../../Swift Training/capacitor-plugin-asam';
+import { AsamResult, AsamStatus, AsamPlugin } from '@asam';
 
 export const Asam: AsamPlugin = {
   async toggleSingleAppMode(): Promise<AsamResult> {
