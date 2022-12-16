@@ -31,7 +31,6 @@
       "crypto": ["node_modules/crypto-browserify"],
       "stream": ["node_modules/stream-browserify"],
       "zlib": ["node_modules/browserify-zlib"],
-      "@asam": ["node_modules/@dvsa/capacitor-plugin-asam"]
     }
   },
   "angularCompilerOptions": {

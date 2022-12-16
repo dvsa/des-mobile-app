@@ -21,7 +21,7 @@
       "crypto": ["node_modules/crypto-browserify"],
       "stream": ["node_modules/stream-browserify"],
       "zlib": ["node_modules/browserify-zlib"],
-      "@asam": ["mock/@capacitor/asam"]
+      "@dvsa/capacitor-plugin-asam": ["mock/@capacitor/asam"]
     }
   },
   "files": [

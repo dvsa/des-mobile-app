@@ -1,4 +1,4 @@
-import { AsamResult, AsamStatus, AsamPlugin } from '@asam';
+import { AsamResult, AsamStatus, AsamPlugin } from '@dvsa/capacitor-plugin-asam/dist/esm';
 
 export const Asam: AsamPlugin = {
   async toggleSingleAppMode(): Promise<AsamResult> {

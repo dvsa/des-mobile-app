@@ -8,7 +8,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { retryWithDelay } from '@shared/helpers/retry-with-delay';
 import { isAnyOf } from '@shared/helpers/simplifiers';
-import { Asam } from '@asam';
+import { Asam } from '@dvsa/capacitor-plugin-asam';
 import { IDeviceProvider } from './device.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { LogHelper } from '../logs/logs-helper';
