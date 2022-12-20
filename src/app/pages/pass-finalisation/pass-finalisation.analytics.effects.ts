@@ -199,15 +199,26 @@ export class PassFinalisationAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
         ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getActivityCode),
+        ),
       ),
     )),
-    concatMap(([, tests]: [ReturnType<typeof testSummaryActions.D255Yes>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.D255, tests),
-        'Yes',
-      );
-      return of(AnalyticRecorded());
+    concatMap((
+      [, tests, activityCode]: [ReturnType<typeof testSummaryActions.D255Yes>, TestsModel, ActivityCode],
+    ) => {
+      // D255Yes used in pass & non-pass flows, this guard stops the appearance of duplicated events.
+      if (activityCode === ActivityCodes.PASS) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+          formatAnalyticsText(AnalyticsEvents.D255, tests),
+          'Yes',
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 
@@ -218,15 +229,26 @@ export class PassFinalisationAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
         ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getActivityCode),
+        ),
       ),
     )),
-    concatMap(([, tests]: [ReturnType<typeof testSummaryActions.D255No>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.D255, tests),
-        'No',
-      );
-      return of(AnalyticRecorded());
+    concatMap((
+      [, tests, activityCode]: [ReturnType<typeof testSummaryActions.D255No>, TestsModel, ActivityCode],
+    ) => {
+      // D255No used in pass & non-pass flows, this guard stops the appearance of duplicated events.
+      if (activityCode === ActivityCodes.PASS) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+          formatAnalyticsText(AnalyticsEvents.D255, tests),
+          'No',
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 

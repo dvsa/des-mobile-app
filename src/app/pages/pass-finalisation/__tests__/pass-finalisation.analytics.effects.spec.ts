@@ -265,6 +265,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(SetActivityCode('1'));
       // ACT
       actions$.next(testSummaryActions.D255Yes());
       // ASSERT
@@ -285,6 +286,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
       store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(SetActivityCode('1'));
       // ACT
       actions$.next(testSummaryActions.D255No());
       // ASSERT
