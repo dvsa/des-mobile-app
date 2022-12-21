@@ -10,7 +10,7 @@ import {
 } from '@providers/analytics/analytics.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { Store, select } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
@@ -30,6 +30,8 @@ import {
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { Router } from '@angular/router';
 import {
   CommunicationViewDidEnter,
   CommunicationValidationError,
@@ -38,10 +40,13 @@ import {
 @Injectable()
 export class CommunicationAnalyticsEffects {
 
+  private className: string = `/${TestFlowPageNames.COMMUNICATION_PAGE}`;
+
   constructor(
     public analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
+    private router: Router,
   ) {
   }
 
@@ -120,12 +125,15 @@ export class CommunicationAnalyticsEffects {
       ),
     )),
     concatMap(([, tests]: [ReturnType<typeof VRNModalOpened>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
-        AnalyticsEvents.VRN_CAPTURE,
-        AnalyticsEvents.VRN_CAPTURE_SELECTED,
-      );
-      return of(AnalyticRecorded());
+      if (this.router.url?.startsWith(this.className)) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_SELECTED,
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 
@@ -139,12 +147,15 @@ export class CommunicationAnalyticsEffects {
       ),
     )),
     concatMap(([, tests]: [ReturnType<typeof VRNModalCancelled>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
-        AnalyticsEvents.VRN_CAPTURE,
-        AnalyticsEvents.VRN_CAPTURE_CANCELLED,
-      );
-      return of(AnalyticRecorded());
+      if (this.router.url?.startsWith(this.className)) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_CANCELLED,
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 
@@ -158,12 +169,15 @@ export class CommunicationAnalyticsEffects {
       ),
     )),
     concatMap(([, tests]: [ReturnType<typeof VRNModalSaved>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
-        AnalyticsEvents.VRN_CAPTURE,
-        AnalyticsEvents.VRN_CAPTURE_SAVED,
-      );
-      return of(AnalyticRecorded());
+      if (this.router.url?.startsWith(this.className)) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_SAVED,
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 

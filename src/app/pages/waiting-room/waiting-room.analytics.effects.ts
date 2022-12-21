@@ -24,7 +24,7 @@ import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { TestsModel } from '@store/tests/tests.model';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import {
   getApplicationReference,
@@ -39,14 +39,19 @@ import {
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
+import { Router } from '@angular/router';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 
 @Injectable()
 export class WaitingRoomAnalyticsEffects {
+
+  private className: string = `/${TestFlowPageNames.WAITING_ROOM_PAGE}`;
 
   constructor(
     public analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
+    private router: Router,
   ) {
   }
 
@@ -142,12 +147,15 @@ export class WaitingRoomAnalyticsEffects {
       ),
     )),
     concatMap(([, tests]: [ReturnType<typeof VRNModalOpened>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
-        AnalyticsEvents.VRN_CAPTURE,
-        AnalyticsEvents.VRN_CAPTURE_SELECTED,
-      );
-      return of(AnalyticRecorded());
+      if (this.router.url?.startsWith(this.className)) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_SELECTED,
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 
@@ -161,12 +169,15 @@ export class WaitingRoomAnalyticsEffects {
       ),
     )),
     concatMap(([, tests]: [ReturnType<typeof VRNModalCancelled>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
-        AnalyticsEvents.VRN_CAPTURE,
-        AnalyticsEvents.VRN_CAPTURE_CANCELLED,
-      );
-      return of(AnalyticRecorded());
+      if (this.router.url?.startsWith(this.className)) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_CANCELLED,
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 
@@ -180,12 +191,15 @@ export class WaitingRoomAnalyticsEffects {
       ),
     )),
     concatMap(([, tests]: [ReturnType<typeof VRNModalSaved>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
-        AnalyticsEvents.VRN_CAPTURE,
-        AnalyticsEvents.VRN_CAPTURE_SAVED,
-      );
-      return of(AnalyticRecorded());
+      if (this.router.url?.startsWith(this.className)) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM, tests),
+          AnalyticsEvents.VRN_CAPTURE,
+          AnalyticsEvents.VRN_CAPTURE_SAVED,
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 }

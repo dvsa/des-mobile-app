@@ -27,6 +27,8 @@ import {
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
+import { Router } from '@angular/router';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as communicationActions from '../communication.actions';
 import { CommunicationAnalyticsEffects } from '../communication.analytics.effects';
@@ -54,6 +56,7 @@ describe('CommunicationAnalyticsEffects', () => {
       providers: [
         CommunicationAnalyticsEffects,
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        { provide: Router, useValue: { url: `/${TestFlowPageNames.COMMUNICATION_PAGE}` } },
         provideMockActions(() => actions$),
         Store,
       ],
