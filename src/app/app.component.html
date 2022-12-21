@@ -1,22 +1,37 @@
 <ion-app [ngClass]="[getTextZoomClass()]">
-    <ion-menu side="start" content-id="main-content">
-        <ion-header>
-            <ion-toolbar mode="ios">
-                <ion-title>Menu</ion-title>
-            </ion-toolbar>
-        </ion-header>
+<!--    <ion-split-pane contentId="main-content">-->
+        <ion-menu side="start" content-id="main-content">
+            <ion-header>
+                <ion-toolbar mode="ios">
+                    <ion-title>Menu</ion-title>
+                </ion-toolbar>
+            </ion-header>
 
-        <ion-content [scrollY]="false">
-            <ion-list class="side-menu">
+            <ion-content [scrollY]="false">
+                <ion-list class="side-menu">
+                    <ion-menu-toggle auto-hide="false" *ngFor="let page of Pages; let i = index">
+                        <ion-item class="menu-item"
+                                  lines="none"
+                                  *ngIf="logoutEnabled$ | async"
+                                  routerDirection="root"
+                                  [routerLink]="[page.url]"
+                                  (click)="navPage(page.title)">
+                            <ion-label id="pages-title">{{page.title}}</ion-label>
+                        </ion-item>
+                    </ion-menu-toggle>
+                </ion-list>
+            </ion-content>
+
+            <ion-footer>
                 <ion-item class="menu-item"
                           lines="none"
                           *ngIf="logoutEnabled$ | async"
                           (click)="onLogoutClick()">
                     <ion-label id="logout">Logout</ion-label>
                 </ion-item>
-            </ion-list>
-        </ion-content>
+            </ion-footer>
 
-    </ion-menu>
+        </ion-menu>
+<!--    </ion-split-pane>-->
     <ion-router-outlet id="main-content"></ion-router-outlet>
 </ion-app>

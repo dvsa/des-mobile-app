@@ -24,7 +24,7 @@ import { AppInfoProvider } from '@providers/app-info/app-info';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
-import { LOGIN_PAGE } from '@pages/page-names.constants';
+import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 
 declare let window: any;
 
@@ -34,6 +34,16 @@ declare let window: any;
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
+  Pages = [
+    {
+      title: DASHBOARD_PAGE,
+      url: '/dashboard',
+    },
+    {
+      title: UNUPLOADED_TESTS_PAGE,
+      url: '/Unuploaded-tests',
+    },
+  ];
   textZoom: number = 100;
   logoutEnabled$: Observable<boolean>;
 
@@ -194,4 +204,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     return Promise.resolve();
   };
 
+  navPage = async (pageName: string): Promise<void> => {
+    await this.router.navigate([pageName]);
+    await this.menuController.close();
+  };
 }
