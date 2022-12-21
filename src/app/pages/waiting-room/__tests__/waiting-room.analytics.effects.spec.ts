@@ -28,6 +28,8 @@ import {
   VRNModalOpened,
   VRNModalSaved,
 } from '@store/tests/candidate-section/candidate-section.actions';
+import { Router } from '@angular/router';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import * as waitingRoomActions from '../waiting-room.actions';
 import { WaitingRoomAnalyticsEffects } from '../waiting-room.analytics.effects';
 
@@ -54,6 +56,7 @@ describe('WaitingRoomAnalyticsEffects', () => {
       providers: [
         WaitingRoomAnalyticsEffects,
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        { provide: Router, useValue: { url: `/${TestFlowPageNames.WAITING_ROOM_PAGE}` } },
         provideMockActions(() => actions$),
         Store,
       ],
