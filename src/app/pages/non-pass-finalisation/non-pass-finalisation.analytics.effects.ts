@@ -19,7 +19,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getActivityCode } from '@store/tests/activity-code/activity-code.reducer';
 import { TestsModel } from '@store/tests/tests.model';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import { D255No, D255Yes } from '@store/tests/test-summary/test-summary.actions';
@@ -81,34 +80,6 @@ export class NonPassFinalisationAnalyticsEffects {
         action.errorMessage,
       );
       return of(AnalyticRecorded());
-    }),
-  ));
-
-  transmissionChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(vehicleDetailsActions.GearboxCategoryChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([action, tests, activityCode]:
-    [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCode]) => {
-      if (activityCode) {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-          formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
-          action.gearboxCategory,
-        );
-        return of(AnalyticRecorded());
-      }
-      return of(AnalyticNotRecorded());
     }),
   ));
 

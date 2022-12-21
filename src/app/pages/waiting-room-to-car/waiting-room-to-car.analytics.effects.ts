@@ -26,7 +26,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
-import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { TestsModel } from '@store/tests/tests.model';
 import {
   getApplicationReference,
@@ -62,14 +62,18 @@ import {
   getTrainerRegistrationNumber,
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
 import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
+
+  private classPrefix: string = '/WaitingRoomToCar';
 
   constructor(
     public analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
+    private router: Router,
   ) {
   }
 
@@ -278,12 +282,16 @@ export class WaitingRoomToCarAnalyticsEffects {
     concatMap((
       [{ gearboxCategory }, tests]: [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel],
     ) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
-        formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
-        gearboxCategory,
-      );
-      return of(AnalyticRecorded());
+      // Check current URL begins with WRTC prefix before recording analytic to stop duplicated events.
+      if (this.router.url?.startsWith(this.classPrefix)) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
+          formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
+          gearboxCategory,
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 
