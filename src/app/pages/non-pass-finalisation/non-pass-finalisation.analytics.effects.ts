@@ -84,34 +84,6 @@ export class NonPassFinalisationAnalyticsEffects {
     }),
   ));
 
-  transmissionChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(vehicleDetailsActions.GearboxCategoryChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([action, tests, activityCode]:
-    [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCode]) => {
-      if (activityCode) {
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-          formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),
-          action.gearboxCategory,
-        );
-        return of(AnalyticRecorded());
-      }
-      return of(AnalyticNotRecorded());
-    }),
-  ));
-
   d255Yes$ = createEffect(() => this.actions$.pipe(
     ofType(testSummaryActions.D255Yes),
     concatMap((action) => of(action).pipe(

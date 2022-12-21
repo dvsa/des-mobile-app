@@ -26,6 +26,8 @@ import { AnalyticRecorded, AnalyticNotRecorded } from '@providers/analytics/anal
 import { StoreModel } from '@shared/models/store.model';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { Router } from '@angular/router';
+import { CAT_B } from '@pages/page-names.constants';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as passFinalisationActions from '../pass-finalisation.actions';
 import { PassFinalisationAnalyticsEffects } from '../pass-finalisation.analytics.effects';
@@ -49,6 +51,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
       providers: [
         PassFinalisationAnalyticsEffects,
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        { provide: Router, useValue: { url: `/${CAT_B.PASS_FINALISATION_PAGE}` } },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -58,6 +61,7 @@ describe('PassFinalisationAnalyticsEffects', () => {
     effects = TestBed.inject(PassFinalisationAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
+
     spyOn(analyticsProviderMock, 'logEvent');
   }));
 

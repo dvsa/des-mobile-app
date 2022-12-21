@@ -37,6 +37,7 @@ import {
   getFurtherDevelopment,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
+import { Router } from '@angular/router';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import {
   PassFinalisationViewDidEnter,
@@ -46,10 +47,13 @@ import {
 @Injectable()
 export class PassFinalisationAnalyticsEffects {
 
+  private classPrefix: string = '/PassFinalisation';
+
   constructor(
     public analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
+    private router: Router,
   ) {
   }
 
@@ -180,7 +184,8 @@ export class PassFinalisationAnalyticsEffects {
     )),
     concatMap(([action, tests, activityCode]:
     [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCode]) => {
-      if (activityCode != null) {
+      // Check current URL begins with PassFin prefix before recording analytic to stop duplicated events.
+      if (activityCode != null && this.router.url?.startsWith(this.classPrefix)) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
           formatAnalyticsText(AnalyticsEvents.GEARBOX_CATEGORY_CHANGED, tests),

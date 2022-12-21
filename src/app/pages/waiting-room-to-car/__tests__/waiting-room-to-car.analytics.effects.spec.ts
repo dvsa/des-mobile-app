@@ -29,6 +29,8 @@ import {
   PDILogbook,
   TraineeLicence,
 } from '@store/tests/trainer-details/cat-adi-part3/trainer-details.cat-adi-part3.actions';
+import { Router } from '@angular/router';
+import { CAT_B } from '@pages/page-names.constants';
 import { WaitingRoomToCarAnalyticsEffects } from '../waiting-room-to-car.analytics.effects';
 import * as waitingRoomToCarActions from '../waiting-room-to-car.actions';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
@@ -56,6 +58,7 @@ describe('WaitingRoomToCarAnalyticsEffects', () => {
       providers: [
         WaitingRoomToCarAnalyticsEffects,
         { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        { provide: Router, useValue: { url: `/${CAT_B.WAITING_ROOM_TO_CAR_PAGE}` } },
         provideMockActions(() => actions$),
         Store,
       ],

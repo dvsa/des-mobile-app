@@ -124,60 +124,6 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       });
     });
   });
-  describe('transmissionChanged$', () => {
-    it('should call logEvent with Manual if Gearbox Category is Manual', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
-      store$.dispatch(PopulateCandidateDetails(candidateMock));
-      store$.dispatch(SetActivityCode(ActivityCodes.PASS));
-      // ACT
-      actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Manual));
-      // ASSERT
-      effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.GEARBOX_CATEGORY_CHANGED,
-            TransmissionType.Manual,
-          );
-        done();
-      });
-    });
-    it('should call logEvent with Automatic if Gearbox Category is Automatic', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
-      store$.dispatch(PopulateCandidateDetails(candidateMock));
-      store$.dispatch(SetActivityCode(ActivityCodes.PASS));
-      // ACT
-      actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Automatic));
-      // ASSERT
-      effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent)
-          .toHaveBeenCalledWith(
-            AnalyticsEventCategories.POST_TEST,
-            AnalyticsEvents.GEARBOX_CATEGORY_CHANGED,
-            TransmissionType.Automatic,
-          );
-        done();
-      });
-    });
-    it('should not call logEvent if there is no activity code', (done) => {
-      // ARRANGE
-      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
-      store$.dispatch(PopulateCandidateDetails(candidateMock));
-      store$.dispatch(SetActivityCode(null));
-      // ACT
-      actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Manual));
-      // ASSERT
-      effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
-        done();
-      });
-    });
-  });
   describe('d255Yes', () => {
     it('should call logEvent', (done) => {
       // ARRANGE
