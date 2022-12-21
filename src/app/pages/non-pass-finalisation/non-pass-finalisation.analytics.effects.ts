@@ -16,14 +16,13 @@ import {
 import { AnalyticRecorded, AnalyticNotRecorded } from '@providers/analytics/analytics.actions';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { getTests } from '@store/tests/tests.reducer';
-import { getActivityCode, getCurrentTest } from '@store/tests/tests.selector';
+import { getActivityCode } from '@store/tests/activity-code/activity-code.reducer';
 import { TestsModel } from '@store/tests/tests.model';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import { D255No, D255Yes } from '@store/tests/test-summary/test-summary.actions';
-import { ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import {
@@ -36,6 +35,8 @@ import {
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { getCurrentTest } from '@store/tests/tests.selector';
+import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import * as nonPassFinalisationActions from './non-pass-finalisation.actions';
 import { NonPassFinalisationValidationError, NonPassFinalisationViewDidEnter } from './non-pass-finalisation.actions';
 
@@ -98,7 +99,7 @@ export class NonPassFinalisationAnalyticsEffects {
       ),
     )),
     concatMap(([action, tests, activityCode]:
-    [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCodeModel]) => {
+    [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCode]) => {
       if (activityCode) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -118,15 +119,24 @@ export class NonPassFinalisationAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
         ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getActivityCode),
+        ),
       ),
     )),
-    concatMap(([, tests]: [ReturnType<typeof D255Yes>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.D255, tests),
-        'Yes',
-      );
-      return of(AnalyticRecorded());
+    concatMap(([, tests, activityCode]: [ReturnType<typeof D255Yes>, TestsModel, ActivityCode]) => {
+      // D255Yes used in pass & non-pass flows, this guard stops the appearance of duplicated events.
+      if (activityCode !== ActivityCodes.PASS) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+          formatAnalyticsText(AnalyticsEvents.D255, tests),
+          'Yes',
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 
@@ -137,15 +147,24 @@ export class NonPassFinalisationAnalyticsEffects {
         this.store$.pipe(
           select(getTests),
         ),
+        this.store$.pipe(
+          select(getTests),
+          select(getCurrentTest),
+          select(getActivityCode),
+        ),
       ),
     )),
-    concatMap(([, tests]: [ReturnType<typeof D255No>, TestsModel]) => {
-      this.analytics.logEvent(
-        formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
-        formatAnalyticsText(AnalyticsEvents.D255, tests),
-        'No',
-      );
-      return of(AnalyticRecorded());
+    concatMap(([, tests, activityCode]: [ReturnType<typeof D255No>, TestsModel, ActivityCode]) => {
+      // D255No used in pass & non-pass flows, this guard stops the appearance of duplicated events.
+      if (activityCode !== ActivityCodes.PASS) {
+        this.analytics.logEvent(
+          formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
+          formatAnalyticsText(AnalyticsEvents.D255, tests),
+          'No',
+        );
+        return of(AnalyticRecorded());
+      }
+      return of(AnalyticNotRecorded());
     }),
   ));
 
@@ -164,7 +183,7 @@ export class NonPassFinalisationAnalyticsEffects {
       ),
     )),
     concatMap(([, tests, activityCode]:
-    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCodeModel]) => {
+    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCode]) => {
       if (activityCode) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -192,7 +211,7 @@ export class NonPassFinalisationAnalyticsEffects {
       ),
     )),
     concatMap(([, tests, activityCode]:
-    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCodeModel]) => {
+    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCode]) => {
       if (activityCode) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
