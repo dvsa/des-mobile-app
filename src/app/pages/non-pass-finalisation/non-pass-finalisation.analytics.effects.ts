@@ -19,7 +19,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getActivityCode } from '@store/tests/activity-code/activity-code.reducer';
 import { TestsModel } from '@store/tests/tests.model';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
-import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import { D255No, D255Yes } from '@store/tests/test-summary/test-summary.actions';

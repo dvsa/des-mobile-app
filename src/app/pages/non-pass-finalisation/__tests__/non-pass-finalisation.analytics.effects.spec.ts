@@ -12,7 +12,6 @@ import {
 } from '@providers/analytics/analytics.model';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import * as testsActions from '@store/tests/tests.actions';
-import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import { testsReducer } from '@store/tests/tests.reducer';
@@ -23,7 +22,6 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { TransmissionType } from '@shared/models/transmission-type';
 import { StoreModel } from '@shared/models/store.model';
 import * as nonPassFinalisationActions from '../non-pass-finalisation.actions';
 import { NonPassFinalisationAnalyticsEffects } from '../non-pass-finalisation.analytics.effects';
