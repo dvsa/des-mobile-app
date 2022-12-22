@@ -35,14 +35,8 @@ declare let window: any;
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   Pages = [
-    {
-      title: DASHBOARD_PAGE,
-      url: '/dashboard',
-    },
-    {
-      title: UNUPLOADED_TESTS_PAGE,
-      url: '/Unuploaded-tests',
-    },
+    { title: DASHBOARD_PAGE },
+    { title: UNUPLOADED_TESTS_PAGE },
   ];
   textZoom: number = 100;
   logoutEnabled$: Observable<boolean>;
