@@ -2,6 +2,9 @@
   <ion-toolbar mode="ios">
     <ion-buttons id="burger-menu" slot="start">
       <ion-menu-button></ion-menu-button>
+      <ion-badge *ngIf="(pageState?.unSubmittedTestSlotsCount$ | async) as unSubmittedTestSlotsCount;" color="danger">
+        {{unSubmittedTestSlotsCount}}
+      </ion-badge>
     </ion-buttons>
     <ion-buttons slot="end">
       <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
