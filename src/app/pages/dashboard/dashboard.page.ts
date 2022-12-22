@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import {
+  combineLatest, Observable,
+} from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
@@ -34,7 +36,7 @@ interface DashboardPageState {
   employeeId$: Observable<string>;
   role$: Observable<string>;
   isOffline$: Observable<boolean>;
-  unSubmittedTestSlotsCount$: Observable<number>;
+  notificationCount$: Observable<number>;
 }
 
 @Component({
@@ -74,16 +76,17 @@ export class DashboardPage extends BasePageComponent {
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       isOffline$: this.networkStateProvider.isOffline$,
-      unSubmittedTestSlotsCount$: this.store$.pipe(
-        select(getTests),
-        select(getAllIncompleteTestsSlotIds), // get all slot ids regarded as incomplete from 'tests' slice of state
-        withLatestFrom(
-          this.store$.pipe(
-            select(getJournalState), // grab 'journal' slice
-          ),
+      notificationCount$: combineLatest([
+        // each of the individual counts can be added to this array
+        this.store$.pipe(
+          select(getTests),
+          select(getAllIncompleteTestsSlotIds),
+          withLatestFrom(this.store$.pipe(select(getJournalState))),
+          map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)?.length),
         ),
-        // filter journal slots by incomplete slot ids inside tests
-        map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)?.length),
+      ]).pipe(
+        // Sum all individual counts to determine overall count
+        map((notificationCounts) => notificationCounts.reduce((a, b) => a + b, 0)),
       ),
     };
   }
