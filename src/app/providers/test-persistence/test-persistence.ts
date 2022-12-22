@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { omit } from 'lodash';
 import { DateTime } from '@shared/helpers/date-time';
 import { TestsModel } from '@store/tests/tests.model';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { DataStoreProvider } from '../data-store/data-store';
 import { AppConfigProvider } from '../app-config/app-config';
 
@@ -64,14 +63,12 @@ export class TestPersistenceProvider {
   }
 
   getTestsToDelete(tests: TestsModel): string[] {
-    return Object.keys(tests.startedTests).filter((key, index) => {
+    const { daysToCacheJournalData } = this.appConfigProvider.getAppConfig()?.journal;
+    const GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS: number = 3;
+
+    return Object.keys(tests.startedTests).filter((key) => {
       const startDate: DateTime = new DateTime(tests.startedTests[key].journalData.testSlotAttributes.start);
-      console.log('===================================');
-      console.log(`Test status[${index}]:`, tests.testStatus);
-      console.log('===================================');
-      return startDate.daysDiff(new DateTime()) > (tests.testStatus[0] === TestStatus.Submitted
-        ? this.appConfigProvider.getAppConfig().journal.daysToCacheJournalData
-        : this.appConfigProvider.getAppConfig().journal.daysToCacheJournalData + 3);
+      return (startDate.daysDiff(new DateTime())) > (daysToCacheJournalData + GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS);
     });
   }
 

@@ -1,8 +1,8 @@
 <ion-app [ngClass]="[getTextZoomClass()]">
   <ion-menu side="start" content-id="main-content">
     <ion-header>
-      <ion-toolbar mode="ios">
-        <ion-title>Menu</ion-title>
+      <ion-toolbar mode="ios" style="border-bottom: .5px solid white;">
+        <ion-title>Menu - {{pageState?.unSubmittedTestSlotsCount$ | async}}</ion-title>
       </ion-toolbar>
     </ion-header>
 
@@ -11,19 +11,19 @@
         <ion-item
           *ngFor="let page of Pages;"
           class="menu-item"
-          lines="none"
           (click)="navPage(page.title)">
-          <ion-label>{{page.title}}</ion-label>
+          <ion-label>{{page.descriptor}}</ion-label>
         </ion-item>
       </ion-list>
     </ion-content>
 
     <ion-footer>
       <ion-list>
-        <ion-item class="menu-item"
-                  lines="none"
-                  *ngIf="logoutEnabled$ | async"
-                  (click)="onLogoutClick()">
+        <ion-item
+          class="menu-item"
+          lines="none"
+          *ngIf="pageState?.logoutEnabled$ | async"
+          (click)="onLogoutClick()">
           <ion-label id="logout">Logout</ion-label>
         </ion-item>
       </ion-list>

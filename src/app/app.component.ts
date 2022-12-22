@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
@@ -25,8 +25,17 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
 import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
+import { getTests } from '@store/tests/tests.reducer';
+import { getAllIncompleteTestsSlotIds } from '@store/tests/tests.selector';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 
 declare let window: any;
+
+interface AppComponentPageState {
+  logoutEnabled$: Observable<boolean>;
+  unSubmittedTestSlotsCount$: Observable<number>;
+}
 
 @Component({
   selector: 'app-root',
@@ -35,11 +44,12 @@ declare let window: any;
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   Pages = [
-    { title: DASHBOARD_PAGE },
-    { title: UNUPLOADED_TESTS_PAGE },
+    { title: DASHBOARD_PAGE, descriptor: 'Dashboard' },
+    { title: UNUPLOADED_TESTS_PAGE, descriptor: 'Unsubmitted Tests' },
   ];
   textZoom: number = 100;
-  logoutEnabled$: Observable<boolean>;
+
+  pageState: AppComponentPageState;
 
   private platformSubscription: Subscription;
 
@@ -80,7 +90,22 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         this.configurePlatformSubscriptions();
       }
       await this.disableMenuSwipe();
-      this.logoutEnabled$ = this.store$.select(selectLogoutEnabled);
+
+      this.pageState = {
+        logoutEnabled$: this.store$.select(selectLogoutEnabled),
+        unSubmittedTestSlotsCount$: this.store$.pipe(
+          select(getTests),
+          select(getAllIncompleteTestsSlotIds), // get all slot ids regarded as incomplete from 'tests' slice of state
+          withLatestFrom(
+            this.store$.pipe(
+              select(getJournalState), // grab 'journal' slice
+            ),
+          ),
+          // filter journal slots by incomplete slot ids inside tests
+          map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)?.length),
+        ),
+      };
+
     } catch {
       await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
     }
