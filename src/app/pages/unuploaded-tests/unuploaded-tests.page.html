@@ -10,7 +10,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="ion-padding" *ngIf="{
+   slots: pageState.unSubmittedTestSlots$ | async
+} as state">
+
   <div>
     <profile-header
       [employeeId]="pageState.employeeId$ | async"
@@ -19,15 +22,13 @@
     </profile-header>
   </div>
 
-  <unuploaded-slot
-    *ngFor="let slot of (pageState.testsInWriteUp$ | async); let count = count;"
-    [count]="count"
-    [slotStartDate]="slot.journalData?.testSlotAttributes?.start | date: 'dd/MM/yyyy'"
-    [appRef]="formatAppRef(slot.journalData?.applicationReference)"
-    [candidateTitledName]="getName(slot.journalData?.candidate)"
-    [category]="slot.category"
-    [driverNumber]="slot.journalData?.candidate?.driverNumber"
-    [slotID]="slot.journalData?.testSlotAttributes?.slotId"
-    (writeUpClicked)="startTestInWriteUp($event)"
-  ></unuploaded-slot>
+  <h2 style="border-top: 1px solid black;">
+    You have {{state.slots?.length || 0}} un-submitted tests (over 72 hours old)
+  </h2>
+
+  <test-slot
+    *ngFor="let slot of state.slots; let count = count;"
+    [slot]="slot?.slotData"
+    [isUnSubmittedTestSlotView]="true">
+  </test-slot>
 </ion-content>

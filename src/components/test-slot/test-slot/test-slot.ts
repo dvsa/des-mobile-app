@@ -29,6 +29,7 @@ import { isRekey } from '@store/tests/rekey/rekey.selector';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { AppComponent } from '@app/app.component';
+import { formatApplicationReference } from '@shared/helpers/formatters';
 import { vehicleDetails } from './test-slot.constants';
 import { SlotComponent } from '../slot/slot';
 
@@ -81,9 +82,14 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   @Input()
   isPracticeMode?: boolean = false;
 
+  @Input()
+  isUnSubmittedTestSlotView: boolean = false;
+
   componentState: TestSlotComponentState;
 
   practiceTestStatus: TestStatus = TestStatus.Booked;
+
+  formatAppRef = formatApplicationReference;
 
   constructor(
     public screenOrientation: ScreenOrientation,

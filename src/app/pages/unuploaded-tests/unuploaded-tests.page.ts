@@ -3,20 +3,14 @@ import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@stor
 import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { map } from 'rxjs/operators';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { getTests } from '@store/tests/tests.reducer';
-import { getAllIncompleteTests } from '@store/tests/tests.selector';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
+import { getAllIncompleteTestsSlotIds } from '@store/tests/tests.selector';
 import { SlotItem } from '@providers/slot-selector/slot-item';
-import { Candidate } from '@dvsa/mes-test-schema/categories/common';
-import { formatApplicationReference } from '@shared/helpers/formatters';
-import { ActivateTest } from '@store/tests/tests.actions';
-import { ResumingWriteUp } from '@store/journal/journal.actions';
-import { TestFlowPageNames } from '@pages/page-names.constants';
-import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 
 interface UnunploadedTestsPageState {
   appVersion$: Observable<string>;
@@ -24,8 +18,7 @@ interface UnunploadedTestsPageState {
   employeeId$: Observable<string>;
   role$: Observable<string>;
 
-  testsInWriteUp$: Observable<TestResultSchemasUnion[]>;
-  slots$?: Observable<SlotItem[]>;
+  unSubmittedTestSlots$?: Observable<SlotItem[]>;
 }
 
 @Component({
@@ -34,14 +27,10 @@ interface UnunploadedTestsPageState {
   styleUrls: ['unuploaded-tests.page.scss'],
 })
 export class UnuploadedTestsPage implements OnInit {
-
-  formatAppRef = formatApplicationReference;
-
   pageState: UnunploadedTestsPageState;
 
   constructor(
     private store$: Store<StoreModel>,
-    private routeByCat: RouteByCategoryProvider,
   ) {
   }
 
@@ -51,26 +40,21 @@ export class UnuploadedTestsPage implements OnInit {
       employeeName$: this.store$.select(selectEmployeeName),
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
-      testsInWriteUp$: this.store$.pipe(
+      unSubmittedTestSlots$: this.store$.pipe(
         select(getTests),
-        select(getAllIncompleteTests),
+        select(getAllIncompleteTestsSlotIds), // get all slot ids regarded as incomplete from 'tests' slice of state
+        withLatestFrom(
+          this.store$.pipe(
+            select(getJournalState), // grab 'journal' slice
+          ),
+        ),
+        // filter journal slots by incomplete slot ids inside tests
+        map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)),
       ),
     };
   }
-
-  startTestInWriteUp = async ({ slotID, category }: { slotID: number, category: string }) => {
-    this.store$.dispatch(ActivateTest(slotID, category as TestCategory));
-    this.store$.dispatch(ResumingWriteUp(slotID.toString()));
-    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, category as TestCategory);
-  };
-
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';
 
   getEmployeeNumberDisplayValue = (employeeNumber: string): string => employeeNumber || 'NOT_KNOWN';
-
-  getName(candidate: Candidate): string {
-    const { candidateName: name } = candidate;
-    return name.title ? `${name.title} ${name.firstName} ${name.lastName}` : `${name.firstName} ${name.lastName}`;
-  }
 
 }

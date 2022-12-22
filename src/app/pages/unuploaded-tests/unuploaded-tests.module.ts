@@ -6,7 +6,6 @@ import { UnuploadedTestsPage } from '@pages/unuploaded-tests/unuploaded-tests.pa
 import { UnuploadedTestsRoutingModule } from '@pages/unuploaded-tests/unuploaded-tests-routing.module';
 import { DashboardComponentsModule } from '@pages/dashboard/components/dashboard-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
-import { UnuploadedTestsComponentModule } from '@pages/unuploaded-tests/components/unuploaded-tests.component.module';
 
 @NgModule({
   imports: [
@@ -16,7 +15,6 @@ import { UnuploadedTestsComponentModule } from '@pages/unuploaded-tests/componen
     UnuploadedTestsRoutingModule,
     DashboardComponentsModule,
     TestSlotComponentsModule,
-    UnuploadedTestsComponentModule,
   ],
   declarations: [UnuploadedTestsPage],
 })
