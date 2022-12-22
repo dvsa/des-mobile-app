@@ -45,7 +45,7 @@ interface AppComponentPageState {
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   Pages = [
     { title: DASHBOARD_PAGE, descriptor: 'Dashboard' },
-    { title: UNUPLOADED_TESTS_PAGE, descriptor: 'Unsubmitted Tests' },
+    { title: UNUPLOADED_TESTS_PAGE, descriptor: 'Unsubmitted Tests', showUnSubmittedCount: true },
   ];
   textZoom: number = 100;
 
