@@ -5,8 +5,12 @@ import {
 @Component({
   selector: 'unuploaded-slot',
   templateUrl: 'unuploaded-slot.html',
+  styleUrls: ['unuploaded-slot.scss'],
 })
 export class UnuploadedSlot {
+
+  @Input()
+  count: number;
 
   @Input()
   slotStartDate: string;
@@ -23,9 +27,15 @@ export class UnuploadedSlot {
   @Input()
   driverNumber: string;
 
-  @Output()
-  writeUpClicked = new EventEmitter<string>();
+  @Input()
+  slotID: number;
 
-  writeUpClick = () => this.writeUpClicked.emit(this.appRef);
+  @Output()
+  writeUpClicked = new EventEmitter<{ slotID: number; category: string; }>();
+
+  writeUpClick = () => this.writeUpClicked.emit({
+    slotID: this.slotID,
+    category: this.category,
+  });
 
 }

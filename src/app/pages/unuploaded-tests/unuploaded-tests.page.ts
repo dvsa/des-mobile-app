@@ -32,6 +32,7 @@ export class UnuploadedTestsPage implements OnInit {
 
   constructor(
     private store$: Store<StoreModel>,
+    private routeByCat: RouteByCategoryProvider,
   ) {
   }
 
