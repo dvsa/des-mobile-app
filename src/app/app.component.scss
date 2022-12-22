@@ -1,19 +1,21 @@
-.side-menu {
-  background: var(--mes-toolbar-background);
-  height: 100vh;
-  width: 100vh;
-  overflow: auto;
-}
+:host {
+  .side-menu {
+    background: var(--mes-toolbar-background);
+    height: 100vh;
+    width: 100vh;
+    overflow: auto;
+  }
 
-.menu-item {
-  --ion-item-background: var(--mes-toolbar-background);
-  color: white;
-}
+  .menu-item {
+    --ion-item-background: var(--mes-toolbar-background);
+    color: white;
+  }
 
-.menu-version-label {
-  color: white;
-}
+  .menu-version-label {
+    color: white;
+  }
 
-body {
-  -webkit-text-size-adjust: 100% !important; // prevents the iOS text size config from adjusting webview zoom level
+  body {
+    -webkit-text-size-adjust: 100% !important; // prevents the iOS text size config from adjusting webview zoom level
+  }
 }

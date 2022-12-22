@@ -6,15 +6,14 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content [scrollY]="false">
-      <ion-list class="side-menu">
+    <ion-content [scrollY]="false" style="--ion-background-color: var(--mes-toolbar-background);">
         <ion-item
           *ngFor="let page of Pages;"
           class="menu-item"
+          detail="true"
           (click)="navPage(page.title)">
           <ion-label>{{page.descriptor}}</ion-label>
         </ion-item>
-      </ion-list>
     </ion-content>
 
     <ion-footer>
