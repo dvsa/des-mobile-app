@@ -10,8 +10,13 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getAllIncompleteTests } from '@store/tests/tests.selector';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { SlotItem } from '@providers/slot-selector/slot-item';
-import { Candidate, Name } from '@dvsa/mes-test-schema/categories/common';
+import { Candidate } from '@dvsa/mes-test-schema/categories/common';
 import { formatApplicationReference } from '@shared/helpers/formatters';
+import { ActivateTest } from '@store/tests/tests.actions';
+import { ResumingWriteUp } from '@store/journal/journal.actions';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 interface UnunploadedTestsPageState {
   appVersion$: Observable<string>;
@@ -36,6 +41,7 @@ export class UnuploadedTestsPage implements OnInit {
 
   constructor(
     private store$: Store<StoreModel>,
+    private routeByCat: RouteByCategoryProvider,
   ) {
   }
 
@@ -52,8 +58,10 @@ export class UnuploadedTestsPage implements OnInit {
     };
   }
 
-  startTestInWriteUp = (appRef: string) => {
-    console.log(appRef);
+  startTestInWriteUp = async ({ slotID, category }: { slotID: number, category: string }) => {
+    this.store$.dispatch(ActivateTest(slotID, category as TestCategory));
+    this.store$.dispatch(ResumingWriteUp(slotID.toString()));
+    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, category as TestCategory);
   };
 
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';

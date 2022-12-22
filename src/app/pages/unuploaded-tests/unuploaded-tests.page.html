@@ -1,36 +1,33 @@
 <ion-header>
-    <ion-toolbar mode="ios">
-        <ion-buttons id="burger-menu" slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-buttons slot="end">
-            <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
-        </ion-buttons>
-        <ion-title id="page-title">My Dashboard</ion-title>
-    </ion-toolbar>
+  <ion-toolbar mode="ios">
+    <ion-buttons id="burger-menu" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+    </ion-buttons>
+    <ion-title id="page-title">My Dashboard</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-    <div>
-        <profile-header
-          [employeeId]="pageState.employeeId$ | async"
-          [name]="pageState.employeeName$ | async"
-          [role]="pageState.role$ | async">
-        </profile-header>
-    </div>
+  <div>
+    <profile-header
+      [employeeId]="pageState.employeeId$ | async"
+      [name]="pageState.employeeName$ | async"
+      [role]="pageState.role$ | async">
+    </profile-header>
+  </div>
 
-    <h2 style="border-top: 1px solid black;">
-        You have x un-submitted tests (over 72 hours old)
-    </h2>
-
-    <ion-card class="card-ios" *ngFor="let slot of (pageState.testsInWriteUp$ | async)">
-        <unuploaded-slot
-          [slotStartDate]="slot.journalData?.testSlotAttributes?.start | date: 'dd/MM/yyyy'"
-          [appRef]="formatAppRef(slot.journalData?.applicationReference)"
-          [candidateTitledName]="getName(slot.journalData?.candidate)"
-          [category]="slot.category"
-          [driverNumber]="slot.journalData?.candidate?.driverNumber"
-          (writeUpClicked)="startTestInWriteUp($event)"
-        ></unuploaded-slot>
-    </ion-card>
+  <unuploaded-slot
+    *ngFor="let slot of (pageState.testsInWriteUp$ | async); let count = count;"
+    [count]="count"
+    [slotStartDate]="slot.journalData?.testSlotAttributes?.start | date: 'dd/MM/yyyy'"
+    [appRef]="formatAppRef(slot.journalData?.applicationReference)"
+    [candidateTitledName]="getName(slot.journalData?.candidate)"
+    [category]="slot.category"
+    [driverNumber]="slot.journalData?.candidate?.driverNumber"
+    [slotID]="slot.journalData?.testSlotAttributes?.slotId"
+    (writeUpClicked)="startTestInWriteUp($event)"
+  ></unuploaded-slot>
 </ion-content>
