@@ -32,6 +32,7 @@ describe('AdvancedSearchComponent', () => {
       expect(component).toBeDefined();
     });
   });
+
   describe('upperCaseAlphaNum', () => {
     const testItem: any = {
       target: {
@@ -41,6 +42,66 @@ describe('AdvancedSearchComponent', () => {
     it('should change the string within the object to contain only uppercase alphanumeric characters', () => {
       component.upperCaseAlphaNum(testItem);
       expect(testItem.target.value).toEqual('12ABC');
+    });
+  });
+
+  describe('changeDate', () => {
+    it('should set startDate to event data if the control is "start-date"', () => {
+      component.changeDate({ control: 'start-date', data: 'data' });
+      expect(component.startDate).toBe('data');
+    });
+    it('should set endDate to event data if the control is "end-date"', () => {
+      component.changeDate({ control: 'end-date', data: 'data' });
+      expect(component.endDate).toBe('data');
+    });
+    it('should break out if the control is neither "start-date" or "end-date"', () => {
+      component.changeDate({ control: 'test', data: 'data' });
+      expect(component.endDate).toBe('');
+      expect(component.startDate).toBe('');
+    });
+  });
+
+  describe('searchTests', () => {
+    it('should create and emit advanced search params', () => {
+      component.startDate = 'startDate';
+      component.endDate = 'endDate';
+      component.importStaffNumber = 'staffNumber';
+      component.dtcNumber = 'dtcNumber';
+      component.selectedActivity.activityCode = 'activityCode';
+      [component.selectedCategory] = component.testCategories;
+
+      spyOn(component.onSearchTests, 'emit');
+      component.searchTests();
+
+      expect(component.onSearchTests.emit).toHaveBeenCalledWith({
+        startDate: 'startDate',
+        endDate: 'endDate',
+        staffNumber: 'staffNumber',
+        costCode: 'dtcNumber',
+        activityCode: 'activityCode',
+        category: '',
+      });
+    });
+  });
+
+  describe('activitySelectChange', () => {
+    it('should set selectedActivity to the params passed in', () => {
+      component.activitySelectChange({ activityCode: 'activityCode', description: 'description' });
+      expect(component.selectedActivity).toEqual({ activityCode: 'activityCode', description: 'description' });
+    });
+  });
+
+  describe('categorySelectChange', () => {
+    it('should set selectedCategory to the params passed in', () => {
+      component.categorySelectChange('test');
+      expect(component.selectedCategory).toBe('test');
+    });
+  });
+
+  describe('setFocus', () => {
+    it('should set focusedElement to the params passed in', () => {
+      component.setFocus('test');
+      expect(component.focusedElement).toBe('test');
     });
   });
 });

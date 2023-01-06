@@ -88,7 +88,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     authenticationProvider: AuthenticationProvider,
     router: Router,
     store$: Store<StoreModel>,
-    private deviceAuthenticationProvider: DeviceAuthenticationProvider,
+    public deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private translate: TranslateService,
     public modalController: ModalController,
     public routeByCat: RouteByCategoryProvider,

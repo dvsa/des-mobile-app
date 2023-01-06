@@ -30,9 +30,9 @@ export class CircuitComponent implements OnChanges {
   @Output()
   circuitChange = new EventEmitter<Circuit>();
 
-  private formControl: UntypedFormControl;
-  private formField: string = 'circuit';
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  formControl: UntypedFormControl;
+  formField: string = 'circuit';
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {

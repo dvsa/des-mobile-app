@@ -30,7 +30,7 @@ export class ReasonGivenComponent implements OnChanges {
   adviceReason = new EventEmitter<string>();
 
   noAdviceCharsRemaining: number = null;
-  private formControl: UntypedFormControl = null;
+  formControl: UntypedFormControl = null;
   static readonly fieldName: string = 'reasonGiven';
 
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }

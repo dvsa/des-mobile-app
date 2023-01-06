@@ -24,6 +24,7 @@ import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 
+import { Subscription } from 'rxjs';
 import { TestOutcomeComponent } from '../test-outcome';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 
@@ -498,6 +499,16 @@ describe('TestOutcomeComponent', () => {
           expect(component.displayForceCheckModal).toHaveBeenCalledTimes(0);
         });
       });
+    });
+  });
+
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from the subscription if there is one', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
     });
   });
 });

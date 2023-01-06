@@ -17,7 +17,7 @@ export class ModalActivityCodeListComponent {
   idPrefix: string = 'activity-code-modal';
 
   constructor(
-    private modalController: ModalController,
+    public modalController: ModalController,
   ) {
   }
 

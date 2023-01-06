@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
-import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReasonGivenComponent } from '../reason-given.component';
 
 describe('ReasonGivenComponent', () => {
@@ -78,6 +78,53 @@ describe('ReasonGivenComponent', () => {
       component.noAdviceCharsRemaining = -1;
       expect(component.getCharacterCountText())
         .toEqual('You have 1 character too many');
+    });
+  });
+
+  describe('adviceReasonChange', () => {
+    it('should emit text', () => {
+      spyOn(component.adviceReason, 'emit');
+      const text = 'this is test text';
+      component.adviceReasonChange(text);
+      expect(component.adviceReason.emit).toHaveBeenCalledWith(text);
+    });
+  });
+  describe('invalid', () => {
+    it('should return true if the formControl is invalid and dirty', () => {
+      component.ngOnChanges();
+      component.formGroup.get(ReasonGivenComponent.fieldName).setValidators([Validators.required]);
+
+      component.formControl.setValue(null);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeTruthy();
+    });
+    it('should return false if the formControl is valid and dirty', () => {
+      component.ngOnChanges();
+      component.formGroup.get(ReasonGivenComponent.fieldName).setValidators([Validators.required]);
+
+      component.formControl.setValue(1);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is invalid and clean', () => {
+      component.ngOnChanges();
+      component.formGroup.get(ReasonGivenComponent.fieldName).setValidators([Validators.required]);
+
+      component.formControl.setValue(null);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is valid and clean', () => {
+      component.ngOnChanges();
+      component.formGroup.get(ReasonGivenComponent.fieldName).setValidators([Validators.required]);
+
+      component.formControl.setValue(1);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
     });
   });
 });
