@@ -66,4 +66,20 @@ describe('ProvidedEmailComponent', () => {
       });
     });
   });
+
+  describe('ngOnChanges', () => {
+    it('should set up the  form control if there is not already one', () => {
+      component.radioButtonControl = null;
+      component.ngOnChanges();
+      expect(component.formGroup.get(ProvidedEmailComponent.radioCtrl)).not.toBeNull();
+    });
+  });
+
+  describe('providedEmailRadioSelected', () => {
+    it('should emit newEmailRadioSelect with correct parameters', () => {
+      spyOn(component.providedEmailRadioSelect, 'emit');
+      component.providedEmailRadioSelected();
+      expect(component.providedEmailRadioSelect.emit).toHaveBeenCalledWith(ProvidedEmailComponent.providedEmail);
+    });
+  });
 });

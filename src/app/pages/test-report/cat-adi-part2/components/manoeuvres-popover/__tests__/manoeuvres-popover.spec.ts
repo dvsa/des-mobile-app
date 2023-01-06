@@ -2,21 +2,20 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavController } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import {
-  RecordManoeuvresSelection, AddManoeuvreDrivingFault, AddManoeuvreSeriousFault, AddManoeuvreDangerousFault,
+  AddManoeuvreDangerousFault,
+  AddManoeuvreDrivingFault,
+  AddManoeuvreSeriousFault,
+  RecordManoeuvresSelection,
 } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { By } from '@angular/platform-browser';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import {
-  DrivingFaultsBadgeComponent,
-} from '@components/common/driving-faults-badge/driving-faults-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { NavControllerMock } from '@mocks/index.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
-import {
-  NavigationStateProviderMock,
-} from '@providers/navigation-state/__mocks__/navigation-state.mock';
+import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
 import { testReportReducer } from '../../../../test-report.reducer';
 import { ManoeuvresPopoverComponentAdiPart2 } from '../manoeuvres-popover';
 import { ManoeuvreCompetencyComponentAdiPart2 } from '../../manoeuvre-competency/manoeuvre-competency';
@@ -196,6 +195,25 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
         expect(fixture.debugElement.query(By.css('#manoeuvres-forward-park-radio1'))
           .nativeElement.disabled).toBe(true);
       });
+    });
+  });
+
+  describe('manoeuvreHasFaults', () => {
+    it('should return true is manoeuvre is present and controlFault is not null', () => {
+      expect(component.manoeuvreHasFaults({ controlFault: 'present' })).toBeTruthy();
+    });
+    it('should return true is manoeuvre is present and observationFault is not null', () => {
+      expect(component.manoeuvreHasFaults({ observationFault: 'present' })).toBeTruthy();
+    });
+    it('should return null is manoeuvre is not present', () => {
+      expect(component.manoeuvreHasFaults(null)).toBeNull();
+    });
+  });
+
+  describe('getId', () => {
+    it('should return "forwardPark-controlFault1"', () => {
+      expect(component.getId(ManoeuvreTypes.forwardPark, ManoeuvreCompetencies.controlFault, 1))
+        .toBe('forwardPark-controlFault1');
     });
   });
 });

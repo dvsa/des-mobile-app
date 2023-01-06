@@ -53,6 +53,44 @@ describe('NewEmailComponent', () => {
     });
   });
 
+  describe('ngOnChanges', () => {
+    it('should set up the form control if there isn\'t already one', () => {
+      component.radioButtonControl = null;
+      component.ngOnChanges();
+      expect(component.formGroup.get('radioCtrl')).not.toBeNull();
+    });
+    it('should set up the second form control if there isn\'t already one', () => {
+      component.formControl = null;
+      component.ngOnChanges();
+      expect(component.formGroup.get('newEmailCtrl')).not.toBeNull();
+    });
+    it('should set up additional validators if necessary', () => {
+      component.formControl = null;
+      component.isNewEmailAddressChosen = true;
+      component.ngOnChanges();
+
+      expect(component.formControl).not.toBeNull();
+      expect(component.formControl.validator).not.toBeNull();
+    });
+  });
+
+  describe('newEmailRadioSelected', () => {
+    it('should emit newEmailRadioSelect with correct parameters', () => {
+      spyOn(component.newEmailRadioSelect, 'emit');
+      component.newEmailRadioSelected();
+      expect(component.newEmailRadioSelect.emit).toHaveBeenCalledWith(NewEmailComponent.newEmail);
+    });
+  });
+
+  describe('newEmailTextChanged', () => {
+    it('should emit newEmailTextChanged with correct parameters', () => {
+      spyOn(component.newEmailTextChange, 'emit');
+      component.formControl.setValidators(null);
+      component.newEmailTextChanged('1');
+      expect(component.newEmailTextChange.emit).toHaveBeenCalledWith('1');
+    });
+  });
+
   describe('DOM', () => {
     describe('i18n', () => {
       it('should render in English by default', (done) => {

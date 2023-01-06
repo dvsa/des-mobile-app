@@ -22,7 +22,7 @@ export class Adi3EndTestModal implements OnInit {
   riskToPublicSafety: boolean;
 
   constructor(
-    private modalCtrl: ModalController,
+    public modalCtrl: ModalController,
     private navParams: NavParams,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {

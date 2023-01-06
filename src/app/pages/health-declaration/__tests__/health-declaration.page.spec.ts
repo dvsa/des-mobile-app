@@ -213,6 +213,16 @@ describe('HealthDeclarationPage', () => {
     });
   });
 
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from the subscription if there is one', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
+    });
+  });
+
   describe('DOM', () => {
     describe('multi language support', () => {
       it('should render the page in English by default', () => {
