@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
 import {
   ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators,
 } from '@angular/forms';
@@ -19,8 +18,6 @@ describe('CircuitComponent', () => {
       imports: [
         IonicModule,
         ReactiveFormsModule,
-        TranslateModule.forRoot({
-        }),
       ],
       providers: [
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },

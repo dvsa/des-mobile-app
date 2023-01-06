@@ -1,7 +1,6 @@
 import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
 import {
   ReactiveFormsModule, UntypedFormGroup, Validators,
 } from '@angular/forms';
@@ -18,8 +17,6 @@ describe('BikeCategoryTypeComponent', () => {
       imports: [
         IonicModule,
         ReactiveFormsModule,
-        TranslateModule.forRoot({
-        }),
       ],
       providers: [
         BikeCategoryDetailProvider,

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TypeaheadDropdownComponent } from '@components/common/typeahead-dropdown/typeahead-dropdown';
 
@@ -12,8 +11,6 @@ describe('TypeaheadDropdownComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         IonicModule,
-        TranslateModule.forRoot({
-        }),
       ],
       providers: [
         provideMockStore({ ...{} }),

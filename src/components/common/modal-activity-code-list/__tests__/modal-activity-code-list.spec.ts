@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
 import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
@@ -15,8 +14,6 @@ describe('ModalActivityCodeListComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         IonicModule,
-        TranslateModule.forRoot({
-        }),
       ],
       providers: [
         provideMockStore({ ...{} }),

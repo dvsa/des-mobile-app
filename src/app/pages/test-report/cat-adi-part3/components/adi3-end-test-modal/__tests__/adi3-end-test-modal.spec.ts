@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavParams } from '@ionic/angular';
-import { TranslateModule } from '@ngx-translate/core';
 import {
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -34,8 +33,6 @@ describe('Adi3EndTestModal', () => {
       imports: [
         IonicModule,
         ReactiveFormsModule,
-        TranslateModule.forRoot({
-        }),
       ],
       providers: [
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
