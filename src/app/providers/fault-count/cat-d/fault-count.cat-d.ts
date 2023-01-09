@@ -154,8 +154,11 @@ export class FaultCountDHelper {
       return { seriousFaults: 0, drivingFaults: 0 };
     }
 
-    const showMeQuestions: QuestionResult[] = [get(vehicleChecks, 'showMeQuestions[0]', ...[])];
-    const tellMeQuestions: QuestionResult[] = [get(vehicleChecks, 'tellMeQuestions[0]', ...[])];
+    const smQ1 = get(vehicleChecks, 'showMeQuestions[0]');
+    const tmQ1 = get(vehicleChecks, 'tellMeQuestions[0]');
+
+    const showMeQuestions: QuestionResult[] = smQ1 ? [smQ1] : [];
+    const tellMeQuestions: QuestionResult[] = tmQ1 ? [tmQ1] : [];
 
     const numberOfShowMeFaults: number = showMeQuestions.filter((showMeQuestion) => {
       return showMeQuestion.outcome === CompetencyOutcome.DF;
