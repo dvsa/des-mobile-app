@@ -24,6 +24,8 @@ export const initialState: JournalData = {
   },
   testSlotAttributes: {
     entitlementCheck: null,
+    categoryEntitlementCheck: null,
+    fitMarker: null,
     examinerVisiting: null,
     extendedTest: null,
     previousCancellation: null,

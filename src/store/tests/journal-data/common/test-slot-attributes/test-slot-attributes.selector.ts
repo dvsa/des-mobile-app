@@ -10,6 +10,7 @@ export const isExtendedTest = (attributes: TestSlotAttributes) => attributes.ext
 export const isSpecialNeeds = (attributes: TestSlotAttributes) => attributes.specialNeeds || false;
 export const getSlotId = (attributes: TestSlotAttributes) => attributes.slotId;
 export const isWelshTest = (attributes: TestSlotAttributes) => attributes.welshTest;
+export const getFitMarker = (attributes: TestSlotAttributes) => attributes.fitMarker;
 
 export const extractTestSlotAttributes = (slotData: TestSlot): TestSlotAttributes => ({
   welshTest: slotData?.booking?.application?.welshTest || false,
@@ -23,5 +24,7 @@ export const extractTestSlotAttributes = (slotData: TestSlot): TestSlotAttribute
   examinerVisiting: slotData?.examinerVisiting,
   previousCancellation: slotData?.booking?.previousCancellation,
   entitlementCheck: slotData?.booking?.application?.entitlementCheck,
+  categoryEntitlementCheck: slotData?.booking?.application?.categoryEntitlementCheck || false,
+  fitMarker: slotData?.booking?.application?.fitMarker || false,
   slotType: getSlotType(slotData),
 });
