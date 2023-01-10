@@ -5,6 +5,7 @@ import { SubmissionStatusComponent } from '../submission-status';
 
 describe('PracticeTestModal', () => {
   let fixture: ComponentFixture<SubmissionStatusComponent>;
+  let component: SubmissionStatusComponent;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -20,4 +21,8 @@ describe('PracticeTestModal', () => {
     fixture = TestBed.createComponent(SubmissionStatusComponent);
     component = fixture.componentInstance;
   }));
+
+  describe('Class', () => {
+  });
+
 });
