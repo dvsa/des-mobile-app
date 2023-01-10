@@ -7,7 +7,7 @@ import { StoreModel } from '@shared/models/store.model';
 import * as journalActions from '@store/journal/journal.actions';
 import * as candidateDetailActions from '@store/candidate-details/candidate-details.actions';
 import {
-  getBusiness, getCategoryEntitlementCheckText, getDetails,
+  getBusiness, getCategoryEntitlementCheckText, getDetails, getFitMarker,
   getTime, isCandidateCheckNeeded, isCategoryEntitlementChecked,
 } from '@store/candidate-details/candidate-details.selector';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
@@ -22,6 +22,7 @@ interface CandidateDetailsPageState {
   candidateEntitlementCheck: boolean;
   categoryEntitlementCheck: boolean;
   categoryEntitlementCheckText: string;
+  fitMarker: boolean;
 }
 
 @Component({
@@ -62,6 +63,7 @@ export class CandidateDetailsPage implements OnInit {
       candidateEntitlementCheck: isCandidateCheckNeeded(this.slot),
       categoryEntitlementCheck: isCategoryEntitlementChecked(this.slot),
       categoryEntitlementCheckText: getCategoryEntitlementCheckText(this.slot),
+      fitMarker: getFitMarker(this.slot),
     };
 
     this.testCategory = this.pageState.details.testCategory as TestCategory;

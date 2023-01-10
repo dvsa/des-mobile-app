@@ -1,6 +1,7 @@
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { IntegrityMarkerComponent } from '@components/test-slot/integrity-marker/integrity-marker';
 import { CandidateLinkComponent } from './candidate-link/candidate-link';
 import { IndicatorsComponent } from './indicators/indicators';
 import { LanguageComponent } from './language/language';
@@ -32,6 +33,7 @@ import { ExaminerNameComponent } from './examiner-name/examiner-name';
     VehicleDetailsComponent,
     LocationComponent,
     ExaminerNameComponent,
+    IntegrityMarkerComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,7 @@ import { ExaminerNameComponent } from './examiner-name/examiner-name';
     VehicleDetailsComponent,
     LocationComponent,
     ExaminerNameComponent,
+    IntegrityMarkerComponent,
   ],
 })
 export class TestSlotComponentsModule { }

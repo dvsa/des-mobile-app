@@ -10,6 +10,7 @@ import {
   getSlotChanged,
   processSpecialNeeds,
   getBusiness,
+  getFitMarker,
 } from '../candidate-details.selector';
 
 describe('Candidate Details Selector', () => {
@@ -362,6 +363,21 @@ describe('Candidate Details Selector', () => {
         },
       };
       const result = getSlotChanged(slot);
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getFitMarker', () => {
+    it('returns true if fit marker is true', () => {
+      const slot = {
+        booking: {
+          application: {
+            fitMarker: true,
+          },
+          previousCancellation: [],
+        },
+      };
+      const result = getFitMarker(slot);
       expect(result).toEqual(true);
     });
   });

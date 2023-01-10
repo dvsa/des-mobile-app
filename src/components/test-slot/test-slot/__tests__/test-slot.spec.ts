@@ -397,6 +397,24 @@ describe('TestSlotComponent', () => {
     });
   });
 
+  describe('isCompletedTest', () => {
+    it('should show banner if test status is completed', () => {
+      expect(component.isCompletedTest(TestStatus.Completed)).toEqual(true);
+    });
+    it('should not show banner if test status is booked', () => {
+      expect(component.isCompletedTest(TestStatus.Booked)).toEqual(false);
+    });
+    it('should not show banner if test status is decided', () => {
+      expect(component.isCompletedTest(TestStatus.Decided)).toEqual(false);
+    });
+    it('should not show banner if test status is started', () => {
+      expect(component.isCompletedTest(TestStatus.Started)).toEqual(false);
+    });
+    it('should not show banner if test status is submitted', () => {
+      expect(component.isCompletedTest(TestStatus.Submitted)).toEqual(false);
+    });
+  });
+
   describe('DOM', () => {
     describe('Component Interaction', () => {
       it('should pass the special needs status to a indicator component', () => {

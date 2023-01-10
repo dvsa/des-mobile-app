@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'submission-status',
@@ -7,9 +6,4 @@ import { TestStatus } from '@store/tests/test-status/test-status.model';
   styleUrls: ['submission-status.scss'],
 })
 export class SubmissionStatusComponent {
-
-  @Input()
-  testStatus: TestStatus;
-
-  showBanner = () : boolean => this.testStatus === TestStatus.Completed;
 }

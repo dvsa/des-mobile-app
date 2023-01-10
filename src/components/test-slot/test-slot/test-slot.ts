@@ -211,4 +211,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     const testCategory: TestCategory = get(this.slot, 'booking.application.testCategory', null) as TestCategory;
     return aDICats.includes(testCategory) && this.isTeamJournal;
   }
+
+  isCompletedTest = (testStatus: TestStatus) : boolean => testStatus === TestStatus.Completed;
 }
