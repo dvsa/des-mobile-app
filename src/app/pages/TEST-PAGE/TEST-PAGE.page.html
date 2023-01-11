@@ -1,0 +1,69 @@
+<ion-content forceOverscroll="false">
+    <div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <ion-grid>
+                <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async"
+                         id="post-eyesight-form-content">
+                    <ion-col class="ion-no-padding">
+                        <tell-me-question-card-TEST [formGroup]="form"
+                                                    [style]="setStyle"
+
+                                                    [tellMeQuestion]="pageState.tellMeQuestion$ | async"
+                                               [tellMeQuestions]="tellMeQuestions"
+                                               [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
+                                               [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
+                                               (tellMeQuestionChange)="tellMeQuestionChanged($event)"
+                                               (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)">
+                        </tell-me-question-card-TEST>
+
+                        <transmission [formGroup]="form"
+                                      [style]="setStyle"
+                                      [transmission]="pageState.transmission$ | async"
+                                      (transmissionChange)="transmissionChanged($event)">
+                        </transmission>
+
+                        <instructor-registration-TEST [formGroup]="form"
+                                                      [style]="setStyle"
+
+                                                      [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
+                                                 (instructorRegistrationChange)="instructorRegistrationChanged($event)">
+                        </instructor-registration-TEST>
+
+                        <accompaniment-card [formGroup]="form"
+                                            [style]="setStyle"
+                                            [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                                            [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                                            [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                                            [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                                            (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                                            (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                                            (otherAccompanimentChange)="otherAccompanimentToggled()"
+                                            (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+                        </accompaniment-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </form>
+    </div>
+</ion-content>
+<ion-footer>
+    <ion-row class="mes-full-width-card box-shadow" [hidden]="pageState.eyesightTestFailed$ | async">
+        <ion-col size="45" class="ion-text-center">
+            <ion-button
+                    shape="round"
+                    class="mes-primary-button wrtc-footer-btn"
+                    id="view-test-centre-journal-button" (click)="activateStyle(1)">
+                <h3>Style 1</h3>
+            </ion-button>
+        </ion-col>
+        <ion-col size="6"></ion-col>
+        <ion-col size="45" class="ion-text-center">
+            <ion-button
+                    shape="round"
+                    class="mes-primary-button wrtc-footer-btn"
+                    id="continue-to-test-report-button" (click)="activateStyle(2)">
+                <h3>Style 2</h3>
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-footer>

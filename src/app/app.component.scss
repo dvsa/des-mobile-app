@@ -6,10 +6,14 @@
     overflow: auto;
   }
 
-  .menu-item {
-    --ion-item-background: var(--mes-toolbar-background);
-    color: white;
-  }
+.menu-text {
+  color: var(--gds-white)
+}
+
+.menu-item {
+  --ion-item-background: var(--mes-toolbar-background);
+  color: white;
+}
 
   #dashboard-menu-button {
     color: white;

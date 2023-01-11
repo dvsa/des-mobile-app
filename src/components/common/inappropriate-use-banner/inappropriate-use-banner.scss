@@ -1,12 +1,12 @@
 :host {
   .alert-icon {
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
     font-size: 50px;
   }
 
   div {
     background: var(--mes-light-grey);
-    border-left: 10px solid var(--gds-black);
+    border-left: 10px solid var(--gds-theme-opposite);
   }
 
   .center-icon {
@@ -23,7 +23,7 @@
   }
 
   .warning-text {
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
   }
 }
 

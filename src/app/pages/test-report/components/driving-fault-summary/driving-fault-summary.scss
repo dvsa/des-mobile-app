@@ -3,7 +3,7 @@
   .summary-label{
     align-self: center;
     font-size: 19px;
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
   }
   #summary-count-badge {
     display:flex;
@@ -12,8 +12,8 @@
     height: 37px;
     min-width: 37px;
     border-radius: 30px;
-    background-color: var(--gds-black);
-    color: var(--mes-white);
+    background-color: var(--gds-theme-opposite);
+    color: var(--mes-theme-main-colour);
     margin-left: 4px;
     .summary-label {
       align-self: center;

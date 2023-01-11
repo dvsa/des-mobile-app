@@ -10,7 +10,7 @@ import {
   LOGIN_PAGE,
   PASS_CERTIFICATES,
   REKEY_SEARCH_PAGE,
-  TEST_CENTRE_JOURNAL_PAGE,
+  TEST_CENTRE_JOURNAL_PAGE, TEST_PAGE,
   TEST_RESULTS_SEARCH_PAGE,
   TestFlowPageNames,
   UNUPLOADED_TESTS_PAGE,
@@ -25,6 +25,10 @@ const routes: Routes = [
     path: '',
     redirectTo: LOGIN_PAGE,
     pathMatch: 'full',
+  },
+  {
+    path: TEST_PAGE,
+    loadChildren: () => import('./pages/TEST-PAGE/TEST-PAGE.module').then((m) => m.TESTPAGEModule),
   },
   {
     path: DASHBOARD_PAGE,

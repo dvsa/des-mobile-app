@@ -1,11 +1,11 @@
 ion-datetime {
-  --background: var(--mes-white);
-  --background-rgb: var(--mes-white);
-  --ion-text-color: var(--gds-black);
+  --background: var(--mes-theme-main-colour);
+  --background-rgb: var(--mes-theme-main-colour);
+  --ion-text-color: var(--gds-theme-opposite);
   --ion-color-step-150: var(--gds-grey-2);
 }
 
 ion-datetime-button::part(native) {
-  color: var(--mes-white);
+  color: var(--mes-theme-main-colour);
   background-color: var(--gds-grey-1);
 }
