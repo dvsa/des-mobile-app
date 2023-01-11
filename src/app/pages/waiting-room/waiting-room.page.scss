@@ -1,6 +1,7 @@
 :host {
+
   ion-content {
-    --ion-background-color: var(--mes-white);
+    --ion-background-color: var(--mes-theme-main-colour);
 
     #candidate-section {
       display: flex;
@@ -37,5 +38,9 @@
 
   .signature-area-padding {
     padding-bottom: 140px;
+  }
+
+  #waiting-room-page-title {
+    color: var(--gds-white);
   }
 }

@@ -6,18 +6,22 @@
     overflow: auto;
   }
 
-  .menu-item {
-    --detail-icon-opacity: 1;
+.menu-text {
+  color: var(--gds-white)
+}
+
+.menu-item {
+  --detail-icon-opacity: 1;
     --ion-item-background: var(--mes-toolbar-background);
-    color: white;
-  }
+  color: var(--gds-white);
+}
 
   #dashboard-menu-button {
-    color: white;
+    color: var(--gds-white);
   }
 
   .menu-version-label {
-    color: white;
+    color: var(--gds-white);
   }
 
   body {

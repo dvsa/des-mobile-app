@@ -55,7 +55,7 @@
             [id]="'transmission-manual-radio-button'"
             [formControlName]=transmissionFieldName
             [name]=transmissionFieldName
-            class="gds-radio-button"
+            [ngClass]="style === 1? 'gds-radio-button-1' : 'gds-radio-button-2'"
             [class.ng-invalid]="isTransmissionInvalid()"
             (change)="transmissionChanged($event.target.value)"
             value="Manual"
@@ -70,7 +70,7 @@
             [id]="'transmission-automatic-radio-button'"
             [formControlName]=transmissionFieldName
             [name]=transmissionFieldName
-            class="gds-radio-button"
+            [ngClass]="style === 1? 'gds-radio-button-1' : 'gds-radio-button-2'"
             [class.ng-invalid]="isTransmissionInvalid()"
             (change)="transmissionChanged($event.target.value)"
             value="Automatic"

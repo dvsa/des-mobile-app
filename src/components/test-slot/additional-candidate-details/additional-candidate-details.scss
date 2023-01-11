@@ -1,5 +1,5 @@
 .additional-candidate-details {
-  color: var(--gds-black);
+  color: var(--gds-theme-opposite);
 
   &__list {
     margin: 0;
@@ -14,7 +14,7 @@
 
       &::before {
         content: '';
-        border-left: 1px solid var(--gds-black);
+        border-left: 1px solid var(--gds-theme-opposite);
         margin-right: 5px;
       }
     }

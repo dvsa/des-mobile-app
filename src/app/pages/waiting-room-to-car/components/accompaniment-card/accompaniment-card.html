@@ -11,7 +11,8 @@
       <ion-col size="48">
         <accompaniment
           [formGroup]="formGroup"
-          [accompaniment]="instructorAccompaniment"
+          [style]="style"
+                               [accompaniment]="instructorAccompaniment"
           accompanimentType="Instructor"
           (accompanimentChange)="instructorAccompanimentChanged()"
         >
@@ -20,6 +21,8 @@
       <ion-col size="48">
         <accompaniment
           [formGroup]="formGroup"
+                               [style]="style"
+
           [accompaniment]="supervisorAccompaniment"
           accompanimentType="Supervisor"
           (accompanimentChange)="supervisorAccompanimentChanged()"
@@ -32,7 +35,9 @@
       <ion-col size="48">
         <accompaniment
           [formGroup]="formGroup"
-          [accompaniment]="interpreterAccompaniment"
+          [style]="style"
+
+                               [accompaniment]="interpreterAccompaniment"
           accompanimentType="Interpreter"
           (accompanimentChange)="interpreterAccompanimentChanged()"
         >
@@ -41,6 +46,8 @@
       <ion-col size="48">
         <accompaniment
           [formGroup]="formGroup"
+                               [style]="style"
+
           [accompaniment]="otherAccompaniment"
           accompanimentType="Other"
           (accompanimentChange)="otherAccompanimentChanged()"
