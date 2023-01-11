@@ -19,7 +19,7 @@ type HomeCatTestDataUnion =
   | CatKUniqueTypes.TestData;
 
 @Component({
-  selector: '.test-report-cat-home-test-page',
+  selector: '.test-report-cat-home-TEST-PAGE',
   templateUrl: './test-report.cat-home-test.page.html',
   styleUrls: ['./test-report.cat-home-test.page.scss'],
 })

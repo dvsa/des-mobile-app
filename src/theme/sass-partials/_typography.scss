@@ -220,7 +220,7 @@ html .text-zoom-regular {
     @extend .regular-font-family;
     font-size: 28px;
     line-height: 36px;
-    color: black;
+    color: var(--mes-theme-opposing-colour);
   }
 
   div, ion-select, span {

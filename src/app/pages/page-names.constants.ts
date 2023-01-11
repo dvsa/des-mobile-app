@@ -1,5 +1,6 @@
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
+export const TEST_PAGE = 'TESTPAGE';
 export const CANDIDATE_DETAILS_PAGE = 'CandidateDetailsPage';
 export const FAKE_CANDIDATE_DETAILS_PAGE = 'FakeCandidateDetailsPage';
 export const FAKE_JOURNAL_PAGE = 'FakeJournalPage';
@@ -26,7 +27,7 @@ export const CAT_B: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatBPage',
   PASS_FINALISATION_PAGE: 'PassFinalisationCatBPage',
   TEST_REPORT_PAGE: 'TestReportCatBPage',
-  WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatBPage',
+  WAITING_ROOM_TO_CAR_PAGE: 'TESTPAGEPage',
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatBPage',
 };
 

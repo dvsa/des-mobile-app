@@ -58,8 +58,8 @@
   }
 }
 
-.ion-select-text, .black-text {
-  color: black;
+.ion-select-text, opposing-text {
+  color: var(--mes-theme-opposing-colour);
 }
 
 input, textarea {

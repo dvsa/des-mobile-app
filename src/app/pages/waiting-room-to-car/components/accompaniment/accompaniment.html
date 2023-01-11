@@ -2,7 +2,7 @@
   <input
     [id]="formControlName"
     type="checkbox"
-    class="gds-checkbox"
+    [ngClass]="style === 1? 'gds-checkbox-1' : 'gds-checkbox-2'"
     [formControlName]="formControlName"
     (change)="accompanimentChanged()"
     [value]="accompanimentType"

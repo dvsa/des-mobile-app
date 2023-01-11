@@ -23,7 +23,7 @@
     background: var(--gds-red);
 
     #unauth-text {
-      color: var(--mes-white);
+      color: var(--mes-theme-main-colour);
       font-size: 20px;
       font-weight: normal;
       letter-spacing: 0.34px;
@@ -47,7 +47,7 @@
   }
 
   .colour-white {
-    color: white;
+    color: var(--gds-white);
   }
 
   .list-ios {
@@ -81,5 +81,4 @@
       vertical-align: middle;
     }
   }
-
 }
