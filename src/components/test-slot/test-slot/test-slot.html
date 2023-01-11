@@ -117,7 +117,8 @@
                                 [category]="slot.booking.application.testCategory"
                                 [showTestActionButton]="!isTeamJournal"
                                 [slot]="slot"
-                                [slotChanged]="hasSlotChanged">
+                                [slotChanged]="hasSlotChanged"
+                                [hasNavigatedFromUnsubmitted]="isUnSubmittedTestSlotView">
                         </test-outcome>
                         <examiner-name
                                 *ngIf="teamJournalCandidateResult"

@@ -22,8 +22,8 @@
     </profile-header>
   </div>
 
-  <h2 style="border-top: 1px solid black;">
-    You have {{state.slots?.length || 0}} un-submitted tests (over 72 hours old)
+  <h2 class="header-divider">
+    You have {{state.slots?.length || 0}} unsubmitted {{getTestsText(state.slots?.length)}} (over 72 hours old)
   </h2>
 
   <test-slot

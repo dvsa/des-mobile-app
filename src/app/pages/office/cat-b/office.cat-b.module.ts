@@ -4,7 +4,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { OfficeCatBPageRoutingModule } from '@pages/office/cat-b/office.cat-b-routing.module';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, NavParams } from '@ionic/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
@@ -33,6 +33,7 @@ import { OfficeCatBPage } from './office.cat-b.page';
   ],
   providers: [
     FaultSummaryProvider,
+    NavParams,
   ],
 })
 export class OfficeCatBPageModule { }

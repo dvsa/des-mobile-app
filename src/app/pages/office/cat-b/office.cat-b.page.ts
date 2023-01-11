@@ -1,5 +1,5 @@
 import {
-  ModalController, NavController, Platform, ToastController,
+  ModalController, NavController, NavParams, Platform, ToastController,
 } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -76,6 +76,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   drivingFaultCtrl: string = 'drivingFaultCtrl';
   seriousFaultCtrl: string = 'seriousFaultCtrl';
   dangerousFaultCtrl: string = 'dangerousFaultCtrl';
+  hasNavigatedFromUnsubmitted: boolean = false;
   static readonly maxFaultCount = 15;
 
   showMeQuestions: VehicleChecksQuestion[];
@@ -95,6 +96,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     faultCountProvider: FaultCountProvider,
     public questionProvider: QuestionProvider,
     public deviceProvider: DeviceProvider,
+    public navParams: NavParams,
   ) {
     super(
       platform,
@@ -111,6 +113,8 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     );
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
+    this.hasNavigatedFromUnsubmitted = this.navParams.get('navExtras');
+    console.log('hasNavigatedFromUnsubmitted:', this.hasNavigatedFromUnsubmitted);
   }
 
   ngOnInit(): void {

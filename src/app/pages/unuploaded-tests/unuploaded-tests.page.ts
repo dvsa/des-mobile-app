@@ -57,4 +57,5 @@ export class UnuploadedTestsPage implements OnInit {
 
   getEmployeeNumberDisplayValue = (employeeNumber: string): string => employeeNumber || 'NOT_KNOWN';
 
+  getTestsText = (tests: number): string => tests > 1 ? 'tests' : 'test';
 }

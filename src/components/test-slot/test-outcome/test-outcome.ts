@@ -1,6 +1,6 @@
 import { merge, Subscription } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { isEmpty, startsWith } from 'lodash';
@@ -85,6 +85,9 @@ export class TestOutcomeComponent implements OnInit {
 
   @Input()
   isPracticeMode?: boolean = false;
+
+  @Input()
+  hasNavigatedFromUnsubmitted: boolean = false;
 
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
@@ -175,7 +178,9 @@ export class TestOutcomeComponent implements OnInit {
   async writeUpTest() {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
-    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE,
+      this.category,
+      { data: this.hasNavigatedFromUnsubmitted } as NavigationExtras);
   }
 
   async resumeTest() {

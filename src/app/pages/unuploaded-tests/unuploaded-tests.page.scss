@@ -1,4 +1,8 @@
 :host {
+  .header-divider {
+    border-top: 1px solid black;
+  }
+
   ion-menu-button {
     color: var(--mes-white);
   }
