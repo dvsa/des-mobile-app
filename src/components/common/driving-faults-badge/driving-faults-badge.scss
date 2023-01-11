@@ -6,8 +6,8 @@ div {
   .counter-background {
     display: flex;
     justify-content: center;
-    background-color: var(--gds-black);
-    color: var(--mes-white);
+    background-color: var(--gds-theme-opposite);
+    color: var(--mes-theme-main-colour);
     border-radius: 13px;
 
     .count {

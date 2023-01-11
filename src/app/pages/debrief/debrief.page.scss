@@ -2,7 +2,7 @@
   #end-debrief-background {
     text-align: center;
     padding: 16px 0;
-    background: var(--mes-white);
+    background: var(--mes-theme-main-colour);
     height: 110px;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
   }
@@ -36,7 +36,7 @@
   .tr-standard-text {
     font-weight: bold;
     font-size: 20px !important;
-    color: var(--gds-black);
+    color: var(--gds-theme-opposite);
   }
 
 }
