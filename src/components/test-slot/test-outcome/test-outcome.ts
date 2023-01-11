@@ -1,6 +1,6 @@
 import { merge, Subscription } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { isEmpty, startsWith } from 'lodash';
