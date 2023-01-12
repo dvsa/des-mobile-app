@@ -1,6 +1,6 @@
 import { merge, Subscription } from 'rxjs';
 import { Component, Input, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { isEmpty, startsWith } from 'lodash';
@@ -180,7 +180,7 @@ export class TestOutcomeComponent implements OnInit {
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
     await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE,
       this.category,
-      { data: this.hasNavigatedFromUnsubmitted } as NavigationExtras);
+      { state: { hasNavigatedFromUnsubmitted: this.hasNavigatedFromUnsubmitted } });
   }
 
   async resumeTest() {

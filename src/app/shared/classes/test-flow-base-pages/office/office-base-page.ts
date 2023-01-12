@@ -27,7 +27,12 @@ import {
   SavingWriteUpForLater,
   TestStartDateChanged,
 } from '@pages/office/office.actions';
-import { DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE, JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import {
+  DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE,
+  JOURNAL_PAGE,
+  TestFlowPageNames,
+  UNUPLOADED_TESTS_PAGE,
+} from '@pages/page-names.constants';
 import { PersistTests, SendCurrentTest } from '@store/tests/tests.actions';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
@@ -188,6 +193,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   toast: HTMLIonToastElement;
   subscription: Subscription;
   startDateTime: string;
+  hasNavigatedFromUnsubmitted: boolean = false;
   isValidStartDateTime: boolean = true;
   activityCodeOptions: ActivityCodeModel[];
   weatherConditions: WeatherConditionSelection[];
@@ -211,6 +217,7 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
     this.form = new UntypedFormGroup({});
     this.activityCodeOptions = activityCodeModelList;
     this.weatherConditions = this.weatherConditionProvider.getWeatherConditions();
+    this.hasNavigatedFromUnsubmitted = this.router.getCurrentNavigation()?.extras?.state?.hasNavigatedFromUnsubmitted;
   }
 
   ionViewDidEnter(): void {
@@ -689,7 +696,9 @@ export abstract class OfficeBasePageComponent extends PracticeableBasePageCompon
   }
 
   async defer() {
-    await this.popToRoot();
+    if (this.hasNavigatedFromUnsubmitted) {
+      await this.navController.navigateBack(UNUPLOADED_TESTS_PAGE);
+    } else await this.popToRoot();
     this.store$.dispatch(SavingWriteUpForLater());
     this.store$.dispatch(PersistTests());
   }
