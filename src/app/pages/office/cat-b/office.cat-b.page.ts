@@ -76,7 +76,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
   drivingFaultCtrl: string = 'drivingFaultCtrl';
   seriousFaultCtrl: string = 'seriousFaultCtrl';
   dangerousFaultCtrl: string = 'dangerousFaultCtrl';
-  hasNavigatedFromUnsubmitted: boolean = false;
   static readonly maxFaultCount = 15;
 
   showMeQuestions: VehicleChecksQuestion[];
@@ -113,8 +112,6 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     );
     this.showMeQuestions = questionProvider.getShowMeQuestions(TestCategory.B);
     this.outcomeBehaviourProvider.setBehaviourMap(behaviourMap);
-    this.hasNavigatedFromUnsubmitted = this.navParams.get('navExtras');
-    console.log('hasNavigatedFromUnsubmitted:', this.hasNavigatedFromUnsubmitted);
   }
 
   ngOnInit(): void {
