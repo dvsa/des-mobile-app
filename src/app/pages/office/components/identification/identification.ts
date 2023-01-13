@@ -29,7 +29,7 @@ export class IdentificationComponent implements OnChanges {
   @Output()
   identificationChange = new EventEmitter<Identification>();
 
-  private formControl: UntypedFormControl;
+  public formControl: UntypedFormControl;
   private formField: string = 'identification';
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 

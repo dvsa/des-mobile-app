@@ -13,7 +13,7 @@ export class TestFinalisationInvalidTestDataModal {
   message: string;
 
   constructor(
-    private navParams: NavParams,
+    public navParams: NavParams,
   ) {
     this.onCancel = this.navParams.get('onCancel');
     this.onReturnToTestReport = this.navParams.get('onReturnToTestReport');

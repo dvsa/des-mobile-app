@@ -1,6 +1,6 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
-import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { IonDatetime, IonicModule } from '@ionic/angular';
+import { DateTimeInputComponent, DisplayType } from '@components/common/datetime-input/date-time-input.component';
 
 describe('DateTimeInputComponent', () => {
   let fixture: ComponentFixture<DateTimeInputComponent>;
@@ -28,6 +28,46 @@ describe('DateTimeInputComponent', () => {
     });
     it('should display "Invalid date" when given invalid data"', () => {
       expect(component.formatDisplayDate('AAAAAA')).toEqual('Invalid date');
+    });
+  });
+
+  describe('buttonEmit', () => {
+    it('should emit customButtonEvent with the correct parameters', () => {
+      spyOn(component.customButtonEvent, 'emit');
+      component.buttonEmit({ } as IonDatetime, 'test');
+      expect(component.customButtonEvent.emit)
+        .toHaveBeenCalledWith({ data: { } as IonDatetime, buttonType: 'test' });
+    });
+  });
+
+  describe('onSelected', () => {
+    it('should emit blank variables if the DisplayType is not type Date or Time', () => {
+      spyOn(component.onDataPicked, 'emit');
+      component.control = 'test';
+      component.onSelected({ } as IonDatetime, null);
+      expect(component.onDataPicked.emit)
+        .toHaveBeenCalledWith({ data: '', control: 'test' });
+      expect(component.displayValue).toBe('');
+    });
+    it('should emit event.value in the correct format and set displayValue to the correct value'
+        + ' if the DisplayType is Time', () => {
+      spyOn(component.onDataPicked, 'emit');
+      component.control = 'test';
+      component.onSelected({ value: '1/2/1000/12:11' } as IonDatetime, DisplayType.Time);
+      expect(component.onDataPicked.emit)
+        .toHaveBeenCalledWith({ data: '1000-01-02T12:11', control: 'test' });
+      expect(component.displayValue).toBe('12:11');
+
+    });
+    it('should emit event.value in the correct format and set displayValue to the correct value'
+        + ' if the DisplayType is Date', () => {
+      spyOn(component.onDataPicked, 'emit');
+      component.control = 'test';
+      component.onSelected({ value: '1/2/1000' } as IonDatetime, DisplayType.Date);
+      expect(component.onDataPicked.emit)
+        .toHaveBeenCalledWith({ data: '1000-01-02', control: 'test' });
+      expect(component.displayValue).toBe('02/01/1000');
+
     });
   });
 

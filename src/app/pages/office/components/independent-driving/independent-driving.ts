@@ -47,9 +47,9 @@ export class IndependentDrivingComponent implements OnChanges {
   independentDrivingChange = new EventEmitter<IndependentDriving>();
 
   showNotApplicable: boolean;
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'independentDriving';
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {

@@ -27,8 +27,8 @@ export enum CandidateLicenceErr {
 })
 export class CandidateLicenceProvider {
 
-  private driverLicenceResponse: DriverLicenceDetails = null;
-  private requestError: string = null;
+  driverLicenceResponse: DriverLicenceDetails = null;
+  requestError: string = null;
 
   constructor(
     private http: HttpClient,
