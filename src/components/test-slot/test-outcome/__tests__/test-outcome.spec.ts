@@ -160,7 +160,7 @@ describe('TestOutcomeComponent', () => {
           await component.writeUpTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
           expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
-            TestFlowPageNames.OFFICE_PAGE, component.category,
+            TestFlowPageNames.OFFICE_PAGE, component.category, { state: { hasNavigatedFromUnsubmitted: false } },
           );
         });
       });

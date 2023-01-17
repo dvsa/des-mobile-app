@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  IonicModule, ModalController, NavController, Platform, ToastController,
+  IonicModule, ModalController, NavController, NavParams, Platform, ToastController,
 } from '@ionic/angular';
-import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
+import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
@@ -158,6 +158,7 @@ describe('OfficeCatBPage', () => {
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
         { provide: ToastController, useClass: ToastControllerMock },
+        { provide: NavParams, useClass: NavParamsMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProviderMock },
         WeatherConditionProvider,

@@ -26,6 +26,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { PipesModule } from '@shared/pipes/pipes.module';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
@@ -52,6 +53,7 @@ describe('AppComponent', () => {
       imports: [
         StoreModule.forRoot({}),
         TranslateModule.forRoot(),
+        PipesModule,
       ],
       providers: [
         { provide: Platform, useClass: PlatformMock },
