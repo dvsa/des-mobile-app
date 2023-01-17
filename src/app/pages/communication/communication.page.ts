@@ -350,10 +350,6 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     }
   }
 
-  getNewEmailAddressValue() {
-    return this.candidateProvidedEmail === this.communicationEmail ? '' : this.communicationEmail;
-  }
-
   validCertificateChanged(validCertificate: boolean): void {
     this.store$.dispatch(ValidPassCertChanged(validCertificate));
   }
