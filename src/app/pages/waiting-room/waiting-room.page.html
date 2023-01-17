@@ -5,7 +5,7 @@
             {{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
         </ion-title>
         <ion-buttons id="waiting-room-back-button" slot="start">
-            <ion-back-button></ion-back-button>
+            <ion-back-button [defaultHref]="isEndToEndPracticeMode ? 'FakeJournalPage' : 'JournalPage'"></ion-back-button>
         </ion-buttons>
         <ion-buttons id="end-button" slot="end">
             <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
