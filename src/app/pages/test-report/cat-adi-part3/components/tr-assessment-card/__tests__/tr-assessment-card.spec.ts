@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import {
   TestReportAssessmentCard,
 } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
@@ -19,9 +18,6 @@ describe('TestReportAssessmentCard', () => {
         CommonModule,
         IonicModule,
         ReactiveFormsModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
       ],
     });
 
