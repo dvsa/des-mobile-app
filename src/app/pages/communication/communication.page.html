@@ -56,7 +56,6 @@
               </provided-email>
 
               <new-email [formGroup]="form"
-                         [newEmailAddress]="getNewEmailAddressValue()"
                          [isNewEmailAddressChosen]="isNewEmailSelected()"
                          (newEmailRadioSelect)="conditionalDispatchCandidateChoseNewEmail()"
                          (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)">
