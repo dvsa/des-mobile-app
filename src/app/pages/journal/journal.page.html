@@ -2,7 +2,8 @@
     <ion-toolbar mode="ios">
         <ion-title id="page-title">Journal - DES</ion-title>
         <ion-buttons id="back-button" slot="start">
-            <ion-back-button id="journal-back-button"></ion-back-button>
+            <ion-back-button [defaultHref]="'DashboardPage'"></ion-back-button>
+
         </ion-buttons>
         <ion-buttons slot="end">
             <ion-button id="refresh-button" class="refresh-button" (click)="refreshJournal()"
