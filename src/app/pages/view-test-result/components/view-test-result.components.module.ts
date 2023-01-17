@@ -14,6 +14,7 @@ import {
 import {
   SafetyDataRowComponent,
 } from '@pages/view-test-result/components/safety-question-data-row/safety-question-data-row';
+import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { FaultsDataRowComponent } from './faults-data-row/faults-data-row';
 import { TestDetailsCardComponent } from './test-details-card/test-details-card';
 import { ViewTestHeaderComponent } from './view-test-header/view-test-header';
@@ -55,6 +56,7 @@ import { SpeedCardComponent } from './speed-card/speed-card';
     ComponentsModule,
     PipesModule,
     CandidateDetailsComponentsModule,
+    OfficeComponentsModule,
   ],
   exports: [
     DataRowWithListComponent,
