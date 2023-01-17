@@ -34,11 +34,46 @@
                     [data]="controlledStop">
             </data-row-with-list>
 
-            <data-row-with-list
+            <data-row-custom
                     *ngIf="!isMod1()"
-                    [label]="'ECO'"
-                    [data]="eco">
-            </data-row-with-list>
+                    [shouldHaveSeperator]="true"
+                    [label]="'ECO'">
+                <ion-row *ngFor="let item of eco;">
+                    <ion-col size="7">
+                        <div class="checked-badge-container">
+                            <tick-indicator [ticked]='item.checked'></tick-indicator>
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <span class="mes-data">{{ item.label }}</span>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="fuel-efficient-text" *ngIf="isCatADI2">
+                    <label>Fuel efficient driving - {{data.eco.fuelEfficientDriving ? 'Yes' : 'No' }}</label>
+                </ion-row>
+                <ion-row *ngIf="ecoFault">
+                    <ion-col size="7">
+                        <div class="badge-container">
+                            <driving-faults-badge [count]='1'></driving-faults-badge>
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <ion-row>
+                            <ion-col>
+                            <span class="mes-data">
+                                {{ ecoFault.competencyDisplayName }}
+                            </span>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col>
+                                <span class="mes-data">- {{data.eco.ecoCaptureReason}}</span>
+                            </ion-col>
+                        </ion-row>
+                    </ion-col>
+                </ion-row>
+
+            </data-row-custom>
 
             <faults-data-row
                     [label]="'Fault descriptions'"
