@@ -18,4 +18,7 @@ export class DataRowCustomComponent {
 
   @Input()
   idPrefix?: string;
+
+  @Input()
+  centeredLabel: boolean = true;
 }
