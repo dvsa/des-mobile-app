@@ -18,8 +18,11 @@ import {
 } from '../data-row-with-list/data-list-with-row.model';
 
 @Component({
+
   selector: 'debrief-card',
   templateUrl: 'debrief-card.html',
+  styleUrls: ['debrief-card.scss'],
+
 })
 export class DebriefCardComponent implements OnInit {
 
@@ -47,14 +50,22 @@ export class DebriefCardComponent implements OnInit {
   showMeQuestion: VehicleChecksQuestion;
   tellMeQuestion: VehicleChecksQuestion;
   manoeuvres: string[];
+  ecoFault: FaultSummary;
 
-  constructor(private questionProvider: QuestionProvider) {
+  constructor(
+    private questionProvider: QuestionProvider,
+  ) {
+
   }
 
   ngOnInit() {
     this.showMeQuestion = this.getShowMeQuestion();
     this.tellMeQuestion = this.getTellMeQuestion();
     this.manoeuvres = this.getManoeuvres();
+    if (this.category === TestCategory.ADI2 && this.data?.eco?.ecoRelatedFault) {
+      this.ecoFault = this.drivingFaults
+        .find((data) => data.competencyIdentifier === this.data.eco.ecoRelatedFault);
+    }
   }
 
   getShowMeQuestion(): VehicleChecksQuestion {

@@ -12,5 +12,8 @@ export class DataRowWithListComponent {
   label: string;
 
   @Input()
+  shouldHaveSeperator: boolean = true;
+
+  @Input()
   data: DataRowListItem[];
 }
