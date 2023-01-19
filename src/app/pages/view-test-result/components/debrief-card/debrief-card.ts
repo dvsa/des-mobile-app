@@ -62,8 +62,9 @@ export class DebriefCardComponent implements OnInit {
     this.showMeQuestion = this.getShowMeQuestion();
     this.tellMeQuestion = this.getTellMeQuestion();
     this.manoeuvres = this.getManoeuvres();
-    if (this.category === TestCategory.ADI2) {
-      this.ecoFault = this.drivingFaults.find((data) => data.competencyIdentifier === this.data.eco.ecoRelatedFault);
+    if (this.category === TestCategory.ADI2 && this.data?.eco?.ecoRelatedFault) {
+      this.ecoFault = this.drivingFaults
+        .find((data) => data.competencyIdentifier === this.data.eco.ecoRelatedFault);
     }
   }
 
