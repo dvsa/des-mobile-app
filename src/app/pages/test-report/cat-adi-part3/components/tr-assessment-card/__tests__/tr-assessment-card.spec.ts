@@ -3,9 +3,12 @@ import { IonicModule } from '@ionic/angular';
 import {
   TestReportAssessmentCard,
 } from '@pages/test-report/cat-adi-part3/components/tr-assessment-card/tr-assessment-card';
-import { ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { CommonModule } from '@angular/common';
+import {
+  TestReportAssessmentAnswer,
+} from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
+import { MockComponent } from 'ng-mocks';
 
 describe('TestReportAssessmentCard', () => {
   let fixture: ComponentFixture<TestReportAssessmentCard>;
@@ -13,11 +16,14 @@ describe('TestReportAssessmentCard', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [
+        TestReportAssessmentCard,
+        MockComponent(TestReportAssessmentAnswer),
+      ],
       imports: [
         PipesModule,
         CommonModule,
         IonicModule,
-        ReactiveFormsModule,
       ],
     });
 

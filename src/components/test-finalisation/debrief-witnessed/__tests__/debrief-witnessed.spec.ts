@@ -12,6 +12,7 @@ describe('DebriefWitnessedComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [DebriefWitnessedComponent],
       imports: [
         IonicModule,
       ],

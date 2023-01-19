@@ -10,6 +10,7 @@ describe('ReviewFeedback', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [ReviewFeedback],
       imports: [
         IonicModule,
       ],

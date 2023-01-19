@@ -11,6 +11,7 @@ describe('TrueLikenessComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [TrueLikenessComponent],
       imports: [
         IonicModule,
         ReactiveFormsModule,

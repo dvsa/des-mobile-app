@@ -11,6 +11,7 @@ describe('IdentificationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [IdentificationComponent],
       imports: [
         IonicModule,
       ],

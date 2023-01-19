@@ -14,6 +14,7 @@ describe('ModeOfTransportCatAMod2Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [ModeOfTransportCatAMod2Component],
       imports: [
         IonicModule,
         ReactiveFormsModule,

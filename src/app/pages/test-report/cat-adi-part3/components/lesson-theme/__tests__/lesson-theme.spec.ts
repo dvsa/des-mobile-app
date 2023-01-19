@@ -10,6 +10,7 @@ describe('LessonThemeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [LessonThemeComponent],
       imports: [
         IonicModule,
       ],

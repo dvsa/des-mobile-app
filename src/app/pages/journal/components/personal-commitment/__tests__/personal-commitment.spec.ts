@@ -9,6 +9,7 @@ describe('PersonalCommitmentSlotComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [PersonalCommitmentSlotComponent],
       imports: [
         IonicModule,
       ],

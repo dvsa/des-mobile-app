@@ -4,7 +4,7 @@ import { CandidateSectionComponent } from '@components/common/candidate-section/
 import { provideMockStore } from '@ngrx/store/testing';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 
 describe('CandidateSectionComponent', () => {
@@ -13,7 +13,11 @@ describe('CandidateSectionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [IonicModule],
+      declarations: [CandidateSectionComponent],
+      imports: [
+        IonicModule,
+        TranslateModule.forRoot(),
+      ],
       providers: [
         provideMockStore({ ...{} }),
         { provide: AppComponent, useClass: MockAppComponent },

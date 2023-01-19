@@ -20,6 +20,7 @@ describe('TestFinalisationInvalidTestDataModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [TestFinalisationInvalidTestDataModal],
       imports: [
         IonicModule,
       ],

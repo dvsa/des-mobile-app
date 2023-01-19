@@ -10,6 +10,7 @@ describe('AssessmentReportComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [AssessmentReportComponent],
       imports: [
         IonicModule,
       ],

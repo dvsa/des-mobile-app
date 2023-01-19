@@ -10,6 +10,7 @@ describe('VehicleChecksOfficeCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [VehicleChecksOfficeCardComponent],
       imports: [
         IonicModule,
       ],

@@ -12,6 +12,7 @@ describe('VehicleChecksOfficeCardCatADI2Component', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [VehicleChecksOfficeCardCatADI2Component],
       imports: [
         IonicModule,
       ],

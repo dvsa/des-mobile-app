@@ -14,6 +14,7 @@ describe('DangerousFaultBadgeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [IndependentDrivingComponent],
       imports: [
         IonicModule,
         ReactiveFormsModule,

@@ -13,6 +13,7 @@ describe('WeatherConditionsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [WeatherConditionsComponent],
       imports: [
         IonicModule,
         ReactiveFormsModule,

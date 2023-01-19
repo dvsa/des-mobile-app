@@ -13,6 +13,7 @@ describe('ShowMeQuestionComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      declarations: [ShowMeQuestionComponent],
       imports: [
         IonicModule,
         ReactiveFormsModule,
