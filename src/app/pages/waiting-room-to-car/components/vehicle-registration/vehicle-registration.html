@@ -2,6 +2,7 @@
     <div class="validation-bar" [class.ng-invalid]="invalid"></div>
     <ion-col class="component-label ion-align-self-center" size="32">
         <label id="vehicle-registration-number-title">Vehicle registration number</label>
+        <label *ngIf="!hasValidator" id="vehicle-registration-number-optionsl">(optional)</label>
     </ion-col>
     <ion-col class="ion-align-self-center mes-padding-left">
         <ion-row class="spacing-row"></ion-row>

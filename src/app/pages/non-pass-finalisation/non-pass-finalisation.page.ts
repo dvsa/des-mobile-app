@@ -76,8 +76,16 @@ import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/en
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import * as moment from 'moment';
+import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
+import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
+import { MotStatusChanged, VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+
+enum MotStatus {
+  NODETAILS = 'No details found',
+}
 
 interface NonPassFinalisationPageState {
+  registrationNumber$: Observable<string>;
   candidateName$: Observable<string>;
   candidateDriverNumber$: Observable<string>;
   isTestOutcomeSet$: Observable<boolean>;
@@ -178,6 +186,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       ),
       testOutcomeText$: currentTest$.pipe(
         select(getTestOutcomeText),
+      ),
+      registrationNumber$: currentTest$.pipe(
+        select(getVehicleDetails),
+        select(getRegistrationNumber),
       ),
       activityCode$: currentTest$.pipe(
         select(getActivityCode),
@@ -448,6 +460,14 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       TestCategory.DM, TestCategory.D1M, TestCategory.DEM, TestCategory.D1EM,
     ]);
   };
+
+  vehicleRegistrationChanged(vehicleRegistration: string): void {
+    this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
+  }
+
+  motStatusChanged(motStatus: string): void {
+    this.store$.dispatch(MotStatusChanged(motStatus || MotStatus.NODETAILS));
+  }
 
   didTestComplete = (): boolean => {
     if (this.activityCode) {

@@ -12,11 +12,15 @@ import {
 @Component({
   selector: 'vehicle-registration',
   templateUrl: './vehicle-registration.html',
+  styleUrls: ['./vehicle-registration.scss'],
 })
 export class VehicleRegistrationComponent implements OnChanges {
 
   @Input()
   vehicleRegistration: string;
+
+  @Input()
+  hasValidator: boolean = true;
 
   @Input()
   formGroup: UntypedFormGroup;
@@ -31,13 +35,9 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
-  get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
-  }
-
   ngOnChanges(): void {
     if (!this.formControl) {
-      this.formControl = new UntypedFormControl(null, [Validators.required]);
+      this.formControl = new UntypedFormControl(null, [this.hasValidator ? Validators.required : null]);
       this.formGroup.addControl('vehicleRegistration', this.formControl);
 
       // if vehicleRegistration already set using VRN early modal and not interacted with here,
@@ -66,5 +66,12 @@ export class VehicleRegistrationComponent implements OnChanges {
   onBlurEvent = (vehicleRegistration: string): void => {
     this.vehicleRegistrationBlur.emit(vehicleRegistration);
   };
+
+  get invalid(): boolean {
+    if (!this.hasValidator) {
+      return false;
+    }
+    return !this.formControl.valid && this.formControl.dirty;
+  }
 
 }

@@ -13,6 +13,9 @@ import {
   PassFinalisationCatADI3ComponentsModule,
 } from '@pages/pass-finalisation/cat-adi-part3/components/pass-finalisation.cat-adi3.components.module';
 import { TestResultProvider } from '@providers/test-result/test-result';
+import {
+  WaitingRoomToCarComponentsModule,
+} from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
 import { NonPassFinalisationPageRoutingModule } from './non-pass-finalisation-routing.module';
 import { NonPassFinalisationPage } from './non-pass-finalisation.page';
 
@@ -28,6 +31,7 @@ import { NonPassFinalisationPage } from './non-pass-finalisation.page';
     TestFinalisationComponentsModule,
     ReactiveFormsModule,
     PassFinalisationCatADI3ComponentsModule,
+    WaitingRoomToCarComponentsModule,
   ],
   providers: [
     OutcomeBehaviourMapProvider,
