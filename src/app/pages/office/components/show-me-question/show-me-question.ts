@@ -32,10 +32,10 @@ export class ShowMeQuestionComponent implements OnChanges {
   @Output()
   showMeQuestionChange = new EventEmitter<VehicleChecksQuestion>();
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'showMeQuestion';
 
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {

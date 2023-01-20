@@ -34,10 +34,10 @@ export class WeatherConditionsComponent implements OnChanges {
   @Output()
   weatherConditionsChange = new EventEmitter<WeatherConditions[]>();
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'weatherConditions';
 
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {

@@ -18,7 +18,7 @@ export class AssessmentReportComponent implements OnChanges {
   @Output()
   assessmentReportChange = new EventEmitter<string>();
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'assessmentReport';
 
   ngOnChanges(): void {

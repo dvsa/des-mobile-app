@@ -25,8 +25,8 @@ export class LessonThemeComponent implements OnChanges {
   @Output()
   otherReasoningChange = new EventEmitter<string>();
 
-  private formControl: UntypedFormControl;
-  private feedbackCharsRemaining: number;
+  formControl: UntypedFormControl;
+  feedbackCharsRemaining: number;
   static readonly fieldName: string = 'otherReason';
 
   ngOnChanges(): void {

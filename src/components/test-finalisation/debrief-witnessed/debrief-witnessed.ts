@@ -31,9 +31,9 @@ export class DebriefWitnessedComponent implements OnChanges {
   @Input()
   isDelegated: boolean = false;
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'debriefWitnessed';
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {

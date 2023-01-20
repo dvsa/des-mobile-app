@@ -25,6 +25,10 @@ import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
+import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
+import { Subscription } from 'rxjs';
+import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
+import { PassFinalisationViewDidEnter } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { PassFinalisationCatADIPart3Page } from '../pass-finalisation.cat-adi-part3.page';
 
 describe('PassFinalisationCatADIPart3Page', () => {
@@ -72,6 +76,40 @@ describe('PassFinalisationCatADIPart3Page', () => {
       it('should dispatch SeekFurtherDevelopmentChanged using the parameter given ', () => {
         component.furtherDevelopmentChanged(true);
         expect(store$.dispatch).toHaveBeenCalledWith(SeekFurtherDevelopmentChanged(true));
+      });
+    });
+
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from the subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('testStartTimeChanged', () => {
+      it('should dispatch endTime to store', () => {
+        spyOn(store$, 'dispatch');
+        component.testStartTimeChanged('test');
+        expect(store$.dispatch).toHaveBeenCalledWith(StartTimeChanged('test'));
+      });
+    });
+
+    describe('testEndTimeChanged', () => {
+      it('should dispatch endTime to store', () => {
+        spyOn(store$, 'dispatch');
+        component.testEndTimeChanged('test');
+        expect(store$.dispatch).toHaveBeenCalledWith(EndTimeChanged('test'));
+      });
+    });
+
+    describe('ionViewWillEnter', () => {
+      it('should dispatch PassFinalisationViewDidEnter', () => {
+        spyOn(store$, 'dispatch');
+        component.ionViewWillEnter();
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
       });
     });
 

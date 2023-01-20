@@ -17,7 +17,7 @@ export class TrueLikenessComponent implements OnChanges {
   @Output()
   trueLikenessChange = new EventEmitter<boolean>();
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   private formField: string = 'trueLikeness';
 
   ngOnChanges(): void {

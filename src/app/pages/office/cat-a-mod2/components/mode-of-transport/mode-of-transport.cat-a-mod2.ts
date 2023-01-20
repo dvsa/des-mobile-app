@@ -39,9 +39,9 @@ export class ModeOfTransportCatAMod2Component implements OnChanges {
   modeOfTransportChange = new EventEmitter<ModeOfTransport>();
 
   showNotApplicable: boolean;
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'modeOfTransport';
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {
