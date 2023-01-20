@@ -8,7 +8,7 @@ import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CircuitType } from '@shared/models/circuit-type';
 
-describe('DangerousFaultBadgeComponent', () => {
+describe('IndependentDrivingComponent', () => {
   let fixture: ComponentFixture<IndependentDrivingComponent>;
   let component: IndependentDrivingComponent;
 

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { provideMockStore } from '@ngrx/store/testing';
 import { UntypedFormGroup } from '@angular/forms';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
 
@@ -13,10 +12,6 @@ describe('LessonThemeComponent', () => {
       declarations: [LessonThemeComponent],
       imports: [
         IonicModule,
-      ],
-      providers: [
-        provideMockStore({ ...{} }),
-
       ],
     });
 

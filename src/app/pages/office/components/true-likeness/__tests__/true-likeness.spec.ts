@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { provideMockStore } from '@ngrx/store/testing';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { TrueLikenessComponent } from '@pages/office/components/true-likeness/true-likeness';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 
@@ -15,10 +13,6 @@ describe('TrueLikenessComponent', () => {
       imports: [
         IonicModule,
         ReactiveFormsModule,
-      ],
-      providers: [
-        provideMockStore({ ...{} }),
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
       ],
     });
 

@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PersonalCommitmentSlotComponent } from '@pages/journal/components/personal-commitment/personal-commitment';
 
 describe('PersonalCommitmentSlotComponent', () => {
@@ -12,9 +11,6 @@ describe('PersonalCommitmentSlotComponent', () => {
       declarations: [PersonalCommitmentSlotComponent],
       imports: [
         IonicModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
       ],
     });
 

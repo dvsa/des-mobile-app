@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { provideMockStore } from '@ngrx/store/testing';
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
 import { UntypedFormGroup } from '@angular/forms';
 
@@ -13,10 +12,6 @@ describe('ReviewFeedback', () => {
       declarations: [ReviewFeedback],
       imports: [
         IonicModule,
-      ],
-      providers: [
-        provideMockStore({ ...{} }),
-
       ],
     });
 

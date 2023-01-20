@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import {
   VehicleChecksOfficeCardCatADI2Component,
 } from '@pages/office/cat-adi-part2/components/vehicle-checks/vehicle-checks-office-card';
@@ -15,9 +14,6 @@ describe('VehicleChecksOfficeCardCatADI2Component', () => {
       declarations: [VehicleChecksOfficeCardCatADI2Component],
       imports: [
         IonicModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
       ],
     });
 

@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, NavParams } from '@ionic/angular';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
-import { NavParamsMock } from '@mocks/angular-mocks/nav-params.mock';
+import { IonicModule } from '@ionic/angular';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 
 describe('DataRowCustomComponent', () => {
@@ -12,10 +10,6 @@ describe('DataRowCustomComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         IonicModule,
-      ],
-      providers: [
-        { provide: OutcomeBehaviourMapProvider, useClass: OutcomeBehaviourMapProvider },
-        { provide: NavParams, useClass: NavParamsMock },
       ],
     });
 
