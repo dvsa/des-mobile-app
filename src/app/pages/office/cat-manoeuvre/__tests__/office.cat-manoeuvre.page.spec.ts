@@ -41,6 +41,10 @@ import {
 import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/accompaniment/accompaniment';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { Subscription } from 'rxjs';
+import { TestOutcome } from '@store/tests/tests.constants';
+import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
@@ -130,6 +134,7 @@ describe('OfficeCatManoeuvrePage', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
+    spyOn(component.deviceProvider, 'disableSingleAppMode');
   }));
 
   describe('DOM', () => {
@@ -202,4 +207,45 @@ describe('OfficeCatManoeuvrePage', () => {
     });
   });
 
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from the subscription if there is one', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewWillEnter', () => {
+    it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+      component.isPracticeMode = false;
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+      await component.ionViewWillEnter();
+      expect(component.deviceProvider.disableSingleAppMode()).toHaveBeenCalled();
+    });
+  });
+
+  describe('isPass', () => {
+    it('should return true is testOutcomeText is passed', () => {
+      component.testOutcomeText = TestOutcome.Passed;
+      expect(component.isPass()).toEqual(true);
+    });
+    it('should return true is testOutcomeText is not passed', () => {
+      component.testOutcomeText = TestOutcome.Failed;
+      expect(component.isPass()).toEqual(false);
+    });
+  });
+
+  describe('isWelsh', () => {
+    it('should return true is conductedLanguage is Cymraeg', () => {
+      component.conductedLanguage = Language.CYMRAEG;
+      expect(component.isWelsh()).toEqual(true);
+    });
+    it('should return true is testOutcomeText is not Cymraeg', () => {
+      component.conductedLanguage = Language.ENGLISH;
+      expect(component.isWelsh()).toEqual(false);
+    });
+  });
 });
