@@ -51,6 +51,7 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatADI2Page } from '../office.cat-adi-part2.page';
@@ -149,6 +150,17 @@ describe('OfficeCatADI2Page', () => {
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
   }));
+
+  describe('ionViewWillEnter', () => {
+    it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+      component.isPracticeMode = false;
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      await component.ionViewWillEnter();
+      expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+    });
+  });
 
   describe('DOM', () => {
     it('should pass the selected activity code to the activity code subcomponent', () => {

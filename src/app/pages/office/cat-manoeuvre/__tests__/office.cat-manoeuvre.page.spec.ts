@@ -222,8 +222,9 @@ describe('OfficeCatManoeuvrePage', () => {
       component.isPracticeMode = false;
       spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
       spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+      spyOn(component.deviceProvider, 'disableSingleAppMode');
       await component.ionViewWillEnter();
-      expect(component.deviceProvider.disableSingleAppMode()).toHaveBeenCalled();
+      expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
     });
   });
 

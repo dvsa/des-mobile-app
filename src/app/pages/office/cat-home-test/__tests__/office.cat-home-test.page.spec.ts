@@ -46,10 +46,11 @@ import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.
 import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
 import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { OfficeCatHomeTestPage } from '../office.cat-home-test.page';
 
 describe('OfficeCatHomeTestPage', () => {
@@ -223,6 +224,27 @@ describe('OfficeCatHomeTestPage', () => {
         fixture.detectChanges();
         expect(drivingFaultCommentCard.shouldRender).toBeFalsy();
       });
+    });
+  });
+
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from the subscription if there is one', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewWillEnter', () => {
+    it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+      component.isPracticeMode = false;
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      await component.ionViewWillEnter();
+      expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
     });
   });
 });

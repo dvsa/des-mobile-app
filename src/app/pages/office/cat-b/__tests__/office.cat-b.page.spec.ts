@@ -44,6 +44,7 @@ import { AccompanimentComponent } from '@pages/waiting-room-to-car/components/ac
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
+import { BasePageComponent } from '@shared/classes/base-page';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatBPage } from '../office.cat-b.page';
@@ -241,6 +242,17 @@ describe('OfficeCatBPage', () => {
         expect(result)
           .toEqual(false);
       });
+    });
+  });
+
+  describe('ionViewWillEnter', () => {
+    it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+      component.isPracticeMode = false;
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      await component.ionViewWillEnter();
+      expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
     });
   });
 

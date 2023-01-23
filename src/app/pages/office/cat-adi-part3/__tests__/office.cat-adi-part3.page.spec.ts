@@ -105,13 +105,14 @@ describe('OfficeCatADI3Page', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('ionViewWillEnter', () => {
+  describe('ionViewWillEnter', () => {
     it('should disable single app mode if it not in practice mode and isIos is true', async () => {
       component.isPracticeMode = false;
-      spyOn(component, 'isIos').and.returnValue(true);
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
       spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+      spyOn(component.deviceProvider, 'disableSingleAppMode');
       await component.ionViewWillEnter();
-      expect(component.deviceProvider.disableSingleAppMode()).toHaveBeenCalled();
+      expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
     });
   });
 });
