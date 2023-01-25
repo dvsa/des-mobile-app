@@ -25,7 +25,7 @@ import * as journalActions from '@store/journal/journal.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { getTests } from '@store/tests/tests.reducer';
-import { getAllIncompleteTestsSlotIds } from '@store/tests/tests.selector';
+import { getIncompleteTestsSlotOlderThan3Days } from '@store/tests/tests.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
@@ -80,7 +80,8 @@ export class DashboardPage extends BasePageComponent {
         // each of the individual counts can be added to this array
         this.store$.pipe(
           select(getTests),
-          select(getAllIncompleteTestsSlotIds),
+          // get all slot ids regarded as incomplete from 'tests' slice of state older than 3 days
+          select(getIncompleteTestsSlotOlderThan3Days),
           withLatestFrom(this.store$.pipe(select(getJournalState))),
           map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)?.length),
         ),

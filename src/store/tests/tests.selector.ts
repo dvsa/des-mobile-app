@@ -131,10 +131,18 @@ export const getPassCertificateBySlotId = (testsModel: TestsModel, id: number): 
   return null;
 };
 
-const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
+const calculateDaysDiff = (test: TestResultSchemasUnion): number => {
   const testDate = new DateTime(test.journalData.testSlotAttributes.start);
   const today = new DateTime();
-  return today.daysDiff(new Date(testDate.format('YYYY-MM-DD'))) < 0;
+  return today.daysDiff(new Date(testDate.format('YYYY-MM-DD')));
+};
+
+const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
+  return calculateDaysDiff(test) < 0;
+};
+
+const isTestOlderThan3Days = (test: TestResultSchemasUnion) : boolean => {
+  return calculateDaysDiff(test) < -3;
 };
 
 export const getIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
@@ -149,6 +157,14 @@ export const getAllIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
   return Object.keys(tests.testStatus)
     .filter((slotId) =>
       tests.testStatus[slotId] !== TestStatus.Submitted && tests.testStatus[slotId] !== TestStatus.Completed);
+};
+
+export const getIncompleteTestsSlotOlderThan3Days = (tests: TestsModel): string[] => {
+  return Object.keys(tests.testStatus)
+    .filter((slotId) =>
+      tests.testStatus[slotId] !== TestStatus.Submitted
+      && tests.testStatus[slotId] !== TestStatus.Completed
+      && isTestOlderThan3Days(tests.startedTests[slotId]));
 };
 
 export const getAllIncompleteTests = (tests: TestsModel): TestResultSchemasUnion[] => {

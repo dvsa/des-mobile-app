@@ -7,7 +7,7 @@ import { map, withLatestFrom } from 'rxjs/operators';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { getTests } from '@store/tests/tests.reducer';
-import { getAllIncompleteTestsSlotIds } from '@store/tests/tests.selector';
+import { getIncompleteTestsSlotOlderThan3Days } from '@store/tests/tests.selector';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
@@ -42,7 +42,8 @@ export class UnuploadedTestsPage implements OnInit {
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       unSubmittedTestSlots$: this.store$.pipe(
         select(getTests),
-        select(getAllIncompleteTestsSlotIds), // get all slot ids regarded as incomplete from 'tests' slice of state
+        // get all slot ids regarded as incomplete from 'tests' slice of state older than 3 days
+        select(getIncompleteTestsSlotOlderThan3Days),
         withLatestFrom(
           this.store$.pipe(
             select(getJournalState), // grab 'journal' slice
