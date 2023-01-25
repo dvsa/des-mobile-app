@@ -1,8 +1,13 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from 'src/app/app.module';
-import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  CANDIDATE_DESCRIPTION_CONTROL,
+  CANDIDATE_DESCRIPTION_MAX_LENGTH,
+} from '@pages/office/components/candidate-description/candidate-description.constants';
 import { CandidateDescriptionComponent } from '../candidate-description';
 
 describe('CandidateDescriptionComponent', () => {
@@ -29,6 +34,141 @@ describe('CandidateDescriptionComponent', () => {
     behaviourMapProvider.setBehaviourMap(behaviourMap);
     component = fixture.componentInstance;
   }));
+
+  describe('invalid', () => {
+    it('should return true if the formControl is invalid and dirty', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      component.formControl.setValidators([Validators.required]);
+
+      component.formControl.setValue(null);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeTruthy();
+    });
+    it('should return false if the formControl is valid and dirty', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      component.formControl.setValidators([Validators.required]);
+
+      component.formControl.setValue(1);
+      component.formControl.markAsDirty();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is invalid and clean', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      component.formControl.setValidators([Validators.required]);
+
+      component.formControl.setValue(null);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+    it('should return false if the formControl is valid and clean', () => {
+      component.formControl = null;
+      component.formGroup = new UntypedFormGroup({});
+      component.ngOnChanges();
+      component.formControl.setValidators([Validators.required]);
+
+      component.formControl.setValue(1);
+      component.formControl.markAsPristine();
+
+      expect(component.invalid).toBeFalsy();
+    });
+  });
+
+  describe('getCharacterCountText', () => {
+    it('should display "You have 1 character remaining" when only 1 is remaining', () => {
+      component.candidateDescriptionCharsRemaining = 1;
+
+      expect(component.getCharacterCountText()).toBe('You have 1 character remaining');
+    });
+    it('should display "You have 2 characters remaining" when only 1 is remaining', () => {
+      component.candidateDescriptionCharsRemaining = 2;
+
+      expect(component.getCharacterCountText()).toBe('You have 2 characters remaining');
+    });
+    it('should display "You have 1 character too many" when there is 1 over the limit', () => {
+      component.candidateDescriptionCharsRemaining = -1;
+
+      expect(component.getCharacterCountText()).toBe('You have 1 character too many');
+    });
+    it('should display "You have 2 characters too many" when there is 2 over the limit', () => {
+      component.candidateDescriptionCharsRemaining = -2;
+
+      expect(component.getCharacterCountText()).toBe('You have 2 characters too many');
+    });
+  });
+
+  describe('characterCountChanged', () => {
+    it('should edit the variable to the value parsed into the function', () => {
+      component.characterCountChanged(1);
+      expect(component.candidateDescriptionCharsRemaining)
+        .toEqual(1);
+    });
+  });
+
+  describe('charactersExceeded', () => {
+    it('should return true if noAdviceCharsRemaining is less than 0 ', () => {
+      component.candidateDescriptionCharsRemaining = -100;
+      expect(component.charactersExceeded())
+        .toEqual(true);
+    });
+    it('should return false if noAdviceCharsRemaining is more than 0 ', () => {
+      component.candidateDescriptionCharsRemaining = 100;
+      expect(component.charactersExceeded())
+        .toEqual(false);
+    });
+  });
+
+  describe('ngOnChanges', () => {
+    it('should clear validators from FormControl if visibilityType is VisibilityType.NotVisible', () => {
+      component.formControl = new UntypedFormControl(null);
+      component.formGroup = new UntypedFormGroup({});
+      component.formGroup.addControl(CANDIDATE_DESCRIPTION_CONTROL, component.formControl);
+      component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL).setValidators([Validators.required]);
+
+      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
+      component.ngOnChanges();
+
+      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
+        .hasValidator(Validators.required)).toBe(false);
+      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
+        .hasValidator(Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH))).toBe(false);
+
+    });
+    it('should set formControl validator to include max length '
+            + 'if VisibilityType is not NotVisible and trueLikenessToPhoto is true', () => {
+      component.formGroup = new UntypedFormGroup({});
+
+      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      component.trueLikenessToPhoto = true;
+      component.ngOnChanges();
+
+      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
+        .hasValidator(Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH))).toBe(true);
+      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
+        .hasValidator(Validators.required)).toBe(false);
+    });
+    it('should set FormControl validator to include max length and required '
+          + 'if visibilityType is not NotVisible and trueLikenessToPhoto is false', () => {
+      component.formGroup = new UntypedFormGroup({});
+
+      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
+      component.trueLikenessToPhoto = false;
+      component.ngOnChanges();
+
+      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
+        .hasValidator(Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH))).toBe(true);
+      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
+        .hasValidator(Validators.required)).toBe(true);
+    });
+  });
 
   describe('class', () => {
     it('should emit candidate description', () => {

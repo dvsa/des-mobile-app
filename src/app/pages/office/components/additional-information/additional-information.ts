@@ -23,7 +23,7 @@ export class AdditionalInformationComponent implements OnChanges {
   @Output()
   additionalInformationChange = new EventEmitter<string>();
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   static readonly fieldName: string = 'additionalInformation';
 
   ngOnChanges(): void {

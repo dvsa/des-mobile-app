@@ -10,7 +10,7 @@ import { ModalEvent } from '../../test-report.constants';
 export class EndTestModal {
 
   constructor(
-    private modalCtrl: ModalController,
+    public modalCtrl: ModalController,
   ) {}
 
   async onCancel() {

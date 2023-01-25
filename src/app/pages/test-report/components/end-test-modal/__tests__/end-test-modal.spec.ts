@@ -3,11 +3,13 @@ import { IonicModule, NavParams, ModalController } from '@ionic/angular';
 import { NavParamsMock, ModalControllerMock } from '@mocks/index.mock';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
+import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { EndTestModal } from '../end-test-modal';
 
 describe('EndTestModal', () => {
   let fixture: ComponentFixture<EndTestModal>;
   let component: EndTestModal;
+  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -25,10 +27,9 @@ describe('EndTestModal', () => {
     });
 
     fixture = TestBed.createComponent(EndTestModal);
+    modalController = TestBed.inject(ModalController);
     component = fixture.componentInstance;
-    component.onContinue = () => Promise.resolve();
-    component.onCancel = () => Promise.resolve();
-    component.onTerminate = () => Promise.resolve();
+    spyOn(component.modalCtrl, 'dismiss');
   }));
 
   describe('DOM', () => {
@@ -60,6 +61,25 @@ describe('EndTestModal', () => {
 
       fixture.detectChanges();
       expect(component.onTerminate).toHaveBeenCalled();
+    });
+  });
+
+  describe('onCancel', () => {
+    it('should dismiss the view controller with cancel event', async () => {
+      await component.onCancel();
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
+  describe('onContinue', () => {
+    it('should dismiss the view controller with continue event', async () => {
+      await component.onContinue();
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CONTINUE);
+    });
+  });
+  describe('onTerminate', () => {
+    it('should dismiss the view controller with terminate event', async () => {
+      await component.onTerminate();
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
     });
   });
 });

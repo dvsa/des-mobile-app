@@ -1,11 +1,16 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
+import { AppModule } from '@app/app.module';
+import { ComponentsModule } from '@components/common/common-components.module';
+import { CommonModule } from '@angular/common';
 import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
-import { provideMockStore } from '@ngrx/store/testing';
-import { AppComponent } from '@app/app.component';
-import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
+import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
+import { VehicleRegistrationChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
+import {
+  VRNModalCancelled,
+  VRNModalOpened,
+  VRNModalSaved,
+} from '@store/tests/candidate-section/candidate-section.actions';
 
 describe('CandidateSectionComponent', () => {
   let fixture: ComponentFixture<CandidateSectionComponent>;
@@ -14,24 +19,12 @@ describe('CandidateSectionComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [CandidateSectionComponent],
-      imports: [
-        IonicModule,
-        TranslateModule.forRoot(),
-      ],
-      providers: [
-        provideMockStore({ ...{} }),
-        { provide: AppComponent, useClass: MockAppComponent },
-        { provide: TranslateService, useValue: translateServiceMock },
-      ],
+      imports: [IonicModule, AppModule, ComponentsModule, CommonModule],
     });
-
     fixture = TestBed.createComponent(CandidateSectionComponent);
     component = fixture.componentInstance;
+    spyOn(component.store$, 'dispatch');
   }));
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 
   describe('proceed', () => {
     it('should emit continueClickEvent with true', () => {
@@ -39,6 +32,62 @@ describe('CandidateSectionComponent', () => {
       component.proceed();
       expect(component.continueClickEvent.emit)
         .toHaveBeenCalledWith(true);
+    });
+  });
+  describe('openTestResult', () => {
+    it('should display modal', async () => {
+      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve({
+        present: async () => {
+        },
+        onDidDismiss: () => {
+          return { data: null } as OverlayEventDetail;
+        },
+      } as HTMLIonModalElement));
+      await component.openVRNModal();
+      expect(component.modalController.create).toHaveBeenCalledTimes(1);
+    });
+    it('should dispatch store with VRNModalOpened', async () => {
+      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve({
+        present: async () => {
+        },
+        onDidDismiss: () => {
+          return { data: null } as OverlayEventDetail;
+        },
+      } as HTMLIonModalElement));
+      await component.openVRNModal();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(VRNModalOpened());
+    });
+
+    it('should dispatch store with VRNModalCancelled if there is no data', async () => {
+
+      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve({
+        present: async () => {
+        },
+        onDidDismiss: () => {
+          return { data: null } as OverlayEventDetail;
+        },
+      } as HTMLIonModalElement));
+      await component.openVRNModal();
+
+      spyOn(component.vrnModal, 'onDidDismiss').and.returnValue(Promise.resolve({}));
+      await component.openVRNModal();
+      expect(component.store$.dispatch).toHaveBeenCalledWith(VRNModalCancelled());
+    });
+
+    it('should dispatch store with VRNModalSaved and '
+            + 'VehicleRegistrationChanged if there is vehicleRegNumber', async () => {
+
+      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve({
+        present: async () => {
+        },
+        onDidDismiss: () => {
+          return { data: { vehicleRegNumber: 'test' } } as OverlayEventDetail;
+        },
+      } as HTMLIonModalElement));
+      await component.openVRNModal();
+
+      expect(component.store$.dispatch).toHaveBeenCalledWith(VRNModalSaved());
+      expect(component.store$.dispatch).toHaveBeenCalledWith(VehicleRegistrationChanged('test'));
     });
   });
 });
