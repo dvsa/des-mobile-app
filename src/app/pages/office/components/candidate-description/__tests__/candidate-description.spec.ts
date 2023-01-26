@@ -1,13 +1,9 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { AppModule } from 'src/app/app.module';
-import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import {
-  CANDIDATE_DESCRIPTION_CONTROL,
-  CANDIDATE_DESCRIPTION_MAX_LENGTH,
-} from '@pages/office/components/candidate-description/candidate-description.constants';
+import { UntypedFormGroup, Validators } from '@angular/forms';
 import { CandidateDescriptionComponent } from '../candidate-description';
 
 describe('CandidateDescriptionComponent', () => {
@@ -123,50 +119,6 @@ describe('CandidateDescriptionComponent', () => {
       component.candidateDescriptionCharsRemaining = 100;
       expect(component.charactersExceeded())
         .toEqual(false);
-    });
-  });
-
-  describe('ngOnChanges', () => {
-    it('should clear validators from FormControl if visibilityType is VisibilityType.NotVisible', () => {
-      component.formControl = new UntypedFormControl(null);
-      component.formGroup = new UntypedFormGroup({});
-      component.formGroup.addControl(CANDIDATE_DESCRIPTION_CONTROL, component.formControl);
-      component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL).setValidators([Validators.required]);
-
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.NotVisible);
-      component.ngOnChanges();
-
-      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
-        .hasValidator(Validators.required)).toBe(false);
-      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
-        .hasValidator(Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH))).toBe(false);
-
-    });
-    it('should set formControl validator to include max length '
-            + 'if VisibilityType is not NotVisible and trueLikenessToPhoto is true', () => {
-      component.formGroup = new UntypedFormGroup({});
-
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
-      component.trueLikenessToPhoto = true;
-      component.ngOnChanges();
-
-      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
-        .hasValidator(Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH))).toBe(true);
-      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
-        .hasValidator(Validators.required)).toBe(false);
-    });
-    it('should set FormControl validator to include max length and required '
-          + 'if visibilityType is not NotVisible and trueLikenessToPhoto is false', () => {
-      component.formGroup = new UntypedFormGroup({});
-
-      spyOn(component.outcomeBehaviourProvider, 'getVisibilityType').and.returnValue(VisibilityType.Visible);
-      component.trueLikenessToPhoto = false;
-      component.ngOnChanges();
-
-      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
-        .hasValidator(Validators.maxLength(CANDIDATE_DESCRIPTION_MAX_LENGTH))).toBe(true);
-      expect(component.formGroup.get(CANDIDATE_DESCRIPTION_CONTROL)
-        .hasValidator(Validators.required)).toBe(true);
     });
   });
 

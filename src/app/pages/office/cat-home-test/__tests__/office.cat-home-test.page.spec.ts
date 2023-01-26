@@ -44,13 +44,30 @@ import { ActivityCodeComponent } from '@components/common/activity-code/activity
 import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
-import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import {
+  AddDangerousFault,
+  AddDangerousFaultComment,
+} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import {
+  AddSeriousFault,
+  AddSeriousFaultComment,
+} from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { of, Subscription } from 'rxjs';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { CommentSource } from '@shared/models/fault-marking.model';
+import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { AddShowMeTellMeComment } from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.actions';
+import {
+  HighwayCodeSafetyAddComment,
+} from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import { OfficeCatHomeTestPage } from '../office.cat-home-test.page';
 
 describe('OfficeCatHomeTestPage', () => {
@@ -229,10 +246,10 @@ describe('OfficeCatHomeTestPage', () => {
 
   describe('ionViewDidLeave', () => {
     it('should unsubscribe from the subscription if there is one', () => {
-      component.subscription = new Subscription();
-      spyOn(component.subscription, 'unsubscribe');
+      component.pageSubscription = new Subscription();
+      spyOn(component.pageSubscription, 'unsubscribe');
       component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe)
+      expect(component.pageSubscription.unsubscribe)
         .toHaveBeenCalled();
     });
   });
@@ -245,6 +262,201 @@ describe('OfficeCatHomeTestPage', () => {
       spyOn(component.deviceProvider, 'disableSingleAppMode');
       await component.ionViewWillEnter();
       expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+    });
+  });
+
+  describe('drivingFaultCommentChanged', () => {
+    it('should dispatch with AddDrivingFaultComment if source is SIMPLE', () => {
+      component.drivingFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.SIMPLE,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddDrivingFaultComment('Identifier', 'Comment'));
+    });
+    it('should dispatch with AddUncoupleRecoupleComment if source is UNCOUPLE_RECOUPLE', () => {
+      component.drivingFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.UNCOUPLE_RECOUPLE,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddUncoupleRecoupleComment('Comment'));
+    });
+    it('should dispatch with AddShowMeTellMeComment if source is VEHICLE_CHECKS', () => {
+      component.drivingFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.VEHICLE_CHECKS,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddShowMeTellMeComment('Comment'));
+    });
+    it('should dispatch with AddControlledStopComment if source is CONTROLLED_STOP', () => {
+      component.drivingFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.CONTROLLED_STOP,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddControlledStopComment('Comment'));
+    });
+    it('should dispatch with AddManoeuvreComment if source is MANOEUVRES', () => {
+      component.drivingFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: 'Manoeuvres-reverseParkRoad-Control',
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.DF, 'Control', 'Comment'),
+      );
+    });
+    it('should dispatch with HighwayCodeSafetyAddComment if source is HIGHWAY_CODE_SAFETY', () => {
+      component.drivingFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.HIGHWAY_CODE_SAFETY,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(HighwayCodeSafetyAddComment('Comment'));
+    });
+  });
+
+  describe('seriousFaultCommentChanged', () => {
+    it('should dispatch with AddSeriousFaultComment if source is SIMPLE', () => {
+      component.seriousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.SIMPLE,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddSeriousFaultComment('Identifier', 'Comment'));
+    });
+    it('should dispatch with AddUncoupleRecoupleComment if source is UNCOUPLE_RECOUPLE', () => {
+      component.seriousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.UNCOUPLE_RECOUPLE,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddUncoupleRecoupleComment('Comment'));
+    });
+    it('should dispatch with AddShowMeTellMeComment if source is VEHICLE_CHECKS', () => {
+      component.seriousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.VEHICLE_CHECKS,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddShowMeTellMeComment('Comment'));
+    });
+    it('should dispatch with EyesightTestAddComment if source is EYESIGHT_TEST', () => {
+      component.seriousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.EYESIGHT_TEST,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(EyesightTestAddComment('Comment'));
+    });
+    it('should dispatch with AddControlledStopComment if source is CONTROLLED_STOP', () => {
+      component.seriousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.CONTROLLED_STOP,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddControlledStopComment('Comment'));
+    });
+    it('should dispatch with HighwayCodeSafetyAddComment if source is HIGHWAY_CODE_SAFETY', () => {
+      component.seriousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.HIGHWAY_CODE_SAFETY,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(HighwayCodeSafetyAddComment('Comment'));
+    });
+    it('should dispatch with AddManoeuvreComment if source is MANOEUVRES', () => {
+      component.seriousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: 'Manoeuvres-reverseParkRoad-Control',
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.S, 'Control', 'Comment'),
+      );
+    });
+  });
+
+  describe('dangerousFaultCommentChanged', () => {
+    it('should dispatch with AddDangerousFaultComment if source is SIMPLE', () => {
+      component.dangerousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.SIMPLE,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddDangerousFaultComment('Identifier', 'Comment'));
+    });
+    it('should dispatch with AddUncoupleRecoupleComment if source is UNCOUPLE_RECOUPLE', () => {
+      component.dangerousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.UNCOUPLE_RECOUPLE,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddUncoupleRecoupleComment('Comment'));
+    });
+    it('should dispatch with AddShowMeTellMeComment if source is VEHICLE_CHECKS', () => {
+      component.dangerousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.VEHICLE_CHECKS,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddShowMeTellMeComment('Comment'));
+    });
+    it('should dispatch with AddControlledStopComment if source is CONTROLLED_STOP', () => {
+      component.dangerousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: CommentSource.CONTROLLED_STOP,
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(AddControlledStopComment('Comment'));
+    });
+    it('should dispatch with AddManoeuvreComment if source is MANOEUVRES', () => {
+      component.dangerousFaultCommentChanged({
+        competencyIdentifier: 'Identifier',
+        competencyDisplayName: 'DisplayName',
+        source: 'Manoeuvres-reverseParkRoad-Control',
+        faultCount: 1,
+        comment: 'Comment',
+      });
+      expect(store$.dispatch).toHaveBeenCalledWith(
+        AddManoeuvreComment('reverseParkRoad', CompetencyOutcome.D, 'Control', 'Comment'),
+      );
     });
   });
 });

@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  IonicModule,
-  NavController,
-  Platform,
-  ToastController, ModalController,
+  IonicModule, ModalController, NavController, Platform, ToastController,
 } from '@ionic/angular';
 import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
@@ -23,15 +20,21 @@ import { QuestionProviderMock } from '@providers/question/__mocks__/question.moc
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ActivityCodeModel, ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
+import { ActivityCodeDescription, ActivityCodeModel } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
 import { By } from '@angular/platform-browser';
-import { Competencies, ExaminerActions } from '@store/tests/test-data/test-data.constants';
+import { Competencies, ExaminerActions, SingleFaultCompetencyNames } from '@store/tests/test-data/test-data.constants';
 import { ToggleETA } from '@store/tests/test-data/common/eta/eta.actions';
 import { TogglePlanningEco } from '@store/tests/test-data/common/eco/eco.actions';
-import { AddDangerousFault } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
-import { AddSeriousFault } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import {
+  AddDangerousFault,
+  AddDangerousFaultComment,
+} from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import {
+  AddSeriousFault,
+  AddSeriousFaultComment,
+} from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import { of } from 'rxjs';
 import { ToastControllerMock } from '@shared/mocks/toast-controller.mock';
 import { VehicleChecksOfficeCardComponent } from '@pages/office/components/vehicle-checks/vehicle-checks-office-card';
@@ -48,6 +51,14 @@ import {
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
+import { CommentSource } from '@shared/models/fault-marking.model';
+import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import {
+  AddSingleFaultCompetencyComment,
+} from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
+import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatAMod1Page } from '../office.cat-a-mod1.page';
@@ -229,6 +240,126 @@ describe('OfficeCatAMod1Page', () => {
         component.pageState.displayDrivingFaultComments$ = of(false);
         fixture.detectChanges();
         expect(drivingFaultCommentCard.shouldRender).toBeFalsy();
+      });
+    });
+
+    describe('ionViewWillEnter', () => {
+      it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+        component.isPracticeMode = false;
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+        spyOn(component.deviceProvider, 'disableSingleAppMode');
+        await component.ionViewWillEnter();
+        expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+      });
+    });
+
+    describe('drivingFaultCommentChanged', () => {
+      it('should dispatch with AddDrivingFaultComment if source is SIMPLE', () => {
+        component.drivingFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SIMPLE,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddDrivingFaultComment('Identifier', 'Comment'));
+      });
+      it('should dispatch with AddSingleFaultCompetencyComment if source is SINGLE_FAULT_COMPETENCY', () => {
+        component.drivingFaultCommentChanged({
+          competencyIdentifier: 'avoidance',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SINGLE_FAULT_COMPETENCY,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddSingleFaultCompetencyComment(
+          SingleFaultCompetencyNames.avoidance, 'Comment',
+        ));
+      });
+    });
+
+    describe('seriousFaultCommentChanged', () => {
+      it('should dispatch with AddSeriousFaultComment if source is SIMPLE', () => {
+        component.seriousFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SIMPLE,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddSeriousFaultComment('Identifier', 'Comment'));
+      });
+      it('should dispatch with AddSingleFaultCompetencyComment if source is SINGLE_FAULT_COMPETENCY', () => {
+        component.seriousFaultCommentChanged({
+          competencyIdentifier: 'avoidance',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SINGLE_FAULT_COMPETENCY,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddSingleFaultCompetencyComment(
+          SingleFaultCompetencyNames.avoidance, 'Comment',
+        ));
+      });
+      it('should dispatch with AddAvoidanceComment if source is '
+          + 'SPEED_REQUIREMENTS and case is speedCheckAvoidance', () => {
+        component.seriousFaultCommentChanged({
+          competencyIdentifier: 'avoidance',
+          competencyDisplayName: 'DisplayName',
+          source: 'speedRequirements-speedCheckAvoidance',
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddAvoidanceComment('Comment'));
+      });
+      it('should dispatch with AddAnEmergencyStopComment if source is '
+          + 'SPEED_REQUIREMENTS and case is speedCheckEmergency', () => {
+        component.seriousFaultCommentChanged({
+          competencyIdentifier: 'avoidance',
+          competencyDisplayName: 'DisplayName',
+          source: 'speedRequirements-speedCheckEmergency',
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddAnEmergencyStopComment('Comment'));
+      });
+      it('should dispatch nothing if source is '
+          + 'SPEED_REQUIREMENTS and case is neither speedCheckAvoidance or speedCheckEmergency', () => {
+        component.seriousFaultCommentChanged({
+          competencyIdentifier: 'avoidance',
+          competencyDisplayName: 'DisplayName',
+          source: 'speedRequirements-test',
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).not.toHaveBeenCalledWith(AddAvoidanceComment('Comment'));
+        expect(store$.dispatch).not.toHaveBeenCalledWith(AddAnEmergencyStopComment('Comment'));
+      });
+    });
+
+    describe('dangerousFaultCommentChanged', () => {
+      it('should dispatch with AddDangerousFaultComment if source is SIMPLE', () => {
+        component.dangerousFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SIMPLE,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddDangerousFaultComment('Identifier', 'Comment'));
+      });
+      it('should dispatch with AddSingleFaultCompetencyComment if source is SINGLE_FAULT_COMPETENCY', () => {
+        component.dangerousFaultCommentChanged({
+          competencyIdentifier: 'avoidance',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SINGLE_FAULT_COMPETENCY,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddSingleFaultCompetencyComment(
+          SingleFaultCompetencyNames.avoidance, 'Comment',
+        ));
       });
     });
   });

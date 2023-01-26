@@ -225,6 +225,7 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       this.store$.dispatch(
         AddDangerousFaultComment(dangerousFaultComment.competencyIdentifier, dangerousFaultComment.comment),
       );
+      // @TODO Verify if functionality is needed due to maneuvers being moved
     } else if (startsWith(dangerousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = dangerousFaultComment.source.split('-');
       const fieldName = segments[1];
@@ -249,6 +250,7 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       this.store$.dispatch(
         AddSeriousFaultComment(seriousFaultComment.competencyIdentifier, seriousFaultComment.comment),
       );
+      // @TODO Verify if functionality is needed due to maneuvers being moved
     } else if (startsWith(seriousFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = seriousFaultComment.source.split('-');
       const fieldName = segments[1];
@@ -274,6 +276,7 @@ export class OfficeCatCPage extends OfficeBasePageComponent implements OnInit {
       this.store$.dispatch(
         AddDrivingFaultComment(drivingFaultComment.competencyIdentifier, drivingFaultComment.comment),
       );
+      // @TODO Verify if functionality is needed due to maneuvers being moved
     } else if (startsWith(drivingFaultComment.source, CommentSource.MANOEUVRES)) {
       const segments = drivingFaultComment.source.split('-');
       const fieldName = segments[1];
