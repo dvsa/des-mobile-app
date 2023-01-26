@@ -31,10 +31,10 @@ export class CandidateDescriptionComponent implements OnChanges {
   @Output()
   candidateDescriptionChange = new EventEmitter<string>();
 
-  private formControl: UntypedFormControl;
+  formControl: UntypedFormControl;
   candidateDescriptionCharsRemaining: number = null;
 
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
 
   ngOnChanges(): void {
     if (!this.formControl) {

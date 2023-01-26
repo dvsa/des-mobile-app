@@ -33,17 +33,20 @@ describe('TrueLikenessComponent', () => {
       component.trueLikeness = false;
       component.formControl = null;
       component.formGroup = new UntypedFormGroup({});
-
       component.ngOnChanges();
+
       expect(component.formControl.value).toBe('false');
     });
-    it('should patch trueLikeness into formControl if it is neither true nor false', () => {
+    it('should not patch trueLikeness into formControl if it is neither true nor false', () => {
       component.trueLikeness = null;
       component.formControl = null;
       component.formGroup = new UntypedFormGroup({});
-
       component.ngOnChanges();
-      expect(component.formControl.value).toBe(null);
+
+      component.formControl.setValue(true);
+      component.ngOnChanges();
+
+      expect(component.formControl.value).not.toBe(null);
     });
   });
 

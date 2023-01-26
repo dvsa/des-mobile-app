@@ -28,7 +28,7 @@ export class FurtherDevelopmentComponent implements OnChanges {
   @Output()
   furtherDevelopmentChange = new EventEmitter<boolean>();
 
-  constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {}
 
   ngOnChanges(): void {
     if (!this.formControl) {

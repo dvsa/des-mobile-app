@@ -37,6 +37,7 @@ import {
   from '@pages/office/components/additional-information/additional-information';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
+import { BasePageComponent } from '@shared/classes/base-page';
 
 describe('OfficeCatADI3Page', () => {
   let fixture: ComponentFixture<OfficeCatADI3Page>;
@@ -97,9 +98,21 @@ describe('OfficeCatADI3Page', () => {
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
+    spyOn(component.deviceProvider, 'disableSingleAppMode');
   }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ionViewWillEnter', () => {
+    it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+      component.isPracticeMode = false;
+      spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+      spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+      spyOn(component.deviceProvider, 'disableSingleAppMode');
+      await component.ionViewWillEnter();
+      expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+    });
   });
 });

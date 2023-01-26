@@ -4,11 +4,13 @@ import { NavParamsMock, ModalControllerMock } from '@mocks/index.mock';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { SpecialLegalRequirementModal } from '../special-legal-requirement-modal';
 
 describe('LegalRequirementsModal', () => {
   let fixture: ComponentFixture<SpecialLegalRequirementModal>;
   let component: SpecialLegalRequirementModal;
+  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -27,10 +29,9 @@ describe('LegalRequirementsModal', () => {
     });
 
     fixture = TestBed.createComponent(SpecialLegalRequirementModal);
+    modalController = TestBed.inject(ModalController);
     component = fixture.componentInstance;
-    component.onCancel = () => Promise.resolve();
-    component.onTerminate = () => Promise.resolve();
-    component.onProceed = () => Promise.resolve();
+    spyOn(component.modalCtrl, 'dismiss');
   }));
 
   describe('DOM', () => {
@@ -62,6 +63,25 @@ describe('LegalRequirementsModal', () => {
 
       fixture.detectChanges();
       expect(component.onProceed).toHaveBeenCalled();
+    });
+  });
+
+  describe('onCancel', () => {
+    it('should dismiss the view controller with cancel event', async () => {
+      await component.onCancel();
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
+  describe('onProceed', () => {
+    it('should dismiss the view controller with continue event', async () => {
+      await component.onProceed();
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CONTINUE);
+    });
+  });
+  describe('onTerminate', () => {
+    it('should dismiss the view controller with terminate event', async () => {
+      await component.onTerminate();
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
     });
   });
 });

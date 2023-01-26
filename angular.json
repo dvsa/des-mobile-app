@@ -241,7 +241,9 @@
               "dist/product-lib/**/*",
               "dist/profile-lib/**/*",
               "dist/program-lib/**/*",
-              "/**/*module*.ts"
+              "/**/*module*.ts",
+              "/**/*route.ts",
+              "/**/*.mock.ts"
             ],
             "assets": [
               {
