@@ -8,6 +8,7 @@ import { AsamFailureNotificationModal } from '../asam-failure-notification-modal
 describe('AsamFailureNotificationModal', () => {
   let component: AsamFailureNotificationModal;
   let fixture: ComponentFixture<AsamFailureNotificationModal>;
+  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -25,10 +26,18 @@ describe('AsamFailureNotificationModal', () => {
 
     fixture = TestBed.createComponent(AsamFailureNotificationModal);
     component = fixture.componentInstance;
-    spyOn(component.modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+    modalController = TestBed.inject(ModalController);
+    spyOn(modalController, 'dismiss');
   }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onCompleteTest', () => {
+    it('should dismiss modal', async () => {
+      await component.onCompleteTest();
+      expect(modalController.dismiss).toHaveBeenCalled();
+    });
   });
 });
