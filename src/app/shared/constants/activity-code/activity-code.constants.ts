@@ -52,6 +52,7 @@ export enum ActivityCodeDescription {
   AUTHORISED_OCCUPANT_INTERVENED_DURING_TEST = 'Authorised occupant intervened during test',
   INCORRECT_LENSE_WORN = 'Test not conducted: Incorrect / no lenses worn',
   SITE_ACCESS_MANAGER_NOT_AVAILABLE = 'Site access manager not available',
+  NO_BODY_CAM_AVAILABLE = 'No Bodycam available',
 }
 
 export enum DelegatedActivityCodeDescription {

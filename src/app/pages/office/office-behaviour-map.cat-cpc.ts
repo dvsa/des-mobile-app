@@ -1,4 +1,4 @@
-import { OutcomeBehaviourMapping } from '../../providers/outcome-behaviour-map/outcome-behaviour-map.model';
+import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcome-behaviour-map.model';
 
 export const behaviourMap: OutcomeBehaviourMapping = {
   1: {
@@ -362,6 +362,14 @@ export const behaviourMap: OutcomeBehaviourMapping = {
     assessmentReport: { display: 'N' },
   },
   83: {
+    candidateDescription: { display: 'Y' },
+    debriefWitnessed: { display: 'Y' },
+    identification: { display: 'Y' },
+    additionalInformation: { display: 'Y' },
+    combination: { display: 'Y' },
+    assessmentReport: { display: 'N' },
+  },
+  88: {
     candidateDescription: { display: 'Y' },
     debriefWitnessed: { display: 'Y' },
     identification: { display: 'Y' },
