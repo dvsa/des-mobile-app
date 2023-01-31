@@ -17,7 +17,6 @@ export class InputRestrictionNumbersDirective {
     if (includes(this.controlKeys, key)) {
       return;
     }
-
     if (key < '0' || key > '9') {
       e.preventDefault();
     }

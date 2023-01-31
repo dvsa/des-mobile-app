@@ -113,7 +113,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     authenticationProvider: AuthenticationProvider,
     router: Router,
     store$: Store<StoreModel>,
-    protected modalController: ModalController,
+    public modalController: ModalController,
     public testReportValidatorProvider: TestReportValidatorProvider,
     public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
