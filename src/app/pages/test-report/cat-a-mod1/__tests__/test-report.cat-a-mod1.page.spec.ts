@@ -47,7 +47,6 @@ import { SpeedCheckModal } from '@pages/test-report/cat-a-mod1/components/speed-
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
 import { OverlayEventDetail } from '@ionic/core';
-import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
@@ -302,10 +301,10 @@ describe('TestReportCatAMod1Page', () => {
           data: ModalEvent.CANCEL,
         }) as OverlayEventDetail,
       } as HTMLIonModalElement));
-      spyOn(TestReportBasePageComponent.prototype, 'onModalDismiss');
+      spyOn(component, 'onModalDismiss');
 
       await component.onEndTestClick();
-      expect(TestReportBasePageComponent.prototype.onModalDismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+      expect(component.onModalDismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
     it('should call createSpeedCheckModal if modal is still null at that point', async () => {
       component.isEtaValid = true;
