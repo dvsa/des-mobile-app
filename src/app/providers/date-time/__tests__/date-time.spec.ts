@@ -4,7 +4,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DateTime } from '@shared/helpers/date-time';
 
-describe('Compression Provider', () => {
+describe('DateTimeProvider', () => {
 
   let dateTimeProvider: DateTimeProvider;
   let appConfig: AppConfigProvider;

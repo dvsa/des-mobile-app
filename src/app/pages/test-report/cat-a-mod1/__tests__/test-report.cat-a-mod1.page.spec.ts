@@ -46,8 +46,9 @@ import {
 import { SpeedCheckModal } from '@pages/test-report/cat-a-mod1/components/speed-check-modal/speed-check-modal';
 import { competencyLabels } from '@shared/constants/competencies/competencies';
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
-import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { OverlayEventDetail } from '@ionic/core';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
 import { testReportReducer } from '../../test-report.reducer';
@@ -57,7 +58,6 @@ import { CompetencyButtonComponent } from '../../components/competency-button/co
 import { CompetencyComponent } from '../../components/competency/competency';
 import { TestReportCatAMod1Page } from '../test-report.cat-a-mod1.page';
 import { EcoComponent } from '../../components/eco/eco';
-import Expected = jasmine.Expected;
 
 describe('TestReportCatAMod1Page', () => {
   let fixture: ComponentFixture<TestReportCatAMod1Page>;
@@ -302,10 +302,10 @@ describe('TestReportCatAMod1Page', () => {
           data: ModalEvent.CANCEL,
         }) as OverlayEventDetail,
       } as HTMLIonModalElement));
-      spyOn(component, 'onModalDismiss').and.callThrough();
+      spyOn(TestReportBasePageComponent.prototype, 'onModalDismiss');
 
       await component.onEndTestClick();
-      expect(component.onModalDismiss).toHaveBeenCalledWith(ModalEvent.CANCEL as Expected<any>);
+      expect(TestReportBasePageComponent.prototype.onModalDismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
     it('should call createSpeedCheckModal if modal is still null at that point', async () => {
       component.isEtaValid = true;

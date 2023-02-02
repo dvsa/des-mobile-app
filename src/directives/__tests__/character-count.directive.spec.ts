@@ -21,7 +21,7 @@ class ElementRefMock extends ElementRef {
   };
 }
 
-describe('Directive: CharCountComponent', () => {
+describe('Directive: CharacterCountDirective', () => {
   let fixture: ComponentFixture<TestCharCountComponent>;
   let directiveEl: DebugElement;
   let directiveInstance: CharacterCountDirective;
