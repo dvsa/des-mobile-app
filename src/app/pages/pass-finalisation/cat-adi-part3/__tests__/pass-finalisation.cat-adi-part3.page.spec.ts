@@ -28,7 +28,11 @@ import {
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import { Subscription } from 'rxjs';
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
-import { PassFinalisationViewDidEnter } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { PassFinalisationCatADIPart3Page } from '../pass-finalisation.cat-adi-part3.page';
 
 describe('PassFinalisationCatADIPart3Page', () => {
@@ -117,6 +121,30 @@ describe('PassFinalisationCatADIPart3Page', () => {
       it('should dispatch ReasonForNoAdviceGivenChanged using the parameter given ', () => {
         component.adviceReasonChanged('test');
         expect(store$.dispatch).toHaveBeenCalledWith(ReasonForNoAdviceGivenChanged('test'));
+      });
+    });
+
+    describe('onSubmit', () => {
+      it('should call adviceReasonChanged with null if form is valid and furtherDevelopment is true', () => {
+        component.form.clearValidators();
+        component.furtherDevelopment = true;
+        spyOn(component, 'adviceReasonChanged');
+        component.onSubmit();
+
+        expect(component.adviceReasonChanged).toHaveBeenCalledWith(null);
+      });
+      it('should dispatch PassFinalisationValidationError if the controls are invalid', () => {
+        component.form = new UntypedFormGroup({});
+        for (let i = 0; i < 3; i += 1) {
+          component.form.addControl(`test${i}`, new UntypedFormControl());
+          component.form.controls[`test${i}`].setValidators([Validators.required]);
+          component.form.controls[`test${i}`].setValue(null);
+        }
+        component.onSubmit();
+
+        Object.keys(component.form.controls).forEach((controlName) => {
+          expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationValidationError(`${controlName} is blank`));
+        });
       });
     });
   });

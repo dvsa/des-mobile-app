@@ -1,4 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { AppConfig } from '@providers/app-config/app-config.model';
 import { UrlProvider } from '../url';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -29,6 +30,40 @@ describe('UrlProvider', () => {
       expect(url).toBe('https://www.example.com/api/v1/journals/00000000/personal');
       url = urlProvider.getPersonalJournalUrl(undefined);
       expect(url).toBe('https://www.example.com/api/v1/journals/00000000/personal');
+    });
+  });
+
+  describe('getLogsServiceApiKey', () => {
+    it('should get logsPostApiKey', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({ logsPostApiKey: 'key' } as AppConfig);
+      expect(urlProvider.getLogsServiceApiKey()).toBe('key');
+    });
+  });
+  describe('getTaxMotApiKey', () => {
+    it('should get taxMotApiKey', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue({ taxMotApiKey: 'key' } as AppConfig);
+      expect(urlProvider.getTaxMotApiKey()).toBe('key');
+    });
+  });
+  describe('getTaxMotUrl', () => {
+    it('should get taxMotUrl', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and
+        .returnValue({ vehicle: { taxMotUrl: 'url' } } as AppConfig);
+      expect(urlProvider.getTaxMotUrl()).toBe('url');
+    });
+  });
+  describe('getTestCentreJournalUrl', () => {
+    it('should get teamJournalUrl', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and
+        .returnValue({ journal: { teamJournalUrl: 'url' } } as AppConfig);
+      expect(urlProvider.getTestCentreJournalUrl()).toBe('url');
+    });
+  });
+  describe('getCandidateStandardDataUrl', () => {
+    it('should get standardUrl', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and
+        .returnValue({ driver: { standardUrl: 'url' } } as AppConfig);
+      expect(urlProvider.getCandidateStandardDataUrl()).toBe('url');
     });
   });
 
