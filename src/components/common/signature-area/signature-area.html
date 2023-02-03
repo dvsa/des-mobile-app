@@ -10,7 +10,10 @@
         </ion-col>
         <ion-col>
             <button (click)="clear()" class="retry-button" [disabled]="!signature">
-                <div id="signature-area-retry-icon" class="retry-icon" [ngStyle]="{'background-image':'url(' + retryImage + ')'}">
+                <div
+                  id="signature-area-retry-icon"
+                  class="retry-icon"
+                  [ngStyle]="{'background-image':'url(' + retryImage + ')'}">
                 </div>
                 <label id="signature-area-retry-button-label" class="sign-here-text">
                     {{retryButtonText? retryButtonText : "Retry"}}
@@ -19,7 +22,13 @@
         </ion-col>
     </ion-row>
     <ion-row class="signature-wrapper ion-align-items-center">
-        <signature-pad  #signaturePadElement id="signature-area-signature-pad" (onEndEvent)="drawComplete()" [class.ng-invalid]="showValidText"></signature-pad>
+        <signature-pad
+          #signaturePadElement
+          id="signature-area-signature-pad"
+          [options]="signaturePadOptions"
+          (drawEnd)="drawComplete()"
+          [class.ng-invalid]="showValidText">
+        </signature-pad>
         <div class="signature-line"></div>
     </ion-row>
 </div>

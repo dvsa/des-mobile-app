@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import {
   Component,
   ViewChild,
@@ -8,7 +7,7 @@ import {
   EventEmitter, ElementRef, AfterViewInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { SignaturePad } from 'angular2-signaturepad';
+import { NgSignaturePadOptions, SignaturePadComponent } from '@almothafar/angular-signature-pad';
 
 const defaultSignatureHeight: number = 256;
 const defaultSignatureWidth: number = 706;
@@ -32,13 +31,10 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   public isValid: boolean;
   public retryImage: string;
   public signHereImage: string;
-  public drawCompleteAction: string;
-  public clearAction: string;
   public actionLess: boolean;
-  public showSignaturePad: boolean = false;
 
-  @ViewChild(SignaturePad, { static: false })
-  public signaturePad: SignaturePad;
+  @ViewChild(SignaturePadComponent, { static: false })
+  public signaturePad: SignaturePadComponent;
 
   @ViewChild('signaturePadElement', { read: ElementRef, static: false })
   signaturePadElement: ElementRef;
@@ -61,6 +57,12 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   @Output()
   signatureCleared = new EventEmitter();
 
+  public signaturePadOptions: NgSignaturePadOptions = { // passed through to szimek/signature_pad constructor
+    minWidth: 5,
+    canvasWidth: defaultSignatureWidth,
+    canvasHeight: defaultSignatureHeight,
+  };
+
   constructor() {
     this.signature = null;
     this.isValid = null;
@@ -69,21 +71,20 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
     this.retryImage = '/assets/imgs/waiting-room/retry.png';
   }
 
-  public getSignature() {
-    return this.signature;
+  ngAfterViewInit() {
+    this.initialiseSignature();
+    window.addEventListener('orientationchange', () => this.initialiseSignature());
   }
 
   public setSignature(initialValue: string) {
-    this.signaturePad.fromDataURL(initialValue, { width: this.getSignatureWidth(), height: this.getSignatureHeight() });
+    this.signaturePad.fromDataURL(initialValue, {
+      width: this.getSignatureWidth(),
+      height: this.getSignatureHeight(),
+    });
     // loading the signature from initial value does not set the internal signature structure, so setting here.
     this.signature = initialValue;
     this.signatureDataChangedDispatch(initialValue);
     this.propagateChange(this.signature);
-  }
-
-  ngAfterViewInit() {
-    this.initialiseSignature();
-    window.addEventListener('orientationchange', () => this.initialiseSignature());
   }
 
   initialiseSignature() {
@@ -105,9 +106,14 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   }
 
   resizeSignaturePad(): void {
-    if (!!this.signaturePad.queryPad() && !!this.signaturePad.queryPad()._canvas) {
-      this.signaturePad.queryPad()._canvas.width = this.getSignatureWidth();
-      this.signaturePad.queryPad()._canvas.height = this.getSignatureHeight();
+    if (this.signaturePad.getSignaturePad()) {
+      // @ts-ignore - ignored as its a private property
+      const { canvas } = this.signaturePad.getSignaturePad();
+      if (!canvas) {
+        return;
+      }
+      canvas.width = this.getSignatureWidth();
+      canvas.height = this.getSignatureHeight();
     }
   }
 

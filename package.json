@@ -43,6 +43,7 @@
     "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts"
   },
   "dependencies": {
+    "@almothafar/angular-signature-pad": "^5.0.1",
     "@angular/cdk": "^14.2.6",
     "@angular/common": "^14.2.8",
     "@angular/core": "^14.2.8",
@@ -83,7 +84,6 @@
     "@sentry/angular": "7.13.0",
     "@sentry/capacitor": "0.10.1",
     "@sentry/tracing": "7.13.0",
-    "angular2-signaturepad": "^3.0.4",
     "assert": "^2.0.0",
     "bootstrap": "^5.2.2",
     "browserify-zlib": "^0.2.0",

@@ -10,37 +10,46 @@
     }
   }
 
-    .signature-line {
-      border-top: 1px solid #979797;
-      height: 2px;
-      width: 90%;
-      bottom: 30%;
-      position: absolute;
-    }
+  .signature-line {
+    border-top: 1px solid #979797;
+    height: 2px;
+    width: 90%;
+    bottom: 30%;
+    position: absolute;
+  }
 
   .retry-button {
     display: flex;
     float: right;
     background-color: transparent;
+
     &:disabled {
       color: var(--gds-grey-5);
       background-color: rgba(0, 0, 0, 0);
     }
+
     .retry-icon {
       align-self: center;
       background-repeat: no-repeat;
       padding-right: 29px;
+
       &:disabled {
         color: var(--gds-grey-5);
         background-color: rgba(131, 131, 131, 0);
       }
     }
+
     .sign-here-text {
       align-self: center;
     }
   }
+
   .signature-wrapper {
     flex-direction: column;
     position: relative;
+  }
+
+  #signature-area-signature-pad {
+    background-color: rgba(131, 131, 131, 0);
   }
 }
