@@ -1,5 +1,11 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { QuestionCardComponent } from '@pages/test-report/cat-cpc/components/question-card/question-card';
+import { MockComponent } from 'ng-mocks';
+import { QuestionTitleComponent } from '@pages/test-report/cat-cpc/components/question-title/question-title';
+import { QuestionAnswerComponent } from '@pages/test-report/cat-cpc/components/question-answer/question-answer';
+import { QuestionScoreComponent } from '@pages/test-report/cat-cpc/components/question-score/question-score';
+import { QuestionSubtitleComponent } from '@pages/test-report/cat-cpc/components/question-subtitle/question-subtitle';
+import { AdditionalItemsComponent } from '@pages/test-report/cat-cpc/components/additional-items/additional-items';
 
 describe('QuestionCardComponent', () => {
   let fixture: ComponentFixture<QuestionCardComponent>;
@@ -9,6 +15,11 @@ describe('QuestionCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         QuestionCardComponent,
+        MockComponent(QuestionTitleComponent),
+        MockComponent(QuestionSubtitleComponent),
+        MockComponent(QuestionAnswerComponent),
+        MockComponent(QuestionScoreComponent),
+        MockComponent(AdditionalItemsComponent),
       ],
     });
 

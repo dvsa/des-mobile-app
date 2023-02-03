@@ -2,6 +2,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { UntypedFormGroup } from '@angular/forms';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
+import { MockComponent } from 'ng-mocks';
+import {
+  AssessmentAnswerComponent,
+} from '@pages/test-report/cat-adi-part3/components/assessment-answer/assessment-answer';
 
 describe('LessonThemeComponent', () => {
   let fixture: ComponentFixture<LessonThemeComponent>;
@@ -9,7 +13,10 @@ describe('LessonThemeComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LessonThemeComponent],
+      declarations: [
+        LessonThemeComponent,
+        MockComponent(AssessmentAnswerComponent),
+      ],
       imports: [
         IonicModule,
       ],

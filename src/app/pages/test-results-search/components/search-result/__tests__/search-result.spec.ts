@@ -18,7 +18,7 @@ describe('SearchResultComponent', () => {
 
   const testResultMock = {
     costCode: 'code',
-    testDate: '03-12-2000-12:30:02',
+    testDate: '2000-03-12 12:30:02',
     driverNumber: '1',
     candidateName: {
       title: 'title',

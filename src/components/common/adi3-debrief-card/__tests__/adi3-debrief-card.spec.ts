@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
+import { MockComponent } from 'ng-mocks';
+import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
 
 describe('DangerousFaultBadgeComponent', () => {
   let fixture: ComponentFixture<Adi3DebriefCard>;
@@ -9,6 +11,7 @@ describe('DangerousFaultBadgeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         Adi3DebriefCard,
+        MockComponent(Adi3DebriefCardBox),
       ],
     });
 
