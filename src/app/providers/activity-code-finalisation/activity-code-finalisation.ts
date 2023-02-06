@@ -21,57 +21,73 @@ export class ActivityCodeFinalisationProvider {
 
   constructor(private testResultProvider: TestResultProvider) {}
 
-  async catAMod1TestDataIsInvalid(activityCode: ActivityCode, testData: CatAMod1TestData): Promise<boolean> {
+  async catAMod1TestDataIsInvalid(
+    activityCode: ActivityCode,
+    testData: CatAMod1TestData,
+    category: TestCategory,
+  ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) {
       return false;
     }
 
     const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.EUAM1, testData).toPromise()
+      this.testResultProvider.calculateTestResult(category, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
   }
 
-  async catAMod2TestDataIsInvalid(activityCode: ActivityCode, testData: CatAMod2TestData): Promise<boolean> {
+  async catAMod2TestDataIsInvalid(
+    activityCode: ActivityCode,
+    testData: CatAMod2TestData,
+    category: TestCategory,
+  ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
     const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.EUAM2, testData).toPromise()
+      this.testResultProvider.calculateTestResult(category, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
   }
 
   async catADIPart2TestDataIsInvalid(
-    activityCode: ActivityCode, testData: CatADI2UniqueTypes.TestData,
+    activityCode: ActivityCode,
+    testData: CatADI2UniqueTypes.TestData,
+    category: TestCategory,
   ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
     const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.ADI2, testData).toPromise()
+      this.testResultProvider.calculateTestResult(category, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
   }
 
   async catADIPart3TestDataIsInvalid(
-    activityCode: ActivityCode, testData: CatADI3TestData,
+    activityCode: ActivityCode,
+    testData: CatADI3TestData,
+    category: TestCategory,
   ): Promise<boolean> {
     if (activityCode !== ActivityCodes.FAIL_PUBLIC_SAFETY && testData.riskManagement.score >= 8) return false;
 
     const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.ADI3, testData).toPromise()
+      this.testResultProvider.calculateTestResult(category, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
   }
 
-  async catBTestDataIsInvalid(activityCode: ActivityCode, testData: CatBUniqueTypes.TestData): Promise<boolean> {
+  async catBTestDataIsInvalid(
+    activityCode: ActivityCode,
+    testData: CatBUniqueTypes.TestData,
+    category: TestCategory,
+  ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
     const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.B, testData).toPromise()
+      this.testResultProvider.calculateTestResult(category, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -91,11 +107,15 @@ export class ActivityCodeFinalisationProvider {
     return isPass;
   }
 
-  async catManoeuvresTestDataIsInvalid(activityCode: ActivityCode, testData: CatManoeuvreTestData): Promise<boolean> {
+  async catManoeuvresTestDataIsInvalid(
+    activityCode: ActivityCode,
+    testData: CatManoeuvreTestData,
+    category: TestCategory,
+  ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
     const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.CM, testData).toPromise()
+      this.testResultProvider.calculateTestResult(category, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -115,11 +135,15 @@ export class ActivityCodeFinalisationProvider {
     return isPass;
   }
 
-  async catHomeTestDataIsInvalid(activityCode: ActivityCode, testData: CatHomeTestData): Promise<boolean> {
+  async catHomeTestDataIsInvalid(
+    activityCode: ActivityCode,
+    testData: CatHomeTestData,
+    category: TestCategory,
+  ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
     const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.F, testData).toPromise()
+      this.testResultProvider.calculateTestResult(category, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -133,16 +157,18 @@ export class ActivityCodeFinalisationProvider {
   public async testDataIsInvalid(category, activityCode: ActivityCode, testData: TestDataUnion): Promise<boolean> {
     switch (category) {
       case TestCategory.ADI2: return this.catADIPart2TestDataIsInvalid(
-        activityCode, testData as CatADI2UniqueTypes.TestData,
+        activityCode, testData as CatADI2UniqueTypes.TestData, category,
       );
       case TestCategory.ADI3:
       case TestCategory.SC:
-        return this.catADIPart3TestDataIsInvalid(activityCode, testData as CatADI3TestData);
-      case TestCategory.B: return this.catBTestDataIsInvalid(activityCode, testData as CatBUniqueTypes.TestData);
+        return this.catADIPart3TestDataIsInvalid(activityCode, testData as CatADI3TestData, category);
+      case TestCategory.B:
+        return this.catBTestDataIsInvalid(activityCode, testData as CatBUniqueTypes.TestData, category);
       case TestCategory.C1:
       case TestCategory.C1E:
       case TestCategory.CE:
-      case TestCategory.C: return this.catCTestDataIsInvalid(activityCode, testData as CatCTestData, category);
+      case TestCategory.C:
+        return this.catCTestDataIsInvalid(activityCode, testData as CatCTestData, category);
       case TestCategory.C1M:
       case TestCategory.CEM:
       case TestCategory.C1EM:
@@ -151,23 +177,26 @@ export class ActivityCodeFinalisationProvider {
       case TestCategory.DEM:
       case TestCategory.D1EM:
       case TestCategory.DM:
-        return this.catManoeuvresTestDataIsInvalid(activityCode, testData as CatManoeuvreTestData);
+        return this.catManoeuvresTestDataIsInvalid(activityCode, testData as CatManoeuvreTestData, category);
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-      case TestCategory.D: return this.catDTestDataIsInvalid(activityCode, testData as CatDTestData, category);
+      case TestCategory.D:
+        return this.catDTestDataIsInvalid(activityCode, testData as CatDTestData, category);
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
-      case TestCategory.EUAMM1: return this.catAMod1TestDataIsInvalid(activityCode, testData as CatAMod1TestData);
+      case TestCategory.EUAMM1:
+        return this.catAMod1TestDataIsInvalid(activityCode, testData as CatAMod1TestData, category);
       case TestCategory.EUAM2:
       case TestCategory.EUA1M2:
       case TestCategory.EUA2M2:
-      case TestCategory.EUAMM2: return this.catAMod2TestDataIsInvalid(activityCode, testData as CatAMod2TestData);
+      case TestCategory.EUAMM2:
+        return this.catAMod2TestDataIsInvalid(activityCode, testData as CatAMod2TestData, category);
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:
-      case TestCategory.K: return this.catHomeTestDataIsInvalid(activityCode, testData as CatHomeTestData);
+      case TestCategory.K: return this.catHomeTestDataIsInvalid(activityCode, testData as CatHomeTestData, category);
       default: return false;
     }
   }
