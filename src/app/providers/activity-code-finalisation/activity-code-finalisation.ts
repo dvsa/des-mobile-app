@@ -101,11 +101,15 @@ export class ActivityCodeFinalisationProvider {
     return isPass;
   }
 
-  async catDTestDataIsInvalid(activityCode: ActivityCode, testData: CatDTestData): Promise<boolean> {
+  async catDTestDataIsInvalid(
+    activityCode: ActivityCode,
+    testData: CatDTestData,
+    category: TestCategory,
+  ): Promise<boolean> {
     if (!this.activityCodeIs4or5(activityCode)) return false;
 
     const isPass = await (
-      this.testResultProvider.calculateTestResult(TestCategory.D, testData).toPromise()
+      this.testResultProvider.calculateTestResult(category, testData).toPromise()
     ) === ActivityCodes.PASS;
 
     return isPass;
@@ -151,7 +155,7 @@ export class ActivityCodeFinalisationProvider {
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
-      case TestCategory.D: return this.catDTestDataIsInvalid(activityCode, testData as CatDTestData);
+      case TestCategory.D: return this.catDTestDataIsInvalid(activityCode, testData as CatDTestData, category);
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
