@@ -5,10 +5,6 @@
   "description": "DVSA - Driving Examiner Services",
   "homepage": "https://github.com/dvsa/des-mobile-app",
   "private": true,
-  "engines": {
-    "node": "18.11.*",
-    "npm": "8.19.*"
-  },
   "scripts": {
     "postinstall": "patch-package && node buildScripts/eslint-alloc-patch.js",
     "prepare": "husky install",
