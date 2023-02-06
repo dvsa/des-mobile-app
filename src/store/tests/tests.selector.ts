@@ -6,11 +6,12 @@ import { get, startsWith } from 'lodash';
 import {
   ActivityCodeModel,
   activityCodeModelList,
-  activityCodeModelListDelegatedExaminer,
+  activityCodeModelListDelegatedExaminer, adi3activityCodeModelList,
 } from '@shared/constants/activity-code/activity-code.constants';
 import { DateTime } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { end2endPracticeSlotId, testReportPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { TestStatus } from './test-status/test-status.model';
 import { TestsModel } from './tests.model';
 import { TestOutcome } from './tests.constants';
@@ -70,6 +71,9 @@ export const isPassed = (test: TestResultSchemasUnion): boolean => {
 export const getActivityCode = (test: TestResultCommonSchema): ActivityCodeModel => {
   if (test.delegatedTest) {
     return activityCodeModelListDelegatedExaminer.find((code) => code.activityCode === test.activityCode);
+  }
+  if (isAnyOf(test.category, [TestCategory.ADI3, TestCategory.SC])) {
+    return adi3activityCodeModelList.find((code) => code.activityCode === test.activityCode);
   }
   return activityCodeModelList.find((code) => code.activityCode === test.activityCode);
 };

@@ -31,7 +31,9 @@ describe('ActivityCodeFinalisationProvider', () => {
     });
 
     it('should call testResultProvider with the correct category for B', () => {
-      activityCodeFinalisationProvider.catBTestDataIsInvalid(ActivityCodes.FAIL_PUBLIC_SAFETY, {});
+      activityCodeFinalisationProvider.catBTestDataIsInvalid(
+        ActivityCodes.FAIL_PUBLIC_SAFETY, {}, TestCategory.B,
+      );
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.B, {});
     });
 
@@ -50,27 +52,45 @@ describe('ActivityCodeFinalisationProvider', () => {
     });
 
     it('should call testResultProvider with the correct category for CM', () => {
-      activityCodeFinalisationProvider.catManoeuvresTestDataIsInvalid(ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {});
+      activityCodeFinalisationProvider.catManoeuvresTestDataIsInvalid(
+        ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {}, TestCategory.CM,
+      );
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.CM, {});
     });
 
     it('should call testResultProvider with the correct category for AM1', () => {
-      activityCodeFinalisationProvider.catAMod1TestDataIsInvalid(ActivityCodes.FAIL_PUBLIC_SAFETY, {});
+      activityCodeFinalisationProvider.catAMod1TestDataIsInvalid(
+        ActivityCodes.FAIL_PUBLIC_SAFETY,
+        {},
+        TestCategory.EUAM1,
+      );
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.EUAM1, {});
     });
 
     it('should call testResultProvider with the correct category for AM2', () => {
-      activityCodeFinalisationProvider.catAMod2TestDataIsInvalid(ActivityCodes.FAIL_PUBLIC_SAFETY, {});
+      activityCodeFinalisationProvider.catAMod2TestDataIsInvalid(
+        ActivityCodes.FAIL_PUBLIC_SAFETY,
+        {},
+        TestCategory.EUAM2,
+      );
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.EUAM2, {});
     });
 
     it('should call testResultProvider with the correct category for ADI2', () => {
-      activityCodeFinalisationProvider.catADIPart2TestDataIsInvalid(ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {});
+      activityCodeFinalisationProvider.catADIPart2TestDataIsInvalid(
+        ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
+        {},
+        TestCategory.ADI2,
+      );
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.ADI2, {});
     });
 
     it('should call testResultProvider with the correct category for Home', () => {
-      activityCodeFinalisationProvider.catHomeTestDataIsInvalid(ActivityCodes.FAIL_PUBLIC_SAFETY, {});
+      activityCodeFinalisationProvider.catHomeTestDataIsInvalid(
+        ActivityCodes.FAIL_PUBLIC_SAFETY,
+        {},
+        TestCategory.F,
+      );
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.F, {});
     });
   });
@@ -80,11 +100,17 @@ describe('ActivityCodeFinalisationProvider', () => {
       spyOn(testResultProvider, 'calculateTestResult').and.returnValue(of(ActivityCodes.PASS));
     });
     it('should return false when activity code is not 4/5 for Home', async () => {
-      const result = await activityCodeFinalisationProvider.catHomeTestDataIsInvalid(ActivityCodes.BAD_LIGHT, {});
+      const result = await activityCodeFinalisationProvider.catHomeTestDataIsInvalid(
+        ActivityCodes.BAD_LIGHT,
+        {},
+        TestCategory.K,
+      );
       expect(result).toBe(false);
     });
     it('should return false when activity code is not 4/5 for B', async () => {
-      const result = await activityCodeFinalisationProvider.catBTestDataIsInvalid(ActivityCodes.ACCIDENT, {});
+      const result = await activityCodeFinalisationProvider.catBTestDataIsInvalid(ActivityCodes.ACCIDENT,
+        {},
+        TestCategory.B);
       expect(result).toBe(false);
     });
     it('should return false when activity code is not 4/5 for C', async () => {
@@ -102,16 +128,26 @@ describe('ActivityCodeFinalisationProvider', () => {
     });
     it('should return false when activity code is not 4/5 for AMod1', async () => {
       const result = await activityCodeFinalisationProvider
-        .catAMod1TestDataIsInvalid(ActivityCodes.CANDIDATE_REFUSED_TO_SIGN_RESIDENCY_DECLARATION, {});
+        .catAMod1TestDataIsInvalid(
+          ActivityCodes.CANDIDATE_REFUSED_TO_SIGN_RESIDENCY_DECLARATION,
+          {},
+          TestCategory.EUA1M1,
+        );
       expect(result).toBe(false);
     });
     it('should return false when activity code is not 4/5 for AMod2', async () => {
       const result = await activityCodeFinalisationProvider
-        .catAMod2TestDataIsInvalid(ActivityCodes.ILLEGAL_ACTIVITY_FROM_CANDIDATE, {});
+        .catAMod2TestDataIsInvalid(
+          ActivityCodes.ILLEGAL_ACTIVITY_FROM_CANDIDATE,
+          {},
+          TestCategory.EUA1M2,
+        );
       expect(result).toBe(false);
     });
     it('should return false when activity code is not 4/5 for ADI2', async () => {
-      const result = await activityCodeFinalisationProvider.catADIPart2TestDataIsInvalid(ActivityCodes.BAD_LIGHT, {});
+      const result = await activityCodeFinalisationProvider.catADIPart2TestDataIsInvalid(ActivityCodes.BAD_LIGHT,
+        {},
+        TestCategory.ADI2);
       expect(result).toBe(false);
     });
   });
