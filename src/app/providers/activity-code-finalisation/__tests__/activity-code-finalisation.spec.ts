@@ -93,7 +93,11 @@ describe('ActivityCodeFinalisationProvider', () => {
       expect(result).toBe(false);
     });
     it('should return false when activity code is not 4/5 for D', async () => {
-      const result = await activityCodeFinalisationProvider.catDTestDataIsInvalid(ActivityCodes.CANDIDATE_PREGNANT, {});
+      const result = await activityCodeFinalisationProvider.catDTestDataIsInvalid(
+        ActivityCodes.CANDIDATE_PREGNANT,
+        {},
+        TestCategory.D,
+      );
       expect(result).toBe(false);
     });
     it('should return false when activity code is not 4/5 for AMod1', async () => {
