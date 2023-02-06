@@ -1,7 +1,8 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { AppModule } from '@app/app.module';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
+import 'hammerjs';
+import { AppModule } from '@app/app.module';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { CompetencyButtonComponent } from '../competency-button';

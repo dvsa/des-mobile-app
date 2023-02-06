@@ -6,7 +6,7 @@ import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
-import { SignaturePadModule } from 'angular2-signaturepad';
+import { AngularSignaturePadModule } from '@almothafar/angular-signature-pad';
 import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
 import {
   HealthDeclarationSignedComponent,
@@ -80,7 +80,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     Adi3DebriefCardBox,
   ],
   imports: [
-    SignaturePadModule,
+    AngularSignaturePadModule,
     CommonModule,
     IonicModule,
     NgbTypeaheadModule,

@@ -1,4 +1,4 @@
-import { SignaturePad } from 'angular2-signaturepad';
+import { SignaturePadComponent } from '@almothafar/angular-signature-pad';
 import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
@@ -16,7 +16,7 @@ describe('SignatureAreaComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SignatureAreaComponent,
-        MockComponent(SignaturePad),
+        MockComponent(SignaturePadComponent),
       ],
       imports: [
         IonicModule,
@@ -38,7 +38,7 @@ describe('SignatureAreaComponent', () => {
         return 'dummyString';
       },
       clear() {},
-    } as SignaturePad;
+    } as SignaturePadComponent;
     /* eslint-enable */
   }));
 
