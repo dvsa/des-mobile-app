@@ -36,8 +36,17 @@ describe('ActivityCodeFinalisationProvider', () => {
     });
 
     it('should call testResultProvider with the correct category for C', () => {
-      activityCodeFinalisationProvider.catCTestDataIsInvalid(ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {});
+      activityCodeFinalisationProvider.catCTestDataIsInvalid(
+        ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {}, TestCategory.C,
+      );
       expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.C, {});
+    });
+
+    it('should call testResultProvider with the correct category for CE', () => {
+      activityCodeFinalisationProvider.catCTestDataIsInvalid(
+        ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {}, TestCategory.CE,
+      );
+      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.CE, {});
     });
 
     it('should call testResultProvider with the correct category for CM', () => {
@@ -80,7 +89,7 @@ describe('ActivityCodeFinalisationProvider', () => {
     });
     it('should return false when activity code is not 4/5 for C', async () => {
       const result = await activityCodeFinalisationProvider
-        .catCTestDataIsInvalid(ActivityCodes.EXAMINER_ILL_PRE_TEST, {});
+        .catCTestDataIsInvalid(ActivityCodes.EXAMINER_ILL_PRE_TEST, {}, TestCategory.C);
       expect(result).toBe(false);
     });
     it('should return false when activity code is not 4/5 for D', async () => {
