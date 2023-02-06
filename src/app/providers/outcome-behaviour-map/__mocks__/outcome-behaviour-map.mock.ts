@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapping } from '@providers/outcome-behaviour-map/outcome-behaviour-map.model';
 
@@ -17,6 +18,10 @@ export class OutcomeBehaviourMapProviderMock {
       return VisibilityType.NotVisible;
     }
     return field.display;
+  }
+
+  showNotApplicable(outcomeId: string, fieldName: string): boolean {
+    return true;
   }
 
 }
