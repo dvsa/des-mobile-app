@@ -58,7 +58,7 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   signatureCleared = new EventEmitter();
 
   public signaturePadOptions: NgSignaturePadOptions = { // passed through to szimek/signature_pad constructor
-    minWidth: 5,
+    minWidth: 1,
     canvasWidth: defaultSignatureWidth,
     canvasHeight: defaultSignatureHeight,
   };
