@@ -102,11 +102,10 @@
             Displaying <span>{{searchResults.length}}</span> results
         </p>
 
-            <search-result
-                    *ngFor="let searchResult of searchResults;"
-                    [searchResult]=searchResult>
-            </search-result>
+        <search-result
+          *ngFor="let searchResult of searchResults;"
+          [searchResult]=searchResult>
+        </search-result>
     </div>
-
 
 </ion-content>

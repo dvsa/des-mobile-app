@@ -16,8 +16,11 @@ import { ExaminerRole } from '@providers/app-config/constants/examiner-role.cons
 import { ComponentsModule } from '@components/common/common-components.module';
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
+import { MockComponent } from 'ng-mocks';
+import { AdvancedSearchComponent } from '@pages/test-results-search/components/advanced-search/advanced-search';
+import { SearchResultComponent } from '@pages/test-results-search/components/search-result/search-result';
 import { TestResultsSearchPage } from '../test-results-search';
+import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
 
 describe('TestResultsSearchPage', () => {
   let fixture: ComponentFixture<TestResultsSearchPage>;
@@ -31,6 +34,8 @@ describe('TestResultsSearchPage', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         TestResultsSearchPage,
+        MockComponent(AdvancedSearchComponent),
+        MockComponent(SearchResultComponent),
       ],
       imports: [
         AppModule,

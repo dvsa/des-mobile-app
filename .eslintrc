@@ -12,6 +12,7 @@
     "airbnb-typescript/base"
   ],
   "rules": {
+    "@typescript-eslint/indent": ["error", 2, { "SwitchCase": 1, "ignoredNodes": ["PropertyDefinition"] }],
     "import/no-named-default": "off",
     "@typescript-eslint/no-useless-constructor": "off",
     "no-useless-constructor": "off",

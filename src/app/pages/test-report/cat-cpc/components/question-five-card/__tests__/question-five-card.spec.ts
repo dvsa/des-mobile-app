@@ -4,6 +4,7 @@ import { MockComponent } from 'ng-mocks';
 import { QuestionAnswerComponent } from '@pages/test-report/cat-cpc/components/question-answer/question-answer';
 import { QuestionScoreComponent } from '@pages/test-report/cat-cpc/components/question-score/question-score';
 import { QuestionTitleComponent } from '@pages/test-report/cat-cpc/components/question-title/question-title';
+import { QuestionSubtitleComponent } from '@pages/test-report/cat-cpc/components/question-subtitle/question-subtitle';
 
 describe('QuestionFiveCardComponent', () => {
   let fixture: ComponentFixture<QuestionFiveCardComponent>;
@@ -14,6 +15,7 @@ describe('QuestionFiveCardComponent', () => {
       declarations: [
         QuestionFiveCardComponent,
         MockComponent(QuestionTitleComponent),
+        MockComponent(QuestionSubtitleComponent),
         MockComponent(QuestionAnswerComponent),
         MockComponent(QuestionScoreComponent),
       ],
