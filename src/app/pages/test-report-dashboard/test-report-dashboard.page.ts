@@ -26,7 +26,6 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { TestFlowPageNames } from '@pages/page-names.constants';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import { getFeedback } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import {
@@ -266,7 +265,7 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
 
     await this.routeByCategory.navigateToPage(
       TestFlowPageNames.TEST_REPORT_PAGE,
-      TestCategory.ADI3,
+      this.testCategory,
       { state: { page, showMissing: this.testReportState > 0 && this.testReportState < 17 } },
     );
   };
