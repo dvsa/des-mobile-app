@@ -2,7 +2,7 @@ import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as vehicleDetailsActions from '../vehicle-details.actions';
 
-const initialState: CatADI2UniqueTypes.VehicleDetails = {
+export const initialState: CatADI2UniqueTypes.VehicleDetails = {
   registrationNumber: '',
 };
 
