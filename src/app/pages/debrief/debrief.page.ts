@@ -325,14 +325,14 @@ export class DebriefPage extends PracticeableBasePageComponent {
       ),
       grade$: currentTest$.pipe(
         withLatestFrom(testCategory$),
-        filter(([, category]) => category === TestCategory.ADI3),
+        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getGrade),
       ),
       immediateDanger$: currentTest$.pipe(
         withLatestFrom(testCategory$),
-        filter(([, category]) => category === TestCategory.ADI3),
+        filter(([, category]) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getImmediateDanger),
