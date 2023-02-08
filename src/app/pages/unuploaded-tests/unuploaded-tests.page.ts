@@ -11,6 +11,7 @@ import { getIncompleteTestsSlotOlderThan3Days } from '@store/tests/tests.selecto
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
+import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 
 interface UnunploadedTestsPageState {
   appVersion$: Observable<string>;
@@ -54,6 +55,11 @@ export class UnuploadedTestsPage implements OnInit {
       ),
     };
   }
+
+  ionViewDidEnter(): void {
+    this.store$.dispatch(UnuploadedTestsViewDidEnter());
+  }
+
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';
 
   getEmployeeNumberDisplayValue = (employeeNumber: string): string => employeeNumber || 'NOT_KNOWN';
