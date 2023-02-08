@@ -30,6 +30,7 @@ import { ModalEvent } from '@pages/journal/components/journal-rekey-modal/journa
 import { AppComponent } from '@app/app.component';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 import { PreviewModeModal } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal';
+import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 
 @Component({
   selector: 'test-outcome',
@@ -176,14 +177,23 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   async writeUpTest() {
+    if (this.hasNavigatedFromUnsubmitted) {
+      this.store$.dispatch(ContinueUnuploadedTest(TestStatus.WriteUp));
+    }
+
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
+
     await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE,
       this.category,
       { state: { hasNavigatedFromUnsubmitted: this.hasNavigatedFromUnsubmitted } });
   }
 
   async resumeTest() {
+    if (this.hasNavigatedFromUnsubmitted) {
+      this.store$.dispatch(ContinueUnuploadedTest(TestStatus.Started));
+    }
+
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
 
     if (this.testStatus === TestStatus.Started) {
@@ -210,6 +220,10 @@ export class TestOutcomeComponent implements OnInit {
   }
 
   async rekeyTest() {
+    if (this.hasNavigatedFromUnsubmitted) {
+      this.store$.dispatch(ContinueUnuploadedTest('Rekey'));
+    }
+
     if (this.testStatus === null || this.testStatus === TestStatus.Booked) {
       this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, false));
     } else {
