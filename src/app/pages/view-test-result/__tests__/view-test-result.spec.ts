@@ -65,6 +65,8 @@ import {
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestOutcomeText } from '@store/tests/tests.selector';
 import { TestOutcome } from '@store/tests/tests.constants';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
 
 describe('ViewTestResultPage', () => {
   let fixture: ComponentFixture<ViewTestResultPage>;
@@ -554,11 +556,44 @@ describe('ViewTestResultPage', () => {
   });
 
   describe('handleLoadingUI', () => {
-    it('should return null if there is no test result', () => {
+    it('should set isLoading to the value passed in', () => {
+
       component.isLoading = null;
       component.handleLoadingUI(false);
       spyOn(component['loadingProvider'], 'handleUILoading').and.callThrough();
-      expect(component.getTestDetails()).toEqual(null);
+      expect(component.isLoading).toEqual(false);
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should set subscription to the correct values', async () => {
+      component.testResult = null;
+      spyOn(component, 'handleLoadingUI').and.callThrough();
+      spyOn(component['compressionProvider'], 'extractTestResult').and.returnValue({
+        testData: { startTime: '1' },
+      } as TestResultSchemasUnion);
+
+      await component.ngOnInit();
+
+      expect(component.testResult).toEqual({
+        testData: { startTime: '1' },
+      } as TestResultSchemasUnion);
+    });
+    it('should call catchError if it is unable to get a testResult', async () => {
+      component.testResult = null;
+      spyOn(component, 'handleLoadingUI').and.callThrough();
+      spyOn(component['store$'], 'dispatch');
+      spyOn(component['compressionProvider'], 'extractTestResult').and.throwError('test');
+
+      await component.ngOnInit();
+
+      expect(component['store$'].dispatch).toHaveBeenCalledWith(SaveLog({
+        payload: component['logHelper'].createLog(
+          LogType.ERROR,
+          `Getting test result for app ref (${component.applicationReference})`,
+          'test',
+        ),
+      }));
     });
   });
 
