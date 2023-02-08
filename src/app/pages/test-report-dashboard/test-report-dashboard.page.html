@@ -14,7 +14,9 @@
 <ion-content>
     <ion-row class="mes-full-width-card-small-top ion-nowrap">
         <ion-col size="60">
-            <h2 id="adi-pt3-dashboard-title" class="normal-font-weight ion-padding-start">ADI Part 3 Assessment</h2>
+            <h2 id="adi-pt3-dashboard-title" class="normal-font-weight ion-padding-start">
+                {{testCategory === 'SC' ? 'Standards check':'ADI Part 3 Assessment'}}
+            </h2>
         </ion-col>
         <ion-col>
             <timer class="ion-float-end"></timer>
