@@ -1,6 +1,6 @@
 {
 	"appId": "uk.gov.dvsa.drivingexaminerservices",
-	"appName": "DES 4",
+	"appName": "DES",
 	"bundledWebRuntime": false,
 	"webDir": "www",
 	"plugins": {
