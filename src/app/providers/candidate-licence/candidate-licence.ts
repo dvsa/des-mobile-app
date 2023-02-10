@@ -20,6 +20,7 @@ export enum CandidateLicenceErr {
   OFFLINE = 'Offline and no data in cache',
   NOT_FOUND = 'Driver not found with info supplied',
   UNAVAILABLE = 'Candidate licence can\'t be returned',
+  NI_LICENCE = 'Northern Irish licence detected',
 }
 
 @Injectable({
@@ -27,8 +28,9 @@ export enum CandidateLicenceErr {
 })
 export class CandidateLicenceProvider {
 
-  private driverLicenceResponse: DriverLicenceDetails = null;
-  private requestError: string = null;
+  driverLicenceResponse: DriverLicenceDetails = null;
+  requestError: string = null;
+  private static readonly NI_LICENCE_PATTERN: RegExp = /^\d+$/;
 
   constructor(
     private http: HttpClient,
@@ -48,10 +50,19 @@ export class CandidateLicenceProvider {
       }
       return of(this.driverLicenceResponse);
     }
+
+    // intercept call to EP when the drivingLicenceNumber is a numeric string indicating a NI licence
+    if (CandidateLicenceProvider.NI_LICENCE_PATTERN.test(drivingLicenceNumber)) {
+      this.requestError = CandidateLicenceErr.NI_LICENCE;
+      this.driverLicenceResponse = { ...this.driverLicenceResponse, drivingLicenceNumber } as DriverLicenceDetails;
+      throw new Error(CandidateLicenceErr.NI_LICENCE);
+    }
+
     // throw offline error when no data already retained
     if (this.networkStateProvider.getNetworkState() !== ConnectionStatus.ONLINE) {
       throw new Error(CandidateLicenceErr.OFFLINE);
     }
+
     return forkJoin([
       this.getDriverPhoto(drivingLicenceNumber),
       this.getDriverSignature(drivingLicenceNumber),
@@ -81,7 +92,7 @@ export class CandidateLicenceProvider {
           this.requestError = CandidateLicenceErr.NOT_FOUND;
           this.driverLicenceResponse = { ...this.driverLicenceResponse, drivingLicenceNumber } as DriverLicenceDetails;
         }
-        return throwError(errorResponse);
+        return throwError(() => new HttpErrorResponse(errorResponse));
       }),
     );
   };

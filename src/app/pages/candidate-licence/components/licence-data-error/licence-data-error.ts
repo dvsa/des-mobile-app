@@ -16,7 +16,13 @@ export class LicenceDataError {
   @Input()
   isOfflineError: boolean = false;
 
+  @Input()
+  niLicenceDetected: boolean = false;
+
   get errorHeading(): string {
+    if (this.niLicenceDetected) {
+      return 'Northern Irish Licence detected';
+    }
     if (this.candidateDataUnavailable) {
       return 'Error obtaining details';
     }
@@ -30,6 +36,9 @@ export class LicenceDataError {
   }
 
   get errorBody(): string {
+    if (this.niLicenceDetected) {
+      return 'No details will be held by DVLA for candidate.';
+    }
     if (this.candidateDataUnavailable) {
       return 'We are unable to return DVLA data for given candidate.';
     }
