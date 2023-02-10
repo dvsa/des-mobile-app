@@ -176,7 +176,7 @@ describe('TestReportDashboardPage', () => {
   });
 
   describe('navigateToPage', () => {
-    it('should dispatch TestReportDashboardNavigateToPage with the paramter passed', async () => {
+    it('should dispatch TestReportDashboardNavigateToPage with the parameter passed', async () => {
       spyOn(component.store$, 'dispatch');
 
       await component.navigateToPage('lessonTheme');
