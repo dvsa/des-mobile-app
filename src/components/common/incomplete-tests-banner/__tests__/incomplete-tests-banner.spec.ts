@@ -44,7 +44,7 @@ describe('IncompleteTestsBanner', () => {
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('span')).nativeElement.innerHTML;
-      expect(rendered).toBe('You have 1 incomplete test');
+      expect(rendered).toBe('You have an incomplete test');
     });
     it('should display the number of incomplete tests as plural', () => {
       fixture.detectChanges();
@@ -52,7 +52,7 @@ describe('IncompleteTestsBanner', () => {
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('span')).nativeElement.innerHTML;
-      expect(rendered).toBe('You have 5 incomplete tests');
+      expect(rendered).toBe('You have incomplete tests');
     });
     it('should not be visible when the fault count is 0', () => {
       fixture.detectChanges();
