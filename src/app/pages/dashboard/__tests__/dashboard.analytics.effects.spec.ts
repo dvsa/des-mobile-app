@@ -41,7 +41,6 @@ describe('DashboardAnalyticsEffects', () => {
       });
     });
   });
-
   describe('practiceTestReportSelected$', () => {
     it('should log an event', (done) => {
       actions$.next(dashboardActions.PracticeTestReportCard());
@@ -50,6 +49,48 @@ describe('DashboardAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
           AnalyticsEventCategories.DASHBOARD,
           AnalyticsEvents.PRACTICE_TEST_SELECTED,
+        );
+        done();
+      });
+    });
+  });
+  describe('sideMenuOpen$', () => {
+    it('should log an event', (done) => {
+      actions$.next(dashboardActions.SideMenuOpened());
+      effects.sideMenuOpen$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.DASHBOARD,
+          AnalyticsEvents.SIDE_MENU,
+          'Menu Opened',
+        );
+        done();
+      });
+    });
+  });
+  describe('sideMenuClosed$', () => {
+    it('should log an event', (done) => {
+      actions$.next(dashboardActions.SideMenuClosed());
+      effects.sideMenuClosed$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.DASHBOARD,
+          AnalyticsEvents.SIDE_MENU,
+          'Menu Closed',
+        );
+        done();
+      });
+    });
+  });
+  describe('sideMenuItemSelected$', () => {
+    it('should log an event', (done) => {
+      actions$.next(dashboardActions.SideMenuItemSelected('opt1'));
+      effects.sideMenuItemSelected$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.DASHBOARD,
+          AnalyticsEvents.SIDE_MENU,
+          'opt1 Selected',
         );
         done();
       });

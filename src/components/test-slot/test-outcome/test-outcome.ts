@@ -191,7 +191,7 @@ export class TestOutcomeComponent implements OnInit {
 
   async resumeTest() {
     if (this.hasNavigatedFromUnsubmitted) {
-      this.store$.dispatch(ContinueUnuploadedTest(TestStatus.Started));
+      this.store$.dispatch(ContinueUnuploadedTest('Resume'));
     }
 
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));

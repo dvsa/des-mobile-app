@@ -3,6 +3,7 @@ import {
 } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 import { SlotDetail } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Router } from '@angular/router';
@@ -18,13 +19,13 @@ import { StoreModel } from '@shared/models/store.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StartTest, ActivateTest } from '@store/tests/tests.actions';
+import { ContinueUnuploadedTest } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { JournalModel } from '@store/journal/journal.model';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { CategoryWhitelistProvider } from '@providers/category-whitelist/category-whitelist';
 
-import { Subscription } from 'rxjs';
 import { TestOutcomeComponent } from '../test-outcome';
 import { TestSlotComponentsModule } from '../../test-slot-components.module';
 
@@ -153,9 +154,17 @@ describe('TestOutcomeComponent', () => {
     });
 
     describe('writeUpTest', () => {
+      beforeEach(() => {
+        component.slotDetail = testSlotDetail;
+        component.hasNavigatedFromUnsubmitted = false;
+      });
+      it('should dispatch the ContinueUnuploadedTest when hasNavigatedFromUnsubmitted is set to true', async () => {
+        component.hasNavigatedFromUnsubmitted = true;
+        await component.writeUpTest();
+        expect(store$.dispatch).toHaveBeenCalledWith(ContinueUnuploadedTest(TestStatus.WriteUp));
+      });
       categoryPages.forEach((cat) => {
         it(`should dispatch an ActivateTest action and navigate to the Office Cat ${cat.category} page`, async () => {
-          component.slotDetail = testSlotDetail;
           component.category = cat.category;
           await component.writeUpTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
@@ -167,10 +176,18 @@ describe('TestOutcomeComponent', () => {
     });
 
     describe('resumeTest', () => {
+      beforeEach(() => {
+        component.slotDetail = testSlotDetail;
+        component.hasNavigatedFromUnsubmitted = false;
+      });
+      it('should dispatch the ContinueUnuploadedTest when hasNavigatedFromUnsubmitted is set to true', async () => {
+        component.hasNavigatedFromUnsubmitted = true;
+        await component.resumeTest();
+        expect(store$.dispatch).toHaveBeenCalledWith(ContinueUnuploadedTest('Resume'));
+      });
       categoryPages.forEach((cat) => {
         it(`Cat ${cat.category} should dispatch an ActivateTest action and navigate to the Waiting Room page`, () => {
           component.testStatus = TestStatus.Started;
-          component.slotDetail = testSlotDetail;
           component.category = cat.category;
           component.resumeTest();
           expect(store$.dispatch).toHaveBeenCalledWith(ActivateTest(component.slotDetail.slotId, cat.category));
@@ -179,7 +196,6 @@ describe('TestOutcomeComponent', () => {
         it(`Cat ${cat.category} should dispatch an ActivateTest action and
          navigate to the Pass Finalisation page`, () => {
           component.testStatus = TestStatus.Decided;
-          component.slotDetail = testSlotDetail;
           component.activityCode = ActivityCodes.PASS;
           component.category = cat.category;
           component.resumeTest();
@@ -191,7 +207,6 @@ describe('TestOutcomeComponent', () => {
         it(`Cat ${cat.category} should dispatch an ActivateTest action
         and navigate to the Non Pass Finalisation page`, () => {
           component.testStatus = TestStatus.Decided;
-          component.slotDetail = testSlotDetail;
           component.activityCode = ActivityCodes.FAIL;
           component.category = cat.category;
           component.resumeTest();
@@ -308,7 +323,6 @@ describe('TestOutcomeComponent', () => {
   });
 
   describe('DOM', () => {
-
     describe('show start test button', () => {
       it('should show the start test button when the test status is Booked', () => {
         spyOn(component, 'showRekeyButton').and.returnValue(false);
@@ -348,6 +362,15 @@ describe('TestOutcomeComponent', () => {
     });
 
     describe('rekey a test', () => {
+      beforeEach(() => {
+        component.slotDetail = testSlotDetail;
+        component.hasNavigatedFromUnsubmitted = false;
+      });
+      it('should dispatch the ContinueUnuploadedTest when hasNavigatedFromUnsubmitted is set to true', async () => {
+        component.hasNavigatedFromUnsubmitted = true;
+        await component.rekeyTest();
+        expect(store$.dispatch).toHaveBeenCalledWith(ContinueUnuploadedTest('Rekey'));
+      });
       it('should call the rekeyTest method when `Rekey` is clicked', () => {
         component.slotDetail = testSlotDetail;
         component.category = TestCategory.B;
