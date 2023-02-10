@@ -17,6 +17,8 @@ import {
   getCandidateDriverNumber,
   getDateOfBirth,
   getGender,
+  getGenderFullDescription,
+  getGenderSilhouettePath,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import {
@@ -68,6 +70,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
   driverDataReturned: boolean = false;
   candidateDataError: boolean = false;
   candidateDataUnavailable: boolean = false;
+  niLicenceDetected: boolean = false;
   offlineError: boolean = false;
 
   constructor(
@@ -113,14 +116,14 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         select(getJournalData),
         select(getCandidate),
         select(getGender),
-        map((gender) => `assets/imgs/candidate-id/silhouette-${gender === 'F' ? 2 : 1}.png`),
+        map(getGenderSilhouettePath),
         take(1),
       ),
       genderDescription$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getGender),
-        map((gender) => (gender === 'F') ? 'Female' : 'Male'),
+        map(getGenderFullDescription),
       ),
       age$: currentTest$.pipe(
         select(getJournalData),
@@ -149,16 +152,7 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
         ) => this.candidateLicenceProvider.getCandidateData(driverNumber, appRef)),
         catchError((err) => {
           if (err instanceof Error) {
-            switch (err.message) {
-              case CandidateLicenceErr.OFFLINE:
-                this.offlineError = true;
-                break;
-              case CandidateLicenceErr.UNAVAILABLE:
-                this.candidateDataUnavailable = true;
-                break;
-              default:
-                this.candidateDataError = true;
-            }
+            this.setError(err);
           } else {
             this.candidateDataError = true;
           }
@@ -206,5 +200,30 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
       }
     });
   };
+
+  get hasErrored(): boolean {
+    return (
+      this.offlineError
+        || this.candidateDataError
+        || this.candidateDataUnavailable
+        || this.niLicenceDetected
+    );
+  }
+
+  private setError(err: Error): void {
+    switch (err.message) {
+      case CandidateLicenceErr.OFFLINE:
+        this.offlineError = true;
+        break;
+      case CandidateLicenceErr.UNAVAILABLE:
+        this.candidateDataUnavailable = true;
+        break;
+      case CandidateLicenceErr.NI_LICENCE:
+        this.niLicenceDetected = true;
+        break;
+      default:
+        this.candidateDataError = true;
+    }
+  }
 
 }

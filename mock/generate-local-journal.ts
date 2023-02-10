@@ -1198,7 +1198,7 @@ export const localJournal: ExaminerWorkSchedule = {
             lastName: 'Brown',
             title: 'Mr',
           },
-          driverNumber: 'BROWN915220A99HC',
+          driverNumber: '12312321', // NI Licence pattern is just a numerical string
           gender: 'M',
           mobileTelephone: '07654 123456',
           primaryTelephone: '01234 567890',
