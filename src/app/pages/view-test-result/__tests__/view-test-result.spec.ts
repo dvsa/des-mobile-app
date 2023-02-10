@@ -579,7 +579,7 @@ describe('ViewTestResultPage', () => {
         testData: { startTime: '1' },
       } as TestResultSchemasUnion);
     });
-    it('should call catchError if it is unable to get a testResult', async () => {
+    it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
       component.testResult = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
       spyOn(component['store$'], 'dispatch');

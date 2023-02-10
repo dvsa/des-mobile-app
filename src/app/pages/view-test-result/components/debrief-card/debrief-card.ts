@@ -195,7 +195,7 @@ export class DebriefCardComponent implements OnInit {
     TestCategory.F, TestCategory.G, TestCategory.H, TestCategory.K, // Cat Home
   ]);
 
-  private getTestRequirementsCatADI2 = (): DataRowListItem[] => {
+  public getTestRequirementsCatADI2 = (): DataRowListItem[] => {
     return [
       {
         label: TestRequirementsLabels.normalStop1,
@@ -220,7 +220,7 @@ export class DebriefCardComponent implements OnInit {
     ];
   };
 
-  private getTestRequirementsCatB = (): DataRowListItem[] => {
+  public getTestRequirementsCatB = (): DataRowListItem[] => {
     return [
       {
         label: TestRequirementsLabels.normalStop1,
@@ -241,7 +241,7 @@ export class DebriefCardComponent implements OnInit {
     ];
   };
 
-  private getTestRequirementsCatC = (): DataRowListItem[] => {
+  public getTestRequirementsCatC = (): DataRowListItem[] => {
     const testRequirements: DataRowListItem[] = [
       {
         label: TestRequirementsLabels.normalStop1,
@@ -275,7 +275,7 @@ export class DebriefCardComponent implements OnInit {
     return testRequirements;
   };
 
-  private getTestRequirementsCatD = (): DataRowListItem[] => {
+  public getTestRequirementsCatD = (): DataRowListItem[] => {
     const testRequirements: DataRowListItem[] = [
       {
         label: TestRequirementsLabels.normalStop1,
@@ -317,7 +317,7 @@ export class DebriefCardComponent implements OnInit {
     return testRequirements;
   };
 
-  private getTestRequirementsCatHome = (): DataRowListItem[] => {
+  public getTestRequirementsCatHome = (): DataRowListItem[] => {
     return [
       {
         label: TestRequirementsLabels.normalStop1,
@@ -338,7 +338,7 @@ export class DebriefCardComponent implements OnInit {
     ];
   };
 
-  private getTestRequirementsCatManoeuvre = (): DataRowListItem[] => {
+  public getTestRequirementsCatManoeuvre = (): DataRowListItem[] => {
     return [
       {
         label: TestRequirementsLabels.uncoupleRecouple,
@@ -359,7 +359,7 @@ export class DebriefCardComponent implements OnInit {
     return isReverseLeftSelected ? manoeuvreTypeLabelsCatC.reverseLeft : 'None';
   }
 
-  private getManoeuvreADI(): string {
+  public getManoeuvreADI(): string {
     const manoeuvres: CatADI2UniqueTypes.Manoeuvres[] = get(this.data, 'manoeuvres', []);
     const selectedManoeuvres: string[] = [];
 

@@ -18,17 +18,11 @@ export class NetworkStateProvider {
   }
 
   initialiseNetworkState(): void {
-    console.log('A');
     this.platform.ready().then(() => {
-      console.log('B');
       this.initialiseNetworkEvents();
-      console.log('C');
       const status = this.network.type !== 'none' ? ConnectionStatus.ONLINE : ConnectionStatus.OFFLINE;
-      console.log('D');
       this.networkStatus$.next(status);
-      console.log('E');
       this.isOffline$.next(status === ConnectionStatus.OFFLINE);
-      console.log('F');
     });
   }
 
