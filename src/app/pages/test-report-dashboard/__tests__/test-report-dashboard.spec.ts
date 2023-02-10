@@ -158,24 +158,20 @@ describe('TestReportDashboardPage', () => {
     });
     it('should create a modal and call displayEndTestModal with data'
         + ' if isTestReportPopulated is true riskManagement.score is less than 8', async () => {
-      spyOn(component, 'displayEndTestModal').and.callThrough();
-      spyOn(component.modalController, 'create').and.returnValue({
+      spyOn(component, 'displayEndTestModal');
+      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve({
         present: async () => {},
-        onDidDismiss: () => {},
-        onWillDismiss: () => {},
-      } as HTMLIonModalElement);
+        onWillDismiss: () => { return Promise.resolve({ data: true }); },
+      } as HTMLIonModalElement));
       spyOn(component.modalController, 'dismiss').and.callThrough();
-
       component.isTestReportPopulated = true;
       component.testDataADI3 = {
         lessonPlanning: { score: 10 },
         riskManagement: { score: 4 },
       };
-
       await component.onContinueClick();
-
       expect(component.modalController.create).toHaveBeenCalled();
-      expect(component.displayEndTestModal).toHaveBeenCalledWith('testWill');
+      expect(component.displayEndTestModal).toHaveBeenCalledWith(true);
     });
   });
 
