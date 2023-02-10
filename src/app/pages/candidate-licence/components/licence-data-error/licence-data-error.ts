@@ -21,7 +21,7 @@ export class LicenceDataError {
 
   get errorHeading(): string {
     if (this.niLicenceDetected) {
-      return 'Northern Irish Licence detected';
+      return 'Northern Ireland Licence';
     }
     if (this.candidateDataUnavailable) {
       return 'Error obtaining details';
@@ -37,7 +37,7 @@ export class LicenceDataError {
 
   get errorBody(): string {
     if (this.niLicenceDetected) {
-      return 'No details will be held by DVLA for candidate.';
+      return 'Details of Northern Ireland licences are not provided by DVLA.';
     }
     if (this.candidateDataUnavailable) {
       return 'We are unable to return DVLA data for given candidate.';

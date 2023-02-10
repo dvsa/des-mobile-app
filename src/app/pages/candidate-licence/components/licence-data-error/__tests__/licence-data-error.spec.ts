@@ -24,7 +24,7 @@ describe('LicenceDataError', () => {
     describe('get errorHeading', () => {
       it('should return the appropriate message for when candidate is from NI', () => {
         component.niLicenceDetected = true;
-        expect(component.errorHeading).toEqual('Northern Irish Licence detected');
+        expect(component.errorHeading).toEqual('Northern Ireland Licence');
       });
       it('should return the appropriate message for when details unavailable', () => {
         component.candidateDataUnavailable = true;
@@ -45,7 +45,7 @@ describe('LicenceDataError', () => {
     describe('get errorBody', () => {
       it('should return the appropriate message for when candidate is from NI', () => {
         component.niLicenceDetected = true;
-        expect(component.errorBody).toEqual('No details will be held by DVLA for candidate.');
+        expect(component.errorBody).toEqual('Details of Northern Ireland licences are not provided by DVLA.');
       });
       it('should return the appropriate message for when details unavailable', () => {
         component.candidateDataUnavailable = true;
