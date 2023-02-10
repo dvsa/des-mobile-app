@@ -36,7 +36,7 @@ export class NetworkStateProvider {
     });
   }
 
-  private updateNetworkStatus(status: ConnectionStatus) {
+  public updateNetworkStatus(status: ConnectionStatus) {
     this.networkStatus$.next(status);
     this.isOffline$.next(status === ConnectionStatus.OFFLINE);
   }

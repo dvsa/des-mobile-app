@@ -86,19 +86,19 @@ export class CandidateLicenceProvider {
     );
   };
 
-  private getDriverPhoto = (drivingLicenceNumber: string): Observable<DriverPhotograph> => {
+  public getDriverPhoto = (drivingLicenceNumber: string): Observable<DriverPhotograph> => {
     return this.http.get<DriverPhotograph>(
       this.urlProvider.getCandidatePhotoUrl(drivingLicenceNumber),
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
 
-  private getDriverSignature = (drivingLicenceNumber: string): Observable<DriverSignature> => {
+  public getDriverSignature = (drivingLicenceNumber: string): Observable<DriverSignature> => {
     return this.http.get<DriverSignature>(
       this.urlProvider.getCandidateSignatureUrl(drivingLicenceNumber),
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
 
-  private getDriverStandardData = (drivingLicenceNumber: string, appRef: string): Observable<DriverStandard> => {
+  public getDriverStandardData = (drivingLicenceNumber: string, appRef: string): Observable<DriverStandard> => {
     return this.http.post<DriverStandard>(
       this.urlProvider.getCandidateStandardDataUrl(),
       {

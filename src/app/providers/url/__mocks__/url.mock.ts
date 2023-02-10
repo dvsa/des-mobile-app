@@ -24,6 +24,15 @@ export class UrlProviderMock {
   getTaxMotUrl = jasmine.createSpy('getVehicleDetailsApiUrl')
     .and.returnValue('https://www.example.com/1.0/vehicle');
 
+  getCandidateSignatureUrl = jasmine.createSpy('getCandidateSignatureUrl')
+    .and.returnValue('https://www.example.com/signature');
+
+  getCandidatePhotoUrl = jasmine.createSpy('getCandidatePhotoUrl')
+    .and.returnValue('https://www.example.com/photo');
+
+  getCandidateStandardDataUrl = jasmine.createSpy('getCandidateStandardDataUrl')
+    .and.returnValue('https://www.example.com/standard');
+
   getTaxMotApiKey = jasmine.createSpy()
     .and.returnValue('x-api-key');
 }
