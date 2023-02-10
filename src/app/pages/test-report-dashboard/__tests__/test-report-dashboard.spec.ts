@@ -20,12 +20,13 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { FeedbackChanged } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 
 describe('TestReportDashboardPage', () => {
-
   let fixture: ComponentFixture<TestReportDashboardPage>;
   let component: TestReportDashboardPage;
-
+  let routeByCategory: RouteByCategoryProvider;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -45,20 +46,20 @@ describe('TestReportDashboardPage', () => {
         { provide: TestResultProvider, useClass: TestResultProviderMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
+        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
       ],
     });
-
     fixture = TestBed.createComponent(TestReportDashboardPage);
     component = fixture.componentInstance;
+    routeByCategory = TestBed.inject(RouteByCategoryProvider);
+    spyOn(routeByCategory, 'navigateToPage');
   }));
-
   describe('isValidDashboard', () => {
     it('should return true if testReportState is 17 and lessonAndThemeState and form are'
         + 'both valid', () => {
       component.testReportState = 17;
       component.lessonAndThemeState = { valid: true, score: 0 };
       component.form.clearValidators();
-
       expect(component.isValidDashboard).toEqual(true);
     });
     it('should return false if testReportState is not 17 and lessonAndThemeState and form are'
@@ -66,7 +67,6 @@ describe('TestReportDashboardPage', () => {
       component.testReportState = 0;
       component.lessonAndThemeState = { valid: true, score: 0 };
       component.form.clearValidators();
-
       expect(component.isValidDashboard).toEqual(false);
     });
     it('should return false if testReportState is 17 and lessonAndThemeState is not valid and form is '
@@ -74,7 +74,6 @@ describe('TestReportDashboardPage', () => {
       component.testReportState = 17;
       component.lessonAndThemeState = { valid: false, score: 0 };
       component.form.clearValidators();
-
       expect(component.isValidDashboard).toEqual(false);
     });
     it('should return false if testReportState is 17 and lessonAndThemeState is valid and form is '
@@ -84,11 +83,9 @@ describe('TestReportDashboardPage', () => {
       component.form = new UntypedFormGroup({
         field: new FormControl(null, Validators.required),
       });
-
       expect(component.isValidDashboard).toEqual(false);
     });
   });
-
   describe('validateLessonTheme', () => {
     it('should return {false, 0} if none of the elements are present/valid', () => {
       expect(component.validateLessonTheme({
@@ -133,7 +130,6 @@ describe('TestReportDashboardPage', () => {
         });
     });
   });
-
   describe('feedbackChanged', () => {
     it('should dispatch store with correct parameters', () => {
       spyOn(component.store$, 'dispatch');
@@ -141,7 +137,6 @@ describe('TestReportDashboardPage', () => {
       expect(component.store$.dispatch).toHaveBeenCalledWith(FeedbackChanged('feedback'));
     });
   });
-
   describe('onContinueClick', () => {
     it('should call empty displayEndTestModal with no data if isTestReportPopulated is false'
         + ' or riskManagement.score is more than 8', async () => {
@@ -151,9 +146,7 @@ describe('TestReportDashboardPage', () => {
         lessonPlanning: { score: 10 },
         riskManagement: { score: 10 },
       };
-
       await component.onContinueClick();
-
       expect(component.displayEndTestModal).toHaveBeenCalled();
     });
     it('should create a modal and call displayEndTestModal with data'
@@ -174,20 +167,17 @@ describe('TestReportDashboardPage', () => {
       expect(component.displayEndTestModal).toHaveBeenCalledWith(true);
     });
   });
-
   describe('navigateToPage', () => {
     it('should dispatch TestReportDashboardNavigateToPage with the parameter passed', async () => {
       spyOn(component.store$, 'dispatch');
-
       await component.navigateToPage('lessonTheme');
       expect(component.store$.dispatch).toHaveBeenCalledWith(TestReportDashboardNavigateToPage('lessonTheme'));
     });
     it('should call navigateToPage with the correct parameters', async () => {
-      spyOn(component['routeByCategory'], 'navigateToPage').and.callThrough();
+      component.testCategory = TestCategory.ADI3;
       component.testReportState = 16;
-
       await component.navigateToPage('lessonTheme');
-      expect(component['routeByCategory'].navigateToPage).toHaveBeenCalledWith(
+      expect(routeByCategory.navigateToPage).toHaveBeenCalledWith(
         TestFlowPageNames.TEST_REPORT_PAGE,
         TestCategory.ADI3,
         { state: { page: 'lessonTheme', showMissing: true } },
