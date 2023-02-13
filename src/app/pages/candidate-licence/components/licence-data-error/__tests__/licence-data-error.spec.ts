@@ -17,10 +17,15 @@ describe('LicenceDataError', () => {
     component.candidateDataUnavailable = false;
     component.candidateDataError = false;
     component.isOfflineError = false;
+    component.niLicenceDetected = false;
   }));
 
   describe('Class', () => {
     describe('get errorHeading', () => {
+      it('should return the appropriate message for when candidate is from NI', () => {
+        component.niLicenceDetected = true;
+        expect(component.errorHeading).toEqual('Northern Irish Licence detected');
+      });
       it('should return the appropriate message for when details unavailable', () => {
         component.candidateDataUnavailable = true;
         expect(component.errorHeading).toEqual('Error obtaining details');
@@ -38,6 +43,10 @@ describe('LicenceDataError', () => {
       });
     });
     describe('get errorBody', () => {
+      it('should return the appropriate message for when candidate is from NI', () => {
+        component.niLicenceDetected = true;
+        expect(component.errorBody).toEqual('No details will be held by DVLA for candidate.');
+      });
       it('should return the appropriate message for when details unavailable', () => {
         component.candidateDataUnavailable = true;
         expect(component.errorBody).toEqual('We are unable to return DVLA data for given candidate.');
