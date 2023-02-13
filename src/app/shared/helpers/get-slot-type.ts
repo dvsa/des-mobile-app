@@ -8,8 +8,8 @@ export enum SpecialNeedsCode {
 }
 
 export const getSlotType = (slot: TestSlot): string => {
-  const { specialNeedsExtendedTest } = slot.booking.application;
-  const { specialNeedsCode } = slot.booking.application;
+  const { specialNeedsExtendedTest } = slot?.booking?.application;
+  const { specialNeedsCode } = slot?.booking?.application;
   const { vehicleSlotTypeCode } = slot;
 
   // Check special case

@@ -12,16 +12,16 @@ export const getSlotId = (attributes: TestSlotAttributes) => attributes.slotId;
 export const isWelshTest = (attributes: TestSlotAttributes) => attributes.welshTest;
 
 export const extractTestSlotAttributes = (slotData: TestSlot): TestSlotAttributes => ({
-  welshTest: slotData.booking.application.welshTest || false,
-  slotId: slotData.slotDetail.slotId,
-  start: slotData.slotDetail.start,
-  specialNeeds: !!slotData.booking.application.specialNeeds,
-  specialNeedsCode: slotData.booking.application.specialNeedsCode,
-  specialNeedsArray: slotData.booking.application.specialNeeds?.split(';') ?? ['None'],
-  vehicleTypeCode: slotData.vehicleTypeCode,
-  extendedTest: slotData.booking.application.extendedTest || false,
-  examinerVisiting: slotData.examinerVisiting,
-  previousCancellation: slotData.booking.previousCancellation,
-  entitlementCheck: slotData.booking.application.entitlementCheck,
+  welshTest: slotData?.booking?.application?.welshTest || false,
+  slotId: slotData?.slotDetail?.slotId,
+  start: slotData?.slotDetail?.start,
+  specialNeeds: !!slotData?.booking?.application?.specialNeeds,
+  specialNeedsCode: slotData?.booking?.application?.specialNeedsCode,
+  specialNeedsArray: slotData?.booking?.application?.specialNeeds?.split(';') ?? ['None'],
+  vehicleTypeCode: slotData?.vehicleTypeCode,
+  extendedTest: slotData?.booking?.application?.extendedTest || false,
+  examinerVisiting: slotData?.examinerVisiting,
+  previousCancellation: slotData?.booking?.previousCancellation,
+  entitlementCheck: slotData?.booking?.application?.entitlementCheck,
   slotType: getSlotType(slotData),
 });
