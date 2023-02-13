@@ -38,3 +38,11 @@ export const getCandidatePrn = (candidate: Candidate) => candidate.prn;
 export const getGender = (candidate: Candidate) => candidate.gender;
 
 export const getDateOfBirth = (candidate: Candidate) => candidate.dateOfBirth;
+
+export const getGenderFullDescription = (
+  gender: string,
+): string => (gender === 'F') ? 'Female' : 'Male';
+
+export const getGenderSilhouettePath = (
+  gender: string,
+): string => `assets/imgs/candidate-id/silhouette-${gender === 'F' ? 2 : 1}.png`;

@@ -20,15 +20,16 @@
     <inappropriate-use-banner></inappropriate-use-banner>
 
     <licence-photo
-      [hasError]="(offlineError || candidateDataError || candidateDataUnavailable)"
+      [hasError]="hasErrored"
       [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)">
     </licence-photo>
 
     <licence-data-error
-      *ngIf="!isPracticeMode && (offlineError || candidateDataError || candidateDataUnavailable)"
+      *ngIf="!isPracticeMode && hasErrored"
       [candidateDataError]="candidateDataError"
       [candidateDataUnavailable]="candidateDataUnavailable"
-      [isOfflineError]="offlineError">
+      [isOfflineError]="offlineError"
+      [niLicenceDetected]="niLicenceDetected">
     </licence-data-error>
 
     <true-likeness
