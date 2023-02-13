@@ -49,7 +49,7 @@
                         <span class="mes-data">{{ item.label }}</span>
                     </ion-col>
                 </ion-row>
-                <ion-row class="fuel-efficient-text" *ngIf="isCatADI2">
+                <ion-row class="fuel-efficient-text" *ngIf="isCatADI2()">
                     <label>Fuel efficient driving fault - {{data.eco.fuelEfficientDriving ? 'Yes' : 'No' }}</label>
                 </ion-row>
                 <ion-row *ngIf="ecoFault">
