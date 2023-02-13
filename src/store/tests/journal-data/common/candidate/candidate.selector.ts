@@ -19,7 +19,7 @@ export const getUntitledCandidateName = (candidate: Candidate): string => {
 export const getCandidateDriverNumber = (candidate: Candidate) => candidate.driverNumber;
 
 export const formatDriverNumber = (driverNumber: string) => {
-  if (driverNumber.length > 14) {
+  if (driverNumber?.length > 14) {
     return `${driverNumber.slice(0, 5)} ${driverNumber.slice(5, 11)} ${driverNumber.slice(11)}`;
   }
   return driverNumber;
