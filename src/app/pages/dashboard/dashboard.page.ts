@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  combineLatest, Observable,
+} from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
@@ -22,6 +24,10 @@ import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '@stor
 import * as journalActions from '@store/journal/journal.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { getIncompleteTestsSlotOlderThan3Days } from '@store/tests/tests.selector';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -30,6 +36,7 @@ interface DashboardPageState {
   employeeId$: Observable<string>;
   role$: Observable<string>;
   isOffline$: Observable<boolean>;
+  notificationCount$: Observable<number>;
 }
 
 @Component({
@@ -69,6 +76,19 @@ export class DashboardPage extends BasePageComponent {
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       isOffline$: this.networkStateProvider.isOffline$,
+      notificationCount$: combineLatest([
+        // each of the individual counts can be added to this array
+        this.store$.pipe(
+          select(getTests),
+          // get all slot ids regarded as incomplete from 'tests' slice of state older than 3 days
+          select(getIncompleteTestsSlotOlderThan3Days),
+          withLatestFrom(this.store$.pipe(select(getJournalState))),
+          map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)?.length),
+        ),
+      ]).pipe(
+        // Sum all individual counts to determine overall count
+        map((notificationCounts) => notificationCounts.reduce((a, b) => a + b, 0)),
+      ),
     };
   }
 

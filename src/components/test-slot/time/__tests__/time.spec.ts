@@ -34,9 +34,8 @@ describe('TimeComponent', () => {
 
     describe('Time output ', () => {
       it('should be displayed', () => {
-        const timeSpan: HTMLElement = componentEl.query(By.css('h2'))
-          .nativeElement;
         fixture.detectChanges();
+        const timeSpan: any = componentEl.query(By.css('h2')).nativeElement;
         expect(timeSpan.textContent).toBe('10:04');
       });
     });

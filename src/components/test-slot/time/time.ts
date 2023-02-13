@@ -13,6 +13,9 @@ export class TimeComponent implements OnInit {
   @Input()
   testComplete: boolean;
 
+  @Input()
+  isUnSubmittedTestSlotView: boolean = false;
+
   ngOnInit() {
     this.testComplete = true;
   }

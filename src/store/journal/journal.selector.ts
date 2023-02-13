@@ -75,6 +75,11 @@ export const getAllSlots = (journal: JournalModel): SlotItem[] => {
   return slotArray;
 };
 
+export const getJournalSlotsBySlotIDs = (journal: JournalModel, slotIDs: string[]): SlotItem[] => {
+  const allSlots = getAllSlots(journal);
+  return allSlots.filter((slot) => slotIDs.includes(slot.slotData?.slotDetail?.slotId?.toString()));
+};
+
 export const getPermittedSlotIdsBeforeToday = (
   journal: JournalModel,
   today: DateTime,

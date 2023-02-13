@@ -86,6 +86,9 @@ export class TestOutcomeComponent implements OnInit {
   @Input()
   isPracticeMode?: boolean = false;
 
+  @Input()
+  hasNavigatedFromUnsubmitted: boolean = false;
+
   startTestAsRekey: boolean = false;
   isTestSlotOnRekeySearch: boolean = false;
   subscription: Subscription;
@@ -175,7 +178,9 @@ export class TestOutcomeComponent implements OnInit {
   async writeUpTest() {
     this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category));
     this.store$.dispatch(ResumingWriteUp(this.slotDetail.slotId?.toString()));
-    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category);
+    await this.routeByCat.navigateToPage(TestFlowPageNames.OFFICE_PAGE,
+      this.category,
+      { state: { hasNavigatedFromUnsubmitted: this.hasNavigatedFromUnsubmitted } });
   }
 
   async resumeTest() {

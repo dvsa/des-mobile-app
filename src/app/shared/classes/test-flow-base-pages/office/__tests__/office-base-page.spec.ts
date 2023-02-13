@@ -62,7 +62,11 @@ import {
   SupervisorAccompanimentToggled,
 } from '@store/tests/accompaniment/accompaniment.actions';
 import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
-import { DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
+import {
+  DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE,
+  TestFlowPageNames,
+  UNUPLOADED_TESTS_PAGE,
+} from '@pages/page-names.constants';
 import { take } from 'rxjs/operators';
 import {
   AbstractControl, UntypedFormControl, UntypedFormGroup, Validators,
@@ -310,7 +314,15 @@ describe('OfficeBasePageComponent', () => {
   });
 
   describe('defer', () => {
-    it('should call popToRoot and dispatch two actions', async () => {
+    it('should call navigate back and dispatch two actions when hasNavigatedFromUnsubmitted is true;', async () => {
+      spyOn(navController, 'navigateBack');
+      await basePageComponent.defer();
+      expect(basePageComponent.navController.navigateBack).toHaveBeenCalledWith(UNUPLOADED_TESTS_PAGE);
+      expect(store$.dispatch).toHaveBeenCalledWith(SavingWriteUpForLater());
+      expect(store$.dispatch).toHaveBeenCalledWith(PersistTests());
+    });
+    it('should call popToRoot and dispatch two actions when hasNavigatedFromUnsubmitted is false', async () => {
+      basePageComponent.hasNavigatedFromUnsubmitted = false;
       spyOn(basePageComponent, 'popToRoot');
       await basePageComponent.defer();
       expect(basePageComponent.popToRoot).toHaveBeenCalled();

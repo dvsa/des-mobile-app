@@ -63,9 +63,12 @@ export class TestPersistenceProvider {
   }
 
   getTestsToDelete(tests: TestsModel): string[] {
+    const { daysToCacheJournalData } = this.appConfigProvider.getAppConfig()?.journal;
+    const GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS: number = 3;
+
     return Object.keys(tests.startedTests).filter((key) => {
       const startDate: DateTime = new DateTime(tests.startedTests[key].journalData.testSlotAttributes.start);
-      return startDate.daysDiff(new DateTime()) > this.appConfigProvider.getAppConfig().journal.daysToCacheJournalData;
+      return (startDate.daysDiff(new DateTime())) > (daysToCacheJournalData + GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS);
     });
   }
 

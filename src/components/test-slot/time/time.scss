@@ -1,3 +1,5 @@
-.time-test-complete-text {
-  color: var(--gds-black);
+:host {
+  .time-test-complete-text {
+    color: var(--gds-black);
+  }
 }

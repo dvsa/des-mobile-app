@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons id="burger-menu" slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+    </ion-buttons>
+    <ion-title id="page-title">My Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="{
+   slots: pageState.unSubmittedTestSlots$ | async
+} as state">
+
+  <div>
+    <profile-header
+      [employeeId]="pageState.employeeId$ | async"
+      [name]="pageState.employeeName$ | async"
+      [role]="pageState.role$ | async">
+    </profile-header>
+  </div>
+
+  <h2 class="header-divider">
+    You have {{state.slots?.length || 0}} unsubmitted {{getTestsText(state.slots?.length)}} (over 72 hours old)
+  </h2>
+
+  <test-slot
+    *ngFor="let slot of state.slots; let count = count;"
+    [slot]="slot?.slotData"
+    [isUnSubmittedTestSlotView]="true">
+  </test-slot>
+</ion-content>

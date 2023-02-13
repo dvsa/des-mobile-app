@@ -1,5 +1,5 @@
 import {
-  ModalController, NavController, Platform, ToastController,
+  ModalController, NavController, NavParams, Platform, ToastController,
 } from '@ionic/angular';
 import { Component } from '@angular/core';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -95,6 +95,7 @@ export class OfficeCatBPage extends OfficeBasePageComponent {
     faultCountProvider: FaultCountProvider,
     public questionProvider: QuestionProvider,
     public deviceProvider: DeviceProvider,
+    public navParams: NavParams,
   ) {
     super(
       platform,

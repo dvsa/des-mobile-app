@@ -10,7 +10,7 @@ import {
   REKEY_SEARCH_PAGE,
   TEST_CENTRE_JOURNAL_PAGE,
   TEST_RESULTS_SEARCH_PAGE,
-  TestFlowPageNames,
+  TestFlowPageNames, UNUPLOADED_TESTS_PAGE,
 } from '@pages/page-names.constants';
 import { CanCommunicationDeactivateGuard } from '@pages/communication/can-communication-deactivate';
 import { CanWaitingRoomDeactivateGuard } from '@pages/waiting-room/can-waiting-room-deactiviate';
@@ -29,6 +29,10 @@ const routes: Routes = [
   {
     path: DASHBOARD_PAGE,
     loadChildren: () => import('./pages/dashboard/dashboard.module').then((m) => m.DashboardPageModule),
+  },
+  {
+    path: UNUPLOADED_TESTS_PAGE,
+    loadChildren: () => import('./pages/unuploaded-tests/unuploaded-tests.module').then((m) => m.UnuploadedTestsModule),
   },
   {
     path: LOGIN_PAGE,

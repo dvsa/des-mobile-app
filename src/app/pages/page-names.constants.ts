@@ -10,6 +10,7 @@ export const JOURNAL_FORCE_CHECK_MODAL = 'JournalForceCheckModal';
 export const JOURNAL_EARLY_START_MODAL = 'JournalEarlyStartModal';
 export const ERROR_PAGE = 'ErrorPage';
 export const DASHBOARD_PAGE = 'DashboardPage';
+export const UNUPLOADED_TESTS_PAGE = 'UnuploadedTestsPage';
 export const REKEY_SEARCH_PAGE = 'RekeySearchPage';
 export const TEST_RESULTS_SEARCH_PAGE = 'TestResultsSearchPage';
 export const LEGAL_REQUIREMENTS_MODAL = 'LegalRequirementsModal';

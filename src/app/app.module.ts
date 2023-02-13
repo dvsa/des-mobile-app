@@ -67,6 +67,7 @@ import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/ou
 import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike-category-detail';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
+import { PipesModule } from '@shared/pipes/pipes.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -146,6 +147,7 @@ if (enableRehydrationPlugin) {
       },
     }),
     HammerModule,
+    PipesModule,
   ],
   providers: [
     {

@@ -25,7 +25,7 @@ export class JournalForceCheckModal {
   textZoomClass: string;
 
   constructor(
-    private modalController: ModalController,
+    public modalController: ModalController,
   ) { }
 
   onCancel = async (): Promise<void> => {
