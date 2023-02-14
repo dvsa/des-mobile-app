@@ -26,7 +26,7 @@ import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
 import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { getTests } from '@store/tests/tests.reducer';
-import { getIncompleteTestsSlotOlderThan3Days } from '@store/tests/tests.selector';
+import { getIncompleteTestsSlotOlderThanADay } from '@store/tests/tests.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
@@ -97,7 +97,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         unSubmittedTestSlotsCount$: this.store$.pipe(
           select(getTests),
           // get all slot ids regarded as incomplete from 'tests' slice of state older than 3 days
-          select(getIncompleteTestsSlotOlderThan3Days),
+          select(getIncompleteTestsSlotOlderThanADay),
           withLatestFrom(
             this.store$.pipe(
               select(getJournalState), // grab 'journal' slice
