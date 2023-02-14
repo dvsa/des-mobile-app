@@ -63,4 +63,14 @@ describe('IncompleteTestsBanner', () => {
       expect(rendered).toBeNull();
     });
   });
+
+  describe('getIncompleteText', () => {
+    it('should return a message for multiple tests', () => {
+      expect(component.getIncompleteText(2)).toEqual('You have incomplete tests');
+    });
+
+    it('should return a message for a single test', () => {
+      expect(component.getIncompleteText(1)).toEqual('You have an incomplete test');
+    });
+  });
 });
