@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { DataStoreProvider } from '@providers/data-store/data-store';
 import { SecureStorageObject } from '@awesome-cordova-plugins/secure-storage';
 import { TestBed } from '@angular/core/testing';

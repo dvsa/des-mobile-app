@@ -26,5 +26,6 @@ export const extractTestSlotAttributes = (slotData: TestSlot): TestSlotAttribute
   entitlementCheck: slotData?.booking?.application?.entitlementCheck,
   categoryEntitlementCheck: slotData?.booking?.application?.categoryEntitlementCheck || false,
   fitMarker: slotData?.booking?.application?.fitMarker || false,
+  fitCaseNumber: slotData?.booking?.application?.fitCaseNumber,
   slotType: getSlotType(slotData),
 });
