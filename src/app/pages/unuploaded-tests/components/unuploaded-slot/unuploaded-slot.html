@@ -1,0 +1,31 @@
+<ion-grid>
+  <ion-row class="ion-justify-content-center ion-align-items-center">
+    <ion-col class="vertical-alignment" size="19">
+      <h2 id="search-result-date-label">{{slotStartDate}}</h2>
+    </ion-col>
+    <ion-col>
+      <ion-row class="top-row">
+        <ion-col>
+          <div id="search-result-app-ref-label">App ref: {{appRef}}</div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="middle-row ion-align-items-center">
+        <ion-col size="65">
+          <h3 id="search-result-name-label">{{candidateTitledName}}</h3>
+        </ion-col>
+        <ion-col size="10">
+          <h2 id="search-result-category-label">{{category}}</h2>
+        </ion-col>
+        <ion-col>
+          <ion-button (click)="writeUpClick()" class="mes-warning-button">Write Up</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row class="bottom-row">
+        <ion-col size="44">
+          <div id="search-result-driver-number-label">Driver no: {{driverNumber}}</div>
+        </ion-col>
+        <ion-col size="8" class="ion-no-padding"></ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-grid>
