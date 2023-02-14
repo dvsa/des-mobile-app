@@ -1,10 +1,10 @@
 <ion-app [ngClass]="[getTextZoomClass()]">
-  <ion-menu side="start" content-id="main-content" (ionDidOpen)="openSideMenu()" (ionDidClose)="closeSideMenu()">
-    <ion-header>
-      <ion-toolbar mode="ios" class="toolbar-divider">
-        <ion-title>Menu</ion-title>
-      </ion-toolbar>
-    </ion-header>
+        <ion-menu side="start" content-id="main-content" (ionDidOpen)="openSideMenu()" (ionDidClose)="closeSideMenu()">
+            <ion-header>
+                <ion-toolbar mode="ios"class="toolbar-divider">
+                    <ion-title>Menu</ion-title>
+                </ion-toolbar>
+            </ion-header>
 
     <ion-content [scrollY]="false" style="--ion-background-color: var(--mes-toolbar-background);">
         <ion-item *ngFor="let page of Pages;" class="menu-item" detail="true" (click)="navPage(page)">
