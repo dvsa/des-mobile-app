@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'fit-marker-banner',
@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['fit-marker-banner.scss'],
 })
 export class FitMarkerBannerComponent {
+
+  @Input()
+  fitCaseNumber: string;
+
 }
