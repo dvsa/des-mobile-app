@@ -161,6 +161,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       }
       this.appInitError = error;
       console.log(error);
+      this.dispatchLog(JSON.stringify(this.appInitError));
     }
     this.hasUserLoggedOut = false;
   };

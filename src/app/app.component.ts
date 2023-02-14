@@ -29,6 +29,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getIncompleteTestsSlotOlderThan3Days } from '@store/tests/tests.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
+import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 
 declare let window: any;
 
@@ -224,8 +225,17 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     return Promise.resolve();
   };
 
-  navPage = async (pageName: string): Promise<void> => {
-    await this.router.navigate([pageName]);
+  navPage = async ({ title, descriptor }: { title: string; descriptor: string; }): Promise<void> => {
+    await this.router.navigate([title]);
     await this.menuController.close();
+    this.store$.dispatch(SideMenuItemSelected(descriptor));
+  };
+
+  closeSideMenu = (): void => {
+    this.store$.dispatch(SideMenuClosed());
+  };
+
+  openSideMenu = (): void => {
+    this.store$.dispatch(SideMenuOpened());
   };
 }

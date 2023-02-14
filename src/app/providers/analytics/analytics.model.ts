@@ -47,6 +47,7 @@ export enum AnalyticsScreenNames {
   REVERSE_DIAGRAM = 'reverse diagram screen',
   CONFIRM_TEST_DETAILS = 'confirm test details screen',
   FAKE_JOURNAL = 'practice journal screen',
+  UN_UPLOADED = 'incomplete tests screen',
 }
 
 export enum AnalyticsEventCategories {
@@ -75,6 +76,7 @@ export enum AnalyticsEventCategories {
   DASHBOARD = 'dashboard',
   FAKE_JOURNAL = 'practice mode journal',
   NAVIGATION = 'navigation',
+  UN_UPLOADED_TESTS = 'Incomplete Tests',
 }
 
 export enum AnalyticsEvents {
@@ -214,6 +216,8 @@ export enum AnalyticsEvents {
   PRACTICE_FULL_TEST_SELECTED = 'practice full test selected',
   BACK = 'back',
   ASAM = 'Single App Mode (SAM)',
+  SIDE_MENU = 'burger menu',
+  TEST_SELECTED = 'test selected',
 }
 
 export enum AnalyticsLabels {
