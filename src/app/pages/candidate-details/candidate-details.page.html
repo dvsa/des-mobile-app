@@ -26,6 +26,8 @@
         </ion-row>
     </ion-grid>
 
+    <fit-marker-banner *ngIf="pageState.fitMarker" [fitCaseNumber]="pageState.fitCaseNumber"></fit-marker-banner>
+
     <ion-card>
         <ion-card-header>
             <h4 id="candidate-details-title">Candidate details</h4>
