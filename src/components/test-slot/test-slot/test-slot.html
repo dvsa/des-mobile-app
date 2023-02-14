@@ -6,7 +6,7 @@
 
     <ion-grid>
         <ion-row>
-            <ion-col size="79">
+            <ion-col size="78">
                 <ion-row>
                     <ion-col size="2"></ion-col>
                     <ion-col size="24" class="no-padding">
@@ -83,12 +83,13 @@
                 </ion-row>
             </ion-col>
 
-            <ion-col size="17">
+            <ion-col size="18">
                 <ion-row>
                     <ion-col class="align-center">
-                        <submission-status class="full-width" *ngIf=!isTeamJournal
-                                           [testStatus]="componentState.testStatus$ | async">
+                        <submission-status class="full-width" *ngIf="!isTeamJournal && isCompletedTest(componentState.testStatus$ | async)">
                         </submission-status>
+                        <integrity-marker class="full-width" *ngIf="slot.booking.application.fitMarker && !isCompletedTest(componentState.testStatus$ | async)">
+                        </integrity-marker>
                     </ion-col>
                 </ion-row>
                 <ion-row class="row-height">
