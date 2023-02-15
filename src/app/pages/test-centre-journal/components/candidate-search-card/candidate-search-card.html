@@ -1,24 +1,20 @@
 <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
 
-<ion-row>
-  <ion-col size="24" class="component-label">
-    <label id="candidate-name-label">Candidate Name:</label>
-  </ion-col>
-  <ion-col size="72">
-    <searchable-picklist
-      [dataList]="getCandidateList()"
-      [key]="'name'"
-      [displayKey]="'name'"
-      [idPrefix]="'tcj-candidate-search'"
-      [minCharactersBeforeListDisplay]="3"
-      [placeholder]="'Please enter a candidates name'"
-      (outputChanged)="onCandidateDidChange($event)"
-    ></searchable-picklist>
-  </ion-col>
-</ion-row>
+<searchable-picklist
+  #candidatePicklist
+  [dataList]="getCandidateList()"
+  [fieldLabel]="'Candidate name:'"
+  [key]="'name'"
+  [displayKey]="'name'"
+  [idPrefix]="'tcj-candidate-search'"
+  [minCharactersBeforeListDisplay]="3"
+  [placeholder]="'Please enter a candidates name'"
+  (outputChanged)="onCandidateDidChange($event)">
+</searchable-picklist>
 
 <ion-row class="mes-full-width-card">
-  <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton" (click)="showResults()" id="show-booking-button">
+  <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton"
+              (click)="showResults()" id="show-booking-button">
     <h3 id="show-booking-button-text">Show booking</h3>
   </ion-button>
 </ion-row>
@@ -44,10 +40,10 @@
   </div>
   <ion-list *ngFor="let candidateSlot of todaySlots">
     <test-slot
-            [slot]="candidateSlot.slot"
-            [teamJournalCandidateResult]="true"
-            [examinerName]="candidateSlot.examinerName"
-            [isTeamJournal]="true"
+      [slot]="candidateSlot.slot"
+      [teamJournalCandidateResult]="true"
+      [examinerName]="candidateSlot.examinerName"
+      [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
 
@@ -71,10 +67,10 @@
   </div>
   <ion-list *ngFor="let candidateSlot of tomorrowSlots">
     <test-slot
-            [slot]="candidateSlot.slot"
-            [teamJournalCandidateResult]="true"
-            [examinerName]="candidateSlot.examinerName"
-            [isTeamJournal]="true"
+      [slot]="candidateSlot.slot"
+      [teamJournalCandidateResult]="true"
+      [examinerName]="candidateSlot.examinerName"
+      [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
 

@@ -4,11 +4,9 @@ import {
 import { Candidate, TestSlot } from '@dvsa/mes-journal-schema';
 import { Examiner, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
-import { TypeaheadDropdownComponent } from '@components/common/typeahead-dropdown/typeahead-dropdown';
+import { SearchablePicklistComponent } from '@components/common/searchable-picklist/searchable-picklist';
 
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
-import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
-import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 
 export type CandidateData = {
   name: string,
@@ -22,7 +20,8 @@ export type CandidateData = {
 })
 export class CandidateSearchCardComponent implements OnChanges {
 
-  @ViewChild('typeAhead') typeAheadDropDown: TypeaheadDropdownComponent;
+  @ViewChild('candidatePicklist')
+  candidateTypeAheadDropDown: SearchablePicklistComponent<CandidateData>;
 
   @Input()
   manuallyRefreshed: boolean;
@@ -124,28 +123,11 @@ export class CandidateSearchCardComponent implements OnChanges {
     // reset all values on refresh
     this.shouldShowCandidateResults = false;
     this.enableShowBookingButton = false;
-    this.typeAheadDropDown.clearInput();
+    this.candidateTypeAheadDropDown.clearInput();
   }
 
   get slashSeperatedTestCentres(): string {
     return this.testCentreName?.replace(/,/gi, ' /') ?? 'test centre';
   }
-
-  // openModal = async (): Promise<void> => {
-  //   const modal: HTMLIonModalElement = await this.modalController.create({
-  //     id: 'modal',
-  //     cssClass: 'activity-code-modal text-zoom-regular',
-  //     component: ModalActivityCodeListComponent,
-  //     backdropDismiss: false,
-  //     showBackdrop: true,
-  //     componentProps: {
-  //       activityCodeModel: this.activityCodeModel,
-  //       activityCodeOptions: this.activityCodeOptions,
-  //     },
-  //   });
-  //   await modal.present();
-  //   const { data, role } = await modal.onWillDismiss();
-  //   console.log(data, role);
-  // };
 
 }

@@ -36,3 +36,22 @@
 .max-width {
   width: 100%;
 }
+
+.modal-row {
+  border: 2px solid var(--dark);
+  border-radius: 8px;
+  color: var(--dark);
+  font-size: 19px;
+  width: 452px;
+  height: 48px;
+}
+
+.modal-dropdown {
+  position: relative;
+  left: 5px;
+}
+
+.down-caret-icon {
+  color: darkgrey;
+  font-size: 14px;
+}

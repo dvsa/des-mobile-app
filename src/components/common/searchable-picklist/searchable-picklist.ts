@@ -23,6 +23,9 @@ export class SearchablePicklistComponent<T> {
   model: T;
 
   @Input()
+  fieldLabel: string;
+
+  @Input()
   key: string;
 
   @Input()
@@ -72,5 +75,10 @@ export class SearchablePicklistComponent<T> {
 
   onClick = (data: T): void => {
     this.model = data;
+  };
+
+  clearInput = (): void => {
+    this.searchedValue = null;
+    this.model = null;
   };
 }
