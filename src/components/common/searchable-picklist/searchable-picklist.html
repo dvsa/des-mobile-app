@@ -1,0 +1,51 @@
+<!-- TODO: Update this button to look like an input field -->
+<ion-button id="open-modal" expand="block" fill="outline">
+  {{model ? model[key] : placeholder}}
+</ion-button>
+
+<ion-modal trigger="open-modal">
+  <ng-template>
+    <ion-content class="content-background">
+      <ion-grid class="max-width">
+        <ion-searchbar
+          [id]="'searchbar' | formatToID: idPrefix"
+          [placeholder]="placeholder"
+          [ngModel]="searchedValue"
+          (ionChange)="onSearchbarChange($event)">
+        </ion-searchbar>
+
+        <div *ngIf="hasEnteredSufficientCharacters; else insufficientCharsEntered;">
+          <ion-item
+            *ngFor="let data of dataList | doesContain: key: searchedValue; trackBy: trackBy;"
+            [id]="data[displayKey] | formatToID: idPrefix"
+            (click)="onClick(data)">
+
+            <ion-col [ngClass]="conditionalStyles(data)">
+              {{data[displayKey]}}
+            </ion-col>
+
+            <ion-col class="button-style" size="6">
+              <ion-icon *ngIf="isActiveSelection(data)" name="checkmark-sharp" class="checkmark"></ion-icon>
+            </ion-col>
+          </ion-item>
+        </div>
+        <ng-template #insufficientCharsEntered>
+          <ion-item>
+            <ion-col>
+              <b>Please enter a minimum of {{minCharactersBeforeListDisplay}} character(s)</b>
+            </ion-col>
+          </ion-item>
+        </ng-template>
+      </ion-grid>
+    </ion-content>
+
+    <ion-buttons>
+      <ion-button (click)="onCancel()" class="max-width dark-mode-override">
+        <h5>Cancel</h5>
+      </ion-button>
+      <ion-button (click)="onSubmit()" class="max-width dark-mode-override">
+        <h5>Submit</h5>
+      </ion-button>
+    </ion-buttons>
+  </ng-template>
+</ion-modal>

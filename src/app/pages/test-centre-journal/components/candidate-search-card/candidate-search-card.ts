@@ -7,6 +7,8 @@ import { DateTime, Duration } from '@shared/helpers/date-time';
 import { TypeaheadDropdownComponent } from '@components/common/typeahead-dropdown/typeahead-dropdown';
 
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
+import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
+import { ActivityCodeModalEvent } from '@components/common/activity-code/acitivity-code-modal-event';
 
 export type CandidateData = {
   name: string,
@@ -48,7 +50,7 @@ export class CandidateSearchCardComponent implements OnChanges {
 
   getCandidateList = (): CandidateData[] => {
     if (!this.testCentreResults) {
-      return null;
+      return [];
     }
     const candidateNames: CandidateData[] = [];
 
@@ -128,5 +130,22 @@ export class CandidateSearchCardComponent implements OnChanges {
   get slashSeperatedTestCentres(): string {
     return this.testCentreName?.replace(/,/gi, ' /') ?? 'test centre';
   }
+
+  // openModal = async (): Promise<void> => {
+  //   const modal: HTMLIonModalElement = await this.modalController.create({
+  //     id: 'modal',
+  //     cssClass: 'activity-code-modal text-zoom-regular',
+  //     component: ModalActivityCodeListComponent,
+  //     backdropDismiss: false,
+  //     showBackdrop: true,
+  //     componentProps: {
+  //       activityCodeModel: this.activityCodeModel,
+  //       activityCodeOptions: this.activityCodeOptions,
+  //     },
+  //   });
+  //   await modal.present();
+  //   const { data, role } = await modal.onWillDismiss();
+  //   console.log(data, role);
+  // };
 
 }

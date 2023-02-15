@@ -28,6 +28,8 @@ import { TerminateTestModalModule } from '@components/common/terminate-test-moda
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
 import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
+import { SearchablePicklistComponent } from '@components/common/searchable-picklist/searchable-picklist';
+
 import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
@@ -78,6 +80,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     CPCDebriefCardComponent,
     Adi3DebriefCard,
     Adi3DebriefCardBox,
+    SearchablePicklistComponent,
   ],
   imports: [
     AngularSignaturePadModule,
@@ -125,6 +128,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     CPCDebriefCardComponent,
     Adi3DebriefCard,
     Adi3DebriefCardBox,
+    SearchablePicklistComponent,
   ],
 })
 export class ComponentsModule {

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { FormatIdPipe } from '@shared/pipes/format-id.pipe';
 import { EllipsisPipe } from '@shared/pipes/ellipsis.pipe';
 import { CustomKeyValuePipe } from '@shared/pipes/customKeyValue.pipe';
+import { ContainsPipe } from '@shared/pipes/contains.pipe';
+
 import { ModifyCompetencyLabel } from './modifyCompetencyLabel';
 
 @NgModule({
@@ -10,12 +12,14 @@ import { ModifyCompetencyLabel } from './modifyCompetencyLabel';
     FormatIdPipe,
     EllipsisPipe,
     CustomKeyValuePipe,
+    ContainsPipe,
   ],
   exports: [
     ModifyCompetencyLabel,
     FormatIdPipe,
     EllipsisPipe,
     CustomKeyValuePipe,
+    ContainsPipe,
   ],
   imports: [],
 })
