@@ -2,14 +2,14 @@
   <ion-col size="24" class="component-label">
     <label [id]="fieldLabel | formatToID: idPrefix">{{fieldLabel}}</label>
   </ion-col>
-  <ion-col size="72" class="ion-align-self-center ion-padding-start modal-dropdown">
+  <ion-col size="72" class="ion-align-self-center modal-dropdown">
     <ion-row class="spacing-row"></ion-row>
     <ion-row class="modal-row" id="open-modal">
       <ion-col *ngIf="!model" class="placeholder-font-color no-padding-end padding-top ion-nowrap">
         <span size="90">{{placeholder}}</span>
       </ion-col>
-      <ion-col size="88" class="col-font-color padding-top" *ngIf="model">
-        <span class="ion-no-wrap custom-font-size">{{model[key] | ellipsis: 34}}</span>
+      <ion-col *ngIf="model" size="88" class="col-font-color padding-top">
+        <span class="ion-no-wrap custom-font-size">{{model[displayKey] | ellipsis: 34}}</span>
       </ion-col>
       <ion-col size="6">
         <ion-icon name="caret-down-outline" class="down-caret-icon"></ion-icon>
@@ -26,12 +26,13 @@
           [id]="'searchbar' | formatToID: idPrefix"
           [placeholder]="placeholder"
           [ngModel]="searchedValue"
-          (ionChange)="onSearchbarChange($event)">
+          (ionChange)="onSearchbarChange($event)"
+          (ionClear)="onSearchbarClear()">
         </ion-searchbar>
 
         <div *ngIf="hasEnteredSufficientCharacters; else insufficientCharsEntered;">
           <ion-item
-            *ngFor="let data of dataList | doesContain: key: searchedValue; trackBy: trackBy;"
+            *ngFor="let data of dataList | doesContain: fuzzySearchKeys: searchedValue; trackBy: trackBy;"
             [id]="data[displayKey] | formatToID: idPrefix"
             (click)="onClick(data)">
 
@@ -53,14 +54,5 @@
         </ng-template>
       </ion-grid>
     </ion-content>
-
-    <ion-buttons>
-      <ion-button (click)="onCancel()" class="max-width dark-mode-override">
-        <h5>Cancel</h5>
-      </ion-button>
-      <ion-button (click)="onSubmit()" class="max-width dark-mode-override">
-        <h5>Submit</h5>
-      </ion-button>
-    </ion-buttons>
   </ng-template>
 </ion-modal>

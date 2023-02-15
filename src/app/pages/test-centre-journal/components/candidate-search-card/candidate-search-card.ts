@@ -39,6 +39,7 @@ export class CandidateSearchCardComponent implements OnChanges {
   tomorrowSlots: CandidateTestSlot[];
   shouldShowCandidateResults: boolean;
   selectedCandidateName: string;
+  selectedCandidate: CandidateData;
   enableShowBookingButton: boolean = false;
 
   ngOnChanges(): void {
@@ -110,6 +111,7 @@ export class CandidateSearchCardComponent implements OnChanges {
     const isValidCandidate: boolean = !!(candidate && candidate.name);
     this.enableShowBookingButton = isValidCandidate;
     if (isValidCandidate) {
+      this.selectedCandidate = candidate;
       this.selectedCandidateName = candidate.name;
       this.createCandidateSlots(this.testCentreResults.examiners, this.selectedCandidateName);
     }

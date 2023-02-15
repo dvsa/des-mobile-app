@@ -3,9 +3,11 @@
 <searchable-picklist
   #candidatePicklist
   [dataList]="getCandidateList()"
+  [model]="selectedCandidate"
   [fieldLabel]="'Candidate name:'"
-  [key]="'name'"
+  [primaryKey]="'name'"
   [displayKey]="'name'"
+  [fuzzySearchKeys]="['name']"
   [idPrefix]="'tcj-candidate-search'"
   [minCharactersBeforeListDisplay]="3"
   [placeholder]="'Please enter a candidates name'"
