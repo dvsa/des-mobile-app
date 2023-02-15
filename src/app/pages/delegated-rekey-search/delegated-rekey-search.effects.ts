@@ -65,6 +65,7 @@ export class DelegatedRekeySearchEffects {
                             },
                             driverNumber: response.testSlot.booking.candidate.driverNumber,
                             dateOfBirth: response.testSlot.booking.candidate.dateOfBirth,
+                            gender: response.testSlot.booking.candidate.gender,
                           },
                         },
                         slotDetail: {
