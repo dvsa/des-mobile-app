@@ -27,7 +27,7 @@ import { OverlayCallback } from '../../../test-report.model';
 export class ManoeuvresComponent implements OnInit, OnDestroy {
 
   @Input()
-  controlLabel: String;
+  controlLabel: string;
   @Input()
   completed: boolean;
 

@@ -1,8 +1,9 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, IonSelect } from '@ionic/angular';
-import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
+import { ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
 import { CommonModule } from '@angular/common';
 import { ViewContainerRef } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { SlotProvider } from '@providers/slot/slot';
 import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
@@ -11,13 +12,24 @@ import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
 import { SlotSelectorProviderMock } from '@providers/slot-selector/__mocks__/slot-selector.mock';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { ExaminerSlotItemsByDate } from '@store/journal/journal.model';
-import { ViewJournalsCardComponent } from '../view-journals-card';
+import { StoreModel } from '@shared/models/store.model';
+import { Store } from '@ngrx/store';
+import { TestCentreJournalDateNavigation } from '@pages/test-centre-journal/test-centre-journal.actions';
+import { Day, ViewJournalsCardComponent } from '../view-journals-card';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
 
 describe('ViewJournalsCardComponent', () => {
   let fixture: ComponentFixture<ViewJournalsCardComponent>;
   let component: ViewJournalsCardComponent;
   let slotProvider: SlotProvider;
+  let store$: Store<StoreModel>;
+  const mockTestCentreDetailResponse = {
+    examiners: [
+      { staffNumber: '123', journal: { examiner: { individualId: 1 } } },
+      { staffNumber: '456', journal: { examiner: { individualId: 2 } } },
+      { staffNumber: '789', journal: { examiner: { individualId: 3 } } },
+    ],
+  } as TestCentreDetailResponse;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -32,12 +44,15 @@ describe('ViewJournalsCardComponent', () => {
       providers: [
         { provide: SlotProvider, useClass: SlotProviderMock },
         { provide: SlotSelectorProvider, useClass: SlotSelectorProviderMock },
+        provideMockStore({ initialState: {} }),
       ],
     });
 
     fixture = TestBed.createComponent(ViewJournalsCardComponent);
     component = fixture.componentInstance;
     slotProvider = TestBed.inject(SlotProvider);
+    store$ = TestBed.inject(Store);
+    spyOn(store$, 'dispatch');
   }));
 
   describe('Class', () => {
@@ -84,16 +99,19 @@ describe('ViewJournalsCardComponent', () => {
       });
     });
     describe('examinerChanged', () => {
+      beforeEach(() => {
+        component.slotContainer = { clear: () => {} } as ViewContainerRef;
+        component.testCentreResults = mockTestCentreDetailResponse;
+        spyOn(component.slotContainer, 'clear');
+      });
       it('should use the staffNumber to do a lookup and retrieve appropriate journal', () => {
-        component.testCentreResults = {
-          examiners: [
-            { staffNumber: '123', journal: { examiner: { individualId: 1 } } },
-            { staffNumber: '456', journal: { examiner: { individualId: 2 } } },
-            { staffNumber: '789', journal: { examiner: { individualId: 3 } } },
-          ],
-        } as TestCentreDetailResponse;
         component.examinerChanged('456');
         expect(component.journal).toEqual({ examiner: { individualId: 2 } } as ExaminerWorkSchedule);
+        expect(component.slotContainer.clear).toHaveBeenCalled();
+      });
+      it('should not call slotContainer.clear when undefined staff number passed in', () => {
+        component.examinerChanged(null);
+        expect(component.slotContainer.clear).not.toHaveBeenCalled();
       });
     });
     describe('onShowJournalClick', () => {
@@ -242,6 +260,30 @@ describe('ViewJournalsCardComponent', () => {
         component.testCentreName = 'Some centre';
         component.examinerName = 'Some name';
         expect(component.warningText).toEqual('Some name does not have any test bookings at Some centre today');
+      });
+    });
+    describe('onNextDayClick', () => {
+      it('should dispatch an action for navigation and call onShowJournalClick', () => {
+        spyOn(component, 'onShowJournalClick');
+        component.onNextDayClick();
+        expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalDateNavigation(Day.TOMORROW));
+        expect(component.onShowJournalClick).toHaveBeenCalled();
+      });
+    });
+    describe('onTestCentreDidChange', () => {
+      beforeEach(() => {
+        spyOn(component, 'onManualRefresh');
+        spyOn(component.testCentreChanged, 'emit');
+      });
+      it('should not call the refresh or emission when input not defined', () => {
+        component.onTestCentreDidChange(null);
+        expect(component.onManualRefresh).not.toHaveBeenCalled();
+        expect(component.testCentreChanged.emit).not.toHaveBeenCalled();
+      });
+      it('should call the refresh & emission when input is defined', () => {
+        component.onTestCentreDidChange({} as TestCentre);
+        expect(component.onManualRefresh).toHaveBeenCalled();
+        expect(component.testCentreChanged.emit).toHaveBeenCalledWith({} as TestCentre);
       });
     });
   });
