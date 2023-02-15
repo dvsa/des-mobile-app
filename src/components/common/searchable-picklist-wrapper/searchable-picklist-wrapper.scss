@@ -1,0 +1,86 @@
+.content-background {
+  font-size: 19px;
+  --ion-background-color: var(--mes-white);
+  border-radius: 10px !important;
+  border: 10px solid var(--mes-white) !important;
+  mix-blend-mode: exclusion;
+}
+
+.component-label {
+  padding-top: 12px;
+  width: 33%;
+}
+
+ion-item {
+  --ion-background-color: var(--mes-white);
+}
+
+.button-style {
+  padding-top: 7px;
+  color: var(--gds-black);
+  display: flex;
+  align-items: center;
+
+  &.selected {
+    font-weight: bold;
+  }
+
+  &.disabled {
+    opacity: 0.4;
+  }
+}
+
+.checkmark {
+  color: var(--gds-green);
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.dark-mode-override {
+  --background: white;
+  color: black;
+  --background-activated: gray;
+}
+
+.max-width {
+  width: 100%;
+}
+
+.modal-row {
+  border: 2px solid var(--dark);
+  border-radius: 8px;
+  color: var(--dark);
+  font-size: 19px;
+  width: 452px;
+  height: 48px;
+}
+
+.modal-dropdown {
+  position: relative;
+  left: 5px;
+}
+
+.down-caret-icon {
+  color: darkgrey;
+  font-size: 14px;
+}
+
+.test-centre-location-icon {
+  color: var(--dark);
+}
+
+.placeholder-font-color {
+  margin-left: 4px;
+  opacity: 0.4;
+}
+
+ion-item::part(native) {
+  background: var(--mes-white);
+  color: black;
+}
+
+ion-searchbar {
+  --background: var(--mes-white);
+  --placeholder-color: grey;
+  --color: black;
+}

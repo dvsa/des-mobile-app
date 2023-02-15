@@ -101,6 +101,7 @@
     "cordova-plugin-secure-storage-echo": "^5.1.1",
     "crypto-browserify": "^3.12.0",
     "deep-diff": "^1.0.2",
+    "fuzzy-search": "^3.2.1",
     "hammerjs": "^2.0.8",
     "jsonschema": "^1.4.1",
     "lodash": "^4.17.21",

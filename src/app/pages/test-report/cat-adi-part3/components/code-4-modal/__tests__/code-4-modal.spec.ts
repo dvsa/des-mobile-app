@@ -8,6 +8,7 @@ import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/m
 describe('Code4Modal', () => {
   let fixture: ComponentFixture<Code4Modal>;
   let component: Code4Modal;
+  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -22,13 +23,14 @@ describe('Code4Modal', () => {
 
     fixture = TestBed.createComponent(Code4Modal);
     component = fixture.componentInstance;
+    modalController = TestBed.inject(ModalController);
   }));
 
   describe('dismiss', () => {
-    it('should call dismiss with the variable passed in', () => {
-      spyOn(component['modalCtrl'], 'dismiss');
-      component.dismiss(false);
-      expect(component['modalCtrl'].dismiss).toHaveBeenCalledWith(false);
+    it('should call dismiss with the variable passed in', async () => {
+      spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
+      await component.dismiss(false);
+      expect(modalController.dismiss).toHaveBeenCalledWith(false);
     });
   });
 });

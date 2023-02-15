@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component, OnDestroy, OnInit, ViewChild,
+} from '@angular/core';
 import { LoadingController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
@@ -33,7 +35,18 @@ import {
 } from '@store/test-centre-journal/test-centre-journal.selector';
 import { getTestCentreJournalState } from '@store/test-centre-journal/test-centre-journal.reducer';
 import { SetLastRefreshed } from '@store/test-centre-journal/test-centre-journal.actions';
-import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import {
+  CandidateSearchCardComponent,
+} from '@pages/test-centre-journal/components/candidate-search-card/candidate-search-card';
+import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
+import {
+  TestCentreJournalGetData,
+  TestCentreJournalSelectTestCentre, TestCentreJournalTabChanged,
+  TestCentreJournalViewDidEnter,
+} from './test-centre-journal.actions';
 
 interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;
@@ -57,6 +70,20 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   subscription: Subscription = Subscription.EMPTY;
   didError: boolean = false;
   errorMessage: string = null;
+  isLDTM: boolean = false;
+  testCentreSelected: JournalTestCentre = null;
+
+  @ViewChild('candidateSearchCard')
+  candidateSearchCard: CandidateSearchCardComponent;
+
+  @ViewChild('viewJournalsCard')
+  viewJournalsCard: ViewJournalsCardComponent;
+
+  // @TODO: Remove and get from Storage/Endpoint
+  testCentres = [
+    { centreId: 54321, centreName: 'Example test centre 1', costCode: 'EXTC1' },
+    { centreId: 54322, centreName: 'Example test centre 2', costCode: 'EXTC2' },
+  ];
   private destroy$ = new Subject<{}>();
 
   constructor(
@@ -68,6 +95,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     private logHelper: LogHelper,
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
+    private appConfig: AppConfigProvider,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -82,6 +110,8 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
       ),
     };
 
+    this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
+
     const {
       isOffline$,
     } = this.pageState;
@@ -94,7 +124,10 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
 
   async ionViewWillEnter(): Promise<void> {
     super.ionViewWillEnter();
-    await this.getTestCentreData();
+
+    if (!this.isLDTM) {
+      await this.getTestCentreData();
+    }
   }
 
   ionViewDidEnter(): void {
@@ -107,19 +140,30 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.destroy$.complete();
   }
 
-  getTestCentreData = async (manualRefresh: boolean = false): Promise<void> => {
+  getTestCentreData = async (manualRefresh: boolean = false, tcID: number = null): Promise<void> => {
     this.subscription.unsubscribe();
     this.manuallyRefreshed = manualRefresh;
     this.store$.dispatch(TestCentreJournalGetData(manualRefresh));
+
     if (this.isOffline) {
       this.setOfflineError();
       return;
     }
+
     const loading: HTMLIonLoadingElement = await this.loadingCtrl.create({ spinner: 'circles' });
     await loading.present();
+
+    // Clause acts as a page reset for LDTM's
+    if (this.isLDTM && manualRefresh) {
+      this.testCentreSelected = null;
+      await loading.dismiss();
+      return;
+    }
+
     this.store$.dispatch(SetLastRefreshed({ lastRefreshed: new Date() }));
     this.showSearchSpinner = true;
-    this.subscription = this.testCentreJournalProvider.getTestCentreJournal()
+
+    this.subscription = this.testCentreJournalProvider.getTestCentreJournal(tcID)
       .pipe(
         takeUntil(this.destroy$),
         tap(() => { this.hasSearched = true; }),
@@ -174,5 +218,21 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   get testCentreNames(): string {
     return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
   }
+
+  testCentreChange = async (testCentre: JournalTestCentre): Promise<void> => {
+    this.testCentreSelected = testCentre;
+    // mimic the same result as a refresh which clears down data inside component(s)
+    this.candidateSearchCard.onManualRefresh();
+    this.viewJournalsCard.onManualRefresh();
+
+    if (this.isLDTM && testCentre) {
+      this.store$.dispatch(TestCentreJournalSelectTestCentre());
+      await this.getTestCentreData(false, testCentre.centreId);
+    }
+  };
+
+  tabChanged = (tab: string): void => {
+    this.store$.dispatch(TestCentreJournalTabChanged(tab));
+  };
 
 }
