@@ -6,6 +6,10 @@
   mix-blend-mode: exclusion;
 }
 
+ion-item {
+  --ion-background-color: var(--mes-white);
+}
+
 .button-style {
   padding-top: 7px;
   color: var(--gds-black);
@@ -59,4 +63,15 @@
 .placeholder-font-color {
   margin-left: 4px;
   opacity: 0.4;
+}
+
+ion-item::part(native) {
+  background: var(--mes-white);
+  color: black;
+}
+
+ion-searchbar {
+  --background: var(--mes-white);
+  --placeholder-color: grey;
+  --color: black;
 }
