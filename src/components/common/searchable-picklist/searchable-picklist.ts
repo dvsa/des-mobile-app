@@ -73,7 +73,6 @@ export class SearchablePicklistComponent<T> {
   }
 
   onSearchbarClear(): void {
-    // this.searchedValue = null;
     this.model = null;
   }
 
