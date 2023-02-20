@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { IonicModule } from '@ionic/angular';
 
+import { WaitingRoomToCarEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.effects';
 import { ComponentsModule } from '@components/common/common-components.module';
 import {
   WaitingRoomToCarComponentsModule,
@@ -14,6 +15,7 @@ import { WaitingRoomToCarCatAMod1PageRoutingModule } from './waiting-room-to-car
 import { WaitingRoomToCarCatAMod1Page } from './waiting-room-to-car.cat-a-mod1.page';
 
 @NgModule({
+  declarations: [WaitingRoomToCarCatAMod1Page],
   imports: [
     CommonModule,
     FormsModule,
@@ -23,9 +25,9 @@ import { WaitingRoomToCarCatAMod1Page } from './waiting-room-to-car.cat-a-mod1.p
     ComponentsModule,
     WaitingRoomToCarComponentsModule,
     EffectsModule.forFeature([
+      WaitingRoomToCarEffects,
       WaitingRoomToCarAnalyticsEffects,
     ]),
   ],
-  declarations: [WaitingRoomToCarCatAMod1Page],
 })
 export class WaitingRoomToCarCatAMod1PageModule {}

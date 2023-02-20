@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { EffectsModule } from '@ngrx/effects';
 import { IonicModule } from '@ionic/angular';
 
+import { WaitingRoomToCarEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.effects';
 import { ComponentsModule } from '@components/common/common-components.module';
 import {
   WaitingRoomToCarCatHomeComponentsModule,
@@ -11,7 +12,6 @@ import {
 import {
   WaitingRoomToCarComponentsModule,
 } from '@pages/waiting-room-to-car/components/waiting-room-to-car.components.module';
-import { EffectsModule } from '@ngrx/effects';
 import { WaitingRoomToCarAnalyticsEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.analytics.effects';
 import { WaitingRoomToCarCatHomeTestPageRoutingModule } from './waiting-room-to-car.cat-home-test-routing.module';
 
@@ -29,6 +29,7 @@ import { WaitingRoomToCarCatHomeTestPage } from './waiting-room-to-car.cat-home-
     WaitingRoomToCarCatHomeComponentsModule,
     WaitingRoomToCarComponentsModule,
     EffectsModule.forFeature([
+      WaitingRoomToCarEffects,
       WaitingRoomToCarAnalyticsEffects,
     ]),
   ],

@@ -14,7 +14,7 @@
                        [class.ng-invalid]="invalid"
                        [value]="vehicleRegistration"
                        (ionChange)="vehicleRegistrationChanged($event)"
-                       (ionBlur)="getMotAndTax(vehicleRegistration)"
+                       (ionBlur)="onBlurEvent(vehicleRegistration)"
                        [maxlength]="registrationNumberValidator.maxLength">
                 </ion-input>
             </ion-col>

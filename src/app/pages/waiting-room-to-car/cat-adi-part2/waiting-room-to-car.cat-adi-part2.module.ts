@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
-
 import { IonicModule } from '@ionic/angular';
 
+import { WaitingRoomToCarEffects } from '@pages/waiting-room-to-car/waiting-room-to-car.effects';
 import { ComponentsModule } from '@components/common/common-components.module';
 import {
   WaitingRoomToCarComponentsModule,
@@ -29,6 +29,7 @@ import { WaitingRoomToCarCatADIPart2Page } from './waiting-room-to-car.cat-adi-p
     ReactiveFormsModule,
     WaitingRoomToCarComponentsModule,
     EffectsModule.forFeature([
+      WaitingRoomToCarEffects,
       WaitingRoomToCarAnalyticsEffects,
     ]),
   ],
