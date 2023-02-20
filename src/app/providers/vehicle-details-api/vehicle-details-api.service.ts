@@ -26,12 +26,9 @@ export class VehicleDetailsApiService {
       return of(this.vehicleDetailsResponse);
     }
 
-    const headers = new HttpHeaders().set(
-      'x-api-key', this.urlProvider.getTaxMotApiKey(),
-    );
-    const params = new HttpParams().set(
-      'identifier', vehicleRegistration,
-    );
+    const headers = new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
+    const params = new HttpParams().set('identifier', vehicleRegistration);
+
     return this.http.get(
       this.urlProvider.getTaxMotUrl(), { headers, params },
     ).pipe(

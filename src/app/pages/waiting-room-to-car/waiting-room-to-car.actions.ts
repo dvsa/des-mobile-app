@@ -27,3 +27,12 @@ export const WaitingRoomToCarBikeCategoryChanged = createAction(
   '[WaitingRoomToCarPage] Waiting Room To Car Bike Category Changed',
   (initialBikeCategory: string, selectedBikeCategory: string) => ({ initialBikeCategory, selectedBikeCategory }),
 );
+
+export const GetMotStatus = createAction(
+  '[WaitingRoomToCarPage] Get MOT status',
+  (identifier: string) => ({ identifier }),
+);
+
+export const GetMotStatusFailure = createAction(
+  '[WaitingRoomToCarPage] Get MOT status failure',
+);

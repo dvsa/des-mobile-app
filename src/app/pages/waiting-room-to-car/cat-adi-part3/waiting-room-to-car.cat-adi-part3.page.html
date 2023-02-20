@@ -23,7 +23,7 @@
               [formGroup]="form"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-              (motStatusChange)="motStatusChanged($event)">
+              (vehicleRegistrationBlur)="getMOTStatus($event)">
             </vehicle-registration>
 
             <test-category [testCategory]="pageState.category$ | async"></test-category>

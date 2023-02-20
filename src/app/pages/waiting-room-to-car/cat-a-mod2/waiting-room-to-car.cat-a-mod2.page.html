@@ -47,7 +47,7 @@
                 <vehicle-registration [formGroup]="form"
                                       [vehicleRegistration]="pageState.registrationNumber$ | async"
                                       (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-                                      (motStatusChange)="motStatusChanged($event)">
+                                      (vehicleRegistrationBlur)="getMOTStatus($event)">
                 </vehicle-registration>
 
                 <vehicle-checks-cat-a-mod2

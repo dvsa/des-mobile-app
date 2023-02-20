@@ -8,7 +8,6 @@ import {
   getRegistrationNumberValidator,
   nonAlphaNumericValues,
 } from '@shared/constants/field-validators/field-validators';
-import { VehicleDetailsApiService } from '@providers/vehicle-details-api/vehicle-details-api.service';
 
 @Component({
   selector: 'vehicle-registration',
@@ -27,37 +26,24 @@ export class VehicleRegistrationComponent implements OnChanges {
   vehicleRegistrationChange = new EventEmitter<string>();
 
   @Output()
-  motStatusChange = new EventEmitter<string>();
+  vehicleRegistrationBlur = new EventEmitter<string>();
 
   formControl: UntypedFormControl;
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
-  constructor(
-    private vehicleProvider: VehicleDetailsApiService,
-  ) {
-  }
-
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null, [Validators.required]);
       this.formGroup.addControl('vehicleRegistration', this.formControl);
-      if (this.vehicleRegistration != null) this.getMotAndTax(this.vehicleRegistration);
+
+      // if vehicleRegistration already set using VRN early modal and not interacted with here,
+      // we trick the component into dispatching the emission
+      if (this.vehicleRegistration != null) {
+        this.onBlurEvent(this.vehicleRegistration);
+      }
     }
     this.formControl.patchValue(this.vehicleRegistration);
-  }
-
-  /**
-   * Call service to get vehicle payload, only if an identifier has been supplied
-   * @param identifier
-   */
-  getMotAndTax(identifier: string): void {
-    if (identifier) {
-      this.vehicleProvider.getVehicleByIdentifier(identifier)
-        .subscribe((response: any) => {
-          this.motStatusChange.emit(response?.vehicle?.motStatus);
-        });
-    }
   }
 
   vehicleRegistrationChanged(event: any): void {
@@ -73,6 +59,10 @@ export class VehicleRegistrationComponent implements OnChanges {
     }
     this.vehicleRegistrationChange.emit(event.target.value?.toUpperCase());
   }
+
+  onBlurEvent = (vehicleRegistration: string): void => {
+    this.vehicleRegistrationBlur.emit(vehicleRegistration);
+  };
 
   get invalid(): boolean {
     return !this.formControl.valid && this.formControl.dirty;
