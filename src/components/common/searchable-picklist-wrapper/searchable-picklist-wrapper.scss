@@ -84,3 +84,12 @@ ion-searchbar {
   --placeholder-color: grey;
   --color: black;
 }
+
+.changeButton {
+  --background: var(--mes-white);
+  --color: var(--dark);
+  --border-radius: 10px;
+  --border-color: var(--dark);
+  --border-width: 1px;
+  --border-style: solid;
+}
