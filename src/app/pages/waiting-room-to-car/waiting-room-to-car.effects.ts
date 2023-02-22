@@ -1,3 +1,4 @@
+import { Platform } from '@ionic/angular';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
@@ -11,16 +12,13 @@ import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state
 import { LogHelper } from '@providers/logs/logs-helper';
 import { VehicleDetailsApiService } from '@providers/vehicle-details-api/vehicle-details-api.service';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
+import { isPracticeMode } from '@store/tests/tests.selector';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
 import {
   GetMotStatus, GetMotStatusFailure,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { MotStatusChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { getVehicleDetails } from '@store/tests/vehicle-details/cat-b/vehicle-details.cat-b.reducer';
-import { getRegistrationNumber } from '@store/tests/vehicle-details/vehicle-details.selector';
-import { Platform } from '@ionic/angular';
 
 export enum MotStatus {
   NO_DETAILS = 'No details found',
@@ -36,31 +34,24 @@ export class WaitingRoomToCarEffects {
     private networkStateProvider: NetworkStateProvider,
     private logHelper: LogHelper,
     private platform: Platform,
-  ) {}
+  ) {
+  }
 
   getMotStatusData$ = createEffect(() => this.actions$.pipe(
     ofType(GetMotStatus),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getVehicleDetails),
-          select(getRegistrationNumber),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(isPracticeMode),
-        ),
-      ),
-    )),
-    filter((
-      [{ identifier }, regNumber, isPracticeTest],
-    ) => (
+      )),
+    filter(([, isPracticeTest]) => (
       this.platform.is('cordova')
-        && (regNumber !== identifier)
-        && !isPracticeTest
-        && this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE
+            && !isPracticeTest
+            && this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE
     )),
     // above filter means we will not call through to candidate service when any of the above conditions fail.
     switchMap(([{ identifier }]) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(identifier)),
@@ -71,7 +62,6 @@ export class WaitingRoomToCarEffects {
       }));
       return of(GetMotStatusFailure());
     }),
-    // repeat(),
   ));
 
 }
