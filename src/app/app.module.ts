@@ -68,6 +68,7 @@ import { BikeCategoryDetailProvider } from '@providers/bike-category-detail/bike
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { ReferenceDataStoreModule } from '@store/reference-data/reference-data.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -80,7 +81,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({
-    keys: ['appInfo', 'tests', 'appConfig'],
+    keys: ['appInfo', 'tests', 'appConfig', 'refData'],
     rehydrate: true,
   })(reducer);
 }
@@ -133,6 +134,7 @@ if (enableRehydrationPlugin) {
     EffectsModule.forRoot(),
     ...(enableDevTools ? [StoreDevtoolsModule.instrument()] : []),
     AppInfoStoreModule,
+    ReferenceDataStoreModule,
     AppConfigStoreModule,
     LogsStoreModule,
     TestCentreJournalStoreModule,

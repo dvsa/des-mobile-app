@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { StoreModule, Store } from '@ngrx/store';
+import { AppConfig } from '@providers/app-config/app-config.model';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { DeviceMock } from '@mocks/ionic-mocks/device.mock';
@@ -119,6 +120,7 @@ describe('DeviceProvider', () => {
         requestTimeout: undefined,
         taxMotApiKey: '',
         vehicle: null,
+        refData: null,
       });
       const result = await deviceProvider.enableSingleAppMode();
       expect(result).toBe(false);

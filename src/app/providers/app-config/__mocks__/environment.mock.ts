@@ -91,5 +91,8 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
     signatureUrl: null,
     standardUrl: null,
   },
+  refData: {
+    testCentreUrl: null,
+  },
   requestTimeout: 20000,
 };

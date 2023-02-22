@@ -55,5 +55,8 @@ export type AppConfig = {
   vehicle: {
     taxMotUrl: string,
   },
+  refData: {
+    testCentreUrl: string,
+  },
   requestTimeout: number
 };

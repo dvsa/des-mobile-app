@@ -35,4 +35,7 @@ export class UrlProviderMock {
 
   getTaxMotApiKey = jasmine.createSpy()
     .and.returnValue('x-api-key');
+
+  getRefDataTestCentreUrl = jasmine.createSpy('getRefDataTestCentreUrl')
+    .and.returnValue('https://ref-data/testcentre');
 }
