@@ -66,6 +66,9 @@ export class AppConfigProviderMock {
       vehicle: {
         taxMotUrl: localEnvironmentMock.vehicle.taxMotUrl,
       },
+      refData: {
+        testCentreUrl: localEnvironmentMock.refData.testCentreUrl,
+      },
       requestTimeout: localEnvironmentMock.requestTimeout,
     };
   }

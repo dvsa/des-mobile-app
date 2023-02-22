@@ -34,8 +34,8 @@
             [testCentreName]="testCentreNames"
             [testCentreResults]="testCentreResults"
             [manuallyRefreshed]="manuallyRefreshed"
-            [testCentres]="testCentres"
-            [isLDTM]="true"
+            [testCentres]="pageState.activeTestCentres$ | async"
+            [isLDTM]="isLDTM"
             [selectedTestCentre]="testCentreSelected"
             (testCentreChanged)="testCentreChange($event)">
           </candidate-search-card>
@@ -46,7 +46,7 @@
             [testCentreName]="testCentreNames"
             [manuallyRefreshed]="manuallyRefreshed"
             [testCentreResults]="testCentreResults"
-            [testCentres]="testCentres"
+            [testCentres]="pageState.activeTestCentres$ | async"
             [isLDTM]="isLDTM"
             [selectedTestCentre]="testCentreSelected"
             (testCentreChanged)="testCentreChange($event)">

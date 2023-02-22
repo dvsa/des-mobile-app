@@ -42,15 +42,19 @@ import {
   CandidateSearchCardComponent,
 } from '@pages/test-centre-journal/components/candidate-search-card/candidate-search-card';
 import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
+import { getRefDataState } from '@store/reference-data/reference-data.reducer';
+import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
 import {
   TestCentreJournalGetData,
-  TestCentreJournalSelectTestCentre, TestCentreJournalTabChanged,
+  TestCentreJournalSelectTestCentre,
+  TestCentreJournalTabChanged,
   TestCentreJournalViewDidEnter,
 } from './test-centre-journal.actions';
 
 interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
+  activeTestCentres$: Observable<JournalTestCentre[]>;
 }
 
 @Component({
@@ -79,11 +83,6 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   @ViewChild('viewJournalsCard')
   viewJournalsCard: ViewJournalsCardComponent;
 
-  // @TODO: Remove and get from Storage/Endpoint
-  testCentres = [
-    { centreId: 54321, centreName: 'Example test centre 1', costCode: 'EXTC1' },
-    { centreId: 54322, centreName: 'Example test centre 2', costCode: 'EXTC2' },
-  ];
   private destroy$ = new Subject<{}>();
 
   constructor(
@@ -107,6 +106,11 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
         select(getTestCentreJournalState),
         map(getLastRefreshed),
         map(getLastRefreshedTime),
+      ),
+      activeTestCentres$: this.store$.pipe(
+        select(getRefDataState),
+        map(getTestCentres),
+        map(getActiveTestCentres),
       ),
     };
 
