@@ -23,12 +23,13 @@ import {
   GetMotStatus,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
-  WaitingRoomToCarViewDidEnter
+  WaitingRoomToCarViewDidEnter,
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
   DualControlsToggled,
-  GearboxCategoryChanged, MotStatusChanged, SchoolBikeToggled,
+  GearboxCategoryChanged,
+  SchoolBikeToggled,
   SchoolCarToggled,
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
