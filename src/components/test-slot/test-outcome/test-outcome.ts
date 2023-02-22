@@ -291,7 +291,7 @@ export class TestOutcomeComponent implements OnInit {
 
   clickStartOrResumeTest = async (): Promise<void> => {
     if (!this.isPracticeMode) {
-      if ((this.specialRequirements || this.slot.booking.application.fitMarker) && !this.hasSeenCandidateDetails) {
+      if ((this.specialRequirements || this.slot?.booking?.application?.fitMarker) && !this.hasSeenCandidateDetails) {
         await this.displayForceCheckModal();
         return;
       }
