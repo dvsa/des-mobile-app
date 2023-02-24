@@ -22,6 +22,7 @@ import { selectEmployeeName, selectVersionNumber, selectEmployeeId } from '@stor
 import * as journalActions from '@store/journal/journal.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
+import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -75,6 +76,7 @@ export class DashboardPage extends BasePageComponent {
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(DashboardViewDidEnter());
     this.store$.dispatch(ClearCandidateLicenceData());
+    this.store$.dispatch(ClearVehicleData());
 
     if (super.isIos()) {
       this.screenOrientation.unlock();

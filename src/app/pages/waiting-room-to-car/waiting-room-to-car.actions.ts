@@ -30,7 +30,6 @@ export const WaitingRoomToCarBikeCategoryChanged = createAction(
 
 export const GetMotStatus = createAction(
   '[WaitingRoomToCarPage] Get MOT status',
-  (identifier: string) => ({ identifier }),
 );
 
 export const GetMotStatusFailure = createAction(
