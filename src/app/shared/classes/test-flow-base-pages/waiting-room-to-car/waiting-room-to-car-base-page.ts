@@ -239,8 +239,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
   }
 
-  getMOTStatus(identifier: string): void {
-    this.store$.dispatch(GetMotStatus(identifier));
+  getMOTStatus(): void {
+    this.store$.dispatch(GetMotStatus());
   }
 
   schoolCarToggled(): void {

@@ -49,7 +49,7 @@
               [formGroup]="form"
               [vehicleRegistration]="pageState.registrationNumber$ | async"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-              (vehicleRegistrationBlur)="getMOTStatus($event)">
+              (vehicleRegistrationBlur)="getMOTStatus()">
             </vehicle-registration>
 
             <transmission
