@@ -20,6 +20,7 @@ import { getGearboxCategory, getRegistrationNumber } from '@store/tests/vehicle-
 import { TEST_CENTRE_JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
+  GetMotStatus,
   WaitingRoomToCarBikeCategoryChanged,
   WaitingRoomToCarBikeCategorySelected,
   WaitingRoomToCarViewDidEnter,
@@ -27,7 +28,8 @@ import {
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import {
   DualControlsToggled,
-  GearboxCategoryChanged, MotStatusChanged, SchoolBikeToggled,
+  GearboxCategoryChanged,
+  SchoolBikeToggled,
   SchoolCarToggled,
   VehicleRegistrationChanged,
 } from '@store/tests/vehicle-details/vehicle-details.actions';
@@ -90,9 +92,6 @@ export interface CommonWaitingRoomToCarPageState {
 }
 
 export const wrtcDestroy$ = new Subject<{}>();
-enum MotStatus {
-  NODETAILS = 'No details found',
-}
 
 export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBasePageComponent {
 
@@ -240,8 +239,8 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
     this.store$.dispatch(VehicleRegistrationChanged(vehicleRegistration));
   }
 
-  motStatusChanged(motStatus: string): void {
-    this.store$.dispatch(MotStatusChanged(motStatus || MotStatus.NODETAILS));
+  getMOTStatus(): void {
+    this.store$.dispatch(GetMotStatus());
   }
 
   schoolCarToggled(): void {

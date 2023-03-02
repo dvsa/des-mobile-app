@@ -28,6 +28,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getIncompleteTestsSlotOlderThanADay } from '@store/tests/tests.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
+import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -95,6 +96,7 @@ export class DashboardPage extends BasePageComponent {
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(DashboardViewDidEnter());
     this.store$.dispatch(ClearCandidateLicenceData());
+    this.store$.dispatch(ClearVehicleData());
 
     if (super.isIos()) {
       this.screenOrientation.unlock();
