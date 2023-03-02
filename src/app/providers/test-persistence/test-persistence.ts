@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { omit } from 'lodash';
 import { DateTime } from '@shared/helpers/date-time';
 import { TestsModel } from '@store/tests/tests.model';
+import { TestStatus } from '@store/tests/test-status/test-status.model';
+import { isAnyOf } from '@shared/helpers/simplifiers';
 import { DataStoreProvider } from '../data-store/data-store';
 import { AppConfigProvider } from '../app-config/app-config';
 
@@ -64,8 +66,10 @@ export class TestPersistenceProvider {
 
   getTestsToDelete(tests: TestsModel): string[] {
     const { daysToCacheJournalData } = this.appConfigProvider.getAppConfig()?.journal;
-    const GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS: number = 3;
-
+    const notAllCompleted = Object.keys(tests.testStatus).some((key) =>
+      !isAnyOf(tests.testStatus[key], [TestStatus.Submitted, TestStatus.Completed]));
+    // Grace period is set to 46 in order to make up a 60-day window to retain incomplete tests if present
+    const GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS: number = notAllCompleted ? 46 : 3;
     return Object.keys(tests.startedTests).filter((key) => {
       const startDate: DateTime = new DateTime(tests.startedTests[key].journalData.testSlotAttributes.start);
       return (startDate.daysDiff(new DateTime())) > (daysToCacheJournalData + GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS);
