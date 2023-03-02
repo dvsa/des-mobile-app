@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { UrlProvider } from '@providers/url/url';
 import { timeout, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { UrlProvider } from '@providers/url/url';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 
@@ -13,7 +13,7 @@ export class VehicleDetailsApiService {
 
   constructor(
     private http: HttpClient,
-    public urlProvider: UrlProvider,
+    private urlProvider: UrlProvider,
     public appConfig: AppConfigProvider,
   ) {
   }
@@ -26,16 +26,13 @@ export class VehicleDetailsApiService {
       return of(this.vehicleDetailsResponse);
     }
 
-    const headers = new HttpHeaders().set(
-      'x-api-key', this.urlProvider.getTaxMotApiKey(),
-    );
-    const params = new HttpParams().set(
-      'identifier', vehicleRegistration,
-    );
+    const headers = new HttpHeaders().set('x-api-key', this.urlProvider.getTaxMotApiKey());
+    const params = new HttpParams().set('identifier', vehicleRegistration);
+
     return this.http.get(
       this.urlProvider.getTaxMotUrl(), { headers, params },
     ).pipe(
-      tap((response:VehicleDetails) => {
+      tap((response: VehicleDetails) => {
         this.vehicleIdentifier = vehicleRegistration;
         this.vehicleDetailsResponse = response;
       }),
