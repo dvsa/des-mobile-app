@@ -30,11 +30,11 @@ export class ContactDetailsCardComponent {
     if (get(this.communicationPreferencesData, 'updatedEmail')) {
       if (get(this.communicationPreferencesData, 'updatedEmail')
           === get(this.candidateData, 'emailAddress')) {
-        return 'Same as Booked';
+        return 'Same as booking email';
       }
       return get(this.communicationPreferencesData, 'updatedEmail');
     }
-    return 'Same as Booked';
+    return 'Same as booking email';
   }
 
   get address(): Address {
