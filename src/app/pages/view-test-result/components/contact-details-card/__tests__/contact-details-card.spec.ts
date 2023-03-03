@@ -70,7 +70,7 @@ describe('ContactDetailsCardComponent', () => {
         component.candidateData = candidateData;
         component.communicationPreferencesData = commsData;
         fixture.detectChanges();
-        expect(component.emailAddress).toEqual('Test@Test.com');
+        expect(component.oldEmailAddress).toEqual('Test@Test.com');
       });
       it('should show the email address from the comms data if the comms meathod is email', () => {
         const candidateData: Candidate = {
@@ -84,7 +84,7 @@ describe('ContactDetailsCardComponent', () => {
         component.candidateData = candidateData;
         component.communicationPreferencesData = commsData;
         fixture.detectChanges();
-        expect(component.emailAddress).toEqual('Test@Test.com');
+        expect(component.oldEmailAddress).toEqual('Test@Test.com');
       });
       it('should show the email address from the journal data when there is no comms data', () => {
         const candidateData: Candidate = {
@@ -92,10 +92,10 @@ describe('ContactDetailsCardComponent', () => {
         };
         component.candidateData = candidateData;
         fixture.detectChanges();
-        expect(component.emailAddress).toEqual('Test@Test.com');
+        expect(component.oldEmailAddress).toEqual('Test@Test.com');
       });
       it('should show none when there is no data', () => {
-        expect(component.emailAddress).toEqual('None');
+        expect(component.oldEmailAddress).toEqual('None');
       });
     });
     describe('getAddress', () => {
