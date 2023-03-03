@@ -21,9 +21,11 @@ import {
 } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
-describe('CandidateDetailsPage', () => {
+fdescribe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
   let fixture: ComponentFixture<CandidateDetailsPage>;
   let store$: MockStore;
@@ -72,6 +74,7 @@ describe('CandidateDetailsPage', () => {
         IonicModule,
       ],
       providers: [
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useValue: mockNavParams },
         { provide: Router, useClass: RouterMock },
@@ -95,6 +98,42 @@ describe('CandidateDetailsPage', () => {
       spyOn(window, 'setTimeout').and.callThrough();
       component.ngOnInit();
       expect(setTimeout).toHaveBeenCalledTimes(2);
+    });
+  });
+
+  describe('changeCandidate', () => {
+    it('should set slot to prevSlot and ngOnInit to be called if switch case is "prev"', () => {
+      component.prevSlot = { vehicleSlotTypeCode: 1 };
+      component.nextSlot = { vehicleSlotTypeCode: 2 };
+      component.slot = { vehicleSlotTypeCode: 3 };
+      spyOn(component, 'ngOnInit');
+
+      component.changeCandidate('prev');
+
+      expect(component.ngOnInit).toHaveBeenCalled();
+      expect(component.slot).toEqual({ vehicleSlotTypeCode: 1 });
+    });
+    it('should set slot to nextSlot and ngOnInit to be called if switch case is "next"', () => {
+      component.prevSlot = { vehicleSlotTypeCode: 1 };
+      component.nextSlot = { vehicleSlotTypeCode: 2 };
+      component.slot = { vehicleSlotTypeCode: 3 };
+      spyOn(component, 'ngOnInit');
+
+      component.changeCandidate('next');
+
+      expect(component.ngOnInit).toHaveBeenCalled();
+      expect(component.slot).toEqual({ vehicleSlotTypeCode: 2 });
+    });
+    it('should not set slot or call ngOnInit if switch case is not "prev" or "next"', () => {
+      component.prevSlot = { vehicleSlotTypeCode: 1 };
+      component.nextSlot = { vehicleSlotTypeCode: 2 };
+      component.slot = { vehicleSlotTypeCode: 3 };
+      spyOn(component, 'ngOnInit');
+
+      component.changeCandidate('test');
+
+      expect(component.ngOnInit).not.toHaveBeenCalled();
+      expect(component.slot).toEqual({ vehicleSlotTypeCode: 3 });
     });
   });
 
