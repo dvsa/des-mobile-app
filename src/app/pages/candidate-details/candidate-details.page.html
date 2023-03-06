@@ -1,36 +1,28 @@
 <ion-header>
     <ion-toolbar mode="ios" class="toolbar-spacing">
-        <ion-title id="test-details-title" class="ion-text-center toolbar-item-spacing">Test details - {{ pageState.name }}</ion-title>
+        <ion-title id="test-details-title" class="ion-text-center toolbar-item-spacing">Test details
+            - {{ pageState.name }}</ion-title>
         <ion-buttons class="toolbar-item-spacing">
             <ion-button slot="start" id="close-button" (click)="dismiss()">
                 <ion-icon class="close-btn" name="close-outline"></ion-icon>
                 <ion-label class="close-btn">Close</ion-label>
             </ion-button>
-            <div slot="end" class="icons">
-                <ion-button [disabled]="!prevSlot" (click)="changeCandidate('prev')">
-                    <ion-icon class="icon-color" name="arrow-back-outline"></ion-icon>
-                </ion-button>
-                <ion-button [disabled]="!nextSlot" (click)="changeCandidate('next')">
-                    <ion-icon class="icon-color" name="arrow-forward-outline"></ion-icon>
-                </ion-button>
-            </div>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
     <ion-grid>
-        <ion-row>
-            <ion-col size="35">
-                <h2 id="candidates-name">
-                    {{ pageState.name }}
-                </h2>
-            </ion-col>
-            <ion-col>
-                <h2 id="test-start-details" class="test-start-details">
-                    {{ selectedDate | date:'EEEE d MMMM y' }} - {{ pageState.time | date: "HH:mm"}}
-                </h2>
-            </ion-col>
+        <ion-row class="navigation-row">
+            <candidate-detail-navigation
+                    [name]="pageState.name"
+                    [date]="selectedDate | date:'EEEE d MMMM y'"
+                    [time]="pageState.time | date: 'HH:mm'"
+                    [canNavigateToPreviousCandidate]="!!prevSlot"
+                    [canNavigateToNextCandidate]="!!nextSlot"
+                    (nextCandidateClicked)="changeCandidate('next')"
+                    (previousCandidateClicked)="changeCandidate('prev')"
+            ></candidate-detail-navigation>
         </ion-row>
     </ion-grid>
 
