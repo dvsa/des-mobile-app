@@ -31,12 +31,11 @@ describe('ContactDetailsCardComponent', () => {
   describe('Class', () => {
     describe('getTestResultPreference', () => {
       it('should return the correct data', () => {
-        const data: CommunicationPreferences = {
+        component.communicationPreferencesData = {
           communicationMethod: 'Email',
           updatedEmail: '',
           conductedLanguage: 'English',
         };
-        component.communicationPreferencesData = data;
         fixture.detectChanges();
         expect(component.testResultPreference).toEqual('Email');
       });
@@ -46,10 +45,9 @@ describe('ContactDetailsCardComponent', () => {
     });
     describe('getPhoneNumber', () => {
       it('should return the correct data', () => {
-        const data: Candidate = {
+        component.candidateData = {
           primaryTelephone: 'Test Phone Number',
         };
-        component.candidateData = data;
         fixture.detectChanges();
         expect(component.phoneNumber).toEqual('Test Phone Number');
       });
@@ -57,45 +55,32 @@ describe('ContactDetailsCardComponent', () => {
         expect(component.phoneNumber).toEqual('None');
       });
     });
-    describe('getEmailAddress', () => {
-      it('should show the email address from the journal data if the comms meathod is not email', () => {
-        const candidateData: Candidate = {
+    describe('oldEmailAddress', () => {
+      it('should show the email address from the journal data if it is present', () => {
+        component.candidateData = {
           emailAddress: 'Test@Test.com',
         };
-        const commsData: CommunicationPreferences = {
-          communicationMethod: 'Post',
-          conductedLanguage: 'English',
-          updatedEmail: 'not-this@test.com',
-        };
-        component.candidateData = candidateData;
-        component.communicationPreferencesData = commsData;
-        fixture.detectChanges();
-        expect(component.oldEmailAddress).toEqual('Test@Test.com');
-      });
-      it('should show the email address from the comms data if the comms meathod is email', () => {
-        const candidateData: Candidate = {
-          emailAddress: 'not-this@test.com',
-        };
-        const commsData: CommunicationPreferences = {
-          communicationMethod: 'Email',
-          conductedLanguage: 'English',
-          updatedEmail: 'Test@Test.com',
-        };
-        component.candidateData = candidateData;
-        component.communicationPreferencesData = commsData;
-        fixture.detectChanges();
-        expect(component.oldEmailAddress).toEqual('Test@Test.com');
-      });
-      it('should show the email address from the journal data when there is no comms data', () => {
-        const candidateData: Candidate = {
-          emailAddress: 'Test@Test.com',
-        };
-        component.candidateData = candidateData;
         fixture.detectChanges();
         expect(component.oldEmailAddress).toEqual('Test@Test.com');
       });
       it('should show none when there is no data', () => {
         expect(component.oldEmailAddress).toEqual('None');
+      });
+    });
+    describe('newEmailAddress', () => {
+      it('should return "Same as booking email" if updatedEmail does not exist', () => {
+        component.communicationPreferencesData = { } as CommunicationPreferences;
+        expect(component.newEmailAddress).toEqual('Same as booking email');
+      });
+      it('should return "Same as booking email" if updatedEmail is the same as emailAddress', () => {
+        component.communicationPreferencesData = { updatedEmail: 'test' } as CommunicationPreferences;
+        component.candidateData = { emailAddress: 'test' } as Candidate;
+        expect(component.newEmailAddress).toEqual('Same as booking email');
+      });
+      it('should return updatedEmail if updatedEmail is not the same as emailAddress', () => {
+        component.communicationPreferencesData = { updatedEmail: 'test1' } as CommunicationPreferences;
+        component.candidateData = { emailAddress: 'test' } as Candidate;
+        expect(component.newEmailAddress).toEqual(component.communicationPreferencesData.updatedEmail);
       });
     });
     describe('getAddress', () => {
