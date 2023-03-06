@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
@@ -28,7 +27,11 @@ import { TerminateTestModalModule } from '@components/common/terminate-test-moda
 import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
 import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
 import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
-import { TypeaheadDropdownComponent } from './typeahead-dropdown/typeahead-dropdown';
+import {
+  SearchablePicklistComponentWrapper,
+} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
+
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
 import { TabComponent } from './tab/tab';
@@ -61,7 +64,6 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     TabComponent,
     TabsComponent,
     WarningBannerComponent,
-    TypeaheadDropdownComponent,
     HealthDeclarationSignedComponent,
     IncompleteTestsBanner,
     ModalAlertTitleComponent,
@@ -78,12 +80,13 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     CPCDebriefCardComponent,
     Adi3DebriefCard,
     Adi3DebriefCardBox,
+    SearchablePicklistComponentWrapper,
+    SearchablePicklistModal,
   ],
   imports: [
     SignaturePadModule,
     CommonModule,
     IonicModule,
-    NgbTypeaheadModule,
     FormsModule,
     TranslateModule,
     ReactiveFormsModule,
@@ -107,7 +110,6 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     TabComponent,
     TabsComponent,
     WarningBannerComponent,
-    TypeaheadDropdownComponent,
     HealthDeclarationSignedComponent,
     IncompleteTestsBanner,
     ModalAlertTitleComponent,
@@ -125,6 +127,8 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     CPCDebriefCardComponent,
     Adi3DebriefCard,
     Adi3DebriefCardBox,
+    SearchablePicklistComponentWrapper,
+    SearchablePicklistModal,
   ],
 })
 export class ComponentsModule {

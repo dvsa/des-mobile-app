@@ -61,4 +61,106 @@ describe('TestCentreJournalAnalyticsEffects', () => {
       });
     });
   });
+
+  describe('testCentreJournalSelectTestCentre$', () => {
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalSelectTestCentre());
+      effects.testCentreJournalSelectTestCentre$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.CHANGE_LOCATION,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('testCentreJournalTabChanged$', () => {
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalTabChanged('tab1'));
+      effects.testCentreJournalTabChanged$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.TAB_SELECTION,
+          'tab1',
+        );
+        done();
+      });
+    });
+  });
+
+  describe('testCentreJournalSelectCandidate$', () => {
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalSelectCandidate());
+      effects.testCentreJournalSelectCandidate$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.CANDIDATE_SELECTION,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('testCentreJournalShowBookings$', () => {
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalShowBookings());
+      effects.testCentreJournalShowBookings$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.BUTTON_SELECTION,
+          'Show booking',
+        );
+        done();
+      });
+    });
+  });
+
+  describe('testCentreJournalSelectExaminer$', () => {
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalSelectExaminer());
+      effects.testCentreJournalSelectExaminer$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.EXAMINER_SELECTION,
+        );
+        done();
+      });
+    });
+  });
+
+  describe('testCentreJournalShowJournals$', () => {
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalShowJournals());
+      effects.testCentreJournalShowJournals$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.BUTTON_SELECTION,
+          'Show journals',
+        );
+        done();
+      });
+    });
+  });
+
+  describe('testCentreJournalDateNavigation$', () => {
+    it('should log an event', (done) => {
+      actions$.next(testCentreJournalActions.TestCentreJournalDateNavigation('some day'));
+      effects.testCentreJournalDateNavigation$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
+          AnalyticsEventCategories.TEST_CENTRE_JOURNAL,
+          AnalyticsEvents.NAVIGATION,
+          'some day',
+        );
+        done();
+      });
+    });
+  });
 });

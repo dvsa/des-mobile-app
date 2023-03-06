@@ -8,6 +8,8 @@ import { of, throwError } from 'rxjs';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { TestCentreJournalMock } from '@providers/test-centre-journal/__mocks__/test-centre-journal.mock';
@@ -20,10 +22,14 @@ import { LogType } from '@shared/models/log.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { ErrorTypes } from '@shared/models/error-message';
 import { ComponentsModule } from '@components/common/common-components.module';
+import { LoadingControllerMock } from '@mocks/ionic-mocks/loading-controller.mock';
 
-import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from '../test-centre-journal.actions';
+import {
+  TestCentreJournalGetData,
+  TestCentreJournalTabChanged,
+  TestCentreJournalViewDidEnter,
+} from '../test-centre-journal.actions';
 import { TestCentreJournalPage } from '../test-centre-journal.page';
-import { LoadingControllerMock } from '../../../../../mock/ionic-mocks/loading-controller.mock';
 import { TestCentreJournalComponentsModule } from '../components/test-centre-journal-components.module';
 
 describe('TestCenterJournalPage', () => {
@@ -37,6 +43,7 @@ describe('TestCenterJournalPage', () => {
   const initialState = {
     testCentreJournal: { lastRefreshed: new Date('2021-03-22') },
   } as StoreModel;
+
   beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
@@ -59,6 +66,7 @@ describe('TestCenterJournalPage', () => {
         { provide: LogHelper, useClass: LogHelperMock },
         { provide: TestCentreJournalProvider, useClass: TestCentreJournalMock },
         { provide: LoadingController, useClass: LoadingControllerMock },
+        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         provideMockStore({ initialState }),
       ],
     });
@@ -71,6 +79,7 @@ describe('TestCenterJournalPage', () => {
     store$ = TestBed.inject(MockStore);
     networkStateProvider = TestBed.inject(NetworkStateProvider);
     loadingController = TestBed.inject(LoadingController);
+    spyOn(store$, 'dispatch');
   }));
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -161,6 +170,12 @@ describe('TestCenterJournalPage', () => {
         ] as TestCentre[],
       } as TestCentreDetailResponse;
       expect(component.testCentreNames).toEqual('Centre A, Centre B, Centre C');
+    });
+  });
+  describe('tabChanged', () => {
+    it('should dispatch the TestCentreJournalTabChanged action', () => {
+      component.tabChanged('tab1');
+      expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalTabChanged('tab1'));
     });
   });
 });

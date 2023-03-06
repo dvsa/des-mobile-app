@@ -16,9 +16,19 @@ export class TestCentreJournalProvider {
     private appConfig: AppConfigProvider,
   ) { }
 
-  getTestCentreJournal = (): Observable<Object> => {
+  getTestCentreJournal = (tcID?: number): Observable<Object> => {
+    if (tcID) {
+      return this.getTestCentreJournalByID(tcID);
+    }
+
     return this.http.get(
       this.urlProvider.getTestCentreJournalUrl(),
+    ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
+  };
+
+  private getTestCentreJournalByID = (tcID: number): Observable<Object> => {
+    return this.http.get(
+      `${this.urlProvider.getTestCentreJournalUrl()}/${tcID}`,
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
 

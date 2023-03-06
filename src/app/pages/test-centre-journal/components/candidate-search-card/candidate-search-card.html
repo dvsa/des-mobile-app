@@ -1,19 +1,39 @@
-<test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
+<searchable-picklist-wrapper
+  *ngIf="isLDTM; else isDE;"
+  #testCentrePicklist
+  [dataList]="testCentres"
+  [model]="selectedTestCentre"
+  [differentDisplay]="true"
+  [fieldLabel]="'Test centre:'"
+  [primaryKey]="'centreId'"
+  [displayKey]="'centreName'"
+  [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
+  [idPrefix]="'tcj-candidate-search-tab'"
+  [placeholder]="'Select a test centre'"
+  (outputChanged)="onTestCentreDidChange($event)">
+</searchable-picklist-wrapper>
+<ng-template #isDE>
+  <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
+</ng-template>
 
-<ion-row>
-  <ion-col size="24" class="component-label">
-    <label id="candidate-name-label">Candidate Name:</label>
-  </ion-col>
-  <ion-col size="72">
-    <typeahead-dropdown #typeAhead
-            [listValues]="getCandidateList()"
-            [property]="'name'"
-            (candidateChange)="onCandidateDidChange($event)"
-    ></typeahead-dropdown>
-  </ion-col>
-</ion-row>
+<searchable-picklist-wrapper
+  #candidatePicklist
+  [dataList]="getCandidateList()"
+  [model]="selectedCandidate"
+  [fieldLabel]="'Candidate name:'"
+  [primaryKey]="'name'"
+  [displayKey]="'name'"
+  [fuzzySearchKeys]="['name']"
+  [idPrefix]="'tcj-candidate-search'"
+  [minCharactersBeforeListDisplay]="3"
+  [placeholder]="'Candidate name'"
+  [disabled]="!!!(selectedTestCentre)"
+  (outputChanged)="onCandidateDidChange($event)">
+</searchable-picklist-wrapper>
+
 <ion-row class="mes-full-width-card">
-  <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton" (click)="showResults()" id="show-booking-button">
+  <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton"
+              (click)="showResults()" id="show-booking-button">
     <h3 id="show-booking-button-text">Show booking</h3>
   </ion-button>
 </ion-row>
@@ -39,10 +59,10 @@
   </div>
   <ion-list *ngFor="let candidateSlot of todaySlots">
     <test-slot
-            [slot]="candidateSlot.slot"
-            [teamJournalCandidateResult]="true"
-            [examinerName]="candidateSlot.examinerName"
-            [isTeamJournal]="true"
+      [slot]="candidateSlot.slot"
+      [teamJournalCandidateResult]="true"
+      [examinerName]="candidateSlot.examinerName"
+      [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
 
@@ -66,10 +86,10 @@
   </div>
   <ion-list *ngFor="let candidateSlot of tomorrowSlots">
     <test-slot
-            [slot]="candidateSlot.slot"
-            [teamJournalCandidateResult]="true"
-            [examinerName]="candidateSlot.examinerName"
-            [isTeamJournal]="true"
+      [slot]="candidateSlot.slot"
+      [teamJournalCandidateResult]="true"
+      [examinerName]="candidateSlot.examinerName"
+      [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
 

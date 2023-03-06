@@ -1,11 +1,18 @@
 import {
-  Component, Input, OnChanges, ViewChild,
+  Component, EventEmitter, Input, OnChanges, Output, ViewChild,
 } from '@angular/core';
-import { Candidate, TestSlot } from '@dvsa/mes-journal-schema';
+import { Candidate, TestCentre, TestSlot } from '@dvsa/mes-journal-schema';
 import { Examiner, TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
-import { TypeaheadDropdownComponent } from '@components/common/typeahead-dropdown/typeahead-dropdown';
-
+import {
+  SearchablePicklistComponentWrapper,
+} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { StoreModel } from '@shared/models/store.model';
+import { Store } from '@ngrx/store';
+import {
+  TestCentreJournalSelectCandidate,
+  TestCentreJournalShowBookings,
+} from '@pages/test-centre-journal/test-centre-journal.actions';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 
 export type CandidateData = {
@@ -20,7 +27,11 @@ export type CandidateData = {
 })
 export class CandidateSearchCardComponent implements OnChanges {
 
-  @ViewChild('typeAhead') typeAheadDropDown: TypeaheadDropdownComponent;
+  @ViewChild('candidatePicklist')
+  candidateTypeAheadDropDown: SearchablePicklistComponentWrapper<CandidateData>;
+
+  @ViewChild('testCentrePicklist')
+  testCentreTypeAheadDropDown: SearchablePicklistComponentWrapper<TestCentre>;
 
   @Input()
   manuallyRefreshed: boolean;
@@ -31,6 +42,21 @@ export class CandidateSearchCardComponent implements OnChanges {
   @Input()
   testCentreName: string;
 
+  @Input()
+  testCentres: TestCentre[] = [];
+
+  @Input()
+  isLDTM: boolean = false;
+
+  @Input()
+  selectedTestCentre: TestCentre;
+
+  @Output()
+  testCentreChanged = new EventEmitter<TestCentre>();
+
+  @Output()
+  testCentreRemoved = new EventEmitter();
+
   today: DateTime = new DateTime();
   tomorrow: DateTime = new DateTime().add(1, Duration.DAY);
   candidateTestSlots: CandidateTestSlot[] = [];
@@ -38,7 +64,10 @@ export class CandidateSearchCardComponent implements OnChanges {
   tomorrowSlots: CandidateTestSlot[];
   shouldShowCandidateResults: boolean;
   selectedCandidateName: string;
+  selectedCandidate: CandidateData;
   enableShowBookingButton: boolean = false;
+
+  constructor(private store$: Store<StoreModel>) {}
 
   ngOnChanges(): void {
     if (this.manuallyRefreshed) {
@@ -108,21 +137,32 @@ export class CandidateSearchCardComponent implements OnChanges {
     this.shouldShowCandidateResults = false;
     const isValidCandidate: boolean = !!(candidate && candidate.name);
     this.enableShowBookingButton = isValidCandidate;
+
     if (isValidCandidate) {
+      this.selectedCandidate = candidate;
       this.selectedCandidateName = candidate.name;
+      this.store$.dispatch(TestCentreJournalSelectCandidate());
       this.createCandidateSlots(this.testCentreResults.examiners, this.selectedCandidateName);
+    }
+  }
+
+  onTestCentreDidChange(testCentre: TestCentre): void {
+    if (testCentre) {
+      this.onManualRefresh();
+      this.testCentreChanged.emit(testCentre);
     }
   }
 
   showResults(): void {
     this.shouldShowCandidateResults = true;
+    this.store$.dispatch(TestCentreJournalShowBookings());
   }
 
   onManualRefresh(): void {
     // reset all values on refresh
     this.shouldShowCandidateResults = false;
     this.enableShowBookingButton = false;
-    this.typeAheadDropDown.clearInput();
+    this.candidateTypeAheadDropDown.clearInput();
   }
 
   get slashSeperatedTestCentres(): string {

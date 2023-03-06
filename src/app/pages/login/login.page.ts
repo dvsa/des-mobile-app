@@ -26,6 +26,7 @@ import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Subscription } from 'rxjs';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { GetTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { DASHBOARD_PAGE } from '../page-names.constants';
 
 @Component({
@@ -78,6 +79,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
     if (!this.isIos()) {
       await this.appConfigProvider.initialiseAppConfig();
       this.store$.dispatch(LoadAppConfig({ appConfig: this.appConfigProvider.getAppConfig() }));
+      this.store$.dispatch(GetTestCentresRefData());
       await this.router.navigate([DASHBOARD_PAGE], { replaceUrl: true });
     }
   }
@@ -135,6 +137,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       await this.analytics.initialiseAnalytics();
 
       this.store$.dispatch(StartSendingCompletedTests());
+
+      this.store$.dispatch(GetTestCentresRefData());
 
       await this.handleLoadingUI(false);
 

@@ -1,9 +1,11 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { provideMockStore } from '@ngrx/store/testing';
+
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { ComponentsModule } from '@components/common/common-components.module';
-
+import { TestCentre } from '@dvsa/mes-journal-schema';
 import { CandidateData, CandidateSearchCardComponent } from '../candidate-search-card';
 import * as mockData from '../__mocks__/candidate-search-card.mock';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
@@ -20,6 +22,9 @@ describe('CandidateSearchCardComponent', () => {
         CommonModule,
         ComponentsModule,
         TestCentreJournalComponentsModule,
+      ],
+      providers: [
+        provideMockStore({ initialState: {} }),
       ],
     });
 
@@ -89,6 +94,29 @@ describe('CandidateSearchCardComponent', () => {
     it('should use default if not defined', () => {
       component.testCentreName = null;
       expect(component.slashSeperatedTestCentres).toEqual('test centre');
+    });
+  });
+  describe('onTestCentreDidChange', () => {
+    beforeEach(() => {
+      spyOn(component, 'onManualRefresh');
+      spyOn(component.testCentreChanged, 'emit');
+    });
+    it('should not call the refresh or emission when input not defined', () => {
+      component.onTestCentreDidChange(null);
+      expect(component.onManualRefresh).not.toHaveBeenCalled();
+      expect(component.testCentreChanged.emit).not.toHaveBeenCalled();
+    });
+    it('should call the refresh & emission when input is defined', () => {
+      component.onTestCentreDidChange({} as TestCentre);
+      expect(component.onManualRefresh).toHaveBeenCalled();
+      expect(component.testCentreChanged.emit).toHaveBeenCalledWith({} as TestCentre);
+    });
+  });
+  describe('onManualRefresh', () => {
+    it('should reset page flags', () => {
+      component.onManualRefresh();
+      expect(component.shouldShowCandidateResults).toEqual(false);
+      expect(component.enableShowBookingButton).toEqual(false);
     });
   });
 

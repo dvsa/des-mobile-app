@@ -238,5 +238,8 @@ export const environment: LocalEnvironmentFile = {
   vehicle: {
     taxMotUrl: 'https://api.dvla.test.smc.dvsacloud.uk/1.0/vehicle',
   },
+  refData: {
+    testCentreUrl: '/assets/mock/ref-data/local-test-centres.json',
+  },
   requestTimeout: 20000,
 };

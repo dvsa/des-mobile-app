@@ -119,6 +119,7 @@ describe('DeviceProvider', () => {
         requestTimeout: undefined,
         taxMotApiKey: '',
         vehicle: null,
+        refData: null,
       });
       const result = await deviceProvider.enableSingleAppMode();
       expect(result).toBe(false);

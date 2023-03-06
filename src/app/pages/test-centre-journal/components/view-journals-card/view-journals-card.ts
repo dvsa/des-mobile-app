@@ -1,10 +1,10 @@
 import {
-  Component,
-  Input, OnChanges,
+  Component, EventEmitter,
+  Input, OnChanges, Output,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Examiner, ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
+import { Examiner, ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
 import { first, map, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
@@ -16,6 +16,21 @@ import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { DateTime, Duration } from '@shared/helpers/date-time';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '@store/journal/journal.model';
+import {
+  SearchablePicklistComponentWrapper,
+} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import {
+  TestCentreJournalDateNavigation,
+  TestCentreJournalSelectExaminer,
+  TestCentreJournalShowJournals,
+} from '@pages/test-centre-journal/test-centre-journal.actions';
+import { StoreModel } from '@shared/models/store.model';
+import { Store } from '@ngrx/store';
+
+export enum Day {
+  TODAY = 'today',
+  TOMORROW = 'tomorrow',
+}
 
 @Component({
   selector: 'view-journals-card',
@@ -24,9 +39,14 @@ import { ExaminerSlotItems, ExaminerSlotItemsByDate } from '@store/journal/journ
 })
 export class ViewJournalsCardComponent implements OnChanges {
 
-  @ViewChild('slotContainer', { read: ViewContainerRef }) slotContainer;
+  @ViewChild('slotContainer', { read: ViewContainerRef })
+  slotContainer: ViewContainerRef;
 
-  @ViewChild('examinerSelect') examinerSelect: IonSelect;
+  @ViewChild('examinerSelect')
+  examinerSelect: IonSelect;
+
+  @ViewChild('testCentrePicklistJournals')
+  testCentreTypeAheadDropDown: SearchablePicklistComponentWrapper<TestCentre>;
 
   @Input()
   testCentreResults: TestCentreDetailResponse;
@@ -36,6 +56,18 @@ export class ViewJournalsCardComponent implements OnChanges {
 
   @Input()
   manuallyRefreshed: boolean;
+
+  @Input()
+  isLDTM: boolean = false;
+
+  @Input()
+  testCentres: TestCentre[] = [];
+
+  @Input()
+  selectedTestCentre: TestCentre;
+
+  @Output()
+  testCentreChanged = new EventEmitter<TestCentre>();
 
   hasSelectedExaminer: boolean = false;
   hasClickedShowJournal: boolean = false;
@@ -50,6 +82,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   constructor(
     private slotProvider: SlotProvider,
     private slotSelectorProvider: SlotSelectorProvider,
+    private store$: Store<StoreModel>,
   ) {
   }
 
@@ -83,6 +116,8 @@ export class ViewJournalsCardComponent implements OnChanges {
   examinerChanged = (staffNumber: string): void => {
     if (!staffNumber) return;
 
+    this.store$.dispatch(TestCentreJournalSelectExaminer());
+
     const {
       journal,
       name,
@@ -101,6 +136,8 @@ export class ViewJournalsCardComponent implements OnChanges {
       // if no journal, then don't try to pass value into slot creation method
       return;
     }
+    this.store$.dispatch(TestCentreJournalShowJournals());
+
     // createSlots with the selected journal
     of(this.journal)
       .pipe(
@@ -141,11 +178,13 @@ export class ViewJournalsCardComponent implements OnChanges {
   isSelectedDateToday = (): boolean => this.currentSelectedDate === this.today;
 
   onPreviousDayClick = (): void => {
+    this.store$.dispatch(TestCentreJournalDateNavigation(Day.TODAY));
     this.currentSelectedDate = this.today;
     this.onShowJournalClick();
   };
 
   onNextDayClick = (): void => {
+    this.store$.dispatch(TestCentreJournalDateNavigation(Day.TOMORROW));
     this.currentSelectedDate = new DateTime().add(1, Duration.DAY).format(this.dateFormat);
     this.onShowJournalClick();
   };
@@ -154,8 +193,15 @@ export class ViewJournalsCardComponent implements OnChanges {
     return this.examinerName && this.examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate]?.length === 0;
   };
 
+  onTestCentreDidChange(testCentre: TestCentre): void {
+    if (testCentre) {
+      this.onManualRefresh();
+      this.testCentreChanged.emit(testCentre);
+    }
+  }
+
   get dayLabel(): string {
-    return this.isSelectedDateToday() ? 'today' : 'tomorrow';
+    return this.isSelectedDateToday() ? Day.TODAY : Day.TOMORROW;
   }
 
   get warningText(): string {

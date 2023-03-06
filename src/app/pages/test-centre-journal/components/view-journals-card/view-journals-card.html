@@ -1,4 +1,20 @@
-<test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
+<searchable-picklist-wrapper
+  *ngIf="isLDTM; else isDE;"
+  #testCentrePicklistJournals
+  [dataList]="testCentres"
+  [model]="selectedTestCentre"
+  [differentDisplay]="true"
+  [fieldLabel]="'Test centre:'"
+  [primaryKey]="'centreId'"
+  [displayKey]="'centreName'"
+  [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
+  [idPrefix]="'tcj-view-journal-tab'"
+  [placeholder]="'Select a test centre'"
+  (outputChanged)="onTestCentreDidChange($event)">
+</searchable-picklist-wrapper>
+<ng-template #isDE>
+    <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
+</ng-template>
 
 <ion-row>
     <ion-col class="component-label" size="24">
@@ -8,6 +24,7 @@
         <ion-select [interfaceOptions]="interfaceOptions"
                     #examinerSelect
                     (ionChange)="examinerChanged($event.target.value)"
+                    [disabled]="!!!(selectedTestCentre)"
                     okText="Select"
                     id="select-examiner"
                     cancelText="Cancel"
