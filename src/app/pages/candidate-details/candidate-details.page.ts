@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController, NavParams } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
@@ -15,9 +15,10 @@ import { getCandidateName } from '@store/tests/journal-data/common/candidate/can
 import { Router } from '@angular/router';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { getJournalState } from '@store/journal/journal.reducer';
-import { map, take } from 'rxjs/operators';
+import { map, take, takeUntil } from 'rxjs/operators';
 import { getSelectedDate, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
 import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
+import { Subject } from 'rxjs';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -37,7 +38,7 @@ interface CandidateDetailsPageState {
   templateUrl: './candidate-details.page.html',
   styleUrls: ['./candidate-details.page.scss'],
 })
-export class CandidateDetailsPage implements OnInit {
+export class CandidateDetailsPage implements OnInit, OnDestroy {
   pageState: CandidateDetailsPageState;
   selectedDate: string;
   slot: TestSlot;
@@ -47,6 +48,7 @@ export class CandidateDetailsPage implements OnInit {
   idPrefix: string = 'candidate-details';
   prevSlot: TestSlot;
   nextSlot: TestSlot;
+  private destroy$ = new Subject<{}>();
 
   constructor(
     public modalController: ModalController,
@@ -54,16 +56,22 @@ export class CandidateDetailsPage implements OnInit {
     public store$: Store<StoreModel>,
     public router: Router,
     public dateTimeProvider: DateTimeProvider,
-  ) {}
+  ) {
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
+  }
 
   ngOnInit(): void {
-
     if (!this.navParams.get('isPracticeMode')) {
       this.store$.pipe(
         select(getJournalState),
         map(getSlotsOnSelectedDate),
         map((slotItem) => slotItem.map((data) => data.slotData)),
         take(1),
+        takeUntil(this.destroy$),
       ).subscribe((data) => {
         this.prevSlot = data[data.indexOf(this.slot) - 1];
         this.nextSlot = data[data.indexOf(this.slot) + 1];
@@ -71,6 +79,7 @@ export class CandidateDetailsPage implements OnInit {
       this.store$.pipe(
         select(getJournalState),
         map(getSelectedDate),
+        takeUntil(this.destroy$),
       ).subscribe((data) => {
         this.selectedDate = data;
       });
