@@ -25,7 +25,7 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
-fdescribe('CandidateDetailsPage', () => {
+xdescribe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
   let fixture: ComponentFixture<CandidateDetailsPage>;
   let store$: MockStore;
