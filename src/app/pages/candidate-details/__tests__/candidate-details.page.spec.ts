@@ -23,13 +23,18 @@ import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import {
+  CandidateDetailNavigationComponent,
+} from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { JournalModel } from '@store/journal/journal.model';
+import { StoreModel } from '@shared/models/store.model';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
-xdescribe('CandidateDetailsPage', () => {
+describe('CandidateDetailsPage', () => {
   let component: CandidateDetailsPage;
   let fixture: ComponentFixture<CandidateDetailsPage>;
   let store$: MockStore;
-  const initialState = {};
 
   const mockNavParams = {
     get: (param: string) => {
@@ -61,6 +66,18 @@ xdescribe('CandidateDetailsPage', () => {
     },
   };
 
+  const initialState = {
+    journal: {
+      slots:
+          {
+            '2023-03-06': [],
+            '2023-03-07': [],
+          } as { [k: string]: SlotItem[]
+          },
+      selectedDate: '2023-03-06',
+    } as JournalModel,
+  } as StoreModel;
+
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
@@ -69,6 +86,7 @@ xdescribe('CandidateDetailsPage', () => {
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),
         MockComponent(InappropriateUseBannerComponent),
+        MockComponent(CandidateDetailNavigationComponent),
       ],
       imports: [
         IonicModule,
