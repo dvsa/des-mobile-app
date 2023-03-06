@@ -22,11 +22,14 @@ export class ContactDetailsCardComponent {
     return get(this.candidateData, 'primaryTelephone', 'None');
   }
 
-  get emailAddress(): string {
-    if (get(this.communicationPreferencesData, 'communicationMethod') === 'Email') {
-      return get(this.communicationPreferencesData, 'updatedEmail', 'None');
-    }
+  get oldEmailAddress(): string {
     return get(this.candidateData, 'emailAddress', 'None');
+  }
+
+  get newEmailAddress(): string {
+    const updatedEmail = get(this.communicationPreferencesData, 'updatedEmail');
+    const bookingEmail = get(this.candidateData, 'emailAddress');
+    return (updatedEmail && updatedEmail !== bookingEmail) ? updatedEmail : 'Same as booking email';
   }
 
   get address(): Address {
