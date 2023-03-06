@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { StoreModule } from '@ngrx/store';
 import { of, throwError } from 'rxjs';
-import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';

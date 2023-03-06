@@ -11,7 +11,7 @@ import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
 import {
   TestCentreJournalSelectCandidate,
-  TestCentreJournalShowBookings
+  TestCentreJournalShowBookings,
 } from '@pages/test-centre-journal/test-centre-journal.actions';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 
