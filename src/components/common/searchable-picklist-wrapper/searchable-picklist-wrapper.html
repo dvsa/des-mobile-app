@@ -1,0 +1,49 @@
+<ion-grid>
+  <ion-row>
+    <!-- Field label -->
+    <ion-col size="24" class="component-label">
+      <label [id]="fieldLabel | formatToID: idPrefix">{{fieldLabel}}</label>
+    </ion-col>
+
+    <ion-col size="62" class="ion-align-self-center modal-dropdown">
+      <!-- Standard display to mimic how an ion-input would look -->
+      <div *ngIf="!differentDisplay || !model">
+        <ion-row class="spacing-row"></ion-row>
+
+        <!-- Placeholder for when no value has been selected before -->
+        <ion-row *ngIf="!model" class="modal-row" [ngClass]="{ 'appear-disabled': disabled }" (click)="openModal()">
+          <ion-col class="placeholder-font-color no-padding-end padding-top ion-nowrap">
+            <span size="90">{{placeholder}}</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-icon name="caret-down-outline" class="down-caret-icon"></ion-icon>
+          </ion-col>
+        </ion-row>
+
+        <!-- Selected value appears in input looking box -->
+        <ion-row *ngIf="model" class="modal-row" [ngClass]="{ 'appear-disabled': disabled }" (click)="openModal()">
+          <ion-col size="88" class="col-font-color padding-top">
+            <span class="ion-no-wrap custom-font-size">{{model[displayKey] | ellipsis: 34}}</span>
+          </ion-col>
+          <ion-col size="6">
+            <ion-icon name="caret-down-outline" class="down-caret-icon"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <!-- Modified display for TC not showing in an input box -->
+      <ion-row *ngIf="model && differentDisplay">
+        <ion-col size="70">
+          <ion-icon name="location-sharp" class="test-centre-location-icon" id="test-centre-icon"></ion-icon>
+          <label id="test-centre-location">{{model[displayKey]}}</label>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+
+    <ion-col size="10" *ngIf="model && differentDisplay">
+      <ion-button (click)="openModal()" class="changeButton" size="small">
+        Change
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>

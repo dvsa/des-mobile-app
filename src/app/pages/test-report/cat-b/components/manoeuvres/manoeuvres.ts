@@ -25,7 +25,7 @@ import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/tes
 export class ManoeuvresComponent implements OnInit, OnDestroy {
 
   @Input()
-  controlLabel: String;
+  controlLabel: string;
   @Input()
   completed: boolean;
 

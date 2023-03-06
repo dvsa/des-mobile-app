@@ -308,6 +308,9 @@ export class AppConfigProvider {
       vehicle: {
         taxMotUrl: data.vehicle.taxMotUrl,
       },
+      refData: {
+        testCentreUrl: data.refData.testCentreUrl,
+      },
       requestTimeout: data.requestTimeout,
     } as AppConfig);
   };

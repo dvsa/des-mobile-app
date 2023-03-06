@@ -1,47 +1,58 @@
 <ion-header>
-    <ion-toolbar mode="ios">
-        <ion-title id="test-centre-journal-page-title">Test Centre Journal</ion-title>
-        <ion-buttons id="back-button" slot="start">
-            <ion-back-button id="test-centre-journal-back-button"></ion-back-button>
-        </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-button id="refresh-button" class="refresh-button" (click)="getTestCentreData(true)">
-                <div>
-                    <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
-                    <span class="colour-white">Refresh</span>
-                    <ion-label>
-                        <h6 id="last-sync" class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6>
-                    </ion-label>
-                </div>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
-<ion-content>
-    <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
-
-    <ng-template [ngIf]="didError" [ngIfElse]="noError">
-        <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
-    </ng-template>
-
-    <ng-template #noError>
-        <div class="search-inputs" *ngIf="testCentreResults">
-            <tabs>
-                <tab [tabTitle]="'Candidate search'">
-                    <candidate-search-card
-                            [testCentreName]="testCentreNames"
-                            [testCentreResults]="testCentreResults"
-                            [manuallyRefreshed]="manuallyRefreshed"
-                    >
-                    </candidate-search-card>
-                </tab>
-                <tab [tabTitle]="'View Journals'" id="view-journals-tab-title">
-                    <view-journals-card
-                            [testCentreName]="testCentreNames"
-                            [manuallyRefreshed]="manuallyRefreshed"
-                            [testCentreResults]="testCentreResults"></view-journals-card>
-                </tab>
-            </tabs>
+  <ion-toolbar mode="ios">
+    <ion-title id="test-centre-journal-page-title">Test Centre Journal</ion-title>
+    <ion-buttons id="back-button" slot="start">
+      <ion-back-button id="test-centre-journal-back-button"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button id="refresh-button" class="refresh-button" (click)="getTestCentreData(true)">
+        <div>
+          <ion-icon name="sync-outline" class="refresh-button-icon colour-white"></ion-icon>
+          <span class="colour-white">Refresh</span>
+          <ion-label>
+            <h6 id="last-sync" class="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6>
+          </ion-label>
         </div>
-    </ng-template>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
+
+  <ng-template [ngIf]="didError" [ngIfElse]="noError">
+    <error-message class="error" returnTo="{{errorMessage}}" [displayAsModal]="false"></error-message>
+  </ng-template>
+
+  <ng-template #noError>
+    <div class="search-inputs" *ngIf="isLDTM || testCentreResults">
+      <tabs (tabChanged)="tabChanged($event?.title)">
+        <tab [tabTitle]="'Candidate search'">
+          <candidate-search-card
+            #candidateSearchCard
+            [testCentreName]="testCentreNames"
+            [testCentreResults]="testCentreResults"
+            [manuallyRefreshed]="manuallyRefreshed"
+            [testCentres]="pageState.activeTestCentres$ | async"
+            [isLDTM]="isLDTM"
+            [selectedTestCentre]="testCentreSelected"
+            (testCentreChanged)="testCentreChange($event)">
+          </candidate-search-card>
+        </tab>
+        <tab [tabTitle]="'View Journals'" id="view-journals-tab-title">
+          <view-journals-card
+            #viewJournalsCard
+            [testCentreName]="testCentreNames"
+            [manuallyRefreshed]="manuallyRefreshed"
+            [testCentreResults]="testCentreResults"
+            [testCentres]="pageState.activeTestCentres$ | async"
+            [isLDTM]="isLDTM"
+            [selectedTestCentre]="testCentreSelected"
+            (testCentreChanged)="testCentreChange($event)">
+          </view-journals-card>
+        </tab>
+      </tabs>
+    </div>
+  </ng-template>
 </ion-content>

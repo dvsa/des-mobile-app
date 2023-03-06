@@ -1,4 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component, OnDestroy, OnInit, ViewChild,
+} from '@angular/core';
 import { LoadingController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import {
@@ -33,11 +35,26 @@ import {
 } from '@store/test-centre-journal/test-centre-journal.selector';
 import { getTestCentreJournalState } from '@store/test-centre-journal/test-centre-journal.reducer';
 import { SetLastRefreshed } from '@store/test-centre-journal/test-centre-journal.actions';
-import { TestCentreJournalGetData, TestCentreJournalViewDidEnter } from './test-centre-journal.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
+import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
+import {
+  CandidateSearchCardComponent,
+} from '@pages/test-centre-journal/components/candidate-search-card/candidate-search-card';
+import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
+import { getRefDataState } from '@store/reference-data/reference-data.reducer';
+import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
+import {
+  TestCentreJournalGetData,
+  TestCentreJournalSelectTestCentre,
+  TestCentreJournalTabChanged,
+  TestCentreJournalViewDidEnter,
+} from './test-centre-journal.actions';
 
 interface TestCentreJournalPageState {
   isOffline$: Observable<boolean>;
   lastRefreshedTime$: Observable<string>;
+  activeTestCentres$: Observable<JournalTestCentre[]>;
 }
 
 @Component({
@@ -57,6 +74,15 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   subscription: Subscription = Subscription.EMPTY;
   didError: boolean = false;
   errorMessage: string = null;
+  isLDTM: boolean = false;
+  testCentreSelected: JournalTestCentre = null;
+
+  @ViewChild('candidateSearchCard')
+  candidateSearchCard: CandidateSearchCardComponent;
+
+  @ViewChild('viewJournalsCard')
+  viewJournalsCard: ViewJournalsCardComponent;
+
   private destroy$ = new Subject<{}>();
 
   constructor(
@@ -68,6 +94,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     private logHelper: LogHelper,
     private testCentreJournalProvider: TestCentreJournalProvider,
     private loadingCtrl: LoadingController,
+    private appConfig: AppConfigProvider,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -80,7 +107,14 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
         map(getLastRefreshed),
         map(getLastRefreshedTime),
       ),
+      activeTestCentres$: this.store$.pipe(
+        select(getRefDataState),
+        map(getTestCentres),
+        map(getActiveTestCentres),
+      ),
     };
+
+    this.isLDTM = this.appConfig.getAppConfig()?.role === ExaminerRole.LDTM;
 
     const {
       isOffline$,
@@ -94,7 +128,10 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
 
   async ionViewWillEnter(): Promise<void> {
     super.ionViewWillEnter();
-    await this.getTestCentreData();
+
+    if (!this.isLDTM) {
+      await this.getTestCentreData();
+    }
   }
 
   ionViewDidEnter(): void {
@@ -107,19 +144,30 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.destroy$.complete();
   }
 
-  getTestCentreData = async (manualRefresh: boolean = false): Promise<void> => {
+  getTestCentreData = async (manualRefresh: boolean = false, tcID: number = null): Promise<void> => {
     this.subscription.unsubscribe();
     this.manuallyRefreshed = manualRefresh;
     this.store$.dispatch(TestCentreJournalGetData(manualRefresh));
+
     if (this.isOffline) {
       this.setOfflineError();
       return;
     }
+
     const loading: HTMLIonLoadingElement = await this.loadingCtrl.create({ spinner: 'circles' });
     await loading.present();
+
+    // Clause acts as a page reset for LDTM's
+    if (this.isLDTM && manualRefresh) {
+      this.testCentreSelected = null;
+      await loading.dismiss();
+      return;
+    }
+
     this.store$.dispatch(SetLastRefreshed({ lastRefreshed: new Date() }));
     this.showSearchSpinner = true;
-    this.subscription = this.testCentreJournalProvider.getTestCentreJournal()
+
+    this.subscription = this.testCentreJournalProvider.getTestCentreJournal(tcID)
       .pipe(
         takeUntil(this.destroy$),
         tap(() => { this.hasSearched = true; }),
@@ -174,5 +222,21 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   get testCentreNames(): string {
     return this.testCentreResults?.testCentres?.map((testCentre: TestCentre) => testCentre.name).join(', ');
   }
+
+  testCentreChange = async (testCentre: JournalTestCentre): Promise<void> => {
+    this.testCentreSelected = testCentre;
+    // mimic the same result as a refresh which clears down data inside component(s)
+    this.candidateSearchCard.onManualRefresh();
+    this.viewJournalsCard.onManualRefresh();
+
+    if (this.isLDTM && testCentre) {
+      this.store$.dispatch(TestCentreJournalSelectTestCentre());
+      await this.getTestCentreData(false, testCentre.centreId);
+    }
+  };
+
+  tabChanged = (tab: string): void => {
+    this.store$.dispatch(TestCentreJournalTabChanged(tab));
+  };
 
 }

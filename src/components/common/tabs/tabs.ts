@@ -2,7 +2,7 @@ import {
   Component,
   ContentChildren,
   QueryList,
-  AfterContentInit,
+  AfterContentInit, Output, EventEmitter,
 } from '@angular/core';
 
 import { TabComponent } from '../tab/tab';
@@ -15,7 +15,10 @@ import { TabComponent } from '../tab/tab';
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
-  ngAfterContentInit() {
+  @Output()
+  tabChanged = new EventEmitter<TabComponent>();
+
+  ngAfterContentInit(): void {
     const activeTabs = this.tabs.filter((tab) => tab.active);
 
     if (activeTabs.length === 0) {
@@ -23,9 +26,13 @@ export class TabsComponent implements AfterContentInit {
     }
   }
 
-  selectTab(selectedTab: TabComponent) {
+  selectTab(selectedTab: TabComponent, emitEvent: boolean = false): void {
     this.tabs.toArray().forEach((tab) => { tab.active = false; });
 
     selectedTab.active = true;
+
+    if (emitEvent) {
+      this.tabChanged.emit(selectedTab);
+    }
   }
 }

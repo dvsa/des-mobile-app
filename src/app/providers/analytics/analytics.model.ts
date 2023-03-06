@@ -218,6 +218,11 @@ export enum AnalyticsEvents {
   ASAM = 'Single App Mode (SAM)',
   SIDE_MENU = 'burger menu',
   TEST_SELECTED = 'test selected',
+  CHANGE_LOCATION = 'change location',
+  TAB_SELECTION = 'tab selection',
+  BUTTON_SELECTION = 'button selection',
+  EXAMINER_SELECTION = 'examiner selection',
+  CANDIDATE_SELECTION = 'candidate selection',
 }
 
 export enum AnalyticsLabels {

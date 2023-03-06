@@ -1,0 +1,10 @@
+{
+  "active": [
+    { "centreId": 54321, "centreName": "Example test centre 1", "costCode": "EXTC1" },
+    { "centreId": 54322, "centreName": "Example test centre 2", "costCode": "EXTC2" }
+  ],
+  "inactive": [
+    { "centreId": 90876, "centreName": "Inactive test centre 1", "costCode": "INAC1" },
+    { "centreId": 65432, "centreName": "Inactive test centre 2", "costCode": "INAC2" }
+  ]
+}

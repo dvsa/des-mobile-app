@@ -11,7 +11,7 @@ export class Code4Modal {
     private modalCtrl: ModalController,
   ) {}
 
-  dismiss(result: boolean) {
-    this.modalCtrl.dismiss(result);
+  async dismiss(result: boolean): Promise<void> {
+    await this.modalCtrl.dismiss(result);
   }
 }

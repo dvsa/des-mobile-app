@@ -56,6 +56,9 @@ export const initialState: AppConfig = {
   vehicle: {
     taxMotUrl: null,
   },
+  refData: {
+    testCentreUrl: null,
+  },
   requestTimeout: null,
 };
 
