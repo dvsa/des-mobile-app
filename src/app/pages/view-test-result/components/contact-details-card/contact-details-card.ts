@@ -27,15 +27,9 @@ export class ContactDetailsCardComponent {
   }
 
   get newEmailAddress(): string {
-    const defaultMessage: string = 'Same as booking email';
-    if (get(this.communicationPreferencesData, 'updatedEmail')) {
-      if (get(this.communicationPreferencesData, 'updatedEmail')
-          === get(this.candidateData, 'emailAddress')) {
-        return defaultMessage;
-      }
-      return get(this.communicationPreferencesData, 'updatedEmail');
-    }
-    return defaultMessage;
+    const updatedEmail = get(this.communicationPreferencesData, 'updatedEmail');
+    const bookingEmail = get(this.candidateData, 'emailAddress');
+    return (updatedEmail && updatedEmail !== bookingEmail) ? updatedEmail : 'Same as booking email';
   }
 
   get address(): Address {
