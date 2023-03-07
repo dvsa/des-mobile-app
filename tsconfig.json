@@ -12,7 +12,8 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2020",
+    "useDefineForClassFields": false,
+    "target": "ES2022",
     "lib": [
       "es2018",
       "dom"
@@ -31,7 +32,7 @@
       "crypto": ["node_modules/crypto-browserify"],
       "stream": ["node_modules/stream-browserify"],
       "zlib": ["node_modules/browserify-zlib"]
-    }
+    },
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

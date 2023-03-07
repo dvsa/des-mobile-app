@@ -12,6 +12,9 @@ import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/n
 import { MockComponent } from 'ng-mocks';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { JournalData } from '@dvsa/mes-test-schema/categories/common';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -46,8 +49,6 @@ import { CandidateSectionComponent } from '@components/common/candidate-section/
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { SignatureComponent } from '@components/common/signature/signature';
 import { GetCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
@@ -98,6 +99,7 @@ describe('WaitingRoomPage', () => {
           testStatus: {},
           startedTests: {
             123: {
+              category: TestCategory.B,
               preTestDeclarations: preTestDeclarationInitialState,
               postTestDeclarations: {
                 healthDeclarationAccepted: false,
