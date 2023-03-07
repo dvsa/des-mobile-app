@@ -364,13 +364,60 @@
       "positioningNormalRiding": "Positioning - Normal riding",
       "bends": "Bends",
       "safetyQuestions": "Safety Questions",
-      "clearanceOrObstructions" : "Clearance / obstructions",
+      "clearanceOrObstructions": "Clearance / obstructions",
       "highwayCodeSafety": "Highway Code / Safety",
       "rearObservationSignalling": "Rear Observation - Signalling",
       "rearObservationChangeDirection": "Rear Observation - Change Direction",
       "rearObservationChangeSpeed": "Rear Observation - Change Speed",
       "positionNormalRiding": "Positioning - Normal Riding",
       "judgementOvertakingFiltering": "Judgement - Overtaking / Filtering"
+    },
+    "adi3": {
+      "totalScore": "Total score",
+      "lessonAndTheme": "Lesson & Theme",
+      "student": "Student",
+      "theme": "Theme",
+      "feedback": "Feedback",
+      "terminatedForPublicSafety": "Terminated in the interest of public safety",
+      "lessThan7InRiskManagement": "Scored 7 or less in Risk Management section",
+      "studentValues": {
+        "beginner": "Beginner",
+        "partlyTrained": "Partly Trained",
+        "trained": "Trained",
+        "flhNew": "FLH New",
+        "flhExperienced": "FLH Experienced"
+      },
+      "grading": {
+        "B": "Sufficient competence demonstrated to permit entry to the Register of Approved Driving Instructors",
+        "A": "A high overall standard of instruction demonstrated",
+        "unsatisfactory": "Unsatisfactory Performance"
+      },
+      "lesson-planning": {
+        "title": "Lesson Planning",
+        "q1": "Did the trainer identify the pupils learning goals and needs?",
+        "q2": "Was the agreed lesson structure appropriate for the pupil’s experience and ability?",
+        "q3": "Were the practice areas suitable?",
+        "q4": "Was the lesson plan adapted, when appropriate, to help the pupil work towards their learning goals?"
+      },
+      "risk-management": {
+        "title": "Risk Management",
+        "q1": "Did the trainer ensure that the pupil fully understood how the responsibility for risk would be shared?",
+        "q2": "Were directions and instructions given to the pupil clear and given in good time?",
+        "q3": "Was the trainer aware of the surroundings and the pupils actions?",
+        "q4": "Was any verbal or physical intervention by the trainer timely and appropriate?",
+        "q5": "Was sufficient feedback given to help the pupil understand any potential safety critical incidents?"
+      },
+      "teaching-and-learning-strategies": {
+        "title": "Teaching & Learning Strategies",
+        "q1": "Was the teaching style suited to the pupils learning style and current ability?",
+        "q2": "Was the pupil encouraged to analyse problems and take responsibility for their learning?",
+        "q3": "Were opportunities and examples used to clarify learning outcomes?",
+        "q4": "Was the technical information given comprehensive, appropriate and accurate?",
+        "q5": "Was the pupil given appropriate and timely feedback during the session?",
+        "q6": "Were the pupils queries followed up and answered?",
+        "q7": "Did the trainer maintain an appropriate non-discriminatory manner throughout the session?",
+        "q8": "At the end of the session – was the pupil encouraged to reflect on their own performance?"
+      }
     },
     "dangerousFault": "Dangerous fault",
     "dangerousFaultsCardDescription": "dangerous faults",

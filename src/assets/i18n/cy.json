@@ -372,6 +372,53 @@
       "positionNormalRiding": "Lleoli - Marchogaeth Normal",
       "judgementOvertakingFiltering": "Barnu Goddiweddyd /Hidlo"
     },
+    "adi3": {
+      "totalScore": "Cyfanswm Sgôr",
+      "lessonAndTheme": "Gwers a Thema",
+      "student": "Myfyriwr",
+      "theme": "Thema",
+      "feedback": "Adborth",
+      "terminatedForPublicSafety": "[TBC] Terminated in the interest of public safety",
+      "lessThan7InRiskManagement": "[TBC] Scored 7 or less in Risk Management section",
+      "studentValues": {
+        "beginner": "[TBC] Beginner",
+        "partlyTrained": "[TBC] Partly Trained",
+        "trained": "[TBC] Trained",
+        "flhNew": "[TBC] FLH New",
+        "flhExperienced": "[TBC] FLH Experienced"
+      },
+      "grading": {
+        "B": "[TBC] Sufficient competence demonstrated to permit entry to the Register of Approved Driving Instructors",
+        "A": "[TBC] A high overall standard of instruction demonstrated",
+        "unsatisfactory": "[TBC] Unsatisfactory Performance"
+      },
+      "lesson-planning": {
+        "title": "Cynllunio Gwersi",
+        "q1": "A wnaeth yr hyfforddwr nodi nodau ac anghenion dysgu’r disgyblion?",
+        "q2": "Oedd strwythur y wers y cytunwyd arno yn briodol ar gyfer profiad a gallu’r disgybl?",
+        "q3": "Oedd y mannau ymarfer yn addas?",
+        "q4": "A addaswyd y cynllun gwers, pan oedd yn briodol, i helpu’r disgybl i weithio tuag at ei nodau dysgu?"
+      },
+      "risk-management": {
+        "title": "Rheoli Risg",
+        "q1": "A wnaeth yr hyfforddwr sicrhau bod y disgybl yn deall yn llawn sut y byddai’r cyfrifoldeb am risg yn cael ei rannu?",
+        "q2": "A roddwyd cyfeiriadau a chyfarwyddiadau i’r disgybl yn glir ac a roddwyd mewn da bryd?",
+        "q3": "Oedd yr hyfforddwr yn ymwybodol o’r amgylchoedd a gweithredoedd y disgyblion?",
+        "q4": " Oedd unrhyw ymyriad llafar neu gorfforol gan yr hyfforddwr yn amserol ac yn briodol?",
+        "q5": "A roddwyd digon o adborth i helpu’r disgybl i ddeall unrhyw ddigwyddiadau allweddol diogelwch posibl?"
+      },
+      "teaching-and-learning-strategies": {
+        "title": "Strategaethau Addysgu a Dysgu",
+        "q1": "Oedd yr arddull addysgu yn gweddu i arddull dysgu a gallu cyfredol y disgyblion?",
+        "q2": "A gafodd y disgybl ei annog i ddadansoddi problemau a chymryd cyfrifoldeb am ei ddysgu?",
+        "q3": "A ddefnyddiwyd cyfleoedd ac enghreifftiau i egluro canlyniadau dysgu?",
+        "q4": "Oedd y wybodaeth dechnegol a roddwyd yn gynhwysfawr, yn briodol ac yn gywir?",
+        "q5": "A gafodd y disgybl adborth priodol ac amserol yn ystod y sesiwn?",
+        "q6": "A holwyd ac a atebwyd ymholiadau’r disgyblion?",
+        "q7": "A wnaeth yr hyfforddwr gynnal dull anwahaniaethol priodol trwy gydol y sesiwn?",
+        "q8": "Ar ddiwedd y sesiwn – a gafodd y disgybl ei annog i fyfyrio ar ei berfformiad ei hun?"
+      }
+    },
     "dangerousFault": "Nam peryglus",
     "dangerousFaultsCardDescription": "Namau peryglus",
     "drivingFault": "Nam gyrru",

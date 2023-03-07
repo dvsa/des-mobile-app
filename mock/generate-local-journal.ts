@@ -1,5 +1,4 @@
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-const journalSchema = require('@dvsa/mes-journal-schema/index.json');
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { getTodayAsIsoDate, getNextWorkingDayAsIsoDate, getPreviousWorkingDayAsIsoDate } from './mock-date-utils';
@@ -254,7 +253,7 @@ export const localJournal: ExaminerWorkSchedule = {
           testCategory: 'ADI3',
           vehicleGearbox: 'Manual',
           specialNeedsCode: 'NONE',
-          welshTest: false,
+          welshTest: true,
         },
         candidate: {
           candidateAddress: {
@@ -275,13 +274,13 @@ export const localJournal: ExaminerWorkSchedule = {
           mobileTelephone: '07654 123456',
           dateOfBirth: '1999-11-16',
           ethnicityCode: 'A',
-          prn: 9283749,
-          previousADITests: 2,
+          prn: 9283750,
+          previousADITests: 1,
         },
       },
       slotDetail: {
         duration: 57,
-        slotId: 1017,
+        slotId: 1040,
         start: `${today}T12:00:00`,
       },
       testCentre: {

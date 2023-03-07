@@ -5,7 +5,7 @@ import {
   RiskManagement,
   TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
-import { lessonThemeValues, studentValues } from '@app/shared/constants/adi3-questions/lesson-theme.constants';
+import { lessonThemeValues } from '@app/shared/constants/adi3-questions/lesson-theme.constants';
 
 @Component({
   selector: 'adi3-debrief-card',
@@ -34,11 +34,11 @@ export class Adi3DebriefCard implements OnInit {
   @Input()
   public review: Review;
 
-  studentValueConst = studentValues;
   lessonThemeValueStr: string = '';
   isTerminated: boolean = false;
 
   ngOnInit(): void {
+    // @TODO map((theme) => isEnglish ? lessonThemeValues[theme] : lessonThemeValuesWelsh[theme])
     this.lessonThemeValueStr = this.lessonTheme.lessonThemes
       .map((theme) => lessonThemeValues[theme])
       .concat(this.lessonTheme.other || null)
@@ -46,14 +46,13 @@ export class Adi3DebriefCard implements OnInit {
       .join(', ');
   }
 
-  displayGradeDescription(): string {
+  get displayGradeDescription(): string {
     switch (this.grade) {
       case 'B':
-        return 'Sufficient competence demonstrated to permit entry to the Register of Approved Driving Instructors';
       case 'A':
-        return 'A high overall standard of instruction demonstrated';
+        return this.grade;
       default:
-        return 'Unsatisfactory Performance';
+        return 'unsatisfactory';
     }
   }
 }

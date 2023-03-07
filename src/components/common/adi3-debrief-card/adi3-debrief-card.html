@@ -1,32 +1,32 @@
 <ion-grid>
     <ion-card class="ion-padding">
-        <ion-row class="tr-standard-text">Total Score</ion-row>
+        <ion-row class="tr-standard-text">{{'debrief.adi3.totalScore' | translate}}</ion-row>
         <br>
         <ion-row>
             <ion-col class="tr-standard-text total-score-positioning" size="10" id="total-score-text">{{totalScore}}</ion-col>
             <ion-col>
                 <ion-row *ngIf="review.immediateDanger">
-                    <p id="terminated-public-safety-text">Terminated in the interest of public safety</p>
+                    <p id="terminated-public-safety-text">{{'debrief.adi3.terminatedForPublicSafety' | translate}}</p>
                 </ion-row>
                 <ion-row>
-                    <p id="grade-description-text">{{displayGradeDescription()}}</p>
+                    <p id="grade-description-text">{{('debrief.adi3.grading.' + displayGradeDescription) | translate}}</p>
                 </ion-row>
                 <ion-row *ngIf="riskManagement.score <= 7">
-                    <p id="scored-less-than-7-in-rm-text">Scored 7 or less in Risk Management section</p>
+                    <p id="scored-less-than-7-in-rm-text">{{'debrief.adi3.lessThan7InRiskManagement' | translate}}</p>
                 </ion-row>
             </ion-col>
         </ion-row>
     </ion-card>
 
     <ion-card class="ion-padding" *ngIf="(lessonTheme.lessonThemes.length > 0 || lessonTheme.other) && lessonTheme.studentLevel">
-        <ion-row class="tr-standard-text">Lesson & Theme</ion-row>
+        <ion-row class="tr-standard-text">{{'debrief.adi3.lessonAndTheme' | translate}}</ion-row>
         <br>
         <ion-row>
-            <ion-col class="tr-standard-text" size="20">Student</ion-col>
-            <ion-col><p id="student-value-text">{{studentValueConst[lessonTheme.studentLevel]}}</p></ion-col>
+            <ion-col class="tr-standard-text" size="20">{{'debrief.adi3.student' | translate}}</ion-col>
+            <ion-col><p id="student-value-text">{{('debrief.adi3.studentValues.' + lessonTheme.studentLevel) | translate}}</p></ion-col>
         </ion-row>
         <ion-row>
-            <ion-col class="tr-standard-text" size="20">Theme</ion-col>
+            <ion-col class="tr-standard-text" size="20">{{'debrief.adi3.theme' | translate}}</ion-col>
             <ion-col><p id="theme-value-text">{{lessonThemeValueStr}}</p></ion-col>
         </ion-row>
     </ion-card>
@@ -85,7 +85,7 @@
     <ion-row *ngIf="review?.feedback">
         <ion-col>
             <ion-card class="ion-padding">
-                <ion-row class="tr-standard-text">Feedback</ion-row>
+                <ion-row class="tr-standard-text">{{'debrief.adi3.feedback' | translate}}</ion-row>
                 <br>
                 <ion-row>
                     <p id="review-feedback-text">{{review?.feedback}}</p>

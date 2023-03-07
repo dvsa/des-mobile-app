@@ -1,4 +1,6 @@
-<ion-row class="tr-standard-text" id="{{idSelector}}-title-score-text">{{title}} - {{testReportSection.score}}</ion-row>
+<ion-row class="tr-standard-text" id="{{idSelector}}-title-score-text">
+    {{('debrief.adi3.' + idSelector + '.title') | translate}} - {{testReportSection.score}}
+</ion-row>
 <ion-row *ngFor="let item of testReportSection | customKeyValue: 'q'; let l = last; index as i">
     <ion-card class="ion-padding question-card black-text semibold-font-family card-padding" *ngIf="!l">
         <ion-row>
@@ -9,7 +11,7 @@
             </ion-col>
 
             <ion-col class="title-padding" id="{{idSelector}}-{{i}}-title">
-                {{item.q.title}}
+                {{('debrief.adi3.' + idSelector + '.q' + (i + 1)) | translate}}
             </ion-col>
         </ion-row>
     </ion-card>

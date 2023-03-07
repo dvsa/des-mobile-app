@@ -75,14 +75,15 @@
             *ngIf="pageState.showSafetyAndBalance$ | async">
     </safety-and-balance-card-cat-a-mod2>
 
-    <adi3-debrief-card *ngIf="showADI3DebriefCard()"
-                       [totalScore]="pageState.totalScore$ | async"
-                       [lessonTheme]="pageState.lessonTheme$ | async"
-                       [lessonPlanning]="pageState.lessonPlanning$ | async"
-                       [riskManagement]="pageState.riskManagement$ | async"
-                       [teachingLearningStrategies]="pageState.teachingLearningStrategies$ | async"
-                       [grade]="pageState.grade$ | async"
-                       [review]="pageState.review$ | async">
+    <adi3-debrief-card
+            *ngIf="showADI3DebriefCard()"
+            [totalScore]="pageState.totalScore$ | async"
+            [lessonTheme]="pageState.lessonTheme$ | async"
+            [lessonPlanning]="pageState.lessonPlanning$ | async"
+            [riskManagement]="pageState.riskManagement$ | async"
+            [teachingLearningStrategies]="pageState.teachingLearningStrategies$ | async"
+            [grade]="pageState.grade$ | async"
+            [review]="pageState.review$ | async">
     </adi3-debrief-card>
 </ion-content>
 
