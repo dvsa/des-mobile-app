@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Business, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController, NavParams } from '@ionic/angular';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StoreModel } from '@shared/models/store.model';
 import * as journalActions from '@store/journal/journal.actions';
@@ -13,6 +13,12 @@ import {
 } from '@store/candidate-details/candidate-details.selector';
 import { getCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { Router } from '@angular/router';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { map, take, takeUntil } from 'rxjs/operators';
+import { getSelectedDate, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
+import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
+import { Subject } from 'rxjs';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -32,24 +38,60 @@ interface CandidateDetailsPageState {
   templateUrl: './candidate-details.page.html',
   styleUrls: ['./candidate-details.page.scss'],
 })
-export class CandidateDetailsPage implements OnInit {
+export class CandidateDetailsPage implements OnInit, OnDestroy {
   pageState: CandidateDetailsPageState;
+  selectedDate: string;
   slot: TestSlot;
   slotChanged: boolean = false;
   isTeamJournal: boolean = false;
   testCategory: TestCategory = null;
   idPrefix: string = 'candidate-details';
+  prevSlot: TestSlot;
+  nextSlot: TestSlot;
+  private destroy$ = new Subject<{}>();
 
   constructor(
     public modalController: ModalController,
     public navParams: NavParams,
     public store$: Store<StoreModel>,
     public router: Router,
+    public dateTimeProvider: DateTimeProvider,
   ) {
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
+  }
+
   ngOnInit(): void {
-    this.slot = this.navParams.get('slot');
+    if (!this.navParams.get('isPracticeMode')) {
+      this.store$.pipe(
+        select(getJournalState),
+        map(getSlotsOnSelectedDate),
+        map((slotItem) => slotItem.map((data) => data.slotData)),
+        take(1),
+        takeUntil(this.destroy$),
+      ).subscribe((data) => {
+        this.prevSlot = data[data.indexOf(this.slot) - 1];
+        this.nextSlot = data[data.indexOf(this.slot) + 1];
+      });
+      this.store$.pipe(
+        select(getJournalState),
+        map(getSelectedDate),
+        takeUntil(this.destroy$),
+      ).subscribe((data) => {
+        this.selectedDate = data;
+      });
+    } else {
+      this.prevSlot = fakeJournalTestSlots[fakeJournalTestSlots.indexOf(this.slot as any) - 1] as any;
+      this.nextSlot = fakeJournalTestSlots[fakeJournalTestSlots.indexOf(this.slot as any) + 1] as any;
+      this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
+    }
+
+    if (!this.slot) {
+      this.slot = this.navParams.get('slot');
+    }
     this.slotChanged = this.navParams.get('slotChanged');
     this.isTeamJournal = this.navParams.get('isTeamJournal');
 
@@ -103,11 +145,25 @@ export class CandidateDetailsPage implements OnInit {
   }
 
   /**
-   * Strip the slash from the start of the url returned by the router
-   * @param url
-   */
+     * Strip the slash from the start of the url returned by the router
+     * @param url
+     */
   formatUrl(url: string): string {
     return url ? url.substring(1) : null;
   }
 
+  changeCandidate(prevOrNext: string) {
+    switch (prevOrNext) {
+      case 'prev':
+        this.slot = this.prevSlot;
+        this.ngOnInit();
+        break;
+      case 'next':
+        this.slot = this.nextSlot;
+        this.ngOnInit();
+        break;
+      default:
+        break;
+    }
+  }
 }

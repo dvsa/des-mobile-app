@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Name } from '@dvsa/mes-journal-schema';
+import { Name, TestSlot } from '@dvsa/mes-journal-schema';
 import { ModalController } from '@ionic/angular';
 import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { AppComponent } from '@app/app.component';
@@ -11,10 +11,13 @@ import { AppComponent } from '@app/app.component';
 })
 export class CandidateLinkComponent {
   @Input()
-  slot: any;
+  slot: TestSlot;
 
   @Input()
   slotChanged: boolean;
+
+  @Input()
+  isPracticeMode: boolean;
 
   @Input()
   name: Name;
@@ -50,6 +53,7 @@ export class CandidateLinkComponent {
       component: CandidateDetailsPage,
       cssClass: zoomClass,
       componentProps: {
+        isPracticeMode: this.isPracticeMode,
         slot: this.slot,
         slotChanged: this.slotChanged,
         isTeamJournal: this.isTeamJournal,
