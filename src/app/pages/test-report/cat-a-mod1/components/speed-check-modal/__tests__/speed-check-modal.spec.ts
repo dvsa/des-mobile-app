@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { AppModule } from '@app/app.module';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
+import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { SpeedCheckModal } from '../speed-check-modal';
 
 describe('SpeedCheckModal', () => {
@@ -27,9 +28,21 @@ describe('SpeedCheckModal', () => {
 
     fixture = TestBed.createComponent(SpeedCheckModal);
     component = fixture.componentInstance;
-    component.onCancel = async () => {};
-    component.onTerminate = async () => {};
+    spyOn(component['modalController'], 'dismiss').and.returnValue(Promise.resolve(true));
   }));
+
+  describe('onCancel', () => {
+    it('should call dismiss with the CANCEL event', async () => {
+      await component.onCancel();
+      expect(component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
+  describe('onTerminate', () => {
+    it('should call dismiss with the TERMINATE event', async () => {
+      await component.onTerminate();
+      expect(component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
+    });
+  });
 
   describe('DOM', () => {
     it('should call onCancel when the Return to test button is clicked', () => {
