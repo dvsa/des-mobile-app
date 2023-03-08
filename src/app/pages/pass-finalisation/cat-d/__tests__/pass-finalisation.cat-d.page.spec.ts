@@ -40,6 +40,9 @@ import {
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { TestsModel } from '@store/tests/tests.model';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { provideMockStore } from '@ngrx/store/testing';
 import { PassFinalisationCatDPage } from '../pass-finalisation.cat-d.page';
 
 describe('PassFinalisationCatDPage', () => {
@@ -278,6 +281,7 @@ describe('PassFinalisationCatDPage', () => {
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
+        provideMockStore({ initialState }),
         OutcomeBehaviourMapProvider,
       ],
     });
