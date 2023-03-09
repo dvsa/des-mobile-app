@@ -260,6 +260,7 @@ export class AppConfigProvider {
   };
 
   public logInfo = (description: string, value: any = ''): void => {
+    alert(description);
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(LogType.INFO, description, value),
     }));
