@@ -60,6 +60,7 @@
     "@awesome-cordova-plugins/network": "^6.2.0",
     "@awesome-cordova-plugins/screen-orientation": "^6.2.0",
     "@awesome-cordova-plugins/secure-storage": "^6.2.0",
+    "@capacitor-community/mdm-appconfig": "^4.0.5",
     "@capacitor/cli": "^4.4.0",
     "@capacitor/core": "^4.4.0",
     "@capacitor/ios": "^4.4.0",
