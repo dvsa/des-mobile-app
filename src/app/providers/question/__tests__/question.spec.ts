@@ -42,42 +42,38 @@ describe('question provider', () => {
     it('should return the correct questions for a category B test', () => {
       expect(questionProvider.getTellMeQuestions(TestCategory.B)).toEqual(tellMeQuestionsCatBConstants);
     });
-    it('should return the correct questions for a category C test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.C)).toEqual(tellMeQuestionsVocationalConstants);
+
+    it('should return the correct questions for a category CE or DE test', () => {
+      [
+        TestCategory.CE,
+        TestCategory.C1E,
+        TestCategory.DE,
+        TestCategory.D1E,
+      ].forEach((category) => {
+        expect(questionProvider.getTellMeQuestions(category)).toEqual(tellMeQuestionsVocationalTrailerConstants);
+      });
     });
-    it('should return the correct questions for a category CE test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.CE)).toEqual(tellMeQuestionsVocationalTrailerConstants);
+    it('should return the correct questions for a category C or D test', () => {
+      [
+        TestCategory.C,
+        TestCategory.C1,
+        TestCategory.D,
+        TestCategory.D1,
+      ].forEach((category) => {
+        expect(questionProvider.getTellMeQuestions(category)).toEqual(tellMeQuestionsVocationalConstants);
+      });
     });
-    it('should return the correct questions for a category C1 test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.C1)).toEqual(tellMeQuestionsVocationalConstants);
+    it('should return the correct questions for a category Home test', () => {
+      [
+        TestCategory.K,
+        TestCategory.F,
+        TestCategory.G,
+        TestCategory.H,
+      ].forEach((category) => {
+        expect(questionProvider.getTellMeQuestions(category)).toEqual(tellMeQuestionsCatHomeTestConstants);
+      });
     });
-    it('should return the correct questions for a category C1E test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.C1E)).toEqual(tellMeQuestionsVocationalTrailerConstants);
-    });
-    it('should return the correct questions for a category D test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.D)).toEqual(tellMeQuestionsVocationalConstants);
-    });
-    it('should return the correct questions for a category DE test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.DE)).toEqual(tellMeQuestionsVocationalTrailerConstants);
-    });
-    it('should return the correct questions for a category D1 test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.D1)).toEqual(tellMeQuestionsVocationalConstants);
-    });
-    it('should return the correct questions for a category D1E test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.D1E)).toEqual(tellMeQuestionsVocationalTrailerConstants);
-    });
-    it('should return the correct questions for a category K test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.K)).toEqual(tellMeQuestionsCatHomeTestConstants);
-    });
-    it('should return the correct questions for a category F test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.F)).toEqual(tellMeQuestionsCatHomeTestConstants);
-    });
-    it('should return the correct questions for a category G test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.G)).toEqual(tellMeQuestionsCatHomeTestConstants);
-    });
-    it('should return the correct questions for a category H test', () => {
-      expect(questionProvider.getTellMeQuestions(TestCategory.H)).toEqual(tellMeQuestionsCatHomeTestConstants);
-    });
+
     it('should return no questions for a non-supported category', () => {
       expect(questionProvider.getTellMeQuestions(TestCategory.B1)).toEqual([]);
     });
@@ -87,41 +83,35 @@ describe('question provider', () => {
     it('should return the correct questions for a category B test', () => {
       expect(questionProvider.getShowMeQuestions(TestCategory.B)).toEqual(showMeQuestionsCatBConstants);
     });
-    it('should return the correct questions for a category C test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.C)).toEqual(showMeQuestionsVocationalConstants);
+    it('should return the correct questions for a category CE or DE test', () => {
+      [
+        TestCategory.CE,
+        TestCategory.C1E,
+        TestCategory.DE,
+        TestCategory.D1E,
+      ].forEach((category) => {
+        expect(questionProvider.getShowMeQuestions(category)).toEqual(showMeQuestionsVocationalTrailerConstants);
+      });
     });
-    it('should return the correct questions for a category CE test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.CE)).toEqual(showMeQuestionsVocationalTrailerConstants);
+    it('should return the correct questions for a category C or D test', () => {
+      [
+        TestCategory.C,
+        TestCategory.C1,
+        TestCategory.D,
+        TestCategory.D1,
+      ].forEach((category) => {
+        expect(questionProvider.getShowMeQuestions(category)).toEqual(showMeQuestionsVocationalConstants);
+      });
     });
-    it('should return the correct questions for a category C1 test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.C1)).toEqual(showMeQuestionsVocationalConstants);
-    });
-    it('should return the correct questions for a category C1E test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.C1E)).toEqual(showMeQuestionsVocationalTrailerConstants);
-    });
-    it('should return the correct questions for a category D test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.D)).toEqual(showMeQuestionsVocationalConstants);
-    });
-    it('should return the correct questions for a category DE test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.DE)).toEqual(showMeQuestionsVocationalTrailerConstants);
-    });
-    it('should return the correct questions for a category D1 test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.D1)).toEqual(showMeQuestionsVocationalConstants);
-    });
-    it('should return the correct questions for a category D1E test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.D1E)).toEqual(showMeQuestionsVocationalTrailerConstants);
-    });
-    it('should return the correct questions for a category K test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.K)).toEqual(showMeQuestionsCatHomeTestConstants);
-    });
-    it('should return the correct questions for a category F test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.F)).toEqual(showMeQuestionsCatHomeTestConstants);
-    });
-    it('should return the correct questions for a category G test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.G)).toEqual(showMeQuestionsCatHomeTestConstants);
-    });
-    it('should return the correct questions for a category H test', () => {
-      expect(questionProvider.getShowMeQuestions(TestCategory.H)).toEqual(showMeQuestionsCatHomeTestConstants);
+    it('should return the correct questions for a category Home test', () => {
+      [
+        TestCategory.K,
+        TestCategory.F,
+        TestCategory.G,
+        TestCategory.H,
+      ].forEach((category) => {
+        expect(questionProvider.getShowMeQuestions(category)).toEqual(showMeQuestionsCatHomeTestConstants);
+      });
     });
     it('should return the correct questions for a category ADI2 test', () => {
       expect(questionProvider.getShowMeQuestions(TestCategory.ADI2)).toEqual(showMeQuestionsCatAdiPart2Constants);
@@ -132,35 +122,29 @@ describe('question provider', () => {
   });
 
   describe('getSafetyQuestions', () => {
-    it('should return the correct questions for a category EUA1M2 test', () => {
-      expect(questionProvider.getSafetyQuestions(TestCategory.EUA1M2)).toEqual(safetyQuestionsCatAMod2Constants);
+    it('should return the correct questions for a category Mod2 test', () => {
+      [
+        TestCategory.EUA1M2,
+        TestCategory.EUA2M2,
+        TestCategory.EUAM2,
+        TestCategory.EUAMM2,
+      ].forEach((category) => {
+        expect(questionProvider.getSafetyQuestions(category)).toEqual(safetyQuestionsCatAMod2Constants);
+      });
     });
-    it('should return the correct questions for a category EUA2M2 test', () => {
-      expect(questionProvider.getSafetyQuestions(TestCategory.EUA2M2)).toEqual(safetyQuestionsCatAMod2Constants);
-    });
-    it('should return the correct questions for a category EUA2M2 test', () => {
-      expect(questionProvider.getSafetyQuestions(TestCategory.EUAM2)).toEqual(safetyQuestionsCatAMod2Constants);
-    });
-    it('should return the correct questions for a category EUAMM2 test', () => {
-      expect(questionProvider.getSafetyQuestions(TestCategory.EUAMM2)).toEqual(safetyQuestionsCatAMod2Constants);
-    });
-    it('should return the an empty array for an invalid test', () => {
-      expect(questionProvider.getSafetyQuestions(TestCategory.B1)).toEqual([]);
-    });
+    expect(questionProvider.getBalanceQuestions(TestCategory.B1)).toEqual([]);
   });
 
   describe('getBalanceQuestions', () => {
-    it('should return the correct questions for a category EUA1M2 test', () => {
-      expect(questionProvider.getBalanceQuestions(TestCategory.EUA1M2)).toEqual(balanceQuestionsCatAMod2Constants);
-    });
-    it('should return the correct questions for a category EUA2M2 test', () => {
-      expect(questionProvider.getBalanceQuestions(TestCategory.EUA2M2)).toEqual(balanceQuestionsCatAMod2Constants);
-    });
-    it('should return the correct questions for a category EUA2M2 test', () => {
-      expect(questionProvider.getBalanceQuestions(TestCategory.EUAM2)).toEqual(balanceQuestionsCatAMod2Constants);
-    });
-    it('should return the correct questions for a category EUAMM2 test', () => {
-      expect(questionProvider.getBalanceQuestions(TestCategory.EUAMM2)).toEqual(balanceQuestionsCatAMod2Constants);
+    it('should return the correct questions for a category Mod2 test', () => {
+      [
+        TestCategory.EUA1M2,
+        TestCategory.EUA2M2,
+        TestCategory.EUAM2,
+        TestCategory.EUAMM2,
+      ].forEach((category) => {
+        expect(questionProvider.getBalanceQuestions(category)).toEqual(balanceQuestionsCatAMod2Constants);
+      });
     });
     it('should return the an empty array for an invalid test', () => {
       expect(questionProvider.getBalanceQuestions(TestCategory.B1)).toEqual([]);
@@ -169,16 +153,14 @@ describe('question provider', () => {
 
   describe('getVocationalSafetyQuestions', () => {
     it('should return the correct questions for a category D test', () => {
-      expect(questionProvider.getVocationalSafetyQuestions(TestCategory.D)).toEqual(safetyQuestionsCatDConstants);
-    });
-    it('should return the correct questions for a category D1 test', () => {
-      expect(questionProvider.getVocationalSafetyQuestions(TestCategory.D1)).toEqual(safetyQuestionsCatDConstants);
-    });
-    it('should return the correct questions for a category DE test', () => {
-      expect(questionProvider.getVocationalSafetyQuestions(TestCategory.DE)).toEqual(safetyQuestionsCatDConstants);
-    });
-    it('should return the correct questions for a category D1E test', () => {
-      expect(questionProvider.getVocationalSafetyQuestions(TestCategory.D1E)).toEqual(safetyQuestionsCatDConstants);
+      [
+        TestCategory.D1,
+        TestCategory.D1E,
+        TestCategory.DE,
+        TestCategory.D,
+      ].forEach((category) => {
+        expect(questionProvider.getVocationalSafetyQuestions(category)).toEqual(safetyQuestionsCatDConstants);
+      });
     });
   });
 });
