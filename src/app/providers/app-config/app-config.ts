@@ -6,6 +6,7 @@ import { map, timeout } from 'rxjs/operators';
 import { isEmpty, merge } from 'lodash';
 import { ValidatorResult, ValidationError } from 'jsonschema';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
+import { AppConfig as MDMAppConfig } from '@capacitor-community/mdm-appconfig';
 import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
 import { Subscription } from 'rxjs';
 
@@ -125,6 +126,14 @@ export class AppConfigProvider {
 
   public loadManagedConfig = async (): Promise<void> => {
     this.logInfo('start loadManagedConfig');
+    const val = await MDMAppConfig
+      .getValue({ key: 'configUrl' })
+      .catch((error) => {
+        alert(`MDMAppConfig getValue: ${error}`);
+        return error;
+      });
+    this.logInfo(`new plugin configUrl: ${val}`);
+
     const newEnvFile = {
       production: false,
       isRemote: true,
