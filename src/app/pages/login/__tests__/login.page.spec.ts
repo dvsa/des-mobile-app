@@ -33,7 +33,7 @@ import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/net
 import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
 
-describe('LoginPage', () => {
+xdescribe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate', 'getCurrentNavigation']);

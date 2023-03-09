@@ -78,15 +78,24 @@ export class AppConfigProvider {
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
+      this.logInfo('initialiseAppConfig called');
       if (this.platform.is('cordova')) {
+        this.logInfo('is cordova');
         await this.getDebugMode();
+        this.logInfo('getDebugMode');
         await this.loadManagedConfig();
+        this.logInfo('loadManagedConfig');
       }
 
+      this.logInfo('start mapInAppConfig');
       this.mapInAppConfig(this.environmentFile);
+      this.logInfo('finish mapInAppConfig');
 
+      this.logInfo('start this.environmentFile.isRemote');
       if (!this.environmentFile.isRemote) {
+        this.logInfo('!this.environmentFile.isRemote');
         this.mapRemoteConfig(this.environmentFile);
+        this.logInfo('mapRemoteConfig');
       }
       return await Promise.resolve();
     } catch (err) {
@@ -115,6 +124,7 @@ export class AppConfigProvider {
   };
 
   public loadManagedConfig = async (): Promise<void> => {
+    this.logInfo('start loadManagedConfig');
     const newEnvFile = {
       production: false,
       isRemote: true,
@@ -139,25 +149,37 @@ export class AppConfigProvider {
       },
     } as EnvironmentFile;
 
+    this.logInfo('start newEnvFile.configUrl', newEnvFile.configUrl);
     // Check to see if we have any config
     if (!isEmpty((newEnvFile.configUrl))) {
       this.environmentFile = { ...newEnvFile };
       return;
     }
 
+    this.logInfo('AppConfigError', !this.isDebugMode);
     if (!this.isDebugMode) {
       throw new Error(AppConfigError.MISSING_REMOTE_CONFIG_URL_ERROR);
     }
   };
 
   private getManagedConfigValueString = async (key: string): Promise<string> => {
-    const data: GetResult<string> = await ManagedConfigurations.getString({ key });
-    return data?.value;
+    try {
+      const data: GetResult<string> = await ManagedConfigurations.getString({ key });
+      return data?.value;
+    } catch (err) {
+      this.logError(`getManagedConfigValueString - ${key}`, err);
+      throw err;
+    }
   };
 
   private getManagedConfigValueNumber = async (key: string): Promise<number> => {
-    const data: GetResult<number> = await ManagedConfigurations.getNumber({ key });
-    return data?.value;
+    try {
+      const data: GetResult<number> = await ManagedConfigurations.getNumber({ key });
+      return data?.value;
+    } catch (err) {
+      this.logError(`getManagedConfigValueNumber - ${key}`, err);
+      throw err;
+    }
   };
 
   public loadRemoteConfig = (): Promise<any> => this.getRemoteData()
@@ -237,6 +259,12 @@ export class AppConfigProvider {
     }));
   };
 
+  public logInfo = (description: string, value: any = ''): void => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(LogType.INFO, description, value),
+    }));
+  };
+
   private getCachedRemoteConfig = async (): Promise<any> => {
     try {
       const response = await this.dataStoreProvider.getItem('CONFIG');
@@ -247,6 +275,7 @@ export class AppConfigProvider {
   };
 
   private mapInAppConfig = (data) => {
+    this.logInfo('mapInAppConfig');
     this.appConfig = merge({}, this.appConfig, {
       configUrl: data.configUrl,
       sentry: {
@@ -267,9 +296,11 @@ export class AppConfigProvider {
         employeeIdKey: data.authentication.employeeIdKey,
       },
     } as AppConfig);
+    this.logInfo('mapInAppConfig', this.appConfig);
   };
 
   private mapRemoteConfig = (data: any) => {
+    this.logInfo('mapRemoteConfig');
     this.appConfig = merge({}, this.appConfig, {
       googleAnalyticsId: data.googleAnalyticsId,
       approvedDeviceIdentifiers: data.approvedDeviceIdentifiers,
@@ -313,6 +344,7 @@ export class AppConfigProvider {
       },
       requestTimeout: data.requestTimeout,
     } as AppConfig);
+    this.logInfo('mapRemoteConfig', this.appConfig);
   };
 
   getDebugMode = (): Promise<void> => {
@@ -320,7 +352,7 @@ export class AppConfigProvider {
       this.isDebug.getIsDebug()
         .then((isDebug) => {
           this.isDebugMode = (environment as unknown as TestersEnvironmentFile)?.isTest ? true : isDebug;
-          console.log('Detected that app is running in debug mode');
+          this.logInfo('Detected that app is running in debug mode');
           resolve();
         })
         .catch((err) => reject(err));

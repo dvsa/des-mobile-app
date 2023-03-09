@@ -99,16 +99,27 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
     try {
       await this.platform.ready();
+      this.appConfigProvider.logInfo('LoginPage - plat ready');
 
       this.store$.dispatch(StartSendingLogs());
 
+      this.appConfigProvider.logInfo('LoginPage - StartSendingLogs');
+
       await this.appConfigProvider.initialiseAppConfig();
+
+      this.appConfigProvider.logInfo('LoginPage - StartSendingLogs');
 
       this.appInitializedLog();
 
+      this.appConfigProvider.logInfo('LoginPage - appInitializedLog');
+
       this.initialiseAuthentication();
 
+      this.appConfigProvider.logInfo('LoginPage - initialiseAuthentication');
+
       await this.authenticationProvider.expireTokens();
+
+      this.appConfigProvider.logInfo('LoginPage - expireTokens');
 
       const isAuthenticated = await this.authenticationProvider.isAuthenticated();
 
