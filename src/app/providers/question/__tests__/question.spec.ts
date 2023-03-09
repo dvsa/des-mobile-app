@@ -132,7 +132,9 @@ describe('question provider', () => {
         expect(questionProvider.getSafetyQuestions(category)).toEqual(safetyQuestionsCatAMod2Constants);
       });
     });
-    expect(questionProvider.getBalanceQuestions(TestCategory.B1)).toEqual([]);
+    it('should return the an empty array for an invalid test', () => {
+      expect(questionProvider.getSafetyQuestions(TestCategory.B1)).toEqual([]);
+    });
   });
 
   describe('getBalanceQuestions', () => {
