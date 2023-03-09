@@ -110,7 +110,7 @@
     "ngrx-store-localstorage": "^15.0.0",
     "patch-package": "^6.5.0",
     "phonegap-plugin-mobile-accessibility": "^1.0.5",
-    "rxjs": "~7.5.7",
+    "rxjs": "~7.8.0",
     "rxjs-compat": "^6.6.7",
     "stream-browserify": "^3.0.0",
     "tslib": "^2.4.1",
