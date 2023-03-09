@@ -84,7 +84,7 @@
     "@popperjs/core": "^2.11.6",
     "@sentry/angular": "7.31.1",
     "@sentry/capacitor": "0.11.1",
-    "@sentry/tracing": "7.31.1",
+    "@sentry/tracing": "7.37.2",
     "assert": "^2.0.0",
     "bootstrap": "^5.2.2",
     "browserify-zlib": "^0.2.0",
