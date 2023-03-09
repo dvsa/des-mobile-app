@@ -15,10 +15,14 @@ import { getCandidateName } from '@store/tests/journal-data/common/candidate/can
 import { Router } from '@angular/router';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { getJournalState } from '@store/journal/journal.reducer';
-import { map, take, takeUntil } from 'rxjs/operators';
-import { getSelectedDate, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
+import {
+  map, take, takeUntil, withLatestFrom,
+} from 'rxjs/operators';
+import { getJournalSlotsBySlotIDs, getSelectedDate, getSlotsOnSelectedDate } from '@store/journal/journal.selector';
 import { fakeJournalTestSlots } from '@pages/fake-journal/__mocks__/fake-journal.mock';
 import { Subject } from 'rxjs';
+import { getTests } from '@store/tests/tests.reducer';
+import { getIncompleteTestsSlotOlderThanADay } from '@store/tests/tests.selector';
 import { Details } from './candidate-details.page.model';
 
 interface CandidateDetailsPageState {
@@ -65,33 +69,62 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.navParams.get('isPracticeMode')) {
-      this.store$.pipe(
-        select(getJournalState),
-        map(getSlotsOnSelectedDate),
-        map((slotItem) => slotItem.map((data) => data.slotData)),
-        take(1),
-        takeUntil(this.destroy$),
-      ).subscribe((data) => {
-        this.prevSlot = data[data.indexOf(this.slot) - 1];
-        this.nextSlot = data[data.indexOf(this.slot) + 1];
-      });
-      this.store$.pipe(
-        select(getJournalState),
-        map(getSelectedDate),
-        takeUntil(this.destroy$),
-      ).subscribe((data) => {
-        this.selectedDate = data;
-      });
-    } else {
-      this.prevSlot = fakeJournalTestSlots[fakeJournalTestSlots.indexOf(this.slot as any) - 1] as any;
-      this.nextSlot = fakeJournalTestSlots[fakeJournalTestSlots.indexOf(this.slot as any) + 1] as any;
-      this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
-    }
-
     if (!this.slot) {
       this.slot = this.navParams.get('slot');
     }
+
+    switch (this.navParams.get('currentPage')) {
+      case 'journal':
+        this.store$.pipe(
+          select(getJournalState),
+          map(getSlotsOnSelectedDate),
+          map((slotItem) => slotItem.map((data) => data.slotData)),
+          take(1),
+          takeUntil(this.destroy$),
+        ).subscribe((data) => {
+          this.prevSlot = data[data.indexOf(this.slot) - 1];
+          this.nextSlot = data[data.indexOf(this.slot) + 1];
+        });
+        this.store$.pipe(
+          select(getJournalState),
+          map(getSelectedDate),
+          takeUntil(this.destroy$),
+        ).subscribe((data) => {
+          this.selectedDate = data;
+        });
+        break;
+      case 'practice':
+        this.prevSlot = fakeJournalTestSlots[fakeJournalTestSlots.indexOf(this.slot as any) - 1] as any;
+        this.nextSlot = fakeJournalTestSlots[fakeJournalTestSlots.indexOf(this.slot as any) + 1] as any;
+        this.selectedDate = this.dateTimeProvider.now().format('YYYY-MM-DD');
+        break;
+      case 'unsubmitted':
+        this.selectedDate = new Date(this.slot.slotDetail.start).toString();
+        this.store$.pipe(
+          select(getTests),
+          // get all slot ids regarded as incomplete from 'tests' slice of state older than 1 day
+          select(getIncompleteTestsSlotOlderThanADay),
+          withLatestFrom(
+            this.store$.pipe(
+              select(getJournalState), // grab 'journal' slice
+            ),
+          ),
+          // filter journal slots by incomplete slot ids inside tests
+          map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)), map((slotItems) =>
+            slotItems.sort((a, b) =>
+              new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
+          map((slotItem) => slotItem.map((data) => data.slotData)),
+          take(1),
+          takeUntil(this.destroy$),
+        ).subscribe((data) => {
+          this.prevSlot = data[data.indexOf(this.slot) - 1];
+          this.nextSlot = data[data.indexOf(this.slot) + 1];
+        });
+        break;
+      default:
+        break;
+    }
+
     this.slotChanged = this.navParams.get('slotChanged');
     this.isTeamJournal = this.navParams.get('isTeamJournal');
 

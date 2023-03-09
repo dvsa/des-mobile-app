@@ -27,6 +27,7 @@
   </h2>
 
   <test-slot
+          [currentPage]="'unsubmitted'"
     *ngFor="let slot of state.slots; let count = count;"
     [slot]="slot?.slotData"
     [isUnSubmittedTestSlotView]="true">

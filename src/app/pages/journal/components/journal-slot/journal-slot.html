@@ -23,6 +23,7 @@
         </empty-slot>
 
         <test-slot
+                [currentPage]="'journal'"
                 *ngSwitchCase="'test-slot'"
                 [hasSlotChanged]="slot?.hasSlotChanged"
                 [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"

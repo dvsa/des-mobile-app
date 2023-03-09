@@ -17,7 +17,7 @@ export class CandidateLinkComponent {
   slotChanged: boolean;
 
   @Input()
-  isPracticeMode: boolean;
+  currentPage: string;
 
   @Input()
   name: Name;
@@ -53,7 +53,7 @@ export class CandidateLinkComponent {
       component: CandidateDetailsPage,
       cssClass: zoomClass,
       componentProps: {
-        isPracticeMode: this.isPracticeMode,
+        currentPage: this.currentPage,
         slot: this.slot,
         slotChanged: this.slotChanged,
         isTeamJournal: this.isTeamJournal,

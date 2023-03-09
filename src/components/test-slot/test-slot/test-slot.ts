@@ -83,6 +83,9 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   isPracticeMode?: boolean = false;
 
   @Input()
+  currentPage?: string;
+
+  @Input()
   isUnSubmittedTestSlotView: boolean = false;
 
   componentState: TestSlotComponentState;
