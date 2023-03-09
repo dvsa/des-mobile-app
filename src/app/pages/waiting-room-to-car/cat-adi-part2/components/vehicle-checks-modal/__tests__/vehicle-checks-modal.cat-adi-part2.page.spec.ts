@@ -142,7 +142,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     });
 
     describe('ngOnInit', () => {
-      it('should merge the correct data into the subscription', () => {
+      it('should define subscription', () => {
         component.ngOnInit();
         expect(component.subscription)
           .toBeDefined();

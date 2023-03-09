@@ -223,7 +223,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
     this.store$.dispatch(PopulateTestScore(totalScore));
   };
 
-  private translateToQuestionNumberInterface = (questionNumber: number): QuestionNumber => {
+  translateToQuestionNumberInterface = (questionNumber: number): QuestionNumber => {
     return new Map<number, QuestionNumber>([
       [1, QuestionNumber.ONE],
       [2, QuestionNumber.TWO],

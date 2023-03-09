@@ -4,6 +4,9 @@ import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatBEUniqueTypes } from '@dvsa/mes-test-schema/categories/BE';
 
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { catManoeuvreTestDataStateObject } from '@providers/fault-count/__mocks__/cat-man-test-data-state-object.mock';
+import { FaultCountManoeuvreTestHelper } from '@providers/fault-count/cat-manoeuvre/fault-count.cat-manoeuvre';
+import { sumManoeuvreFaults } from '@shared/helpers/faults';
 import { FaultCountProvider } from '../fault-count';
 
 import { catAM1TestDataStateObject } from '../__mocks__/cat-AM1-test-data-state-object.mock';
@@ -57,6 +60,7 @@ describe('FaultCountProvider', () => {
     spyOn(FaultCountBEHelper, 'getDrivingFaultSumCountCatBE').and.callThrough();
     spyOn(FaultCountBEHelper, 'getSeriousFaultSumCountCatBE').and.callThrough();
     spyOn(FaultCountBEHelper, 'getDangerousFaultSumCountCatBE').and.callThrough();
+    spyOn(FaultCountBEHelper, 'getVehicleChecksFaultCountCatBE').and.callThrough();
 
     spyOn(FaultCountCHelper, 'getDrivingFaultSumCountCatC').and.callThrough();
     spyOn(FaultCountCHelper, 'getSeriousFaultSumCountCatC').and.callThrough();
@@ -97,6 +101,11 @@ describe('FaultCountProvider', () => {
     spyOn(FaultCountDHelper, 'getDrivingFaultSumCountCatD1E').and.callThrough();
     spyOn(FaultCountDHelper, 'getSeriousFaultSumCountCatD1E').and.callThrough();
     spyOn(FaultCountDHelper, 'getDangerousFaultSumCountCatD1E').and.callThrough();
+
+    spyOn(FaultCountDHelper, 'getSafetyQuestionsFaultCount').and.callThrough();
+
+    spyOn(FaultCountManoeuvreTestHelper, 'getSeriousFaultSumCountManoeuvreTest').and.callThrough();
+    spyOn(FaultCountManoeuvreTestHelper, 'getDangerousFaultSumCountManoeuvreTest').and.callThrough();
   });
 
   describe('getDrivingFaultSumCount', () => {
@@ -166,9 +175,56 @@ describe('FaultCountProvider', () => {
         expect((FaultCountDHelper as any).getDrivingFaultSumCountCatD1).toHaveBeenCalled();
       });
     });
+
+    it('should return 0 is the TestCategory does not have a Helper', () => {
+      [
+        TestCategory.ADI3,
+        TestCategory.SC,
+        TestCategory.CM,
+        TestCategory.C1M,
+        TestCategory.CEM,
+        TestCategory.C1EM,
+        TestCategory.DM,
+        TestCategory.D1M,
+        TestCategory.DEM,
+        TestCategory.D1EM,
+        TestCategory.CCPC,
+        TestCategory.DCPC,
+      ].forEach((category) => {
+        expect(faultCountProvider.getDrivingFaultSumCount(category, null)).toEqual(0);
+      });
+    });
   });
 
   describe('getSeriousFaultSumCount', () => {
+
+    it('shoud call the Manoeuvre specific method for getting the serious fault sum count', () => {
+      [
+        TestCategory.CM,
+        TestCategory.C1M,
+        TestCategory.CEM,
+        TestCategory.C1EM,
+        TestCategory.DM,
+        TestCategory.D1M,
+        TestCategory.DEM,
+        TestCategory.D1EM,
+      ].forEach((category) => {
+        faultCountProvider.getSeriousFaultSumCount(category, catManoeuvreTestDataStateObject);
+        expect((FaultCountManoeuvreTestHelper as any).getSeriousFaultSumCountManoeuvreTest).toHaveBeenCalled();
+      });
+    });
+
+    it('should return 0 is the TestCategory does not have a Helper', () => {
+      [
+        TestCategory.ADI3,
+        TestCategory.SC,
+        TestCategory.CCPC,
+        TestCategory.DCPC,
+      ].forEach((category) => {
+        expect(faultCountProvider.getSeriousFaultSumCount(category, null)).toEqual(0);
+      });
+    });
+
     describe('CAT ADI2', () => {
       it('shoud call the category ADI2 specific method for getting the riding fault sum count', () => {
         faultCountProvider.getSeriousFaultSumCount(TestCategory.ADI2, catADI2TestDataStateObjectNoDrivingFaults);
@@ -238,6 +294,34 @@ describe('FaultCountProvider', () => {
   });
 
   describe('getDangerousFaultSumCount', () => {
+
+    it('shoud call the Manoeuvre specific method for getting the dangerous fault sum count', () => {
+      [
+        TestCategory.CM,
+        TestCategory.C1M,
+        TestCategory.CEM,
+        TestCategory.C1EM,
+        TestCategory.DM,
+        TestCategory.D1M,
+        TestCategory.DEM,
+        TestCategory.D1EM,
+      ].forEach((category) => {
+        faultCountProvider.getDangerousFaultSumCount(category, catManoeuvreTestDataStateObject);
+        expect((FaultCountManoeuvreTestHelper as any).getDangerousFaultSumCountManoeuvreTest).toHaveBeenCalled();
+      });
+    });
+
+    it('should return 0 is the TestCategory does not have a Helper', () => {
+      [
+        TestCategory.ADI3,
+        TestCategory.SC,
+        TestCategory.CCPC,
+        TestCategory.DCPC,
+      ].forEach((category) => {
+        expect(faultCountProvider.getDangerousFaultSumCount(category, null)).toEqual(0);
+      });
+    });
+
     describe('CAT ADI2', () => {
       it('shoud call the category ADI2 specific method for getting the riding fault sum count', () => {
         faultCountProvider.getDangerousFaultSumCount(TestCategory.ADI2, catADI2TestDataStateObjectNoDrivingFaults);
@@ -529,6 +613,56 @@ describe('FaultCountProvider', () => {
         catADI2TestDataStateObjectShowMeFaults.vehicleChecks,
       );
       expect(returnValue).toEqual(expected);
+    });
+  });
+
+  describe('getManoeuvreFaultCount', () => {
+    it('should call sumManoeuvreFaults if the test category includes them', () => {
+      [
+        TestCategory.B,
+        TestCategory.BE,
+        TestCategory.C1,
+        TestCategory.C1E,
+        TestCategory.CE,
+        TestCategory.C,
+        TestCategory.D1,
+        TestCategory.D1E,
+        TestCategory.DE,
+        TestCategory.D,
+        TestCategory.EUAM1,
+        TestCategory.EUA1M1,
+        TestCategory.EUA2M1,
+        TestCategory.EUAMM1,
+        TestCategory.F,
+        TestCategory.G,
+        TestCategory.H,
+      ].forEach((category) => {
+        expect(faultCountProvider.getManoeuvreFaultCount(category, null, null)).toEqual(sumManoeuvreFaults(null, null));
+      });
+    });
+    it('should return 0 if the test category does not include manoeuvres', () => {
+      expect(faultCountProvider.getManoeuvreFaultCount(TestCategory.K, null, null)).toEqual(0);
+    });
+  });
+
+  describe('getSafetyQuestionsFaultCount', () => {
+    it('should call getSafetyQuestionsFaultCount if the test category is Cat D', () => {
+      [
+        TestCategory.D1,
+        TestCategory.D1E,
+        TestCategory.DE,
+        TestCategory.D,
+      ].forEach((category) => {
+        faultCountProvider.getSafetyQuestionsFaultCount(category, null);
+        expect(FaultCountDHelper.getSafetyQuestionsFaultCount).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('getVehicleChecksFaultCount', () => {
+    it('should call getVehicleChecksFaultCountCatBE if the test category is Cat BE', () => {
+      faultCountProvider.getVehicleChecksFaultCount(TestCategory.BE, null);
+      expect(FaultCountBEHelper.getVehicleChecksFaultCountCatBE).toHaveBeenCalled();
     });
   });
 });

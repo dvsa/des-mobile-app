@@ -219,24 +219,19 @@ export class FaultCountProvider {
           return acc + sumManoeuvreFaults(manoeuvre, faultType);
         }, 0);
       case TestCategory.B:
-        return sumManoeuvreFaults(data, faultType);
       case TestCategory.BE:
-        return sumManoeuvreFaults(data, faultType);
       case TestCategory.C1:
       case TestCategory.C1E:
       case TestCategory.CE:
       case TestCategory.C:
-        return sumManoeuvreFaults(data, faultType);
       case TestCategory.D1:
       case TestCategory.D1E:
       case TestCategory.DE:
       case TestCategory.D:
-        return sumManoeuvreFaults(data, faultType);
       case TestCategory.EUAM1:
       case TestCategory.EUA1M1:
       case TestCategory.EUA2M1:
       case TestCategory.EUAMM1:
-        return sumManoeuvreFaults(data, faultType);
       case TestCategory.F:
       case TestCategory.G:
       case TestCategory.H:

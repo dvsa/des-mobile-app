@@ -47,6 +47,16 @@ import {
 import { VehicleDetailsComponent } from '@pages/waiting-room-to-car/components/vehicle-details/vehicle-details';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommentSource } from '@shared/models/fault-marking.model';
+import { AddSeriousFaultComment } from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
+import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
+import {
+  AddSafetyAndBalanceComment,
+} from '@store/tests/test-data/cat-a-mod2/safety-and-balance/safety-and-balance.cat-a-mod2.actions';
+import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { OfficeViewDidEnter } from '@pages/office/office.actions';
 import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
 import { IdentificationComponent } from '../../components/identification/identification';
@@ -171,6 +181,93 @@ describe('OfficeCatAMod2Page', () => {
         component.modeOfTransportChanged(mode);
 
         expect(store$.dispatch).toHaveBeenCalledWith(ModeOfTransportChanged(mode));
+      });
+    });
+
+    describe('seriousFaultCommentChanged', () => {
+      it('should dispatch with AddSeriousFaultComment if source is SIMPLE', () => {
+        component.seriousFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SIMPLE,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddSeriousFaultComment('Identifier', 'Comment'));
+      });
+      it('should dispatch with AddUncoupleRecoupleComment if source is EYESIGHT_TEST', () => {
+        component.seriousFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.EYESIGHT_TEST,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(EyesightTestAddComment('Comment'));
+      });
+    });
+
+    describe('drivingFaultCommentChanged', () => {
+      it('should dispatch with AddDrivingFaultComment if source is SIMPLE', () => {
+        component.drivingFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SIMPLE,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddDrivingFaultComment('Identifier', 'Comment'));
+      });
+      it('should dispatch with AddUncoupleRecoupleComment if source is SAFETY_AND_BALANCE_QUESTIONS', () => {
+        component.drivingFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SAFETY_AND_BALANCE_QUESTIONS,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddSafetyAndBalanceComment('Comment'));
+      });
+    });
+
+    describe('ionViewWillEnter', () => {
+      it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+        component.isPracticeMode = false;
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+        spyOn(component.deviceProvider, 'disableSingleAppMode');
+        await component.ionViewWillEnter();
+        expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+      });
+    });
+
+    describe('ionViewDidEnter', () => {
+      it('should disable single app mode if it not in practice mode and isIos is true', () => {
+        component.ionViewDidEnter();
+        expect(store$.dispatch).toHaveBeenCalledWith(OfficeViewDidEnter());
+      });
+    });
+
+    describe('dangerousFaultCommentChanged', () => {
+      it('should dispatch with AddDangerousFaultComment', () => {
+        component.dangerousFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SIMPLE,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddDangerousFaultComment('Identifier', 'Comment'));
+      });
+      it('should dispatch with AddUncoupleRecoupleComment if source is SAFETY_AND_BALANCE_QUESTIONS', () => {
+        component.drivingFaultCommentChanged({
+          competencyIdentifier: 'Identifier',
+          competencyDisplayName: 'DisplayName',
+          source: CommentSource.SAFETY_AND_BALANCE_QUESTIONS,
+          faultCount: 1,
+          comment: 'Comment',
+        });
+        expect(store$.dispatch).toHaveBeenCalledWith(AddSafetyAndBalanceComment('Comment'));
       });
     });
 

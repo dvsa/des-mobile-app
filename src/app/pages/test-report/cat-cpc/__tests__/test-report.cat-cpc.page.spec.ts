@@ -8,7 +8,7 @@ import { By } from '@angular/platform-browser';
 import { Store, StoreModule } from '@ngrx/store';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
 import { AppModule } from '@app/app.module';
@@ -44,6 +44,7 @@ import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-re
 import { TestResultProvider } from '@providers/test-result/test-result';
 import { ModalEvent } from '@pages/dashboard/components/practice-test-modal/practice-test-modal.constants';
 import { OverlayEventDetail } from '@ionic/core';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { QuestionScoreComponent } from '../components/question-score/question-score';
 import { QuestionSubtitleComponent } from '../components/question-subtitle/question-subtitle';
 import { QuestionFiveCardComponent } from '../components/question-five-card/question-five-card';
@@ -84,7 +85,14 @@ describe('TestReportCatCPCPage', () => {
           testStatus: {},
           startedTests: {
             123: {
-              testData: initialState,
+              testData: {
+                question1: { score: 1 },
+                question2: { score: 1 },
+                question3: { score: 1 },
+                question4: { score: 1 },
+                question5: { score: 1 },
+                ...initialState,
+              },
               journalData: {
                 candidate: candidateMock,
               },
@@ -113,6 +121,56 @@ describe('TestReportCatCPCPage', () => {
     cpcQuestionProvider = TestBed.inject(CPCQuestionProvider);
     modalController = TestBed.inject(ModalController);
     spyOn(store$, 'dispatch');
+  });
+
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from the localSubscription if there is one', () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
+      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+
+      component.localSubscription = new Subscription();
+      spyOn(component.localSubscription, 'unsubscribe');
+
+      component.ionViewDidLeave();
+
+      expect(component.localSubscription.unsubscribe).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewWillEnter', () => {
+    it('should call the correct functions', async () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter').and.callThrough();
+      spyOn(component, 'ngOnInit').and.callThrough();
+      spyOn(component, 'setupSubscription').and.callThrough();
+
+      await component.ionViewWillEnter();
+
+      expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
+      expect(component.ngOnInit).toHaveBeenCalled();
+      expect(component.setupSubscription).toHaveBeenCalled();
+    });
+  });
+
+  describe('populateScore', () => {
+    it('should set questionNum to the value of translateToQuestionNumberInterface, '
+        + 'calculate the total score and dispatch both results', () => {
+      spyOn(component, 'translateToQuestionNumberInterface').and.returnValue(QuestionNumber.ONE);
+      spyOn(component['cpcQuestionProvider'], 'getTotalQuestionScore').and.returnValue(1);
+      component.populateScore({
+        answer: {
+          label: null,
+          selected: null,
+        },
+        questionNumber: null,
+        answerNumber: null,
+        score: 3,
+      });
+
+      expect(component.store$.dispatch).toHaveBeenCalledWith(PopulateQuestionScore(QuestionNumber.ONE, 3));
+      expect(component.store$.dispatch).toHaveBeenCalledWith(PopulateTestScore(1));
+    });
   });
 
   describe('DOM', () => {
