@@ -27,6 +27,8 @@ type LogCache = {
 
 @Injectable()
 export class LogsEffects {
+  private static MINUTE_IN_MS: number = 10000; // TODO: will be 60000
+
   constructor(
     private actions$: Actions,
     private store$: Store<StoreModel>,
@@ -40,7 +42,7 @@ export class LogsEffects {
   startSendingLogsEffect$ = createEffect(() => this.actions$.pipe(
     ofType(logsActions.StartSendingLogs.type),
     switchMap(() => {
-      return interval(this.appConfigProvider.getAppConfig().logsAutoSendInterval)
+      return interval(this.appConfigProvider.getAppConfig()?.logsAutoSendInterval || LogsEffects.MINUTE_IN_MS)
         .pipe(
           map(() => logsActions.SendLogs()),
         );

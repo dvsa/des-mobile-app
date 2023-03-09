@@ -149,17 +149,22 @@ export class AppConfigProvider {
       },
     } as EnvironmentFile;
 
-    this.logInfo('start newEnvFile.configUrl', newEnvFile.configUrl);
+    this.logInfo(`start newEnvFile.configUrl: ${newEnvFile.configUrl}`);
+    this.logInfo('config', newEnvFile);
     // Check to see if we have any config
     if (!isEmpty((newEnvFile.configUrl))) {
       this.environmentFile = { ...newEnvFile };
       return;
     }
 
-    this.logInfo('AppConfigError', !this.isDebugMode);
+    this.logInfo('loadManagedConfig check debug', !this.isDebugMode);
+
     if (!this.isDebugMode) {
+      this.logInfo('throwing AppConfigError', !this.isDebugMode);
       throw new Error(AppConfigError.MISSING_REMOTE_CONFIG_URL_ERROR);
     }
+
+    this.logInfo('loadManagedConfig debug not thrown');
   };
 
   private getManagedConfigValueString = async (key: string): Promise<string> => {
@@ -353,7 +358,7 @@ export class AppConfigProvider {
       this.isDebug.getIsDebug()
         .then((isDebug) => {
           this.isDebugMode = (environment as unknown as TestersEnvironmentFile)?.isTest ? true : isDebug;
-          this.logInfo('Detected that app is running in debug mode');
+          this.logInfo(`Detected that app is running in debug mode: ${this.isDebugMode}`);
           resolve();
         })
         .catch((err) => reject(err));
