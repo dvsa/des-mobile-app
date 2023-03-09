@@ -47,11 +47,7 @@ module.exports = {
             root('./src'), // location of your src
             {} // a map of your routes
         ),
-        new ForkTsCheckerWebpackPlugin({
-            eslint: {
-                files: './src/**/*.{ts}'
-            }
-        }),
+        new ForkTsCheckerWebpackPlugin(),
     ]
 };
 
