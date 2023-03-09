@@ -73,6 +73,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
     // Trigger Authentication if ios device
     if (!this.hasUserLoggedOut && this.isIos()) {
+      alert('Login - Initialisation');
       await this.login();
     }
 
@@ -95,6 +96,8 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   login = async (): Promise<any> => {
+    alert('Login - called');
+
     await this.handleLoadingUI(true);
 
     try {

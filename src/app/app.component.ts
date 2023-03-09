@@ -59,10 +59,14 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     try {
+      alert('TESTING - Initialisation');
       await this.platform.ready();
+      alert('TESTING - Ready');
       if (this.platform.is('cordova')) {
+        alert('TESTING - Is running on a cordova device');
         await this.deviceProvider.disableSingleAppMode();
       }
+      alert('TESTING - Is about to attempt initialiseAppConfig via AppComponent');
       await this.appConfigProvider.initialiseAppConfig();
       await this.initialiseSentry();
       this.initialiseNetworkState();
@@ -78,6 +82,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       await this.disableMenuSwipe();
       this.logoutEnabled$ = this.store$.select(selectLogoutEnabled);
     } catch {
+      alert('TESTING - AppComponent catch thrown');
       await this.router.navigate([LOGIN_PAGE], { replaceUrl: true });
     }
   }
