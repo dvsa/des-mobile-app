@@ -150,7 +150,7 @@ export class AppConfigProvider {
     } as EnvironmentFile;
 
     this.logInfo(`start newEnvFile.configUrl: ${newEnvFile.configUrl}`);
-    this.logInfo('config', newEnvFile);
+    this.logInfo(JSON.stringify(newEnvFile));
     // Check to see if we have any config
     if (!isEmpty((newEnvFile.configUrl))) {
       this.environmentFile = { ...newEnvFile };
@@ -160,7 +160,7 @@ export class AppConfigProvider {
     this.logInfo('loadManagedConfig check debug', !this.isDebugMode);
 
     if (!this.isDebugMode) {
-      this.logInfo('throwing AppConfigError', !this.isDebugMode);
+      this.logInfo('throwing AppConfigError');
       throw new Error(AppConfigError.MISSING_REMOTE_CONFIG_URL_ERROR);
     }
 
@@ -170,6 +170,7 @@ export class AppConfigProvider {
   private getManagedConfigValueString = async (key: string): Promise<string> => {
     try {
       const data: GetResult<string> = await ManagedConfigurations.getString({ key });
+      alert(`key: ${key}, value: ${data.value}`);
       return data?.value;
     } catch (err) {
       this.logError(`getManagedConfigValueString - ${key}`, err);
@@ -259,6 +260,7 @@ export class AppConfigProvider {
   };
 
   private logError = (description: string, error: string): void => {
+    alert(`ERROR: ${description}`);
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(LogType.ERROR, description, error),
     }));
