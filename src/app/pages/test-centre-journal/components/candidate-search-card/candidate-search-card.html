@@ -9,6 +9,7 @@
   [displayKey]="'centreName'"
   [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
   [idPrefix]="'tcj-candidate-search-tab'"
+  [minCharactersBeforeListDisplay]="2"
   [placeholder]="'Select a test centre'"
   (outputChanged)="onTestCentreDidChange($event)">
 </searchable-picklist-wrapper>
