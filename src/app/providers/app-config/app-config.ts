@@ -6,7 +6,6 @@ import { map, timeout } from 'rxjs/operators';
 import { isEmpty, merge } from 'lodash';
 import { ValidatorResult, ValidationError } from 'jsonschema';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
-import { AppConfig as MDMAppConfig } from '@capacitor-community/mdm-appconfig';
 import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
 import { Subscription } from 'rxjs';
 
@@ -79,24 +78,15 @@ export class AppConfigProvider {
 
   public initialiseAppConfig = async (): Promise<void> => {
     try {
-      this.logInfo('initialiseAppConfig called');
       if (this.platform.is('cordova')) {
-        this.logInfo('is cordova');
         await this.getDebugMode();
-        this.logInfo('getDebugMode');
         await this.loadManagedConfig();
-        this.logInfo('loadManagedConfig');
       }
 
-      this.logInfo('start mapInAppConfig');
       this.mapInAppConfig(this.environmentFile);
-      this.logInfo('finish mapInAppConfig');
 
-      this.logInfo('start this.environmentFile.isRemote');
       if (!this.environmentFile.isRemote) {
-        this.logInfo('!this.environmentFile.isRemote');
         this.mapRemoteConfig(this.environmentFile);
-        this.logInfo('mapRemoteConfig');
       }
       return await Promise.resolve();
     } catch (err) {
@@ -125,15 +115,6 @@ export class AppConfigProvider {
   };
 
   public loadManagedConfig = async (): Promise<void> => {
-    this.logInfo('start loadManagedConfig');
-    const val = await MDMAppConfig
-      .getValue({ key: 'configUrl' })
-      .catch((error) => {
-        alert(`MDMAppConfig getValue: ${error}`);
-        return error;
-      });
-    this.logInfo(`new plugin configUrl: ${val}`);
-
     const newEnvFile = {
       production: false,
       isRemote: true,
@@ -158,28 +139,20 @@ export class AppConfigProvider {
       },
     } as EnvironmentFile;
 
-    this.logInfo(`start newEnvFile.configUrl: ${newEnvFile.configUrl}`);
-    this.logInfo(JSON.stringify(newEnvFile));
     // Check to see if we have any config
     if (!isEmpty((newEnvFile.configUrl))) {
       this.environmentFile = { ...newEnvFile };
       return;
     }
 
-    this.logInfo('loadManagedConfig check debug', !this.isDebugMode);
-
     if (!this.isDebugMode) {
-      this.logInfo('throwing AppConfigError');
       throw new Error(AppConfigError.MISSING_REMOTE_CONFIG_URL_ERROR);
     }
-
-    this.logInfo('loadManagedConfig debug not thrown');
   };
 
   private getManagedConfigValueString = async (key: string): Promise<string> => {
     try {
       const data: GetResult<string> = await ManagedConfigurations.getString({ key });
-      alert(`key: ${key}, value: ${data.value}`);
       return data?.value;
     } catch (err) {
       this.logError(`getManagedConfigValueString - ${key}`, err);
@@ -269,14 +242,12 @@ export class AppConfigProvider {
   };
 
   private logError = (description: string, error: string): void => {
-    alert(`ERROR: ${description}`);
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(LogType.ERROR, description, error),
     }));
   };
 
   public logInfo = (description: string, value: any = ''): void => {
-    alert(description);
     this.store$.dispatch(SaveLog({
       payload: this.logHelper.createLog(LogType.INFO, description, value),
     }));
@@ -292,7 +263,6 @@ export class AppConfigProvider {
   };
 
   private mapInAppConfig = (data) => {
-    this.logInfo('mapInAppConfig');
     this.appConfig = merge({}, this.appConfig, {
       configUrl: data.configUrl,
       sentry: {
@@ -313,11 +283,9 @@ export class AppConfigProvider {
         employeeIdKey: data.authentication.employeeIdKey,
       },
     } as AppConfig);
-    this.logInfo('mapInAppConfig', this.appConfig);
   };
 
   private mapRemoteConfig = (data: any) => {
-    this.logInfo('mapRemoteConfig');
     this.appConfig = merge({}, this.appConfig, {
       googleAnalyticsId: data.googleAnalyticsId,
       approvedDeviceIdentifiers: data.approvedDeviceIdentifiers,
@@ -361,7 +329,6 @@ export class AppConfigProvider {
       },
       requestTimeout: data.requestTimeout,
     } as AppConfig);
-    this.logInfo('mapRemoteConfig', this.appConfig);
   };
 
   getDebugMode = (): Promise<void> => {
@@ -369,7 +336,7 @@ export class AppConfigProvider {
       this.isDebug.getIsDebug()
         .then((isDebug) => {
           this.isDebugMode = (environment as unknown as TestersEnvironmentFile)?.isTest ? true : isDebug;
-          this.logInfo(`Detected that app is running in debug mode: ${this.isDebugMode}`);
+          console.log('Detected that app is running in debug mode');
           resolve();
         })
         .catch((err) => reject(err));
