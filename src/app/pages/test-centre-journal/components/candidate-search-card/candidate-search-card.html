@@ -27,7 +27,7 @@
   [idPrefix]="'tcj-candidate-search'"
   [minCharactersBeforeListDisplay]="3"
   [placeholder]="'Candidate name'"
-  [disabled]="!!!(selectedTestCentre)"
+  [disabled]="isLDTM ? !!!(selectedTestCentre) : false"
   (outputChanged)="onCandidateDidChange($event)">
 </searchable-picklist-wrapper>
 

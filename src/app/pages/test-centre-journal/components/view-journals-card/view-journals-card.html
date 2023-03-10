@@ -24,7 +24,7 @@
         <ion-select [interfaceOptions]="interfaceOptions"
                     #examinerSelect
                     (ionChange)="examinerChanged($event.target.value)"
-                    [disabled]="!!!(selectedTestCentre)"
+                    [disabled]="isLDTM ? !!!(selectedTestCentre) : false"
                     okText="Select"
                     id="select-examiner"
                     cancelText="Cancel"
