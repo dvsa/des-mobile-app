@@ -75,7 +75,7 @@
     "@ionic/angular": "^6.6.1",
     "@ionic/core": "^6.6.1",
     "@ng-bootstrap/ng-bootstrap": "^14.0.1",
-    "@ngrx/effects": "^15.2.1",
+    "@ngrx/effects": "^15.3.0",
     "@ngrx/store": "^15.2.1",
     "@ngrx/store-devtools": "^15.2.1",
     "@ngx-translate/core": "^14.0.0",
