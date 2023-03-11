@@ -4,6 +4,7 @@ on: push
 
 env:
   CI: true
+  DES_IONIC_CONFIG_JSON: ${{ secrets.DES_IONIC_CONFIG_JSON }}
   DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
   PAT: ${{ secrets.PAT }}
 
@@ -37,11 +38,8 @@ jobs:
         run: npm ci
 
       - name: Create ionic.config.json
-        id: create-json
-        uses: jsdaniell/create-json@v1.2.2
-        with:
-          name: "ionic.config.json"
-          json: ${{ secrets.DES_IONIC_CONFIG_JSON }}
+        run: |
+          echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
       - name: Build & Run unit tests
         run: |
