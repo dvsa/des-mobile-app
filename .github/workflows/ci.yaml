@@ -5,6 +5,7 @@ on: push
 env:
   CI: true
   DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
+  PAT: ${{ secrets.PAT }}
 
 jobs:
   run-ci:
@@ -27,9 +28,9 @@ jobs:
 
       - name: Create .npmrc
         run: |
+          echo "//npm.pkg.github.com/:_authToken=$PAT" >> ~/.npmrc
           echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
           echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
-          cat .npmrc
           echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
 
       - name: Install dependencies
