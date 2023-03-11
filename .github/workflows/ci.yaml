@@ -4,7 +4,7 @@ on: push
 
 env:
   CI: true
-  IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
+  DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
 
 jobs:
   run-ci:
@@ -29,7 +29,8 @@ jobs:
         run: |
           echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
           echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
-          echo "//registry.ionicframework.com/:_authToken=$IONIC_KEY" >> .npmrc
+          cat .npmrc
+          echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
 
       - name: Install dependencies
         run: npm ci
