@@ -1,0 +1,40 @@
+name: CI
+
+on: push
+
+env:
+  CI: true
+  IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
+
+jobs:
+  run-ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 18.11.x ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js {{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Update NPM dependency
+        run: npm i -g npm@8
+
+      - name: Create .npmrc
+        run: |
+          echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
+          echo "//registry.ionicframework.com/:_authToken=$IONIC_KEY" >> .npmrc
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build & Run unit tests
+        run: |
+          ionic build
+          npm run test
