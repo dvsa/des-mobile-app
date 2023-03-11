@@ -38,5 +38,5 @@ jobs:
 
       - name: Build & Run unit tests
         run: |
-          ionic build
+          npm run build:ci
           npm run test
