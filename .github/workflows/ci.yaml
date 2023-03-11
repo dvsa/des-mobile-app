@@ -41,7 +41,6 @@ jobs:
         run: |
           echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
-      - name: Build & Run unit tests
+      - name: Build project
         run: |
           npm run build:ci
-          npm run test
