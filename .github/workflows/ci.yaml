@@ -36,6 +36,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Create ionic.config.json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.2
+        with:
+          name: "ionic.config.json"
+          json: ${{ secrets.DES_IONIC_CONFIG_JSON }}
+
       - name: Build & Run unit tests
         run: |
           npm run build:ci
