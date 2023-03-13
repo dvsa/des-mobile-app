@@ -5,8 +5,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Examiner, ExaminerWorkSchedule, TestCentre } from '@dvsa/mes-journal-schema';
-import { first, map, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import { IonSelect } from '@ionic/angular';
 
@@ -78,6 +78,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   private dateFormat = 'YYYY-MM-DD';
   today: string = new DateTime().format(this.dateFormat);
   currentSelectedDate: string = this.today;
+  slotItems$: Observable<SlotItem[]>;
 
   constructor(
     private slotProvider: SlotProvider,
@@ -131,15 +132,19 @@ export class ViewJournalsCardComponent implements OnChanges {
   };
 
   onShowJournalClick = (): void => {
+
     this.hasClickedShowJournal = true;
+
     if (!this.journal) {
+      console.log('not journal');
       // if no journal, then don't try to pass value into slot creation method
       return;
     }
+
     this.store$.dispatch(TestCentreJournalShowJournals());
 
     // createSlots with the selected journal
-    of(this.journal)
+    this.slotItems$ = of(this.journal)
       .pipe(
         first(), // auto unsubscribe after first emission
         map((journalData: ExaminerWorkSchedule): ExaminerSlotItems => ({
@@ -150,16 +155,11 @@ export class ViewJournalsCardComponent implements OnChanges {
           examiner: examinerSlotItems.examiner,
           slotItemsByDate: this.slotProvider.getRelevantSlotItemsByDate(examinerSlotItems.slotItems),
         })),
-        tap((examinerSlotItemsByDate: ExaminerSlotItemsByDate) => {
+        map((examinerSlotItemsByDate: ExaminerSlotItemsByDate) => {
           this.examinerSlotItemsByDate = examinerSlotItemsByDate;
-          const slots: SlotItem[] | undefined = examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate];
-          this.createSlots(slots);
+          return examinerSlotItemsByDate?.slotItemsByDate[this.currentSelectedDate];
         }),
-      ).subscribe();
-  };
-
-  private createSlots = (emission: SlotItem[]): void => {
-    this.slotSelectorProvider.createSlots(this.slotContainer, emission, this.completedTests, true);
+      );
   };
 
   canNavigateToNextDay = (): boolean => {

@@ -1,5 +1,7 @@
+import { TestSlot } from '@dvsa/mes-journal-schema';
+
 export interface SlotComponent {
-  slot: any;
+  slot: TestSlot;
   hasSlotChanged: boolean;
   showLocation: boolean;
   isTeamJournal?: boolean;

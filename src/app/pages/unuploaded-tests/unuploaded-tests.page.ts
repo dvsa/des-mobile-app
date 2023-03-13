@@ -12,6 +12,7 @@ import { SlotItem } from '@providers/slot-selector/slot-item';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 
 interface UnunploadedTestsPageState {
   appVersion$: Observable<string>;
@@ -29,6 +30,7 @@ interface UnunploadedTestsPageState {
 })
 export class UnuploadedTestsPage implements OnInit {
   pageState: UnunploadedTestsPageState;
+  slots: TestSlot[];
 
   constructor(
     private store$: Store<StoreModel>,
@@ -57,12 +59,14 @@ export class UnuploadedTestsPage implements OnInit {
             new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
       ),
     };
+    this.pageState.unSubmittedTestSlots$.subscribe((data) => {
+      this.slots = data.map((i) => i.slotData);
+    });
   }
 
   ionViewDidEnter(): void {
     this.store$.dispatch(UnuploadedTestsViewDidEnter());
   }
-
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';
 
   getEmployeeNumberDisplayValue = (employeeNumber: string): string => employeeNumber || 'NOT_KNOWN';

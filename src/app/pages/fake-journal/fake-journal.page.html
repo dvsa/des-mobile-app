@@ -22,6 +22,7 @@
 
     <test-slot
             *ngFor="let slot of slots;"
+            [slots]="slots"
             [slot]="slot"
             [isPracticeMode]="true"
             [hasSlotChanged]="false">

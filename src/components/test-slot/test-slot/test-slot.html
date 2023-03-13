@@ -138,7 +138,7 @@
 
 <ng-template #candidateLink>
     <candidate-link *ngIf="canViewCandidateDetails() && !isTestCentreJournalADIBooking()"
-                    [currentPage]="isPracticeMode ? 'practice' : currentPage"
+                    [slots]="slots"
                     [slot]="slot"
                     [slotChanged]="hasSlotChanged"
                     [isTeamJournal]="isTeamJournal"

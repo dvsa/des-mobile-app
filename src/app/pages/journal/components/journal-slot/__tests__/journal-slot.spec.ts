@@ -90,4 +90,12 @@ describe('JournalSlotComponent', () => {
       expect(component.trackBySlotID(null, slotItem)).toEqual(1234);
     });
   });
+  describe('getSlots', () => {
+    it('should return an array of TestSlots from Slots', () => {
+      component.slots = [
+        { slotData: { vehicleTypeCode: 'test1' } }, { slotData: { vehicleTypeCode: 'test2' } },
+      ] as SlotItem[];
+      expect(component.getSlots()).toEqual([{ vehicleTypeCode: 'test1' }, { vehicleTypeCode: 'test2' }]);
+    });
+  });
 });

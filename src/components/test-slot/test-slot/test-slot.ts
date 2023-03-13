@@ -48,6 +48,8 @@ interface TestSlotComponentState {
 export class TestSlotComponent implements SlotComponent, OnInit {
   @Input()
   slot: TestSlot;
+  @Input()
+  slots: TestSlot[];
 
   @Input()
   hasSlotChanged: boolean;
@@ -81,9 +83,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
 
   @Input()
   isPracticeMode?: boolean = false;
-
-  @Input()
-  currentPage?: string;
 
   @Input()
   isUnSubmittedTestSlotView: boolean = false;

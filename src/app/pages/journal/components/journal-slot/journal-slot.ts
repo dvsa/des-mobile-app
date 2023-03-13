@@ -19,6 +19,9 @@ export class JournalSlotComponent {
   @Input()
   slots: SlotItem[] = [];
 
+  @Input()
+  isTeamJournal: boolean = false;
+
   constructor(
     private slotSelector: SlotSelectorProvider,
   ) {
@@ -56,6 +59,10 @@ export class JournalSlotComponent {
 
     return 'test-slot';
   };
+
+  getSlots() {
+    return this.slots.map((data) => data.slotData);
+  }
 
   showLocation = (
     slot: SlotItem,
