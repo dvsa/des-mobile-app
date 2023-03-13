@@ -1,6 +1,11 @@
 name: CI
 
-on: push
+on:
+  push:
+  pull_request:
+    branches:
+      - develop
+      - 'release-**'
 
 env:
   CI: true
@@ -44,3 +49,7 @@ jobs:
       - name: Build project
         run: |
           npm run build:ci
+
+      - name: Lint project
+        run: |
+          npm run lint
