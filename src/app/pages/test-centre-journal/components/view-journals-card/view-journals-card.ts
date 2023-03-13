@@ -136,7 +136,6 @@ export class ViewJournalsCardComponent implements OnChanges {
     this.hasClickedShowJournal = true;
 
     if (!this.journal) {
-      console.log('not journal');
       // if no journal, then don't try to pass value into slot creation method
       return;
     }

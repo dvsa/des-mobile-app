@@ -15,6 +15,8 @@ import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-
 import { TestSlot } from '@dvsa/mes-journal-schema';
 
 interface UnunploadedTestsPageState {
+
+  slots$: Observable<TestSlot[]>;
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
   employeeId$: Observable<string>;
@@ -30,11 +32,27 @@ interface UnunploadedTestsPageState {
 })
 export class UnuploadedTestsPage implements OnInit {
   pageState: UnunploadedTestsPageState;
-  slots: TestSlot[];
-
   constructor(
     private store$: Store<StoreModel>,
   ) {
+  }
+
+  getUnsubmittedTests() {
+    return this.store$.pipe(
+      select(getTests),
+      // get all slot ids regarded as incomplete from 'tests' slice of state older than 1 day
+      select(getIncompleteTestsSlotOlderThanADay),
+      withLatestFrom(
+        this.store$.pipe(
+          select(getJournalState), // grab 'journal' slice
+        ),
+      ),
+      // filter journal slots by incomplete slot ids inside tests
+      map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)),
+      map((slotItems) =>
+        slotItems.sort((a, b) =>
+          new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
+    );
   }
 
   ngOnInit() {
@@ -43,25 +61,11 @@ export class UnuploadedTestsPage implements OnInit {
       employeeName$: this.store$.select(selectEmployeeName),
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
-      unSubmittedTestSlots$: this.store$.pipe(
-        select(getTests),
-        // get all slot ids regarded as incomplete from 'tests' slice of state older than 1 day
-        select(getIncompleteTestsSlotOlderThanADay),
-        withLatestFrom(
-          this.store$.pipe(
-            select(getJournalState), // grab 'journal' slice
-          ),
-        ),
-        // filter journal slots by incomplete slot ids inside tests
-        map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)),
-        map((slotItems) =>
-          slotItems.sort((a, b) =>
-            new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
+      unSubmittedTestSlots$: this.getUnsubmittedTests(),
+      slots$: this.getUnsubmittedTests().pipe(
+        map((data) => data.map((slot) => slot.slotData)),
       ),
     };
-    this.pageState.unSubmittedTestSlots$.subscribe((data) => {
-      this.slots = data.map((i) => i.slotData);
-    });
   }
 
   ionViewDidEnter(): void {
