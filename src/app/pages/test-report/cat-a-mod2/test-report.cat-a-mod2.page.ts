@@ -15,8 +15,7 @@ import { Observable } from 'rxjs';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
 
-interface CatAMod2TestReportPageState {}
-type TestReportPageState = CommonTestReportPageState & CatAMod2TestReportPageState;
+type TestReportPageState = CommonTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-a-mod2-page',

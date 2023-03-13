@@ -27,9 +27,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { behaviourMap } from '../../office/office-behaviour-map.cat-a-mod2';
 
-interface CatAMod2PassFinalisationPageState {}
-
-type PassFinalisationPageState = CommonPassFinalisationPageState & CatAMod2PassFinalisationPageState;
+type PassFinalisationPageState = CommonPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-a-mod2',

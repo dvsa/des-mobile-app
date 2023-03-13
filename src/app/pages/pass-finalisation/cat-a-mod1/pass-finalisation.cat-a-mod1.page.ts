@@ -28,8 +28,7 @@ import {
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 
-interface CatMod1PassFinalisationPageState {}
-type PassFinalisationPageState = CommonPassFinalisationPageState & CatMod1PassFinalisationPageState;
+type PassFinalisationPageState = CommonPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-a-mod1',

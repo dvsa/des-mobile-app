@@ -21,9 +21,7 @@ import {
 } from '../pass-finalisation.actions';
 import { TestFlowPageNames } from '../../page-names.constants';
 
-interface CatHomePassFinalisationPageState {}
-type PassFinalisationPageState = CommonPassFinalisationPageState & CatHomePassFinalisationPageState;
-
+type PassFinalisationPageState = CommonPassFinalisationPageState;
 @Component({
   selector: 'app-pass-finalisation-cat-home-test',
   templateUrl: './pass-finalisation.cat-home-test.page.html',

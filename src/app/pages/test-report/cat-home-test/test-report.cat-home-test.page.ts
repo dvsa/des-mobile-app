@@ -19,8 +19,8 @@ import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-interface CatHomeTestReportPageState {}
-type TestReportPageState = CommonTestReportPageState & CatHomeTestReportPageState;
+type TestReportPageState = CommonTestReportPageState;
+
 type HomeCatTestDataUnion =
   CatFUniqueTypes.TestData |
   CatGUniqueTypes.TestData |

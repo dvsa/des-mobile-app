@@ -19,8 +19,7 @@ import {
 } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
-interface CatBTestReportPageState {}
-type TestReportPageState = CommonTestReportPageState & CatBTestReportPageState;
+type TestReportPageState = CommonTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-b-page',

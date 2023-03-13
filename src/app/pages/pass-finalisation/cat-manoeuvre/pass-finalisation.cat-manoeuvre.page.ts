@@ -23,8 +23,7 @@ import {
   PassFinalisationReportActivityCode,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 
-interface CatManoeuvrePassFinalisationPageState {}
-type PassFinalisationPageState = CommonPassFinalisationPageState & CatManoeuvrePassFinalisationPageState;
+type PassFinalisationPageState = CommonPassFinalisationPageState;
 
 @Component({
   selector: 'app-pass-finalisation-cat-manoeuvre',

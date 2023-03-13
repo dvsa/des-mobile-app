@@ -39,8 +39,7 @@ import {
 import { EndTestModal } from '@pages/test-report/components/end-test-modal/end-test-modal';
 import { EtaInvalidModal } from '../components/eta-invalid-modal/eta-invalid-modal';
 
-interface CatAMod1TestReportPageState {}
-type TestReportPageState = CommonTestReportPageState & CatAMod1TestReportPageState;
+type TestReportPageState = CommonTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-a-mod1-page',
