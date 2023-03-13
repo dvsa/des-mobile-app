@@ -134,18 +134,13 @@
                   "with": "src/environments/environment.dev.dev-tools.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": {
-                "hidden": true,
-                "scripts": true,
-                "styles": true
-              },
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
+              "aot": false,
               "vendorChunk": true,
-              "buildOptimizer": true
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": false,
+              "optimization": false,
+              "namedChunks": false
             },
             "livereload": {
               "fileReplacements": [
@@ -154,18 +149,13 @@
                   "with": "src/environments/environment.livereload.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": {
-                "hidden": true,
-                "scripts": true,
-                "styles": true
-              },
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
+              "aot": false,
               "vendorChunk": true,
-              "buildOptimizer": true
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": false,
+              "optimization": false,
+              "namedChunks": false
             },
             "testing": {
               "fileReplacements": [

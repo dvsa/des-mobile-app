@@ -11,6 +11,7 @@ import { UnloadJournal } from '@store/journal/journal.actions';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
+import { ClearTestCentresRefData } from '@store/reference-data/reference-data.actions';
 import { AppConfigProvider } from '../app-config/app-config';
 import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { TestPersistenceProvider } from '../test-persistence/test-persistence';
@@ -218,8 +219,11 @@ export class AuthenticationProvider {
         await this.testPersistenceProvider.clearPersistedTests();
         await this.completedTestPersistenceProvider.clearPersistedCompletedTests();
       }
+
       this.store$.dispatch(UnloadJournal());
       this.store$.dispatch(UnloadTests());
+      this.store$.dispatch(ClearTestCentresRefData());
+
       await this.clearTokens();
       this.appConfig.shutDownStoreSubscription();
       this.subscription?.unsubscribe();
