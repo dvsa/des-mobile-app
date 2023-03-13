@@ -23,6 +23,7 @@
         </empty-slot>
 
         <test-slot
+                [slots]="getSlots()"
                 *ngSwitchCase="'test-slot'"
                 [hasSlotChanged]="slot?.hasSlotChanged"
                 [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
@@ -30,6 +31,7 @@
                 [derivedTestStatus]="derivedTestStatus(slot?.slotData, completedTests)"
                 [derivedPassCertificate]="didSlotPass(slot.slotData, completedTests)"
                 [showLocation]="showLocation(slot, slots[i - 1])"
+                [isTeamJournal]="isTeamJournal"
                 [delegatedTest]="false"
                 [teamJournalCandidateResult]="false"
                 [slot]="slot?.slotData">

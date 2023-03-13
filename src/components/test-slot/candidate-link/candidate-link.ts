@@ -12,12 +12,11 @@ import { AppComponent } from '@app/app.component';
 export class CandidateLinkComponent {
   @Input()
   slot: TestSlot;
+  @Input()
+  slots: TestSlot[];
 
   @Input()
   slotChanged: boolean;
-
-  @Input()
-  isPracticeMode: boolean;
 
   @Input()
   name: Name;
@@ -53,7 +52,7 @@ export class CandidateLinkComponent {
       component: CandidateDetailsPage,
       cssClass: zoomClass,
       componentProps: {
-        isPracticeMode: this.isPracticeMode,
+        slots: this.slots,
         slot: this.slot,
         slotChanged: this.slotChanged,
         isTeamJournal: this.isTeamJournal,

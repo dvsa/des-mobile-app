@@ -9,7 +9,7 @@ import {
 } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { TestSlot } from '@dvsa/mes-journal-schema';
+import { Application, TestSlot } from '@dvsa/mes-journal-schema';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
@@ -113,6 +113,28 @@ describe('CandidateDetailsPage', () => {
 
   describe('ngOnInit', () => {
     it('should test ngOnInit', () => {
+      component.slot = {
+        vehicleSlotTypeCode: 2,
+        vehicleTypeCode: 'test',
+        examinerVisiting: false,
+        slotDetail: {
+          slotId: 1,
+          start: '2',
+          duration: 3,
+        },
+        testCentre: {
+          centreId: 1,
+          centreName: '2',
+          costCode: '3',
+        },
+        booking: {
+          candidate: { candidateName: { firstName: 'test', lastName: 'test1' } },
+          application: { testCategory: TestCategory.B } as Application,
+          previousCancellation: null,
+          business: null,
+        },
+      };
+      component.slots = [{ vehicleSlotTypeCode: 1 }, { vehicleSlotTypeCode: 2 }, { vehicleSlotTypeCode: 3 }];
       spyOn(window, 'setTimeout').and.callThrough();
       component.ngOnInit();
       expect(setTimeout).toHaveBeenCalledTimes(2);

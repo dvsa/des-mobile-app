@@ -73,7 +73,10 @@ describe('ViewJournalsCardComponent', () => {
     });
     describe('onManualRefresh', () => {
       it('should reset page state', () => {
-        component.slotContainer = { clear: () => {} } as ViewContainerRef;
+        component.slotContainer = {
+          clear: () => {
+          },
+        } as ViewContainerRef;
         spyOn(component.slotContainer, 'clear');
         component.examinerSelect = {
           value: 'something',
@@ -100,7 +103,10 @@ describe('ViewJournalsCardComponent', () => {
     });
     describe('examinerChanged', () => {
       beforeEach(() => {
-        component.slotContainer = { clear: () => {} } as ViewContainerRef;
+        component.slotContainer = {
+          clear: () => {
+          },
+        } as ViewContainerRef;
         component.testCentreResults = mockTestCentreDetailResponse;
         spyOn(component.slotContainer, 'clear');
       });
@@ -120,7 +126,6 @@ describe('ViewJournalsCardComponent', () => {
         spyOn(slotProvider, 'getRelevantSlotItemsByDate').and.returnValue({
           '2021-03-27': [],
         } as { [date: string]: SlotItem[] });
-        spyOn<any>(component, 'createSlots');
         component.currentSelectedDate = '2021-03-27';
         component.hasClickedShowJournal = false;
       });
@@ -130,161 +135,164 @@ describe('ViewJournalsCardComponent', () => {
         expect(component.hasClickedShowJournal).toEqual(true);
         expect(slotProvider.detectSlotChanges).not.toHaveBeenCalled();
       });
-      it('should ', () => {
+      it('should call detectSlotChanges and call getRelevantSlotItemsByDate and return nothing when there'
+                + ' are no slot items', () => {
         component.journal = {
           examiner: {
             staffNumber: '123456',
           },
         } as ExaminerWorkSchedule;
         component.onShowJournalClick();
-        expect(component.hasClickedShowJournal).toEqual(true);
-        expect(slotProvider.detectSlotChanges).toHaveBeenCalledWith({}, component.journal as ExaminerWorkSchedule);
-        expect(slotProvider.getRelevantSlotItemsByDate).toHaveBeenCalledWith([]);
-        expect(component['createSlots']).toHaveBeenCalledWith([]);
+        component.slotItems$.subscribe(() => {
+          expect(slotProvider.getRelevantSlotItemsByDate).toHaveBeenCalledWith([]);
+          expect(component.hasClickedShowJournal).toEqual(true);
+          expect(slotProvider.detectSlotChanges).toHaveBeenCalledWith({}, component.journal as ExaminerWorkSchedule);
+        });
       });
     });
-    describe('canNavigateToNextDay', () => {
-      it('should return true when nextDay is not empty', () => {
-        component.currentSelectedDate = '2021-03-25';
-        component.today = '2021-03-24';
-        component.examinerSlotItemsByDate = {
-          examiner: {},
-          slotItemsByDate: {
-            '2021-03-26': [{} as SlotItem],
-          } as { [date: string]: SlotItem[] },
-        } as ExaminerSlotItemsByDate;
-        expect(component.canNavigateToNextDay()).toEqual(true);
-      });
-      it('should return true when isInRange', () => {
-        component.currentSelectedDate = '2021-03-24';
-        component.today = '2021-03-24';
-        component.examinerSlotItemsByDate = {
-          examiner: {},
-          slotItemsByDate: {
-            '2021-03-25': [],
-          } as { [date: string]: SlotItem[] },
-        } as ExaminerSlotItemsByDate;
-        expect(component.canNavigateToNextDay()).toEqual(true);
-      });
-      it('should return false when nextDay is empty and not isInRange', () => {
-        component.currentSelectedDate = '2021-03-25';
-        component.examinerSlotItemsByDate = {
-          examiner: {},
-          slotItemsByDate: {
-            '2021-03-24': [],
-          } as { [date: string]: SlotItem[] },
-        } as ExaminerSlotItemsByDate;
-        expect(component.canNavigateToNextDay()).toEqual(false);
-      });
+  });
+
+  describe('canNavigateToNextDay', () => {
+    it('should return true when nextDay is not empty', () => {
+      component.currentSelectedDate = '2021-03-25';
+      component.today = '2021-03-24';
+      component.examinerSlotItemsByDate = {
+        examiner: {},
+        slotItemsByDate: {
+          '2021-03-26': [{} as SlotItem],
+        } as { [date: string]: SlotItem[] },
+      } as ExaminerSlotItemsByDate;
+      expect(component.canNavigateToNextDay()).toEqual(true);
     });
-    describe('canNavigateToPreviousDay', () => {
-      it('should return true when dayBefore is not empty', () => {
-        component.currentSelectedDate = '2021-03-25';
-        component.examinerSlotItemsByDate = {
-          examiner: {},
-          slotItemsByDate: {
-            '2021-03-24': [{} as SlotItem],
-          } as { [date: string]: SlotItem[] },
-        } as ExaminerSlotItemsByDate;
-        expect(component.canNavigateToPreviousDay()).toEqual(true);
-      });
-      it('should return false when dayBefore is empty', () => {
-        component.currentSelectedDate = '2021-03-25';
-        component.examinerSlotItemsByDate = {
-          examiner: {},
-          slotItemsByDate: {
-            '2021-03-24': [],
-          } as { [date: string]: SlotItem[] },
-        } as ExaminerSlotItemsByDate;
-        expect(component.canNavigateToPreviousDay()).toEqual(false);
-      });
+    it('should return true when isInRange', () => {
+      component.currentSelectedDate = '2021-03-24';
+      component.today = '2021-03-24';
+      component.examinerSlotItemsByDate = {
+        examiner: {},
+        slotItemsByDate: {
+          '2021-03-25': [],
+        } as { [date: string]: SlotItem[] },
+      } as ExaminerSlotItemsByDate;
+      expect(component.canNavigateToNextDay()).toEqual(true);
     });
-    describe('isSelectedDateToday', () => {
-      it('should return true when currentSelectedDate is same as today', () => {
-        component.currentSelectedDate = '2021-03-25';
-        component.today = '2021-03-25';
-        expect(component.isSelectedDateToday()).toEqual(true);
-      });
-      it('should return false when currentSelectedDate is not same as today', () => {
-        component.currentSelectedDate = '2021-03-25';
-        component.today = '2021-03-24';
-        expect(component.isSelectedDateToday()).toEqual(false);
-      });
+    it('should return false when nextDay is empty and not isInRange', () => {
+      component.currentSelectedDate = '2021-03-25';
+      component.examinerSlotItemsByDate = {
+        examiner: {},
+        slotItemsByDate: {
+          '2021-03-24': [],
+        } as { [date: string]: SlotItem[] },
+      } as ExaminerSlotItemsByDate;
+      expect(component.canNavigateToNextDay()).toEqual(false);
     });
-    describe('onPreviousDayClick', () => {
-      it('should set currentSelectedDate to be today and call onShowJournalClick', () => {
-        spyOn(component, 'onShowJournalClick');
-        component.today = '2021-03-24';
-        component.onPreviousDayClick();
-        expect(component.currentSelectedDate).toEqual('2021-03-24');
-        expect(component.onShowJournalClick).toHaveBeenCalled();
-      });
+  });
+  describe('canNavigateToPreviousDay', () => {
+    it('should return true when dayBefore is not empty', () => {
+      component.currentSelectedDate = '2021-03-25';
+      component.examinerSlotItemsByDate = {
+        examiner: {},
+        slotItemsByDate: {
+          '2021-03-24': [{} as SlotItem],
+        } as { [date: string]: SlotItem[] },
+      } as ExaminerSlotItemsByDate;
+      expect(component.canNavigateToPreviousDay()).toEqual(true);
     });
-    describe('shouldShowBanner', () => {
-      it('should return true meaning slots are empty for currentSelectedDate', () => {
-        component.examinerName = 'name';
-        component.currentSelectedDate = '2021-03-25';
-        component.examinerSlotItemsByDate = {
-          examiner: {},
-          slotItemsByDate: {
-            '2021-03-25': [],
-          } as { [date: string]: SlotItem[] },
-        } as ExaminerSlotItemsByDate;
-        expect(component.shouldShowBanner()).toEqual(true);
-      });
-      it('should return false meaning slots are not empty for currentSelectedDate', () => {
-        component.examinerName = 'name';
-        component.currentSelectedDate = '2021-03-25';
-        component.examinerSlotItemsByDate = {
-          examiner: {},
-          slotItemsByDate: {
-            '2021-03-25': [{} as SlotItem],
-          } as { [date: string]: SlotItem[] },
-        } as ExaminerSlotItemsByDate;
-        expect(component.shouldShowBanner()).toEqual(false);
-      });
+    it('should return false when dayBefore is empty', () => {
+      component.currentSelectedDate = '2021-03-25';
+      component.examinerSlotItemsByDate = {
+        examiner: {},
+        slotItemsByDate: {
+          '2021-03-24': [],
+        } as { [date: string]: SlotItem[] },
+      } as ExaminerSlotItemsByDate;
+      expect(component.canNavigateToPreviousDay()).toEqual(false);
     });
-    describe('dayLabel', () => {
-      it('should return today when is isSelectedDateToday', () => {
-        spyOn(component, 'isSelectedDateToday').and.returnValue(true);
-        expect(component.dayLabel).toEqual('today');
-      });
-      it('should return tomorrow when not isSelectedDateToday', () => {
-        spyOn(component, 'isSelectedDateToday').and.returnValue(false);
-        expect(component.dayLabel).toEqual('tomorrow');
-      });
+  });
+  describe('isSelectedDateToday', () => {
+    it('should return true when currentSelectedDate is same as today', () => {
+      component.currentSelectedDate = '2021-03-25';
+      component.today = '2021-03-25';
+      expect(component.isSelectedDateToday()).toEqual(true);
     });
-    describe('warningText', () => {
-      it('should generate a string indicating examiner has no slots at test centre on given day', () => {
-        spyOnProperty(component, 'dayLabel', 'get').and.returnValue('today');
-        component.testCentreName = 'Some centre';
-        component.examinerName = 'Some name';
-        expect(component.warningText).toEqual('Some name does not have any test bookings at Some centre today');
-      });
+    it('should return false when currentSelectedDate is not same as today', () => {
+      component.currentSelectedDate = '2021-03-25';
+      component.today = '2021-03-24';
+      expect(component.isSelectedDateToday()).toEqual(false);
     });
-    describe('onNextDayClick', () => {
-      it('should dispatch an action for navigation and call onShowJournalClick', () => {
-        spyOn(component, 'onShowJournalClick');
-        component.onNextDayClick();
-        expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalDateNavigation(Day.TOMORROW));
-        expect(component.onShowJournalClick).toHaveBeenCalled();
-      });
+  });
+  describe('onPreviousDayClick', () => {
+    it('should set currentSelectedDate to be today and call onShowJournalClick', () => {
+      spyOn(component, 'onShowJournalClick');
+      component.today = '2021-03-24';
+      component.onPreviousDayClick();
+      expect(component.currentSelectedDate).toEqual('2021-03-24');
+      expect(component.onShowJournalClick).toHaveBeenCalled();
     });
-    describe('onTestCentreDidChange', () => {
-      beforeEach(() => {
-        spyOn(component, 'onManualRefresh');
-        spyOn(component.testCentreChanged, 'emit');
-      });
-      it('should not call the refresh or emission when input not defined', () => {
-        component.onTestCentreDidChange(null);
-        expect(component.onManualRefresh).not.toHaveBeenCalled();
-        expect(component.testCentreChanged.emit).not.toHaveBeenCalled();
-      });
-      it('should call the refresh & emission when input is defined', () => {
-        component.onTestCentreDidChange({} as TestCentre);
-        expect(component.onManualRefresh).toHaveBeenCalled();
-        expect(component.testCentreChanged.emit).toHaveBeenCalledWith({} as TestCentre);
-      });
+  });
+  describe('shouldShowBanner', () => {
+    it('should return true meaning slots are empty for currentSelectedDate', () => {
+      component.examinerName = 'name';
+      component.currentSelectedDate = '2021-03-25';
+      component.examinerSlotItemsByDate = {
+        examiner: {},
+        slotItemsByDate: {
+          '2021-03-25': [],
+        } as { [date: string]: SlotItem[] },
+      } as ExaminerSlotItemsByDate;
+      expect(component.shouldShowBanner()).toEqual(true);
+    });
+    it('should return false meaning slots are not empty for currentSelectedDate', () => {
+      component.examinerName = 'name';
+      component.currentSelectedDate = '2021-03-25';
+      component.examinerSlotItemsByDate = {
+        examiner: {},
+        slotItemsByDate: {
+          '2021-03-25': [{} as SlotItem],
+        } as { [date: string]: SlotItem[] },
+      } as ExaminerSlotItemsByDate;
+      expect(component.shouldShowBanner()).toEqual(false);
+    });
+  });
+  describe('dayLabel', () => {
+    it('should return today when is isSelectedDateToday', () => {
+      spyOn(component, 'isSelectedDateToday').and.returnValue(true);
+      expect(component.dayLabel).toEqual('today');
+    });
+    it('should return tomorrow when not isSelectedDateToday', () => {
+      spyOn(component, 'isSelectedDateToday').and.returnValue(false);
+      expect(component.dayLabel).toEqual('tomorrow');
+    });
+  });
+  describe('warningText', () => {
+    it('should generate a string indicating examiner has no slots at test centre on given day', () => {
+      spyOnProperty(component, 'dayLabel', 'get').and.returnValue('today');
+      component.testCentreName = 'Some centre';
+      component.examinerName = 'Some name';
+      expect(component.warningText).toEqual('Some name does not have any test bookings at Some centre today');
+    });
+  });
+  describe('onNextDayClick', () => {
+    it('should dispatch an action for navigation and call onShowJournalClick', () => {
+      spyOn(component, 'onShowJournalClick');
+      component.onNextDayClick();
+      expect(store$.dispatch).toHaveBeenCalledWith(TestCentreJournalDateNavigation(Day.TOMORROW));
+      expect(component.onShowJournalClick).toHaveBeenCalled();
+    });
+  });
+  describe('onTestCentreDidChange', () => {
+    beforeEach(() => {
+      spyOn(component, 'onManualRefresh');
+      spyOn(component.testCentreChanged, 'emit');
+    });
+    it('should not call the refresh or emission when input not defined', () => {
+      component.onTestCentreDidChange(null);
+      expect(component.onManualRefresh).not.toHaveBeenCalled();
+      expect(component.testCentreChanged.emit).not.toHaveBeenCalled();
+    });
+    it('should call the refresh & emission when input is defined', () => {
+      component.onTestCentreDidChange({} as TestCentre);
+      expect(component.onManualRefresh).toHaveBeenCalled();
+      expect(component.testCentreChanged.emit).toHaveBeenCalledWith({} as TestCentre);
     });
   });
 });
