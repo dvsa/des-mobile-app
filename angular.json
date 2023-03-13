@@ -173,7 +173,20 @@
               "namedChunks": false
             },
             "ci": {
-              "progress": false
+              "progress": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "aot": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "buildOptimizer": false,
+              "sourceMap": false,
+              "optimization": false,
+              "namedChunks": false
             }
           },
           "defaultConfiguration": "development"

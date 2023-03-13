@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches:
+      - develop
+      - 'release-**'
+
+env:
+  CI: true
+  DES_IONIC_CONFIG_JSON: ${{ secrets.DES_IONIC_CONFIG_JSON }}
+  DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
+  PAT: ${{ secrets.PAT }}
+
+jobs:
+  run-ci:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 18.11.x ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Update NPM dependency
+        run: npm i -g npm@8
+
+      - name: Create .npmrc
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=$PAT" >> ~/.npmrc
+          echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
+          echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create ionic.config.json
+        run: |
+          echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
+
+      - name: Build project
+        run: |
+          npm run build:ci
