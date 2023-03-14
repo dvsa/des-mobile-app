@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
-import { getTests } from '@store/tests/tests.reducer';
-import { getIncompleteTestsSlotOlderThanADay } from '@store/tests/tests.selector';
 import { SlotItem } from '@providers/slot-selector/slot-item';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+<<<<<<< Updated upstream
 import { TestSlot } from '@dvsa/mes-journal-schema';
+=======
+import {
+  unsubmittedTestSlotsInDateOrder$,
+} from '@pages/unuploaded-tests/unuploaded-tests.selector';
+>>>>>>> Stashed changes
 
 interface UnunploadedTestsPageState {
 
@@ -61,10 +63,14 @@ export class UnuploadedTestsPage implements OnInit {
       employeeName$: this.store$.select(selectEmployeeName),
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
+<<<<<<< Updated upstream
       unSubmittedTestSlots$: this.getUnsubmittedTests(),
       slots$: this.getUnsubmittedTests().pipe(
         map((data) => data.map((slot) => slot.slotData)),
       ),
+=======
+      unSubmittedTestSlots$: unsubmittedTestSlotsInDateOrder$(this.store$),
+>>>>>>> Stashed changes
     };
   }
 

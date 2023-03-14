@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { map, withLatestFrom } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
@@ -25,11 +25,8 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
 import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
-import { getTests } from '@store/tests/tests.reducer';
-import { getIncompleteTestsSlotOlderThanADay } from '@store/tests/tests.selector';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
+import { unsubmittedTestSlots$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 
 declare let window: any;
 
@@ -94,17 +91,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
-        unSubmittedTestSlotsCount$: this.store$.pipe(
-          select(getTests),
-          // get all slot ids regarded as incomplete from 'tests' slice of state older than 3 days
-          select(getIncompleteTestsSlotOlderThanADay),
-          withLatestFrom(
-            this.store$.pipe(
-              select(getJournalState), // grab 'journal' slice
-            ),
-          ),
-          // filter journal slots by incomplete slot ids inside tests
-          map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)?.length),
+        unSubmittedTestSlotsCount$: unsubmittedTestSlots$(this.store$).pipe(
+          map((slots) => slots.length),
         ),
       };
 
