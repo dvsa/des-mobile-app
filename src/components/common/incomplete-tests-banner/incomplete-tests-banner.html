@@ -1,5 +1,5 @@
 <div *ngIf="(componentState.count$ | async) > 0">
-  <img src="/assets/imgs/exclamation-black.png" />
+  <img src="/assets/imgs/exclamation-black.png" alt="Incomplete tests icon"/>
   <label>
     <span>{{getIncompleteText(componentState.count$ | async)}}</span>
   </label>

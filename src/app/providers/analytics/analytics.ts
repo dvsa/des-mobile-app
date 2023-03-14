@@ -111,6 +111,8 @@ export class AnalyticsProvider implements IAnalyticsProvider {
 
   setUserId(userId: string): void {
     if (this.isIos()) {
+      // @TODO: Consider using `createHash('sha512')` based on SonarQube suggestion.
+      // This will have GA user implications
       this.uniqueUserId = createHash('sha256').update(userId || 'unavailable').digest('hex');
       this.ga
         .startTrackerWithId(this.googleAnalyticsKey)
@@ -125,6 +127,8 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   }
 
   setDeviceId(deviceId: string): void {
+    // @TODO: Consider using `createHash('sha512')` based on SonarQube suggestion.
+    // This will have GA device implications
     this.uniqueDeviceId = createHash('sha256').update(deviceId || 'defaultDevice').digest('hex');
     this.addCustomDimension(AnalyticsDimensionIndices.DEVICE_ID, this.uniqueDeviceId);
   }

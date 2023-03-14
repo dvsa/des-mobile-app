@@ -15,8 +15,7 @@ import { Observable } from 'rxjs';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 
-interface CatADI2TestReportPageState {}
-type TestReportPageState = CommonTestReportPageState & CatADI2TestReportPageState;
+type TestReportPageState = CommonTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-adi-part2-page',

@@ -16,8 +16,7 @@ import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-interface CatCTestReportPageState {}
-type TestReportPageState = CommonTestReportPageState & CatCTestReportPageState;
+type TestReportPageState = CommonTestReportPageState;
 
 @Component({
   selector: '.test-report-cat-c-page',
