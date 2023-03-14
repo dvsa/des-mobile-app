@@ -8,9 +8,14 @@ process.env.CHROME_BIN = puppeteer.executablePath();
 
 const DEFAULT_PROCESSES_TO_SHARD = 2;
 
-const executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
+let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
+
 if (os) {
   console.log("Total number of CPU's available:", os.cpus().length);
+
+  if (os.cpus().length <= 2) {
+    executors = os.cpus().length;
+  }
 }
 
 module.exports = function (config) {
