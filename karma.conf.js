@@ -8,6 +8,11 @@ process.env.CHROME_BIN = puppeteer.executablePath();
 
 const DEFAULT_PROCESSES_TO_SHARD = 2;
 
+const executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
+if (os) {
+  console.log("Total number of CPU's available:", os.cpus().length);
+}
+
 module.exports = function (config) {
   config.set({
     basePath: '',
@@ -58,7 +63,7 @@ module.exports = function (config) {
     browsers: ['ChromeHeadlessNoSandbox'],
     singleRun: true,
     parallelOptions: {
-      executors: os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD,
+      executors,
     },
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
