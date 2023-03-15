@@ -28,7 +28,7 @@
 
   <test-slot
     *ngFor="let slot of state.slots; let count = count;"
-    [slots]="pageState.slots$ | async"
+    [slots]="pageState.unSubmittedTestSlotData$ | async"
     [slot]="slot?.slotData"
     [isUnSubmittedTestSlotView]="true">
   </test-slot>

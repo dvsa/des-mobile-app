@@ -80,7 +80,7 @@ export const getJournalSlotsBySlotIDs = (journal: JournalModel, slotIDs: string[
 
   const allSlots = getAllSlots(journal);
   return allSlots
-    .filter((slot) => completedTestAppRefs.includes(Number(formatApplicationReference({
+    .filter((slot) => !completedTestAppRefs.includes(Number(formatApplicationReference({
       applicationId: (slot.slotData.slotDetail as TestSlot)?.booking?.application.applicationId,
       bookingSequence: (slot.slotData.slotDetail as TestSlot)?.booking?.application.bookingSequence,
       checkDigit: (slot.slotData.slotDetail as TestSlot)?.booking?.application.checkDigit,

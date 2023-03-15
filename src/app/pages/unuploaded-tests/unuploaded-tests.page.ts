@@ -8,17 +8,13 @@ import { selectRole } from '@store/app-config/app-config.selectors';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
-<<<<<<< Updated upstream
 import { TestSlot } from '@dvsa/mes-journal-schema';
-=======
 import {
   unsubmittedTestSlotsInDateOrder$,
 } from '@pages/unuploaded-tests/unuploaded-tests.selector';
->>>>>>> Stashed changes
-
 interface UnunploadedTestsPageState {
 
-  slots$: Observable<TestSlot[]>;
+  unSubmittedTestSlotData$: Observable<TestSlot[]>;
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
   employeeId$: Observable<string>;
@@ -39,38 +35,16 @@ export class UnuploadedTestsPage implements OnInit {
   ) {
   }
 
-  getUnsubmittedTests() {
-    return this.store$.pipe(
-      select(getTests),
-      // get all slot ids regarded as incomplete from 'tests' slice of state older than 1 day
-      select(getIncompleteTestsSlotOlderThanADay),
-      withLatestFrom(
-        this.store$.pipe(
-          select(getJournalState), // grab 'journal' slice
-        ),
-      ),
-      // filter journal slots by incomplete slot ids inside tests
-      map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)),
-      map((slotItems) =>
-        slotItems.sort((a, b) =>
-          new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
-    );
-  }
-
   ngOnInit() {
     this.pageState = {
       appVersion$: this.store$.select(selectVersionNumber),
       employeeName$: this.store$.select(selectEmployeeName),
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
-<<<<<<< Updated upstream
-      unSubmittedTestSlots$: this.getUnsubmittedTests(),
-      slots$: this.getUnsubmittedTests().pipe(
+      unSubmittedTestSlots$: unsubmittedTestSlotsInDateOrder$(this.store$),
+      unSubmittedTestSlotData$: unsubmittedTestSlotsInDateOrder$(this.store$).pipe(
         map((data) => data.map((slot) => slot.slotData)),
       ),
-=======
-      unSubmittedTestSlots$: unsubmittedTestSlotsInDateOrder$(this.store$),
->>>>>>> Stashed changes
     };
   }
 
