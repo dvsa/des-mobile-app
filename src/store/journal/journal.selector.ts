@@ -92,7 +92,7 @@ export const getPermittedSlotIdsBeforeToday = (
   journal: JournalModel,
   today: DateTime,
   slotProvider: SlotProvider,
-): number[] => {
+): SlotItem[] => {
   const slots = getSlots(journal);
   const arrayOfDateStrings = Object.keys(slots).filter((date: string) => {
     const thisDate = new DateTime(date);
@@ -118,7 +118,7 @@ export const getPermittedSlotIdsBeforeToday = (
             .includes(Number(applicationReference));
         }),
     )),
-  ).map((slot: SlotItem) => slot.slotData.slotDetail.slotId);
+  );
 };
 
 export const getCompletedTests = (journalModel: JournalModel): SearchResultTestSchema[] => {

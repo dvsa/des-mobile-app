@@ -11,5 +11,5 @@ export const ContinueUnuploadedTest = createAction(
 
 export const LoadCompletedTestsFromUnsubmitted = createAction(
   '[UnuploadedTestsEffects] Load Completed Tests from un-uploaded',
-  (callThrough: boolean = false, numberOfDays: number = 14) => ({ callThrough, numberOfDays }),
+  (numberOfDays: number = 14) => ({ numberOfDays }),
 );

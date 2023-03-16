@@ -30,6 +30,10 @@ import {
 } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { unsubmittedTestSlotsInDateOrder$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { getTests } from '@store/tests/tests.reducer';
+import { getIncompleteTests } from '@components/common/incomplete-tests-banner/incomplete-tests-banner.selector';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { SlotProvider } from '@providers/slot/slot';
 
 @Injectable()
 export class UnuploadedTestsEffects {
@@ -42,13 +46,15 @@ export class UnuploadedTestsEffects {
     public searchProvider: SearchProvider,
     public appConfigProvider: AppConfigProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    private dateTimeProvider: DateTimeProvider,
+    private slotProvider: SlotProvider,
   ) {
   }
 
   unUploadedTestsViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(UnuploadedTestsViewDidEnter),
     switchMap(() => ([
-      LoadCompletedTestsFromUnsubmitted(true, this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView),
+      LoadCompletedTestsFromUnsubmitted(this.appConfigProvider.getAppConfig()?.journal?.numberOfDaysToView),
     ])),
   ));
 
@@ -61,7 +67,17 @@ export class UnuploadedTestsEffects {
             select(getExaminer),
             select(getStaffNumber),
           ),
-          unsubmittedTestSlotsInDateOrder$(this.store$),
+          // unsubmittedTestSlotsInDateOrder$(this.store$),
+          this.store$.pipe(
+            select(getJournalState),
+            withLatestFrom(this.store$.pipe(select(getTests))),
+            map((
+              [journal, tests],
+            ) => getIncompleteTests(journal, tests, this.dateTimeProvider.now(), this.slotProvider)),
+            map((slotItems: SlotItem[]) =>
+              slotItems.sort((a, b) =>
+                new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
+          ),
         ),
       )),
       filter((
