@@ -65,12 +65,15 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
     if (!this.slot) {
       this.slot = this.navParams.get('slot');
     }
-    if (!this.slots) {
-      this.slots = this.navParams.get('slots');
-    }
 
-    this.prevSlot = this.slots[this.slots.indexOf(this.slot) - 1];
-    this.nextSlot = this.slots[this.slots.indexOf(this.slot) + 1];
+    if (this.navParams.get('slots')) {
+      if (!this.slots) {
+        this.slots = this.navParams.get('slots');
+      }
+
+      this.prevSlot = this.slots[this.slots.indexOf(this.slot) - 1];
+      this.nextSlot = this.slots[this.slots.indexOf(this.slot) + 1];
+    }
 
     this.slotChanged = this.navParams.get('slotChanged');
     this.isTeamJournal = this.navParams.get('isTeamJournal');
