@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { map, withLatestFrom } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
@@ -26,7 +26,11 @@ import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
 import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
-import { unsubmittedTestSlots$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getTests } from '@store/tests/tests.reducer';
+import { getIncompleteTests } from '@components/common/incomplete-tests-banner/incomplete-tests-banner.selector';
+import { SlotProvider } from '@providers/slot/slot';
+import { DateTimeProvider } from '@providers/date-time/date-time';
 
 declare let window: any;
 
@@ -53,6 +57,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   constructor(
     private store$: Store<StoreModel>,
+    private slotProvider: SlotProvider,
+    private dateTimeProvider: DateTimeProvider,
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
@@ -91,8 +97,11 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
-        unSubmittedTestSlotsCount$: unsubmittedTestSlots$(this.store$).pipe(
-          map((slots) => slots.length),
+        unSubmittedTestSlotsCount$: this.store$.pipe(
+          select(getJournalState),
+          withLatestFrom(this.store$.pipe(select(getTests))),
+          map(([journal, tests]) =>
+            getIncompleteTests(journal, tests, this.dateTimeProvider.now(), this.slotProvider).length),
         ),
       };
 

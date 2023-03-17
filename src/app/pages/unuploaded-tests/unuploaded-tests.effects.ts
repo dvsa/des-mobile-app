@@ -29,7 +29,6 @@ import {
   UnuploadedTestsViewDidEnter,
 } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { unsubmittedTestSlotsInDateOrder$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { getIncompleteTests } from '@components/common/incomplete-tests-banner/incomplete-tests-banner.selector';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -106,7 +105,7 @@ export class UnuploadedTestsEffects {
           endDate: moment().format('YYYY-MM-DD'),
           staffNumber: removeLeadingZeros(staffNumber),
           costCode: '',
-          excludeAutoSavedTests: 'false',
+          excludeAutoSavedTests: 'true',
           activityCode: '',
           category: '',
         };

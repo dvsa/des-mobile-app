@@ -138,8 +138,7 @@ const calculateDaysDiff = (test: TestResultSchemasUnion): number => {
 };
 
 const isTestBeforeToday = (test: TestResultSchemasUnion): boolean => {
-  // return calculateDaysDiff(test) < 0;
-  return true;
+  return calculateDaysDiff(test) < 0;
 };
 
 export const getIncompleteTestsSlotIds = (tests: TestsModel): string[] => {

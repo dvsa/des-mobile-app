@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
-import {
-  combineLatest, Observable,
-} from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
@@ -25,7 +23,10 @@ import * as journalActions from '@store/journal/journal.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
-import { unsubmittedTestSlots$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getTests } from '@store/tests/tests.reducer';
+import { getIncompleteTests } from '@components/common/incomplete-tests-banner/incomplete-tests-banner.selector';
+import { SlotProvider } from '@providers/slot/slot';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -58,6 +59,7 @@ export class DashboardPage extends BasePageComponent {
     private insomnia: Insomnia,
     public deviceProvider: DeviceProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
+    private slotProvider: SlotProvider,
     authenticationProvider: AuthenticationProvider,
     platform: Platform,
     router: Router,
@@ -74,12 +76,11 @@ export class DashboardPage extends BasePageComponent {
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       isOffline$: this.networkStateProvider.isOffline$,
-      notificationCount$: combineLatest([
-        // each of the individual counts can be added to this array
-        unsubmittedTestSlots$(this.store$).pipe(map((slots) => slots.length)),
-      ]).pipe(
-        // Sum all individual counts to determine overall count
-        map((notificationCounts) => notificationCounts.reduce((a, b) => a + b, 0)),
+      notificationCount$: this.store$.pipe(
+        select(getJournalState),
+        withLatestFrom(this.store$.pipe(select(getTests))),
+        map(([journal, tests]) =>
+          getIncompleteTests(journal, tests, this.dateTimeProvider.now(), this.slotProvider).length),
       ),
     };
   }

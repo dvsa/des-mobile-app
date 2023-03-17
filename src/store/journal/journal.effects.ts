@@ -229,7 +229,7 @@ export class JournalEffects {
         endDate: moment().format('YYYY-MM-DD'),
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
-        excludeAutoSavedTests: 'false',
+        excludeAutoSavedTests: 'true',
         activityCode: '',
         category: '',
       };

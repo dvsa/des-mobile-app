@@ -1,13 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { Observable } from 'rxjs';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTime } from '@shared/helpers/date-time';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { getIncompleteTestsCount } from './incomplete-tests-banner.selector';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { Observable } from 'rxjs';
+import { getIncompleteTests } from './incomplete-tests-banner.selector';
 
 interface IncompleteTestsBannerComponentState {
   count$: Observable<number>;
@@ -34,17 +35,17 @@ export class IncompleteTestsBanner implements OnInit {
   constructor(
     private store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
-  ) {}
+    private dateTimeProvider: DateTimeProvider,
+  ) {
+  }
 
   ngOnInit() {
     this.componentState = {
       count$: this.store$.pipe(
         select(getJournalState),
-        withLatestFrom(this.store$.pipe(
-          select(getTests),
-        )),
+        withLatestFrom(this.store$.pipe(select(getTests))),
         map(([journal, tests]) =>
-          getIncompleteTestsCount(journal, tests, this.todaysDate, this.slotProvider)),
+          getIncompleteTests(journal, tests, this.dateTimeProvider.now(), this.slotProvider).length),
       ),
     };
   }
