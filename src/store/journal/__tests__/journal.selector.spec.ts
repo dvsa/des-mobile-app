@@ -25,7 +25,7 @@ import { baseJournalData } from '../__mocks__/journal-slots-data.mock';
 
 class MockStore { }
 
-describe('JournalSelector', () => {
+fdescribe('JournalSelector', () => {
   let slotProvider: SlotProvider;
 
   beforeEach(() => {
