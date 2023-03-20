@@ -70,6 +70,7 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
       if (!this.slots) {
         this.slots = this.navParams.get('slots');
       }
+      this.slots = this.slots.filter((slot) => !!slot?.booking?.candidate);
 
       this.prevSlot = this.slots[this.slots.indexOf(this.slot) - 1];
       this.nextSlot = this.slots[this.slots.indexOf(this.slot) + 1];
