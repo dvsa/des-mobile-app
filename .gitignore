@@ -39,6 +39,7 @@ npm-debug.log*
 /build
 test/e2e/test.config.ts
 test-reports/
+e2e-app/
 
 ios/App/App/public
 ios/DerivedData
