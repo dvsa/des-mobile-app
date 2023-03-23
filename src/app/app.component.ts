@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { map, withLatestFrom } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import { Observable, merge, Subscription } from 'rxjs';
+import {
+  Observable, merge, Subscription, combineLatest,
+} from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { init as sentryAngularInit } from '@sentry/angular';
@@ -25,11 +27,11 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SENTRY_ERRORS } from '@app/sentry-error-handler';
 import { DeviceProvider } from '@providers/device/device';
 import { DASHBOARD_PAGE, LOGIN_PAGE, UNUPLOADED_TESTS_PAGE } from '@pages/page-names.constants';
-import { getTests } from '@store/tests/tests.reducer';
-import { getIncompleteTestsSlotOlderThanADay } from '@store/tests/tests.selector';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
+import { SlotProvider } from '@providers/slot/slot';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { sumFlatArray } from '@shared/helpers/sum-number-array';
 
 declare let window: any;
 
@@ -56,6 +58,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   constructor(
     private store$: Store<StoreModel>,
+    private slotProvider: SlotProvider,
+    private dateTimeProvider: DateTimeProvider,
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected alertController: AlertController,
@@ -94,18 +98,9 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
       this.pageState = {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
-        unSubmittedTestSlotsCount$: this.store$.pipe(
-          select(getTests),
-          // get all slot ids regarded as incomplete from 'tests' slice of state older than 3 days
-          select(getIncompleteTestsSlotOlderThanADay),
-          withLatestFrom(
-            this.store$.pipe(
-              select(getJournalState), // grab 'journal' slice
-            ),
-          ),
-          // filter journal slots by incomplete slot ids inside tests
-          map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)?.length),
-        ),
+        unSubmittedTestSlotsCount$: combineLatest([
+          unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
+        ]).pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
       };
 
     } catch {

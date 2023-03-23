@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
-import { getTests } from '@store/tests/tests.reducer';
-import { getIncompleteTestsSlotOlderThanADay } from '@store/tests/tests.selector';
 import { SlotItem } from '@providers/slot-selector/slot-item';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { getJournalSlotsBySlotIDs } from '@store/journal/journal.selector';
 import { UnuploadedTestsViewDidEnter } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { TestSlot } from '@dvsa/mes-journal-schema';
+import {
+  unsubmittedTestSlotsInDateOrder$,
+} from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { SlotProvider } from '@providers/slot/slot';
 
 interface UnunploadedTestsPageState {
 
-  slots$: Observable<TestSlot[]>;
+  unSubmittedTestSlotData$: Observable<TestSlot[]>;
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
   employeeId$: Observable<string>;
@@ -34,25 +35,9 @@ export class UnuploadedTestsPage implements OnInit {
   pageState: UnunploadedTestsPageState;
   constructor(
     private store$: Store<StoreModel>,
+    private dateTimeProvider: DateTimeProvider,
+    private slotProvider: SlotProvider,
   ) {
-  }
-
-  getUnsubmittedTests() {
-    return this.store$.pipe(
-      select(getTests),
-      // get all slot ids regarded as incomplete from 'tests' slice of state older than 1 day
-      select(getIncompleteTestsSlotOlderThanADay),
-      withLatestFrom(
-        this.store$.pipe(
-          select(getJournalState), // grab 'journal' slice
-        ),
-      ),
-      // filter journal slots by incomplete slot ids inside tests
-      map(([slotIDs, journal]) => getJournalSlotsBySlotIDs(journal, slotIDs)),
-      map((slotItems) =>
-        slotItems.sort((a, b) =>
-          new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
-    );
   }
 
   ngOnInit() {
@@ -61,10 +46,9 @@ export class UnuploadedTestsPage implements OnInit {
       employeeName$: this.store$.select(selectEmployeeName),
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
-      unSubmittedTestSlots$: this.getUnsubmittedTests(),
-      slots$: this.getUnsubmittedTests().pipe(
-        map((data) => data.map((slot) => slot.slotData)),
-      ),
+      unSubmittedTestSlots$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider),
+      unSubmittedTestSlotData$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider)
+        .pipe(map((data) => data.map((slot) => slot.slotData))),
     };
   }
 

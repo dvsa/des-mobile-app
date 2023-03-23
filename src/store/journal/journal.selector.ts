@@ -76,15 +76,23 @@ export const getAllSlots = (journal: JournalModel): SlotItem[] => {
 };
 
 export const getJournalSlotsBySlotIDs = (journal: JournalModel, slotIDs: string[]): SlotItem[] => {
+  const completedTestAppRefs = journal.completedTests.map((test) => test.applicationReference);
+
   const allSlots = getAllSlots(journal);
-  return allSlots.filter((slot) => slotIDs.includes(slot.slotData?.slotDetail?.slotId?.toString()));
+  return allSlots
+    .filter((slot) => !completedTestAppRefs.includes(Number(formatApplicationReference({
+      applicationId: (slot.slotData.slotDetail as TestSlot)?.booking?.application.applicationId,
+      bookingSequence: (slot.slotData.slotDetail as TestSlot)?.booking?.application.bookingSequence,
+      checkDigit: (slot.slotData.slotDetail as TestSlot)?.booking?.application.checkDigit,
+    } as ApplicationReference))))
+    .filter((slot) => slotIDs.includes(slot.slotData?.slotDetail?.slotId?.toString()));
 };
 
 export const getPermittedSlotIdsBeforeToday = (
   journal: JournalModel,
   today: DateTime,
   slotProvider: SlotProvider,
-): number[] => {
+): SlotItem[] => {
   const slots = getSlots(journal);
   const arrayOfDateStrings = Object.keys(slots).filter((date: string) => {
     const thisDate = new DateTime(date);
@@ -110,7 +118,7 @@ export const getPermittedSlotIdsBeforeToday = (
             .includes(Number(applicationReference));
         }),
     )),
-  ).map((slot: SlotItem) => slot.slotData.slotDetail.slotId);
+  );
 };
 
 export const getCompletedTests = (journalModel: JournalModel): SearchResultTestSchema[] => {

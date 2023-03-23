@@ -369,7 +369,7 @@ describe('JournalSelector', () => {
       const slotIds = getPermittedSlotIdsBeforeToday(journal, DateTime.at('2019-01-14'), slotProvider);
 
       expect(slotIds.length).toBe(1);
-      expect(slotIds).toEqual([2001]);
+      expect(slotIds.map((slot) => slot.slotData.slotDetail.slotId)).toEqual([2001]);
     });
   });
 

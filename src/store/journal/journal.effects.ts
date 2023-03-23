@@ -22,7 +22,6 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { SlotProvider } from '@providers/slot/slot';
 import { JournalRefreshModes } from '@providers/analytics/analytics.model';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
-import { DataStoreProvider } from '@providers/data-store/data-store';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { Examiner } from '@dvsa/mes-test-schema/categories/common';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -37,16 +36,14 @@ import { LogType } from '@shared/models/log.model';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { AdvancedSearchParams } from '@providers/search/search.models';
-import { formatApplicationReference, removeLeadingZeros } from '@shared/helpers/formatters';
+import { removeLeadingZeros } from '@shared/helpers/formatters';
 import {
-  getAllIncompleteTests,
   hasStartedTests,
 } from '@store/tests/tests.selector';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 import * as moment from 'moment';
 import { getStaffNumber } from '@store/tests/journal-data/common/examiner/examiner.selector';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
 import { ExaminerSlotItems, ExaminerSlotItemsByDate } from './journal.model';
 import { SaveLog } from '../logs/logs.actions';
 import { getJournalState } from './journal.reducer';
@@ -70,7 +67,6 @@ export class JournalEffects {
     private store$: Store<StoreModel>,
     public appConfig: AppConfigProvider,
     public networkStateProvider: NetworkStateProvider,
-    public dataStoreprovider: DataStoreProvider,
     public authProvider: AuthenticationProvider,
     public dateTimeProvider: DateTimeProvider,
     public searchProvider: SearchProvider,
@@ -213,14 +209,10 @@ export class JournalEffects {
           select(getJournalState),
           select(getCompletedTests),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getAllIncompleteTests),
-        ),
       ),
     )),
     filter(([action, , hasStarted, completedTests]:
-    [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[], TestResultSchemasUnion[]]) => {
+    [ReturnType<typeof LoadCompletedTests>, string, boolean, SearchResultTestSchema[]]) => {
       if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
         this.store$.dispatch(LoadCompletedTestsSuccess(completedTests));
         return false;
@@ -230,27 +222,20 @@ export class JournalEffects {
 
       return !hasStarted && completedTests && completedTests.length === 0;
     }),
-    switchMap(([, staffNumber, , , unSubmittedTestsOnDevice]) => {
+    switchMap(([, staffNumber, ,]) => {
       const { numberOfDaysToView } = this.appConfig.getAppConfig().journal;
       const advancedSearchParams: AdvancedSearchParams = {
         startDate: moment().subtract(numberOfDaysToView, 'days').format('YYYY-MM-DD'),
         endDate: moment().format('YYYY-MM-DD'),
         staffNumber: removeLeadingZeros(staffNumber),
         costCode: '',
-        excludeAutoSavedTests: 'false',
+        excludeAutoSavedTests: 'true',
         activityCode: '',
         category: '',
       };
 
       return this.searchProvider.advancedSearch(advancedSearchParams).pipe(
-        map((searchResults: SearchResultTestSchema[]) => {
-
-          const unSubmittedAppRefs: string[] = unSubmittedTestsOnDevice
-            .map(({ journalData }) => formatApplicationReference(journalData.applicationReference));
-
-          return searchResults
-            .filter(({ applicationReference }) => !unSubmittedAppRefs.includes(String(applicationReference)));
-        }),
+        map((searchResults: SearchResultTestSchema[]) => searchResults),
         tap((searchResults) => this.completedTestPersistenceProvider.persistCompletedTests(searchResults)),
         map((searchResults: SearchResultTestSchema[]) => LoadCompletedTestsSuccess(searchResults)),
         catchError((err) => of(LoadCompletedTestsFailure(err))),

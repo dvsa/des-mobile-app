@@ -27,6 +27,9 @@ import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-confi
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { SlotProvider } from '@providers/slot/slot';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
@@ -68,6 +71,8 @@ describe('AppComponent', () => {
         { provide: AppInfoProvider, useClass: AppInfoProviderMock },
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
+        { provide: SlotProvider, useClass: SlotProvider },
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
       ],
     });
 
