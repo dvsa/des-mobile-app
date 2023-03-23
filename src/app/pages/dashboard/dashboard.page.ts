@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 
@@ -23,10 +23,9 @@ import * as journalActions from '@store/journal/journal.actions';
 import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-licence.actions';
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { getTests } from '@store/tests/tests.reducer';
-import { getIncompleteTests } from '@components/common/incomplete-tests-banner/incomplete-tests-banner.selector';
 import { SlotProvider } from '@providers/slot/slot';
+import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { sumFlatArray } from '@shared/helpers/sum-number-array';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -76,12 +75,9 @@ export class DashboardPage extends BasePageComponent {
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
       isOffline$: this.networkStateProvider.isOffline$,
-      notificationCount$: this.store$.pipe(
-        select(getJournalState),
-        withLatestFrom(this.store$.pipe(select(getTests))),
-        map(([journal, tests]) =>
-          getIncompleteTests(journal, tests, this.dateTimeProvider.now(), this.slotProvider).length),
-      ),
+      notificationCount$: combineLatest([
+        unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
+      ]).pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
     };
   }
 

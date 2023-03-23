@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
 import { Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { selectRole } from '@store/app-config/app-config.selectors';
 import { ExaminerRoleDescription } from '@providers/app-config/constants/examiner-role.constants';
 import { SlotItem } from '@providers/slot-selector/slot-item';
@@ -12,13 +12,8 @@ import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
   unsubmittedTestSlotsInDateOrder$,
 } from '@pages/unuploaded-tests/unuploaded-tests.selector';
-import {
-  getIncompleteTests,
-} from '@components/common/incomplete-tests-banner/incomplete-tests-banner.selector';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
-import { getJournalState } from '@store/journal/journal.reducer';
-import { getTests } from '@store/tests/tests.reducer';
 
 interface UnunploadedTestsPageState {
 
@@ -29,7 +24,6 @@ interface UnunploadedTestsPageState {
   role$: Observable<string>;
 
   unSubmittedTestSlots$?: Observable<SlotItem[]>;
-  unSubmittedTestSlotsOriginal$: Observable<SlotItem[]>;
 }
 
 @Component({
@@ -52,18 +46,9 @@ export class UnuploadedTestsPage implements OnInit {
       employeeName$: this.store$.select(selectEmployeeName),
       employeeId$: this.store$.select(selectEmployeeId).pipe(map(this.getEmployeeNumberDisplayValue)),
       role$: this.store$.select(selectRole).pipe(map(this.getRoleDisplayValue)),
-      unSubmittedTestSlots$: unsubmittedTestSlotsInDateOrder$(this.store$),
-      unSubmittedTestSlotData$: unsubmittedTestSlotsInDateOrder$(this.store$).pipe(
-        map((data) => data.map((slot) => slot.slotData)),
-      ),
-      unSubmittedTestSlotsOriginal$: this.store$.pipe(
-        select(getJournalState),
-        withLatestFrom(this.store$.pipe(select(getTests))),
-        map(([journal, tests]) => getIncompleteTests(journal, tests, this.dateTimeProvider.now(), this.slotProvider)),
-        map((slotItems: SlotItem[]) =>
-          slotItems.sort((a, b) =>
-            new Date(a.slotData.slotDetail.start).getTime() - new Date(b.slotData.slotDetail.start).getTime())),
-      ),
+      unSubmittedTestSlots$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider),
+      unSubmittedTestSlotData$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider)
+        .pipe(map((data) => data.map((slot) => slot.slotData))),
     };
   }
 

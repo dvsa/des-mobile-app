@@ -66,7 +66,6 @@ export class UnuploadedTestsEffects {
             select(getExaminer),
             select(getStaffNumber),
           ),
-          // unsubmittedTestSlotsInDateOrder$(this.store$),
           this.store$.pipe(
             select(getJournalState),
             withLatestFrom(this.store$.pipe(select(getTests))),
