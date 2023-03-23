@@ -27,10 +27,10 @@ import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-confi
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { PipesModule } from '@shared/pipes/pipes.module';
-import { AppComponent } from '../app.component';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
   jasmine.getEnv().allowRespy(true);
