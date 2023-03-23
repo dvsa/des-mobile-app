@@ -9,7 +9,11 @@ echo "Using PID: ${SIM_ID}"
 # Build the app
 ionic cap build ios --no-open --configuration testing --target="${SIM_ID}"
 
-echo "Build finished, copying DerivedData into e2e-app folder..."
+echo "Build finished, clearing down current e2e-app/..."
+
+rm -rf e2e-app/
+
+echo "Copying DerivedData into e2e-app/..."
 
 mkdir -p e2e-app/
 
