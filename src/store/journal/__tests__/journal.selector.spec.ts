@@ -7,7 +7,6 @@ import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-confi
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { Store } from '@ngrx/store';
-import { cloneDeep } from 'lodash';
 import {
   getSlotsOnSelectedDate,
   getLastRefreshed,
@@ -17,11 +16,9 @@ import {
   canNavigateToNextDay,
   canNavigateToPreviousDay,
   getPermittedSlotIdsBeforeToday,
-  hasSlotsAfterSelectedDate,
   getCompletedTests,
 } from '../journal.selector';
 import { JournalModel } from '../journal.model';
-import { baseJournalData } from '../__mocks__/journal-slots-data.mock';
 
 class MockStore { }
 
@@ -370,18 +367,6 @@ describe('JournalSelector', () => {
 
       expect(slotIds.length).toBe(1);
       expect(slotIds.map((slot) => slot.slotData.slotDetail.slotId)).toEqual([2001]);
-    });
-  });
-
-  describe('hasSlotsAfterSelectedDate', () => {
-    it('should return TRUE if slots DO EXIST after journal selected date', () => {
-      expect(hasSlotsAfterSelectedDate(baseJournalData)).toEqual(true);
-    });
-
-    it('should return FALSE if slots DO NOT EXIST after journal selected date', () => {
-      const journalWithoutSlotsAfterSelectedDate = cloneDeep(baseJournalData);
-      journalWithoutSlotsAfterSelectedDate.slots['2019-01-03'] = [];
-      expect(hasSlotsAfterSelectedDate(journalWithoutSlotsAfterSelectedDate)).toEqual(false);
     });
   });
   describe('getCompletedTests', () => {

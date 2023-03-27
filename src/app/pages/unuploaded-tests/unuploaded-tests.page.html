@@ -12,7 +12,6 @@
 
 <ion-content class="ion-padding" *ngIf="{
    slots: pageState.unSubmittedTestSlots$ | async,
-   originalSlots: pageState.unSubmittedTestSlots$ | async
 } as state">
 
   <div>
@@ -24,11 +23,11 @@
   </div>
 
   <h2 class="header-divider">
-    You have {{state.originalSlots?.length || 0}} incomplete {{getTestsText(state.originalSlots?.length)}} (over 1 day old)
+    You have {{state.slots?.length || 0}} incomplete {{getTestsText(state.slots?.length)}} (over 1 day old)
   </h2>
 
   <test-slot
-    *ngFor="let slot of state.originalSlots; let count = count;"
+    *ngFor="let slot of state.slots; let count = count;"
     [slots]="pageState.unSubmittedTestSlotData$ | async"
     [slot]="slot?.slotData"
     [isUnSubmittedTestSlotView]="true">
