@@ -1,32 +1,20 @@
 import {
   flatten,
-  isEmpty,
   isNil,
 } from 'lodash';
-import { createSelector } from '@ngrx/store';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTime, Duration } from '@shared/helpers/date-time';
-import { StoreModel } from '@shared/models/store.model';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { ApplicationReference } from '@dvsa/mes-test-schema/categories/common';
 import { formatApplicationReference } from '@shared/helpers/formatters';
 import { JournalModel } from './journal.model';
 
-export const selectJournal = (state: StoreModel): JournalModel => state.journal;
-
-export const selectSlots = createSelector(
-  selectJournal,
-  (journal: JournalModel): { [k: string]: SlotItem[] } => journal.slots,
-);
-
 export const getSlots = (journal: JournalModel) => journal.slots;
 
 export const getSlotsOnSelectedDate = (journal: JournalModel) => journal.slots[journal.selectedDate];
-
-export const getAvailableDays = (journal: JournalModel) => Object.keys(journal.slots);
 
 export const getError = (journal: JournalModel) => journal.error;
 
@@ -45,47 +33,11 @@ export const canNavigateToPreviousDay = (journal: JournalModel, today: DateTime)
   return selectedDate > lookbackLimit;
 };
 
-export const hasSlotsAfterSelectedDate = (journal: JournalModel): boolean => {
-  let allowNavigationToFutureDate: boolean = false;
-
-  Object.keys(journal.slots)
-    .forEach((slot: string) => {
-      if (DateTime.at(journal.selectedDate).isBefore(DateTime.at(slot)) && !isEmpty(journal.slots[slot])) {
-        allowNavigationToFutureDate = true;
-      }
-    });
-  return allowNavigationToFutureDate;
-};
-
 export const canNavigateToNextDay = (journal: JournalModel): boolean => {
   const nextDayAsDate = DateTime.at(journal.selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
   const fourteenDaysAhead = DateTime.at(DateTime.today()).add(14, Duration.DAY).format('YYYY-MM-DD');
 
   return (nextDayAsDate < fourteenDaysAhead);
-};
-
-export const getAllSlots = (journal: JournalModel): SlotItem[] => {
-  const slotArray: SlotItem[] = [];
-  Object.values(journal.slots)
-    .forEach((dayOfSlots) => {
-      dayOfSlots.forEach((slot) => {
-        slotArray.push(slot);
-      });
-    });
-  return slotArray;
-};
-
-export const getJournalSlotsBySlotIDs = (journal: JournalModel, slotIDs: string[]): SlotItem[] => {
-  const completedTestAppRefs = journal.completedTests.map((test) => test.applicationReference);
-
-  const allSlots = getAllSlots(journal);
-  return allSlots
-    .filter((slot) => !completedTestAppRefs.includes(Number(formatApplicationReference({
-      applicationId: (slot.slotData.slotDetail as TestSlot)?.booking?.application.applicationId,
-      bookingSequence: (slot.slotData.slotDetail as TestSlot)?.booking?.application.bookingSequence,
-      checkDigit: (slot.slotData.slotDetail as TestSlot)?.booking?.application.checkDigit,
-    } as ApplicationReference))))
-    .filter((slot) => slotIDs.includes(slot.slotData?.slotDetail?.slotId?.toString()));
 };
 
 export const getPermittedSlotIdsBeforeToday = (

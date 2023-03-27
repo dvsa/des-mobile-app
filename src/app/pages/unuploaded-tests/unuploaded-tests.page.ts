@@ -16,13 +16,11 @@ import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
 
 interface UnunploadedTestsPageState {
-
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
   appVersion$: Observable<string>;
   employeeName$: Observable<string>;
   employeeId$: Observable<string>;
   role$: Observable<string>;
-
   unSubmittedTestSlots$?: Observable<SlotItem[]>;
 }
 

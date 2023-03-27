@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 
-import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { AppConfigProvider } from '../app-config/app-config';
 import { UrlProvider } from '../url/url';
 
@@ -31,9 +30,4 @@ export class TestCentreJournalProvider {
       `${this.urlProvider.getTestCentreJournalUrl()}/${tcID}`,
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   };
-
-  allJournalsEmpty = (
-    testCentreResponse: TestCentreDetailResponse,
-  ): boolean => testCentreResponse?.examiners.every((examiner) => !examiner.journal);
-
 }
