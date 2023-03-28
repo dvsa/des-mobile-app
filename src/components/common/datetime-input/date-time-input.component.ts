@@ -56,11 +56,11 @@ export class DateTimeInputComponent {
   customButtonEvent = new EventEmitter<{ buttonType: string, data: IonDatetime }>();
 
   formatDisplayDate(date: string) {
-    return moment.utc(date).format('DD/MM/YYYY');
+    return moment(date).format('DD/MM/YYYY');
   }
 
   formatDisplayTime(time: string) {
-    return moment.utc(time).format('HH:mm');
+    return moment(time).format('HH:mm');
   }
 
   onSelected(event: IonDatetime, control: DisplayType) {
