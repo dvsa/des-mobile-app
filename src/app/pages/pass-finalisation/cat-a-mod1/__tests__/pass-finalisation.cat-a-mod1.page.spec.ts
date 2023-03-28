@@ -10,7 +10,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { TransmissionComponent } from '@components/common/transmission/transmission';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
@@ -34,7 +34,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { PersistTests } from '@store/tests/tests.actions';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { PassFinalisationValidationError } from '@pages/pass-finalisation/pass-finalisation.actions';
+import {
+  PassFinalisationValidationError,
+  PassFinalisationViewDidEnter,
+} from '@pages/pass-finalisation/pass-finalisation.actions';
 import {
   PASS_CERTIFICATE_NUMBER_CTRL,
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
@@ -88,6 +91,52 @@ describe('PassFinalisationCatAMod1Page', () => {
   }));
 
   describe('Class', () => {
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
+
+    describe('ionViewWillEnter', () => {
+      it('should dispatch PassFinalisationViewDidEnter', () => {
+        component.merged$ = new Observable<string>();
+        component.subscription.closed = true;
+        spyOn(store$, 'dispatch');
+        component.ionViewWillEnter();
+        expect(store$.dispatch).toHaveBeenCalledWith(PassFinalisationViewDidEnter());
+      });
+    });
+
+    describe('displayTransmissionBanner', () => {
+      it('should return true if transmission is automatic and form is dirty', () => {
+        component.transmission = 'Automatic';
+        component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+        component.form.controls['transmissionCtrl'].markAsDirty();
+        expect(component.displayTransmissionBanner()).toEqual(true);
+      });
+      it('should return false if transmission is not automatic and form is dirty', () => {
+        component.transmission = 'Manual';
+        component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+        component.form.controls['transmissionCtrl'].markAsDirty();
+        expect(component.displayTransmissionBanner()).toEqual(false);
+      });
+      it('should return false if transmission is automatic and form is not dirty', () => {
+        component.transmission = 'Automatic';
+        component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+        component.form.controls['transmissionCtrl'].markAsPristine();
+        expect(component.displayTransmissionBanner()).toEqual(false);
+      });
+      it('should return false if transmission is not automatic and form is not dirty', () => {
+        component.transmission = 'Manual';
+        component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+        component.form.controls['transmissionCtrl'].markAsPristine();
+        expect(component.displayTransmissionBanner()).toEqual(false);
+      });
+    });
+
     describe('onSubmit', () => {
       it('should dispatch the PersistTests action', () => {
         component.onSubmit();

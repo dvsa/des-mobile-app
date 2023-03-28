@@ -5,6 +5,7 @@ import { SearchProvider } from '@providers/search/search';
 import { UrlProviderMock } from '@providers/url/__mocks__/url.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { VehicleDetails } from '@providers/vehicle-details-api/vehicle-details-api.model';
 import { VehicleDetailsApiService } from './vehicle-details-api.service';
 
 describe('VehicleDetailsApiService', () => {
@@ -31,10 +32,25 @@ describe('VehicleDetailsApiService', () => {
   });
 
   describe('getVehicleByIdentifier', () => {
+    it('should return an Observable of vehicleDetailsResponse if it is defined and'
+        + ' vehicleRegistration is vehicleIdentifier', () => {
+      vehicleDetailsService.vehicleIdentifier = 'ABC123';
+      vehicleDetailsService.vehicleDetailsResponse = { timeStamp: 'test' } as VehicleDetails;
+      vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe((val) => {
+        expect(val).toEqual({ timeStamp: 'test' } as VehicleDetails);
+      });
+    });
     it('should call the search endpoint with the provided driver number', () => {
       vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe();
       httpMock.expectOne('https://www.example.com/1.0/vehicle?identifier=ABC123');
       expect(urlProvider.getTaxMotUrl).toHaveBeenCalled();
+    });
+  });
+  describe('clearVehicleData', () => {
+    it('should set vehicleIdentifier to null and vehicleDetailsResponse to undefined', () => {
+      vehicleDetailsService.clearVehicleData();
+      expect(vehicleDetailsService.vehicleIdentifier).toEqual(null);
+      expect(vehicleDetailsService.vehicleDetailsResponse).toEqual(undefined);
     });
   });
 });

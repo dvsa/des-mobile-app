@@ -17,7 +17,7 @@ import { DataStoreProvider } from '@providers/data-store/data-store';
 import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { LoadAppVersion } from '@store/app-info/app-info.actions';
+import { AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { AppInfoProvider } from '@providers/app-info/app-info';
@@ -30,6 +30,9 @@ import { PipesModule } from '@shared/pipes/pipes.module';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+
+import { Subscription } from 'rxjs';
+import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { AppComponent } from '../app.component';
 
 describe('AppComponent', () => {
@@ -89,6 +92,7 @@ describe('AppComponent', () => {
     translate = TestBed.inject(TranslateService);
     appConfigProvider = TestBed.inject(AppConfigProvider);
     deviceProvider = TestBed.inject(DeviceProvider);
+    spyOn(store$, 'dispatch');
   }));
 
   it('should create the app', () => {
@@ -215,6 +219,53 @@ describe('AppComponent', () => {
       spyOn(translate, 'setDefaultLang');
       component.configureLocale();
       expect(translate.setDefaultLang).toHaveBeenCalledWith('en');
+    });
+  });
+
+  describe('closeSideMenu', () => {
+    it('should dispatch SideMenuClosed', () => {
+      component.closeSideMenu();
+      expect(store$.dispatch).toHaveBeenCalledWith(SideMenuClosed());
+    });
+  });
+
+  describe('openSideMenu', () => {
+    it('should dispatch SideMenuOpened', () => {
+      component.openSideMenu();
+      expect(store$.dispatch).toHaveBeenCalledWith(SideMenuOpened());
+    });
+  });
+
+  describe('onAppSuspended', () => {
+    it('should dispatch AppSuspended', () => {
+      component.onAppSuspended();
+      expect(store$.dispatch).toHaveBeenCalledWith(AppSuspended());
+    });
+  });
+
+  describe('ionViewWillUnload', () => {
+    it('should unsubscribe from subscription if there is one', () => {
+      component['platformSubscription'] = new Subscription();
+      spyOn(component['platformSubscription'], 'unsubscribe');
+      component.ionViewWillUnload();
+      expect(component['platformSubscription'].unsubscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('navPage', () => {
+    it('should call router.navigate with parameter passed', async () => {
+      spyOn(component['router'], 'navigate');
+      await component.navPage({ title: 'test', descriptor: 'test2' });
+      expect(component['router'].navigate).toHaveBeenCalledWith(['test']);
+    });
+    it('should call menuController.close', async () => {
+      spyOn(component['menuController'], 'close');
+      await component.navPage({ title: 'test', descriptor: 'test2' });
+      expect(component['menuController'].close).toHaveBeenCalled();
+    });
+    it('should call store$.dispatch with SideMenuItemSelected', async () => {
+      await component.navPage({ title: 'test', descriptor: 'test2' });
+      expect(store$.dispatch).toHaveBeenCalledWith(SideMenuItemSelected('test2'));
     });
   });
 

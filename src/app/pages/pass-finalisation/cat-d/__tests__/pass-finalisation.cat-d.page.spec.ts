@@ -41,6 +41,7 @@ import {
 import { TestsModel } from '@store/tests/tests.model';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { provideMockStore } from '@ngrx/store/testing';
+import { take } from 'rxjs/operators';
 import { PassFinalisationCatDPage } from '../pass-finalisation.cat-d.page';
 
 describe('PassFinalisationCatDPage', () => {
@@ -61,7 +62,7 @@ describe('PassFinalisationCatDPage', () => {
           version: '1',
           rekey: false,
           activityCode: '1',
-          passCompletion: { passCertificateNumber: 'test', code78: true },
+          passCompletion: { passCertificateNumber: 'test', code78Present: true },
           category: TestCategory.D,
           changeMarker: null,
           examinerBooked: null,
@@ -331,14 +332,17 @@ describe('PassFinalisationCatDPage', () => {
         expect(component.subscription)
           .toBeDefined();
       });
-      xit('should resolve state variables', () => {
+      it('should resolve state variables', () => {
         component.ngOnInit();
-        component.pageState.code78$
-          .subscribe((res) => expect(res)
-            .toEqual(true));
+
         component.pageState.testCategory$
+          .pipe(take(1))
           .subscribe((res) => expect(res)
             .toEqual(TestCategory.D));
+        component.pageState.code78$
+          .pipe(take(1))
+          .subscribe((res) => expect(res)
+            .toEqual(true));
       });
     });
 

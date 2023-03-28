@@ -37,6 +37,10 @@ import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { TestsModel } from '@store/tests/tests.model';
+import { provideMockStore } from '@ngrx/store/testing';
 import { PassFinalisationCatBPage } from '../pass-finalisation.cat-b.page';
 import {
   PassFinalisationViewDidEnter,
@@ -48,6 +52,78 @@ describe('PassFinalisationCatBPage', () => {
   let component: PassFinalisationCatBPage;
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
+
+  const initialState = {
+    appInfo: { employeeId: '123456' },
+    tests: {
+      currentTest: {
+        slotId: '123',
+      },
+      testStatus: {},
+      startedTests: {
+        123: {
+          version: '1',
+          rekey: false,
+          activityCode: '1',
+          passCompletion: { passCertificateNumber: 'test', code78: true },
+          category: TestCategory.D,
+          changeMarker: null,
+          examinerBooked: null,
+          examinerConducted: null,
+          examinerKeyed: null,
+          journalData: {
+            examiner: null,
+            testCentre: null,
+            testSlotAttributes: null,
+            applicationReference: null,
+            candidate: {
+              candidateName: {
+                firstName: 'Firstname',
+                lastName: 'Lastname',
+              },
+            },
+          },
+          testData: {
+            vehicleChecks: {
+              fullLicenceHeld: false,
+              showMeQuestions: [
+                {
+                  code: 'Q1',
+                  outcome: 'DF',
+                  description: 'All doors secure',
+                },
+              ],
+              tellMeQuestions: [
+                {
+                  code: 'Q3',
+                  outcome: 'P',
+                  description: 'Safety factors while loading',
+                },
+              ],
+            },
+            safetyQuestions: {
+              questions: [
+                {
+                  outcome: 'DF',
+                  description: 'Fire Extinguisher',
+                },
+                {
+                  outcome: 'DF',
+                  description: 'Emergency exit',
+                },
+                {
+                  outcome: 'P',
+                  description: 'Fuel cutoff',
+                },
+              ],
+              faultComments: '',
+            },
+          },
+          vehicleDetails: { gearboxCategory: 'Manual' },
+        } as TestResultCommonSchema,
+      },
+    } as TestsModel,
+  } as StoreModel;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -74,6 +150,7 @@ describe('PassFinalisationCatBPage', () => {
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
+        provideMockStore({ initialState }),
         OutcomeBehaviourMapProvider,
       ],
     });
@@ -86,6 +163,22 @@ describe('PassFinalisationCatBPage', () => {
   }));
 
   describe('Class', () => {
+    describe('ngOnInit', () => {
+      it('should define subscription', () => {
+        component.ngOnInit();
+        expect(component.subscription)
+          .toBeDefined();
+      });
+      it('should set transmissionCtrl correctly', () => {
+        component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+
+        component.ngOnInit();
+        component.pageState.transmissionManualRadioChecked$.subscribe();
+
+        expect(component.form.controls['transmissionCtrl'].value).toEqual('Manual');
+      });
+    });
+
     describe('ionViewDidEnter', () => {
       it('should dispatch the VIEW_DID_ENTER action when the function is run', () => {
         component.ionViewDidEnter();
@@ -139,4 +232,41 @@ describe('PassFinalisationCatBPage', () => {
       expect(component.isNorthernIreland(UKlicence)).toEqual(false);
     });
   });
+
+  describe('ionViewDidLeave', () => {
+    it('should unsubscribe from subscription if there is one', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('displayTransmissionBanner', () => {
+    it('should return true if transmission is automatic and form is dirty', () => {
+      component.transmission = 'Automatic';
+      component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+      component.form.controls['transmissionCtrl'].markAsDirty();
+      expect(component.displayTransmissionBanner()).toEqual(true);
+    });
+    it('should return false if transmission is not automatic and form is dirty', () => {
+      component.transmission = 'Manual';
+      component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+      component.form.controls['transmissionCtrl'].markAsDirty();
+      expect(component.displayTransmissionBanner()).toEqual(false);
+    });
+    it('should return false if transmission is automatic and form is not dirty', () => {
+      component.transmission = 'Automatic';
+      component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+      component.form.controls['transmissionCtrl'].markAsPristine();
+      expect(component.displayTransmissionBanner()).toEqual(false);
+    });
+    it('should return false if transmission is not automatic and form is not dirty', () => {
+      component.transmission = 'Manual';
+      component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl() });
+      component.form.controls['transmissionCtrl'].markAsPristine();
+      expect(component.displayTransmissionBanner()).toEqual(false);
+    });
+  });
+
 });

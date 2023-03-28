@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TestOutcome } from '@store/tests/tests.constants';
+import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
 import { ViewTestHeaderComponent } from '../view-test-header';
 
 describe('ViewTestHeaderComponent', () => {
@@ -42,6 +43,12 @@ describe('ViewTestHeaderComponent', () => {
           testOutcome: TestOutcome.Passed,
         };
         expect(component.isPassed()).toBe(false);
+      });
+    });
+    describe('getActivityCodeDescription', () => {
+      it('should return correct string value', () => {
+        component.data = { activityCode: '2' } as ViewTestHeaderModel;
+        expect(component.getActivityCodeDescription()).toEqual('Fail');
       });
     });
   });

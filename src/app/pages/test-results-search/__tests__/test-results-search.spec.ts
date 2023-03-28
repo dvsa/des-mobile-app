@@ -19,9 +19,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MockComponent } from 'ng-mocks';
 import { AdvancedSearchComponent } from '@pages/test-results-search/components/advanced-search/advanced-search';
 import { SearchResultComponent } from '@pages/test-results-search/components/search-result/search-result';
+import { Subscription } from 'rxjs';
+import { TestResultSearchViewDidEnter } from '@pages/test-results-search/test-results-search.actions';
 import { TestResultsSearchPage } from '../test-results-search';
 import { TestResultsSearchComponentsModule } from '../components/test-results-search-components.module';
 
+enum SearchBy {
+  DriverNumber = 'driverNumber',
+  ApplicationReference = 'appReference',
+}
 describe('TestResultsSearchPage', () => {
   let fixture: ComponentFixture<TestResultsSearchPage>;
   let component: TestResultsSearchPage;
@@ -82,6 +88,71 @@ describe('TestResultsSearchPage', () => {
         it('verifyAdvancedSearch returns employee ID when the user is a DE', () => {
           expect(component.verifyAdvancedSearch()).toBe('testValue');
         });
+      });
+    });
+
+    describe('ionViewDidEnter', () => {
+      it('should dispatch the view did enter action', () => {
+        spyOn(component['store$'], 'dispatch');
+        component.ionViewDidEnter();
+        expect(component['store$'].dispatch).toHaveBeenCalledWith(TestResultSearchViewDidEnter());
+      });
+    });
+
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from the subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('searchTests', () => {
+      it('should set define subscription using ApplicationReference', () => {
+        component.searchBy = SearchBy.ApplicationReference;
+        component.searchTests();
+        expect(component.subscription)
+          .toBeDefined();
+      });
+      it('should set define subscription using DriverNumber', () => {
+        component.searchBy = SearchBy.DriverNumber;
+        component.searchTests();
+        expect(component.subscription)
+          .toBeDefined();
+      });
+    });
+
+    describe('advancedSearch', () => {
+      it('should set define subscription', () => {
+        component.advancedSearch({});
+        expect(component.subscription)
+          .toBeDefined();
+      });
+    });
+
+    describe('setFocus', () => {
+      it('should set focusedElement to the passed parameter', () => {
+        component.setFocus('test');
+        expect(component.focusedElement)
+          .toEqual('test');
+      });
+    });
+
+    describe('searchByChanged', () => {
+      it('should set searchBy to the passed parameter', () => {
+        component.searchByChanged('test');
+        expect(component.searchBy)
+          .toEqual('test');
+      });
+    });
+
+    describe('candidateInfoChanged', () => {
+      it('should set candidateInfo to the passed parameter', () => {
+        component.candidateInfoChanged('test');
+        expect(component.candidateInfo)
+          .toEqual('test');
       });
     });
 

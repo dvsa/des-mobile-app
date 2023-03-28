@@ -46,16 +46,6 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
     }
   }
 
-  startTimeChanged(startTime: string) {
-    this.minTime = startTime;
-    this.testStartTimeChange.emit(startTime);
-  }
-
-  endTimeChanged(endTime: string) {
-    this.maxTime = endTime;
-    this.testEndTimeChange.emit(endTime);
-  }
-
   timeChanged(event: { control?: string; data: string }) {
     switch (event.control) {
       case 'start-time':

@@ -19,6 +19,8 @@ import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/n
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
+import { Subscription } from 'rxjs';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestReportBasePageComponent } from '../test-report-base-page';
 
 describe('TestReportBasePageComponent', () => {
@@ -96,10 +98,38 @@ describe('TestReportBasePageComponent', () => {
   }));
 
   describe('onInitialisation', () => {
+    it('should return getTestRequirementsCatB if the category is B', () => {
+      expect(basePageComponent.getTestRequirements({
+        testRequirements: { normalStart1: true },
+      }, TestCategory.B)).toEqual({ normalStart1: true });
+    });
+    [
+      TestCategory.C,
+      TestCategory.C1,
+      TestCategory.C1E].forEach((val) => {
+      it(`should return getTestRequirementsCatC if the category is ${val}`, () => {
+        expect(basePageComponent.getTestRequirements({
+          testRequirements: { normalStart1: true },
+        }, TestCategory.B)).toEqual({ normalStart1: true });
+      });
+    });
+  });
+
+  describe('getTestRequirements', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
       basePageComponent.commonPageState.candidateUntitledName$
         .subscribe((res) => expect(res).toEqual('Marge Simpson'));
+    });
+  });
+
+  describe('cancelSubscription', () => {
+    it('should unsubscribe from the subscription if there is one', () => {
+      basePageComponent.subscription = new Subscription();
+      spyOn(basePageComponent.subscription, 'unsubscribe');
+      basePageComponent.cancelSubscription();
+      expect(basePageComponent.subscription.unsubscribe)
+        .toHaveBeenCalled();
     });
   });
 
