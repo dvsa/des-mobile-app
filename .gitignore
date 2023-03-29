@@ -29,6 +29,7 @@ npm-debug.log*
 /.versions
 /.vscode
 /.history
+/.scannerwork
 /coverage
 /dist
 /node_modules
