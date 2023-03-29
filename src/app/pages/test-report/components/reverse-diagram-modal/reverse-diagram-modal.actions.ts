@@ -1,4 +1,4 @@
-import { createAction, union } from '@ngrx/store';
+import { createAction } from '@ngrx/store';
 
 export const ReverseDiagramViewDidEnter = createAction(
   '[ReverseDiagramPage] Reverse Diagram Did Enter',
@@ -21,13 +21,3 @@ export const ReverseDiagramWidthChanged = createAction(
   '[ReverseDiagramPage] Change Vehicle Width',
   (previousWidth: number, newWidth: number) => ({ previousWidth, newWidth }),
 );
-
-const actions = union({
-  ReverseDiagramViewDidEnter,
-  ReverseDiagramOpened,
-  ReverseDiagramClosed,
-  ReverseDiagramLengthChanged,
-  ReverseDiagramWidthChanged,
-});
-
-export type ReverseDiagramTypes = typeof actions;

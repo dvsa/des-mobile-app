@@ -11,8 +11,6 @@ import { UntypedFormGroup } from '@angular/forms';
 })
 export class PostalAddressComponent {
 
-  readonly postalType = 'Post';
-
   @Input()
   formGroup: UntypedFormGroup;
 

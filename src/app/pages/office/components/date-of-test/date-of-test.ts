@@ -89,8 +89,6 @@ export class DateOfTest implements OnInit {
     this.isPressed = false;
   }
 
-  enableEdit = () => this.editMode = true;
-
   disableEdit = () => this.editMode = false;
 
   handleEvents(dateTime: IonDatetime, buttonType: string): Promise<void> {

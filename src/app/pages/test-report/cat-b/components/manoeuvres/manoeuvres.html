@@ -1,4 +1,4 @@
-<button id="manoeuvers-button" #competencyButton (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
+<button id="manoeuvers-button" (click)="togglePopoverDisplay()" [class.promoted]="displayPopover"
   [ngClass]="{
     'fault': drivingFaults > 0,
     'serious-fault': hasSeriousFault,
