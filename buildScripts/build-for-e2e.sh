@@ -7,7 +7,11 @@ SIM_ID=$(xcrun simctl list devices | grep -m 1 "${TARGET}" | grep -E -o -i '([0-
 echo "Using PID: ${SIM_ID}"
 
 # Build the app
-ionic cap build ios --no-open --configuration testing --target="${SIM_ID}"
+ionic cap run ios --configuration testing --target="${SIM_ID}"
+
+echo "Shutting down sim(s)"
+
+killall Simulator
 
 echo "Build finished, clearing down current e2e-app/..."
 
