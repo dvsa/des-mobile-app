@@ -5,7 +5,7 @@ import { NavController, Platform } from '@ionic/angular';
 import { NavControllerMock, PlatformMock } from '@mocks/index.mock';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
 import { Observable, Subscription } from 'rxjs';
@@ -40,6 +40,8 @@ import {
 } from '@pages/pass-finalisation/components/pass-certificate-number/pass-certificate-number.constants';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { provideMockStore } from '@ngrx/store/testing';
+import { take } from 'rxjs/operators';
 import { PassFinalisationCatDPage } from '../pass-finalisation.cat-d.page';
 
 describe('PassFinalisationCatDPage', () => {
@@ -269,15 +271,13 @@ describe('PassFinalisationCatDPage', () => {
       imports: [
         RouterTestingModule.withRoutes([]),
         AppModule,
-        StoreModule.forRoot({
-          tests: () => (initialState.tests),
-        }),
       ],
       providers: [
         { provide: Platform, useClass: PlatformMock },
         { provide: Router, useValue: routerSpy },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: NavController, useClass: NavControllerMock },
+        provideMockStore({ initialState }),
         OutcomeBehaviourMapProvider,
       ],
     });
@@ -334,12 +334,15 @@ describe('PassFinalisationCatDPage', () => {
       });
       it('should resolve state variables', () => {
         component.ngOnInit();
-        component.pageState.code78$
-          .subscribe((res) => expect(res)
-            .toEqual(true));
+
         component.pageState.testCategory$
+          .pipe(take(1))
           .subscribe((res) => expect(res)
             .toEqual(TestCategory.D));
+        component.pageState.code78$
+          .pipe(take(1))
+          .subscribe((res) => expect(res)
+            .toEqual(true));
       });
     });
 

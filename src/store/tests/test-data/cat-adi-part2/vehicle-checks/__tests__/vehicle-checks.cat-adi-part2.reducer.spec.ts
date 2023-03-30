@@ -1,6 +1,8 @@
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { cloneDeep } from 'lodash';
+import { VehicleChecks } from '@dvsa/mes-test-schema/categories/ADI2/partial';
+import * as vehicleChecksCatADI2ActionTypes from '../vehicle-checks.cat-adi-part2.action';
 import {
   initialState,
   vehicleChecksCatADI2Reducer,
@@ -45,6 +47,53 @@ describe('Vehicle Checks Cat ADI2 Reducer', () => {
       const result = vehicleChecksCatADI2Reducer(state, AddShowMeTellMeComment('So many mistakes.'));
 
       expect(result.showMeTellMeComments).toEqual('So many mistakes.');
+    });
+  });
+
+  describe('VehicleChecksAddSeriousFault', () => {
+    it('should set seriousFault to true', () => {
+      const result = vehicleChecksCatADI2Reducer(
+        {}, vehicleChecksCatADI2ActionTypes.VehicleChecksAddSeriousFault(),
+      );
+      expect(result).toEqual({ seriousFault: true });
+    });
+  });
+
+  describe('VehicleChecksAddDangerousFault', () => {
+    it('should set dangerousFault to true', () => {
+      const result = vehicleChecksCatADI2Reducer(
+        {}, vehicleChecksCatADI2ActionTypes.VehicleChecksAddDangerousFault(),
+      );
+      expect(result).toEqual({ dangerousFault: true });
+    });
+  });
+
+  describe('VehicleChecksRemoveSeriousFault', () => {
+    it('should set seriousFault to false', () => {
+      const result = vehicleChecksCatADI2Reducer(
+        {}, vehicleChecksCatADI2ActionTypes.VehicleChecksRemoveSeriousFault(),
+      );
+      expect(result).toEqual({ seriousFault: false });
+    });
+  });
+
+  describe('VehicleChecksAddDangerousFault', () => {
+    it('should set dangerousFault to false', () => {
+      const result = vehicleChecksCatADI2Reducer(
+        {}, vehicleChecksCatADI2ActionTypes.VehicleChecksRemoveDangerousFault(),
+      );
+      expect(result).toEqual({ dangerousFault: false });
+    });
+  });
+
+  describe('VehicleChecksCompletedToggle', () => {
+    it('should toggle vehicleChecksCompleted', () => {
+
+      let result: VehicleChecks = { vehicleChecksCompleted: false };
+      result = vehicleChecksCatADI2Reducer(
+        result, vehicleChecksCatADI2ActionTypes.VehicleChecksCompletedToggle(),
+      );
+      expect(result).toEqual({ vehicleChecksCompleted: true });
     });
   });
 });

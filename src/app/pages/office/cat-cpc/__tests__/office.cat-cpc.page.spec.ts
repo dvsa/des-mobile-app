@@ -22,7 +22,7 @@ import { QuestionProvider } from '@providers/question/question';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ActivityCodeModel, ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
@@ -47,6 +47,10 @@ import {
 } from '@pages/waiting-room-to-car/cat-cpc/components/accompaniment-card/accompaniment-card.cat-cpc';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { Subscription } from 'rxjs';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatCPCPage } from '../office.cat-cpc.page';
@@ -357,6 +361,50 @@ describe('OfficeCatCPCPage', () => {
         expect(component.getCombinationAdditionalText(null)).toEqual(null);
       });
     });
+
+    describe('passCertificateDeclarationChanged', () => {
+      it('should dispatch PassCertificateNumberReceived with the parameter passed', () => {
+        component.passCertificateDeclarationChanged(true);
+        expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberReceived(true));
+      });
+    });
+
+    describe('passCertificateNumberChanged', () => {
+      it('should dispatch PassCertificateNumberChanged with the parameter passed', () => {
+        component.isDelegated = true;
+        component.passCertificateNumberChanged('test');
+        expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberChanged('test'));
+      });
+      it('should dispatch PassCertificateNumberReceived with passCertificateNumberCtrl'
+          + ' if isDelegated is false', () => {
+        component.isDelegated = false;
+
+        component.form.setControl('passCertificateNumberCtrl', new FormControl());
+        component.form.controls['passCertificateNumberCtrl'].setValue(true);
+
+        component.passCertificateNumberChanged('test');
+        expect(store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberReceived(true));
+      });
+    });
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from subscription if there is one', () => {
+        component.pageSubscription = new Subscription();
+        spyOn(component.pageSubscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.pageSubscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
+    describe('ionViewWillEnter', () => {
+      it('should disable single app mode if it not in practice mode and isIos is true', async () => {
+        component.isPracticeMode = false;
+        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+        spyOn(component.deviceProvider, 'disableSingleAppMode');
+        await component.ionViewWillEnter();
+        expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+      });
+    });
+
     describe('isFail', () => {
       it('should return false if test outcome is pass', () => {
         component.outcome = TestOutcome.PASS;
@@ -365,6 +413,16 @@ describe('OfficeCatCPCPage', () => {
       it('should return true if test outcome is fail', () => {
         component.outcome = TestOutcome.FAIL;
         expect(component.isFail()).toEqual(true);
+      });
+    });
+    describe('isPass', () => {
+      it('should return true if test outcome is pass', () => {
+        component.outcome = TestOutcome.PASS;
+        expect(component.isPass()).toEqual(true);
+      });
+      it('should return false if test outcome is fail', () => {
+        component.outcome = TestOutcome.FAIL;
+        expect(component.isPass()).toEqual(false);
       });
     });
     describe('assessmentReportChanged', () => {
