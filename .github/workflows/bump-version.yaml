@@ -7,24 +7,24 @@ on:
 jobs:
   bump-version-major:
     runs-on: ubuntu-latest
-    if: contains(github.event.comment.body, 'bump@major')
     steps:
       - name: Update major
+        if: contains(github.event.comment.body, 'bump@major')
         run: |
           echo "major"
 
   bump-version-minor:
     runs-on: ubuntu-latest
-    if: contains(github.event.comment.body, 'bump@minor')
     steps:
       - name: Update minor
+        if: contains(github.event.comment.body, 'bump@minor')
         run: |
           echo "minor"
 
   bump-version-patch:
     runs-on: ubuntu-latest
-    if: contains(github.event.comment.body, 'bump@patch')
     steps:
       - name: Update patch
+        if: contains(github.event.comment.body, 'bump@patch')
         run: |
           echo "patch"
