@@ -2,19 +2,20 @@ name: Version bump
 
 on: push
 
-env:
-  BODY: ${{ github.event.comment.body }}
-
 jobs:
   bump-version-major:
-    name: Bump major version
-    runs-on: ubuntu-latest
+#    name: Bump major version
+#    runs-on: ubuntu-latest
 
     steps:
-      - name: Update major
+      - name: Title
+        env:
+          TITLE: ${{ github.event.issue.title }}
+        run: echo "$TITLE"
+#      - name: Update major
 #        if: contains(github.event.comment.body, 'bump@major')
-        run: |
-          echo "$BODY"
+#        run: |
+#          echo "$BODY"
 #          echo major
 
 #  bump-version-minor:
