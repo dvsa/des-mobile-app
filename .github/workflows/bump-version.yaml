@@ -4,15 +4,15 @@ on: push
 
 jobs:
   bump-version-major:
-#    name: Bump major version
+    name: Bump major version
     runs-on: ubuntu-latest
 
     steps:
-      - name: Title
-#      - name: Update major
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github.event) }}
         run: |
-          echo ${{ toJson(github.event) }}
-#          echo major
+          echo "$GITHUB_CONTEXT"
 
 #  bump-version-minor:
 #    runs-on: ubuntu-latest
