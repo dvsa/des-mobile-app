@@ -5,19 +5,20 @@ on:
     types: [ created ]
 
 jobs:
-  runs-on: [ ubuntu-latest ]
-
   bump-version-major:
+    runs-on: ubuntu-latest
     if: contains(github.event.comment.body, 'bump@major')
     run: |
       echo "major"
 
   bump-version-minor:
+    runs-on: ubuntu-latest
     if: contains(github.event.comment.body, 'bump@minor')
     run: |
       echo "minor"
 
   bump-version-patch:
+    runs-on: ubuntu-latest
     if: contains(github.event.comment.body, 'bump@patch')
     run: |
       echo "patch"
