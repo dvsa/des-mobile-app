@@ -9,9 +9,10 @@ jobs:
 
     steps:
       - name: Update major
-        if: contains(github.event.comment.body, 'bump@major')
+#        if: contains(github.event.comment.body, 'bump@major')
         run: |
-          echo major
+          echo ${{ github.event.comment.body }}
+#          echo major
 
 #  bump-version-minor:
 #    runs-on: ubuntu-latest
