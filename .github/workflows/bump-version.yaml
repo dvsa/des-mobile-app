@@ -11,7 +11,8 @@ jobs:
       - name: Title
 #      - name: Update major
         run: |
-          echo ${{ github.event }}
+          echo ${{ github.event }} >> file.txt
+          cat file.txt
 #          echo major
 
 #  bump-version-minor:
