@@ -5,11 +5,11 @@ on: push
 jobs:
   bump-version-major:
     name: Bump major version
-    if: contains(github.event.comment.body, 'bump@major')
     runs-on: ubuntu-latest
 
     steps:
       - name: Update major
+        if: contains(github.event.comment.body, 'bump@major')
         run: |
           echo major
 
