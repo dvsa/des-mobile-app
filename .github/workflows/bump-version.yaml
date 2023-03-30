@@ -9,13 +9,9 @@ jobs:
 
     steps:
       - name: Title
-        env:
-          TITLE: this it title
-        run: echo "$TITLE"
 #      - name: Update major
-#        if: contains(github.event.comment.body, 'bump@major')
-#        run: |
-#          echo "$BODY"
+        run: |
+          echo ${{ github.event }}
 #          echo major
 
 #  bump-version-minor:
