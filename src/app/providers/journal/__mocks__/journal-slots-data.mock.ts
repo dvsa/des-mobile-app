@@ -1,6 +1,5 @@
 import { groupBy } from 'lodash';
 import { DateTime } from '@shared/helpers/date-time';
-import { JournalModel } from '@store/journal/journal.model';
 
 import { SlotItem } from '../../slot-selector/slot-item';
 
