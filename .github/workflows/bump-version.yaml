@@ -14,7 +14,7 @@ jobs:
       - name: Update major
 #        if: contains(github.event.comment.body, 'bump@major')
         run: |
-          echo "BODY"
+          echo "$BODY"
 #          echo major
 
 #  bump-version-minor:
