@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Title
         env:
-          TITLE: ${{ github.event.issue.title }}
+          TITLE: this it title
         run: echo "$TITLE"
 #      - name: Update major
 #        if: contains(github.event.comment.body, 'bump@major')
