@@ -5,7 +5,7 @@ on: push
 jobs:
   bump-version-major:
 #    name: Bump major version
-#    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Title
