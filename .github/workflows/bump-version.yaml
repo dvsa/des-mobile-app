@@ -1,6 +1,6 @@
 name: Version bump
 
-on: push
+on: issue_comment
 
 jobs:
   bump-version-major:
