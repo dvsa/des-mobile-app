@@ -9,22 +9,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update major
-        if: contains(github.event.comment.body, 'bump@major')
+#        if: contains(github.event.comment.body, 'bump@major')
         run: |
-          echo "major"
+          echo major
 
-  bump-version-minor:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update minor
-        if: contains(github.event.comment.body, 'bump@minor')
-        run: |
-          echo "minor"
-
-  bump-version-patch:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Update patch
-        if: contains(github.event.comment.body, 'bump@patch')
-        run: |
-          echo "patch"
+#  bump-version-minor:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Update minor
+#        if: contains(github.event.comment.body, 'bump@minor')
+#        run: |
+#          echo "minor"
+#
+#  bump-version-patch:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Update patch
+#        if: contains(github.event.comment.body, 'bump@patch')
+#        run: |
+#          echo "patch"
