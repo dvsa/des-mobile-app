@@ -168,52 +168,6 @@ export const catADI2TestDataStateObjectTellMeFaults: CatADI2UniqueTypes.TestData
   controlledStop: {},
 };
 
-export const catADI2TestDataStateObjectTellShowMeFaults: CatADI2UniqueTypes.TestData = {
-  drivingFaults: {},
-  dangerousFaults: {},
-  seriousFaults: {},
-  vehicleChecks: {
-    tellMeQuestions: [
-      {
-        code: 'T1',
-        description: 'Brakes',
-        outcome: 'P',
-      },
-      {
-        code: 'T2',
-        description: 'Tyre pressures',
-        outcome: 'P',
-      },
-      {
-        code: 'T3',
-        description: 'Head restraint',
-        outcome: 'P',
-      },
-    ],
-    showMeQuestions: [
-      {
-        code: 'T1',
-        description: 'something',
-        outcome: 'DF',
-      },
-      {
-        code: 'T2',
-        description: 'something else',
-        outcome: 'DF',
-      },
-    ],
-  },
-  eco: {},
-  ETA: {},
-  eyesightTest: {
-    complete: true,
-    seriousFault: false,
-  },
-  testRequirements: {},
-  manoeuvres: [],
-  controlledStop: {},
-};
-
 export const catADI2TestDataStateObjectControlledStopDrivingFaults: CatADI2UniqueTypes.TestData = {
   drivingFaults: {},
   dangerousFaults: {},

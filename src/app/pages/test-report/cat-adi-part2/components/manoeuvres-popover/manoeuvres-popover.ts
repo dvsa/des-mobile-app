@@ -37,7 +37,6 @@ export class ManoeuvresPopoverComponentAdiPart2 implements OnInit, OnDestroy {
   manoeuvres$: Observable<CatADI2UniqueTypes.Manoeuvres[]>;
   competencies = ManoeuvreCompetencies;
   manoeuvresWithFaults$: Observable<ManoeuvresFaultState[]>;
-  selectedManoeuvreTypes$: Observable<ManoeuvreTypes[]>;
   subscription: Subscription;
   merged$: Observable<ManoeuvreTypes[]>;
 
