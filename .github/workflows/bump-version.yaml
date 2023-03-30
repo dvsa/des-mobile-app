@@ -2,6 +2,9 @@ name: Version bump
 
 on: push
 
+env:
+  BODY: ${{ github.event.comment.body }}
+
 jobs:
   bump-version-major:
     name: Bump major version
@@ -9,11 +12,9 @@ jobs:
 
     steps:
       - name: Update major
-        env:
-          BODY: ${{ github.event.comment.body }}
 #        if: contains(github.event.comment.body, 'bump@major')
         run: |
-          echo "$BODY"
+          echo "BODY"
 #          echo major
 
 #  bump-version-minor:
