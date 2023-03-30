@@ -8,17 +8,23 @@ jobs:
   bump-version-major:
     runs-on: ubuntu-latest
     if: contains(github.event.comment.body, 'bump@major')
-    run: |
-      echo "major"
+    steps:
+      - name: Update major
+        run: |
+          echo "major"
 
   bump-version-minor:
     runs-on: ubuntu-latest
     if: contains(github.event.comment.body, 'bump@minor')
-    run: |
-      echo "minor"
+    steps:
+      - name: Update minor
+        run: |
+          echo "minor"
 
   bump-version-patch:
     runs-on: ubuntu-latest
     if: contains(github.event.comment.body, 'bump@patch')
-    run: |
-      echo "patch"
+    steps:
+      - name: Update patch
+        run: |
+          echo "patch"
