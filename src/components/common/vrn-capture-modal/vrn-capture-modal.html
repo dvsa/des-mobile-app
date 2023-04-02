@@ -1,50 +1,60 @@
-<ion-card id="vrn-capture-modal-card" class="modal-alert">
-    <form [formGroup]="formGroup">
-        <ion-row class="ion-justify-content-center" [formGroup]="formGroup">
-            <ion-col>
-                <h2 id="vrn-capture-title" class="modal-alert-header">Enter the vehicle<br/>registration number</h2>
-            </ion-col>
-        </ion-row>
-        <ion-row class="ion-justify-content-center">
-            <ion-col>
-                <p class="modal-text">
-                    You can use this space to make note of<br/>the vehicle registration number at this<br/>stage if
-                    known.
-                </p>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col>
-                <ion-input
-                        type="text"
-                        id="registration"
-                        [class.increase-height]="textZoom === 'text-zoom-x-large'"
-                        formControlName="vehicleRegistration"
-                        class="ion-input-styling input-field"
-                        [class.ng-invalid]="formInvalid"
-                        [ngModel]="vehicleRegistrationNumber"
-                        (ngModelChange)="inputChange($event)"
-                        [value]="vehicleRegistrationNumber"
-                        maxlength="7">
-                </ion-input>
-            </ion-col>
-        </ion-row>
-        <ion-row class="validation-message-row ion-justify-content-center">
-            <div class="validation-text" [class.ng-invalid]="formInvalid"
-                 id="waiting-room-to-car-registration-validation-text">
-                Enter the registration number
-            </div>
-        </ion-row>
-        <ion-row>
-            <ion-col class="column-border-top column-border-right ion-no-padding">
-                <ion-button id="cancel-button" fill="clear" class="cancel-button"
-                            (click)="this.modalController.dismiss()">Cancel
-                </ion-button>
-            </ion-col>
-            <ion-col class="column-border-top ion-no-padding">
-                <ion-button id="save-button" fill="clear" [disabled]="vehicleRegistrationNumber === ''"
-                            class="save-button" (click)="this.validateThenDismiss()"><h3>Save</h3></ion-button>
-            </ion-col>
-        </ion-row>
-    </form>
+<ion-card id="vrn-capture-modal-card" class="modal-alert" [formGroup]="formGroup">
+  <ion-row class="ion-justify-content-center">
+    <ion-col>
+      <h2 id="vrn-capture-title" class="modal-alert-header">Enter the vehicle<br />registration number</h2>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-justify-content-center">
+    <ion-col>
+      <p class="modal-text">
+        You can use this space to make note of<br />the vehicle registration number at this<br />stage if
+        known.
+      </p>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-input
+        type="text"
+        aria-labelledby="vrn-capture-title"
+        id="registration"
+        formControlName="vehicleRegistration"
+        class="ion-input-styling input-field"
+        [class.increase-height]="textZoom === 'text-zoom-x-large'"
+        [class.ng-invalid]="formInvalid"
+        [ngModel]="vehicleRegistrationNumber"
+        (ngModelChange)="inputChange($event)"
+        [value]="vehicleRegistrationNumber"
+        maxlength="7">
+      </ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row class="validation-message-row ion-justify-content-center">
+    <div class="validation-text" [class.ng-invalid]="formInvalid"
+         id="waiting-room-to-car-registration-validation-text">
+      Enter the registration number
+    </div>
+  </ion-row>
+  <ion-row>
+    <ion-col class="column-border-top column-border-right ion-no-padding">
+      <ion-button
+        id="cancel-button"
+        fill="clear"
+        class="cancel-button"
+        (click)="modalController.dismiss()">
+        Cancel
+      </ion-button>
+    </ion-col>
+
+    <ion-col class="column-border-top ion-no-padding">
+      <ion-button
+        id="save-button"
+        fill="clear"
+        [disabled]="vehicleRegistrationNumber === ''"
+        class="save-button"
+        (click)="validateThenDismiss()">
+        <h3>Save</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-card>

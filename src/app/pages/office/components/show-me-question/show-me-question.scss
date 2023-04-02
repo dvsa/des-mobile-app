@@ -1,4 +1,6 @@
-.select-padding {
-  position: relative;
-  left: 5px;
+:host {
+  .select-padding {
+    position: relative;
+    left: 5px;
+  }
 }

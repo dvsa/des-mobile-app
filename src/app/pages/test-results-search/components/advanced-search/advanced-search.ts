@@ -1,5 +1,5 @@
 import {
-  Component, Output, EventEmitter, Input,
+  Component, EventEmitter, Input, Output,
 } from '@angular/core';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
@@ -9,6 +9,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
 import { IonDatetime } from '@ionic/angular';
 import { AppComponent } from '@app/app.component';
+import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 
 @Component({
   selector: 'advanced-search',
@@ -79,10 +80,9 @@ export class AdvancedSearchComponent {
   compareEndDate: Date = null;
   focusedElement: string = null;
   currentDate: any = new Date().toISOString().substring(0, 10);
-
+  displayType = DisplayType;
   today = moment().format('YYYY-MM-DD');
   todayPlaceholder = moment().format('DD/MM/YYYY');
-
   minStartDate = moment().subtract(2, 'years').format('YYYY-MM-DD');
   minStartDatePlaceholder = moment().subtract(2, 'years').format('DD/MM/YYYY');
 

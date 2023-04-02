@@ -26,13 +26,14 @@
                             type="text"
                             id="staffNumber"
                             class="ion-input-styling"
+                            aria-labelledby="staff-num-examiner-who-conducted"
                             pattern="\d*"
                             [maxlength]="14"
                             [class.ng-invalid]="invalid"
                             formControlName="staffNumber"
                             [value]="staffNumber"
                             (ionChange)="staffNumberValueChanged($event.detail.value)"
-                            clearInput
+                            [clearInput]="true"
                             numbersOnly>
                     </ion-input>
                 </ion-item>

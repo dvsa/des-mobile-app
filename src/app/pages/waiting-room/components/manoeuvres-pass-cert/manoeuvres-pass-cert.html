@@ -9,8 +9,9 @@
             <ion-col>
                 <ion-input
                         [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
-                        formControlName="manoeuvresPassCertificateNumberCtrl"
                         [class.ng-invalid]="invalid"
+                        formControlName="manoeuvresPassCertificateNumberCtrl"
+                        aria-labelledby="manoeuvres-pass-cert-label"
                         type="text"
                         id="manoeuvres-pass-cert-number"
                         class="ion-input-styling increase-width"

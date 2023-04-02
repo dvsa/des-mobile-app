@@ -21,7 +21,8 @@
                                        id="rekey-search-application-reference"
                                        type="number"
                                        class="ion-input-styling custom-font-size"
-                                       clearInput
+                                       aria-labelledby="rekey-search-app-ref-label"
+                                       [clearInput]="true"
                                        numbersOnly
                                        (ionFocus)="setFocus('appRef')"
                                        (ionBlur)="setFocus(null)"
@@ -41,7 +42,8 @@
                                        id="rekey-search-staff-number"
                                        type="number"
                                        class="ion-input-styling custom-font-size"
-                                       clearInput
+                                       aria-labelledby="rekey-search-staff-number-label"
+                                       [clearInput]="true"
                                        numbersOnly
                                        (ionFocus)="setFocus('staffNum')"
                                        (ionBlur)="setFocus(null)"
