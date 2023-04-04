@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TrainerDetailsCardComponent } from '../trainer-details-card';
 
 describe('TrainerDetailsCardComponent', () => {
@@ -21,6 +22,17 @@ describe('TrainerDetailsCardComponent', () => {
 
     fixture = TestBed.createComponent(TrainerDetailsCardComponent);
     component = fixture.componentInstance;
+  });
+
+  describe('isADI3', () => {
+    it('should return true if category is ADI3', () => {
+      component.category = TestCategory.ADI3;
+      expect(component.isADI3()).toEqual(true);
+    });
+    it('should return false if category is not ADI3', () => {
+      component.category = TestCategory.B;
+      expect(component.isADI3()).toEqual(false);
+    });
   });
 
   describe('Class', () => {

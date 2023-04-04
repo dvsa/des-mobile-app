@@ -1,30 +1,27 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import {
-  Platform, ModalController,
-} from '@ionic/angular';
-import {
-  PlatformMock, ModalControllerMock,
-} from '@mocks/index.mock';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ModalController, Platform } from '@ionic/angular';
+import { ModalControllerMock, PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup,
+} from '@angular/forms';
 import { OverlayEventDetail } from '@ionic/core';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { AppModule } from '@app/app.module';
+import { SendCurrentTest, SendCurrentTestFailure, SendCurrentTestSuccess } from '@store/tests/tests.actions';
 import {
-  SendCurrentTest,
-  SendCurrentTestSuccess,
-  SendCurrentTestFailure,
-} from '@store/tests/tests.actions';
-import {
+  IpadIssueBrokenSelected,
+  IpadIssueLostSelected,
   IpadIssueSelected,
-  OtherSelected,
+  IpadIssueStolenSelected,
+  IpadIssueTechFaultSelected,
   OtherReasonUpdated,
+  OtherSelected,
   TransferSelected,
-  IpadIssueLostSelected, IpadIssueTechFaultSelected, IpadIssueStolenSelected, IpadIssueBrokenSelected,
 } from '@store/tests/rekey-reason/rekey-reason.actions';
 import { SetExaminerConducted } from '@store/tests/examiner-conducted/examiner-conducted.actions';
 
@@ -36,15 +33,21 @@ import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks
 import { RekeyReasonPage } from '@pages/rekey-reason/rekey-reason.page';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { getUploadStatus } from '@store/tests/rekey-reason/rekey-reason.selector';
-import { TestFlowPageNames } from '@pages/page-names.constants';
+import { JOURNAL_PAGE, REKEY_SEARCH_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
 
 import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { UploadRekeyModal } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal';
 import { UploadRekeyModalEvent } from '@pages/rekey-reason/components/upload-rekey-modal/upload-rekey-modal.constants';
-import { RekeyReasonViewDidEnter, ResetStaffNumberValidationError } from '@pages/rekey-reason/rekey-reason.actions';
+import {
+  RekeyReasonViewDidEnter, RekeyUploadTest,
+  ResetStaffNumberValidationError,
+  ValidateTransferRekey,
+} from '@pages/rekey-reason/rekey-reason.actions';
 import { ExitRekeyModalEvent } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal.constants';
 import { ExitRekeyModal } from '@pages/rekey-reason/components/exit-rekey-modal/exit-rekey-modal';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { SetRekeyDate } from '@store/tests/rekey-date/rekey-date.actions';
 import { IpadIssueComponent } from '../components/ipad-issue/ipad-issue';
 import { TransferComponent } from '../components/transfer/transfer';
 import { OtherReasonComponent } from '../components/other-reason/other-reason';
@@ -290,6 +293,115 @@ describe('RekeyReasonPage', () => {
           cssClass: 'mes-modal-alert text-zoom-regular',
         });
         expect(component.onUploadRekeyModalDismiss).toHaveBeenCalledWith('cancel' as UploadRekeyModalEvent);
+      });
+    });
+    describe('ionViewWillEnter', () => {
+      it('should setup subscription if merged is present', () => {
+        component.merged$ = new Observable<string | boolean>();
+        component.ionViewWillEnter();
+
+        expect(component.subscription).toBeDefined();
+      });
+    });
+    describe('isFormValid', () => {
+      it('should run markSpecificControlsAsDirty', () => {
+        spyOn(component, 'markSpecificControlsAsDirty');
+        component.isFormValid();
+
+        expect(component.markSpecificControlsAsDirty).toHaveBeenCalled();
+      });
+    });
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
+    describe('onUploadRekeyModalDismiss', () => {
+      it('should dispatch and SetRekeyDate and ValidateTransferRekey if '
+          + 'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is true', () => {
+        component.isTransferSelected = true;
+        component.onUploadRekeyModalDismiss(UploadRekeyModalEvent.UPLOAD);
+        expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
+        expect(store$.dispatch).toHaveBeenCalledWith(ValidateTransferRekey());
+      });
+      it('should dispatch and SetRekeyDate, SendCurrentTest and RekeyUploadTest if '
+          + 'passed parameter is UploadRekeyModalEvent.UPLOAD and isTransferSelected is false', () => {
+        component.isTransferSelected = false;
+        component.onUploadRekeyModalDismiss(UploadRekeyModalEvent.UPLOAD);
+        expect(store$.dispatch).toHaveBeenCalledWith(SetRekeyDate());
+        expect(store$.dispatch).toHaveBeenCalledWith(SendCurrentTest());
+        expect(store$.dispatch).toHaveBeenCalledWith(RekeyUploadTest());
+      });
+    });
+    describe('onUploadPressed', () => {
+      it('should call onShowUploadRekeyModal if isFormValid is true', async () => {
+        spyOn(component, 'isFormValid').and.returnValue(true);
+        spyOn(component, 'onShowUploadRekeyModal').and.callThrough();
+        await component.onUploadPressed();
+        expect(component.onShowUploadRekeyModal).toHaveBeenCalled();
+      });
+    });
+    describe('exitRekey', () => {
+      it('should run navigate with REKEY_SEARCH_PAGE if fromRekeySearch is true', async () => {
+        spyOn(component.router, 'navigate');
+        component.fromRekeySearch = true;
+        await component.exitRekey();
+
+        expect(component.router.navigate).toHaveBeenCalledWith([REKEY_SEARCH_PAGE]);
+      });
+      it('should run navigate with JOURNAL_PAGE if fromRekeySearch is false', async () => {
+        spyOn(component.router, 'navigate');
+        component.fromRekeySearch = false;
+        await component.exitRekey();
+
+        expect(component.router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
+      });
+    });
+    describe('markSpecificControlsAsDirty', () => {
+      it('should mark relevant fields as dirty if ipadIssueSelected is present ', () => {
+        component.formGroup = new UntypedFormGroup({
+          ipadIssueSelected: new UntypedFormControl(),
+          ipadIssueTechnicalFault: new UntypedFormControl(),
+          ipadIssueLost: new UntypedFormControl(),
+          ipadIssueStolen: new UntypedFormControl(),
+          ipadIssueBroken: new UntypedFormControl(),
+          transferSelected: new UntypedFormControl(),
+          otherSelected: new UntypedFormControl(),
+        });
+        component.formGroup.get('ipadIssueSelected').setValue('1');
+        component.markSpecificControlsAsDirty();
+
+        expect(component.formGroup.get('ipadIssueTechnicalFault').dirty).toEqual(true);
+        expect(component.formGroup.get('ipadIssueLost').dirty).toEqual(true);
+        expect(component.formGroup.get('ipadIssueStolen').dirty).toEqual(true);
+        expect(component.formGroup.get('ipadIssueBroken').dirty).toEqual(true);
+      });
+      it('should mark relevant fields as dirty if transferSelected is present ', () => {
+        component.formGroup = new UntypedFormGroup({
+          ipadIssueSelected: new UntypedFormControl(),
+          transferSelected: new UntypedFormControl(),
+          otherSelected: new UntypedFormControl(),
+          staffNumber: new UntypedFormControl(),
+        });
+        component.formGroup.get('transferSelected').setValue('1');
+        component.markSpecificControlsAsDirty();
+
+        expect(component.formGroup.get('staffNumber').dirty).toEqual(true);
+      });
+      it('should mark relevant fields as dirty if otherSelected is present ', () => {
+        component.formGroup = new UntypedFormGroup({
+          ipadIssueSelected: new UntypedFormControl(),
+          transferSelected: new UntypedFormControl(),
+          otherSelected: new UntypedFormControl(),
+          reason: new UntypedFormControl(),
+        });
+        component.formGroup.get('otherSelected').setValue('1');
+        component.markSpecificControlsAsDirty();
+
+        expect(component.formGroup.get('reason').dirty).toEqual(true);
       });
     });
     describe('handleUploadOutcome', () => {

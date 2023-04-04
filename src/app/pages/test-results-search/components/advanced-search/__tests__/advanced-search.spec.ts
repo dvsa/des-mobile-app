@@ -1,5 +1,5 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { IonDatetime, IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -91,6 +91,19 @@ describe('AdvancedSearchComponent', () => {
     it('should set selectedActivity to the params passed in', () => {
       component.activitySelectChange({ activityCode: 'activityCode', description: 'description' });
       expect(component.selectedActivity).toEqual({ activityCode: 'activityCode', description: 'description' });
+    });
+  });
+
+  describe('handleClear', () => {
+    it('should clear startDate if startEnd is "start"', () => {
+      component.startDate = 'test';
+      component.handleClear({ cancel: () => {} } as IonDatetime, 'start');
+      expect(component.startDate).toEqual('');
+    });
+    it('should clear endDate if startEnd is "end"', () => {
+      component.endDate = 'test';
+      component.handleClear({ cancel: () => {} } as IonDatetime, 'end');
+      expect(component.endDate).toEqual('');
     });
   });
 

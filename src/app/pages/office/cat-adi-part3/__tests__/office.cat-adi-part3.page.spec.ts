@@ -64,7 +64,7 @@ describe('OfficeCatADI3Page', () => {
             testStatus: {},
             startedTests: {
               123: {
-                category: TestCategory.ADI3,
+                category: TestCategory.SC,
                 accompaniment: {},
                 testData: {},
                 activityCode: '28',
@@ -113,6 +113,15 @@ describe('OfficeCatADI3Page', () => {
       spyOn(component.deviceProvider, 'disableSingleAppMode');
       await component.ionViewWillEnter();
       expect(component.deviceProvider.disableSingleAppMode).toHaveBeenCalled();
+    });
+  });
+
+  describe('ngOnInit', () => {
+    it('should resolve state variables', () => {
+      component.ngOnInit();
+      component.pageState.isStandardsCheck$.subscribe((val) => {
+        expect(val).toEqual(true);
+      });
     });
   });
 });

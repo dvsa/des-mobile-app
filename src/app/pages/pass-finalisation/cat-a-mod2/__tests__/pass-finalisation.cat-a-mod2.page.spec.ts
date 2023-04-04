@@ -42,6 +42,7 @@ import {
 import {
   PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
+import { TransmissionType } from '@shared/models/transmission-type';
 import { PassFinalisationCatAMod2Page } from '../pass-finalisation.cat-a-mod2.page';
 
 describe('PassFinalisationCatAMod2Page', () => {
@@ -132,6 +133,33 @@ describe('PassFinalisationCatAMod2Page', () => {
         spyOn(component.subscription, 'unsubscribe');
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
+
+    describe('displayTransmissionBanner', () => {
+      it('return false if transmissionCtrl is pristine and transmission is automatic', () => {
+        component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
+
+        component.form.controls['transmissionCtrl'].markAsPristine();
+        component.transmission = TransmissionType.Automatic;
+
+        expect(component.displayTransmissionBanner()).toEqual(false);
+      });
+      it('return false if transmissionCtrl is dirty and transmission is manual', () => {
+        component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
+
+        component.form.controls['transmissionCtrl'].markAsDirty();
+        component.transmission = TransmissionType.Manual;
+
+        expect(component.displayTransmissionBanner()).toEqual(false);
+      });
+      it('return true if transmissionCtrl is dirty and transmission is automatic', () => {
+        component.form = new UntypedFormGroup({ transmissionCtrl: new UntypedFormControl(null) });
+
+        component.form.controls['transmissionCtrl'].markAsDirty();
+        component.transmission = TransmissionType.Automatic;
+
+        expect(component.displayTransmissionBanner()).toEqual(true);
       });
     });
 

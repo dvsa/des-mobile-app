@@ -33,6 +33,10 @@ import {
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { TestsModel } from '@store/tests/tests.model';
+import { provideMockStore } from '@ngrx/store/testing';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { PassFinalisationCatADIPart3Page } from '../pass-finalisation.cat-adi-part3.page';
 
 describe('PassFinalisationCatADIPart3Page', () => {
@@ -40,6 +44,70 @@ describe('PassFinalisationCatADIPart3Page', () => {
   let fixture: ComponentFixture<PassFinalisationCatADIPart3Page>;
   let store$: Store<StoreModel>;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
+
+  const initialState = {
+    appInfo: { employeeId: '123456' },
+    tests: {
+      currentTest: {
+        slotId: '123',
+      },
+      testStatus: {},
+      startedTests: {
+        123: {
+          version: '1',
+          rekey: false,
+          activityCode: '1',
+          passCompletion: { passCertificateNumber: 'test', code78Present: true },
+          category: TestCategory.SC,
+          changeMarker: null,
+          examinerBooked: null,
+          examinerConducted: null,
+          examinerKeyed: null,
+          journalData: {
+            examiner: null,
+            testCentre: null,
+            testSlotAttributes: null,
+            applicationReference: null,
+            candidate: {
+              candidateName: {
+                firstName: 'Firstname',
+                lastName: 'Lastname',
+              },
+            },
+          },
+          testData: {
+            startTime: '1111-01-01T01:01:01',
+            endTime: '4444-04-04T04:44:44',
+            review: {
+              seekFurtherDevelopment: true,
+            },
+            vehicleChecks: {
+              fullLicenceHeld: false,
+              showMeQuestions: null,
+              tellMeQuestions: null,
+            },
+            safetyQuestions: {
+              questions: [
+                {
+                  outcome: 'DF',
+                  description: 'Fire Extinguisher',
+                },
+                {
+                  outcome: 'DF',
+                  description: 'Emergency exit',
+                },
+                {
+                  outcome: 'P',
+                  description: 'Fuel cutoff',
+                },
+              ],
+              faultComments: '',
+            },
+          },
+        } as TestResultCommonSchema,
+      },
+    } as TestsModel,
+  } as StoreModel;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -62,6 +130,7 @@ describe('PassFinalisationCatADIPart3Page', () => {
         { provide: Store },
         { provide: NavController, useClass: NavControllerMock },
         OutcomeBehaviourMapProvider,
+        provideMockStore({ initialState }),
       ],
     });
 
@@ -77,9 +146,21 @@ describe('PassFinalisationCatADIPart3Page', () => {
     });
 
     describe('furtherDevelopmentChanged', () => {
-      it('should dispatch SeekFurtherDevelopmentChanged using the parameter given ', () => {
+      it('should dispatch SeekFurtherDevelopmentChanged using the parameter given', () => {
         component.furtherDevelopmentChanged(true);
         expect(store$.dispatch).toHaveBeenCalledWith(SeekFurtherDevelopmentChanged(true));
+      });
+    });
+
+    describe('ngOnInit', () => {
+      it('should resolve state variables', () => {
+        component.ngOnInit();
+        component.pageState.isStandardsCheck$
+          .subscribe((res) => expect(res).toEqual(true));
+        component.pageState.testStartTime$
+          .subscribe((res) => expect(res).toEqual('1111-01-01T01:01:01'));
+        component.pageState.testEndTime$
+          .subscribe((res) => expect(res).toEqual('4444-04-04T04:44:44'));
       });
     });
 

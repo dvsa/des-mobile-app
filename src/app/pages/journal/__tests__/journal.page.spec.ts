@@ -2,6 +2,7 @@ import {
   ComponentFixture, waitForAsync, TestBed,
 } from '@angular/core/testing';
 import {
+  IonRefresher,
   ModalController,
   Platform,
 } from '@ionic/angular';
@@ -206,6 +207,73 @@ describe('JournalPage', () => {
         component.ionViewDidLeave();
         expect(component.subscription.unsubscribe)
           .toHaveBeenCalled();
+      });
+    });
+
+    describe('onPreviousDayClick', () => {
+      it('should dispatch SelectPreviousDay', () => {
+        component.onPreviousDayClick();
+        expect(store$.dispatch).toHaveBeenCalledWith(journalActions.SelectPreviousDay());
+      });
+    });
+
+    describe('onNextDayClick', () => {
+      it('should dispatch SelectNextDay', () => {
+        component.onNextDayClick();
+        expect(store$.dispatch).toHaveBeenCalledWith(journalActions.SelectNextDay());
+      });
+    });
+
+    describe('loadCompletedTestsWithCallThrough', () => {
+      it('should dispatch LoadCompletedTests with true', () => {
+        component['loadCompletedTestsWithCallThrough']();
+        expect(store$.dispatch).toHaveBeenCalledWith(journalActions.LoadCompletedTests(true));
+      });
+    });
+
+    describe('ionViewWillEnter', () => {
+      it('should run necessary functions', async () => {
+        spyOn(BasePageComponent.prototype, 'ionViewWillEnter');
+        spyOn(component, 'loadJournalManually').and.callThrough();
+        spyOn(component, 'setupPolling');
+        spyOn(component, 'configurePlatformSubscriptions');
+        spyOn(component['completedTestPersistenceProvider'], 'loadCompletedPersistedTests').and.callThrough();
+
+        await component.ionViewWillEnter();
+        expect(BasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
+        expect(component.loadJournalManually).toHaveBeenCalled();
+        expect(component.setupPolling).toHaveBeenCalled();
+        expect(component.configurePlatformSubscriptions).toHaveBeenCalled();
+        expect(component['completedTestPersistenceProvider'].loadCompletedPersistedTests).toHaveBeenCalled();
+      });
+    });
+
+    describe('refreshJournal', () => {
+      it('should run loadJournalManually', async () => {
+        spyOn(component, 'loadJournalManually').and.callThrough();
+
+        await component.refreshJournal();
+        expect(component.loadJournalManually).toHaveBeenCalled();
+      });
+    });
+
+    describe('pullRefreshJournal', () => {
+      it('should run refreshJournal and set pageRefresher to the value passed', async () => {
+        spyOn(component, 'refreshJournal').and.callThrough();
+
+        await component.pullRefreshJournal({ ionPull: null } as IonRefresher);
+        expect(component.refreshJournal).toHaveBeenCalled();
+        expect(component.pageRefresher).toEqual({ ionPull: null } as IonRefresher);
+      });
+    });
+
+    describe('ionViewWillLeave', () => {
+      it('should dispatch StopPolling and unsubscribe from a subscription if there is one', () => {
+        component.platformSubscription = new Subscription();
+        spyOn(component.platformSubscription, 'unsubscribe');
+        component.ionViewWillLeave();
+        expect(component.platformSubscription.unsubscribe).toHaveBeenCalled();
+        expect(store$.dispatch).toHaveBeenCalledWith(journalActions.StopPolling());
       });
     });
 
