@@ -31,6 +31,7 @@ import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { StatusBar } from '@capacitor/status-bar';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ModalEvent } from '../../test-report.constants';
 import { VehicleCheckComponent } from '../components/vehicle-check/vehicle-check';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
@@ -170,6 +171,32 @@ describe('TestReportCatBPage', () => {
       const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
       endTestButton.triggerEventHandler('click', null);
       expect(component.onEndTestClick).toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewDidEnter', () => {
+    it('should call the base page\'s ionViewDidEnter', () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidEnter');
+      component.ionViewDidEnter();
+      expect(TestReportBasePageComponent.prototype.ionViewDidEnter).toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewWillLeave', () => {
+    it('should call the base page\'s ionViewWillLeave', async () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewWillLeave');
+      await component.ionViewWillLeave();
+      expect(TestReportBasePageComponent.prototype.ionViewWillLeave).toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewDidLeave', () => {
+    it('should call the base page\'s ionViewDidLeave and cancelSubscription', () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
+      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+      component.ionViewDidLeave();
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
     });
   });
 

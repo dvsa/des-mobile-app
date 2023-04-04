@@ -51,8 +51,11 @@ describe('ToolbarComponent', () => {
     describe('togglRemoveFaultMode', () => {
       it('should dispatch a TOGGLE_REMOVE_FAULT_MODE action', () => {
         component.toggleRemoveFaultMode();
-
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode(true));
+      });
+      it('should not dispatch if shouldDisable is true', () => {
+        component.toggleRemoveFaultMode(true);
+        expect(storeDispatchSpy).not.toHaveBeenCalled();
       });
     });
     describe('toggleSeriousMode', () => {
@@ -73,9 +76,44 @@ describe('ToolbarComponent', () => {
     describe('toggleDangerousMode', () => {
       it('should dispatch a TOGGLE_DANGEROUS_FAULT_MODE action', () => {
         component.toggleDangerousMode();
-
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode(true));
       });
+      it('should dispatch ToggleSeriousFaultMode if isSeriousMode is true', () => {
+        component.isSeriousMode = true;
+        component.toggleDangerousMode();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
+      });
+    });
+  });
+
+  describe('currentTestHasFaults', () => {
+    it('should return false if drivingFaultCount is more than 0', () => {
+      spyOn(component['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(1);
+      spyOn(component['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(component['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
+
+      expect(component.currentTestHasFaults(null, null)).toEqual(false);
+    });
+    it('should return false if seriousFaultCount is more than 0', () => {
+      spyOn(component['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(component['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(1);
+      spyOn(component['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
+
+      expect(component.currentTestHasFaults(null, null)).toEqual(false);
+    });
+    it('should return false if dangerousFaultCount is more than 0', () => {
+      spyOn(component['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(component['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(component['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(1);
+
+      expect(component.currentTestHasFaults(null, null)).toEqual(false);
+    });
+    it('should return true if all counts are 0', () => {
+      spyOn(component['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(component['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(component['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
+
+      expect(component.currentTestHasFaults(null, null)).toEqual(true);
     });
   });
 
