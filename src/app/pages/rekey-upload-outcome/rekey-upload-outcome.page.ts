@@ -122,7 +122,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
     if (this.fromRekeySearch) {
       await this.router.navigate([REKEY_SEARCH_PAGE]);
     } else {
-      await this.router.navigate([JOURNAL_PAGE]);
+      await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
     }
     this.store$.dispatch(EndRekey());
   };

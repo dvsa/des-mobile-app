@@ -32,12 +32,19 @@ import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 
 declare let window: any;
 
 interface AppComponentPageState {
   logoutEnabled$: Observable<boolean>;
   unSubmittedTestSlotsCount$: Observable<number>;
+}
+
+interface Pages {
+  title: string;
+  descriptor: string;
+  showUnSubmittedCount?: boolean;
 }
 
 @Component({
@@ -232,5 +239,15 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   openSideMenu = (): void => {
     this.store$.dispatch(SideMenuOpened());
+  };
+
+  isDelegatedExaminer = (): boolean => {
+    return this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
+  };
+
+  filterPagesOnRole = (pages: Pages[]): Pages[] => {
+    if (this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG) {
+      return pages.filter((page) => page.title !== UNUPLOADED_TESTS_PAGE);
+    } return pages;
   };
 }
