@@ -241,10 +241,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     this.store$.dispatch(SideMenuOpened());
   };
 
-  isDelegatedExaminer = (): boolean => {
-    return this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG;
-  };
-
   filterPagesOnRole = (pages: Pages[]): Pages[] => {
     if (this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG) {
       return pages.filter((page) => page.title !== UNUPLOADED_TESTS_PAGE);
