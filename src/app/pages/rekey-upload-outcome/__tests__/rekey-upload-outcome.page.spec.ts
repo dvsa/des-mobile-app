@@ -93,7 +93,7 @@ describe('RekeyUploadOutcomePage', () => {
       it('should navigate to journal when fromRekeySearch is false', async () => {
         component.fromRekeySearch = false;
         await component.goToJournal();
-        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
+        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
       });
       it('should dispatch rekey action always', async () => {
         await component.goToJournal();
