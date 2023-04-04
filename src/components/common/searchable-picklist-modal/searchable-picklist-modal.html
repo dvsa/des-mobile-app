@@ -1,11 +1,11 @@
 <ion-content class="content-background">
   <ion-grid class="max-width">
     <ion-searchbar
-      [id]="'searchbar' | formatToID: idPrefix"
-      [placeholder]="placeholder"
-      [ngModel]="model ? model[displayKey] : searchedValue"
       (ionChange)="onSearchbarChange($event)"
-      (ionClear)="onSearchbarClear()">
+      (ionClear)="onSearchbarClear()"
+      [id]="'searchbar' | formatToID: idPrefix"
+      [ngModel]="model ? model[displayKey] : searchedValue"
+      [placeholder]="placeholder">
     </ion-searchbar>
 
     <!-- Check if minimum number of required chars entered or custom template -->
@@ -14,13 +14,13 @@
       <div *ngIf="(dataList | doesContain: fuzzySearchKeys: searchedValue)?.length > 0; else noResults;">
         <!-- Filter dataList using custom doesContain pipe -->
         <ion-item
+          (click)="onClick(data)"
           *ngFor="let data of dataList | doesContain: fuzzySearchKeys: searchedValue; trackBy: trackBy;"
-          [id]="data[displayKey] | formatToID: idPrefix"
-          (click)="onClick(data)">
+          [id]="data[displayKey] | formatToID: idPrefix">
           <ion-col [ngClass]="conditionalStyles(data)">{{data[displayKey]}}</ion-col>
 
           <ion-col class="button-style" size="6">
-            <ion-icon *ngIf="isActiveSelection(data)" name="checkmark-sharp" class="checkmark"></ion-icon>
+            <ion-icon *ngIf="isActiveSelection(data)" class="checkmark" name="checkmark-sharp"></ion-icon>
           </ion-col>
         </ion-item>
       </div>
@@ -29,9 +29,9 @@
     <ng-template #insufficientCharsEntered>
       <ion-item>
         <ion-col>
-          <b id="searchable-picklist-please-enter-min-chars-msg">
+          <strong id="searchable-picklist-please-enter-min-chars-msg">
             Please enter a minimum of {{minCharactersBeforeListDisplay}} character(s)
-          </b>
+          </strong>
         </ion-col>
       </ion-item>
     </ng-template>
@@ -39,9 +39,9 @@
     <ng-template #noResults>
       <ion-item>
         <ion-col>
-          <b id="searchable-picklist-no-results-msg">
+          <strong id="searchable-picklist-no-results-msg">
             No results found
-          </b>
+          </strong>
         </ion-col>
       </ion-item>
     </ng-template>
