@@ -7,20 +7,51 @@
       "node"
     ],
     "paths": {
-      "@providers/*": ["src/app/providers/*"],
-      "@pages/*": ["src/app/pages/*"],
-      "@environments/*": ["src/environments/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@store/*": ["src/store/*"],
-      "@mocks/*": ["mock/*"],
-      "@components/*": ["src/components/*"],
-      "@directives/*": ["src/directives/*"],
-      "@assets/*": ["src/assets/*"],
-      "@app/*": ["src/app/*"],
-      "@capacitor/*": ["mock/@capacitor/*"],
-      "crypto": ["node_modules/crypto-browserify"],
-      "stream": ["node_modules/stream-browserify"],
-      "zlib": ["node_modules/browserify-zlib"]
+      "@providers/*": [
+        "src/app/providers/*"
+      ],
+      "@pages/*": [
+        "src/app/pages/*"
+      ],
+      "@environments/*": [
+        "src/environments/*"
+      ],
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
+      "@store/*": [
+        "src/store/*"
+      ],
+      "@mocks/*": [
+        "mock/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@directives/*": [
+        "src/directives/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
+      ],
+      "@app/*": [
+        "src/app/*"
+      ],
+      "@capacitor/*": [
+        "mock/@capacitor/*"
+      ],
+      "crypto": [
+        "node_modules/crypto-browserify"
+      ],
+      "stream": [
+        "node_modules/stream-browserify"
+      ],
+      "zlib": [
+        "node_modules/browserify-zlib"
+      ],
+      "@dvsa/capacitor-plugin-asam": [
+        "mock/@capacitor/asam"
+      ]
     }
   },
   "files": [
@@ -30,5 +61,5 @@
   "include": [
     "src/**/*.spec.ts",
     "src/**/*.d.ts"
-  ],
+  ]
 }
