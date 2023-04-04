@@ -35,4 +35,12 @@ describe('DangerousFaultBadgeComponent', () => {
       expect(component.displayGradeDescription()).toBe('Unsatisfactory Performance');
     });
   });
+
+  describe('ngOnInit', () => {
+    it('should resolve lessonThemeValueStr', () => {
+      component.lessonTheme = { lessonThemes: ['junctions', 'townCityDriving'] };
+      component.ngOnInit();
+      expect(component.lessonThemeValueStr).toEqual('Junctions, Town & City driving');
+    });
+  });
 });
