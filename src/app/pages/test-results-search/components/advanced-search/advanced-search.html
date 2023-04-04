@@ -1,139 +1,135 @@
 <ion-grid>
-    <ion-row>
-        <ion-col class="ion-align-self-center" size="18">
-            <label id="advanced-search-test-centre-label">Test centre</label>
-        </ion-col>
-        <ion-col size="28">
-            <ion-input
-                    [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
-                    placeholder="DTC number"
-                    id="advanced-search-test-centre-input"
-                    class="ion-input-styling"
-                    aria-labelledby="advanced-search-test-centre-label"
-                    type="text"
-                    [clearInput]="true"
-                    (ionFocus)="setFocus('dtcNumber')"
-                    (ionBlur)="setFocus(null)"
-                    [ngClass]="{'input-focus': focusedElement === 'dtcNumber'}"
-                    [(ngModel)]="dtcNumber"
-                    (ionChange)="upperCaseAlphaNum($event)">
-            </ion-input>
-        </ion-col>
-        <ion-col size="3"></ion-col>
-        <ion-col class="ion-align-self-center" size="14">
-            <label id="advanced-search-staff-id-label">Staff ID</label>
-        </ion-col>
-        <ion-col size="28">
-            <ion-input
-                    [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
-                    id="advanced-search-staff-id-input"
-                    type="text"
-                    class="ion-input-styling custom-font-size"
-                    aria-labelledby="advanced-search-staff-id-label"
-                    [clearInput]="true"
-                    [disabled]="!!importStaffNumber"
-                    [placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
-                    [(ngModel)]="staffNumber"
-                    (ionFocus)="setFocus('deNumber')"
-                    (ionBlur)="setFocus(null)"
-                    [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
-                    (ionChange)="upperCaseAlphaNum($event)">
-            </ion-input>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col>
-            <hr class="advanced-search-divider"/>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col size="18" class="ion-align-self-center">
-            <label>Activity code</label>
-        </ion-col>
-        <ion-col size="22" class="input-padding">
-            <ion-select
-                    placeholder="All"
-                    class="black-text"
-                    aria-label="Activity code"
-                    (ionChange)="activitySelectChange($event.target.value)"
-                    [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
-                <ion-select-option [value]="activityCode" *ngFor="let activityCode of activityCodes; let first = first">
-                    <span *ngIf="!first">{{activityCode.activityCode}} - </span>{{activityCode.description}}
-                </ion-select-option>
-            </ion-select>
-        </ion-col>
-        <ion-col size="18" class="ion-align-self-center">
-            <label>Test category</label>
-        </ion-col>
-        <ion-col size="22" class="input-padding">
-            <ion-select placeholder="All"
-                        class="black-text"
-                        aria-label="Test category"
-                        (ionChange)="categorySelectChange($event.target.value)"
-                        [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}">
-                <ion-select-option [value]="category"
-                                   *ngFor="let category of testCategories">{{category}}
-                </ion-select-option>
-            </ion-select>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-col>
-            <hr class="advanced-search-divider"/>
-        </ion-col>
-    </ion-row>
-    <ion-row class="ion-padding-top ion-padding-bottom">
-        <ion-col class="ion-align-self-center" size="18">
-            <label id="advanced-search-date-range-label">Date range</label>
-        </ion-col>
-        <ion-col class="ion-date" size="32">
-            <datetime-input
-                    [minValue]="minStartDate"
-                    [maxValue]="endDate ? endDate : today"
-                    [initialValue]="minStartDate"
-                    (onDataPicked)="changeDate($event)"
-                    [control]="'start-date'"
-                    [pickerId]="'date-picker-start'"
-                    [inputId]="'datetime-input-start'"
-                    [showClearButton]="false"
-                    [disabled]="false"
-                    [displayType]="displayType.Date"
-            ></datetime-input>
-        </ion-col>
-        <ion-col class="ion-align-self-center" size="7">
-            <label class="to-label" id="to-label">to</label>
-        </ion-col>
-        <ion-col class="ion-date" size="32">
-            <datetime-input
-                    [minValue]="startDate ? startDate : minStartDate"
-                    [maxValue]="today"
-                    [initialValue]="today"
-                    (onDataPicked)="changeDate($event)"
-                    [control]="'end-date'"
-                    [pickerId]="'date-picker-end'"
-                    [inputId]="'datetime-input-end'"
-                    [showClearButton]="false"
-                    [disabled]="false"
-                    [displayType]="displayType.Date"
-            ></datetime-input>
-        </ion-col>
-    </ion-row>
-    <ion-row>
-        <ion-button
-                id="advanced-search-button"
-                [disabled]="!!showSpinner"
-                class="mes-primary-button search-tests"
-                (click)="searchTests()">
-            <h3 id="advanced-search-button-text">
-                <ion-icon name="search" class="search-icon"></ion-icon>
-                Search
-            </h3>
-        </ion-button>
-        <ion-spinner
-          class="search-spinner"
-          id="advanced-search-spinner"
-          name="bubbles"
-          *ngIf="showSpinner">
-        </ion-spinner>
-    </ion-row>
+  <ion-row>
+    <ion-col class="ion-align-self-center" size="18">
+      <label id="advanced-search-test-centre-label">Test centre</label>
+    </ion-col>
+    <ion-col size="28">
+      <ion-input
+        (ionBlur)="setFocus(null)"
+        (ionChange)="upperCaseAlphaNum($event)"
+        (ionFocus)="setFocus('dtcNumber')"
+        [(ngModel)]="dtcNumber"
+        [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+        [clearInput]="true"
+        [ngClass]="{'input-focus': focusedElement === 'dtcNumber'}"
+        class="ion-input-styling"
+        id="advanced-search-test-centre-input"
+        placeholder="DTC number"
+        type="text">
+      </ion-input>
+    </ion-col>
+    <ion-col size="3"></ion-col>
+    <ion-col class="ion-align-self-center" size="14">
+      <label id="advanced-search-staff-id-label">Staff ID</label>
+    </ion-col>
+    <ion-col size="28">
+      <ion-input
+        (ionBlur)="setFocus(null)"
+        (ionChange)="upperCaseAlphaNum($event)"
+        (ionFocus)="setFocus('deNumber')"
+        [(ngModel)]="staffNumber"
+        [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+        [clearInput]="true"
+        [disabled]="!!importStaffNumber"
+        [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
+        [placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
+        class="ion-input-styling custom-font-size"
+        id="advanced-search-staff-id-input"
+        type="text">
+      </ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <hr class="advanced-search-divider" />
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-align-self-center" size="18">
+      <label>Activity code</label>
+    </ion-col>
+    <ion-col class="input-padding" size="22">
+      <ion-select
+        (ionChange)="activitySelectChange($event.target.value)"
+        [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+        class="black-text"
+        placeholder="All">
+        <ion-select-option *ngFor="let activityCode of activityCodes; let first = first" [value]="activityCode">
+          <span *ngIf="!first">{{activityCode.activityCode}} - </span>{{activityCode.description}}
+        </ion-select-option>
+      </ion-select>
+    </ion-col>
+    <ion-col class="ion-align-self-center" size="18">
+      <label>Test category</label>
+    </ion-col>
+    <ion-col class="input-padding" size="22">
+      <ion-select (ionChange)="categorySelectChange($event.target.value)"
+                  [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+                  class="black-text"
+                  placeholder="All">
+        <ion-select-option *ngFor="let category of testCategories"
+                           [value]="category">{{category}}
+        </ion-select-option>
+      </ion-select>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <hr class="advanced-search-divider" />
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-padding-top ion-padding-bottom">
+    <ion-col class="ion-align-self-center" size="18">
+      <label id="advanced-search-date-range-label">Date range</label>
+    </ion-col>
+    <ion-col class="ion-date" size="32">
+      <datetime-input
+        (onDataPicked)="changeDate($event)"
+        [control]="'start-date'"
+        [disabled]="false"
+        [displayType]="displayType.Date"
+        [initialValue]="minStartDate"
+        [inputId]="'datetime-input-start'"
+        [maxValue]="endDate ? endDate : today"
+        [minValue]="minStartDate"
+        [pickerId]="'date-picker-start'"
+        [showClearButton]="false"
+      ></datetime-input>
+    </ion-col>
+    <ion-col class="ion-align-self-center" size="7">
+      <label class="to-label" id="to-label">to</label>
+    </ion-col>
+    <ion-col class="ion-date" size="32">
+      <datetime-input
+        (onDataPicked)="changeDate($event)"
+        [control]="'end-date'"
+        [disabled]="false"
+        [displayType]="displayType.Date"
+        [initialValue]="today"
+        [inputId]="'datetime-input-end'"
+        [maxValue]="today"
+        [minValue]="startDate ? startDate : minStartDate"
+        [pickerId]="'date-picker-end'"
+        [showClearButton]="false"
+      ></datetime-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-button
+      (click)="searchTests()"
+      [disabled]="!!showSpinner"
+      class="mes-primary-button search-tests"
+      id="advanced-search-button">
+      <h3 id="advanced-search-button-text">
+        <ion-icon class="search-icon" name="search"></ion-icon>
+        Search
+      </h3>
+    </ion-button>
+    <ion-spinner
+      *ngIf="showSpinner"
+      class="search-spinner"
+      id="advanced-search-spinner"
+      name="bubbles">
+    </ion-spinner>
+  </ion-row>
 </ion-grid>

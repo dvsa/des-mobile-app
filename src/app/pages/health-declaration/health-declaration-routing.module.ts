@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-import { CanDeactivateHealthDeclaration } from '@pages/health-declaration/can-health-declaration-deactivate';
+import { RouterModule, Routes } from '@angular/router';
 import { HealthDeclarationPage } from './health-declaration.page';
 
 const routes: Routes = [
   {
     path: '',
     component: HealthDeclarationPage,
-    canDeactivate: [CanDeactivateHealthDeclaration],
+    canDeactivate: [(component: HealthDeclarationPage) => component.canDeActivate()],
   },
 ];
 
@@ -16,4 +14,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class HealthDeclarationPageRoutingModule {}
+export class HealthDeclarationPageRoutingModule {
+}

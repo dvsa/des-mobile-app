@@ -10,11 +10,9 @@ import {
   REKEY_SEARCH_PAGE,
   TEST_CENTRE_JOURNAL_PAGE,
   TEST_RESULTS_SEARCH_PAGE,
-  TestFlowPageNames, UNUPLOADED_TESTS_PAGE,
+  TestFlowPageNames,
+  UNUPLOADED_TESTS_PAGE,
 } from '@pages/page-names.constants';
-import { CanCommunicationDeactivateGuard } from '@pages/communication/can-communication-deactivate';
-import { CanWaitingRoomDeactivateGuard } from '@pages/waiting-room/can-waiting-room-deactiviate';
-import { CanDeactivateHealthDeclaration } from '@pages/health-declaration/can-health-declaration-deactivate';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
 import { Test_Report_Route } from './routing/test-report-route';
 import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
@@ -135,17 +133,11 @@ const routes: Routes = [
   ...Office_Route,
 ];
 
-const ROUTE_DEACTIVATE_GUARDS = [
-  CanCommunicationDeactivateGuard,
-  CanWaitingRoomDeactivateGuard,
-  CanDeactivateHealthDeclaration,
-];
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
   exports: [RouterModule],
-  providers: [...ROUTE_DEACTIVATE_GUARDS],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

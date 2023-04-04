@@ -1,13 +1,22 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { CanCommunicationDeactivateGuard } from '@pages/communication/can-communication-deactivate';
+import {
+  ActivatedRouteSnapshot, RouterModule, RouterStateSnapshot, Routes,
+} from '@angular/router';
+import { TestFlowPageNames } from '@pages/page-names.constants';
 import { CommunicationPage } from './communication.page';
 
 const routes: Routes = [
   {
     path: '',
     component: CommunicationPage,
-    canDeactivate: [CanCommunicationDeactivateGuard],
+    canDeactivate: [
+      (comp: CommunicationPage, _: ActivatedRouteSnapshot, __: RouterStateSnapshot, nextState: RouterStateSnapshot) => {
+        if (nextState.url?.indexOf(TestFlowPageNames.CANDIDATE_LICENCE_PAGE) >= 0) {
+          return comp.canDeActivate();
+        }
+        return true;
+      },
+    ],
   },
 ];
 
@@ -15,4 +24,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CommunicationPageRoutingModule {}
+export class CommunicationPageRoutingModule {
+}
