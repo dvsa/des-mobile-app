@@ -41,10 +41,11 @@ interface AppComponentPageState {
   unSubmittedTestSlotsCount$: Observable<number>;
 }
 
-interface Pages {
+export interface Pages {
   title: string;
   descriptor: string;
   showUnSubmittedCount?: boolean;
+  hideWhenRole?: ExaminerRole[];
 }
 
 @Component({
@@ -53,9 +54,14 @@ interface Pages {
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
-  Pages = [
+  Pages: Pages[] = [
     { title: DASHBOARD_PAGE, descriptor: 'Dashboard' },
-    { title: UNUPLOADED_TESTS_PAGE, descriptor: 'Unsubmitted Tests', showUnSubmittedCount: true },
+    {
+      title: UNUPLOADED_TESTS_PAGE,
+      descriptor: 'Unsubmitted Tests',
+      showUnSubmittedCount: true,
+      hideWhenRole: [ExaminerRole.DLG],
+    },
   ];
   textZoom: number = 100;
 
@@ -239,11 +245,5 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
 
   openSideMenu = (): void => {
     this.store$.dispatch(SideMenuOpened());
-  };
-
-  filterPagesOnRole = (pages: Pages[]): Pages[] => {
-    if (this.appConfigProvider.getAppConfig().role === ExaminerRole.DLG) {
-      return pages.filter((page) => page.title !== UNUPLOADED_TESTS_PAGE);
-    } return pages;
   };
 }
