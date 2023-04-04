@@ -3,6 +3,7 @@
     position: absolute;
     left: 10px;
   }
+
   button {
     width: 254px;
     height: 44px;
@@ -19,13 +20,16 @@
       position: relative;
       z-index: 270;
     }
+
     &.activated {
       background: #eee;
     }
+
     // Ripple animation effect
     &.ripple-effect {
       animation: ripple 0.4s forwards;
     }
+
     @-webkit-keyframes ripple {
       0% {
         -webkit-box-shadow: 0 0 5px 0 rgba(65, 60, 60, 1);
@@ -51,16 +55,19 @@
         box-shadow: 0 0 5px 7px rgba(65, 60, 60, 0);
       }
     }
+
     .tickwrapper {
       display: flex;
       justify-content: center;
     }
+
     .label-wrapper {
       display: flex;
       justify-content: center;
       width: 100%;
       color: var(--gds-blue);
       margin-right: 20px;
+
       .popover-arrow {
         -webkit-transition: 0.3s ease-in-out;
         -moz-transition: 0.3s ease-in-out;
@@ -75,6 +82,7 @@
           transform: rotate(90deg);
         }
       }
+
       .label {
         font-size: 15px;
         text-align: center;
@@ -83,14 +91,15 @@
         font-weight: 500;
         align-self: center;
       }
+
       ion-icon {
         align-self: center;
         width: 20px;
       }
     }
+
     .fault-wrapper {
       right: 10px;
-      display: flex;
       position: absolute;
       display: flex;
     }
@@ -109,11 +118,13 @@
         z-index: 270;
       }
     }
+
     &.serious-fault {
       .remove-mode.serious-mode & {
         z-index: 270;
       }
     }
+
     &.dangerous-fault {
       .remove-mode.dangerous-mode & {
         z-index: 270;
@@ -130,6 +141,7 @@
     position: fixed;
     z-index: 270;
   }
+
   .driving-faults-manoeuvers {
     position: absolute;
     left: 34px;

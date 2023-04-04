@@ -11,7 +11,7 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { UntypedFormGroup } from '@angular/forms';
-import { Observable, Subscription, merge } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { map } from 'rxjs/operators';
@@ -48,8 +48,8 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
   pageState: PassFinalisationPageState;
   form: UntypedFormGroup;
   merged$: Observable<string | boolean>;
-  manualMessage: string = 'A <b><em>manual</em></b> licence will be issued';
-  automaticMessage: string = 'An <b><em>automatic</em></b> licence will be issued';
+  manualMessage: string = 'A <strong><em>manual</em></strong> licence will be issued';
+  automaticMessage: string = 'An <strong><em>automatic</em></strong> licence will be issued';
   askCandidateLicenseMessage: string = 'Check that the candidate doesn\'t need their driving licence (e.g CPC Mod4)';
   transmission: GearboxCategory;
   subscription: Subscription;
@@ -126,7 +126,7 @@ export class PassFinalisationCatCPage extends PassFinalisationPageComponent impl
     if (this.shouldShowCode78Banner()) {
       return (
         this.transmission === TransmissionType.Manual
-          || (this.transmission === TransmissionType.Automatic && !this.code78Present)
+        || (this.transmission === TransmissionType.Automatic && !this.code78Present)
       );
     }
     return false;

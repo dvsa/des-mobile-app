@@ -1,6 +1,4 @@
-import {
-  Component, Input,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { get } from 'lodash';
 import {
@@ -39,7 +37,8 @@ export class SearchablePicklistModal<T> {
 
   searchedValue: string;
 
-  constructor(private modalController: ModalController) {}
+  constructor(private modalController: ModalController) {
+  }
 
   isActiveSelection = (data: T): boolean => (get(data, this.primaryKey) === get(this.model, this.primaryKey));
 

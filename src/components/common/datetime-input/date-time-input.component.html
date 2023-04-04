@@ -2,9 +2,10 @@
     <ion-input
             class="input-box type-{{displayType}}"
             id="{{inputId}}"
+            aria-label="Date time"
             [(ngModel)]="displayValue"
             [disabled]="disabled"
-            [placeholder]="displayType==='date' ? formatDisplayDate(initialValue) : formatDisplayTime(initialValue)">
+            [placeholder]="displayType === 'date' ? formatDisplayDate(initialValue) : formatDisplayTime(initialValue)">
     </ion-input>
     <ion-modal
             class="{{displayType}}-modal"

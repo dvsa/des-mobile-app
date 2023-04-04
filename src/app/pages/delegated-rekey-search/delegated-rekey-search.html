@@ -22,7 +22,8 @@
                                        type="text"
                                        formControlName="applicationReferenceInput"
                                        class="ion-input-styling custom-font-size"
-                                       clearInput
+                                       aria-labelledby="delegated-rekey-search-app-ref-label"
+                                       [clearInput]="true"
                                        numbersOnly
                                        maxlength="11"
                                        [class.ng-invalid]="hasClickedSearch && applicationReferenceInvalid"

@@ -44,9 +44,10 @@
                                     *ngIf="searchBy !== 'appReference'"
                                     id="test-result-search-{{searchBy}}-input"
                                     [placeholder]="'Enter a driver number'"
+                                    aria-label="Driver number"
                                     type="text"
                                     class="ion-input-styling custom-font-size"
-                                    clearInput
+                                    [clearInput]="true"
                                     uppercaseAlphanumOnly
                                     (ionFocus)="setFocus('field')"
                                     (ionBlur)="setFocus(null)"
@@ -58,9 +59,10 @@
                                     *ngIf="searchBy === 'appReference'"
                                     id="test-result-search-{{searchBy}}-input"
                                     [placeholder]="'Enter an application reference'"
+                                    aria-label="Application reference"
                                     type="text"
                                     class="ion-input-styling custom-font-size"
-                                    clearInput
+                                    [clearInput]="true"
                                     numbersOnly
                                     (ionFocus)="setFocus('field')"
                                     (ionBlur)="setFocus(null)"

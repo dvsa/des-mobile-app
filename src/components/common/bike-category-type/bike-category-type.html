@@ -38,8 +38,9 @@
 </ion-row>
 
 <ion-select
-    #categorySelect hidden="true" okText="Confirm" cancelText="Cancel"
+    #categorySelect [hidden]="true" okText="Confirm" cancelText="Cancel"
     [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
+    aria-label="Confirm bike category select"
     (ionChange)="categoryCodeChanged($event.target.value)">
   <ion-select-option *ngFor="let category of bikeCategoryDetails;"
                      class="category-option"

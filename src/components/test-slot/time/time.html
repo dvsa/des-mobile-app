@@ -1,6 +1,6 @@
 <div>
-  <h3 id="date-test-un-submitted" *ngIf="isUnSubmittedTestSlotView; else showTime;">
-    <b>{{time | date: "dd/MM/yyyy" }}</b>
+  <h3 *ngIf="isUnSubmittedTestSlotView; else showTime;" id="date-test-un-submitted">
+    <strong>{{time | date: "dd/MM/yyyy" }}</strong>
   </h3>
   <ng-template #showTime>
     <h2 [ngClass]="{'time-test-complete-text': testComplete}">{{time | date: "HH:mm" }}</h2>
