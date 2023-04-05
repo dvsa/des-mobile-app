@@ -1,7 +1,5 @@
-import {
-  Component, Input, Output, EventEmitter, OnChanges,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { isEmpty } from 'lodash';
 import {
   FieldValidators,
@@ -12,7 +10,6 @@ import {
 @Component({
   selector: 'vehicle-registration',
   templateUrl: './vehicle-registration.html',
-  styleUrls: ['./vehicle-registration.scss'],
 })
 export class VehicleRegistrationComponent implements OnChanges {
 
@@ -32,6 +29,10 @@ export class VehicleRegistrationComponent implements OnChanges {
 
   readonly registrationNumberValidator: FieldValidators = getRegistrationNumberValidator();
 
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
+  }
+
   ngOnChanges(): void {
     if (!this.formControl) {
       this.formControl = new UntypedFormControl(null, [Validators.required]);
@@ -49,7 +50,7 @@ export class VehicleRegistrationComponent implements OnChanges {
   vehicleRegistrationChanged(event: any): void {
     if (
       typeof event.target.value === 'string'
-            && !this.registrationNumberValidator.pattern.test(event.target.value)
+      && !this.registrationNumberValidator.pattern.test(event.target.value)
     ) {
       event.target.value = event.target.value?.replace(nonAlphaNumericValues, '');
 
@@ -63,9 +64,5 @@ export class VehicleRegistrationComponent implements OnChanges {
   onBlurEvent = (vehicleRegistration: string): void => {
     this.vehicleRegistrationBlur.emit(vehicleRegistration);
   };
-
-  get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
-  }
 
 }

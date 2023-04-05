@@ -1,20 +1,5 @@
-import {
-  Component,
-  OnChanges,
-  Input,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import {
-  UntypedFormGroup,
-  UntypedFormControl,
-  Validators,
-} from '@angular/forms';
-import {
-  ProvisionalLicenseReceived,
-  ProvisionalLicenseNotReceived,
-} from
-  '@store/tests/pass-completion/pass-completion.actions';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 enum ValidLicenceProvidedValues {
   YES = 'yes',
@@ -24,28 +9,21 @@ enum ValidLicenceProvidedValues {
 @Component({
   selector: 'license-provided',
   templateUrl: './license-provided.html',
-  styleUrls: ['./license-provided.scss'],
 })
-
 export class LicenseProvidedComponent implements OnChanges {
 
+  static readonly fieldName: string = 'provisionalLicenseProvidedCtrl';
   @Input()
   license: boolean;
-
   @Output()
-  licenseReceived = new EventEmitter<typeof ProvisionalLicenseReceived>();
-
+  licenseReceived = new EventEmitter<void>();
   @Input()
   licenseReceivedLabel: string;
-
   @Output()
-  licenseNotReceived = new EventEmitter<typeof ProvisionalLicenseNotReceived>();
-
+  licenseNotReceived = new EventEmitter<void>();
   @Input()
   form: UntypedFormGroup;
-
   formControl: UntypedFormControl;
-  static readonly fieldName: string = 'provisionalLicenseProvidedCtrl';
 
   ngOnChanges(): void {
     if (!this.formControl) {

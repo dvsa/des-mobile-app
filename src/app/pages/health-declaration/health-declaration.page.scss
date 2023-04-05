@@ -2,37 +2,15 @@
   ion-content {
     --ion-background-color: var(--mes-white);
 
-      #candidate-section {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    #candidate-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-        #continue-button {
-          min-height: 56px;
-          min-width: 132px;
-        }
+      #continue-button {
+        min-height: 56px;
+        min-width: 132px;
       }
-  }
-
-  .confirm-declaration-modal {
-    .alert-head:before {
-      display: inline-block;
-      font-size: 68px;
-      content: '\f276';
-      font-family: "Ionicons";
-      -moz-osx-font-smoothing: grayscale;
-      -webkit-font-smoothing: antialiased;
-      font-style: normal;
-      font-variant: normal;
-      font-weight: normal;
-      line-height: 1;
-      text-rendering: auto;
-      text-transform: none;
-    }
-
-    .alert-title {
-      padding-left: 32px;
-      padding-right: 32px;
     }
   }
 

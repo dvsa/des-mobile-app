@@ -1,15 +1,6 @@
 :host {
   min-height: 150px;
 
-  .retry-button {
-    .retry-icon {
-      width: 20px;
-      height: 20px;
-      float: left;
-      background-size: contain;
-    }
-  }
-
   .signature-line {
     border-top: 1px solid #979797;
     height: 2px;
@@ -32,6 +23,10 @@
       align-self: center;
       background-repeat: no-repeat;
       padding-right: 29px;
+      width: 20px;
+      height: 20px;
+      float: left;
+      background-size: contain;
 
       &:disabled {
         color: var(--gds-grey-5);

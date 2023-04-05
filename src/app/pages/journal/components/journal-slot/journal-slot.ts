@@ -9,7 +9,6 @@ import { SlotSelectorProvider } from '@providers/slot-selector/slot-selector';
 @Component({
   selector: 'journal-slots',
   templateUrl: 'journal-slot.html',
-  styleUrls: ['journal-slot.scss'],
 })
 export class JournalSlotComponent {
 

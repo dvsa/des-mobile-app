@@ -5,14 +5,14 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 @Component({
   selector: 'driving-faults',
   templateUrl: './driving-faults.component.html',
-  styleUrls: ['./driving-faults.component.scss'],
 })
 export class DrivingFaultsComponent {
-
   @Input()
   label: string;
+
   @Input()
   faults: FaultSummary[];
+
   @Input()
   testCategory?: TestCategory;
 }

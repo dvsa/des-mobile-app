@@ -11,6 +11,7 @@ trim_trailing_whitespace = true
 [*.ts]
 ij_typescript_use_double_quotes = false
 max_line_length = 120
+ij_typescript_keep_line_breaks = true
 
 [*.html]
 ij_html_quote_style = double
