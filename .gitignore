@@ -20,6 +20,7 @@ ionic.config.json
 log.txt
 npm-debug.log*
 .sentryclirc
+sonar-project.properties
 
 /.angular/cache
 /.idea
