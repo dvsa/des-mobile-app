@@ -4,6 +4,7 @@ import { EllipsisPipe } from '@shared/pipes/ellipsis.pipe';
 import { CustomKeyValuePipe } from '@shared/pipes/customKeyValue.pipe';
 import { ContainsPipe } from '@shared/pipes/contains.pipe';
 
+import { RoleFilterPipe } from '@shared/pipes/roleFilter.pipe';
 import { ModifyCompetencyLabel } from './modifyCompetencyLabel';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { ModifyCompetencyLabel } from './modifyCompetencyLabel';
     EllipsisPipe,
     CustomKeyValuePipe,
     ContainsPipe,
+    RoleFilterPipe,
   ],
   exports: [
     ModifyCompetencyLabel,
@@ -20,6 +22,7 @@ import { ModifyCompetencyLabel } from './modifyCompetencyLabel';
     EllipsisPipe,
     CustomKeyValuePipe,
     ContainsPipe,
+    RoleFilterPipe,
   ],
   imports: [],
 })

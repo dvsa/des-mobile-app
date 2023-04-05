@@ -32,6 +32,7 @@ import { SlotProvider } from '@providers/slot/slot';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
+import { ExaminerRole } from '@providers/app-config/constants/examiner-role.constants';
 
 declare let window: any;
 
@@ -40,15 +41,27 @@ interface AppComponentPageState {
   unSubmittedTestSlotsCount$: Observable<number>;
 }
 
+export interface Pages {
+  title: string;
+  descriptor: string;
+  showUnSubmittedCount?: boolean;
+  hideWhenRole?: ExaminerRole[];
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
-  Pages = [
+  Pages: Pages[] = [
     { title: DASHBOARD_PAGE, descriptor: 'Dashboard' },
-    { title: UNUPLOADED_TESTS_PAGE, descriptor: 'Unsubmitted Tests', showUnSubmittedCount: true },
+    {
+      title: UNUPLOADED_TESTS_PAGE,
+      descriptor: 'Unsubmitted Tests',
+      showUnSubmittedCount: true,
+      hideWhenRole: [ExaminerRole.DLG],
+    },
   ];
   textZoom: number = 100;
 
