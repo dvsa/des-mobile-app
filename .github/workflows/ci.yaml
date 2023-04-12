@@ -34,7 +34,7 @@ jobs:
 
       - name: Create .npmrc
         run: |
-          echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN1" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
           echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
           echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
           echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
