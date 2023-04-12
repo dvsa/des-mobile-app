@@ -97,6 +97,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
 import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
 import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
+import { CompetencyOutcomeAnalyticEvent } from '@shared/helpers/competency-outcome-analytic-event';
 
 @Injectable()
 export class TestReportAnalyticsEffects {
@@ -922,7 +923,7 @@ export class TestReportAnalyticsEffects {
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_DRIVING_FAULT, tests),
+        formatAnalyticsText(CompetencyOutcomeAnalyticEvent(action.faultLevel), tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
       );
       return of(AnalyticRecorded());
@@ -952,7 +953,7 @@ export class TestReportAnalyticsEffects {
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_DRIVING_FAULT, tests),
+        formatAnalyticsText(CompetencyOutcomeAnalyticEvent(action.faultLevel), tests),
         `${manoeuvreTypeLabels[action.payload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.payload.competency]}`,
       );
       return of(AnalyticRecorded());

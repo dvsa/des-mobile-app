@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import { select, Store } from '@ngrx/store';
@@ -196,14 +194,14 @@ export class ReverseManoeuvreComponent {
     };
 
     if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload));
+      this.store$.dispatch(RemoveManoeuvreFault(payload, CompetencyOutcome.D));
       this.store$.dispatch(ToggleDangerousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
       return;
     }
 
     if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload));
+      this.store$.dispatch(RemoveManoeuvreFault(payload, CompetencyOutcome.S));
       this.store$.dispatch(ToggleSeriousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
