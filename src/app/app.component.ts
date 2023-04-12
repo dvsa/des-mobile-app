@@ -7,7 +7,7 @@ import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import {
-  Observable, merge, Subscription, combineLatest,
+  combineLatest, merge, Observable, Subscription,
 } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
@@ -19,7 +19,7 @@ import { DataStoreProvider } from '@providers/data-store/data-store';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { StoreModel } from '@shared/models/store.model';
 import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
-import { LoadAppVersion, AppResumed, AppSuspended } from '@store/app-info/app-info.actions';
+import { AppResumed, AppSuspended, LoadAppVersion } from '@store/app-info/app-info.actions';
 import { selectLogoutEnabled } from '@store/app-config/app-config.selectors';
 import { Capacitor } from '@capacitor/core';
 import { AppInfoProvider } from '@providers/app-info/app-info';
@@ -225,7 +225,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       environment: sentry?.environment,
       release: `des@${appVersion}`,
       dist: appVersion,
-      tracesSampleRate: 0.05,
+      tracesSampleRate: 0.01, // 1% of transactions are captured;
       integrations: [new BrowserTracing()],
       ignoreErrors: SENTRY_ERRORS,
     }, sentryAngularInit);
