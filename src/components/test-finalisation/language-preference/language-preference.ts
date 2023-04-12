@@ -1,12 +1,11 @@
 import {
-  Component, Input, Output, EventEmitter, OnChanges,
+  Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'language-preferences',
   templateUrl: './language-preference.html',
-  styleUrls: ['./language-preference.scss'],
 })
 export class LanguagePreferencesComponent implements OnChanges {
 

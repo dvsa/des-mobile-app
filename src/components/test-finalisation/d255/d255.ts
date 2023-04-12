@@ -1,40 +1,34 @@
 import {
-  Component, Input, Output, EventEmitter, OnChanges,
+  Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
   selector: 'd255',
   templateUrl: './d255.html',
-  styleUrls: ['./d255.scss'],
 })
 export class D255Component implements OnChanges {
+  static readonly fieldName: string = 'd255';
   @Input()
   display: boolean;
-
   @Input()
   outcome: string;
-
   @Input()
   d255: boolean;
-
   @Input()
   eyesightTestFailed: boolean = false;
-
   @Input()
   formGroup: UntypedFormGroup;
-
   @Output()
   d255Change = new EventEmitter<boolean>();
-
   formControl: UntypedFormControl;
-  static readonly fieldName: string = 'd255';
 
   constructor(private outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {
+  }
+
+  get invalid(): boolean {
+    return this.formControl.invalid && this.formControl.dirty;
   }
 
   ngOnChanges(): void {
@@ -44,11 +38,9 @@ export class D255Component implements OnChanges {
     }
     const visibilityType = this.outcomeBehaviourProvider.getVisibilityType(this.outcome, D255Component.fieldName);
     if (visibilityType === VisibilityType.NotVisible) {
-      this.formGroup.get(D255Component.fieldName)
-        .clearValidators();
+      this.formGroup.get(D255Component.fieldName).clearValidators();
     } else {
-      this.formGroup.get(D255Component.fieldName)
-        .setValidators([Validators.required]);
+      this.formGroup.get(D255Component.fieldName).setValidators([Validators.required]);
     }
 
     this.formControl.patchValue(this.getD255OrDefault());
@@ -70,10 +62,6 @@ export class D255Component implements OnChanges {
     this.d255 = !!this.eyesightTestFailed;
     this.d255Change.emit(this.d255);
     return this.d255;
-  }
-
-  get invalid(): boolean {
-    return this.formControl.invalid && this.formControl.dirty;
   }
 
 }

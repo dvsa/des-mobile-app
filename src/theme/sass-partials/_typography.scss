@@ -20,7 +20,7 @@
 .regular-font-family {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Roboto';
   font-weight: 400;
-};
+}
 
 html .text-zoom-regular {
   h1 {
@@ -28,43 +28,51 @@ html .text-zoom-regular {
     font-size: 40px;
     line-height: 56px;
   }
+
   h2 {
     @extend .heavy-font-family;
     font-size: 28px;
     line-height: 40px;
   }
+
   h3 {
     @extend .semibold-font-family;
     font-size: 20px;
     line-height: 26px;
   }
+
   h4 {
     @extend .heavy-font-family;
     font-size: 24px;
     line-height: 30px;
   }
+
   h5 {
     @extend .heavy-font-family;
     font-weight: 700;
     font-size: 20px;
     line-height: 26px;
   }
+
   h6 {
     @extend .regular-font-family;
     font-size: 14px;
     line-height: 20px;
   }
+
   a,
   a:hover {
     @extend .semibold-font-family;
     font-size: 20px;
     line-height: 26px;
   }
+
   label {
     @extend .semibold-font-family;
     font-size: 23px;
     line-height: 26px;
   }
+
   p,
   .mes-data {
     @extend .regular-font-family;
@@ -72,6 +80,7 @@ html .text-zoom-regular {
     line-height: 26px;
     color: black;
   }
+
   div, ion-select, span {
     font-size: 20px;
     line-height: 26px;
@@ -85,43 +94,51 @@ html .text-zoom-regular {
     font-size: 48px;
     line-height: 68px;
   }
+
   h2 {
     @extend .heavy-font-family;
     font-size: 32px;
     line-height: 44px;
   }
+
   h3 {
     @extend .semibold-font-family;
     font-size: 24px;
     line-height: 30px;
   }
+
   h4 {
     @extend .heavy-font-family;
     font-size: 28px;
     line-height: 34px;
   }
+
   h5 {
     @extend .heavy-font-family;
     font-weight: 700;
     font-size: 24px;
     line-height: 30px;
   }
+
   h6 {
     @extend .regular-font-family;
     font-size: 16px;
     line-height: 22px;
   }
+
   a,
   a:hover {
     @extend .semibold-font-family;
     font-size: 24px;
     line-height: 30px;
   }
+
   label {
     @extend .semibold-font-family;
     font-size: 24px;
     line-height: 30px;
   }
+
   p,
   .mes-data {
     @extend .regular-font-family;
@@ -129,6 +146,7 @@ html .text-zoom-regular {
     line-height: 30px;
     color: black;
   }
+
   div, ion-select, span {
     font-size: 22px;
     line-height: 28px;
@@ -141,39 +159,46 @@ html .text-zoom-regular {
     font-size: 58px;
     line-height: 80px;
   }
+
   h2 {
     @extend .heavy-font-family;
     font-size: 38px;
     line-height: 48px;
   }
+
   h3 {
     @extend .semibold-font-family;
     font-weight: 600;
     font-size: 28px;
     line-height: 36px;
   }
+
   h4 {
     @extend .heavy-font-family;
     font-size: 32px;
     line-height: 40px;
   }
+
   h5 {
     @extend .heavy-font-family;
     font-weight: 700;
     font-size: 28px;
     line-height: 36px;
   }
+
   h6 {
     @extend .regular-font-family;
     font-size: 18px;
     line-height: 24px;
   }
+
   a,
   a:hover {
     @extend .semibold-font-family;
     font-size: 28px;
     line-height: 36px;
   }
+
   label {
     @extend .semibold-font-family;
     font-size: 28px;
@@ -186,6 +211,7 @@ html .text-zoom-regular {
     line-height: 36px;
     color: black;
   }
+
   div, ion-select, span {
     font-size: 24px;
     line-height: 32px;

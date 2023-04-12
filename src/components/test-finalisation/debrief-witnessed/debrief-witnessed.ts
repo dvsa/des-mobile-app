@@ -1,39 +1,35 @@
 import {
-  Component, Input, Output, EventEmitter, OnChanges,
+  Component, EventEmitter, Input, OnChanges, Output,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import {
-  OutcomeBehaviourMapProvider,
-  VisibilityType,
-} from '@providers/outcome-behaviour-map/outcome-behaviour-map';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { OutcomeBehaviourMapProvider, VisibilityType } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 
 @Component({
   selector: 'debrief-witnessed',
   templateUrl: './debrief-witnessed.html',
-  styleUrls: ['./debrief-witnessed.scss'],
 })
 export class DebriefWitnessedComponent implements OnChanges {
+  static readonly fieldName: string = 'debriefWitnessed';
   @Input()
   display: boolean;
-
   @Input()
   outcome: string;
-
   @Input()
   debriefWitnessed: boolean;
-
   @Input()
   formGroup: UntypedFormGroup;
-
   @Output()
   debriefWitnessedChange = new EventEmitter<boolean>();
-
   @Input()
   isDelegated: boolean = false;
-
   formControl: UntypedFormControl;
-  static readonly fieldName: string = 'debriefWitnessed';
-  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) { }
+
+  constructor(public outcomeBehaviourProvider: OutcomeBehaviourMapProvider) {
+  }
+
+  get invalid(): boolean {
+    return this.formControl.invalid && this.formControl.dirty;
+  }
 
   ngOnChanges(): void {
     if (!this.formControl) {
@@ -64,10 +60,6 @@ export class DebriefWitnessedComponent implements OnChanges {
     if (this.formControl.valid) {
       this.debriefWitnessedChange.emit(debriefWitnessedFormValue === 'debrief-witnessed-yes');
     }
-  }
-
-  get invalid(): boolean {
-    return this.formControl.invalid && this.formControl.dirty;
   }
 
 }
