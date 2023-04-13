@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { DeviceMock } from '@mocks/ionic-mocks/device.mock';
+import { Asam } from '@mocks/@capacitor/asam';
 import { DeviceProvider } from '../device';
 import { AppConfigProvider } from '../../app-config/app-config';
 import { AppConfigProviderMock } from '../../app-config/__mocks__/app-config.mock';
@@ -126,16 +127,16 @@ describe('DeviceProvider', () => {
     });
   });
 
-  describe('checkSingleAppMode', () => {
+  describe('isSAMEnabled', () => {
     it('should return true if single app mode enabled', async () => {
-      spyOn(deviceProvider, 'isStarted').and.returnValue(Promise.resolve(true));
-      const result = await deviceProvider.checkSingleAppMode();
+      spyOn(Asam, 'isSingleAppModeEnabled').and.returnValue(Promise.resolve({ isEnabled: true }));
+      const result = await deviceProvider.isSAMEnabled();
       expect(result).toBe(true);
     });
 
     it('should return false if single app mode not enabled', async () => {
-      spyOn(deviceProvider, 'isStarted').and.returnValue(Promise.resolve(false));
-      const result = await deviceProvider.checkSingleAppMode();
+      spyOn(Asam, 'isSingleAppModeEnabled').and.returnValue(Promise.resolve({ isEnabled: false }));
+      const result = await deviceProvider.isSAMEnabled();
       expect(result).toBe(false);
     });
   });

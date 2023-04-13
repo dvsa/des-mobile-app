@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import {
   ASAMPopupPresented,
@@ -96,7 +96,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
       isRekey$.pipe(map((value) => this.isRekey = value)),
     );
 
-    this.singleAppModeEnabled = super.isIos() ? await this.deviceProvider.checkSingleAppMode() : false;
+    this.singleAppModeEnabled = super.isIos() ? await this.deviceProvider.isSAMEnabled() : false;
 
     this.subscription = this.merged$.subscribe();
     this.destroyTestSubs();
