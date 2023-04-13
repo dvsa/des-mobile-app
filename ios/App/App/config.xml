@@ -1,61 +1,57 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <access origin="*" />
-  
-  <feature name="SecureWebView">
-    <param name="ios-package" value="SecureWebView"/>
-  </feature>
-  <feature name="IonicHttp">
-    <param name="ios-package" value="IonicHttp"/>
-  </feature>
-  <feature name="IonicAuthConnectStorage">
-    <param name="ios-package" value="IonicAuthConnectStorage"/>
-  </feature>
+<widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets">
+    <access origin="*"/>
 
-  <feature name="WPGuidedAccessMode">
-    <param name="ios-package" value="WPGuidedAccessMode"/>
-  </feature>
+    <feature name="SecureWebView">
+        <param name="ios-package" value="SecureWebView"/>
+    </feature>
 
-  <feature name="AppVersion">
-    <param name="ios-package" value="AppVersion"/>
-  </feature>
+    <feature name="IonicHttp">
+        <param name="ios-package" value="IonicHttp"/>
+    </feature>
 
-  <feature name="UniversalAnalytics">
-    <param name="ios-package" value="UniversalAnalyticsPlugin"/>
-  </feature>
+    <feature name="IonicAuthConnectStorage">
+        <param name="ios-package" value="IonicAuthConnectStorage"/>
+    </feature>
 
-  <feature name="Insomnia">
-    <param name="ios-package" value="Insomnia"/>
-  </feature>
+    <feature name="AppVersion">
+        <param name="ios-package" value="AppVersion"/>
+    </feature>
 
-  <feature name="DisableShakeToEdit">
-    <param name="ios-package" value="DisableShakeToEdit"/>
-    <param name="onload" value="true"/>
-  </feature>
+    <feature name="UniversalAnalytics">
+        <param name="ios-package" value="UniversalAnalyticsPlugin"/>
+    </feature>
 
-  <feature name="IsDebug">
-    <param name="ios-package" value="IsDebug"/>
-  </feature>
+    <feature name="Insomnia">
+        <param name="ios-package" value="Insomnia"/>
+    </feature>
 
-  <feature name="NetworkStatus">
-    <param name="ios-package" value="CDVConnection"/>
-  </feature>
+    <feature name="DisableShakeToEdit">
+        <param name="ios-package" value="DisableShakeToEdit"/>
+        <param name="onload" value="true"/>
+    </feature>
 
-  <feature name="CDVOrientation">
-    <param name="ios-package" value="CDVOrientation"/>
-  </feature>
+    <feature name="IsDebug">
+        <param name="ios-package" value="IsDebug"/>
+    </feature>
 
-  <feature name="SecureStorage">
-    <param name="ios-package" value="SecureStorage"/>
-  </feature>
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection"/>
+    </feature>
 
-  <feature name="MobileAccessibility">
-    <param name="ios-package" value="CDVMobileAccessibility" onload="true"/>
-  </feature>
+    <feature name="CDVOrientation">
+        <param name="ios-package" value="CDVOrientation"/>
+    </feature>
 
-  <feature name="Device">
-    <param name="ios-package" value="CDVDevice"/>
-  </feature>
+    <feature name="SecureStorage">
+        <param name="ios-package" value="SecureStorage"/>
+    </feature>
 
-  
+    <feature name="MobileAccessibility">
+        <param name="ios-package" value="CDVMobileAccessibility" onload="true"/>
+    </feature>
+
+    <feature name="Device">
+        <param name="ios-package" value="CDVDevice"/>
+    </feature>
 </widget>
