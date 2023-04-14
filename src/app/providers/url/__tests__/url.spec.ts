@@ -81,6 +81,63 @@ describe('UrlProvider', () => {
     });
   });
 
+  describe('getRefDataTestCentreUrl', () => {
+    it('should return appConfigProvider testCentreUrl', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue(
+        { refData: { testCentreUrl: '1' } } as AppConfig,
+      );
+      expect(urlProvider.getRefDataTestCentreUrl()).toBe('1');
+    });
+  });
+
+  describe('getDelegatedExaminerSearchBookingUrl', () => {
+    it('should replace {applicationReference} with passed variable', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue(
+        { journal: { delegatedExaminerSearchBookingUrl: '{applicationReference}' } } as AppConfig,
+      );
+      expect(urlProvider.getDelegatedExaminerSearchBookingUrl('test')).toBe('test');
+    });
+    it('should replace {applicationReference} with 00000000 if there is no passed variable', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue(
+        { journal: { delegatedExaminerSearchBookingUrl: '{applicationReference}' } } as AppConfig,
+      );
+      expect(urlProvider.getDelegatedExaminerSearchBookingUrl(null)).toBe('00000000');
+    });
+  });
+
+  describe('getRekeyFindUserUrl', () => {
+    it('should replace {staffNumber} with passed variable', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue(
+        { user: { findUserUrl: '{staffNumber}' } } as AppConfig,
+      );
+      expect(urlProvider.getRekeyFindUserUrl('test')).toBe('test');
+    });
+    it('should replace {staffNumber} with 00000000 if there is no passed variable', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue(
+        { user: { findUserUrl: '{staffNumber}' } } as AppConfig,
+      );
+      expect(urlProvider.getRekeyFindUserUrl(null)).toBe('00000000');
+    });
+  });
+
+  describe('getCandidateSignatureUrl', () => {
+    it('should replace {drivingLicenceNumber} with passed variable', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue(
+        { driver: { signatureUrl: '{drivingLicenceNumber}' } } as AppConfig,
+      );
+      expect(urlProvider.getCandidateSignatureUrl('test')).toBe('test');
+    });
+  });
+
+  describe('getCandidatePhotoUrl', () => {
+    it('should replace {drivingLicenceNumber} with passed variable', () => {
+      spyOn(urlProvider.appConfigProvider, 'getAppConfig').and.returnValue(
+        { driver: { photographUrl: '{drivingLicenceNumber}' } } as AppConfig,
+      );
+      expect(urlProvider.getCandidatePhotoUrl('test')).toBe('test');
+    });
+  });
+
   describe('getRekeySearchlUrl', () => {
     it('should format the URL template from the AppConfigProvider with the provided staffNumber', () => {
       const url = urlProvider.getRekeySearchUrl('12345678');

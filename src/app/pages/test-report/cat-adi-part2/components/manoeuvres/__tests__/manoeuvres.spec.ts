@@ -113,5 +113,24 @@ describe('ManoeuvresComponent', () => {
         expect(tickDe).toBeDefined();
       });
     });
+    describe('togglePopoverDisplay', () => {
+      it('should invert displayPopover and call toggleOverlay', () => {
+        spyOn(component, 'toggleOverlay');
+        component.displayPopover = true;
+        component.togglePopoverDisplay();
+        expect(component.displayPopover).toEqual(false);
+        expect(component.toggleOverlay).toHaveBeenCalled();
+      });
+    });
+    describe('toggleOverlay', () => {
+      it('should call callbackMethod if clickCallback is present', () => {
+        component.clickCallback = {
+          callbackMethod: () => {},
+        };
+        spyOn(component.clickCallback, 'callbackMethod');
+        component.toggleOverlay();
+        expect(component.clickCallback.callbackMethod).toHaveBeenCalled();
+      });
+    });
   });
 });

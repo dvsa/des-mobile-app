@@ -6,6 +6,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
+import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
 import { VehicleDetailsCardComponent } from '../vehicle-details-card';
 
 describe('VehicleDetailsCardComponent', () => {
@@ -78,10 +79,9 @@ describe('VehicleDetailsCardComponent', () => {
     });
     describe('getTransmission', () => {
       it('should return the correct value', () => {
-        const data: VehicleDetails = {
+        component.data = {
           gearboxCategory: 'Manual',
-        };
-        component.data = data;
+        } as VehicleDetails;
         fixture.detectChanges();
         expect(component.transmission).toEqual('Manual');
       });
@@ -91,10 +91,9 @@ describe('VehicleDetailsCardComponent', () => {
     });
     describe('getRegistrationNumber', () => {
       it('should return the correct value', () => {
-        const data: VehicleDetails = {
+        component.data = {
           registrationNumber: 'ABC 1234',
-        };
-        component.data = data;
+        } as VehicleDetails;
         fixture.detectChanges();
         expect(component.registrationNumber).toEqual('ABC 1234');
       });
@@ -102,6 +101,137 @@ describe('VehicleDetailsCardComponent', () => {
         expect(component.registrationNumber).toEqual(undefined);
       });
     });
+
+    describe('getFlattenArray', () => {
+      it('should return a flattened array', () => {
+        expect(component.getFlattenArray(['1', '2', '3'])).toEqual('1, 2 and 3');
+      });
+    });
+
+    describe('vehicleHeight', () => {
+      it('should vehicleHeight as a string', () => {
+        component.data = { vehicleHeight: 1 } as CatCMUniqueTypes.VehicleDetails;
+        expect(component.vehicleHeight).toEqual('1');
+      });
+    });
+
+    describe('numberOfSeats', () => {
+      it('should numberOfSeats as a string', () => {
+        component.data = { numberOfSeats: 1 } as CatCMUniqueTypes.VehicleDetails;
+        expect(component.numberOfSeats).toEqual('1');
+      });
+    });
+
+    describe('schoolBike', () => {
+      it('should return Yes if orditTrainedCandidate and isBike is trie', () => {
+        spyOn(component, 'isBike').and.returnValue(true);
+        component.data = { schoolBike: true };
+        expect(component.schoolBike).toEqual('Yes');
+      });
+      it('should return No if orditTrainedCandidate is false and isBike is true', () => {
+        spyOn(component, 'isBike').and.returnValue(true);
+        component.data = { schoolBike: false };
+        expect(component.schoolBike).toEqual('No');
+      });
+      it('should return null if isBike is false', () => {
+        spyOn(component, 'isBike').and.returnValue(false);
+        expect(component.schoolBike).toEqual(null);
+      });
+    });
+
+    describe('ordit', () => {
+      it('should return Yes if orditTrainedCandidate is true', () => {
+        component.trainerData = { orditTrainedCandidate: true };
+        expect(component.ordit).toEqual('Yes');
+      });
+      it('should return No if orditTrainedCandidate is false', () => {
+        component.trainerData = { orditTrainedCandidate: false };
+        expect(component.ordit).toEqual('No');
+      });
+    });
+
+    describe('trainingRecords', () => {
+      it('should return Yes if orditTrainedCandidate is true', () => {
+        component.trainerData = { trainingRecords: true };
+        expect(component.trainingRecords).toEqual('Yes');
+      });
+      it('should return No if orditTrainedCandidate is false', () => {
+        component.trainerData = { trainingRecords: false };
+        expect(component.trainingRecords).toEqual('No');
+      });
+    });
+
+    describe('dualControls', () => {
+      it('should return No if schoolCar is true', () => {
+        component.data = { schoolCar: true };
+        expect(component.dualControls).toEqual('No');
+      });
+      it('should return Yes if schoolCar is false', () => {
+        component.data = { schoolCar: false };
+        expect(component.dualControls).toEqual('Yes');
+      });
+    });
+
+    describe('schoolCarDualControls', () => {
+      it('should return School Car if schoolCar is true', () => {
+        component.data = { schoolCar: true };
+        expect(component.schoolCarDualControls).toEqual('School Car');
+      });
+      it('should return Dual Controls if schoolCar is false', () => {
+        component.data = { schoolCar: false };
+        expect(component.schoolCarDualControls).toEqual('Dual Controls');
+      });
+    });
+
+    describe('showTransmissionWithCode78', () => {
+      [
+        TestCategory.BE,
+        TestCategory.C,
+        TestCategory.C1,
+        TestCategory.CE,
+        TestCategory.C1E,
+        TestCategory.D,
+        TestCategory.D1,
+        TestCategory.DE,
+        TestCategory.D1E,
+        TestCategory.F,
+        TestCategory.G,
+        TestCategory.H,
+        TestCategory.K,
+      ].forEach((val) => {
+        it(`should return true if the category is ${val}`, () => {
+          component.category = val;
+          expect(component.showTransmissionWithCode78).toEqual(true);
+        });
+      });
+      it('should return false if the switch defaults', () => {
+        component.category = TestCategory.B;
+        expect(component.showTransmissionWithCode78).toEqual(false);
+      });
+    });
+
+    describe('shouldShowExtraDimensions', () => {
+      [
+        TestCategory.CM,
+        TestCategory.C1M,
+        TestCategory.CEM,
+        TestCategory.C1EM,
+        TestCategory.DM,
+        TestCategory.D1M,
+        TestCategory.DEM,
+        TestCategory.D1EM,
+      ].forEach((val) => {
+        it(`should return true if the category is ${val}`, () => {
+          component.category = val;
+          expect(component.shouldShowExtraDimensions).toEqual(true);
+        });
+      });
+      it('should return false if the switch defaults', () => {
+        component.category = TestCategory.B;
+        expect(component.shouldShowExtraDimensions).toEqual(false);
+      });
+    });
+
     describe('getVehicleLength', () => {
       it('should return the correct value', () => {
         component.data = {

@@ -5,7 +5,7 @@ import {
   formatDriverNumber,
   getUntitledCandidateName,
   getPostalAddress,
-  getCandidateId,
+  getCandidateId, getGenderFullDescription, getGender, getDateOfBirth, getGenderSilhouettePath,
 } from '../candidate.selector';
 
 describe('candidate selector', () => {
@@ -15,6 +15,8 @@ describe('candidate selector', () => {
       lastName: 'Bloggs',
       title: 'Mr',
     },
+    gender: 'M',
+    dateOfBirth: '11/11/1111',
     driverNumber: '123',
     candidateAddress: {
       addressLine1: '1 Example Street',
@@ -51,38 +53,75 @@ describe('candidate selector', () => {
     it('should produce first and last name only when no title', () => {
       expect(getCandidateName(candidateNoTitle)).toBe('Joe Bloggs');
     });
-  });
-
-  describe('getUntitledCandidateName', () => {
-    it('should produce first and last name only, no title prefix', () => {
-      expect(getUntitledCandidateName(candidate)).toBe('Joe Bloggs');
+    it('should return nothing if there is no name', () => {
+      expect(getCandidateName({})).toBe('');
     });
   });
 
-  describe('getCandidateDriverNumber', () => {
-    it('should extract the driver number', () => {
-      expect(getCandidateDriverNumber(candidate)).toBe('123');
+  describe('getGenderFullDescription', () => {
+    it('should return "Female" if gender is set to "F"', () => {
+      expect(getGenderFullDescription('F')).toEqual('Female');
     });
-  });
+    it('should return "Male" if gender is not set to "F"', () => {
+      expect(getGenderFullDescription('test')).toEqual('Male');
+    });
 
-  describe('formatDriverNumber', () => {
-    it('should output the driver number as-is where it is not long enough', () => {
-      expect(formatDriverNumber('123')).toBe('123');
-    });
-    it('should output the driver number in 3 space separated parts where applicable', () => {
-      expect(formatDriverNumber('ABCDE123456Z78YX')).toBe('ABCDE 123456 Z78YX');
-    });
-  });
+    describe('getUntitledCandidateName', () => {
+      it('should return nothing if there is no name', () => {
+        expect(getUntitledCandidateName({})).toBe('');
+      });
 
-  describe('getPostalAddress', () => {
-    it('should output the address', () => {
-      expect(getPostalAddress(candidate)).toEqual(candidate.candidateAddress);
+      it('should produce first and last name only, no title prefix', () => {
+        expect(getUntitledCandidateName(candidate)).toBe('Joe Bloggs');
+      });
     });
-  });
 
-  describe('getCandidateId', () => {
-    it('should output the candidate ID', () => {
-      expect(getCandidateId(candidate)).toEqual(1001);
+    describe('getCandidateDriverNumber', () => {
+      it('should extract the driver number', () => {
+        expect(getCandidateDriverNumber(candidate)).toBe('123');
+      });
+    });
+
+    describe('formatDriverNumber', () => {
+      it('should output the driver number as-is where it is not long enough', () => {
+        expect(formatDriverNumber('123')).toBe('123');
+      });
+      it('should output the driver number in 3 space separated parts where applicable', () => {
+        expect(formatDriverNumber('ABCDE123456Z78YX')).toBe('ABCDE 123456 Z78YX');
+      });
+    });
+
+    describe('getPostalAddress', () => {
+      it('should output the address', () => {
+        expect(getPostalAddress(candidate)).toEqual(candidate.candidateAddress);
+      });
+    });
+
+    describe('getGender', () => {
+      it('should output gender', () => {
+        expect(getGender(candidate)).toEqual(candidate.gender);
+      });
+    });
+
+    describe('getGenderSilhouettePath', () => {
+      it('should accurate silhouette if "F" is passed', () => {
+        expect(getGenderSilhouettePath('F')).toEqual('assets/imgs/candidate-id/silhouette-2.png');
+      });
+      it('should accurate silhouette if "F" is not passed', () => {
+        expect(getGenderSilhouettePath('test')).toEqual('assets/imgs/candidate-id/silhouette-1.png');
+      });
+    });
+
+    describe('getDateOfBirth', () => {
+      it('should output date of birth', () => {
+        expect(getDateOfBirth(candidate)).toEqual(candidate.dateOfBirth);
+      });
+    });
+
+    describe('getCandidateId', () => {
+      it('should output the candidate ID', () => {
+        expect(getCandidateId(candidate)).toEqual(1001);
+      });
     });
   });
 });
