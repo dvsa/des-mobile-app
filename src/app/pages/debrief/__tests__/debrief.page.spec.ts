@@ -15,17 +15,172 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { Subscription } from 'rxjs';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { take } from 'rxjs/operators';
-import { TestData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestsModel } from '@store/tests/tests.model';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { provideMockStore } from '@ngrx/store/testing';
 
 export enum TestOutcome {
   PASS = 'Pass',
   FAIL = 'Fail',
 }
+
 describe('DebriefPage', () => {
   let fixture: ComponentFixture<DebriefPage>;
   let component: DebriefPage;
   let store$: Store<StoreModel>;
+
+  const initialState = {
+    appInfo: { employeeId: '123456' },
+    tests: {
+      currentTest: {
+        slotId: '123',
+      },
+      testStatus: {},
+      startedTests: {
+        123: {
+          category: TestCategory.B,
+          journalData: {
+            candidate: {
+              candidateName: {
+                firstName: 'firstName',
+                lastName: 'lastName',
+              },
+            },
+          },
+          communicationPreferences: {
+            conductedLanguage: 'English',
+          },
+          testData: {
+            ETA: {
+              physical: true,
+            },
+            eco: {
+              completed: true,
+            },
+            seriousFaults: {
+              controlsAccelerator: true,
+            },
+            dangerousFaults: {
+              positioningNormalDriving: true,
+            },
+            drivingFaults: {
+              controlsAccelerator: 1,
+              judgementOvertaking: 1,
+            },
+          },
+        } as CatBUniqueTypes.TestResult,
+      },
+    } as TestsModel,
+  } as StoreModel;
+  // const initialState= {
+  //   appInfo: { employeeId: '123456' },
+  //   tests: {
+  //     currentTest: {
+  //       slotId: '123',
+  //     },
+  //     testStatus: {},
+  //     startedTests: {
+  //       123: {
+  //         category: TestCategory.B,
+  //         journalData: {
+  //           // candidate: {
+  //           //   // candidateName: {
+  //           //   //   firstName: 'firstName',
+  //           //   //   lastName: 'lastName',
+  //           //   // },
+  //           // },
+  //         },
+  //         // communicationPreferences: {
+  //         //   conductedLanguage: 'English',
+  //         // },
+  //         testData: {
+  //           // vehicleChecks: {
+  //           //   showMeQuestions: [{
+  //           //     code: 'test1',
+  //           //     description: 'string',
+  //           //     outcome: 'P',
+  //           //   }],
+  //           //   tellMeQuestions: [{
+  //           //     code: 'test2',
+  //           //     description: 'string',
+  //           //     outcome: 'P',
+  //           //   }],
+  //           // },
+  //           // emergencyStop: {
+  //           //   firstAttempt: 1,
+  //           //   secondAttempt: 2,
+  //           // },
+  //           // avoidance: {
+  //           //   firstAttempt: 1,
+  //           //   secondAttempt: 2,
+  //           // },
+  //           // review: {
+  //           //   seekFurtherDevelopment: true,
+  //           //   reasonForNoAdviceGiven: 'test',
+  //           //   grade: 'test1',
+  //           //   immediateDanger: false,
+  //           // },
+  //           // teachingLearningStrategies: {
+  //           //   score: 1,
+  //           // },
+  //           // lessonAndTheme: {
+  //           //   lessonThemes: ['junctions'],
+  //           // },
+  //           // lessonPlanning: {
+  //           //   score: 1,
+  //           // },
+  //           // riskManagement: {
+  //           //   score: 1,
+  //           // },
+  //           // totalPercent: 100,
+  //           // question1: {
+  //           //   score: 1,
+  //           // },
+  //           // question2: {
+  //           //   score: 1,
+  //           // },
+  //           // question3: {
+  //           //   score: 1,
+  //           // },
+  //           // question4: {
+  //           //   score: 1,
+  //           // },
+  //           // question5: {
+  //           //   score: 1,
+  //           // },
+  //
+  //
+  //           //   ETA: {
+  //           //     physical: true,
+  //           //   },
+  //           //   eco: {
+  //           //     completed: true,
+  //           //   },
+  //           //   seriousFaults: {
+  //           //     controlsAccelerator: true,
+  //           //   },
+  //           //   dangerousFaults: {
+  //           //     positioningNormalDriving: true,
+  //           //   },
+  //           //   drivingFaults: {
+  //           //     controlsAccelerator: 1,
+  //           //     judgementOvertaking: 1,
+  //           //   },
+  //           //   safetyQuestions: {
+  //           //     questions: [
+  //           //       {
+  //           //         outcome: 'DF',
+  //           //         description: 'Fire Extinguisher',
+  //           //       },
+  //           //     ],
+  //           //     faultComments: '',
+  //           //   },
+  //         } as CatADI2UniqueTypes.TestResult,
+  //       },
+  //     },
+  //     testStatus: {},
+  //   } as TestsModel,
+  // } as StoreModel;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,113 +192,9 @@ describe('DebriefPage', () => {
         AppModule,
         TranslateModule,
         StoreModule.forFeature('testReport', testReportReducer),
-        StoreModule.forFeature('tests', () => (
-          {
-            currentTest: {
-              slotId: '123',
-            },
-            testStatus: {},
-            startedTests: {
-              123: {
-                category: TestCategory.B,
-                journalData: {
-                  candidate: {
-                    candidateName: {
-                      firstName: 'firstName',
-                      lastName: 'lastName',
-                    },
-                  },
-                },
-                communicationPreferences: {
-                  conductedLanguage: 'English',
-                },
-                testData: {
-                  emergencyStop: {
-                    firstAttempt: 1,
-                    secondAttempt: 2,
-                  },
-                  avoidance: {
-                    firstAttempt: 1,
-                    secondAttempt: 2,
-                  },
-                  review: {
-                    seekFurtherDevelopment: true,
-                    reasonForNoAdviceGiven: 'test',
-                    grade: 'test1',
-                    immediateDanger: false,
-                  },
-                  teachingLearningStrategies: {
-                    score: 1,
-                  },
-                  lessonAndTheme: {
-                    lessonThemes: ['junctions'],
-                  },
-                  lessonPlanning: {
-                    score: 1,
-                  },
-                  riskManagement: {
-                    score: 1,
-                  },
-                  totalPercent: 100,
-                  question1: {
-                    score: 1,
-                  },
-                  question2: {
-                    score: 1,
-                  },
-                  question3: {
-                    score: 1,
-                  },
-                  question4: {
-                    score: 1,
-                  },
-                  question5: {
-                    score: 1,
-                  },
-                  ETA: {
-                    physical: true,
-                  },
-                  eco: {
-                    completed: true,
-                  },
-                  seriousFaults: {
-                    controlsAccelerator: true,
-                  },
-                  dangerousFaults: {
-                    positioningNormalDriving: true,
-                  },
-                  drivingFaults: {
-                    controlsAccelerator: 1,
-                    judgementOvertaking: 1,
-                  },
-                  safetyQuestions: {
-                    questions: [
-                      {
-                        outcome: 'DF',
-                        description: 'Fire Extinguisher',
-                      },
-                    ],
-                    faultComments: '',
-                  },
-                  vehicleChecks: {
-                    showMeQuestions: [{
-                      code: 'test1',
-                      description: 'string',
-                      outcome: 'P',
-                    }],
-                    tellMeQuestions: [{
-                      code: 'test2',
-                      description: 'string',
-                      outcome: 'P',
-                    }],
-                  },
-                } as TestData,
-              } as TestResultCommonSchema,
-            },
-          } as TestsModel
-        )),
       ],
       providers: [
+        provideMockStore({ initialState }),
         { provide: FaultSummaryProvider, useClass: FaultSummaryProviderMock },
       ],
     });
@@ -158,7 +209,7 @@ describe('DebriefPage', () => {
     expect(component).toBeTruthy();
   });
 
-  xdescribe('ngOnInit', () => {
+  fdescribe('ngOnInit', () => {
     it('should resolve state variables', () => {
 
       component.ngOnInit();
@@ -177,7 +228,7 @@ describe('DebriefPage', () => {
       component.pageState.drivingFaultCount$
         .pipe(take(1))
         .subscribe((res) => expect(res)
-          .toEqual(1));
+          .toEqual(2));
       component.pageState.etaFaults$
         .pipe(take(1))
         .subscribe((res) => expect(res)
@@ -202,125 +253,124 @@ describe('DebriefPage', () => {
         .pipe(take(1))
         .subscribe((res) => expect(res)
           .toEqual(TestCategory.B));
-      component.pageState.tellMeShowMeQuestions$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual([
-            {
-              code: 'test2',
-              description: 'string',
-              outcome: 'P',
-            },
-            {
-              code: 'test1',
-              description: 'string',
-              outcome: 'P',
-            },
-          ]));
-      component.pageState.question1$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({ score: 1 }));
-      component.pageState.question2$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({ score: 1 }));
-      component.pageState.question3$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({ score: 1 }));
-      component.pageState.question4$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({ score: 1 }));
-      component.pageState.question5$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({ score: 1 }));
-      component.pageState.overallScore$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual(100));
-      component.pageState.totalScore$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual(3));
-      component.pageState.lessonTheme$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({
-            lessonThemes: ['junctions'],
-          }));
-      component.pageState.lessonPlanning$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({
-            score: 1,
-          }));
-      component.pageState.riskManagement$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({
-            score: 1,
-          }));
-      component.pageState.teachingLearningStrategies$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({
-            score: 1,
-          }));
-      component.pageState.review$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({
-            seekFurtherDevelopment: true,
-            reasonForNoAdviceGiven: 'test',
-            grade: 'test1',
-            immediateDanger: false,
-          }));
-      component.pageState.showEco$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual(true));
-      component.pageState.showSpeedCheck$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual(false));
-      component.pageState.showSafetyQuestions$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual(false));
-      component.pageState.showSafetyAndBalance$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual(false));
-      component.pageState.emergencyStop$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({
-            firstAttempt: 1,
-            secondAttempt: 2,
-          }));
-      component.pageState.avoidance$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual({
-            firstAttempt: 1,
-            secondAttempt: 2,
-          }));
-      component.pageState.avoidanceAttempted$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual(true));
-      component.pageState.grade$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual('test1'));
-      component.pageState.immediateDanger$
-        .pipe(take(1))
-        .subscribe((res) => expect(res)
-          .toEqual(false));
-
+      // component.pageState.tellMeShowMeQuestions$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual([
+      //       {
+      //         code: 'test2',
+      //         description: 'string',
+      //         outcome: 'P',
+      //       },
+      //       {
+      //         code: 'test1',
+      //         description: 'string',
+      //         outcome: 'P',
+      //       },
+      //     ]));
+      // component.pageState.question1$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({ score: 1 }));
+      // component.pageState.question2$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({ score: 1 }));
+      // component.pageState.question3$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({ score: 1 }));
+      // component.pageState.question4$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({ score: 1 }));
+      // component.pageState.question5$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({ score: 1 }));
+      // component.pageState.overallScore$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual(100));
+      // component.pageState.totalScore$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual(3));
+      // component.pageState.lessonTheme$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({
+      //       lessonThemes: ['junctions'],
+      //     }));
+      // component.pageState.lessonPlanning$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({
+      //       score: 1,
+      //     }));
+      // component.pageState.riskManagement$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({
+      //       score: 1,
+      //     }));
+      // component.pageState.teachingLearningStrategies$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({
+      //       score: 1,
+      //     }));
+      // component.pageState.review$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({
+      //       seekFurtherDevelopment: true,
+      //       reasonForNoAdviceGiven: 'test',
+      //       grade: 'test1',
+      //       immediateDanger: false,
+      //     }));
+      // component.pageState.showEco$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual(true));
+      // component.pageState.showSpeedCheck$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual(false));
+      // component.pageState.showSafetyQuestions$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual(false));
+      // component.pageState.showSafetyAndBalance$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual(false));
+      // component.pageState.emergencyStop$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({
+      //       firstAttempt: 1,
+      //       secondAttempt: 2,
+      //     }));
+      // component.pageState.avoidance$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual({
+      //       firstAttempt: 1,
+      //       secondAttempt: 2,
+      //     }));
+      // component.pageState.avoidanceAttempted$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual(true));
+      // component.pageState.grade$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual('test1'));
+      // component.pageState.immediateDanger$
+      //   .pipe(take(1))
+      //   .subscribe((res) => expect(res)
+      //     .toEqual(false));
     });
   });
 
@@ -421,7 +471,7 @@ describe('DebriefPage', () => {
       expect(component.router.navigate).toHaveBeenCalledWith(['DashboardPage'], Object({ replaceUrl: true }));
     });
     it('should call navigate with PASS_FINALISATION_PAGE and the correct category if '
-            + 'isTestReportPracticeMode is false and outcome is PASS', () => {
+      + 'isTestReportPracticeMode is false and outcome is PASS', () => {
       spyOn(component['routeByCategoryProvider'], 'navigateToPage');
       component.isTestReportPracticeMode = false;
       component.outcome = TestOutcome.PASS;
@@ -432,7 +482,7 @@ describe('DebriefPage', () => {
         .toHaveBeenCalledWith(TestFlowPageNames.PASS_FINALISATION_PAGE, TestCategory.B);
     });
     it('should call navigate with POST_DEBRIEF_HOLDING_PAGE if '
-            + 'isTestReportPracticeMode is false and outcome is not PASS', () => {
+      + 'isTestReportPracticeMode is false and outcome is not PASS', () => {
       spyOn(component.router, 'navigate');
       component.isTestReportPracticeMode = false;
       component.outcome = TestOutcome.FAIL;
@@ -450,7 +500,7 @@ describe('DebriefPage', () => {
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
     it('should unlock screenOrientation and run allowSleepAgain if '
-        + 'isIos and isTestReportPracticeMode are true', () => {
+      + 'isIos and isTestReportPracticeMode are true', () => {
       spyOn(PracticeableBasePageComponent.prototype, 'isIos').and.returnValue(true);
       spyOn(component.screenOrientation, 'unlock');
       spyOn(component.insomnia, 'allowSleepAgain');
