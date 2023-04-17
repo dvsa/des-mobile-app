@@ -225,7 +225,13 @@ export class TestOutcomeComponent implements OnInit {
     }
 
     if (this.testStatus === null || this.testStatus === TestStatus.Booked) {
-      this.store$.dispatch(StartTest(this.slotDetail.slotId, this.category, true, false));
+      this.store$.dispatch(StartTest(
+        this.slotDetail.slotId,
+        this.category,
+        true,
+        false,
+        DateTime.at(this.slotDetail.start).format('YYYY-MM-DD'),
+      ));
     } else {
       this.store$.dispatch(ActivateTest(this.slotDetail.slotId, this.category, true));
     }

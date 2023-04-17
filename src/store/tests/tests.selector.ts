@@ -149,6 +149,14 @@ export const getIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
       && tests.testStatus[slotId] !== TestStatus.Completed);
 };
 
+export const getCompletedTestSlotIdsBeforeToday = (tests: TestsModel): string[] => {
+  return Object.keys(tests.testStatus)
+    .filter((slotId) =>
+      isTestBeforeToday(tests.startedTests[slotId])
+      && (tests.testStatus[slotId] === TestStatus.Submitted
+      || tests.testStatus[slotId] === TestStatus.Completed));
+};
+
 export const getAllIncompleteTestsSlotIds = (tests: TestsModel): string[] => {
   return Object.keys(tests.testStatus)
     .filter((slotId) =>

@@ -99,6 +99,7 @@ export abstract class WaitingRoomToCarBasePageComponent extends PracticeableBase
   subscription: Subscription;
   merged$: Observable<boolean | string | JournalDataUnion>;
   testCategory: TestCategory;
+  hasNavigatedFromUnsubmitted: boolean = false;
 
   private categoriesRequiringEyesightTest: TestCategory[] = [
     TestCategory.B,
