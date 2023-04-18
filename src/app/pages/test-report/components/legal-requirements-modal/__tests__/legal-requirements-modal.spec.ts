@@ -5,6 +5,7 @@ import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { LegalRequirementsModal } from '../legal-requirements-modal';
+import { ModalEvent } from '../../../test-report.constants';
 
 describe('LegalRequirementsModal', () => {
   let fixture: ComponentFixture<LegalRequirementsModal>;
@@ -28,8 +29,6 @@ describe('LegalRequirementsModal', () => {
 
     fixture = TestBed.createComponent(LegalRequirementsModal);
     component = fixture.componentInstance;
-    component.onCancel = () => Promise.resolve();
-    component.onTerminate = () => Promise.resolve();
   }));
 
   describe('DOM', () => {
@@ -53,6 +52,27 @@ describe('LegalRequirementsModal', () => {
 
       fixture.detectChanges();
       expect(component.onTerminate).toHaveBeenCalled();
+    });
+  });
+  describe('onCancel', () => {
+    it('should call dismiss with CANCEL', async () => {
+      spyOn(component['modalCtrl'], 'dismiss');
+      await component.onCancel();
+      expect(await component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
+  describe('onContinue', () => {
+    it('should call dismiss with CONTINUE', async () => {
+      spyOn(component['modalCtrl'], 'dismiss');
+      await component.onContinue();
+      expect(await component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.CONTINUE);
+    });
+  });
+  describe('onTerminate', () => {
+    it('should call dismiss with TERMINATE', async () => {
+      spyOn(component['modalCtrl'], 'dismiss');
+      await component.onTerminate();
+      expect(await component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
     });
   });
 });

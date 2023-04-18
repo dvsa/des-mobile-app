@@ -31,6 +31,7 @@ import {
 import { VehicleCheckComponent } from '@pages/test-report/cat-adi-part2/components/vehicle-check/vehicle-check';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
 import { ManoeuvreCompetencyComponent } from '../../components/manoeuvre-competency/manoeuvre-competency';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
@@ -105,6 +106,7 @@ describe('TestReportCatADI2Page', () => {
   });
 
   describe('DOM', () => {
+
     describe('Fault Modes Styling', () => {
       it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
@@ -122,6 +124,17 @@ describe('TestReportCatADI2Page', () => {
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
       });
+    });
+  });
+
+  describe('ionViewDidLeave', () => {
+    it('should run basePageComponent functions', () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
+      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+      component.ionViewDidLeave();
+
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
     });
   });
 

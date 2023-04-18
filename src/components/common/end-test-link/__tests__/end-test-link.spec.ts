@@ -42,6 +42,27 @@ describe('EndTestLinkComponent', () => {
   }));
 
   describe('Class', () => {
+
+    describe('openEndTestModal', () => {
+      it('should create an error modal', async () => {
+        spyOn(component['modalController'], 'create').and.returnValue(Promise.resolve({
+          present: async () => {},
+          onWillDismiss: async () => {},
+        } as any as HTMLIonModalElement));
+        await component.openEndTestModal();
+        expect(component['modalController'].create).toHaveBeenCalled();
+      });
+    });
+
+    describe('onCancel', () => {
+      it('should call dismiss', async () => {
+        await component.openEndTestModal();
+        spyOn(component.terminateTestModal, 'dismiss');
+        await component.onCancel();
+        expect(await component.terminateTestModal.dismiss).toHaveBeenCalled();
+      });
+    });
+
     describe('onTerminate', () => {
       beforeEach(() => {
         component.terminateTestModal = { dismiss: async () => true } as HTMLIonModalElement;

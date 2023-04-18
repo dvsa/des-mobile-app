@@ -27,6 +27,7 @@ import {
   SafetyAndBalanceComponent,
 } from '@pages/test-report/cat-a-mod2/components/safety-and-balance/safety-and-balance';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { EtaComponent } from '../../components/examiner-takes-action/eta';
 import { LegalRequirementComponent } from '../../components/legal-requirement/legal-requirement';
 import { testReportReducer } from '../../test-report.reducer';
@@ -112,6 +113,17 @@ describe('TestReportCatAMod2Page', () => {
         expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
         expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
       });
+    });
+  });
+
+  describe('ionViewDidLeave', () => {
+    it('should run basePageComponent functions', () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
+      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+      component.ionViewDidLeave();
+
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
     });
   });
 

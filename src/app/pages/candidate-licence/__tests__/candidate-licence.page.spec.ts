@@ -14,7 +14,7 @@ import {
 import { CandidateLicencePage } from '@pages/candidate-licence/candidate-licence.page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
+import { CandidateLicenceErr, CandidateLicenceProvider } from '@providers/candidate-licence/candidate-licence';
 import { DomSanitizerMock } from '@mocks/angular-mocks/dom-sanitizer.mock';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
@@ -35,6 +35,10 @@ import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { DriverPhotograph } from '@dvsa/mes-driver-schema';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
+import { TestsModel } from '@store/tests/tests.model';
+import moment from 'moment';
 
 describe('CandidateLicencePage', () => {
   let component: CandidateLicencePage;
@@ -42,7 +46,50 @@ describe('CandidateLicencePage', () => {
   let store$: Store<StoreModel>;
   let router: Router;
   let domSanitizer: DomSanitizer;
-  const initialState = {};
+  const initialState = {
+    appInfo: { employeeId: '123456' },
+    tests: {
+      currentTest: {
+        slotId: '123',
+      },
+      testStatus: {},
+      startedTests: {
+        123: {
+          category: TestCategory.B,
+          journalData: {
+            candidate: {
+              dateOfBirth: '1/1/2000',
+              candidateName: {
+                firstName: 'firstName',
+                lastName: 'lastName',
+              },
+            },
+          },
+          communicationPreferences: {
+            conductedLanguage: 'English',
+          },
+          testData: {
+            ETA: {
+              physical: true,
+            },
+            eco: {
+              completed: true,
+            },
+            seriousFaults: {
+              controlsAccelerator: true,
+            },
+            dangerousFaults: {
+              positioningNormalDriving: true,
+            },
+            drivingFaults: {
+              controlsAccelerator: 1,
+              judgementOvertaking: 1,
+            },
+          },
+        } as CatBUniqueTypes.TestResult,
+      },
+    } as TestsModel,
+  } as StoreModel;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -91,6 +138,18 @@ describe('CandidateLicencePage', () => {
         expect(store$.dispatch).toHaveBeenCalledWith(CandidateLicenceViewDidEnter());
       });
     });
+    describe('ngOnInit', () => {
+      it('should resolve state variables', () => {
+        component.ngOnInit();
+
+        component.pageState.testCategory$.subscribe((val) => {
+          expect(val).toEqual(TestCategory.B);
+        });
+        component.pageState.age$.subscribe((val) => {
+          expect(val).toEqual(moment().diff('1/1/2000', 'years'));
+        });
+      });
+    });
     describe('trueLikenessToPhotoChanged', () => {
       it('should dispatch the true likeness action', () => {
         component.trueLikenessToPhotoChanged(true);
@@ -112,6 +171,48 @@ describe('CandidateLicencePage', () => {
           photograph: { image: 'licence image', imageFormat: 'image format' },
         } as DriverPhotograph);
         expect(domSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('data:image format;base64,licence image');
+      });
+    });
+    describe('setError', () => {
+      it('should set offlineError to true if CandidateLicenceErr is OFFLINE', () => {
+        component.offlineError = false;
+
+        component['setError']({
+          message: CandidateLicenceErr.OFFLINE,
+          name: '',
+        });
+
+        expect(component.offlineError).toEqual(true);
+      });
+      it('should set candidateDataUnavailable to true if CandidateLicenceErr is UNAVAILABLE', () => {
+        component.candidateDataUnavailable = false;
+
+        component['setError']({
+          message: CandidateLicenceErr.UNAVAILABLE,
+          name: '',
+        });
+
+        expect(component.candidateDataUnavailable).toEqual(true);
+      });
+      it('should set niLicenceDetected to true if CandidateLicenceErr is NI_LICENCE', () => {
+        component.niLicenceDetected = false;
+
+        component['setError']({
+          message: CandidateLicenceErr.NI_LICENCE,
+          name: '',
+        });
+
+        expect(component.niLicenceDetected).toEqual(true);
+      });
+      it('should set candidateDataError to true if the switch defaults', () => {
+        component.candidateDataError = false;
+
+        component['setError']({
+          message: null,
+          name: '',
+        });
+
+        expect(component.candidateDataError).toEqual(true);
       });
     });
     describe('onContinue', () => {

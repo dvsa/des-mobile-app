@@ -7,6 +7,7 @@ import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { ModalEvent } from '../journal-rekey-modal.constants';
 import { JournalRekeyModal } from '../journal-rekey-modal';
 
 describe('JournalRekeyModal', () => {
@@ -32,9 +33,6 @@ describe('JournalRekeyModal', () => {
 
     fixture = TestBed.createComponent(JournalRekeyModal);
     component = fixture.componentInstance;
-    component.onStartTest = async () => {};
-    component.onRekeyTest = async () => {};
-    component.onCancel = async () => {};
   }));
 
   describe('DOM', () => {
@@ -66,6 +64,28 @@ describe('JournalRekeyModal', () => {
 
       fixture.detectChanges();
       expect(component.onCancel).toHaveBeenCalled();
+    });
+  });
+
+  describe('onCancel', () => {
+    it('should call dismiss with CANCEL', async () => {
+      spyOn(component['modalController'], 'dismiss');
+      await component.onCancel();
+      expect(await component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+    });
+  });
+  describe('onStartTest', () => {
+    it('should call dismiss with START', async () => {
+      spyOn(component['modalController'], 'dismiss');
+      await component.onStartTest();
+      expect(await component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.START);
+    });
+  });
+  describe('onRekeyTest', () => {
+    it('should call dismiss with REKEY', async () => {
+      spyOn(component['modalController'], 'dismiss');
+      await component.onRekeyTest();
+      expect(await component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.REKEY);
     });
   });
 });

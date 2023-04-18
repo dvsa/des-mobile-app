@@ -10,7 +10,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
 import { FinalisationHeaderComponent } from '@components/test-finalisation/finalisation-header/finalisation-header';
 import { LanguagePreferencesComponent } from '@components/test-finalisation/language-preference/language-preference';
@@ -74,6 +74,22 @@ describe('PassFinalisationCatCPCPage', () => {
   }));
 
   describe('Class', () => {
+    describe('ionViewDidLeave', () => {
+      it('should unsubscribe from subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ionViewDidLeave();
+        expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      });
+    });
+    describe('ionViewWillEnter', () => {
+      it('should setup subscription if merged is present', () => {
+        component.merged$ = new Observable<string | boolean>();
+        component.ionViewWillEnter();
+
+        expect(component.subscription).toBeDefined();
+      });
+    });
     describe('onSubmit', () => {
       it('should dispatch the PersistTests action', () => {
         component.onSubmit();
@@ -99,5 +115,4 @@ describe('PassFinalisationCatCPCPage', () => {
       }));
     });
   });
-
 });
