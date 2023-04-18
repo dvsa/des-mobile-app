@@ -75,8 +75,8 @@ describe('RekeyUploadOutcomePage', () => {
 
   describe('Class', () => {
     describe('ionViewDidEnter', () => {
-      it('should disable test inhibitions', () => {
-        component.ionViewDidEnter();
+      it('should disable test inhibitions', async () => {
+        await component.ionViewDidEnter();
         expect(screenOrientation.unlock).toHaveBeenCalled();
         expect(insomnia.allowSleepAgain).toHaveBeenCalled();
         expect(deviceProvider.disableSingleAppMode).toHaveBeenCalled();
@@ -93,7 +93,7 @@ describe('RekeyUploadOutcomePage', () => {
       it('should navigate to journal when fromRekeySearch is false', async () => {
         component.fromRekeySearch = false;
         await component.goToJournal();
-        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE], { replaceUrl: true });
+        expect(router.navigate).toHaveBeenCalledWith([JOURNAL_PAGE]);
       });
       it('should dispatch rekey action always', async () => {
         await component.goToJournal();
