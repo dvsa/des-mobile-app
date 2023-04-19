@@ -13,13 +13,15 @@ import { StartTest } from '@store/tests/tests.actions';
 import {
   AddEmergencyStopSeriousFault,
   RecordEmergencyStopFirstAttempt,
-  RecordEmergencyStopSecondAttempt,
+  RecordEmergencyStopSecondAttempt, RemoveEmergencyStopSeriousFault,
 } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
 import {
   AddAvoidanceSeriousFault,
   RecordAvoidanceFirstAttempt,
-  RecordAvoidanceSecondAttempt,
+  RecordAvoidanceSecondAttempt, RemoveAvoidanceSeriousFault,
 } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import { Subscription } from 'rxjs';
 import { CompetencyButtonComponent } from '../../../../components/competency-button/competency-button';
 import { SpeedCheckComponent } from '../speed-check';
 import { testReportReducer } from '../../../../test-report.reducer';
@@ -66,6 +68,14 @@ describe('SpeedCheckComponent', () => {
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddEmergencyStopSeriousFault());
       });
+      it('should dispatch RemoveEmergencyStopSeriousFault when '
+          + 'Emergency Stop is the speed check and outcome is "S"', () => {
+        component.competency = Competencies.speedCheckEmergency;
+        component.outcome = CompetencyOutcome.S;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.toggleNotMet();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveEmergencyStopSeriousFault());
+      });
 
       it('should dispatch AddAvoidanceSeriousFault when Avoidance is the speed check', () => {
         component.competency = Competencies.speedCheckAvoidance;
@@ -73,6 +83,13 @@ describe('SpeedCheckComponent', () => {
         const storeDispatchSpy = spyOn(store$, 'dispatch');
         component.toggleNotMet();
         expect(storeDispatchSpy).toHaveBeenCalledWith(AddAvoidanceSeriousFault());
+      });
+      it('should dispatch RemoveAvoidanceSeriousFault when Avoidance is the speed check and outcome is "S"', () => {
+        component.competency = Competencies.speedCheckAvoidance;
+        component.outcome = CompetencyOutcome.S;
+        const storeDispatchSpy = spyOn(store$, 'dispatch');
+        component.toggleNotMet();
+        expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveAvoidanceSeriousFault());
       });
     });
 
@@ -101,6 +118,42 @@ describe('SpeedCheckComponent', () => {
         component.secondAttempt = attemptedSpeed;
         const result = component.getSecondAttempt();
         expect(result).toBe(attemptedSpeed);
+      });
+    });
+
+    describe('ngOnDestroy', () => {
+      it('should unsubscribe from the subscription if there is one', () => {
+        component.subscription = new Subscription();
+        spyOn(component.subscription, 'unsubscribe');
+        component.ngOnDestroy();
+        expect(component.subscription.unsubscribe)
+          .toHaveBeenCalled();
+      });
+    });
+
+    describe('ngOnInit', () => {
+      it('should setup subscription if merged is present', () => {
+        component.ngOnInit();
+
+        expect(component.subscription).toBeDefined();
+      });
+    });
+
+    describe('getLabel', () => {
+      it('should return true if outcome is S', () => {
+        component.competency = Competencies.ancillaryControls;
+        expect(component.getLabel()).toEqual('Ancillary controls');
+      });
+    });
+
+    describe('getNotMet', () => {
+      it('should return true if outcome is S', () => {
+        component.outcome = CompetencyOutcome.S;
+        expect(component.getNotMet()).toEqual(true);
+      });
+      it('should return true if outcome is not S', () => {
+        component.outcome = null;
+        expect(component.getNotMet()).toEqual(false);
       });
     });
 

@@ -33,6 +33,8 @@ import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/te
 import { StoreModel } from '@shared/models/store.model';
 import { RecordManoeuvresSelection } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { EtaComponent } from '@pages/test-report/components/examiner-takes-action/eta';
+import { Observable, Subscription } from 'rxjs';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { testReportReducer } from '../../test-report.reducer';
 import { TestReportCatManoeuvrePage } from '../test-report.cat-manoeuvre.page';
 
@@ -146,5 +148,31 @@ describe('TestReportCatManoeuvrePage', () => {
       expect(component.onEndTestClick).toHaveBeenCalled();
     });
   });
+  describe('ionViewWillEnter', () => {
+    it('should setup manoeuvreSubscription if merged is present', async () => {
+      component.merged$ = new Observable<boolean>();
+      await component.ionViewWillEnter();
 
+      expect(component.manoeuvreSubscription).toBeDefined();
+    });
+    it('should call base page ionViewWillEnter', async () => {
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewWillEnter');
+      await component.ionViewWillEnter();
+
+      expect(TestReportBasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
+    });
+  });
+  describe('ionViewDidLeave', () => {
+    it('should call basePage functions and unsubscribe from subscription if there is one', () => {
+      component.manoeuvreSubscription = new Subscription();
+      spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
+      spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+      spyOn(component.manoeuvreSubscription, 'unsubscribe');
+
+      component.ionViewDidLeave();
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
+      expect(component.manoeuvreSubscription.unsubscribe).toHaveBeenCalled();
+    });
+  });
 });

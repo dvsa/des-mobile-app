@@ -152,4 +152,111 @@ describe('ActivityCodeFinalisationProvider', () => {
     });
   });
 
+  describe('testDataIsInvalid', () => {
+    it('should return catADIPart2TestDataIsInvalid if category is ADI2', async () => {
+      spyOn(activityCodeFinalisationProvider, 'catADIPart2TestDataIsInvalid').and.returnValue(Promise.resolve(true));
+      expect(await activityCodeFinalisationProvider.testDataIsInvalid(TestCategory.ADI2, null, null))
+        .toEqual(true);
+    });
+    [
+      TestCategory.ADI3,
+      TestCategory.SC,
+    ].forEach((value) => {
+      it(`should return catADIPart3TestDataIsInvalid if category is ${value}`, async () => {
+        spyOn(activityCodeFinalisationProvider, 'catADIPart3TestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
+          .toEqual(true);
+      });
+    });
+    it('should return catBTestDataIsInvalid if category is B', async () => {
+      spyOn(activityCodeFinalisationProvider, 'catBTestDataIsInvalid').and.returnValue(Promise.resolve(true));
+      expect(await activityCodeFinalisationProvider.testDataIsInvalid(TestCategory.B, null, null))
+        .toEqual(true);
+    });
+    [
+      TestCategory.C1,
+      TestCategory.C1E,
+      TestCategory.CE,
+      TestCategory.C,
+    ].forEach((value) => {
+      it(`should return catCTestDataIsInvalid if category is ${value}`, async () => {
+        spyOn(activityCodeFinalisationProvider, 'catCTestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
+          .toEqual(true);
+      });
+    });
+    [
+      TestCategory.C1M,
+      TestCategory.C1EM,
+      TestCategory.CEM,
+      TestCategory.CM,
+      TestCategory.D1M,
+      TestCategory.D1EM,
+      TestCategory.DEM,
+      TestCategory.DM,
+    ].forEach((value) => {
+      it(`should return catManoeuvresTestDataIsInvalid if category is ${value}`, async () => {
+        spyOn(activityCodeFinalisationProvider, 'catManoeuvresTestDataIsInvalid')
+          .and.returnValue(Promise.resolve(true));
+        expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
+          .toEqual(true);
+      });
+    });
+    [
+      TestCategory.D1,
+      TestCategory.D1E,
+      TestCategory.DE,
+      TestCategory.D,
+    ].forEach((value) => {
+      it(`should return catDTestDataIsInvalid if category is ${value}`, async () => {
+        spyOn(activityCodeFinalisationProvider, 'catDTestDataIsInvalid')
+          .and.returnValue(Promise.resolve(true));
+        expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
+          .toEqual(true);
+      });
+    });
+    [
+      TestCategory.EUAM1,
+      TestCategory.EUA1M1,
+      TestCategory.EUA2M1,
+      TestCategory.EUAMM1,
+    ].forEach((value) => {
+      it(`should return catAMod1TestDataIsInvalid if category is ${value}`, async () => {
+        spyOn(activityCodeFinalisationProvider, 'catAMod1TestDataIsInvalid')
+          .and.returnValue(Promise.resolve(true));
+        expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
+          .toEqual(true);
+      });
+    });
+    [
+      TestCategory.EUAM2,
+      TestCategory.EUA1M2,
+      TestCategory.EUA2M2,
+      TestCategory.EUAMM2,
+    ].forEach((value) => {
+      it(`should return catAMod2TestDataIsInvalid if category is ${value}`, async () => {
+        spyOn(activityCodeFinalisationProvider, 'catAMod2TestDataIsInvalid')
+          .and.returnValue(Promise.resolve(true));
+        expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
+          .toEqual(true);
+      });
+    });
+    [
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K,
+    ].forEach((value) => {
+      it(`should return catHomeTestDataIsInvalid if category is ${value}`, async () => {
+        spyOn(activityCodeFinalisationProvider, 'catHomeTestDataIsInvalid')
+          .and.returnValue(Promise.resolve(true));
+        expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
+          .toEqual(true);
+      });
+    });
+    it('should return false if switch defaults', async () => {
+      expect(await activityCodeFinalisationProvider.testDataIsInvalid(null, null, null))
+        .toEqual(false);
+    });
+  });
 });

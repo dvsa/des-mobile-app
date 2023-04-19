@@ -1,10 +1,7 @@
-import {
-  waitForAsync,
-  TestBed,
-} from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ModalController, Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
-import { RouterMock, PlatformMock } from '@mocks/index.mock';
+import { PlatformMock, RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestResultSchemasUnion } from '@dvsa/mes-test-schema/categories';
@@ -98,28 +95,59 @@ describe('TestReportBasePageComponent', () => {
   }));
 
   describe('onInitialisation', () => {
-    it('should return getTestRequirementsCatB if the category is B', () => {
-      expect(basePageComponent.getTestRequirements({
-        testRequirements: { normalStart1: true },
-      }, TestCategory.B)).toEqual({ normalStart1: true });
-    });
-    [
-      TestCategory.C,
-      TestCategory.C1,
-      TestCategory.C1E].forEach((val) => {
-      it(`should return getTestRequirementsCatC if the category is ${val}`, () => {
-        expect(basePageComponent.getTestRequirements({
-          testRequirements: { normalStart1: true },
-        }, TestCategory.B)).toEqual({ normalStart1: true });
-      });
-    });
-  });
-
-  describe('getTestRequirements', () => {
     it('should resolve state variables', () => {
       basePageComponent.onInitialisation();
       basePageComponent.commonPageState.candidateUntitledName$
         .subscribe((res) => expect(res).toEqual('Marge Simpson'));
+    });
+  });
+
+  describe('getTestRequirements', () => {
+    it('should return correct value from getTestRequirementsCatB if the category is B', () => {
+      expect(basePageComponent.getTestRequirements({
+        testRequirements: { normalStart1: true },
+      }, TestCategory.B)).toEqual({ normalStart1: true });
+    });
+    it('should return correct value from getTestRequirementsCatB if the switch defaults', () => {
+      expect(basePageComponent.getTestRequirements({
+        testRequirements: { normalStart1: true },
+      }, TestCategory.EUA1M1)).toEqual({ normalStart1: true });
+    });
+
+    [
+      TestCategory.C1E,
+      TestCategory.C1,
+      TestCategory.C,
+    ].forEach((value) => {
+      it(`should return correct value from getTestRequirementsCatC if category is ${value}`, () => {
+        basePageComponent.getTestRequirements({ testRequirements: { angledStart: true } }, value);
+        expect(basePageComponent.getTestRequirements({ testRequirements: { angledStart: true } }, value))
+          .toEqual({ angledStart: true });
+      });
+    });
+    [
+      TestCategory.D1E,
+      TestCategory.D1,
+      TestCategory.DE,
+      TestCategory.D,
+    ].forEach((value) => {
+      it(`should return correct value from getTestRequirementsCatD if category is ${value}`, () => {
+        basePageComponent.getTestRequirements({ testRequirements: { angledStart: true } }, value);
+        expect(basePageComponent.getTestRequirements({ testRequirements: { angledStart: true } }, value))
+          .toEqual({ angledStart: true });
+      });
+    });
+    [
+      TestCategory.F,
+      TestCategory.G,
+      TestCategory.H,
+      TestCategory.K,
+    ].forEach((value) => {
+      it(`should return correct value from getTestRequirementsCatHome if category is ${value}`, () => {
+        basePageComponent.getTestRequirements({ testRequirements: { angledStart: true } }, value);
+        expect(basePageComponent.getTestRequirements({ testRequirements: { angledStart: true } }, value))
+          .toEqual({ angledStart: true });
+      });
     });
   });
 
@@ -133,4 +161,11 @@ describe('TestReportBasePageComponent', () => {
     });
   });
 
+  describe('toggleReportOverlay', () => {
+    it('should toggle displayOverlay', () => {
+      basePageComponent.displayOverlay = false;
+      basePageComponent.toggleReportOverlay();
+      expect(basePageComponent.displayOverlay).toEqual(true);
+    });
+  });
 });

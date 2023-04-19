@@ -50,6 +50,7 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { testReportReducer } from '../../test-report.reducer';
 
 describe('TestReportCatADI3Page', () => {
@@ -146,6 +147,16 @@ describe('TestReportCatADI3Page', () => {
       it('should dispatch the RiskManagementQuestionScoreChanged action', () => {
         component.riskManagementChanged({ question: 1, answer: 2 });
         expect(store$.dispatch).toHaveBeenCalledWith(RiskManagementQuestionScoreChanged(1, 2));
+      });
+    });
+    describe('ionViewDidLeave', () => {
+      it('should run basePageComponent functions', () => {
+        spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
+        spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
+        component.ionViewDidLeave();
+
+        expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
+        expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
       });
     });
     describe('teachingLearningStrategyChanged', () => {

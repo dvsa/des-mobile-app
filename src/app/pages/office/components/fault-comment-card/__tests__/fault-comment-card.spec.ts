@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { AppModule } from 'src/app/app.module';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '@shared/pipes/pipes.module';
+import { FaultSummary } from '@shared/models/fault-marking.model';
 import { FaultCommentComponent } from '../../fault-comment/fault-comment';
 import { FaultCommentCardComponent } from '../fault-comment-card';
 
@@ -62,6 +63,29 @@ describe('FaultCommentCardComponent', () => {
       expect(commentLabels[1].componentInstance.faultType).toBe('drivingFault');
       expect(commentLabels[0].componentInstance.faultComment).toBe(component.faultComments[0]);
       expect(commentLabels[1].componentInstance.faultComment).toBe(component.faultComments[1]);
+    });
+  });
+  describe('faultCommentChanged', () => {
+    it('should emit faultCommentsChange with faultComment', () => {
+      spyOn(component.faultCommentsChange, 'emit');
+      component.faultCommentChanged({ competencyIdentifier: 'test' } as FaultSummary);
+      expect(component.faultCommentsChange.emit).toHaveBeenCalledWith({ competencyIdentifier: 'test' } as FaultSummary);
+    });
+  });
+
+  describe('ngOnChanges', () => {
+    it('should emit faultCommentsChange with faultComment', () => {
+      component.faultType = 'faultTest';
+      component.formGroup = new UntypedFormGroup({});
+      component.faultComments = [{
+        competencyIdentifier: 'test1',
+        competencyDisplayName: 'test2',
+        source: 'test3',
+        faultCount: 1,
+        comment: 'test4',
+      }];
+      component.ngOnChanges();
+      expect(component.formGroup.get('faultComment-test3-faultTest-test1')).toBeDefined();
     });
   });
 

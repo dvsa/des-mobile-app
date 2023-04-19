@@ -22,7 +22,7 @@ import { QuestionProvider } from '@providers/question/question';
 import { QuestionProviderMock } from '@providers/question/__mocks__/question.mock';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { OutcomeBehaviourMapProviderMock } from '@providers/outcome-behaviour-map/__mocks__/outcome-behaviour-map.mock';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivityCodeModel, ActivityCodeDescription } from '@shared/constants/activity-code/activity-code.constants';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
@@ -45,6 +45,8 @@ import { Subscription } from 'rxjs';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { BasePageComponent } from '@shared/classes/base-page';
+import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
+import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
@@ -214,6 +216,18 @@ describe('OfficeCatManoeuvrePage', () => {
       component.ionViewDidLeave();
       expect(component.subscription.unsubscribe)
         .toHaveBeenCalled();
+    });
+  });
+
+  describe('passCertificateNumberChanged', () => {
+    it('should dispatch PassCertificateNumberChanged with '
+      + 'the value passed and PassCertificateNumberReceived with true if passCertificateNumberCtrl is valid', () => {
+      component.form = new UntypedFormGroup({ passCertificateNumberCtrl: new UntypedFormControl() });
+      spyOn(component.store$, 'dispatch');
+
+      component.passCertificateNumberChanged('test');
+      expect(component.store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberChanged('test'));
+      expect(component.store$.dispatch).toHaveBeenCalledWith(PassCertificateNumberReceived(true));
     });
   });
 

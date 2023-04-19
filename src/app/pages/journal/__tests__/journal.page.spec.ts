@@ -58,6 +58,7 @@ describe('JournalPage', () => {
   let insomnia: Insomnia;
   let deviceProvider: DeviceProvider;
   let loaderService: LoadingProvider;
+  let completedTestPersistenceProvider: CompletedTestPersistenceProvider;
   const loadingOpts: LoadingOptions = {
     id: 'journal_loading_spinner',
     spinner: 'circles',
@@ -104,6 +105,7 @@ describe('JournalPage', () => {
     screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
     deviceProvider = TestBed.inject(DeviceProvider);
+    completedTestPersistenceProvider = TestBed.inject(CompletedTestPersistenceProvider);
     store$ = TestBed.inject(Store);
     loaderService = TestBed.inject(LoadingProvider);
     spyOn(store$, 'dispatch');
@@ -237,14 +239,14 @@ describe('JournalPage', () => {
         spyOn(component, 'loadJournalManually').and.callThrough();
         spyOn(component, 'setupPolling');
         spyOn(component, 'configurePlatformSubscriptions');
-        spyOn(component['completedTestPersistenceProvider'], 'loadCompletedPersistedTests').and.callThrough();
+        spyOn(completedTestPersistenceProvider, 'loadCompletedPersistedTests').and.callThrough();
 
         await component.ionViewWillEnter();
         expect(BasePageComponent.prototype.ionViewWillEnter).toHaveBeenCalled();
         expect(component.loadJournalManually).toHaveBeenCalled();
         expect(component.setupPolling).toHaveBeenCalled();
         expect(component.configurePlatformSubscriptions).toHaveBeenCalled();
-        expect(component['completedTestPersistenceProvider'].loadCompletedPersistedTests).toHaveBeenCalled();
+        expect(completedTestPersistenceProvider.loadCompletedPersistedTests).toHaveBeenCalled();
       });
     });
 

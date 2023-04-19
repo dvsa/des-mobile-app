@@ -72,6 +72,9 @@ describe('ViewTestResultPage', () => {
   let fixture: ComponentFixture<ViewTestResultPage>;
   let component: ViewTestResultPage;
   let store$: Store<StoreModel>;
+  let faultSummaryProvider: FaultSummaryProvider;
+  let loadingProvider: LoadingProvider;
+  let compressionProvider: CompressionProvider;
 
   const mockTestResult = {
     activityCode: '28',
@@ -140,10 +143,14 @@ describe('ViewTestResultPage', () => {
         { provide: ADI3AssessmentProvider, useClass: ADI3AssessmentProvider },
       ],
     });
+
+    faultSummaryProvider = TestBed.inject(FaultSummaryProvider);
     fixture = TestBed.createComponent(ViewTestResultPage);
     component = fixture.componentInstance;
     component.modalCtrl = TestBed.inject(ModalController);
     store$ = TestBed.inject(Store);
+    loadingProvider = TestBed.inject(LoadingProvider);
+    compressionProvider = TestBed.inject(CompressionProvider);
     component.testResult = mockTestResult;
   }));
 
@@ -174,11 +181,11 @@ describe('ViewTestResultPage', () => {
 
   describe('getDangerousFaults', () => {
     it('should call faultSummaryProvider with the correct parameters', () => {
-      spyOn(component['faultSummaryProvider'], 'getDangerousFaultsList');
+      spyOn(faultSummaryProvider, 'getDangerousFaultsList');
       component.testCategory = TestCategory.B;
 
       component.getDangerousFaults();
-      expect(component['faultSummaryProvider'].getDangerousFaultsList).toHaveBeenCalledWith({
+      expect(faultSummaryProvider.getDangerousFaultsList).toHaveBeenCalledWith({
         dangerousFaults: {
           controlsAccelerator: true,
           controlsClutch: true,
@@ -196,11 +203,11 @@ describe('ViewTestResultPage', () => {
   });
   describe('getSeriousFaults', () => {
     it('should call faultSummaryProvider with the correct parameters', () => {
-      spyOn(component['faultSummaryProvider'], 'getSeriousFaultsList');
+      spyOn(faultSummaryProvider, 'getSeriousFaultsList');
       component.testCategory = TestCategory.B;
 
       component.getSeriousFaults();
-      expect(component['faultSummaryProvider'].getSeriousFaultsList).toHaveBeenCalledWith({
+      expect(faultSummaryProvider.getSeriousFaultsList).toHaveBeenCalledWith({
         dangerousFaults: {
           controlsAccelerator: true,
           controlsClutch: true,
@@ -219,11 +226,11 @@ describe('ViewTestResultPage', () => {
 
   describe('getDrivingFaults', () => {
     it('should call faultSummaryProvider with the correct parameters', () => {
-      spyOn(component['faultSummaryProvider'], 'getDrivingFaultsList');
+      spyOn(faultSummaryProvider, 'getDrivingFaultsList');
       component.testCategory = TestCategory.B;
 
       component.getDrivingFaults();
-      expect(component['faultSummaryProvider'].getDrivingFaultsList).toHaveBeenCalledWith({
+      expect(faultSummaryProvider.getDrivingFaultsList).toHaveBeenCalledWith({
         dangerousFaults: {
           controlsAccelerator: true,
           controlsClutch: true,
@@ -560,7 +567,7 @@ describe('ViewTestResultPage', () => {
 
       component.isLoading = null;
       component.handleLoadingUI(false);
-      spyOn(component['loadingProvider'], 'handleUILoading').and.callThrough();
+      spyOn(loadingProvider, 'handleUILoading').and.callThrough();
       expect(component.isLoading).toEqual(false);
     });
   });
@@ -569,7 +576,7 @@ describe('ViewTestResultPage', () => {
     it('should set subscription to the correct values', async () => {
       component.testResult = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
-      spyOn(component['compressionProvider'], 'extractTestResult').and.returnValue({
+      spyOn(compressionProvider, 'extractTestResult').and.returnValue({
         testData: { startTime: '1' },
       } as TestResultSchemasUnion);
 
@@ -583,7 +590,7 @@ describe('ViewTestResultPage', () => {
       component.testResult = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
       spyOn(component['store$'], 'dispatch');
-      spyOn(component['compressionProvider'], 'extractTestResult').and.throwError('test');
+      spyOn(compressionProvider, 'extractTestResult').and.throwError('test');
 
       await component.ngOnInit();
 

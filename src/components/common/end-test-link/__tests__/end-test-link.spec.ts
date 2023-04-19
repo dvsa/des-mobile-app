@@ -17,6 +17,7 @@ describe('EndTestLinkComponent', () => {
   let fixture: ComponentFixture<EndTestLinkComponent>;
   let component: EndTestLinkComponent;
   let store$: Store<StoreModel>;
+  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -35,6 +36,7 @@ describe('EndTestLinkComponent', () => {
     fixture = TestBed.createComponent(EndTestLinkComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
+    modalController = TestBed.inject(ModalController);
 
     spyOn(component.routerByCategory, 'navigateToPage');
     spyOn(component.router, 'navigate');
@@ -42,6 +44,27 @@ describe('EndTestLinkComponent', () => {
   }));
 
   describe('Class', () => {
+
+    describe('openEndTestModal', () => {
+      it('should create an error modal', async () => {
+        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
+          present: async () => {},
+          onWillDismiss: async () => {},
+        } as any as HTMLIonModalElement));
+        await component.openEndTestModal();
+        expect(modalController.create).toHaveBeenCalled();
+      });
+    });
+
+    describe('onCancel', () => {
+      it('should call dismiss', async () => {
+        await component.openEndTestModal();
+        spyOn(component.terminateTestModal, 'dismiss');
+        await component.onCancel();
+        expect(await component.terminateTestModal.dismiss).toHaveBeenCalled();
+      });
+    });
+
     describe('onTerminate', () => {
       beforeEach(() => {
         component.terminateTestModal = { dismiss: async () => true } as HTMLIonModalElement;

@@ -21,6 +21,7 @@ describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
   let store$: Store<StoreModel>;
   let storeDispatchSpy: jasmine.Spy;
+  let faultCountProvider: FaultCountProvider;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -44,6 +45,7 @@ describe('ToolbarComponent', () => {
     fixture = TestBed.createComponent(ToolbarComponent);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
+    faultCountProvider = TestBed.inject(FaultCountProvider);
     storeDispatchSpy = spyOn(store$, 'dispatch');
   }));
 
@@ -88,30 +90,30 @@ describe('ToolbarComponent', () => {
 
   describe('currentTestHasFaults', () => {
     it('should return false if drivingFaultCount is more than 0', () => {
-      spyOn(component['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(1);
-      spyOn(component['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(component['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
       expect(component.currentTestHasFaults(null, null)).toEqual(false);
     });
     it('should return false if seriousFaultCount is more than 0', () => {
-      spyOn(component['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(component['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(1);
-      spyOn(component['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
       expect(component.currentTestHasFaults(null, null)).toEqual(false);
     });
     it('should return false if dangerousFaultCount is more than 0', () => {
-      spyOn(component['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(component['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(component['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
       expect(component.currentTestHasFaults(null, null)).toEqual(false);
     });
     it('should return true if all counts are 0', () => {
-      spyOn(component['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(0);
-      spyOn(component['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(component['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
 
       expect(component.currentTestHasFaults(null, null)).toEqual(true);
     });

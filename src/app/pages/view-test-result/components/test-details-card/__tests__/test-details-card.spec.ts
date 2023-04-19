@@ -6,7 +6,7 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { InappropriateUseBannerComponent } from '@components/common/inappropriate-use-banner/inappropriate-use-banner';
 import { TestDetailsModel } from '../test-details-card.model';
-import { TestDetailsCardComponent } from '../test-details-card';
+import { CandidateDetails, TestDetailsCardComponent } from '../test-details-card';
 
 describe('TestDetailsCardComponent', () => {
   let fixture: ComponentFixture<TestDetailsCardComponent>;
@@ -64,6 +64,27 @@ describe('TestDetailsCardComponent', () => {
           category: TestCategory.C,
         } as TestDetailsModel;
         expect(component.showFullCatHeld()).toBeFalsy();
+      });
+    });
+
+    describe('showAttemptNumber', () => {
+      it('should return true if an attempt number is present', () => {
+        component.candidateDetails = { attemptNumber: 1 } as CandidateDetails;
+        expect(component.showAttemptNumber()).toEqual(true);
+      });
+      it('should return false if an attempt number is not present', () => {
+        component.candidateDetails = { prn: 1 } as CandidateDetails;
+        expect(component.showAttemptNumber()).toEqual(false);
+      });
+    });
+    describe('showPrn', () => {
+      it('should return true if prn is present', () => {
+        component.candidateDetails = { prn: 1 } as CandidateDetails;
+        expect(component.showPrn()).toEqual(true);
+      });
+      it('should return false if prn is not present', () => {
+        component.candidateDetails = { attemptNumber: 1 } as CandidateDetails;
+        expect(component.showPrn()).toEqual(false);
       });
     });
   });

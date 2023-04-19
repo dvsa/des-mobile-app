@@ -259,9 +259,9 @@ describe('AppComponent', () => {
       expect(component['router'].navigate).toHaveBeenCalledWith(['test']);
     });
     it('should call menuController.close', async () => {
-      spyOn(component['menuController'], 'close');
+      spyOn(menuController, 'close');
       await component.navPage({ title: 'test', descriptor: 'test2' });
-      expect(component['menuController'].close).toHaveBeenCalled();
+      expect(menuController.close).toHaveBeenCalled();
     });
     it('should call store$.dispatch with SideMenuItemSelected', async () => {
       await component.navPage({ title: 'test', descriptor: 'test2' });
