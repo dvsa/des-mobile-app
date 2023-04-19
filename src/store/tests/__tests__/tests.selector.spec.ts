@@ -18,7 +18,6 @@ import {
   isEndToEndPracticeTest,
   getActivityCodeBySlotId,
   getIncompleteTests,
-  getIncompleteTestsCount,
   getOldestIncompleteTest,
   isDelegatedTest,
   hasStartedTests, getPassCertificateBySlotId,
@@ -524,16 +523,6 @@ describe('testsSelector', () => {
       it('should return no unsubmitted tests', () => {
         const result = getIncompleteTests(initialState);
         expect(result.length).toEqual(0);
-      });
-    });
-    describe('getIncompleteTestsCount', () => {
-      it('should return the correct number of unsubmitted tests', () => {
-        const result = getIncompleteTestsCount(testState);
-        expect(result).toEqual(3);
-      });
-      it('should return the correct number of unsubmitted tests', () => {
-        const result = getIncompleteTestsCount(initialState);
-        expect(result).toEqual(0);
       });
     });
     describe('getOldestIncompleteTest', () => {

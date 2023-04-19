@@ -9,7 +9,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { getIncompleteTestsCount } from '../incomplete-tests-banner.selector';
+import { getIncompleteTests } from '../incomplete-tests-banner.selector';
 
 class MockStore {}
 
@@ -29,7 +29,7 @@ describe('IncompleteTestsBannerSelector', () => {
     slotProvider = TestBed.inject(SlotProvider);
   });
 
-  describe('getIncompleteTestsCount', () => {
+  describe('getIncompleteTests', () => {
     it('should get a count of incomplete tests', () => {
       const journal: JournalModel = {
         isLoading: true,
@@ -246,9 +246,9 @@ describe('IncompleteTestsBannerSelector', () => {
         },
       };
 
-      const count = getIncompleteTestsCount(journal, tests, DateTime.at('2019-01-14'), slotProvider);
+      const incompleteTests = getIncompleteTests(journal, tests, DateTime.at('2019-01-14'), slotProvider);
 
-      expect(count).toBe(3);
+      expect(incompleteTests.length).toBe(3);
     });
   });
 

@@ -30,11 +30,16 @@ export const TestOutcomeChanged = createAction(
 
 export const StartTest = createAction(
   '[Tests] Start Test',
-  (slotId: number, category: TestCategory, rekey: boolean = false, delegatedTest: boolean = false) => ({
+  (slotId: number,
+    category: TestCategory,
+    rekey: boolean = false,
+    delegatedTest: boolean = false,
+    startDate: string = null) => ({
     slotId,
     category,
     rekey,
     delegatedTest,
+    startDate,
   }),
 );
 

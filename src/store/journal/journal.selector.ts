@@ -16,6 +16,11 @@ export const getSlots = (journal: JournalModel) => journal.slots;
 
 export const getSlotsOnSelectedDate = (journal: JournalModel) => journal.slots[journal.selectedDate];
 
+export const getSlotsOnDate = (
+  journal: JournalModel,
+  date: string = null,
+) => journal.slots[date];
+
 export const getError = (journal: JournalModel) => journal.error;
 
 export const getIsLoading = (journal: JournalModel) => journal.isLoading;

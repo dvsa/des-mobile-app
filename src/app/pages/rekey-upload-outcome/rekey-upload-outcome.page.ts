@@ -108,11 +108,11 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
     }
   }
 
-  ionViewDidEnter(): void {
+  async ionViewDidEnter(): Promise<void> {
     if (super.isIos()) {
       this.screenOrientation.unlock();
-      this.insomnia.allowSleepAgain();
-      this.deviceProvider.disableSingleAppMode();
+      await this.insomnia.allowSleepAgain();
+      await this.deviceProvider.disableSingleAppMode();
     }
 
     this.store$.dispatch(RekeyUploadOutcomeViewDidEnter());
@@ -122,7 +122,7 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
     if (this.fromRekeySearch) {
       await this.router.navigate([REKEY_SEARCH_PAGE]);
     } else {
-      await this.router.navigate([JOURNAL_PAGE], { replaceUrl: true });
+      await this.router.navigate([JOURNAL_PAGE]);
     }
     this.store$.dispatch(EndRekey());
   };

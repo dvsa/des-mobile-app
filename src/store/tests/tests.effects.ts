@@ -66,7 +66,7 @@ import {
 import { TestStatus } from './test-status/test-status.model';
 import { TestsModel } from './tests.model';
 import { getJournalState } from '../journal/journal.reducer';
-import { getSlotsOnSelectedDate } from '../journal/journal.selector';
+import { getSlotsOnDate, getSlotsOnSelectedDate } from '../journal/journal.selector';
 import { PopulateExaminer } from './journal-data/common/examiner/examiner.actions';
 import {
   PopulateTestSlotAttributes,
@@ -215,7 +215,7 @@ export class TestsEffects {
       } else {
         examinerBooked = journal.examiner.staffNumber;
         examiner = journal.examiner;
-        const slots = getSlotsOnSelectedDate(journal);
+        const slots = getSlotsOnSelectedDate(journal) || getSlotsOnDate(journal, startTestAction.startDate);
         const slotData = slots.map((s) => s.slotData);
         slot = slotData.find((data) => data.slotDetail.slotId === startTestAction.slotId && has(data, 'booking'));
       }

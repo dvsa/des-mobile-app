@@ -2,7 +2,7 @@
     <ion-toolbar mode="ios">
         <ion-title id="page-title">Journal - DES</ion-title>
         <ion-buttons id="back-button" slot="start">
-            <ion-back-button [defaultHref]="'DashboardPage'"></ion-back-button>
+            <ion-back-button (click)="router.navigate(['DashboardPage'], {replaceUrl: true})" [defaultHref]="'DashboardPage'"></ion-back-button>
 
         </ion-buttons>
         <ion-buttons slot="end">
