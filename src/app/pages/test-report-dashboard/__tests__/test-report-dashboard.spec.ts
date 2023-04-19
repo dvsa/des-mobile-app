@@ -1,17 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AppModule } from '@app/app.module';
-import { MockComponent } from 'ng-mocks';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { TestReportDashboardPage } from '@pages/test-report-dashboard/test-report-dashboard.page';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestResultProvider } from '@providers/test-result/test-result';
-import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
-import { DashboardItemComponent } from '@pages/test-report-dashboard/components/dashboard-item/dashboard-item';
-import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
-import { TimerComponent } from '@pages/test-report/components/timer/timer';
 import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TestReportDashboardNavigateToPage } from '@pages/test-report-dashboard/test-report-dashboard.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -23,43 +18,7 @@ import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mock
 import { Subscription } from 'rxjs';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
-import { DateTimeInputComponent } from '@components/common/datetime-input/date-time-input.component';
-import { SignatureAreaComponent } from '@components/common/signature-area/signature-area';
-import { BikeCategoryTypeComponent } from '@components/common/bike-category-type/bike-category-type';
 import { CommonModule } from '@angular/common';
-import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
-import { CandidateSectionComponent } from '@components/common/candidate-section/candidate-section';
-import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
-import { DataRowComponent } from '@components/common/data-row/data-row';
-import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
-import { ErrorMessageComponent } from '@components/common/error-message/error-message';
-import { OfflineBannerComponent } from '@components/common/offline-banner/offline-banner';
-import { TabComponent } from '@components/common/tab/tab';
-import { TabsComponent } from '@components/common/tabs/tabs';
-import { WarningBannerComponent } from '@components/common/warning-banner/warning-banner';
-import {
-  HealthDeclarationSignedComponent,
-} from '@components/common/health-declaration-signed/health-declaration-signed';
-import { IncompleteTestsBanner } from '@components/common/incomplete-tests-banner/incomplete-tests-banner';
-import { ModalReturnButtonComponent } from '@components/common/modal-return-button/modal-return-button';
-import { ModalActivityCodeListComponent } from '@components/common/modal-activity-code-list/modal-activity-code-list';
-import { LockScreenIndicator } from '@components/common/screen-lock-indicator/lock-screen-indicator';
-import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
-import { CPCDebriefCardComponent } from '@components/common/cpc-debrief-card/cpc-debrief-card';
-import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
-import { DisplayAddressComponent } from '@components/common/display-address/display-address';
-import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
-import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import { TransmissionComponent } from '@components/common/transmission/transmission';
-import { SignatureComponent } from '@components/common/signature/signature';
-import { ActivityCodeComponent } from '@components/common/activity-code/activity-code';
-import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
-import { Adi3DebriefCard } from '@components/common/adi3-debrief-card/adi3-debrief-card';
-import { Adi3DebriefCardBox } from '@components/common/adi3-debrief-card-box/adi3-debrief-card-box';
-import {
-  SearchablePicklistComponentWrapper,
-} from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
-import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
 import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '@pages/test-report/test-report.actions';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
@@ -120,44 +79,6 @@ describe('TestReportDashboardPage', () => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportDashboardPage,
-        MockComponent(ReviewFeedback),
-        MockComponent(DashboardItemComponent),
-        MockComponent(PracticeModeBanner),
-        MockComponent(TimerComponent),
-        MockComponent(DateTimeInputComponent),
-        MockComponent(BikeCategoryTypeComponent),
-        MockComponent(SignatureAreaComponent),
-        MockComponent(CandidateSectionComponent),
-        MockComponent(DangerousFaultBadgeComponent),
-        MockComponent(DataRowComponent),
-        MockComponent(EndTestLinkComponent),
-        MockComponent(ErrorMessageComponent),
-        MockComponent(OfflineBannerComponent),
-        MockComponent(TabComponent),
-        MockComponent(TabsComponent),
-        MockComponent(WarningBannerComponent),
-        MockComponent(HealthDeclarationSignedComponent),
-        MockComponent(IncompleteTestsBanner),
-        MockComponent(ModalAlertTitleComponent),
-        MockComponent(ModalReturnButtonComponent),
-        MockComponent(ModalActivityCodeListComponent),
-        MockComponent(LockScreenIndicator),
-        MockComponent(SeriousFaultBadgeComponent),
-        MockComponent(DataRowCustomComponent),
-        MockComponent(DisplayAddressComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
-        MockComponent(TickIndicatorComponent),
-        MockComponent(TransmissionComponent),
-        MockComponent(SignatureComponent),
-        MockComponent(ActivityCodeComponent),
-        MockComponent(TransmissionDisplayComponent),
-        MockComponent(CPCDebriefCardComponent),
-        MockComponent(Adi3DebriefCard),
-        MockComponent(Adi3DebriefCardBox),
-        MockComponent(SearchablePicklistComponentWrapper),
-        MockComponent(SearchablePicklistModal),
-        MockComponent(DisplayAddressComponent),
-        MockComponent(DrivingFaultsBadgeComponent),
       ],
       imports: [
         AppModule,
