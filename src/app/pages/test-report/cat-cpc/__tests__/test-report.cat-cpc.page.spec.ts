@@ -157,7 +157,7 @@ describe('TestReportCatCPCPage', () => {
     it('should set questionNum to the value of translateToQuestionNumberInterface, '
         + 'calculate the total score and dispatch both results', () => {
       spyOn(component, 'translateToQuestionNumberInterface').and.returnValue(QuestionNumber.ONE);
-      spyOn(component['cpcQuestionProvider'], 'getTotalQuestionScore').and.returnValue(1);
+      spyOn(cpcQuestionProvider, 'getTotalQuestionScore').and.returnValue(1);
       component.populateScore({
         answer: {
           label: null,

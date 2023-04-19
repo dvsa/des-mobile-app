@@ -15,11 +15,13 @@ import { Subscription } from 'rxjs';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { take } from 'rxjs/operators';
 import { testsFeatureKey } from '@store/tests/tests.reducer';
+import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 
 describe('DebriefPage', () => {
   let fixture: ComponentFixture<DebriefPage>;
   let component: DebriefPage;
   let store$: Store<StoreModel>;
+  let routeByCategoryProvider: RouteByCategoryProvider;
 
   const initialState = {
     appInfo: { employeeId: '123456' },
@@ -151,6 +153,7 @@ describe('DebriefPage', () => {
     fixture = TestBed.createComponent(DebriefPage);
     component = fixture.componentInstance;
     store$ = TestBed.inject(Store);
+    routeByCategoryProvider = TestBed.inject(RouteByCategoryProvider);
     spyOn(store$, 'dispatch');
   });
 
@@ -405,13 +408,13 @@ describe('DebriefPage', () => {
     });
     it('should call navigate with PASS_FINALISATION_PAGE and the correct category if '
       + 'isTestReportPracticeMode is false and outcome is PASS', () => {
-      spyOn(component['routeByCategoryProvider'], 'navigateToPage');
+      spyOn(routeByCategoryProvider, 'navigateToPage');
       component.isTestReportPracticeMode = false;
       component.outcome = TestOutcome.PASS;
       component.testCategory = TestCategory.B;
 
       component.endDebrief();
-      expect(component['routeByCategoryProvider'].navigateToPage)
+      expect(routeByCategoryProvider.navigateToPage)
         .toHaveBeenCalledWith(TestFlowPageNames.PASS_FINALISATION_PAGE, TestCategory.B);
     });
     it('should call navigate with POST_DEBRIEF_HOLDING_PAGE if '

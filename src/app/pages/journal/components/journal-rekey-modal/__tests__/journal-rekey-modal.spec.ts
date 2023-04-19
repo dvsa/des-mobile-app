@@ -13,6 +13,7 @@ import { JournalRekeyModal } from '../journal-rekey-modal';
 describe('JournalRekeyModal', () => {
   let fixture: ComponentFixture<JournalRekeyModal>;
   let component: JournalRekeyModal;
+  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -32,6 +33,7 @@ describe('JournalRekeyModal', () => {
     });
 
     fixture = TestBed.createComponent(JournalRekeyModal);
+    modalController = TestBed.inject(ModalController);
     component = fixture.componentInstance;
   }));
 
@@ -69,23 +71,23 @@ describe('JournalRekeyModal', () => {
 
   describe('onCancel', () => {
     it('should call dismiss with CANCEL', async () => {
-      spyOn(component['modalController'], 'dismiss');
+      spyOn(modalController, 'dismiss');
       await component.onCancel();
-      expect(await component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+      expect(await modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
   });
   describe('onStartTest', () => {
     it('should call dismiss with START', async () => {
-      spyOn(component['modalController'], 'dismiss');
+      spyOn(modalController, 'dismiss');
       await component.onStartTest();
-      expect(await component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.START);
+      expect(await modalController.dismiss).toHaveBeenCalledWith(ModalEvent.START);
     });
   });
   describe('onRekeyTest', () => {
     it('should call dismiss with REKEY', async () => {
-      spyOn(component['modalController'], 'dismiss');
+      spyOn(modalController, 'dismiss');
       await component.onRekeyTest();
-      expect(await component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.REKEY);
+      expect(await modalController.dismiss).toHaveBeenCalledWith(ModalEvent.REKEY);
     });
   });
 });

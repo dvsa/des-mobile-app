@@ -1,7 +1,7 @@
 import {
   ComponentFixture, fakeAsync, TestBed, tick, waitForAsync,
 } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { PlatformMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 import { Store, StoreModule } from '@ngrx/store';
@@ -72,6 +72,7 @@ describe('WaitingRoomPage', () => {
   let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
   let translate: TranslateService;
+  let modalController: ModalController;
   const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl', 'navigate']);
 
   const initialState = {
@@ -205,6 +206,7 @@ describe('WaitingRoomPage', () => {
     translate = TestBed.inject(TranslateService);
     translate.setDefaultLang('en');
     store$ = TestBed.inject(Store);
+    modalController = TestBed.inject(ModalController);
     spyOn(store$, 'dispatch');
     component.subscription = new Subscription();
   }));
@@ -256,12 +258,12 @@ describe('WaitingRoomPage', () => {
 
     describe('showCandidateDataMissingError', () => {
       it('should create an error modal', async () => {
-        spyOn(component['modalController'], 'create').and.returnValue(Promise.resolve({
+        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
           present: async () => {},
           onWillDismiss: async () => {},
         } as any as HTMLIonModalElement));
         await component.showCandidateDataMissingError();
-        expect(component['modalController'].create).toHaveBeenCalled();
+        expect(modalController.create).toHaveBeenCalled();
       });
     });
 

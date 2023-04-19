@@ -67,6 +67,7 @@ describe('NonPassFinalisationPage', () => {
   let fixture: ComponentFixture<NonPassFinalisationPage>;
   let component: NonPassFinalisationPage;
   let store$: Store<StoreModel>;
+  let outcomeBehaviourProvider: OutcomeBehaviourMapProvider;
   let router: Router;
   const activatedRouteMock = {
     snapshot: {
@@ -160,6 +161,7 @@ describe('NonPassFinalisationPage', () => {
     store$ = TestBed.inject(Store);
     spyOn(store$, 'dispatch');
     router = TestBed.inject(Router);
+    outcomeBehaviourProvider = TestBed.inject(OutcomeBehaviourMapProvider);
     spyOn(router, 'navigate');
   }));
 
@@ -167,7 +169,7 @@ describe('NonPassFinalisationPage', () => {
 
     describe('ngOnInit', () => {
       it('should resolve state variables', () => {
-        spyOn(component['outcomeBehaviourProvider'], 'isVisible').and.returnValue(true);
+        spyOn(outcomeBehaviourProvider, 'isVisible').and.returnValue(true);
 
         component.ngOnInit();
         component.pageState.displayDebriefWitnessed$
@@ -312,7 +314,7 @@ describe('NonPassFinalisationPage', () => {
       });
     });
     describe('continue', () => {
-      it(`should create the TestFinalisationInvalidTestDataModal 
+      it(`should create the TestFinalisationInvalidTestDataModal
       when activityCode is 5 and no S/D faults`, async () => {
         store$.dispatch(testActions.StartTest(123, TestCategory.B));
         spyOn(component, 'openTestDataValidationModal').and.callThrough();
@@ -336,7 +338,7 @@ describe('NonPassFinalisationPage', () => {
         expect(component.openTestDataValidationModal).toHaveBeenCalled();
         expect(component.modalController.create).toHaveBeenCalled();
       });
-      it(`should dispatch NonPassFinalisationReportActivityCode with activity code and call navigateToPage 
+      it(`should dispatch NonPassFinalisationReportActivityCode with activity code and call navigateToPage
       with CONFIRM_TEST_DETAILS_PAGE if testDataIsInvalid is false`, async () => {
         component.activityCode = { activityCode: '2', description: ActivityCodeDescription.FAIL };
         store$.dispatch(testActions.StartTest(123, TestCategory.B));
@@ -354,7 +356,7 @@ describe('NonPassFinalisationPage', () => {
         expect(component.routeByCat.navigateToPage).toHaveBeenCalledWith(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
       });
 
-      it(`should create the TestFinalisationInvalidTestDataModal 
+      it(`should create the TestFinalisationInvalidTestDataModal
       when activityCode is 4 and no S/D faults`, async () => {
         // Arrange
         store$.dispatch(testActions.StartTest(123, TestCategory.B));

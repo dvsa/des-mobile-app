@@ -38,6 +38,7 @@ describe('TestResultCalculatorProvider', () => {
     ...adiCategories,
   ];
   let testResultProvider: TestResultProvider;
+  let faultCountProvider: FaultCountProvider;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -48,6 +49,7 @@ describe('TestResultCalculatorProvider', () => {
     });
 
     testResultProvider = TestBed.inject(TestResultProvider);
+    faultCountProvider = TestBed.inject(FaultCountProvider);
   }));
 
   describe('calculateTestResult', () => {
@@ -123,7 +125,7 @@ describe('TestResultCalculatorProvider', () => {
 
   describe('calculateCatManoeuvreTestResult', () => {
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
       testResultProvider['calculateCatManoeuvreTestResult'](TestCategory.B, {}).subscribe(
         (val) => {
@@ -132,8 +134,8 @@ describe('TestResultCalculatorProvider', () => {
       );
     });
     it('should return FAIL if getSeriousFaultSumCount returns more than 0', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
 
       testResultProvider['calculateCatManoeuvreTestResult'](TestCategory.B, {}).subscribe(
         (val) => {
@@ -142,8 +144,8 @@ describe('TestResultCalculatorProvider', () => {
       );
     });
     it('should return FAIL if getSeriousFaultSumCount and getDangerousFaultSumCount return 0', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
 
       testResultProvider['calculateCatManoeuvreTestResult'](TestCategory.B, {}).subscribe(
         (val) => {
@@ -164,7 +166,7 @@ describe('TestResultCalculatorProvider', () => {
       );
     });
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
       testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
         emergencyStop: { outcome: null },
@@ -175,8 +177,8 @@ describe('TestResultCalculatorProvider', () => {
       );
     });
     it('should return FAIL if getSeriousFaultSumCount returns more than 0', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
 
       testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
         emergencyStop: { outcome: null },
@@ -187,9 +189,9 @@ describe('TestResultCalculatorProvider', () => {
       );
     });
     it('should return FAIL if getDrivingFaultSumCount returns 6 or more', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(6);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(6);
 
       testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
         emergencyStop: { outcome: null },
@@ -201,9 +203,9 @@ describe('TestResultCalculatorProvider', () => {
     });
     it('should return PASS if getDangerousFaultSumCount and '
         + 'getSeriousFaultSumCount return 0 and driving faults is less than 6', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
 
       testResultProvider['calculateCatEUAM1AndSubCategoryTestResult'](TestCategory.B, {
         emergencyStop: { outcome: null },
@@ -216,7 +218,7 @@ describe('TestResultCalculatorProvider', () => {
   });
   describe('calculateCatEUAM2AndSubCategoryTestResult', () => {
     it('should return FAIL if getDangerousFaultSumCount returns more than 0', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(1);
 
       testResultProvider['calculateCatEUAM2AndSubCategoryTestResult'](TestCategory.B, {}).subscribe(
         (val) => {
@@ -225,8 +227,8 @@ describe('TestResultCalculatorProvider', () => {
       );
     });
     it('should return FAIL if getSeriousFaultSumCount returns more than 0', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(1);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(1);
 
       testResultProvider['calculateCatEUAM2AndSubCategoryTestResult'](TestCategory.B, {}).subscribe(
         (val) => {
@@ -235,9 +237,9 @@ describe('TestResultCalculatorProvider', () => {
       );
     });
     it('should return FAIL if getDrivingFaultSumCount returns more than 10', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(11);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(11);
 
       testResultProvider['calculateCatEUAM2AndSubCategoryTestResult'](TestCategory.B, {}).subscribe(
         (val) => {
@@ -247,9 +249,9 @@ describe('TestResultCalculatorProvider', () => {
     });
     it('should return PASS if getDangerousFaultSumCount and '
         + 'getSeriousFaultSumCount return 0 and driving faults is less than 10', () => {
-      spyOn(testResultProvider['faultCountProvider'], 'getDangerousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getSeriousFaultSumCount').and.returnValue(0);
-      spyOn(testResultProvider['faultCountProvider'], 'getDrivingFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDangerousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getSeriousFaultSumCount').and.returnValue(0);
+      spyOn(faultCountProvider, 'getDrivingFaultSumCount').and.returnValue(0);
 
       testResultProvider['calculateCatEUAM2AndSubCategoryTestResult'](TestCategory.B, {}).subscribe(
         (val) => {

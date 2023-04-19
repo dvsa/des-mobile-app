@@ -10,6 +10,7 @@ import { ModalEvent } from '../../../test-report.constants';
 describe('LegalRequirementsModal', () => {
   let fixture: ComponentFixture<LegalRequirementsModal>;
   let component: LegalRequirementsModal;
+  let modalCtrl: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -29,6 +30,7 @@ describe('LegalRequirementsModal', () => {
 
     fixture = TestBed.createComponent(LegalRequirementsModal);
     component = fixture.componentInstance;
+    modalCtrl = TestBed.inject(ModalController);
   }));
 
   describe('DOM', () => {
@@ -56,23 +58,23 @@ describe('LegalRequirementsModal', () => {
   });
   describe('onCancel', () => {
     it('should call dismiss with CANCEL', async () => {
-      spyOn(component['modalCtrl'], 'dismiss');
+      spyOn(modalCtrl, 'dismiss');
       await component.onCancel();
-      expect(await component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+      expect(await modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
   });
   describe('onContinue', () => {
     it('should call dismiss with CONTINUE', async () => {
-      spyOn(component['modalCtrl'], 'dismiss');
+      spyOn(modalCtrl, 'dismiss');
       await component.onContinue();
-      expect(await component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.CONTINUE);
+      expect(await modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.CONTINUE);
     });
   });
   describe('onTerminate', () => {
     it('should call dismiss with TERMINATE', async () => {
-      spyOn(component['modalCtrl'], 'dismiss');
+      spyOn(modalCtrl, 'dismiss');
       await component.onTerminate();
-      expect(await component['modalCtrl'].dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
+      expect(await modalCtrl.dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
     });
   });
 });

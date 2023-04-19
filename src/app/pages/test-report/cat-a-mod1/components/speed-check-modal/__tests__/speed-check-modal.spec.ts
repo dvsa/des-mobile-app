@@ -11,6 +11,7 @@ import { SpeedCheckModal } from '../speed-check-modal';
 describe('SpeedCheckModal', () => {
   let fixture: ComponentFixture<SpeedCheckModal>;
   let component: SpeedCheckModal;
+  let modalController: ModalController;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -28,19 +29,20 @@ describe('SpeedCheckModal', () => {
 
     fixture = TestBed.createComponent(SpeedCheckModal);
     component = fixture.componentInstance;
-    spyOn(component['modalController'], 'dismiss').and.returnValue(Promise.resolve(true));
+    modalController = TestBed.inject(ModalController);
+    spyOn(modalController, 'dismiss').and.returnValue(Promise.resolve(true));
   }));
 
   describe('onCancel', () => {
     it('should call dismiss with the CANCEL event', async () => {
       await component.onCancel();
-      expect(component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
   });
   describe('onTerminate', () => {
     it('should call dismiss with the TERMINATE event', async () => {
       await component.onTerminate();
-      expect(component['modalController'].dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
+      expect(modalController.dismiss).toHaveBeenCalledWith(ModalEvent.TERMINATE);
     });
   });
 
