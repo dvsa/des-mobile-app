@@ -7,10 +7,10 @@ div {
     display: flex;
     justify-content: center;
     background: var(--gds-yellow);
+    color: var(--gds-black);
     border-radius: 13px;
 
     .label {
-      color: var(--gds-theme-opposite);
       font-size: 15px;
       font-weight: bold;
       align-self: center;
