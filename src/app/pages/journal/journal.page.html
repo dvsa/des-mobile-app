@@ -32,8 +32,14 @@
 
   <incomplete-tests-banner></incomplete-tests-banner>
 
-  <ion-refresher (ionRefresh)="pullRefreshJournal($event)" slot="fixed" pullMax="500" pullMin="70">
+  <ion-refresher
+    class="refresher-content refresher-refreshing-text"
+    (ionRefresh)="pullRefreshJournal($event)"
+    slot="fixed"
+    pullMax="500"
+    pullMin="70">
     <ion-refresher-content
+      class="refresher-content refresher-refreshing-text"
       pullingIcon="arrow-down"
       pullingText="Pull to refresh"
       refreshingSpinner="circles"

@@ -37,7 +37,7 @@ ion-modal {
   margin: 0 0.2rem;
   --outline: none;
   .des-header-style-3 {
-    color: var(--mes-theme-main-colour) !important;
+    color: var(--gds-white) !important;
 
     .text-zoom-regular &,
     .text-zoom-large &,
@@ -74,7 +74,7 @@ ion-modal {
 .mes-neutral-button {
   @extend .generic-button;
   --background: var(--mes-theme-main-colour);
-  --box-shadow: 0 0px 0 0 rgba(0, 0, 0, 0.5);
+  --box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
   --background-activated: var(--gds-grey-1);
 
   &.activated {
@@ -108,7 +108,7 @@ ion-modal {
   color: var(--gds-theme-opposite);
   --box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.5);
   .des-header-style-3 {
-    color: var(--gds-theme-opposite) !important;
+    color: var(--gds-black) !important;
   }
 }
 
@@ -137,7 +137,7 @@ ion-modal {
   width: 100%;
   height: 56px;
   .des-header-style-3 {
-    color: var(--gds-theme-opposite) !important;
+    color: var(--gds-black) !important;
     .text-zoom-regular &,
     .text-zoom-large &,
     .text-zoom-x-large & {
@@ -164,7 +164,7 @@ ion-modal {
 .mes-test-report-button {
 
   text-rendering: auto;
-  color: initial;
+  color: var(--mes-theme-opposing-colour);
   word-spacing: normal;
   text-transform: none;
   text-indent: 0;
@@ -190,7 +190,7 @@ ion-modal {
   font-weight: 500;
 
   &.activated {
-    background: #eee;
+    background: var(--mes-theme-test-report-hold);
   }
 
   .competency-label {
@@ -241,7 +241,7 @@ ion-modal {
   --background: var(--gds-blue);
   --background-activated: var(--gds-blue-darken);
   --box-shadow: inset 0 -2px 0 0 var(--gds-blue);
-  .des-header-style-3{
+  .des-header-style-3 {
     color: var(--mes-white) !important;
   }
 }
@@ -255,7 +255,7 @@ ion-modal {
 }
 
 ion-back-button {
-  --color: var(--mes-theme-main-colour);
+  --color: var(--gds-white);
   font-size: 18px;
     .text-zoom-regular & {
       font-size: 18px;

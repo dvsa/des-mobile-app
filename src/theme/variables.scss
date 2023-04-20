@@ -28,6 +28,11 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --mes-theme-opposing-colour: #{$gds-black};
     --mes-theme-main-variant1: #E6E6E6;
     --mes-theme-main-variant2: #D9D9D9;
+    --mes-theme-main-variant3: #dee0e2;
+    --mes-theme-main-variant4: #f8f8f8;
+    --mes-theme-main-variant5: #6f777b;
+    --mes-theme-main-light: #f9f9f9;
+    --mes-theme-test-report-hold: #eee;
     --mesBoxGrey: #f6f6f6;
     --journalTestCategory: #818080;
     --journalSlotChangeIdentifier: #d0021b;
@@ -325,15 +330,20 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --primary: #488aff;
     --secondary: #32db64;
     --danger: #f53d3d;
-    --theme-main-colour-soft: #222;
+    --theme-main-colour-soft: #333f;
     --theme-opposing-colour-soft: #f4f4f4;
     --mes-secondary-header: #dbd8d8;
-    --mes-background: #222428;
+    --mes-background: #38383d;
     --mes-toolbar-background: #{$mes-toolbar-background};
     --mes-theme-main-colour: #1e1e1e;
     --mes-theme-opposing-colour: #{$gds-white};
     --mes-theme-main-variant1: #1e1e1e;
     --mes-theme-main-variant2: #323232;
+    --mes-theme-main-variant3: #424242;
+    --mes-theme-main-variant4: #555555;
+    --mes-theme-main-variant5: #c0bfbf;
+    --mes-theme-main-light: #565656;
+    --mes-theme-test-report-hold: #525252;
     --mesBoxGrey: #f6f6f6;
     --journalTestCategory: #818080;
     --journalSlotChangeIdentifier: #d0021b;
@@ -467,6 +477,7 @@ $card-ios-background-color: var(--mes-theme-main-colour);
 
     ion-card {
       --ion-background-color: var(--mes-theme-main-colour);
+      background-color: var(--mes-theme-main-colour);
     }
   }
 
