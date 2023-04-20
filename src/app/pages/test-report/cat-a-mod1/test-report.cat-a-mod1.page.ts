@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Platform,
-  ModalController,
-} from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { merge, Observable } from 'rxjs';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Router } from '@angular/router';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM1';
@@ -59,7 +55,6 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
   ) {
@@ -70,7 +65,6 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
       store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );
@@ -108,7 +102,8 @@ export class TestReportCatAMod1Page extends TestReportBasePageComponent implemen
           this.isEtaValid = this.testReportValidatorProvider.isETAValid(data as TestData, TestCategory.EUAM1);
         }),
       ),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   ionViewDidLeave(): void {

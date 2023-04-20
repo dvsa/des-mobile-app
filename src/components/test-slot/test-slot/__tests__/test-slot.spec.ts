@@ -1,9 +1,8 @@
 import { MockComponent } from 'ng-mocks';
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { cloneDeep } from 'lodash';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
@@ -13,7 +12,6 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { StoreModel } from '@shared/models/store.model';
@@ -36,8 +34,9 @@ import { SubmissionStatusComponent } from '@components/test-slot/submission-stat
 import { ProgressiveAccessComponent } from '@components/test-slot/progressive-access/progressive-access';
 import { LocationComponent } from '@components/test-slot/location/location';
 import { DateComponent } from '@components/test-slot/date/date';
-import { AdditionalCandidateDetailsComponent }
-  from '@components/test-slot/additional-candidate-details/additional-candidate-details';
+import {
+  AdditionalCandidateDetailsComponent,
+} from '@components/test-slot/additional-candidate-details/additional-candidate-details';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 
@@ -130,11 +129,22 @@ describe('TestSlotComponent', () => {
         }),
       ],
       providers: [
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: AppComponent, useClass: MockAppComponent },
-        { provide: SlotProvider, useClass: SlotProvider },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: AppComponent,
+          useClass: MockAppComponent,
+        },
+        {
+          provide: SlotProvider,
+          useClass: SlotProvider,
+        },
         CategoryWhitelistProvider,
       ],
     });
@@ -148,213 +158,267 @@ describe('TestSlotComponent', () => {
 
   afterAll(() => {
     if (jasmine.clock) {
-      jasmine.clock().uninstall();
+      jasmine.clock()
+        .uninstall();
     }
   });
 
   describe('Class', () => {
     describe('isIndicatorNeededForSlot', () => {
       it('should return true if specialNeeds is a non-blank string', () => {
-        expect(component.isIndicatorNeededForSlot()).toBe(true);
+        expect(component.isIndicatorNeededForSlot())
+          .toBe(true);
       });
       it('should return false if specialNeeds is blank (entitlementCheck is false, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = false;
         component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        expect(component.isIndicatorNeededForSlot()).toBe(false);
+        expect(component.isIndicatorNeededForSlot())
+          .toBe(false);
       });
       it('should return false if specialNeeds is missing', () => {
         delete component.slot.booking.application;
-        expect(component.isSpecialNeedsSlot()).toBe(false);
+        expect(component.isSpecialNeedsSlot())
+          .toBe(false);
       });
       it('should return true if entitlementCheck is true (specialNeeds is blank, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = true;
         component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        expect(component.isIndicatorNeededForSlot()).toBe(true);
+        expect(component.isIndicatorNeededForSlot())
+          .toBe(true);
       });
       it('should return false if entitlementCheck is missing (specialNeeds is blank, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
         delete component.slot.booking.application.entitlementCheck;
         component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        expect(component.isIndicatorNeededForSlot()).toBe(false);
+        expect(component.isIndicatorNeededForSlot())
+          .toBe(false);
       });
       it('should return false if entitlementCheck is false (specialNeeds is blank, slotType is Standard)', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = false;
         component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        expect(component.isIndicatorNeededForSlot()).toBe(false);
+        expect(component.isIndicatorNeededForSlot())
+          .toBe(false);
       });
       it('should return true if slotType is not Standard (specialNeeds is blank, entitlementCheck is false)', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = false;
         component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.EXTRA;
-        expect(component.isIndicatorNeededForSlot()).toBe(true);
+        expect(component.isIndicatorNeededForSlot())
+          .toBe(true);
       });
       it('should return false if slotType is Standard (specialNeeds is blank, entitlementCheck is false )', () => {
         component.slot.booking.application.specialNeeds = '';
         component.slot.booking.application.entitlementCheck = false;
         component.slot.booking.application.specialNeedsCode = SpecialNeedsCode.NONE;
-        expect(component.isIndicatorNeededForSlot()).toBe(false);
+        expect(component.isIndicatorNeededForSlot())
+          .toBe(false);
       });
 
       it('should return correct value for showing vehicle details', () => {
         component.slot.booking.application.testCategory = 'ADI2';
-        expect(component.showVehicleDetails()).toEqual(false);
+        expect(component.showVehicleDetails())
+          .toEqual(false);
         component.slot.booking.application.testCategory = 'A';
-        expect(component.showVehicleDetails()).toEqual(false);
+        expect(component.showVehicleDetails())
+          .toEqual(false);
         component.slot.booking.application.testCategory = 'A1';
-        expect(component.showVehicleDetails()).toEqual(false);
+        expect(component.showVehicleDetails())
+          .toEqual(false);
         component.slot.booking.application.testCategory = 'A2';
-        expect(component.showVehicleDetails()).toEqual(false);
+        expect(component.showVehicleDetails())
+          .toEqual(false);
         component.slot.booking.application.testCategory = 'AM';
-        expect(component.showVehicleDetails()).toEqual(false);
+        expect(component.showVehicleDetails())
+          .toEqual(false);
         component.slot.booking.application.testCategory = 'B';
-        expect(component.showVehicleDetails()).toEqual(false);
+        expect(component.showVehicleDetails())
+          .toEqual(false);
         component.slot.booking.application.testCategory = 'B1';
-        expect(component.showVehicleDetails()).toEqual(false);
+        expect(component.showVehicleDetails())
+          .toEqual(false);
         component.slot.booking.application.testCategory = 'B+E';
-        expect(component.showVehicleDetails()).toEqual(true);
+        expect(component.showVehicleDetails())
+          .toEqual(true);
         component.slot.booking.application.testCategory = 'C';
-        expect(component.showVehicleDetails()).toEqual(true);
+        expect(component.showVehicleDetails())
+          .toEqual(true);
         component.slot.booking.application.testCategory = 'C1';
-        expect(component.showVehicleDetails()).toEqual(true);
+        expect(component.showVehicleDetails())
+          .toEqual(true);
         component.slot.booking.application.testCategory = 'C1+E';
-        expect(component.showVehicleDetails()).toEqual(true);
+        expect(component.showVehicleDetails())
+          .toEqual(true);
         component.slot.booking.application.testCategory = 'C+E';
-        expect(component.showVehicleDetails()).toEqual(true);
+        expect(component.showVehicleDetails())
+          .toEqual(true);
         component.slot.booking.application.testCategory = 'D';
-        expect(component.showVehicleDetails()).toEqual(true);
+        expect(component.showVehicleDetails())
+          .toEqual(true);
         component.slot.booking.application.testCategory = 'D1';
-        expect(component.showVehicleDetails()).toEqual(true);
+        expect(component.showVehicleDetails())
+          .toEqual(true);
         component.slot.booking.application.testCategory = 'D+E';
-        expect(component.showVehicleDetails()).toEqual(true);
+        expect(component.showVehicleDetails())
+          .toEqual(true);
         component.slot.booking.application.testCategory = 'D1+E';
-        expect(component.showVehicleDetails()).toEqual(true);
-      });
-      it('should return true for isPortrait() if device is portrait', () => {
-        component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY;
-        expect(component.isPortrait())
+        expect(component.showVehicleDetails())
           .toEqual(true);
-        component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.PORTRAIT;
-        expect(component.isPortrait())
-          .toEqual(true);
-      });
-      it('should return false for isPortrait() if device is landscape', () => {
-        component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.LANDSCAPE_PRIMARY;
-        expect(component.isPortrait())
-          .toEqual(false);
-        component.screenOrientation.type = component.screenOrientation.ORIENTATIONS.LANDSCAPE;
-        expect(component.isPortrait())
-          .toEqual(false);
       });
     });
 
     describe('isSpecialNeedsSlot', () => {
       it('should return true if there is a non-empty special needs string', () => {
         component.slot.booking.application.specialNeeds = 'something';
-        expect(component.isSpecialNeedsSlot()).toBe(true);
+        expect(component.isSpecialNeedsSlot())
+          .toBe(true);
       });
       it('should return false if special needs is an empty string', () => {
         component.slot.booking.application.specialNeeds = '';
-        expect(component.isSpecialNeedsSlot()).toBe(false);
+        expect(component.isSpecialNeedsSlot())
+          .toBe(false);
       });
       it('should return false if special needs is null', () => {
         component.slot.booking.application.specialNeeds = null;
-        expect(component.isSpecialNeedsSlot()).toBe(false);
+        expect(component.isSpecialNeedsSlot())
+          .toBe(false);
       });
     });
 
     describe('getLatestViewableSlotDateTime()', () => {
       it('should return the next day if current day is not friday or saturday', () => {
-        jasmine.clock().mockDate(new Date('2020-07-23')); // thursday
+        jasmine.clock()
+          .mockDate(new Date('2020-07-23')); // thursday
         const nextDay = component.getLatestViewableSlotDateTime();
-        expect(nextDay).toEqual(moment('2020-07-24').toDate());
+        expect(nextDay)
+          .toEqual(moment('2020-07-24')
+            .toDate());
       });
       it('should return start of the following monday if friday', () => {
-        jasmine.clock().mockDate(new Date('2020-07-24')); // friday
+        jasmine.clock()
+          .mockDate(new Date('2020-07-24')); // friday
         const nextDay = component.getLatestViewableSlotDateTime();
-        expect(nextDay).toEqual(moment('2020-07-27').toDate());
+        expect(nextDay)
+          .toEqual(moment('2020-07-27')
+            .toDate());
       });
       it('should return start of the following monday if saturday', () => {
-        jasmine.clock().mockDate(new Date('2020-07-25')); // friday
+        jasmine.clock()
+          .mockDate(new Date('2020-07-25')); // friday
         const nextDay = component.getLatestViewableSlotDateTime();
-        expect(nextDay).toEqual(moment('2020-07-27').toDate());
+        expect(nextDay)
+          .toEqual(moment('2020-07-27')
+            .toDate());
       });
     });
     describe('canViewCandidateDetails()', () => {
       it('should return false if slot date is after latest viewable date and user NOT whitelisted for ADI', () => {
-        spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
+        spyOn(component, 'getLatestViewableSlotDateTime')
+          .and
+          .callFake(() => moment('2020-07-24')
+            .toDate());
         component.slot.slotDetail.start = '2020-07-25T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails).toEqual(false);
+        expect(canViewCandidateDetails)
+          .toEqual(false);
       });
 
       it('should return false if slot date is after latest viewable date and user is not whitelisted for ADI2', () => {
-        jasmine.clock().mockDate(new Date('2020-07-25'));
-        spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
-        spyOn(component.appConfig, 'getAppConfig').and.returnValue({
-          journal: {
-            testPermissionPeriods: [{
-              testCategory: TestCategory.ADI3,
-              from: '2020-01-01',
-              to: null,
-            }],
-          },
-        } as AppConfig);
+        jasmine.clock()
+          .mockDate(new Date('2020-07-25'));
+        spyOn(component, 'getLatestViewableSlotDateTime')
+          .and
+          .callFake(() => moment('2020-07-24')
+            .toDate());
+        spyOn(component.appConfig, 'getAppConfig')
+          .and
+          .returnValue({
+            journal: {
+              testPermissionPeriods: [{
+                testCategory: TestCategory.ADI3,
+                from: '2020-01-01',
+                to: null,
+              }],
+            },
+          } as AppConfig);
         component.slot.slotDetail.start = '2020-07-25T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails).toEqual(false);
+        expect(canViewCandidateDetails)
+          .toEqual(false);
       });
 
       it('should return true if slot date is after latest viewable date and user IS whitelisted for ADI', () => {
         const now = new Date();
         const mockDate = new Date('2020-07-25');
         mockDate.setTime(now.getTime());
-        jasmine.clock().mockDate(mockDate);
-        spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
-        spyOn(component.appConfig, 'getAppConfig').and.returnValue({
-          journal: {
-            testPermissionPeriods: [{
-              testCategory: TestCategory.ADI2,
-              from: '2020-01-01',
-              to: '2020-07-25',
-            }],
-          },
-        } as AppConfig);
+        jasmine.clock()
+          .mockDate(mockDate);
+        spyOn(component, 'getLatestViewableSlotDateTime')
+          .and
+          .callFake(() => moment('2020-07-24')
+            .toDate());
+        spyOn(component.appConfig, 'getAppConfig')
+          .and
+          .returnValue({
+            journal: {
+              testPermissionPeriods: [{
+                testCategory: TestCategory.ADI2,
+                from: '2020-01-01',
+                to: '2020-07-25',
+              }],
+            },
+          } as AppConfig);
         component.slot.slotDetail.start = '2020-07-25T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails).toEqual(true);
+        expect(canViewCandidateDetails)
+          .toEqual(true);
       });
 
       it('should return false if slot date is after latest viewable date and user IS NOT whitelisted for ADI', () => {
-        jasmine.clock().mockDate(new Date('2020-07-25'));
-        spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
-        spyOn(component.appConfig, 'getAppConfig').and.returnValue({
-          journal: {
-            testPermissionPeriods: [{
-              testCategory: TestCategory.B,
-              from: '2020-01-01',
-              to: null,
-            }],
-          },
-        } as AppConfig);
+        jasmine.clock()
+          .mockDate(new Date('2020-07-25'));
+        spyOn(component, 'getLatestViewableSlotDateTime')
+          .and
+          .callFake(() => moment('2020-07-24')
+            .toDate());
+        spyOn(component.appConfig, 'getAppConfig')
+          .and
+          .returnValue({
+            journal: {
+              testPermissionPeriods: [{
+                testCategory: TestCategory.B,
+                from: '2020-01-01',
+                to: null,
+              }],
+            },
+          } as AppConfig);
         component.slot.slotDetail.start = '2020-07-25T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails).toEqual(false);
+        expect(canViewCandidateDetails)
+          .toEqual(false);
       });
 
       it('should return true if slot date is equal to latest viewable date', () => {
-        spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
+        spyOn(component, 'getLatestViewableSlotDateTime')
+          .and
+          .callFake(() => moment('2020-07-24')
+            .toDate());
         component.slot.slotDetail.start = '2020-07-24T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails).toEqual(true);
+        expect(canViewCandidateDetails)
+          .toEqual(true);
       });
       it('should return true if slot date is less than latest viewable date', () => {
-        spyOn(component, 'getLatestViewableSlotDateTime').and.callFake(() => moment('2020-07-24').toDate());
+        spyOn(component, 'getLatestViewableSlotDateTime')
+          .and
+          .callFake(() => moment('2020-07-24')
+            .toDate());
         component.slot.slotDetail.start = '2020-07-22T08:10:00';
         const canViewCandidateDetails = component.canViewCandidateDetails();
-        expect(canViewCandidateDetails).toEqual(true);
+        expect(canViewCandidateDetails)
+          .toEqual(true);
       });
     });
     describe('isTestCentreJournalADIBooking', () => {
@@ -399,19 +463,24 @@ describe('TestSlotComponent', () => {
 
   describe('isCompletedTest', () => {
     it('should show banner if test status is completed', () => {
-      expect(component.isCompletedTest(TestStatus.Completed)).toEqual(true);
+      expect(component.isCompletedTest(TestStatus.Completed))
+        .toEqual(true);
     });
     it('should not show banner if test status is booked', () => {
-      expect(component.isCompletedTest(TestStatus.Booked)).toEqual(false);
+      expect(component.isCompletedTest(TestStatus.Booked))
+        .toEqual(false);
     });
     it('should not show banner if test status is decided', () => {
-      expect(component.isCompletedTest(TestStatus.Decided)).toEqual(false);
+      expect(component.isCompletedTest(TestStatus.Decided))
+        .toEqual(false);
     });
     it('should not show banner if test status is started', () => {
-      expect(component.isCompletedTest(TestStatus.Started)).toEqual(false);
+      expect(component.isCompletedTest(TestStatus.Started))
+        .toEqual(false);
     });
     it('should not show banner if test status is submitted', () => {
-      expect(component.isCompletedTest(TestStatus.Submitted)).toEqual(false);
+      expect(component.isCompletedTest(TestStatus.Submitted))
+        .toEqual(false);
     });
   });
 
@@ -424,14 +493,17 @@ describe('TestSlotComponent', () => {
         const indicatorComponent = fixture.debugElement.query(
           By.directive(MockComponent(IndicatorsComponent)),
         ).componentInstance;
-        expect(indicatorComponent).toBeDefined();
-        expect(indicatorComponent.showExclamationIndicator).toEqual(false);
+        expect(indicatorComponent)
+          .toBeDefined();
+        expect(indicatorComponent.showExclamationIndicator)
+          .toEqual(false);
       });
 
       it('should pass something to sub-component time input', () => {
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(By.directive(MockComponent(TimeComponent))).componentInstance;
-        expect(subByDirective.time).toBe(startTime);
+        expect(subByDirective.time)
+          .toBe(startTime);
       });
 
       it('should pass something to sub-component candidate input', () => {
@@ -439,9 +511,12 @@ describe('TestSlotComponent', () => {
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(CandidateLinkComponent)),
         ).componentInstance;
-        expect(subByDirective.name.title).toBe('Miss');
-        expect(subByDirective.name.firstName).toBe('Florence');
-        expect(subByDirective.name.lastName).toBe('Pearson');
+        expect(subByDirective.name.title)
+          .toBe('Miss');
+        expect(subByDirective.name.firstName)
+          .toBe('Florence');
+        expect(subByDirective.name.lastName)
+          .toBe('Pearson');
       });
 
       it('should pass something to sub-component test-category input', () => {
@@ -449,7 +524,8 @@ describe('TestSlotComponent', () => {
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(TestCategoryComponent)),
         ).componentInstance;
-        expect(subByDirective.category).toBe('B');
+        expect(subByDirective.category)
+          .toBe('B');
       });
 
       it('should pass something to sub-component test-outcome input', () => {
@@ -465,9 +541,10 @@ describe('TestSlotComponent', () => {
           By.directive(MockComponent(TestOutcomeComponent)),
         ).componentInstance;
 
-        expect(subByDirective.slotDetail.slotId).toEqual(mockSlot.slotDetail.slotId);
-        expect(subByDirective.canStartTest).toEqual(true);
-        // expect(subByDirective.testStatus).toBe(TestStatus.Booked);
+        expect(subByDirective.slotDetail.slotId)
+          .toEqual(mockSlot.slotDetail.slotId);
+        expect(subByDirective.canStartTest)
+          .toEqual(true);
       });
 
       it('should pass test status decided to the test-outcome component when the outcome observable changes', () => {
@@ -482,23 +559,32 @@ describe('TestSlotComponent', () => {
           By.directive(MockComponent(TestOutcomeComponent)),
         ).componentInstance;
 
-        expect(testOutcomeSubComponent.testStatus).toBe(TestStatus.Decided);
+        expect(testOutcomeSubComponent.testStatus)
+          .toBe(TestStatus.Decided);
       });
 
       it('should pass something to sub-component vehicle-details input', () => {
-        spyOn(component, 'showVehicleDetails').and.returnValue(true);
+        spyOn(component, 'showVehicleDetails')
+          .and
+          .returnValue(true);
         fixture.detectChanges();
 
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(VehicleDetailsComponent)),
         ).componentInstance;
 
-        expect(subByDirective.height).toBe(4);
-        expect(subByDirective.width).toBe(3);
-        expect(subByDirective.length).toBe(2);
-        expect(subByDirective.seats).toBe(5);
-        expect(subByDirective.transmission).toBe('Manual');
-        expect(subByDirective.showVehicleDetails).toBeFalsy();
+        expect(subByDirective.height)
+          .toBe(4);
+        expect(subByDirective.width)
+          .toBe(3);
+        expect(subByDirective.length)
+          .toBe(2);
+        expect(subByDirective.seats)
+          .toBe(5);
+        expect(subByDirective.transmission)
+          .toBe('Manual');
+        expect(subByDirective.showVehicleDetails)
+          .toBeFalsy();
       });
 
       it('should pass something to sub-component language input', () => {
@@ -506,7 +592,8 @@ describe('TestSlotComponent', () => {
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(LanguageComponent)),
         ).componentInstance;
-        expect(subByDirective.welshLanguage).toEqual(false);
+        expect(subByDirective.welshLanguage)
+          .toEqual(false);
       });
 
       it('should pass something to sub-component location input', () => {
@@ -514,7 +601,8 @@ describe('TestSlotComponent', () => {
         const subByDirective = fixture.debugElement.query(
           By.directive(MockComponent(LocationComponent)),
         ).componentInstance;
-        expect(subByDirective.location).toBe('Example Test Centre');
+        expect(subByDirective.location)
+          .toBe('Example Test Centre');
       });
     });
   });

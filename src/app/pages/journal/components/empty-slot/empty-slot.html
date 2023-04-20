@@ -1,13 +1,11 @@
-<location *ngIf="showLocation"
-  [location]="slot.testCentre.centreName">
-</location>
-<ion-card class="transparent-bg" [ngClass]="{'empty-slot-portrait-mode': isPortrait()}">
+<location *ngIf="showLocation" [location]="slot.testCentre.centreName"></location>
+<ion-card [ngClass]="{'empty-slot-portrait-mode': isPortrait}" class="transparent-bg">
   <ion-row class="slot-row">
     <ion-col class="time-column">
       <div>
         <time
-          [time]="slot.slotDetail.start"
           [testComplete]="false"
+          [time]="slot.slotDetail.start"
         >
         </time>
       </div>

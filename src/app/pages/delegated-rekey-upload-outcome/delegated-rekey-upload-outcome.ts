@@ -3,11 +3,8 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  Store,
-  select,
-} from '@ngrx/store';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { select, Store } from '@ngrx/store';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -41,7 +38,6 @@ export class DelegatedRekeyUploadOutcomePage extends BasePageComponent {
     private deviceProvider: DeviceProvider,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
-    public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     protected router: Router,
   ) {
@@ -63,7 +59,7 @@ export class DelegatedRekeyUploadOutcomePage extends BasePageComponent {
 
   async ionViewDidEnter(): Promise<void> {
     if (super.isIos()) {
-      this.screenOrientation.unlock();
+      await ScreenOrientation.unlock();
       await this.insomnia.allowSleepAgain();
       await this.deviceProvider.disableSingleAppMode();
     }

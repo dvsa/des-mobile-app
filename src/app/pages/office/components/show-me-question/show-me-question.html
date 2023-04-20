@@ -1,28 +1,30 @@
-<ion-row *ngIf="display" class="mes-validated-row mes-row-separator" id="show-me-question-row" [formGroup]="formGroup">
-  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
+<ion-row *ngIf="display" [formGroup]="formGroup" class="mes-validated-row mes-row-separator" id="show-me-question-row">
+  <div [class.ng-invalid]="invalid" class="validation-bar"></div>
   <ion-col class="component-label ion-align-self-center" size="32">
     <label id="show-me-question-label">Show me question</label>
   </ion-col>
   <ion-col class="ion-align-self-center ion-padding-start">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-select id="show-me-question-selector"
-                  placeholder="Select a question"
-                  class="select-padding"
-                  okText="Submit"
+      <ion-select (ionChange)="showMeQuestionChanged($event.target.value)"
+                  [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
+                  aria-label="Show me question"
                   cancelText="Cancel"
+                  class="select-padding"
                   formControlName="showMeQuestion"
-                  (ionChange)="showMeQuestionChanged($event.target.value)"
-                  [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}">
-        <ion-select-option [value]="showMeQuestion"
-                           id="show-me-question-{{showMeQuestion.code}}"
-                           *ngFor="let showMeQuestion of showMeQuestionOptions">
+                  id="show-me-question-selector"
+                  labelPlacement="stacked"
+                  okText="Submit"
+                  placeholder="Select a question">
+        <ion-select-option *ngFor="let showMeQuestion of showMeQuestionOptions"
+                           [value]="showMeQuestion"
+                           id="show-me-question-{{showMeQuestion.code}}">
           {{showMeQuestion.code}} - {{showMeQuestion.shortName}}
         </ion-select-option>
       </ion-select>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div class="validation-text" [class.ng-invalid]="invalid" id="show-me-question-validation-text">
+      <div [class.ng-invalid]="invalid" class="validation-text" id="show-me-question-validation-text">
         Select the show me question
       </div>
     </ion-row>

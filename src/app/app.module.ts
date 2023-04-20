@@ -1,7 +1,7 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppVersion } from '@awesome-cordova-plugins/app-version/ngx';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
@@ -9,17 +9,14 @@ import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
-import {
-  ActionReducer, ActionReducerMap, MetaReducer, StoreModule,
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { Device } from '@awesome-cordova-plugins/device/ngx';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CommonModule } from '@angular/common';
 
@@ -193,7 +190,6 @@ if (enableRehydrationPlugin) {
     CategoryWhitelistProvider,
     TestCentreJournalProvider,
     RouteByCategoryProvider,
-    ScreenOrientation,
     DeviceAuthenticationProvider,
     Insomnia,
     QuestionProvider,

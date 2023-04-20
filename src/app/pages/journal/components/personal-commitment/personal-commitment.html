@@ -1,16 +1,20 @@
 <ion-card class="personal-commitment personal-commitment-card">
-    <ion-row class="slot-row" *ngFor="let commitment of personalCommitments; let i = index;">
-        <ion-col class="time-column">
-            <div>
-                <time id="personal-commitment-time" [time]="transformSlotTime(slot.slotDetail.start, i)" [testComplete]="false">
-                </time>
-            </div>
-        </ion-col>
-        <ion-col class="title-column">
-            <h3 id="personal-commitment-title" class="title">{{ commitment.activityDescription }}</h3>
-        </ion-col>
-        <ion-col class="activity-code-column">
-            <h2 id="activity-code" class="activity-code ion-float-right">{{ formatActivityCode(commitment.activityCode) }}</h2>
-        </ion-col>
-    </ion-row>
+  <ion-row *ngFor="let commitment of personalCommitments; let i = index;" class="slot-row">
+    <ion-col class="time-column">
+      <div>
+        <time
+          [testComplete]="false"
+          [time]="transformSlotTime(slot.slotDetail.start, i)"
+          id="personal-commitment-time">
+        </time>
+      </div>
+    </ion-col>
+    <ion-col class="title-column">
+      <h3 class="title" id="personal-commitment-title">{{ commitment.activityDescription }}</h3>
+    </ion-col>
+    <ion-col class="activity-code-column">
+      <h2 class="activity-code ion-float-right"
+          id="activity-code">{{ formatActivityCode(commitment.activityCode) }}</h2>
+    </ion-col>
+  </ion-row>
 </ion-card>

@@ -1,22 +1,14 @@
-import {
-  Component, OnInit,
-} from '@angular/core';
-import {
-  Platform,
-  ModalController,
-  IonRefresher,
-} from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { IonRefresher, ModalController, Platform } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
-import {
-  Observable, Subscription, merge,
-} from 'rxjs';
+import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
-import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { DateTimeProvider } from '@providers/date-time/date-time';
@@ -28,8 +20,15 @@ import { DateTime } from '@shared/helpers/date-time';
 import { MesError } from '@shared/models/mes-error.model';
 import * as journalActions from '@store/journal/journal.actions';
 import {
-  getError, getIsLoading, getSelectedDate, getLastRefreshed,
-  getLastRefreshedTime, getSlotsOnSelectedDate, canNavigateToPreviousDay, canNavigateToNextDay, getCompletedTests,
+  canNavigateToNextDay,
+  canNavigateToPreviousDay,
+  getCompletedTests,
+  getError,
+  getIsLoading,
+  getLastRefreshed,
+  getLastRefreshedTime,
+  getSelectedDate,
+  getSlotsOnSelectedDate,
 } from '@store/journal/journal.selector';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { selectVersionNumber } from '@store/app-info/app-info.selectors';
@@ -38,6 +37,7 @@ import { CompletedTestPersistenceProvider } from '@providers/completed-test-pers
 import { AppComponent } from '@app/app.component';
 import { LoadingProvider } from '@providers/loader/loader';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { isPortrait } from '@shared/helpers/is-portrait-mode';
 import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
@@ -72,6 +72,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
   merged$: Observable<any>;
   todaysDate: DateTime;
   platformSubscription: Subscription;
+  isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     public modalController: ModalController,
@@ -84,13 +85,13 @@ export class JournalPage extends BasePageComponent implements OnInit {
     private networkStateProvider: NetworkStateProvider,
     private completedTestPersistenceProvider: CompletedTestPersistenceProvider,
     private deviceProvider: DeviceProvider,
-    public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     public loadingProvider: LoadingProvider,
     public appConfigProvider: AppConfigProvider,
   ) {
     super(platform, authenticationProvider, router);
-    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now().format('YYYY-MM-DD')));
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
+      .format('YYYY-MM-DD')));
     this.todaysDate = this.dateTimeProvider.now();
   }
 
@@ -130,7 +131,8 @@ export class JournalPage extends BasePageComponent implements OnInit {
       isSelectedDateToday$: this.store$.pipe(
         select(getJournalState),
         map(getSelectedDate),
-        map((selectedDate) => selectedDate === this.dateTimeProvider.now().format('YYYY-MM-DD')),
+        map((selectedDate) => selectedDate === this.dateTimeProvider.now()
+          .format('YYYY-MM-DD')),
       ),
       completedTests$: this.store$.pipe(
         select(getJournalState),
@@ -161,6 +163,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
     this.setupPolling();
     this.configurePlatformSubscriptions();
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
+    await this.monitorOrientation();
 
     this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
@@ -172,19 +175,20 @@ export class JournalPage extends BasePageComponent implements OnInit {
     return true;
   }
 
-  ionViewWillLeave(): void {
+  async ionViewWillLeave(): Promise<void> {
     this.store$.dispatch(journalActions.StopPolling());
 
     if (this.platformSubscription) {
       this.platformSubscription.unsubscribe();
     }
+    await ScreenOrientation.removeAllListeners();
   }
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(journalActions.JournalViewDidEnter());
 
     if (super.isIos()) {
-      this.screenOrientation.unlock();
+      await ScreenOrientation.unlock();
       await this.insomnia.allowSleepAgain();
       await this.deviceProvider.disableSingleAppMode();
     }
@@ -233,9 +237,10 @@ export class JournalPage extends BasePageComponent implements OnInit {
         errorType: ErrorTypes.JOURNAL_REFRESH,
       },
       cssClass: zoomClass,
-    }).then((modal) => {
-      modal.present();
-    });
+    })
+      .then((modal) => {
+        modal.present();
+      });
   };
 
   public pullRefreshJournal = async (refresher: IonRefresher) => {
@@ -246,15 +251,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
   public refreshJournal = async () => {
     await this.loadJournalManually();
     this.loadCompletedTestsWithCallThrough();
-  };
-
-  private loadCompletedTestsWithCallThrough = () => {
-    // When manually refreshing the journal we want to check
-    // if any of the tests have already been submitted by another device
-    // So we must make the Load Completed Tests request
-    // And that's why we set the callThrough property to true
-    const callThrough = true;
-    this.store$.dispatch(journalActions.LoadCompletedTests(callThrough));
   };
 
   async logout() {
@@ -269,4 +265,27 @@ export class JournalPage extends BasePageComponent implements OnInit {
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
   }
+
+  private async monitorOrientation(): Promise<void> {
+    // Detect `orientation` upon entry
+    const { type: orientationType } = await ScreenOrientation.getCurrentOrientation();
+
+    // Update isPortraitMode$ with current value
+    this.isPortraitMode$.next(isPortrait(orientationType));
+
+    // Listen to orientation change and update isPortraitMode$ accordingly
+    ScreenOrientation.addListener(
+      'screenOrientationChange',
+      ({ type }) => this.isPortraitMode$.next(isPortrait(type)),
+    );
+  }
+
+  private loadCompletedTestsWithCallThrough = () => {
+    // When manually refreshing the journal we want to check
+    // if any of the tests have already been submitted by another device
+    // So we must make the Load Completed Tests request
+    // And that's why we set the callThrough property to true
+    const callThrough = true;
+    this.store$.dispatch(journalActions.LoadCompletedTests(callThrough));
+  };
 }

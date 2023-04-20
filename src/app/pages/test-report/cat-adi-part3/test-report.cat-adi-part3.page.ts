@@ -9,13 +9,17 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
-  LessonPlanning, LessonTheme, RiskManagement, StudentLevel, TeachingLearningStrategies, TestData,
+  LessonPlanning,
+  LessonTheme,
+  RiskManagement,
+  StudentLevel,
+  TeachingLearningStrategies,
+  TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -27,8 +31,8 @@ import {
   getStudentLevel,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
 import {
-  LessonThemeChanged,
   LessonThemeAdded,
+  LessonThemeChanged,
   LessonThemeRemoved,
   OtherChanged,
   StudentLevelChanged,
@@ -80,7 +84,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private navController: NavController,
@@ -93,7 +96,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );
@@ -156,7 +158,10 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.store$.dispatch(StudentLevelChanged(studentLeveL));
   };
 
-  lessonThemeChanged = ({ lessonTheme, added }: { lessonTheme: LessonTheme, added: boolean }): void => {
+  lessonThemeChanged = ({
+                          lessonTheme,
+                          added,
+                        }: { lessonTheme: LessonTheme, added: boolean }): void => {
     this.store$.dispatch(LessonThemeChanged(lessonTheme as LessonTheme));
     if (added) {
       this.store$.dispatch(LessonThemeAdded(lessonTheme));
@@ -170,28 +175,29 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   };
 
   lessonPlanningChanged = ({
-    question,
-    answer,
-  }: { question: number; answer: number; }): void => {
+                             question,
+                             answer,
+                           }: { question: number; answer: number; }): void => {
     this.store$.dispatch(LessonPlanningQuestionScoreChanged(question, answer));
   };
 
   riskManagementChanged = ({
-    question,
-    answer,
-  }: { question: number; answer: number; }): void => {
+                             question,
+                             answer,
+                           }: { question: number; answer: number; }): void => {
     this.store$.dispatch(RiskManagementQuestionScoreChanged(question, answer));
   };
 
   teachingLearningStrategyChanged = ({
-    question,
-    answer,
-  }: { question: number; answer: number; }): void => {
+                                       question,
+                                       answer,
+                                     }: { question: number; answer: number; }): void => {
     this.store$.dispatch(TeachingLearningStrategiesQuestionScoreChanged(question, answer));
   };
 
   onContinueClick = (): void => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.invalid) {
       return;
