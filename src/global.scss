@@ -58,8 +58,18 @@
   }
 }
 
+ion-toolbar {
+  ion-title {
+    color: var(--mes-theme-main-colour);
+  }
+}
+
 .ion-select-text, opposing-text {
   color: var(--mes-theme-opposing-colour);
+}
+
+ion-footer {
+  background-color: var(--mes-theme-main-colour);
 }
 
 input, textarea {
@@ -98,7 +108,6 @@ input, textarea {
 
 .increase-height {
   height: 50px !important;
-
   &.ng-invalid {
     height: 50px !important;
   }

@@ -62,6 +62,8 @@ export class SignatureAreaComponent implements ControlValueAccessor, AfterViewIn
   public signaturePadOptions: NgSignaturePadOptions = {
     // passed through to szimek/signature_pad constructor
     minWidth: 1,
+    penColor: window.getComputedStyle(document.documentElement)
+      .getPropertyValue('--gds-theme-opposite'),
     canvasWidth: defaultSignatureWidth,
     canvasHeight: defaultSignatureHeight,
   };

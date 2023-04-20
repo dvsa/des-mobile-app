@@ -1,10 +1,28 @@
-ion-refresher ion-refresher-content {
-  --color: #000000 !important;
-
-  .refresher-pulling-text,
-  .refresher-refreshing-text,
+  .ion-refresher-content,
+  .ion-refresher,
+  refresher-refreshing,
   .refresher-refreshing-icon,
   .refresher-pulling-icon {
-    color: #000000 !important;
+    --color: var(--mes-theme-opposing-colour) !important;
+    color: var(--mes-theme-opposing-colour) !important;
   }
+
+  .refresher-pulling-text,
+  .refresher-refreshing-text {
+    color: var(--mes-theme-opposing-colour) !important;
+  }
+
+.refresher-content {
+  background-color: var(--mes-theme-main-colour) !important;
 }
+
+  ion-refresher-content {
+    position: relative;
+    padding-bottom: 200px;
+    background-color: var(--mes-theme-main-colour);
+
+    .refresher-pulling, .refresher-refreshing {
+      position: relative;
+      top: 30px;
+    }
+  }
