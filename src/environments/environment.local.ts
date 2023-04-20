@@ -236,7 +236,7 @@ export const environment: LocalEnvironmentFile = {
     standardUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/driver/standard',
   },
   vehicle: {
-    taxMotUrl: 'https://api.dvla.test.smc.dvsacloud.uk/1.0/vehicle',
+    taxMotUrl: 'https://api.mot.test.smc.dvsacloud.uk/1.0/checkMot',
   },
   refData: {
     testCentreUrl: '/assets/mock/ref-data/local-test-centres.json',
