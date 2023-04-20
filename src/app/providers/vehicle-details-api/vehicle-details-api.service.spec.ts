@@ -35,14 +35,14 @@ describe('VehicleDetailsApiService', () => {
     it('should return an Observable of vehicleDetailsResponse if it is defined and'
         + ' vehicleRegistration is vehicleIdentifier', () => {
       vehicleDetailsService.vehicleIdentifier = 'ABC123';
-      vehicleDetailsService.vehicleDetailsResponse = { timeStamp: 'test' } as VehicleDetails;
+      vehicleDetailsService.vehicleDetailsResponse = { registration: 'ABC123' } as VehicleDetails;
       vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe((val) => {
-        expect(val).toEqual({ timeStamp: 'test' } as VehicleDetails);
+        expect(val).toEqual({ registration: 'ABC123' } as VehicleDetails);
       });
     });
     it('should call the search endpoint with the provided driver number', () => {
       vehicleDetailsService.getVehicleByIdentifier('ABC123').subscribe();
-      httpMock.expectOne('https://www.example.com/1.0/vehicle?identifier=ABC123');
+      httpMock.expectOne('https://www.example.com/1.0/checkMot?identifier=ABC123');
       expect(urlProvider.getTaxMotUrl).toHaveBeenCalled();
     });
   });
