@@ -6,11 +6,11 @@
     background: var(--gds-blue);
     color: var(--mes-theme-main-colour);
     #eyesight-failure-title {
-      color: inherit;
+      color: var(--gds-white);
     }
     #eyesight-failure-subtitle {
       margin-top: 18px;
-      color: inherit;
+      color: var(--gds-white);
     }
     button {
       width: 85%;
