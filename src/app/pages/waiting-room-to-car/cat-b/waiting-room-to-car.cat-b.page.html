@@ -52,6 +52,33 @@
               [tellMeQuestions]="tellMeQuestions"
             >
             </tell-me-question-card>
+    <div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <ion-grid>
+                <eyesight-test [formGroup]="form"
+                               *ngIf="pageState.showEyesight$ | async"
+                               [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+                               [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
+                               (eyesightTestResultChange)="eyesightTestResultChanged($event)">
+                </eyesight-test>
+
+                <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
+                    <eyesight-failure-confirmation [nextPageOnFail]="getDebriefPage()"
+                                                   [cancelFn]="eyesightFailCancelled">
+                    </eyesight-failure-confirmation>
+                </ion-row>
+
+                <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async"
+                         id="post-eyesight-form-content">
+                    <ion-col class="ion-no-padding">
+                        <tell-me-question-card [formGroup]="form"
+                                               [tellMeQuestion]="pageState.tellMeQuestion$ | async"
+                                               [tellMeQuestions]="tellMeQuestions"
+                                               [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
+                                               [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
+                                               (tellMeQuestionChange)="tellMeQuestionChanged($event)"
+                                               (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)">
+                        </tell-me-question-card>
 
             <vehicle-registration
               (vehicleRegistrationBlur)="getMOTStatus()"
@@ -101,6 +128,33 @@
       </ion-grid>
     </form>
   </div>
+                        <instructor-registration [formGroup]="form"
+                                                 [instructorRegistration]="pageState.instructorRegistrationNumber$ | async"
+                                                 (instructorRegistrationChange)="instructorRegistrationChanged($event)">
+                        </instructor-registration>
+
+                        <accompaniment-card [formGroup]="form"
+                                            [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+                                            [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+                                            [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+                                            [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+                                            (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+                                            (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+                                            (otherAccompanimentChange)="otherAccompanimentToggled()"
+                                            (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+                        </accompaniment-card>
+
+                        <vehicle-details-card [formGroup]="form"
+                                              [schoolVehicleDetails]="pageState.schoolCar$ | async"
+                                              [dualVehicleDetails]="pageState.dualControls$ | async"
+                                              (schoolVehicleDetailsChange)="schoolCarToggled()"
+                                              (dualVehicleDetailsChange)="dualControlsToggled()">
+                        </vehicle-details-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </form>
+    </div>
 </ion-content>
 
 <ion-footer>

@@ -54,7 +54,7 @@
       text-align: center;
       letter-spacing: -0.26px;
       line-height: 25px;
-      --color: #0b0c0c;
+      --color: var(--mes-theme-opposing-colour);
   }
   #dangerous-button {
     width: 88px;

@@ -6,6 +6,10 @@
     top: 13px;
   }
 
+  .mes-black-text {
+    color: var(--gds-black) !important;
+  }
+
   .modal-return-button {
     @extend .generic-button;
     margin-top: 20px;

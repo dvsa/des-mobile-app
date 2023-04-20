@@ -12,41 +12,42 @@
     --ion-grid-column-padding: 0;
   }
 
-.go-to-journal-card {
-  @media (orientation: landscape) {
-    margin-right: 6px;
-    width: calc(100% - 18px);
+  .go-to-journal-card {
+    @media (orientation: landscape) {
+      margin-right: 6px;
+      width: calc(100% - 18px);
+    }
   }
-}
 
-.search-card {
-  @media (orientation: landscape) {
-    margin-left: 8px;
-    margin-right: 8px;
-    width: calc(100% - 16px);
+  .search-card {
+    @media (orientation: landscape) {
+      margin-left: 8px;
+      margin-right: 8px;
+      width: calc(100% - 16px);
+    }
+    @media (orientation: portrait) {
+      margin-top: 0;
+      margin-right: 8px;
+      width: calc(100% - 20px);
+    }
   }
-  @media (orientation: portrait) {
-    margin-top: 0px;
-    margin-right: 8px;
-    width: calc(100% - 20px);
-  }
-}
 
-.rekey-search-card {
-  @media (orientation: landscape) {
-    margin-left: 6px;
-    width: calc(100% - 18px);
+  .rekey-search-card {
+    @media (orientation: landscape) {
+      margin-left: 6px;
+      width: calc(100% - 18px);
+    }
+    @media (orientation: portrait) {
+      margin-top: 0;
+      margin-left: 8px;
+      width: calc(100% - 20px);
+    }
   }
-  @media (orientation: portrait) {
-    margin-top: 0px;
-    margin-left: 8px;
-    width: calc(100% - 20px);
-  }
-}
 
-.practice-mode-card {
-  margin-bottom: 2px;
-}
+  .practice-mode-card {
+    margin-bottom: 2px;
+  }
+
   .go-to-journal-card {
     @media (orientation: landscape) {
       margin-right: 6px;
@@ -114,45 +115,47 @@
   .toolbar-ios ion-title {
     height: 100% !important;
   }
-#page-title {
-  color: var(--mes-secondary-header);
-}
-#burger-menu {
-  color: var(--mes-secondary-header);
-}
 
-hr {
-  background-color: var(--gds-grey-2);
-  height: 2px;
-  margin: 0px 14px 0px;
-}
-
-.version-number {
-  color: var(--mes-secondary-header);
-  margin-top: -4px;
-}
-
-.last-sync {
-  color: var(--mes-secondary-header);
-  margin-top: -4px;
-}
-
-#unauthenticated-mode-indicator {
-  text-align: center;
-  padding: 16px 0;
-  background: var(--gds-red);
-
-  #unauth-text {
-    color: var(--mes-theme-main-colour);
-    font-size: 20px;
-    font-weight: normal;
-    letter-spacing: 0.34px;
+  #page-title {
+    color: var(--mes-secondary-header);
   }
-}
 
-.toolbar-ios ion-title {
-  height: 100% !important;
-}
+  #burger-menu {
+    color: var(--mes-secondary-header);
+  }
+
+  hr {
+    background-color: var(--gds-grey-2);
+    height: 2px;
+    margin: 0 14px 0;
+  }
+
+  .version-number {
+    color: var(--mes-secondary-header);
+    margin-top: -4px;
+  }
+
+  .last-sync {
+    color: var(--mes-secondary-header);
+    margin-top: -4px;
+  }
+
+  #unauthenticated-mode-indicator {
+    text-align: center;
+    padding: 16px 0;
+    background: var(--gds-red);
+
+    #unauth-text {
+      color: var(--mes-theme-main-colour);
+      font-size: 20px;
+      font-weight: normal;
+      letter-spacing: 0.34px;
+    }
+  }
+
+  .toolbar-ios ion-title {
+    height: 100% !important;
+  }
 
   button.logout-button {
     display: flex;
@@ -161,28 +164,29 @@ hr {
     background-color: var(--gds-dark);
   }
 
-span, ion-menu-button {
-  color: inherit;
-}
-
-.logout-modal {
-  .alert-head:before {
-    display: inline-block;
-    font-size: 68px;
-    content: '\f276';
-    font-family: "Ionicons";
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    line-height: 1;
-    text-rendering: auto;
-    text-transform: none;
+  span, ion-menu-button {
+    color: inherit;
   }
 
-  .alert-title {
-    padding-left: 72px;
-    padding-right: 72px;
+  .logout-modal {
+    .alert-head:before {
+      display: inline-block;
+      font-size: 68px;
+      content: '\f276';
+      font-family: "Ionicons";
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: normal;
+      line-height: 1;
+      text-rendering: auto;
+      text-transform: none;
+    }
+
+    .alert-title {
+      padding-left: 72px;
+      padding-right: 72px;
+    }
   }
 }

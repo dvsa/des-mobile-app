@@ -27,7 +27,10 @@
       height: 20px;
       float: left;
       background-size: contain;
-
+      @media (prefers-color-scheme: dark) {
+        filter: invert(100%);
+        -webkit-filter: invert(100%);
+      }
       &:disabled {
         color: var(--gds-grey-5);
         background-color: rgba(131, 131, 131, 0);
