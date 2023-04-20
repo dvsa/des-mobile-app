@@ -8,10 +8,10 @@ ul {
 li {
   display: inline-block;
   padding: 16px;
-  background-color: var(--gds-grey-4);
+  background-color: var(--mes-theme-main-variant4);
   margin-right: 6px;
   margin-bottom: 6px;
-  border: 1px solid var(--gds-grey-4);
+  border: 1px solid var(--mes-theme-main-variant4);
   border-bottom: 0;
 }
 
@@ -52,6 +52,7 @@ li.active:after {
 }
 
 .nav {
+  border-bottom: var(--bs-nav-tabs-border-width) solid var(--mes-theme-main-colour);
   h4 {
     display: inline;
   }
