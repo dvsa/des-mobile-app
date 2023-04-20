@@ -6,6 +6,10 @@
   mix-blend-mode: exclusion;
 }
 
+.search-text {
+  color: var(--mes-theme-opposing-colour);
+}
+
 .component-label {
   padding-top: 12px;
   width: 33%;
