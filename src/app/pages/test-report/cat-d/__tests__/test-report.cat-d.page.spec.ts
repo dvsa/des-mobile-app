@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
+import {
+  IonicModule, ModalController, NavParams, Platform,
+} from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
@@ -167,20 +169,20 @@ describe('TestReportCatDPage', () => {
         cat: TestCategory.D,
         show: false,
       }, {
-      cat: TestCategory.D1,
-      show: false,
-    },
+        cat: TestCategory.D1,
+        show: false,
+      },
       {
         cat: TestCategory.DE,
         show: true,
       }, {
-      cat: TestCategory.D1E,
-      show: true,
-    },
+        cat: TestCategory.D1E,
+        show: true,
+      },
     ].forEach(({
-                 cat,
-                 show,
-               }) => {
+      cat,
+      show,
+    }) => {
       it(`should ${show ? 'show' : 'not show'} uncouple/recouple for cat ${cat}`, () => {
         component.delegatedTest = true;
         component.testCategory = cat;

@@ -9,7 +9,9 @@ import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { GoogleAnalytics } from '@awesome-cordova-plugins/google-analytics/ngx';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
-import { ActionReducer, ActionReducerMap, MetaReducer, StoreModule } from '@ngrx/store';
+import {
+  ActionReducer, ActionReducerMap, MetaReducer, StoreModule,
+} from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { localStorageSync } from 'ngrx-store-localstorage';

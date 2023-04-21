@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
+import {
+  IonicModule, ModalController, NavParams, Platform,
+} from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 import { AppModule } from '@app/app.module';

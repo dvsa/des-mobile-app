@@ -13,7 +13,9 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { CombinationCodes, Question, Question5, TestData } from '@dvsa/mes-test-schema/categories/CPC';
+import {
+  CombinationCodes, Question, Question5, TestData,
+} from '@dvsa/mes-test-schema/categories/CPC';
 import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.reducer';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -255,7 +257,7 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       .pipe(takeUntil(trDestroy$))
       .subscribe((
         [question1, question2, question3, question4, question5, overallPercentage, category, delegated]:
-          [Question, Question, Question, Question, Question5, number, CategoryCode, boolean],
+        [Question, Question, Question, Question, Question5, number, CategoryCode, boolean],
       ) => {
         this.questions = [question1, question2, question3, question4, question5];
         this.overallPercentage = overallPercentage;

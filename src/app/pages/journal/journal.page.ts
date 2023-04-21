@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IonRefresher, ModalController, Platform } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
-import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
+import {
+  BehaviorSubject, merge, Observable, Subscription,
+} from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';

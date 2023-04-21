@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
+import {
+  IonicModule, ModalController, NavParams, Platform,
+} from '@ionic/angular';
 import { NavParamsMock, PlatformMock } from '@mocks/index.mock';
 
 import { AppModule } from 'src/app/app.module';
@@ -23,8 +25,8 @@ import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mock
 import { JOURNAL_PAGE } from '@pages/page-names.constants';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { BackToOfficePage, NavigationTarget } from '../back-to-office.page';
 
 describe('BackToOfficePage', () => {
   let fixture: ComponentFixture<BackToOfficePage>;
