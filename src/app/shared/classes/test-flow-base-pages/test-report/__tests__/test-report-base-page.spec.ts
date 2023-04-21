@@ -12,7 +12,6 @@ import { StoreModel } from '@shared/models/store.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
@@ -27,7 +26,6 @@ describe('TestReportBasePageComponent', () => {
   let store$: Store<StoreModel>;
   let modalController: ModalController;
   let testReportValidatorProvider: TestReportValidatorProvider;
-  let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
   let routeByCategory: RouteByCategoryProvider;
 
@@ -39,7 +37,11 @@ describe('TestReportBasePageComponent', () => {
         1234: {
           journalData: {
             candidate: {
-              candidateName: { title: 'Mrs', firstName: 'Marge', lastName: 'Simpson' },
+              candidateName: {
+                title: 'Mrs',
+                firstName: 'Marge',
+                lastName: 'Simpson',
+              },
             },
           },
         } as TestResultSchemasUnion,
@@ -51,10 +53,22 @@ describe('TestReportBasePageComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: Router, useClass: RouterMock },
-        { provide: RouteByCategoryProvider, useClass: RouteByCategoryProviderMock },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
+        {
+          provide: RouteByCategoryProvider,
+          useClass: RouteByCategoryProviderMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -73,12 +87,10 @@ describe('TestReportBasePageComponent', () => {
         sto$: Store<StoreModel>,
         modal: ModalController,
         trValidator: TestReportValidatorProvider,
-        screenOri: ScreenOrientation,
         insom: Insomnia,
         routeByCat: RouteByCategoryProvider,
       ) {
-        // eslint-disable-next-line max-len
-        super(plat, auth, rout, sto$, modal, trValidator, screenOri, insom, routeByCat);
+        super(plat, auth, rout, sto$, modal, trValidator, insom, routeByCat);
       }
     }
 
@@ -88,7 +100,6 @@ describe('TestReportBasePageComponent', () => {
       router, store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );
@@ -106,7 +117,8 @@ describe('TestReportBasePageComponent', () => {
     it('should return correct value from getTestRequirementsCatB if the category is B', () => {
       expect(basePageComponent.getTestRequirements({
         testRequirements: { normalStart1: true },
-      }, TestCategory.B)).toEqual({ normalStart1: true });
+      }, TestCategory.B))
+        .toEqual({ normalStart1: true });
     });
     it('should return correct value from getTestRequirementsCatB if the switch defaults', () => {
       expect(basePageComponent.getTestRequirements({
@@ -122,6 +134,7 @@ describe('TestReportBasePageComponent', () => {
       it(`should return correct value from getTestRequirementsCatC if category is ${value}`, () => {
         basePageComponent.getTestRequirements({ testRequirements: { angledStart: true } }, value);
         expect(basePageComponent.getTestRequirements({ testRequirements: { angledStart: true } }, value))
+
           .toEqual({ angledStart: true });
       });
     });

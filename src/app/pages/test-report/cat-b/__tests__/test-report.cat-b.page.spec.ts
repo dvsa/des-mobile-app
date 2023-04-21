@@ -1,12 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  IonicModule, NavParams, Platform, ModalController,
-} from '@ionic/angular';
-import {
-  NavParamsMock,
-  PlatformMock,
-  ModalControllerMock,
-} from '@mocks/index.mock';
+import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
+import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
@@ -22,10 +16,8 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import {
   TestReportValidatorProviderMock,
 } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
-import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestFlowPageNames } from '@pages/page-names.constants';
@@ -51,7 +43,6 @@ import { EcoComponent } from '../../components/eco/eco';
 describe('TestReportCatBPage', () => {
   let fixture: ComponentFixture<TestReportCatBPage>;
   let component: TestReportCatBPage;
-  let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
 
   beforeEach(() => {
@@ -93,23 +84,44 @@ describe('TestReportCatBPage', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-        { provide: Insomnia, useClass: InsomniaMock },
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: TestReportValidatorProvider,
+          useClass: TestReportValidatorProviderMock,
+        },
+        {
+          provide: Insomnia,
+          useClass: InsomniaMock,
+        },
       ],
     });
 
     fixture = TestBed.createComponent(TestReportCatBPage);
     component = fixture.componentInstance;
-    screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
-    spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-    spyOn(screenOrientation, 'lock').and.returnValue(Promise.resolve());
+    spyOn(BasePageComponent.prototype, 'isIos')
+      .and
+      .returnValue(true);
+    // spyOn(screenOrientation, 'lock').and.returnValue(Promise.resolve());
   });
 
   describe('Class', () => {
@@ -117,28 +129,37 @@ describe('TestReportCatBPage', () => {
       it('should navigate to debrief page when passed a CONTINUE event', () => {
         spyOn(component.router, 'navigate');
         component.onModalDismiss(ModalEvent.CONTINUE);
-        expect(component.router.navigate).toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
+        expect(component.router.navigate)
+          .toHaveBeenCalledWith([TestFlowPageNames.DEBRIEF_PAGE]);
       });
     });
 
     describe('ionViewWillEnter', () => {
       it('should not enable the plugins when the test is not a practice test', async () => {
         component.isPracticeMode = false;
-        spyOn(TestReportCatBPage.prototype, 'isIos').and.returnValue(false);
+        spyOn(TestReportCatBPage.prototype, 'isIos')
+          .and
+          .returnValue(false);
         spyOn(StatusBar, 'show');
         await component.ionViewWillEnter();
-        expect(screenOrientation.lock).not.toHaveBeenCalled();
-        expect(insomnia.keepAwake).not.toHaveBeenCalled();
-        expect(StatusBar.show).not.toHaveBeenCalled();
+        expect(insomnia.keepAwake)
+          .not
+          .toHaveBeenCalled();
+        expect(StatusBar.show)
+          .not
+          .toHaveBeenCalled();
       });
       it('should enable the plugins when the test is a practice test', async () => {
         component.isPracticeMode = true;
-        spyOn(TestReportCatBPage.prototype, 'isIos').and.returnValue(true);
+        spyOn(TestReportCatBPage.prototype, 'isIos')
+          .and
+          .returnValue(true);
         spyOn(StatusBar, 'hide');
         await component.ionViewWillEnter();
-        expect(screenOrientation.lock).toHaveBeenCalled();
-        expect(insomnia.keepAwake).toHaveBeenCalled();
-        expect(StatusBar.hide).toHaveBeenCalled();
+        expect(insomnia.keepAwake)
+          .toHaveBeenCalled();
+        expect(StatusBar.hide)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -146,20 +167,26 @@ describe('TestReportCatBPage', () => {
   describe('DOM', () => {
     describe('Fault Modes Styling', () => {
       it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeNull();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeNull();
       });
       it('should have serious fault mode styles applied when serious mode is enabled', () => {
         component.isSeriousMode = true;
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeDefined();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeNull();
       });
       it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
         component.isDangerousMode = true;
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeNull();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeDefined();
       });
     });
 
@@ -170,7 +197,8 @@ describe('TestReportCatBPage', () => {
       spyOn(component, 'onEndTestClick');
       const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
       endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick).toHaveBeenCalled();
+      expect(component.onEndTestClick)
+        .toHaveBeenCalled();
     });
   });
 
@@ -178,7 +206,8 @@ describe('TestReportCatBPage', () => {
     it('should call the base page\'s ionViewDidEnter', () => {
       spyOn(TestReportBasePageComponent.prototype, 'ionViewDidEnter');
       component.ionViewDidEnter();
-      expect(TestReportBasePageComponent.prototype.ionViewDidEnter).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewDidEnter)
+        .toHaveBeenCalled();
     });
   });
 
@@ -186,7 +215,8 @@ describe('TestReportCatBPage', () => {
     it('should call the base page\'s ionViewWillLeave', async () => {
       spyOn(TestReportBasePageComponent.prototype, 'ionViewWillLeave');
       await component.ionViewWillLeave();
-      expect(TestReportBasePageComponent.prototype.ionViewWillLeave).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewWillLeave)
+        .toHaveBeenCalled();
     });
   });
 
@@ -195,8 +225,10 @@ describe('TestReportCatBPage', () => {
       spyOn(TestReportBasePageComponent.prototype, 'ionViewDidLeave');
       spyOn(TestReportBasePageComponent.prototype, 'cancelSubscription');
       component.ionViewDidLeave();
-      expect(TestReportBasePageComponent.prototype.ionViewDidLeave).toHaveBeenCalled();
-      expect(TestReportBasePageComponent.prototype.cancelSubscription).toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.ionViewDidLeave)
+        .toHaveBeenCalled();
+      expect(TestReportBasePageComponent.prototype.cancelSubscription)
+        .toHaveBeenCalled();
     });
   });
 

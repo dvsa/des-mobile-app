@@ -1,10 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams, Platform,
-} from '@ionic/angular';
-import {
-  ModalControllerMock, NavParamsMock, PlatformMock,
-} from '@mocks/index.mock';
+import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
+import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 import { AppModule } from '@app/app.module';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -17,10 +13,8 @@ import { StoreModule } from '@ngrx/store';
 import { initialState } from '@store/tests/test-data/cat-a-mod2/test-data.cat-a-mod2.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
-import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import {
@@ -80,14 +74,34 @@ describe('TestReportCatAMod2Page', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-        { provide: Insomnia, useClass: InsomniaMock },
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: TestReportValidatorProvider,
+          useClass: TestReportValidatorProviderMock,
+        },
+        {
+          provide: Insomnia,
+          useClass: InsomniaMock,
+        },
       ],
     });
 
@@ -98,20 +112,26 @@ describe('TestReportCatAMod2Page', () => {
   describe('DOM', () => {
     describe('Fault Modes Styling', () => {
       it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeNull();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeNull();
       });
       it('should have serious fault mode styles applied when serious mode is enabled', () => {
         component.isSeriousMode = true;
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeDefined();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeNull();
       });
       it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
         component.isDangerousMode = true;
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeNull();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeDefined();
       });
     });
   });
@@ -132,7 +152,8 @@ describe('TestReportCatAMod2Page', () => {
       spyOn(component, 'onEndTestClick');
       const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
       endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick).toHaveBeenCalled();
+      expect(component.onEndTestClick)
+        .toHaveBeenCalled();
     });
   });
 

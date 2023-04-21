@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  IonicModule, ModalController, NavParams, Platform,
-} from '@ionic/angular';
+import { IonicModule, ModalController, NavParams, Platform } from '@ionic/angular';
 import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
@@ -16,10 +14,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
-import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import {
@@ -40,7 +36,8 @@ import {
 } from '@pages/test-report/cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  EmergencyStopDangerousFaultModelOpened, EmergencyStopSeriousFaultModelOpened,
+  EmergencyStopDangerousFaultModelOpened,
+  EmergencyStopSeriousFaultModelOpened,
   SpeedRequirementNotMetModalOpened,
 } from '@pages/test-report/cat-a-mod1/test-report.cat-a-mod1.actions';
 import { SpeedCheckModal } from '@pages/test-report/cat-a-mod1/components/speed-check-modal/speed-check-modal';
@@ -101,14 +98,34 @@ describe('TestReportCatAMod1Page', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-        { provide: Insomnia, useClass: InsomniaMock },
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: TestReportValidatorProvider,
+          useClass: TestReportValidatorProviderMock,
+        },
+        {
+          provide: Insomnia,
+          useClass: InsomniaMock,
+        },
       ],
     });
 
@@ -121,20 +138,26 @@ describe('TestReportCatAMod1Page', () => {
   describe('DOM', () => {
     describe('Fault Modes Styling', () => {
       it('should not have any fault mode styles applied when serious and dangerous mode is disabled', () => {
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeNull();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeNull();
       });
       it('should have serious fault mode styles applied when serious mode is enabled', () => {
         component.isSeriousMode = true;
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeDefined();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeNull();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeDefined();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeNull();
       });
       it('should have dangerous fault mode styles applied when dangerous mode is enabled', () => {
         component.isDangerousMode = true;
         fixture.detectChanges();
-        expect(fixture.debugElement.query(By.css('.serious-mode'))).toBeNull();
-        expect(fixture.debugElement.query(By.css('.dangerous-mode'))).toBeDefined();
+        expect(fixture.debugElement.query(By.css('.serious-mode')))
+          .toBeNull();
+        expect(fixture.debugElement.query(By.css('.dangerous-mode')))
+          .toBeDefined();
       });
     });
   });
@@ -142,134 +165,165 @@ describe('TestReportCatAMod1Page', () => {
   describe('createEtaInvalidModal', () => {
     it('should create a modal if isEtaValid is false', () => {
       component.isEtaValid = false;
-      spyOn(component.modalController, 'create').and.callThrough();
+      spyOn(component.modalController, 'create')
+        .and
+        .callThrough();
       component.createEtaInvalidModal();
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: EtaInvalidModal,
-        componentProps: {},
-        cssClass: 'mes-modal-alert text-zoom-regular',
-      });
+      expect(component.modalController.create)
+        .toHaveBeenCalledWith({
+          component: EtaInvalidModal,
+          componentProps: {},
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
     });
     it('should return null if isEtaValid is true', () => {
       component.isEtaValid = true;
-      expect(component.createEtaInvalidModal()).toEqual(null);
+      expect(component.createEtaInvalidModal())
+        .toEqual(null);
     });
   });
 
   describe('createEndTestModal', () => {
     it('should create a modal if speedCheckState is VALID', () => {
       component.speedCheckState = SpeedCheckState.VALID;
-      spyOn(component.modalController, 'create').and.callThrough();
+      spyOn(component.modalController, 'create')
+        .and
+        .callThrough();
       component.createEndTestModal();
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: EndTestModal,
-        componentProps: {},
-        cssClass: 'mes-modal-alert text-zoom-regular',
-      });
+      expect(component.modalController.create)
+        .toHaveBeenCalledWith({
+          component: EndTestModal,
+          componentProps: {},
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
     });
     it('should return null if isEtaValid is true', () => {
       component.speedCheckState = SpeedCheckState.AVOIDANCE_MISSING;
-      expect(component.createEndTestModal()).toEqual(null);
+      expect(component.createEndTestModal())
+        .toEqual(null);
     });
   });
 
   describe('createActivityCode4Modal', () => {
     it('should create a modal with a modalReason of SPEED_REQUIREMENTS if speedCheckState is NOT_MET', () => {
       component.speedCheckState = SpeedCheckState.NOT_MET;
-      spyOn(component.modalController, 'create').and.callThrough();
+      spyOn(component.modalController, 'create')
+        .and
+        .callThrough();
       component.createActivityCode4Modal();
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: ActivityCode4Modal,
-        componentProps: { modalReason: ModalReason.SPEED_REQUIREMENTS },
-        cssClass: 'mes-modal-alert text-zoom-regular',
-      });
+      expect(component.modalController.create)
+        .toHaveBeenCalledWith({
+          component: ActivityCode4Modal,
+          componentProps: { modalReason: ModalReason.SPEED_REQUIREMENTS },
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
     });
     it('should dispatch SpeedRequirementNotMetModalOpened if speedCheckState is NOT_MET', () => {
       component.speedCheckState = SpeedCheckState.NOT_MET;
       component.createActivityCode4Modal();
-      expect(store$.dispatch).toHaveBeenCalledWith(SpeedRequirementNotMetModalOpened());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(SpeedRequirementNotMetModalOpened());
     });
     it('should create a modal with a modalReason of EMERGENCY_STOP_DANGEROUS '
-        + 'if speedCheckState is EMERGENCY_STOP_DANGEROUS_FAULT', () => {
+      + 'if speedCheckState is EMERGENCY_STOP_DANGEROUS_FAULT', () => {
       component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_DANGEROUS_FAULT;
-      spyOn(component.modalController, 'create').and.callThrough();
+      spyOn(component.modalController, 'create')
+        .and
+        .callThrough();
       component.createActivityCode4Modal();
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: ActivityCode4Modal,
-        componentProps: { modalReason: ModalReason.EMERGENCY_STOP_DANGEROUS },
-        cssClass: 'mes-modal-alert text-zoom-regular',
-      });
+      expect(component.modalController.create)
+        .toHaveBeenCalledWith({
+          component: ActivityCode4Modal,
+          componentProps: { modalReason: ModalReason.EMERGENCY_STOP_DANGEROUS },
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
     });
     it('should dispatch SpeedRequirementNotMetModalOpened if speedCheckState is EMERGENCY_STOP_DANGEROUS_FAULT', () => {
       component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_DANGEROUS_FAULT;
       component.createActivityCode4Modal();
-      expect(store$.dispatch).toHaveBeenCalledWith(EmergencyStopDangerousFaultModelOpened());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(EmergencyStopDangerousFaultModelOpened());
     });
     it('should create a modal with a modalReason of EMERGENCY_STOP_SERIOUS '
-        + 'if speedCheckState is EMERGENCY_STOP_SERIOUS_FAULT', () => {
+      + 'if speedCheckState is EMERGENCY_STOP_SERIOUS_FAULT', () => {
       component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_SERIOUS_FAULT;
-      spyOn(component.modalController, 'create').and.callThrough();
+      spyOn(component.modalController, 'create')
+        .and
+        .callThrough();
       component.createActivityCode4Modal();
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: ActivityCode4Modal,
-        componentProps: { modalReason: ModalReason.EMERGENCY_STOP_SERIOUS },
-        cssClass: 'mes-modal-alert text-zoom-regular',
-      });
+      expect(component.modalController.create)
+        .toHaveBeenCalledWith({
+          component: ActivityCode4Modal,
+          componentProps: { modalReason: ModalReason.EMERGENCY_STOP_SERIOUS },
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
     });
     it('should dispatch EmergencyStopSeriousFaultModelOpened '
-        + 'if speedCheckState is EMERGENCY_STOP_SERIOUS_FAULT', () => {
+      + 'if speedCheckState is EMERGENCY_STOP_SERIOUS_FAULT', () => {
       component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_SERIOUS_FAULT;
       component.createActivityCode4Modal();
-      expect(store$.dispatch).toHaveBeenCalledWith(EmergencyStopSeriousFaultModelOpened());
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(EmergencyStopSeriousFaultModelOpened());
     });
     it('should return null if speedCheckState is not applicable', () => {
       component.speedCheckState = SpeedCheckState.AVOIDANCE_MISSING;
-      expect(component.createActivityCode4Modal()).toEqual(null);
+      expect(component.createActivityCode4Modal())
+        .toEqual(null);
     });
   });
 
   describe('createSpeedCheckModal', () => {
     it('should create a modal with a speedChecksNeedCompleting of '
-        + 'speedCheckEmergency and speedCheckAvoidance if '
-        + 'speedCheckState is EMERGENCY_STOP_AND_AVOIDANCE_MISSING', () => {
+      + 'speedCheckEmergency and speedCheckAvoidance if '
+      + 'speedCheckState is EMERGENCY_STOP_AND_AVOIDANCE_MISSING', () => {
       component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
-      spyOn(component.modalController, 'create').and.callThrough();
+      spyOn(component.modalController, 'create')
+        .and
+        .callThrough();
       component.createSpeedCheckModal();
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: SpeedCheckModal,
-        componentProps: {
-          speedChecksNeedCompleting: [competencyLabels.speedCheckEmergency, competencyLabels.speedCheckAvoidance],
-        },
-        cssClass: 'mes-modal-alert text-zoom-regular',
-      });
+      expect(component.modalController.create)
+        .toHaveBeenCalledWith({
+          component: SpeedCheckModal,
+          componentProps: {
+            speedChecksNeedCompleting: [competencyLabels.speedCheckEmergency, competencyLabels.speedCheckAvoidance],
+          },
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
     });
     it('should create a modal with a speedChecksNeedCompleting of speedCheckEmergency '
-        + 'if speedCheckState is EMERGENCY_STOP_MISSING', () => {
+      + 'if speedCheckState is EMERGENCY_STOP_MISSING', () => {
       component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_MISSING;
-      spyOn(component.modalController, 'create').and.callThrough();
+      spyOn(component.modalController, 'create')
+        .and
+        .callThrough();
       component.createSpeedCheckModal();
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: SpeedCheckModal,
-        componentProps: {
-          speedChecksNeedCompleting: [competencyLabels.speedCheckEmergency],
-        },
-        cssClass: 'mes-modal-alert text-zoom-regular',
-      });
+      expect(component.modalController.create)
+        .toHaveBeenCalledWith({
+          component: SpeedCheckModal,
+          componentProps: {
+            speedChecksNeedCompleting: [competencyLabels.speedCheckEmergency],
+          },
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
     });
     it('should create a modal with a speedChecksNeedCompleting of speedCheckAvoidance '
-        + 'if speedCheckState is AVOIDANCE_MISSING', () => {
+      + 'if speedCheckState is AVOIDANCE_MISSING', () => {
       component.speedCheckState = SpeedCheckState.AVOIDANCE_MISSING;
-      spyOn(component.modalController, 'create').and.callThrough();
+      spyOn(component.modalController, 'create')
+        .and
+        .callThrough();
       component.createSpeedCheckModal();
-      expect(component.modalController.create).toHaveBeenCalledWith({
-        component: SpeedCheckModal,
-        componentProps: { speedChecksNeedCompleting: [competencyLabels.speedCheckAvoidance] },
-        cssClass: 'mes-modal-alert text-zoom-regular',
-      });
+      expect(component.modalController.create)
+        .toHaveBeenCalledWith({
+          component: SpeedCheckModal,
+          componentProps: { speedChecksNeedCompleting: [competencyLabels.speedCheckAvoidance] },
+          cssClass: 'mes-modal-alert text-zoom-regular',
+        });
     });
     it('should return null if speedCheckState is not applicable', () => {
       component.speedCheckState = SpeedCheckState.VALID;
-      expect(component.createSpeedCheckModal()).toEqual(null);
+      expect(component.createSpeedCheckModal())
+        .toEqual(null);
     });
   });
 
@@ -288,47 +342,60 @@ describe('TestReportCatAMod1Page', () => {
       spyOn(component, 'onEndTestClick');
       const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
       endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick).toHaveBeenCalled();
+      expect(component.onEndTestClick)
+        .toHaveBeenCalled();
     });
   });
 
   describe('onEndTestClick', () => {
     it('should call onModalDismiss with the data returned', async () => {
       component.isEtaValid = false;
-      spyOn(component.modalController, 'create').and.returnValue(Promise.resolve({
-        present: () => Promise.resolve(),
-        onDidDismiss: () => ({
-          data: ModalEvent.CANCEL,
-        }) as OverlayEventDetail,
-      } as HTMLIonModalElement));
+      spyOn(component.modalController, 'create')
+        .and
+        .returnValue(Promise.resolve({
+          present: () => Promise.resolve(),
+          onDidDismiss: () => ({
+            data: ModalEvent.CANCEL,
+          }) as OverlayEventDetail,
+        } as HTMLIonModalElement));
       spyOn(component, 'onModalDismiss');
 
       await component.onEndTestClick();
-      expect(component.onModalDismiss).toHaveBeenCalledWith(ModalEvent.CANCEL);
+      expect(component.onModalDismiss)
+        .toHaveBeenCalledWith(ModalEvent.CANCEL);
     });
     it('should call createSpeedCheckModal if modal is still null at that point', async () => {
       component.isEtaValid = true;
       component.speedCheckState = SpeedCheckState.EMERGENCY_STOP_AND_AVOIDANCE_MISSING;
-      spyOn(component, 'createSpeedCheckModal').and.callThrough();
+      spyOn(component, 'createSpeedCheckModal')
+        .and
+        .callThrough();
 
       await component.onEndTestClick();
-      expect(component.createSpeedCheckModal).toHaveBeenCalled();
+      expect(component.createSpeedCheckModal)
+        .toHaveBeenCalled();
     });
     it('should call createActivityCode4Modal if modal is still null at that point', async () => {
       component.isEtaValid = true;
       component.speedCheckState = SpeedCheckState.NOT_MET;
-      spyOn(component, 'createActivityCode4Modal').and.callThrough();
+      spyOn(component, 'createActivityCode4Modal')
+        .and
+        .callThrough();
 
       await component.onEndTestClick();
-      expect(component.createActivityCode4Modal).toHaveBeenCalled();
+      expect(component.createActivityCode4Modal)
+        .toHaveBeenCalled();
     });
     it('should call createEndTestModal if modal is still null at that point', async () => {
       component.isEtaValid = true;
       component.speedCheckState = SpeedCheckState.VALID;
-      spyOn(component, 'createEndTestModal').and.callThrough();
+      spyOn(component, 'createEndTestModal')
+        .and
+        .callThrough();
 
       await component.onEndTestClick();
-      expect(component.createEndTestModal).toHaveBeenCalled();
+      expect(component.createEndTestModal)
+        .toHaveBeenCalled();
     });
   });
 
