@@ -5,11 +5,11 @@ import { AppModule } from '@app/app.module';
 import { By } from '@angular/platform-browser';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestOutcome } from '@store/tests/tests.constants';
+import { MockComponent } from 'ng-mocks';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '../../../../test-report.constants';
 import { ModalResultItemComponent } from '../components/modal-result-item/modal-result-item';
 import { CPCEndTestModal } from '../cpc-end-test-modal';
-import { MockComponent } from 'ng-mocks';
 
 describe('CPCEndTestModal', () => {
   let fixture: ComponentFixture<CPCEndTestModal>;
