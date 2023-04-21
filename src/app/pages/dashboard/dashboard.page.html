@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar mode="ios">
     <ion-buttons id="burger-menu" slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-menu-button id="dashboard-menu-button"></ion-menu-button>
       <ion-badge *ngIf="(pageState.notificationCount$ | async) as notificationCount;"
                  color="danger"
                  id="dashboard-notification-count-badge">
@@ -26,7 +26,7 @@
       [role]="pageState.role$ | async">
     </profile-header>
     <hr />
-    <h4 id="date-field" class="date">{{todaysDateFormatted}}</h4>
+    <h4 class="date" id="date-field">{{todaysDateFormatted}}</h4>
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
         <ion-col size="48">
@@ -54,8 +54,8 @@
     <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())" />
 
     <practice-test-report-card
-      *ngIf="showTestReportPracticeMode()"
       (click)="practiceTestReportCardClicked()"
+      *ngIf="showTestReportPracticeMode()"
       id="testReportPracticeMode">
     </practice-test-report-card>
 
