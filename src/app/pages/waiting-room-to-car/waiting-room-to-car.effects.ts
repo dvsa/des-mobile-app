@@ -67,7 +67,7 @@ export class WaitingRoomToCarEffects {
     // filter any requests that are nulls or empty strings from hitting service
     filter((regNumber) => !!regNumber),
     switchMap((regNumber) => this.vehicleDetailsApiProvider.getVehicleByIdentifier(regNumber)),
-    map((vehicleDetails) => MotStatusChanged(vehicleDetails?.vehicle?.motStatus || MotStatus.NO_DETAILS)),
+    map((vehicleDetails) => MotStatusChanged(vehicleDetails?.status || MotStatus.NO_DETAILS)),
     catchError((err) => {
       this.store$.dispatch(SaveLog({
         payload: this.logHelper.createLog(LogType.ERROR, 'Error retrieving MOT status', err.error),
