@@ -8,5 +8,8 @@ export class CompressionProviderMock {
   extractTestSlotResult() {
     return bookedTestSlotMock;
   }
+  extractUnformatted() {
+    return '1';
+  }
 
 }

@@ -11,11 +11,14 @@ export class CompressionProvider {
     const unzippedJson = gunzipSync(gzippedBytes).toString();
     return JSON.parse(unzippedJson);
   }
-
   extractTestSlotResult(compressedData: string): TestSlot {
     const gzippedBytes = Buffer.from(compressedData, 'base64');
     const unzippedJson = gunzipSync(gzippedBytes).toString();
     return JSON.parse(unzippedJson) as TestSlot;
   }
-
+  extractUnformatted(compressedData: string) {
+    const gzippedBytes = Buffer.from(compressedData, 'base64');
+    const unzippedJson = gunzipSync(gzippedBytes).toString();
+    return JSON.parse(unzippedJson);
+  }
 }

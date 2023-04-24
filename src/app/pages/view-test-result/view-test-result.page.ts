@@ -64,6 +64,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   showErrorMessage: boolean = false;
   errorLink: string;
   additionalErrorText: boolean;
+  reEnterEmailSubscription: Subscription;
+  reEnterEmail: Object;
 
   constructor(
     platform: Platform,
@@ -86,6 +88,11 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.handleLoadingUI(true);
 
+    this.reEnterEmailSubscription = this.searchProvider.getReEmail(this.applicationReference).subscribe(
+      (value: string) => {
+        this.reEnterEmail = this.compressionProvider.extractUnformatted(value);
+      },
+    );
     this.subscription = this.searchProvider
       .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
       .pipe(
@@ -117,6 +124,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   ionViewDidLeave(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.reEnterEmailSubscription) {
+      this.reEnterEmailSubscription.unsubscribe();
     }
   }
 

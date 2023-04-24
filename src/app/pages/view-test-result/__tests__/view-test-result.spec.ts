@@ -457,6 +457,13 @@ describe('ViewTestResultPage', () => {
       expect(component.subscription.unsubscribe)
         .toHaveBeenCalled();
     });
+    it('should unsubscribe from reEnterEmailSubscription if there is one', () => {
+      component.reEnterEmailSubscription = new Subscription();
+      spyOn(component.reEnterEmailSubscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.reEnterEmailSubscription.unsubscribe)
+        .toHaveBeenCalled();
+    });
   });
 
   describe('getVehicleDetails', () => {
@@ -585,6 +592,19 @@ describe('ViewTestResultPage', () => {
       expect(component.testResult).toEqual({
         testData: { startTime: '1' },
       } as TestResultSchemasUnion);
+    });
+    it('should set reEnterEmailSubscription to the correct values', async () => {
+      component.reEnterEmail = null;
+      spyOn(component, 'handleLoadingUI').and.callThrough();
+      spyOn(compressionProvider, 'extractUnformatted').and.returnValue({
+        test: '1',
+      });
+
+      await component.ngOnInit();
+
+      expect(component.reEnterEmail).toEqual({
+        test: '1',
+      });
     });
     it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
       component.testResult = null;
