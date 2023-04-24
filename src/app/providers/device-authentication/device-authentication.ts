@@ -16,9 +16,10 @@ export class DeviceAuthenticationProvider {
     public appConfig: AppConfigProvider,
     private deviceProvider: DeviceProvider,
     private loadingProvider: LoadingProvider,
-  ) { }
+  ) {
+  }
 
-  triggerLockScreen = async (): Promise<void> => {
+  triggerLockScreen = async (isPracticeMode: boolean = false): Promise<void> => {
     try {
       await this.platform.ready();
 
@@ -26,7 +27,7 @@ export class DeviceAuthenticationProvider {
         return;
       }
 
-      return await this.performBiometricVerification();
+      return await this.performBiometricVerification(isPracticeMode);
     } catch (err) {
       throw new Error(err);
     }
@@ -35,12 +36,12 @@ export class DeviceAuthenticationProvider {
   private shouldBypassDeviceAuth = (): boolean => {
     return (
       !this.platform.is('cordova')
-        || this.appConfig.getAppConfig()?.role === ExaminerRole.DLG
-        || (environment as unknown as TestersEnvironmentFile)?.isTest
+      || this.appConfig.getAppConfig()?.role === ExaminerRole.DLG
+      || (environment as unknown as TestersEnvironmentFile)?.isTest
     );
   };
 
-  private performBiometricVerification = async (): Promise<void> => {
+  private performBiometricVerification = async (isPracticeMode: boolean = false): Promise<void> => {
     try {
       await this.deviceProvider.disableSingleAppMode();
 
@@ -49,9 +50,11 @@ export class DeviceAuthenticationProvider {
         useFallback: true, // fallback to passcode if biometric authentication unavailable
       });
     } finally {
-      await this.loadingProvider.handleUILoading(true);
-      await this.deviceProvider.enableSingleAppMode();
-      await this.loadingProvider.handleUILoading(false);
+      if (!isPracticeMode) {
+        await this.loadingProvider.handleUILoading(true);
+        await this.deviceProvider.enableSingleAppMode();
+        await this.loadingProvider.handleUILoading(false);
+      }
     }
   };
 }

@@ -1,13 +1,15 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons id="end-test-button" slot="end">
-      <end-test-link [shouldAuthenticate]="false"
-                     [category]="pageState.category$ | async">
+      <end-test-link
+        [category]="pageState.category$ | async"
+        [isPracticeMode]="isPracticeMode"
+        [shouldAuthenticate]="false">
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
@@ -15,66 +17,66 @@
 
 <ion-content force-overscroll="false">
   <div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <ion-row class="ion-no-padding">
           <ion-col class="ion-no-padding">
             <vehicle-registration
-              [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async"
+              (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-              (vehicleRegistrationBlur)="getMOTStatus()">
+              [formGroup]="form"
+              [vehicleRegistration]="pageState.registrationNumber$ | async">
             </vehicle-registration>
 
             <test-category [testCategory]="pageState.category$ | async"></test-category>
 
             <dual-controls
-              [formGroup]="form"
+              (dualControlsChange)="dualControlsOutcomeToggled($event)"
               [dualControls]="pageState.dualControls$ | async"
-              (dualControlsChange)="dualControlsOutcomeToggled($event)">
+              [formGroup]="form">
             </dual-controls>
 
             <transmission
+              (transmissionChange)="transmissionChanged($event)"
               [formGroup]="form"
-              [transmission]="pageState.transmission$ | async"
-              (transmissionChange)="transmissionChanged($event)">
+              [transmission]="pageState.transmission$ | async">
             </transmission>
 
             <pdi-logbook
+              (pdiLogbookChange)="pdiLogbookChanged($event)"
               *ngIf="notSC(pageState.category$ | async)"
               [formGroup]="form"
-              [pdiLogbook]="pageState.pdiLogbook$ | async"
-              (pdiLogbookChange)="pdiLogbookChanged($event)">
+              [pdiLogbook]="pageState.pdiLogbook$ | async">
             </pdi-logbook>
 
             <trainee-licence
+              (traineeLicenceChange)="traineeLicenceChanged($event)"
               *ngIf="notSC(pageState.category$ | async)"
               [formGroup]="form"
-              [traineeLicence]="pageState.traineeLicence$ | async"
-              (traineeLicenceChange)="traineeLicenceChanged($event)">
+              [traineeLicence]="pageState.traineeLicence$ | async">
             </trainee-licence>
 
             <ordit-trainer-cat-adi-part2
+              (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
               [formGroup]="form"
               [notSC]="notSC(pageState.category$ | async)"
-              [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
-              (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)">
+              [orditTrainedRadioChecked]="pageState.orditTrained$ | async">
             </ordit-trainer-cat-adi-part2>
 
             <accompaniment-card-adi3
-              [formGroup]="form"
-              [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              (trainerAccompanimentChange)="trainerAccompanimentChanged()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()"
               (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()">
+              (trainerAccompanimentChange)="trainerAccompanimentChanged()"
+              [formGroup]="form"
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              [trainerAccompaniment]="pageState.trainerAccompaniment$ | async">
             </accompaniment-card-adi3>
 
             <trainer-registration-number-cat-adi-part2
+              (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
               [formGroup]="form"
-              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
-              (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)">
+              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async">
             </trainer-registration-number-cat-adi-part2>
           </ion-col>
         </ion-row>
@@ -85,20 +87,20 @@
 
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
-    <ion-col size="45" class="ion-text-center">
+    <ion-col class="ion-text-center" size="45">
       <ion-button
-        shape="round"
+        (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
+        id="view-test-centre-journal-button" shape="round">
         <h3>View test centre journal</h3>
       </ion-button>
     </ion-col>
     <ion-col size="6"></ion-col>
-    <ion-col size="45" class="ion-text-center">
+    <ion-col class="ion-text-center" size="45">
       <ion-button
-        shape="round"
+        (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button" (click)="onSubmit()">
+        id="continue-to-test-report-button" shape="round">
         <h3>Continue to test report</h3>
       </ion-button>
     </ion-col>

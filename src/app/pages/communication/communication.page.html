@@ -1,6 +1,6 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-buttons id="communication-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -8,7 +8,10 @@
       {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
     <ion-buttons id="end-button" slot="end">
-      <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
+      <end-test-link
+        [category]="pageState.testCategory$ | async"
+        [isPracticeMode]="isPracticeMode">
+      </end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -17,26 +20,26 @@
   <lock-screen-indicator></lock-screen-indicator>
   <div>
     <form [formGroup]="form">
-      <candidate-section [candidateName]="pageState.candidateName$ | async"
+      <candidate-section (continueClickEvent)="onSubmit()"
                          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+                         [candidateName]="pageState.candidateName$ | async"
                          [candidatePrnNumber]="pageState.prn$ | async"
                          [isStandardsCheck]="pageState.isStandardsCheck$ | async"
-                         (continueClickEvent)="onSubmit()"
                          [showVRNButton]="pageState.showVrnBtn$ | async">
       </candidate-section>
 
       <valid-certificate
-              *ngIf="pageState.isStandardsCheck$ | async"
-              [formGroup]="form"
-              [validCertificate]="pageState.validCertificate$ | async"
-              (validCertificateChange)="validCertificateChanged($event)"
+        (validCertificateChange)="validCertificateChanged($event)"
+        *ngIf="pageState.isStandardsCheck$ | async"
+        [formGroup]="form"
+        [validCertificate]="pageState.validCertificate$ | async"
       ></valid-certificate>
 
       <div class="mes-full-width-card-separator"></div>
 
       <privacy-notice
-              [language]="pageState.conductedLanguage$ | async"
-              [category]="pageState.testCategory$ | async"
+        [category]="pageState.testCategory$ | async"
+        [language]="pageState.conductedLanguage$ | async"
       ></privacy-notice>
 
       <div class="mes-full-width-card" id="declaration-section">
@@ -48,23 +51,23 @@
             </div>
             <div class="validation-bar"></div>
             <ion-col>
-              <provided-email [formGroup]="form"
-                              [shouldRender]="!!(pageState.candidateProvidedEmail$ | async)"
-                              [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
+              <provided-email (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()"
+                              [formGroup]="form"
                               [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
-                              (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()">
+                              [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
+                              [shouldRender]="!!(pageState.candidateProvidedEmail$ | async)">
               </provided-email>
 
-              <new-email [formGroup]="form"
-                         [isNewEmailAddressChosen]="isNewEmailSelected()"
-                         (newEmailRadioSelect)="conditionalDispatchCandidateChoseNewEmail()"
-                         (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)">
+              <new-email (newEmailRadioSelect)="conditionalDispatchCandidateChoseNewEmail()"
+                         (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)"
+                         [formGroup]="form"
+                         [isNewEmailAddressChosen]="isNewEmailSelected()">
               </new-email>
 
-              <postal-address [formGroup]="form"
-                              [postalAddress]="pageState.candidateAddress$ | async"
+              <postal-address (postalRadioSelect)="dispatchCandidateChosePost()"
+                              [formGroup]="form"
                               [isPostalAddressChosen]="isPostSelected()"
-                              (postalRadioSelect)="dispatchCandidateChosePost()">
+                              [postalAddress]="pageState.candidateAddress$ | async">
               </postal-address>
 
               <ion-row class="validation-message-row">

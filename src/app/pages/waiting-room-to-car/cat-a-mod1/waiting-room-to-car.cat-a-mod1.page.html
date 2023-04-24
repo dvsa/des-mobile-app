@@ -1,84 +1,88 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-        <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
-        <ion-buttons id="end-test-button" slot="end">
-            <end-test-link [shouldAuthenticate]="false" [category]="pageState.category$ | async"></end-test-link>
-        </ion-buttons>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
+    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons id="end-test-button" slot="end">
+      <end-test-link
+        [category]="pageState.category$ | async"
+        [isPracticeMode]="isPracticeMode"
+        [shouldAuthenticate]="false">
+      </end-test-link>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content forceOverscroll="false">
-    <div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <ion-grid>
-                <ion-row class="ion-no-padding">
-                    <ion-col class="ion-no-padding">
-                        <bike-category-type
-                                testType="MOD1"
-                                [testCategory]="pageState.category$ | async"
-                                (categoryCodeChange)="categoryCodeChanged($event)"
-                                [formGroup]="form">
-                        </bike-category-type>
+  <div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <ion-grid>
+        <ion-row class="ion-no-padding">
+          <ion-col class="ion-no-padding">
+            <bike-category-type
+              (categoryCodeChange)="categoryCodeChanged($event)"
+              [formGroup]="form"
+              [testCategory]="pageState.category$ | async"
+              testType="MOD1">
+            </bike-category-type>
 
-                        <transmission [formGroup]="form"
-                                      [hideTransmissionLabel]="true"
-                                      [hideConfirmTransmissionLabel]="false"
-                                      [transmission]="pageState.transmission$ | async"
-                                      (transmissionChange)="transmissionChanged($event)">
-                        </transmission>
+            <transmission (transmissionChange)="transmissionChanged($event)"
+                          [formGroup]="form"
+                          [hideConfirmTransmissionLabel]="false"
+                          [hideTransmissionLabel]="true"
+                          [transmission]="pageState.transmission$ | async">
+            </transmission>
 
-                        <vehicle-registration
-                                [formGroup]="form"
-                                [vehicleRegistration]="pageState.registrationNumber$ | async"
-                                (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-                                (vehicleRegistrationBlur)="getMOTStatus()">
-                        </vehicle-registration>
+            <vehicle-registration
+              (vehicleRegistrationBlur)="getMOTStatus()"
+              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              [formGroup]="form"
+              [vehicleRegistration]="pageState.registrationNumber$ | async">
+            </vehicle-registration>
 
-                        <accompaniment-card
-                                [formGroup]="form"
-                                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-                                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                                (otherAccompanimentChange)="otherAccompanimentToggled()"
-                                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
-                        </accompaniment-card>
+            <accompaniment-card
+              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+              [formGroup]="form"
+              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async">
+            </accompaniment-card>
 
-                        <vehicle-details-card
-                                [formGroup]="form"
-                                [hideSchoolVehicleAndDualControlRow]="true"
-                                [hideSchoolBikeRow]="false"
-                                [schoolBikeVehicleDetails]="pageState.schoolBike$ | async"
-                                (schoolBikeVehicleDetailsChange)="schoolBikeToggled()">
-                        </vehicle-details-card>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </form>
-    </div>
+            <vehicle-details-card
+              (schoolBikeVehicleDetailsChange)="schoolBikeToggled()"
+              [formGroup]="form"
+              [hideSchoolBikeRow]="false"
+              [hideSchoolVehicleAndDualControlRow]="true"
+              [schoolBikeVehicleDetails]="pageState.schoolBike$ | async">
+            </vehicle-details-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
 
 <ion-footer>
-    <ion-row class="mes-full-width-card box-shadow">
-        <ion-col size="45" class="ion-text-center">
-            <ion-button
-                    shape="round"
-                    class="mes-grey-button wrtc-footer-btn"
-                    id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
-                <h3>View test centre journal</h3>
-            </ion-button>
-        </ion-col>
-        <ion-col size="6"></ion-col>
-        <ion-col size="45" class="ion-text-center">
-            <ion-button
-                    shape="round"
-                    class="mes-primary-button wrtc-footer-btn"
-                    id="continue-to-test-report-button" (click)="onSubmit()">
-                <h3>Continue to test report</h3>
-            </ion-button>
-        </ion-col>
-    </ion-row>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-col class="ion-text-center" size="45">
+      <ion-button
+        (click)="onViewTestCentreJournal()"
+        class="mes-grey-button wrtc-footer-btn"
+        id="view-test-centre-journal-button" shape="round">
+        <h3>View test centre journal</h3>
+      </ion-button>
+    </ion-col>
+    <ion-col size="6"></ion-col>
+    <ion-col class="ion-text-center" size="45">
+      <ion-button
+        (click)="onSubmit()"
+        class="mes-primary-button wrtc-footer-btn"
+        id="continue-to-test-report-button" shape="round">
+        <h3>Continue to test report</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-footer>

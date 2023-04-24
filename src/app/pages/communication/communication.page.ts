@@ -6,11 +6,9 @@ import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import {
-  Address, CategoryCode, CommunicationMethod,
-} from '@dvsa/mes-test-schema/categories/common';
+import { Address, CategoryCode, CommunicationMethod } from '@dvsa/mes-test-schema/categories/common';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Subscription, merge, Observable } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -19,7 +17,8 @@ import {
   formatDriverNumber,
   getCandidateDriverNumber,
   getCandidateEmailAddress,
-  getCandidateName, getCandidatePrn,
+  getCandidateName,
+  getCandidatePrn,
   getPostalAddress,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
@@ -90,7 +89,10 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   communicationType: CommunicationMethod;
   merged$: Observable<string | boolean>;
   testCategory: TestCategory;
-  maximumCallStackHandler = { emitEvent: false, onlySelf: true };
+  maximumCallStackHandler = {
+    emitEvent: false,
+    onlySelf: true,
+  };
 
   constructor(
     platform: Platform,
@@ -221,18 +223,20 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
     if (!this.form.valid) {
-      Object.keys(this.form.controls).forEach((controlName) => {
-        if (this.form.controls[controlName].invalid) {
-          this.store$.dispatch(CommunicationValidationError(`${controlName} is blank`));
-        }
-      });
+      Object.keys(this.form.controls)
+        .forEach((controlName) => {
+          if (this.form.controls[controlName].invalid) {
+            this.store$.dispatch(CommunicationValidationError(`${controlName} is blank`));
+          }
+        });
       return;
     }
 
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
       this.store$.dispatch(CommunicationSubmitInfo());
       await this.routeByCat.navigateToPage(TestFlowPageNames.WAITING_ROOM_TO_CAR_PAGE, this.testCategory);
     } catch (err) {
@@ -356,7 +360,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
 
   async canDeActivate(): Promise<boolean> {
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
       return true;
     } catch {
       return false;
