@@ -26,5 +26,6 @@ tests:
 typescript:
   - src/**/*.ts
 
+# Add 'version' label when .plist changes
 version:
   - ios/App/App/Info.plist
