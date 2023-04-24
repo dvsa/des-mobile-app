@@ -27,4 +27,4 @@ typescript:
   - src/**/*.ts
 
 version:
-  - all: [ 'ios/App/App/Info.plist', 'package.json', 'package.-lock.json' ]
+  - ios/App/App/Info.plist
