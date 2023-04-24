@@ -6,6 +6,7 @@ import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { Subscription } from 'rxjs';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -211,10 +212,12 @@ describe('JournalPage', () => {
 
     describe('ionViewDidEnter', () => {
       it('should disable test inhibitions', async () => {
+        spyOn(ScreenOrientation, 'unlock');
         await component.ionViewDidEnter();
         expect(deviceProvider.disableSingleAppMode)
           .toHaveBeenCalled();
-        // expect(screenOrientation.unlock).toHaveBeenCalled();
+        expect(ScreenOrientation.unlock)
+          .toHaveBeenCalled();
         expect(insomnia.allowSleepAgain)
           .toHaveBeenCalled();
       });

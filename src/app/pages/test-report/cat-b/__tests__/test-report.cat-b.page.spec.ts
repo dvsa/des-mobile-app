@@ -26,6 +26,7 @@ import { TestFlowPageNames } from '@pages/page-names.constants';
 import { StatusBar } from '@capacitor/status-bar';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { ModalEvent } from '../../test-report.constants';
 import { VehicleCheckComponent } from '../components/vehicle-check/vehicle-check';
 import { ControlledStopComponent } from '../../components/controlled-stop/controlled-stop';
@@ -123,7 +124,9 @@ describe('TestReportCatBPage', () => {
     spyOn(BasePageComponent.prototype, 'isIos')
       .and
       .returnValue(true);
-    // spyOn(screenOrientation, 'lock').and.returnValue(Promise.resolve());
+    spyOn(ScreenOrientation, 'lock')
+      .and
+      .returnValue(Promise.resolve());
   });
 
   describe('Class', () => {
