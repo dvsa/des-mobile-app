@@ -3,7 +3,8 @@
 
 # Add 'capacitor' label to any change to ios files & capacitor.config EXCEPT for the .plist file
 capacitor:
-  - any: [ 'ios/**/*', 'capacitor.config.ts', '!ios/App/App/Info.plist' ]
+  - capacitor.config.ts
+  - ios/App/**/!(Info.plist)
 
 # Add 'dependencies' label when package or lock file has changed
 dependencies:
