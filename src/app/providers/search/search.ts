@@ -61,8 +61,9 @@ export class SearchProvider {
       { observe: 'response' },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
-  getReEmail(applicationReference: string) {
-    return this.http.get<Object>(
+
+  getReEmail(applicationReference: string): Observable<Object | string> {
+    return this.http.get(
       this.urlProvider.getTestResultServiceUrl().concat(`/regeneratedemails/${applicationReference}`),
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
   }
