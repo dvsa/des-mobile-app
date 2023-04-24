@@ -84,9 +84,9 @@ describe('SearchProvider', () => {
     });
   });
 
-  describe('getReEmail', () => {
+  describe('getRegeneratedEmails', () => {
     it('should call the re-email endpoint and get an encoded object back', () => {
-      searchProvider.getReEmail('12345').subscribe();
+      searchProvider.getRegeneratedEmails('12345').subscribe();
       httpMock.expectOne('https://www.example.com/api/v1/test-result/regeneratedemails/12345');
       expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
     });

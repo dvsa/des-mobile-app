@@ -11,6 +11,7 @@ import { CompressionProviderMock } from '@providers/compression/__mocks__/compre
 import { SearchProvider } from '@providers/search/search';
 import { SearchProviderMock } from '@providers/search/__mocks__/search.mock';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import * as rekeySearchActions from '../rekey-search.actions';
 import { rekeySearchReducer } from '../rekey-search.reducer';
 import { RekeySearchErrorMessages } from '../rekey-search-error-model';
@@ -67,12 +68,12 @@ describe('RekeySearchEffects', () => {
     spyOn(testSearchProvider, 'getTestResult')
       .and.returnValue(asyncError(getTestResultHttpErrorResponse(HttpStatusCodes.BAD_REQUEST)));
     spyOn(rekeySearchProvider, 'getBooking').and.callThrough();
-    spyOn(compressionProvider, 'extractTestSlotResult');
+    spyOn(compressionProvider, 'extract');
 
     actions$.next(rekeySearchActions.SearchBookedTest(appRef, staffNumber));
 
     effects.getBooking$.subscribe((result) => {
-      expect(compressionProvider.extractTestSlotResult).toHaveBeenCalled();
+      expect(compressionProvider.extract<TestSlot>).toHaveBeenCalled();
       expect(result.type === rekeySearchActions.SearchBookedTestSuccess.type).toBeTruthy();
       done();
     });

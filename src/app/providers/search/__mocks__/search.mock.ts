@@ -20,7 +20,7 @@ export class SearchProviderMock {
       }),
     );
   }
-  getReEmail(): Observable<any> {
+  getRegeneratedEmails(): Observable<any> {
     return of(
       new HttpResponse({
         // eslint-disable-next-line max-len
