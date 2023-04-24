@@ -1,0 +1,19 @@
+name: Pull Request Labeler
+
+on:
+  pull_request:
+    types: [ opened, synchronize ]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - uses: actions/labeler@v4
+        with:
+          configuration-path: .github/auto-label.yaml
+          sync-labels: true
