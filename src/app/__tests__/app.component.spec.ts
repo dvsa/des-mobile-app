@@ -31,7 +31,7 @@ import { Subscription } from 'rxjs';
 import { SideMenuClosed, SideMenuItemSelected, SideMenuOpened } from '@pages/dashboard/dashboard.actions';
 import { AppComponent } from '../app.component';
 
-describe('AppComponent - test', () => {
+describe('AppComponent', () => {
   jasmine.getEnv()
     .allowRespy(true);
   let component: AppComponent;

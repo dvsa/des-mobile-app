@@ -1,7 +1,7 @@
 # For more information, see:
 # https://github.com/actions/labeler
 
-# Add 'capacitor' label to any change to ios files & capacitor.config EXCEPT for the .plist file
+# Add 'capacitor' label to any change to ios files & capacitor.config EXCEPT when exclusively the .plist file
 capacitor:
   - capacitor.config.ts
   - ios/App/**/!(Info.plist)

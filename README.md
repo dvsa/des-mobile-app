@@ -1,6 +1,6 @@
 # DES-MOBILE-APPLICATION
 
-DVSA Driving Examiner Application - test
+DVSA Driving Examiner Application
 
 ### Pre-requisites
 
