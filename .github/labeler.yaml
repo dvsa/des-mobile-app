@@ -25,3 +25,6 @@ tests:
 # Add 'typescript' label when any .ts changes
 typescript:
   - src/**/*.ts
+
+version:
+  - all: [ 'ios/App/App/Info.plist', 'package.json', 'package.-lock.json' ]
