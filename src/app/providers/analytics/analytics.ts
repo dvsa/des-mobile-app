@@ -13,7 +13,7 @@ export class AnalyticsProvider implements IAnalyticsProvider {
   googleAnalyticsKey: string = '';
   uniqueDeviceId: string;
   uniqueUserId: string;
-  private analyticsStartupError: string = 'Error starting Google Analytics - matt test';
+  private analyticsStartupError: string = 'Error starting Google Analytics';
 
   constructor(
     private appConfig: AppConfigProvider,
