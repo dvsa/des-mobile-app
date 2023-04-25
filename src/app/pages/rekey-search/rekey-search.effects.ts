@@ -7,6 +7,7 @@ import { RekeySearchProvider } from '@providers/rekey-search/rekey-search';
 import { CompressionProvider } from '@providers/compression/compression';
 import { SearchProvider } from '@providers/search/search';
 import { HttpStatusCodes } from '@shared/models/http-status-codes';
+import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
   SearchBookedTest,
   SearchBookedTestSuccess,
@@ -43,7 +44,7 @@ export class RekeySearchEffects {
               };
               return this.rekeySearchProvider.getBooking(rekeySearchParams)
                 .pipe(
-                  map((response) => this.compressionProvider.extractTestSlotResult(response.toString())),
+                  map((response) => this.compressionProvider.extract<TestSlot>(response.toString())),
                   map((testSlot: any) => SearchBookedTestSuccess(testSlot, action.staffNumber)),
                   catchError((error: any) => {
                     return of(SearchBookedTestFailure(error));

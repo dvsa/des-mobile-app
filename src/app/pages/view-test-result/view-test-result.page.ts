@@ -43,6 +43,7 @@ import {
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
+import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
 import { TestDetailsModel } from './components/test-details-card/test-details-card.model';
 
 @Component({
@@ -64,6 +65,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   showErrorMessage: boolean = false;
   errorLink: string;
   additionalErrorText: boolean;
+  reEnterEmailSubscription: Subscription;
+  reEnterEmail: RegeneratedEmails;
 
   constructor(
     platform: Platform,
@@ -86,11 +89,18 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.handleLoadingUI(true);
 
+    this.reEnterEmailSubscription = this.searchProvider
+      .getRegeneratedEmails(this.applicationReference)
+      .pipe(map((response) => this.compressionProvider.extract<RegeneratedEmails>(response)),
+        tap((data) => this.reEnterEmail = data),
+        catchError(() => of(null)))
+      .subscribe();
+
     this.subscription = this.searchProvider
       .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
       .pipe(
         map((response: HttpResponse<any>): string => response.body),
-        map((data) => this.testResult = this.compressionProvider.extractTestResult(data)),
+        map((data) => this.testResult = this.compressionProvider.extract<TestResultSchemasUnion>(data)),
         tap(async () => this.handleLoadingUI(false)),
         catchError(async (err) => {
           this.store$.dispatch(SaveLog({
@@ -117,6 +127,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   ionViewDidLeave(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+    if (this.reEnterEmailSubscription) {
+      this.reEnterEmailSubscription.unsubscribe();
     }
   }
 

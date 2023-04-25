@@ -1,12 +1,10 @@
-import { categoryBTestResultMock } from '@shared/mocks/cat-b-test-result.mock';
-import { bookedTestSlotMock } from '@shared/mocks/test-slot-data.mock';
+import { gunzipSync } from 'zlib';
 
 export class CompressionProviderMock {
-
-  extractTestResult = jasmine.createSpy('extractTestResult').and.returnValue(categoryBTestResultMock);
-
-  extractTestSlotResult() {
-    return bookedTestSlotMock;
+  extract<T>(compressedData: string): T {
+    const gzippedBytes = Buffer.from(compressedData, 'base64');
+    const unzippedJson = gunzipSync(gzippedBytes).toString();
+    return JSON.parse(unzippedJson);
   }
 
 }

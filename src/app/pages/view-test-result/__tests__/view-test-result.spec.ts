@@ -67,6 +67,7 @@ import { getTestOutcomeText } from '@store/tests/tests.selector';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { SaveLog } from '@store/logs/logs.actions';
 import { LogType } from '@shared/models/log.model';
+import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
 
 describe('ViewTestResultPage', () => {
   let fixture: ComponentFixture<ViewTestResultPage>;
@@ -457,6 +458,13 @@ describe('ViewTestResultPage', () => {
       expect(component.subscription.unsubscribe)
         .toHaveBeenCalled();
     });
+    it('should unsubscribe from reEnterEmailSubscription if there is one', () => {
+      component.reEnterEmailSubscription = new Subscription();
+      spyOn(component.reEnterEmailSubscription, 'unsubscribe');
+      component.ionViewDidLeave();
+      expect(component.reEnterEmailSubscription.unsubscribe)
+        .toHaveBeenCalled();
+    });
   });
 
   describe('getVehicleDetails', () => {
@@ -576,7 +584,7 @@ describe('ViewTestResultPage', () => {
     it('should set subscription to the correct values', async () => {
       component.testResult = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
-      spyOn(compressionProvider, 'extractTestResult').and.returnValue({
+      spyOn(compressionProvider, 'extract').and.returnValue({
         testData: { startTime: '1' },
       } as TestResultSchemasUnion);
 
@@ -586,11 +594,24 @@ describe('ViewTestResultPage', () => {
         testData: { startTime: '1' },
       } as TestResultSchemasUnion);
     });
+    it('should set reEnterEmailSubscription to the correct values', async () => {
+      component.reEnterEmail = null;
+      spyOn(component, 'handleLoadingUI').and.callThrough();
+      spyOn(compressionProvider, 'extract').and.returnValue({
+        appRef: 1,
+      });
+
+      await component.ngOnInit();
+
+      expect(component.reEnterEmail).toEqual({
+        appRef: 1,
+      } as RegeneratedEmails);
+    });
     it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
       component.testResult = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
       spyOn(component['store$'], 'dispatch');
-      spyOn(compressionProvider, 'extractTestResult').and.throwError('test');
+      spyOn(compressionProvider, 'extract').and.throwError('test');
 
       await component.ngOnInit();
 

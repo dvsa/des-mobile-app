@@ -12,6 +12,9 @@ export class ContactDetailsCardComponent {
   candidateData: Candidate;
 
   @Input()
+  reSentEmails: { newEmail: string, newLanguage: string, regeneratedDate: string }[];
+
+  @Input()
   communicationPreferencesData: CommunicationPreferences;
 
   get testResultPreference(): string {

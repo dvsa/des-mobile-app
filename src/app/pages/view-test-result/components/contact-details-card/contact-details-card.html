@@ -9,7 +9,10 @@
             <data-row [label]="'Phone number'" [value]="phoneNumber"></data-row>
 
             <data-row [label]="'Booking email'" [value]="oldEmailAddress"></data-row>
-            <data-row [label]="'Results email'" [value]="newEmailAddress"></data-row>
+            <data-row [label]="'Confirmed email'" [value]="newEmailAddress"></data-row>
+            <data-row-custom *ngIf="reSentEmails" [label]="'Re-sent email(s)'">
+              <div class="mes-data" *ngFor="let email of reSentEmails">{{email.newEmail}}</div>
+            </data-row-custom>
 
             <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
                 <display-address [address]="address"></display-address>

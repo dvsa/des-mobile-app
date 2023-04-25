@@ -20,4 +20,10 @@ export class SearchProviderMock {
       }),
     );
   }
+  getRegeneratedEmails(): Observable<string> {
+    return of(
+      // eslint-disable-next-line max-len
+      'H4sIAAAAAAAAA6tWSiwoCEpNU7IyNIADHaXU3MTMnKDU9NS81KLEksz8PJfUEqBIsZJVdLVSXmq5K0heyQrEjAerdShJLS5R0gEJ+CTmpZcmpqcCpV3z0nMyizOA4kUws1JTXIAEUM7IwMhY18BE18BUwdDQysDAytRCD2K9Um1sLQD5rqtemAAAAA==',
+    );
+  }
 }
