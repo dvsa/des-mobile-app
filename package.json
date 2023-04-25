@@ -6,7 +6,7 @@
   "homepage": "https://github.com/dvsa/des-mobile-app",
   "private": true,
   "scripts": {
-    "postinstall": "patch-package && node buildScripts/eslint-alloc-patch.js",
+    "postinstall": "node buildScripts/eslint-alloc-patch.js",
     "prepare": "husky install",
     "vulnerability-check": "snyk test --severity-threshold=high",
     "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch",
@@ -109,7 +109,6 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "ngrx-store-localstorage": "^15.0.0",
-    "patch-package": "^6.5.1",
     "phonegap-plugin-mobile-accessibility": "^1.0.5",
     "rxjs": "~7.8.0",
     "rxjs-compat": "^6.6.7",
