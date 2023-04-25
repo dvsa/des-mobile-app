@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { TestResultProvider } from '@providers/test-result/test-result';
@@ -18,10 +17,7 @@ import { ModalEvent } from '@pages/test-report/test-report.constants';
 import { CalculateTestResult, ReturnToTest, TerminateTestFromTestReport } from '@pages/test-report/test-report.actions';
 import { Adi3EndTestModal } from '@pages/test-report/cat-adi-part3/components/adi3-end-test-modal/adi3-end-test-modal';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
-import {
-  LessonAndTheme,
-  TestData,
-} from '@dvsa/mes-test-schema/categories/ADI3';
+import { LessonAndTheme, TestData } from '@dvsa/mes-test-schema/categories/ADI3';
 import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -75,7 +71,6 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private testResultProvider: TestResultProvider,
@@ -88,11 +83,14 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );
     this.form = new UntypedFormGroup({});
+  }
+
+  get isValidDashboard(): boolean {
+    return this.testReportState === 17 && this.lessonAndThemeState.valid === true && this.form.valid;
   }
 
   ngOnInit() {
@@ -115,7 +113,10 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
       ),
     };
 
-    const { feedback$, testDataADI3$ } = this.pageState;
+    const {
+      feedback$,
+      testDataADI3$,
+    } = this.pageState;
 
     this.merged$ = merge(
       feedback$.pipe(tap((feedback: string) => this.feedback = feedback)),
@@ -190,7 +191,8 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   }
 
   onContinueClick = async (): Promise<void> => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
     this.hasClickedComplete = true;
     if (this.isTestReportPopulated && this.testDataADI3.riskManagement.score < 8) {
       const code4Modal: HTMLIonModalElement = await this.modalController.create({
@@ -208,7 +210,9 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
   };
 
   displayEndTestModal = async (riskToPublicSafety: boolean = false): Promise<void> => {
-    const result = await this.testResultProvider.calculateTestResultADI3(this.testDataADI3).toPromise();
+    const result = await this.testResultProvider
+      .calculateTestResultADI3(this.testDataADI3)
+      .toPromise();
     const totalScore: number = this.adi3AssessmentProvider.getTotalAssessmentScore(this.testDataADI3);
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: Adi3EndTestModal,
@@ -266,11 +270,12 @@ export class TestReportDashboardPage extends TestReportBasePageComponent impleme
     await this.routeByCategory.navigateToPage(
       TestFlowPageNames.TEST_REPORT_PAGE,
       this.testCategory,
-      { state: { page, showMissing: this.testReportState > 0 && this.testReportState < 17 } },
+      {
+        state: {
+          page,
+          showMissing: this.testReportState > 0 && this.testReportState < 17,
+        },
+      },
     );
   };
-
-  get isValidDashboard(): boolean {
-    return this.testReportState === 17 && this.lessonAndThemeState.valid === true && this.form.valid;
-  }
 }

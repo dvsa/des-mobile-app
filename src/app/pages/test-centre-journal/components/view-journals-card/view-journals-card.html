@@ -1,85 +1,87 @@
 <searchable-picklist-wrapper
-  *ngIf="isLDTM; else isDE;"
   #testCentrePicklistJournals
+  (outputChanged)="onTestCentreDidChange($event)"
+  *ngIf="isLDTM; else isDE;"
   [dataList]="testCentres"
-  [model]="selectedTestCentre"
   [differentDisplay]="true"
-  [fieldLabel]="'Test centre:'"
-  [primaryKey]="'centreId'"
   [displayKey]="'centreName'"
+  [fieldLabel]="'Test centre:'"
   [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
   [idPrefix]="'tcj-view-journal-tab'"
   [minCharactersBeforeListDisplay]="2"
+  [model]="selectedTestCentre"
   [placeholder]="'Select a test centre'"
-  (outputChanged)="onTestCentreDidChange($event)">
+  [primaryKey]="'centreId'">
 </searchable-picklist-wrapper>
 <ng-template #isDE>
-    <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
+  <test-centre-name [testCentreResults]="testCentreResults"></test-centre-name>
 </ng-template>
 
 <ion-row>
-    <ion-col class="component-label" size="24">
-        <label>Examiner:</label>
-    </ion-col>
-    <ion-col class="component-value" size="72">
-        <ion-select [interfaceOptions]="interfaceOptions"
-                    #examinerSelect
-                    (ionChange)="examinerChanged($event.target.value)"
-                    [disabled]="isLDTM ? !!!(selectedTestCentre) : false"
-                    okText="Select"
-                    id="select-examiner"
-                    cancelText="Cancel"
-                    class="select-text"
-                    placeholder="Select examiner">
-            <ion-select-option *ngFor="let examiner of testCentreResults?.examiners"
-                               [value]="examiner.staffNumber">
-                {{examiner.name}}
-            </ion-select-option>
-        </ion-select>
-    </ion-col>
+  <ion-col class="component-label" size="24">
+    <label>Examiner:</label>
+  </ion-col>
+  <ion-col class="component-value" size="72">
+    <ion-select #examinerSelect
+                (ionChange)="examinerChanged($event.target.value)"
+                [disabled]="isLDTM ? !!!(selectedTestCentre) : false"
+                [interfaceOptions]="interfaceOptions"
+                aria-label="Examiner"
+                cancelText="Cancel"
+                class="select-text"
+                id="select-examiner"
+                labelPlacement="stacked"
+                okText="Select"
+                placeholder="Select examiner">
+      <ion-select-option *ngFor="let examiner of testCentreResults?.examiners"
+                         [value]="examiner.staffNumber">
+        {{examiner.name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-col>
 </ion-row>
 
 <ion-row class="mes-full-width-card">
-    <ion-button mode="ios"
-                class="mes-primary-button full-width"
-                (click)="onShowJournalClick()"
-                [disabled]="!hasSelectedExaminer"
-                id="show-journal-button">
-        <h3>Show journal</h3>
-    </ion-button>
+  <ion-button (click)="onShowJournalClick()"
+              [disabled]="!hasSelectedExaminer"
+              class="mes-primary-button full-width"
+              id="show-journal-button"
+              mode="ios">
+    <h3>Show journal</h3>
+  </ion-button>
 </ion-row>
 
 <section *ngIf="hasSelectedExaminer">
-    <div *ngIf="journal; else noJournal">
-        <journal-navigation *ngIf="hasClickedShowJournal"
-                            [fromTestCentreJournal]="true"
-                            [canNavigateToNextDay]="canNavigateToNextDay()"
-                            [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
-                            [isSelectedDateToday]="isSelectedDateToday()"
-                            [selectedDate]="currentSelectedDate"
-                            (previousDayClicked)="onPreviousDayClick()"
-                            (nextDayClicked)="onNextDayClick()">
-        </journal-navigation>
+  <div *ngIf="journal; else noJournal">
+    <journal-navigation (nextDayClicked)="onNextDayClick()"
+                        (previousDayClicked)="onPreviousDayClick()"
+                        *ngIf="hasClickedShowJournal"
+                        [canNavigateToNextDay]="canNavigateToNextDay()"
+                        [canNavigateToPreviousDay]="canNavigateToPreviousDay()"
+                        [fromTestCentreJournal]="true"
+                        [isSelectedDateToday]="isSelectedDateToday()"
+                        [selectedDate]="currentSelectedDate">
+    </journal-navigation>
 
-        <div class="no-results" *ngIf="shouldShowBanner() && hasClickedShowJournal">
-            <p class="no-results-text">
-                {{warningText}}
-            </p>
-        </div>
-
-        <ion-list>
-            <journal-slots
-                    [isTeamJournal]="true"
-                    [slots]="slotItems$ | async">
-            </journal-slots>
-        </ion-list>
+    <div *ngIf="shouldShowBanner() && hasClickedShowJournal" class="no-results">
+      <p class="no-results-text">
+        {{warningText}}
+      </p>
     </div>
 
-    <ng-template #noJournal>
-        <div class="no-results" *ngIf="hasClickedShowJournal">
-            <p class="no-results-text" id="examiner-no-journal-to-display-message">
-                This examiner does not have any journal information to display
-            </p>
-        </div>
-    </ng-template>
+    <ion-list>
+      <journal-slots
+        [isTeamJournal]="true"
+        [slots]="slotItems$ | async">
+      </journal-slots>
+    </ion-list>
+  </div>
+
+  <ng-template #noJournal>
+    <div *ngIf="hasClickedShowJournal" class="no-results">
+      <p class="no-results-text" id="examiner-no-journal-to-display-message">
+        This examiner does not have any journal information to display
+      </p>
+    </div>
+  </ng-template>
 </section>

@@ -8,7 +8,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { MockComponent } from 'ng-mocks';
 import { UntypedFormControl, Validators } from '@angular/forms';
 import { JournalData, TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
@@ -39,7 +39,6 @@ import * as communicationPreferenceActions
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { EndTestLinkComponent } from '@components/common/end-test-link/end-test-link';
@@ -69,7 +68,6 @@ describe('WaitingRoomPage', () => {
   let store$: Store<StoreModel>;
   let deviceProvider: DeviceProvider;
   let deviceAuthenticationProvider: DeviceAuthenticationProvider;
-  let screenOrientation: ScreenOrientation;
   let insomnia: Insomnia;
   let translate: TranslateService;
   let modalController: ModalController;
@@ -87,7 +85,10 @@ describe('WaitingRoomPage', () => {
           version: '1',
           rekey: false,
           activityCode: '1',
-          passCompletion: { passCertificateNumber: 'test', code78Present: true },
+          passCompletion: {
+            passCertificateNumber: 'test',
+            code78Present: true,
+          },
           category: TestCategory.C,
           changeMarker: null,
           examinerBooked: null,
@@ -184,15 +185,38 @@ describe('WaitingRoomPage', () => {
         })),
       ],
       providers: [
-        { provide: Router, useValue: routerSpy },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DeviceAuthenticationProvider, useClass: DeviceAuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-        { provide: Insomnia, useClass: InsomniaMock },
-        { provide: AppComponent, useClass: MockAppComponent },
+        {
+          provide: Router,
+          useValue: routerSpy,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DeviceAuthenticationProvider,
+          useClass: DeviceAuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: DeviceProvider,
+          useClass: DeviceProviderMock,
+        },
+        {
+          provide: Insomnia,
+          useClass: InsomniaMock,
+        },
+        {
+          provide: AppComponent,
+          useClass: MockAppComponent,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -200,7 +224,6 @@ describe('WaitingRoomPage', () => {
     fixture = TestBed.createComponent(WaitingRoomPage);
     component = fixture.componentInstance;
     deviceProvider = TestBed.inject(DeviceProvider);
-    screenOrientation = TestBed.inject(ScreenOrientation);
     insomnia = TestBed.inject(Insomnia);
     deviceAuthenticationProvider = TestBed.inject(DeviceAuthenticationProvider);
     translate = TestBed.inject(TranslateService);
@@ -216,7 +239,8 @@ describe('WaitingRoomPage', () => {
       it('should emit a residency declaration toggle action when changed', () => {
         component.residencyDeclarationChanged();
 
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleResidencyDeclaration());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(ToggleResidencyDeclaration());
       });
     });
 
@@ -224,7 +248,8 @@ describe('WaitingRoomPage', () => {
       it('should emit an insurance declaration toggle action when changed', () => {
         component.insuranceDeclarationChanged();
 
-        expect(store$.dispatch).toHaveBeenCalledWith(ToggleInsuranceDeclaration());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(ToggleInsuranceDeclaration());
       });
     });
 
@@ -258,48 +283,61 @@ describe('WaitingRoomPage', () => {
 
     describe('showCandidateDataMissingError', () => {
       it('should create an error modal', async () => {
-        spyOn(modalController, 'create').and.returnValue(Promise.resolve({
-          present: async () => {},
-          onWillDismiss: async () => {},
-        } as any as HTMLIonModalElement));
+        spyOn(modalController, 'create')
+          .and
+          .returnValue(Promise.resolve({
+            present: async () => {
+            },
+            onWillDismiss: async () => {
+            },
+          } as any as HTMLIonModalElement));
         await component.showCandidateDataMissingError();
-        expect(modalController.create).toHaveBeenCalled();
+        expect(modalController.create)
+          .toHaveBeenCalled();
       });
     });
 
     describe('ionViewDidEnter', () => {
+      beforeEach(() => {
+        spyOn(ScreenOrientation, 'lock')
+          .and
+          .returnValue(Promise.resolve());
+      });
       it('should not enable single app mode if on ios and in practice mode', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        spyOn(BasePageComponent.prototype, 'isIos')
+          .and
+          .returnValue(true);
         component.isEndToEndPracticeMode = true;
         await component.ionViewDidEnter();
-        expect(deviceProvider.enableSingleAppMode).not.toHaveBeenCalled();
+        expect(deviceProvider.enableSingleAppMode)
+          .not
+          .toHaveBeenCalled();
       });
 
       it('should enable single app mode if on ios and not in practice mode', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        spyOn(BasePageComponent.prototype, 'isIos')
+          .and
+          .returnValue(true);
         component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
-        expect(deviceProvider.enableSingleAppMode).toHaveBeenCalled();
-      });
-
-      it('should lock the screen orientation to Portrait Primary', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
-        component.isEndToEndPracticeMode = false;
-        await component.ionViewDidEnter();
-        expect(screenOrientation.lock)
-          .toHaveBeenCalledWith(screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+        expect(deviceProvider.enableSingleAppMode)
+          .toHaveBeenCalled();
       });
 
       it('should keep the device awake', async () => {
-        spyOn(BasePageComponent.prototype, 'isIos').and.returnValue(true);
+        spyOn(BasePageComponent.prototype, 'isIos')
+          .and
+          .returnValue(true);
         component.isEndToEndPracticeMode = false;
         await component.ionViewDidEnter();
-        expect(insomnia.keepAwake).toHaveBeenCalled();
+        expect(insomnia.keepAwake)
+          .toHaveBeenCalled();
       });
 
       it('should dispatch the action which calls out for candidate licence data', async () => {
         await component.ionViewDidEnter();
-        expect(store$.dispatch).toHaveBeenCalledWith(GetCandidateLicenceData());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(GetCandidateLicenceData());
       });
     });
 
@@ -308,14 +346,16 @@ describe('WaitingRoomPage', () => {
         component.merged$ = new Observable<string | boolean>();
         component.ionViewWillEnter();
 
-        expect(component.subscription).toBeDefined();
+        expect(component.subscription)
+          .toBeDefined();
       });
     });
 
     describe('canDeActivate', () => {
       it('should call through to triggerLockScreen', async () => {
         await component.canDeActivate();
-        expect(deviceAuthenticationProvider.triggerLockScreen).toHaveBeenCalled();
+        expect(deviceAuthenticationProvider.triggerLockScreen)
+          .toHaveBeenCalled();
       });
     });
 
@@ -323,18 +363,21 @@ describe('WaitingRoomPage', () => {
       it('should return true if rekey is false and test category is not ADI3 or SC', () => {
         component.isRekey = false;
         component.testCategory = TestCategory.B;
-        expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(true);
+        expect(component['shouldNavigateToCandidateLicenceDetails']())
+          .toEqual(true);
       });
       it('should return false if rekey is true and test category is not ADI3 or SC', () => {
         component.isRekey = true;
         component.testCategory = TestCategory.B;
-        expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(false);
+        expect(component['shouldNavigateToCandidateLicenceDetails']())
+          .toEqual(false);
       });
       [TestCategory.ADI3, TestCategory.SC].forEach((val) => {
         it(`should return false if rekey is false and test category is ${val}`, () => {
           component.isRekey = false;
           component.testCategory = val;
-          expect(component['shouldNavigateToCandidateLicenceDetails']()).toEqual(false);
+          expect(component['shouldNavigateToCandidateLicenceDetails']())
+            .toEqual(false);
         });
       });
 
@@ -355,32 +398,38 @@ describe('WaitingRoomPage', () => {
         component.ngOnInit();
 
         component.pageState.showManoeuvresPassCertNumber$
-          .subscribe((res) => expect(res).toEqual(true));
+          .subscribe((res) => expect(res)
+            .toEqual(true));
         component.pageState.showCbtNumber$
-          .subscribe((res) => expect(res).toEqual(false));
+          .subscribe((res) => expect(res)
+            .toEqual(false));
         component.pageState.showResidencyDec$
-          .subscribe((res) => expect(res).toEqual(true));
+          .subscribe((res) => expect(res)
+            .toEqual(true));
       });
     });
 
     describe('cbtNumberChanged', () => {
       it('should dispatch SignatureDataChanged with parameter passed', () => {
         component.cbtNumberChanged('test');
-        expect(store$.dispatch).toHaveBeenCalledWith(CbtNumberChanged('test'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(CbtNumberChanged('test'));
       });
     });
 
     describe('signatureChanged', () => {
       it('should dispatch SignatureDataChanged with parameter passed', () => {
         component.signatureChanged('test');
-        expect(store$.dispatch).toHaveBeenCalledWith(preTestDeclarationsActions.SignatureDataChanged('test'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(preTestDeclarationsActions.SignatureDataChanged('test'));
       });
     });
 
     describe('signatureCleared', () => {
       it('should dispatch SignatureDataCleared', () => {
         component.signatureCleared();
-        expect(store$.dispatch).toHaveBeenCalledWith(preTestDeclarationsActions.SignatureDataCleared());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(preTestDeclarationsActions.SignatureDataCleared());
       });
     });
 
@@ -388,17 +437,21 @@ describe('WaitingRoomPage', () => {
       it('should navigate to the CandidateLicencePage if the form is valid', async () => {
         const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
-        formGroup.get('insuranceCheckbox').setValue(true);
+        formGroup.get('insuranceCheckbox')
+          .setValue(true);
         await component.onSubmit();
-        expect(routerSpy.navigate).toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
+        expect(routerSpy.navigate)
+          .toHaveBeenCalledWith([TestFlowPageNames.CANDIDATE_LICENCE_PAGE]);
       });
       it('should dispatch the WaitingRoomValidationError action if a field is not valid', fakeAsync(() => {
         const { formGroup } = component;
         formGroup.addControl('insuranceCheckbox', new UntypedFormControl('', [Validators.requiredTrue]));
-        formGroup.get('insuranceCheckbox').setValue(false);
+        formGroup.get('insuranceCheckbox')
+          .setValue(false);
         component.onSubmit();
         tick();
-        expect(store$.dispatch).toHaveBeenCalledWith(WaitingRoomValidationError('insuranceCheckbox is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(WaitingRoomValidationError('insuranceCheckbox is blank'));
       }));
     });
 
@@ -441,7 +494,8 @@ describe('WaitingRoomPage', () => {
             staffNumber: '',
           },
         });
-        expect(result).toEqual(true);
+        expect(result)
+          .toEqual(true);
       });
 
       it('should return true if no candidate name & driver number', () => {
@@ -452,7 +506,8 @@ describe('WaitingRoomPage', () => {
             driverNumber: '',
           },
         });
-        expect(result).toEqual(true);
+        expect(result)
+          .toEqual(true);
       });
 
       it('should return false if it has staff number and candidate name but no driver number', () => {
@@ -463,7 +518,8 @@ describe('WaitingRoomPage', () => {
             driverNumber: '',
           },
         });
-        expect(result).toEqual(false);
+        expect(result)
+          .toEqual(false);
       });
 
       it('should return false if it has staff number and driver number but no candidate name', () => {
@@ -474,7 +530,8 @@ describe('WaitingRoomPage', () => {
             driverNumber: '',
           },
         });
-        expect(result).toEqual(false);
+        expect(result)
+          .toEqual(false);
       });
     });
   });

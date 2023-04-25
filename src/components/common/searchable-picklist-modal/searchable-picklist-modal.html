@@ -1,8 +1,8 @@
 <ion-content class="content-background">
   <ion-grid class="max-width">
     <ion-searchbar
-      (ionChange)="onSearchbarChange($event)"
       (ionClear)="onSearchbarClear()"
+      (ionInput)="onSearchbarChange($event)"
       [id]="'searchbar' | formatToID: idPrefix"
       [ngModel]="model ? model[displayKey] : searchedValue"
       [placeholder]="placeholder">

@@ -1,13 +1,15 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons id="end-test-button" slot="end">
-      <end-test-link [shouldAuthenticate]="false"
-                     [category]="pageState.category$ | async">
+      <end-test-link
+        [category]="pageState.category$ | async"
+        [isPracticeMode]="isPracticeMode"
+        [shouldAuthenticate]="false">
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
@@ -15,85 +17,86 @@
 
 <ion-content force-overscroll="false">
   <div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
 
         <eyesight-test
-          [formGroup]="form"
-          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+          (eyesightTestResultChange)="eyesightTestResultChanged($event)"
           [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
-          (eyesightTestResultChange)="eyesightTestResultChanged($event)">
+          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+          [formGroup]="form">
         </eyesight-test>
 
         <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
           <eyesight-failure-confirmation
-            [nextPageOnFail]="getDebriefPage()"
-            [cancelFn]="eyesightFailCancelled">
+            [cancelFn]="eyesightFailCancelled"
+            [nextPageOnFail]="getDebriefPage()">
           </eyesight-failure-confirmation>
         </ion-row>
 
-        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
+        <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding"
+                 id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
             <test-category [testCategory]="pageState.category$ | async"></test-category>
 
             <vehicle-checks-vocational
-              [formGroup]="form"
-              [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-              [vehicleChecks]="pageState.vehicleChecks$ | async"
+              (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
               [category]="pageState.category$ | async"
+              [formGroup]="form"
               [fullLicenceHeld]="false"
-              (onCloseVehicleChecksModal)="closeVehicleChecksModal()">
+              [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
+              [vehicleChecks]="pageState.vehicleChecks$ | async">
             </vehicle-checks-vocational>
 
             <vehicle-registration
-              [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async"
+              (vehicleRegistrationBlur)="getMOTStatus()"
               (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-              (vehicleRegistrationBlur)="getMOTStatus()">
+              [formGroup]="form"
+              [vehicleRegistration]="pageState.registrationNumber$ | async">
             </vehicle-registration>
 
             <transmission
+              (transmissionChange)="transmissionChanged($event)"
               [formGroup]="form"
-              [transmission]="pageState.transmission$ | async"
-              (transmissionChange)="transmissionChanged($event)">
+              [transmission]="pageState.transmission$ | async">
             </transmission>
 
             <accompaniment-card
+              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
               [formGroup]="form"
               [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
               [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()"
-              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async">
             </accompaniment-card>
 
             <vehicle-details-card
-              [formGroup]="form"
-              [schoolVehicleDetails]="pageState.schoolCar$ | async"
-              [dualVehicleDetails]="pageState.dualControls$ | async"
+              (dualVehicleDetailsChange)="dualControlsToggled()"
               (schoolVehicleDetailsChange)="schoolCarToggled()"
-              (dualVehicleDetailsChange)="dualControlsToggled()">
+              [dualVehicleDetails]="pageState.dualControls$ | async"
+              [formGroup]="form"
+              [schoolVehicleDetails]="pageState.schoolCar$ | async">
             </vehicle-details-card>
 
             <ordit-trainer-cat-adi-part2
+              (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)"
               [formGroup]="form"
-              [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
-              (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)">
+              [orditTrainedRadioChecked]="pageState.orditTrained$ | async">
             </ordit-trainer-cat-adi-part2>
 
             <trainer-registration-number-cat-adi-part2
+              (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)"
               [formGroup]="form"
-              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
-              (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)">
+              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async">
             </trainer-registration-number-cat-adi-part2>
 
             <training-records-cat-adi-part2
+              (trainingRecordOutcomeChange)="trainingRecordOutcomeChanged($event)"
               [formGroup]="form"
-              [trainingRecordRadioChecked]="pageState.trainingRecords$ | async"
-              (trainingRecordOutcomeChange)="trainingRecordOutcomeChanged($event)">
+              [trainingRecordRadioChecked]="pageState.trainingRecords$ | async">
             </training-records-cat-adi-part2>
           </ion-col>
         </ion-row>
@@ -104,20 +107,20 @@
 
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
-    <ion-col size="45" class="ion-text-center">
+    <ion-col class="ion-text-center" size="45">
       <ion-button
-        shape="round"
+        (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
+        id="view-test-centre-journal-button" shape="round">
         <h3>View test centre journal</h3>
       </ion-button>
     </ion-col>
     <ion-col size="6"></ion-col>
-    <ion-col size="45" class="ion-text-center">
+    <ion-col class="ion-text-center" size="45">
       <ion-button
-        shape="round"
+        (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button" (click)="onSubmit()">
+        id="continue-to-test-report-button" shape="round">
         <h3>Continue to test report</h3>
       </ion-button>
     </ion-col>

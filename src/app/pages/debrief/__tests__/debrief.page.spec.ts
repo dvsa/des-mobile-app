@@ -16,6 +16,7 @@ import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base
 import { take } from 'rxjs/operators';
 import { testsFeatureKey } from '@store/tests/tests.reducer';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
 describe('DebriefPage', () => {
   let fixture: ComponentFixture<DebriefPage>;
@@ -146,7 +147,10 @@ describe('DebriefPage', () => {
       ],
       providers: [
         Store,
-        { provide: FaultSummaryProvider, useClass: FaultSummaryProvider },
+        {
+          provide: FaultSummaryProvider,
+          useClass: FaultSummaryProvider,
+        },
       ],
     });
 
@@ -158,7 +162,8 @@ describe('DebriefPage', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('ngOnInit', () => {
@@ -319,12 +324,14 @@ describe('DebriefPage', () => {
     ].forEach((value) => {
       it(`should return true if category is ${value}`, () => {
         component.testCategory = value;
-        expect(component.showVehicleChecksArrayCard()).toEqual(true);
+        expect(component.showVehicleChecksArrayCard())
+          .toEqual(true);
       });
     });
     it('should return false if the category is not listed', () => {
       component.testCategory = TestCategory.B;
-      expect(component.showVehicleChecksArrayCard()).toEqual(false);
+      expect(component.showVehicleChecksArrayCard())
+        .toEqual(false);
     });
   });
   describe('showADI3DebriefCard', () => {
@@ -333,12 +340,14 @@ describe('DebriefPage', () => {
     ].forEach((value) => {
       it(`should return true if category is ${value}`, () => {
         component.testCategory = value;
-        expect(component.showADI3DebriefCard()).toEqual(true);
+        expect(component.showADI3DebriefCard())
+          .toEqual(true);
       });
     });
     it('should return false if the category is not listed', () => {
       component.testCategory = TestCategory.B;
-      expect(component.showADI3DebriefCard()).toEqual(false);
+      expect(component.showADI3DebriefCard())
+        .toEqual(false);
     });
   });
   describe('showCPCDebriefCard', () => {
@@ -347,12 +356,14 @@ describe('DebriefPage', () => {
     ].forEach((value) => {
       it(`should return true if category is ${value}`, () => {
         component.testCategory = value;
-        expect(component.showCPCDebriefCard()).toEqual(true);
+        expect(component.showCPCDebriefCard())
+          .toEqual(true);
       });
     });
     it('should return false if the category is not listed', () => {
       component.testCategory = TestCategory.B;
-      expect(component.showCPCDebriefCard()).toEqual(false);
+      expect(component.showCPCDebriefCard())
+        .toEqual(false);
     });
   });
   describe('isCatD', () => {
@@ -362,39 +373,46 @@ describe('DebriefPage', () => {
     ].forEach((value) => {
       it(`should return true if category is ${value}`, () => {
         component.testCategory = value;
-        expect(component.isCatD()).toEqual(true);
+        expect(component.isCatD())
+          .toEqual(true);
       });
     });
     it('should return false if the category is not listed', () => {
       component.testCategory = TestCategory.B;
-      expect(component.isCatD()).toEqual(false);
+      expect(component.isCatD())
+        .toEqual(false);
     });
   });
   describe('isTerminated', () => {
     it('should return true if outcome is OutcomeType.Terminated', () => {
       component.outcome = OutcomeType.Terminated;
-      expect(component.isTerminated()).toEqual(true);
+      expect(component.isTerminated())
+        .toEqual(true);
     });
     it('should return false if outcome is not OutcomeType.Terminated', () => {
       component.outcome = OutcomeType.Passed;
-      expect(component.isTerminated()).toEqual(false);
+      expect(component.isTerminated())
+        .toEqual(false);
     });
   });
   describe('isCategoryBTest', () => {
     it('should return true if outcome is OutcomeType.Terminated', () => {
       component.testCategory = TestCategory.B;
-      expect(component.isCategoryBTest()).toEqual(true);
+      expect(component.isCategoryBTest())
+        .toEqual(true);
     });
     it('should return false if outcome is not OutcomeType.Terminated', () => {
       component.testCategory = TestCategory.D;
-      expect(component.isCategoryBTest()).toEqual(false);
+      expect(component.isCategoryBTest())
+        .toEqual(false);
     });
   });
   describe('ionViewDidEnter', () => {
     it('should call dispatch with DebriefViewDidEnter', () => {
       spyOn(component.store$, 'dispatch');
       component.ionViewDidEnter();
-      expect(component.store$.dispatch).toHaveBeenCalledWith(DebriefViewDidEnter());
+      expect(component.store$.dispatch)
+        .toHaveBeenCalledWith(DebriefViewDidEnter());
     });
   });
 
@@ -404,7 +422,8 @@ describe('DebriefPage', () => {
       component.isTestReportPracticeMode = true;
 
       component.endDebrief();
-      expect(component.router.navigate).toHaveBeenCalledWith(['DashboardPage'], Object({ replaceUrl: true }));
+      expect(component.router.navigate)
+        .toHaveBeenCalledWith(['DashboardPage'], Object({ replaceUrl: true }));
     });
     it('should call navigate with PASS_FINALISATION_PAGE and the correct category if '
       + 'isTestReportPracticeMode is false and outcome is PASS', () => {
@@ -424,27 +443,36 @@ describe('DebriefPage', () => {
       component.outcome = TestOutcome.FAIL;
 
       component.endDebrief();
-      expect(component.router.navigate).toHaveBeenCalledWith(['PostDebriefHoldingPage']);
+      expect(component.router.navigate)
+        .toHaveBeenCalledWith(['PostDebriefHoldingPage']);
     });
   });
 
   describe('ionViewDidLeave', () => {
-    it('should unsubscribe from subscription if there is one', () => {
+    beforeEach(() => {
+      spyOn(ScreenOrientation, 'unlock');
+    });
+    it('should unsubscribe from subscription if there is one', async () => {
       component.subscription = new Subscription();
       spyOn(component.subscription, 'unsubscribe');
-      component.ionViewDidLeave();
-      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      await component.ionViewDidLeave();
+      expect(component.subscription.unsubscribe)
+        .toHaveBeenCalled();
     });
     it('should unlock screenOrientation and run allowSleepAgain if '
-      + 'isIos and isTestReportPracticeMode are true', () => {
-      spyOn(PracticeableBasePageComponent.prototype, 'isIos').and.returnValue(true);
-      spyOn(component.screenOrientation, 'unlock');
+      + 'isIos and isTestReportPracticeMode are true', async () => {
+      spyOn(PracticeableBasePageComponent.prototype, 'isIos')
+        .and
+        .returnValue(true);
+      spyOn(ScreenOrientation, 'unlock');
       spyOn(component.insomnia, 'allowSleepAgain');
       component.isTestReportPracticeMode = true;
 
-      component.ionViewDidLeave();
-      expect(component.screenOrientation.unlock).toHaveBeenCalled();
-      expect(component.insomnia.allowSleepAgain).toHaveBeenCalled();
+      await component.ionViewDidLeave();
+      expect(ScreenOrientation.unlock)
+        .toHaveBeenCalled();
+      expect(component.insomnia.allowSleepAgain)
+        .toHaveBeenCalled();
     });
   });
 });

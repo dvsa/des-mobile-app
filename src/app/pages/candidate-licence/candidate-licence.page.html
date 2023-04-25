@@ -1,6 +1,6 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-buttons id="candidate-licence-back-button" slot="start">
       <ion-back-button defaultHref="WaitingRoomPage"></ion-back-button>
     </ion-buttons>
@@ -8,7 +8,10 @@
       DVLA Licence information - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
     <ion-buttons id="end-button" slot="end">
-      <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
+      <end-test-link
+        [category]="pageState.testCategory$ | async"
+        [isPracticeMode]="isPracticeMode"
+      ></end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -33,26 +36,26 @@
     </licence-data-error>
 
     <true-likeness
+      (trueLikenessChange)="trueLikenessToPhotoChanged($event)"
       [formGroup]="formGroup"
-      [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-      (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
+      [trueLikeness]="pageState.trueLikenessToPhoto$ | async">
     </true-likeness>
 
     <!-- Decide if candidateDataError should hide the DVLA card or show a card for TARS/booking data -->
     <licence-information
-      [isPracticeMode]="isPracticeMode"
-      [candidateData]="data.candidateLicence"
-      [bookingDriverNumber]="pageState.candidateDriverNumber$ | async"
-      [bookingName]="pageState.candidateUntitledName$ | async"
       [bookingAge]="pageState.age$ | async"
-      [bookingGender]="pageState.genderDescription$ | async">
+      [bookingDriverNumber]="pageState.candidateDriverNumber$ | async"
+      [bookingGender]="pageState.genderDescription$ | async"
+      [bookingName]="pageState.candidateUntitledName$ | async"
+      [candidateData]="data.candidateLicence"
+      [isPracticeMode]="isPracticeMode">
     </licence-information>
   </ion-grid>
 </ion-content>
 
 <ion-footer>
   <ion-row>
-    <ion-button id="candidate-licence-continue-button" class="mes-primary-button continue" (click)="onContinue()">
+    <ion-button (click)="onContinue()" class="mes-primary-button continue" id="candidate-licence-continue-button">
       <h3>Continue</h3>
     </ion-button>
   </ion-row>

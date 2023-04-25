@@ -1,13 +1,15 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
     <ion-buttons id="wrtc-back-button" slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons id="end-test-button" slot="end">
-      <end-test-link [shouldAuthenticate]="false"
-                     [category]="pageState.category$ | async">
+      <end-test-link
+        [category]="pageState.category$ | async"
+        [isPracticeMode]="isPracticeMode"
+        [shouldAuthenticate]="false">
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
@@ -16,55 +18,56 @@
 <ion-content force-overscroll="false">
   <div>
     <warning-banner
-      warningText="The eyesight test should be conducted at a distance of 12m or 12.3m"
-      *ngIf="shouldDisplayEyesightBanner()">
+      *ngIf="shouldDisplayEyesightBanner()"
+      warningText="The eyesight test should be conducted at a distance of 12m or 12.3m">
     </warning-banner>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <eyesight-test
-          [formGroup]="form"
-          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+          (eyesightTestResultChange)="eyesightTestResultChanged($event)"
           [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
-          (eyesightTestResultChange)="eyesightTestResultChanged($event)">
+          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+          [formGroup]="form">
         </eyesight-test>
 
         <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-          <eyesight-failure-confirmation [nextPageOnFail]="getDebriefPage()"
-                                         [cancelFn]="eyesightFailCancelled">
+          <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled"
+                                         [nextPageOnFail]="getDebriefPage()">
           </eyesight-failure-confirmation>
         </ion-row>
 
-        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
+        <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding"
+                 id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
             <vehicle-registration
-                    [formGroup]="form"
-                    [vehicleRegistration]="pageState.registrationNumber$ | async"
-                    (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-                    (vehicleRegistrationBlur)="getMOTStatus()">
+              (vehicleRegistrationBlur)="getMOTStatus()"
+              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              [formGroup]="form"
+              [vehicleRegistration]="pageState.registrationNumber$ | async">
             </vehicle-registration>
 
             <test-category [testCategory]="pageState.category$ | async"></test-category>
 
             <vehicle-checks-vocational
+              (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
+              [category]="pageState.category$ | async"
               [formGroup]="form"
               [fullLicenceHeld]="false"
-              [category]="pageState.category$ | async"
               [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
               [vehicleChecks]="pageState.vehicleChecks$ | async"
-              (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
             ></vehicle-checks-vocational>
 
             <accompaniment-card
-                    [formGroup]="form"
-                    [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                    [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                    [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                    [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                    (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-                    (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                    (otherAccompanimentChange)="otherAccompanimentToggled()"
-                    (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+              [formGroup]="form"
+              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async">
             </accompaniment-card>
           </ion-col>
         </ion-row>
@@ -75,20 +78,20 @@
 
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
-    <ion-col size="45" class="ion-text-center">
+    <ion-col class="ion-text-center" size="45">
       <ion-button
-              shape="round"
-              class="mes-grey-button wrtc-footer-btn"
-              id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
+        (click)="onViewTestCentreJournal()"
+        class="mes-grey-button wrtc-footer-btn"
+        id="view-test-centre-journal-button" shape="round">
         <h3>View test centre journal</h3>
       </ion-button>
     </ion-col>
     <ion-col size="6"></ion-col>
-    <ion-col size="45" class="ion-text-center">
+    <ion-col class="ion-text-center" size="45">
       <ion-button
-              shape="round"
-              class="mes-primary-button wrtc-footer-btn"
-              id="continue-to-test-report-button" (click)="onSubmit()">
+        (click)="onSubmit()"
+        class="mes-primary-button wrtc-footer-btn"
+        id="continue-to-test-report-button" shape="round">
         <h3>Continue to test report</h3>
       </ion-button>
     </ion-col>

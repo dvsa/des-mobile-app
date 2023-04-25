@@ -21,6 +21,9 @@ export class JournalSlotComponent {
   @Input()
   isTeamJournal: boolean = false;
 
+  @Input()
+  isPortrait: boolean = false;
+
   constructor(
     private slotSelector: SlotSelectorProvider,
   ) {
@@ -42,7 +45,10 @@ export class JournalSlotComponent {
   ): string | null => this.slotSelector.didSlotPass(slotData, completedTests);
 
   slotType = (slot: SlotItem): string => {
-    const { slotData, personalCommitment } = slot;
+    const {
+      slotData,
+      personalCommitment,
+    } = slot;
 
     if (!isEmpty(personalCommitment)) {
       return 'personal';

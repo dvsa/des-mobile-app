@@ -9,7 +9,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { merge, Observable, Subscription } from 'rxjs';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
@@ -33,6 +32,7 @@ interface CatManoeuvreTestReportPageState {
   manoeuvresHasFaults$: Observable<boolean>;
   showUncoupleRecouple$: Observable<boolean>;
 }
+
 type TestReportPageState = CommonTestReportPageState & CatManoeuvreTestReportPageState;
 
 @Component({
@@ -57,7 +57,6 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private testDataByCategory: TestDataByCategoryProvider,
@@ -70,7 +69,6 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
       store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );
@@ -107,7 +105,10 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
       ),
     };
 
-    const { manoeuvresHasFaults$, selectedReverseManoeuvre$ } = this.pageState;
+    const {
+      manoeuvresHasFaults$,
+      selectedReverseManoeuvre$,
+    } = this.pageState;
 
     this.merged$ = merge(
       selectedReverseManoeuvre$.pipe(map((hasFault) => this.selectedReverseManoeuvre = hasFault)),
@@ -156,7 +157,10 @@ export class TestReportCatManoeuvrePage extends TestReportBasePageComponent impl
       cssClass: 'mes-toast-message-test-report',
       duration: 5000,
       position: 'bottom',
-      buttons: [{ text: 'X', role: 'cancel' }],
+      buttons: [{
+        text: 'X',
+        role: 'cancel',
+      }],
     });
     await toast.present();
   };

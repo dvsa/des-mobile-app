@@ -54,7 +54,9 @@
       <ion-select
         (ionChange)="activitySelectChange($event.target.value)"
         [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+        aria-label="Activity code"
         class="black-text"
+        labelPlacement="stacked"
         placeholder="All">
         <ion-select-option *ngFor="let activityCode of activityCodes; let first = first" [value]="activityCode">
           <span *ngIf="!first">{{activityCode.activityCode}} - </span>{{activityCode.description}}
@@ -67,7 +69,9 @@
     <ion-col class="input-padding" size="22">
       <ion-select (ionChange)="categorySelectChange($event.target.value)"
                   [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
+                  aria-label="Test category"
                   class="black-text"
+                  labelPlacement="stacked"
                   placeholder="All">
         <ion-select-option *ngFor="let category of testCategories"
                            [value]="category">{{category}}

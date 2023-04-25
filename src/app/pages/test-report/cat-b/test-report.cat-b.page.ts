@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Platform,
-  ModalController,
-} from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { StoreModel } from '@shared/models/store.model';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { Router } from '@angular/router';
@@ -37,7 +33,6 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
   ) {
@@ -48,7 +43,6 @@ export class TestReportCatBPage extends TestReportBasePageComponent implements O
       store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );

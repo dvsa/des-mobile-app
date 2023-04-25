@@ -1,27 +1,27 @@
-<ion-row class="mes-validated-row mes-row-separator" id="category-type" [formGroup]="formGroup">
-  <div class="validation-bar" [class.ng-invalid]="invalid"></div>
-  <ion-col size="32" class="component-label ion-align-self-center">
+<ion-row [formGroup]="formGroup" class="mes-validated-row mes-row-separator" id="category-type">
+  <div [class.ng-invalid]="invalid" class="validation-bar"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
     <label id="confirm-cat-type-label">Confirm cat type</label>
   </ion-col>
   <ion-col class="mes-padding-left ion-align-self-center">
     <ion-row class="spacing-row"></ion-row>
     <ion-row>
-      <ion-col size="48" *ngIf="!categoryConfirmed">
+      <ion-col *ngIf="!categoryConfirmed" size="48">
         <ion-button
+          (click)="openCategorySelector()"
           *ngIf="!categoryConfirmed"
           class="mes-return-button"
-          (click)="openCategorySelector()"
         ><label id="select-cat-type-label">Select cat type..</label></ion-button>
       </ion-col>
-      <ion-col size="48" class="selected-category-code ion-align-self-center" *ngIf="categoryConfirmed">
+      <ion-col *ngIf="categoryConfirmed" class="selected-category-code ion-align-self-center" size="48">
         <span class="ion-select-text">
           {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}}
           -
           {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
         </span>
       </ion-col>
-      <ion-col size="47" class="select-category-link-container ion-padding-right" *ngIf="categoryConfirmed">
-        <ion-button fill="clear" class="mes-link-button category-selector-link" (click)="openCategorySelector()">
+      <ion-col *ngIf="categoryConfirmed" class="select-category-link-container ion-padding-right" size="47">
+        <ion-button (click)="openCategorySelector()" class="mes-link-button category-selector-link" fill="clear">
           <span>
             Select cat type
             <ion-icon name="arrow-forward"></ion-icon>
@@ -30,7 +30,7 @@
       </ion-col>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div class="validation-text" [class.ng-invalid]="invalid" id="waiting-room-to-car-category-type-validation-text">
+      <div [class.ng-invalid]="invalid" class="validation-text" id="waiting-room-to-car-category-type-validation-text">
         Confirm the category type
       </div>
     </ion-row>
@@ -38,13 +38,17 @@
 </ion-row>
 
 <ion-select
-    #categorySelect [hidden]="true" okText="Confirm" cancelText="Cancel"
-    [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
-    aria-label="Confirm bike category select"
-    (ionChange)="categoryCodeChanged($event.target.value)">
+  #categorySelect
+  (ionChange)="categoryCodeChanged($event.target.value)"
+  [hidden]="true"
+  [interfaceOptions]="{cssClass:'mes-select', backdropDismiss:false}"
+  aria-label="Confirm bike category select"
+  cancelText="Cancel"
+  labelPlacement="stacked"
+  okText="Confirm">
   <ion-select-option *ngFor="let category of bikeCategoryDetails;"
-                     class="category-option"
-                     [value]="category.categoryCode">
+                     [value]="category.categoryCode"
+                     class="category-option">
     {{category.displayId}}
   </ion-select-option>
 </ion-select>

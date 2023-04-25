@@ -1,40 +1,42 @@
 <span *ngFor="let slot of slots; index as i; trackBy: trackBySlotID;">
     <span [ngSwitch]="slotType(slot)">
          <personal-commitment
-                 *ngSwitchCase="'personal'"
-                 [personalCommitments]="slot?.personalCommitment"
-                 [hasSlotChanged]="slot?.hasSlotChanged"
-                 [showLocation]="showLocation(slot, slots[i - 1])"
-                 [slot]="slot?.slotData">
+           *ngSwitchCase="'personal'"
+           [hasSlotChanged]="slot?.hasSlotChanged"
+           [personalCommitments]="slot?.personalCommitment"
+           [showLocation]="showLocation(slot, slots[i - 1])"
+           [slot]="slot?.slotData">
          </personal-commitment>
 
         <activity-slot
-                *ngSwitchCase="'activity'"
-                [slot]="slot?.slotData"
-                [hasSlotChanged]="slot?.hasSlotChanged"
-                [showLocation]="showLocation(slot, slots[i - 1])">
+          *ngSwitchCase="'activity'"
+          [hasSlotChanged]="slot?.hasSlotChanged"
+          [showLocation]="showLocation(slot, slots[i - 1])"
+          [slot]="slot?.slotData">
         </activity-slot>
 
         <empty-slot
-                *ngSwitchCase="'empty'"
-                [slot]="slot.slotData"
-                [hasSlotChanged]="slot.hasSlotChanged"
-                [showLocation]="showLocation(slot, slots[i - 1])">
+          *ngSwitchCase="'empty'"
+          [hasSlotChanged]="slot.hasSlotChanged"
+          [isPortrait]="isPortrait"
+          [showLocation]="showLocation(slot, slots[i - 1])"
+          [slot]="slot.slotData">
         </empty-slot>
 
         <test-slot
-                [slots]="getSlots()"
-                *ngSwitchCase="'test-slot'"
-                [hasSlotChanged]="slot?.hasSlotChanged"
-                [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
-                [derivedActivityCode]="hasSlotBeenTested(slot.slotData, completedTests)"
-                [derivedTestStatus]="derivedTestStatus(slot?.slotData, completedTests)"
-                [derivedPassCertificate]="didSlotPass(slot.slotData, completedTests)"
-                [showLocation]="showLocation(slot, slots[i - 1])"
-                [isTeamJournal]="isTeamJournal"
-                [delegatedTest]="false"
-                [teamJournalCandidateResult]="false"
-                [slot]="slot?.slotData">
+          *ngSwitchCase="'test-slot'"
+          [delegatedTest]="false"
+          [derivedActivityCode]="hasSlotBeenTested(slot.slotData, completedTests)"
+          [derivedPassCertificate]="didSlotPass(slot.slotData, completedTests)"
+          [derivedTestStatus]="derivedTestStatus(slot?.slotData, completedTests)"
+          [hasSeenCandidateDetails]="slot?.hasSeenCandidateDetails"
+          [hasSlotChanged]="slot?.hasSlotChanged"
+          [isPortrait]="isPortrait"
+          [isTeamJournal]="isTeamJournal"
+          [showLocation]="showLocation(slot, slots[i - 1])"
+          [slot]="slot?.slotData"
+          [slots]="getSlots()"
+          [teamJournalCandidateResult]="false">
         </test-slot>
     </span>
 </span>

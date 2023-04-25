@@ -1,8 +1,15 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
-import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { select, Store } from '@ngrx/store';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { map } from 'rxjs/operators';
+import { merge, Observable, Subscription } from 'rxjs';
+
+import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
 import { StoreModel } from '@shared/models/store.model';
 import {
   ASAMPopupPresented,
@@ -10,20 +17,14 @@ import {
   ClearVehicleData,
   DeferWriteUp,
 } from '@pages/back-to-office/back-to-office.actions';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { merge, Observable, Subscription } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
-import { Router } from '@angular/router';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { JOURNAL_PAGE, TestFlowPageNames } from '@pages/page-names.constants';
-import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { map } from 'rxjs/operators';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { wrtcDestroy$ } from '@shared/classes/test-flow-base-pages/waiting-room-to-car/waiting-room-to-car-base-page';
 import { DeviceProvider } from '@providers/device/device';
@@ -60,7 +61,6 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     store$: Store<StoreModel>,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
-    public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     public router: Router,
     public routeByCategoryProvider: RouteByCategoryProvider,
@@ -107,7 +107,7 @@ export class BackToOfficePage extends PracticeableBasePageComponent {
     this.store$.dispatch(ClearVehicleData());
 
     if (super.isIos()) {
-      this.screenOrientation.unlock();
+      await ScreenOrientation.unlock();
       await this.insomnia.allowSleepAgain();
     }
   }

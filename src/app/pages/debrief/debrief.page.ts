@@ -14,7 +14,8 @@ import {
 } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import {
@@ -97,7 +98,7 @@ interface DebriefPageState {
   question5$: Observable<Question5>;
   overallScore$: Observable<number>;
   totalScore$: Observable<number>;
-  lessonTheme$: Observable<LessonAndTheme>
+  lessonTheme$: Observable<LessonAndTheme>;
   lessonPlanning$: Observable<LessonPlanning>;
   riskManagement$: Observable<RiskManagement>;
   teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
@@ -135,7 +136,6 @@ export class DebriefPage extends PracticeableBasePageComponent {
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
-    public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     private translate: TranslateService,
     private faultCountProvider: FaultCountProvider,
@@ -375,7 +375,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
     super.ionViewDidLeave();
 
     if (this.isTestReportPracticeMode && super.isIos()) {
-      this.screenOrientation.unlock();
+      await ScreenOrientation.unlock();
       await this.insomnia.allowSleepAgain();
     }
 

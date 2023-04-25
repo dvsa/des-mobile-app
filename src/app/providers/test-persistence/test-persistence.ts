@@ -11,12 +11,13 @@ import { AppConfigProvider } from '../app-config/app-config';
 @Injectable()
 export class TestPersistenceProvider {
 
+  private testKeychainKey = 'TESTS';
+
   constructor(
     private dataStoreProvider: DataStoreProvider,
     private appConfigProvider: AppConfigProvider,
-  ) {}
-
-  private testKeychainKey = 'TESTS';
+  ) {
+  }
 
   persistTests(tests: TestsModel): Promise<string> {
     return this.dataStoreProvider.setItem(this.testKeychainKey, JSON.stringify(tests));
@@ -66,14 +67,19 @@ export class TestPersistenceProvider {
 
   getTestsToDelete(tests: TestsModel): string[] {
     const { daysToCacheJournalData } = this.appConfigProvider.getAppConfig()?.journal;
-    const notAllCompleted = Object.keys(tests.testStatus).some((key) =>
-      !isAnyOf(tests.testStatus[key], [TestStatus.Submitted, TestStatus.Completed]));
+
+    const notAllCompleted = Object.keys(tests.testStatus)
+      .some((key) =>
+        !isAnyOf(tests.testStatus[key], [TestStatus.Submitted, TestStatus.Completed]));
+
     // Grace period is set to 46 in order to make up a 60-day window to retain incomplete tests if present
     const GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS: number = notAllCompleted ? 46 : 3;
-    return Object.keys(tests.startedTests).filter((key) => {
-      const startDate: DateTime = new DateTime(tests.startedTests[key].journalData.testSlotAttributes.start);
-      return (startDate.daysDiff(new DateTime())) > (daysToCacheJournalData + GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS);
-    });
+
+    return Object.keys(tests.startedTests)
+      .filter((key) => {
+        const startDate: DateTime = new DateTime(tests.startedTests[key].journalData.testSlotAttributes.start);
+        return (startDate.daysDiff(new DateTime())) > (daysToCacheJournalData + GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS);
+      });
   }
 
   deleteTestsFromTestObject(testObject: { [slotId: string]: any; }, keysToDelete: string[]): any {

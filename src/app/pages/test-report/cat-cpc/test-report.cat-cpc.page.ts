@@ -10,10 +10,9 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
-import { Observable, combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   CombinationCodes, Question, Question5, TestData,
 } from '@dvsa/mes-test-schema/categories/CPC';
@@ -21,7 +20,13 @@ import { getTestData } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.re
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import {
-  getCombination, getQuestion1, getQuestion2, getQuestion3, getQuestion4, getQuestion5, getTotalPercent,
+  getCombination,
+  getQuestion1,
+  getQuestion2,
+  getQuestion3,
+  getQuestion4,
+  getQuestion5,
+  getTotalPercent,
 } from '@store/tests/test-data/cat-cpc/test-data.cat-cpc.selector';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
@@ -46,6 +51,7 @@ interface CatCPCTestReportPageState {
   delegatedTest$: Observable<boolean>;
   testDataCPC$: Observable<TestData>;
 }
+
 type TestReportPageState = CommonTestReportPageState & CatCPCTestReportPageState;
 
 type ToggleEvent = {
@@ -82,7 +88,6 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private cpcQuestionProvider: CPCQuestionProvider,
@@ -95,7 +100,6 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );
@@ -113,7 +117,8 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
 
     this.localSubscription = currentTest$.pipe(
       select(getTestData),
-    ).subscribe((result: TestData) => this.testData = result);
+    )
+      .subscribe((result: TestData) => this.testData = result);
 
     this.pageState = {
       ...this.commonPageState,
@@ -172,7 +177,8 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   }
 
   onEndTestClick = async (): Promise<void> => {
-    const result = await this.testResultProvider.calculateTestResult(this.category, this.testData).toPromise();
+    const result = await this.testResultProvider.calculateTestResult(this.category, this.testData)
+      .toPromise();
 
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: CPCEndTestModal,
@@ -194,7 +200,11 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
   };
 
   populateAnswer = (event: ToggleEvent): void => {
-    const { questionNumber, answerNumber, answer } = event;
+    const {
+      questionNumber,
+      answerNumber,
+      answer,
+    } = event;
     const { selected } = answer;
 
     // Update question answered selected value
@@ -243,14 +253,16 @@ export class TestReportCatCPCPage extends TestReportBasePageComponent implements
       this.pageState.overallPercentage$,
       this.pageState.category$,
       this.pageState.delegatedTest$,
-    ]).pipe(takeUntil(trDestroy$)).subscribe((
-      [question1, question2, question3, question4, question5, overallPercentage, category, delegated]:
-      [Question, Question, Question, Question, Question5, number, CategoryCode, boolean],
-    ) => {
-      this.questions = [question1, question2, question3, question4, question5];
-      this.overallPercentage = overallPercentage;
-      this.category = category;
-      this.isDelegated = delegated;
-    });
+    ])
+      .pipe(takeUntil(trDestroy$))
+      .subscribe((
+        [question1, question2, question3, question4, question5, overallPercentage, category, delegated]:
+        [Question, Question, Question, Question, Question5, number, CategoryCode, boolean],
+      ) => {
+        this.questions = [question1, question2, question3, question4, question5];
+        this.overallPercentage = overallPercentage;
+        this.category = category;
+        this.isDelegated = delegated;
+      });
   }
 }
