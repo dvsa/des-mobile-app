@@ -89,23 +89,13 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.handleLoadingUI(true);
 
-    this.reEnterEmailSubscription = this.searchProvider.getRegeneratedEmails(this.applicationReference)
-      .pipe(
-        catchError(async (err) => {
-          this.store$.dispatch(SaveLog({
-            payload: this.logHelper.createLog(
-              LogType.ERROR,
-              `Getting regenerated emails for app ref (${this.applicationReference})`,
-              err,
-            ),
-          }));
-        }),
-      )
-      .subscribe(
-        (value: string) => {
-          this.reEnterEmail = this.compressionProvider.extract<RegeneratedEmails>(value);
-        },
-      );
+    this.reEnterEmailSubscription = this.searchProvider
+      .getRegeneratedEmails(this.applicationReference)
+      .pipe(map((response) => this.compressionProvider.extract<RegeneratedEmails>(response)),
+        tap((data) => this.reEnterEmail = data),
+        catchError(() => of(null)))
+      .subscribe();
+
     this.subscription = this.searchProvider
       .getTestResult(this.applicationReference, this.authenticationProvider.getEmployeeId())
       .pipe(

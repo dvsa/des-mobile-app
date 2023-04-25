@@ -598,7 +598,7 @@ describe('ViewTestResultPage', () => {
       component.reEnterEmail = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
       spyOn(compressionProvider, 'extract').and.returnValue({
-        test: '1',
+        newEmail: '1',
       });
 
       await component.ngOnInit();
@@ -607,7 +607,7 @@ describe('ViewTestResultPage', () => {
         newEmail: '1',
       } as RegeneratedEmails);
     });
-    fit('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
+    it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
       component.testResult = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
       spyOn(component['store$'], 'dispatch');
