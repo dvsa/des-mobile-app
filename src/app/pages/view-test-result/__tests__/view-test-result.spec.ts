@@ -598,13 +598,13 @@ describe('ViewTestResultPage', () => {
       component.reEnterEmail = null;
       spyOn(component, 'handleLoadingUI').and.callThrough();
       spyOn(compressionProvider, 'extract').and.returnValue({
-        newEmail: '1',
+        appRef: 1,
       });
 
       await component.ngOnInit();
 
       expect(component.reEnterEmail).toEqual({
-        newEmail: '1',
+        appRef: 1,
       } as RegeneratedEmails);
     });
     it('should call dispatch with a saveLog if it is unable to get a testResult', async () => {
