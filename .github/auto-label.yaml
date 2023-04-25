@@ -1,6 +1,12 @@
 # For more information, see:
 # https://github.com/actions/labeler
 
+# Add 'analytics' label to any change to .analytics.effects.ts (or spec) files
+analytics:
+  - src/**/*.analytics.effects.ts
+  - src/**/*.analytics.effects.spec.ts
+  - src/app/providers/analytics/**/*.ts
+
 # Add 'capacitor' label to any change to ios files & capacitor.config EXCEPT when exclusively the .plist file
 capacitor:
   - capacitor.config.ts

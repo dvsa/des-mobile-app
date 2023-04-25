@@ -16,20 +16,18 @@ jobs:
   run-ci:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [ 18.11.x ]
-
     steps:
       - uses: actions/checkout@v3
-      - name: Setup Node.js ${{ matrix.node-version }}
+
+      - name: Read .nvmrc
+        id: nvm
+        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+
+      - name: Setup Node.js ${{ steps.nvm.outputs.NVMRC }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ steps.nvm.outputs.NVMRC }}
           cache: 'npm'
-
-      - name: Update NPM dependency
-        run: npm i -g npm@8
 
       - name: Create .npmrc
         run: |
