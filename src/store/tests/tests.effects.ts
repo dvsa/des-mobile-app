@@ -215,7 +215,9 @@ export class TestsEffects {
       } else {
         examinerBooked = journal.examiner.staffNumber;
         examiner = journal.examiner;
-        const slots = getSlotsOnSelectedDate(journal) || getSlotsOnDate(journal, startTestAction.startDate);
+        const slots = startTestAction.startDate
+          ? getSlotsOnDate(journal, startTestAction.startDate)
+          : getSlotsOnSelectedDate(journal);
         const slotData = slots.map((s) => s.slotData);
         slot = slotData.find((data) => data.slotDetail.slotId === startTestAction.slotId && has(data, 'booking'));
       }
