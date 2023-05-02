@@ -1,7 +1,4 @@
-import {
-  flatten,
-  isNil,
-} from 'lodash';
+import { flatten, isNil } from 'lodash';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
 
 import { SlotItem } from '@providers/slot-selector/slot-item';
@@ -27,20 +24,26 @@ export const getIsLoading = (journal: JournalModel) => journal.isLoading;
 
 export const getLastRefreshed = (journal: JournalModel) => journal.lastRefreshed;
 
-export const getLastRefreshedTime = (date: Date) => (isNil(date) ? '--:--' : DateTime.at(date).format('hh:mma'));
+export const getLastRefreshedTime = (date: Date) => (isNil(date) ? '--:--' : DateTime.at(date)
+  .format('hh:mma'));
 
 export const getSelectedDate = (journal: JournalModel) => journal.selectedDate;
 
 export const canNavigateToPreviousDay = (journal: JournalModel, today: DateTime): boolean => {
   const { selectedDate } = journal;
-  const lookbackLimit = today.subtract(14, Duration.DAY).format('YYYY-MM-DD');
+  const lookbackLimit = today.subtract(14, Duration.DAY)
+    .format('YYYY-MM-DD');
 
   return selectedDate > lookbackLimit;
 };
 
 export const canNavigateToNextDay = (journal: JournalModel): boolean => {
-  const nextDayAsDate = DateTime.at(journal.selectedDate).add(1, Duration.DAY).format('YYYY-MM-DD');
-  const fourteenDaysAhead = DateTime.at(DateTime.today()).add(14, Duration.DAY).format('YYYY-MM-DD');
+  const nextDayAsDate = DateTime.at(journal.selectedDate)
+    .add(1, Duration.DAY)
+    .format('YYYY-MM-DD');
+  const fourteenDaysAhead = DateTime.at(DateTime.today())
+    .add(14, Duration.DAY)
+    .format('YYYY-MM-DD');
 
   return (nextDayAsDate < fourteenDaysAhead);
 };
@@ -51,10 +54,11 @@ export const getPermittedSlotIdsBeforeToday = (
   slotProvider: SlotProvider,
 ): SlotItem[] => {
   const slots = getSlots(journal);
-  const arrayOfDateStrings = Object.keys(slots).filter((date: string) => {
-    const thisDate = new DateTime(date);
-    return thisDate.isBefore(today.format('YYYY-MM-DD'));
-  });
+  const arrayOfDateStrings = Object.keys(slots)
+    .filter((date: string) => {
+      const thisDate = new DateTime(date);
+      return thisDate.isBefore(today.format('YYYY-MM-DD'));
+    });
   return flatten(
     (arrayOfDateStrings.map(
       (date: string) => slots[date]
@@ -80,4 +84,15 @@ export const getPermittedSlotIdsBeforeToday = (
 
 export const getCompletedTests = (journalModel: JournalModel): SearchResultTestSchema[] => {
   return journalModel.completedTests;
+};
+
+export const getCompletedPassCerts = (journalModel: JournalModel): string[] => {
+  const { completedTests } = journalModel;
+  if (!completedTests) {
+    return [];
+  }
+
+  return completedTests
+    .map((test) => test.passCertificateNumber)
+    .filter((passCertificate) => !!passCertificate);
 };

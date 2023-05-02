@@ -6,7 +6,8 @@ import { get, startsWith } from 'lodash';
 import {
   ActivityCodeModel,
   activityCodeModelList,
-  activityCodeModelListDelegatedExaminer, adi3activityCodeModelList,
+  activityCodeModelListDelegatedExaminer,
+  adi3activityCodeModelList,
 } from '@shared/constants/activity-code/activity-code.constants';
 import { DateTime } from '@shared/helpers/date-time';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -16,11 +17,44 @@ import { TestStatus } from './test-status/test-status.model';
 import { TestsModel } from './tests.model';
 import { TestOutcome } from './tests.constants';
 
+type StartedTests = { [slotId: string]: TestResultSchemasUnion };
+
 export const getCurrentTestSlotId = (tests: TestsModel): string => tests.currentTest.slotId;
 
 export const getCurrentTest = (tests: TestsModel): TestResultSchemasUnion => {
   const currentTestSlotId = tests.currentTest.slotId;
   return tests.startedTests[currentTestSlotId];
+};
+
+export const getStartedTests = (tests: TestsModel): StartedTests => {
+  return tests.startedTests;
+};
+
+export const isPassed = (test: TestResultSchemasUnion): boolean => {
+  return test.activityCode === ActivityCodes.PASS;
+};
+
+export const getStartedTestsWithPassOutcome = (tests: TestsModel): StartedTests => {
+  const { startedTests } = tests;
+
+  return Object.keys(startedTests)
+    // loop through started test, extract all that are passes
+    .filter((slotID) => isPassed(startedTests[slotID]))
+    // reconstruct startedTestsx
+    .reduce((obj: StartedTests, key) => {
+      obj[key] = startedTests[key];
+      return obj;
+    }, {});
+};
+
+export const getAllPassCerts = (startedTests: StartedTests): string[] => {
+  return Object.keys(startedTests)
+    // extract pass cert
+    .map((slotID: string) => get(startedTests[slotID], 'passCompletion.passCertificateNumber', null))
+    // filter for any empty string/null values
+    .filter((passCert: string) => !!passCert)
+    // uppercase all to ensure consistent formatting
+    .map((passCert: string) => passCert?.toUpperCase());
 };
 
 export const getCurrentTestStatus = (tests: TestsModel): TestStatus => {
@@ -47,9 +81,9 @@ export const getTestOutcomeText = (test: TestResultSchemasUnion) => {
 
   if (
     (test.activityCode === ActivityCodes.FAIL
-    || test.activityCode === ActivityCodes.FAIL_CANDIDATE_STOPS_TEST
-    || test.activityCode === ActivityCodes.FAIL_EYESIGHT
-    || test.activityCode === ActivityCodes.FAIL_PUBLIC_SAFETY)
+      || test.activityCode === ActivityCodes.FAIL_CANDIDATE_STOPS_TEST
+      || test.activityCode === ActivityCodes.FAIL_EYESIGHT
+      || test.activityCode === ActivityCodes.FAIL_PUBLIC_SAFETY)
   ) {
     return TestOutcome.Failed;
   }
@@ -62,10 +96,6 @@ export const isTestOutcomeSet = (test: TestResultCommonSchema) => {
     return true;
   }
   return false;
-};
-
-export const isPassed = (test: TestResultSchemasUnion): boolean => {
-  return test.activityCode === ActivityCodes.PASS;
 };
 
 export const getActivityCode = (test: TestResultCommonSchema): ActivityCodeModel => {
@@ -154,7 +184,7 @@ export const getCompletedTestSlotIdsBeforeToday = (tests: TestsModel): string[] 
     .filter((slotId) =>
       isTestBeforeToday(tests.startedTests[slotId])
       && (tests.testStatus[slotId] === TestStatus.Submitted
-      || tests.testStatus[slotId] === TestStatus.Completed));
+        || tests.testStatus[slotId] === TestStatus.Completed));
 };
 
 export const getAllIncompleteTestsSlotIds = (tests: TestsModel): string[] => {

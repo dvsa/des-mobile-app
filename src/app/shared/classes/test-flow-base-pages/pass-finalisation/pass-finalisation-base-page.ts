@@ -1,11 +1,16 @@
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 import { StoreModel } from '@shared/models/store.model';
 import {
-  getCurrentTest, getJournalData, getTestOutcome, getTestOutcomeText,
+  getAllPassCerts,
+  getCurrentTest,
+  getJournalData,
+  getStartedTestsWithPassOutcome,
+  getTestOutcome,
+  getTestOutcomeText,
 } from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -18,11 +23,13 @@ import {
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
-import { map } from 'rxjs/operators';
-import { getApplicationReference }
-  from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
-import { getApplicationNumber }
-  from '@store/tests/journal-data/common/application-reference/application-reference.selector';
+import { map, take } from 'rxjs/operators';
+import {
+  getApplicationReference,
+} from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import {
+  getApplicationNumber,
+} from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
 import {
   getPassCertificateNumber,
@@ -45,9 +52,7 @@ import {
   ProvisionalLicenseReceived,
 } from '@store/tests/pass-completion/pass-completion.actions';
 import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
-import {
-  D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
-} from '@store/tests/test-summary/test-summary.actions';
+import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
@@ -56,6 +61,8 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { Inject } from '@angular/core';
+import { getJournalState } from '@store/journal/journal.reducer';
+import { getCompletedPassCerts } from '@store/journal/journal.selector';
 
 export interface CommonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -72,6 +79,7 @@ export interface CommonPassFinalisationPageState {
   conductedLanguage$: Observable<string>;
   eyesightTestFailed$: Observable<boolean>;
   testCategory$: Observable<CategoryCode>;
+  pastPassCerts$: Observable<string[]>;
 }
 
 export abstract class PassFinalisationPageComponent extends PracticeableBasePageComponent {
@@ -155,6 +163,27 @@ export abstract class PassFinalisationPageComponent extends PracticeableBasePage
       testCategory$: currentTest$.pipe(
         select(getTestCategory),
       ),
+      pastPassCerts$: combineLatest([
+        this.store$.pipe(
+          select(getTests),
+          select(getStartedTestsWithPassOutcome),
+          select(getAllPassCerts),
+          take(1),
+        ),
+        this.store$.pipe(
+          select(getJournalState),
+          select(getCompletedPassCerts),
+          take(1),
+        ),
+      ])
+        .pipe(
+          map(([testPassCerts, journalPassCerts]) => ([
+            // pass certs from started tests
+            ...(testPassCerts || []),
+            // pass certs from completed test payload
+            ...(journalPassCerts || []),
+          ])),
+        ),
     };
   }
 

@@ -1,91 +1,103 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-        <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
-        <ion-buttons id="back-button" slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
+    <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
+    <ion-buttons id="back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <ion-grid>
+  <div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+      <ion-grid>
 
-                <finalisation-header [candidateName]="pageState.candidateName$ | async"
-                                     [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-                                     [outcomeText]="pageState.testOutcomeText$ | async">
-                </finalisation-header>
+        <finalisation-header
+          [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+          [candidateName]="pageState.candidateName$ | async"
+          [outcomeText]="pageState.testOutcomeText$ | async">
+        </finalisation-header>
 
-                <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
-                </application-reference-number>
+        <application-reference-number
+          [applicationNumber]="pageState.applicationNumber$ | async">
+        </application-reference-number>
 
-                <license-provided
-                        *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
-                        [form]="form"
-                        [license]="pageState.provisionalLicense$ | async"
-                        [licenseReceivedLabel]="'Provisional licence Received'"
-                        (licenseReceived)="provisionalLicenseReceived()"
-                        (licenseNotReceived)="provisionalLicenseNotReceived()">
-                </license-provided>
+        <license-provided
+          (licenseNotReceived)="provisionalLicenseNotReceived()"
+          (licenseReceived)="provisionalLicenseReceived()"
+          *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
+          [form]="form"
+          [licenseReceivedLabel]="'Provisional licence Received'"
+          [license]="pageState.provisionalLicense$ | async">
+        </license-provided>
 
-                <licence-provided-warning-banner
-                        *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
-                        [licenceProvided]="pageState.provisionalLicense$ | async">
-                </licence-provided-warning-banner>
-                <danger-banner
-                        *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )"
-                        [dangerText]="niMessage">
-                </danger-banner>
+        <licence-provided-warning-banner
+          *ngIf="!isNorthernIreland(pageState.candidateDriverNumber$ | async )"
+          [licenceProvided]="pageState.provisionalLicense$ | async">
+        </licence-provided-warning-banner>
 
-                <transmission [formGroup]="form"
-                              (transmissionChange)="transmissionChanged($event)">
-                </transmission>
-                <warning-banner *ngIf="displayTransmissionBanner()"
-                                warningText="An automatic licence will be issued."
-                                [warningIdentifier]="'transmission-'">
-                </warning-banner>
+        <danger-banner
+          *ngIf="isNorthernIreland(pageState.candidateDriverNumber$ | async )"
+          [dangerText]="niMessage">
+        </danger-banner>
 
-                <pass-certificate-number
-                        [form]="form"
-                        [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-                        (passCertificateNumberChange)="passCertificateNumberChanged($event)">
-                </pass-certificate-number>
+        <transmission
+          (transmissionChange)="transmissionChanged($event)"
+          [formGroup]="form">
+        </transmission>
 
-                <d255 [display]=true
-                      [d255]="pageState.d255$ | async"
-                      [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
-                      [outcome]="testOutcome"
-                      [formGroup]="form"
-                      (d255Change)="d255Changed($event)">
-                </d255>
-                <warning-banner *ngIf="pageState.d255$ | async"
-                                warningText="DVLA will not process the result until a D255 is received"
-                                [warningIdentifier]="'d255-'">
-                </warning-banner>
+        <warning-banner
+          *ngIf="displayTransmissionBanner()"
+          [warningIdentifier]="'transmission-'"
+          warningText="An automatic licence will be issued.">
+        </warning-banner>
 
-                <language-preferences [formGroup]="form"
-                                      [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
-                                      (welshChanged)="isWelshChanged($event)">
-                </language-preferences>
+        <pass-certificate-number
+          (passCertificateNumberChange)="passCertificateNumberChanged($event)"
+          [form]="form"
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+          [pastPassCerts]="pageState.pastPassCerts$ | async">
+        </pass-certificate-number>
 
-                <debrief-witnessed [display]=true
-                                   [formGroup]="form"
-                                   [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-                                   [outcome]="testOutcome"
-                                   (debriefWitnessedChange)="debriefWitnessedChanged($event)">
-                </debrief-witnessed>
+        <d255
+          (d255Change)="d255Changed($event)"
+          [d255]="pageState.d255$ | async"
+          [display]="true"
+          [eyesightTestFailed]="pageState.eyesightTestFailed$ | async"
+          [formGroup]="form"
+          [outcome]="testOutcome">
+        </d255>
 
-            </ion-grid>
-        </form>
-    </div>
+        <warning-banner
+          *ngIf="pageState.d255$ | async"
+          [warningIdentifier]="'d255-'"
+          warningText="DVLA will not process the result until a D255 is received">
+        </warning-banner>
+
+        <language-preferences
+          (welshChanged)="isWelshChanged($event)"
+          [formGroup]="form"
+          [isWelsh]="(pageState.conductedLanguage$ | async) === 'Cymraeg'">
+        </language-preferences>
+
+        <debrief-witnessed
+          (debriefWitnessedChange)="debriefWitnessedChanged($event)"
+          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+          [display]="true"
+          [formGroup]="form"
+          [outcome]="testOutcome">
+        </debrief-witnessed>
+
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
 
 <ion-footer>
-    <ion-row class="mes-full-width-card box-shadow">
-        <ion-button class="mes-primary-button" id="pass-finalisation-continue-button" (click)="onSubmit()">
-            <h3>Continue</h3>
-        </ion-button>
-    </ion-row>
+  <ion-row class="mes-full-width-card box-shadow">
+    <ion-button (click)="onSubmit()" class="mes-primary-button" id="pass-finalisation-continue-button">
+      <h3>Continue</h3>
+    </ion-button>
+  </ion-row>
 </ion-footer>

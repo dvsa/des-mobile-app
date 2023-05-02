@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 import { Injectable } from '@angular/core';
 import { PASS_CERTIFICATE_LENGTH } from './pass-certificate-validation.constants';
 
@@ -43,20 +42,28 @@ export class PassCertificateValidationProvider {
     const digit5 = parseInt(certificate[5], 10);
     const digit6 = parseInt(certificate[6], 10);
 
-    if (isNaN(digit1) || isNaN(digit2) || isNaN(digit3)
-          || isNaN(digit4) || isNaN(digit5) || isNaN(digit6)) {
+    if (
+      Number.isNaN(digit1)
+      || Number.isNaN(digit2)
+      || Number.isNaN(digit3)
+      || Number.isNaN(digit4)
+      || Number.isNaN(digit5)
+      || Number.isNaN(digit6)
+    ) {
       return 'invalid';
     }
 
     // take the 6 digits, apply the multiplier for each digit
     // (defined in digitMultiplier above) and add them together
     // then take the remainder of this value divided by 37.
-    const position: number = ((digit1 * digitMultipliers[0])
-          + (digit2 * digitMultipliers[1])
-          + (digit3 * digitMultipliers[2])
-          + (digit4 * digitMultipliers[3])
-          + (digit5 * digitMultipliers[4])
-          + (digit6 * digitMultipliers[5])) % 37;
+    const position: number = (
+      (digit1 * digitMultipliers[0])
+      + (digit2 * digitMultipliers[1])
+      + (digit3 * digitMultipliers[2])
+      + (digit4 * digitMultipliers[3])
+      + (digit5 * digitMultipliers[4])
+      + (digit6 * digitMultipliers[5])
+    ) % 37;
 
     // return the check digit from the checkDigits array at the position
     // calculated

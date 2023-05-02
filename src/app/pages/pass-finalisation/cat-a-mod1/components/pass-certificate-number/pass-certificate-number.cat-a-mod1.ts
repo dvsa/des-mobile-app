@@ -1,11 +1,6 @@
-import {
-  Component, Input, OnChanges, Output, EventEmitter,
-} from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import {
-  getByteCount,
-  getPassCertificateAMOD1Validator,
-} from '@shared/constants/field-validators/field-validators';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constants/field-validators/field-validators';
 import { AppComponent } from '@app/app.component';
 import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mod1.constants';
 
@@ -15,24 +10,29 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mo
 })
 export class PassCertificateNumberCatAMod1Component implements OnChanges {
 
+  static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;
   @Input()
   passCertificateNumberInput: string;
-
   @Input()
   form: UntypedFormGroup;
-
+  @Input()
+  pastPassCerts: string[] = [];
   @Output()
   passCertificateNumberChange = new EventEmitter<string>();
-
+  errors = {
+    duplicate: 'Enter an unused certificate number (7 characters)',
+    invalid: 'Enter a valid certificate number (7 characters)',
+  };
   formControl: UntypedFormControl;
-
-  static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;
-
   readonly passCertificateAMOD1Validator = getPassCertificateAMOD1Validator();
 
   constructor(
     public appComponent: AppComponent,
   ) {
+  }
+
+  get invalid(): boolean {
+    return !this.formControl.valid && this.formControl.dirty;
   }
 
   ngOnChanges(): void {
@@ -53,16 +53,21 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
     const validFormat: boolean = this.passCertificateAMOD1Validator.pattern.test(passCertificateNumber);
 
     if (actualLength > permittedLength) {
-      this.formControl.setErrors({ actualLength, permittedLength, value: passCertificateNumber });
+      this.formControl.setErrors({
+        actualLength,
+        permittedLength,
+        value: passCertificateNumber,
+      });
     } else if (!validFormat) {
       this.formControl.setErrors({ invalidFormat: passCertificateNumber });
+    } else if (validFormat && this.pastPassCerts.includes(passCertificateNumber.toUpperCase())) {
+      this.formControl.setErrors({
+        duplicate: true,
+        value: passCertificateNumber,
+      });
     }
 
     this.formControl.updateValueAndValidity();
     this.passCertificateNumberChange.emit(passCertificateNumber?.toUpperCase());
-  }
-
-  get invalid(): boolean {
-    return !this.formControl.valid && this.formControl.dirty;
   }
 }
