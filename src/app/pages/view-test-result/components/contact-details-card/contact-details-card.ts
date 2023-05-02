@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Candidate, CommunicationPreferences, Address } from '@dvsa/mes-test-schema/categories/common';
 import { get } from 'lodash';
+import { RegeneratedEmails } from '@pages/view-test-result/view-test-result.model';
 
 @Component({
   selector: 'contact-details-card',
@@ -12,7 +13,7 @@ export class ContactDetailsCardComponent {
   candidateData: Candidate;
 
   @Input()
-  reSentEmails: { newEmail: string, newLanguage: string, regeneratedDate: string }[];
+  reEnterEmail: RegeneratedEmails = null;
 
   @Input()
   communicationPreferencesData: CommunicationPreferences;
