@@ -1,6 +1,6 @@
-<div *ngIf="(componentState.count$ | async) > 0 && displayIncompleteBanner(componentState.unsubmittedTestsInOrder$ | async)">
+<div *ngIf="(componentState.count$ | async).length > 0">
   <img src="/assets/imgs/exclamation-black.png" alt="Incomplete tests icon"/>
   <label>
-    <span>{{getIncompleteText(componentState.count$ | async)}}</span>
+    <span>{{getIncompleteText((componentState.count$ | async).length)}}</span>
   </label>
 </div>
