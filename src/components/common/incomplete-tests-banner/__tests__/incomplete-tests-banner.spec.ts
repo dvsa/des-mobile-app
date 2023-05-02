@@ -13,7 +13,7 @@ import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-confi
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { IncompleteTestsBanner } from '../incomplete-tests-banner';
 
-fdescribe('IncompleteTestsBanner', () => {
+describe('IncompleteTestsBanner', () => {
   let fixture: ComponentFixture<IncompleteTestsBanner>;
   let component: IncompleteTestsBanner;
 
