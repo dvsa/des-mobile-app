@@ -55,7 +55,9 @@
         <pass-certificate-number
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
+          [isPracticeMode]="isPracticeMode"
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+          [pastPassCerts]="pageState.pastPassCerts$ | async">
         </pass-certificate-number>
 
         <d255

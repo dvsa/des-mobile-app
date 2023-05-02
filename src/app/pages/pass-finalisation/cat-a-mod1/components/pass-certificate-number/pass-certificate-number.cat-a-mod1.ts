@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import {
+  Component, EventEmitter, Input, OnChanges, Output,
+} from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constants/field-validators/field-validators';
 import { AppComponent } from '@app/app.component';
@@ -11,14 +13,22 @@ import { PASS_CERTIFICATE_NUMBER_CTRL } from './pass-certificate-number.cat-a-mo
 export class PassCertificateNumberCatAMod1Component implements OnChanges {
 
   static readonly fieldName: string = PASS_CERTIFICATE_NUMBER_CTRL;
+
   @Input()
   passCertificateNumberInput: string;
+
   @Input()
   form: UntypedFormGroup;
+
   @Input()
   pastPassCerts: string[] = [];
+
+  @Input()
+  isPracticeMode: boolean = false;
+
   @Output()
   passCertificateNumberChange = new EventEmitter<string>();
+
   errors = {
     duplicate: 'Enter an unused certificate number (7 characters)',
     invalid: 'Enter a valid certificate number (7 characters)',
@@ -60,7 +70,7 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
       });
     } else if (!validFormat) {
       this.formControl.setErrors({ invalidFormat: passCertificateNumber });
-    } else if (validFormat && this.pastPassCerts.includes(passCertificateNumber.toUpperCase())) {
+    } else if (validFormat && this.pastPassCerts?.includes(passCertificateNumber.toUpperCase())) {
       this.formControl.setErrors({
         duplicate: true,
         value: passCertificateNumber,

@@ -43,7 +43,9 @@
         <pass-certificate-number-cat-a-mod1
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
+          [isPracticeMode]="isPracticeMode"
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+          [pastPassCerts]="pageState.pastPassCerts$ | async">
         </pass-certificate-number-cat-a-mod1>
 
         <d255
@@ -55,9 +57,10 @@
           [outcome]="pageState.testOutcome$ | async">
         </d255>
 
-        <warning-banner *ngIf="pageState.d255$ | async"
-                        [warningIdentifier]="'d255-'"
-                        warningText="DVLA will not process the result until a D255 is received">
+        <warning-banner
+          *ngIf="pageState.d255$ | async"
+          [warningIdentifier]="'d255-'"
+          warningText="DVLA will not process the result until a D255 is received">
         </warning-banner>
 
         <language-preferences
@@ -69,7 +72,7 @@
         <debrief-witnessed
           (debriefWitnessedChange)="debriefWitnessedChanged($event)"
           [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-          [display]=true
+          [display]="true"
           [formGroup]="form"
           [outcome]="pageState.testOutcome$ | async">
         </debrief-witnessed>

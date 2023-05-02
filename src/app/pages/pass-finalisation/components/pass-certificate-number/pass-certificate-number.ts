@@ -1,5 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component, EventEmitter, Input, OnChanges, Output,
+} from '@angular/core';
+import {
+  UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators,
+} from '@angular/forms';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
 import { AppComponent } from '@app/app.component';
@@ -21,6 +25,9 @@ export class PassCertificateNumberComponent implements OnChanges {
 
   @Input()
   form: UntypedFormGroup;
+
+  @Input()
+  isPracticeMode: boolean = false;
 
   @Output()
   passCertificateNumberChange = new EventEmitter<string>();
@@ -63,13 +70,16 @@ export class PassCertificateNumberComponent implements OnChanges {
       };
     }
 
-    // check if user has already inputted pass cert
-    const hasPassCertBeenUsed = this.pastPassCerts.includes(c.value?.toUpperCase());
-    if (hasPassCertBeenUsed) {
-      return {
-        valid: true,
-        duplicate: true,
-      };
+    // whilst not in practice mode
+    if (!this.isPracticeMode) {
+      // check if user has already inputted pass cert
+      const hasPassCertBeenUsed = this.pastPassCerts.includes(c.value?.toUpperCase());
+      if (hasPassCertBeenUsed) {
+        return {
+          valid: true,
+          duplicate: true,
+        };
+      }
     }
     // valid pass cert and not a duplicate
     return null;
