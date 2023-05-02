@@ -52,7 +52,9 @@ import {
   ProvisionalLicenseReceived,
 } from '@store/tests/pass-completion/pass-completion.actions';
 import { GearboxCategoryChanged } from '@store/tests/vehicle-details/vehicle-details.actions';
-import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
+import {
+  D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
+} from '@store/tests/test-summary/test-summary.actions';
 import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
