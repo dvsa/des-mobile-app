@@ -10,6 +10,7 @@ import { journalReducer } from '@store/journal/journal.reducer';
 import { SlotProvider } from '@providers/slot/slot';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 import { IncompleteTestsBanner } from '../incomplete-tests-banner';
 
 describe('IncompleteTestsBanner', () => {
@@ -40,7 +41,7 @@ describe('IncompleteTestsBanner', () => {
   describe('DOM', () => {
     it('should display the number of incomplete tests', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of(1) };
+      component.componentState = { count$: of(1), unsubmittedTestsInOrder$: of([]) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('span')).nativeElement.innerHTML;
@@ -48,7 +49,7 @@ describe('IncompleteTestsBanner', () => {
     });
     it('should display the number of incomplete tests as plural', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of(5) };
+      component.componentState = { count$: of(5), unsubmittedTestsInOrder$: of([]) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('span')).nativeElement.innerHTML;
@@ -56,7 +57,7 @@ describe('IncompleteTestsBanner', () => {
     });
     it('should not be visible when the fault count is 0', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of(0) };
+      component.componentState = { count$: of(0), unsubmittedTestsInOrder$: of([]) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('div'));
@@ -71,6 +72,16 @@ describe('IncompleteTestsBanner', () => {
 
     it('should return a message for a single test', () => {
       expect(component.getIncompleteText(1)).toEqual('You have an incomplete test');
+    });
+  });
+
+  describe('displayIncompleteBanner', () => {
+    it('should return true when tests === 0', () => {
+      expect(component.displayIncompleteBanner([] as SlotItem[])).toEqual(true);
+    });
+
+    it('should return false when tests > 0', () => {
+      expect(component.displayIncompleteBanner([{}] as SlotItem[])).toEqual(false);
     });
   });
 });

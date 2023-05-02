@@ -1,16 +1,21 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { SlotProvider } from '@providers/slot/slot';
 import { DateTime } from '@shared/helpers/date-time';
 import { map } from 'rxjs/operators';
 import { DateTimeProvider } from '@providers/date-time/date-time';
-import { combineLatest, Observable } from 'rxjs';
-import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
-import { sumFlatArray } from '@shared/helpers/sum-number-array';
+import { Observable } from 'rxjs';
+import {
+  unsubmittedTestSlotsCount$,
+  unsubmittedTestSlotsInDateOrder$,
+} from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { SlotItem } from '@providers/slot-selector/slot-item';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 interface IncompleteTestsBannerComponentState {
   count$: Observable<number>;
+  unsubmittedTestsInOrder$: Observable<SlotItem[]>
 }
 
 enum CountDescription {
@@ -35,14 +40,21 @@ export class IncompleteTestsBanner implements OnInit {
     private store$: Store<StoreModel>,
     private slotProvider: SlotProvider,
     private dateTimeProvider: DateTimeProvider,
+    private appConfProvider: AppConfigProvider,
   ) {
   }
 
   ngOnInit() {
     this.componentState = {
-      count$: combineLatest([
-        unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
-      ]).pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
+      unsubmittedTestsInOrder$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider)
+        .pipe(
+          map((data: SlotItem[]) => data.filter((value) => {
+            return new DateTime(value.slotData.slotDetail.start).daysDiff(new DateTime())
+              > this.appConfProvider.getAppConfig()?.journal?.numberOfDaysToView;
+          })),
+        ),
+      /* Sum all individual counts to determine, overall count */
+      count$: unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
     };
   }
 
@@ -51,6 +63,10 @@ export class IncompleteTestsBanner implements OnInit {
       return CountDescription.MULTIPLE;
     }
     return CountDescription.SINGLE;
+  }
+
+  displayIncompleteBanner(tests: SlotItem[]): boolean {
+    return tests.length === 0;
   }
 
 }
