@@ -66,7 +66,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   errorLink: string;
   additionalErrorText: boolean;
   reEnterEmailSubscription: Subscription;
-  reEnterEmail: RegeneratedEmails;
+  reEnterEmail: RegeneratedEmails = null;
 
   constructor(
     platform: Platform,

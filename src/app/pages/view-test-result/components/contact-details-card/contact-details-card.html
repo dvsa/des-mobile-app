@@ -10,8 +10,9 @@
 
             <data-row [label]="'Booking email'" [value]="oldEmailAddress"></data-row>
             <data-row [label]="'Confirmed email'" [value]="newEmailAddress"></data-row>
-            <data-row-custom *ngIf="reSentEmails" [label]="'Re-sent email(s)'">
-              <div class="mes-data" *ngFor="let email of reSentEmails">{{email.newEmail}}</div>
+
+            <data-row-custom *ngIf="reEnterEmail?.emailRegenerationDetails" [label]="'Re-sent email(s)'">
+              <div class="mes-data" *ngFor="let email of reEnterEmail.emailRegenerationDetails">{{email.newEmail}}</div>
             </data-row-custom>
 
             <data-row-custom [label]="'Address'" [shouldHaveSeperator]="false">
