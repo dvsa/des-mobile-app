@@ -10,6 +10,7 @@ import { journalReducer } from '@store/journal/journal.reducer';
 import { SlotProvider } from '@providers/slot/slot';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { SlotItem } from '@providers/slot-selector/slot-item';
 import { IncompleteTestsBanner } from '../incomplete-tests-banner';
 
 describe('IncompleteTestsBanner', () => {
@@ -40,7 +41,7 @@ describe('IncompleteTestsBanner', () => {
   describe('DOM', () => {
     it('should display the number of incomplete tests', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of(1) };
+      component.componentState = { count$: of([{}] as SlotItem[]) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('span')).nativeElement.innerHTML;
@@ -48,7 +49,7 @@ describe('IncompleteTestsBanner', () => {
     });
     it('should display the number of incomplete tests as plural', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of(5) };
+      component.componentState = { count$: of([{}, {}] as SlotItem[]) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('span')).nativeElement.innerHTML;
@@ -56,7 +57,7 @@ describe('IncompleteTestsBanner', () => {
     });
     it('should not be visible when the fault count is 0', () => {
       fixture.detectChanges();
-      component.componentState = { count$: of(0) };
+      component.componentState = { count$: of([] as SlotItem[]) };
 
       fixture.detectChanges();
       const rendered = fixture.debugElement.query(By.css('div'));
