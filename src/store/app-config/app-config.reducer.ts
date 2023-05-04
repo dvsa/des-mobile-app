@@ -1,4 +1,4 @@
-import { createReducer, createFeatureSelector, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AppConfig } from '@providers/app-config/app-config.model';
 import { LoadAppConfig } from './app-config.actions';
@@ -39,6 +39,7 @@ export const initialState: AppConfig = {
     enableTestReportPracticeMode: null,
     enableEndToEndPracticeMode: null,
     enableLogoutButton: null,
+    enablePracticeModeAnalytics: null,
     testPermissionPeriods: [],
   },
   tests: {
