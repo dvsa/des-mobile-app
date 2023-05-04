@@ -483,6 +483,45 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     }
   }
 
+  //light mode variables for toggle
+  body.light {
+    /** custom colours **/
+    --primary: #488aff;
+    --secondary: #32db64;
+    --danger: #f53d3d;
+    --theme-main-colour-soft: #f4f4f4;
+    --theme-opposing-colour-soft: #222;
+    --mes-secondary-header: #dbd8d8;
+    --mes-background: #efefee;
+    --mes-toolbar-background: #{$mes-toolbar-background};
+    --mes-theme-main-colour: #{$gds-white};
+    --mes-theme-opposing-colour: #{$gds-black};
+    --mes-theme-main-variant1: #E6E6E6;
+    --mes-theme-main-variant2: #D9D9D9;
+    --mes-theme-main-variant3: #dee0e2;
+    --mes-theme-main-variant4: #f8f8f8;
+    --mes-theme-main-variant5: #6f777b;
+    --mes-theme-main-variant6: #bfc1c3;
+    --mes-theme-main-light: #f9f9f9;
+    --mes-theme-test-report-hold: #eee;
+    --mesBoxGrey: #f6f6f6;
+    --journalTestCategory: #818080;
+    --journalSlotChangeIdentifier: #d0021b;
+    --secondary-button: #f5a623;
+    --secondary-button-darken: #DC8D0A;
+    --nonTestActivitySlotBackground: rgba(198, 236, 233, 0.1);
+    --travelSlotBackground: #eef8e5;
+    --mes-validation-error: #b12025;
+    --mes-light-yellow: #F8E8CE;
+    --mes-light-grey: #f9f9f9;
+    --mes-dvsa-navy: #243673;
+    --reverseLightBlue: #e8f0fe;
+
+    /** gds colours **/
+    --gds-theme-opposite: #{$gds-black};
+    --gds-theme-main: #{$gds-white};
+  }
+
   body {
     --ion-color-primary: #428cff;
     --ion-color-primary-rgb: 66, 140, 255;
