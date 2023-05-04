@@ -1,9 +1,5 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
-import {
-  UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators,
-} from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
 import { AppComponent } from '@app/app.component';
@@ -33,7 +29,7 @@ export class PassCertificateNumberComponent implements OnChanges {
   passCertificateNumberChange = new EventEmitter<string>();
 
   errors: { duplicate: string; invalid: string; } = {
-    duplicate: 'Enter an unused certificate number (8 characters)',
+    duplicate: 'This certificate number has been used. Please enter a different number.',
     invalid: 'Enter a valid certificate number (8 characters)',
   };
 

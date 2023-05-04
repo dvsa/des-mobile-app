@@ -1,6 +1,4 @@
-import {
-  Component, EventEmitter, Input, OnChanges, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { getByteCount, getPassCertificateAMOD1Validator } from '@shared/constants/field-validators/field-validators';
 import { AppComponent } from '@app/app.component';
@@ -30,7 +28,7 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
   passCertificateNumberChange = new EventEmitter<string>();
 
   errors = {
-    duplicate: 'Enter an unused certificate number (7 characters)',
+    duplicate: 'This certificate number has been used. Please enter a different number.',
     invalid: 'Enter a valid certificate number (7 characters)',
   };
   formControl: UntypedFormControl;
