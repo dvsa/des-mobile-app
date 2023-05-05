@@ -48,42 +48,6 @@
     margin-bottom: 2px;
   }
 
-  .go-to-journal-card {
-    @media (orientation: landscape) {
-      margin-right: 6px;
-      width: calc(100% - 18px);
-    }
-  }
-
-  .search-card {
-    @media (orientation: landscape) {
-      margin-left: 8px;
-      margin-right: 8px;
-      width: calc(100% - 16px);
-    }
-    @media (orientation: portrait) {
-      margin-top: 0;
-      margin-right: 8px;
-      width: calc(100% - 20px);
-    }
-  }
-
-  .rekey-search-card {
-    @media (orientation: landscape) {
-      margin-left: 6px;
-      width: calc(100% - 18px);
-    }
-    @media (orientation: portrait) {
-      margin-top: 0;
-      margin-left: 8px;
-      width: calc(100% - 20px);
-    }
-  }
-
-  .practice-mode-card {
-    margin-bottom: 2px;
-  }
-
   hr {
     background-color: var(--gds-grey-2);
     height: 2px;
