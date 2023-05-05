@@ -12,7 +12,7 @@
 
 .menu-item {
   --ion-item-background: var(--mes-toolbar-background);
-  color: white;
+  color: var(--gds-white);
 }
 
   #dashboard-menu-button {
@@ -20,7 +20,7 @@
   }
 
   .menu-version-label {
-    color: white;
+    color: var(--gds-white);
   }
 
   body {
@@ -28,6 +28,6 @@
   }
 
   .toolbar-divider {
-    border-bottom: .5px solid white;
+    border-bottom: .5px solid var(--gds-white);
   }
 }
