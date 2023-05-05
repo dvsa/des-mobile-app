@@ -68,7 +68,12 @@ export class PassCertificateNumberCatAMod1Component implements OnChanges {
       });
     } else if (!validFormat) {
       this.formControl.setErrors({ invalidFormat: passCertificateNumber });
-    } else if (validFormat && this.pastPassCerts?.includes(passCertificateNumber.toUpperCase())) {
+    } else if (
+      // Exclude duplicate pass cert errors whilst in practice mode
+      !this.isPracticeMode
+      && validFormat
+      && this.pastPassCerts?.includes(passCertificateNumber.toUpperCase())
+    ) {
       this.formControl.setErrors({
         duplicate: true,
         value: passCertificateNumber,
