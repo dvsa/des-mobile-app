@@ -1,6 +1,6 @@
 <ion-header>
   <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+  <ion-toolbar [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}" mode="ios">
     <ion-title id="pass-finalisation-title">Test debrief - {{pageState.candidateUntitledName$ | async}}</ion-title>
     <ion-buttons id="back-button" slot="start">
       <ion-back-button></ion-back-button>
@@ -10,51 +10,51 @@
 
 <ion-content>
   <div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
         <finalisation-header
-          [candidateName]="pageState.candidateName$ | async"
           [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
+          [candidateName]="pageState.candidateName$ | async"
           [candidatePrnNumber]="pageState.prn$ | async"
+          [grade]="pageState.testOutcomeGrade$ | async"
           [isStandardsCheck]="pageState.isStandardsCheck$ | async"
-          [outcomeText]="pageState.testOutcomeText$ | async"
-          [grade]="pageState.testOutcomeGrade$ | async">
+          [outcomeText]="pageState.testOutcomeText$ | async">
         </finalisation-header>
 
         <debrief-witnessed
+          (debriefWitnessedChange)="debriefWitnessedChanged($event)"
+          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
           [display]="true"
           [formGroup]="form"
-          [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-          [outcome]="testOutcome"
-          (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+          [outcome]="testOutcome">
         </debrief-witnessed>
 
         <further-development
+          (furtherDevelopmentChange)="furtherDevelopmentChanged($event)"
           [display]="true"
           [formGroup]="form"
-          [outcome]="testOutcome"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
-          (furtherDevelopmentChange)="furtherDevelopmentChanged($event)">
+          [outcome]="testOutcome">
         </further-development>
 
         <div *ngIf="(pageState.furtherDevelopment$ | async) !== false" class="mes-row-separator padding-top-10"></div>
 
         <reason-given
+          (adviceReason)="adviceReasonChanged($event)"
           [display]="true"
           [formGroup]="form"
-          [outcome]="testOutcome"
           [furtherDevelopment]="pageState.furtherDevelopment$ | async"
-          [reasonGivenText]="pageState.adviceReason$ | async"
-          (adviceReason)="adviceReasonChanged($event)">
+          [outcome]="testOutcome"
+          [reasonGivenText]="pageState.adviceReason$ | async">
         </reason-given>
 
         <test-start-end-times
-                *ngIf="pageState.isStandardsCheck$ | async"
-                [formGroup]="form"
-                [startTime]="pageState.testStartTime$ | async"
-                [endTime]="pageState.testEndTime$ | async"
-                (testStartTimeChange)="testStartTimeChanged($event)"
-                (testEndTimeChange)="testEndTimeChanged($event)">
+          (testEndTimeChange)="testEndTimeChanged($event)"
+          (testStartTimeChange)="testStartTimeChanged($event)"
+          *ngIf="pageState.isStandardsCheck$ | async"
+          [endTime]="pageState.testEndTime$ | async"
+          [formGroup]="form"
+          [startTime]="pageState.testStartTime$ | async">
         </test-start-end-times>
       </ion-grid>
     </form>

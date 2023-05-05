@@ -1,30 +1,32 @@
 <ion-row class="mes-validated-row mes-row-separator" id="provisional-license-card">
-    <div class="validation-bar" [class.ng-invalid]="isInvalid()"></div>
-    <ion-col class="component-label ion-align-self-center" size="32">
-        <label id="pass-certificate-label">Pass certificate number</label>
-    </ion-col>
-    <ion-col class="ion-align-self-center mes-padding-left">
-        <ion-row class="spacing-row"></ion-row>
-        <ion-row [formGroup]="form">
-            <ion-col>
-                <ion-input
-                        [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
-                        formControlName="passCertificateNumberCtrl"
-                        [class.ng-invalid]="isInvalid()"
-                        type="text"
-                        id="pass-certificate-number"
-                        class="ion-input-styling increase-width"
-                        maxlength="8"
-                        aria-labelledby="pass-certificate-label"
-                        (ionChange)="passCertificateNumberChanged($event.target.value)">
-                </ion-input>
-            </ion-col>
-        </ion-row>
-        <ion-row class="validation-message-row ion-align-items-center">
-            <div class="validation-text" [class.ng-invalid]="isInvalid()"
-                 id="pass-finalisation-certificate-number-validation-text">
-                Enter a valid certificate number (8 characters)
-            </div>
-        </ion-row>
-    </ion-col>
+  <div [class.ng-invalid]="invalid" class="validation-bar"></div>
+  <ion-col class="component-label ion-align-self-center" size="32">
+    <label id="pass-certificate-label">Pass certificate number</label>
+  </ion-col>
+  <ion-col class="ion-align-self-center mes-padding-left">
+    <ion-row class="spacing-row"></ion-row>
+    <ion-row [formGroup]="form">
+      <ion-col>
+        <ion-input
+          (ionChange)="passCertificateNumberChanged($event.target.value)"
+          [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
+          [class.ng-invalid]="invalid"
+          aria-labelledby="pass-certificate-label"
+          class="ion-input-styling increase-width"
+          formControlName="passCertificateNumberCtrl"
+          id="pass-certificate-number"
+          maxlength="8"
+          type="text">
+        </ion-input>
+      </ion-col>
+    </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div
+        [class.ng-invalid]="invalid"
+        class="validation-text"
+        id="pass-finalisation-certificate-number-validation-text">
+        {{formControl.hasError('duplicate') ? errors.duplicate : errors.invalid}}
+      </div>
+    </ion-row>
+  </ion-col>
 </ion-row>
