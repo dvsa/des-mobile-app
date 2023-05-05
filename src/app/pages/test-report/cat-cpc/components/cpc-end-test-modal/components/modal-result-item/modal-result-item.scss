@@ -1,4 +1,7 @@
 :host {
+  .opposing-text {
+    color: var(--mes-theme-opposing-colour);
+  }
   .result-row {
     display: grid;
     justify-items: center;
