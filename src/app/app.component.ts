@@ -6,9 +6,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { AlertController, MenuController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import {
-  combineLatest, merge, Observable, Subscription,
-} from 'rxjs';
+import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
 import { init as sentryAngularInit } from '@sentry/angular';
@@ -55,7 +53,10 @@ export interface Pages {
 })
 export class AppComponent extends LogoutBasePageComponent implements OnInit {
   Pages: Pages[] = [
-    { title: DASHBOARD_PAGE, descriptor: 'Dashboard' },
+    {
+      title: DASHBOARD_PAGE,
+      descriptor: 'Dashboard',
+    },
     {
       title: UNUPLOADED_TESTS_PAGE,
       descriptor: 'Unsubmitted Tests',
@@ -92,6 +93,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async ngOnInit() {
     try {
       await this.platform.ready();
+      alert('test');
       if (this.platform.is('cordova')) {
         await this.deviceProvider.disableSingleAppMode();
       }
@@ -113,7 +115,8 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
         logoutEnabled$: this.store$.select(selectLogoutEnabled),
         unSubmittedTestSlotsCount$: combineLatest([
           unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
-        ]).pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
+        ])
+          .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
       };
 
     } catch {
@@ -233,7 +236,10 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
     return Promise.resolve();
   };
 
-  navPage = async ({ title, descriptor }: { title: string; descriptor: string; }): Promise<void> => {
+  navPage = async ({
+                     title,
+                     descriptor,
+                   }: { title: string; descriptor: string; }): Promise<void> => {
     await this.router.navigate([title]);
     await this.menuController.close();
     this.store$.dispatch(SideMenuItemSelected(descriptor));

@@ -8,11 +8,42 @@
   <base href="/" />
 
   <meta name="color-scheme" content="light dark" />
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport"
+        content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
   <link rel="icon" type="image/png" href="assets/icon/favicon.png" />
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script>
+    alert('stop');
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    console.log(dataLayer);
+
+    gtag('js', new Date());
+
+    fetch('https://www.googletagmanager.com/gtag/js?id=G-4XPD2B5Y1J')
+      .then((response) => {
+        console.log('first then', response);
+        return response.text();
+      })
+      .then((response) => {
+        console.log('second then', response);
+
+        if (document.location.protocol.startsWith('http')) {
+          Function(response)();
+        } else {
+          Function(response.replaceAll('http:', 'capacitor:'))();
+        }
+      });
+
+  </script>
 
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -20,7 +51,7 @@
 </head>
 
 <body>
-  <app-root></app-root>
+<app-root></app-root>
 </body>
 
 </html>

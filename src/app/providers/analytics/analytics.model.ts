@@ -12,6 +12,7 @@ export interface IAnalyticsProvider {
   logException(message: string, fatal: boolean): void;
 
   setUserId(userId: string): void;
+
   initialiseAnalytics(): Promise<any>;
 }
 
@@ -42,7 +43,7 @@ export enum AnalyticsScreenNames {
   REKEY_SEARCH = 'rekey search screen',
   REKEY_REASON = 'rekey reason screen',
   REKEY_UPLOADED = 'rekey uploaded screen',
-  DASHBOARD = 'dashboard screen',
+  DASHBOARD = 'matt test screen',
   VEHICLE_CHECKS = 'vehicle checks screen',
   REVERSE_DIAGRAM = 'reverse diagram screen',
   CONFIRM_TEST_DETAILS = 'confirm test details screen',

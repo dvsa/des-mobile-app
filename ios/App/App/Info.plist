@@ -53,6 +53,11 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>WKAppBoundDomains</key>
+  <array>
+    <string>region1.google-analytics.com</string>
+    <string>ssl.google-analytics.com</string>
+  </array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

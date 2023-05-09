@@ -9,6 +9,9 @@ const config: CapacitorConfig = {
     SplashScreen: {
       launchAutoHide: false,
     },
+    CapacitorCookies: {
+      enabled: true,
+    },
   },
   cordova: {},
 };
