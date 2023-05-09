@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
+import {
+  concatMap, filter, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
   AnalyticsDimensionIndices,
@@ -89,7 +91,7 @@ export class CommunicationAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [, tests, applicationReference, candidateId, category]:
-        [ReturnType<typeof CommunicationViewDidEnter>, TestsModel, string, number, CategoryCode, boolean],
+      [ReturnType<typeof CommunicationViewDidEnter>, TestsModel, string, number, CategoryCode, boolean],
     ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
@@ -122,7 +124,7 @@ export class CommunicationAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([action, tests, category]:
-                 [ReturnType<typeof CommunicationValidationError>, TestsModel, CategoryCode, boolean]) => {
+    [ReturnType<typeof CommunicationValidationError>, TestsModel, CategoryCode, boolean]) => {
       const screenName = formatAnalyticsText(AnalyticsScreenNames.COMMUNICATION, tests);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenName})`, action.errorMessage);

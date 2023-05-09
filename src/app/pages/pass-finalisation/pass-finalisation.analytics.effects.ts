@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions, createEffect, ofType,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-import { switchMap, concatMap, withLatestFrom } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import {
+  concatMap, filter, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import {
-  AnalyticsScreenNames,
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { getTests } from '@store/tests/tests.reducer';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
-import { AnalyticRecorded, AnalyticNotRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import * as passCompletionActions from '@store/tests/pass-completion/pass-completion.actions';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getActivityCode } from '@store/tests/activity-code/activity-code.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
+import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { TestsModel } from '@store/tests/tests.model';
@@ -39,10 +39,8 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { Router } from '@angular/router';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import {
-  PassFinalisationViewDidEnter,
-  PassFinalisationValidationError,
-} from './pass-finalisation.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { PassFinalisationValidationError, PassFinalisationViewDidEnter } from './pass-finalisation.actions';
 
 @Injectable()
 export class PassFinalisationAnalyticsEffects {
@@ -54,19 +52,31 @@ export class PassFinalisationAnalyticsEffects {
     private actions$: Actions,
     private store$: Store<StoreModel>,
     private router: Router,
+    private appConfigProvider: AppConfigProvider,
   ) {
   }
 
   passFinalisationViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(PassFinalisationViewDidEnter),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    switchMap(([, tests]: [ReturnType<typeof PassFinalisationViewDidEnter>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof PassFinalisationViewDidEnter>, TestsModel, boolean],
+    ) => {
       const screenName = formatAnalyticsText(AnalyticsScreenNames.PASS_FINALISATION, tests);
       this.analytics.setCurrentPage(screenName);
       return of(AnalyticRecorded());
@@ -75,14 +85,25 @@ export class PassFinalisationAnalyticsEffects {
 
   validationErrorEffect$ = createEffect(() => this.actions$.pipe(
     ofType(PassFinalisationValidationError),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    switchMap(([action, tests]: [ReturnType<typeof PassFinalisationValidationError>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [action, tests]:
+      [ReturnType<typeof PassFinalisationValidationError>, TestsModel, boolean],
+    ) => {
       const formattedScreenName = formatAnalyticsText(AnalyticsScreenNames.PASS_FINALISATION, tests);
       this.analytics.logError(
         `${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`,
@@ -94,14 +115,25 @@ export class PassFinalisationAnalyticsEffects {
 
   code78PresentEffect$ = createEffect(() => this.actions$.pipe(
     ofType(passCompletionActions.Code78Present),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType<typeof passCompletionActions.Code78Present>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof passCompletionActions.Code78Present>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_CODE_78, tests),
@@ -113,14 +145,25 @@ export class PassFinalisationAnalyticsEffects {
 
   code78NotPresentEffect$ = createEffect(() => this.actions$.pipe(
     ofType(passCompletionActions.Code78NotPresent),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType<typeof passCompletionActions.Code78NotPresent>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof passCompletionActions.Code78NotPresent>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_CODE_78, tests),
@@ -132,14 +175,25 @@ export class PassFinalisationAnalyticsEffects {
 
   provisionalLicenseNotReceived$ = createEffect(() => this.actions$.pipe(
     ofType(passCompletionActions.ProvisionalLicenseNotReceived),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType<typeof passCompletionActions.ProvisionalLicenseNotReceived>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof passCompletionActions.ProvisionalLicenseNotReceived>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LICENSE_RECEIVED, tests),
@@ -151,14 +205,25 @@ export class PassFinalisationAnalyticsEffects {
 
   provisionalLicenseReceived$ = createEffect(() => this.actions$.pipe(
     ofType(passCompletionActions.ProvisionalLicenseReceived),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType<typeof passCompletionActions.ProvisionalLicenseReceived>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof passCompletionActions.ProvisionalLicenseReceived>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LICENSE_RECEIVED, tests),
@@ -170,20 +235,30 @@ export class PassFinalisationAnalyticsEffects {
 
   transmissionChanged$ = createEffect(() => this.actions$.pipe(
     ofType(vehicleDetailsActions.GearboxCategoryChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([action, tests, activityCode]:
-    [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests, activityCode]:
+      [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCode, boolean],
+    ) => {
       // Check current URL begins with PassFin prefix before recording analytic to stop duplicated events.
       if (activityCode != null && this.router.url?.startsWith(this.classPrefix)) {
         this.analytics.logEvent(
@@ -199,20 +274,29 @@ export class PassFinalisationAnalyticsEffects {
 
   d255Yes$ = createEffect(() => this.actions$.pipe(
     ofType(testSummaryActions.D255Yes),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, activityCode]: [ReturnType<typeof testSummaryActions.D255Yes>, TestsModel, ActivityCode],
+      [, tests, activityCode]:
+      [ReturnType<typeof testSummaryActions.D255Yes>, TestsModel, ActivityCode, boolean],
     ) => {
       // D255Yes used in pass & non-pass flows, this guard stops the appearance of duplicated events.
       if (activityCode === ActivityCodes.PASS) {
@@ -229,20 +313,29 @@ export class PassFinalisationAnalyticsEffects {
 
   d255No$ = createEffect(() => this.actions$.pipe(
     ofType(testSummaryActions.D255No),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, activityCode]: [ReturnType<typeof testSummaryActions.D255No>, TestsModel, ActivityCode],
+      [, tests, activityCode]:
+      [ReturnType<typeof testSummaryActions.D255No>, TestsModel, ActivityCode, boolean],
     ) => {
       // D255No used in pass & non-pass flows, this guard stops the appearance of duplicated events.
       if (activityCode === ActivityCodes.PASS) {
@@ -259,20 +352,30 @@ export class PassFinalisationAnalyticsEffects {
 
   candidateChoseToProceedWithTestInEnglish$ = createEffect(() => this.actions$.pipe(
     ofType(commsActions.CandidateChoseToProceedWithTestInEnglish),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([, tests, activityCode]:
-    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, activityCode]:
+      [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCode, boolean],
+    ) => {
       if (activityCode !== null) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -287,20 +390,30 @@ export class PassFinalisationAnalyticsEffects {
 
   candidateChoseToProceedWithTestInWelsh$ = createEffect(() => this.actions$.pipe(
     ofType(commsActions.CandidateChoseToProceedWithTestInWelsh),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([, tests, activityCode]:
-    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, activityCode]:
+      [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCode, boolean],
+    ) => {
       if (activityCode !== null) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -314,18 +427,26 @@ export class PassFinalisationAnalyticsEffects {
   ));
 
   passFinalisationReportActivityCode$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      passFinalisationActions.PassFinalisationReportActivityCode,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(passFinalisationActions.PassFinalisationReportActivityCode),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([{ activityCode }, tests]:
-    [ReturnType <typeof passFinalisationActions.PassFinalisationReportActivityCode>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [{ activityCode }, tests]:
+      [ReturnType<typeof passFinalisationActions.PassFinalisationReportActivityCode>, TestsModel, boolean],
+    ) => {
       const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -338,22 +459,31 @@ export class PassFinalisationAnalyticsEffects {
 
   passFinalisationSeekFurtherDevelopment$ = createEffect(() => this.actions$.pipe(
     ofType(SeekFurtherDevelopmentChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getReview),
+            select(getFurtherDevelopment),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getReview),
-          select(getFurtherDevelopment),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, furtherDevelopment]: [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean],
+      [, tests, furtherDevelopment]:
+      [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -366,22 +496,31 @@ export class PassFinalisationAnalyticsEffects {
 
   passFinalisationReasonGiven$ = createEffect(() => this.actions$.pipe(
     ofType(ReasonForNoAdviceGivenChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getReview),
+            select(getReasonForNoAdviceGiven),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getReview),
-          select(getReasonForNoAdviceGiven),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, reason]: [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string],
+      [, tests, reason]:
+      [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),

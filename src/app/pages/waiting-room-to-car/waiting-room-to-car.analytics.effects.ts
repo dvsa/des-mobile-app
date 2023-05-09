@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
+import {
+  concatMap, filter, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsScreenNames,
   AnalyticsDimensionIndices,
   AnalyticsErrorTypes,
-  AnalyticsEvents,
   AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import {
   WaitingRoomToCarBikeCategoryChanged,
@@ -23,7 +25,7 @@ import {
 } from '@pages/waiting-room-to-car/waiting-room-to-car.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData, isPracticeMode } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
@@ -36,6 +38,7 @@ import {
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   DualControlsToggledNo,
   DualControlsToggledYes,
@@ -43,7 +46,6 @@ import {
 } from '@store/tests/vehicle-details/vehicle-details.actions';
 import { getVehicleDetails } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.reducer';
 import { getDualControls } from '@store/tests/vehicle-details/cat-adi-part3/vehicle-details.cat-adi-part3.selector';
-import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import {
   PDILogbook,
   TraineeLicence,
@@ -63,6 +65,7 @@ import {
 } from '@store/tests/trainer-details/cat-adi-part2/trainer-details.cat-adi-part2.selector';
 import { getMotStatus } from '@store/tests/vehicle-details/vehicle-details.selector';
 import { Router } from '@angular/router';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 @Injectable()
 export class WaitingRoomToCarAnalyticsEffects {
@@ -74,6 +77,7 @@ export class WaitingRoomToCarAnalyticsEffects {
     private actions$: Actions,
     private store$: Store<StoreModel>,
     private router: Router,
+    private appConfigProvider: AppConfigProvider,
   ) {
   }
 
@@ -104,11 +108,18 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getCurrentTest),
             select(getTestCategory),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [, tests, applicationReference, candidateId, category]:
-      [ReturnType<typeof WaitingRoomToCarViewDidEnter>, TestsModel, string, number, CategoryCode],
+      [ReturnType<typeof WaitingRoomToCarViewDidEnter>, TestsModel, string, number, CategoryCode, boolean],
     ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
@@ -133,10 +144,17 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getCurrentTest),
             select(getTestCategory),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [action, tests, category]: [ReturnType<typeof WaitingRoomToCarError>, TestsModel, CategoryCode],
+      [action, tests, category]: [ReturnType<typeof WaitingRoomToCarError>, TestsModel, CategoryCode, boolean],
     ) => {
       const screenName = formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM_TO_CAR, tests);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
@@ -161,10 +179,18 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getCurrentTest),
             select(getTestCategory),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [action, tests, category]: [ReturnType<typeof WaitingRoomToCarValidationError>, TestsModel, CategoryCode],
+      [action, tests, category]:
+      [ReturnType<typeof WaitingRoomToCarValidationError>, TestsModel, CategoryCode, boolean],
     ) => {
       const screenName = formatAnalyticsText(AnalyticsScreenNames.WAITING_ROOM_TO_CAR, tests);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
@@ -184,9 +210,19 @@ export class WaitingRoomToCarAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    switchMap(([action, tests]: [ReturnType<typeof WaitingRoomToCarBikeCategoryChanged>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [action, tests]:
+      [ReturnType<typeof WaitingRoomToCarBikeCategoryChanged>, TestsModel, boolean],
+    ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.selectedBikeCategory);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -205,9 +241,19 @@ export class WaitingRoomToCarAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    switchMap(([action, tests]: [ReturnType<typeof WaitingRoomToCarBikeCategorySelected>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [action, tests]:
+      [ReturnType<typeof WaitingRoomToCarBikeCategorySelected>, TestsModel, boolean],
+    ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, action.bikeCategory);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -226,9 +272,19 @@ export class WaitingRoomToCarAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    switchMap(([, tests]: [ReturnType<typeof WaitingRoomToCarViewBikeCategoryModal>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof WaitingRoomToCarViewBikeCategoryModal>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
         formatAnalyticsText(AnalyticsEvents.BIKE_CATEGORY_MODAL_TRIGGERED, tests),
@@ -255,11 +311,18 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getVehicleDetails),
             select(getDualControls),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [, tests, dualControls]:
-      [ReturnType<typeof DualControlsToggledYes | typeof DualControlsToggledNo>, TestsModel, boolean],
+      [ReturnType<typeof DualControlsToggledYes | typeof DualControlsToggledNo>, TestsModel, boolean, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -272,15 +335,24 @@ export class WaitingRoomToCarAnalyticsEffects {
 
   waitingRoomToCarTransmissionChanged$ = createEffect(() => this.actions$.pipe(
     ofType(vehicleDetailsActions.GearboxCategoryChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [{ gearboxCategory }, tests]: [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel],
+      [{ gearboxCategory }, tests]:
+      [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, boolean],
     ) => {
       // Check current URL begins with WRTC prefix before recording analytic to stop duplicated events.
       if (this.router.url?.startsWith(this.classPrefix)) {
@@ -309,10 +381,18 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getTrainerDetails),
             select(getPDILogbook),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, tests, pdiLogBook]: [ReturnType<typeof PDILogbook>, TestsModel, boolean],
+      [, tests, pdiLogBook]:
+      [ReturnType<typeof PDILogbook>, TestsModel, boolean, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -337,10 +417,18 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getTrainerDetails),
             select(getTraineeLicence),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, tests, traineeLicence]: [ReturnType<typeof TraineeLicence>, TestsModel, boolean],
+      [, tests, traineeLicence]:
+      [ReturnType<typeof TraineeLicence>, TestsModel, boolean, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -365,10 +453,18 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getTrainerDetails),
             select(getOrditTrained),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, tests, orditTrained]: [ReturnType<typeof OrditTrainedChanged>, TestsModel, boolean],
+      [, tests, orditTrained]:
+      [ReturnType<typeof OrditTrainedChanged>, TestsModel, boolean, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -393,10 +489,18 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getTrainerDetails),
             select(getTrainerRegistrationNumber),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, tests, trainerRegistrationNumber]: [ReturnType<typeof TrainerRegistrationNumberChanged>, TestsModel, number],
+      [, tests, trainerRegistrationNumber]:
+      [ReturnType<typeof TrainerRegistrationNumberChanged>, TestsModel, number, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),
@@ -408,9 +512,7 @@ export class WaitingRoomToCarAnalyticsEffects {
   ));
 
   motStatusChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      MotStatusChanged,
-    ),
+    ofType(MotStatusChanged),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -423,11 +525,18 @@ export class WaitingRoomToCarAnalyticsEffects {
             select(getVehicleDetails),
             select(getMotStatus),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [, tests, motStatus]:
-      [ReturnType<typeof MotStatusChanged>, TestsModel, string],
+      [ReturnType<typeof MotStatusChanged>, TestsModel, string, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.WAITING_ROOM_TO_CAR, tests),

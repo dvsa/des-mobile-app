@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
+import {
+  concatMap, filter, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';

@@ -1,81 +1,69 @@
-/* eslint-disable max-len  */
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import {
-  switchMap, concatMap, withLatestFrom, map,
-} from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { concatMap, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsScreenNames, AnalyticsEventCategories, AnalyticsEvents, AnalyticsLabels,
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsLabels,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import * as testReportActions from '@pages/test-report/test-report.actions';
 import * as controlledStopActions from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import * as highwayCodeSafetyActions
   from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
-import * as dangerousFaultsActions
-  from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import * as dangerousFaultsActions from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import * as drivingFaultsActions from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import * as seriousFaultsActions from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import * as manoeuvresActions from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import * as manoeuvresADIPart2Actions from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import * as vehicleChecksActions from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import * as lessonThemeActions from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
-import * as testRequirementsActions
-  from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
-import * as ecoActions from '@store/tests/test-data/common/eco/eco.actions';
-import { getTests } from '@store/tests/tests.reducer';
-import { fullCompetencyLabels, competencyLabels } from '@shared/constants/competencies/competencies';
-import {
-  manoeuvreCompetencyLabels,
-  manoeuvreTypeLabels,
-} from '@shared/constants/competencies/catb-manoeuvres';
-import { lessonThemeValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
-import { AnalyticRecorded, AnalyticNotRecorded } from '@providers/analytics/analytics.actions';
-import { TestsModel } from '@store/tests/tests.model';
-import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
-import { legalRequirementsLabels, legalRequirementToggleValues }
-  from '@shared/constants/legal-requirements/legal-requirements.constants';
-import { getCurrentTest } from '@store/tests/tests.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { getEco, getTestRequirements, getETA } from '@store/tests/test-data/common/test-data.selector';
-import { Eco, TestRequirements, ETA } from '@dvsa/mes-test-schema/categories/common';
-import * as uncoupleRecoupleActions
-  from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
-import { getTestData as getCatAmod1TestData } from
-  '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
-import { getAvoidance } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
-import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
-import { speedCheckToggleValues } from '@shared/constants/competencies/cata-mod1-speed-checks';
-import { getEmergencyStop } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
-import * as singleFaultCompetencyActions from
-  '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
-import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
-import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
-import * as pcvDoorExerciseActions from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
-import {
-  getControlledStop,
-} from '@store/tests/test-data/common/controlled-stop/controlled-stop.reducer';
-import {
-  getHighwayCodeSafety,
-} from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.reducer';
-import {
-  ControlledStopUnion,
-  HighwayCodeSafetyUnion,
-} from '@shared/unions/test-schema-unions';
-
-import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
-import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
 import { VehicleChecksTypes } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import { getTestReportState } from '@pages/test-report/test-report.reducer';
-import { isRemoveFaultMode } from '@pages/test-report/test-report.selector';
+import * as lessonThemeActions from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
 import {
   OtherChanged,
   StudentLevelChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
+import * as testRequirementsActions from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
+import * as ecoActions from '@store/tests/test-data/common/eco/eco.actions';
+import { getTests } from '@store/tests/tests.reducer';
+import { competencyLabels, fullCompetencyLabels } from '@shared/constants/competencies/competencies';
+import { manoeuvreCompetencyLabels, manoeuvreTypeLabels } from '@shared/constants/competencies/catb-manoeuvres';
+import { lessonThemeValues } from '@shared/constants/adi3-questions/lesson-theme.constants';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
+import { TestsModel } from '@store/tests/tests.model';
+import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
+import {
+  legalRequirementsLabels,
+  legalRequirementToggleValues,
+} from '@shared/constants/legal-requirements/legal-requirements.constants';
+import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
+import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
+import { getEco, getETA, getTestRequirements } from '@store/tests/test-data/common/test-data.selector';
+import { Eco, ETA, TestRequirements } from '@dvsa/mes-test-schema/categories/common';
+import * as uncoupleRecoupleActions from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
+import { getTestData as getCatAmod1TestData } from '@store/tests/test-data/cat-a-mod1/test-data.cat-a-mod1.reducer';
+import { getAvoidance } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.selector';
+import { Avoidance, EmergencyStop } from '@dvsa/mes-test-schema/categories/AM1';
+import { speedCheckToggleValues } from '@shared/constants/competencies/cata-mod1-speed-checks';
+import { getEmergencyStop } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.selector';
+import * as singleFaultCompetencyActions
+  from '@store/tests/test-data/common/single-fault-competencies/single-fault-competencies.actions';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
+import * as emergencyStopActions from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
+import * as avoidanceActions from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
+import * as pcvDoorExerciseActions from '@store/tests/test-data/cat-d/pcv-door-exercise/pcv-door-exercise.actions';
+import { getControlledStop } from '@store/tests/test-data/common/controlled-stop/controlled-stop.reducer';
+import { getHighwayCodeSafety } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.reducer';
+import { ControlledStopUnion, HighwayCodeSafetyUnion } from '@shared/unions/test-schema-unions';
+
+import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
+import { ExaminerActions } from '@store/tests/test-data/test-data.constants';
+import { getTestReportState } from '@pages/test-report/test-report.reducer';
+import { isRemoveFaultMode } from '@pages/test-report/test-report.selector';
 import { getLessonAndTheme } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.reducer';
 import {
   getOther,
@@ -103,6 +91,7 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
 import { sumObjectKeyValues } from '@shared/helpers/sum-object-key-values';
 import { ScoreChangedActions } from '@pages/test-report/test-report.effects';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
 import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
 import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
@@ -114,19 +103,31 @@ export class TestReportAnalyticsEffects {
     private analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
+    private appConfigProvider: AppConfigProvider,
   ) {
   }
 
   testReportViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(testReportActions.TestReportViewDidEnter),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType<typeof testReportActions.TestReportViewDidEnter>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof testReportActions.TestReportViewDidEnter>, TestsModel, boolean],
+    ) => {
       this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.TEST_REPORT, tests));
       return of(AnalyticRecorded());
     }),
@@ -134,18 +135,29 @@ export class TestReportAnalyticsEffects {
 
   toggleRemoveFaultMode$ = createEffect(() => this.actions$.pipe(
     ofType(testReportActions.ToggleRemoveFaultMode),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTestReportState),
+            select(isRemoveFaultMode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTestReportState),
-          select(isRemoveFaultMode),
-        ),
-      ),
-    )),
-    concatMap(([action, tests, removeFaultMode]: [ReturnType <typeof testReportActions.ToggleRemoveFaultMode>, TestsModel, boolean]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests, removeFaultMode]:
+        [ReturnType<typeof testReportActions.ToggleRemoveFaultMode>, TestsModel, boolean, boolean],
+    ) => {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
       }
@@ -169,14 +181,25 @@ export class TestReportAnalyticsEffects {
 
   toggleSeriousFaultMode$ = createEffect(() => this.actions$.pipe(
     ofType(testReportActions.ToggleSeriousFaultMode),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof testReportActions.ToggleSeriousFaultMode>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof testReportActions.ToggleSeriousFaultMode>, TestsModel, boolean],
+    ) => {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
       }
@@ -191,14 +214,25 @@ export class TestReportAnalyticsEffects {
 
   toggleDangerousFaultMode$ = createEffect(() => this.actions$.pipe(
     ofType(testReportActions.ToggleDangerousFaultMode),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof testReportActions.ToggleDangerousFaultMode>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof testReportActions.ToggleDangerousFaultMode>, TestsModel, boolean],
+    ) => {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
       }
@@ -211,17 +245,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   addDrivingFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      drivingFaultsActions.AddDrivingFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(drivingFaultsActions.AddDrivingFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof drivingFaultsActions.AddDrivingFault>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof drivingFaultsActions.AddDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
@@ -233,17 +276,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   addSeriousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      seriousFaultsActions.AddSeriousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(seriousFaultsActions.AddSeriousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof seriousFaultsActions.AddSeriousFault>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof seriousFaultsActions.AddSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
@@ -255,17 +307,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   addDangerousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      dangerousFaultsActions.AddDangerousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(dangerousFaultsActions.AddDangerousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof dangerousFaultsActions.AddDangerousFault>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof dangerousFaultsActions.AddDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
@@ -277,17 +338,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   addManoeuvreDrivingFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresActions.AddManoeuvreDrivingFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(manoeuvresActions.AddManoeuvreDrivingFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof manoeuvresActions.AddManoeuvreDrivingFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof manoeuvresActions.AddManoeuvreDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
@@ -300,18 +367,22 @@ export class TestReportAnalyticsEffects {
   ));
 
   addManoeuvreDrivingFaultCatADIPart2$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresADIPart2Actions.AddManoeuvreDrivingFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(manoeuvresADIPart2Actions.AddManoeuvreDrivingFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap((
-      [action, tests]: [ReturnType <typeof manoeuvresADIPart2Actions.AddManoeuvreDrivingFault>, TestsModel],
+      [action, tests]:
+        [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreDrivingFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -324,20 +395,27 @@ export class TestReportAnalyticsEffects {
   ));
 
   addManoeuvreSeriousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresActions.AddManoeuvreSeriousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(manoeuvresActions.AddManoeuvreSeriousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof manoeuvresActions.AddManoeuvreSeriousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof manoeuvresActions.AddManoeuvreSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
+        // eslint-disable-next-line max-len
         `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
         1,
       );
@@ -346,17 +424,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   addManoeuvreSeriousFaultCatADIPart2$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresADIPart2Actions.AddManoeuvreSeriousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(manoeuvresADIPart2Actions.AddManoeuvreSeriousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof manoeuvresADIPart2Actions.AddManoeuvreSeriousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
@@ -368,20 +452,27 @@ export class TestReportAnalyticsEffects {
   ));
 
   addManoeuvreDangerousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresActions.AddManoeuvreDangerousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(manoeuvresActions.AddManoeuvreDangerousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof manoeuvresActions.AddManoeuvreDangerousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof manoeuvresActions.AddManoeuvreDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
+        // eslint-disable-next-line max-len
         `${manoeuvreTypeLabels[action.manoeuvrePayload.manoeuvre]} - ${manoeuvreCompetencyLabels[action.manoeuvrePayload.competency]}`,
         1,
       );
@@ -390,17 +481,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   addManoeuvreDangerousFaultCatADIPart2$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresADIPart2Actions.AddManoeuvreDangerousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(manoeuvresADIPart2Actions.AddManoeuvreDangerousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof manoeuvresADIPart2Actions.AddManoeuvreDangerousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
@@ -412,17 +509,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   controlledStopAddDrivingFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      controlledStopActions.ControlledStopAddDrivingFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(controlledStopActions.ControlledStopAddDrivingFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof controlledStopActions.ControlledStopAddDrivingFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof controlledStopActions.ControlledStopAddDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
@@ -434,17 +537,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   controlledStopAddSeriousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      controlledStopActions.ControlledStopAddSeriousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(controlledStopActions.ControlledStopAddSeriousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof controlledStopActions.ControlledStopAddSeriousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof controlledStopActions.ControlledStopAddSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
@@ -456,17 +565,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   returnToTest$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      testReportActions.ReturnToTest,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(testReportActions.ReturnToTest),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof testReportActions.ReturnToTest>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof testReportActions.ReturnToTest>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
         formatAnalyticsText(AnalyticsEvents.RETURN_TO_TEST, tests),
@@ -477,17 +592,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   controlledStopAddDangerousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      controlledStopActions.ControlledStopAddDangerousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(controlledStopActions.ControlledStopAddDangerousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof controlledStopActions.ControlledStopAddDangerousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof controlledStopActions.ControlledStopAddDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
@@ -499,17 +620,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   highwayCodeSafetyAddDrivingFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      highwayCodeSafetyActions.HighwayCodeSafetyAddDrivingFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(highwayCodeSafetyActions.HighwayCodeSafetyAddDrivingFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof highwayCodeSafetyActions.HighwayCodeSafetyAddDrivingFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyAddDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
@@ -521,17 +648,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   highwayCodeSafetyAddSeriousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      highwayCodeSafetyActions.HighwayCodeSafetyAddSeriousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(highwayCodeSafetyActions.HighwayCodeSafetyAddSeriousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof highwayCodeSafetyActions.HighwayCodeSafetyAddSeriousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyAddSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
@@ -543,17 +676,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   showMeQuestionDrivingFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      vehicleChecksActions.ShowMeQuestionDrivingFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(vehicleChecksActions.ShowMeQuestionDrivingFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof vehicleChecksActions.ShowMeQuestionDrivingFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof vehicleChecksActions.ShowMeQuestionDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
@@ -565,17 +704,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   showMeQuestionSeriousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      vehicleChecksActions.ShowMeQuestionSeriousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(vehicleChecksActions.ShowMeQuestionSeriousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof vehicleChecksActions.ShowMeQuestionSeriousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof vehicleChecksActions.ShowMeQuestionSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
@@ -587,17 +732,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   showMeQuestionDangerousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      vehicleChecksActions.ShowMeQuestionDangerousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(vehicleChecksActions.ShowMeQuestionDangerousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof vehicleChecksActions.ShowMeQuestionDangerousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof vehicleChecksActions.ShowMeQuestionDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
@@ -609,17 +760,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   removeDrivingFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      drivingFaultsActions.RemoveDrivingFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(drivingFaultsActions.RemoveDrivingFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof drivingFaultsActions.RemoveDrivingFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof drivingFaultsActions.RemoveDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_DRIVING_FAULT, tests),
@@ -631,17 +788,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   removeSeriousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      seriousFaultsActions.RemoveSeriousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(seriousFaultsActions.RemoveSeriousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof seriousFaultsActions.RemoveSeriousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof seriousFaultsActions.RemoveSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_SERIOUS_FAULT, tests),
@@ -653,17 +816,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   removeDangerousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      dangerousFaultsActions.RemoveDangerousFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(dangerousFaultsActions.RemoveDangerousFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof dangerousFaultsActions.RemoveDangerousFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof dangerousFaultsActions.RemoveDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_DANGEROUS_FAULT, tests),
@@ -675,17 +844,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   removeManoeuvreFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresActions.RemoveManoeuvreFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(manoeuvresActions.RemoveManoeuvreFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof manoeuvresActions.RemoveManoeuvreFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof manoeuvresActions.RemoveManoeuvreFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_DRIVING_FAULT, tests),
@@ -696,17 +871,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   removeManoeuvreFaultCatADIPart2$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresADIPart2Actions.RemoveManoeuvreFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(manoeuvresADIPart2Actions.RemoveManoeuvreFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof manoeuvresADIPart2Actions.RemoveManoeuvreFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [action, tests]:
+        [ReturnType<typeof manoeuvresADIPart2Actions.RemoveManoeuvreFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_DRIVING_FAULT, tests),
@@ -717,17 +898,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   controlledStopRemoveFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      controlledStopActions.ControlledStopRemoveFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(controlledStopActions.ControlledStopRemoveFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof controlledStopActions.ControlledStopRemoveFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof controlledStopActions.ControlledStopRemoveFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_FAULT, tests),
@@ -738,17 +925,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   highwayCodeSafetyRemoveFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_FAULT, tests),
@@ -759,17 +952,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   showMeQuestionRemoveFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      vehicleChecksActions.ShowMeQuestionRemoveFault,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(vehicleChecksActions.ShowMeQuestionRemoveFault),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_FAULT, tests),
@@ -780,17 +979,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   testTermination$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      testReportActions.TerminateTestFromTestReport,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(testReportActions.TerminateTestFromTestReport),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof testReportActions.TerminateTestFromTestReport>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof testReportActions.TerminateTestFromTestReport>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
         formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
@@ -801,17 +1006,23 @@ export class TestReportAnalyticsEffects {
   ));
 
   calculateTestResult$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      testReportActions.CalculateTestResult,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(testReportActions.CalculateTestResult),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof testReportActions.CalculateTestResult>, TestsModel]) => {
+      )),
+    concatMap((
+      [, tests]:
+        [ReturnType<typeof testReportActions.CalculateTestResult>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
         formatAnalyticsText(AnalyticsEvents.END_TEST, tests),
@@ -822,59 +1033,71 @@ export class TestReportAnalyticsEffects {
   ));
 
   toggleLegalRequirement$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      testRequirementsActions.ToggleLegalRequirement,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(testRequirementsActions.ToggleLegalRequirement),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getTestRequirements),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getTestRequirements),
-        ),
-      ),
-    )),
-    concatMap(
-      ([action, tests, testRequirements]:
-      [ReturnType <typeof testRequirementsActions.ToggleLegalRequirement>, TestsModel, TestRequirements]) => {
-        const toggleValue = testRequirements[action.legalRequirement]
-          ? legalRequirementToggleValues.completed
-          : legalRequirementToggleValues.uncompleted;
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
-          `${legalRequirementsLabels[action.legalRequirement]} - ${toggleValue}`,
-        );
-        return of(AnalyticRecorded());
-      },
-    ),
+      )),
+    concatMap((
+      [action, tests, testRequirements]:
+        [ReturnType<typeof testRequirementsActions.ToggleLegalRequirement>, TestsModel, TestRequirements, boolean],
+    ) => {
+      const toggleValue = testRequirements[action.legalRequirement]
+        ? legalRequirementToggleValues.completed
+        : legalRequirementToggleValues.uncompleted;
+
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
+        `${legalRequirementsLabels[action.legalRequirement]} - ${toggleValue}`,
+      );
+
+      return of(AnalyticRecorded());
+    }),
   ));
 
   toggleEco$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      ecoActions.ToggleEco,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(ecoActions.ToggleEco),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getEco),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getEco),
-        ),
-      ),
-    )),
-    concatMap(([, tests, eco]: [ReturnType <typeof ecoActions.ToggleEco>, TestsModel, Eco]) => {
+      )),
+    concatMap((
+      [, tests, eco]:
+        [ReturnType<typeof ecoActions.ToggleEco>, TestsModel, Eco, boolean],
+    ) => {
       const toggleValue = eco.completed
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
+
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -885,26 +1108,33 @@ export class TestReportAnalyticsEffects {
   ));
 
   toggleEcoControl$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      ecoActions.ToggleControlEco,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(ecoActions.ToggleControlEco),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getEco),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getEco),
-        ),
-      ),
-    )),
-    concatMap(([, tests, eco]: [ReturnType <typeof ecoActions.ToggleControlEco>, TestsModel, Eco]) => {
+      )),
+    concatMap((
+      [, tests, eco]:
+        [ReturnType<typeof ecoActions.ToggleControlEco>, TestsModel, Eco, boolean],
+    ) => {
       const toggleValue = eco.adviceGivenControl
         ? 'selected'
         : 'unselected';
+
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_ECO_CONTROL, tests),
@@ -918,20 +1148,21 @@ export class TestReportAnalyticsEffects {
     ofType(
       ecoActions.TogglePlanningEco,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getEco),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getEco),
-        ),
-      ),
-    )),
-    concatMap(([, tests, eco]: [ReturnType <typeof ecoActions.TogglePlanningEco>, TestsModel, Eco]) => {
+      )),
+    concatMap(([, tests, eco]: [ReturnType<typeof ecoActions.TogglePlanningEco>, TestsModel, Eco]) => {
       const toggleValue = eco.adviceGivenPlanning
         ? 'selected'
         : 'unselected';
@@ -948,20 +1179,21 @@ export class TestReportAnalyticsEffects {
     ofType(
       etaActions.ToggleETA,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getETA),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getETA),
-        ),
-      ),
-    )),
-    concatMap(([action, tests, eta]: [ReturnType <typeof etaActions.ToggleETA>, TestsModel, ETA]) => {
+      )),
+    concatMap(([action, tests, eta]: [ReturnType<typeof etaActions.ToggleETA>, TestsModel, ETA]) => {
 
       const event: string = action.examinerAction === ExaminerActions.physical
         ? AnalyticsEvents.TOGGLE_ETA_PHYSICAL : AnalyticsEvents.TOGGLE_ETA_VERBAL;
@@ -984,21 +1216,22 @@ export class TestReportAnalyticsEffects {
     ofType(
       controlledStopActions.ToggleControlledStop,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getControlledStop),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getControlledStop),
-        ),
-      ),
-    )),
+      )),
     concatMap(([, tests, controlledStop]:
-    [ReturnType <typeof controlledStopActions.ToggleControlledStop>, TestsModel, ControlledStopUnion]) => {
+                 [ReturnType<typeof controlledStopActions.ToggleControlledStop>, TestsModel, ControlledStopUnion]) => {
       const toggleValue = controlledStop.selected
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
@@ -1015,21 +1248,22 @@ export class TestReportAnalyticsEffects {
     ofType(
       highwayCodeSafetyActions.ToggleHighwayCodeSafety,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getHighwayCodeSafety),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getHighwayCodeSafety),
-        ),
-      ),
-    )),
+      )),
     concatMap(([, tests, highwayCodeSafety]:
-    [ReturnType <typeof highwayCodeSafetyActions.ToggleHighwayCodeSafety>, TestsModel, HighwayCodeSafetyUnion]) => {
+                 [ReturnType<typeof highwayCodeSafetyActions.ToggleHighwayCodeSafety>, TestsModel, HighwayCodeSafetyUnion]) => {
       const toggleValue = highwayCodeSafety.selected
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
@@ -1046,14 +1280,15 @@ export class TestReportAnalyticsEffects {
     ofType(
       manoeuvresActions.RecordManoeuvresSelection,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    switchMap(([, tests]: [ReturnType <typeof manoeuvresActions.RecordManoeuvresSelection>, TestsModel]) => {
+      )),
+    switchMap(([, tests]: [ReturnType<typeof manoeuvresActions.RecordManoeuvresSelection>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1067,14 +1302,15 @@ export class TestReportAnalyticsEffects {
     ofType(
       manoeuvresADIPart2Actions.RecordManoeuvresSelection,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    switchMap(([, tests]: [ReturnType <typeof manoeuvresADIPart2Actions.RecordManoeuvresSelection>, TestsModel]) => {
+      )),
+    switchMap(([, tests]: [ReturnType<typeof manoeuvresADIPart2Actions.RecordManoeuvresSelection>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1086,14 +1322,15 @@ export class TestReportAnalyticsEffects {
 
   deselectReverseLeftManoeuvreEffect$ = createEffect(() => this.actions$.pipe(
     ofType(manoeuvresActions.RecordManoeuvresDeselection),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    switchMap(([, tests]: [ReturnType <typeof manoeuvresActions.RecordManoeuvresDeselection>, TestsModel]) => {
+      )),
+    switchMap(([, tests]: [ReturnType<typeof manoeuvresActions.RecordManoeuvresDeselection>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1110,13 +1347,14 @@ export class TestReportAnalyticsEffects {
       vehicleChecksActions.ShowMeQuestionSeriousFault,
       vehicleChecksActions.ShowMeQuestionDangerousFault,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [VehicleChecksTypes, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1131,14 +1369,15 @@ export class TestReportAnalyticsEffects {
     ofType(
       vehicleChecksActions.ShowMeQuestionRemoveFault,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel]) => {
+      )),
+    concatMap(([, tests]: [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1152,14 +1391,15 @@ export class TestReportAnalyticsEffects {
     ofType(
       uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault>, TestsModel]) => {
+      )),
+    concatMap(([, tests]: [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
@@ -1174,14 +1414,15 @@ export class TestReportAnalyticsEffects {
     ofType(
       uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault>, TestsModel]) => {
+      )),
+    concatMap(([, tests]: [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
@@ -1196,14 +1437,15 @@ export class TestReportAnalyticsEffects {
     ofType(
       uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault>, TestsModel]) => {
+      )),
+    concatMap(([, tests]: [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
@@ -1216,13 +1458,14 @@ export class TestReportAnalyticsEffects {
 
   reverseLeftPopoverOpened$ = createEffect(() => this.actions$.pipe(
     ofType(reverseLeftActions.ReverseLeftPopoverOpened),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverOpened>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1234,13 +1477,14 @@ export class TestReportAnalyticsEffects {
 
   reverseLeftPopoverClosed$ = createEffect(() => this.actions$.pipe(
     ofType(reverseLeftActions.ReverseLeftPopoverClosed),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverClosed>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1255,13 +1499,14 @@ export class TestReportAnalyticsEffects {
       avoidanceActions.AddAvoidanceSeriousFault,
       avoidanceActions.RemoveAvoidanceSeriousFault,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(
       ([action, tests]) => {
         const toggleValue = (action.type === avoidanceActions.AddAvoidanceSeriousFault.type)
@@ -1280,21 +1525,22 @@ export class TestReportAnalyticsEffects {
 
   recordAvoidanceFirstAttempt$ = createEffect(() => this.actions$.pipe(
     ofType(avoidanceActions.RecordAvoidanceFirstAttempt),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getCatAmod1TestData),
+            select(getAvoidance),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getCatAmod1TestData),
-          select(getAvoidance),
-        ),
-      ),
-    )),
+      )),
     concatMap(([, tests, avoidance]:
-    [ReturnType<typeof avoidanceActions.RecordAvoidanceFirstAttempt>, TestsModel, Avoidance]) => {
+                 [ReturnType<typeof avoidanceActions.RecordAvoidanceFirstAttempt>, TestsModel, Avoidance]) => {
       const attemptValue = avoidance.firstAttempt;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1307,21 +1553,22 @@ export class TestReportAnalyticsEffects {
 
   recordAvoidanceSecondAttempt$ = createEffect(() => this.actions$.pipe(
     ofType(avoidanceActions.RecordAvoidanceSecondAttempt),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getCatAmod1TestData),
+            select(getAvoidance),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getCatAmod1TestData),
-          select(getAvoidance),
-        ),
-      ),
-    )),
+      )),
     concatMap(([, tests, avoidance]:
-    [ReturnType<typeof avoidanceActions.RecordAvoidanceSecondAttempt>, TestsModel, Avoidance]) => {
+                 [ReturnType<typeof avoidanceActions.RecordAvoidanceSecondAttempt>, TestsModel, Avoidance]) => {
       const attemptValue = avoidance.secondAttempt;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1337,13 +1584,14 @@ export class TestReportAnalyticsEffects {
       emergencyStopActions.AddEmergencyStopSeriousFault,
       emergencyStopActions.RemoveEmergencyStopSeriousFault,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(
       ([action, tests]) => {
         const toggleValue = action.type === emergencyStopActions.AddEmergencyStopSeriousFault.type
@@ -1360,20 +1608,21 @@ export class TestReportAnalyticsEffects {
 
   recordEmergencyStopFirstAttempt$ = createEffect(() => this.actions$.pipe(
     ofType(emergencyStopActions.RecordEmergencyStopFirstAttempt),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getCatAmod1TestData),
+            select(getEmergencyStop),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getCatAmod1TestData),
-          select(getEmergencyStop),
-        ),
-      ),
-    )),
-    concatMap(([, tests, emergencyStop]: [ReturnType <typeof emergencyStopActions.RecordEmergencyStopFirstAttempt>, TestsModel, EmergencyStop]) => {
+      )),
+    concatMap(([, tests, emergencyStop]: [ReturnType<typeof emergencyStopActions.RecordEmergencyStopFirstAttempt>, TestsModel, EmergencyStop]) => {
       const attemptValue = emergencyStop.firstAttempt;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1386,20 +1635,21 @@ export class TestReportAnalyticsEffects {
 
   recordEmergencyStopSecondAttempt$ = createEffect(() => this.actions$.pipe(
     ofType(emergencyStopActions.RecordEmergencyStopSecondAttempt),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getCatAmod1TestData),
+            select(getEmergencyStop),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getCatAmod1TestData),
-          select(getEmergencyStop),
-        ),
-      ),
-    )),
-    concatMap(([, tests, emergencyStop]: [ReturnType <typeof emergencyStopActions.RecordEmergencyStopSecondAttempt>, TestsModel, EmergencyStop]) => {
+      )),
+    concatMap(([, tests, emergencyStop]: [ReturnType<typeof emergencyStopActions.RecordEmergencyStopSecondAttempt>, TestsModel, EmergencyStop]) => {
       const attemptValue = emergencyStop.secondAttempt;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1412,13 +1662,14 @@ export class TestReportAnalyticsEffects {
 
   speedRequirementNotMetModalOpened$ = createEffect(() => this.actions$.pipe(
     ofType(testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1431,13 +1682,14 @@ export class TestReportAnalyticsEffects {
 
   emergencyStopDangerousFaultModelOpened$ = createEffect(() => this.actions$.pipe(
     ofType(testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1450,13 +1702,14 @@ export class TestReportAnalyticsEffects {
 
   emergencyStopSeriousFaultModelOpened$ = createEffect(() => this.actions$.pipe(
     ofType(testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1469,14 +1722,15 @@ export class TestReportAnalyticsEffects {
 
   setSingleFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
     ofType(singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome>, TestsModel]) => {
+      )),
+    concatMap(([action, tests]: [ReturnType<typeof singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome>, TestsModel]) => {
       if (action.outcome === CompetencyOutcome.DF) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1502,14 +1756,15 @@ export class TestReportAnalyticsEffects {
 
   removeSingleFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
     ofType(singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome>, TestsModel]) => {
+      )),
+    concatMap(([action, tests]: [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_SINGLE_FAULT, tests),
@@ -1521,14 +1776,15 @@ export class TestReportAnalyticsEffects {
 
   removeSingleDangerousFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
     ofType(singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome>, TestsModel]) => {
+      )),
+    concatMap(([action, tests]: [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT, tests),
@@ -1540,14 +1796,15 @@ export class TestReportAnalyticsEffects {
 
   removeSingleSeriousFaultCompetencyOutcome$ = createEffect(() => this.actions$.pipe(
     ofType(singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome>, TestsModel]) => {
+      )),
+    concatMap(([action, tests]: [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT, tests),
@@ -1559,13 +1816,14 @@ export class TestReportAnalyticsEffects {
 
   pcvDoorExerciseAddDrivingFault$ = createEffect(() => this.actions$.pipe(
     ofType(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1578,13 +1836,14 @@ export class TestReportAnalyticsEffects {
 
   pcvDoorExerciseAddSeriousFault$ = this.actions$.pipe(
     ofType(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1597,13 +1856,14 @@ export class TestReportAnalyticsEffects {
 
   pcvDoorExerciseAddDangerousFault$ = this.actions$.pipe(
     ofType(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1616,13 +1876,14 @@ export class TestReportAnalyticsEffects {
 
   pcvDoorExerciseRemoveDrivingFault$ = this.actions$.pipe(
     ofType(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1635,13 +1896,14 @@ export class TestReportAnalyticsEffects {
 
   pcvDoorExerciseRemoveSeriousFault$ = this.actions$.pipe(
     ofType(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1654,13 +1916,14 @@ export class TestReportAnalyticsEffects {
 
   pcvDoorExerciseRemoveDangerousFault$ = this.actions$.pipe(
     ofType(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1673,14 +1936,15 @@ export class TestReportAnalyticsEffects {
 
   startTimer$ = createEffect(() => this.actions$.pipe(
     ofType(testReportActions.StartTimer),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType <typeof testReportActions.StartTimer>, TestsModel]) => {
+      )),
+    concatMap(([, tests]: [ReturnType<typeof testReportActions.StartTimer>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.START_TIMER, tests),
@@ -1691,22 +1955,23 @@ export class TestReportAnalyticsEffects {
 
   studentLevelChanged$ = createEffect(() => this.actions$.pipe(
     ofType(StudentLevelChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getLessonAndTheme),
+            select(getStudentLevel),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getLessonAndTheme),
-          select(getStudentLevel),
-        ),
-      ),
-    )),
+      )),
     concatMap((
-      [, tests, studentLevel]: [ReturnType <typeof StudentLevelChanged>, TestsModel, StudentLevel],
+      [, tests, studentLevel]: [ReturnType<typeof StudentLevelChanged>, TestsModel, StudentLevel],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1721,14 +1986,15 @@ export class TestReportAnalyticsEffects {
     ofType(
       lessonThemeActions.LessonThemeAdded,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof lessonThemeActions.LessonThemeAdded>, TestsModel]) => {
+      )),
+    concatMap(([action, tests]: [ReturnType<typeof lessonThemeActions.LessonThemeAdded>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.LESSON_THEME_ADDED, tests),
@@ -1742,14 +2008,15 @@ export class TestReportAnalyticsEffects {
     ofType(
       lessonThemeActions.LessonThemeRemoved,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
-    concatMap(([action, tests]: [ReturnType <typeof lessonThemeActions.LessonThemeRemoved>, TestsModel]) => {
+      )),
+    concatMap(([action, tests]: [ReturnType<typeof lessonThemeActions.LessonThemeRemoved>, TestsModel]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.LESSON_THEME_REMOVED, tests),
@@ -1761,22 +2028,23 @@ export class TestReportAnalyticsEffects {
 
   otherReasonChanged$ = createEffect(() => this.actions$.pipe(
     ofType(OtherChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getLessonAndTheme),
+            select(getOther),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getLessonAndTheme),
-          select(getOther),
-        ),
-      ),
-    )),
+      )),
     concatMap((
-      [, tests, other]: [ReturnType <typeof OtherChanged>, TestsModel, string],
+      [, tests, other]: [ReturnType<typeof OtherChanged>, TestsModel, string],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1789,15 +2057,19 @@ export class TestReportAnalyticsEffects {
 
   lessonPlanningQuestionScoreChanged$ = createEffect(() => this.actions$.pipe(
     ofType(LessonPlanningQuestionScoreChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap((
-      [{ question, score }, tests]: [ReturnType <typeof LessonPlanningQuestionScoreChanged>, TestsModel],
+      [{
+        question,
+        score,
+      }, tests]: [ReturnType<typeof LessonPlanningQuestionScoreChanged>, TestsModel],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1810,15 +2082,19 @@ export class TestReportAnalyticsEffects {
 
   riskManagementQuestionScoreChanged$ = createEffect(() => this.actions$.pipe(
     ofType(RiskManagementQuestionScoreChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap((
-      [{ question, score }, tests]: [ReturnType <typeof RiskManagementQuestionScoreChanged>, TestsModel],
+      [{
+        question,
+        score,
+      }, tests]: [ReturnType<typeof RiskManagementQuestionScoreChanged>, TestsModel],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1831,15 +2107,19 @@ export class TestReportAnalyticsEffects {
 
   teachingLearningStrategyQuestionScoreChanged$ = createEffect(() => this.actions$.pipe(
     ofType(TeachingLearningStrategiesQuestionScoreChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
         ),
-      ),
-    )),
+      )),
     concatMap((
-      [{ question, score }, tests]: [ReturnType <typeof TeachingLearningStrategiesQuestionScoreChanged>, TestsModel],
+      [{
+        question,
+        score,
+      }, tests]: [ReturnType<typeof TeachingLearningStrategiesQuestionScoreChanged>, TestsModel],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1856,34 +2136,35 @@ export class TestReportAnalyticsEffects {
       RiskManagementQuestionScoreChanged,
       TeachingLearningStrategiesQuestionScoreChanged,
     ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            map(getCurrentTest),
+            select(getTestData),
+            select(getLessonPlanning),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            map(getCurrentTest),
+            select(getTestData),
+            select(getRiskManagement),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            map(getCurrentTest),
+            select(getTestData),
+            select(getTeachingLearningStrategies),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          map(getCurrentTest),
-          select(getTestData),
-          select(getLessonPlanning),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          map(getCurrentTest),
-          select(getTestData),
-          select(getRiskManagement),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          map(getCurrentTest),
-          select(getTestData),
-          select(getTeachingLearningStrategies),
-        ),
-      ),
-    )),
+      )),
     concatMap((
       [, tests, lessonPlanning, riskManagement, teachingLearningStrategies]:
-      [ReturnType<ScoreChangedActions>, TestsModel, LessonPlanning, RiskManagement, TeachingLearningStrategies],
+        [ReturnType<ScoreChangedActions>, TestsModel, LessonPlanning, RiskManagement, TeachingLearningStrategies],
     ) => {
       const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
       const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');

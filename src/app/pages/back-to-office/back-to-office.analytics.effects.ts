@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { concatMap, filter, switchMap, withLatestFrom } from 'rxjs/operators';
+import {
+  concatMap, filter, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
   AnalyticsDimensionIndices,
@@ -11,7 +13,9 @@ import {
 } from '@providers/analytics/analytics.model';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
-import { getCurrentTest, getJournalData, isPassed, isPracticeMode } from '@store/tests/tests.selector';
+import {
+  getCurrentTest, getJournalData, isPassed, isPracticeMode,
+} from '@store/tests/tests.selector';
 import { getTests } from '@store/tests/tests.reducer';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
@@ -98,7 +102,7 @@ export class BackToOfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([, tests, isTestPassed, candidateId, applicationReference]:
-                 [ReturnType<typeof DeferWriteUp>, TestsModel, boolean, number, string, boolean]) => {
+    [ReturnType<typeof DeferWriteUp>, TestsModel, boolean, number, string, boolean]) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 

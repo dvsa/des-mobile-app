@@ -50,6 +50,7 @@ export const environment: LocalEnvironmentFile = {
     enableTestReportPracticeMode: true,
     enableEndToEndPracticeMode: true,
     enableLogoutButton: true,
+    enablePracticeModeAnalytics: true,
     testPermissionPeriods: [
       {
         testCategory: 'ADI2',

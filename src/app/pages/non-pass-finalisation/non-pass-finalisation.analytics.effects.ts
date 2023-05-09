@@ -1,26 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
-  withLatestFrom, switchMap, concatMap,
+  concatMap, filter, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { StoreModel } from '@shared/models/store.model';
 import {
-  AnalyticsScreenNames,
   AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
-import { AnalyticRecorded, AnalyticNotRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { getTests } from '@store/tests/tests.reducer';
 import { getActivityCode } from '@store/tests/activity-code/activity-code.reducer';
 import { TestsModel } from '@store/tests/tests.model';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
-import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import { D255No, D255Yes } from '@store/tests/test-summary/test-summary.actions';
 import { getEnumKeyByValue } from '@shared/helpers/enum-keys';
 import { ActivityCodes } from '@shared/models/activity-codes';
@@ -34,8 +33,13 @@ import {
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
-import { getCurrentTest } from '@store/tests/tests.selector';
+import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import {
+  CandidateChoseToProceedWithTestInEnglish,
+  CandidateChoseToProceedWithTestInWelsh,
+} from '@store/tests/communication-preferences/communication-preferences.actions';
 import * as nonPassFinalisationActions from './non-pass-finalisation.actions';
 import { NonPassFinalisationValidationError, NonPassFinalisationViewDidEnter } from './non-pass-finalisation.actions';
 
@@ -45,19 +49,30 @@ export class NonPassFinalisationAnalyticsEffects {
     private analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
+    private appConfigProvider: AppConfigProvider,
   ) {
   }
 
   nonPassFinalisationViewDidEnterEffect$ = createEffect(() => this.actions$.pipe(
     ofType(nonPassFinalisationActions.NonPassFinalisationViewDidEnter),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    switchMap(([, tests]: [ReturnType<typeof NonPassFinalisationViewDidEnter>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]: [ReturnType<typeof NonPassFinalisationViewDidEnter>, TestsModel, boolean],
+    ) => {
       const screenName = formatAnalyticsText(AnalyticsScreenNames.NON_PASS_FINALISATION, tests);
       this.analytics.setCurrentPage(screenName);
       return of(AnalyticRecorded());
@@ -66,14 +81,24 @@ export class NonPassFinalisationAnalyticsEffects {
 
   validationErrorEffect$ = createEffect(() => this.actions$.pipe(
     ofType(NonPassFinalisationValidationError),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    switchMap(([action, tests]: [ReturnType<typeof NonPassFinalisationValidationError>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [action, tests]: [ReturnType<typeof NonPassFinalisationValidationError>, TestsModel, boolean],
+    ) => {
       const formattedScreenName = formatAnalyticsText(AnalyticsScreenNames.NON_PASS_FINALISATION, tests);
       this.analytics.logError(
         `${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`,
@@ -85,19 +110,29 @@ export class NonPassFinalisationAnalyticsEffects {
 
   d255Yes$ = createEffect(() => this.actions$.pipe(
     ofType(testSummaryActions.D255Yes),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([, tests, activityCode]: [ReturnType<typeof D255Yes>, TestsModel, ActivityCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, activityCode]: [ReturnType<typeof D255Yes>, TestsModel, ActivityCode, boolean],
+    ) => {
       // D255Yes used in pass & non-pass flows, this guard stops the appearance of duplicated events.
       if (activityCode !== ActivityCodes.PASS) {
         this.analytics.logEvent(
@@ -113,19 +148,29 @@ export class NonPassFinalisationAnalyticsEffects {
 
   d255No$ = createEffect(() => this.actions$.pipe(
     ofType(testSummaryActions.D255No),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([, tests, activityCode]: [ReturnType<typeof D255No>, TestsModel, ActivityCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, activityCode]: [ReturnType<typeof D255No>, TestsModel, ActivityCode, boolean],
+    ) => {
       // D255No used in pass & non-pass flows, this guard stops the appearance of duplicated events.
       if (activityCode !== ActivityCodes.PASS) {
         this.analytics.logEvent(
@@ -140,21 +185,31 @@ export class NonPassFinalisationAnalyticsEffects {
   ));
 
   candidateChoseToProceedWithTestInEnglish$ = createEffect(() => this.actions$.pipe(
-    ofType(commsActions.CandidateChoseToProceedWithTestInEnglish),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(CandidateChoseToProceedWithTestInEnglish),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([, tests, activityCode]:
-    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, activityCode]:
+      [ReturnType<typeof CandidateChoseToProceedWithTestInEnglish>, TestsModel, ActivityCode, boolean],
+    ) => {
       if (activityCode) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -168,21 +223,31 @@ export class NonPassFinalisationAnalyticsEffects {
   ));
 
   candidateChoseToProceedWithTestInWelsh$ = createEffect(() => this.actions$.pipe(
-    ofType(commsActions.CandidateChoseToProceedWithTestInWelsh),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(CandidateChoseToProceedWithTestInWelsh),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getActivityCode),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getActivityCode),
-        ),
-      ),
-    )),
-    concatMap(([, tests, activityCode]:
-    [ReturnType<typeof commsActions.CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, activityCode]:
+      [ReturnType<typeof CandidateChoseToProceedWithTestInWelsh>, TestsModel, ActivityCode, boolean],
+    ) => {
       if (activityCode) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -196,18 +261,26 @@ export class NonPassFinalisationAnalyticsEffects {
   ));
 
   nonPassFinalisationReportActivityCode$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      nonPassFinalisationActions.NonPassFinalisationReportActivityCode,
-    ),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    ofType(nonPassFinalisationActions.NonPassFinalisationReportActivityCode),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([{ activityCode }, tests]:
-    [ReturnType <typeof nonPassFinalisationActions.NonPassFinalisationReportActivityCode>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [{ activityCode }, tests]:
+      [ReturnType<typeof nonPassFinalisationActions.NonPassFinalisationReportActivityCode>, TestsModel, boolean],
+    ) => {
       const [description, code] = getEnumKeyByValue(ActivityCodes, activityCode);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -220,22 +293,30 @@ export class NonPassFinalisationAnalyticsEffects {
 
   nonPassFinalisationSeekFurtherDevelopment$ = createEffect(() => this.actions$.pipe(
     ofType(SeekFurtherDevelopmentChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getReview),
+            select(getFurtherDevelopment),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getReview),
-          select(getFurtherDevelopment),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, furtherDevelopment]: [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean],
+      [, tests, furtherDevelopment]: [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
@@ -248,22 +329,31 @@ export class NonPassFinalisationAnalyticsEffects {
 
   nonPassFinalisationReasonGiven$ = createEffect(() => this.actions$.pipe(
     ofType(ReasonForNoAdviceGivenChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getReview),
+            select(getReasonForNoAdviceGiven),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getReview),
-          select(getReasonForNoAdviceGiven),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, reason]: [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string],
+      [, tests, reason]:
+      [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
