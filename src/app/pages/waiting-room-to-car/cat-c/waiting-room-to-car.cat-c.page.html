@@ -1,112 +1,114 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-        <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
-        <ion-buttons id="wrtc-back-button" slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-buttons id="end-test-button" slot="end">
-            <end-test-link [shouldAuthenticate]="false"
-                           [category]="pageState.category$ | async"
-                           [isDelegated]="pageState.delegatedTest$ | async">
-            </end-test-link>
-        </ion-buttons>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf='isEndToEndPracticeMode'></practice-mode-banner>
+  <ion-toolbar mode='ios' [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id='waiting-room-to-car-page-title'>{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons id='wrtc-back-button' slot='start'>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons id='end-test-button' slot='end'>
+      <end-test-link
+        [isDelegated]='pageState.delegatedTest$ | async'
+        [category]='pageState.category$ | async'
+        [isPracticeMode]='isPracticeMode'
+        [shouldAuthenticate]='false'>
+      </end-test-link>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content force-overscroll="false">
-    <div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <ion-grid>
-                <ion-row class="ion-no-padding" id="post-eyesight-form-content">
-                    <ion-col class="ion-no-padding">
+<ion-content force-overscroll='false'>
+  <div>
+    <form [formGroup]='form' (ngSubmit)='onSubmit()'>
+      <ion-grid>
+        <ion-row class='ion-no-padding' id='post-eyesight-form-content'>
+          <ion-col class='ion-no-padding'>
 
-                        <candidate-declaration-signed
-                                *ngIf="pageState.delegatedTest$ | async"
-                                [formGroup]="form"
-                                [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
-                                [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
-                                (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)">
-                        </candidate-declaration-signed>
+            <candidate-declaration-signed
+              *ngIf='pageState.delegatedTest$ | async'
+              [formGroup]='form'
+              [candidateSigned]='pageState.candidateDeclarationSigned$ | async'
+              [declarationSelected]='(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)'
+              (candidateDeclarationChange)='candidateDeclarationOutcomeChanged($event)'>
+            </candidate-declaration-signed>
 
-                        <vehicle-registration
-                                [formGroup]="form"
-                                [vehicleRegistration]="pageState.registrationNumber$ | async"
-                                (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-                                (vehicleRegistrationBlur)="getMOTStatus()">
-                        </vehicle-registration>
+            <vehicle-registration
+              [formGroup]='form'
+              [vehicleRegistration]='pageState.registrationNumber$ | async'
+              (vehicleRegistrationChange)='vehicleRegistrationChanged($event)'
+              (vehicleRegistrationBlur)='getMOTStatus()'>
+            </vehicle-registration>
 
-                        <test-category [testCategory]="pageState.category$ | async"></test-category>
+            <test-category [testCategory]='pageState.category$ | async'></test-category>
 
-                        <vehicle-checks-vocational
-                                *ngIf="!(pageState.delegatedTest$ | async)"
-                                [formGroup]="form"
-                                [category]="pageState.category$ | async"
-                                [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-                                [vehicleChecks]="pageState.vehicleChecks$ | async"
-                                (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
-                                [fullLicenceHeld]="pageState.fullLicenceHeld$ | async">
-                        </vehicle-checks-vocational>
+            <vehicle-checks-vocational
+              *ngIf='!(pageState.delegatedTest$ | async)'
+              [formGroup]='form'
+              [category]='pageState.category$ | async'
+              [vehicleChecksScore]='pageState.vehicleChecksScore$ | async'
+              [vehicleChecks]='pageState.vehicleChecks$ | async'
+              (onCloseVehicleChecksModal)='closeVehicleChecksModal()'
+              [fullLicenceHeld]='pageState.fullLicenceHeld$ | async'>
+            </vehicle-checks-vocational>
 
-                        <full-licence-held-toggle
-                                *ngIf="(pageState.delegatedTest$ | async) && showFullLicenceHeld()"
-                                [fullLicenceHeld]="pageState.fullLicenceHeldSelection$ | async"
-                                [required]="true"
-                                [testCategory]="testCategory"
-                                [formGroup]="form"
-                                (fullLicenceHeldChange)="fullLicenceHeldChange($event)">
-                        </full-licence-held-toggle>
+            <full-licence-held-toggle
+              *ngIf='(pageState.delegatedTest$ | async) && showFullLicenceHeld()'
+              [fullLicenceHeld]='pageState.fullLicenceHeldSelection$ | async'
+              [required]='true'
+              [testCategory]='testCategory'
+              [formGroup]='form'
+              (fullLicenceHeldChange)='fullLicenceHeldChange($event)'>
+            </full-licence-held-toggle>
 
-                        <vehicle-checks-completed
-                                *ngIf="pageState.delegatedTest$ | async"
-                                [formGroup]="form"
-                                [testCategory]="pageState.category$ | async"
-                                [vehicleChecksCompleted]="pageState.vehicleChecksCompleted$ | async"
-                                (vehicleChecksCompletedOutcomeChange)="vehicleChecksCompletedOutcomeChanged($event)"
-                                (vehicleChecksDrivingFaultsNumberChange)="vehicleChecksDrivingFaultsNumberChanged($event)">
-                        </vehicle-checks-completed>
+            <vehicle-checks-completed
+              *ngIf='pageState.delegatedTest$ | async'
+              [formGroup]='form'
+              [testCategory]='pageState.category$ | async'
+              [vehicleChecksCompleted]='pageState.vehicleChecksCompleted$ | async'
+              (vehicleChecksCompletedOutcomeChange)='vehicleChecksCompletedOutcomeChanged($event)'
+              (vehicleChecksDrivingFaultsNumberChange)='vehicleChecksDrivingFaultsNumberChanged($event)'>
+            </vehicle-checks-completed>
 
-                        <accompaniment-card
-                                [formGroup]="form"
-                                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                                (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-                                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                                (otherAccompanimentChange)="otherAccompanimentToggled()"
-                                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
-                        </accompaniment-card>
-                    </ion-col>
-                </ion-row>
+            <accompaniment-card
+              [formGroup]='form'
+              [instructorAccompaniment]='pageState.instructorAccompaniment$ | async'
+              [supervisorAccompaniment]='pageState.supervisorAccompaniment$ | async'
+              [otherAccompaniment]='pageState.otherAccompaniment$ | async'
+              [interpreterAccompaniment]='pageState.interpreterAccompaniment$ | async'
+              (instructorAccompanimentChange)='instructorAccompanimentToggled()'
+              (supervisorAccompanimentChange)='supervisorAccompanimentToggled()'
+              (otherAccompanimentChange)='otherAccompanimentToggled()'
+              (interpreterAccompanimentChange)='interpreterAccompanimentToggled()'>
+            </accompaniment-card>
+          </ion-col>
+        </ion-row>
 
-                <div *ngIf="!(pageState.delegatedTest$ | async)">
-                    <warning-banner class="banner-space" warningText="Is cab locked down? (if applicable)"></warning-banner>
-                    <warning-banner warningText="Is load secure? (if applicable)"></warning-banner>
-                </div>
-            </ion-grid>
-        </form>
-    </div>
+        <div *ngIf='!(pageState.delegatedTest$ | async)'>
+          <warning-banner class='banner-space' warningText='Is cab locked down? (if applicable)'></warning-banner>
+          <warning-banner warningText='Is load secure? (if applicable)'></warning-banner>
+        </div>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
 
 <ion-footer>
-    <ion-row class="mes-full-width-card box-shadow">
-        <ion-col *ngIf="!isDelegated" size="45" class="ion-text-center">
-            <ion-button
-                    shape="round"
-                    class="mes-grey-button wrtc-footer-btn"
-                    id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
-                <h3>View test centre journal</h3>
-            </ion-button>
-        </ion-col>
-        <ion-col *ngIf="!isDelegated" size="6"></ion-col>
-        <ion-col [size]="isDelegated ? 96 : 45" class="ion-text-center">
-            <ion-button
-                    shape="round"
-                    class="mes-primary-button wrtc-footer-btn"
-                    id="continue-to-test-report-button" (click)="onSubmit()">
-                <h3>Continue to test report</h3>
-            </ion-button>
-        </ion-col>
-    </ion-row>
+  <ion-row class='mes-full-width-card box-shadow'>
+    <ion-col *ngIf='!isDelegated' size='45' class='ion-text-center'>
+      <ion-button
+        shape='round'
+        class='mes-grey-button wrtc-footer-btn'
+        id='view-test-centre-journal-button' (click)='onViewTestCentreJournal()'>
+        <h3>View test centre journal</h3>
+      </ion-button>
+    </ion-col>
+    <ion-col *ngIf='!isDelegated' size='6'></ion-col>
+    <ion-col [size]='isDelegated ? 96 : 45' class='ion-text-center'>
+      <ion-button
+        shape='round'
+        class='mes-primary-button wrtc-footer-btn'
+        id='continue-to-test-report-button' (click)='onSubmit()'>
+        <h3>Continue to test report</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-footer>

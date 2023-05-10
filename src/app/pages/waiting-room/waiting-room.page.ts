@@ -37,7 +37,8 @@ import {
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { Language } from '@store/tests/communication-preferences/communication-preferences.model';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+
 import { DeviceProvider } from '@providers/device/device';
 import { configureI18N } from '@shared/helpers/translation.helpers';
 import { CategoryCode, JournalData } from '@dvsa/mes-test-schema/categories/common';
@@ -111,7 +112,6 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     store$: Store<StoreModel>,
     private deviceAuthenticationProvider: DeviceAuthenticationProvider,
     private deviceProvider: DeviceProvider,
-    private screenOrientation: ScreenOrientation,
     private insomnia: Insomnia,
     private translate: TranslateService,
     private modalController: ModalController,
@@ -126,7 +126,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
     this.store$.dispatch(GetCandidateLicenceData());
 
     if (super.isIos()) {
-      await this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY);
+      await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
       await this.insomnia.keepAwake();
 
       if (!this.isEndToEndPracticeMode) {
@@ -259,7 +259,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   async canDeActivate() {
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
       return true;
     } catch {
       return false;
@@ -268,7 +268,7 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
 
   isJournalDataInvalid = (journalData: JournalData): boolean => {
     return isEmpty(journalData.examiner.staffNumber)
-            || (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber));
+      || (isEmpty(journalData.candidate.candidateName) && isEmpty(journalData.candidate.driverNumber));
   };
 
   manoeuvresPassCertNumberChanged(manoeuvresPassCert: string): void {
@@ -304,14 +304,15 @@ export class WaitingRoomPage extends PracticeableBasePageComponent implements On
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
+    Object.keys(this.formGroup.controls)
+      .forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 
     if (this.formGroup.valid) {
       const shouldNavToCandidateLicenceDetails: boolean = this.shouldNavigateToCandidateLicenceDetails();
 
       if (shouldNavToCandidateLicenceDetails) {
         try {
-          await this.deviceAuthenticationProvider.triggerLockScreen();
+          await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
         } catch {
           return;
         }

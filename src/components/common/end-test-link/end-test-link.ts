@@ -27,6 +27,9 @@ export class EndTestLinkComponent {
   @Input()
   isDelegated: boolean = false;
 
+  @Input()
+  isPracticeMode: boolean = false;
+
   constructor(
     public modalController: ModalController,
     public router: Router,
@@ -45,6 +48,7 @@ export class EndTestLinkComponent {
         onCancel: this.onCancel,
         onTerminate: this.onTerminate,
         shouldAuthenticate: this.shouldAuthenticate,
+        isPracticeMode: this.isPracticeMode,
       },
       cssClass: 'mes-modal-alert text-zoom-regular',
     });
@@ -61,7 +65,8 @@ export class EndTestLinkComponent {
     if (this.isDelegated) {
       await this.routerByCategory.navigateToPage(TestFlowPageNames.OFFICE_PAGE, this.category as TestCategory);
       return;
-    } if (this.category === TestCategory.ADI3 || this.category === TestCategory.SC) {
+    }
+    if (this.category === TestCategory.ADI3 || this.category === TestCategory.SC) {
       await this.routerByCategory.navigateToPage(TestFlowPageNames.NON_PASS_FINALISATION_PAGE);
       return;
     }

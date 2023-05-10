@@ -1,70 +1,73 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
-    <ion-buttons id="wrtc-back-button" slot="start">
+  <practice-mode-banner *ngIf='isEndToEndPracticeMode'></practice-mode-banner>
+  <ion-toolbar mode='ios' [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id='waiting-room-to-car-page-title'>{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons id='wrtc-back-button' slot='start'>
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons id="end-test-button" slot="end">
-      <end-test-link [shouldAuthenticate]="false"
-                     [category]="pageState.category$ | async">
+    <ion-buttons id='end-test-button' slot='end'>
+      <end-test-link
+        [category]='pageState.category$ | async'
+        [isPracticeMode]='isPracticeMode'
+        [shouldAuthenticate]='false'>
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content force-overscroll="false">
+<ion-content force-overscroll='false'>
   <div>
     <warning-banner
-      warningText="The eyesight test should be conducted at a distance of 12m or 12.3m"
-      *ngIf="shouldDisplayEyesightBanner()">
+      warningText='The eyesight test should be conducted at a distance of 12m or 12.3m'
+      *ngIf='shouldDisplayEyesightBanner()'>
     </warning-banner>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]='form' (ngSubmit)='onSubmit()'>
       <ion-grid>
         <eyesight-test
-          [formGroup]="form"
-          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
-          [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
-          (eyesightTestResultChange)="eyesightTestResultChanged($event)">
+          [formGroup]='form'
+          [eyesightPassRadioChecked]='(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)'
+          [eyesightFailRadioChecked]='pageState.eyesightTestFailed$ | async'
+          (eyesightTestResultChange)='eyesightTestResultChanged($event)'>
         </eyesight-test>
 
-        <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-          <eyesight-failure-confirmation [nextPageOnFail]="getDebriefPage()"
-                                         [cancelFn]="eyesightFailCancelled">
+        <ion-row *ngIf='pageState.eyesightTestFailed$ | async'>
+          <eyesight-failure-confirmation [nextPageOnFail]='getDebriefPage()'
+                                         [cancelFn]='eyesightFailCancelled'>
           </eyesight-failure-confirmation>
         </ion-row>
 
-        <ion-row class="ion-no-padding" [hidden]="pageState.eyesightTestFailed$ | async" id="post-eyesight-form-content">
-          <ion-col class="ion-no-padding">
+        <ion-row class='ion-no-padding' [hidden]='pageState.eyesightTestFailed$ | async'
+                 id='post-eyesight-form-content'>
+          <ion-col class='ion-no-padding'>
             <vehicle-registration
-                    [formGroup]="form"
-                    [vehicleRegistration]="pageState.registrationNumber$ | async"
-                    (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-                    (vehicleRegistrationBlur)="getMOTStatus()">
+              [formGroup]='form'
+              [vehicleRegistration]='pageState.registrationNumber$ | async'
+              (vehicleRegistrationChange)='vehicleRegistrationChanged($event)'
+              (vehicleRegistrationBlur)='getMOTStatus()'>
             </vehicle-registration>
 
-            <test-category [testCategory]="pageState.category$ | async"></test-category>
+            <test-category [testCategory]='pageState.category$ | async'></test-category>
 
             <vehicle-checks-vocational
-              [formGroup]="form"
-              [fullLicenceHeld]="false"
-              [category]="pageState.category$ | async"
-              [vehicleChecksScore]="pageState.vehicleChecksScore$ | async"
-              [vehicleChecks]="pageState.vehicleChecks$ | async"
-              (onCloseVehicleChecksModal)="closeVehicleChecksModal()"
+              [formGroup]='form'
+              [fullLicenceHeld]='false'
+              [category]='pageState.category$ | async'
+              [vehicleChecksScore]='pageState.vehicleChecksScore$ | async'
+              [vehicleChecks]='pageState.vehicleChecks$ | async'
+              (onCloseVehicleChecksModal)='closeVehicleChecksModal()'
             ></vehicle-checks-vocational>
 
             <accompaniment-card
-                    [formGroup]="form"
-                    [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                    [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                    [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                    [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                    (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-                    (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                    (otherAccompanimentChange)="otherAccompanimentToggled()"
-                    (interpreterAccompanimentChange)="interpreterAccompanimentToggled()">
+              [formGroup]='form'
+              [instructorAccompaniment]='pageState.instructorAccompaniment$ | async'
+              [supervisorAccompaniment]='pageState.supervisorAccompaniment$ | async'
+              [otherAccompaniment]='pageState.otherAccompaniment$ | async'
+              [interpreterAccompaniment]='pageState.interpreterAccompaniment$ | async'
+              (instructorAccompanimentChange)='instructorAccompanimentToggled()'
+              (supervisorAccompanimentChange)='supervisorAccompanimentToggled()'
+              (otherAccompanimentChange)='otherAccompanimentToggled()'
+              (interpreterAccompanimentChange)='interpreterAccompanimentToggled()'>
             </accompaniment-card>
           </ion-col>
         </ion-row>
@@ -74,21 +77,21 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
-    <ion-col size="45" class="ion-text-center">
+  <ion-row class='mes-full-width-card box-shadow'>
+    <ion-col size='45' class='ion-text-center'>
       <ion-button
-              shape="round"
-              class="mes-grey-button wrtc-footer-btn"
-              id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
+        shape='round'
+        class='mes-grey-button wrtc-footer-btn'
+        id='view-test-centre-journal-button' (click)='onViewTestCentreJournal()'>
         <h3>View test centre journal</h3>
       </ion-button>
     </ion-col>
-    <ion-col size="6"></ion-col>
-    <ion-col size="45" class="ion-text-center">
+    <ion-col size='6'></ion-col>
+    <ion-col size='45' class='ion-text-center'>
       <ion-button
-              shape="round"
-              class="mes-primary-button wrtc-footer-btn"
-              id="continue-to-test-report-button" (click)="onSubmit()">
+        shape='round'
+        class='mes-primary-button wrtc-footer-btn'
+        id='continue-to-test-report-button' (click)='onSubmit()'>
         <h3>Continue to test report</h3>
       </ion-button>
     </ion-col>

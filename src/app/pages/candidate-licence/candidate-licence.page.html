@@ -1,58 +1,61 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-buttons id="candidate-licence-back-button" slot="start">
-      <ion-back-button defaultHref="WaitingRoomPage"></ion-back-button>
+  <practice-mode-banner *ngIf='isEndToEndPracticeMode'></practice-mode-banner>
+  <ion-toolbar mode='ios' [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-buttons id='candidate-licence-back-button' slot='start'>
+      <ion-back-button defaultHref='WaitingRoomPage'></ion-back-button>
     </ion-buttons>
-    <ion-title id="candidate-licence-page-title">
+    <ion-title id='candidate-licence-page-title'>
       DVLA Licence information - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
-    <ion-buttons id="end-button" slot="end">
-      <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
+    <ion-buttons id='end-button' slot='end'>
+      <end-test-link
+        [category]='pageState.testCategory$ | async'
+        [isPracticeMode]='isPracticeMode'
+      ></end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <offline-banner [isOffline]="!!offlineError"></offline-banner>
+  <offline-banner [isOffline]='!!offlineError'></offline-banner>
 
-  <ion-grid *ngIf="{ candidateLicence: pageState.candidateData$ | async } as data">
+  <ion-grid *ngIf='{ candidateLicence: pageState.candidateData$ | async } as data'>
     <inappropriate-use-banner></inappropriate-use-banner>
 
     <licence-photo
-      [hasError]="hasErrored"
-      [imageSrc]="getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)">
+      [hasError]='hasErrored'
+      [imageSrc]='getImage(pageState.driverPhotograph$ | async, data.candidateLicence?.driverPhotograph)'>
     </licence-photo>
 
     <licence-data-error
-      *ngIf="!isPracticeMode && hasErrored"
-      [candidateDataError]="candidateDataError"
-      [candidateDataUnavailable]="candidateDataUnavailable"
-      [isOfflineError]="offlineError"
-      [niLicenceDetected]="niLicenceDetected">
+      *ngIf='!isPracticeMode && hasErrored'
+      [candidateDataError]='candidateDataError'
+      [candidateDataUnavailable]='candidateDataUnavailable'
+      [isOfflineError]='offlineError'
+      [niLicenceDetected]='niLicenceDetected'>
     </licence-data-error>
 
     <true-likeness
-      [formGroup]="formGroup"
-      [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-      (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
+      [formGroup]='formGroup'
+      [trueLikeness]='pageState.trueLikenessToPhoto$ | async'
+      (trueLikenessChange)='trueLikenessToPhotoChanged($event)'>
     </true-likeness>
 
     <!-- Decide if candidateDataError should hide the DVLA card or show a card for TARS/booking data -->
     <licence-information
-      [isPracticeMode]="isPracticeMode"
-      [candidateData]="data.candidateLicence"
-      [bookingDriverNumber]="pageState.candidateDriverNumber$ | async"
-      [bookingName]="pageState.candidateUntitledName$ | async"
-      [bookingAge]="pageState.age$ | async"
-      [bookingGender]="pageState.genderDescription$ | async">
+      [isPracticeMode]='isPracticeMode'
+      [candidateData]='data.candidateLicence'
+      [bookingDriverNumber]='pageState.candidateDriverNumber$ | async'
+      [bookingName]='pageState.candidateUntitledName$ | async'
+      [bookingAge]='pageState.age$ | async'
+      [bookingGender]='pageState.genderDescription$ | async'>
     </licence-information>
   </ion-grid>
 </ion-content>
 
 <ion-footer>
   <ion-row>
-    <ion-button id="candidate-licence-continue-button" class="mes-primary-button continue" (click)="onContinue()">
+    <ion-button id='candidate-licence-continue-button' class='mes-primary-button continue' (click)='onContinue()'>
       <h3>Continue</h3>
     </ion-button>
   </ion-row>

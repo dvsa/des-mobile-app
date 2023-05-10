@@ -9,7 +9,6 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { Observable } from 'rxjs';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
@@ -19,7 +18,9 @@ import { CatHUniqueTypes } from '@dvsa/mes-test-schema/categories/H';
 import { CatKUniqueTypes } from '@dvsa/mes-test-schema/categories/K';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
-interface CatHomeTestReportPageState {}
+interface CatHomeTestReportPageState {
+}
+
 type TestReportPageState = CommonTestReportPageState & CatHomeTestReportPageState;
 type HomeCatTestDataUnion =
   CatFUniqueTypes.TestData |
@@ -43,7 +44,6 @@ export class TestReportCatHomeTestPage extends TestReportBasePageComponent imple
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
   ) {
@@ -54,7 +54,6 @@ export class TestReportCatHomeTestPage extends TestReportBasePageComponent imple
       store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );

@@ -1,14 +1,17 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-buttons id="communication-back-button" slot="start">
+  <practice-mode-banner *ngIf='isEndToEndPracticeMode'></practice-mode-banner>
+  <ion-toolbar mode='ios' [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-buttons id='communication-back-button' slot='start'>
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title id="communication-page-title">
+    <ion-title id='communication-page-title'>
       {{ 'communication.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
     </ion-title>
-    <ion-buttons id="end-button" slot="end">
-      <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
+    <ion-buttons id='end-button' slot='end'>
+      <end-test-link
+        [category]='pageState.testCategory$ | async'
+        [isPracticeMode]='isPracticeMode'
+      ></end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -16,59 +19,59 @@
 <ion-content>
   <lock-screen-indicator></lock-screen-indicator>
   <div>
-    <form [formGroup]="form">
-      <candidate-section [candidateName]="pageState.candidateName$ | async"
-                         [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-                         [candidatePrnNumber]="pageState.prn$ | async"
-                         [isStandardsCheck]="pageState.isStandardsCheck$ | async"
-                         (continueClickEvent)="onSubmit()"
-                         [showVRNButton]="pageState.showVrnBtn$ | async">
+    <form [formGroup]='form'>
+      <candidate-section [candidateName]='pageState.candidateName$ | async'
+                         [candidateDriverNumber]='pageState.candidateDriverNumber$ | async'
+                         [candidatePrnNumber]='pageState.prn$ | async'
+                         [isStandardsCheck]='pageState.isStandardsCheck$ | async'
+                         (continueClickEvent)='onSubmit()'
+                         [showVRNButton]='pageState.showVrnBtn$ | async'>
       </candidate-section>
 
       <valid-certificate
-              *ngIf="pageState.isStandardsCheck$ | async"
-              [formGroup]="form"
-              [validCertificate]="pageState.validCertificate$ | async"
-              (validCertificateChange)="validCertificateChanged($event)"
+        *ngIf='pageState.isStandardsCheck$ | async'
+        [formGroup]='form'
+        [validCertificate]='pageState.validCertificate$ | async'
+        (validCertificateChange)='validCertificateChanged($event)'
       ></valid-certificate>
 
-      <div class="mes-full-width-card-separator"></div>
+      <div class='mes-full-width-card-separator'></div>
 
       <privacy-notice
-              [language]="pageState.conductedLanguage$ | async"
-              [category]="pageState.testCategory$ | async"
+        [language]='pageState.conductedLanguage$ | async'
+        [category]='pageState.testCategory$ | async'
       ></privacy-notice>
 
-      <div class="mes-full-width-card" id="declaration-section">
+      <div class='mes-full-width-card' id='declaration-section'>
 
-        <ion-row class="mes-validated-row">
+        <ion-row class='mes-validated-row'>
           <ion-col>
-            <div class="communication-text-container">
-              <h4 id="comms-instruction-header">{{ 'communication.instructionHeader' | translate }}</h4>
+            <div class='communication-text-container'>
+              <h4 id='comms-instruction-header'>{{ 'communication.instructionHeader' | translate }}</h4>
             </div>
-            <div class="validation-bar"></div>
+            <div class='validation-bar'></div>
             <ion-col>
-              <provided-email [formGroup]="form"
-                              [shouldRender]="!!(pageState.candidateProvidedEmail$ | async)"
-                              [providedEmailAddress]="pageState.candidateProvidedEmail$ | async"
-                              [isProvidedEmailAddressChosen]="isProvidedEmailSelected()"
-                              (providedEmailRadioSelect)="dispatchCandidateChoseProvidedEmail()">
+              <provided-email [formGroup]='form'
+                              [shouldRender]='!!(pageState.candidateProvidedEmail$ | async)'
+                              [providedEmailAddress]='pageState.candidateProvidedEmail$ | async'
+                              [isProvidedEmailAddressChosen]='isProvidedEmailSelected()'
+                              (providedEmailRadioSelect)='dispatchCandidateChoseProvidedEmail()'>
               </provided-email>
 
-              <new-email [formGroup]="form"
-                         [isNewEmailAddressChosen]="isNewEmailSelected()"
-                         (newEmailRadioSelect)="conditionalDispatchCandidateChoseNewEmail()"
-                         (newEmailTextChange)="dispatchCandidateChoseNewEmail($event)">
+              <new-email [formGroup]='form'
+                         [isNewEmailAddressChosen]='isNewEmailSelected()'
+                         (newEmailRadioSelect)='conditionalDispatchCandidateChoseNewEmail()'
+                         (newEmailTextChange)='dispatchCandidateChoseNewEmail($event)'>
               </new-email>
 
-              <postal-address [formGroup]="form"
-                              [postalAddress]="pageState.candidateAddress$ | async"
-                              [isPostalAddressChosen]="isPostSelected()"
-                              (postalRadioSelect)="dispatchCandidateChosePost()">
+              <postal-address [formGroup]='form'
+                              [postalAddress]='pageState.candidateAddress$ | async'
+                              [isPostalAddressChosen]='isPostSelected()'
+                              (postalRadioSelect)='dispatchCandidateChosePost()'>
               </postal-address>
 
-              <ion-row class="validation-message-row">
-                <div class="validation-text"></div>
+              <ion-row class='validation-message-row'>
+                <div class='validation-text'></div>
               </ion-row>
             </ion-col>
           </ion-col>

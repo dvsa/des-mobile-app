@@ -1,86 +1,89 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-        <ion-title id="waiting-room-page-title">
-            {{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
-        </ion-title>
-        <ion-buttons id="waiting-room-back-button" slot="start">
-            <ion-back-button [defaultHref]="isEndToEndPracticeMode ? 'FakeJournalPage' : 'JournalPage'"></ion-back-button>
-        </ion-buttons>
-        <ion-buttons id="end-button" slot="end">
-            <end-test-link [category]="pageState.testCategory$ | async"></end-test-link>
-        </ion-buttons>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf='isEndToEndPracticeMode'></practice-mode-banner>
+  <ion-toolbar mode='ios' [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id='waiting-room-page-title'>
+      {{ 'waitingRoom.title' | translate }} - {{pageState.candidateUntitledName$ | async}}
+    </ion-title>
+    <ion-buttons id='waiting-room-back-button' slot='start'>
+      <ion-back-button [defaultHref]="isEndToEndPracticeMode ? 'FakeJournalPage' : 'JournalPage'"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons id='end-button' slot='end'>
+      <end-test-link
+        [category]='pageState.testCategory$ | async'
+        [isPracticeMode]='isPracticeMode'
+      ></end-test-link>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content force-overscroll="false">
-    <lock-screen-indicator></lock-screen-indicator>
+<ion-content force-overscroll='false'>
+  <lock-screen-indicator></lock-screen-indicator>
 
-    <form [formGroup]="formGroup">
-        <candidate-section
-                [candidateName]="pageState.candidateName$ | async"
-                [candidateDriverNumber]="pageState.candidateDriverNumber$ | async"
-                (continueClickEvent)="onSubmit()"
-                [showVRNButton]="pageState.showVrnBtn$ | async">
-        </candidate-section>
+  <form [formGroup]='formGroup'>
+    <candidate-section
+      [candidateName]='pageState.candidateName$ | async'
+      [candidateDriverNumber]='pageState.candidateDriverNumber$ | async'
+      (continueClickEvent)='onSubmit()'
+      [showVRNButton]='pageState.showVrnBtn$ | async'>
+    </candidate-section>
 
-        <manoeuvres-pass-cert
-                *ngIf="pageState.showManoeuvresPassCertNumber$ | async"
-                [formGroup]="formGroup"
-                [manoeuvresPassCertificateNumber]="pageState.manoeuvresPassCertNumber$ | async"
-                (manoeuvresPassCertificateNumberChange)="manoeuvresPassCertNumberChanged($event)">
-        </manoeuvres-pass-cert>
+    <manoeuvres-pass-cert
+      *ngIf='pageState.showManoeuvresPassCertNumber$ | async'
+      [formGroup]='formGroup'
+      [manoeuvresPassCertificateNumber]='pageState.manoeuvresPassCertNumber$ | async'
+      (manoeuvresPassCertificateNumberChange)='manoeuvresPassCertNumberChanged($event)'>
+    </manoeuvres-pass-cert>
 
-        <cbt-number
-                *ngIf="pageState.showCbtNumber$ | async"
-                [formGroup]="formGroup"
-                [cbtNumber]="pageState.cbtNumber$ | async"
-                (cbtNumberChange)="cbtNumberChanged($event)">
-        </cbt-number>
+    <cbt-number
+      *ngIf='pageState.showCbtNumber$ | async'
+      [formGroup]='formGroup'
+      [cbtNumber]='pageState.cbtNumber$ | async'
+      (cbtNumberChange)='cbtNumberChanged($event)'>
+    </cbt-number>
 
-        <div class="mes-full-width-card-separator"></div>
+    <div class='mes-full-width-card-separator'></div>
 
-        <conducted-language
-                [shouldRender]="pageState.welshTest$ | async"
-                [welshIsSelected]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
-                [englishIsSelected]="(pageState.conductedLanguage$ | async) === 'English'"
-                (welshTextSelect)="dispatchCandidateChoseToProceedInWelsh()"
-                (englishTextSelect)="dispatchCandidateChoseToProceedInEnglish()">
-        </conducted-language>
+    <conducted-language
+      [shouldRender]='pageState.welshTest$ | async'
+      [welshIsSelected]="(pageState.conductedLanguage$ | async) === 'Cymraeg'"
+      [englishIsSelected]="(pageState.conductedLanguage$ | async) === 'English'"
+      (welshTextSelect)='dispatchCandidateChoseToProceedInWelsh()'
+      (englishTextSelect)='dispatchCandidateChoseToProceedInEnglish()'>
+    </conducted-language>
 
-        <div [ngClass]="{
+    <div [ngClass]="{
             'mes-full-width-card-no-padding-top': ((pageState.showManoeuvresPassCertNumber$ | async) || (pageState.showCbtNumber$ | async)),
             'mes-full-width-card': (!(pageState.showManoeuvresPassCertNumber$ | async) && !(pageState.showCbtNumber$ | async))
-        }" id="declaration-section">
-            <ion-row>
-                <ion-col>
-                    <h4 id="waiting-room-declaration-intent">{{ 'waitingRoom.declarationIntent' | translate}}:</h4>
-                </ion-col>
-            </ion-row>
+        }" id='declaration-section'>
+      <ion-row>
+        <ion-col>
+          <h4 id='waiting-room-declaration-intent'>{{ 'waitingRoom.declarationIntent' | translate}}:</h4>
+        </ion-col>
+      </ion-row>
 
-            <div class="waiting-room-declarations">
-                <insurance-declaration
-                        [formGroup]="formGroup"
-                        [selected]="pageState.insuranceDeclarationAccepted$ | async"
-                        (insuranceDeclarationChange)="insuranceDeclarationChanged()">
-                </insurance-declaration>
+      <div class='waiting-room-declarations'>
+        <insurance-declaration
+          [formGroup]='formGroup'
+          [selected]='pageState.insuranceDeclarationAccepted$ | async'
+          (insuranceDeclarationChange)='insuranceDeclarationChanged()'>
+        </insurance-declaration>
 
-                <residency-declaration
-                        *ngIf="pageState.showResidencyDec$ | async"
-                        [formGroup]="formGroup"
-                        [selected]="pageState.residencyDeclarationAccepted$ | async"
-                        (residencyDeclarationChange)="residencyDeclarationChanged()">
-                </residency-declaration>
-            </div>
+        <residency-declaration
+          *ngIf='pageState.showResidencyDec$ | async'
+          [formGroup]='formGroup'
+          [selected]='pageState.residencyDeclarationAccepted$ | async'
+          (residencyDeclarationChange)='residencyDeclarationChanged()'>
+        </residency-declaration>
+      </div>
 
-            <div *ngIf="!(pageState.showResidencyDec$ | async)" class="signature-area-padding"></div>
+      <div *ngIf='!(pageState.showResidencyDec$ | async)' class='signature-area-padding'></div>
 
-            <signature
-                    [formGroup]="formGroup"
-                    [signature]="pageState.signature$ | async"
-                    (signatureDataChange)="signatureChanged($event)"
-                    (signatureCleared)="signatureCleared()">
-            </signature>
-        </div>
-    </form>
+      <signature
+        [formGroup]='formGroup'
+        [signature]='pageState.signature$ | async'
+        (signatureDataChange)='signatureChanged($event)'
+        (signatureCleared)='signatureCleared()'>
+      </signature>
+    </div>
+  </form>
 </ion-content>

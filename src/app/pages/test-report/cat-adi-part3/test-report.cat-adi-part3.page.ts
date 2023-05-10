@@ -9,13 +9,17 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
-  LessonPlanning, LessonTheme, RiskManagement, StudentLevel, TeachingLearningStrategies, TestData,
+  LessonPlanning,
+  LessonTheme,
+  RiskManagement,
+  StudentLevel,
+  TeachingLearningStrategies,
+  TestData,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -78,7 +82,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     store$: Store<StoreModel>,
     modalController: ModalController,
     testReportValidatorProvider: TestReportValidatorProvider,
-    screenOrientation: ScreenOrientation,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
     private navController: NavController,
@@ -91,7 +94,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       store$,
       modalController,
       testReportValidatorProvider,
-      screenOrientation,
       insomnia,
       routeByCategory,
     );
@@ -184,7 +186,8 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
   };
 
   onContinueClick = (): void => {
-    Object.keys(this.form.controls).forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.invalid) {
       return;

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { get, isNil } from 'lodash';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -81,12 +80,14 @@ export class TestSlotComponent implements SlotComponent, OnInit {
   @Input()
   isPracticeMode?: boolean = false;
 
+  @Input()
+  isPortrait: boolean = false;
+
   componentState: TestSlotComponentState;
 
   practiceTestStatus: TestStatus = TestStatus.Booked;
 
   constructor(
-    public screenOrientation: ScreenOrientation,
     public appConfig: AppConfigProvider,
     public dateTimeProvider: DateTimeProvider,
     public store$: Store<StoreModel>,
@@ -144,12 +145,6 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     return !isNil(specialNeeds) && specialNeeds.length > 0;
   }
 
-  isPortrait(): boolean {
-    return this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY
-            || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT_SECONDARY
-            || this.screenOrientation.type === this.screenOrientation.ORIENTATIONS.PORTRAIT;
-  }
-
   showVehicleDetails(): boolean {
     return vehicleDetails[this.slot.booking.application.testCategory as TestCategory];
   }
@@ -163,7 +158,7 @@ export class TestSlotComponent implements SlotComponent, OnInit {
       return true;
     }
     return this.slotProvider.canStartTest(this.slot)
-        && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
+      && this.categoryWhitelist.isWhiteListed(this.slot.booking.application.testCategory as TestCategory);
   }
 
   canViewCandidateDetails(): boolean {
@@ -171,11 +166,13 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     const currentDateTime = new Date();
     const isWhitelistedForADI: boolean = testPermissionPeriods.some((period) => {
       return (period.testCategory === TestCategory.ADI2)
-                && new Date(period.from) <= currentDateTime
-                && (new Date(period.to) >= currentDateTime || period.to === null);
+        && new Date(period.from) <= currentDateTime
+        && (new Date(period.to) >= currentDateTime || period.to === null);
     });
-    const slotStart = moment(this.slot.slotDetail.start).startOf('day');
-    const maxViewStart = moment(this.getLatestViewableSlotDateTime()).startOf('day');
+    const slotStart = moment(this.slot.slotDetail.start)
+      .startOf('day');
+    const maxViewStart = moment(this.getLatestViewableSlotDateTime())
+      .startOf('day');
     return slotStart.isSameOrBefore(maxViewStart) || isWhitelistedForADI;
   }
 
@@ -188,7 +185,10 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     } else {
       daysToAdd = today.isoWeekday() === 6 ? 2 : 1;
     }
-    return moment().add(daysToAdd, 'days').startOf('day').toDate();
+    return moment()
+      .add(daysToAdd, 'days')
+      .startOf('day')
+      .toDate();
   }
 
   getExaminerId(): number {
@@ -206,5 +206,5 @@ export class TestSlotComponent implements SlotComponent, OnInit {
     return aDICats.includes(testCategory) && this.isTeamJournal;
   }
 
-  isCompletedTest = (testStatus: TestStatus) : boolean => testStatus === TestStatus.Completed;
+  isCompletedTest = (testStatus: TestStatus): boolean => testStatus === TestStatus.Completed;
 }
