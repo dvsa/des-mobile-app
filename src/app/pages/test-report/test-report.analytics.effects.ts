@@ -94,10 +94,10 @@ import {
 import { sumObjectKeyValues } from '@shared/helpers/sum-object-key-values';
 import { ScoreChangedActions } from '@pages/test-report/test-report.effects';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { CompetencyOutcomeAnalyticEvent } from '@shared/helpers/competency-outcome-analytic-event';
 import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
 import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
 import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
-import { CompetencyOutcomeAnalyticEvent } from '@shared/helpers/competency-outcome-analytic-event';
 
 @Injectable()
 export class TestReportAnalyticsEffects {
@@ -978,12 +978,12 @@ export class TestReportAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests]:
+      [action, tests]:
       [ReturnType<typeof controlledStopActions.ControlledStopRemoveFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_FAULT, tests),
+        formatAnalyticsText(CompetencyOutcomeAnalyticEvent(action.faultLevel), tests),
         fullCompetencyLabels['outcomeControlledStop'],
       );
       return of(AnalyticRecorded());
@@ -1038,13 +1038,13 @@ export class TestReportAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests]:
+      [action, tests]:
       [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-        formatAnalyticsText(AnalyticsEvents.REMOVE_FAULT, tests),
-        fullCompetencyLabels['showMeQuestion'],
+        formatAnalyticsText(CompetencyOutcomeAnalyticEvent(action.faultLevel), tests),
+        fullCompetencyLabels.showMeQuestion,
       );
       return of(AnalyticRecorded());
     }),

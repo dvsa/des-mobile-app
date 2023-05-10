@@ -13,7 +13,9 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getManoeuvres } from '@store/tests/test-data/cat-b/test-data.cat-b.selector';
 import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component, Input, OnDestroy, OnInit,
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map, takeUntil } from 'rxjs/operators';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';

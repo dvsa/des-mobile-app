@@ -1,5 +1,6 @@
 import { createAction, union } from '@ngrx/store';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export const TellMeQuestionSelected = createAction(
   '[Vehicle Checks] Tell me question selected',
@@ -42,6 +43,7 @@ export const ShowMeQuestionDangerousFault = createAction(
 
 export const ShowMeQuestionRemoveFault = createAction(
   '[Vehicle Checks] Show me question remove fault',
+  (faultLevel: CompetencyOutcome) => ({ faultLevel }),
 );
 
 export enum QuestionOutcomes {

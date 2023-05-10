@@ -1,4 +1,5 @@
 import { createAction } from '@ngrx/store';
+import { CompetencyOutcome } from '@shared/models/competency-outcome';
 
 export const ToggleControlledStop = createAction(
   '[ControlledStop] Toggle Controlled Stop',
@@ -18,6 +19,7 @@ export const ControlledStopAddDangerousFault = createAction(
 
 export const ControlledStopRemoveFault = createAction(
   '[ControlledStop] Remove Fault',
+  (faultLevel: CompetencyOutcome) => ({ faultLevel }),
 );
 
 export const AddControlledStopComment = createAction(

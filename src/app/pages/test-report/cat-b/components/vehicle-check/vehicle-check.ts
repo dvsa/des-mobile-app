@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { merge, Observable, Subscription } from 'rxjs';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -18,8 +18,8 @@ import {
   ShowMeQuestionSeriousFault,
 } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
-import { isSeriousMode, isDangerousMode, isRemoveFaultMode } from '../../../test-report.selector';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
 import { getTestReportState } from '../../../test-report.reducer';
 
 @Component({
@@ -100,7 +100,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
     }
 
     if (this.showMeQuestionFault === CompetencyOutcome.P) {
-      this.store$.dispatch(ShowMeQuestionRemoveFault());
+      this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.P));
       return;
     }
 
@@ -138,6 +138,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
 
   removeFault = (): void => {
     if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
+      this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.D));
       this.store$.dispatch(ShowMeQuestionPassed());
       this.store$.dispatch(ToggleDangerousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
@@ -145,6 +146,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
     }
 
     if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
+      this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.S));
       this.store$.dispatch(ShowMeQuestionPassed());
       this.store$.dispatch(ToggleSeriousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
@@ -152,6 +154,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
     }
 
     if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.hasShowMeDrivingFault()) {
+      this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
       this.store$.dispatch(ShowMeQuestionPassed());
       this.store$.dispatch(ToggleRemoveFaultMode());
     }

@@ -1,26 +1,25 @@
 import {
-  Component, OnInit, OnDestroy, Input,
+  Component, Input, OnDestroy, OnInit,
 } from '@angular/core';
-import { Observable, Subscription, merge } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { StoreModel } from '@shared/models/store.model';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
-import * as controlledStopAction
-  from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
+import * as controlledStopAction from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { getControlledStop } from '@store/tests/test-data/common/controlled-stop/controlled-stop.reducer';
 import {
-  isControlledStopSelected,
   getControlledStopFault,
+  isControlledStopSelected,
 } from '@store/tests/test-data/common/controlled-stop/controlled-stop.selectors';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { ToggleRemoveFaultMode, ToggleSeriousFaultMode, ToggleDangerousFaultMode } from '../../test-report.actions';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
 
 interface ControlledStopComponentState {
@@ -177,20 +176,20 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
   removeFault = (): void => {
 
     if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(controlledStopAction.ControlledStopRemoveFault());
+      this.store$.dispatch(controlledStopAction.ControlledStopRemoveFault(CompetencyOutcome.D));
       this.store$.dispatch(ToggleDangerousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
       return;
     }
 
     if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(controlledStopAction.ControlledStopRemoveFault());
+      this.store$.dispatch(controlledStopAction.ControlledStopRemoveFault(CompetencyOutcome.S));
       this.store$.dispatch(ToggleSeriousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
       return;
     }
     if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.faultCount() > 0) {
-      this.store$.dispatch(controlledStopAction.ControlledStopRemoveFault());
+      this.store$.dispatch(controlledStopAction.ControlledStopRemoveFault(CompetencyOutcome.DF));
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
   };
