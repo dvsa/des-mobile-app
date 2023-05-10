@@ -1,80 +1,82 @@
 <ion-header>
-  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-    <ion-title id="waiting-room-to-car-page-title">{{pageState.candidateName$ | async}}</ion-title>
-    <ion-buttons id="wrtc-back-button" slot="start">
+  <practice-mode-banner *ngIf='isEndToEndPracticeMode'></practice-mode-banner>
+  <ion-toolbar mode='ios' [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title id='waiting-room-to-car-page-title'>{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons id='wrtc-back-button' slot='start'>
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-buttons id="end-test-button" slot="end">
-      <end-test-link [shouldAuthenticate]="false"
-                     [category]="pageState.category$ | async">
+    <ion-buttons id='end-test-button' slot='end'>
+      <end-test-link
+        [category]='pageState.category$ | async'
+        [isPracticeMode]='isPracticeMode'
+        [shouldAuthenticate]='false'>
       </end-test-link>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content force-overscroll="false">
+<ion-content force-overscroll='false'>
   <div>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]='form' (ngSubmit)='onSubmit()'>
       <ion-grid>
-        <ion-row class="ion-no-padding">
-          <ion-col class="ion-no-padding">
+        <ion-row class='ion-no-padding'>
+          <ion-col class='ion-no-padding'>
             <vehicle-registration
-              [formGroup]="form"
-              [vehicleRegistration]="pageState.registrationNumber$ | async"
-              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-              (vehicleRegistrationBlur)="getMOTStatus()">
+              [formGroup]='form'
+              [vehicleRegistration]='pageState.registrationNumber$ | async'
+              (vehicleRegistrationChange)='vehicleRegistrationChanged($event)'
+              (vehicleRegistrationBlur)='getMOTStatus()'>
             </vehicle-registration>
 
-            <test-category [testCategory]="pageState.category$ | async"></test-category>
+            <test-category [testCategory]='pageState.category$ | async'></test-category>
 
             <dual-controls
-              [formGroup]="form"
-              [dualControls]="pageState.dualControls$ | async"
-              (dualControlsChange)="dualControlsOutcomeToggled($event)">
+              [formGroup]='form'
+              [dualControls]='pageState.dualControls$ | async'
+              (dualControlsChange)='dualControlsOutcomeToggled($event)'>
             </dual-controls>
 
             <transmission
-              [formGroup]="form"
-              [transmission]="pageState.transmission$ | async"
-              (transmissionChange)="transmissionChanged($event)">
+              [formGroup]='form'
+              [transmission]='pageState.transmission$ | async'
+              (transmissionChange)='transmissionChanged($event)'>
             </transmission>
 
             <pdi-logbook
-              *ngIf="notSC(pageState.category$ | async)"
-              [formGroup]="form"
-              [pdiLogbook]="pageState.pdiLogbook$ | async"
-              (pdiLogbookChange)="pdiLogbookChanged($event)">
+              *ngIf='notSC(pageState.category$ | async)'
+              [formGroup]='form'
+              [pdiLogbook]='pageState.pdiLogbook$ | async'
+              (pdiLogbookChange)='pdiLogbookChanged($event)'>
             </pdi-logbook>
 
             <trainee-licence
-              *ngIf="notSC(pageState.category$ | async)"
-              [formGroup]="form"
-              [traineeLicence]="pageState.traineeLicence$ | async"
-              (traineeLicenceChange)="traineeLicenceChanged($event)">
+              *ngIf='notSC(pageState.category$ | async)'
+              [formGroup]='form'
+              [traineeLicence]='pageState.traineeLicence$ | async'
+              (traineeLicenceChange)='traineeLicenceChanged($event)'>
             </trainee-licence>
 
             <ordit-trainer-cat-adi-part2
-              [formGroup]="form"
-              [notSC]="notSC(pageState.category$ | async)"
-              [orditTrainedRadioChecked]="pageState.orditTrained$ | async"
-              (orditTrainedOutcomeChange)="orditTrainedOutcomeChanged($event)">
+              [formGroup]='form'
+              [notSC]='notSC(pageState.category$ | async)'
+              [orditTrainedRadioChecked]='pageState.orditTrained$ | async'
+              (orditTrainedOutcomeChange)='orditTrainedOutcomeChanged($event)'>
             </ordit-trainer-cat-adi-part2>
 
             <accompaniment-card-adi3
-              [formGroup]="form"
-              [trainerAccompaniment]="pageState.trainerAccompaniment$ | async"
-              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-              (trainerAccompanimentChange)="trainerAccompanimentChanged()"
-              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-              (otherAccompanimentChange)="otherAccompanimentToggled()">
+              [formGroup]='form'
+              [trainerAccompaniment]='pageState.trainerAccompaniment$ | async'
+              [supervisorAccompaniment]='pageState.supervisorAccompaniment$ | async'
+              [otherAccompaniment]='pageState.otherAccompaniment$ | async'
+              (trainerAccompanimentChange)='trainerAccompanimentChanged()'
+              (supervisorAccompanimentChange)='supervisorAccompanimentToggled()'
+              (otherAccompanimentChange)='otherAccompanimentToggled()'>
             </accompaniment-card-adi3>
 
             <trainer-registration-number-cat-adi-part2
-              [formGroup]="form"
-              [trainerRegistration]="pageState.trainerRegistrationNumber$ | async"
-              (trainerRegistrationChange)="trainerRegistrationNumberChanged($event)">
+              [formGroup]='form'
+              [trainerRegistration]='pageState.trainerRegistrationNumber$ | async'
+              (trainerRegistrationChange)='trainerRegistrationNumberChanged($event)'>
             </trainer-registration-number-cat-adi-part2>
           </ion-col>
         </ion-row>
@@ -84,21 +86,21 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
-    <ion-col size="45" class="ion-text-center">
+  <ion-row class='mes-full-width-card box-shadow'>
+    <ion-col size='45' class='ion-text-center'>
       <ion-button
-        shape="round"
-        class="mes-grey-button wrtc-footer-btn"
-        id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
+        shape='round'
+        class='mes-grey-button wrtc-footer-btn'
+        id='view-test-centre-journal-button' (click)='onViewTestCentreJournal()'>
         <h3>View test centre journal</h3>
       </ion-button>
     </ion-col>
-    <ion-col size="6"></ion-col>
-    <ion-col size="45" class="ion-text-center">
+    <ion-col size='6'></ion-col>
+    <ion-col size='45' class='ion-text-center'>
       <ion-button
-        shape="round"
-        class="mes-primary-button wrtc-footer-btn"
-        id="continue-to-test-report-button" (click)="onSubmit()">
+        shape='round'
+        class='mes-primary-button wrtc-footer-btn'
+        id='continue-to-test-report-button' (click)='onSubmit()'>
         <h3>Continue to test report</h3>
       </ion-button>
     </ion-col>

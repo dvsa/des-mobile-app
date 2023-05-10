@@ -1,87 +1,89 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-        <ion-title>{{pageState.candidateName$ | async}}</ion-title>
-        <ion-buttons id="wrtc-back-button" slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-        <ion-buttons slot="end">
-            <end-test-link [shouldAuthenticate]="false"
-                           [category]="pageState.category$ | async"
-                           [isDelegated]="pageState.delegatedTest$ | async">
-            </end-test-link>
-        </ion-buttons>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf='isEndToEndPracticeMode'></practice-mode-banner>
+  <ion-toolbar mode='ios' [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title>{{pageState.candidateName$ | async}}</ion-title>
+    <ion-buttons id='wrtc-back-button' slot='start'>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot='end'>
+      <end-test-link
+        [isDelegated]='pageState.delegatedTest$ | async'
+        [category]='pageState.category$ | async'
+        [isPracticeMode]='isPracticeMode'
+        [shouldAuthenticate]='false'>
+      </end-test-link>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content force-overscroll="false">
-    <div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <ion-grid>
-                <ion-row class="ion-no-padding">
-                    <ion-col class="ion-no-padding">
+<ion-content force-overscroll='false'>
+  <div>
+    <form [formGroup]='form' (ngSubmit)='onSubmit()'>
+      <ion-grid>
+        <ion-row class='ion-no-padding'>
+          <ion-col class='ion-no-padding'>
 
-                        <candidate-declaration-signed
-                                *ngIf="pageState.delegatedTest$ | async"
-                                [formGroup]="form"
-                                [candidateSigned]="pageState.candidateDeclarationSigned$ | async"
-                                [declarationSelected]="(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)"
-                                (candidateDeclarationChange)="candidateDeclarationOutcomeChanged($event)">
-                        </candidate-declaration-signed>
+            <candidate-declaration-signed
+              *ngIf='pageState.delegatedTest$ | async'
+              [formGroup]='form'
+              [candidateSigned]='pageState.candidateDeclarationSigned$ | async'
+              [declarationSelected]='(pageState.insuranceDeclarationAccepted$ | async) && (pageState.residencyDeclarationAccepted$ | async)'
+              (candidateDeclarationChange)='candidateDeclarationOutcomeChanged($event)'>
+            </candidate-declaration-signed>
 
-                        <vehicle-registration
-                                [formGroup]="form"
-                                [vehicleRegistration]="pageState.registrationNumber$ | async"
-                                (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-                                (vehicleRegistrationBlur)="getMOTStatus()">
-                        </vehicle-registration>
+            <vehicle-registration
+              [formGroup]='form'
+              [vehicleRegistration]='pageState.registrationNumber$ | async'
+              (vehicleRegistrationChange)='vehicleRegistrationChanged($event)'
+              (vehicleRegistrationBlur)='getMOTStatus()'>
+            </vehicle-registration>
 
-                        <vehicle-details-cat-cpc
-                                *ngIf="showVehicleDetails() && !(pageState.delegatedTest$ | async)"
-                                [formGroup]="form"
-                                [configuration]="pageState?.configuration$ | async"
-                                (vehicleDetailsChange)="vehicleConfiguration($event)">
-                        </vehicle-details-cat-cpc>
+            <vehicle-details-cat-cpc
+              *ngIf='showVehicleDetails() && !(pageState.delegatedTest$ | async)'
+              [formGroup]='form'
+              [configuration]='pageState?.configuration$ | async'
+              (vehicleDetailsChange)='vehicleConfiguration($event)'>
+            </vehicle-details-cat-cpc>
 
-                        <combination
-                                [formGroup]="form"
-                                [combinations]="pageState.combinations$ | async"
-                                [combination]="pageState.combination$ | async"
-                                (combinationChange)="combinationSelected($event)">
-                        </combination>
+            <combination
+              [formGroup]='form'
+              [combinations]='pageState.combinations$ | async'
+              [combination]='pageState.combination$ | async'
+              (combinationChange)='combinationSelected($event)'>
+            </combination>
 
-                        <accompaniment-card-cat-cpc
-                                [formGroup]="form"
-                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                                (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
-                                (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()">
-                        </accompaniment-card-cat-cpc>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </form>
-    </div>
+            <accompaniment-card-cat-cpc
+              [formGroup]='form'
+              [supervisorAccompaniment]='pageState.supervisorAccompaniment$ | async'
+              [interpreterAccompaniment]='pageState.interpreterAccompaniment$ | async'
+              (supervisorAccompanimentChange)='supervisorAccompanimentToggledCPC()'
+              (interpreterAccompanimentChange)='interpreterAccompanimentToggledCPC()'>
+            </accompaniment-card-cat-cpc>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </div>
 </ion-content>
 
 <ion-footer>
-    <ion-row class="mes-full-width-card box-shadow">
-        <ion-col *ngIf="!isDelegated" size="45" class="ion-text-center">
-            <ion-button
-                    shape="round"
-                    class="mes-grey-button wrtc-footer-btn"
-                    id="view-test-centre-journal-button" (click)="onViewTestCentreJournal()">
-                <h3>View test centre journal</h3>
-            </ion-button>
-        </ion-col>
-        <ion-col *ngIf="!isDelegated" size="6"></ion-col>
-        <ion-col [size]="isDelegated ? 96 : 45" class="ion-text-center">
-            <ion-button
-                    shape="round"
-                    class="mes-primary-button wrtc-footer-btn"
-                    id="continue-to-test-report-button" (click)="onSubmit()">
-                <h3>Continue to test report</h3>
-            </ion-button>
-        </ion-col>
-    </ion-row>
+  <ion-row class='mes-full-width-card box-shadow'>
+    <ion-col *ngIf='!isDelegated' size='45' class='ion-text-center'>
+      <ion-button
+        shape='round'
+        class='mes-grey-button wrtc-footer-btn'
+        id='view-test-centre-journal-button' (click)='onViewTestCentreJournal()'>
+        <h3>View test centre journal</h3>
+      </ion-button>
+    </ion-col>
+    <ion-col *ngIf='!isDelegated' size='6'></ion-col>
+    <ion-col [size]='isDelegated ? 96 : 45' class='ion-text-center'>
+      <ion-button
+        shape='round'
+        class='mes-primary-button wrtc-footer-btn'
+        id='continue-to-test-report-button' (click)='onSubmit()'>
+        <h3>Continue to test report</h3>
+      </ion-button>
+    </ion-col>
+  </ion-row>
 </ion-footer>

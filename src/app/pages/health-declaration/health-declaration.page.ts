@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ModalController, Platform,
-} from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { CONFIRM_TEST_DETAILS } from '@pages/page-names.constants';
-import { Observable, Subscription, merge } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { PracticeableBasePageComponent } from '@shared/classes/practiceable-base-page';
@@ -15,8 +13,9 @@ import { DeviceAuthenticationProvider } from '@providers/device-authentication/d
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import {
+  ContinueFromDeclaration,
+  HealthDeclarationValidationError,
   HealthDeclarationViewDidEnter,
-  HealthDeclarationValidationError, ContinueFromDeclaration,
 } from '@pages/health-declaration/health-declaration.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
@@ -24,13 +23,15 @@ import { getTestCategory } from '@store/tests/category/category.reducer';
 import { getPostTestDeclarations } from '@store/tests/post-test-declarations/post-test-declarations.reducer';
 import {
   getHealthDeclarationStatus,
-  getReceiptDeclarationStatus, getSignatureStatus,
+  getReceiptDeclarationStatus,
+  getSignatureStatus,
 } from '@store/tests/post-test-declarations/post-test-declarations.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
   getCandidateDriverNumber,
-  getCandidateName, getCandidatePrn,
+  getCandidateName,
+  getCandidatePrn,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { map, tap } from 'rxjs/operators';
@@ -66,6 +67,7 @@ interface HealthDeclarationPageState {
   prn$: Observable<number>;
   isStandardsCheck$: Observable<boolean>;
 }
+
 @Component({
   selector: 'app-health-declaration',
   templateUrl: './health-declaration.page.html',
@@ -103,7 +105,7 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
 
   async canDeActivate(): Promise<boolean> {
     try {
-      await this.deviceAuthenticationProvider.triggerLockScreen();
+      await this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode);
       return true;
     } catch {
       return false;
@@ -181,7 +183,10 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
     };
 
     const {
-      licenseProvided$, healthDeclarationAccepted$, conductedLanguage$, showHealthDec$,
+      licenseProvided$,
+      healthDeclarationAccepted$,
+      conductedLanguage$,
+      showHealthDec$,
     } = this.pageState;
 
     this.merged$ = merge(
@@ -217,7 +222,8 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.formGroup.controls).forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
+    Object.keys(this.formGroup.controls)
+      .forEach((controlName) => this.formGroup.controls[controlName].markAsDirty());
 
     if (this.formGroup.valid) {
       if (!this.healthDeclarationAccepted && this.showHealthDec) {
@@ -228,11 +234,12 @@ export class HealthDeclarationPage extends PracticeableBasePageComponent impleme
       return;
     }
 
-    Object.keys(this.formGroup.controls).forEach((controlName) => {
-      if (this.formGroup.controls[controlName].invalid) {
-        this.store$.dispatch(HealthDeclarationValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.formGroup.controls)
+      .forEach((controlName) => {
+        if (this.formGroup.controls[controlName].invalid) {
+          this.store$.dispatch(HealthDeclarationValidationError(`${controlName} is blank`));
+        }
+      });
   }
 
   async showConfirmHealthDeclarationModal(): Promise<void> {

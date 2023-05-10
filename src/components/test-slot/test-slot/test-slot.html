@@ -1,153 +1,155 @@
-<location *ngIf="showLocation && !isTeamJournal" [location]="slot.testCentre.centreName">
+<location *ngIf='showLocation && !isTeamJournal' [location]='slot.testCentre.centreName'>
 </location>
 
-<ion-card [ngClass]="{'test-slot-portrait-mode': isPortrait()}">
-    <div class="slot-changed-indicator" [ngClass]="{ 'slot-changed': hasSlotChanged }"></div>
+<ion-card [ngClass]="{'test-slot-portrait-mode': isPortrait}">
+  <div class='slot-changed-indicator' [ngClass]="{ 'slot-changed': hasSlotChanged }"></div>
 
-    <ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-col size='78'>
         <ion-row>
-            <ion-col size="78">
-                <ion-row>
-                    <ion-col size="2"></ion-col>
-                    <ion-col size="24" class="no-padding">
-                        <language
-                                [welshLanguage]="slot.booking.application.welshTest"
-                                [applicationId]="slot.booking.application.applicationId">
-                        </language>
-                    </ion-col>
-                    <ion-col size="2"></ion-col>
-                    <ion-col size="68">
-                        <div *ngIf=isTeamJournal
-                             class="team-journal-test-centre-name">{{slot.testCentre.centreName}}</div>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row>
-                    <ion-col size="2"></ion-col>
-                    <ion-col size="7" class="exclamation-col align-center">
-                        <indicators
-                                [showExclamationIndicator]="isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking()"
-                                [testStatus]="componentState.testStatus$ | async"
-                                [applicationId]="slot.booking.application.applicationId">
-                        </indicators>
-                    </ion-col>
-                    <ion-col size="17" class="text-regular align-center">
-                        <time id="time-{{slot.booking.application.applicationId}}"
-                              [time]="slot.slotDetail.start">
-                        </time>
-                    </ion-col>
-                    <ion-col size="2"></ion-col>
-                    <ion-col [size]="getColSize()" class="vertical-align-center">
-                        <ng-content *ngIf="slot.booking.candidate; then candidateLink else unknownCandidate">
-                        </ng-content>
-                    </ion-col>
-                    <ion-col size="24" class="align-center">
-                        <test-category *ngIf="!isTestCentreJournalADIBooking()"
-                                       [category]="slot.booking.application.testCategory"
-                                       [applicationId]="slot.booking.application.applicationId">
-                        </test-category>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row>
-                    <ion-col size="7"></ion-col>
-                    <ion-col size="19">
-                        <date *ngIf="delegatedTest" id="del-ex-date" [date]="slot.slotDetail.start">
-                        </date>
-                        <progressive-access [progressiveAccess]="slot.booking.application.progressiveAccess">
-                        </progressive-access>
-                    </ion-col>
-                    <ion-col size="2"></ion-col>
-                    <ion-col size="68">
-                        <div *ngIf="isTeamJournal && !isTestCentreJournalADIBooking()"
-                             id="driver-number-{{slot.booking?.candidate?.driverNumber}}"
-                             class="team-journal-driver-number">{{slot.booking?.candidate?.driverNumber}}</div>
-                        <h3 id="del-ex-driver-number"
-                            *ngIf="delegatedTest && slot.booking.candidate.driverNumber">{{slot.booking.candidate.driverNumber}}</h3>
-                        <vehicle-details
-                                *ngIf="showVehicleDetails() && !delegatedTest && !isTeamJournal"
-                                [height]="slot.booking.application.vehicleHeight"
-                                [width]="slot.booking.application.vehicleWidth"
-                                [length]="slot.booking.application.vehicleLength"
-                                [seats]="slot.booking.application.vehicleSeats"
-                                [transmission]="slot.booking.application.vehicleGearbox"
-                                [showNumberOfSeats]="showVehicleDetails()">
-                        </vehicle-details>
-
-                        <additional-candidate-details
-                                *ngIf="showAdditionalCandidateDetails() && !isTeamJournal && slot.booking.candidate"
-                                [prn]="slot.booking?.candidate?.prn"
-                                [attempts]="slot.booking?.candidate?.previousADITests">
-                        </additional-candidate-details>
-                    </ion-col>
-                </ion-row>
-            </ion-col>
-
-            <ion-col size="18">
-                <ion-row>
-                    <ion-col class="align-center">
-                        <submission-status class="full-width" *ngIf="!isTeamJournal && isCompletedTest(componentState.testStatus$ | async)">
-                        </submission-status>
-                        <integrity-marker class="full-width" *ngIf="slot.booking.application.fitMarker && !isCompletedTest(componentState.testStatus$ | async)">
-                        </integrity-marker>
-                    </ion-col>
-                </ion-row>
-                <ion-row class="row-height">
-                    <ion-col class="align-center">
-                        <test-outcome
-                                *ngIf="!teamJournalCandidateResult"
-                                [isPracticeMode]="isPracticeMode"
-                                [slotDetail]="slot.slotDetail"
-                                [canStartTest]="canStartTest()"
-                                [isDelegatedTest]="delegatedTest"
-                                [examinerId]="getExaminerId()"
-                                [applicationId]="slot.booking.application.applicationId"
-                                [testStatus]="isPracticeMode ? practiceTestStatus : componentState.testStatus$ | async"
-                                [activityCode]="componentState.testActivityCode$ | async"
-                                [passCertificate]="componentState.testPassCertificate$ | async"
-                                [specialRequirements]="isIndicatorNeededForSlot()"
-                                [hasSeenCandidateDetails]="hasSeenCandidateDetails"
-                                [isRekey]="componentState.isRekey$ | async"
-                                [category]="slot.booking.application.testCategory"
-                                [showTestActionButton]="!isTeamJournal"
-                                [slot]="slot"
-                                [slotChanged]="hasSlotChanged">
-                        </test-outcome>
-                        <examiner-name
-                                *ngIf="teamJournalCandidateResult"
-                                [examinerName]="examinerName"
-                                [id]="slot.booking.application.applicationId">
-                        </examiner-name>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                </ion-row>
-            </ion-col>
+          <ion-col size='2'></ion-col>
+          <ion-col size='24' class='no-padding'>
+            <language
+              [welshLanguage]='slot.booking.application.welshTest'
+              [applicationId]='slot.booking.application.applicationId'>
+            </language>
+          </ion-col>
+          <ion-col size='2'></ion-col>
+          <ion-col size='68'>
+            <div *ngIf=isTeamJournal
+                 class='team-journal-test-centre-name'>{{slot.testCentre.centreName}}</div>
+          </ion-col>
         </ion-row>
-    </ion-grid>
+
+        <ion-row>
+          <ion-col size='2'></ion-col>
+          <ion-col size='7' class='exclamation-col align-center'>
+            <indicators
+              [showExclamationIndicator]='isIndicatorNeededForSlot() && !isTestCentreJournalADIBooking()'
+              [testStatus]='componentState.testStatus$ | async'
+              [applicationId]='slot.booking.application.applicationId'>
+            </indicators>
+          </ion-col>
+          <ion-col size='17' class='text-regular align-center'>
+            <time id='time-{{slot.booking.application.applicationId}}'
+                  [time]='slot.slotDetail.start'>
+            </time>
+          </ion-col>
+          <ion-col size='2'></ion-col>
+          <ion-col [size]='getColSize()' class='vertical-align-center'>
+            <ng-content *ngIf='slot.booking.candidate; then candidateLink else unknownCandidate'>
+            </ng-content>
+          </ion-col>
+          <ion-col size='24' class='align-center'>
+            <test-category *ngIf='!isTestCentreJournalADIBooking()'
+                           [category]='slot.booking.application.testCategory'
+                           [applicationId]='slot.booking.application.applicationId'>
+            </test-category>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col size='7'></ion-col>
+          <ion-col size='19'>
+            <date *ngIf='delegatedTest' id='del-ex-date' [date]='slot.slotDetail.start'>
+            </date>
+            <progressive-access [progressiveAccess]='slot.booking.application.progressiveAccess'>
+            </progressive-access>
+          </ion-col>
+          <ion-col size='2'></ion-col>
+          <ion-col size='68'>
+            <div *ngIf='isTeamJournal && !isTestCentreJournalADIBooking()'
+                 id='driver-number-{{slot.booking?.candidate?.driverNumber}}'
+                 class='team-journal-driver-number'>{{slot.booking?.candidate?.driverNumber}}</div>
+            <h3 id='del-ex-driver-number'
+                *ngIf='delegatedTest && slot.booking.candidate.driverNumber'>{{slot.booking.candidate.driverNumber}}</h3>
+            <vehicle-details
+              *ngIf='showVehicleDetails() && !delegatedTest && !isTeamJournal'
+              [height]='slot.booking.application.vehicleHeight'
+              [width]='slot.booking.application.vehicleWidth'
+              [length]='slot.booking.application.vehicleLength'
+              [seats]='slot.booking.application.vehicleSeats'
+              [transmission]='slot.booking.application.vehicleGearbox'
+              [showNumberOfSeats]='showVehicleDetails()'>
+            </vehicle-details>
+
+            <additional-candidate-details
+              *ngIf='showAdditionalCandidateDetails() && !isTeamJournal && slot.booking.candidate'
+              [prn]='slot.booking?.candidate?.prn'
+              [attempts]='slot.booking?.candidate?.previousADITests'>
+            </additional-candidate-details>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <ion-col size='18'>
+        <ion-row>
+          <ion-col class='align-center'>
+            <submission-status class='full-width'
+                               *ngIf='!isTeamJournal && isCompletedTest(componentState.testStatus$ | async)'>
+            </submission-status>
+            <integrity-marker class='full-width'
+                              *ngIf='slot.booking.application.fitMarker && !isCompletedTest(componentState.testStatus$ | async)'>
+            </integrity-marker>
+          </ion-col>
+        </ion-row>
+        <ion-row class='row-height'>
+          <ion-col class='align-center'>
+            <test-outcome
+              *ngIf='!teamJournalCandidateResult'
+              [isPracticeMode]='isPracticeMode'
+              [slotDetail]='slot.slotDetail'
+              [canStartTest]='canStartTest()'
+              [isDelegatedTest]='delegatedTest'
+              [examinerId]='getExaminerId()'
+              [applicationId]='slot.booking.application.applicationId'
+              [testStatus]='isPracticeMode ? practiceTestStatus : componentState.testStatus$ | async'
+              [activityCode]='componentState.testActivityCode$ | async'
+              [passCertificate]='componentState.testPassCertificate$ | async'
+              [specialRequirements]='isIndicatorNeededForSlot()'
+              [hasSeenCandidateDetails]='hasSeenCandidateDetails'
+              [isRekey]='componentState.isRekey$ | async'
+              [category]='slot.booking.application.testCategory'
+              [showTestActionButton]='!isTeamJournal'
+              [slot]='slot'
+              [slotChanged]='hasSlotChanged'>
+            </test-outcome>
+            <examiner-name
+              *ngIf='teamJournalCandidateResult'
+              [examinerName]='examinerName'
+              [id]='slot.booking.application.applicationId'>
+            </examiner-name>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
 </ion-card>
 
 <ng-template #candidateLink>
-    <candidate-link *ngIf="canViewCandidateDetails() && !isTestCentreJournalADIBooking()"
-                    [slot]="slot"
-                    [slotChanged]="hasSlotChanged"
-                    [isTeamJournal]="isTeamJournal"
-                    [name]="slot.booking.candidate.candidateName"
-                    [applicationId]="slot.booking.application.applicationId"
-                    [isPortrait]="isPortrait()">
-    </candidate-link>
-    <ion-button *ngIf="!canViewCandidateDetails() &&!isTestCentreJournalADIBooking()"
-                class="candidate-details-placeholder-text" fill="clear" expand="full" disabled>
-        <h3 class="candidate-name">Candidate details unavailable</h3>
-    </ion-button>
-    <ion-button *ngIf="isTestCentreJournalADIBooking()" class="candidate-details-placeholder-text" fill="clear"
-                expand="full" disabled>
-        <h3>ADI Enforcement Activities</h3>
-    </ion-button>
+  <candidate-link *ngIf='canViewCandidateDetails() && !isTestCentreJournalADIBooking()'
+                  [slot]='slot'
+                  [slotChanged]='hasSlotChanged'
+                  [isTeamJournal]='isTeamJournal'
+                  [name]='slot.booking.candidate.candidateName'
+                  [applicationId]='slot.booking.application.applicationId'
+                  [isPortrait]='isPortrait'>
+  </candidate-link>
+  <ion-button *ngIf='!canViewCandidateDetails() &&!isTestCentreJournalADIBooking()'
+              class='candidate-details-placeholder-text' fill='clear' expand='full' disabled>
+    <h3 class='candidate-name'>Candidate details unavailable</h3>
+  </ion-button>
+  <ion-button *ngIf='isTestCentreJournalADIBooking()' class='candidate-details-placeholder-text' fill='clear'
+              expand='full' disabled>
+    <h3>ADI Enforcement Activities</h3>
+  </ion-button>
 </ng-template>
 <ng-template #unknownCandidate>
-    <ion-button class="candidate-details-placeholder-text mes-transparent-button" fill="clear" expand="full" disabled>
-        <h3 class="trainer-booked-un-named">Trainer booked - unnamed</h3>
-    </ion-button>
+  <ion-button class='candidate-details-placeholder-text mes-transparent-button' fill='clear' expand='full' disabled>
+    <h3 class='trainer-booked-un-named'>Trainer booked - unnamed</h3>
+  </ion-button>
 </ng-template>

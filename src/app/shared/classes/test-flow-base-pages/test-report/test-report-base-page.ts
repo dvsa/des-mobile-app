@@ -4,6 +4,7 @@ import {
 } from 'rxjs';
 import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { OrientationType, ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 
 import { StoreModel } from '@shared/models/store.model';
 import { getUntitledCandidateName } from '@store/tests/journal-data/common/candidate/candidate.selector';
@@ -17,14 +18,14 @@ import { getTestReportState } from '@pages/test-report/test-report.reducer';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '@pages/test-report/test-report.selector';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { legalRequirementsLabels } from '@shared/constants/legal-requirements/legal-requirements.constants';
 import {
   CalculateTestResult,
-  ResetFaultMode, ReturnToTest,
+  ResetFaultMode,
+  ReturnToTest,
   TerminateTestFromTestReport,
   TestReportViewDidEnter,
 } from '@pages/test-report/test-report.actions';
@@ -115,7 +116,6 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
     store$: Store<StoreModel>,
     protected modalController: ModalController,
     public testReportValidatorProvider: TestReportValidatorProvider,
-    public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     protected routeByCategory: RouteByCategoryProvider,
     @Inject(false) public loginRequired: boolean = false,
@@ -231,9 +231,7 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
   async ionViewWillEnter(): Promise<void> {
     // ionViewWillEnter lifecycle event used to ensure screen orientation is correct before page transition
     if (super.isIos() && this.isPracticeMode) {
-      await this.screenOrientation.lock(
-        this.screenOrientation.ORIENTATIONS.PORTRAIT_PRIMARY,
-      );
+      await ScreenOrientation.lock({ type: OrientationType.PORTRAIT_PRIMARY });
       await this.insomnia.keepAwake();
       await StatusBar.hide();
     }
@@ -295,7 +293,8 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
           this.isEtaValid = this.testReportValidatorProvider.isETAValid(data, category as TestCategory);
         }),
       ),
-    ).subscribe();
+    )
+      .subscribe();
   }
 
   cancelSubscription(): void {
@@ -338,7 +337,9 @@ export abstract class TestReportBasePageComponent extends PracticeableBasePageCo
 
     await this.modal.present();
     const { data } = await this.modal.onWillDismiss();
-    if (data) { await this.onModalDismiss(data); }
+    if (data) {
+      await this.onModalDismiss(data);
+    }
   };
 
   onModalDismiss = async (event: ModalEvent): Promise<void> => {

@@ -2,9 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   IonicModule, ModalController, NavController, NavParams, Platform,
 } from '@ionic/angular';
-import {
-  ModalControllerMock, NavParamsMock, PlatformMock,
-} from '@mocks/index.mock';
+import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 
 import { AppModule } from '@app/app.module';
@@ -16,10 +14,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
-import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestReportCatADI3Page } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.page';
@@ -33,7 +29,8 @@ import {
 import { StoreModel } from '@shared/models/store.model';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
-  LessonThemeChanged, OtherChanged,
+  LessonThemeChanged,
+  OtherChanged,
   StudentLevelChanged,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.actions';
 import {
@@ -85,15 +82,38 @@ describe('TestReportCatADI3Page', () => {
         StoreModule.forFeature('testReport', testReportReducer),
       ],
       providers: [
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-        { provide: Insomnia, useClass: InsomniaMock },
-        { provide: NavController, useClass: NavControllerMock },
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: TestReportValidatorProvider,
+          useClass: TestReportValidatorProviderMock,
+        },
+        {
+          provide: Insomnia,
+          useClass: InsomniaMock,
+        },
+        {
+          provide: NavController,
+          useClass: NavControllerMock,
+        },
         provideMockStore({
           initialState: {
             appInfo: { versionNumber: '4.0' } as AppInfoStateModel,
@@ -112,37 +132,52 @@ describe('TestReportCatADI3Page', () => {
     describe('studentLevelChanged', () => {
       it('should dispatch the StudentLevelChanged action', () => {
         component.studentLevelChanged('beginner');
-        expect(store$.dispatch).toHaveBeenCalledWith(StudentLevelChanged('beginner'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(StudentLevelChanged('beginner'));
       });
     });
     describe('lessonThemeChanged', () => {
       it('should dispatch the LessonThemeChanged action', () => {
         component.lessonThemeChanged('junctions');
-        expect(store$.dispatch).toHaveBeenCalledWith(LessonThemeChanged('junctions'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(LessonThemeChanged('junctions'));
       });
     });
     describe('otherReasonChanged', () => {
       it('should dispatch the OtherChanged action', () => {
         component.otherReasonChanged('some reason');
-        expect(store$.dispatch).toHaveBeenCalledWith(OtherChanged('some reason'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(OtherChanged('some reason'));
       });
     });
     describe('lessonPlanningChanged', () => {
       it('should dispatch the LessonPlanningQuestionScoreChanged action', () => {
-        component.lessonPlanningChanged({ question: 1, answer: 2 });
-        expect(store$.dispatch).toHaveBeenCalledWith(LessonPlanningQuestionScoreChanged(1, 2));
+        component.lessonPlanningChanged({
+          question: 1,
+          answer: 2,
+        });
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(LessonPlanningQuestionScoreChanged(1, 2));
       });
     });
     describe('riskManagementChanged', () => {
       it('should dispatch the RiskManagementQuestionScoreChanged action', () => {
-        component.riskManagementChanged({ question: 1, answer: 2 });
-        expect(store$.dispatch).toHaveBeenCalledWith(RiskManagementQuestionScoreChanged(1, 2));
+        component.riskManagementChanged({
+          question: 1,
+          answer: 2,
+        });
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(RiskManagementQuestionScoreChanged(1, 2));
       });
     });
     describe('teachingLearningStrategyChanged', () => {
       it('should dispatch the TeachingLearningStrategiesQuestionScoreChanged action', () => {
-        component.teachingLearningStrategyChanged({ question: 1, answer: 2 });
-        expect(store$.dispatch).toHaveBeenCalledWith(TeachingLearningStrategiesQuestionScoreChanged(1, 2));
+        component.teachingLearningStrategyChanged({
+          question: 1,
+          answer: 2,
+        });
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(TeachingLearningStrategiesQuestionScoreChanged(1, 2));
       });
     });
   });

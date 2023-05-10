@@ -3,9 +3,9 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { merge, Observable, Subscription } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { isEmpty } from 'lodash';
 
@@ -52,7 +52,6 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
     private deviceProvider: DeviceProvider,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
-    public screenOrientation: ScreenOrientation,
     public insomnia: Insomnia,
     protected router: Router,
   ) {
@@ -108,11 +107,11 @@ export class RekeyUploadOutcomePage extends BasePageComponent implements OnInit 
     }
   }
 
-  ionViewDidEnter(): void {
+  async ionViewDidEnter(): Promise<void> {
     if (super.isIos()) {
-      this.screenOrientation.unlock();
-      this.insomnia.allowSleepAgain();
-      this.deviceProvider.disableSingleAppMode();
+      await ScreenOrientation.unlock();
+      await this.insomnia.allowSleepAgain();
+      await this.deviceProvider.disableSingleAppMode();
     }
 
     this.store$.dispatch(RekeyUploadOutcomeViewDidEnter());

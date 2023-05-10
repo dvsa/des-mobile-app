@@ -14,6 +14,7 @@ export class TerminateTestModal {
   onTerminate: Function;
 
   shouldAuthenticate: boolean = true;
+  isPracticeMode: boolean = false;
 
   constructor(
     private navParams: NavParams,
@@ -22,6 +23,7 @@ export class TerminateTestModal {
     this.onCancel = this.navParams.get('onCancel');
     this.onTerminate = this.navParams.get('onTerminate');
     this.shouldAuthenticate = this.navParams.get('shouldAuthenticate');
+    this.isPracticeMode = this.navParams.get('isPracticeMode');
   }
 
   /**
@@ -30,8 +32,10 @@ export class TerminateTestModal {
    */
   terminationWrapper(): Promise<void> {
     if (this.shouldAuthenticate) {
-      return this.deviceAuthenticationProvider.triggerLockScreen()
-        .then(() => { this.onTerminate(); })
+      return this.deviceAuthenticationProvider.triggerLockScreen(this.isPracticeMode)
+        .then(() => {
+          this.onTerminate();
+        })
         .catch((err) => err);
     }
     this.onTerminate();

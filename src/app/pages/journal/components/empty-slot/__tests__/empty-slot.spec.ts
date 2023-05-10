@@ -1,13 +1,11 @@
 import { MockComponent } from 'ng-mocks';
-import { TestBed, waitForAsync, ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { By } from '@angular/platform-browser';
 import { cloneDeep } from 'lodash';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
-import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { EmptySlotComponent } from '../empty-slot';
 
 describe('EmptySlotComponent', () => {
@@ -79,9 +77,6 @@ describe('EmptySlotComponent', () => {
         MockComponent(LocationComponent),
       ],
       imports: [IonicModule],
-      providers: [
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-      ],
     });
 
     fixture = TestBed.createComponent(EmptySlotComponent);
@@ -94,14 +89,16 @@ describe('EmptySlotComponent', () => {
       it('should pass something to sub-component time input', () => {
         fixture.detectChanges();
         const subByDirective = fixture.debugElement.query(By.directive(MockComponent(TimeComponent))).componentInstance;
-        expect(subByDirective.time).toBe('2018-12-10T09:07:00+00:00');
+        expect(subByDirective.time)
+          .toBe('2018-12-10T09:07:00+00:00');
       });
       it('should pass something to sub-component location input', () => {
         component.showLocation = true;
         fixture.detectChanges();
         const subByDirective = fixture.debugElement
           .query(By.directive(MockComponent(LocationComponent))).componentInstance;
-        expect(subByDirective.location).toBe('Example Test Centre');
+        expect(subByDirective.location)
+          .toBe('Example Test Centre');
       });
     });
   });

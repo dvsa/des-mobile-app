@@ -2,14 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ModalController, NavParams, Platform, ToastController,
 } from '@ionic/angular';
-import {
-  ModalControllerMock, NavParamsMock, PlatformMock,
-} from '@mocks/index.mock';
+import { ModalControllerMock, NavParamsMock, PlatformMock } from '@mocks/index.mock';
 import { MockComponent } from 'ng-mocks';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { By } from '@angular/platform-browser';
-import { ScreenOrientation } from '@awesome-cordova-plugins/screen-orientation/ngx';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 
 import { AppModule } from '@app/app.module';
@@ -21,7 +18,6 @@ import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
 import { InsomniaMock } from '@shared/mocks/insomnia.mock';
-import { ScreenOrientationMock } from '@shared/mocks/screen-orientation.mock';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
 import {
@@ -72,15 +68,38 @@ describe('TestReportCatManoeuvrePage', () => {
           })),
       ],
       providers: [
-        { provide: NavParams, useClass: NavParamsMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: ModalController, useClass: ModalControllerMock },
-        { provide: TestReportValidatorProvider, useClass: TestReportValidatorProviderMock },
-        { provide: ScreenOrientation, useClass: ScreenOrientationMock },
-        { provide: Insomnia, useClass: InsomniaMock },
-        { provide: ToastController, useClass: ToastControllerMock },
+        {
+          provide: NavParams,
+          useClass: NavParamsMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: DateTimeProvider,
+          useClass: DateTimeProviderMock,
+        },
+        {
+          provide: ModalController,
+          useClass: ModalControllerMock,
+        },
+        {
+          provide: TestReportValidatorProvider,
+          useClass: TestReportValidatorProviderMock,
+        },
+        {
+          provide: Insomnia,
+          useClass: InsomniaMock,
+        },
+        {
+          provide: ToastController,
+          useClass: ToastControllerMock,
+        },
       ],
     });
 
@@ -92,27 +111,39 @@ describe('TestReportCatManoeuvrePage', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
+      .toBeTruthy();
   });
 
   describe('manoeuvreHasFaults', () => {
     it('should return true if either of control/observation is defined', () => {
-      expect(component.manoeuvreHasFaults({ controlFault: 'D', observationFault: null })).toEqual(true);
+      expect(component.manoeuvreHasFaults({
+        controlFault: 'D',
+        observationFault: null,
+      }))
+        .toEqual(true);
     });
     it('should return false if both of control/observation are not set', () => {
-      expect(component.manoeuvreHasFaults({ controlFault: null, observationFault: null })).toEqual(false);
+      expect(component.manoeuvreHasFaults({
+        controlFault: null,
+        observationFault: null,
+      }))
+        .toEqual(false);
     });
   });
   describe('toggleReverseManoeuvre', () => {
     it('should not dispatch select action when faults exist', () => {
       component.manoeuvresHasFaults = true;
       component.toggleReverseManoeuvre();
-      expect(store$.dispatch).not.toHaveBeenCalled();
+      expect(store$.dispatch)
+        .not
+        .toHaveBeenCalled();
     });
     it('should dispatch select action when no faults exist', () => {
       component.manoeuvresHasFaults = false;
       component.toggleReverseManoeuvre();
-      expect(store$.dispatch).toHaveBeenCalledWith(RecordManoeuvresSelection(ManoeuvreTypes.reverseManoeuvre));
+      expect(store$.dispatch)
+        .toHaveBeenCalledWith(RecordManoeuvresSelection(ManoeuvreTypes.reverseManoeuvre));
     });
   });
   describe('getId', () => {
@@ -123,19 +154,28 @@ describe('TestReportCatManoeuvrePage', () => {
   });
   describe('competencyClick', () => {
     beforeEach(() => {
-      spyOn(toastController, 'create').and.returnValue(Promise.resolve({
-        present: () => Promise.resolve(),
-      } as HTMLIonToastElement));
+      spyOn(toastController, 'create')
+        .and
+        .returnValue(Promise.resolve({
+          present: () => Promise.resolve(),
+        } as HTMLIonToastElement));
     });
     it('should not call toast create if toast already exists', async () => {
-      spyOn(toastController, 'getTop').and.returnValue(Promise.resolve({} as HTMLIonToastElement));
+      spyOn(toastController, 'getTop')
+        .and
+        .returnValue(Promise.resolve({} as HTMLIonToastElement));
       await component.competencyClick();
-      expect(toastController.create).not.toHaveBeenCalled();
+      expect(toastController.create)
+        .not
+        .toHaveBeenCalled();
     });
     it('should create toast controller if none already exist', async () => {
-      spyOn(toastController, 'getTop').and.returnValue(Promise.resolve(null));
+      spyOn(toastController, 'getTop')
+        .and
+        .returnValue(Promise.resolve(null));
       await component.competencyClick();
-      expect(toastController.create).toHaveBeenCalled();
+      expect(toastController.create)
+        .toHaveBeenCalled();
     });
   });
   describe('End Test Button', () => {
@@ -143,7 +183,8 @@ describe('TestReportCatManoeuvrePage', () => {
       spyOn(component, 'onEndTestClick');
       const endTestButton = fixture.debugElement.query(By.css('#end-test-button'));
       endTestButton.triggerEventHandler('click', null);
-      expect(component.onEndTestClick).toHaveBeenCalled();
+      expect(component.onEndTestClick)
+        .toHaveBeenCalled();
     });
   });
 

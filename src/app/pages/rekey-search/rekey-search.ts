@@ -23,6 +23,8 @@ import {
   getRekeySearchError,
 } from '@pages/rekey-search/rekey-search.selector';
 import { isEmpty } from 'lodash';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { DeviceProvider } from '@providers/device/device';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -49,6 +51,8 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
     private store$: Store<StoreModel>,
+    private insomnia: Insomnia,
+    private deviceProvider: DeviceProvider,
   ) {
     super(platform, authenticationProvider, router);
   }
@@ -74,8 +78,13 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
     };
   }
 
-  ionViewDidEnter() {
+  async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(RekeySearchViewDidEnter());
+
+    if (super.isIos()) {
+      await this.insomnia.allowSleepAgain();
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
 
   staffNumberChanged(val: string) {
