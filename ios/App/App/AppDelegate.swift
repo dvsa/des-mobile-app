@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import CapawesomeCapacitorScreenOrientation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -8,8 +9,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    // When running from Xcode in debug mode, enable webView inspection 5 seconds after startup
+    #if DEBUG
+      if #available(macOS 13.3, iOS 16.4, tvOS 16.4, *) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                  if let vc = self.window?.rootViewController as? CAPBridgeViewController {
+                      vc.bridge?.webView?.isInspectable = true;
+                  }
+            }
+      }
+    #endif
     // Override point for customization after application launch.
     return true
+  }
+
+  func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+    return ScreenOrientation.getSupportedInterfaceOrientations()
   }
 
   func applicationWillResignActive(_ application: UIApplication) {
@@ -39,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // but if you want the App API to support tracking app url opens, make sure to keep this call
     return CAPBridge.handleOpenUrl(url, options)
   }
-  
+
   func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
     // Called when the app was launched with an activity, including Universal Links.
     // Feel free to add additional processing here, but if you want the App API to support
