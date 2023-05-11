@@ -13,7 +13,9 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getManoeuvresADI2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catadi2-manoeuvres';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component, Input, OnDestroy, OnInit,
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map, takeUntil } from 'rxjs/operators';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';

@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component, EventEmitter, Input, Output,
+} from '@angular/core';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { StoreModel } from '@shared/models/store.model';
 import { select, Store } from '@ngrx/store';
