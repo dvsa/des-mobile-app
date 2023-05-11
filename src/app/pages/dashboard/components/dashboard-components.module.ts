@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
+import { ComponentsModule } from '@components/common/common-components.module';
 import { ProfileHeaderComponent } from './profile-header/profile-header';
 import { RekeySearchCardComponent } from './rekey-search-card/rekey-search-card';
 import { GoToJournalCardComponent } from './go-to-journal-card/go-to-journal-card';
@@ -26,6 +27,7 @@ import { DelegatedSearchCardComponent } from './delegated-rekey-card/delegated-r
   imports: [
     CommonModule,
     IonicModule,
+    ComponentsModule,
   ],
   exports: [
     ProfileHeaderComponent,

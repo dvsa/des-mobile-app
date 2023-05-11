@@ -47,7 +47,11 @@
         <ion-row class="mes-validated-row">
           <ion-col>
             <div class="communication-text-container">
-              <h4 id="comms-instruction-header">{{ 'communication.instructionHeader' | translate }}</h4>
+              <header-component
+                [id]="'comms-instruction-header'"
+                [headerNum]="4"
+                [content]="'communication.instructionHeader' | translate"
+              ></header-component>
             </div>
             <div class="validation-bar"></div>
             <ion-col>

@@ -56,6 +56,7 @@ export class CandidateLinkComponent {
         slot: this.slot,
         slotChanged: this.slotChanged,
         isTeamJournal: this.isTeamJournal,
+        zoom: this.app.getTextZoomClass(),
       },
     });
     await profileModal.present();

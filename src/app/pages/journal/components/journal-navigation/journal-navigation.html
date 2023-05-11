@@ -12,7 +12,12 @@
       <ion-col>
         <div id="date-container">
           <div *ngIf="isSelectedDateToday; else notToday">
-            <h1 id="date-today-header">Today</h1>
+<!--            <h1 id="date-today-header">Today</h1>-->
+            <header-component
+              [id]="'date-today-header'"
+              [headerNum]="1"
+              [content]="'Today'"
+            ></header-component>
             <h3 id="today-date">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
           </div>
           <ng-template #notToday>

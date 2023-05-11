@@ -1,6 +1,10 @@
 <ion-card id="candidate-licence-info-card" *ngIf="candidateData || isPracticeMode">
   <ion-card-header>
-    <h4 id="candidate-licence-info-card-title">Licence information</h4>
+    <header-component
+      [id]="'candidate-licence-info-card-title'"
+      [headerNum]="4"
+      [content]="'Licence information'"
+    ></header-component>
   </ion-card-header>
   <ion-card-content>
     <ion-grid>

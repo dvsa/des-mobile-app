@@ -56,7 +56,11 @@
 <ion-footer>
   <ion-row>
     <ion-button (click)="onContinue()" class="mes-primary-button continue" id="candidate-licence-continue-button">
-      <h3>Continue</h3>
+      <header-component
+        [id]="'candidate-details-title'"
+        [headerNum]="3"
+        [content]="'Continue'"
+      ></header-component>
     </ion-button>
   </ion-row>
 </ion-footer>

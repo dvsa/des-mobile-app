@@ -25,8 +25,14 @@
       [name]="pageState.employeeName$ | async"
       [role]="pageState.role$ | async">
     </profile-header>
-    <hr />
-    <h4 class="date" id="date-field">{{todaysDateFormatted}}</h4>
+    <hr/>
+    <br>
+    <header-component
+      class="date"
+      [id]="'date-field'"
+      [headerNum]="4"
+      [content]="todaysDateFormatted"
+    ></header-component>
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
         <ion-col size="48">
@@ -51,7 +57,7 @@
       </ion-row>
     </ion-grid>
 
-    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())" />
+    <hr *ngIf="(showEndToEndPracticeMode() || showTestReportPracticeMode())"/>
 
     <practice-test-report-card
       (click)="practiceTestReportCardClicked()"

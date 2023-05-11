@@ -13,7 +13,11 @@
 <ion-content class="ion-padding" force-overscroll="false">
   <ion-card>
     <ion-card-header>
-      <h4 id="confirm-test-details-header">Confirm test details</h4>
+      <header-component
+        [id]="'confirm-test-details-header'"
+        [headerNum]="4"
+        [content]="'Confirm test details'"
+      ></header-component>
     </ion-card-header>
 
     <ion-card-content class="card-content-ios ion-no-padding">
@@ -138,14 +142,22 @@
       <ion-button class="mes-grey-button confirm-button"
                   (click)="goBackToDebrief()"
                   id="confirm-test-details-back-to-debrief-btn">
-        <h3 id="confirm-test-details-back-to-debrief-label">Back to debrief</h3>
+        <header-component
+          [id]="'confirm-test-details-back-to-debrief-label'"
+          [headerNum]="3"
+          [content]="'Back to debrief'"
+        ></header-component>
       </ion-button>
     </ion-col>
     <ion-col class="ion-no-padding ion-text-end">
       <ion-button class="mes-primary-button confirm-button"
                   (click)="onSubmit()"
                   id="confirm-test-details-submit-test-results-btn">
-        <h3 id="confirm-test-details-submit-test-results-label">Submit test results</h3>
+        <header-component
+          [id]="'confirm-test-details-submit-test-results-label'"
+          [headerNum]="3"
+          [content]="'Submit test results'"
+        ></header-component>
       </ion-button>
     </ion-col>
   </ion-row>

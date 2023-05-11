@@ -9,11 +9,11 @@
   .test-outcome-container {
     height: 140px;
     margin: 16px;
-    h4 {
-      line-height: 60px;
+    h4, .header4 {
+      line-height: 60px !important;
     }
-    h1 {
-      line-height: 30px;
+    h1, .header1 {
+      line-height: 30px !important;
     }
   }
   .Pass {

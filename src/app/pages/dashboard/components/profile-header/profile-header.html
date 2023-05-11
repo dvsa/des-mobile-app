@@ -6,7 +6,12 @@
       </ion-col>
       <ion-col>
         <ion-row>
-          <h2 id="examiner-name" class="name">{{name}}</h2>
+          <header-component
+            class="date"
+            [id]="'examiner-name'"
+            [headerNum]="2"
+            [content]="name"
+          ></header-component>
         </ion-row>
         <ion-row>
           <ion-col class="role">

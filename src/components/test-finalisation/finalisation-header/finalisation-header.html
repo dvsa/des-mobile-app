@@ -1,12 +1,20 @@
 <ion-grid>
   <ion-row class="header-card top-row">
     <ion-col>
-      <h2 id="finalisation-header-candidate-name">{{candidateName}}</h2>
+      <header-component
+        [id]="'finalisation-header-candidate-name'"
+        [headerNum]="2"
+        [content]="candidateName"
+      ></header-component>
     </ion-col>
   </ion-row>
   <ion-row class="header-card bottom-row">
     <ion-col>
-      <h3 id="finalisation-header-candidate-driver-number">{{isStandardsCheck ? 'PRN: ' + candidatePrnNumber : candidateDriverNumber}}</h3>
+      <header-component
+        [id]="'finalisation-header-candidate-driver-number'"
+        [headerNum]="3"
+        [content]="isStandardsCheck ? 'PRN: ' + candidatePrnNumber : candidateDriverNumber"
+      ></header-component>
     </ion-col>
     <ion-col [size]="grade ? 60 : 40" class="align-col-right">
       <h3>Test outcome:

@@ -2,7 +2,11 @@
   <ion-card-content>
     <ion-row>
       <ion-col size="82">
-        <h2 id="review-card-header">Review </h2>
+        <header-component
+          [id]="'review-card-header'"
+          [headerNum]="2"
+          [content]="'Review'"
+        ></header-component>
       </ion-col>
       <ion-col size="14">
         <ion-icon class="review-icon" *ngIf="formControl.dirty" [ngClass]="formControl.valid ? 'valid' : 'invalid'"

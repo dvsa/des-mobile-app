@@ -1,11 +1,38 @@
 <div id="test-outcome-background" [ngSwitch]="outcome">
     <div class="test-outcome-container {{outcome}}">
-        <h4 id="outcome-header">{{ 'debrief.outcomeHeader' | translate }}</h4>
+      <header-component
+        class="block-display"
+        [id]="'outcome-header'"
+        [headerNum]="4"
+        [content]="'debrief.outcomeHeader' | translate"
+      ></header-component>
         <div *ngSwitchCase="'Pass'">
-            <h1 *ngIf="grade" id="status-passed-grade">Passed - Grade {{grade}}</h1>
-            <h1 *ngIf="!grade" id="status-passed">{{ 'debrief.passStatus' | translate }}</h1>
+          <header-component
+            *ngIf="grade"
+            [id]="'status-passed-grade'"
+            [headerNum]="1"
+            [content]="'Passed - Grade ' + grade"
+          ></header-component>
+          <header-component
+            *ngIf="!grade"
+            [id]="'status-passed'"
+            [headerNum]="1"
+            [content]="'debrief.passStatus' | translate"
+          ></header-component>
         </div>
         <h1 id="status-fail" *ngSwitchCase="'Fail'">{{ 'debrief.failStatus' | translate }}</h1>
+      <header-component
+        *ngSwitchCase="'Fail'"
+        [id]="'status-fail'"
+        [headerNum]="1"
+        [content]="'debrief.failStatus' | translate"
+      ></header-component>
         <h1 id="status-terminated" *ngSwitchCase="'Terminated'">{{ 'debrief.terminatedStatus' | translate }}</h1>
+      <header-component
+        *ngSwitchCase="'Terminated'"
+        [id]="'status-terminated'"
+        [headerNum]="1"
+        [content]="'debrief.terminatedStatus' | translate"
+      ></header-component>
     </div>
 </div>

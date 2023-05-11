@@ -150,4 +150,6 @@ export class CandidateDetailsPage implements OnInit, OnDestroy {
         break;
     }
   }
+
+  protected readonly window = window;
 }

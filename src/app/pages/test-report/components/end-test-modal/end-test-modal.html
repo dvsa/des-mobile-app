@@ -1,13 +1,21 @@
 <ion-card class="modal-alert">
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding" >
-      <h2 id="end test-text" class="modal-alert-header">End test</h2>
+      <header-component
+        class="modal-alert-header"
+        [id]="'end-test-text'"
+        [headerNum]="2"
+        [content]="'End test'"
+      ></header-component>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col size="84" class="ion-no-padding">
       <ion-button id="end-test-continue-button" class="mes-primary-button" (click)="onContinue()">
-        <h3>Continue to debrief</h3>
+        <header-component
+          [headerNum]="3"
+          [content]="'Continue to debrief'"
+        ></header-component>
       </ion-button>
     </ion-col>
   </ion-row>

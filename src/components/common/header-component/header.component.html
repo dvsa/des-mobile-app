@@ -1,0 +1,7 @@
+<ion-text
+  [id]="id"
+  [class]="['header'+headerNum,
+zoom ? zoom : appComponent.getTextZoomClass(),
+shouldInheritWeight ? 'inherit-weight' : null]">
+  {{content}}
+</ion-text>

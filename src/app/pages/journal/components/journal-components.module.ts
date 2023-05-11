@@ -11,6 +11,7 @@ import {
 } from '@pages/journal/components/journal-force-check-modal/journal-force-check-modal.module';
 import { JournalRekeyModalModule } from '@pages/journal/components/journal-rekey-modal/journal-rekey-modal.module';
 import { JournalSlotComponent } from '@pages/journal/components/journal-slot/journal-slot';
+import { ComponentsModule } from '@components/common/common-components.module';
 import { ActivitySlotComponent } from './activity-slot/activity-slot';
 import { EmptySlotComponent } from './empty-slot/empty-slot';
 import { JournalNavigationComponent } from './journal-navigation/journal-navigation';
@@ -31,6 +32,7 @@ import { PersonalCommitmentSlotComponent } from './personal-commitment/personal-
     JournalEarlyStartModule,
     JournalForceCheckModule,
     JournalRekeyModalModule,
+    ComponentsModule,
   ],
   exports: [
     ActivitySlotComponent,
