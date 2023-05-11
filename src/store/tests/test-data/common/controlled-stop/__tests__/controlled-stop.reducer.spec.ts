@@ -2,12 +2,12 @@ import { ControlledStopUnion } from '@shared/unions/test-schema-unions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { controlledStopReducer } from '../controlled-stop.reducer';
 import {
-  ToggleControlledStop,
+  AddControlledStopComment,
+  ControlledStopAddDangerousFault,
   ControlledStopAddDrivingFault,
   ControlledStopAddSeriousFault,
-  ControlledStopAddDangerousFault,
   ControlledStopRemoveFault,
-  AddControlledStopComment,
+  ToggleControlledStop,
 } from '../controlled-stop.actions';
 
 describe('Controlled Stop Reducer', () => {
@@ -57,7 +57,7 @@ describe('Controlled Stop Reducer', () => {
     it('should remove the fault', () => {
       const state: ControlledStopUnion = {};
       const modifiedState = controlledStopReducer(state, ControlledStopAddDangerousFault());
-      const result = controlledStopReducer(modifiedState, ControlledStopRemoveFault());
+      const result = controlledStopReducer(modifiedState, ControlledStopRemoveFault(CompetencyOutcome.D));
       expect(result.selected).toEqual(true);
       expect(result.fault).toBeUndefined();
       expect(result.faultComments).toBeUndefined();

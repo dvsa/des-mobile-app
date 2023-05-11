@@ -1,13 +1,13 @@
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CompetencyOutcome } from 'src/app/shared/models/competency-outcome';
-import { ManoeuvreTypes, ManoeuvreCompetencies } from '../../../test-data.constants';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '../../../test-data.constants';
 import { manoeuvresReducer } from '../manoeuvres.reducer';
 import {
-  RecordManoeuvresSelection,
+  AddManoeuvreComment,
+  AddManoeuvreDangerousFault,
   AddManoeuvreDrivingFault,
   AddManoeuvreSeriousFault,
-  AddManoeuvreDangerousFault,
-  AddManoeuvreComment,
+  RecordManoeuvresSelection,
   RemoveManoeuvreFault,
 } from '../../../common/manoeuvres/manoeuvres.actions';
 
@@ -126,7 +126,7 @@ describe('Manoeuvres Reducer', () => {
       const result = manoeuvresReducer(state, RemoveManoeuvreFault({
         competency: ManoeuvreCompetencies.controlFault,
         manoeuvre: ManoeuvreTypes.reverseParkRoad,
-      }));
+      }, CompetencyOutcome.DF));
       expect(result.reverseParkRoad.controlFault).toBeUndefined();
     });
   });

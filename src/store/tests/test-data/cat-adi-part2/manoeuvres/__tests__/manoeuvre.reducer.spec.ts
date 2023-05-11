@@ -1,13 +1,13 @@
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
-import { ManoeuvreTypes, ManoeuvreCompetencies } from '../../../test-data.constants';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '../../../test-data.constants';
 import { manoeuvresCatADI2Reducer } from '../manoeuvres.reducer';
 import {
-  RecordManoeuvresSelection,
+  AddManoeuvreComment,
+  AddManoeuvreDangerousFault,
   AddManoeuvreDrivingFault,
   AddManoeuvreSeriousFault,
-  AddManoeuvreDangerousFault,
-  AddManoeuvreComment,
+  RecordManoeuvresSelection,
   RemoveManoeuvreFault,
 } from '../manoeuvres.actions';
 
@@ -214,7 +214,7 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const result = manoeuvresCatADI2Reducer(state, RemoveManoeuvreFault({
         competency: ManoeuvreCompetencies.controlFault,
         manoeuvre: ManoeuvreTypes.reverseParkRoad,
-      }, 0));
+      }, 0, CompetencyOutcome.DF));
       expect(result[0].reverseParkRoad.controlFault).toBeUndefined();
       expect(result[1].reverseParkCarpark.controlFault).toEqual(CompetencyOutcome.DF);
     });
@@ -228,7 +228,7 @@ describe('ADI2 Manoeuvres Reducer', () => {
       const result = manoeuvresCatADI2Reducer(state, RemoveManoeuvreFault({
         competency: ManoeuvreCompetencies.controlFault,
         manoeuvre: ManoeuvreTypes.reverseParkCarpark,
-      }, 1));
+      }, 1, CompetencyOutcome.DF));
       expect(result[0].reverseParkRoad.controlFault).toEqual(CompetencyOutcome.DF);
       expect(result[1].reverseParkCarpark.controlFault).toBeUndefined();
     });

@@ -1,22 +1,16 @@
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
-import { StoreModule, Store } from '@ngrx/store';
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AppModule } from '@app/app.module';
 import { StoreModel } from '@shared/models/store.model';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
-import {
-  DrivingFaultsBadgeComponent,
-} from '@components/common/driving-faults-badge/driving-faults-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import {
-  SeriousFaultBadgeComponent,
-} from '@components/common/serious-fault-badge/serious-fault-badge';
-import {
-  DangerousFaultBadgeComponent,
-} from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import {
   AddManoeuvreDangerousFault,
   AddManoeuvreSeriousFault,
@@ -222,7 +216,7 @@ describe('ReverseManoeuvreComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveManoeuvreFault({
           competency: component.competency,
           manoeuvre: component.manoeuvre,
-        }));
+        }, CompetencyOutcome.D));
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleDangerousFaultMode());
       });
@@ -240,7 +234,7 @@ describe('ReverseManoeuvreComponent', () => {
         expect(storeDispatchSpy).toHaveBeenCalledWith(RemoveManoeuvreFault({
           competency: component.competency,
           manoeuvre: component.manoeuvre,
-        }));
+        }, CompetencyOutcome.S));
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleRemoveFaultMode());
         expect(storeDispatchSpy).toHaveBeenCalledWith(ToggleSeriousFaultMode());
       });

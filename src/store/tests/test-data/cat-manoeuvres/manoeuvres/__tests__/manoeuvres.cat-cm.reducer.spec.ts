@@ -7,13 +7,13 @@ import { CatCEMUniqueTypes } from '@dvsa/mes-test-schema/categories/CEM';
 import { CatC1MUniqueTypes } from '@dvsa/mes-test-schema/categories/C1M';
 import { CatC1EMUniqueTypes } from '@dvsa/mes-test-schema/categories/C1EM';
 import {
-  RecordManoeuvresSelection,
-  AddManoeuvreSeriousFault,
-  AddManoeuvreDangerousFault,
   AddManoeuvreComment,
+  AddManoeuvreDangerousFault,
+  AddManoeuvreSeriousFault,
+  RecordManoeuvresSelection,
   RemoveManoeuvreFault,
 } from '../../../common/manoeuvres/manoeuvres.actions';
-import { ManoeuvreTypes, ManoeuvreCompetencies } from '../../../test-data.constants';
+import { ManoeuvreCompetencies, ManoeuvreTypes } from '../../../test-data.constants';
 
 describe('manoeuvresCatManoeuvreReducer', () => {
   describe('RECORD_MANOEUVRES_SELECTION', () => {
@@ -113,7 +113,7 @@ describe('manoeuvresCatManoeuvreReducer', () => {
       const result = manoeuvresCatManoeuvreReducer(state, RemoveManoeuvreFault({
         competency: ManoeuvreCompetencies.controlFault,
         manoeuvre: ManoeuvreTypes.reverseManoeuvre,
-      }));
+      }, CompetencyOutcome.DF));
       expect(result[ManoeuvreTypes.reverseManoeuvre].controlFault).toBeUndefined();
     });
   });
