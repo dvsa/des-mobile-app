@@ -1,0 +1,94 @@
+PODS:
+  - Capacitor (5.0.3):
+    - CapacitorCordova
+  - CapacitorCordova (5.0.3)
+  - CapacitorNativeBiometric (0.0.1):
+    - Capacitor
+  - CapacitorSplashScreen (5.0.2):
+    - Capacitor
+  - CapacitorStatusBar (5.0.2):
+    - Capacitor
+  - CapawesomeCapacitorManagedConfigurations (5.0.0):
+    - Capacitor
+  - CapawesomeCapacitorScreenOrientation (5.0.0):
+    - Capacitor
+  - CordovaPlugins (5.0.3):
+    - CapacitorCordova
+  - CordovaPluginsResources (0.0.105)
+  - CordovaPluginsStatic (5.0.3):
+    - CapacitorCordova
+    - GoogleAnalytics (= 3.20.0)
+  - DvsaCapacitorPluginAsam (0.0.10):
+    - Capacitor
+  - GoogleAnalytics (3.20.0)
+  - Sentry (7.27.1):
+    - Sentry/Core (= 7.27.1)
+  - Sentry/Core (7.27.1)
+  - SentryCapacitor (0.11.3):
+    - Capacitor
+    - Sentry (~> 7.27.1)
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - CapacitorNativeBiometric (from `../../node_modules/capacitor-native-biometric`)
+  - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
+  - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
+  - "CapawesomeCapacitorManagedConfigurations (from `../../node_modules/@capawesome/capacitor-managed-configurations`)"
+  - "CapawesomeCapacitorScreenOrientation (from `../../node_modules/@capawesome/capacitor-screen-orientation`)"
+  - CordovaPlugins (from `../capacitor-cordova-ios-plugins`)
+  - CordovaPluginsResources (from `../capacitor-cordova-ios-plugins`)
+  - CordovaPluginsStatic (from `../capacitor-cordova-ios-plugins`)
+  - "DvsaCapacitorPluginAsam (from `../../node_modules/@dvsa/capacitor-plugin-asam`)"
+  - "SentryCapacitor (from `../../node_modules/@sentry/capacitor`)"
+
+SPEC REPOS:
+  trunk:
+    - GoogleAnalytics
+    - Sentry
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorNativeBiometric:
+    :path: "../../node_modules/capacitor-native-biometric"
+  CapacitorSplashScreen:
+    :path: "../../node_modules/@capacitor/splash-screen"
+  CapacitorStatusBar:
+    :path: "../../node_modules/@capacitor/status-bar"
+  CapawesomeCapacitorManagedConfigurations:
+    :path: "../../node_modules/@capawesome/capacitor-managed-configurations"
+  CapawesomeCapacitorScreenOrientation:
+    :path: "../../node_modules/@capawesome/capacitor-screen-orientation"
+  CordovaPlugins:
+    :path: "../capacitor-cordova-ios-plugins"
+  CordovaPluginsResources:
+    :path: "../capacitor-cordova-ios-plugins"
+  CordovaPluginsStatic:
+    :path: "../capacitor-cordova-ios-plugins"
+  DvsaCapacitorPluginAsam:
+    :path: "../../node_modules/@dvsa/capacitor-plugin-asam"
+  SentryCapacitor:
+    :path: "../../node_modules/@sentry/capacitor"
+
+SPEC CHECKSUMS:
+  Capacitor: 304a960e431f9e6f78556554ca71c41c1b2b9680
+  CapacitorCordova: def732a63679698df6fb392bbe6d269a0b61e937
+  CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
+  CapacitorSplashScreen: bd2a056394ba0b8807e7bb3e746424f67c426e03
+  CapacitorStatusBar: 48f2899f6846cc7d8431b251ebfc58e1c10e3d58
+  CapawesomeCapacitorManagedConfigurations: 87db7aa30986c411b7a285d273b780acaca9b91a
+  CapawesomeCapacitorScreenOrientation: 5b7cfb76348775e4b824bf460e5c52212b94c8d1
+  CordovaPlugins: b2a7cef298b97a2994dc182eee96cd2d9c94cfa7
+  CordovaPluginsResources: 1b3992e05cb6336d2850cd77dd5e3054f2f76f96
+  CordovaPluginsStatic: 1bbf76c1361d61d8aab2496642ee0fe06a5377e3
+  DvsaCapacitorPluginAsam: 9c9f03afdc71818a37ca5b8a03c0ba35d70dfaf6
+  GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
+  Sentry: bc644307e2eb6a4c9c55cf117a80b895bb2a25a7
+  SentryCapacitor: c350e52730e48149273c8cd63b9651fceb2a4be1
+
+PODFILE CHECKSUM: 6e6c4042ab9a91ebf65bcda09389edc710947ca4
+
+COCOAPODS: 1.11.3

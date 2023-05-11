@@ -5,7 +5,7 @@
 App/build
 App/Pods
 App/public
-App/Podfile.lock
+App/output
 xcuserdata
 
 # Cordova plugins for Capacitor
