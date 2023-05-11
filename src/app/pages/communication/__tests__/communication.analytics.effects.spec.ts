@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -18,9 +18,10 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 import { PopulateTestCategory } from '@store/tests/category/category.actions';
 import {
   AnalyticsDimensionIndices,
-  AnalyticsScreenNames,
+  AnalyticsErrorTypes,
   AnalyticsEventCategories,
-  AnalyticsErrorTypes, AnalyticsEvents,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import {
   VRNModalCancelled,
@@ -29,6 +30,8 @@ import {
 } from '@store/tests/candidate-section/candidate-section.actions';
 import { Router } from '@angular/router';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as communicationActions from '../communication.actions';
 import { CommunicationAnalyticsEffects } from '../communication.analytics.effects';
@@ -55,8 +58,18 @@ describe('CommunicationAnalyticsEffects', () => {
       ],
       providers: [
         CommunicationAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
-        { provide: Router, useValue: { url: `/${TestFlowPageNames.COMMUNICATION_PAGE}` } },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: Router,
+          useValue: { url: `/${TestFlowPageNames.COMMUNICATION_PAGE}` },
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -80,7 +93,8 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(communicationActions.CommunicationViewDidEnter());
       // ASSERT
       effects.communicationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B');
         expect(analyticsProviderMock.addCustomDimension)
@@ -102,7 +116,8 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(communicationActions.CommunicationViewDidEnter());
       // ASSERT
       effects.communicationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B');
         expect(analyticsProviderMock.addCustomDimension)
@@ -126,7 +141,8 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(communicationActions.CommunicationValidationError('formControl1'));
       // ASSERT
       effects.communicationValidationError$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B');
         expect(analyticsProviderMock.logError)
@@ -142,7 +158,8 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(communicationActions.CommunicationValidationError('formControl1'));
       // ASSERT
       effects.communicationValidationError$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeMode})`,
             'formControl1');
@@ -161,12 +178,14 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(VRNModalOpened());
       // ASSERT
       effects.vrnModalOpened$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toBe(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.COMMUNICATION,
-          AnalyticsEvents.VRN_CAPTURE,
-          AnalyticsEvents.VRN_CAPTURE_SELECTED,
-        );
+        expect(result.type)
+          .toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.COMMUNICATION,
+            AnalyticsEvents.VRN_CAPTURE,
+            AnalyticsEvents.VRN_CAPTURE_SELECTED,
+          );
       });
     });
   });
@@ -181,12 +200,14 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(VRNModalCancelled());
       // ASSERT
       effects.vrnModalCancelled$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toBe(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.COMMUNICATION,
-          AnalyticsEvents.VRN_CAPTURE,
-          AnalyticsEvents.VRN_CAPTURE_CANCELLED,
-        );
+        expect(result.type)
+          .toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.COMMUNICATION,
+            AnalyticsEvents.VRN_CAPTURE,
+            AnalyticsEvents.VRN_CAPTURE_CANCELLED,
+          );
       });
     });
   });
@@ -201,12 +222,14 @@ describe('CommunicationAnalyticsEffects', () => {
       actions$.next(VRNModalSaved());
       // ASSERT
       effects.vrnModalSaved$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toBe(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.COMMUNICATION,
-          AnalyticsEvents.VRN_CAPTURE,
-          AnalyticsEvents.VRN_CAPTURE_SAVED,
-        );
+        expect(result.type)
+          .toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.COMMUNICATION,
+            AnalyticsEvents.VRN_CAPTURE,
+            AnalyticsEvents.VRN_CAPTURE_SAVED,
+          );
       });
     });
   });

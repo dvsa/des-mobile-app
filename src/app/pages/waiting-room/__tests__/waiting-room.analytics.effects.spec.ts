@@ -1,14 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
   AnalyticsDimensionIndices,
-  AnalyticsScreenNames,
   AnalyticsErrorTypes,
-  AnalyticsEventCategories, AnalyticsEvents,
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -30,6 +31,8 @@ import {
 } from '@store/tests/candidate-section/candidate-section.actions';
 import { Router } from '@angular/router';
 import { TestFlowPageNames } from '@pages/page-names.constants';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import * as waitingRoomActions from '../waiting-room.actions';
 import { WaitingRoomAnalyticsEffects } from '../waiting-room.analytics.effects';
 
@@ -55,8 +58,18 @@ describe('WaitingRoomAnalyticsEffects', () => {
       ],
       providers: [
         WaitingRoomAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
-        { provide: Router, useValue: { url: `/${TestFlowPageNames.WAITING_ROOM_PAGE}` } },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: Router,
+          useValue: { url: `/${TestFlowPageNames.WAITING_ROOM_PAGE}` },
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -80,7 +93,8 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(waitingRoomActions.WaitingRoomViewDidEnter());
       // ASSERT
       effects.waitingRoomViewDidEnter$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B');
         expect(analyticsProviderMock.addCustomDimension)
@@ -102,7 +116,8 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(waitingRoomActions.WaitingRoomViewDidEnter());
       // ASSERT
       effects.waitingRoomViewDidEnter$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B');
         expect(analyticsProviderMock.addCustomDimension)
@@ -127,7 +142,8 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(waitingRoomActions.WaitingRoomValidationError('formControl1'));
       // ASSERT
       effects.waitingRoomValidationError$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B');
         expect(analyticsProviderMock.logError)
@@ -145,7 +161,8 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(waitingRoomActions.WaitingRoomValidationError('formControl1'));
       // ASSERT
       effects.waitingRoomValidationError$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toBe(AnalyticRecorded.type);
+        expect(result.type)
+          .toBe(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.TEST_CATEGORY, 'B');
         expect(analyticsProviderMock.logError)
@@ -167,12 +184,14 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(VRNModalOpened());
       // ASSERT
       effects.vrnModalOpened$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toBe(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.WAITING_ROOM,
-          AnalyticsEvents.VRN_CAPTURE,
-          AnalyticsEvents.VRN_CAPTURE_SELECTED,
-        );
+        expect(result.type)
+          .toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.WAITING_ROOM,
+            AnalyticsEvents.VRN_CAPTURE,
+            AnalyticsEvents.VRN_CAPTURE_SELECTED,
+          );
       });
     });
   });
@@ -187,12 +206,14 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(VRNModalCancelled());
       // ASSERT
       effects.vrnModalCancelled$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toBe(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.WAITING_ROOM,
-          AnalyticsEvents.VRN_CAPTURE,
-          AnalyticsEvents.VRN_CAPTURE_CANCELLED,
-        );
+        expect(result.type)
+          .toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.WAITING_ROOM,
+            AnalyticsEvents.VRN_CAPTURE,
+            AnalyticsEvents.VRN_CAPTURE_CANCELLED,
+          );
       });
     });
   });
@@ -207,12 +228,14 @@ describe('WaitingRoomAnalyticsEffects', () => {
       actions$.next(VRNModalSaved());
       // ASSERT
       effects.vrnModalSaved$.subscribe((result: ReturnType<typeof AnalyticRecorded>) => {
-        expect(result.type).toBe(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.WAITING_ROOM,
-          AnalyticsEvents.VRN_CAPTURE,
-          AnalyticsEvents.VRN_CAPTURE_SAVED,
-        );
+        expect(result.type)
+          .toBe(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.WAITING_ROOM,
+            AnalyticsEvents.VRN_CAPTURE,
+            AnalyticsEvents.VRN_CAPTURE_SAVED,
+          );
       });
     });
   });

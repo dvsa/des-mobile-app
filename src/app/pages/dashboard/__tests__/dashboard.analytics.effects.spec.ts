@@ -7,8 +7,13 @@ import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.
 import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 
-import { DashboardAnalyticsEffects } from '../dashboard.analytics.effects';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { Store, StoreModule } from '@ngrx/store';
+import { journalReducer } from '@store/journal/journal.reducer';
+import { testsReducer } from '@store/tests/tests.reducer';
 import * as dashboardActions from '../dashboard.actions';
+import { DashboardAnalyticsEffects } from '../dashboard.analytics.effects';
 
 describe('DashboardAnalyticsEffects', () => {
   let effects: DashboardAnalyticsEffects;
@@ -18,10 +23,24 @@ describe('DashboardAnalyticsEffects', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
+      imports: [
+        StoreModule.forRoot({
+          journal: journalReducer,
+          tests: testsReducer,
+        }),
+      ],
       providers: [
         DashboardAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
+        Store,
       ],
     });
 
@@ -35,8 +54,10 @@ describe('DashboardAnalyticsEffects', () => {
     it('should call setCurrentPage', (done) => {
       actions$.next(dashboardActions.DashboardViewDidEnter());
       effects.dashboardViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -45,11 +66,13 @@ describe('DashboardAnalyticsEffects', () => {
     it('should log an event', (done) => {
       actions$.next(dashboardActions.PracticeTestReportCard());
       effects.practiceTestReportSelected$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.DASHBOARD,
-          AnalyticsEvents.PRACTICE_TEST_SELECTED,
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.DASHBOARD,
+            AnalyticsEvents.PRACTICE_TEST_SELECTED,
+          );
         done();
       });
     });
@@ -58,12 +81,14 @@ describe('DashboardAnalyticsEffects', () => {
     it('should log an event', (done) => {
       actions$.next(dashboardActions.SideMenuOpened());
       effects.sideMenuOpen$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.DASHBOARD,
-          AnalyticsEvents.SIDE_MENU,
-          'Menu Opened',
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.DASHBOARD,
+            AnalyticsEvents.SIDE_MENU,
+            'Menu Opened',
+          );
         done();
       });
     });
@@ -72,12 +97,14 @@ describe('DashboardAnalyticsEffects', () => {
     it('should log an event', (done) => {
       actions$.next(dashboardActions.SideMenuClosed());
       effects.sideMenuClosed$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.DASHBOARD,
-          AnalyticsEvents.SIDE_MENU,
-          'Menu Closed',
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.DASHBOARD,
+            AnalyticsEvents.SIDE_MENU,
+            'Menu Closed',
+          );
         done();
       });
     });
@@ -86,12 +113,14 @@ describe('DashboardAnalyticsEffects', () => {
     it('should log an event', (done) => {
       actions$.next(dashboardActions.SideMenuItemSelected('opt1'));
       effects.sideMenuItemSelected$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.DASHBOARD,
-          AnalyticsEvents.SIDE_MENU,
-          'opt1 Selected',
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.DASHBOARD,
+            AnalyticsEvents.SIDE_MENU,
+            'opt1 Selected',
+          );
         done();
       });
     });

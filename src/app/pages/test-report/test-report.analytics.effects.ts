@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { concatMap, filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import {
+  concatMap, filter, map, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
@@ -126,7 +128,7 @@ export class TestReportAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof testReportActions.TestReportViewDidEnter>, TestsModel, boolean],
+      [ReturnType<typeof testReportActions.TestReportViewDidEnter>, TestsModel, boolean],
     ) => {
       this.analytics.setCurrentPage(formatAnalyticsText(AnalyticsScreenNames.TEST_REPORT, tests));
       return of(AnalyticRecorded());
@@ -156,7 +158,7 @@ export class TestReportAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests, removeFaultMode]:
-        [ReturnType<typeof testReportActions.ToggleRemoveFaultMode>, TestsModel, boolean, boolean],
+      [ReturnType<typeof testReportActions.ToggleRemoveFaultMode>, TestsModel, boolean, boolean],
     ) => {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
@@ -198,7 +200,7 @@ export class TestReportAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof testReportActions.ToggleSeriousFaultMode>, TestsModel, boolean],
+      [ReturnType<typeof testReportActions.ToggleSeriousFaultMode>, TestsModel, boolean],
     ) => {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
@@ -231,7 +233,7 @@ export class TestReportAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof testReportActions.ToggleDangerousFaultMode>, TestsModel, boolean],
+      [ReturnType<typeof testReportActions.ToggleDangerousFaultMode>, TestsModel, boolean],
     ) => {
       if (!action.isUserGenerated) {
         return of(AnalyticNotRecorded());
@@ -263,7 +265,7 @@ export class TestReportAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof drivingFaultsActions.AddDrivingFault>, TestsModel, boolean],
+      [ReturnType<typeof drivingFaultsActions.AddDrivingFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -294,7 +296,7 @@ export class TestReportAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof seriousFaultsActions.AddSeriousFault>, TestsModel, boolean],
+      [ReturnType<typeof seriousFaultsActions.AddSeriousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -325,7 +327,7 @@ export class TestReportAnalyticsEffects {
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof dangerousFaultsActions.AddDangerousFault>, TestsModel, boolean],
+      [ReturnType<typeof dangerousFaultsActions.AddDangerousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -351,9 +353,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof manoeuvresActions.AddManoeuvreDrivingFault>, TestsModel, boolean],
+      [ReturnType<typeof manoeuvresActions.AddManoeuvreDrivingFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -380,9 +385,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreDrivingFault>, TestsModel, boolean],
+      [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreDrivingFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -408,9 +416,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof manoeuvresActions.AddManoeuvreSeriousFault>, TestsModel, boolean],
+      [ReturnType<typeof manoeuvresActions.AddManoeuvreSeriousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -437,9 +448,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreSeriousFault>, TestsModel, boolean],
+      [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreSeriousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -465,9 +479,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof manoeuvresActions.AddManoeuvreDangerousFault>, TestsModel, boolean],
+      [ReturnType<typeof manoeuvresActions.AddManoeuvreDangerousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -494,9 +511,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreDangerousFault>, TestsModel, boolean],
+      [ReturnType<typeof manoeuvresADIPart2Actions.AddManoeuvreDangerousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -522,9 +542,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof controlledStopActions.ControlledStopAddDrivingFault>, TestsModel, boolean],
+      [ReturnType<typeof controlledStopActions.ControlledStopAddDrivingFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -550,9 +573,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof controlledStopActions.ControlledStopAddSeriousFault>, TestsModel, boolean],
+      [ReturnType<typeof controlledStopActions.ControlledStopAddSeriousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -578,9 +604,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof testReportActions.ReturnToTest>, TestsModel, boolean],
+      [ReturnType<typeof testReportActions.ReturnToTest>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
@@ -605,9 +634,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof controlledStopActions.ControlledStopAddDangerousFault>, TestsModel, boolean],
+      [ReturnType<typeof controlledStopActions.ControlledStopAddDangerousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -633,9 +665,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyAddDrivingFault>, TestsModel, boolean],
+      [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyAddDrivingFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -661,9 +696,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyAddSeriousFault>, TestsModel, boolean],
+      [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyAddSeriousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -689,9 +727,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof vehicleChecksActions.ShowMeQuestionDrivingFault>, TestsModel, boolean],
+      [ReturnType<typeof vehicleChecksActions.ShowMeQuestionDrivingFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -717,9 +758,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof vehicleChecksActions.ShowMeQuestionSeriousFault>, TestsModel, boolean],
+      [ReturnType<typeof vehicleChecksActions.ShowMeQuestionSeriousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -745,9 +789,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof vehicleChecksActions.ShowMeQuestionDangerousFault>, TestsModel, boolean],
+      [ReturnType<typeof vehicleChecksActions.ShowMeQuestionDangerousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -773,9 +820,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof drivingFaultsActions.RemoveDrivingFault>, TestsModel, boolean],
+      [ReturnType<typeof drivingFaultsActions.RemoveDrivingFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -801,9 +851,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof seriousFaultsActions.RemoveSeriousFault>, TestsModel, boolean],
+      [ReturnType<typeof seriousFaultsActions.RemoveSeriousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -829,9 +882,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof dangerousFaultsActions.RemoveDangerousFault>, TestsModel, boolean],
+      [ReturnType<typeof dangerousFaultsActions.RemoveDangerousFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -857,9 +913,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof manoeuvresActions.RemoveManoeuvreFault>, TestsModel, boolean],
+      [ReturnType<typeof manoeuvresActions.RemoveManoeuvreFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -884,9 +943,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests]:
-        [ReturnType<typeof manoeuvresADIPart2Actions.RemoveManoeuvreFault>, TestsModel, boolean],
+      [ReturnType<typeof manoeuvresADIPart2Actions.RemoveManoeuvreFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -911,9 +973,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof controlledStopActions.ControlledStopRemoveFault>, TestsModel, boolean],
+      [ReturnType<typeof controlledStopActions.ControlledStopRemoveFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -938,9 +1003,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault>, TestsModel, boolean],
+      [ReturnType<typeof highwayCodeSafetyActions.HighwayCodeSafetyRemoveFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -965,9 +1033,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel, boolean],
+      [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -992,9 +1063,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof testReportActions.TerminateTestFromTestReport>, TestsModel, boolean],
+      [ReturnType<typeof testReportActions.TerminateTestFromTestReport>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
@@ -1019,9 +1093,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests]:
-        [ReturnType<typeof testReportActions.CalculateTestResult>, TestsModel, boolean],
+      [ReturnType<typeof testReportActions.CalculateTestResult>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_END, tests),
@@ -1052,9 +1129,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [action, tests, testRequirements]:
-        [ReturnType<typeof testRequirementsActions.ToggleLegalRequirement>, TestsModel, TestRequirements, boolean],
+      [ReturnType<typeof testRequirementsActions.ToggleLegalRequirement>, TestsModel, TestRequirements, boolean],
     ) => {
       const toggleValue = testRequirements[action.legalRequirement]
         ? legalRequirementToggleValues.completed
@@ -1090,9 +1170,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests, eco]:
-        [ReturnType<typeof ecoActions.ToggleEco>, TestsModel, Eco, boolean],
+      [ReturnType<typeof ecoActions.ToggleEco>, TestsModel, Eco, boolean],
     ) => {
       const toggleValue = eco.completed
         ? legalRequirementToggleValues.completed
@@ -1127,9 +1210,12 @@ export class TestReportAnalyticsEffects {
           ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests, eco]:
-        [ReturnType<typeof ecoActions.ToggleControlEco>, TestsModel, Eco, boolean],
+      [ReturnType<typeof ecoActions.ToggleControlEco>, TestsModel, Eco, boolean],
     ) => {
       const toggleValue = eco.adviceGivenControl
         ? 'selected'
@@ -1145,9 +1231,7 @@ export class TestReportAnalyticsEffects {
   ));
 
   toggleEcoPlanning$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      ecoActions.TogglePlanningEco,
-    ),
+    ofType(ecoActions.TogglePlanningEco),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -1160,9 +1244,19 @@ export class TestReportAnalyticsEffects {
             select(getTestData),
             select(getEco),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests, eco]: [ReturnType<typeof ecoActions.TogglePlanningEco>, TestsModel, Eco]) => {
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, eco]:
+      [ReturnType<typeof ecoActions.TogglePlanningEco>, TestsModel, Eco, boolean],
+    ) => {
       const toggleValue = eco.adviceGivenPlanning
         ? 'selected'
         : 'unselected';
@@ -1176,9 +1270,7 @@ export class TestReportAnalyticsEffects {
   ));
 
   toggleETA$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      etaActions.ToggleETA,
-    ),
+    ofType(etaActions.ToggleETA),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -1191,18 +1283,31 @@ export class TestReportAnalyticsEffects {
             select(getTestData),
             select(getETA),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([action, tests, eta]: [ReturnType<typeof etaActions.ToggleETA>, TestsModel, ETA]) => {
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests, eta]:
+      [ReturnType<typeof etaActions.ToggleETA>, TestsModel, ETA, boolean],
+    ) => {
+      const event: string = (action.examinerAction === ExaminerActions.physical)
+        ? AnalyticsEvents.TOGGLE_ETA_PHYSICAL
+        : AnalyticsEvents.TOGGLE_ETA_VERBAL;
 
-      const event: string = action.examinerAction === ExaminerActions.physical
-        ? AnalyticsEvents.TOGGLE_ETA_PHYSICAL : AnalyticsEvents.TOGGLE_ETA_VERBAL;
-
-      const etaValue: boolean = action.examinerAction === ExaminerActions.physical ? eta.physical : eta.verbal;
+      const etaValue: boolean = (action.examinerAction === ExaminerActions.physical)
+        ? eta.physical
+        : eta.verbal;
 
       const toggleValue = etaValue
         ? 'selected'
         : 'unselected';
+
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(event, tests),
@@ -1213,9 +1318,7 @@ export class TestReportAnalyticsEffects {
   ));
 
   toggleControlledStop$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      controlledStopActions.ToggleControlledStop,
-    ),
+    ofType(controlledStopActions.ToggleControlledStop),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -1228,13 +1331,23 @@ export class TestReportAnalyticsEffects {
             select(getTestData),
             select(getControlledStop),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests, controlledStop]:
-                 [ReturnType<typeof controlledStopActions.ToggleControlledStop>, TestsModel, ControlledStopUnion]) => {
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, controlledStop]:
+      [ReturnType<typeof controlledStopActions.ToggleControlledStop>, TestsModel, ControlledStopUnion, boolean],
+    ) => {
       const toggleValue = controlledStop.selected
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
+
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_CONTROLLED_STOP, tests),
@@ -1245,9 +1358,7 @@ export class TestReportAnalyticsEffects {
   ));
 
   toggleHighwayCodeSafety$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      highwayCodeSafetyActions.ToggleHighwayCodeSafety,
-    ),
+    ofType(highwayCodeSafetyActions.ToggleHighwayCodeSafety),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
@@ -1260,10 +1371,20 @@ export class TestReportAnalyticsEffects {
             select(getTestData),
             select(getHighwayCodeSafety),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests, highwayCodeSafety]:
-                 [ReturnType<typeof highwayCodeSafetyActions.ToggleHighwayCodeSafety>, TestsModel, HighwayCodeSafetyUnion]) => {
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, highwayCodeSafety]:
+      // eslint-disable-next-line max-len
+      [ReturnType<typeof highwayCodeSafetyActions.ToggleHighwayCodeSafety>, TestsModel, HighwayCodeSafetyUnion, boolean],
+    ) => {
       const toggleValue = highwayCodeSafety.selected
         ? legalRequirementToggleValues.completed
         : legalRequirementToggleValues.uncompleted;
@@ -1277,18 +1398,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   manoeuvreCompletedEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresActions.RecordManoeuvresSelection,
-    ),
+    ofType(manoeuvresActions.RecordManoeuvresSelection),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    switchMap(([, tests]: [ReturnType<typeof manoeuvresActions.RecordManoeuvresSelection>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof manoeuvresActions.RecordManoeuvresSelection>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1299,18 +1428,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   manoeuvreCompletedEffectCatADIPart2$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      manoeuvresADIPart2Actions.RecordManoeuvresSelection,
-    ),
+    ofType(manoeuvresADIPart2Actions.RecordManoeuvresSelection),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    switchMap(([, tests]: [ReturnType<typeof manoeuvresADIPart2Actions.RecordManoeuvresSelection>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof manoeuvresADIPart2Actions.RecordManoeuvresSelection>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1328,9 +1465,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    switchMap(([, tests]: [ReturnType<typeof manoeuvresActions.RecordManoeuvresDeselection>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests]:
+      [ReturnType<typeof manoeuvresActions.RecordManoeuvresDeselection>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1353,9 +1500,16 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [VehicleChecksTypes, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap(([, tests]: [VehicleChecksTypes, TestsModel, boolean]) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1366,18 +1520,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   showMeQuestionUncompletedEffect$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      vehicleChecksActions.ShowMeQuestionRemoveFault,
-    ),
+    ofType(vehicleChecksActions.ShowMeQuestionRemoveFault),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof vehicleChecksActions.ShowMeQuestionRemoveFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT, tests),
@@ -1388,18 +1550,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   uncoupleRecoupleAddDrivingFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault,
-    ),
+    ofType(uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DRIVING_FAULT, tests),
@@ -1411,18 +1581,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   uncoupleRecoupleAddSeriousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault,
-    ),
+    ofType(uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_SERIOUS_FAULT, tests),
@@ -1434,18 +1612,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   uncoupleRecoupleAddDangerousFault$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault,
-    ),
+    ofType(uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ADD_DANGEROUS_FAULT, tests),
@@ -1464,9 +1650,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverOpened>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverOpened>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED, tests),
@@ -1483,9 +1679,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverClosed>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof reverseLeftActions.ReverseLeftPopoverClosed>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED, tests),
@@ -1505,22 +1711,27 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(
-      ([action, tests]) => {
-        const toggleValue = (action.type === avoidanceActions.AddAvoidanceSeriousFault.type)
-          ? speedCheckToggleValues.speedNotMet
-          : speedCheckToggleValues.speedMet;
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap(([action, tests]) => {
+      const toggleValue = (action.type === avoidanceActions.AddAvoidanceSeriousFault.type)
+        ? speedCheckToggleValues.speedNotMet
+        : speedCheckToggleValues.speedMet;
 
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT, tests),
-          `${competencyLabels['speedCheckAvoidance']} - ${toggleValue}`,
-        );
-        return of(AnalyticRecorded());
-      },
-    ),
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT, tests),
+        `${competencyLabels['speedCheckAvoidance']} - ${toggleValue}`,
+      );
+      return of(AnalyticRecorded());
+    }),
   ));
 
   recordAvoidanceFirstAttempt$ = createEffect(() => this.actions$.pipe(
@@ -1537,10 +1748,19 @@ export class TestReportAnalyticsEffects {
             select(getCatAmod1TestData),
             select(getAvoidance),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests, avoidance]:
-                 [ReturnType<typeof avoidanceActions.RecordAvoidanceFirstAttempt>, TestsModel, Avoidance]) => {
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, avoidance]:
+      [ReturnType<typeof avoidanceActions.RecordAvoidanceFirstAttempt>, TestsModel, Avoidance, boolean],
+    ) => {
       const attemptValue = avoidance.firstAttempt;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1565,10 +1785,19 @@ export class TestReportAnalyticsEffects {
             select(getCatAmod1TestData),
             select(getAvoidance),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests, avoidance]:
-                 [ReturnType<typeof avoidanceActions.RecordAvoidanceSecondAttempt>, TestsModel, Avoidance]) => {
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, avoidance]:
+      [ReturnType<typeof avoidanceActions.RecordAvoidanceSecondAttempt>, TestsModel, Avoidance, boolean],
+    ) => {
       const attemptValue = avoidance.secondAttempt;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1590,20 +1819,27 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(
-      ([action, tests]) => {
-        const toggleValue = action.type === emergencyStopActions.AddEmergencyStopSeriousFault.type
-          ? speedCheckToggleValues.speedNotMet : speedCheckToggleValues.speedMet;
-        this.analytics.logEvent(
-          formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
-          formatAnalyticsText(AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ, tests),
-          `${competencyLabels['speedCheckEmergency']} - ${toggleValue}`,
-        );
-        return of(AnalyticRecorded());
-      },
-    ),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap(([action, tests]) => {
+      const toggleValue = (action.type === emergencyStopActions.AddEmergencyStopSeriousFault.type)
+        ? speedCheckToggleValues.speedNotMet
+        : speedCheckToggleValues.speedMet;
+
+      this.analytics.logEvent(
+        formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
+        formatAnalyticsText(AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ, tests),
+        `${competencyLabels['speedCheckEmergency']} - ${toggleValue}`,
+      );
+      return of(AnalyticRecorded());
+    }),
   ));
 
   recordEmergencyStopFirstAttempt$ = createEffect(() => this.actions$.pipe(
@@ -1620,9 +1856,19 @@ export class TestReportAnalyticsEffects {
             select(getCatAmod1TestData),
             select(getEmergencyStop),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests, emergencyStop]: [ReturnType<typeof emergencyStopActions.RecordEmergencyStopFirstAttempt>, TestsModel, EmergencyStop]) => {
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, emergencyStop]:
+      [ReturnType<typeof emergencyStopActions.RecordEmergencyStopFirstAttempt>, TestsModel, EmergencyStop, boolean],
+    ) => {
       const attemptValue = emergencyStop.firstAttempt;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1647,9 +1893,19 @@ export class TestReportAnalyticsEffects {
             select(getCatAmod1TestData),
             select(getEmergencyStop),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests, emergencyStop]: [ReturnType<typeof emergencyStopActions.RecordEmergencyStopSecondAttempt>, TestsModel, EmergencyStop]) => {
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests, emergencyStop]:
+      [ReturnType<typeof emergencyStopActions.RecordEmergencyStopSecondAttempt>, TestsModel, EmergencyStop, boolean],
+    ) => {
       const attemptValue = emergencyStop.secondAttempt;
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1668,9 +1924,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof testReportCatAMod1Actions.SpeedRequirementNotMetModalOpened>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED, tests),
@@ -1688,9 +1954,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopDangerousFaultModelOpened>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED, tests),
@@ -1708,9 +1984,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof testReportCatAMod1Actions.EmergencyStopSeriousFaultModelOpened>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED, tests),
@@ -1728,9 +2014,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([action, tests]: [ReturnType<typeof singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+      [ReturnType<typeof singleFaultCompetencyActions.SetSingleFaultCompetencyOutcome>, TestsModel, boolean],
+    ) => {
       if (action.outcome === CompetencyOutcome.DF) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1762,9 +2058,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([action, tests]: [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+      [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleFaultCompetencyOutcome>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_SINGLE_FAULT, tests),
@@ -1782,9 +2088,20 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([action, tests]: [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+      // eslint-disable-next-line max-len
+      [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleDangerousFaultCompetencyOutcome>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT, tests),
@@ -1802,9 +2119,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([action, tests]: [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+      [ReturnType<typeof singleFaultCompetencyActions.RemoveSingleSeriousFaultCompetencyOutcome>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT, tests),
@@ -1822,9 +2149,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT, tests),
@@ -1842,9 +2179,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT, tests),
@@ -1862,9 +2209,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT, tests),
@@ -1882,9 +2239,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT, tests),
@@ -1902,9 +2269,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT, tests),
@@ -1922,9 +2299,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT, tests),
@@ -1942,9 +2329,19 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([, tests]: [ReturnType<typeof testReportActions.StartTimer>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [, tests]:
+      [ReturnType<typeof testReportActions.StartTimer>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.START_TIMER, tests),
@@ -1968,10 +2365,18 @@ export class TestReportAnalyticsEffects {
             select(getLessonAndTheme),
             select(getStudentLevel),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, studentLevel]: [ReturnType<typeof StudentLevelChanged>, TestsModel, StudentLevel],
+      [, tests, studentLevel]:
+      [ReturnType<typeof StudentLevelChanged>, TestsModel, StudentLevel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -1983,18 +2388,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   addLessonTheme$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      lessonThemeActions.LessonThemeAdded,
-    ),
+    ofType(lessonThemeActions.LessonThemeAdded),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([action, tests]: [ReturnType<typeof lessonThemeActions.LessonThemeAdded>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+      [ReturnType<typeof lessonThemeActions.LessonThemeAdded>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.LESSON_THEME_ADDED, tests),
@@ -2005,18 +2418,26 @@ export class TestReportAnalyticsEffects {
   ));
 
   removeLessonTheme$ = createEffect(() => this.actions$.pipe(
-    ofType(
-      lessonThemeActions.LessonThemeRemoved,
-    ),
+    ofType(lessonThemeActions.LessonThemeRemoved),
     concatMap((action) => of(action)
       .pipe(
         withLatestFrom(
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
-    concatMap(([action, tests]: [ReturnType<typeof lessonThemeActions.LessonThemeRemoved>, TestsModel]) => {
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests]:
+      [ReturnType<typeof lessonThemeActions.LessonThemeRemoved>, TestsModel, boolean],
+    ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.LESSON_THEME_REMOVED, tests),
@@ -2041,10 +2462,18 @@ export class TestReportAnalyticsEffects {
             select(getLessonAndTheme),
             select(getOther),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, other]: [ReturnType<typeof OtherChanged>, TestsModel, string],
+      [, tests, other]:
+      [ReturnType<typeof OtherChanged>, TestsModel, string, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -2063,13 +2492,21 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [{
         question,
         score,
-      }, tests]: [ReturnType<typeof LessonPlanningQuestionScoreChanged>, TestsModel],
+      }, tests]:
+      [ReturnType<typeof LessonPlanningQuestionScoreChanged>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -2088,13 +2525,21 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [{
         question,
         score,
-      }, tests]: [ReturnType<typeof RiskManagementQuestionScoreChanged>, TestsModel],
+      }, tests]:
+      [ReturnType<typeof RiskManagementQuestionScoreChanged>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -2113,13 +2558,21 @@ export class TestReportAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [{
         question,
         score,
-      }, tests]: [ReturnType<typeof TeachingLearningStrategiesQuestionScoreChanged>, TestsModel],
+      }, tests]:
+      [ReturnType<typeof TeachingLearningStrategiesQuestionScoreChanged>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
@@ -2160,11 +2613,19 @@ export class TestReportAnalyticsEffects {
             select(getTestData),
             select(getTeachingLearningStrategies),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
       [, tests, lessonPlanning, riskManagement, teachingLearningStrategies]:
-        [ReturnType<ScoreChangedActions>, TestsModel, LessonPlanning, RiskManagement, TeachingLearningStrategies],
+      // eslint-disable-next-line max-len
+      [ReturnType<ScoreChangedActions>, TestsModel, LessonPlanning, RiskManagement, TeachingLearningStrategies, boolean],
     ) => {
       const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
       const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');

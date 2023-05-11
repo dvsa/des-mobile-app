@@ -1,14 +1,14 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsScreenNames,
-  AnalyticsEventCategories,
   AnalyticsErrorTypes,
+  AnalyticsEventCategories,
   AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import * as testsActions from '@store/tests/tests.actions';
@@ -23,6 +23,8 @@ import { Language } from '@store/tests/communication-preferences/communication-p
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import * as nonPassFinalisationActions from '../non-pass-finalisation.actions';
 import { NonPassFinalisationAnalyticsEffects } from '../non-pass-finalisation.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
@@ -43,7 +45,14 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       ],
       providers: [
         NonPassFinalisationAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -65,8 +74,10 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(nonPassFinalisationActions.NonPassFinalisationViewDidEnter());
       // ASSERT
       effects.nonPassFinalisationViewDidEnterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -80,8 +91,10 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(nonPassFinalisationActions.NonPassFinalisationViewDidEnter());
       // ASSERT
       effects.nonPassFinalisationViewDidEnterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(practiceScreenName);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(practiceScreenName);
         done();
       });
     });
@@ -95,7 +108,8 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(nonPassFinalisationActions.NonPassFinalisationValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(
             `${AnalyticsErrorTypes.VALIDATION_ERROR} (${AnalyticsScreenNames.NON_PASS_FINALISATION})`,
@@ -114,7 +128,8 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(nonPassFinalisationActions.NonPassFinalisationValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${practiceScreenName})`,
             'error message');
@@ -131,7 +146,8 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(testSummaryActions.D255Yes());
       // ASSERT
       effects.d255Yes$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -151,7 +167,8 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(testSummaryActions.D255No());
       // ASSERT
       effects.d255No$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -172,7 +189,8 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(commsActions.CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH));
       // ASSERT
       effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -191,8 +209,11 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(commsActions.CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH));
       // ASSERT
       effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });
@@ -206,8 +227,11 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(commsActions.CandidateChoseToProceedWithTestInWelsh(Language.CYMRAEG));
       // ASSERT
       effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });
@@ -220,7 +244,8 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(commsActions.CandidateChoseToProceedWithTestInWelsh(Language.CYMRAEG));
       // ASSERT
       effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -240,13 +265,16 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       actions$.next(nonPassFinalisationActions.NonPassFinalisationReportActivityCode(ActivityCodes.FAIL_PUBLIC_SAFETY));
       // ASSERT
       effects.nonPassFinalisationReportActivityCode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.POST_TEST,
-          AnalyticsEvents.SET_ACTIVITY_CODE,
-          '4 - FAIL_PUBLIC_SAFETY',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.POST_TEST,
+            AnalyticsEvents.SET_ACTIVITY_CODE,
+            '4 - FAIL_PUBLIC_SAFETY',
+          );
         done();
       });
     });
