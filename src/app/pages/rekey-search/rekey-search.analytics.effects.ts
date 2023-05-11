@@ -4,13 +4,8 @@ import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import {
-  AnalyticsScreenNames, AnalyticsEventCategories, AnalyticsEvents,
-} from '@providers/analytics/analytics.model';
-import {
-  RekeySearchViewDidEnter,
-  SearchBookedTest,
-} from './rekey-search.actions';
+import { AnalyticsEventCategories, AnalyticsEvents, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
+import { RekeySearchViewDidEnter, SearchBookedTest } from './rekey-search.actions';
 
 @Injectable()
 export class RekeySearchAnalyticsEffects {
@@ -22,7 +17,7 @@ export class RekeySearchAnalyticsEffects {
   }
 
   rekeySearchViewDidEnter$ = createEffect(() => this.actions$.pipe(
-    ofType(RekeySearchViewDidEnter.type),
+    ofType(RekeySearchViewDidEnter),
     switchMap(() => {
       this.analytics.setCurrentPage(AnalyticsScreenNames.REKEY_SEARCH);
       return of(AnalyticRecorded());
@@ -30,7 +25,7 @@ export class RekeySearchAnalyticsEffects {
   ));
 
   rekeySearchPerformed$ = createEffect(() => this.actions$.pipe(
-    ofType(SearchBookedTest.type),
+    ofType(SearchBookedTest),
     switchMap(() => {
       this.analytics.logEvent(
         AnalyticsEventCategories.REKEY_SEARCH,

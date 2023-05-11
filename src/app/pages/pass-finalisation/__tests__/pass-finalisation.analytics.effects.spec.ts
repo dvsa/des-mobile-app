@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as testsActions from '@store/tests/tests.actions';
 import * as passCompletionActions from '@store/tests/pass-completion/pass-completion.actions';
@@ -8,10 +8,10 @@ import * as testSummaryActions from '@store/tests/test-summary/test-summary.acti
 import * as vehicleDetailsActions from '@store/tests/vehicle-details/vehicle-details.actions';
 import * as commsActions from '@store/tests/communication-preferences/communication-preferences.actions';
 import {
-  AnalyticsScreenNames,
-  AnalyticsEventCategories,
   AnalyticsErrorTypes,
+  AnalyticsEventCategories,
   AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candidate/candidate.actions';
@@ -22,12 +22,14 @@ import { Language } from '@store/tests/communication-preferences/communication-p
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TransmissionType } from '@shared/models/transmission-type';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
-import { AnalyticRecorded, AnalyticNotRecorded } from '@providers/analytics/analytics.actions';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { Router } from '@angular/router';
 import { CAT_B } from '@pages/page-names.constants';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as passFinalisationActions from '../pass-finalisation.actions';
 import { PassFinalisationAnalyticsEffects } from '../pass-finalisation.analytics.effects';
@@ -50,8 +52,18 @@ describe('PassFinalisationAnalyticsEffects', () => {
       ],
       providers: [
         PassFinalisationAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
-        { provide: Router, useValue: { url: `/${CAT_B.PASS_FINALISATION_PAGE}` } },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: Router,
+          useValue: { url: `/${CAT_B.PASS_FINALISATION_PAGE}` },
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -74,7 +86,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passFinalisationActions.PassFinalisationViewDidEnter());
       // ASSERT
       effects.passFinalisationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
@@ -88,7 +101,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passFinalisationActions.PassFinalisationViewDidEnter());
       // ASSERT
       effects.passFinalisationViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenNamePracticeMode);
         done();
@@ -105,7 +119,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passFinalisationActions.PassFinalisationValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${AnalyticsScreenNames.PASS_FINALISATION})`,
             'error message');
@@ -122,7 +137,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passFinalisationActions.PassFinalisationValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${practiceScreenName})`,
             'error message');
@@ -139,7 +155,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passCompletionActions.Code78Present());
       // ASSERT
       effects.code78PresentEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -159,7 +176,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passCompletionActions.Code78NotPresent());
       // ASSERT
       effects.code78NotPresentEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -179,7 +197,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passCompletionActions.ProvisionalLicenseNotReceived());
       // ASSERT
       effects.provisionalLicenseNotReceived$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -199,7 +218,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(passCompletionActions.ProvisionalLicenseReceived());
       // ASSERT
       effects.provisionalLicenseReceived$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -220,7 +240,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Manual));
       // ASSERT
       effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -239,7 +260,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Automatic));
       // ASSERT
       effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -258,8 +280,11 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(vehicleDetailsActions.GearboxCategoryChanged(TransmissionType.Manual));
       // ASSERT
       effects.transmissionChanged$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });
@@ -274,7 +299,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(testSummaryActions.D255Yes());
       // ASSERT
       effects.d255Yes$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -295,7 +321,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(testSummaryActions.D255No());
       // ASSERT
       effects.d255No$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -316,7 +343,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(commsActions.CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH));
       // ASSERT
       effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -335,8 +363,11 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(commsActions.CandidateChoseToProceedWithTestInEnglish(Language.ENGLISH));
       // ASSERT
       effects.candidateChoseToProceedWithTestInEnglish$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });
@@ -351,7 +382,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(commsActions.CandidateChoseToProceedWithTestInWelsh(Language.CYMRAEG));
       // ASSERT
       effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
@@ -370,8 +402,11 @@ describe('PassFinalisationAnalyticsEffects', () => {
       actions$.next(commsActions.CandidateChoseToProceedWithTestInWelsh(Language.CYMRAEG));
       // ASSERT
       effects.candidateChoseToProceedWithTestInWelsh$.subscribe((result) => {
-        expect(result.type === AnalyticNotRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });

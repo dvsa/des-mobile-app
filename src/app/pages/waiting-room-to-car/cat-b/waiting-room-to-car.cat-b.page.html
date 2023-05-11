@@ -19,63 +19,71 @@
   <div>
     <form (ngSubmit)="onSubmit()" [formGroup]="form">
       <ion-grid>
-        <eyesight-test (eyesightTestResultChange)="eyesightTestResultChanged($event)"
-                       *ngIf="pageState.showEyesight$ | async"
-                       [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
-                       [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
-                       [formGroup]="form">
+        <eyesight-test
+          (eyesightTestResultChange)="eyesightTestResultChanged($event)"
+          *ngIf="pageState.showEyesight$ | async"
+          [eyesightFailRadioChecked]="pageState.eyesightTestFailed$ | async"
+          [eyesightPassRadioChecked]="(pageState.eyesightTestComplete$ | async) && !(pageState.eyesightTestFailed$ | async)"
+          [formGroup]="form">
         </eyesight-test>
 
         <ion-row *ngIf="pageState.eyesightTestFailed$ | async">
-          <eyesight-failure-confirmation [cancelFn]="eyesightFailCancelled"
-                                         [nextPageOnFail]="getDebriefPage()">
+          <eyesight-failure-confirmation
+            [cancelFn]="eyesightFailCancelled"
+            [nextPageOnFail]="getDebriefPage()">
           </eyesight-failure-confirmation>
         </ion-row>
 
         <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="ion-no-padding"
                  id="post-eyesight-form-content">
           <ion-col class="ion-no-padding">
-            <tell-me-question-card (tellMeQuestionChange)="tellMeQuestionChanged($event)"
-                                   (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
-                                   [formGroup]="form"
-                                   [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
-                                   [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
-                                   [tellMeQuestion]="pageState.tellMeQuestion$ | async"
-                                   [tellMeQuestions]="tellMeQuestions">
+            <tell-me-question-card
+              (tellMeQuestionChange)="tellMeQuestionChanged($event)"
+              (tellMeQuestionOutcomeChange)="tellMeQuestionOutcomeChanged($event)"
+              [formGroup]="form"
+              [tellMeQuestionOutcome]="pageState.tellMeQuestionOutcome$ | async"
+              [tellMeQuestionSelected]="pageState.tellMeQuestionSelected$ | async"
+              [tellMeQuestion]="pageState.tellMeQuestion$ | async"
+              [tellMeQuestions]="tellMeQuestions">
             </tell-me-question-card>
 
-            <vehicle-registration (vehicleRegistrationBlur)="getMOTStatus()"
-                                  (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
-                                  [formGroup]="form"
-                                  [vehicleRegistration]="pageState.registrationNumber$ | async">
+            <vehicle-registration
+              (vehicleRegistrationBlur)="getMOTStatus()"
+              (vehicleRegistrationChange)="vehicleRegistrationChanged($event)"
+              [formGroup]="form"
+              [vehicleRegistration]="pageState.registrationNumber$ | async">
             </vehicle-registration>
 
-            <transmission (transmissionChange)="transmissionChanged($event)"
-                          [formGroup]="form"
-                          [transmission]="pageState.transmission$ | async">
+            <transmission
+              (transmissionChange)="transmissionChanged($event)"
+              [formGroup]="form"
+              [transmission]="pageState.transmission$ | async">
             </transmission>
 
-            <instructor-registration (instructorRegistrationChange)="instructorRegistrationChanged($event)"
-                                     [formGroup]="form"
-                                     [instructorRegistration]="pageState.instructorRegistrationNumber$ | async">
+            <instructor-registration
+              (instructorRegistrationChange)="instructorRegistrationChanged($event)"
+              [formGroup]="form"
+              [instructorRegistration]="pageState.instructorRegistrationNumber$ | async">
             </instructor-registration>
 
-            <accompaniment-card (instructorAccompanimentChange)="instructorAccompanimentToggled()"
-                                (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
-                                (otherAccompanimentChange)="otherAccompanimentToggled()"
-                                (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
-                                [formGroup]="form"
-                                [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
-                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                                [otherAccompaniment]="pageState.otherAccompaniment$ | async"
-                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async">
+            <accompaniment-card
+              (instructorAccompanimentChange)="instructorAccompanimentToggled()"
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggled()"
+              (otherAccompanimentChange)="otherAccompanimentToggled()"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggled()"
+              [formGroup]="form"
+              [instructorAccompaniment]="pageState.instructorAccompaniment$ | async"
+              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              [otherAccompaniment]="pageState.otherAccompaniment$ | async"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async">
             </accompaniment-card>
 
-            <vehicle-details-card (dualVehicleDetailsChange)="dualControlsToggled()"
-                                  (schoolVehicleDetailsChange)="schoolCarToggled()"
-                                  [dualVehicleDetails]="pageState.dualControls$ | async"
-                                  [formGroup]="form"
-                                  [schoolVehicleDetails]="pageState.schoolCar$ | async">
+            <vehicle-details-card
+              (dualVehicleDetailsChange)="dualControlsToggled()"
+              (schoolVehicleDetailsChange)="schoolCarToggled()"
+              [dualVehicleDetails]="pageState.dualControls$ | async"
+              [formGroup]="form"
+              [schoolVehicleDetails]="pageState.schoolCar$ | async">
             </vehicle-details-card>
           </ion-col>
         </ion-row>
@@ -83,6 +91,7 @@
     </form>
   </div>
 </ion-content>
+
 <ion-footer>
   <ion-row [hidden]="pageState.eyesightTestFailed$ | async" class="mes-full-width-card box-shadow">
     <ion-col class="ion-text-center" size="45">

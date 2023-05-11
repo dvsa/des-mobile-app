@@ -37,6 +37,7 @@ export type AppConfig = {
     allowedTestCategories: string[],
     enableTestReportPracticeMode: boolean,
     enableEndToEndPracticeMode: boolean,
+    enablePracticeModeAnalytics: boolean,
     enableLogoutButton: boolean,
     testPermissionPeriods: TestPermissionPeriod[],
   },

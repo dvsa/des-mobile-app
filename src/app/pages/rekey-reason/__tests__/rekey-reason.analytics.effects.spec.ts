@@ -13,6 +13,8 @@ import { StoreModel } from '@shared/models/store.model';
 import * as testsActions from '@store/tests/tests.actions';
 import * as candidateActions from '@store/tests/journal-data/common/candidate/candidate.actions';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import * as rekeyReasonActions from '../rekey-reason.actions';
 import { RekeyReasonAnalyticsEffects } from '../rekey-reason.analytics.effects';
 
@@ -32,7 +34,14 @@ describe('RekeyReasonAnalyticsEffects', () => {
       ],
       providers: [
         RekeyReasonAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -55,8 +64,10 @@ describe('RekeyReasonAnalyticsEffects', () => {
       actions$.next(rekeyReasonActions.RekeyReasonViewDidEnter());
       // ASSERT
       effects.rekeyReasonViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -71,8 +82,10 @@ describe('RekeyReasonAnalyticsEffects', () => {
       actions$.next(rekeyReasonActions.RekeyUploadTest());
       // ASSERT
       effects.rekeyReasonUploadTest$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalled();
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalled();
         done();
       });
     });

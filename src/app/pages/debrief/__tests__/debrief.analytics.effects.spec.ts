@@ -1,13 +1,10 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
-import {
-  AnalyticsScreenNames,
-  AnalyticsEventCategories,
-} from '@providers/analytics/analytics.model';
+import { AnalyticsEventCategories, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { StoreModel } from '@shared/models/store.model';
 import { testsReducer } from '@store/tests/tests.reducer';
 import * as testsActions from '@store/tests/tests.actions';
@@ -16,6 +13,8 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { ActivityCodes } from '@shared/models/activity-codes';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DebriefAnalyticsEffects } from '../debrief.analytics.effects';
 import * as debriefActions from '../debrief.actions';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
@@ -39,8 +38,15 @@ describe('DebriefAnalyticsEffects', () => {
       ],
       providers: [
         DebriefAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
         provideMockActions(() => actions$),
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         Store,
       ],
     });
@@ -60,8 +66,10 @@ describe('DebriefAnalyticsEffects', () => {
       actions$.next(debriefActions.DebriefViewDidEnter());
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNamePass);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenNamePass);
         done();
       });
     });
@@ -73,8 +81,10 @@ describe('DebriefAnalyticsEffects', () => {
       actions$.next(debriefActions.DebriefViewDidEnter());
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNameFail);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenNameFail);
         done();
       });
     });
@@ -86,8 +96,10 @@ describe('DebriefAnalyticsEffects', () => {
       actions$.next(debriefActions.DebriefViewDidEnter());
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNamePracticeModePass);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenNamePracticeModePass);
         done();
       });
     });
@@ -99,8 +111,10 @@ describe('DebriefAnalyticsEffects', () => {
       actions$.next(debriefActions.DebriefViewDidEnter());
       // ASSERT
       effects.debriefViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenNamePracticeModeFail);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenNamePracticeModeFail);
         done();
       });
     });

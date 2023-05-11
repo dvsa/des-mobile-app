@@ -1,13 +1,13 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsScreenNames,
-  AnalyticsEventCategories,
   AnalyticsErrorTypes,
+  AnalyticsEventCategories,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -17,6 +17,8 @@ import { PopulateCandidateDetails } from '@store/tests/journal-data/common/candi
 import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import * as healthDeclarationActions from '../health-declaration.actions';
 import { HealthDeclarationAnalyticsEffects } from '../health-declaration.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
@@ -39,7 +41,14 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       ],
       providers: [
         HealthDeclarationAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -60,7 +69,8 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       actions$.next(healthDeclarationActions.HealthDeclarationViewDidEnter());
       // ASSERT
       effects.healthDeclarationViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
@@ -74,7 +84,8 @@ describe('HealthDeclarationAnalyticsEffects', () => {
       actions$.next(healthDeclarationActions.HealthDeclarationViewDidEnter());
       // ASSERT
       effects.healthDeclarationViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenNamePracticeMode);
         done();

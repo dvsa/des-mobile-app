@@ -1,13 +1,10 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
-import * as catAMod1TestSummaryActions
-  from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
-import * as catAMod2TestSummaryActions
-  from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
-import * as testSummaryActions
-  from '@store/tests/test-summary/test-summary.actions';
+import * as catAMod1TestSummaryActions from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
+import * as catAMod2TestSummaryActions from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
+import * as testSummaryActions from '@store/tests/test-summary/test-summary.actions';
 import { Application } from '@dvsa/mes-journal-schema';
 import { testsReducer } from '@store/tests/tests.reducer';
 import * as testsActions from '@store/tests/tests.actions';
@@ -25,14 +22,16 @@ import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
 import {
   AnalyticsDimensionIndices,
-  AnalyticsScreenNames,
+  AnalyticsErrorTypes,
   AnalyticsEventCategories,
   AnalyticsEvents,
-  AnalyticsErrorTypes,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { MarkAsNonRekey } from '@store/tests/rekey/rekey.actions';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 import * as officeActions from '../office.actions';
 import { OfficeAnalyticsEffects } from '../office.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
@@ -63,7 +62,14 @@ describe('OfficeAnalyticsEffects', () => {
       ],
       providers: [
         OfficeAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -87,7 +93,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeViewDidEnter());
       // ASSERT
       effects.officeViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -107,7 +114,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeViewDidEnter());
       // ASSERT
       effects.officeViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -127,7 +135,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeViewDidEnter());
       // ASSERT
       effects.officeViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -147,7 +156,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeViewDidEnter());
       // ASSERT
       effects.officeViewDidEnter$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -174,17 +184,19 @@ describe('OfficeAnalyticsEffects', () => {
 
       // ASSERT
       effects.testStartDateChanged$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.APPLICATION_REFERENCE, '123456789');
 
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.OFFICE,
-          AnalyticsEvents.DATE_OF_TEST_CHANGED,
-          'previous date: 2020-12-25T08:10:00; new date: 2021-01-19T08:10:00',
-        );
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.OFFICE,
+            AnalyticsEvents.DATE_OF_TEST_CHANGED,
+            'previous date: 2020-12-25T08:10:00; new date: 2021-01-19T08:10:00',
+          );
         done();
       });
     });
@@ -201,7 +213,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.SavingWriteUpForLater());
       // ASSERT
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -225,7 +238,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.SavingWriteUpForLater());
       // ASSERT
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -249,7 +263,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.SavingWriteUpForLater());
       // ASSERT
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -273,7 +288,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.SavingWriteUpForLater());
       // ASSERT
       effects.savingWriteUpForLaterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -299,7 +315,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePass})`,
             'error message');
@@ -315,7 +332,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNameFail})`,
             'error message');
@@ -331,7 +349,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeModePass})`,
             'error message');
@@ -347,7 +366,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.OfficeValidationError('error message'));
       // ASSERT
       effects.validationErrorEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logError)
           .toHaveBeenCalledWith(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenNamePracticeModeFail})`,
             'error message');
@@ -367,12 +387,14 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(officeActions.CompleteTest());
       // ASSERT
       effects.completeTest$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.POST_TEST,
-          AnalyticsEvents.CONFIRM_UPLOAD,
-          'Upload confirmed - Pass',
-        );
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.POST_TEST,
+            AnalyticsEvents.CONFIRM_UPLOAD,
+            'Upload confirmed - Pass',
+          );
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -394,7 +416,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(catAMod1TestSummaryActions.CircuitTypeChanged(CircuitType.Left));
       // ASSERT
       effects.setCircuit$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.OFFICE,
@@ -419,7 +442,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(testSummaryActions.IndependentDrivingTypeChanged('Sat nav'));
       // ASSERT
       effects.setIndependentDrivingType$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.OFFICE,
@@ -443,7 +467,8 @@ describe('OfficeAnalyticsEffects', () => {
       actions$.next(catAMod2TestSummaryActions.ModeOfTransportChanged('Car to bike'));
       // ASSERT
       effects.setModeOfTransport$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.OFFICE,

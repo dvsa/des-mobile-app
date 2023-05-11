@@ -3,27 +3,23 @@ import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import * as testsActions from '@store/tests/tests.actions';
-import * as controlledStopActions
-  from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
-import * as dangerousFaultsActions
-  from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
+import * as controlledStopActions from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
+import * as dangerousFaultsActions from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import * as drivingFaultsActions from '@store/tests/test-data/common/driving-faults/driving-faults.actions';
 import * as seriousFaultsActions from '@store/tests/test-data/common/serious-faults/serious-faults.actions';
 import * as manoeuvresActions from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
-import * as manoeuvresADIPart2Actions from
-  '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
+import * as manoeuvresADIPart2Actions from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import * as vehicleChecksActions from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
-import * as testRequirementsActions
-  from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
+import * as testRequirementsActions from '@store/tests/test-data/common/test-requirements/test-requirements.actions';
 import * as ecoActions from '@store/tests/test-data/common/eco/eco.actions';
 import { StoreModel } from '@shared/models/store.model';
 import {
   Competencies,
+  ExaminerActions,
   LegalRequirements,
   ManoeuvreCompetencies,
   ManoeuvreTypes,
   SingleFaultCompetencyNames,
-  ExaminerActions,
 } from '@store/tests/test-data/test-data.constants';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
@@ -33,14 +29,11 @@ import {
   AnalyticsLabels,
   AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
-import { fullCompetencyLabels, competencyLabels } from '@shared/constants/competencies/competencies';
+import { competencyLabels, fullCompetencyLabels } from '@shared/constants/competencies/competencies';
 import { testsReducer } from '@store/tests/tests.reducer';
 import { candidateMock, testReportPracticeModeSlot } from '@store/tests/__mocks__/tests.mock';
-import {
-  manoeuvreCompetencyLabels,
-  manoeuvreTypeLabels,
-} from '@shared/constants/competencies/catb-manoeuvres';
-import { AnalyticRecorded, AnalyticNotRecorded } from '@providers/analytics/analytics.actions';
+import { manoeuvreCompetencyLabels, manoeuvreTypeLabels } from '@shared/constants/competencies/catb-manoeuvres';
+import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import {
   legalRequirementsLabels,
   legalRequirementToggleValues,
@@ -59,6 +52,9 @@ import * as pcvDoorExerciseActions from '@store/tests/test-data/cat-d/pcv-door-e
 import * as highwayCodeActions from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
 import * as etaActions from '@store/tests/test-data/common/eta/eta.actions';
 import { testReportReducer } from '@pages/test-report/test-report.reducer';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { AppConfig } from '@providers/app-config/app-config.model';
 import { ModalReason } from '../cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
 import * as testReportCatAMod1Actions from '../cat-a-mod1/test-report.cat-a-mod1.actions';
 import * as testReportActions from '../test-report.actions';
@@ -70,6 +66,7 @@ describe('TestReportAnalyticsEffects', () => {
   let actions$: ReplaySubject<any>;
   let analyticsProviderMock: AnalyticsProvider;
   let store$: Store<StoreModel>;
+  let appConfigProvider: AppConfigProvider;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -82,7 +79,14 @@ describe('TestReportAnalyticsEffects', () => {
       providers: [
         TestReportAnalyticsEffects,
         provideMockActions(() => actions$),
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         Store,
       ],
     });
@@ -91,7 +95,13 @@ describe('TestReportAnalyticsEffects', () => {
     effects = TestBed.inject(TestReportAnalyticsEffects);
     analyticsProviderMock = TestBed.inject(AnalyticsProvider);
     store$ = TestBed.inject(Store);
+    appConfigProvider = TestBed.inject(AppConfigProvider);
     spyOn(analyticsProviderMock, 'logEvent');
+    spyOn(appConfigProvider, 'getAppConfig')
+      .and
+      .returnValue({
+        journal: { enablePracticeModeAnalytics: true },
+      } as AppConfig);
   });
 
   describe('testReportViewDidEnter', () => {
@@ -102,9 +112,12 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.TestReportViewDidEnter());
       // ASSERT
       effects.testReportViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(AnalyticsScreenNames.TEST_REPORT);
         done();
       });
     });
@@ -119,13 +132,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
       // ASSERT
       effects.toggleRemoveFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.SELECT_REMOVE_MODE,
-          AnalyticsEvents.REMOVE_MODE_SELECTED,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.SELECT_REMOVE_MODE,
+            AnalyticsEvents.REMOVE_MODE_SELECTED,
+          );
         done();
       });
     });
@@ -136,13 +152,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
       // ASSERT
       effects.toggleRemoveFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.EXIT_REMOVE_MODE,
-          AnalyticsEvents.REMOVE_MODE_EXITED,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.EXIT_REMOVE_MODE,
+            AnalyticsEvents.REMOVE_MODE_EXITED,
+          );
         done();
       });
     });
@@ -154,13 +173,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleRemoveFaultMode(true));
       // ASSERT
       effects.toggleRemoveFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_REMOVE_MODE}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_MODE_SELECTED}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_REMOVE_MODE}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_MODE_SELECTED}`,
+          );
         done();
       });
     });
@@ -171,8 +193,11 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleRemoveFaultMode());
       // ASSERT
       effects.toggleRemoveFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticNotRecorded.type);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
+        expect(result.type)
+          .toEqual(AnalyticNotRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });
@@ -186,12 +211,15 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleSeriousFaultMode(true));
       // ASSERT
       effects.toggleSeriousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.SELECT_SERIOUS_MODE,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.SELECT_SERIOUS_MODE,
+          );
         done();
       });
     });
@@ -202,12 +230,15 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleSeriousFaultMode(true));
       // ASSERT
       effects.toggleSeriousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_SERIOUS_MODE}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_SERIOUS_MODE}`,
+          );
         done();
       });
     });
@@ -218,8 +249,11 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleSeriousFaultMode());
       // ASSERT
       effects.toggleSeriousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticNotRecorded.type);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
+        expect(result.type)
+          .toEqual(AnalyticNotRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });
@@ -233,12 +267,15 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleDangerousFaultMode(true));
       // ASSERT
       effects.toggleDangerousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.SELECT_DANGEROUS_MODE,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.SELECT_DANGEROUS_MODE,
+          );
         done();
       });
     });
@@ -249,12 +286,15 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleDangerousFaultMode(true));
       // ASSERT
       effects.toggleDangerousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_DANGEROUS_MODE}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.SELECT_DANGEROUS_MODE}`,
+          );
         done();
       });
     });
@@ -265,8 +305,11 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.ToggleDangerousFaultMode());
       // ASSERT
       effects.toggleDangerousFaultMode$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticNotRecorded.type);
-        expect(analyticsProviderMock.logEvent).not.toHaveBeenCalled();
+        expect(result.type)
+          .toEqual(AnalyticNotRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });
@@ -284,14 +327,17 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.addDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DRIVING_FAULT,
-          fullCompetencyLabels[Competencies.controlsGears],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DRIVING_FAULT,
+            fullCompetencyLabels[Competencies.controlsGears],
+            1,
+          );
         done();
       });
     });
@@ -305,14 +351,17 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.addDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-          fullCompetencyLabels[Competencies.controlsGears],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
+            fullCompetencyLabels[Competencies.controlsGears],
+            1,
+          );
         done();
       });
     });
@@ -326,14 +375,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(seriousFaultsActions.AddSeriousFault(Competencies.controlsGears));
       // ASSERT
       effects.addSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_SERIOUS_FAULT,
-          fullCompetencyLabels[Competencies.controlsGears],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_SERIOUS_FAULT,
+            fullCompetencyLabels[Competencies.controlsGears],
+            1,
+          );
         done();
       });
     });
@@ -344,14 +396,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(seriousFaultsActions.AddSeriousFault(Competencies.controlsGears));
       // ASSERT
       effects.addSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-          fullCompetencyLabels[Competencies.controlsGears],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
+            fullCompetencyLabels[Competencies.controlsGears],
+            1,
+          );
         done();
       });
     });
@@ -365,14 +420,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(dangerousFaultsActions.AddDangerousFault(Competencies.controlsGears));
       // ASSERT
       effects.addDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DANGEROUS_FAULT,
-          fullCompetencyLabels[Competencies.controlsGears],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DANGEROUS_FAULT,
+            fullCompetencyLabels[Competencies.controlsGears],
+            1,
+          );
         done();
       });
     });
@@ -383,14 +441,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(dangerousFaultsActions.AddDangerousFault(Competencies.controlsGears));
       // ASSERT
       effects.addDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-          fullCompetencyLabels[Competencies.controlsGears],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
+            fullCompetencyLabels[Competencies.controlsGears],
+            1,
+          );
         done();
       });
     });
@@ -407,15 +468,18 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.addManoeuvreDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DRIVING_FAULT,
-          // eslint-disable-next-line max-len
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DRIVING_FAULT,
+            // eslint-disable-next-line max-len
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -429,15 +493,18 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.addManoeuvreDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-          // eslint-disable-next-line max-len
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
+            // eslint-disable-next-line max-len
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -455,15 +522,18 @@ describe('TestReportAnalyticsEffects', () => {
       0));
       // ASSERT
       effects.addManoeuvreDrivingFaultCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DRIVING_FAULT,
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-          } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DRIVING_FAULT,
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
+            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -480,15 +550,18 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.addManoeuvreSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_SERIOUS_FAULT,
-          // eslint-disable-next-line max-len
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_SERIOUS_FAULT,
+            // eslint-disable-next-line max-len
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -502,15 +575,18 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.addManoeuvreSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-          // eslint-disable-next-line max-len
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
+            // eslint-disable-next-line max-len
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -528,15 +604,18 @@ describe('TestReportAnalyticsEffects', () => {
       0));
       // ASSERT
       effects.addManoeuvreSeriousFaultCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_SERIOUS_FAULT,
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-          } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_SERIOUS_FAULT,
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
+            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -553,16 +632,19 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.addManoeuvreDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DANGEROUS_FAULT,
-          // eslint-disable-next-line max-len
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-          } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DANGEROUS_FAULT,
+            // eslint-disable-next-line max-len
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
+            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -576,15 +658,18 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.addManoeuvreDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-          // eslint-disable-next-line max-len
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
+            // eslint-disable-next-line max-len
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -602,15 +687,18 @@ describe('TestReportAnalyticsEffects', () => {
       0));
       // ASSERT
       effects.addManoeuvreDangerousFaultCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DANGEROUS_FAULT,
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-          } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DANGEROUS_FAULT,
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
+            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+            1,
+          );
         done();
       });
     });
@@ -624,14 +712,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ControlledStopAddDrivingFault());
       // ASSERT
       effects.controlledStopAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DRIVING_FAULT,
-          fullCompetencyLabels['outcomeControlledStop'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DRIVING_FAULT,
+            fullCompetencyLabels['outcomeControlledStop'],
+            1,
+          );
         done();
       });
     });
@@ -642,14 +733,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ControlledStopAddDrivingFault());
       // ASSERT
       effects.controlledStopAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-          fullCompetencyLabels['outcomeControlledStop'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
+            fullCompetencyLabels['outcomeControlledStop'],
+            1,
+          );
         done();
       });
     });
@@ -663,14 +757,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ControlledStopAddSeriousFault());
       // ASSERT
       effects.controlledStopAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_SERIOUS_FAULT,
-          fullCompetencyLabels['outcomeControlledStop'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_SERIOUS_FAULT,
+            fullCompetencyLabels['outcomeControlledStop'],
+            1,
+          );
         done();
       });
     });
@@ -681,14 +778,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ControlledStopAddSeriousFault());
       // ASSERT
       effects.controlledStopAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-          fullCompetencyLabels['outcomeControlledStop'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
+            fullCompetencyLabels['outcomeControlledStop'],
+            1,
+          );
         done();
       });
     });
@@ -702,14 +802,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ControlledStopAddDangerousFault());
       // ASSERT
       effects.controlledStopAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DANGEROUS_FAULT,
-          fullCompetencyLabels['outcomeControlledStop'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DANGEROUS_FAULT,
+            fullCompetencyLabels['outcomeControlledStop'],
+            1,
+          );
         done();
       });
     });
@@ -720,14 +823,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ControlledStopAddDangerousFault());
       // ASSERT
       effects.controlledStopAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-          fullCompetencyLabels['outcomeControlledStop'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
+            fullCompetencyLabels['outcomeControlledStop'],
+            1,
+          );
         done();
       });
     });
@@ -741,14 +847,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(vehicleChecksActions.ShowMeQuestionDrivingFault());
       // ASSERT
       effects.showMeQuestionDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DRIVING_FAULT,
-          fullCompetencyLabels['showMeQuestion'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DRIVING_FAULT,
+            fullCompetencyLabels['showMeQuestion'],
+            1,
+          );
         done();
       });
     });
@@ -759,14 +868,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(vehicleChecksActions.ShowMeQuestionDrivingFault());
       // ASSERT
       effects.showMeQuestionDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-          fullCompetencyLabels['showMeQuestion'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
+            fullCompetencyLabels['showMeQuestion'],
+            1,
+          );
         done();
       });
     });
@@ -780,14 +892,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(vehicleChecksActions.ShowMeQuestionSeriousFault());
       // ASSERT
       effects.showMeQuestionSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_SERIOUS_FAULT,
-          fullCompetencyLabels['showMeQuestion'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_SERIOUS_FAULT,
+            fullCompetencyLabels['showMeQuestion'],
+            1,
+          );
         done();
       });
     });
@@ -798,14 +913,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(vehicleChecksActions.ShowMeQuestionSeriousFault());
       // ASSERT
       effects.showMeQuestionSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-          fullCompetencyLabels['showMeQuestion'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
+            fullCompetencyLabels['showMeQuestion'],
+            1,
+          );
         done();
       });
     });
@@ -819,14 +937,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(vehicleChecksActions.ShowMeQuestionDangerousFault());
       // ASSERT
       effects.showMeQuestionDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DANGEROUS_FAULT,
-          fullCompetencyLabels['showMeQuestion'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DANGEROUS_FAULT,
+            fullCompetencyLabels['showMeQuestion'],
+            1,
+          );
         done();
       });
     });
@@ -837,14 +958,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(vehicleChecksActions.ShowMeQuestionDangerousFault());
       // ASSERT
       effects.showMeQuestionDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-          fullCompetencyLabels['showMeQuestion'],
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
+            fullCompetencyLabels['showMeQuestion'],
+            1,
+          );
         done();
       });
     });
@@ -861,14 +985,17 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.removeDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_DRIVING_FAULT,
-          fullCompetencyLabels[Competencies.controlsGears],
-          0,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_DRIVING_FAULT,
+            fullCompetencyLabels[Competencies.controlsGears],
+            0,
+          );
         done();
       });
     });
@@ -882,14 +1009,17 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.removeDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
-          fullCompetencyLabels[Competencies.controlsGears],
-          0,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
+            fullCompetencyLabels[Competencies.controlsGears],
+            0,
+          );
         done();
       });
     });
@@ -903,14 +1033,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(seriousFaultsActions.RemoveSeriousFault(Competencies.controlsGears));
       // ASSERT
       effects.removeSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_SERIOUS_FAULT,
-          fullCompetencyLabels[Competencies.controlsGears],
-          0,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_SERIOUS_FAULT,
+            fullCompetencyLabels[Competencies.controlsGears],
+            0,
+          );
         done();
       });
     });
@@ -921,14 +1054,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(seriousFaultsActions.RemoveSeriousFault(Competencies.controlsGears));
       // ASSERT
       effects.removeSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_SERIOUS_FAULT}`,
-          fullCompetencyLabels[Competencies.controlsGears],
-          0,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_SERIOUS_FAULT}`,
+            fullCompetencyLabels[Competencies.controlsGears],
+            0,
+          );
         done();
       });
     });
@@ -942,14 +1078,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(dangerousFaultsActions.RemoveDangerousFault(Competencies.controlsGears));
       // ASSERT
       effects.removeDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_DANGEROUS_FAULT,
-          fullCompetencyLabels[Competencies.controlsGears],
-          0,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_DANGEROUS_FAULT,
+            fullCompetencyLabels[Competencies.controlsGears],
+            0,
+          );
         done();
       });
     });
@@ -960,14 +1099,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(dangerousFaultsActions.RemoveDangerousFault(Competencies.controlsGears));
       // ASSERT
       effects.removeDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DANGEROUS_FAULT}`,
-          fullCompetencyLabels[Competencies.controlsGears],
-          0,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DANGEROUS_FAULT}`,
+            fullCompetencyLabels[Competencies.controlsGears],
+            0,
+          );
         done();
       });
     });
@@ -984,14 +1126,17 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.removeManoeuvreFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_DRIVING_FAULT,
-          // eslint-disable-next-line max-len
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_DRIVING_FAULT,
+            // eslint-disable-next-line max-len
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+          );
         done();
       });
     });
@@ -1005,14 +1150,17 @@ describe('TestReportAnalyticsEffects', () => {
       }));
       // ASSERT
       effects.removeManoeuvreFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
-          // eslint-disable-next-line max-len
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
+            // eslint-disable-next-line max-len
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]} - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+          );
         done();
       });
     });
@@ -1030,14 +1178,17 @@ describe('TestReportAnalyticsEffects', () => {
       0));
       // ASSERT
       effects.removeManoeuvreFaultCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_DRIVING_FAULT,
-          `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
-          } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_DRIVING_FAULT,
+            `${manoeuvreTypeLabels[ManoeuvreTypes.reverseRight]
+            } - ${manoeuvreCompetencyLabels[ManoeuvreCompetencies.controlFault]}`,
+          );
         done();
       });
     });
@@ -1051,13 +1202,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ControlledStopRemoveFault());
       // ASSERT
       effects.controlledStopRemoveFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_FAULT,
-          fullCompetencyLabels['outcomeControlledStop'],
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_FAULT,
+            fullCompetencyLabels['outcomeControlledStop'],
+          );
         done();
       });
     });
@@ -1068,13 +1222,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ControlledStopRemoveFault());
       // ASSERT
       effects.controlledStopRemoveFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_FAULT}`,
-          fullCompetencyLabels['outcomeControlledStop'],
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_FAULT}`,
+            fullCompetencyLabels['outcomeControlledStop'],
+          );
         done();
       });
     });
@@ -1088,13 +1245,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(vehicleChecksActions.ShowMeQuestionRemoveFault());
       // ASSERT
       effects.showMeQuestionRemoveFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_FAULT,
-          fullCompetencyLabels['showMeQuestion'],
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_FAULT,
+            fullCompetencyLabels['showMeQuestion'],
+          );
         done();
       });
     });
@@ -1105,13 +1265,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(vehicleChecksActions.ShowMeQuestionRemoveFault());
       // ASSERT
       effects.showMeQuestionRemoveFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_FAULT}`,
-          fullCompetencyLabels['showMeQuestion'],
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_FAULT}`,
+            fullCompetencyLabels['showMeQuestion'],
+          );
         done();
       });
     });
@@ -1125,13 +1288,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.TerminateTestFromTestReport());
       // ASSERT
       effects.testTermination$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_END,
-          AnalyticsEvents.END_TEST,
-          AnalyticsLabels.TERMINATE_TEST,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_END,
+            AnalyticsEvents.END_TEST,
+            AnalyticsLabels.TERMINATE_TEST,
+          );
         done();
       });
     });
@@ -1142,13 +1308,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.TerminateTestFromTestReport());
       // ASSERT
       effects.testTermination$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_END}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.END_TEST}`,
-          AnalyticsLabels.TERMINATE_TEST,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_END}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.END_TEST}`,
+            AnalyticsLabels.TERMINATE_TEST,
+          );
         done();
       });
     });
@@ -1163,13 +1332,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
       // ASSERT
       effects.toggleLegalRequirement$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -1180,13 +1352,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
       // ASSERT
       effects.toggleLegalRequirement$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.uncompleted}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.uncompleted}`,
+          );
         done();
       });
     });
@@ -1198,13 +1373,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(ecoActions.ToggleEco());
       // ASSERT
       effects.toggleEco$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -1215,13 +1393,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(ecoActions.ToggleEco());
       // ASSERT
       effects.toggleEco$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.uncompleted}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.uncompleted}`,
+          );
         done();
       });
     });
@@ -1233,13 +1414,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(manoeuvresActions.RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad));
       // ASSERT
       effects.manoeuvreCompletedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -1251,13 +1435,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(manoeuvresADIPart2Actions.RecordManoeuvresSelection(ManoeuvreTypes.reverseParkRoad, 0));
       // ASSERT
       effects.manoeuvreCompletedEffectCatADIPart2$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -1270,13 +1457,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(manoeuvresActions.RecordManoeuvresDeselection(ManoeuvreTypes.reverseParkRoad));
       // ASSERT
       effects.deselectReverseLeftManoeuvreEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.uncompleted}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels['manoeuvre']} - ${legalRequirementToggleValues.uncompleted}`,
+          );
         done();
       });
     });
@@ -1289,13 +1479,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testRequirementsActions.ToggleLegalRequirement(LegalRequirements.normalStart1));
       // ASSERT
       effects.toggleLegalRequirement$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT}`,
-          `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT}`,
+            `${legalRequirementsLabels[LegalRequirements.normalStart1]} - ${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -1307,13 +1500,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(ecoActions.ToggleEco());
       // ASSERT
       effects.toggleEco$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT}`,
-          `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT}`,
+            `${legalRequirementsLabels['eco']} - ${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -1327,13 +1523,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(showMeQuestionPassedAction);
       // ASSERT
       effects.showMeQuestionCompletedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels['vehicleChecks']} - ${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels['vehicleChecks']} - ${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -1348,13 +1547,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(showMeQuestionRemoveFaultAction);
       // ASSERT
       effects.showMeQuestionUncompletedEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels['vehicleChecks']} - ${legalRequirementToggleValues.uncompleted}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels['vehicleChecks']} - ${legalRequirementToggleValues.uncompleted}`,
+          );
         done();
       });
     });
@@ -1368,14 +1570,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault());
       // ASSERT
       effects.uncoupleRecoupleAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DRIVING_FAULT,
-          'Uncouple recouple',
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DRIVING_FAULT,
+            'Uncouple recouple',
+            1,
+          );
         done();
       });
     });
@@ -1386,14 +1591,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddDrivingFault());
       // ASSERT
       effects.uncoupleRecoupleAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
-          'Uncouple recouple',
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DRIVING_FAULT}`,
+            'Uncouple recouple',
+            1,
+          );
         done();
       });
     });
@@ -1407,14 +1615,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault());
       // ASSERT
       effects.uncoupleRecoupleAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_SERIOUS_FAULT,
-          'Uncouple recouple',
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_SERIOUS_FAULT,
+            'Uncouple recouple',
+            1,
+          );
         done();
       });
     });
@@ -1425,14 +1636,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddSeriousFault());
       // ASSERT
       effects.uncoupleRecoupleAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
-          'Uncouple recouple',
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_SERIOUS_FAULT}`,
+            'Uncouple recouple',
+            1,
+          );
         done();
       });
     });
@@ -1446,14 +1660,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault());
       // ASSERT
       effects.uncoupleRecoupleAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DANGEROUS_FAULT,
-          'Uncouple recouple',
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DANGEROUS_FAULT,
+            'Uncouple recouple',
+            1,
+          );
         done();
       });
     });
@@ -1464,14 +1681,17 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(uncoupleRecoupleActions.UncoupleRecoupleAddDangerousFault());
       // ASSERT
       effects.uncoupleRecoupleAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
-          'Uncouple recouple',
-          1,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.ADD_DANGEROUS_FAULT}`,
+            'Uncouple recouple',
+            1,
+          );
         done();
       });
     });
@@ -1485,12 +1705,15 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(reverseLeftActions.ReverseLeftPopoverOpened());
       // ASSERT
       effects.reverseLeftPopoverOpened$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_OPENED}`,
+          );
         done();
       });
     });
@@ -1504,12 +1727,15 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(reverseLeftActions.ReverseLeftPopoverClosed());
       // ASSERT
       effects.reverseLeftPopoverClosed$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REVERSE_LEFT_POPOVER_CLOSED}`,
+          );
         done();
       });
     });
@@ -1525,13 +1751,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(avoidanceActions.AddAvoidanceSeriousFault());
       // ASSERT
       effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
-          `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedNotMet}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
+            `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedNotMet}`,
+          );
         done();
       });
     });
@@ -1547,13 +1776,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.toggleAvoidanceSpeedReq$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
-          `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedMet}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_AVOIDANCE_SPEED_REQUIREMENT,
+            `${competencyLabels['speedCheckAvoidance']} - ${speedCheckToggleValues.speedMet}`,
+          );
         done();
       });
     });
@@ -1573,13 +1805,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.recordAvoidanceFirstAttempt$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT,
-          `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.RECORD_AVOIDANCE_FIRST_ATTEMPT,
+            `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
+          );
         done();
       });
     });
@@ -1599,13 +1834,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.recordAvoidanceSecondAttempt$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT,
-          `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.RECORD_AVOIDANCE_SECOND_ATTEMPT,
+            `${competencyLabels['speedCheckAvoidance']} - ${attemptValue}`,
+          );
         done();
       });
     });
@@ -1623,13 +1861,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.speedRequirementNotMetModalOpened$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED,
-          ModalReason.SPEED_REQUIREMENTS,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.SPEED_REQ_NOT_MET_MODAL_OPENED,
+            ModalReason.SPEED_REQUIREMENTS,
+          );
         done();
       });
     });
@@ -1647,13 +1888,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.emergencyStopDangerousFaultModelOpened$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED,
-          ModalReason.EMERGENCY_STOP_DANGEROUS,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.EMERGENCY_STOP_DANGEROUS_FAULT_MODAL_OPENED,
+            ModalReason.EMERGENCY_STOP_DANGEROUS,
+          );
         done();
       });
     });
@@ -1671,13 +1915,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.emergencyStopSeriousFaultModelOpened$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED,
-          ModalReason.EMERGENCY_STOP_SERIOUS,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.EMERGENCY_STOP_SERIOUS_FAULT_MODAL_OPENED,
+            ModalReason.EMERGENCY_STOP_SERIOUS,
+          );
         done();
       });
     });
@@ -1694,13 +1941,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.toggleEmergencyStopSpeedReq$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ,
-          `${competencyLabels['speedCheckEmergency']} - ${speedCheckToggleValues.speedNotMet}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ,
+            `${competencyLabels['speedCheckEmergency']} - ${speedCheckToggleValues.speedNotMet}`,
+          );
         done();
       });
     });
@@ -1716,13 +1966,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.toggleEmergencyStopSpeedReq$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ,
-          `${competencyLabels['speedCheckEmergency']} - ${speedCheckToggleValues.speedMet}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_EMERGENCY_STOP_SPEED_REQ,
+            `${competencyLabels['speedCheckEmergency']} - ${speedCheckToggleValues.speedMet}`,
+          );
         done();
       });
     });
@@ -1742,13 +1995,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.recordEmergencyStopFirstAttempt$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.RECORD_EMERGENCY_STOP_FIRST_ATTEMPT,
-          `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.RECORD_EMERGENCY_STOP_FIRST_ATTEMPT,
+            `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
+          );
         done();
       });
     });
@@ -1768,13 +2024,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.recordEmergencyStopSecondAttempt$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.RECORD_EMERGENCY_STOP_SECOND_ATTEMPT,
-          `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.RECORD_EMERGENCY_STOP_SECOND_ATTEMPT,
+            `${competencyLabels['speedCheckEmergency']} - ${attemptValue}`,
+          );
         done();
       });
     });
@@ -1794,13 +2053,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_SINGLE_FAULT,
-          fullCompetencyLabels.slalom,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_SINGLE_FAULT,
+            fullCompetencyLabels.slalom,
+          );
         done();
       });
     });
@@ -1818,13 +2080,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_DANGEROUS_SINGLE_FAULT,
-          fullCompetencyLabels.slalom,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_DANGEROUS_SINGLE_FAULT,
+            fullCompetencyLabels.slalom,
+          );
         done();
       });
     });
@@ -1842,13 +2107,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.setSingleFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.ADD_SERIOUS_SINGLE_FAULT,
-          fullCompetencyLabels.slalom,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.ADD_SERIOUS_SINGLE_FAULT,
+            fullCompetencyLabels.slalom,
+          );
         done();
       });
     });
@@ -1868,13 +2136,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.removeSingleFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_SINGLE_FAULT,
-          fullCompetencyLabels.slalom,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_SINGLE_FAULT,
+            fullCompetencyLabels.slalom,
+          );
         done();
       });
     });
@@ -1894,13 +2165,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.removeSingleDangerousFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT,
-          fullCompetencyLabels.slalom,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_DANGEROUS_SINGLE_FAULT,
+            fullCompetencyLabels.slalom,
+          );
         done();
       });
     });
@@ -1920,13 +2194,16 @@ describe('TestReportAnalyticsEffects', () => {
 
       // ASSERT
       effects.removeSingleSeriousFaultCompetencyOutcome$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT,
-          fullCompetencyLabels.slalom,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.REMOVE_SERIOUS_SINGLE_FAULT,
+            fullCompetencyLabels.slalom,
+          );
         done();
       });
     });
@@ -1940,14 +2217,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault());
       // ASSERT
       effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT,
-          fullCompetencyLabels.pcvDoorExercise,
-
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -1958,13 +2237,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDrivingFault());
       // ASSERT
       effects.pcvDoorExerciseAddDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT}`,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DRIVING_FAULT}`,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -1978,14 +2260,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault());
       // ASSERT
       effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT,
-          fullCompetencyLabels.pcvDoorExercise,
-
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -1996,13 +2280,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddSeriousFault());
       // ASSERT
       effects.pcvDoorExerciseAddSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT}`,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_SERIOUS_FAULT}`,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2016,13 +2303,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault());
       // ASSERT
       effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2033,13 +2323,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseAddDangerousFault());
       // ASSERT
       effects.pcvDoorExerciseAddDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT}`,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_ADD_DANGEROUS_FAULT}`,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2053,13 +2346,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault());
       // ASSERT
       effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2070,13 +2366,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDrivingFault());
       // ASSERT
       effects.pcvDoorExerciseRemoveDrivingFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT}`,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DRIVING_FAULT}`,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2090,13 +2389,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault());
       // ASSERT
       effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2107,13 +2409,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveSeriousFault());
       // ASSERT
       effects.pcvDoorExerciseRemoveSeriousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT}`,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_SERIOUS_FAULT}`,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2127,13 +2432,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault());
       // ASSERT
       effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2144,13 +2452,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(pcvDoorExerciseActions.PcvDoorExerciseRemoveDangerousFault());
       // ASSERT
       effects.pcvDoorExerciseRemoveDangerousFault$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-          `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT}`,
-          fullCompetencyLabels.pcvDoorExercise,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.PCV_DOOR_EXERCISE_REMOVE_DANGEROUS_FAULT}`,
+            fullCompetencyLabels.pcvDoorExercise,
+          );
         done();
       });
     });
@@ -2166,13 +2477,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(highwayCodeActions.ToggleHighwayCodeSafety());
       // ASSERT
       effects.toggleHighwayCodeSafety$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels.highwayCodeSafety} - ${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels.highwayCodeSafety} - ${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -2184,13 +2498,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(highwayCodeActions.ToggleHighwayCodeSafety());
       // ASSERT
       effects.toggleHighwayCodeSafety$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
-          `${legalRequirementsLabels.highwayCodeSafety} - ${legalRequirementToggleValues.uncompleted}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_LEGAL_REQUIREMENT,
+            `${legalRequirementsLabels.highwayCodeSafety} - ${legalRequirementToggleValues.uncompleted}`,
+          );
         done();
       });
     });
@@ -2204,13 +2521,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(ecoActions.ToggleControlEco());
       // ASSERT
       effects.toggleEcoControl$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_ECO_CONTROL,
-          'selected',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_ECO_CONTROL,
+            'selected',
+          );
         done();
       });
     });
@@ -2221,13 +2541,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(ecoActions.ToggleControlEco());
       // ASSERT
       effects.toggleEcoControl$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_ECO_CONTROL,
-          'unselected',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_ECO_CONTROL,
+            'unselected',
+          );
         done();
       });
     });
@@ -2241,13 +2564,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(ecoActions.TogglePlanningEco());
       // ASSERT
       effects.toggleEcoPlanning$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_ECO_PLANNING,
-          'selected',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_ECO_PLANNING,
+            'selected',
+          );
         done();
       });
     });
@@ -2258,13 +2584,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(ecoActions.TogglePlanningEco());
       // ASSERT
       effects.toggleEcoPlanning$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_ECO_PLANNING,
-          'unselected',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_ECO_PLANNING,
+            'unselected',
+          );
         done();
       });
     });
@@ -2278,13 +2607,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(etaActions.ToggleETA(ExaminerActions.physical));
       // ASSERT
       effects.toggleETA$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_ETA_PHYSICAL,
-          'selected',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_ETA_PHYSICAL,
+            'selected',
+          );
         done();
       });
     });
@@ -2295,13 +2627,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(etaActions.ToggleETA(ExaminerActions.physical));
       // ASSERT
       effects.toggleETA$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_ETA_PHYSICAL,
-          'unselected',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_ETA_PHYSICAL,
+            'unselected',
+          );
         done();
       });
     });
@@ -2313,13 +2648,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(etaActions.ToggleETA(ExaminerActions.verbal));
       // ASSERT
       effects.toggleETA$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_ETA_VERBAL,
-          'selected',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_ETA_VERBAL,
+            'selected',
+          );
         done();
       });
     });
@@ -2330,13 +2668,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(etaActions.ToggleETA(ExaminerActions.verbal));
       // ASSERT
       effects.toggleETA$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_ETA_VERBAL,
-          'unselected',
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_ETA_VERBAL,
+            'unselected',
+          );
         done();
       });
     });
@@ -2349,12 +2690,15 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(testReportActions.StartTimer());
       // ASSERT
       effects.startTimer$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.START_TIMER,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.START_TIMER,
+          );
         done();
       });
     });
@@ -2368,13 +2712,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ToggleControlledStop());
       // ASSERT
       effects.toggleControlledStop$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_CONTROLLED_STOP,
-          `${legalRequirementToggleValues.completed}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_CONTROLLED_STOP,
+            `${legalRequirementToggleValues.completed}`,
+          );
         done();
       });
     });
@@ -2385,13 +2732,16 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(controlledStopActions.ToggleControlledStop());
       // ASSERT
       effects.toggleControlledStop$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledTimes(1);
-        expect(analyticsProviderMock.logEvent).toHaveBeenCalledWith(
-          AnalyticsEventCategories.TEST_REPORT,
-          AnalyticsEvents.TOGGLE_CONTROLLED_STOP,
-          `${legalRequirementToggleValues.uncompleted}`,
-        );
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledTimes(1);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.TEST_REPORT,
+            AnalyticsEvents.TOGGLE_CONTROLLED_STOP,
+            `${legalRequirementToggleValues.uncompleted}`,
+          );
         done();
       });
     });

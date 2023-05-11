@@ -1,30 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { withLatestFrom, switchMap, concatMap } from 'rxjs/operators';
+import {
+  concatMap, filter, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsScreenNames, AnalyticsDimensionIndices, AnalyticsEventCategories, AnalyticsEvents, AnalyticsErrorTypes,
+  AnalyticsDimensionIndices,
+  AnalyticsErrorTypes,
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import {
-  OfficeValidationError,
-  SavingWriteUpForLater,
-  OfficeViewDidEnter,
   CompleteTest,
+  OfficeValidationError,
+  OfficeViewDidEnter,
+  SavingWriteUpForLater,
   TestStartDateChanged,
 } from '@pages/office/office.actions';
-import {
-  CircuitTypeChanged,
-} from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
-import {
-  ModeOfTransportChanged,
-} from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
-import {
-  IndependentDrivingTypeChanged,
-} from '@store/tests/test-summary/test-summary.actions';
-import { Store, select } from '@ngrx/store';
+import { CircuitTypeChanged } from '@store/tests/test-summary/cat-a-mod1/test-summary.cat-a-mod1.actions';
+import { ModeOfTransportChanged } from '@store/tests/test-summary/cat-a-mod2/test-summary.cat-a-mod2.actions';
+import { IndependentDrivingTypeChanged } from '@store/tests/test-summary/test-summary.actions';
+import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, isPassed, getJournalData } from '@store/tests/tests.selector';
+import {
+  getCurrentTest, getJournalData, isPassed, isPracticeMode,
+} from '@store/tests/tests.selector';
 import { of } from 'rxjs';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { TestsModel } from '@store/tests/tests.model';
@@ -51,6 +53,7 @@ import {
   getFuelEfficientDriving,
 } from '@store/tests/test-data/common/test-data.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 @Injectable()
 export class OfficeAnalyticsEffects {
@@ -58,40 +61,49 @@ export class OfficeAnalyticsEffects {
     private analytics: AnalyticsProvider,
     private actions$: Actions,
     private store$: Store<StoreModel>,
+    private appConfigProvider: AppConfigProvider,
   ) {
   }
 
   officeViewDidEnter$ = createEffect(() => this.actions$.pipe(
     ofType(OfficeViewDidEnter),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(isPassed),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getJournalData),
+            select(getCandidate),
+            select(getCandidateId),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getJournalData),
+            select(getApplicationReference),
+            select(getApplicationNumber),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(isPassed),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getJournalData),
-          select(getCandidate),
-          select(getCandidateId),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getJournalData),
-          select(getApplicationReference),
-          select(getApplicationNumber),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [, tests, isTestPassed, candidateId, applicationReference]:
-      [ReturnType<typeof OfficeViewDidEnter>, TestsModel, boolean, number, string],
+      [ReturnType<typeof OfficeViewDidEnter>, TestsModel, boolean, number, string, boolean],
     ) => {
       const screenName = isTestPassed
         ? formatAnalyticsText(AnalyticsScreenNames.PASS_TEST_SUMMARY, tests)
@@ -105,30 +117,38 @@ export class OfficeAnalyticsEffects {
 
   testStartDateChanged$ = createEffect(() => this.actions$.pipe(
     ofType(TestStartDateChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getJournalData),
+            select(getCandidate),
+            select(getCandidateId),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getJournalData),
+            select(getApplicationReference),
+            select(getApplicationNumber),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getJournalData),
-          select(getCandidate),
-          select(getCandidateId),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getJournalData),
-          select(getApplicationReference),
-          select(getApplicationNumber),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [action, tests, candidateId, applicationReference]:
-      [ReturnType<typeof TestStartDateChanged>, TestsModel, number, string],
+      [ReturnType<typeof TestStartDateChanged>, TestsModel, number, string, boolean],
     ) => {
 
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
@@ -146,34 +166,44 @@ export class OfficeAnalyticsEffects {
 
   savingWriteUpForLaterEffect$ = createEffect(() => this.actions$.pipe(
     ofType(SavingWriteUpForLater),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(isPassed),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getJournalData),
+            select(getCandidate),
+            select(getCandidateId),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getJournalData),
+            select(getApplicationReference),
+            select(getApplicationNumber),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(isPassed),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getJournalData),
-          select(getCandidate),
-          select(getCandidateId),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getJournalData),
-          select(getApplicationReference),
-          select(getApplicationNumber),
-        ),
-      ),
-    )),
-    switchMap(([, tests, isTestPassed, candidateId, applicationReference]:
-    [ReturnType<typeof SavingWriteUpForLater>, TestsModel, boolean, number, string]) => {
+      )),
+    filter(([, , , , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [, tests, isTestPassed, candidateId, applicationReference]:
+      [ReturnType<typeof SavingWriteUpForLater>, TestsModel, boolean, number, string, boolean],
+    ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
@@ -188,19 +218,29 @@ export class OfficeAnalyticsEffects {
 
   validationErrorEffect$ = createEffect(() => this.actions$.pipe(
     ofType(OfficeValidationError),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(isPassed),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(isPassed),
-        ),
-      ),
-    )),
-    switchMap(([action, tests, isTestPassed]: [ReturnType<typeof OfficeValidationError>, TestsModel, boolean]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    switchMap((
+      [action, tests, isTestPassed]: [ReturnType<typeof OfficeValidationError>, TestsModel, boolean, boolean],
+    ) => {
       const screenName = isTestPassed ? AnalyticsScreenNames.PASS_TEST_SUMMARY : AnalyticsScreenNames.FAIL_TEST_SUMMARY;
       const formattedScreenName = formatAnalyticsText(screenName, tests);
       this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${formattedScreenName})`, action.errorMessage);
@@ -210,35 +250,43 @@ export class OfficeAnalyticsEffects {
 
   completeTest$ = createEffect(() => this.actions$.pipe(
     ofType(CompleteTest),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getJournalData),
-          select(getCandidate),
-          select(getCandidateId),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getJournalData),
+            select(getCandidate),
+            select(getCandidateId),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getJournalData),
+            select(getApplicationReference),
+            select(getApplicationNumber),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(isPassed),
+          ),
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getJournalData),
-          select(getApplicationReference),
-          select(getApplicationNumber),
-        ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(isPassed),
-        ),
-        this.store$.pipe(
-          select(getTests),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [, candidateId, applicationReference, isTestPassed, tests]:
-      [ReturnType<typeof CompleteTest>, number, string, boolean, TestsModel],
+      [ReturnType<typeof CompleteTest>, number, string, boolean, TestsModel, boolean],
     ) => {
       const outcome = isTestPassed ? 'Pass' : 'Fail';
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
@@ -256,19 +304,29 @@ export class OfficeAnalyticsEffects {
 
   setCircuit$ = createEffect(() => this.actions$.pipe(
     ofType(CircuitTypeChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestCategory),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestCategory),
-        ),
-      ),
-    )),
-    concatMap(([action, tests, category]: [ReturnType<typeof CircuitTypeChanged>, TestsModel, CategoryCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests, category]: [ReturnType<typeof CircuitTypeChanged>, TestsModel, CategoryCode, boolean],
+    ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
@@ -281,20 +339,29 @@ export class OfficeAnalyticsEffects {
 
   setIndependentDrivingType$ = createEffect(() => this.actions$.pipe(
     ofType(IndependentDrivingTypeChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestCategory),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestCategory),
-        ),
-      ),
-    )),
-    concatMap(([action, tests, category]:
-    [ReturnType<typeof IndependentDrivingTypeChanged>, TestsModel, CategoryCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests, category]: [ReturnType<typeof IndependentDrivingTypeChanged>, TestsModel, CategoryCode, boolean],
+    ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
@@ -307,19 +374,29 @@ export class OfficeAnalyticsEffects {
 
   setModeOfTransport$ = createEffect(() => this.actions$.pipe(
     ofType(ModeOfTransportChanged),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestCategory),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestCategory),
-        ),
-      ),
-    )),
-    concatMap(([action, tests, category]: [ReturnType<typeof ModeOfTransportChanged>, TestsModel, CategoryCode]) => {
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap((
+      [action, tests, category]: [ReturnType<typeof ModeOfTransportChanged>, TestsModel, CategoryCode, boolean],
+    ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
@@ -332,22 +409,30 @@ export class OfficeAnalyticsEffects {
 
   setFuelEfficientDriving$ = createEffect(() => this.actions$.pipe(
     ofType(ToggleFuelEfficientDriving),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getEco),
+            select(getFuelEfficientDriving),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getEco),
-          select(getFuelEfficientDriving),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, fuelEfficientDriving]: [ReturnType<typeof ToggleFuelEfficientDriving>, TestsModel, boolean],
+      [, tests, fuelEfficientDriving]: [ReturnType<typeof ToggleFuelEfficientDriving>, TestsModel, boolean, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
@@ -360,22 +445,30 @@ export class OfficeAnalyticsEffects {
 
   setEcoRelatedFault$ = createEffect(() => this.actions$.pipe(
     ofType(AddEcoRelatedFault),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getEco),
+            select(getEcoRelatedFault),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getEco),
-          select(getEcoRelatedFault),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, ecoRelatedFault]: [ReturnType<typeof AddEcoRelatedFault>, TestsModel, string],
+      [, tests, ecoRelatedFault]: [ReturnType<typeof AddEcoRelatedFault>, TestsModel, string, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),
@@ -388,22 +481,30 @@ export class OfficeAnalyticsEffects {
 
   setEcoCaptureReason$ = createEffect(() => this.actions$.pipe(
     ofType(AddEcoCaptureReason),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(getCurrentTest),
+            select(getTestData),
+            select(getEco),
+            select(getEcoCaptureReason),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-        this.store$.pipe(
-          select(getTests),
-          select(getCurrentTest),
-          select(getTestData),
-          select(getEco),
-          select(getEcoCaptureReason),
-        ),
-      ),
-    )),
+      )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, ecoCaptureReason]: [ReturnType<typeof AddEcoCaptureReason>, TestsModel, string],
+      [, tests, ecoCaptureReason]: [ReturnType<typeof AddEcoCaptureReason>, TestsModel, string, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.OFFICE, tests),

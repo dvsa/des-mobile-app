@@ -57,6 +57,7 @@ export const localEnvironmentMock: LocalEnvironmentFile = {
     allowedTestCategories: ['B'],
     enableTestReportPracticeMode: true,
     enableEndToEndPracticeMode: true,
+    enablePracticeModeAnalytics: true,
     enableLogoutButton: true,
     testPermissionPeriods: [
       {

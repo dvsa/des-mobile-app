@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModel } from '@shared/models/store.model';
 import * as testsActions from '@store/tests/tests.actions';
@@ -10,9 +10,11 @@ import { end2endPracticeSlotId } from '@shared/mocks/test-slot-ids.mock';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
-import { AnalyticsScreenNames, AnalyticsEventCategories } from '@providers/analytics/analytics.model';
+import { AnalyticsEventCategories, AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import { PostDebriefHoldingAnalyticsEffects } from '../post-debrief-holding.analytics.effects';
 import * as postDebriefHoldingActions from '../post-debrief-holding.actions';
@@ -34,7 +36,14 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       ],
       providers: [
         PostDebriefHoldingAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -55,8 +64,10 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
       // ASSERT
       effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
         done();
       });
     });
@@ -68,8 +79,10 @@ describe('PostDebriefHoldingAnalyticsEffects', () => {
       actions$.next(postDebriefHoldingActions.PostDebriefHoldingViewDidEnter());
       // ASSERT
       effects.postDebriefHoldingViewDidEnterEffect$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(practiceScreenName);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(practiceScreenName);
         done();
       });
     });

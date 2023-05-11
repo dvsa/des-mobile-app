@@ -10,6 +10,8 @@ import { AnalyticsScreenNames } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 
 import { ConfirmTestDetailsAnalyticsEffects } from '@pages/confirm-test-details/confirm-test-details.analytics.effects';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import * as confirmTestDetailsActions from '../confirm-test-details.actions';
 
 describe('ConfirmTestDetailsAnalyticsEffects', () => {
@@ -27,7 +29,14 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
       ],
       providers: [
         ConfirmTestDetailsAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -42,8 +51,10 @@ describe('ConfirmTestDetailsAnalyticsEffects', () => {
     it('should call setCurrentPage', (done) => {
       actions$.next(confirmTestDetailsActions.ConfirmTestDetailsViewDidEnter());
       effects.confirmTestDetailsView$.subscribe((result) => {
-        expect(result.type === AnalyticRecorded.type).toBe(true);
-        expect(analyticsProviderMock.setCurrentPage).toHaveBeenCalledWith(screenName);
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.setCurrentPage)
+          .toHaveBeenCalledWith(screenName);
         done();
       });
     });

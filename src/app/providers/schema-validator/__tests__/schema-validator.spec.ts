@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { SchemaValidatorProvider } from '@providers/schema-validator/schema-validator';
+import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
 
 describe('SchemaValidatorProvider', () => {
   let provider: SchemaValidatorProvider;
@@ -33,6 +34,7 @@ describe('SchemaValidatorProvider', () => {
           enableTestReportPracticeMode: true,
           enableEndToEndPracticeMode: true,
           enableLogoutButton: true,
+          enablePracticeModeAnalytics: true,
         },
         tests: {
           testSubmissionUrl: 'test',
@@ -42,7 +44,8 @@ describe('SchemaValidatorProvider', () => {
         requestTimeout: 1,
         employeeNameKey: 'test',
         googleAnalyticsId: 'test',
-      }).valid).toEqual(true);
+      } as RemoteConfig).valid)
+        .toEqual(true);
     });
   });
 });

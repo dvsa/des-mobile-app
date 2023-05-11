@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
-import {
-  Actions, createEffect, ofType,
-} from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { switchMap, withLatestFrom, concatMap } from 'rxjs/operators';
+import {
+  concatMap, filter, switchMap, withLatestFrom,
+} from 'rxjs/operators';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import {
-  AnalyticsScreenNames, AnalyticsDimensionIndices, AnalyticsErrorTypes, AnalyticsEventCategories, AnalyticsEvents,
+  AnalyticsDimensionIndices,
+  AnalyticsErrorTypes,
+  AnalyticsEventCategories,
+  AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import { TestsModel } from '@store/tests/tests.model';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
 import { AnalyticNotRecorded, AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { getTests } from '@store/tests/tests.reducer';
-import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
+import { getCurrentTest, getJournalData, isPracticeMode } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidateId } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import {
@@ -32,10 +36,8 @@ import {
 } from '@store/tests/candidate-section/candidate-section.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
-import {
-  CommunicationViewDidEnter,
-  CommunicationValidationError,
-} from './communication.actions';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { CommunicationValidationError, CommunicationViewDidEnter } from './communication.actions';
 
 @Injectable()
 export class CommunicationAnalyticsEffects {
@@ -47,6 +49,7 @@ export class CommunicationAnalyticsEffects {
     private actions$: Actions,
     private store$: Store<StoreModel>,
     private router: Router,
+    private appConfigProvider: AppConfigProvider,
   ) {
   }
 
@@ -77,11 +80,18 @@ export class CommunicationAnalyticsEffects {
             select(getCurrentTest),
             select(getTestCategory),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
       [, tests, applicationReference, candidateId, category]:
-      [ReturnType<typeof CommunicationViewDidEnter>, TestsModel, string, number, CategoryCode],
+      [ReturnType<typeof CommunicationViewDidEnter>, TestsModel, string, number, CategoryCode, boolean],
     ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
@@ -104,10 +114,17 @@ export class CommunicationAnalyticsEffects {
             select(getCurrentTest),
             select(getTestCategory),
           ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
       )),
+    filter(([, , , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap(([action, tests, category]:
-    [ReturnType <typeof CommunicationValidationError>, TestsModel, CategoryCode]) => {
+    [ReturnType<typeof CommunicationValidationError>, TestsModel, CategoryCode, boolean]) => {
       const screenName = formatAnalyticsText(AnalyticsScreenNames.COMMUNICATION, tests);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.TEST_CATEGORY, category);
       this.analytics.logError(`${AnalyticsErrorTypes.VALIDATION_ERROR} (${screenName})`, action.errorMessage);
@@ -117,14 +134,22 @@ export class CommunicationAnalyticsEffects {
 
   vrnModalOpened$ = createEffect(() => this.actions$.pipe(
     ofType(VRNModalOpened),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType<typeof VRNModalOpened>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalOpened>, TestsModel, boolean]) => {
       if (this.router.url?.startsWith(this.className)) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
@@ -139,14 +164,22 @@ export class CommunicationAnalyticsEffects {
 
   vrnModalCancelled$ = createEffect(() => this.actions$.pipe(
     ofType(VRNModalCancelled),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType<typeof VRNModalCancelled>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalCancelled>, TestsModel, boolean]) => {
       if (this.router.url?.startsWith(this.className)) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),
@@ -161,14 +194,22 @@ export class CommunicationAnalyticsEffects {
 
   vrnModalSaved$ = createEffect(() => this.actions$.pipe(
     ofType(VRNModalSaved),
-    concatMap((action) => of(action).pipe(
-      withLatestFrom(
-        this.store$.pipe(
-          select(getTests),
+    concatMap((action) => of(action)
+      .pipe(
+        withLatestFrom(
+          this.store$.pipe(
+            select(getTests),
+          ),
+          this.store$.pipe(
+            select(getTests),
+            select(isPracticeMode),
+          ),
         ),
-      ),
-    )),
-    concatMap(([, tests]: [ReturnType<typeof VRNModalSaved>, TestsModel]) => {
+      )),
+    filter(([, , practiceMode]) => !practiceMode
+      ? true
+      : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
+    concatMap(([, tests]: [ReturnType<typeof VRNModalSaved>, TestsModel, boolean]) => {
       if (this.router.url?.startsWith(this.className)) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.COMMUNICATION, tests),

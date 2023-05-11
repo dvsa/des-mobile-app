@@ -1,14 +1,14 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplaySubject } from 'rxjs';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import {
-  AnalyticsScreenNames,
-  AnalyticsEventCategories,
   AnalyticsDimensionIndices,
+  AnalyticsEventCategories,
   AnalyticsEvents,
+  AnalyticsScreenNames,
 } from '@providers/analytics/analytics.model';
 import { AnalyticRecorded } from '@providers/analytics/analytics.actions';
 import { StoreModel } from '@shared/models/store.model';
@@ -23,6 +23,8 @@ import * as applicationReferenceActions
 import * as activityCodeActions from '@store//tests/activity-code/activity-code.actions';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { BackToOfficeAnalyticsEffects } from '../back-to-office.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as backToOfficeActions from '../back-to-office.actions';
@@ -49,7 +51,14 @@ describe('BackToOfficeAnalyticsEffects', () => {
       ],
       providers: [
         BackToOfficeAnalyticsEffects,
-        { provide: AnalyticsProvider, useClass: AnalyticsProviderMock },
+        {
+          provide: AnalyticsProvider,
+          useClass: AnalyticsProviderMock,
+        },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
         provideMockActions(() => actions$),
         Store,
       ],
@@ -71,7 +80,8 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
       // ASSERT
       effects.backToOfficeViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenName);
         done();
@@ -85,7 +95,8 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.BackToOfficeViewDidEnter());
       // ASSERT
       effects.backToOfficeViewDidEnter$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.setCurrentPage)
           .toHaveBeenCalledWith(screenNamePracticeMode);
         done();
@@ -105,7 +116,8 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
       effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -129,7 +141,8 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
       effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -153,7 +166,8 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
       effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
@@ -177,7 +191,8 @@ describe('BackToOfficeAnalyticsEffects', () => {
       actions$.next(backToOfficeActions.DeferWriteUp());
       // ASSERT
       effects.deferWriteUpEffect$.subscribe((result) => {
-        expect(result.type).toEqual(AnalyticRecorded.type);
+        expect(result.type)
+          .toEqual(AnalyticRecorded.type);
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
         expect(analyticsProviderMock.addCustomDimension)
