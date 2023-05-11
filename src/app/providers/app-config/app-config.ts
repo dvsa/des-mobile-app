@@ -4,7 +4,7 @@ import { Platform } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 import { map, timeout } from 'rxjs/operators';
 import { isEmpty, merge } from 'lodash';
-import { ValidatorResult, ValidationError } from 'jsonschema';
+import { ValidationError, ValidatorResult } from 'jsonschema';
 import { IsDebug } from '@awesome-cordova-plugins/is-debug/ngx';
 import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-configurations';
 import { Subscription } from 'rxjs';
@@ -96,9 +96,11 @@ export class AppConfigProvider {
   };
 
   public setStoreSubscription(): void {
-    this.storeSubscription = this.store$.select(getAppConfigState).pipe(
-      map((appConfig: AppConfig) => this.appConfig = appConfig),
-    ).subscribe();
+    this.storeSubscription = this.store$.select(getAppConfigState)
+      .pipe(
+        map((appConfig: AppConfig) => this.appConfig = appConfig),
+      )
+      .subscribe();
   }
 
   public shutDownStoreSubscription(): void {
@@ -184,7 +186,8 @@ export class AppConfigProvider {
         return Promise.reject(AppConfigError.UNKNOWN_ERROR);
       }
 
-      const configError: string = (error || []).map((err: ValidationError) => err.message).join(', ');
+      const configError: string = (error || []).map((err: ValidationError) => err.message)
+        .join(', ');
 
       this.store$.dispatch(SaveLog({
         payload: this.logHelper.createLog(LogType.ERROR, 'Validating remote config', configError),
@@ -290,6 +293,7 @@ export class AppConfigProvider {
         allowedTestCategories: data.journal.allowedTestCategories,
         enableTestReportPracticeMode: data.journal.enableTestReportPracticeMode,
         enableEndToEndPracticeMode: data.journal.enableEndToEndPracticeMode,
+        enablePracticeModeAnalytics: data.journal.enablePracticeModeAnalytics,
         enableLogoutButton: data.journal.enableLogoutButton,
         testPermissionPeriods: data.journal.testPermissionPeriods,
       },
