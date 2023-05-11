@@ -47,7 +47,7 @@ export class IncompleteTestsBanner implements OnInit {
         .pipe(
           map((data: SlotItem[]) => data.filter((value) => {
             return new DateTime(value.slotData.slotDetail.start).daysDiff(new DateTime())
-              > this.appConfProvider.getAppConfig()?.journal?.numberOfDaysToView;
+              <= this.appConfProvider.getAppConfig()?.journal?.numberOfDaysToView;
           })),
         ),
     };

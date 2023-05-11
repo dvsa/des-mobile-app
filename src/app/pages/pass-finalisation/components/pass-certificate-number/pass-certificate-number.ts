@@ -1,5 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
+import {
+  Component, EventEmitter, Input, OnChanges, Output,
+} from '@angular/core';
+import {
+  UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators,
+} from '@angular/forms';
 import { PassCertificateValidationProvider } from '@providers/pass-certificate-validation/pass-certificate-validation';
 import { PASS_CERTIFICATE_LENGTH } from '@providers/pass-certificate-validation/pass-certificate-validation.constants';
 import { AppComponent } from '@app/app.component';
