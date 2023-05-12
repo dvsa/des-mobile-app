@@ -21,6 +21,7 @@ import { map, takeUntil } from 'rxjs/operators';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { ShowMeQuestionRemoveFault } from '@store/tests/test-data/cat-b/vehicle-checks/vehicle-checks.actions';
 import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
 import { getTestReportState } from '../../../test-report.reducer';
 import { isSeriousMode, isDangerousMode, isRemoveFaultMode } from '../../../test-report.selector';
@@ -152,6 +153,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
 
   removeFault = (): void => {
     if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
+      this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.D));
       this.store$.dispatch(VehicleChecksRemoveDangerousFault());
       this.store$.dispatch(ToggleDangerousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
@@ -159,6 +161,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
     }
 
     if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
+      this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.S));
       this.store$.dispatch(VehicleChecksRemoveSeriousFault());
       this.store$.dispatch(ToggleSeriousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
@@ -166,6 +169,7 @@ export class VehicleCheckComponent implements OnInit, OnDestroy {
     }
 
     if (!this.isSeriousMode && !this.isDangerousMode && this.isRemoveFaultMode && this.hasShowMeDrivingFault()) {
+      this.store$.dispatch(ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
       this.store$.dispatch(ShowMeQuestionRemoveDrivingFault(this.showMeQuestionFaultCount - 1));
       this.store$.dispatch(ToggleRemoveFaultMode());
     }

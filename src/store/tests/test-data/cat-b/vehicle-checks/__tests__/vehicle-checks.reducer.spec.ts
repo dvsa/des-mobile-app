@@ -3,16 +3,16 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { VehicleChecksQuestion } from '@providers/question/vehicle-checks-question.model';
 import { vehicleChecksReducer } from '../vehicle-checks.reducer';
 import {
-  TellMeQuestionSelected,
-  TellMeQuestionDrivingFault,
   AddShowMeTellMeComment,
-  TellMeQuestionCorrect,
-  ShowMeQuestionSelected,
-  ShowMeQuestionPassed,
-  ShowMeQuestionDrivingFault,
-  ShowMeQuestionSeriousFault,
   ShowMeQuestionDangerousFault,
+  ShowMeQuestionDrivingFault,
+  ShowMeQuestionPassed,
   ShowMeQuestionRemoveFault,
+  ShowMeQuestionSelected,
+  ShowMeQuestionSeriousFault,
+  TellMeQuestionCorrect,
+  TellMeQuestionDrivingFault,
+  TellMeQuestionSelected,
 } from '../vehicle-checks.actions';
 
 describe('Vehicle Checks Reducer', () => {
@@ -148,7 +148,7 @@ describe('Vehicle Checks Reducer', () => {
           outcome: CompetencyOutcome.D,
         },
       };
-      const result = vehicleChecksReducer(state, ShowMeQuestionRemoveFault());
+      const result = vehicleChecksReducer(state, ShowMeQuestionRemoveFault(CompetencyOutcome.D));
       expect(result.showMeQuestion.code).toEqual('1');
       expect(result.showMeQuestion.description).toEqual('2');
       expect(result.showMeQuestion.outcome).toBeUndefined();

@@ -53,5 +53,5 @@ export const AddManoeuvreComment = createAction(
 
 export const RemoveManoeuvreFault = createAction(
   '[Manoeuvres] Remove Manoeuvre Fault',
-  (payload: ManoeuvrePayload) => ({ payload }),
+  (payload: ManoeuvrePayload, faultLevel: CompetencyOutcome) => ({ payload, faultLevel }),
 );

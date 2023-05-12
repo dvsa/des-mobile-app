@@ -1,31 +1,29 @@
-import { Observable, Subscription, merge } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { StoreModel } from '@shared/models/store.model';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import {
+  AddManoeuvreDangerousFault,
   AddManoeuvreDrivingFault,
   AddManoeuvreSeriousFault,
-  AddManoeuvreDangerousFault,
   RemoveManoeuvreFault,
 } from '@store/tests/test-data/cat-adi-part2/manoeuvres/manoeuvres.actions';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import { getTests } from '@store/tests/tests.reducer';
-import {
-  getManoeuvresADI2,
-} from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
+import { getManoeuvresADI2 } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.selector';
 import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catadi2-manoeuvres';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
-  Component, Input, OnInit, OnDestroy,
+  Component, Input, OnDestroy, OnInit,
 } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { map, takeUntil } from 'rxjs/operators';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../../test-report.selector';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../../test-report.selector';
 import { getTestReportState } from '../../../test-report.reducer';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../../test-report.actions';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../../test-report.actions';
 
 interface ManoeuvreCompetencyComponentState {
   isRemoveFaultMode$: Observable<boolean>;
@@ -189,14 +187,14 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
     };
 
     if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload, this.index));
+      this.store$.dispatch(RemoveManoeuvreFault(payload, this.index, CompetencyOutcome.D));
       this.store$.dispatch(ToggleDangerousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
       return;
     }
 
     if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload, this.index));
+      this.store$.dispatch(RemoveManoeuvreFault(payload, this.index, CompetencyOutcome.S));
       this.store$.dispatch(ToggleSeriousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
       return;
@@ -208,7 +206,7 @@ export class ManoeuvreCompetencyComponentAdiPart2 implements OnInit, OnDestroy {
       && this.isRemoveFaultMode
       && this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF
     ) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload, this.index));
+      this.store$.dispatch(RemoveManoeuvreFault(payload, this.index, CompetencyOutcome.DF));
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
   };

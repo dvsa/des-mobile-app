@@ -1,17 +1,11 @@
-import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { MockComponent } from 'ng-mocks';
 import { TickIndicatorComponent } from '@components/common/tick-indicator/tick-indicator';
-import {
-  DrivingFaultsBadgeComponent,
-} from '@components/common/driving-faults-badge/driving-faults-badge';
-import {
-  SeriousFaultBadgeComponent,
-} from '@components/common/serious-fault-badge/serious-fault-badge';
-import {
-  DangerousFaultBadgeComponent,
-} from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
+import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-badge/driving-faults-badge';
+import { SeriousFaultBadgeComponent } from '@components/common/serious-fault-badge/serious-fault-badge';
+import { DangerousFaultBadgeComponent } from '@components/common/dangerous-fault-badge/dangerous-fault-badge';
 import { By } from '@angular/platform-browser';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -201,7 +195,7 @@ describe('VehicleCheckComponent', () => {
 
         component.toggleShowMeQuestion();
 
-        expect(storeDisptachSpy).toHaveBeenCalledWith(ShowMeQuestionRemoveFault());
+        expect(storeDisptachSpy).toHaveBeenCalledWith(ShowMeQuestionRemoveFault(CompetencyOutcome.P));
       });
     });
   });

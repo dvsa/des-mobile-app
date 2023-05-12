@@ -1,10 +1,10 @@
-import { Observable, Subscription, merge } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { StoreModel } from '@shared/models/store.model';
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import {
+  AddManoeuvreDangerousFault,
   AddManoeuvreDrivingFault,
   AddManoeuvreSeriousFault,
-  AddManoeuvreDangerousFault,
   RemoveManoeuvreFault,
 } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
 import { getCurrentTest } from '@store/tests/tests.selector';
@@ -14,17 +14,17 @@ import { getManoeuvres } from '@store/tests/test-data/cat-b/test-data.cat-b.sele
 import { manoeuvreCompetencyLabels } from '@shared/constants/competencies/catb-manoeuvres';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import {
-  Component, Input, OnInit, OnDestroy,
+  Component, Input, OnDestroy, OnInit,
 } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { map, takeUntil } from 'rxjs/operators';
 import { ManoeuvreOutcome } from '@dvsa/mes-test-schema/categories/common';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { getDelegatedTestIndicator } from '@store/tests/delegated-test/delegated-test.reducer';
 import { isDelegatedTest } from '@store/tests/delegated-test/delegated-test.selector';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { ToggleSeriousFaultMode, ToggleDangerousFaultMode, ToggleRemoveFaultMode } from '../../test-report.actions';
-import { isRemoveFaultMode, isSeriousMode, isDangerousMode } from '../../test-report.selector';
+import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
+import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
 
 interface ManoeuvreCompetencyComponentState {
@@ -196,14 +196,14 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
     };
 
     if (this.hasDangerousFault() && this.isDangerousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload));
+      this.store$.dispatch(RemoveManoeuvreFault(payload, CompetencyOutcome.D));
       this.store$.dispatch(ToggleDangerousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
       return;
     }
 
     if (this.hasSeriousFault() && this.isSeriousMode && this.isRemoveFaultMode) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload));
+      this.store$.dispatch(RemoveManoeuvreFault(payload, CompetencyOutcome.S));
       this.store$.dispatch(ToggleSeriousFaultMode());
       this.store$.dispatch(ToggleRemoveFaultMode());
       return;
@@ -215,7 +215,7 @@ export class ManoeuvreCompetencyComponent implements OnInit, OnDestroy {
       && this.isRemoveFaultMode
       && this.manoeuvreCompetencyOutcome === CompetencyOutcome.DF
     ) {
-      this.store$.dispatch(RemoveManoeuvreFault(payload));
+      this.store$.dispatch(RemoveManoeuvreFault(payload, CompetencyOutcome.DF));
       this.store$.dispatch(ToggleRemoveFaultMode());
     }
   };

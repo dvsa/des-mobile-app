@@ -1123,7 +1123,8 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(manoeuvresActions.RemoveManoeuvreFault({
         manoeuvre: ManoeuvreTypes.reverseRight,
         competency: ManoeuvreCompetencies.controlFault,
-      }));
+      },
+      CompetencyOutcome.DF));
       // ASSERT
       effects.removeManoeuvreFault$.subscribe((result) => {
         expect(result.type)
@@ -1147,7 +1148,8 @@ describe('TestReportAnalyticsEffects', () => {
       actions$.next(manoeuvresActions.RemoveManoeuvreFault({
         manoeuvre: ManoeuvreTypes.reverseRight,
         competency: ManoeuvreCompetencies.controlFault,
-      }));
+      },
+      CompetencyOutcome.DF));
       // ASSERT
       effects.removeManoeuvreFault$.subscribe((result) => {
         expect(result.type)
@@ -1175,7 +1177,8 @@ describe('TestReportAnalyticsEffects', () => {
         manoeuvre: ManoeuvreTypes.reverseRight,
         competency: ManoeuvreCompetencies.controlFault,
       },
-      0));
+      0,
+      CompetencyOutcome.DF));
       // ASSERT
       effects.removeManoeuvreFaultCatADIPart2$.subscribe((result) => {
         expect(result.type)
@@ -1199,7 +1202,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       // ACT
-      actions$.next(controlledStopActions.ControlledStopRemoveFault());
+      actions$.next(controlledStopActions.ControlledStopRemoveFault(CompetencyOutcome.DF));
       // ASSERT
       effects.controlledStopRemoveFault$.subscribe((result) => {
         expect(result.type)
@@ -1209,7 +1212,7 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_FAULT,
+            AnalyticsEvents.REMOVE_DRIVING_FAULT,
             fullCompetencyLabels['outcomeControlledStop'],
           );
         done();
@@ -1219,7 +1222,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
       // ACT
-      actions$.next(controlledStopActions.ControlledStopRemoveFault());
+      actions$.next(controlledStopActions.ControlledStopRemoveFault(CompetencyOutcome.DF));
       // ASSERT
       effects.controlledStopRemoveFault$.subscribe((result) => {
         expect(result.type)
@@ -1229,7 +1232,7 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_FAULT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
             fullCompetencyLabels['outcomeControlledStop'],
           );
         done();
@@ -1242,7 +1245,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       // ACT
-      actions$.next(vehicleChecksActions.ShowMeQuestionRemoveFault());
+      actions$.next(vehicleChecksActions.ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
       // ASSERT
       effects.showMeQuestionRemoveFault$.subscribe((result) => {
         expect(result.type)
@@ -1252,7 +1255,7 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.TEST_REPORT,
-            AnalyticsEvents.REMOVE_FAULT,
+            AnalyticsEvents.REMOVE_DRIVING_FAULT,
             fullCompetencyLabels['showMeQuestion'],
           );
         done();
@@ -1262,7 +1265,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTestReportPracticeTest(testReportPracticeModeSlot.slotDetail.slotId));
       // ACT
-      actions$.next(vehicleChecksActions.ShowMeQuestionRemoveFault());
+      actions$.next(vehicleChecksActions.ShowMeQuestionRemoveFault(CompetencyOutcome.DF));
       // ASSERT
       effects.showMeQuestionRemoveFault$.subscribe((result) => {
         expect(result.type)
@@ -1272,7 +1275,7 @@ describe('TestReportAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
             `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEventCategories.TEST_REPORT}`,
-            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_FAULT}`,
+            `${AnalyticsEventCategories.PRACTICE_TEST} - ${AnalyticsEvents.REMOVE_DRIVING_FAULT}`,
             fullCompetencyLabels['showMeQuestion'],
           );
         done();
@@ -1541,7 +1544,7 @@ describe('TestReportAnalyticsEffects', () => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123456, TestCategory.B));
       store$.dispatch(vehicleChecksActions.ShowMeQuestionPassed());
-      const showMeQuestionRemoveFaultAction = vehicleChecksActions.ShowMeQuestionRemoveFault();
+      const showMeQuestionRemoveFaultAction = vehicleChecksActions.ShowMeQuestionRemoveFault(CompetencyOutcome.DF);
       store$.dispatch(showMeQuestionRemoveFaultAction);
       // ACT
       actions$.next(showMeQuestionRemoveFaultAction);
