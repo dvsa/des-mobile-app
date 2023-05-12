@@ -19,7 +19,8 @@
           [outcomeText]="pageState.testOutcomeText$ | async">
         </finalisation-header>
 
-        <application-reference-number [applicationNumber]="pageState.applicationNumber$ | async">
+        <application-reference-number
+          [applicationNumber]="pageState.applicationNumber$ | async">
         </application-reference-number>
 
         <license-provided
@@ -67,8 +68,7 @@
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-          [pastPassCerts]="pageState.pastPassCerts$ | async">
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
         </pass-certificate-number>
 
         <d255 (d255Change)="d255Changed($event)"

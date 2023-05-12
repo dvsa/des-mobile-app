@@ -10,7 +10,7 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getEco, getETA } from '@store/tests/test-data/common/test-data.selector';
 import {
-  filter, map, tap, withLatestFrom,
+  filter, map, take, tap, withLatestFrom,
 } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { FaultSummary } from '@shared/models/fault-marking.model';
@@ -155,7 +155,9 @@ export class DebriefPage extends PracticeableBasePageComponent {
     );
     const testCategory$ = currentTest$.pipe(
       select(getTestCategory),
+      take(1),
     );
+
     this.pageState = {
       seriousFaults$: currentTest$.pipe(
         select(getTestData),
@@ -163,6 +165,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map(([data, category]) =>
           this.faultSummaryProvider.getSeriousFaultsList(data, category as TestCategory)
             .map((fault) => fault.competencyIdentifier)),
+        take(1),
       ),
       dangerousFaults$: currentTest$.pipe(
         select(getTestData),
@@ -170,47 +173,54 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map(([data, category]) =>
           this.faultSummaryProvider.getDangerousFaultsList(data, category as TestCategory)
             .map((fault) => fault.competencyIdentifier)),
+        take(1),
       ),
       drivingFaults$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(testCategory$),
         map(([data, category]) => this.faultSummaryProvider.getDrivingFaultsList(data, category as TestCategory)),
+        take(1),
       ),
       drivingFaultCount$: currentTest$.pipe(
         select(getTestData),
         withLatestFrom(testCategory$),
         map(([testData, category]) =>
           this.faultCountProvider.getDrivingFaultSumCount(category as TestCategory, testData)),
+        take(1),
       ),
       etaFaults$: currentTest$.pipe(
         select(getTestData),
         select(getETA),
+        take(1),
       ),
       ecoFaults$: currentTest$.pipe(
         select(getTestData),
         select(getEco),
+        take(1),
       ),
       testResult$: currentTest$.pipe(
         select(getTestOutcome),
+        take(1),
       ),
       conductedLanguage$: currentTest$.pipe(
         select(getCommunicationPreference),
         select(getConductedLanguage),
+        take(1),
       ),
       candidateName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
         select(getUntitledCandidateName),
+        take(1),
       ),
-      category$: currentTest$.pipe(
-        select(getTestCategory),
-      ),
+      category$: testCategory$,
       tellMeShowMeQuestions$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getVehicleChecks),
         map((checks) => [...checks.tellMeQuestions, ...checks.showMeQuestions]),
         map((checks) => checks.filter((c) => c.code !== undefined)),
+        take(1),
       ),
       safetyQuestions$: currentTest$.pipe(
         withLatestFrom(testCategory$),
@@ -220,66 +230,79 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getSafetyQuestionsCatD),
         select(getSafetyQuestions),
+        take(1),
       ),
       question1$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getQuestion1),
+        take(1),
       ),
       question2$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getQuestion2),
+        take(1),
       ),
       question3$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getQuestion3),
+        take(1),
       ),
       question4$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getQuestion4),
+        take(1),
       ),
       question5$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getQuestion5),
+        take(1),
       ),
       overallScore$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTotalPercent),
+        take(1),
       ),
       totalScore$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTotalScore),
+        take(1),
       ),
       lessonTheme$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getLessonAndTheme),
+        take(1),
       ),
       lessonPlanning$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getLessonPlanning),
+        take(1),
       ),
       riskManagement$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getRiskManagement),
+        take(1),
       ),
       teachingLearningStrategies$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTeachingLearningStrategies),
+        take(1),
       ),
       review$: currentTest$.pipe(
         withLatestFrom(testCategory$),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
+        take(1),
       ),
       showEco$: currentTest$.pipe(
         select(getTestCategory),
@@ -287,12 +310,14 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map((category) => !isAnyOf(category, [
           TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1,
         ])),
+        take(1),
       ),
       showSpeedCheck$: currentTest$.pipe(
         select(getTestCategory),
         map((category) => isAnyOf(category, [
           TestCategory.EUAMM1, TestCategory.EUA1M1, TestCategory.EUA2M1, TestCategory.EUAM1,
         ])),
+        take(1),
       ),
       showSafetyQuestions$: currentTest$.pipe(
         withLatestFrom(testCategory$),
@@ -303,25 +328,30 @@ export class DebriefPage extends PracticeableBasePageComponent {
         select(getSafetyQuestionsCatD),
         select(getSafetyQuestions),
         map((questions) => questions.some((question) => question.outcome)),
+        take(1),
       ),
       showSafetyAndBalance$: currentTest$.pipe(
         select(getTestCategory),
         map((category) => isAnyOf(category, [
           TestCategory.EUAMM2, TestCategory.EUA1M2, TestCategory.EUA2M2, TestCategory.EUAM2,
         ])),
+        take(1),
       ),
       emergencyStop$: currentTest$.pipe(
         select(getTestData),
         select(getEmergencyStop),
+        take(1),
       ),
       avoidance$: currentTest$.pipe(
         select(getTestData),
         select(getAvoidance),
+        take(1),
       ),
       avoidanceAttempted$: currentTest$.pipe(
         select(getTestData),
         select(getAvoidance),
         select(getAvoidanceAttempted),
+        take(1),
       ),
       grade$: currentTest$.pipe(
         withLatestFrom(testCategory$),
@@ -329,6 +359,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getGrade),
+        take(1),
       ),
       immediateDanger$: currentTest$.pipe(
         withLatestFrom(testCategory$),
@@ -336,6 +367,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getReview),
         select(getImmediateDanger),
+        take(1),
       ),
     };
 
