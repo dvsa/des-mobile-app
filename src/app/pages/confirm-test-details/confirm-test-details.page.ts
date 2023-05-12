@@ -6,7 +6,11 @@ import { StoreModel } from '@shared/models/store.model';
 import { GearboxCategory } from '@dvsa/mes-test-schema/categories/common';
 import { getTests } from '@store/tests/tests.reducer';
 import {
-  getActivityCode, getCurrentTest, getJournalData, getTestOutcomeText,
+  getActivityCode,
+  getCurrentTest,
+  getCurrentTestSlotId,
+  getJournalData,
+  getTestOutcomeText,
 } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -17,7 +21,9 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { map, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter, map, take, tap, withLatestFrom,
+} from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
@@ -27,10 +33,7 @@ import { getGearboxCategory } from '@store/tests/vehicle-details/vehicle-details
 import { getTestSummary } from '@store/tests/test-summary/test-summary.reducer';
 import { getD255 } from '@store/tests/test-summary/test-summary.selector';
 import { getPassCompletion } from '@store/tests/pass-completion/pass-completion.reducer';
-import {
-  CategorySpecificVehicleDetails,
-  VehicleDetailsByCategoryProvider,
-} from '@providers/vehicle-details-by-category/vehicle-details-by-category';
+import { VehicleDetailsByCategoryProvider } from '@providers/vehicle-details-by-category/vehicle-details-by-category';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { SetTestStatusWriteUp } from '@store/tests/test-status/test-status.actions';
 import { PersistTests } from '@store/tests/tests.actions';
@@ -79,14 +82,13 @@ interface ConfirmTestDetailsPageState {
   code78$?: Observable<boolean>;
   d255$: Observable<boolean>;
   slotId$: Observable<string>;
-
-  testOutcomeFullResult$?: Observable<string>;
-  studentLevel$?: Observable<string>;
-  lessonTheme$?: Observable<string>;
-  lessonPlanningScore$?: Observable<number>;
-  riskManagementScore$?: Observable<number>;
-  teachingLearningStrategyScore$?: Observable<number>;
-  totalScore$?: Observable<number>;
+  testOutcomeFullResult$: Observable<string>;
+  studentLevel$: Observable<string>;
+  lessonTheme$: Observable<string>;
+  lessonPlanningScore$: Observable<number>;
+  riskManagementScore$: Observable<number>;
+  teachingLearningStrategyScore$: Observable<number>;
+  totalScore$: Observable<number>;
 }
 
 enum LicenceReceivedText {
@@ -111,9 +113,7 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
   testOutcome: string;
   candidateName: string;
   subscription: Subscription;
-  catSubscription: Subscription;
   merged$: Observable<boolean | string>;
-  vehicleDetails: CategorySpecificVehicleDetails;
   slotId: string;
   idPrefix: string = 'confirm-test-details';
 
@@ -138,117 +138,165 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
       select(getCurrentTest),
     );
 
-    let category: TestCategory;
-    this.catSubscription = currentTest$.pipe(select(getTestCategory))
-      .subscribe((value) => {
-        category = value as TestCategory;
-        const vehicleDetails = this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category);
-        this.pageState = {
-          slotId$: this.store$.pipe(
-            select(getTests),
-            map((tests) => tests.currentTest.slotId),
+    const category$ = currentTest$.pipe(
+      select(getTestCategory),
+      take(1),
+    );
+
+    this.pageState = {
+      slotId$: this.store$.pipe(
+        select(getTests),
+        map(getCurrentTestSlotId),
+        take(1),
+      ),
+      candidateUntitledName$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getUntitledCandidateName),
+        take(1),
+      ),
+      candidateName$: currentTest$.pipe(
+        select(getJournalData),
+        select(getCandidate),
+        select(getCandidateName),
+        take(1),
+      ),
+      startDateTime$: currentTest$.pipe(
+        select(getJournalData),
+        select(getTestSlotAttributes),
+        select(getTestStartDateTime),
+        take(1),
+      ),
+      testOutcomeText$: currentTest$.pipe(
+        select(getTestOutcomeText),
+        take(1),
+      ),
+      activityCode$: currentTest$.pipe(
+        select(getActivityCode),
+        take(1),
+      ),
+      testCategory$: category$.pipe(
+        map((testCategory) => testCategory as TestCategory),
+      ),
+      transmission$: currentTest$.pipe(
+        withLatestFrom(category$),
+        map(([, category]) => this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category)?.vehicleDetails),
+        select(getGearboxCategory),
+        take(1),
+      ),
+      d255$: currentTest$.pipe(
+        select(getTestSummary),
+        select(getD255),
+        take(1),
+      ),
+      code78$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category !== TestCategory.ADI2),
+        map(([testResult]) => testResult),
+        select(getPassCompletion),
+        select(getCode78),
+        take(1),
+      ),
+      provisionalLicense$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category !== TestCategory.ADI2),
+        map(([testResult]) => testResult),
+        select(getPassCompletion),
+        map(isProvisionalLicenseProvided),
+        take(1),
+      ),
+      // ADI3 & SC additional fields
+      testOutcomeFullResult$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter((
+          [, category],
+        ) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        select(getReview),
+        select(getGrade),
+        map((grade) => `Passed - Grade ${grade}`),
+        take(1),
+      ),
+      studentLevel$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter((
+          [, category],
+        ) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        select(getLessonAndTheme),
+        select(getStudentLevel),
+        map((level) => studentValues[level]),
+        take(1),
+      ),
+      lessonTheme$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter((
+          [, category],
+        ) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        select(getLessonAndTheme),
+        select(getLessonThemes),
+        withLatestFrom(
+          currentTest$.pipe(
+            select(getTestData),
+            select(getLessonAndTheme),
+            select(getOther),
           ),
-          candidateUntitledName$: currentTest$.pipe(
-            select(getJournalData),
-            select(getCandidate),
-            select(getUntitledCandidateName),
-          ),
-          candidateName$: currentTest$.pipe(
-            select(getJournalData),
-            select(getCandidate),
-            select(getCandidateName),
-          ),
-          startDateTime$: currentTest$.pipe(
-            select(getJournalData),
-            select(getTestSlotAttributes),
-            select(getTestStartDateTime),
-          ),
-          testOutcomeText$: currentTest$.pipe(
-            select(getTestOutcomeText),
-          ),
-          activityCode$: currentTest$.pipe(
-            select(getActivityCode),
-          ),
-          testCategory$: currentTest$.pipe(
-            select(getTestCategory),
-            map((testCategory) => testCategory as TestCategory),
-          ),
-          transmission$: currentTest$.pipe(
-            select(vehicleDetails.vehicleDetails),
-            select(getGearboxCategory),
-          ),
-          d255$: currentTest$.pipe(
-            select(getTestSummary),
-            select(getD255),
-          ),
-        };
-        if (category !== TestCategory.ADI2) {
-          this.pageState = {
-            ...this.pageState,
-            code78$: currentTest$.pipe(
-              select(getPassCompletion),
-              select(getCode78),
-            ),
-            provisionalLicense$: currentTest$.pipe(
-              select(getPassCompletion),
-              map(isProvisionalLicenseProvided),
-            ),
-          };
-        }
-        if (category === TestCategory.ADI3 || category === TestCategory.SC) {
-          this.pageState = {
-            ...this.pageState,
-            testOutcomeFullResult$: currentTest$.pipe(
-              select(getTestData),
-              select(getReview),
-              select(getGrade),
-              map((grade) => `Passed - Grade ${grade}`),
-            ),
-            studentLevel$: currentTest$.pipe(
-              select(getTestData),
-              select(getLessonAndTheme),
-              select(getStudentLevel),
-              map((level) => studentValues[level]),
-            ),
-            lessonTheme$: currentTest$.pipe(
-              select(getTestData),
-              select(getLessonAndTheme),
-              select(getLessonThemes),
-              withLatestFrom(
-                currentTest$.pipe(
-                  select(getTestData),
-                  select(getLessonAndTheme),
-                  select(getOther),
-                ),
-              ),
-              map(([themes, otherReason]: [LessonTheme[], string]) => themes
-                .map((theme) => lessonThemeValues[theme])
-                .concat(otherReason || null)
-                .filter((theme) => theme && theme !== 'Other')
-                .join(', ')),
-            ),
-            lessonPlanningScore$: currentTest$.pipe(
-              select(getTestData),
-              select(getLessonPlanning),
-              select(getLessonPlanningScore),
-            ),
-            riskManagementScore$: currentTest$.pipe(
-              select(getTestData),
-              select(getRiskManagement),
-              select(getRiskManagementScore),
-            ),
-            teachingLearningStrategyScore$: currentTest$.pipe(
-              select(getTestData),
-              select(getTeachingLearningStrategies),
-              select(getTeachingLearningScore),
-            ),
-            totalScore$: currentTest$.pipe(
-              select(getTestData),
-              map((data) => this.adi3AssessmentProvider.getTotalAssessmentScore(data)),
-            ),
-          };
-        }
-      });
+        ),
+        map(([themes, otherReason]: [LessonTheme[], string]) => themes
+          .map((theme) => lessonThemeValues[theme])
+          .concat(otherReason || null)
+          .filter((theme) => theme && theme !== 'Other')
+          .join(', ')),
+        take(1),
+      ),
+      lessonPlanningScore$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter((
+          [, category],
+        ) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        select(getLessonPlanning),
+        select(getLessonPlanningScore),
+        take(1),
+      ),
+      riskManagementScore$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter((
+          [, category],
+        ) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        select(getRiskManagement),
+        select(getRiskManagementScore),
+        take(1),
+      ),
+      teachingLearningStrategyScore$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter((
+          [, category],
+        ) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        select(getTeachingLearningStrategies),
+        select(getTeachingLearningScore),
+        take(1),
+      ),
+      totalScore$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter((
+          [, category],
+        ) => isAnyOf(category, [TestCategory.ADI3, TestCategory.SC])),
+        map(([testResult]) => testResult),
+        select(getTestData),
+        map((data) => this.adi3AssessmentProvider.getTotalAssessmentScore(data)),
+        take(1),
+      ),
+    };
 
     const {
       testCategory$,
@@ -278,19 +326,11 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-
-    if (this.catSubscription) {
-      this.catSubscription.unsubscribe();
-    }
   }
 
   ionViewDidEnter(): void {
     this.store$.dispatch(ConfirmTestDetailsViewDidEnter());
     this.store$.dispatch(ClearCandidateLicenceData());
-  }
-
-  isADI2(category: TestCategory): boolean {
-    return category === TestCategory.ADI2;
   }
 
   isADI3(category: TestCategory): boolean {

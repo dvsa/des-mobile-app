@@ -1,10 +1,10 @@
 import { Platform } from '@ionic/angular';
-import { Store, select } from '@ngrx/store';
-import { Observable, merge, Subscription } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { merge, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { getTests } from '@store/tests/tests.reducer';
-import { isPracticeMode, isTestReportPracticeTest, isEndToEndPracticeTest } from '@store/tests/tests.selector';
+import { isEndToEndPracticeTest, isPracticeMode, isTestReportPracticeTest } from '@store/tests/tests.selector';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';

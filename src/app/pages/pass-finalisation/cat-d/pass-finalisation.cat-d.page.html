@@ -32,7 +32,8 @@
         </license-provided>
 
         <licence-provided-warning-banner
-          [licenceProvided]="pageState.provisionalLicense$ | async"></licence-provided-warning-banner>
+          [licenceProvided]="pageState.provisionalLicense$ | async">
+        </licence-provided-warning-banner>
 
         <warning-banner
           *ngIf="shouldShowCandidateDoesntNeedLicenseBanner()"
@@ -67,8 +68,7 @@
           (passCertificateNumberChange)="passCertificateNumberChanged($event)"
           [form]="form"
           [isPracticeMode]="isPracticeMode"
-          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-          [pastPassCerts]="pageState.pastPassCerts$ | async">
+          [passCertificateNumberInput]="pageState.passCertificateNumber$ | async">
         </pass-certificate-number>
 
         <d255

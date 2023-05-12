@@ -14,7 +14,7 @@ export const environment: EnvironmentFile = {
   logsPostApiKey: '',
   taxMotApiKey: '7d804a0461126d0ebee4128af69bb8dc',
   logsApiUrl: 'https://dev.mes.dev-dvsacloud.uk/v1/logs',
-  logsAutoSendInterval: 6000,
+  logsAutoSendInterval: 60000,
   authentication: {
     context: 'https://login.microsoftonline.com/6c448d90-4ca1-4caf-ab59-0a2aa67d7801',
     resourceUrl: '923b07d4-80ee-4524-8f38-c1230aefe151',
