@@ -1,6 +1,7 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Store, StoreModule } from '@ngrx/store';
 import { PostalAddressComponent } from '../postal-address';
 
 describe('PostalAddressComponent', () => {
@@ -25,6 +26,12 @@ describe('PostalAddressComponent', () => {
       imports: [
         IonicModule,
         TranslateModule.forRoot(),
+        StoreModule.forRoot({
+          tests: () => ({}),
+        }),
+      ],
+      providers: [
+        Store,
       ],
     });
 

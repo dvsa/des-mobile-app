@@ -17,3 +17,15 @@ export const CommunicationValidationError = createAction(
   '[CommunicationPage] Communication page validation error',
   (errorMessage: string) => ({ errorMessage }),
 );
+
+export const BookingEmailSelected = createAction(
+  '[WaitingRoomToCarPage] Booking email selected',
+);
+
+export const NewEmailSelected = createAction(
+  '[WaitingRoomToCarPage] New email selected',
+);
+
+export const PostalSelected = createAction(
+  '[WaitingRoomToCarPage] Post selected',
+);

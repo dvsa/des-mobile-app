@@ -37,7 +37,12 @@ import {
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { Router } from '@angular/router';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { CommunicationValidationError, CommunicationViewDidEnter } from './communication.actions';
+import {
+  BookingEmailSelected,
+  CommunicationValidationError,
+  CommunicationViewDidEnter,
+  NewEmailSelected, PostalSelected,
+} from './communication.actions';
 
 @Injectable()
 export class CommunicationAnalyticsEffects {
@@ -159,6 +164,42 @@ export class CommunicationAnalyticsEffects {
         return of(AnalyticRecorded());
       }
       return of(AnalyticNotRecorded());
+    }),
+  ));
+
+  bookingEmailSelected$ = createEffect(() => this.actions$.pipe(
+    ofType(BookingEmailSelected),
+    switchMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+        AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+        'Booking Email',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  newEmailSelected$ = createEffect(() => this.actions$.pipe(
+    ofType(NewEmailSelected),
+    switchMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+        AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+        'New Email',
+      );
+      return of(AnalyticRecorded());
+    }),
+  ));
+
+  postalSelected$ = createEffect(() => this.actions$.pipe(
+    ofType(PostalSelected),
+    switchMap(() => {
+      this.analytics.logEvent(
+        AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+        AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+        'New Email',
+      );
+      return of(AnalyticRecorded());
     }),
   ));
 

@@ -2,6 +2,9 @@ import {
   Component, Input, Output, EventEmitter, OnChanges,
 } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { StoreModel } from '@shared/models/store.model';
+import { Store } from '@ngrx/store';
+import { NewEmailSelected } from '@pages/communication/communication.actions';
 
 @Component({
   selector: 'new-email',
@@ -9,6 +12,11 @@ import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms
   styleUrls: ['new-email.scss'],
 })
 export class NewEmailComponent implements OnChanges {
+
+  constructor(
+    private store$: Store<StoreModel>,
+  ) {
+  }
 
   static readonly newEmail: string = 'newEmail';
   static readonly newEmailCtrl: string = 'newEmailCtrl';
@@ -54,6 +62,7 @@ export class NewEmailComponent implements OnChanges {
 
   newEmailRadioSelected() {
     this.newEmailRadioSelect.emit(NewEmailComponent.newEmail);
+    this.store$.dispatch(NewEmailSelected());
   }
 
   newEmailTextChanged(email: string) {

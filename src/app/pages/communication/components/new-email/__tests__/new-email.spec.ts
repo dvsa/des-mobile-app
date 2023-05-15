@@ -5,6 +5,7 @@ import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-transla
 import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { createTranslateLoader } from '@app/app.module';
+import { Store, StoreModule } from '@ngrx/store';
 import { NewEmailComponent } from '../new-email';
 
 describe('NewEmailComponent', () => {
@@ -28,6 +29,12 @@ describe('NewEmailComponent', () => {
             deps: [HttpClient],
           },
         }),
+        StoreModule.forRoot({
+          tests: () => ({}),
+        }),
+      ],
+      providers: [
+        Store,
       ],
     });
 
