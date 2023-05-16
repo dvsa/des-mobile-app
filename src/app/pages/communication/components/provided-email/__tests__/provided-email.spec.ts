@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { createTranslateLoader } from '@app/app.module';
-import { Store, StoreModule } from '@ngrx/store';
 import { ProvidedEmailComponent } from '../provided-email';
 
 describe('ProvidedEmailComponent', () => {
@@ -29,12 +28,6 @@ describe('ProvidedEmailComponent', () => {
             deps: [HttpClient],
           },
         }),
-        StoreModule.forRoot({
-          tests: () => ({}),
-        }),
-      ],
-      providers: [
-        Store,
       ],
     });
 

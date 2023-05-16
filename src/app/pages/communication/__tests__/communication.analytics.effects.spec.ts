@@ -242,7 +242,7 @@ describe('CommunicationAnalyticsEffects', () => {
           .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+            AnalyticsEventCategories.COMMUNICATION,
             AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
             'Booking Email',
           );
@@ -259,7 +259,7 @@ describe('CommunicationAnalyticsEffects', () => {
           .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+            AnalyticsEventCategories.COMMUNICATION,
             AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
             'New Email',
           );
@@ -276,7 +276,7 @@ describe('CommunicationAnalyticsEffects', () => {
           .toBe(true);
         expect(analyticsProviderMock.logEvent)
           .toHaveBeenCalledWith(
-            AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+            AnalyticsEventCategories.COMMUNICATION,
             AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
             'By Post',
           );

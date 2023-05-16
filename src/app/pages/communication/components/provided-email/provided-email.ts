@@ -2,9 +2,6 @@ import {
   Component, Input, Output, EventEmitter,
 } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { StoreModel } from '@shared/models/store.model';
-import { Store } from '@ngrx/store';
-import { BookingEmailSelected } from '@pages/communication/communication.actions';
 
 @Component({
   selector: 'provided-email',
@@ -12,12 +9,6 @@ import { BookingEmailSelected } from '@pages/communication/communication.actions
   styleUrls: ['provided-email.scss'],
 })
 export class ProvidedEmailComponent {
-
-  constructor(
-    private store$: Store<StoreModel>,
-  ) {
-  }
-
   static readonly providedEmail: string = 'Email';
   static readonly radioCtrl: string = 'radioCtrl';
 
@@ -48,6 +39,5 @@ export class ProvidedEmailComponent {
 
   providedEmailRadioSelected() {
     this.providedEmailRadioSelect.emit(ProvidedEmailComponent.providedEmail);
-    this.store$.dispatch(BookingEmailSelected());
   }
 }

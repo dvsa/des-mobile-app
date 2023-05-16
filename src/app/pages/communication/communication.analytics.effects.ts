@@ -171,7 +171,7 @@ export class CommunicationAnalyticsEffects {
     ofType(BookingEmailSelected),
     switchMap(() => {
       this.analytics.logEvent(
-        AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+        AnalyticsEventCategories.COMMUNICATION,
         AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
         'Booking Email',
       );
@@ -183,7 +183,7 @@ export class CommunicationAnalyticsEffects {
     ofType(NewEmailSelected),
     switchMap(() => {
       this.analytics.logEvent(
-        AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+        AnalyticsEventCategories.COMMUNICATION,
         AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
         'New Email',
       );
@@ -195,7 +195,7 @@ export class CommunicationAnalyticsEffects {
     ofType(PostalSelected),
     switchMap(() => {
       this.analytics.logEvent(
-        AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+        AnalyticsEventCategories.COMMUNICATION,
         AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
         'By Post',
       );

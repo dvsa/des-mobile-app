@@ -19,13 +19,13 @@ export const CommunicationValidationError = createAction(
 );
 
 export const BookingEmailSelected = createAction(
-  '[WaitingRoomToCarPage] Booking email selected',
+  '[CommunicationPage] Booking email selected',
 );
 
 export const NewEmailSelected = createAction(
-  '[WaitingRoomToCarPage] New email selected',
+  '[CommunicationPage] New email selected',
 );
 
 export const PostalSelected = createAction(
-  '[WaitingRoomToCarPage] Post selected',
+  '[CommunicationPage] Post selected',
 );

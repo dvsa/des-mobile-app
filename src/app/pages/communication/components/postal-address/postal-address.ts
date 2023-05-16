@@ -3,9 +3,6 @@ import {
 } from '@angular/core';
 import { Address } from '@dvsa/mes-test-schema/categories/common';
 import { UntypedFormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { StoreModel } from '@shared/models/store.model';
-import { PostalSelected } from '@pages/communication/communication.actions';
 
 @Component({
   selector: 'postal-address',
@@ -13,11 +10,6 @@ import { PostalSelected } from '@pages/communication/communication.actions';
   styleUrls: ['postal-address.scss'],
 })
 export class PostalAddressComponent {
-
-  constructor(
-    private store$: Store<StoreModel>,
-  ) {
-  }
 
   @Input()
   formGroup: UntypedFormGroup;
@@ -33,7 +25,6 @@ export class PostalAddressComponent {
 
   postalRadioSelected() {
     this.postalRadioSelect.emit();
-    this.store$.dispatch(PostalSelected());
   }
 
   ngOnInit() {
