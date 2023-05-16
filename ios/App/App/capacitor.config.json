@@ -1,7 +1,6 @@
 {
 	"appId": "uk.gov.dvsa.drivingexaminerservices",
 	"appName": "DES",
-	"bundledWebRuntime": false,
 	"webDir": "www",
 	"plugins": {
 		"SplashScreen": {
