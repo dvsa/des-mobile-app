@@ -27,4 +27,5 @@ import { ComponentsModule } from '@components/common/common-components.module';
     CandidateDetailNavigationComponent,
   ],
 })
-export class CandidateDetailsComponentsModule { }
+export class CandidateDetailsComponentsModule {
+}
