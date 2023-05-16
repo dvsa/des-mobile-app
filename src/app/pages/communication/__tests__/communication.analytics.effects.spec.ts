@@ -234,4 +234,55 @@ describe('CommunicationAnalyticsEffects', () => {
     });
   });
 
+  describe('bookingEmailSelected$', () => {
+    it('should dispatch action when booking email option is selected', (done) => {
+      actions$.next(communicationActions.BookingEmailSelected());
+      effects.bookingEmailSelected$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+            AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+            'Booking Email',
+          );
+        done();
+      });
+    });
+  });
+
+  describe('newEmailSelected$', () => {
+    it('should dispatch action when new email option is selected', (done) => {
+      actions$.next(communicationActions.NewEmailSelected());
+      effects.newEmailSelected$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+            AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+            'New Email',
+          );
+        done();
+      });
+    });
+  });
+
+  describe('postalSelected$', () => {
+    it('should dispatch action when postal option is selected', (done) => {
+      actions$.next(communicationActions.PostalSelected());
+      effects.postalSelected$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
+            AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
+            'By Post',
+          );
+        done();
+      });
+    });
+  });
+
 });
