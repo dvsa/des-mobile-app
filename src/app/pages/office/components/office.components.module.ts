@@ -10,6 +10,7 @@ import { TrueLikenessComponent } from '@pages/office/components/true-likeness/tr
 import { ECOCardComponent } from '@pages/office/components/eco-card/eco-card.component';
 import { DrivingFaultsComponent } from '@pages/office/components/driving-faults/driving-faults.component';
 import { ETACardComponent } from '@pages/office/components/eta-card/eta-card.component';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { FaultCommentComponent } from './fault-comment/fault-comment';
 import { FaultCommentCardComponent } from './fault-comment-card/fault-comment-card';
 import { RouteNumberComponent } from './route-number/route-number';
@@ -25,6 +26,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
 
 @NgModule({
   declarations: [
+    OfficeFooterComponent,
     FaultCommentComponent,
     FaultCommentCardComponent,
     RouteNumberComponent,
@@ -54,6 +56,7 @@ import { DateOfTest } from './date-of-test/date-of-test';
     ReactiveFormsModule,
   ],
   exports: [
+    OfficeFooterComponent,
     FaultCommentComponent,
     FaultCommentCardComponent,
     RouteNumberComponent,

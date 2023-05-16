@@ -1,182 +1,165 @@
 <ion-header>
-    <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
-    <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
-        <ion-title>Office</ion-title>
-        <ion-buttons *ngIf="isDelegated" id="office-back-button" slot="start">
-            <ion-back-button></ion-back-button>
-        </ion-buttons>
-    </ion-toolbar>
+  <practice-mode-banner *ngIf="isEndToEndPracticeMode"></practice-mode-banner>
+  <ion-toolbar mode="ios" [ngClass]="{'toolbar-no-padding': isEndToEndPracticeMode}">
+    <ion-title>Office</ion-title>
+    <ion-buttons *ngIf="isDelegated" id="office-back-button" slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content force-overscroll="false">
-    <office-candidate-section
-            [candidateName]="pageState.candidateName$ | async"
-            [driverNumber]="pageState.candidateDriverNumber$ | async"
-            [startTime]="pageState.startTime$ | async"
-            [testOutcomeText]="pageState.testOutcomeText$ | async">
-    </office-candidate-section>
+  <office-candidate-section
+    [candidateName]="pageState.candidateName$ | async"
+    [driverNumber]="pageState.candidateDriverNumber$ | async"
+    [startTime]="pageState.startTime$ | async"
+    [testOutcomeText]="pageState.testOutcomeText$ | async">
+  </office-candidate-section>
 
-    <form [formGroup]="form">
-        <ion-card>
-            <ion-card-header>
-                <h4>Test summary</h4>
-            </ion-card-header>
+  <form [formGroup]="form">
+    <ion-card>
+      <ion-card-header>
+        <h4>Test summary</h4>
+      </ion-card-header>
 
-            <ion-card-content class="card-content-ios ion-no-padding">
-                <ion-grid class="grid">
-                    <date-of-test
-                            *ngIf="isDelegated || (pageState.isRekey$ | async)"
-                            [dateOfTest]="pageState.startDate$ | async"
-                            (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
-                            (dateOfTestChange)="dateOfTestChanged($event)">
-                    </date-of-test>
+      <ion-card-content class="card-content-ios ion-no-padding">
+        <ion-grid class="grid">
+          <date-of-test
+            *ngIf="isDelegated || (pageState.isRekey$ | async)"
+            [dateOfTest]="pageState.startDate$ | async"
+            (setIsValidStartDateTime)="setIsValidStartDateTime($event)"
+            (dateOfTestChange)="dateOfTestChanged($event)">
+          </date-of-test>
 
-                    <ion-row class="mes-component-row mes-row-separator ion-align-items-center"
-                             id="application-reference-card" *ngIf="isDelegated">
-                        <ion-col class="component-label" size="32">
-                            <label>Application reference</label>
-                        </ion-col>
-                        <ion-col class="ion-padding-start">
-                            <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
-                        </ion-col>
-                    </ion-row>
+          <ion-row class="mes-component-row mes-row-separator ion-align-items-center"
+                   id="application-reference-card" *ngIf="isDelegated">
+            <ion-col class="component-label" size="32">
+              <label>Application reference</label>
+            </ion-col>
+            <ion-col class="ion-padding-start">
+              <span class="mes-data">{{pageState.applicationNumber$ | async }}</span>
+            </ion-col>
+          </ion-row>
 
-                    <activity-code
-                            id="activity-code-card"
-                            [formGroup]="form"
-                            [activityCodeModel]="pageState.activityCode$ | async"
-                            [activityCodeOptions]="activityCodeOptions"
-                            (activityCodeChange)="activityCodeChanged($event)"
-                            [disabled]="!isDelegated">
-                    </activity-code>
+          <activity-code
+            id="activity-code-card"
+            [formGroup]="form"
+            [activityCodeModel]="pageState.activityCode$ | async"
+            [activityCodeOptions]="activityCodeOptions"
+            (activityCodeChange)="activityCodeChanged($event)"
+            [disabled]="!isDelegated">
+          </activity-code>
 
-                    <div class="ion-no-padding">
-                        <pass-certificate-number
-                                *ngIf="isDelegated && isPass()"
-                                [form]="form"
-                                [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
-                                (passCertificateNumberChange)="passCertificateNumberChanged($event)">
-                        </pass-certificate-number>
+          <div class="ion-no-padding">
+            <pass-certificate-number
+              *ngIf="isDelegated && isPass()"
+              [form]="form"
+              [passCertificateNumberInput]="pageState.passCertificateNumber$ | async"
+              (passCertificateNumberChange)="passCertificateNumberChanged($event)">
+            </pass-certificate-number>
 
-                        <pass-certificate-declaration
-                                *ngIf="isDelegated && isPass()"
-                                [label]="'Pass certificate declaration'"
-                                [formGroup]="form"
-                                [passCertificateNumberReceived]="pageState.passCertificateNumberReceived$ | async"
-                                (passCertificateDeclarationChange)="passCertificateDeclarationChanged($event)">
-                        </pass-certificate-declaration>
+            <pass-certificate-declaration
+              *ngIf="isDelegated && isPass()"
+              [label]="'Pass certificate declaration'"
+              [formGroup]="form"
+              [passCertificateNumberReceived]="pageState.passCertificateNumberReceived$ | async"
+              (passCertificateDeclarationChange)="passCertificateDeclarationChanged($event)">
+            </pass-certificate-declaration>
 
-                        <language-preferences
-                                *ngIf="isDelegated"
-                                [isDelegated]="isDelegated"
-                                [formGroup]="form"
-                                [isWelsh]="false"
-                                (welshChanged)="isWelshChanged($event)">
-                        </language-preferences>
+            <language-preferences
+              *ngIf="isDelegated"
+              [isDelegated]="isDelegated"
+              [formGroup]="form"
+              [isWelsh]="false"
+              (welshChanged)="isWelshChanged($event)">
+            </language-preferences>
 
-                        <debrief-witnessed
-                                [display]="isDelegated"
-                                [isDelegated]="isDelegated"
-                                [formGroup]="form"
-                                [debriefWitnessed]="pageState.debriefWitnessed$ | async"
-                                [outcome]="pageState.testOutcome$ | async"
-                                (debriefWitnessedChange)="debriefWitnessedChanged($event)">
-                        </debrief-witnessed>
+            <debrief-witnessed
+              [display]="isDelegated"
+              [isDelegated]="isDelegated"
+              [formGroup]="form"
+              [debriefWitnessed]="pageState.debriefWitnessed$ | async"
+              [outcome]="pageState.testOutcome$ | async"
+              (debriefWitnessedChange)="debriefWitnessedChanged($event)">
+            </debrief-witnessed>
 
-                        <true-likeness *ngIf="(pageState.displayCandidateDescription$ | async) && !isDelegated"
-                                       [formGroup]="form"
-                                       [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
-                                       (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
-                        </true-likeness>
+            <true-likeness *ngIf="(pageState.displayCandidateDescription$ | async) && !isDelegated"
+                           [formGroup]="form"
+                           [trueLikeness]="pageState.trueLikenessToPhoto$ | async"
+                           (trueLikenessChange)="trueLikenessToPhotoChanged($event)">
+            </true-likeness>
 
-                        <candidate-description
-                                *ngIf="!isDelegated"
-                                [display]="(pageState.displayCandidateDescription$ | async)"
-                                [formGroup]="form"
-                                [candidateDescription]="pageState.candidateDescription$ | async"
-                                [outcome]="pageState.testOutcome$ | async"
-                                [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
-                                (candidateDescriptionChange)="candidateDescriptionChanged($event)">
-                        </candidate-description>
+            <candidate-description
+              *ngIf="!isDelegated"
+              [display]="(pageState.displayCandidateDescription$ | async)"
+              [formGroup]="form"
+              [candidateDescription]="pageState.candidateDescription$ | async"
+              [outcome]="pageState.testOutcome$ | async"
+              [trueLikenessToPhoto]="pageState.trueLikenessToPhoto$ | async"
+              (candidateDescriptionChange)="candidateDescriptionChanged($event)">
+            </candidate-description>
 
-                        <identification
-                                *ngIf="!isDelegated"
-                                [display]="(pageState.displayIdentification$ | async)"
-                                [formGroup]="form"
-                                [identification]="pageState.identification$ | async"
-                                [outcome]="pageState.testOutcome$ | async"
-                                (identificationChange)="identificationChanged($event)">
-                        </identification>
+            <identification
+              *ngIf="!isDelegated"
+              [display]="(pageState.displayIdentification$ | async)"
+              [formGroup]="form"
+              [identification]="pageState.identification$ | async"
+              [outcome]="pageState.testOutcome$ | async"
+              (identificationChange)="identificationChanged($event)">
+            </identification>
 
-                        <additional-information
-                                [display]="pageState.displayAdditionalInformation$ | async"
-                                [additionalInformation]="pageState.additionalInformation$ | async"
-                                [formGroup]="form"
-                                [outcome]="pageState.testOutcome$ | async"
-                                (additionalInformationChange)="additionalInformationChanged($event)">
-                        </additional-information>
+            <additional-information
+              [display]="pageState.displayAdditionalInformation$ | async"
+              [additionalInformation]="pageState.additionalInformation$ | async"
+              [formGroup]="form"
+              [outcome]="pageState.testOutcome$ | async"
+              (additionalInformationChange)="additionalInformationChanged($event)">
+            </additional-information>
 
-                        <accompaniment-card-cat-cpc
-                                [formGroup]="form"
-                                [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
-                                [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
-                                (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
-                                (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()">
-                        </accompaniment-card-cat-cpc>
+            <accompaniment-card-cat-cpc
+              [formGroup]="form"
+              [supervisorAccompaniment]="pageState.supervisorAccompaniment$ | async"
+              [interpreterAccompaniment]="pageState.interpreterAccompaniment$ | async"
+              (supervisorAccompanimentChange)="supervisorAccompanimentToggledCPC()"
+              (interpreterAccompanimentChange)="interpreterAccompanimentToggledCPC()">
+            </accompaniment-card-cat-cpc>
 
-                        <combination-office
-                                [combination]="pageState.combination$ | async"
-                                [combinationAdditionalText]="getCombinationAdditionalText(pageState.combination$ | async)">
-                        </combination-office>
+            <combination-office
+              [combination]="pageState.combination$ | async"
+              [combinationAdditionalText]="getCombinationAdditionalText(pageState.combination$ | async)">
+            </combination-office>
 
-                        <assessment-report
-                                *ngIf="isFail() && !isDelegated"
-                                [formGroup]="form"
-                                [assessmentReport]="pageState.assessmentReport$ | async"
-                                (assessmentReportChange)="assessmentReportChanged($event)">
-                        </assessment-report>
+            <assessment-report
+              *ngIf="isFail() && !isDelegated"
+              [formGroup]="form"
+              [assessmentReport]="pageState.assessmentReport$ | async"
+              (assessmentReportChange)="assessmentReportChanged($event)">
+            </assessment-report>
 
-                        <cpc-debrief-card
-                                *ngIf="isFail() && pageState.combination$ | async"
-                                [overallScore]="pageState.overallScore$ | async"
-                                [question1]="pageState.question1$ | async"
-                                [question2]="pageState.question2$ | async"
-                                [question3]="pageState.question3$ | async"
-                                [question4]="pageState.question4$ | async"
-                                [question5]="pageState.question5$ | async"
-                                [testOutcome]="outcome">
-                        </cpc-debrief-card>
-                    </div>
-                </ion-grid>
-            </ion-card-content>
-        </ion-card>
-    </form>
+            <cpc-debrief-card
+              *ngIf="isFail() && pageState.combination$ | async"
+              [overallScore]="pageState.overallScore$ | async"
+              [question1]="pageState.question1$ | async"
+              [question2]="pageState.question2$ | async"
+              [question3]="pageState.question3$ | async"
+              [question4]="pageState.question4$ | async"
+              [question5]="pageState.question5$ | async"
+              [testOutcome]="outcome">
+            </cpc-debrief-card>
+          </div>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </form>
 </ion-content>
 
 <ion-footer>
-    <ion-row class="mes-full-width-card box-shadow">
-        <ion-col *ngIf="!(pageState.isRekey$ | async) && !isDelegated" class="ion-no-padding ion-text-left">
-            <ion-button id="office-save-button" class="mes-grey-button office-button" (click)="defer()">
-                <h3>Save and continue later</h3>
-            </ion-button>
-        </ion-col>
-        <ion-col *ngIf="!(pageState.isRekey$ | async) && !isDelegated" class="ion-no-padding ion-text-end">
-            <ion-button id="office-complete-button" class="mes-primary-button office-button" (click)="onSubmit()">
-                <h3>Mark as complete</h3>
-            </ion-button>
-        </ion-col>
-        <ion-col *ngIf="(pageState.isRekey$ | async) && !isDelegated">
-            <ion-button id="reason-for-rekey" class="mes-primary-button padding-x-5 full-width"
-                        (click)="goToReasonForRekey()" [disabled]="!isValidStartDateTime">
-                <h3>Continue</h3>
-            </ion-button>
-        </ion-col>
-        <ion-col *ngIf="isDelegated">
-            <ion-button id="submit-button" class="mes-primary-button padding-x-5 full-width"
-                        [disabled]="!isValidStartDateTime"
-                        (click)="onSubmit(isDelegated)">
-                <h3>Submit</h3>
-            </ion-button>
-        </ion-col>
-    </ion-row>
+  <office-footer
+    [isDelegated]="isDelegated"
+    [isRekey]="(pageState.isRekey$ | async)"
+    [isValidStartDateTime]="isValidStartDateTime"
+    (saveClicked)="defer()"
+    (submitClicked)="onSubmit($event)"
+    (continueClicked)="goToReasonForRekey()"
+  ></office-footer>
 </ion-footer>
