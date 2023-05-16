@@ -6,7 +6,7 @@
       </ion-col>
       <ion-col size="14">
         <ion-icon class="review-icon" *ngIf="formControl.dirty" [ngClass]="formControl.valid ? 'valid' : 'invalid'"
-                  name="{{formControl.valid ? 'checkmark-circle' : 'close-circle'}}">
+                  name="{{formControl.valid ? 'checkmark-circle' : 'close-circle'}}" id="review-{{formControl.valid ? 'valid' : 'invalid'}}-icon">
         </ion-icon>
       </ion-col>
     </ion-row>
