@@ -197,7 +197,7 @@ export class CommunicationAnalyticsEffects {
       this.analytics.logEvent(
         AnalyticsEventCategories.WAITING_ROOM_TO_CAR,
         AnalyticsEvents.CANDIDATE_RECEIVE_TEST_RESULTS,
-        'New Email',
+        'By Post',
       );
       return of(AnalyticRecorded());
     }),
