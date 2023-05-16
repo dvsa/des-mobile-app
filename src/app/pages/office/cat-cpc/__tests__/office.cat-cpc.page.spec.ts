@@ -338,12 +338,10 @@ describe('OfficeCatCPCPage', () => {
     });
 
     describe('deferring the write up', () => {
-      it('should dispatch an action to persist tests + pop navstack to root when pressing save and continue', () => {
+      it('should dispatch an action to persist tests + pop navstack to root when defer is called', () => {
         spyOn(component, 'popToRoot');
         fixture.detectChanges();
-        const saveAndContinueButton = fixture.debugElement.query(By.css('#office-save-button'));
-        saveAndContinueButton.triggerEventHandler('click', null);
-        fixture.detectChanges();
+        component.defer();
         expect(component.popToRoot).toHaveBeenCalled();
       });
     });

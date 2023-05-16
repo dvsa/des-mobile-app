@@ -21,4 +21,25 @@ describe('OfficeFooterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('saveClick', () => {
+    it('should emit saveClicked', () => {
+      spyOn(component.saveClicked, 'emit');
+      component.saveClick();
+      expect(component.saveClicked.emit).toHaveBeenCalled();
+    });
+  });
+  describe('submitClick', () => {
+    it('should emit submitClicked with the value of delegated', () => {
+      spyOn(component.submitClicked, 'emit');
+      component.submitClick();
+      expect(component.submitClicked.emit).toHaveBeenCalledWith(component.isDelegated);
+    });
+  });
+  describe('continueClick', () => {
+    it('should emit continueClicked', () => {
+      spyOn(component.continueClicked, 'emit');
+      component.continueClick();
+      expect(component.continueClicked.emit).toHaveBeenCalled();
+    });
+  });
 });
