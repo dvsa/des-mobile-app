@@ -2,12 +2,14 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <h5 id="previous-day-container" *ngIf="canNavigateToPreviousDay"
-            class="navigation-button"
-            (click)="onPreviousDayClick()">
-          <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
+        <header-component
+          *ngIf="canNavigateToPreviousDay"
+          [id]="'previous-day-container'"
+          (click)="onPreviousDayClick()"
+          [headerNum]="5">
+          <ion-icon class="navigation-arrow arrow-position" name="chevron-back-outline"></ion-icon>
           <span id="previous-day">{{previousDayLabel}}</span>
-        </h5>
+        </header-component>
       </ion-col>
       <ion-col>
         <div id="date-container">
@@ -48,13 +50,15 @@
         </div>
       </ion-col>
       <ion-col>
-        <h5 id="next-day-container"
-            *ngIf="canNavigateToNextDay"
-            class="next-navigation-button"
-            (click)="onNextDayClick()">
+        <header-component
+          class="next-navigation-button"
+          *ngIf="canNavigateToNextDay"
+          [id]="'next-day-container'"
+          (click)="onNextDayClick()"
+          [headerNum]="5">
           <span id="next-day">{{nextDayLabel}}</span>
           <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
-        </h5>
+        </header-component>
       </ion-col>
     </ion-row>
   </ion-grid>

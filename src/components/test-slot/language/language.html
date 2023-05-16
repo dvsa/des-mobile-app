@@ -2,5 +2,10 @@
   <div class="language-padding">
     <img class="dragon" src="assets/imgs/journal/welsh-red-dragon-hi.png" alt="Welsh language icon" />
   </div>
-  <h6 id="title-{{applicationId}}" class="language-padding">Cymraeg</h6>
+  <header-component
+    [id]="'title-'+applicationId"
+    class="language-padding"
+    [headerNum]="6">
+    Cymraeg
+  </header-component>
 </div>
