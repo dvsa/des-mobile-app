@@ -4,7 +4,11 @@
       <ion-row class="mes-data ion-align-items-start">
         <ion-col size="3"></ion-col>
         <ion-col size="34">
-          <h4 class="fault-heading">{{ 'debrief.ecoHeader' | translate }}</h4>
+          <header-component
+            class="fault-heading"
+            [headerNum]="4">
+            {{ 'debrief.ecoHeader' | translate }}
+          </header-component>
         </ion-col>
         <ion-col class="down-padding ion-align-self-start">
           <div id="ecoFaults-adviceGivenControl" *ngIf="adviceGivenControl && !adviceGivenPlanning">

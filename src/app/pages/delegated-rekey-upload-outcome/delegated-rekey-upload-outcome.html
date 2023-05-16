@@ -17,6 +17,12 @@
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <h2 class="modal-alert-header" id="dlg-rekey-upload-successful-label">Rekey upload was successful</h2>
+          <header-component
+            class="modal-alert-header"
+            [id]="'dlg-rekey-upload-successful-label'"
+            [headerNum]="2">
+            Rekey upload was successful
+          </header-component>
         </ion-row>
       </ion-col>
     </ion-row>
@@ -28,11 +34,22 @@
         </ion-row>
         <ion-row class="ion-justify-content-center">
           <h2 class="modal-alert-header" id="dlg-rekey-upload-unsuccessful-label">Rekey upload was unsuccessful</h2>
+          <header-component
+            class="modal-alert-header"
+            [id]="'dlg-rekey-upload-unsuccessful-label'"
+            [headerNum]="2">
+            Rekey upload was unsuccessful
+          </header-component>
         </ion-row>
         <br>
         <ion-row class="ion-justify-content-center">
           <ion-button id="dlg-retry-upload-btn" class="mes-grey-button retry-button" (click)="retryUpload()">
             <h3 id="dlg-retry-upload-label">Retry upload</h3>
+            <header-component
+              [id]="'dlg-retry-upload-label'"
+              [headerNum]="3">
+              Retry upload
+            </header-component>
           </ion-button>
         </ion-row>
       </ion-col>
@@ -46,12 +63,22 @@
       <ion-button id="dlg-return-to-dashboard-btn" class="mes-grey-button retry-button" (click)="goToDashboard()"
                   [disabled]="pageState.isUploading$ | async">
         <h3 id="dlg-return-to-dashboard-label">Return to dashboard</h3>
+        <header-component
+          [id]="'dlg-return-to-dashboard-label'"
+          [headerNum]="3">
+          Return to dashboard
+        </header-component>
       </ion-button>
     </ion-col>
     <ion-col class="ion-no-padding ion-text-end">
       <ion-button id="dlg-rekey-another-btn" class="mes-primary-button retry-button" (click)="goToDelegatedSearch()"
                   [disabled]="pageState.isUploading$ | async">
         <h3 id="dlg-rekey-another-label">Rekey another test</h3>
+        <header-component
+          [id]="'dlg-rekey-another-label'"
+          [headerNum]="3">
+          Rekey another test
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>

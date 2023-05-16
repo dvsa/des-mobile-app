@@ -1,9 +1,10 @@
 <ion-card id="speed-check" *ngIf="emergencyStop.firstAttempt !== undefined || avoidance.firstAttempt !== undefined">
   <ion-card-header>
     <ion-card-title>
-      <h4>
+      <header-component
+        [headerNum]="4">
         {{ 'debrief.speedRequirementsHeader' | translate }}
-      </h4>
+      </header-component>
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>

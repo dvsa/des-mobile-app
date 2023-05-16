@@ -9,7 +9,12 @@
       </ion-badge>
     </ion-buttons>
     <ion-buttons slot="end">
-      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+      <header-component
+        class="version-number"
+        [id]="'confirm-test-details-submit-test-results-label'"
+        [headerNum]="6">
+        Version {{pageState.appVersion$ | async}}
+      </header-component>
     </ion-buttons>
     <ion-title id="page-title">My dashboard</ion-title>
   </ion-toolbar>
@@ -26,13 +31,13 @@
       [role]="pageState.role$ | async">
     </profile-header>
     <hr/>
-    <br>
-    <header-component
-      class="date"
-      [id]="'date-field'"
-      [headerNum]="4"
-      [content]="todaysDateFormatted"
-    ></header-component>
+    <div class="date">
+      <header-component
+        [id]="'date-field'"
+        [headerNum]="4">
+        {{todaysDateFormatted}}
+      </header-component>
+    </div>
     <ion-grid class="dashboard-grid">
       <ion-row *ngIf="!showDelegatedExaminerRekey()">
         <ion-col size="48">

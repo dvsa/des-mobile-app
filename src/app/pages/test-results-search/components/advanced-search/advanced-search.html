@@ -183,10 +183,13 @@
       [disabled]="!!showSpinner"
       class="mes-primary-button search-tests"
       id="advanced-search-button">
-      <h3 id="advanced-search-button-text">
-        <ion-icon class="search-icon" name="search"></ion-icon>
+      <header-component
+        class="search-padding"
+        [id]="'advanced-search-button-text'"
+        [headerNum]="3">
+        <ion-icon name="search" class="search-icon"></ion-icon>
         Search
-      </h3>
+      </header-component>
     </ion-button>
     <ion-spinner
       *ngIf="showSpinner"

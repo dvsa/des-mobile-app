@@ -1,8 +1,18 @@
 <ion-card id="serious-fault" *ngIf="seriousFaults?.length > 0">
   <ion-card-header>
     <ion-card-title>
-      <h1 id="serious-fault-count" class="fault-heading">{{seriousFaults.length}}</h1>
-      <h4 id="serious-fault-title" class="fault-heading">{{ 'debrief.seriousFaultsCardDescription' | translate }}</h4>
+      <header-component
+        class="fault-heading"
+        [id]="'serious-fault-count'"
+        [headerNum]="1">
+        {{seriousFaults.length}}
+      </header-component>
+      <header-component
+        class="fault-heading"
+        [id]="'serious-fault-title'"
+        [headerNum]="4">
+        {{ 'debrief.seriousFaultsCardDescription' | translate }}
+      </header-component>
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
@@ -13,8 +23,7 @@
           <div class="down-padding counter-icon">
             <serious-fault-badge
               [showBadge]="true"
-              [competencyDisplayName]="seriousFault"
-            >
+              [competencyDisplayName]="seriousFault">
             </serious-fault-badge>
           </div>
         </ion-col>

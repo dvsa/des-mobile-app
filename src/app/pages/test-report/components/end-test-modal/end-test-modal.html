@@ -5,17 +5,18 @@
         class="modal-alert-header"
         [id]="'end-test-text'"
         [headerNum]="2"
-        [content]="'End test'"
-      ></header-component>
+        [inheritWeight]=true>
+        End test
+      </header-component>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col size="84" class="ion-no-padding">
       <ion-button id="end-test-continue-button" class="mes-primary-button" (click)="onContinue()">
         <header-component
-          [headerNum]="3"
-          [content]="'Continue to debrief'"
-        ></header-component>
+          [headerNum]="3">
+          Continue to debrief
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>

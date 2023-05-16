@@ -1,12 +1,23 @@
 <ion-row class="mes-full-width-card">
     <ion-col size="42"></ion-col>
     <ion-col size="32" class="ion-no-padding align-col-right">
-        <h2 id="total-label">{{label}}</h2>
+      <header-component
+        [id]="'total-label'"
+        [inheritWeight]="true"
+        [headerNum]="2">
+        {{label}}
+      </header-component>
     </ion-col>
     <ion-col size="10" class="inline-mode ion-margin-start">
         <div id="score-value" class="score-value">{{score || 0}}</div>
     </ion-col>
     <ion-col size="4">
-        <h2 *ngIf="displayPercentage" id="percentage-label">%</h2>
+      <header-component
+        *ngIf="displayPercentage"
+        [id]="'percentage-label'"
+        [inheritWeight]="true"
+        [headerNum]="2">
+        %
+      </header-component>
     </ion-col>
 </ion-row>

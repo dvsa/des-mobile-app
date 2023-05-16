@@ -4,9 +4,9 @@
             <ion-col size="82">
               <header-component
                 [id]="idSelector + '-card-header'"
-                [headerNum]="2"
-                [content]="title"
-              ></header-component>
+                [headerNum]="2">
+                {{title}}
+              </header-component>
                 <p *ngIf="isInvalid || showCompleted" id="{{idSelector}}-score">{{score}}/{{maxScore}} completed</p>
             </ion-col>
             <ion-col size="14">

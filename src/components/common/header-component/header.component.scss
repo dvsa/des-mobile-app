@@ -1,8 +1,9 @@
 @import "src/theme/sass-partials/_typography.scss";
 
 ion-text {
-  color: black;
+  color: inherit;
   text-align: inherit;
+  display: block;
 }
 
 .header1 {
@@ -125,4 +126,12 @@ ion-text {
 
 .inherit-weight {
   font-weight: inherit;
+}
+
+.inherit-display-type {
+  display: inherit;
+}
+
+.inherit-font-size {
+  font-size: inherit !important;
 }

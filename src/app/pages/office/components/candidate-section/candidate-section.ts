@@ -28,15 +28,16 @@ export class CandidateSectionComponent {
   @Input()
   isStandardsCheck: boolean;
 
-  public getTestOutcomeClass = (testOutcome: TestOutcome): string => {
-    // eslint-disable-next-line default-case
+  public getTestOutcomeColour = (testOutcome: TestOutcome): string => {
     switch (testOutcome) {
       case TestOutcome.Passed:
-        return 'pass';
+        return 'var(--gds-dark-green-3)';
       case TestOutcome.Failed:
-        return 'fail';
+        return 'var(--gds-red)';
       case TestOutcome.Terminated:
-        return 'terminated';
+        return 'var(--gds-grey-1)';
+      default:
+        return 'black';
     }
   };
 

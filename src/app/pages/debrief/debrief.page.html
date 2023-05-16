@@ -91,9 +91,12 @@
 </ion-content>
 
 <ion-footer>
-  <div id="end-debrief-background">
-    <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">
-      <h3>{{ 'debrief.end' | translate }}</h3>
+    <div id="end-debrief-background">
+        <ion-button id="end-debrief-button" class="mes-primary-button" (click)="endDebrief()">
+          <header-component
+            [headerNum]="3">
+            {{ 'debrief.end' | translate }}
+          </header-component>
     </ion-button>
   </div>
 </ion-footer>

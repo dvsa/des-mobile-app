@@ -2,30 +2,46 @@
     <ion-grid>
         <ion-row>
             <ion-col>
-                <h5 *ngIf="canNavigateToPreviousCandidate"
-                    id="previous-slot-container"
-                    class="previous-navigation-button"
-                    (click)="onPreviousCandidateClick()">
-                    <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
-                    <span id="previous-slot">Previous</span>
-                </h5>
+              <header-component
+                *ngIf="canNavigateToPreviousCandidate"
+                class="previous-navigation-button"
+                (click)="onPreviousCandidateClick()"
+                [zoom]="zoom"
+                [id]="'previous-slot-container'"
+                [headerNum]="5">
+                <ion-icon class="navigation-arrow" name="chevron-back-outline"></ion-icon>
+                <span id="previous-slot">Previous</span>
+              </header-component>
             </ion-col>
             <ion-col>
                 <div id="date-container">
                     <div>
-                        <h2 id="name">{{name}}</h2>
-                        <h3 id="dateAndTime">{{time}} {{date}}</h3>
+                      <header-component
+                        [id]="'name'"
+                        [zoom]="zoom"
+                        [headerNum]="2">
+                        {{name}}
+                      </header-component>
+                      <header-component
+                      [id]="'dateAndTime'"
+                      [zoom]="zoom"
+                      [headerNum]="3">
+                        {{time}} {{date}}
+                      </header-component>
                     </div>
                 </div>
             </ion-col>
             <ion-col>
-                <h5 *ngIf="canNavigateToNextCandidate"
-                    id="next-slot-container"
-                    class="next-navigation-button"
-                    (click)="onNextCandidateClick()">
-                    <span id="next-slot">Next</span>
-                    <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
-                </h5>
+              <header-component
+                *ngIf="canNavigateToNextCandidate"
+                class="next-navigation-button"
+                (click)="onNextCandidateClick()"
+                [zoom]="zoom"
+                [id]="'next-slot-container'"
+                [headerNum]="5">
+                <span id="next-slot">Next</span>
+                <ion-icon class="navigation-arrow" name="chevron-forward-outline"></ion-icon>
+              </header-component>
             </ion-col>
         </ion-row>
     </ion-grid>

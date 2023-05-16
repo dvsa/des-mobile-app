@@ -36,14 +36,14 @@ button[clear] {
     &.activated {
       background: var(--mes-white-darken-10);
     }
+  }
 
-    h3 {
-      color: var(--gds-dark-green);
+  .button-text {
+    color: var(--gds-dark-green) !important;
 
-      .text-zoom-x-large & {
-        line-height: 1.5em;
-        white-space: normal;
-      }
+    .text-zoom-x-large & {
+      line-height: 1.5em;
+      white-space: normal;
     }
   }
 

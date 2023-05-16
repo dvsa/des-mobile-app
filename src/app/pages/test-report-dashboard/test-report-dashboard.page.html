@@ -16,11 +16,11 @@
         <ion-col size="60">
           <header-component
             class="normal-font-weight ion-padding-start"
-            [shouldInheritWeight]=true
+            [inheritWeight]=true
             [id]="'adi-pt3-dashboard-title'"
-            [headerNum]="2"
-            [content]="testCategory === 'SC' ? 'Standards check':'ADI Part 3' + ' assessment'"
-          ></header-component>
+            [headerNum]="2">
+            {{testCategory === 'SC' ? 'Standards check':'ADI Part 3' + ' assessment'}}
+          </header-component>
         </ion-col>
         <ion-col>
             <timer class="ion-float-end"></timer>
@@ -65,6 +65,11 @@
                     shape="round"
                     class="mes-primary-button wrtc-footer-btn"
                     id="continue-button">
+              <header-component
+                [id]="'continue-text'"
+                [headerNum]="3">
+                Continue
+              </header-component>
                 <h3 id="continue-text">Continue</h3>
             </ion-button>
         </ion-col>

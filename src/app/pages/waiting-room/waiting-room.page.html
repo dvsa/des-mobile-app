@@ -57,7 +57,12 @@
         }" id="declaration-section">
       <ion-row>
         <ion-col>
-          <h4 id="waiting-room-declaration-intent">{{ 'waitingRoom.declarationIntent' | translate}}:</h4>
+          <header-component
+            class="last-sync"
+            [id]="'waiting-room-declaration-intent'"
+            [headerNum]="4">
+            {{ 'waitingRoom.declarationIntent' | translate}}:
+          </header-component>
         </ion-col>
       </ion-row>
 

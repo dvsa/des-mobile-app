@@ -17,7 +17,12 @@
           <ion-icon class="refresh-button-icon colour-white" name="sync-outline"></ion-icon>
           <span class="colour-white">Refresh</span>
           <ion-label>
-            <h6 class="last-sync" id="last-sync">Last sync: {{pageState.lastRefreshedTime$ | async}}</h6>
+            <header-component
+              class="last-sync"
+              [id]="'last-sync'"
+              [headerNum]="6">
+              Last sync: {{pageState.lastRefreshedTime$ | async}}
+            </header-component>
           </ion-label>
         </div>
       </ion-button>

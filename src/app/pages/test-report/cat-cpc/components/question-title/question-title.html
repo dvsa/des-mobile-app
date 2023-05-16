@@ -1,3 +1,8 @@
 <ion-card-header>
-    <h4 id="question-card-title">{{question.questionCode}} - {{question.title}}</h4>
+  <header-component
+    [id]="'question-card-title'"
+    [inheritWeight]="true"
+    [headerNum]="4">
+    {{question.questionCode}} - {{question.title}}
+  </header-component>
 </ion-card-header>

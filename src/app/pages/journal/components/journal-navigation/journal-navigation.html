@@ -12,22 +12,37 @@
       <ion-col>
         <div id="date-container">
           <div *ngIf="isSelectedDateToday; else notToday">
-<!--            <h1 id="date-today-header">Today</h1>-->
             <header-component
               [id]="'date-today-header'"
-              [headerNum]="1"
-              [content]="'Today'"
-            ></header-component>
+              [headerNum]="1">
+              Today
+            </header-component>
             <h3 id="today-date">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
           </div>
           <ng-template #notToday>
             <div *ngIf="fromTestCentreJournal; else journalView">
-              <h1 id="date-tomorrow-header">Tomorrow</h1>
-              <h3 id="tomorrow-date">{{ selectedDate | date:'EEEE d MMMM y' }}</h3>
+              <header-component
+                [id]="'date-tomorrow-header'"
+                [headerNum]="1">
+                Tomorrow
+              </header-component>
+              <header-component
+                [id]="'tomorrow-date'"
+                [headerNum]="3">
+                {{ selectedDate | date:'EEEE d MMMM y' }}
+              </header-component>
             </div>
             <ng-template #journalView>
-              <h1 id="date-day-header">{{ selectedDate | date:'EEEE' }}</h1>
-              <h3 id="date-subheader">{{ selectedDate | date:'d MMMM y' }}</h3>
+              <header-component
+                [id]="'date-day-header'"
+                [headerNum]="1">
+                {{ selectedDate | date:'EEEE' }}
+              </header-component>
+              <header-component
+                [id]="'date-subheader'"
+                [headerNum]="3">
+                {{ selectedDate | date:'d MMMM y' }}
+              </header-component>
             </ng-template>
           </ng-template>
         </div>

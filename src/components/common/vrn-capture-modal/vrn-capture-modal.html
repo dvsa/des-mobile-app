@@ -1,13 +1,19 @@
 <ion-card id="vrn-capture-modal-card" class="modal-alert" [formGroup]="formGroup">
   <ion-row class="ion-justify-content-center">
     <ion-col>
-      <h2 id="vrn-capture-title" class="modal-alert-header">Enter the vehicle<br />registration number</h2>
+      <div class="modal-alert-header">
+        <header-component
+          [id]="'vrn-capture-title'"
+          [headerNum]="2">
+          Enter the vehicle<br/>registration number
+        </header-component>
+      </div>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col>
       <p class="modal-text">
-        You can use this space to make note of<br />the vehicle registration number at this<br />stage if
+        You can use this space to make note of<br/>the vehicle registration number at this<br/>stage if
         known.
       </p>
     </ion-col>

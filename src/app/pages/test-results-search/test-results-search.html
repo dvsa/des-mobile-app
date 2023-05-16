@@ -77,10 +77,13 @@
                                 id="test-result-search-button"
                                 [attr.disabled]="showSearchSpinner ? 'true' : isEmpty(candidateInfo)"
                                 class="mes-primary-button search-tests" (click)="searchTests()">
-                            <h3 id="test-result-search-button-text">
-                                <ion-icon name="search" class="search-icon"></ion-icon>
-                                Search
-                            </h3>
+                          <header-component
+                            class="search-padding"
+                            [id]="'test-result-search-button-text'"
+                            [headerNum]="3">
+                            <ion-icon name="search" class="search-icon"></ion-icon>
+                            Search
+                          </header-component>
                         </ion-button>
                         <ion-spinner class="search-spinner" name="bubbles" *ngIf="showSearchSpinner"></ion-spinner>
                     </ion-row>

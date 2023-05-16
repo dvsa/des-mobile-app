@@ -19,9 +19,11 @@
     </profile-header>
   </div>
 
-  <h2 class="header-divider">
+  <header-component
+    class="header-divider"
+    [headerNum]="2">
     You have {{state.slots?.length || 0}} incomplete {{getTestsText(state.slots?.length)}} (over 1 day old)
-  </h2>
+  </header-component>
 
   <test-slot
     *ngFor="let slot of state.slots; let count = count;"

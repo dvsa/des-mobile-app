@@ -1,7 +1,12 @@
 <div class="activity-alignment outcome" *ngIf="showOutcome()">
     <ion-grid>
         <ion-row>
-            <h2 id="activity-code-{{applicationId}}" class="activity-code">{{activityCode}}</h2>
+          <header-component
+            class="activity-code"
+            [id]="'activity-code-' + applicationId"
+            [headerNum]="2">
+            {{activityCode}}
+          </header-component>
         </ion-row>
         <ion-row>
             <p id="pass-certificate-{{applicationId}}">{{passCertificate}}</p>
@@ -12,29 +17,44 @@
     <ion-col *ngIf="showRekeyButton(); else nonRekey">
         <ion-button id="rekey-button-{{applicationId}}" class="mes-secondary-button mes-rekey-button" (click)="rekeyTest()"
                     [disabled]="!canStartTest">
-            <h3 class="write-up-label">Rekey</h3>
+          <header-component
+            [headerNum]="3">
+            Rekey
+          </header-component>
         </ion-button>
     </ion-col>
     <ng-template #nonRekey>
         <ion-col *ngIf="showDelegatedExaminerRekeyButton()">
             <ion-button id="write-up-rekey-button-{{applicationId}}" class="mes-secondary-button mes-delegated-button" (click)="rekeyDelegatedTest()">
-                <h3 class="write-up-label">Rekey</h3>
+              <header-component
+                [headerNum]="3">
+                Rekey
+              </header-component>
             </ion-button>
         </ion-col>
         <ion-col *ngIf="showResumeButton()">
             <ion-button id="resume-button-{{applicationId}}" class="mes-secondary-button mes-warning-button" (click)="clickStartOrResumeTest()">
-                <h3 class="write-up-label">Resume</h3>
+              <header-component
+                [headerNum]="3">
+                Resume
+              </header-component>
             </ion-button>
         </ion-col>
         <ion-col *ngIf="showStartTestButton()">
             <ion-button id="start-test-button-{{applicationId}}" class="mes-primary-button" (click)="clickStartOrResumeTest()"
                         [disabled]="!canStartTest">
-                <h3>Start test</h3>
+              <header-component
+                [headerNum]="3">
+                Start test
+              </header-component>
             </ion-button>
         </ion-col>
         <ion-col *ngIf="showWriteUpButton()">
             <ion-button class="mes-secondary-button mes-warning-button" (click)="writeUpTest()" id="write-up-button-{{applicationId}}">
-                <h3 class="write-up-label">Write-up</h3>
+              <header-component
+                [headerNum]="3">
+                Write-up
+              </header-component>
             </ion-button>
         </ion-col>
     </ng-template>

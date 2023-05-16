@@ -45,8 +45,14 @@
     <ion-grid>
       <ion-row>
         <ion-col class="ion-text-center">
-          <h1>Today</h1>
-          <h3>{{today?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
+          <header-component
+            [headerNum]="1">
+            Today
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            {{today?.moment?.toDate() | date: 'EEEE d MMMM y'}}
+          </header-component>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -73,8 +79,14 @@
     <ion-grid>
       <ion-row>
         <ion-col class="ion-text-center">
-          <h1>Tomorrow</h1>
-          <h3>{{tomorrow?.moment?.toDate() | date: 'EEEE d MMMM y'}}</h3>
+          <header-component
+            [headerNum]="1">
+            Tomorrow
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            {{tomorrow?.moment?.toDate() | date: 'EEEE d MMMM y'}}
+          </header-component>
         </ion-col>
       </ion-row>
     </ion-grid>

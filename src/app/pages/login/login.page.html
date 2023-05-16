@@ -17,37 +17,87 @@
 <ion-content>
     <div class="login-grid">
         <div *ngIf="hasUserLoggedOut">
-            <h2>You've signed out</h2>
-            <h3><span (click)="login()" class="link">Sign in</span> again.</h3>
+          <header-component
+            [headerNum]="2">
+            You've signed out
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            <span (click)="login()" class="link">Sign in</span> again.
+          </header-component>
         </div>
         <div *ngIf="isInternetConnectionError()">
-            <h2>You're offline</h2>
-            <h3>Close the app, turn on mobile data or wifi, and then try again.</h3>
+          <header-component
+            [headerNum]="2">
+            You're offline
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            Close the app, turn on mobile data or wifi, and then try again.
+          </header-component>
         </div>
         <div *ngIf="isUserCancelledError()">
-            <h2>You've cancelled sign in</h2>
-            <h3><span (click)="login()" class="link">Sign in</span> to continue.</h3>
+          <header-component
+            [headerNum]="2">
+            You've cancelled sign in
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            <span (click)="login()" class="link">Sign in</span> to continue.
+          </header-component>
         </div>
         <div *ngIf="isUnknownError()">
-            <h2 id="loginSorry">Sorry, something went wrong</h2>
-            <h3 id="loginPleaseTryAgain">Please try again later.</h3>
+          <header-component
+            [id]="'loginSorry'"
+            [headerNum]="2">
+            Sorry, something went wrong
+          </header-component>
+          <header-component
+            [id]="'loginPleaseTryAgain'"
+            [headerNum]="2">
+            Please try again later.
+          </header-component>
             <span (click)="showErrorDetails()" class="link error-details-link">Show error details</span>
         </div>
         <div *ngIf="hasDeviceTypeError">
-            <h2>Unsupported device</h2>
-            <h3>Install the application on an approved device</h3>
+          <header-component
+            [headerNum]="2">
+            Unsupported device
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            Install the application on an approved device
+          </header-component>
         </div>
         <div *ngIf="isUserNotAuthorised()">
-            <h2>You're not authorised to use this app</h2>
-            <h3>Speak to your line manager if you want to use this app.</h3>
-            <h3>If you think you’re already authorised,<br/> you can try to <span (click)="login()"
-                                                                                  class="link">sign in</span>
-                again.</h3>
+          <header-component
+            [headerNum]="2">
+            You're not authorised to use this app
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            Speak to your line manager if you want to use this app.
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            If you think you’re already authorised,<br/> you can try to
+            <span (click)="login()" class="link">sign in</span>
+            again.
+          </header-component>
         </div>
         <div *ngIf="isInvalidAppVersionError()">
-            <h2>Unsupported application version</h2>
-            <h3>This version of DES is out of date</h3>
-            <h3>Please get the latest version from the company portal</h3>
+          <header-component
+            [headerNum]="2">
+            Unsupported application version
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            This version of DES is out of date
+          </header-component>
+          <header-component
+            [headerNum]="3">
+            Please get the latest version from the company portal
+          </header-component>
         </div>
     </div>
 

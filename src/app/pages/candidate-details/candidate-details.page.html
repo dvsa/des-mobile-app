@@ -12,19 +12,20 @@
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row class="navigation-row">
-      <candidate-detail-navigation
-        [name]="pageState.name"
-        [date]="selectedDate | date:'EEEE d MMMM y'"
-        [time]="pageState.time | date: 'HH:mm'"
-        [canNavigateToPreviousCandidate]="!!prevSlot"
-        [canNavigateToNextCandidate]="!!nextSlot"
-        (nextCandidateClicked)="changeCandidate('next')"
-        (previousCandidateClicked)="changeCandidate('prev')"
-      ></candidate-detail-navigation>
-    </ion-row>
-  </ion-grid>
+    <ion-grid>
+        <ion-row class="navigation-row">
+            <candidate-detail-navigation
+                    [name]="pageState.name"
+                    [date]="selectedDate | date:'EEEE d MMMM y'"
+                    [time]="pageState.time | date: 'HH:mm'"
+                    [canNavigateToPreviousCandidate]="!!prevSlot"
+                    [canNavigateToNextCandidate]="!!nextSlot"
+                    (nextCandidateClicked)="changeCandidate('next')"
+                    (previousCandidateClicked)="changeCandidate('prev')"
+                    [zoom]="navParams.get('zoom')"
+            ></candidate-detail-navigation>
+        </ion-row>
+    </ion-grid>
 
   <fit-marker-banner *ngIf="pageState.fitMarker" [fitCaseNumber]="pageState.fitCaseNumber"></fit-marker-banner>
 
@@ -33,9 +34,9 @@
           <header-component
             [id]="'candidate-details-title'"
             [headerNum]="4"
-            [content]="'Candidate details'"
-            [zoom]="navParams.get('zoom')"
-          ></header-component>
+            [zoom]="navParams.get('zoom')">
+            Candidate details
+          </header-component>
         </ion-card-header>
         <ion-card-content>
             <inappropriate-use-banner></inappropriate-use-banner>
@@ -127,9 +128,9 @@
           <header-component
             [id]="'contact-details-title'"
             [headerNum]="4"
-            [content]="'Contact details'"
-            [zoom]="navParams.get('zoom')"
-          ></header-component>
+            [zoom]="navParams.get('zoom')">
+            Contact details
+          </header-component>
         </ion-card-header>
         <ion-card-content>
             <ion-grid>
@@ -148,9 +149,9 @@
           <header-component
             [id]="'business-details-title'"
             [headerNum]="4"
-            [content]="'Business contact details'"
-            [zoom]="navParams.get('zoom')"
-          ></header-component>
+            [zoom]="navParams.get('zoom')">
+            Business contact details
+          </header-component>
     </ion-card-header>
     <ion-card-content>
       <ion-grid>

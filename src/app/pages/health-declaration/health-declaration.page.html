@@ -29,7 +29,10 @@
         <div class="mes-full-width-card no-padding-top" id="declaration-section">
             <ion-row>
                 <ion-col>
-                    <h4>{{ 'healthDeclaration.declarationIntent' | translate }}:</h4>
+                  <header-component
+                    [headerNum]="4">
+                    {{'healthDeclaration.declarationIntent' | translate}}
+                  </header-component>
                 </ion-col>
             </ion-row>
 

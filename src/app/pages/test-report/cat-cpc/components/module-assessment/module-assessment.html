@@ -1,10 +1,30 @@
-<ion-row class="mes-full-width-card-small-top ion-nowrap">
+<ion-row class="title-font mes-full-width-card-small-top ion-nowrap">
     <ion-col size="60">
-        <h2 id="cpc-module-assessment-title">CPC Module Assessment</h2>
+      <header-component
+        [id]="'cpc-module-assessment-title'"
+        [inheritWeight]="true"
+        [inheritFontSize]="true"
+        [headerNum]="2">
+        CPC Module Assessment
+      </header-component>
     </ion-col>
     <ion-col size="36" class="align-col-right">
-        <h3 class="ion-no-margin" id="combination-label">
-            Combination: <h2 class="inline-mode ion-margin-start" id="combination-code-value">{{combinationCode}}</h2>
-        </h3>
+      <header-component
+        class="ion-no-margin"
+        [id]="'combination-label'"
+        [inheritWeight]="true"
+        [inheritFontSize]="true"
+        [headerNum]="2">
+        Combination:
+        <header-component
+          class="inline-mode ion-margin-start"
+          [id]="'combination-code-value'"
+          [inheritWeight]="true"
+          [inheritDisplay]="true"
+          [inheritFontSize]="true"
+          [headerNum]="2">
+          {{combinationCode}}
+        </header-component>
+      </header-component>
     </ion-col>
 </ion-row>

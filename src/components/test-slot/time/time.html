@@ -1,8 +1,17 @@
 <div>
-  <h3 *ngIf="isUnSubmittedTestSlotView; else showTime;" id="date-test-un-submitted">
+  <header-component
+    *ngIf="isUnSubmittedTestSlotView; else showTime;"
+    [ngClass]="{'time-test-complete-text': testComplete}"
+    [id]="'date-test-un-submitted'"
+    [headerNum]="3">
     <strong>{{time | date: "dd/MM/yyyy" }}</strong>
-  </h3>
+  </header-component>
   <ng-template #showTime>
-    <h2 [ngClass]="{'time-test-complete-text': testComplete}">{{time | date: "HH:mm" }}</h2>
+    <header-component
+      [ngClass]="{'time-test-complete-text': testComplete}"
+      [id]="'candidate-details-title'"
+      [headerNum]="2">
+      {{time | date: "HH:mm" }}
+    </header-component>
   </ng-template>
 </div>

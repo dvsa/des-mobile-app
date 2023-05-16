@@ -11,8 +11,14 @@
         <ion-grid>
             <ion-row>
                 <ion-col class="col-align">
-                    <h1>Today</h1>
-                    <h3>{{dateToDisplay}}</h3>
+                  <header-component
+                    [headerNum]="1">
+                    Today
+                  </header-component>
+                  <header-component
+                    [headerNum]="3">
+                    {{dateToDisplay}}
+                  </header-component>
                 </ion-col>
             </ion-row>
         </ion-grid>

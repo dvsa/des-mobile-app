@@ -1,9 +1,18 @@
 <ion-card id="driving-fault" *ngIf="drivingFaultCount > 0 || drivingFaults?.length > 0">
   <ion-card-header>
     <ion-card-title>
-      <h1 id="driving-fault-count" class="fault-heading">{{ drivingFaultCount }}</h1>
-      <h4 id="driving-fault-title"
-          class="fault-heading">{{ drivingFaultsCardDescriptionSwitch(testCategory) | translate }}</h4>
+      <header-component
+        class="fault-heading"
+        [id]="'driving-fault-count'"
+        [headerNum]="1">
+        {{drivingFaultCount}}
+      </header-component>
+      <header-component
+        class="fault-heading"
+        [id]="'driving-fault-title'"
+        [headerNum]="4">
+        {{ drivingFaultsCardDescriptionSwitch(testCategory) | translate }}
+      </header-component>
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
@@ -14,8 +23,7 @@
           <div class="down-padding counter-icon">
             <driving-faults-badge class="counter driving-faults"
                                   [count]="drivingFault.faultCount"
-                                  [competencyDisplayName]="drivingFault.competencyIdentifier"
-            >
+                                  [competencyDisplayName]="drivingFault.competencyIdentifier">
             </driving-faults-badge>
           </div>
         </ion-col>

@@ -32,7 +32,7 @@ import {
 } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
 
-import { HeaderComponent } from '@components/common/header-component/header.component';
+import { HeaderComponentModule } from '@components/common/header-component/header-component.module';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
 import { TabComponent } from './tab/tab';
@@ -50,7 +50,6 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
 
 @NgModule({
   declarations: [
-    HeaderComponent,
     DateTimeInputComponent,
     SignatureAreaComponent,
     BikeCategoryTypeComponent,
@@ -98,7 +97,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     NgOptimizedImage,
   ],
   exports: [
-    HeaderComponent,
+    HeaderComponentModule,
     DateTimeInputComponent,
     SignatureAreaComponent,
     BikeCategoryTypeComponent,

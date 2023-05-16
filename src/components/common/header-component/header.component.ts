@@ -9,9 +9,6 @@ import { AppComponent } from '@app/app.component';
 export class HeaderComponent {
 
   @Input()
-  content: string;
-
-  @Input()
   id: string;
 
   @Input()
@@ -21,7 +18,13 @@ export class HeaderComponent {
   zoom?: string;
 
   @Input()
-  shouldInheritWeight?: boolean = false;
+  inheritWeight?: boolean = false;
+
+  @Input()
+  inheritDisplay?: boolean = false;
+
+  @Input()
+  inheritFontSize?: boolean = false;
 
   constructor(
     public appComponent: AppComponent,

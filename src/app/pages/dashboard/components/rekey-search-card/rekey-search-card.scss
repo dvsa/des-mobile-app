@@ -1,6 +1,6 @@
 button[clear] {
   width: 100%;
-  padding: 0px;
+  padding: 0;
   outline: none;
   border: none;
   background-color: initial;
@@ -34,18 +34,18 @@ button[clear] {
     &.activated {
       background:  var(--mes-white-darken-10);
     }
+  }
 
-    h3 {
-      color: var(--gds-blue);
-      .text-zoom-large & {
-        line-height: 1.4em;
-        white-space: normal;
-        margin-bottom: 4px;
-      }
-      .text-zoom-x-large & {
-        line-height: 1.5em;
-        white-space: normal;
-      }
+  .button-text {
+    color: var(--gds-blue);
+    .text-zoom-large & {
+      line-height: 1.4em;
+      white-space: normal;
+      margin-bottom: 4px;
+    }
+    .text-zoom-x-large & {
+      line-height: 1.5em;
+      white-space: normal;
     }
   }
 

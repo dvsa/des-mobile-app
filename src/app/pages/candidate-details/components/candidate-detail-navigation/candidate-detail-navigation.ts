@@ -22,6 +22,8 @@ export class CandidateDetailNavigationComponent {
   canNavigateToPreviousCandidate: boolean;
   @Input()
   canNavigateToNextCandidate: boolean;
+  @Input()
+  zoom: string;
 
   @Output()
   previousCandidateClicked = new EventEmitter();

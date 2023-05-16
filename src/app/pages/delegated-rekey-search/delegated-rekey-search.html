@@ -49,10 +49,11 @@
                                     class="mes-primary-button search-tests"
                                     id="delegated-rekey-search-search-tests-btn"
                                     (click)="searchTests()">
-                            <h3>
-                                <ion-icon name="search" class="search-icon" id="rekey-search-search icon"></ion-icon>
-                                Search booked tests
-                            </h3>
+                          <header-component
+                            [headerNum]="3">
+                            <ion-icon name="search" class="search-icon" id="rekey-search-search-icon"></ion-icon>
+                            Search booked tests
+                          </header-component>
                         </ion-button>
                         <ion-spinner class="search-spinner"
                                      name="bubbles"

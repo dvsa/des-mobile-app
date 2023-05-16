@@ -5,6 +5,12 @@
 </ion-row>
 <ion-row class="ion-justify-content-center">
   <ion-col class="ion-no-padding">
-    <h2 id='model-alert-title-text' class="modal-alert-header ion-text-center"><ng-content></ng-content></h2>
+<!--    <h2 id='model-alert-title-text' class="modal-alert-header ion-text-center"><ng-content></ng-content></h2>-->
+    <header-component
+      class="modal-alert-header ion-text-center"
+      [id]="'model-alert-title-text'"
+      [headerNum]="2">
+      <ng-content></ng-content>
+    </header-component>
   </ion-col>
 </ion-row>
