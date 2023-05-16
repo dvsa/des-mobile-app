@@ -27,8 +27,7 @@ describe('NewEmailComponent', () => {
             useFactory: createTranslateLoader,
             deps: [HttpClient],
           },
-        }),
-      ],
+        })],
     });
 
     fixture = TestBed.createComponent(NewEmailComponent);

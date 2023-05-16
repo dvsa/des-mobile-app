@@ -14,6 +14,13 @@ import {
 } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { SlotProvider } from '@providers/slot/slot';
+import { BasePageComponent } from '@shared/classes/base-page';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
+import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
+import { DeviceProvider } from '@providers/device/device';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
@@ -29,13 +36,20 @@ interface UnunploadedTestsPageState {
   templateUrl: 'unuploaded-tests.page.html',
   styleUrls: ['unuploaded-tests.page.scss'],
 })
-export class UnuploadedTestsPage implements OnInit {
+export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   pageState: UnunploadedTestsPageState;
+
   constructor(
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
+    private insomnia: Insomnia,
+    public deviceProvider: DeviceProvider,
+    authenticationProvider: AuthenticationProvider,
+    platform: Platform,
+    router: Router,
   ) {
+    super(platform, authenticationProvider, router);
   }
 
   ngOnInit() {
@@ -50,9 +64,16 @@ export class UnuploadedTestsPage implements OnInit {
     };
   }
 
-  ionViewDidEnter(): void {
+  async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(UnuploadedTestsViewDidEnter());
+
+    if (super.isIos()) {
+      await ScreenOrientation.unlock();
+      await this.insomnia.allowSleepAgain();
+      await this.deviceProvider.disableSingleAppMode();
+    }
   }
+
   getRoleDisplayValue = (role: string): string => ExaminerRoleDescription[role] || 'Unknown Role';
 
   getEmployeeNumberDisplayValue = (employeeNumber: string): string => employeeNumber || 'NOT_KNOWN';

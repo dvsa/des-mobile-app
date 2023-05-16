@@ -9,7 +9,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
   styleUrls: ['provided-email.scss'],
 })
 export class ProvidedEmailComponent {
-
   static readonly providedEmail: string = 'Email';
   static readonly radioCtrl: string = 'radioCtrl';
 

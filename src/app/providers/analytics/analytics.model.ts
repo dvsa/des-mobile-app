@@ -223,6 +223,7 @@ export enum AnalyticsEvents {
   BUTTON_SELECTION = 'button selection',
   EXAMINER_SELECTION = 'examiner selection',
   CANDIDATE_SELECTION = 'candidate selection',
+  CANDIDATE_RECEIVE_TEST_RESULTS = 'candidate receive test results',
 }
 
 export enum AnalyticsLabels {

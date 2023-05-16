@@ -9,7 +9,6 @@ import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms
   styleUrls: ['new-email.scss'],
 })
 export class NewEmailComponent implements OnChanges {
-
   static readonly newEmail: string = 'newEmail';
   static readonly newEmailCtrl: string = 'newEmailCtrl';
   static readonly radioCtrl: string = 'radioCtrl';

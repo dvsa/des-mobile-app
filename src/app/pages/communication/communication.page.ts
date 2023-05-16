@@ -34,10 +34,11 @@ import { configureI18N } from '@shared/helpers/translation.helpers';
 import * as communicationPreferencesActions
   from '@store/tests/communication-preferences/communication-preferences.actions';
 import {
+  BookingEmailSelected,
   CommunicationSubmitInfo,
   CommunicationSubmitInfoError,
   CommunicationValidationError,
-  CommunicationViewDidEnter,
+  CommunicationViewDidEnter, NewEmailSelected, PostalSelected,
 } from '@pages/communication/communication.actions';
 import { DeviceAuthenticationProvider } from '@providers/device-authentication/device-authentication';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -249,6 +250,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
       this.candidateProvidedEmail, CommunicationPage.email,
     ));
+    this.store$.dispatch(BookingEmailSelected());
   }
 
   dispatchCandidateChoseNewEmail(communicationEmail: string): void {
@@ -257,6 +259,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
       this.store$.dispatch(communicationPreferencesActions.CandidateChoseEmailAsCommunicationPreference(
         communicationEmail, CommunicationPage.email,
       ));
+      this.store$.dispatch(NewEmailSelected());
     }
   }
 
@@ -265,6 +268,7 @@ export class CommunicationPage extends PracticeableBasePageComponent implements 
     this.store$.dispatch(
       communicationPreferencesActions.CandidateChosePostAsCommunicationPreference(CommunicationPage.post),
     );
+    this.store$.dispatch(PostalSelected());
   }
 
   setCommunicationType(communicationChoice: CommunicationMethod, emailType: string = null) {
