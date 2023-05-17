@@ -8,5 +8,7 @@ export class FitMarkerBannerComponent {
 
   @Input()
   fitCaseNumber: string;
+  @Input()
+  isTestResult?: boolean = false;
 
 }
