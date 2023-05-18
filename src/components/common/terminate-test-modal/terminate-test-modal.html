@@ -6,7 +6,13 @@
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col class="no-padding">
-      <h2 id="terminate-title" class="modal-alert-header">You're about to<br/>terminate the test</h2>
+      <div class="modal-alert-header">
+        <header-component
+          [id]="'terminate-title'"
+          [headerNum]="2">
+          You're about to<br/>terminate the test
+        </header-component>
+      </div>
     </ion-col>
   </ion-row>
   <ion-row>
