@@ -93,7 +93,7 @@ export class AdvancedSearchComponent {
   ) {
   }
 
-  upperCaseAlphaNum(event: InputChangeEventDetail | InputInputEventDetail, field: string): void {
+  onInputChange(event: InputChangeEventDetail | InputInputEventDetail, field: string): void {
     if (typeof event.value !== 'string') return;
 
     // Added logic here as it is used on the (ionInput) attribute of the staffNo. input field, sets toggle to unchecked

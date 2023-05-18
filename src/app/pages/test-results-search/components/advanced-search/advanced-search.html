@@ -6,7 +6,7 @@
     <ion-col size="28">
       <ion-input
         (ionBlur)="setFocus(null)"
-        (ionChange)="upperCaseAlphaNum($event.target, 'testCentre')"
+        (ionChange)="onInputChange($event.target, 'testCentre')"
         (ionFocus)="setFocus('dtcNumber')"
         [(ngModel)]="dtcNumber"
         [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
@@ -26,7 +26,7 @@
     <ion-col size="28">
       <ion-input
         (ionBlur)="setFocus(null)"
-        (ionInput)="upperCaseAlphaNum($event.target, 'staffId')"
+        (ionInput)="onInputChange($event.target, 'staffId')"
         (ionFocus)="setFocus('deNumber')"
         [(ngModel)]="staffNumber"
         [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"

@@ -43,7 +43,7 @@ describe('AdvancedSearchComponent', () => {
       },
     };
     it('should change the string within the object to contain only uppercase alphanumeric characters', () => {
-      component.upperCaseAlphaNum(testItem.target, 'testCentre');
+      component.onInputChange(testItem.target, 'testCentre');
       expect(testItem.target.value).toEqual('12ABC');
     });
   });
