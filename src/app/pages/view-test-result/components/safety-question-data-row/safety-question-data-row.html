@@ -1,6 +1,6 @@
 <div [class]="isDebrief ? 'debrief-position-fix' : null">
     <ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
-        <ion-card-header *ngIf="isDebrief">
+        <ion-card-header class="alignment-fix" *ngIf="isDebrief">
             <ion-card-title>
                 <h4 class="fault-heading">{{ label }}</h4>
             </ion-card-title>
