@@ -11,6 +11,9 @@ import { ViewTestResultComponentsModule } from '@pages/view-test-result/componen
 import {
   ActivityCodeCard,
 } from '@pages/view-test-result/components/activity-code-card/activity-code-card';
+import {
+  CandidateDetailsComponentsModule,
+} from '@pages/candidate-details/components/candidate-details-components.module';
 
 @NgModule({
   imports: [
@@ -22,6 +25,7 @@ import {
     EffectsModule.forFeature([
       ViewTestResultAnalyticsEffects,
     ]),
+    CandidateDetailsComponentsModule,
   ],
   declarations: [
     ViewTestResultPage,
