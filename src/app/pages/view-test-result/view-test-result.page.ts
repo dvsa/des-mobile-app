@@ -59,6 +59,9 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   @Input()
   testCategory: TestCategory;
 
+  @Input()
+  zoom: string;
+
   isLoading: boolean;
   testResult: TestResultSchemasUnion;
   subscription: Subscription;

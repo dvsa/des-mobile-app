@@ -33,9 +33,12 @@ export class TestSummaryCardComponent {
   category?: CategoryCode;
 
   @Input()
+  zoom?: string;
+
+  @Input()
   validCertificate: string;
 
-  public get accompaniedBy(): string {
+  public get accompaniedBy() : string {
     const accompaniedBy: string[] = [];
 
     if (get(this.accompaniment, 'ADI')) {

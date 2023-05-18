@@ -1,6 +1,11 @@
 <ion-card>
-  <ion-card-header>
-    <h4 id="view-test-result-test-summary-title">Test summary</h4>
+    <ion-card-header>
+      <header-component
+        [zoom]="zoom"
+        [id]="'view-test-result-test-summary-title'"
+        [headerNum]="4">
+        Test summary
+      </header-component>
   </ion-card-header>
   <ion-card-content>
     <ion-grid>

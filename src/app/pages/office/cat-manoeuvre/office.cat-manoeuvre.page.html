@@ -13,10 +13,13 @@
     [testOutcomeText]="pageState.testOutcomeText$ | async">
   </office-candidate-section>
 
-  <form [formGroup]="form">
-    <ion-card>
-      <ion-card-header>
-        <h4>Test summary</h4>
+    <form [formGroup]="form">
+        <ion-card>
+            <ion-card-header>
+              <header-component
+                [headerNum]="4">
+                Test summary
+              </header-component>
       </ion-card-header>
 
       <ion-card-content class="card-content-ios ion-no-padding">
