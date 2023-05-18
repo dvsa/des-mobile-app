@@ -10,5 +10,7 @@ export class FitMarkerBannerComponent {
   fitCaseNumber: string;
   @Input()
   isTestResult?: boolean = false;
+  @Input()
+  zoom: string;
 
 }
