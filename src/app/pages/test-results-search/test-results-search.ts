@@ -46,6 +46,7 @@ export class TestResultsSearchPage extends BasePageComponent {
   showSearchSpinner: boolean = false;
   showAdvancedSearchSpinner: boolean = false;
   subscription: Subscription = Subscription.EMPTY;
+  rekeySearch: boolean = false;
 
   constructor(
     public modalController: ModalController,
