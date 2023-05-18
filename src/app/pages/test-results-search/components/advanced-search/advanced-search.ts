@@ -7,9 +7,10 @@ import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-
 import * as moment from 'moment';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
-import { IonDatetime } from '@ionic/angular';
+import { InputChangeEventDetail, ToggleChangeEventDetail } from '@ionic/angular';
 import { AppComponent } from '@app/app.component';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
+import { InputInputEventDetail } from '@ionic/core';
 
 @Component({
   selector: 'advanced-search',
@@ -76,6 +77,7 @@ export class AdvancedSearchComponent {
   staffNumber: string = '';
   startDate: string = '';
   endDate: string = '';
+  rekeySearch: boolean = false;
   compareStartDate: Date = null;
   compareEndDate: Date = null;
   focusedElement: string = null;
@@ -91,13 +93,18 @@ export class AdvancedSearchComponent {
   ) {
   }
 
-  upperCaseAlphaNum(event: any): void {
-    if (typeof event.target.value !== 'string') return;
+  upperCaseAlphaNum(event: InputChangeEventDetail | InputInputEventDetail, field: string): void {
+    if (typeof event.value !== 'string') return;
 
-    if (nonAlphaNumericValues.test(event.target.value)) {
-      event.target.value = event.target.value?.replace(nonAlphaNumericValues, '').toUpperCase();
+    // Added logic here as it is used on the (ionInput) attribute of the staffNo. input field, sets toggle to unchecked
+    if (event.value === '' && (field === 'staffId')) {
+      this.rekeySearch = false;
     }
-    event.target.value = event.target.value?.toUpperCase();
+
+    if (nonAlphaNumericValues.test(event.value)) {
+      event.value = event.value?.replace(nonAlphaNumericValues, '').toUpperCase();
+    }
+    event.value = event.value?.toUpperCase();
   }
 
   searchTests(): void {
@@ -109,6 +116,7 @@ export class AdvancedSearchComponent {
       activityCode: this.selectedActivity.activityCode ?? '',
       category: this.selectedCategory.toString() === this.testCategories[0]
         ? '' : this.selectedCategory.toString(),
+      rekey: this.rekeySearch,
     };
     this.onSearchTests.emit(advancedSearchParams);
   }
@@ -125,46 +133,6 @@ export class AdvancedSearchComponent {
     this.focusedElement = focus;
   }
 
-  handleClear = (dateTime: IonDatetime, startEnd: 'start' | 'end'): Promise<void> => {
-    if (startEnd === 'start') {
-      this.startDate = '';
-    } else {
-      this.endDate = '';
-    }
-    return dateTime.cancel(true);
-  };
-
-  handleDone = (dateTime: IonDatetime, startEnd: 'start' | 'end'): Promise<void> => {
-    return dateTime.confirm(false)
-      .then(
-        () => {
-          // if date not set, then close the modal on done click as fail safe before handling the data;
-          if (!dateTime.value) {
-            return dateTime.confirm(true);
-          }
-
-          const selectedDate: string = moment(dateTime.value).format('YYYY-MM-DD');
-
-          // start picker
-          if (startEnd === 'start') {
-            if (selectedDate && this.endDate && moment(selectedDate).isSameOrAfter(this.endDate)) {
-              this.startDate = this.endDate;
-            } else {
-              this.startDate = selectedDate;
-            }
-            return;
-          }
-
-          // end picker
-          if (selectedDate && this.startDate && moment(selectedDate).isSameOrBefore(this.startDate)) {
-            this.endDate = this.startDate;
-          } else {
-            this.endDate = selectedDate;
-          }
-        },
-      ).finally(() => dateTime.confirm(true));
-  };
-
   changeDate(event: { control?: string; data: string }): void {
     switch (event.control) {
       case 'start-date':
@@ -176,5 +144,9 @@ export class AdvancedSearchComponent {
       default:
         break;
     }
+  }
+
+  toggleRekeySearch(event: ToggleChangeEventDetail): void {
+    this.rekeySearch = !!(event.checked);
   }
 }

@@ -1,5 +1,5 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
-import { IonDatetime, IonicModule } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { AppModule } from '@app/app.module';
 import { AppComponent } from '@app/app.component';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
@@ -43,7 +43,7 @@ describe('AdvancedSearchComponent', () => {
       },
     };
     it('should change the string within the object to contain only uppercase alphanumeric characters', () => {
-      component.upperCaseAlphaNum(testItem);
+      component.upperCaseAlphaNum(testItem.target, 'testCentre');
       expect(testItem.target.value).toEqual('12ABC');
     });
   });
@@ -72,6 +72,7 @@ describe('AdvancedSearchComponent', () => {
       component.dtcNumber = 'dtcNumber';
       component.selectedActivity.activityCode = 'activityCode';
       [component.selectedCategory] = component.testCategories;
+      component.rekeySearch = false;
 
       spyOn(component.onSearchTests, 'emit');
       component.searchTests();
@@ -83,6 +84,7 @@ describe('AdvancedSearchComponent', () => {
         costCode: 'dtcNumber',
         activityCode: 'activityCode',
         category: '',
+        rekey: false,
       });
     });
   });
@@ -91,19 +93,6 @@ describe('AdvancedSearchComponent', () => {
     it('should set selectedActivity to the params passed in', () => {
       component.activitySelectChange({ activityCode: 'activityCode', description: 'description' });
       expect(component.selectedActivity).toEqual({ activityCode: 'activityCode', description: 'description' });
-    });
-  });
-
-  describe('handleClear', () => {
-    it('should clear startDate if startEnd is "start"', () => {
-      component.startDate = 'test';
-      component.handleClear({ cancel: () => {} } as IonDatetime, 'start');
-      expect(component.startDate).toEqual('');
-    });
-    it('should clear endDate if startEnd is "end"', () => {
-      component.endDate = 'test';
-      component.handleClear({ cancel: () => {} } as IonDatetime, 'end');
-      expect(component.endDate).toEqual('');
     });
   });
 

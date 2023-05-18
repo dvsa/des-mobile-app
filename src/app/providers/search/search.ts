@@ -50,6 +50,7 @@ export class SearchProvider {
           excludeAutoSavedTests: advancedSearchParams.excludeAutoSavedTests,
           category: encodeURIComponent(advancedSearchParams.category),
           activityCode: advancedSearchParams.activityCode,
+          rekey: advancedSearchParams.rekey,
         },
       },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));
