@@ -6,6 +6,7 @@
 
   ion-row {
     padding-top: 20px;
+    padding-bottom: 20px;
   }
 
   ion-icon.alert-icon {
@@ -14,7 +15,11 @@
   }
 
   .privacy-text {
-    font-size: 20px;
+    color: var(--gds-black);
     font-weight: 600;
+  }
+  .icon-align {
+    display: flex;
+    align-items: center;
   }
 }

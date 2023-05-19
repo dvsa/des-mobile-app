@@ -1,16 +1,17 @@
 <div class="container">
-    <ion-grid>
-        <ion-row>
-            <ion-col size="13" class="ion-padding-vertical">
-                <ion-icon class="alert-icon" name="alert-circle"></ion-icon>
-            </ion-col>
-            <ion-col size="83">
-                <p class="privacy-text">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="13" class="icon-align ion-padding-vertical">
+        <ion-icon class="alert-icon" name="alert-circle"></ion-icon>
+      </ion-col>
+      <ion-col size="83">
+                <span class="privacy-text">
                     {{'communication.privacyNotice' | translate:{
-                        testSpecificMessage: (categorySpecificTestContext(category)| translate)}
-                    }}
-                </p>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+                  testSpecificMessage: (categorySpecificTestContext(category)| translate)
+                }
+                  }}
+                </span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>
