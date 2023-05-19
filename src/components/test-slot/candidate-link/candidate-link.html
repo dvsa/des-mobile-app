@@ -1,14 +1,16 @@
 <ion-button id="name-button-{{applicationId}}" expand="full" fill="clear" class="candidate-position"
             (click)="openCandidateDetailsModal()">
-    <h3 id="name-{{applicationId}}"
-        class="candidate-name"
-        [ngClass]="{
+  <header-component
+    class="candidate-name"
+    [id]="'name-'+applicationId"
+    [ngClass]="{
       'extra-large-mode': (accessibilityService.getTextZoomClass() === 'text-zoom-x-large'),
       'candidate-name-portrait': isPortrait,
       'candidate-name-landscape': !isPortrait,
       'team-journal': isTeamJournal,
-    }">
-        {{name.title}} {{name.firstName}} {{name.lastName}}
-    </h3>
+    }"
+    [headerNum]="3">
+    {{name.title}} {{name.firstName}} {{name.lastName}}
+  </header-component>
     <ion-icon class="candidate-icon" name="chevron-forward"></ion-icon>
 </ion-button>

@@ -160,11 +160,17 @@
   </candidate-link>
   <ion-button *ngIf="!canViewCandidateDetails() &&!isTestCentreJournalADIBooking()"
               class="candidate-details-placeholder-text" disabled expand="full" fill="clear">
-    <h3 class="candidate-name">Candidate details unavailable</h3>
+    <header-component
+      [headerNum]="3">
+      Candidate details unavailable
+    </header-component>
   </ion-button>
   <ion-button *ngIf="isTestCentreJournalADIBooking()" class="candidate-details-placeholder-text" disabled
               expand="full" fill="clear">
-    <h3>ADI Enforcement Activities</h3>
+    <header-component
+      [headerNum]="3">
+      ADI Enforcement Activities
+    </header-component>
   </ion-button>
 </ng-template>
 <ng-template #unknownCandidate>

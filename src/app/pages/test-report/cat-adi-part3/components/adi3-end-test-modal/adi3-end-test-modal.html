@@ -52,7 +52,11 @@
   <ion-row class="ion-justify-content-center">
     <ion-col size="84">
       <ion-button *ngIf="!!isValidDashboard || isTestReportPopulated; else missingSections" class="mes-primary-button" (click)="onContinue()" id="continue-to-debrief-button">
-        <h3 id="continue-to-debrief-text">Continue to debrief</h3>
+        <header-component
+          [id]="'continue-to-debrief-text'"
+          [headerNum]="3">
+          Continue to debrief
+        </header-component>
       </ion-button>
       <ng-template  #missingSections>
         <p class="ion-padding ion-justify-content-center" id="complete-all-sections-text">Please complete all sections to continue to debrief</p>

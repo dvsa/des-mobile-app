@@ -2,14 +2,16 @@
   <ion-card-header>
     <ion-card-title>
       <header-component
-        class="fault-heading"
+        class="fault-count"
+        [inheritDisplay]="true"
         [id]="'serious-fault-count'"
         [headerNum]="1">
         {{seriousFaults.length}}
       </header-component>
       <header-component
-        class="fault-heading"
+        class="fault-count"
         [id]="'serious-fault-title'"
+        [inheritDisplay]="true"
         [headerNum]="4">
         {{ 'debrief.seriousFaultsCardDescription' | translate }}
       </header-component>

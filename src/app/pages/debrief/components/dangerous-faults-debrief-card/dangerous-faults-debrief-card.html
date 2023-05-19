@@ -4,12 +4,14 @@
       <header-component
         class="fault-heading"
         [id]="'dangerous-fault-count'"
+        [inheritDisplay]="true"
         [headerNum]="1">
         {{dangerousFaults.length}}
       </header-component>
       <header-component
         class="fault-heading"
         [id]="'dangerous-fault-title'"
+        [inheritDisplay]="true"
         [headerNum]="4">
         {{ 'debrief.dangerousFaultsCardDescription' | translate }}
       </header-component>

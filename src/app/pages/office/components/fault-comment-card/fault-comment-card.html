@@ -1,7 +1,11 @@
 <div [hidden]="!shouldRender">
     <ion-card [formGroup]="formGroup">
         <ion-card-header>
-            <h4 [id]="header | formatToID: idPrefix">{{header}}</h4>
+          <header-component
+            [id]="header | formatToID: idPrefix"
+            [headerNum]="4">
+            {{header}}
+          </header-component>
         </ion-card-header>
         <ion-card-content>
             <ion-row class="mes-validated-row mes-row-separator" *ngFor="let faultComment of faultComments; trackBy: trackByIndex">

@@ -1,7 +1,11 @@
 <ng-container *ngIf="{
   manoeuvres: (manoeuvres$ | async)[0]
 } as asyncData1">
-  <h3 class="popover-title">Manoeuvre 1</h3>
+  <header-component
+    class="popover-title"
+    [headerNum]="3">
+    Manoeuvre 1
+  </header-component>
   <ion-grid class="popover-content">
     <ion-row>
       <ion-col size="36">
@@ -113,7 +117,11 @@
 <ng-container *ngIf="{
   manoeuvres: (manoeuvres$ | async)[1]
 } as asyncData2">
-  <h3 class="popover-title">Manoeuvre 2</h3>
+  <header-component
+    class="popover-title"
+    [headerNum]="3">
+    Manoeuvre 2
+  </header-component>
   <ion-grid class="popover-content">
     <ion-row>
       <ion-col size="36">

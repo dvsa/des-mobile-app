@@ -26,14 +26,20 @@
   <ion-row class="ion-justify-content-center">
     <ion-col size="72" class="ion-no-padding">
       <ion-button id="practice-modal-fault-start" class="mes-return-button fault-button" (click)="onFault()">
-        <h3>Start with a driving fault</h3>
+        <header-component
+          [headerNum]="3">
+          Start with a driving fault
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>
   <ion-row class="ion-justify-content-center">
     <ion-col size="72" class="ion-no-padding">
       <ion-button id="practice-modal-faultless-start" class="mes-return-button no-fault-button" (click)="onNoFault()">
-        <h3>Start without a driving fault</h3>
+        <header-component
+          [headerNum]="3">
+          Start without a driving fault
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>

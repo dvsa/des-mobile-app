@@ -3,12 +3,14 @@
     <ion-card-title>
       <header-component
         class="fault-heading"
+        [inheritDisplay]="true"
         [id]="'driving-fault-count'"
         [headerNum]="1">
         {{drivingFaultCount}}
       </header-component>
       <header-component
         class="fault-heading"
+        [inheritDisplay]="true"
         [id]="'driving-fault-title'"
         [headerNum]="4">
         {{ drivingFaultsCardDescriptionSwitch(testCategory) | translate }}
