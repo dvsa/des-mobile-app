@@ -84,7 +84,7 @@
     </debrief-card>
 
     <cpc-debrief-card
-      *ngIf="testResult.testData['combination'] && showCPCDebriefCommonCard()"
+      *ngIf="testResult.testData && testResult.testData['combination'] && showCPCDebriefCommonCard()"
       [isDetailedTestView]="true"
       [testOutcome]="getHeaderDetails()?.testOutcome"
       [question1]="testResult.testData['question1']"
