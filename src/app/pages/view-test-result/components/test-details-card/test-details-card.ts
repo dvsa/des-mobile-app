@@ -16,6 +16,9 @@ export class TestDetailsCardComponent {
   data: TestDetailsModel;
 
   @Input()
+  zoom: string;
+
+  @Input()
   candidateDetails: CandidateDetails;
 
   specialNeedsIsPopulated(specialNeedsArray: string[]): boolean {

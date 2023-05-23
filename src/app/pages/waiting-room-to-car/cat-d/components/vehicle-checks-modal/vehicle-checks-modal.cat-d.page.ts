@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
@@ -83,6 +83,10 @@ interface VehicleChecksModalCatDState {
   styleUrls: ['vehicle-checks-modal.cat-d.page.scss'],
 })
 export class VehicleChecksCatDModal {
+
+  @Input()
+  zoom: string;
+
   pageState: VehicleChecksModalCatDState;
   formGroup: UntypedFormGroup;
 

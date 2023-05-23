@@ -1,5 +1,5 @@
 import { ModalController, NavController } from '@ionic/angular';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -47,6 +47,9 @@ interface VehicleChecksModalState {
   styleUrls: ['vehicle-checks-modal.cat-a-mod2.page.scss'],
 })
 export class VehicleChecksCatAMod2Modal {
+
+  @Input()
+  zoom: string;
 
   pageState: VehicleChecksModalState;
   formGroup: UntypedFormGroup;

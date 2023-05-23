@@ -91,7 +91,10 @@ export class VehicleChecksComponent implements OnChanges {
   async openVehicleChecksModal(): Promise<void> {
     const modal = await this.modalController.create({
       component: this.getVehicleCheckModal(),
-      componentProps: { category: this.category },
+      componentProps: {
+        category: this.category,
+        zoom: this.accessibilityService.getTextZoomClass(),
+      },
       cssClass: `modal-fullscreen ${this.accessibilityService.getTextZoomClass()}`,
     });
     await modal.present();

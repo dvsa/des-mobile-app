@@ -42,7 +42,6 @@
         <br>
         <ion-row class="ion-justify-content-center">
           <ion-button id="dlg-retry-upload-btn" class="mes-grey-button retry-button" (click)="retryUpload()">
-            <h3 id="dlg-retry-upload-label">Retry upload</h3>
             <header-component
               [id]="'dlg-retry-upload-label'"
               [headerNum]="3">
@@ -60,7 +59,6 @@
     <ion-col class="ion-no-padding ion-text-left">
       <ion-button id="dlg-return-to-dashboard-btn" class="mes-grey-button retry-button" (click)="goToDashboard()"
                   [disabled]="pageState.isUploading$ | async">
-        <h3 id="dlg-return-to-dashboard-label">Return to dashboard</h3>
         <header-component
           [id]="'dlg-return-to-dashboard-label'"
           [headerNum]="3">
@@ -71,7 +69,6 @@
     <ion-col class="ion-no-padding ion-text-end">
       <ion-button id="dlg-rekey-another-btn" class="mes-primary-button retry-button" (click)="goToDelegatedSearch()"
                   [disabled]="pageState.isUploading$ | async">
-        <h3 id="dlg-rekey-another-label">Rekey another test</h3>
         <header-component
           [id]="'dlg-rekey-another-label'"
           [headerNum]="3">

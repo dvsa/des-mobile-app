@@ -1,5 +1,5 @@
 import { ModalController, NavParams } from '@ionic/angular';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
@@ -49,6 +49,10 @@ interface VehicleChecksModalCatHomeTestState {
   styleUrls: ['vehicle-checks-modal.cat-home.page.scss'],
 })
 export class VehicleChecksCatHomeTestModal {
+
+  @Input()
+  zoom: string;
+
   pageState: VehicleChecksModalCatHomeTestState;
   formGroup: UntypedFormGroup;
   showMeQuestions: VehicleChecksQuestion[];

@@ -1,5 +1,5 @@
 import { ModalController } from '@ionic/angular';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
@@ -42,6 +42,10 @@ interface VehicleChecksModalCatADIPart2State {
   styleUrls: ['vehicle-checks-modal.cat-adi-part2.page.scss'],
 })
 export class VehicleChecksCatADIPart2Modal {
+
+  @Input()
+  zoom: string;
+
   pageState: VehicleChecksModalCatADIPart2State;
   formGroup: UntypedFormGroup;
   tellMeQuestions: VehicleChecksQuestion[];

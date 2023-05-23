@@ -16,9 +16,11 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-        <h4>
+        <header-component
+          [zoom]="zoom"
+          [headerNum]="4">
           Tell me questions
-        </h4>
+        </header-component>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
@@ -39,7 +41,12 @@
 <ion-footer>
   <ion-row class="mes-full-width-card box-shadow">
     <ion-button class="mes-primary-button" id="submit-vehicle-checks" (click)="onSubmit()">
-      <h3 id="vehicle-checks-modal-submit-label">Submit vehicle checks</h3>
+      <header-component
+        [id]="'vehicle-checks-modal-submit-label'"
+        [zoom]="zoom"
+        [headerNum]="3">
+        Submit vehicle checks
+      </header-component>
     </ion-button>
   </ion-row>
 </ion-footer>

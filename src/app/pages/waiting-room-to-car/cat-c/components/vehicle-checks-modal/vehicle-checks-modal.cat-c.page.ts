@@ -1,5 +1,5 @@
 import { ModalController, NavParams } from '@ionic/angular';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, merge, Subscription } from 'rxjs';
 import { UntypedFormGroup } from '@angular/forms';
@@ -65,6 +65,10 @@ interface VehicleChecksModalCatCState {
   styleUrls: ['vehicle-checks-modal.cat-c.page.scss'],
 })
 export class VehicleChecksCatCModal {
+
+  @Input()
+  zoom: string;
+
   pageState: VehicleChecksModalCatCState;
   formGroup: UntypedFormGroup;
 
