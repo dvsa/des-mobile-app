@@ -12,13 +12,24 @@
     <ng-container *ngIf="page === 'lessonTheme'">
         <ion-row class="mes-full-width-card-small-top ion-nowrap">
             <ion-col size="60">
-                <h2 id="adi-pt3-assessment-lesson-theme-title" class="normal-font-weight ion-padding-start">
-                    {{testCategory === 'SC' ? 'Standards check':'ADI Part 3'}} assessment
-                </h2>
+              <div class="normal-font-weight ion-padding-start">
+                <header-component
+                  [id]="'adi-pt3-assessment-lesson-theme-title'"
+                  [inheritWeight]="true"
+                  [headerNum]="2">
+                  {{testCategory === 'SC' ? 'Standards check':'ADI Part 3'}} assessment
+                </header-component>
+              </div>
             </ion-col>
             <ion-col size="36">
-                <h2 id="adi-pt3-lesson-theme-title" class="ion-float-right normal-font-weight ion-padding-end">Lesson &
-                    Theme</h2>
+              <div class="ion-float-right normal-font-weight ion-padding-end">
+                <header-component
+                  [id]="'adi-pt3-lesson-theme-title'"
+                  [inheritWeight]="true"
+                  [headerNum]="2">
+                  Lesson & Theme
+                </header-component>
+              </div>
             </ion-col>
         </ion-row>
 
@@ -39,13 +50,24 @@
     <ng-container *ngIf="page === 'testReport'">
         <ion-row class="mes-full-width-card-small-top ion-nowrap">
             <ion-col size="60">
-                <h2 id="adi-pt3-assessment-test-report-title" class="normal-font-weight ion-padding-start">
-                    {{testCategory === 'SC' ? 'Standards check':'ADI Part 3'}} assessment
-                </h2>
+              <div class="normal-font-weight ion-padding-start">
+                <header-component
+                  [inheritWeight]="true"
+                  [id]="'adi-pt3-assessment-test-report-title'"
+                  [headerNum]="2">
+                  {{testCategory === 'SC' ? 'Standards check':'ADI Part 3'}} assessment
+                </header-component>
+              </div>
             </ion-col>
             <ion-col size="36">
-                <h2 id="adi-pt3-test-report-title" class="ion-float-right normal-font-weight ion-padding-end">Test
-                    report</h2>
+              <div class="ion-float-right normal-font-weight ion-padding-end">
+                <header-component
+                  [inheritWeight]="true"
+                  [id]="'adi-pt3-test-report-title'"
+                  [headerNum]="2">
+                  Test report
+                </header-component>
+              </div>
             </ion-col>
         </ion-row>
 

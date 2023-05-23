@@ -59,7 +59,10 @@
         [disabled]="vehicleRegistrationNumber === ''"
         class="save-button"
         (click)="validateThenDismiss()">
-        <h3>Save</h3>
+        <header-component
+          [headerNum]="3">
+          Save
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>

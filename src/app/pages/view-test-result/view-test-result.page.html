@@ -20,11 +20,13 @@
 
   <div *ngIf="!isLoading && !showErrorMessage && testResult">
     <view-test-header
+      [zoom]="zoom"
       [data]="getHeaderDetails()"
       [appVersion]="testResult.appVersion"
     ></view-test-header>
 
     <activity-code-card
+      [zoom]="zoom"
       [activityCode]="testResult.activityCode">
     </activity-code-card>
 
@@ -41,6 +43,7 @@
     </fit-marker-banner>
 
     <contact-details-card
+      [zoom]="zoom"
       [candidateData]="testResult.journalData.candidate"
       [reEnterEmail]="reEnterEmail"
       [communicationPreferencesData]="testResult.communicationPreferences">

@@ -18,6 +18,8 @@
         <ion-button id="rekey-button-{{applicationId}}" class="mes-secondary-button mes-rekey-button" (click)="rekeyTest()"
                     [disabled]="!canStartTest">
           <header-component
+            class="white-text"
+            [inheritColour]="true"
             [headerNum]="3">
             Rekey
           </header-component>
@@ -27,6 +29,8 @@
         <ion-col *ngIf="showDelegatedExaminerRekeyButton()">
             <ion-button id="write-up-rekey-button-{{applicationId}}" class="mes-secondary-button mes-delegated-button" (click)="rekeyDelegatedTest()">
               <header-component
+                class="white-text"
+                [inheritColour]="true"
                 [headerNum]="3">
                 Rekey
               </header-component>

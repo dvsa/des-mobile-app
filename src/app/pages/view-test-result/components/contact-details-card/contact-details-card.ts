@@ -13,6 +13,9 @@ export class ContactDetailsCardComponent {
   candidateData: Candidate;
 
   @Input()
+  zoom: string;
+
+  @Input()
   reEnterEmail: RegeneratedEmails = null;
 
   @Input()

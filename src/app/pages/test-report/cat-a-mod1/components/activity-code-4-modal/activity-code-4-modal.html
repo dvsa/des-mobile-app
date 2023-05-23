@@ -3,7 +3,11 @@
     <ion-row class="ion-justify-content-center">
         <ion-col class="ion-no-padding" size="72">
             <ion-button class="end-test-button"  mode="ios" (click)="onEndTest()">
-                <h3>End test now</h3>
+              <header-component
+                class="white-text"
+                [headerNum]="3">
+                End test now
+              </header-component>
             </ion-button>
         </ion-col>
     </ion-row>

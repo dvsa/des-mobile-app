@@ -1,16 +1,36 @@
 <ion-row class='header-row' id="candidate-section">
-    <ion-col size="56">
-        <h2 id="candidateName">{{data.candidateName}}</h2>
-        <span id="candidateDriverNumber" class="driver-number-class">{{data.candidateDriverNumber}}</span>
-    </ion-col>
-    <ion-col size="40" class="ion-text-end">
-        <h2 id="activityCode">{{data.activityCode}}</h2>
-        <h3 [ngClass]="data.grade ? 'grade-styling' : null " >Test outcome:
-            <span *ngIf="!data.grade" id="testOutcome" [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">{{data.testOutcome}}</span>
-            <span *ngIf="data.grade" id="gradeTestOutcome" class="mes-green" >{{data.testOutcome}} - Grade {{data.grade}}</span>
-        </h3>
-        <h3>
-            <span *ngIf="appVersion" id="appVersion">App Version: {{appVersion}}</span>
-        </h3>
-    </ion-col>
+  <ion-col size="56">
+    <header-component
+      [zoom]="zoom"
+      [id]="'candidateName'"
+      [headerNum]="2">
+      {{data.candidateName}}
+    </header-component>
+    <span id="candidateDriverNumber" class="driver-number-class">{{data.candidateDriverNumber}}</span>
+  </ion-col>
+  <ion-col size="40" class="ion-text-end">
+    <header-component
+      [zoom]="zoom"
+      [id]="'activityCode'"
+      [headerNum]="2">
+      {{data.activityCode}}
+    </header-component>
+    <header-component
+      [ngClass]="data.grade ? 'grade-styling' : null "
+      [zoom]="zoom"
+      [id]="'activityCode'"
+      [headerNum]="3">
+      Test outcome:
+      <span *ngIf="!data.grade" id="testOutcome"
+            [ngClass]="isPassed() ? 'mes-green' : 'mes-red'">{{data.testOutcome}}</span>
+      <span *ngIf="data.grade" id="gradeTestOutcome" class="mes-green">{{data.testOutcome}}
+        - Grade {{data.grade}}</span>
+    </header-component>
+    <header-component
+      [zoom]="zoom"
+      [id]="'appVersion'"
+      [headerNum]="3">
+      <span *ngIf="appVersion" id="appVersion">App Version: {{appVersion}}</span>
+    </header-component>
+  </ion-col>
 </ion-row>

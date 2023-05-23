@@ -7,12 +7,20 @@
           <ion-icon class="warning-icon" ios="alert-circle"></ion-icon>
         </ion-row>
         <ion-row class="modal-message ion-justify-content-center">
-          <h2 class="modal-alert-header" *ngIf="!retryMode">
-            Are you sure you<br/>want to upload<br/>this rekeyed test?
-          </h2>
-          <h2 class="modal-alert-header" *ngIf="retryMode">
-            Rekeyed test did<br/>not upload
-          </h2>
+          <div class="modal-alert-header">
+            <header-component
+              [inheritWeight]="true"
+              *ngIf="!retryMode"
+              [headerNum]="2">
+              Are you sure you<br/>want to upload<br/>this rekeyed test?
+            </header-component>
+            <header-component
+              *ngIf="retryMode"
+              [inheritWeight]="true"
+              [headerNum]="2">
+              Rekeyed test did<br/>not upload
+            </header-component>
+          </div>
         </ion-row>
       </ion-col>
     </ion-row>

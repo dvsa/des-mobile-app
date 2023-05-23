@@ -10,11 +10,20 @@
       </div>
     </ion-col>
     <ion-col class="title-column">
-      <h3 class="title" id="personal-commitment-title">{{ commitment.activityDescription }}</h3>
+      <header-component
+        class="title"
+        [id]="'personal-commitment-title'"
+        [headerNum]="3">
+        {{ commitment.activityDescription }}
+      </header-component>
     </ion-col>
     <ion-col class="activity-code-column">
-      <h2 class="activity-code ion-float-right"
-          id="activity-code">{{ formatActivityCode(commitment.activityCode) }}</h2>
+      <header-component
+        class="activity-code ion-float-right"
+        [id]="'activity-code'"
+        [headerNum]="2">
+        {{ formatActivityCode(commitment.activityCode) }}
+      </header-component>
     </ion-col>
   </ion-row>
 </ion-card>

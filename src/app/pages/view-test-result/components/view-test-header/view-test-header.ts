@@ -17,6 +17,9 @@ export class ViewTestHeaderComponent {
   @Input()
   appVersion: string;
 
+  @Input()
+  zoom: string;
+
   getActivityCodeDescription() {
     const description = getEnumKeyByValue(ActivityCodes, this.data.activityCode);
     return ActivityCodeDescription[description[0]];

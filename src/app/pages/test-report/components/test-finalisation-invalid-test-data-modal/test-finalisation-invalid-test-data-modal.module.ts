@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { HeaderComponentModule } from '@components/common/header-component/header-component.module';
 import { TestFinalisationInvalidTestDataModal } from './test-finalisation-invalid-test-data-modal';
 
 @NgModule({
@@ -8,6 +9,7 @@ import { TestFinalisationInvalidTestDataModal } from './test-finalisation-invali
   ],
   imports: [
     IonicModule,
+    HeaderComponentModule,
   ],
   exports: [
     TestFinalisationInvalidTestDataModal,

@@ -1,4 +1,8 @@
 <div>
   <ion-icon name="location"></ion-icon>
-  <h3 id="test-centre-name">{{ location }}</h3>
+  <header-component
+    [id]="'test-centre-name'"
+    [headerNum]="3">
+    {{location}}
+  </header-component>
 </div>

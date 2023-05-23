@@ -21,6 +21,7 @@
     &.text-zoom-large {
       padding-top: 8px
     }
+
     &.text-zoom-x-large {
       padding-top: 3px
     }
@@ -45,13 +46,16 @@
     }
 
     min-height: 44px;
+
     &.text-zoom-regular,
     &.text-zoom-large {
       padding-top: 8px
     }
+
     &.text-zoom-x-large {
       padding-top: 3px
-    }  }
+    }
+  }
 }
 
 .mes-neutral-button {

@@ -14,13 +14,14 @@
 <ion-content>
     <ion-row class="mes-full-width-card-small-top ion-nowrap">
         <ion-col size="60">
-          <header-component
-            class="normal-font-weight ion-padding-start"
-            [inheritWeight]=true
-            [id]="'adi-pt3-dashboard-title'"
-            [headerNum]="2">
-            {{testCategory === 'SC' ? 'Standards check':'ADI Part 3' + ' assessment'}}
-          </header-component>
+          <div class="normal-font-weight ion-padding-start">
+            <header-component
+              [inheritWeight]=true
+              [id]="'adi-pt3-dashboard-title'"
+              [headerNum]="2">
+              {{testCategory === 'SC' ? 'Standards check':'ADI Part 3' + ' assessment'}}
+            </header-component>
+          </div>
         </ion-col>
         <ion-col>
             <timer class="ion-float-end"></timer>

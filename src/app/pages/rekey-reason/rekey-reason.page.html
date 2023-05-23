@@ -15,7 +15,11 @@
 <ion-content force-overscroll="false">
     <ion-card class="ion-no-padding">
         <ion-card-header>
-            <h4 id="rekey-reason-for-use">Reason for use</h4>
+          <header-component
+            [id]="'rekey-reason-for-use'"
+            [headerNum]="4">
+            Reason for use
+          </header-component>
         </ion-card-header>
 
         <div [formGroup]="formGroup">
@@ -61,7 +65,11 @@
                         pageState.transfer$ | async,
                         pageState.other$ | async
                     )" (click)="onUploadPressed()">
-                <h3 id="rekey-reason-upload-rekey-label">Upload rekeyed test</h3>
+              <header-component
+                [id]="'rekey-reason-upload-rekey-label'"
+                [headerNum]="3">
+                Upload rekeyed test
+              </header-component>
             </ion-button>
         </ion-col>
     </ion-row>

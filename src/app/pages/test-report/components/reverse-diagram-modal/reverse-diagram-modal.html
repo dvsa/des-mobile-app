@@ -20,8 +20,19 @@
       </ion-col>
       <ion-col size="56">
         <div class="content-container">
-          <h2>Distances</h2>
-          <h3 class="sub-header">All dimensions in metres</h3>
+          <header-component
+            class="header2"
+            [inheritFontSize]="true"
+            [headerNum]="2">
+            Distances
+          </header-component>
+          <header-component
+            class="sub-header"
+            [inheritFontSize]="true"
+            [inheritWeight]="true"
+            [headerNum]="3">
+            All dimensions in metres
+          </header-component>
           <div class="distances">
             <ion-row>
               <ion-col>
@@ -86,7 +97,12 @@
           </div>
           <div class="cones">
             <ion-row>
-              <h2 class="cones-header">CONE MEASUREMENTS</h2>
+              <header-component
+                class="cones-header"
+                [inheritFontSize]="true"
+                [headerNum]="2">
+                CONE MEASUREMENTS
+              </header-component>
               <ul>
                 <li>A to A1 = 1 1/2 times the width of the vehicle.</li>
                 <li>A to B = {{ multiplierText }} times the length of the vehicle.</li>
@@ -94,7 +110,12 @@
               </ul>
             </ion-row>
             <ion-row>
-              <h2 class="cones-header">Bay cones C</h2>
+              <header-component
+                class="cones-header"
+                [inheritFontSize]="true"
+                [headerNum]="2">
+                Bay cones C
+              </header-component>
               <ul>
                 <li>All vehicles 12 metres or more in overall length, set at 12 metres</li>
                 <li>Vehicles less than 12 metres, set to actual vehicle length</li>

@@ -9,6 +9,7 @@ import { FindUserProvider } from '@providers/find-user/find-user';
 import { RekeyReasonComponentsModule } from '@pages/rekey-reason/components/rekey-reason.components.module';
 import { RekeyReasonAnalyticsEffects } from '@pages/rekey-reason/rekey-reason.analytics.effects';
 import { RekeyReasonEffects } from '@pages/rekey-reason/rekey-reason.effects';
+import { HeaderComponentModule } from '@components/common/header-component/header-component.module';
 import { RekeyReasonPage } from './rekey-reason.page';
 import { RekeyReasonPageRoutingModule } from './rekey-reason-routing.module';
 import { rekeyReasonReducer } from './rekey-reason.reducer';
@@ -27,6 +28,7 @@ import { rekeyReasonReducer } from './rekey-reason.reducer';
       RekeyReasonAnalyticsEffects,
       RekeyReasonEffects,
     ]),
+    HeaderComponentModule,
   ],
   providers: [FindUserProvider],
 })

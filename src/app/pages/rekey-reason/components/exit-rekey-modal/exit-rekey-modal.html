@@ -6,14 +6,18 @@
                     <ion-icon class="warning-icon" ios="alert-circle" id="exit-rekey-icon"></ion-icon>
                 </ion-row>
                 <ion-row class="modal-message ion-justify-content-center">
-                    <h2 class="modal-alert-header" id="exit-rekey-confirm-label">
-                        Are you sure you want to<br/>exit rekeying this test?
-                    </h2>
-                    <div class="modal-alert-message">
-                        <div class="mes-data" id="exit-rekey-data-lost-label">
-                            Any data you've rekeyed<br/>will not be saved.
-                        </div>
+                  <div class="modal-alert-header">
+                  <header-component
+                    [id]="'exit-rekey-confirm-label'"
+                    [headerNum]="2">
+                    Are you sure you want to<br/>exit rekeying this test?
+                  </header-component>
+                  </div>
+                  <div class="modal-alert-message">
+                    <div class="mes-data" id="exit-rekey-data-lost-label">
+                      Any data you've rekeyed<br/>will not be saved.
                     </div>
+                  </div>
                 </ion-row>
             </ion-col>
         </ion-row>

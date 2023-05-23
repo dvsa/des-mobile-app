@@ -6,7 +6,12 @@
         <img id="eyesight-failure-icon" src="/assets/imgs/exclamation.png" alt="Eyesight failure icon"/>
         <ion-col>
           <ion-row>
-            <h2 id="eyesight-failure-title">The candidate failed the eyesight test</h2>
+            <header-component
+              class="text-white"
+              [id]="'eyesight-failure-title'"
+              [headerNum]="2">
+              The candidate failed the eyesight test
+            </header-component>
           </ion-row>
           <ion-row>
             <label id="eyesight-failure-subtitle">Do you want to continue?</label>

@@ -1,22 +1,49 @@
 <div class="container">
   <div *ngIf="displayAsModal">
-    <h2 class="error-message">Sorry, something went wrong</h2>
+    <header-component
+      class="error-message"
+      [headerNum]="2">
+      Sorry, something went wrong
+    </header-component>
     <div>
       <div class="link error-details-link" (click)="dismiss()">
         Return to {{redirectLinkText}}
       </div>
-      <h3 class="error-details" *ngIf="additionalText">&nbsp;{{additionalText}}</h3>
+      <header-component
+        class="error-details"
+        [inheritFontSize]="true"
+        [headerNum]="3">
+        &nbsp;{{additionalText}}
+      </header-component>
     </div>
-    <h3 class="additional-error-details" *ngIf="adviceToUsePaperTest">Use the paper form if the problem persists.</h3>
+    <header-component
+      class="additional-error-details"
+      *ngIf="adviceToUsePaperTest"
+      [inheritFontSize]="true"
+      [headerNum]="3">
+      Use the paper form if the problem persists.
+    </header-component>
   </div>
 
   <div *ngIf="!displayAsModal">
-    <h2 class="error-message" id="default-validation-error-message">{{defaultErrorStatement}}</h2>
+    <header-component
+      class="error-message"
+      [id]="'default-validation-error-message'"
+      [headerNum]="2">
+      {{defaultErrorStatement}}
+    </header-component>
     <div>
       <div *ngIf="redirectLinkText" class="link error-details-link" (click)="navigateBack()">
         Return to {{redirectLinkText}}
       </div>
-      <h3 class="error-details" *ngIf="additionalText">&nbsp;{{additionalText}}</h3>
+      <header-component
+        *ngIf="additionalText"
+        class="error-details"
+        [id]="'default-validation-error-message'"
+        [inheritFontSize]="true"
+        [headerNum]="3">
+        &nbsp;{{additionalText}}
+      </header-component>
     </div>
   </div>
 </div>

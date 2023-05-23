@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { HeaderComponentModule } from '@components/common/header-component/header-component.module';
 import { UploadRekeyModal } from './upload-rekey-modal';
 
 @NgModule({
@@ -10,6 +11,7 @@ import { UploadRekeyModal } from './upload-rekey-modal';
   imports: [
     IonicModule,
     CommonModule,
+    HeaderComponentModule,
   ],
   exports: [
     UploadRekeyModal,

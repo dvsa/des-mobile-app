@@ -10,16 +10,33 @@
         </ion-row>
         <ion-row class="middle-row ion-align-items-center">
             <ion-col size="19" class="first-col">
-                <h2 id="search-result-time-label">{{getTime()}}</h2>
+              <header-component
+                [id]="'search-result-time-label'"
+                [headerNum]="2">
+                {{getTime()}}
+              </header-component>
             </ion-col>
             <ion-col size="45">
-                <h3 id="search-result-name-label">{{getName() | titlecase}}</h3>
+              <header-component
+                [id]="'search-result-name-label'"
+                [headerNum]="3">
+                {{getName() | titlecase}}
+              </header-component>
             </ion-col>
             <ion-col size="23">
-                <h2 id="search-result-category-label">{{searchResult.category}}</h2>
+              <header-component
+                [id]="'search-result-category-label'"
+                [headerNum]="2">
+                {{searchResult.category}}
+              </header-component>
             </ion-col>
             <ion-col size="9" class="ion-no-padding ion-padding-end">
-                <h2 class="ion-text-center" id="search-result-activity-code-label">{{searchResult.activityCode}}</h2>
+              <header-component
+                class="ion-text-center"
+                [id]="'search-result-activity-code-label'"
+                [headerNum]="2">
+                {{searchResult.activityCode}}
+              </header-component>
             </ion-col>
         </ion-row>
         <ion-row class="bottom-row">

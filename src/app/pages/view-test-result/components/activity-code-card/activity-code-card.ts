@@ -9,7 +9,10 @@ import { ActivityCodeDescription } from '@shared/constants/activity-code/activit
 })
 export class ActivityCodeCard {
 
-  @Input() activityCode: string;
+  @Input()
+  activityCode: string;
+  @Input()
+  zoom: string;
 
   getActivityCodeDescription() {
     const [description] = getEnumKeyByValue(ActivityCodes, this.activityCode);

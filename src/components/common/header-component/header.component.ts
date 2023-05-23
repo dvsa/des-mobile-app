@@ -21,6 +21,9 @@ export class HeaderComponent {
   inheritWeight?: boolean = false;
 
   @Input()
+  inheritColour?: boolean = false;
+
+  @Input()
   inheritDisplay?: boolean = false;
 
   @Input()

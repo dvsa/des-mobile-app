@@ -13,10 +13,18 @@
       </div>
     </ion-col>
     <ion-col class="title-column">
-      <h3 class="title">{{getTitle()}}</h3>
+      <header-component
+        class="title"
+        [headerNum]="3">
+        {{getTitle()}}
+      </header-component>
     </ion-col>
     <ion-col class="activity-code-column">
-      <h2 class="activity-code">{{formatActivityCode()}}</h2>
+      <header-component
+        class="activity-code"
+        [headerNum]="2">
+        {{formatActivityCode()}}
+      </header-component>
     </ion-col>
   </ion-row>
 </ion-card>

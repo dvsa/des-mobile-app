@@ -5,31 +5,38 @@
 
   .mes-rekey-button {
     --background: var(--gds-blue);
-    --color: var(--mes-white);
     --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.5);
+
+    &.header3 {
+      color: var(--gds-white) !important;
+    }
   }
 
   .mes-delegated-button {
     --background: var(--gds-blue);
-    --color: var(--mes-white);
+    color: var(--gds-white) !important;
     --box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.5);
   }
 
-  .outcome-position {
-    .text-zoom-large & {
-      position: relative;
-      left: -10px;
-    }
-
-    .text-zoom-x-large & {
-      position: relative;
-      left: -15px;
-    }
+  .white-text {
+    color: var(--mes-white) !important;
   }
 
-  .activity-alignment {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    .outcome-position {
+      .text-zoom-large & {
+        position: relative;
+        left: -10px;
+      }
+
+      .text-zoom-x-large & {
+        position: relative;
+        left: -15px;
+      }
+    }
+
+    .activity-alignment {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
-}

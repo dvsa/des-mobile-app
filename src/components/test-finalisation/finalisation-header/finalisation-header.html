@@ -17,7 +17,9 @@
       </header-component>
     </ion-col>
     <ion-col [size]="grade ? 60 : 40" class="align-col-right">
-      <h3>Test outcome:
+      <header-component
+        [headerNum]="3">
+        Test outcome:
         <div id="finalisation-header-test-outcome-text" [ngSwitch]="outcomeText">
           <div class="pass" *ngSwitchCase="'Passed'" id="pass-outcome-text">
             {{grade ? outcomeText + ' - Grade ' + grade : outcomeText}}
@@ -29,7 +31,7 @@
             {{outcomeText}}
           </div>
         </div>
-      </h3>
+      </header-component>
     </ion-col>
   </ion-row>
   <ion-row class="mes-row-separator"></ion-row>

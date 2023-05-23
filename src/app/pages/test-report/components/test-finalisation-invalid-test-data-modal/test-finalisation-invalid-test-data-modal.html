@@ -7,15 +7,23 @@
         </ion-row>
         <ion-row class="ion-justify-content-center">
             <ion-col class="no-padding">
-                <h3 class="modal-alert-header" id="level-of-faults-not-meet-requirement-message">
-                    {{message}}
-                </h3>
+              <div class="modal-alert-header">
+              <header-component
+                [inheritWeight]="true"
+                [id]="'level-of-faults-not-meet-requirement-message'"
+                [headerNum]="3">
+                {{message}}
+              </header-component>
+              </div>
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col>
                 <ion-button class="mes-return-button" id="change-termination-code-btn" (click)="onCancel()">
-                    <h3>Change termination code</h3>
+                  <header-component
+                    [headerNum]="3">
+                    Change termination code
+                  </header-component>
                 </ion-button>
             </ion-col>
         </ion-row>
