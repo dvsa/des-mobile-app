@@ -11,7 +11,6 @@ import {
   getCurrentTestSlotId,
   getJournalData,
   getTestOutcomeText,
-  getVehicleDetails,
 } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -22,9 +21,7 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import {
-  filter, map, take, tap, withLatestFrom,
-} from 'rxjs/operators';
+import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
@@ -180,7 +177,11 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
         map((testCategory) => testCategory as TestCategory),
       ),
       transmission$: currentTest$.pipe(
-        select(getVehicleDetails),
+        withLatestFrom(category$),
+        map((
+          [testResult, category],
+        ) => this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category)
+          ?.vehicleDetails(testResult)),
         select(getGearboxCategory),
         take(1),
       ),
