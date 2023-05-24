@@ -11,18 +11,24 @@
     <!-- Check if minimum number of required chars entered or custom template -->
     <div *ngIf="hasEnteredSufficientCharacters; else insufficientCharsEntered;">
       <!-- Check if rendered list has any data inside it or custom template -->
-      <div *ngIf="(dataList | doesContain: fuzzySearchKeys: searchedValue)?.length > 0; else noResults;">
-        <!-- Filter dataList using custom doesContain pipe -->
-        <ion-item
-          (click)="onClick(data)"
-          *ngFor="let data of dataList | doesContain: fuzzySearchKeys: searchedValue; trackBy: trackBy;"
-          [id]="data[displayKey] | formatToID: idPrefix">
-          <ion-col [ngClass]="conditionalStyles(data)">{{data[displayKey]}}</ion-col>
+      <div *ngIf="(dataList | doesContain: fuzzySearchKeys: searchedValue) as filteredData;">
+        <div *ngIf="filteredData?.length > 0; else noResults;">
+          <!-- Filter dataList using custom doesContain pipe -->
+          <ion-item
+            (click)="onClick(data)"
+            *ngFor="let data of filteredData; trackBy: trackBy;"
+            [id]="data[displayKey] | formatToID: idPrefix">
+            <ion-col [ngClass]="conditionalStyles(data)">{{data[displayKey]}}</ion-col>
 
-          <ion-col class="button-style" size="6">
-            <ion-icon *ngIf="isActiveSelection(data)" class="checkmark" name="checkmark-sharp"></ion-icon>
-          </ion-col>
-        </ion-item>
+            <ion-col class="button-style" size="6">
+              <ion-icon
+                *ngIf="isActiveSelection(data)"
+                class="checkmark"
+                name="checkmark-sharp">
+              </ion-icon>
+            </ion-col>
+          </ion-item>
+        </div>
       </div>
     </div>
 
@@ -39,7 +45,7 @@
     <ng-template #noResults>
       <ion-item>
         <ion-col>
-          <strong id="searchable-picklist-no-results-msg">
+          <strong id="searchable-picklist-no-results-msg1">
             No results found
           </strong>
         </ion-col>
