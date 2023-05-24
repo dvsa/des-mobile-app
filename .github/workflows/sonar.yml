@@ -1,0 +1,63 @@
+name: SonarQube
+
+on:
+  pull_request:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+
+env:
+  CI: true
+  DES_IONIC_CONFIG_JSON: ${{ secrets.DES_IONIC_CONFIG_JSON }}
+  DES_IONIC_KEY: ${{ secrets.DES_IONIC_KEY }}
+  DES_ACCESS_TOKEN: ${{ secrets.DES_ACCESS_TOKEN }}
+  DES_SONARQUBE_TOKEN: ${{ secrets.DES_SONARQUBE_TOKEN }}
+
+jobs:
+  run-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Read .nvmrc
+        id: nvm
+        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+
+      - name: Setup Node.js ${{ steps.nvm.outputs.NVMRC }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.nvm.outputs.NVMRC }}
+          cache: 'npm'
+
+      - name: Create .npmrc
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=$DES_ACCESS_TOKEN" >> ~/.npmrc
+          echo "@dvsa:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
+          echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create ionic.config.json
+        run: |
+          echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
+
+      - name: Build project
+        run: |
+          npm run build:ci
+
+      - name: Run unit tests with coverage
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=8192"
+          npm run test:coverage
+
+      - name: Setup sonarqube
+        uses: warchant/setup-sonar-scanner@v3
+
+      - name: Run sonarqube
+        run: sonar-scanner
+           -Dsonar.organization=dvsa
+           -Dsonar.projectKey=des-mobile-app
+           -Dsonar.sources=src
+           -Dsonar.host.url=https://sonarqube.mgmt.mes.dvsacloud.uk/
+           -Dsonar.login=$DES_SONARQUBE_TOKEN
