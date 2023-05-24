@@ -13,19 +13,14 @@
         class="mes-data input-styling-background"
         charLimit="950"
         (change)="adviceReasonChange($event.target.value)"
-        [style]="noAdviceCharsRemaining < 0 ? 'border-color: var(--mes-validation-error);' : null"
         (onCharacterCountChanged)="characterCountChanged($event)"
         id="ordit-reason-for-advice-textarea">
       </textarea>
-      <div class="character-count validation-text" [ngClass]="{'ng-invalid': charactersExceeded()}">
-        {{getCharacterCountText()}}
-      </div>
+      <div class="character-count validation-text">{{getCharacterCountText()}}</div>
     </ion-row>
     <ion-row class="validation-message-row ion-align-items-center">
-      <div class="validation-text"
-           [class.ng-invalid]="invalid"
-           *ngIf="invalid && !charactersExceeded()"
-           id="candidate-description-validation-text">Please provide a reason
+      <div class="validation-text" [class.ng-invalid]="invalid" id="reason-given-validation-text">
+        Please provide {{charactersExceeded() ? 'a valid' : 'a'}} reason
       </div>
     </ion-row>
   </ion-col>

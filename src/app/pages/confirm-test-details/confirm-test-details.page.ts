@@ -11,7 +11,6 @@ import {
   getCurrentTestSlotId,
   getJournalData,
   getTestOutcomeText,
-  getVehicleDetails,
 } from '@store/tests/tests.selector';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
@@ -180,7 +179,11 @@ export class ConfirmTestDetailsPage extends PracticeableBasePageComponent {
         map((testCategory) => testCategory as TestCategory),
       ),
       transmission$: currentTest$.pipe(
-        select(getVehicleDetails),
+        withLatestFrom(category$),
+        map((
+          [testResult, category],
+        ) => this.vehicleDetailsProvider.getVehicleDetailsByCategoryCode(category)
+          ?.vehicleDetails(testResult)),
         select(getGearboxCategory),
         take(1),
       ),
