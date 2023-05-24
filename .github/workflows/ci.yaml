@@ -14,19 +14,19 @@ env:
 
 jobs:
   run-ci:
-    runs-on: ubuntu-latest
+    runs-on: mito-1
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Read .nvmrc
         id: nvm
-        run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+        run: echo "NVMRC=$(cat .nvmrc)" >> $GITHUB_ENV
 
-      - name: Setup Node.js ${{ steps.nvm.outputs.NVMRC }}
+      - name: Setup Node.js ${{ env.NVMRC }}
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ steps.nvm.outputs.NVMRC }}
+          node-version: ${{ env.NVMRC }}
           cache: 'npm'
 
       - name: Create .npmrc
@@ -48,6 +48,7 @@ jobs:
           npm run build:ci
 
       - name: Run unit tests
+        timeout-minutes: 10
         run: |
           export NODE_OPTIONS="--max_old_space_size=8192"
           npm run test

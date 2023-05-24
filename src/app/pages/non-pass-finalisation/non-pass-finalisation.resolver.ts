@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router';
+
 import { forkJoin, Observable, of } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { catchError, map, take } from 'rxjs/operators';
@@ -17,11 +17,7 @@ import { get } from 'lodash';
 @Injectable({
   providedIn: 'root',
 })
-export class NonPassFinalisationResolver implements Resolve<Observable<
-[
-  OutcomeBehaviourMapping,
-  ActivityCodeModel[],
-]>> {
+export class NonPassFinalisationResolver {
   constructor(
     private store$: Store<StoreModel>,
   ) {
