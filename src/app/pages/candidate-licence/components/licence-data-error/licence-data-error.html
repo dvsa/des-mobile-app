@@ -7,7 +7,11 @@
     </ion-row>
     <ion-row class="ion-justify-content-center">
       <ion-col class="ion-no-padding">
-        <h4 id="driver-photograph-error-header">{{errorHeading}}</h4>
+        <header-component
+          [id]="'driver-photograph-error-header'"
+          [headerNum]="4">
+          {{errorHeading}}
+        </header-component>
       </ion-col>
     </ion-row>
   </ion-card-header>

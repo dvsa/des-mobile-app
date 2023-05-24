@@ -106,10 +106,14 @@
         <ion-col class="ion-text-center">
           <ion-button *ngIf="{ score: pageState.totalScore$ | async } as data"
                       (click)="onContinueClick(data.score)"
-                      id="adi-pt3-continue-tr-button"
-                      shape="round"
-                      class="mes-primary-button wrtc-footer-btn">
-            <h3 id="adi-pt3-continue-tr-label">Continue</h3>
+                    id="adi-pt3-continue-tr-button"
+                    shape="round"
+                    class="mes-primary-button wrtc-footer-btn">
+              <header-component
+                [id]="'adi-pt3-continue-tr-label'"
+                [headerNum]="3">
+                Continue
+              </header-component>
           </ion-button>
         </ion-col>
     </ion-row>

@@ -99,7 +99,10 @@
         (click)="onViewTestCentreJournal()"
         class="mes-grey-button wrtc-footer-btn"
         id="view-test-centre-journal-button" shape="round">
-        <h3>View test centre journal</h3>
+        <header-component
+          [headerNum]="3">
+          View test centre journal
+        </header-component>
       </ion-button>
     </ion-col>
     <ion-col size="6"></ion-col>
@@ -108,7 +111,10 @@
         (click)="onSubmit()"
         class="mes-primary-button wrtc-footer-btn"
         id="continue-to-test-report-button" shape="round">
-        <h3>Continue to test report</h3>
+        <header-component
+          [headerNum]="3">
+          Continue to test report
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>

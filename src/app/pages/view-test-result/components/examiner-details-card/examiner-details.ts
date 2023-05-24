@@ -10,4 +10,6 @@ export class ExaminerDetailsCardComponent {
   @Input()
   data: ExaminerDetailsModel;
 
+  @Input()
+  zoom: string;
 }

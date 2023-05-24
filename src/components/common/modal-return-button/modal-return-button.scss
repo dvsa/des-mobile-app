@@ -1,11 +1,6 @@
 @import "src/theme/sass-partials/buttons";
 
 :host {
-  .button-padding {
-    position: absolute;
-    top: 13px;
-  }
-
   .modal-return-button {
     @extend .mes-primary-button;
     margin-top: 20px;

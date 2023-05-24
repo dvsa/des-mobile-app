@@ -21,6 +21,9 @@ export class BusinessDetailsCardComponent {
   @Input()
   data: CandidateWithBusinessDetails;
 
+  @Input()
+  zoom: string;
+
   public shouldHideCard() : boolean {
     return (
       !get(this.data, 'businessName')

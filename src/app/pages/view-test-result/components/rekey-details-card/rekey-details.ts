@@ -18,6 +18,9 @@ import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 export class RekeyDetailsCardComponent {
 
   @Input()
+  zoom: string;
+
+  @Input()
   data: CatBUniqueTypes.TestResult
   | TestResultCatADI3Schema
   | CatCUniqueTypes.TestResult

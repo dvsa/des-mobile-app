@@ -35,7 +35,11 @@
 <ion-row class="mes-full-width-card">
   <ion-button mode="ios" class="mes-primary-button full-width" [disabled]="!enableShowBookingButton"
               (click)="showResults()" id="show-booking-button">
-    <h3 id="show-booking-button-text">Show booking</h3>
+    <header-component
+      [id]="'show-booking-button-text'"
+      [headerNum]="3">
+      Show booking
+    </header-component>
   </ion-button>
 </ion-row>
 

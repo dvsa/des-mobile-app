@@ -50,17 +50,18 @@
       [communicationPreferencesData]="testResult.communicationPreferences">
     </contact-details-card>
 
-    <business-details-card [data]="testResult.journalData.candidate"></business-details-card>
+    <business-details-card [zoom]="zoom" [data]="testResult.journalData.candidate"></business-details-card>
 
     <div *ngIf="testResult.rekey">
-      <rekey-details-card [data]="testResult"></rekey-details-card>
-      <rekey-reason-card [data]="testResult.rekeyReason"></rekey-reason-card>
+      <rekey-details-card [zoom]="zoom" [data]="testResult"></rekey-details-card>
+      <rekey-reason-card [zoom]="zoom" [data]="testResult.rekeyReason"></rekey-reason-card>
     </div>
 
-    <examiner-details-card [data]="getExaminerDetails()"></examiner-details-card>
+    <examiner-details-card [zoom]="zoom" [data]="getExaminerDetails()"></examiner-details-card>
 
     <vehicle-details-card
       *ngIf="showVehicleDetailsCommonCard()"
+      [zoom]="zoom"
       [trainerData]="getTrainerData()"
       [vehicleDetails]="getVehicleDetails()"
       [instructorDetails]="getInstructorData()"
@@ -71,6 +72,7 @@
 
     <trainer-details-card
       *ngIf="testResult.category == 'ADI3'"
+      [zoom]="zoom"
       [category]="testResult.category"
       [reasonForNoAdviceGiven]="getReason()"
       [trainerData]="getTrainerData()"
@@ -79,6 +81,7 @@
 
     <debrief-card
       *ngIf="showDebriefCommonCard()"
+      [zoom]="zoom"
       [drivingFaultCount]="getDrivingFaultSumCount()"
       [drivingFaults]="getDrivingFaults()"
       [seriousFaults]="getSeriousFaults()"

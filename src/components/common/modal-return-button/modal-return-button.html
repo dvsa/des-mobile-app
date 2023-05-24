@@ -1,3 +1,6 @@
 <ion-button id='model-return-button' class="modal-return-button" (click)="onReturnClicked()">
-  <h3 class="button-padding"><ng-content></ng-content></h3>
+  <header-component
+    [headerNum]="3">
+    <ng-content></ng-content>
+  </header-component>
 </ion-button>

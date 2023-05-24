@@ -72,9 +72,12 @@
                  id="driver-number-{{slot.booking?.candidate?.driverNumber}}">
               {{slot.booking?.candidate?.driverNumber}}
             </div>
-            <h3 *ngIf="delegatedTest && slot.booking.candidate.driverNumber" id="del-ex-driver-number">
+            <header-component
+              *ngIf="delegatedTest && slot.booking.candidate.driverNumber"
+              [id]="'del-ex-driver-number'"
+              [headerNum]="3">
               {{slot.booking.candidate.driverNumber}}
-            </h3>
+            </header-component>
             <vehicle-details
               *ngIf="showVehicleDetails() && !delegatedTest && !isTeamJournal"
               [height]="slot.booking.application.vehicleHeight"
@@ -175,6 +178,10 @@
 </ng-template>
 <ng-template #unknownCandidate>
   <ion-button class="candidate-details-placeholder-text mes-transparent-button" disabled expand="full" fill="clear">
-    <h3 class="trainer-booked-un-named">Trainer booked -<br *ngIf="accessibilityService.getTextZoomClass() !== 'text-zoom-regular'"> unnamed</h3>
+    <header-component
+      class="trainer-booked-un-named"
+      [headerNum]="3">
+      Trainer booked -<br *ngIf="accessibilityService.getTextZoomClass() !== 'text-zoom-regular'"> unnamed
+    </header-component>
   </ion-button>
 </ng-template>

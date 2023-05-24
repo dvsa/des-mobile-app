@@ -11,6 +11,9 @@ export class RekeyReasonCardComponent {
   @Input()
   data: RekeyReason;
 
+  @Input()
+  zoom: string;
+
   public get iPadIssue(): string {
     const isIpadIssueSelected:boolean = get(this.data, 'ipadIssue.selected', false);
     return isIpadIssueSelected ? RekeyReasonCardComponent.getIpadIssueDisplayText(get(this.data, 'ipadIssue')) : 'None';

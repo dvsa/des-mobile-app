@@ -1,6 +1,11 @@
 <ion-card *ngIf="!shouldHideCard()">
     <ion-card-header>
-        <h4 id="view-test-result-vehicle-details-title">Vehicle details</h4>
+      <header-component
+        [zoom]="zoom"
+        [id]="'view-test-result-vehicle-details-title'"
+        [headerNum]="4">
+        Vehicle details
+      </header-component>
     </ion-card-header>
     <ion-card-content>
         <ion-grid>

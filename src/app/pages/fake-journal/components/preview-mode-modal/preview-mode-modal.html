@@ -14,7 +14,10 @@
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding" size="72">
       <ion-button id="preview-mode-continue-button" class="mes-return-button start-test-button" (click)="onContinue()">
-        <h3>Continue</h3>
+        <header-component
+          [headerNum]="3">
+          Continue
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>

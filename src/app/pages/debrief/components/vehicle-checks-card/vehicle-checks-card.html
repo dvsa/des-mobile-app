@@ -1,12 +1,12 @@
 <ion-card id="vehicle-checks" *ngIf="tellMeShowMeQuestions.length > 0; let questions">
     <ion-card-header>
         <ion-card-title>
-            <h4 class="fault-heading">{{ 'debrief.vehicleChecks' | translate }}</h4>
-          <header-component
-            class="fault-heading"
-            [headerNum]="4">
-            {{ 'debrief.vehicleChecks' | translate }}
-          </header-component>
+          <div class="fault-heading">
+            <header-component
+              [headerNum]="4">
+              {{ 'debrief.vehicleChecks' | translate }}
+            </header-component>
+          </div>
         </ion-card-title>
     </ion-card-header>
     <ion-card-content>

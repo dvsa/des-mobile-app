@@ -1,8 +1,10 @@
 <ion-card>
   <ion-card-header class="tr-header-padding">
-    <h3 id="lesson-theme-card-title">
+    <header-component
+      [id]="'lesson-theme-card-title'"
+      [headerNum]="3">
       Lesson theme:
-    </h3>
+    </header-component>
   </ion-card-header>
   <ion-card-content class="card-header-sizing" [formGroup]="formGroup">
     <ion-grid>

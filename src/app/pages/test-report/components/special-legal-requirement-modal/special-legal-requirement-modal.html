@@ -12,7 +12,10 @@
   <ion-row class="ion-justify-content-center">
     <ion-col class="ion-no-padding" size="84">
       <ion-button type="submit" class="mes-primary-button" id="continue-to-test-report-button" (click)="onProceed()">
-        <h3>End test and continue to debrief</h3>
+        <header-component
+          [headerNum]="3">
+          End test and continue to debrief
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>

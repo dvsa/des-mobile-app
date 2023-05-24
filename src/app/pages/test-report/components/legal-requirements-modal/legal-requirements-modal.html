@@ -16,7 +16,10 @@
     </ion-col>
     <ion-col class="ion-no-padding" size="84" *ngIf="isDelegated">
       <ion-button id="legal-requirements-continue-button" class="mes-primary-button" (click)="onContinue()">
-        <h3>Continue to test summary</h3>
+        <header-component
+          [headerNum]="3">
+          Continue to test summary
+        </header-component>
       </ion-button>
     </ion-col>
   </ion-row>

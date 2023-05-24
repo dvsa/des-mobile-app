@@ -9,7 +9,13 @@
                 </ion-row>
                 <ion-row>
                     <ion-button class="delegated-examiner-description-button">
-                        <h3 id="delegated-examiner-rekey-label">Rekey delegated examiner test</h3>
+                      <header-component
+                        [inheritColour]="true"
+                        class="white-text"
+                        [id]="'delegated-examiner-rekey-label'"
+                        [headerNum]="3">
+                        Rekey delegated examiner test
+                      </header-component>
                     </ion-button>
                 </ion-row>
             </ion-grid>

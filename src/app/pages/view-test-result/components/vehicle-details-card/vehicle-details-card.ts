@@ -43,6 +43,9 @@ export class VehicleDetailsCardComponent {
   vehicleDetails: string[];
 
   @Input()
+  zoom: string;
+
+  @Input()
   instructorDetails: CatBUniqueTypes.InstructorDetails = null;
 
   public shouldHideCard() : boolean {

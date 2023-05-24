@@ -30,6 +30,9 @@ export class DebriefCardComponent implements OnInit {
   data: TestDataUnion;
 
   @Input()
+  zoom: string;
+
+  @Input()
   dangerousFaults: FaultSummary[];
 
   @Input()

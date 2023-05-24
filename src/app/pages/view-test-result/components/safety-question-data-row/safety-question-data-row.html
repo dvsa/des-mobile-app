@@ -2,7 +2,12 @@
     <ion-row [ngClass]="shouldHaveSeperator ? 'mes-data-row-with-separator': 'mes-data-row'">
         <ion-card-header class="alignment-fix" *ngIf="isDebrief">
             <ion-card-title>
-                <h4 class="fault-heading">{{ label }}</h4>
+              <div class="fault-heading">
+                <header-component
+                  [headerNum]="4">
+                  {{label}}
+                </header-component>
+              </div>
             </ion-card-title>
         </ion-card-header>
         <ion-card-content [class]="isDebrief ? 'debrief-card-padding' : 'search-card-padding-and-position'">
