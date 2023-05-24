@@ -2,6 +2,8 @@ name: SonarQube
 
 on:
   pull_request:
+    branches:
+      - develop
     if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
 
 env:
@@ -42,6 +44,15 @@ jobs:
         run: |
           echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
+      - name: Create sonar-project.properties
+        run: |
+          echo "sonar.host.url=https://sonarqube.mgmt.mes.dvsacloud.uk/" >> sonar-project.properties
+          echo "sonar.projectKey=des-mobile-app" >> sonar-project.properties
+          echo "sonar.projectVersion=4.8.0.0" >> sonar-project.properties
+          echo "sonar.login=$DES_SONARQUBE_TOKEN" >> sonar-project.properties
+          echo "sonar.sources=src" >> sonar-project.properties
+          echo "sonar.javascript.lcov.reportPaths=./coverage/ngv/lcov.info" >> sonar-project.properties
+
       - name: Build project
         run: |
           npm run build:ci
@@ -51,13 +62,6 @@ jobs:
           export NODE_OPTIONS="--max_old_space_size=8192"
           npm run test:coverage
 
-      - name: Setup sonarqube
-        uses: warchant/setup-sonar-scanner@v3
-
       - name: Run sonarqube
-        run: sonar-scanner
-           -Dsonar.organization=dvsa
-           -Dsonar.projectKey=des-mobile-app
-           -Dsonar.sources=src
-           -Dsonar.host.url=https://sonarqube.mgmt.mes.dvsacloud.uk/
-           -Dsonar.login=$DES_SONARQUBE_TOKEN
+        run: |
+          npm run test:coverage
