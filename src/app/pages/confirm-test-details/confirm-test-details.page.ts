@@ -21,7 +21,9 @@ import {
   getTestSlotAttributes,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.reducer';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
-import { filter, map, take, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter, map, take, tap, withLatestFrom,
+} from 'rxjs/operators';
 import {
   getTestStartDateTime,
 } from '@store/tests/journal-data/common/test-slot-attributes/test-slot-attributes.selector';
