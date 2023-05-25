@@ -84,7 +84,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.11.7",
-    "@sentry/angular": "7.50.0",
+    "@sentry/angular": "7.51.0",
     "@sentry/capacitor": "0.11.3",
     "assert": "^2.0.0",
     "bootstrap": "^5.2.3",
