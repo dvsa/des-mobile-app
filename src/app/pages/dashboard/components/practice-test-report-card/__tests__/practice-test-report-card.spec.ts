@@ -21,6 +21,8 @@ import {
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { OverlayEventDetail } from '@ionic/core';
 import { PracticeTestModal } from '@pages/dashboard/components/practice-test-modal/practice-test-modal';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('PracticeTestReportCardComponent', () => {
   let component: PracticeTestReportCardComponent;
@@ -31,7 +33,10 @@ describe('PracticeTestReportCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PracticeTestReportCardComponent],
+      declarations: [
+        PracticeTestReportCardComponent,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule, StoreModule.forRoot({})],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },

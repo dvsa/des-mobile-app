@@ -18,6 +18,8 @@ import { createTranslateLoader } from '@app/app.module';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { VehicleChecksCardCatBComponent } from '../vehicle-checks-card.cat-b';
 
 describe('VehicleChecksCardCatBComponent', () => {
@@ -29,6 +31,7 @@ describe('VehicleChecksCardCatBComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCardCatBComponent,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

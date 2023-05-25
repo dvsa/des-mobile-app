@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { QuestionScoreComponent } from '@pages/test-report/cat-cpc/components/question-score/question-score';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('QuestionScoreComponent', () => {
   let fixture: ComponentFixture<QuestionScoreComponent>;
@@ -9,6 +11,7 @@ describe('QuestionScoreComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         QuestionScoreComponent,
+        MockComponent(HeaderComponent),
       ],
     });
 

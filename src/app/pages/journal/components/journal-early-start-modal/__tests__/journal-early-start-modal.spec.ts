@@ -8,10 +8,30 @@ import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { EarlyStartDidContinue, EarlyStartDidReturn } from '@store/journal/journal.actions';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { JournalEarlyStartModal } from '../journal-early-start-modal';
-import { JournalEarlyStartModalMock } from '../__mocks__/journal-early-start-modal.mock';
-import { NavParamsMock } from '../__mocks__/nav-params.mock';
+import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
+import { SlotProvider } from '@providers/slot/slot';
+import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
+import { DateTimeProvider } from '@providers/date-time/date-time';
+import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
+import { AuthenticationProvider } from '@providers/authentication/authentication';
+import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
+import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
+import { DataStoreProvider } from '@providers/data-store/data-store';
+import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
+import { NetworkStateProvider } from '@providers/network-state/network-state';
+import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { TranslateService } from '@ngx-translate/core';
+import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
+import { AppInfoProvider } from '@providers/app-info/app-info';
+import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { DeviceProvider } from '@providers/device/device';
+import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ModalEvent } from '../journal-early-start-modal.constants';
+import { NavParamsMock } from '../__mocks__/nav-params.mock';
+import { JournalEarlyStartModalMock } from '../__mocks__/journal-early-start-modal.mock';
+import { JournalEarlyStartModal } from '../journal-early-start-modal';
 
 describe('JournalEarlyStartModal', () => {
   let modalFixture: ComponentFixture<JournalEarlyStartModal>;
@@ -31,6 +51,16 @@ describe('JournalEarlyStartModal', () => {
         ComponentsModule,
       ],
       providers: [
+        { provide: SlotProvider, useClass: SlotProviderMock },
+        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
+        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
+        { provide: SecureStorage, useClass: SecureStorageMock },
+        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
+        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
+        { provide: TranslateService, useValue: translateServiceMock },
+        { provide: AppInfoProvider, useClass: AppInfoProviderMock },
+        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
+        { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: NavParams, useFactory: () => navMock },
         provideMockStore({}),

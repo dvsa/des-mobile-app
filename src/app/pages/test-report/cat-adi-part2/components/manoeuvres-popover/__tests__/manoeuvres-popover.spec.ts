@@ -16,6 +16,7 @@ import { DrivingFaultsBadgeComponent } from '@components/common/driving-faults-b
 import { NavControllerMock } from '@mocks/index.mock';
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { NavigationStateProviderMock } from '@providers/navigation-state/__mocks__/navigation-state.mock';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { testReportReducer } from '../../../../test-report.reducer';
 import { ManoeuvresPopoverComponentAdiPart2 } from '../manoeuvres-popover';
 import { ManoeuvreCompetencyComponentAdiPart2 } from '../../manoeuvre-competency/manoeuvre-competency';
@@ -51,6 +52,7 @@ describe('ManoeuvresPopoverComponentAdiPart2', () => {
       declarations: [
         ManoeuvresPopoverComponentAdiPart2,
         MockComponent(DrivingFaultsBadgeComponent),
+        MockComponent(HeaderComponent),
         MockComponent(ManoeuvreCompetencyComponentAdiPart2),
       ],
       imports: [

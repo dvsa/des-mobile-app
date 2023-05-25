@@ -8,6 +8,7 @@ import { DateTimeInputComponent } from '@components/common/datetime-input/date-t
 import {
   SearchablePicklistComponentWrapper,
 } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { AdvancedSearchComponent } from '../advanced-search';
 
 describe('AdvancedSearchComponent', () => {
@@ -18,6 +19,7 @@ describe('AdvancedSearchComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AdvancedSearchComponent,
+        MockComponent(HeaderComponent),
         MockComponent(DateTimeInputComponent),
         MockComponent(SearchablePicklistComponentWrapper),
       ],

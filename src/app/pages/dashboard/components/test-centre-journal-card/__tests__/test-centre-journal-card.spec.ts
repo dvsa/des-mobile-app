@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { TEST_CENTRE_JOURNAL_PAGE } from '@pages/page-names.constants';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { TestCentreJournalCardComponent } from '../test-centre-journal-card';
 
 describe('TestCentreJournalCard', () => {
@@ -12,7 +14,10 @@ describe('TestCentreJournalCard', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TestCentreJournalCardComponent],
+      declarations: [
+        TestCentreJournalCardComponent,
+        MockComponent(HeaderComponent),
+      ],
       imports: [
         IonicModule,
         CommonModule,

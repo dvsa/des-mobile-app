@@ -7,6 +7,8 @@ import { NavParamsMock } from '@mocks/index.mock';
 import { Store } from '@ngrx/store';
 import { MockAppComponent } from '@app/__mocks__/app.component.mock';
 import { AppComponent } from '@app/app.component';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('VRNCaptureModal', () => {
   let fixture: ComponentFixture<VRNCaptureModal>;
@@ -19,6 +21,7 @@ describe('VRNCaptureModal', () => {
     TestBed.configureTestingModule({
       declarations: [
         VRNCaptureModal,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         FormsModule,

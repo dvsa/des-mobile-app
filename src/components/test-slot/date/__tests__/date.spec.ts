@@ -4,15 +4,20 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { DateComponent } from '../date';
 
-xdescribe('TimeComponent', () => {
+describe('TimeComponent', () => {
   let component: DateComponent;
   let fixture: ComponentFixture<DateComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DateComponent],
+      declarations: [
+        DateComponent,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule],
       providers: [
         { provide: LogHelper, useClass: LogHelperMock },

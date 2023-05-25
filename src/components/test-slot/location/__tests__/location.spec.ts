@@ -1,6 +1,8 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { LocationComponent } from '../location';
 
 describe('LocationComponent', () => {
@@ -9,7 +11,10 @@ describe('LocationComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LocationComponent],
+      declarations: [
+        LocationComponent,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule],
       providers: [],
     });
@@ -23,10 +28,10 @@ describe('LocationComponent', () => {
     describe('location icon', () => {
       it('should display test centre name', () => {
         const locationEl: HTMLElement = fixture.debugElement.query(
-          By.css('h3'),
+          By.css('header-component'),
         ).nativeElement;
         fixture.detectChanges();
-        expect(locationEl.textContent).toBe('Example Test Centre');
+        expect(locationEl.textContent).toBe(' Example Test Centre ');
       });
       it('should display a location icon', () => {
         const iconElement = fixture.debugElement.queryAll(

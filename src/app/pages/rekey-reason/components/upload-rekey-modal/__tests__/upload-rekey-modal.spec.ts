@@ -5,6 +5,8 @@ import { By } from '@angular/platform-browser';
 
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { AppModule } from '@app/app.module';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { UploadRekeyModal } from '../upload-rekey-modal';
 
 describe('UploadRekeyModal', () => {
@@ -13,7 +15,10 @@ describe('UploadRekeyModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [UploadRekeyModal],
+      declarations: [
+        UploadRekeyModal,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule, AppModule],
       providers: [
         { provide: NavParams, useClass: NavParamsMock },

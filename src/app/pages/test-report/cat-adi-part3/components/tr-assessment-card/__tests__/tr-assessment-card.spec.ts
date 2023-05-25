@@ -9,6 +9,7 @@ import {
   TestReportAssessmentAnswer,
 } from '@pages/test-report/cat-adi-part3/components/tr-assessment-answer/tr-assessment-answer';
 import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('TestReportAssessmentCard', () => {
   let fixture: ComponentFixture<TestReportAssessmentCard>;
@@ -18,6 +19,7 @@ describe('TestReportAssessmentCard', () => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportAssessmentCard,
+        MockComponent(HeaderComponent),
         MockComponent(TestReportAssessmentAnswer),
       ],
       imports: [

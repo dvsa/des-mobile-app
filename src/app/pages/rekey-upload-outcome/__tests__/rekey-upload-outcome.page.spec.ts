@@ -22,6 +22,8 @@ import { JOURNAL_PAGE, REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { EndRekey } from '@store/tests/rekey/rekey.actions';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { RekeyUploadOutcomeViewDidEnter } from '@pages/rekey-upload-outcome/rekey-upload-outcome.actions';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { rekeyReasonReducer } from '../../rekey-reason/rekey-reason.reducer';
 
 describe('RekeyUploadOutcomePage', () => {
@@ -39,6 +41,7 @@ describe('RekeyUploadOutcomePage', () => {
     TestBed.configureTestingModule({
       declarations: [
         RekeyUploadOutcomePage,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,
@@ -131,7 +134,7 @@ describe('RekeyUploadOutcomePage', () => {
         fixture.detectChanges();
         const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
         expect(element.textContent)
-          .toEqual('Rekeyed test uploaded successfully');
+          .toEqual(' Rekeyed test uploaded successfully ');
         expect(fixture.debugElement.query(By.css('.tick-icon')))
           .toBeDefined();
         expect(fixture.debugElement.query(By.css('.warning-icon')))
@@ -143,7 +146,7 @@ describe('RekeyUploadOutcomePage', () => {
         fixture.detectChanges();
         const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
         expect(element.textContent)
-          .toEqual('Rekeyed test has already been uploaded');
+          .toEqual(' Rekeyed test has already been uploaded ');
         expect(fixture.debugElement.query(By.css('.warning-icon')))
           .toBeDefined();
         expect(fixture.debugElement.query(By.css('.tick-icon')))

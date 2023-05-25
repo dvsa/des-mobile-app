@@ -227,16 +227,16 @@ describe('HealthDeclarationPage', () => {
     describe('multi language support', () => {
       it('should render the page in English by default', () => {
         fixture.detectChanges();
-        const declarationIntent = fixture.debugElement.query(By.css('h4')).nativeElement;
-        expect(declarationIntent.innerHTML).toBe('I declare that:');
+        const declarationIntent = fixture.debugElement.query(By.css('.header4')).nativeElement;
+        expect(declarationIntent.innerHTML).toBe(' I declare that: ');
       });
       it('should render the page in Welsh for a Welsh test', (done) => {
         configureI18N(Language.CYMRAEG, translate);
         translate.onLangChange.subscribe(() => {
           fixture.detectChanges();
-          const declarationIntent = fixture.debugElement.query(By.css('h4')).nativeElement;
+          const declarationIntent = fixture.debugElement.query(By.css('.header4')).nativeElement;
           expect(declarationIntent.innerHTML)
-            .toBe(`${(<any>welshTranslations).healthDeclaration.declarationIntent}:`);
+            .toBe(` ${(<any>welshTranslations).healthDeclaration.declarationIntent}: `);
           done();
         });
       });

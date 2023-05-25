@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { ExaminerDetailsCardComponent } from '../examiner-details';
 
 describe('ExaminerDetailsCardComponent', () => {
@@ -13,6 +14,7 @@ describe('ExaminerDetailsCardComponent', () => {
       declarations: [
         ExaminerDetailsCardComponent,
         MockComponent(DataRowComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

@@ -13,6 +13,8 @@ import {
   DeviceAuthenticationProviderMock,
 } from '@providers/device-authentication/__mocks__/device-authentication.mock';
 import { AppModule } from '@app/app.module';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { TerminateTestModal } from '../terminate-test-modal';
 
 describe('TerminateTestModal', () => {
@@ -22,7 +24,10 @@ describe('TerminateTestModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TerminateTestModal],
+      declarations: [
+        TerminateTestModal,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule, AppModule],
       providers: [
         { provide: NavController, useClass: NavControllerMock },

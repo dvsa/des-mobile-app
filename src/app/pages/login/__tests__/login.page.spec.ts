@@ -30,6 +30,8 @@ import {
 } from '@mocks/index.mock';
 import { NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { DASHBOARD_PAGE } from '../../page-names.constants';
 import { LoginPage } from '../login.page';
 
@@ -52,7 +54,10 @@ describe('LoginPage', () => {
   beforeEach(waitForAsync(() => {
     jasmine.getEnv().allowRespy(true);
     TestBed.configureTestingModule({
-      declarations: [LoginPage],
+      declarations: [
+        LoginPage,
+        MockComponent(HeaderComponent),
+      ],
       imports: [
         RouterTestingModule.withRoutes(
           [

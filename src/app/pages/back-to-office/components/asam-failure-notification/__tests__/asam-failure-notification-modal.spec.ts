@@ -3,6 +3,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { MockComponent } from 'ng-mocks';
 import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { AsamFailureNotificationModal } from '../asam-failure-notification-modal';
 
 describe('AsamFailureNotificationModal', () => {
@@ -15,6 +16,7 @@ describe('AsamFailureNotificationModal', () => {
       declarations: [
         AsamFailureNotificationModal,
         MockComponent(ModalAlertTitleComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule.forRoot(),

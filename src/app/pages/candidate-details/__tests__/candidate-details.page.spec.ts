@@ -29,6 +29,7 @@ import {
 import { SlotItem } from '@providers/slot-selector/slot-item';
 import { JournalModel } from '@store/journal/journal.model';
 import { StoreModel } from '@shared/models/store.model';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { CandidateDetailsPage } from '../candidate-details.page';
 
 describe('CandidateDetailsPage', () => {
@@ -83,6 +84,7 @@ describe('CandidateDetailsPage', () => {
       declarations: [
         CandidateDetailsPage,
         MockComponent(DisplayAddressComponent),
+        MockComponent(HeaderComponent),
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),
         MockComponent(InappropriateUseBannerComponent),

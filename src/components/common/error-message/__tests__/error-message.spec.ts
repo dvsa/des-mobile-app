@@ -1,6 +1,8 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { ErrorTypes } from '@shared/models/error-message';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { ErrorMessageComponent, additionalText } from '../error-message';
 
 describe('ErrorMessageComponent', () => {
@@ -11,7 +13,10 @@ describe('ErrorMessageComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ErrorMessageComponent],
+      declarations: [
+        ErrorMessageComponent,
+        MockComponent(HeaderComponent),
+      ],
       providers: [
         { provide: Location, useValue: locationSpy },
       ],

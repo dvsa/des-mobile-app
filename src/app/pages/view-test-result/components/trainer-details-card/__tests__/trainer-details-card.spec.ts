@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { TrainerDetailsCardComponent } from '../trainer-details-card';
 
 describe('TrainerDetailsCardComponent', () => {
@@ -14,6 +15,7 @@ describe('TrainerDetailsCardComponent', () => {
       declarations: [
         TrainerDetailsCardComponent,
         MockComponent(DataRowComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

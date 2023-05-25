@@ -127,7 +127,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
         fixture.detectChanges();
         const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
         expect(element.textContent)
-          .toEqual('Rekey upload was successful');
+          .toEqual(' Rekey upload was successful ');
         expect(fixture.debugElement.query(By.css('.tick-icon')))
           .toBeDefined();
         expect(fixture.debugElement.query(By.css('.warning-icon')))
@@ -139,7 +139,7 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
         fixture.detectChanges();
         const element: HTMLElement = fixture.debugElement.query(By.css('.modal-alert-header')).nativeElement;
         expect(element.textContent)
-          .toEqual('Rekey upload was unsuccessful');
+          .toEqual(' Rekey upload was unsuccessful ');
         expect(fixture.debugElement.query(By.css('.warning-icon')))
           .toBeDefined();
         expect(fixture.debugElement.query(By.css('.tick-icon')))

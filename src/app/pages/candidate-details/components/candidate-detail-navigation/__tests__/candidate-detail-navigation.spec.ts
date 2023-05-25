@@ -3,6 +3,8 @@ import {
   CandidateDetailNavigationComponent,
 } from '@pages/candidate-details/components/candidate-detail-navigation/candidate-detail-navigation';
 import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('CandidateDetailNavigationComponent', () => {
   let fixture: ComponentFixture<CandidateDetailNavigationComponent>;
@@ -12,6 +14,7 @@ describe('CandidateDetailNavigationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         CandidateDetailNavigationComponent,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

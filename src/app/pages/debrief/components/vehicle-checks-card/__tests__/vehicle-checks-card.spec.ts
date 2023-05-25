@@ -8,6 +8,8 @@ import { default as englishTranslations } from '@assets/i18n/en.json';
 import { QuestionResult } from '@dvsa/mes-test-schema/categories/common';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { getMalformedVehicleChecks } from '../__mocks__/vehicle-checks-card.mock';
 import { VehicleChecksCardComponent } from '../vehicle-checks-card';
 
@@ -20,6 +22,7 @@ describe('VehicleChecksCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCardComponent,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

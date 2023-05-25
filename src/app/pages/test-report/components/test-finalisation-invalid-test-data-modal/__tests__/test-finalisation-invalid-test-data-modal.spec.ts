@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule, NavParams } from '@ionic/angular';
 import { TestFinalisationInvalidTestDataModal } from
   '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('TestFinalisationInvalidTestDataModal', () => {
   let fixture: ComponentFixture<TestFinalisationInvalidTestDataModal>;
@@ -20,7 +22,10 @@ describe('TestFinalisationInvalidTestDataModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TestFinalisationInvalidTestDataModal],
+      declarations: [
+        TestFinalisationInvalidTestDataModal,
+        MockComponent(HeaderComponent),
+      ],
       imports: [
         IonicModule,
       ],

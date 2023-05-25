@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { MockComponent } from 'ng-mocks';
 import { IonicModule } from '@ionic/angular';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { SignatureAreaComponent } from '../signature-area';
 
 class TestStore {}
@@ -16,6 +17,7 @@ describe('SignatureAreaComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SignatureAreaComponent,
+        MockComponent(HeaderComponent),
         MockComponent(SignaturePadComponent),
       ],
       imports: [
@@ -72,13 +74,13 @@ describe('SignatureAreaComponent', () => {
         component.signHereText = 'sign here for millions';
         fixture.detectChanges();
         const signHereElement: HTMLElement = fixture.debugElement.query(By.css('.sign-here-label')).nativeElement;
-        expect(signHereElement.textContent).toEqual('sign here for millions');
+        expect(signHereElement.textContent).toEqual(' sign here for millions ');
       });
       it('sign line text should default when the signHereText property is falsy', () => {
         component.signHereText = undefined;
         fixture.detectChanges();
         const signHereElement: HTMLElement = fixture.debugElement.query(By.css('.sign-here-label')).nativeElement;
-        expect(signHereElement.textContent).toEqual('Sign here');
+        expect(signHereElement.textContent).toEqual(' Sign here ');
       });
     });
 

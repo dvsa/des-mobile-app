@@ -4,6 +4,8 @@ import { NavParamsMock, ModalControllerMock } from '@mocks/index.mock';
 import { AppModule } from 'src/app/app.module';
 import { By } from '@angular/platform-browser';
 import { ModalEvent } from '@pages/test-report/test-report.constants';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { EndTestModal } from '../end-test-modal';
 
 describe('EndTestModal', () => {
@@ -14,6 +16,7 @@ describe('EndTestModal', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
+        MockComponent(HeaderComponent),
         EndTestModal,
       ],
       imports: [

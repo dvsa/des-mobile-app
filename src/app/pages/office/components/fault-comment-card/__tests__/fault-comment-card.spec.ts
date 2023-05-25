@@ -6,6 +6,7 @@ import { AppModule } from 'src/app/app.module';
 import { UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { FaultSummary } from '@shared/models/fault-marking.model';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { FaultCommentComponent } from '../../fault-comment/fault-comment';
 import { FaultCommentCardComponent } from '../fault-comment-card';
 
@@ -18,6 +19,7 @@ describe('FaultCommentCardComponent', () => {
       declarations: [
         FaultCommentCardComponent,
         MockComponent(FaultCommentComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,
@@ -40,8 +42,8 @@ describe('FaultCommentCardComponent', () => {
       component.faultType = 'drivingFault';
       fixture.detectChanges();
 
-      const header = fixture.debugElement.query(By.css('h4')).nativeElement;
-      expect(header.innerHTML).toBe('header');
+      const header = fixture.debugElement.query(By.css('header-component')).nativeElement;
+      expect(header.innerHTML).toBe(' header ');
     });
 
     it('should pass the faultComment and type to the fault-comment component', () => {

@@ -11,6 +11,8 @@ import { RouterMock } from '@mocks/index.mock';
 import { Router } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { EyesightFailureConfirmationComponent } from '../eyesight-failure-confirmation';
 
 describe('EyesightFailureConfirmationComponent', () => {
@@ -23,6 +25,7 @@ describe('EyesightFailureConfirmationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         EyesightFailureConfirmationComponent,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

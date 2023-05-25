@@ -43,10 +43,10 @@ describe('DangerousFaultsDebriefCardComponent', () => {
       component.dangerousFaults = dangerousFaults;
       fixture.detectChanges();
       const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
-      const dangerousCounts = fixture.debugElement.query(By.css('h1.fault-heading')).nativeElement;
+      const dangerousCounts = fixture.debugElement.query(By.css('#dangerous-fault-count')).nativeElement;
       expect(dangerousLabels[0].nativeElement.innerHTML).toBe('Control - Ancillary Controls');
       expect(dangerousLabels[1].nativeElement.innerHTML).toBe('Clearance');
-      expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
+      expect(dangerousCounts.innerHTML).toBe(` ${dangerousFaults.length.toString()} `);
     });
 
     it('correct dangerous faults showing in welsh', (done) => {
@@ -56,10 +56,10 @@ describe('DangerousFaultsDebriefCardComponent', () => {
       translate.onLangChange.subscribe(() => {
         fixture.detectChanges();
         const dangerousLabels = fixture.debugElement.queryAll(By.css('#dangerous-fault .counter-label'));
-        const dangerousCounts = fixture.debugElement.query(By.css('h1.fault-heading')).nativeElement;
+        const dangerousCounts = fixture.debugElement.query(By.css('#dangerous-fault-count')).nativeElement;
         expect(dangerousLabels[0].nativeElement.innerHTML)
           .toBe((<any>welshTranslations).debrief.competencies.ancillaryControls);
-        expect(dangerousCounts.innerHTML).toBe(dangerousFaults.length.toString());
+        expect(dangerousCounts.innerHTML).toBe(` ${dangerousFaults.length.toString()} `);
         done();
       });
 

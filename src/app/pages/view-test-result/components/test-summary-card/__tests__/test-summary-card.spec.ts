@@ -5,6 +5,7 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { IndependentDriving, WeatherConditions } from '@dvsa/mes-test-schema/categories/common';
 import { ModeOfTransport } from '@dvsa/mes-test-schema/categories/AM2';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { TestSummaryCardComponent } from '../test-summary-card';
 
 describe('TestSummaryCardComponent', () => {
@@ -15,6 +16,7 @@ describe('TestSummaryCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         TestSummaryCardComponent,
+        MockComponent(HeaderComponent),
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),
       ],

@@ -8,8 +8,9 @@
   </header-component>
   <ng-template #showTime>
     <header-component
+      id="candidate-details-title"
       [ngClass]="{'time-test-complete-text': testComplete}"
-      [id]="'candidate-details-title'"
+      [id]="'candidate-details-title-inner'"
       [headerNum]="2">
       {{time | date: "HH:mm" }}
     </header-component>

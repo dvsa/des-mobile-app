@@ -28,13 +28,13 @@ describe('CandidateSectionComponent', () => {
 
   describe('getTestOutcomeClass', () => {
     it('should return pass when the TestOutcome is passed', () => {
-      expect(component.getTestOutcomeColour(TestOutcome.Passed)).toEqual('pass');
+      expect(component.getTestOutcomeColour(TestOutcome.Passed)).toEqual('var(--gds-dark-green-3)');
     });
     it('should return fail when the TestOutcome is Failed', () => {
-      expect(component.getTestOutcomeColour(TestOutcome.Failed)).toEqual('fail');
+      expect(component.getTestOutcomeColour(TestOutcome.Failed)).toEqual('var(--gds-red)');
     });
     it('should return terminated when the TestOutcome is Terminated', () => {
-      expect(component.getTestOutcomeColour(TestOutcome.Terminated)).toEqual('terminated');
+      expect(component.getTestOutcomeColour(TestOutcome.Terminated)).toEqual('var(--gds-grey-1)');
     });
   });
 });

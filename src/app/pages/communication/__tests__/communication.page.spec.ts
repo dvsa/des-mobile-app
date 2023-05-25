@@ -332,8 +332,8 @@ describe('CommunicationPage', () => {
       it('should render the page in English by default', () => {
         fixture.detectChanges();
         const { debugElement } = fixture;
-        expect(debugElement.query(By.css('h4')).nativeElement.innerHTML)
-          .toBe('Select how to receive the test results');
+        expect(debugElement.query(By.css('#comms-instruction-header')).nativeElement.innerHTML)
+          .toBe(' Select how to receive the test results ');
       });
     });
   });

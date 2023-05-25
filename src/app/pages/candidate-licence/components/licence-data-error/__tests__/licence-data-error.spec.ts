@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { LicenceDataError } from '@pages/candidate-licence/components/licence-data-error/licence-data-error';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('LicenceDataError', () => {
   let fixture: ComponentFixture<LicenceDataError>;
@@ -8,7 +10,10 @@ describe('LicenceDataError', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [LicenceDataError],
+      declarations: [
+        LicenceDataError,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule],
     });
 

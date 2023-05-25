@@ -34,6 +34,7 @@ import {
 import { CatCUniqueTypes } from '@dvsa/mes-test-schema/categories/C';
 import { TestsModel } from '@store/tests/tests.model';
 import { provideMockStore } from '@ngrx/store/testing';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-c.actions';
 import { VehicleChecksCatCModal } from '../vehicle-checks-modal.cat-c.page';
 import { FullLicenceHeldComponent } from '../../../../components/full-licence-held-toggle/full-licence-held-toggle';
@@ -169,6 +170,7 @@ describe('VehicleChecksCatCModal', () => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatCModal,
+        MockComponent(HeaderComponent),
         MockComponent(FullLicenceHeldComponent),
         MockComponent(VehicleChecksQuestionComponent),
         MockComponent(WarningBannerComponent),

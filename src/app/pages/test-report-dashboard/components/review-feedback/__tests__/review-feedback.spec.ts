@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { ReviewFeedback } from '@pages/test-report-dashboard/components/review-feedback/review-feedback';
 import { UntypedFormGroup } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('ReviewFeedback', () => {
   let fixture: ComponentFixture<ReviewFeedback>;
@@ -9,7 +11,10 @@ describe('ReviewFeedback', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ReviewFeedback],
+      declarations: [
+        ReviewFeedback,
+        MockComponent(HeaderComponent),
+      ],
       imports: [
         IonicModule,
       ],

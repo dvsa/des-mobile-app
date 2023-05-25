@@ -26,6 +26,7 @@ import { TestsModel } from '@store/tests/tests.model';
 import { provideMockStore } from '@ngrx/store/testing';
 import { take } from 'rxjs/operators';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { VehicleChecksCatADIPart2Modal } from '../vehicle-checks-modal.cat-adi-part2.page';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-adi-part2.actions';
 
@@ -108,6 +109,7 @@ describe('VehicleChecksCatADIPart2Modal', () => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleChecksCatADIPart2Modal,
+        MockComponent(HeaderComponent),
         MockComponent(VehicleChecksQuestionComponent),
         WarningBannerComponent,
       ],

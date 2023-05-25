@@ -5,6 +5,7 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { CommunicationPreferences, Candidate } from '@dvsa/mes-test-schema/categories/common';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { ContactDetailsCardComponent } from '../contact-details-card';
 
 describe('ContactDetailsCardComponent', () => {
@@ -15,6 +16,7 @@ describe('ContactDetailsCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ContactDetailsCardComponent,
+        MockComponent(HeaderComponent),
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),
         MockComponent(DisplayAddressComponent),

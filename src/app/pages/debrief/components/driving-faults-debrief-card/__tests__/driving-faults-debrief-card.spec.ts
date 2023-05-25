@@ -59,10 +59,10 @@ describe('DrivingFaultsDebriefCardComponent', () => {
       component.drivingFaultCount = 2;
       fixture.detectChanges();
       const drivingFaultLabels = fixture.debugElement.queryAll(By.css('#driving-fault .counter-label'));
-      const drivingFaultCount = fixture.debugElement.query(By.css('h1.fault-heading')).nativeElement;
+      const drivingFaultCount = fixture.debugElement.query(By.css('#driving-fault-count')).nativeElement;
       expect(drivingFaultLabels[0].nativeElement.innerHTML).toBe('Use of speed');
       expect(drivingFaultLabels[1].nativeElement.innerHTML).toBe('Signals - Timed');
-      expect(drivingFaultCount.innerHTML).toBe(drivingFaults.length.toString());
+      expect(drivingFaultCount.innerHTML).toBe(` ${drivingFaults.length.toString()} `);
     });
 
     it('correct driving faults showing in welsh', (done) => {
@@ -86,12 +86,12 @@ describe('DrivingFaultsDebriefCardComponent', () => {
       translate.onLangChange.subscribe(() => {
         fixture.detectChanges();
         const drivingFaultsLabels = fixture.debugElement.queryAll(By.css('#driving-fault .counter-label'));
-        const drivingFaultCount = fixture.debugElement.query(By.css('h1.fault-heading')).nativeElement;
+        const drivingFaultCount = fixture.debugElement.query(By.css('#driving-fault-count')).nativeElement;
         expect(drivingFaultsLabels[0].nativeElement.innerHTML)
           .toBe((<any>welshTranslations).debrief.competencies.useOfSpeed);
         expect(drivingFaultsLabels[1].nativeElement.innerHTML)
           .toBe((<any>welshTranslations).debrief.competencies.signalsTimed);
-        expect(drivingFaultCount.innerHTML).toBe(drivingFaults.length.toString());
+        expect(drivingFaultCount.innerHTML).toBe(` ${drivingFaults.length.toString()} `);
         done();
       });
     });

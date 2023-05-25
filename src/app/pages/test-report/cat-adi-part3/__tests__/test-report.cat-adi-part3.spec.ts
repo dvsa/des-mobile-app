@@ -47,6 +47,7 @@ import {
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { testReportReducer } from '../../test-report.reducer';
 
 describe('TestReportCatADI3Page', () => {
@@ -58,6 +59,7 @@ describe('TestReportCatADI3Page', () => {
     TestBed.configureTestingModule({
       declarations: [
         TestReportCatADI3Page,
+        MockComponent(HeaderComponent),
         MockComponent(PracticeModeBanner),
         MockComponent(StudentComponent),
         MockComponent(LessonThemeComponent),

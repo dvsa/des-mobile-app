@@ -7,6 +7,8 @@ import {
   VehicleDetailsCardComponent,
 } from '@pages/waiting-room-to-car/components/vehicle-details-card/vehicle-details-card';
 import { AppModule } from '@app/app.module';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 
 describe('VehicleDetailsCardComponent', () => {
   let fixture: ComponentFixture<VehicleDetailsCardComponent>;
@@ -16,6 +18,7 @@ describe('VehicleDetailsCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         VehicleDetailsCardComponent,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,
