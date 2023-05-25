@@ -7,6 +7,7 @@ import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { TransmissionDisplayComponent } from '@components/common/transmission-display/transmission-display';
 import { CatCMUniqueTypes } from '@dvsa/mes-test-schema/categories/CM';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { VehicleDetailsCardComponent } from '../vehicle-details-card';
 
 describe('VehicleDetailsCardComponent', () => {
@@ -20,6 +21,7 @@ describe('VehicleDetailsCardComponent', () => {
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),
         MockComponent(TransmissionDisplayComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

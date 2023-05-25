@@ -4,6 +4,7 @@ import { MockComponent } from 'ng-mocks';
 import { NeverType } from '@pages/test-report/test-report.effects';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { DataRowComponent } from '@components/common/data-row/data-row';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { RekeyDetailsCardComponent } from '../rekey-details';
 
 describe('RekeyDetailsCardComponent', () => {
@@ -14,6 +15,7 @@ describe('RekeyDetailsCardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         RekeyDetailsCardComponent,
+        MockComponent(HeaderComponent),
         MockComponent(DataRowComponent),
       ],
       imports: [

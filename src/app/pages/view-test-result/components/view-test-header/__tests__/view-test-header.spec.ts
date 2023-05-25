@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { ViewTestHeaderModel } from '@pages/view-test-result/components/view-test-header/view-test-header.model';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { ViewTestHeaderComponent } from '../view-test-header';
 
 describe('ViewTestHeaderComponent', () => {
@@ -12,6 +14,7 @@ describe('ViewTestHeaderComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ViewTestHeaderComponent,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

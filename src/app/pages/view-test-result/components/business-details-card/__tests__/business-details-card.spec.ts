@@ -4,6 +4,7 @@ import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
 import { DataRowCustomComponent } from '@components/common/data-row-custom/data-row-custom';
 import { DisplayAddressComponent } from '@components/common/display-address/display-address';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { BusinessDetailsCardComponent, CandidateWithBusinessDetails } from '../business-details-card';
 
 describe('BusinessDetailsCardComponent', () => {
@@ -17,6 +18,7 @@ describe('BusinessDetailsCardComponent', () => {
         MockComponent(DataRowComponent),
         MockComponent(DataRowCustomComponent),
         MockComponent(DisplayAddressComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

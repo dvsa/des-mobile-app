@@ -10,6 +10,8 @@ import { AppComponent } from '@app/app.component';
 import { FaultSummaryProvider } from '@providers/fault-summary/fault-summary';
 import { FaultSummaryProviderMock } from '@providers/fault-summary/__mocks__/fault-summary.mock';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { SearchResultComponent } from '../search-result';
 
 describe('SearchResultComponent', () => {
@@ -34,6 +36,7 @@ describe('SearchResultComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SearchResultComponent,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         AppModule,

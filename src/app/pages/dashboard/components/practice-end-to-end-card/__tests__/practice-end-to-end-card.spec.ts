@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FAKE_JOURNAL_PAGE } from '@pages/page-names.constants';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { PracticeEndToEndCardComponent } from '../practice-end-to-end-card';
 
 describe('PracticeEndToEndCard ', () => {
@@ -12,7 +14,10 @@ describe('PracticeEndToEndCard ', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [PracticeEndToEndCardComponent],
+      declarations: [
+        PracticeEndToEndCardComponent,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule],
       providers: [
         { provide: Router, useClass: RouterMock },

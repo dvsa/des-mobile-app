@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { DelegatedSearchCardComponent } from '../delegated-rekey-card';
 
 describe('DelegatedSearchCardComponent', () => {
@@ -12,7 +14,10 @@ describe('DelegatedSearchCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DelegatedSearchCardComponent],
+      declarations: [
+        DelegatedSearchCardComponent,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule],
       providers: [
         { provide: Router, useClass: RouterMock },

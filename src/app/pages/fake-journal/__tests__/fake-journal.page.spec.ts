@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { FakeJournalPage } from '../fake-journal.page';
 
@@ -29,6 +30,7 @@ describe('FakeJournalPage', () => {
         MockComponent(PracticeModeBanner),
         MockComponent(LocationComponent),
         MockComponent(TestSlotComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

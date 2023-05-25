@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { MockComponent } from 'ng-mocks';
 import { DataRowComponent } from '@components/common/data-row/data-row';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { ActivityCodeCard } from '../activity-code-card';
 
 describe('ActivityCodeCard', () => {
@@ -14,6 +15,7 @@ describe('ActivityCodeCard', () => {
       declarations: [
         ActivityCodeCard,
         MockComponent(DataRowComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

@@ -20,6 +20,8 @@ import { StoreModel } from '@shared/models/store.model';
 import { StartTest } from '@store/tests/tests.actions';
 import { default as welshTranslations } from '@assets/i18n/cy.json';
 import { default as englishTranslations } from '@assets/i18n/en.json';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { SafetyAndBalanceCardCatAMod2Component } from '../safety-and-balance-card.cat-a-mod2';
 
 describe('SafetyAndBalanceCardCatAMod2Component', () => {
@@ -31,6 +33,7 @@ describe('SafetyAndBalanceCardCatAMod2Component', () => {
     TestBed.configureTestingModule({
       declarations: [
         SafetyAndBalanceCardCatAMod2Component,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

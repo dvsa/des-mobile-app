@@ -8,6 +8,7 @@ import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { ActivitySlotComponent } from '../activity-slot';
 
 describe('ActivitySlotComponent', () => {
@@ -20,6 +21,7 @@ describe('ActivitySlotComponent', () => {
         ActivitySlotComponent,
         MockComponent(TimeComponent),
         MockComponent(LocationComponent),
+        MockComponent(HeaderComponent),
       ],
       providers: [
         { provide: AppConfigProvider, useClass: AppConfigProviderMock },

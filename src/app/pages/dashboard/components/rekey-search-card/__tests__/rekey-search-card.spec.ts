@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
 import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { RekeySearchCardComponent } from '../rekey-search-card';
 
 describe('RekeySearchCardComponent', () => {
@@ -12,7 +14,10 @@ describe('RekeySearchCardComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [RekeySearchCardComponent],
+      declarations: [
+        RekeySearchCardComponent,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule],
       providers: [
         { provide: Router, useClass: RouterMock },

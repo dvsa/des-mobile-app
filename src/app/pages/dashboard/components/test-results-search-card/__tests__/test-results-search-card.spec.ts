@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { TEST_RESULTS_SEARCH_PAGE } from '@pages/page-names.constants';
 import { RouterMock } from '@mocks/angular-mocks/router-mock';
 import { IonicModule } from '@ionic/angular';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { TestResultsSearchCardComponent } from '../test-results-search-card';
 
 describe('TestResultsSearchCard ', () => {
@@ -12,7 +14,10 @@ describe('TestResultsSearchCard ', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [TestResultsSearchCardComponent],
+      declarations: [
+        TestResultsSearchCardComponent,
+        MockComponent(HeaderComponent),
+      ],
       imports: [IonicModule],
       providers: [
         { provide: Router, useClass: RouterMock },

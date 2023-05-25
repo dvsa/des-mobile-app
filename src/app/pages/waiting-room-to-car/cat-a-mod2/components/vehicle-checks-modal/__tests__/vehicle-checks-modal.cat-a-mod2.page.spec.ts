@@ -22,6 +22,7 @@ import {
   VehicleChecksQuestionCatAMod2Component,
 } from '@pages/waiting-room-to-car/cat-a-mod2/components/vehicle-checks-question/vehicle-checks-question';
 import { Subscription } from 'rxjs';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import * as vehicleChecksModalActions from '../vehicle-checks-modal.cat-a-mod2.actions';
 import { VehicleChecksCatAMod2Modal } from '../vehicle-checks-modal.cat-a-mod2.page';
 
@@ -35,6 +36,7 @@ describe('VehicleChecksCatAMod2Modal', () => {
       declarations: [
         VehicleChecksCatAMod2Modal,
         MockComponent(VehicleChecksQuestionCatAMod2Component),
+        MockComponent(HeaderComponent),
         WarningBannerComponent,
       ],
       imports: [

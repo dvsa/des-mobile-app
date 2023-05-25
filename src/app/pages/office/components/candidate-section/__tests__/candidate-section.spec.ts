@@ -4,6 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { AppModule } from 'src/app/app.module';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { CandidateSectionComponent } from '../candidate-section';
 
 describe('CandidateSectionComponent', () => {
@@ -14,6 +16,7 @@ describe('CandidateSectionComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         CandidateSectionComponent,
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,

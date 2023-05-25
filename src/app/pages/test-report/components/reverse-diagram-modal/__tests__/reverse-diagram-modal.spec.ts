@@ -12,6 +12,8 @@ import { AppComponent } from 'src/app/app.component';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { Store, StoreModule } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { ReverseDiagramModalMock, VehicleData } from '../__mocks__/reverse-diagram-modal.mock';
 import { ReverseDiagramPage } from '../reverse-diagram-modal';
 import { ReverseDiagramLengthChanged, ReverseDiagramWidthChanged } from '../reverse-diagram-modal.actions';
@@ -25,7 +27,10 @@ describe('reverseDiagramModal', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ReverseDiagramPage],
+      declarations: [
+        ReverseDiagramPage,
+        MockComponent(HeaderComponent),
+      ],
       imports: [
         AppModule,
         IonicModule,

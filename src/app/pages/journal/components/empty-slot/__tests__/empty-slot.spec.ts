@@ -6,6 +6,7 @@ import { cloneDeep } from 'lodash';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TimeComponent } from '@components/test-slot/time/time';
 import { LocationComponent } from '@components/test-slot/location/location';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { EmptySlotComponent } from '../empty-slot';
 
 describe('EmptySlotComponent', () => {
@@ -75,6 +76,7 @@ describe('EmptySlotComponent', () => {
         EmptySlotComponent,
         MockComponent(TimeComponent),
         MockComponent(LocationComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [IonicModule],
     });

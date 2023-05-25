@@ -20,6 +20,8 @@ import { testsReducer } from '@store/tests/tests.reducer';
 import { TestStatus } from '@store/tests/test-status/test-status.model';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { DASHBOARD_PAGE, DELEGATED_REKEY_SEARCH_PAGE } from '@pages/page-names.constants';
+import { MockComponent } from 'ng-mocks';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { DelegatedRekeyUploadOutcomePage } from '../delegated-rekey-upload-outcome';
 
 describe('DelegatedRekeyUploadOutcomePage', () => {
@@ -32,7 +34,10 @@ describe('DelegatedRekeyUploadOutcomePage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DelegatedRekeyUploadOutcomePage],
+      declarations: [
+        DelegatedRekeyUploadOutcomePage,
+        MockComponent(HeaderComponent),
+      ],
       imports: [
         IonicModule,
         AppModule,
