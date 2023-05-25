@@ -1,29 +1,15 @@
 import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { IonicModule, NavParams, ModalController } from '@ionic/angular';
-import { ModalControllerMock, NavParamsMock, SecureStorageMock } from '@mocks/index.mock';
+import { ModalControllerMock, NavParamsMock } from '@mocks/index.mock';
 import { By } from '@angular/platform-browser';
 import { DeviceProvider } from '@providers/device/device';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { LogHelper } from '@providers/logs/logs-helper';
 import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
-import { provideMockStore } from '@ngrx/store/testing';
-import { SlotProvider } from '@providers/slot/slot';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import { DataStoreProvider } from '@providers/data-store/data-store';
-import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
-import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { TranslateService } from '@ngx-translate/core';
-import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
-import { AppInfoProvider } from '@providers/app-info/app-info';
-import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
+import { MockComponent } from 'ng-mocks';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { ModalEvent } from '../journal-rekey-modal.constants';
 import { JournalRekeyModal } from '../journal-rekey-modal';
 
@@ -36,6 +22,8 @@ describe('JournalRekeyModal', () => {
     TestBed.configureTestingModule({
       declarations: [
         JournalRekeyModal,
+        MockComponent(ModalAlertTitleComponent),
+        MockComponent(HeaderComponent),
       ],
       imports: [
         IonicModule,
@@ -46,17 +34,6 @@ describe('JournalRekeyModal', () => {
         { provide: ModalController, useClass: ModalControllerMock },
         { provide: DeviceProvider, useClass: DeviceProviderMock },
         { provide: LogHelper, useClass: LogHelperMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: SlotProvider, useClass: SlotProvider },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: SecureStorage, useClass: SecureStorageMock },
-        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: TranslateService, useValue: translateServiceMock },
-        { provide: AppInfoProvider, useClass: AppInfoProviderMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
-        provideMockStore({}),
       ],
     });
 

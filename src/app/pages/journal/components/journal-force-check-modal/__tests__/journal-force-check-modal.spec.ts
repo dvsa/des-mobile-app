@@ -4,10 +4,6 @@ import { ComponentFixture, waitForAsync, TestBed } from '@angular/core/testing';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
 import { ModalEvent } from '@pages/fake-journal/components/preview-mode-modal/preview-mode-modal.constants';
-import { TestSlot } from '@dvsa/mes-journal-schema';
-import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
-import { CANDIDATE_DETAILS_PAGE } from '@pages/page-names.constants';
-import { OverlayEventDetail } from '@ionic/core';
 import { DeviceProvider } from '@providers/device/device';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
@@ -28,7 +24,12 @@ import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
+import { MockComponent } from 'ng-mocks';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { CANDIDATE_DETAILS_PAGE } from '@pages/page-names.constants';
+import { CandidateDetailsPage } from '@pages/candidate-details/candidate-details.page';
 import { JournalForceCheckModal } from '../journal-force-check-modal';
 
 describe('JournalForceCheckModal', () => {
@@ -40,6 +41,8 @@ describe('JournalForceCheckModal', () => {
     TestBed.configureTestingModule({
       declarations: [
         JournalForceCheckModal,
+        MockComponent(HeaderComponent),
+        MockComponent(ModalAlertTitleComponent),
       ],
       imports: [
         IonicModule,

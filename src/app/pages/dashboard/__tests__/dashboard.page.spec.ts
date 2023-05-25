@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertController, IonicModule, Platform } from '@ionic/angular';
-import { AlertControllerMock, PlatformMock, SecureStorageMock } from '@mocks/index.mock';
+import { AlertControllerMock, PlatformMock } from '@mocks/index.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -40,13 +40,9 @@ import { By } from '@angular/platform-browser';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { RouteByCategoryProviderMock } from '@providers/route-by-category/__mocks__/route-by-category.mock';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
-import { DataStoreProvider } from '@providers/data-store/data-store';
-import { TranslateService } from '@ngx-translate/core';
-import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
-import { AppInfoProvider } from '@providers/app-info/app-info';
-import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
+import { MockComponent } from 'ng-mocks';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { DashboardPage } from '../dashboard.page';
 import { DashboardComponentsModule } from '../components/dashboard-components.module';
 import { DashboardPageRoutingModule } from '../dashboard-routing.module';
@@ -75,7 +71,11 @@ describe('DashboardPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DashboardPage],
+      declarations: [
+        DashboardPage,
+        MockComponent(HeaderComponent),
+        MockComponent(ModalAlertTitleComponent),
+      ],
       imports: [
         RouterTestingModule.withRoutes(
           [
@@ -144,24 +144,6 @@ describe('DashboardPage', () => {
           provide: RouteByCategoryProvider,
           useClass: RouteByCategoryProviderMock,
         },
-        {
-          provide: SecureStorage,
-          useClass: SecureStorageMock,
-        },
-        {
-          provide: DataStoreProvider,
-          useClass: DataStoreProviderMock,
-        },
-        {
-          provide: AppInfoProvider,
-          useClass: AppInfoProviderMock,
-        },
-
-        {
-          provide: TranslateService,
-          useValue: translateServiceMock,
-        },
-
         provideMockStore({ initialState }),
       ],
     });

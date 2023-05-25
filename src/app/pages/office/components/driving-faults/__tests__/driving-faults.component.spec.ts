@@ -3,27 +3,9 @@ import { IonicModule } from '@ionic/angular';
 import { OfficeComponentsModule } from '@pages/office/components/office.components.module';
 import { By } from '@angular/platform-browser';
 import { FaultSummary } from '@shared/models/fault-marking.model';
-import { DateTimeProvider } from '@providers/date-time/date-time';
-import { AuthenticationProvider } from '@providers/authentication/authentication';
-import { SlotProvider } from '@providers/slot/slot';
-import { SlotProviderMock } from '@providers/slot/__mocks__/slot.mock';
-import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
-import { SecureStorage } from '@awesome-cordova-plugins/secure-storage/ngx';
-import { SecureStorageMock } from '@mocks/ionic-mocks/secure-storage.mock';
-import { DataStoreProvider } from '@providers/data-store/data-store';
-import { DataStoreProviderMock } from '@providers/data-store/__mocks__/data-store.mock';
-import { NetworkStateProvider } from '@providers/network-state/network-state';
-import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
-import { TranslateService } from '@ngx-translate/core';
-import { translateServiceMock } from '@shared/helpers/__mocks__/translate.mock';
-import { AppInfoProvider } from '@providers/app-info/app-info';
-import { AppInfoProviderMock } from '@providers/app-info/__mocks__/app-info.mock';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
-import { DeviceProvider } from '@providers/device/device';
-import { DeviceProviderMock } from '@providers/device/__mocks__/device.mock';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockComponent } from 'ng-mocks';
+import { ModalAlertTitleComponent } from '@components/common/modal-alert-title/modal-alert-title';
+import { HeaderComponent } from '@components/common/header-component/header.component';
 import { DrivingFaultsComponent } from '../driving-faults.component';
 
 describe('DrivingFaultsComponent', () => {
@@ -32,20 +14,13 @@ describe('DrivingFaultsComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [DrivingFaultsComponent],
+      declarations: [
+        DrivingFaultsComponent,
+        MockComponent(HeaderComponent),
+        MockComponent(ModalAlertTitleComponent),
+      ],
       imports: [IonicModule, OfficeComponentsModule],
       providers: [
-        { provide: SlotProvider, useClass: SlotProviderMock },
-        { provide: DateTimeProvider, useClass: DateTimeProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: SecureStorage, useClass: SecureStorageMock },
-        { provide: DataStoreProvider, useClass: DataStoreProviderMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: TranslateService, useValue: translateServiceMock },
-        { provide: AppInfoProvider, useClass: AppInfoProviderMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: DeviceProvider, useClass: DeviceProviderMock },
-        provideMockStore({}),
       ],
     });
 
