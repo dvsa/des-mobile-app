@@ -1,6 +1,6 @@
 .test-centre-journal-button {
   width: 100%;
-  padding: 0px;
+  padding: 0;
   outline: none;
   border: none;
   background-color: initial;
@@ -8,10 +8,6 @@
 .test-centre-journal-card {
 
   --background: none;
-
-  h1, h4 {
-    color: var(--mes-white);
-  }
 
   ion-row {
     display: flex;
@@ -27,10 +23,6 @@
     min-width: 320px;
     margin-top: 30px;
     box-shadow: none;
-
-    h3 {
-      color: var(--mes-white);
-    }
 
   }
 
