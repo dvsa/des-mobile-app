@@ -48,22 +48,11 @@
 </ion-content>
 
 <ion-footer>
-  <ion-row class="mes-full-width-card box-shadow">
-    <ion-col *ngIf="!(pageState.isRekey$ | async)" class="ion-no-padding ion-text-left">
-      <ion-button id="office-save-button" class="mes-grey-button office-button" (click)="defer()">
-        <h3>Save and continue later</h3>
-      </ion-button>
-    </ion-col>
-    <ion-col *ngIf="!(pageState.isRekey$ | async)" class="ion-no-padding ion-text-end">
-      <ion-button id="office-complete-button" class="mes-primary-button office-button" (click)="onSubmit()">
-        <h3>Mark as complete</h3>
-      </ion-button>
-    </ion-col>
-    <ion-col *ngIf="(pageState.isRekey$ | async)">
-      <ion-button id="reason-for-rekey" class="mes-primary-button padding-x-5 full-width"
-                  (click)="goToReasonForRekey()" [disabled]="!isValidStartDateTime">
-        <h3>Continue</h3>
-      </ion-button>
-    </ion-col>
-  </ion-row>
+  <office-footer
+    [isRekey]="(pageState.isRekey$ | async)"
+    [isValidStartDateTime]="isValidStartDateTime"
+    (saveClicked)="defer()"
+    (submitClicked)="onSubmit($event)"
+    (continueClicked)="goToReasonForRekey()"
+  ></office-footer>
 </ion-footer>
