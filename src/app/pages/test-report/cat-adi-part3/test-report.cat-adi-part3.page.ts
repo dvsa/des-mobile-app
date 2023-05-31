@@ -12,7 +12,7 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { UntypedFormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   LessonPlanning,
   LessonTheme,
@@ -206,7 +206,6 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     }
 
     this.pageState.adi3TestData$.pipe(take(1)).subscribe((adi3TestData) => {
-      console.log('adi3TestData:', adi3TestData);
       const totalScore = this.adi3AssessmentProvider.getTotalAssessmentScore(adi3TestData);
       this.store$.dispatch(AssessmentOverallScoreChanged(totalScore));
     });

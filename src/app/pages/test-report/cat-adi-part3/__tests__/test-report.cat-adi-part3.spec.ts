@@ -51,10 +51,7 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
-import {
-  CommonTestReportPageState,
-  TestReportBasePageComponent,
-} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { of } from 'rxjs';
 import { testReportReducer } from '../../test-report.reducer';
 

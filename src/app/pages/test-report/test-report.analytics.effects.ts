@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import {
-  concatMap, filter, map, switchMap, tap, withLatestFrom,
+  concatMap, filter, map, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -2531,9 +2531,7 @@ export class TestReportAnalyticsEffects {
             select(isPracticeMode),
           ),
         ),
-        tap((data) => { console.log('RM Score Change select:', data); }),
       )),
-    tap(([, , practiceMode]) => console.log('practice mode true or false?:', practiceMode)),
     filter(([, , practiceMode]) => !practiceMode
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
