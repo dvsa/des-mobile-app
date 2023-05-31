@@ -126,19 +126,6 @@
     &.activated {
       --background: var(--gds-grey-4);
     }
-
-    h3 {
-      --color: var(--mes-black);
-
-      .text-zoom-regular &,
-      .text-zoom-large &,
-      .text-zoom-x-large & {
-        line-height: 2em;
-      }
-
-      min-height: 44px;
-      padding-top: 1px
-    }
   }
 
   .fault-heading {
