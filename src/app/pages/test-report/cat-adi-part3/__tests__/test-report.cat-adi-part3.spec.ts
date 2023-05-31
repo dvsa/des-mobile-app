@@ -214,7 +214,7 @@ describe('TestReportCatADI3Page', () => {
           .toHaveBeenCalledWith(TeachingLearningStrategiesQuestionScoreChanged(1, 2));
       });
     });
-    fdescribe('onContinueClick', () => {
+    describe('onContinueClick', () => {
       it('should dispatch AssessmentOverallScoreChanged action with the total score value', () => {
         const adi3TestData: TestData = {
           lessonPlanning: {
