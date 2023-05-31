@@ -47,7 +47,7 @@
       <ion-toggle
         (ionChange)="toggleRekeySearch($event.detail)"
         [checked]="rekeySearch"
-        [disabled]="!staffNumber">
+        [disabled]="!importStaffNumber && !staffNumber">
         <label class="radio-label">Rekey</label>
       </ion-toggle>
     </ion-col>
