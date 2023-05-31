@@ -10,7 +10,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
@@ -19,7 +19,12 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestReportCatADI3Page } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.page';
-import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
+import {
+  LessonPlanning,
+  RiskManagement,
+  TeachingLearningStrategies, TestData,
+  TestResultCatADI3Schema,
+} from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
@@ -46,7 +51,11 @@ import {
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
-import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import {
+  CommonTestReportPageState,
+  TestReportBasePageComponent,
+} from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { of } from 'rxjs';
 import { testReportReducer } from '../../test-report.reducer';
 
 describe('TestReportCatADI3Page', () => {
@@ -206,6 +215,32 @@ describe('TestReportCatADI3Page', () => {
         });
         expect(store$.dispatch)
           .toHaveBeenCalledWith(TeachingLearningStrategiesQuestionScoreChanged(1, 2));
+      });
+    });
+    fdescribe('onContinueClick', () => {
+      it('should dispatch AssessmentOverallScoreChanged action with the total score value', () => {
+        const adi3TestData: TestData = {
+          lessonPlanning: {
+            score: 5,
+          } as LessonPlanning,
+          riskManagement: {
+            score: 5,
+          } as RiskManagement,
+          teachingLearningStrategies: {
+            score: 5,
+          } as TeachingLearningStrategies,
+        };
+
+        component.pageState = {
+          adi3TestData$: of(adi3TestData),
+        } as any;
+
+        component.onContinueClick();
+
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          { score: 15, type: '[TestReportPage] Assessment Overall Score Changed' } as Action,
+        );
+        expect(component.navController.back).toHaveBeenCalled();
       });
     });
   });

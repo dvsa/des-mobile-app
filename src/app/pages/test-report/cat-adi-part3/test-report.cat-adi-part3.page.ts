@@ -12,7 +12,7 @@ import { TestReportValidatorProvider } from '@providers/test-report-validator/te
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import { UntypedFormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import {
   LessonPlanning,
   LessonTheme,
@@ -52,6 +52,8 @@ import {
   TeachingLearningStrategiesQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
+import { take } from 'rxjs/operators';
 
 interface CatADI3TestReportPageState {
   studentLevel$: Observable<StudentLevel>;
@@ -86,7 +88,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     testReportValidatorProvider: TestReportValidatorProvider,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
-    private navController: NavController,
+    public navController: NavController,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
     super(
@@ -202,6 +204,13 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     if (this.form.invalid) {
       return;
     }
+
+    this.pageState.adi3TestData$.pipe(take(1)).subscribe((adi3TestData) => {
+      console.log('adi3TestData:', adi3TestData);
+      const totalScore = this.adi3AssessmentProvider.getTotalAssessmentScore(adi3TestData);
+      this.store$.dispatch(AssessmentOverallScoreChanged(totalScore));
+    });
+
     this.navController.back();
   };
 }
