@@ -47,6 +47,7 @@ import { Language } from '@store/tests/communication-preferences/communication-p
 import { BasePageComponent } from '@shared/classes/base-page';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
@@ -66,6 +67,7 @@ describe('OfficeCatManoeuvrePage', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatManoeuvrePage,
+        MockComponent(OfficeFooterComponent),
         MockComponent(RouteNumberComponent),
         MockComponent(CandidateDescriptionComponent),
         MockComponent(IdentificationComponent),

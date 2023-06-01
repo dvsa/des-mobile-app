@@ -51,6 +51,7 @@ import { PassCertificateNumberReceived } from '@store/tests/post-test-declaratio
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { Subscription } from 'rxjs';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatCPCPage } from '../office.cat-cpc.page';
@@ -67,6 +68,7 @@ describe('OfficeCatCPCPage', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatCPCPage,
+        MockComponent(OfficeFooterComponent),
         MockComponent(DebriefWitnessedComponent),
         MockComponent(CandidateDescriptionComponent),
         MockComponent(IdentificationComponent),

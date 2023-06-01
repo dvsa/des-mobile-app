@@ -68,6 +68,7 @@ import { AddShowMeTellMeComment } from '@store/tests/test-data/cat-home/vehicle-
 import {
   HighwayCodeSafetyAddComment,
 } from '@store/tests/test-data/common/highway-code-safety/highway-code-safety.actions';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { OfficeCatHomeTestPage } from '../office.cat-home-test.page';
 
 describe('OfficeCatHomeTestPage', () => {
@@ -79,6 +80,7 @@ describe('OfficeCatHomeTestPage', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatHomeTestPage,
+        MockComponent(OfficeFooterComponent),
         MockComponent(RouteNumberComponent),
         MockComponent(CandidateDescriptionComponent),
         MockComponent(IdentificationComponent),

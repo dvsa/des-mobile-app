@@ -63,6 +63,7 @@ import { AddPcvDoorExerciseComment } from '@store/tests/test-data/cat-d/pcv-door
 import { AddSafetyQuestionComment } from '@store/tests/test-data/cat-d/safety-questions/safety-questions.cat-d.action';
 import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-completion.actions';
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatDPage } from '../office.cat-d.page';
@@ -84,6 +85,7 @@ describe('OfficeCatDPage', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatDPage,
+        MockComponent(OfficeFooterComponent),
         MockComponent(RouteNumberComponent),
         MockComponent(CandidateDescriptionComponent),
         MockComponent(IdentificationComponent),
