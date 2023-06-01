@@ -1,8 +1,9 @@
-<ion-card id="dangerous-fault" *ngIf="dangerousFaults.length > 0">
+<ion-card id="dangerous-fault" *ngIf="dangerousFaults?.length > 0">
   <ion-card-header>
     <ion-card-title>
       <h1 id="dangerous-fault-count" class="fault-heading">{{dangerousFaults.length}}</h1>
-      <h4 id="dangerous-fault-title" class="fault-heading">{{ 'debrief.dangerousFaultsCardDescription' | translate }}</h4>
+      <h4 id="dangerous-fault-title"
+          class="fault-heading">{{ 'debrief.dangerousFaultsCardDescription' | translate }}</h4>
     </ion-card-title>
   </ion-card-header>
   <ion-card-content>
@@ -12,8 +13,8 @@
         <ion-col size="2" class="ion-align-self-start ion-no-padding">
           <div class="down-padding counter-icon">
             <dangerous-fault-badge
-                    [showBadge]="true"
-                    [competencyDisplayName]="dangerousFault"
+              [showBadge]="true"
+              [competencyDisplayName]="dangerousFault"
             >
             </dangerous-fault-badge>
           </div>
@@ -21,7 +22,8 @@
         <ion-col size="3" class="ion-no-padding"></ion-col>
         <ion-col class="ion-no-padding">
           <div
-            class="counter-label" id="{{dangerousFaults}}-driving-text">{{'debrief.competencies.' + dangerousFault | translate | modifyCompetencyLabel:testCategory:dangerousFault}}</div>
+            class="counter-label"
+            id="{{dangerousFaults}}-driving-text">{{'debrief.competencies.' + dangerousFault | translate | modifyCompetencyLabel:testCategory:dangerousFault}}</div>
         </ion-col>
       </ion-row>
     </ion-grid>
