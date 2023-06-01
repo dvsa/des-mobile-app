@@ -57,6 +57,7 @@ import {
 import { AddDangerousFaultComment } from '@store/tests/test-data/common/dangerous-faults/dangerous-faults.actions';
 import { BasePageComponent } from '@shared/classes/base-page';
 import { OfficeViewDidEnter } from '@pages/office/office.actions';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { IndependentDrivingComponent } from '../../components/independent-driving/independent-driving';
 import { FaultCommentCardComponent } from '../../components/fault-comment-card/fault-comment-card';
 import { IdentificationComponent } from '../../components/identification/identification';
@@ -81,6 +82,7 @@ describe('OfficeCatAMod2Page', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatAMod2Page,
+        MockComponent(OfficeFooterComponent),
         MockComponent(SafetyAndBalanceCardCatAMod2Component),
         MockComponent(ModeOfTransportCatAMod2Component),
         MockComponent(RouteNumberComponent),

@@ -76,6 +76,7 @@ import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddUncoupleRecoupleComment } from '@store/tests/test-data/common/uncouple-recouple/uncouple-recouple.actions';
 import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import { EyesightTestAddComment } from '@store/tests/test-data/common/eyesight-test/eyesight-test.actions';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatADI2Page } from '../office.cat-adi-part2.page';
@@ -96,6 +97,7 @@ describe('OfficeCatADI2Page', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatADI2Page,
+        MockComponent(OfficeFooterComponent),
         MockComponent(RouteNumberComponent),
         MockComponent(CandidateDescriptionComponent),
         MockComponent(IdentificationComponent),

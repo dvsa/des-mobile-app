@@ -59,6 +59,7 @@ import {
 import { BasePageComponent } from '@shared/classes/base-page';
 import { AddAvoidanceComment } from '@store/tests/test-data/cat-a-mod1/avoidance/avoidance.actions';
 import { AddAnEmergencyStopComment } from '@store/tests/test-data/cat-a-mod1/emergency-stop/emergency-stop.actions';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatAMod1Page } from '../office.cat-a-mod1.page';
@@ -80,6 +81,7 @@ describe('OfficeCatAMod1Page', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatAMod1Page,
+        MockComponent(OfficeFooterComponent),
         MockComponent(RouteNumberComponent),
         MockComponent(CandidateDescriptionComponent),
         MockComponent(IdentificationComponent),

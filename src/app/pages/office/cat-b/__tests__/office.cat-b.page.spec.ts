@@ -62,6 +62,7 @@ import { AddDrivingFaultComment } from '@store/tests/test-data/common/driving-fa
 import { AddControlledStopComment } from '@store/tests/test-data/common/controlled-stop/controlled-stop.actions';
 import { CompetencyOutcome } from '@shared/models/competency-outcome';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatBPage } from '../office.cat-b.page';
@@ -86,6 +87,7 @@ describe('OfficeCatBPage', () => {
       declarations: [
         OfficeCatBPage,
         MockComponent(RouteNumberComponent),
+        MockComponent(OfficeFooterComponent),
         MockComponent(CandidateDescriptionComponent),
         MockComponent(IdentificationComponent),
         MockComponent(ShowMeQuestionComponent),

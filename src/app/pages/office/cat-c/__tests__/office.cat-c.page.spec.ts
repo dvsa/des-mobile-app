@@ -61,6 +61,7 @@ import { PassCertificateNumberChanged } from '@store/tests/pass-completion/pass-
 import { PassCertificateNumberReceived } from '@store/tests/post-test-declarations/post-test-declarations.actions';
 import { AddShowMeTellMeComment } from '@store/tests/test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import { AddManoeuvreComment } from '@store/tests/test-data/common/manoeuvres/manoeuvres.actions';
+import { OfficeFooterComponent } from '@pages/office/components/office-footer/office-footer.component';
 import { DateOfTest } from '../../components/date-of-test/date-of-test';
 import { CandidateSectionComponent } from '../../components/candidate-section/candidate-section';
 import { OfficeCatCPage } from '../office.cat-c.page';
@@ -82,6 +83,7 @@ describe('OfficeCatCPage', () => {
     TestBed.configureTestingModule({
       declarations: [
         OfficeCatCPage,
+        MockComponent(OfficeFooterComponent),
         MockComponent(RouteNumberComponent),
         MockComponent(CandidateDescriptionComponent),
         MockComponent(IdentificationComponent),
