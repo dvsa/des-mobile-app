@@ -49,7 +49,7 @@ import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
 import { testReportReducer } from '../../test-report.reducer';
 
-fdescribe('TestReportCatADI3Page', () => {
+describe('TestReportCatADI3Page', () => {
   let fixture: ComponentFixture<TestReportCatADI3Page>;
   let component: TestReportCatADI3Page;
   let store$: Store<StoreModel>;
