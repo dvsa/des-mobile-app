@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import {
-  concatMap, filter, map, switchMap, withLatestFrom,
+  concatMap, filter, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
@@ -72,10 +72,7 @@ import {
   getStudentLevel,
 } from '@store/tests/test-data/cat-adi-part3/lesson-and-theme/lesson-and-theme.selector';
 import {
-  LessonPlanning,
-  RiskManagement,
   StudentLevel,
-  TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import {
   LessonPlanningQuestionScoreChanged,
@@ -86,15 +83,9 @@ import {
 import {
   TeachingLearningStrategiesQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
-import { getLessonPlanning } from '@store/tests/test-data/cat-adi-part3/lesson-planning/lesson-planning.reducer';
-import { getRiskManagement } from '@store/tests/test-data/cat-adi-part3/risk-management/risk-management.reducer';
-import {
-  getTeachingLearningStrategies,
-} from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.reducer';
-import { sumObjectKeyValues } from '@shared/helpers/sum-object-key-values';
-import { ScoreChangedActions } from '@pages/test-report/test-report.effects';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { CompetencyOutcomeAnalyticEvent } from '@shared/helpers/competency-outcome-analytic-event';
+import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 import * as reverseLeftActions from './components/reverse-left/reverse-left.actions';
 import * as testReportCatAMod1Actions from './cat-a-mod1/test-report.cat-a-mod1.actions';
 import { ModalReason } from './cat-a-mod1/components/activity-code-4-modal/activity-code-4-modal.constants';
@@ -2586,9 +2577,7 @@ export class TestReportAnalyticsEffects {
 
   testReportAssessmentOverallScore$ = createEffect(() => this.actions$.pipe(
     ofType(
-      LessonPlanningQuestionScoreChanged,
-      RiskManagementQuestionScoreChanged,
-      TeachingLearningStrategiesQuestionScoreChanged,
+      AssessmentOverallScoreChanged,
     ),
     concatMap((action) => of(action)
       .pipe(
@@ -2598,43 +2587,21 @@ export class TestReportAnalyticsEffects {
           ),
           this.store$.pipe(
             select(getTests),
-            map(getCurrentTest),
-            select(getTestData),
-            select(getLessonPlanning),
-          ),
-          this.store$.pipe(
-            select(getTests),
-            map(getCurrentTest),
-            select(getTestData),
-            select(getRiskManagement),
-          ),
-          this.store$.pipe(
-            select(getTests),
-            map(getCurrentTest),
-            select(getTestData),
-            select(getTeachingLearningStrategies),
-          ),
-          this.store$.pipe(
-            select(getTests),
             select(isPracticeMode),
           ),
         ),
       )),
-    filter(([, , , , , practiceMode]) => !practiceMode
+    filter(([, , practiceMode]) => !practiceMode
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, lessonPlanning, riskManagement, teachingLearningStrategies]:
-      // eslint-disable-next-line max-len
-      [ReturnType<ScoreChangedActions>, TestsModel, LessonPlanning, RiskManagement, TeachingLearningStrategies, boolean],
+      [action, tests]:
+      [ReturnType<typeof AssessmentOverallScoreChanged>, TestsModel, boolean],
     ) => {
-      const totalScoreLP: number = sumObjectKeyValues<LessonPlanning>(lessonPlanning, 'score');
-      const totalScoreRM: number = sumObjectKeyValues<RiskManagement>(riskManagement, 'score');
-      const totalScoreTLS: number = sumObjectKeyValues<TeachingLearningStrategies>(teachingLearningStrategies, 'score');
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.TEST_REPORT, tests),
         formatAnalyticsText(AnalyticsEvents.ASSESSMENT_OVERALL_SCORE_CHANGED, tests),
-        `overall assessment score changed: ${totalScoreLP + totalScoreRM + totalScoreTLS}`,
+        `overall assessment score changed: ${action.score}`,
       );
       return of(AnalyticRecorded());
     }),

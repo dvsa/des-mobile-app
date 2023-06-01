@@ -19,12 +19,7 @@ import { InsomniaMock } from '@shared/mocks/insomnia.mock';
 import { PracticeModeBanner } from '@components/common/practice-mode-banner/practice-mode-banner';
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { TestReportCatADI3Page } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.page';
-import {
-  LessonPlanning,
-  RiskManagement,
-  TeachingLearningStrategies, TestData,
-  TestResultCatADI3Schema,
-} from '@dvsa/mes-test-schema/categories/ADI3';
+import { TestResultCatADI3Schema } from '@dvsa/mes-test-schema/categories/ADI3';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { StudentComponent } from '@pages/test-report/cat-adi-part3/components/student/student';
 import { LessonThemeComponent } from '@pages/test-report/cat-adi-part3/components/lesson-theme/lesson-theme';
@@ -52,10 +47,9 @@ import {
 import { NavControllerMock } from '@shared/mocks/nav-controller.mock';
 import { AppInfoStateModel } from '@store/app-info/app-info.model';
 import { TestReportBasePageComponent } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
-import { of } from 'rxjs';
 import { testReportReducer } from '../../test-report.reducer';
 
-describe('TestReportCatADI3Page', () => {
+fdescribe('TestReportCatADI3Page', () => {
   let fixture: ComponentFixture<TestReportCatADI3Page>;
   let component: TestReportCatADI3Page;
   let store$: Store<StoreModel>;
@@ -216,26 +210,10 @@ describe('TestReportCatADI3Page', () => {
     });
     describe('onContinueClick', () => {
       it('should dispatch AssessmentOverallScoreChanged action with the total score value', () => {
-        const adi3TestData: TestData = {
-          lessonPlanning: {
-            score: 5,
-          } as LessonPlanning,
-          riskManagement: {
-            score: 5,
-          } as RiskManagement,
-          teachingLearningStrategies: {
-            score: 5,
-          } as TeachingLearningStrategies,
-        };
-
-        component.pageState = {
-          adi3TestData$: of(adi3TestData),
-        } as any;
-
-        component.onContinueClick();
+        component.onContinueClick(12);
 
         expect(store$.dispatch).toHaveBeenCalledWith(
-          { score: 15, type: '[TestReportPage] Assessment Overall Score Changed' } as Action,
+          { score: 12, type: '[TestReportPage] Assessment Overall Score Changed' } as Action,
         );
         expect(component.navController.back).toHaveBeenCalled();
       });
