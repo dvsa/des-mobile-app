@@ -10,7 +10,7 @@ import { AuthenticationProvider } from '@providers/authentication/authentication
 import { AuthenticationProviderMock } from '@providers/authentication/__mocks__/authentication.mock';
 import { DateTimeProvider } from '@providers/date-time/date-time';
 import { DateTimeProviderMock } from '@providers/date-time/__mocks__/date-time.mock';
-import { Store, StoreModule } from '@ngrx/store';
+import { Action, Store, StoreModule } from '@ngrx/store';
 import { initialState } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { TestReportValidatorProvider } from '@providers/test-report-validator/test-report-validator';
 import { TestReportValidatorProviderMock } from '@providers/test-report-validator/__mocks__/test-report-validator.mock';
@@ -206,6 +206,16 @@ describe('TestReportCatADI3Page', () => {
         });
         expect(store$.dispatch)
           .toHaveBeenCalledWith(TeachingLearningStrategiesQuestionScoreChanged(1, 2));
+      });
+    });
+    describe('onContinueClick', () => {
+      it('should dispatch AssessmentOverallScoreChanged action with the total score value', () => {
+        component.onContinueClick(12);
+
+        expect(store$.dispatch).toHaveBeenCalledWith(
+          { score: 12, type: '[TestReportPage] Assessment Overall Score Changed' } as Action,
+        );
+        expect(component.navController.back).toHaveBeenCalled();
       });
     });
   });

@@ -52,6 +52,8 @@ import {
   TeachingLearningStrategiesQuestionScoreChanged,
 } from '@store/tests/test-data/cat-adi-part3/teaching-learning-strategies/teaching-learning-strategies.actions';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
+import { map } from 'rxjs/operators';
+import { AssessmentOverallScoreChanged } from '@pages/test-report/cat-adi-part3/test-report.cat-adi-part3.actions';
 
 interface CatADI3TestReportPageState {
   studentLevel$: Observable<StudentLevel>;
@@ -61,6 +63,7 @@ interface CatADI3TestReportPageState {
   riskManagement$: Observable<RiskManagement>;
   teachingLearningStrategies$: Observable<TeachingLearningStrategies>;
   adi3TestData$: Observable<TestData>;
+  totalScore$: Observable<number>;
 }
 
 type TestReportPageState = CommonTestReportPageState & CatADI3TestReportPageState;
@@ -86,7 +89,7 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     testReportValidatorProvider: TestReportValidatorProvider,
     insomnia: Insomnia,
     routeByCategory: RouteByCategoryProvider,
-    private navController: NavController,
+    public navController: NavController,
     public adi3AssessmentProvider: ADI3AssessmentProvider,
   ) {
     super(
@@ -145,6 +148,10 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
       adi3TestData$: currentTest$.pipe(
         select(getTestData),
       ),
+      totalScore$: currentTest$.pipe(
+        select(getTestData),
+        map(this.adi3AssessmentProvider.getTotalAssessmentScore),
+      ),
     };
     this.setupSubscription();
   }
@@ -195,13 +202,14 @@ export class TestReportCatADI3Page extends TestReportBasePageComponent implement
     this.store$.dispatch(TeachingLearningStrategiesQuestionScoreChanged(question, answer));
   };
 
-  onContinueClick = (): void => {
+  onContinueClick = (totalScore: number): void => {
     Object.keys(this.form.controls)
       .forEach((controlName: string) => this.form.controls[controlName].markAsDirty());
 
     if (this.form.invalid) {
       return;
     }
+    this.store$.dispatch(AssessmentOverallScoreChanged(totalScore));
     this.navController.back();
   };
 }
