@@ -254,7 +254,6 @@ export class PassFinalisationAnalyticsEffects {
       [ReturnType<typeof vehicleDetailsActions.GearboxCategoryChanged>, TestsModel, ActivityCode, boolean],
     ) => {
       // Check current URL begins with PassFin prefix before recording analytic to stop duplicated events.
-      console.log(this.router.url);
       if (activityCode != null && this.router.url?.startsWith(this.classPrefix)) {
         this.analytics.logEvent(
           formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),

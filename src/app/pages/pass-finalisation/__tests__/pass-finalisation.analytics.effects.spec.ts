@@ -63,7 +63,6 @@ describe('PassFinalisationAnalyticsEffects', () => {
         {
           provide: Router,
           useValue: { url: `/${TestFlowPageNames.PASS_FINALISATION_PAGE}` },
-          // useClass: RouterMock,
         },
         {
           provide: AppConfigProvider,
