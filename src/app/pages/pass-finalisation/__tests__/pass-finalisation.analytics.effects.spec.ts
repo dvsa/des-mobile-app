@@ -27,9 +27,13 @@ import { StoreModel } from '@shared/models/store.model';
 import { AnalyticsProviderMock } from '@providers/analytics/__mocks__/analytics.mock';
 import { AnalyticsProvider } from '@providers/analytics/analytics';
 import { Router } from '@angular/router';
-import { CAT_B } from '@pages/page-names.constants';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import { TestFlowPageNames } from '@pages/page-names.constants';
+import {
+  ReasonForNoAdviceGivenChanged,
+  SeekFurtherDevelopmentChanged,
+} from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
 import * as passFinalisationActions from '../pass-finalisation.actions';
 import { PassFinalisationAnalyticsEffects } from '../pass-finalisation.analytics.effects';
@@ -58,7 +62,8 @@ describe('PassFinalisationAnalyticsEffects', () => {
         },
         {
           provide: Router,
-          useValue: { url: `/${CAT_B.PASS_FINALISATION_PAGE}` },
+          useValue: { url: `/${TestFlowPageNames.PASS_FINALISATION_PAGE}` },
+          // useClass: RouterMock,
         },
         {
           provide: AppConfigProvider,
@@ -310,6 +315,23 @@ describe('PassFinalisationAnalyticsEffects', () => {
         done();
       });
     });
+    it('should not call logEvent', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(SetActivityCode('2'));
+      // ACT
+      actions$.next(testSummaryActions.D255Yes());
+      // ASSERT
+      effects.d255Yes$.subscribe((result) => {
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
+        done();
+      });
+    });
   });
   describe('d255No', () => {
     it('should call logEvent', (done) => {
@@ -329,6 +351,23 @@ describe('PassFinalisationAnalyticsEffects', () => {
             AnalyticsEvents.D255,
             'No',
           );
+        done();
+      });
+    });
+    it('should not call logEvent', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(SetActivityCode('2'));
+      // ACT
+      actions$.next(testSummaryActions.D255No());
+      // ASSERT
+      effects.d255No$.subscribe((result) => {
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
         done();
       });
     });
@@ -407,6 +446,69 @@ describe('PassFinalisationAnalyticsEffects', () => {
         expect(analyticsProviderMock.logEvent)
           .not
           .toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+  describe('passFinalisationReportActivityCode$', () => {
+    it('should call logEvent with the correct parameters', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(passFinalisationActions.PassFinalisationReportActivityCode(ActivityCodes.PASS));
+      // ASSERT
+      effects.passFinalisationReportActivityCode$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.POST_TEST,
+            AnalyticsEvents.SET_ACTIVITY_CODE,
+            '1 - PASS',
+          );
+        done();
+      });
+    });
+  });
+  describe('passFinalisationSeekFurtherDevelopment$', () => {
+    it('should call logEvent with the correct parameters', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(SeekFurtherDevelopmentChanged(true));
+      // ASSERT
+      effects.passFinalisationSeekFurtherDevelopment$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.POST_TEST,
+            AnalyticsEvents.FURTHER_DEVELOPMENT_CHANGED,
+            'further development changed to Yes',
+          );
+        done();
+      });
+    });
+  });
+  describe('passFinalisationReasonGiven$', () => {
+    it('should call logEvent with the correct parameters', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(ReasonForNoAdviceGivenChanged('bad candidate'));
+      // ASSERT
+      effects.passFinalisationReasonGiven$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.POST_TEST,
+            AnalyticsEvents.REASON_FOR_NO_ADVICE_CHANGED,
+            'reason for no advice changed bad candidate',
+          );
         done();
       });
     });

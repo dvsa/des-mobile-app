@@ -16,7 +16,6 @@ import {
 } from '@pages/page-names.constants';
 import { Waiting_Room_To_Car_Route } from './routing/waiting-room-to-car-route';
 import { Test_Report_Route } from './routing/test-report-route';
-import { Pass_Finalisation_Route } from './routing/pass-finalisation-route';
 import { Office_Route } from './routing/office-route';
 
 const routes: Routes = [
@@ -104,6 +103,11 @@ const routes: Routes = [
       .then((m) => m.NonPassFinalisationPageModule),
   },
   {
+    path: TestFlowPageNames.PASS_FINALISATION_PAGE,
+    loadChildren: () => import('./pages/pass-finalisation/pass-finalisation.module')
+      .then((m) => m.PassFinalisationPageModule),
+  },
+  {
     path: TestFlowPageNames.BACK_TO_OFFICE_PAGE,
     loadChildren: () => import('./pages/back-to-office/back-to-office.module')
       .then((m) => m.BackToOfficePageModule),
@@ -135,7 +139,6 @@ const routes: Routes = [
   },
   ...Waiting_Room_To_Car_Route,
   ...Test_Report_Route,
-  ...Pass_Finalisation_Route,
   ...Office_Route,
 ];
 

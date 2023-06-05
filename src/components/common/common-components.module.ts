@@ -32,6 +32,7 @@ import {
 } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
 
+import { DangerBannerComponent } from './danger-banner/danger-banner';
 import { WarningBannerComponent } from './warning-banner/warning-banner';
 import { TabsComponent } from './tabs/tabs';
 import { TabComponent } from './tab/tab';
@@ -63,6 +64,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     OfflineBannerComponent,
     TabComponent,
     TabsComponent,
+    DangerBannerComponent,
     WarningBannerComponent,
     HealthDeclarationSignedComponent,
     IncompleteTestsBanner,
@@ -110,6 +112,7 @@ import { VRNCaptureModalModule } from './vrn-capture-modal/vrn-capture-modal.mod
     OfflineBannerComponent,
     TabComponent,
     TabsComponent,
+    DangerBannerComponent,
     WarningBannerComponent,
     HealthDeclarationSignedComponent,
     IncompleteTestsBanner,

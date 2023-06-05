@@ -434,7 +434,7 @@ describe('DebriefPage', () => {
 
       component.endDebrief();
       expect(routeByCategoryProvider.navigateToPage)
-        .toHaveBeenCalledWith(TestFlowPageNames.PASS_FINALISATION_PAGE, TestCategory.B);
+        .toHaveBeenCalledWith(TestFlowPageNames.PASS_FINALISATION_PAGE);
     });
     it('should call navigate with POST_DEBRIEF_HOLDING_PAGE if '
       + 'isTestReportPracticeMode is false and outcome is not PASS', () => {

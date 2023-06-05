@@ -27,12 +27,6 @@ import {
   ReasonForNoAdviceGivenChanged,
   SeekFurtherDevelopmentChanged,
 } from '@store/tests/test-data/cat-adi-part3/review/review.actions';
-import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
-import {
-  getFurtherDevelopment,
-  getReasonForNoAdviceGiven,
-} from '@store/tests/test-data/cat-adi-part3/review/review.selector';
-import { getTestData } from '@store/tests/test-data/cat-b/test-data.reducer';
 import { getCurrentTest, isPracticeMode } from '@store/tests/tests.selector';
 import { ActivityCode } from '@dvsa/mes-test-schema/categories/common';
 import { AppConfigProvider } from '@providers/app-config/app-config';
@@ -301,27 +295,20 @@ export class NonPassFinalisationAnalyticsEffects {
           ),
           this.store$.pipe(
             select(getTests),
-            select(getCurrentTest),
-            select(getTestData),
-            select(getReview),
-            select(getFurtherDevelopment),
-          ),
-          this.store$.pipe(
-            select(getTests),
             select(isPracticeMode),
           ),
         ),
       )),
-    filter(([, , , practiceMode]) => !practiceMode
+    filter(([, , practiceMode]) => !practiceMode
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, furtherDevelopment]: [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean, boolean],
+      [{ seekFurtherDevelopment }, tests]: [ReturnType<typeof SeekFurtherDevelopmentChanged>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.FURTHER_DEVELOPMENT_CHANGED, tests),
-        `further development changed to ${furtherDevelopment ? 'Yes' : 'No'}`,
+        `further development changed to ${seekFurtherDevelopment ? 'Yes' : 'No'}`,
       );
       return of(AnalyticRecorded());
     }),
@@ -337,28 +324,21 @@ export class NonPassFinalisationAnalyticsEffects {
           ),
           this.store$.pipe(
             select(getTests),
-            select(getCurrentTest),
-            select(getTestData),
-            select(getReview),
-            select(getReasonForNoAdviceGiven),
-          ),
-          this.store$.pipe(
-            select(getTests),
             select(isPracticeMode),
           ),
         ),
       )),
-    filter(([, , , practiceMode]) => !practiceMode
+    filter(([, , practiceMode]) => !practiceMode
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     concatMap((
-      [, tests, reason]:
-      [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, string, boolean],
+      [{ reasonForNoAdviceGiven }, tests]:
+      [ReturnType<typeof ReasonForNoAdviceGivenChanged>, TestsModel, boolean],
     ) => {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.REASON_FOR_NO_ADVICE_CHANGED, tests),
-        `reason for no advice changed ${reason}`,
+        `reason for no advice changed ${reasonForNoAdviceGiven}`,
       );
       return of(AnalyticRecorded());
     }),

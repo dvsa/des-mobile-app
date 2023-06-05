@@ -424,7 +424,7 @@ export class DebriefPage extends PracticeableBasePageComponent {
     this.store$.dispatch(EndDebrief());
 
     if (this.outcome === TestOutcome.PASS) {
-      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE, this.testCategory);
+      await this.routeByCategoryProvider.navigateToPage(TestFlowPageNames.PASS_FINALISATION_PAGE);
       return;
     }
     await this.router.navigate([TestFlowPageNames.POST_DEBRIEF_HOLDING_PAGE]);

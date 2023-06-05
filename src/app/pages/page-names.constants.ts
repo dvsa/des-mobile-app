@@ -23,7 +23,6 @@ export const CONFIRM_TEST_DETAILS = 'ConfirmTestDetailsPage';
 
 export const CAT_B: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatBPage',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatBPage',
   TEST_REPORT_PAGE: 'TestReportCatBPage',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatBPage',
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatBPage',
@@ -31,7 +30,6 @@ export const CAT_B: BasePageNames = {
 
 export const CAT_C: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatCPage',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatCPage',
   TEST_REPORT_PAGE: 'TestReportCatCPage',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatCPage',
   VEHICLE_CHECKS_MODAL: 'VehicleChecksCatCModal',
@@ -40,7 +38,6 @@ export const CAT_C: BasePageNames = {
 
 export const CAT_A_MOD1: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatAMod1Page',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatAMod1Page',
   REVERSE_DIAGRAM_PAGE: 'ReverseDiagramCatAMod1Page',
   TEST_REPORT_PAGE: 'TestReportCatAMod1Page',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatAMod1Page',
@@ -50,7 +47,6 @@ export const CAT_A_MOD1: BasePageNames = {
 
 export const CAT_A_MOD2: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatAMod2Page',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatAMod2Page',
   TEST_REPORT_PAGE: 'TestReportCatAMod2Page',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatAMod2Page',
   VEHICLE_CHECKS_MODAL: 'VehicleChecksCatAMod2Modal',
@@ -59,7 +55,6 @@ export const CAT_A_MOD2: BasePageNames = {
 
 export const CAT_D: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatDPage',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatDPage',
   TEST_REPORT_PAGE: 'TestReportCatDPage',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatDPage',
   VEHICLE_CHECKS_MODAL: 'VehicleChecksCatDModal',
@@ -68,7 +63,6 @@ export const CAT_D: BasePageNames = {
 
 export const CAT_HOME_TEST: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatHomeTestPage',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatHomeTestPage',
   TEST_REPORT_PAGE: 'TestReportCatHomeTestPage',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatHomeTestPage',
   VEHICLE_CHECKS_MODAL: 'VehicleChecksCatHomeTestModal',
@@ -77,7 +71,6 @@ export const CAT_HOME_TEST: BasePageNames = {
 
 export const CAT_ADI_PART2: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatADIPart2Page',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatADIPart2Page',
   TEST_REPORT_PAGE: 'TestReportCatADIPart2Page',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatADIPart2Page',
   VEHICLE_CHECKS_MODAL: 'VehicleChecksCatADIPart2Modal',
@@ -86,7 +79,6 @@ export const CAT_ADI_PART2: BasePageNames = {
 
 export const CAT_ADI_PART3: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatADIPart3Page',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatADIPart3Page',
   TEST_REPORT_PAGE: 'TestReportCatADIPart3Page',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatADIPart3Page',
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatADIPart3Page',
@@ -96,7 +88,6 @@ export const CAT_CPC: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatCPCPage',
   TEST_REPORT_PAGE: 'TestReportCatCPCPage',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatCPCPage',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatCPCPage',
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatCPCPage',
 };
 
@@ -104,7 +95,6 @@ export const CAT_MANOEUVRES: BasePageNames = {
   OFFICE_PAGE: 'OfficeCatManoeuvrePage',
   TEST_REPORT_PAGE: 'TestReportCatManoeuvrePage',
   WAITING_ROOM_TO_CAR_PAGE: 'WaitingRoomToCarCatManoeuvrePage',
-  PASS_FINALISATION_PAGE: 'PassFinalisationCatManoeuvrePage',
   VIEW_TEST_RESULT_PAGE: 'ViewTestResultCatManoeuvrePage',
 };
 
@@ -122,7 +112,7 @@ export type PageNameKeys =
   'WaitingRoomPage' |
   'WAITING_ROOM_TO_CAR_PAGE' |
   'RekeyReasonPage' |
-  'PASS_FINALISATION_PAGE' |
+  'PassFinalisationPage' |
   'NonPassFinalisationPage' |
   'VIEW_TEST_RESULT_PAGE' |
   'PostDebriefHoldingPage' |
@@ -142,7 +132,7 @@ export enum TestFlowPageNames {
   HEALTH_DECLARATION_PAGE = 'HealthDeclarationPage',
   NON_PASS_FINALISATION_PAGE = 'NonPassFinalisationPage',
   OFFICE_PAGE = 'OFFICE_PAGE',
-  PASS_FINALISATION_PAGE = 'PASS_FINALISATION_PAGE',
+  PASS_FINALISATION_PAGE = 'PassFinalisationPage',
   POST_DEBRIEF_HOLDING_PAGE = 'PostDebriefHoldingPage',
   REKEY_REASON_PAGE = 'RekeyReasonPage',
   TEST_REPORT_PAGE = 'TEST_REPORT_PAGE',

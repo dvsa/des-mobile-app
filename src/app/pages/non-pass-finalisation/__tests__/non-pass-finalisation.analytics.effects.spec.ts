@@ -25,6 +25,10 @@ import { ActivityCodes } from '@shared/models/activity-codes';
 import { StoreModel } from '@shared/models/store.model';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
+import {
+  ReasonForNoAdviceGivenChanged,
+  SeekFurtherDevelopmentChanged,
+} from '@store/tests/test-data/cat-adi-part3/review/review.actions';
 import * as nonPassFinalisationActions from '../non-pass-finalisation.actions';
 import { NonPassFinalisationAnalyticsEffects } from '../non-pass-finalisation.analytics.effects';
 import * as fakeJournalActions from '../../fake-journal/fake-journal.actions';
@@ -157,6 +161,23 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
         done();
       });
     });
+    it('should not call logEvent', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(SetActivityCode('1'));
+      // ACT
+      actions$.next(testSummaryActions.D255Yes());
+      // ASSERT
+      effects.d255Yes$.subscribe((result) => {
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
+        done();
+      });
+    });
   });
   describe('d255No', () => {
     it('should call logEvent', (done) => {
@@ -178,8 +199,25 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
         done();
       });
     });
+    it('should not call logEvent', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.C));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      store$.dispatch(SetActivityCode('1'));
+      // ACT
+      actions$.next(testSummaryActions.D255No());
+      // ASSERT
+      effects.d255No$.subscribe((result) => {
+        expect(result.type === AnalyticNotRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .not
+          .toHaveBeenCalled();
+        done();
+      });
+    });
   });
-  xdescribe('candidateChoseToProceedWithTestInEnglish$', () => {
+  describe('candidateChoseToProceedWithTestInEnglish$', () => {
     it('should call logEvent with the correct parameters', (done) => {
       // ARRANGE
       store$.dispatch(testsActions.StartTest(123, TestCategory.C));
@@ -256,7 +294,6 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
       });
     });
   });
-
   describe('NonPassFinalisationReportActivityCode', () => {
     it('should call logEvent for action NonPassFinalisationReportActivityCode', (done) => {
       // ARRANGE
@@ -274,6 +311,69 @@ describe('NonPassFinalisationAnalyticsEffects', () => {
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.SET_ACTIVITY_CODE,
             '4 - FAIL_PUBLIC_SAFETY',
+          );
+        done();
+      });
+    });
+  });
+  describe('nonPassFinalisationReportActivityCode$', () => {
+    it('should call logEvent with the correct parameters', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(nonPassFinalisationActions.NonPassFinalisationReportActivityCode(ActivityCodes.PASS));
+      // ASSERT
+      effects.nonPassFinalisationReportActivityCode$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.POST_TEST,
+            AnalyticsEvents.SET_ACTIVITY_CODE,
+            '1 - PASS',
+          );
+        done();
+      });
+    });
+  });
+  describe('nonPassFinalisationSeekFurtherDevelopment', () => {
+    it('should call logEvent with the correct parameters', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(SeekFurtherDevelopmentChanged(true));
+      // ASSERT
+      effects.nonPassFinalisationSeekFurtherDevelopment$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.POST_TEST,
+            AnalyticsEvents.FURTHER_DEVELOPMENT_CHANGED,
+            'further development changed to Yes',
+          );
+        done();
+      });
+    });
+  });
+  describe('nonPassFinalisationReasonGiven$', () => {
+    it('should call logEvent with the correct parameters', (done) => {
+      // ARRANGE
+      store$.dispatch(testsActions.StartTest(123, TestCategory.B));
+      store$.dispatch(PopulateCandidateDetails(candidateMock));
+      // ACT
+      actions$.next(ReasonForNoAdviceGivenChanged('bad candidate'));
+      // ASSERT
+      effects.nonPassFinalisationReasonGiven$.subscribe((result) => {
+        expect(result.type === AnalyticRecorded.type)
+          .toBe(true);
+        expect(analyticsProviderMock.logEvent)
+          .toHaveBeenCalledWith(
+            AnalyticsEventCategories.POST_TEST,
+            AnalyticsEvents.REASON_FOR_NO_ADVICE_CHANGED,
+            'reason for no advice changed bad candidate',
           );
         done();
       });
