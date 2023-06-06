@@ -58,7 +58,7 @@ export class AuthenticationProvider {
       redirectUri: authSettings.redirectUrl,
       scope: 'openid offline_access profile email',
       logoutUrl: authSettings.logoutUrl,
-      iosWebView: 'shared',
+      iosWebView: (environment as unknown as TestersEnvironmentFile)?.isTest ? 'safari' : 'shared',
       tokenStorageProvider: {
         getAccessToken: async () => this.getToken(Token.ACCESS),
         setAccessToken: async (token: string) => this.setToken(Token.ACCESS, token),
