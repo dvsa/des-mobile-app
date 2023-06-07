@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { IonRefresher, ModalController, Platform } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
@@ -78,6 +78,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   constructor(
     public modalController: ModalController,
+    private cd: ChangeDetectorRef,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
@@ -161,11 +162,11 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async ionViewWillEnter(): Promise<boolean> {
     super.ionViewWillEnter();
+    await this.monitorOrientation();
     await this.loadJournalManually();
     this.setupPolling();
     this.configurePlatformSubscriptions();
     await this.completedTestPersistenceProvider.loadCompletedPersistedTests();
-    await this.monitorOrientation();
 
     this.store$.dispatch(journalActions.LoadCompletedTests(true));
 
@@ -274,11 +275,15 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
     // Update isPortraitMode$ with current value
     this.isPortraitMode$.next(isPortrait(orientationType));
+    this.cd.detectChanges();
 
     // Listen to orientation change and update isPortraitMode$ accordingly
     ScreenOrientation.addListener(
       'screenOrientationChange',
-      ({ type }) => this.isPortraitMode$.next(isPortrait(type)),
+      ({ type }) => {
+        this.isPortraitMode$.next(isPortrait(type));
+        this.cd.detectChanges();
+      },
     );
   }
 
