@@ -27,6 +27,7 @@
     *ngFor="let slot of state.slots; let count = count;"
     [slots]="pageState.unSubmittedTestSlotData$ | async"
     [slot]="slot?.slotData"
+    [isPortrait]="isPortraitMode$ | async"
     [isUnSubmittedTestSlotView]="true">
   </test-slot>
 </ion-content>
