@@ -51,9 +51,9 @@ describe('FakeJournalPage', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ionViewDidEnter', () => {
+  describe('ionViewWillEnter', () => {
     it('should dispatch an action', () => {
-      component.ionViewDidEnter();
+      component.ionViewWillEnter();
       expect(store$.dispatch).toHaveBeenCalledWith(FakeJournalDidEnter());
     });
   });
