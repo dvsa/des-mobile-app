@@ -10,6 +10,7 @@ import { DashboardComponentsModule } from '@pages/dashboard/components/dashboard
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 import { UnuploadedTestsAnalyticsEffects } from '@pages/unuploaded-tests/unuploaded-tests.analytics.effects';
 import { UnuploadedTestsEffects } from '@pages/unuploaded-tests/unuploaded-tests.effects';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 @NgModule({
   imports: [
@@ -25,5 +26,8 @@ import { UnuploadedTestsEffects } from '@pages/unuploaded-tests/unuploaded-tests
     ]),
   ],
   declarations: [UnuploadedTestsPage],
+  providers: [
+    OrientationMonitorProvider,
+  ],
 })
 export class UnuploadedTestsModule {}

@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { BasePageComponent } from '@shared/classes/base-page';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { RekeySearchError, RekeySearchErrorMessages } from '@pages/rekey-search/rekey-search-error-model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -25,8 +25,7 @@ import {
 import { isEmpty } from 'lodash';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { DeviceProvider } from '@providers/device/device';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { isPortrait } from '@shared/helpers/is-portrait-mode';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -47,10 +46,9 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   applicationReference: string = '';
   searchResults: TestSlot[] = [];
   focusedElement: string = null;
-  isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
-    private cd: ChangeDetectorRef,
+    public orientationMonitorProvider: OrientationMonitorProvider,
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
@@ -92,26 +90,9 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   }
 
   async ionViewWillEnter() {
-    await this.monitorOrientation();
+    await this.orientationMonitorProvider.monitorOrientation();
   }
 
-  private async monitorOrientation(): Promise<void> {
-    // Detect `orientation` upon entry
-    const { type: orientationType } = await ScreenOrientation.getCurrentOrientation();
-
-    // Update isPortraitMode$ with current value
-    this.isPortraitMode$.next(isPortrait(orientationType));
-    this.cd.detectChanges();
-
-    // Listen to orientation change and update isPortraitMode$ accordingly
-    ScreenOrientation.addListener(
-      'screenOrientationChange',
-      ({ type }) => {
-        this.isPortraitMode$.next(isPortrait(type));
-        this.cd.detectChanges();
-      },
-    );
-  }
   staffNumberChanged(val: string) {
     this.staffNumber = val;
   }

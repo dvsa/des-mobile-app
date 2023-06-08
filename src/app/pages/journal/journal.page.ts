@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonRefresher, ModalController, Platform } from '@ionic/angular';
 import { select, Store } from '@ngrx/store';
 import { LoadingOptions } from '@ionic/core';
@@ -39,7 +39,7 @@ import { CompletedTestPersistenceProvider } from '@providers/completed-test-pers
 import { AppComponent } from '@app/app.component';
 import { LoadingProvider } from '@providers/loader/loader';
 import { AppConfigProvider } from '@providers/app-config/app-config';
-import { isPortrait } from '@shared/helpers/is-portrait-mode';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { ErrorPage } from '../error-page/error';
 
 interface JournalPageState {
@@ -78,7 +78,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    private cd: ChangeDetectorRef,
+    public orientationMonitorProvider: OrientationMonitorProvider,
     platform: Platform,
     authenticationProvider: AuthenticationProvider,
     router: Router,
@@ -162,7 +162,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async ionViewWillEnter(): Promise<boolean> {
     super.ionViewWillEnter();
-    await this.monitorOrientation();
+    await this.orientationMonitorProvider.monitorOrientation();
     await this.loadJournalManually();
     this.setupPolling();
     this.configurePlatformSubscriptions();
@@ -267,24 +267,6 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   onNextDayClick(): void {
     this.store$.dispatch(journalActions.SelectNextDay());
-  }
-
-  private async monitorOrientation(): Promise<void> {
-    // Detect `orientation` upon entry
-    const { type: orientationType } = await ScreenOrientation.getCurrentOrientation();
-
-    // Update isPortraitMode$ with current value
-    this.isPortraitMode$.next(isPortrait(orientationType));
-    this.cd.detectChanges();
-
-    // Listen to orientation change and update isPortraitMode$ accordingly
-    ScreenOrientation.addListener(
-      'screenOrientationChange',
-      ({ type }) => {
-        this.isPortraitMode$.next(isPortrait(type));
-        this.cd.detectChanges();
-      },
-    );
   }
 
   private loadCompletedTestsWithCallThrough = () => {

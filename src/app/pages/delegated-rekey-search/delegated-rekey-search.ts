@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthenticationProvider } from '@providers/authentication/authentication';
@@ -7,7 +7,7 @@ import { select, Store } from '@ngrx/store';
 import { getDelegatedRekeySearchState } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
 import { StoreModel } from '@shared/models/store.model';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import {
   DelegatedRekeySearchError,
@@ -26,8 +26,7 @@ import { ERROR_PAGE } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash';
 import { AppComponent } from '@app/app.component';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { isPortrait } from '@shared/helpers/is-portrait-mode';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import {
   DelegatedRekeySearchClearState,
   DelegatedRekeySearchViewDidEnter,
@@ -54,10 +53,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   applicationReference: string = '';
   subscription: Subscription = Subscription.EMPTY;
   focusedElement: string = null;
-  isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
-    private cd: ChangeDetectorRef,
+    public orientationMonitorProvider: OrientationMonitorProvider,
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
@@ -108,25 +106,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
     this.setUpSubscription();
   }
   async ionViewWillEnter() {
-    await this.monitorOrientation();
-  }
-
-  private async monitorOrientation(): Promise<void> {
-    // Detect `orientation` upon entry
-    const { type: orientationType } = await ScreenOrientation.getCurrentOrientation();
-
-    // Update isPortraitMode$ with current value
-    this.isPortraitMode$.next(isPortrait(orientationType));
-    this.cd.detectChanges();
-
-    // Listen to orientation change and update isPortraitMode$ accordingly
-    ScreenOrientation.addListener(
-      'screenOrientationChange',
-      ({ type }) => {
-        this.isPortraitMode$.next(isPortrait(type));
-        this.cd.detectChanges();
-      },
-    );
+    await this.orientationMonitorProvider.monitorOrientation();
   }
 
   setUpSubscription() {
