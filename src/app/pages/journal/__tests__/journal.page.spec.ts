@@ -43,6 +43,7 @@ import { LoaderProviderMock } from '@providers/loader/__mocks__/loader.mock';
 import { LoadingOptions } from '@ionic/core';
 import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 describe('JournalPage', () => {
   let fixture: ComponentFixture<JournalPage>;
@@ -74,6 +75,7 @@ describe('JournalPage', () => {
         }),
       ],
       providers: [
+        OrientationMonitorProvider,
         {
           provide: ModalController,
           useClass: ModalControllerMock,
