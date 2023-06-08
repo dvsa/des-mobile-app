@@ -26,6 +26,7 @@ import {
 } from '@pages/test-centre-journal/test-centre-journal.actions';
 import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 export enum Day {
   TODAY = 'today',
@@ -81,6 +82,7 @@ export class ViewJournalsCardComponent implements OnChanges {
   slotItems$: Observable<SlotItem[]>;
 
   constructor(
+    public orientationMonitorProvider: OrientationMonitorProvider,
     private slotProvider: SlotProvider,
     private slotSelectorProvider: SlotSelectorProvider,
     private store$: Store<StoreModel>,

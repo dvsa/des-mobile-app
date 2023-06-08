@@ -53,7 +53,7 @@
   <ion-list>
     <journal-slots
       [completedTests]="pageState.completedTests$ | async"
-      [isPortrait]="isPortraitMode$ | async"
+      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slots]="pageState.slots$ | async">
     </journal-slots>
   </ion-list>

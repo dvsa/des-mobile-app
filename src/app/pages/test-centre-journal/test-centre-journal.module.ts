@@ -10,6 +10,7 @@ import { TestSlotComponentsModule } from '@components/test-slot/test-slot-compon
 import { TestCentreJournalAnalyticsEffects } from '@pages/test-centre-journal/test-centre-journal.analytics.effects';
 import { CandidateDetailsPageModule } from '@pages/candidate-details/candidate-details.module';
 
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { TestCentreJournalPage } from './test-centre-journal.page';
 import { TestCentreJournalRoutingModule } from './test-centre-journal-routing.module';
 import { TestCentreJournalComponentsModule } from './components/test-centre-journal-components.module';
@@ -34,6 +35,7 @@ import { TestCentreJournalComponentsModule } from './components/test-centre-jour
   providers: [
     SlotSelectorProvider,
     SlotProvider,
+    OrientationMonitorProvider,
   ],
 })
 export class TestCentreJournalModule { }

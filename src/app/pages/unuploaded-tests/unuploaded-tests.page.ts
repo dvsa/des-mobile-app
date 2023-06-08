@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { selectEmployeeId, selectEmployeeName, selectVersionNumber } from '@store/app-info/app-info.selectors';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { map } from 'rxjs/operators';
@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { DeviceProvider } from '@providers/device/device';
-import { isPortrait } from '@shared/helpers/is-portrait-mode';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
@@ -39,10 +39,9 @@ interface UnunploadedTestsPageState {
 })
 export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   pageState: UnunploadedTestsPageState;
-  isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
-    private cd: ChangeDetectorRef,
+    public orientationMonitorProvider: OrientationMonitorProvider,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
@@ -68,26 +67,9 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   }
 
   async ionViewWillEnter() {
-    await this.monitorOrientation();
+    await this.orientationMonitorProvider.monitorOrientation();
   }
 
-  private async monitorOrientation(): Promise<void> {
-    // Detect `orientation` upon entry
-    const { type: orientationType } = await ScreenOrientation.getCurrentOrientation();
-
-    // Update isPortraitMode$ with current value
-    this.isPortraitMode$.next(isPortrait(orientationType));
-    this.cd.detectChanges();
-
-    // Listen to orientation change and update isPortraitMode$ accordingly
-    ScreenOrientation.addListener(
-      'screenOrientationChange',
-      ({ type }) => {
-        this.isPortraitMode$.next(isPortrait(type));
-        this.cd.detectChanges();
-      },
-    );
-  }
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(UnuploadedTestsViewDidEnter());
 

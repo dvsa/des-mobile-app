@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component, EventEmitter, Input, OnChanges, Output, ViewChild,
 } from '@angular/core';
 import { Candidate, TestCentre, TestSlot } from '@dvsa/mes-journal-schema';
@@ -14,9 +13,7 @@ import {
   TestCentreJournalSelectCandidate,
   TestCentreJournalShowBookings,
 } from '@pages/test-centre-journal/test-centre-journal.actions';
-import { BehaviorSubject } from 'rxjs';
-import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
-import { isPortrait } from '@shared/helpers/is-portrait-mode';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 
 export type CandidateData = {
@@ -70,11 +67,10 @@ export class CandidateSearchCardComponent implements OnChanges {
   selectedCandidateName: string;
   selectedCandidate: CandidateData;
   enableShowBookingButton: boolean = false;
-  isPortraitMode$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
     private store$: Store<StoreModel>,
-    private cd: ChangeDetectorRef,
+    public orientationMonitorProvider: OrientationMonitorProvider,
   ) {}
 
   ngOnChanges(): void {
@@ -106,28 +102,6 @@ export class CandidateSearchCardComponent implements OnChanges {
 
     return candidateNames;
   };
-
-  async ionViewWillEnter() {
-    await this.monitorOrientation();
-  }
-
-  private async monitorOrientation(): Promise<void> {
-    // Detect `orientation` upon entry
-    const { type: orientationType } = await ScreenOrientation.getCurrentOrientation();
-
-    // Update isPortraitMode$ with current value
-    this.isPortraitMode$.next(isPortrait(orientationType));
-    this.cd.detectChanges();
-
-    // Listen to orientation change and update isPortraitMode$ accordingly
-    ScreenOrientation.addListener(
-      'screenOrientationChange',
-      ({ type }) => {
-        this.isPortraitMode$.next(isPortrait(type));
-        this.cd.detectChanges();
-      },
-    );
-  }
 
   createCandidateSlots(examinersData: Examiner[], candidateName: string): void {
     this.candidateTestSlots = [];

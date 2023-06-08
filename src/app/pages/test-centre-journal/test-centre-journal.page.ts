@@ -44,6 +44,7 @@ import {
 import { ViewJournalsCardComponent } from '@pages/test-centre-journal/components/view-journals-card/view-journals-card';
 import { getRefDataState } from '@store/reference-data/reference-data.reducer';
 import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import {
   TestCentreJournalGetData,
   TestCentreJournalSelectTestCentre,
@@ -86,6 +87,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   private destroy$ = new Subject<{}>();
 
   constructor(
+    private orientationMonitorProvider: OrientationMonitorProvider,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
     public router: Router,
@@ -132,8 +134,8 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     if (!this.isLDTM) {
       await this.getTestCentreData();
     }
+    await this.orientationMonitorProvider.monitorOrientation();
   }
-
   ionViewDidEnter(): void {
     this.store$.dispatch(TestCentreJournalViewDidEnter());
   }
