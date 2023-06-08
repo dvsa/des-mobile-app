@@ -180,6 +180,7 @@ export class JournalPage extends BasePageComponent implements OnInit {
 
   async ionViewWillLeave(): Promise<void> {
     this.store$.dispatch(journalActions.StopPolling());
+    await this.orientationMonitorProvider.tearDownListener();
 
     if (this.platformSubscription) {
       this.platformSubscription.unsubscribe();

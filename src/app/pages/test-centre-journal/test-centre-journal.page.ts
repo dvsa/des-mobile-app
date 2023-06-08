@@ -140,6 +140,10 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
     this.store$.dispatch(TestCentreJournalViewDidEnter());
   }
 
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.destroy$.next(null);

@@ -108,6 +108,9 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
   }
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
+  }
 
   setUpSubscription() {
     this.subscription = this.pageState.rekeySearchErr$.subscribe((error) => {

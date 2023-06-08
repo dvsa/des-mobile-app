@@ -32,9 +32,15 @@ export class FakeJournalPage extends BasePageComponent {
     this.dateToDisplay = moment().format('dddd D MMMM YYYY');
   }
 
-  async ionViewWillEnter() {
+  ionViewDidEnter(): void {
     this.store$.dispatch(FakeJournalDidEnter());
+  }
+
+  async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
+  }
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
   }
 
 }
