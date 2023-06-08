@@ -53,10 +53,26 @@ describe('FakeJournalPage', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ionViewWillEnter', () => {
+  describe('ionViewDidEnter', () => {
     it('should dispatch an action', () => {
-      component.ionViewWillEnter();
+      component.ionViewDidEnter();
       expect(store$.dispatch).toHaveBeenCalledWith(FakeJournalDidEnter());
+    });
+  });
+
+  describe('ionViewWillLeave', () => {
+    it('should call tearDownListener', () => {
+      spyOn(component.orientationMonitorProvider, 'tearDownListener');
+      component.ionViewWillLeave();
+      expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewWillEnter', () => {
+    it('should call monitorOrientation', () => {
+      spyOn(component.orientationMonitorProvider, 'monitorOrientation');
+      component.ionViewWillEnter();
+      expect(component.orientationMonitorProvider.monitorOrientation).toHaveBeenCalled();
     });
   });
 });

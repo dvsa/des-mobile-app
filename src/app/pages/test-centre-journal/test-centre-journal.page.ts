@@ -87,7 +87,7 @@ export class TestCentreJournalPage extends BasePageComponent implements OnDestro
   private destroy$ = new Subject<{}>();
 
   constructor(
-    private orientationMonitorProvider: OrientationMonitorProvider,
+    public orientationMonitorProvider: OrientationMonitorProvider,
     public platform: Platform,
     public authenticationProvider: AuthenticationProvider,
     public router: Router,
