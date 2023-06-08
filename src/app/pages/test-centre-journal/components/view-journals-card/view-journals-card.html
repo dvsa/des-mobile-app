@@ -71,6 +71,7 @@
 
     <ion-list>
       <journal-slots
+        [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
         [isTeamJournal]="true"
         [slots]="slotItems$ | async">
       </journal-slots>

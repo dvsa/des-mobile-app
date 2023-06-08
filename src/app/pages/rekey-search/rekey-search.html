@@ -87,6 +87,7 @@
 
         <p class="results-message" *ngIf="!isBookedTestSlotEmpty(pageState.bookedTestSlot$ | async)">
             <test-slot [slot]="(pageState.bookedTestSlot$ | async)"
+                       [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
                        [hasSlotChanged]="false"
                        [hasSeenCandidateDetails]="true"
                        [showLocation]="false">

@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { StoreModel } from '@shared/models/store.model';
 import { Store } from '@ngrx/store';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 @Component({
   selector: 'app-fake-journal',
@@ -24,6 +25,7 @@ export class FakeJournalPage extends BasePageComponent {
     authenticationProvider: AuthenticationProvider,
     router: Router,
     private store$: Store<StoreModel>,
+    public orientationMonitorProvider: OrientationMonitorProvider,
   ) {
     super(platform, authenticationProvider, router);
 
@@ -32,6 +34,13 @@ export class FakeJournalPage extends BasePageComponent {
 
   ionViewDidEnter(): void {
     this.store$.dispatch(FakeJournalDidEnter());
+  }
+
+  async ionViewWillEnter() {
+    await this.orientationMonitorProvider.monitorOrientation();
+  }
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
   }
 
 }

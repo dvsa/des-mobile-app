@@ -12,6 +12,7 @@ import { TestSlotComponentsModule } from '@components/test-slot/test-slot-compon
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DirectivesModule } from '@directives/directives.module';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { DelegatedRekeySearchPageRoutingModule } from './delegated-rekey-search-routing.module';
 import { delegatedSearchReducer } from './delegated-rekey-search.reducer';
 import { DelegatedRekeySearchEffects } from './delegated-rekey-search.effects';
@@ -35,6 +36,7 @@ import { DelegatedRekeySearchPage } from './delegated-rekey-search';
     DirectivesModule,
   ],
   providers: [
+    OrientationMonitorProvider,
     DelegatedRekeySearchProvider,
     SearchProvider,
     CompressionProvider,

@@ -21,6 +21,7 @@ import { Router } from '@angular/router';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { DeviceProvider } from '@providers/device/device';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 interface UnunploadedTestsPageState {
   unSubmittedTestSlotData$: Observable<TestSlot[]>;
@@ -40,6 +41,7 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   pageState: UnunploadedTestsPageState;
 
   constructor(
+    public orientationMonitorProvider: OrientationMonitorProvider,
     private store$: Store<StoreModel>,
     private dateTimeProvider: DateTimeProvider,
     private slotProvider: SlotProvider,
@@ -62,6 +64,13 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
       unSubmittedTestSlotData$: unsubmittedTestSlotsInDateOrder$(this.store$, this.dateTimeProvider, this.slotProvider)
         .pipe(map((data) => data.map((slot) => slot.slotData))),
     };
+  }
+
+  async ionViewWillEnter() {
+    await this.orientationMonitorProvider.monitorOrientation();
+  }
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
   }
 
   async ionViewDidEnter(): Promise<void> {

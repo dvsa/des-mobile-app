@@ -24,6 +24,7 @@
             *ngFor="let slot of slots;"
             [slots]="slots"
             [slot]="slot"
+            [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
             [isPracticeMode]="true"
             [hasSlotChanged]="false">
     </test-slot>

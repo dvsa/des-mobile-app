@@ -25,6 +25,7 @@ import {
 import { isEmpty } from 'lodash';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { DeviceProvider } from '@providers/device/device';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 
 interface RekeySearchPageState {
   isLoading$: Observable<boolean>;
@@ -47,6 +48,7 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   focusedElement: string = null;
 
   constructor(
+    public orientationMonitorProvider: OrientationMonitorProvider,
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
@@ -85,6 +87,13 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
       await this.insomnia.allowSleepAgain();
       await this.deviceProvider.disableSingleAppMode();
     }
+  }
+
+  async ionViewWillEnter() {
+    await this.orientationMonitorProvider.monitorOrientation();
+  }
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
   }
 
   staffNumberChanged(val: string) {

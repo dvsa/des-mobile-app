@@ -118,6 +118,13 @@ describe('TestCenterJournalPage', () => {
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
+  describe('ionViewWillLeave', () => {
+    it('should call tearDownListener', () => {
+      spyOn(component.orientationMonitorProvider, 'tearDownListener');
+      component.ionViewWillLeave();
+      expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
+    });
+  });
   describe('getTestCentreData', () => {
     beforeEach(() => {
       spyOn(store$, 'dispatch');

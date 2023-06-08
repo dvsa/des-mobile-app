@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import { FakeJournalDidEnter } from '@pages/fake-journal/fake-journal.actions';
 import { provideMockStore } from '@ngrx/store/testing';
 import { TestSlotComponent } from '@components/test-slot/test-slot/test-slot';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { FakeJournalPage } from '../fake-journal.page';
 
 describe('FakeJournalPage', () => {
@@ -33,6 +34,7 @@ describe('FakeJournalPage', () => {
         IonicModule,
       ],
       providers: [
+        OrientationMonitorProvider,
         { provide: Platform, useClass: PlatformMock },
         { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
         { provide: Router, useValue: routerSpy },
@@ -55,6 +57,22 @@ describe('FakeJournalPage', () => {
     it('should dispatch an action', () => {
       component.ionViewDidEnter();
       expect(store$.dispatch).toHaveBeenCalledWith(FakeJournalDidEnter());
+    });
+  });
+
+  describe('ionViewWillLeave', () => {
+    it('should call tearDownListener', () => {
+      spyOn(component.orientationMonitorProvider, 'tearDownListener');
+      component.ionViewWillLeave();
+      expect(component.orientationMonitorProvider.tearDownListener).toHaveBeenCalled();
+    });
+  });
+
+  describe('ionViewWillEnter', () => {
+    it('should call monitorOrientation', () => {
+      spyOn(component.orientationMonitorProvider, 'monitorOrientation');
+      component.ionViewWillEnter();
+      expect(component.orientationMonitorProvider.monitorOrientation).toHaveBeenCalled();
     });
   });
 });

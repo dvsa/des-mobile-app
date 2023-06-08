@@ -10,6 +10,7 @@ import { FakeJournalComponentsModule } from '@pages/fake-journal/components/fake
 import { EffectsModule } from '@ngrx/effects';
 import { FakeJournalEffects } from '@pages/fake-journal/fake-journal.effects';
 import { CandidateDetailsPageModule } from '@pages/candidate-details/candidate-details.module';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { FakeJournalPage } from './fake-journal.page';
 import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
 
@@ -30,6 +31,9 @@ import { FakeJournalAnalyticsEffects } from './fake-journal.analytics.effects';
   ],
   declarations: [
     FakeJournalPage,
+  ],
+  providers: [
+    OrientationMonitorProvider,
   ],
 })
 export class FakeJournalPageModule {

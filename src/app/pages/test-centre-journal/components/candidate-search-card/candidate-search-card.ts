@@ -13,6 +13,7 @@ import {
   TestCentreJournalSelectCandidate,
   TestCentreJournalShowBookings,
 } from '@pages/test-centre-journal/test-centre-journal.actions';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { CandidateTestSlot } from '../../models/candidate-test-slot';
 
 export type CandidateData = {
@@ -67,7 +68,10 @@ export class CandidateSearchCardComponent implements OnChanges {
   selectedCandidate: CandidateData;
   enableShowBookingButton: boolean = false;
 
-  constructor(private store$: Store<StoreModel>) {}
+  constructor(
+    private store$: Store<StoreModel>,
+    public orientationMonitorProvider: OrientationMonitorProvider,
+  ) {}
 
   ngOnChanges(): void {
     if (this.manuallyRefreshed) {
