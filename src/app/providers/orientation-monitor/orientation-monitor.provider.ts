@@ -13,10 +13,6 @@ export class OrientationMonitorProvider {
   ) {
   }
 
-  async ionViewWillLeave() {
-    await this.tearDownListener();
-  }
-
   public async tearDownListener() {
     await ScreenOrientation.removeAllListeners();
   }

@@ -21,7 +21,7 @@ describe('OrientationMonitorProvider', () => {
     it('should call removeAllListeners', () => {
       spyOn(ScreenOrientation, 'removeAllListeners');
       provider.tearDownListener();
-      expect(ScreenOrientation.removeAllListeners());
+      expect(ScreenOrientation.removeAllListeners).toHaveBeenCalled();
     });
   });
 
