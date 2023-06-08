@@ -69,6 +69,9 @@ export class UnuploadedTestsPage extends BasePageComponent implements OnInit {
   async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
   }
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
+  }
 
   async ionViewDidEnter(): Promise<void> {
     this.store$.dispatch(UnuploadedTestsViewDidEnter());

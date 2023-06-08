@@ -92,6 +92,9 @@ export class RekeySearchPage extends BasePageComponent implements OnInit {
   async ionViewWillEnter() {
     await this.orientationMonitorProvider.monitorOrientation();
   }
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
+  }
 
   staffNumberChanged(val: string) {
     this.staffNumber = val;
