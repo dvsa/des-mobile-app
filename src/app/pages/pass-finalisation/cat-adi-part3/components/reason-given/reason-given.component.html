@@ -18,6 +18,11 @@
       </textarea>
       <div class="character-count validation-text">{{getCharacterCountText()}}</div>
     </ion-row>
+    <ion-row class="validation-message-row ion-align-items-center">
+      <div class="validation-text" [class.ng-invalid]="invalid" id="reason-given-validation-text">
+        Please provide {{charactersExceeded() ? 'a valid' : 'a'}} reason
+      </div>
+    </ion-row>
   </ion-col>
 </ion-row>
 
