@@ -12,7 +12,7 @@
         >
       </ion-col>
       <ion-col *ngIf="categoryConfirmed" class="selected-category-code ion-align-self-center" size="48">
-        <span class="ion-select-text">
+        <span class="opposing-text">
           {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayId}} -
           {{bikeCategoryDetailProvider.getDetailByCategoryCode(testCategory)?.displayName}}
         </span>
