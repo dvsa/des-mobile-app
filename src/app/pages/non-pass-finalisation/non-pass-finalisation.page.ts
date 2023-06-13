@@ -25,7 +25,8 @@ import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import {
   formatDriverNumber,
-  getCandidateDriverNumber, getCandidatePrn,
+  getCandidateDriverNumber,
+  getCandidatePrn,
   getUntitledCandidateName,
 } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getD255, isDebriefWitnessed } from '@store/tests/test-summary/test-summary.selector';
@@ -44,19 +45,14 @@ import {
 } from '@pages/non-pass-finalisation/non-pass-finalisation.actions';
 import { ActivityCodeFinalisationProvider } from '@providers/activity-code-finalisation/activity-code-finalisation';
 import { SetActivityCode } from '@store/tests/activity-code/activity-code.actions';
-import {
-  D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed,
-} from '@store/tests/test-summary/test-summary.actions';
+// eslint-disable-next-line object-curly-newline
+import { D255No, D255Yes, DebriefUnWitnessed, DebriefWitnessed } from '@store/tests/test-summary/test-summary.actions';
 import {
   CandidateChoseToProceedWithTestInEnglish,
   CandidateChoseToProceedWithTestInWelsh,
 } from '@store/tests/communication-preferences/communication-preferences.actions';
 import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { getTestCategory } from '@store/tests/category/category.reducer';
-import {
-  TestFinalisationInvalidTestDataModal,
-} from
-  '@pages/test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
 import { isAnyOf } from '@shared/helpers/simplifiers';
 import { getReview } from '@store/tests/test-data/cat-adi-part3/review/review.reducer';
 import {
@@ -76,6 +72,9 @@ import { getTestEndTime } from '@store/tests/test-data/cat-adi-part3/end-time/en
 import { StartTimeChanged } from '@store/tests/test-data/cat-adi-part3/start-time/start-time.actions';
 import { EndTimeChanged } from '@store/tests/test-data/cat-adi-part3/end-time/end-time.actions';
 import * as moment from 'moment';
+import {
+  TestFinalisationInvalidTestDataModal,
+} from '../test-report/components/test-finalisation-invalid-test-data-modal/test-finalisation-invalid-test-data-modal';
 
 interface NonPassFinalisationPageState {
   candidateName$: Observable<string>;
@@ -123,6 +122,8 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   subscription: Subscription;
   invalidTestDataModal: HTMLIonModalElement;
   testCategory: CategoryCode;
+  scStartTime: string;
+  scEndTime: string;
 
   constructor(
     platform: Platform,
@@ -296,19 +297,27 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         filter(([, category]) => category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTestStartTime),
-        map((time: string) => time || moment().toISOString()),
+        map((time: string) => time || moment()
+          .toISOString()),
       ),
       testEndTime$: currentTest$.pipe(
         withLatestFrom(category$),
         filter(([, category]) => category === TestCategory.SC),
         map(([data, category]) => this.testDataByCategoryProvider.getTestDataByCategoryCode(category)(data)),
         select(getTestEndTime),
-        map((time: string) => time || moment().add(1, 'hour').toISOString()),
+        map((time: string) => time || moment()
+          .add(1, 'hour')
+          .toISOString()),
       ),
     };
 
     const {
-      testData$, slotId$, activityCode$, testCategory$,
+      testData$,
+      slotId$,
+      activityCode$,
+      testCategory$,
+      testStartTime$,
+      testEndTime$,
     } = this.pageState;
 
     this.subscription = merge(
@@ -316,7 +325,10 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
       testData$.pipe(map((testData) => this.testData = testData)),
       activityCode$.pipe(map((activityCode) => this.activityCode = activityCode)),
       testCategory$.pipe(map((result) => this.testCategory = result)),
-    ).subscribe();
+      testStartTime$.pipe(map((value) => this.scStartTime = value)),
+      testEndTime$.pipe(map((value) => this.scEndTime = value)),
+    )
+      .subscribe();
   }
 
   ionViewDidEnter(): void {
@@ -374,7 +386,9 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   };
 
   async continue() {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
+
     if (this.form.valid) {
       const testDataIsInvalid = await this.activityCodeFinalisationProvider
         .testDataIsInvalid(this.testCategory, this.activityCode.activityCode, this.testData);
@@ -384,15 +398,19 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
         return;
       }
 
+      this.testStartTimeChanged(this.scStartTime);
+      this.testEndTimeChanged(this.scEndTime);
+
       this.store$.dispatch(NonPassFinalisationReportActivityCode(this.activityCode.activityCode));
       await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
       return;
     }
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(NonPassFinalisationValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(NonPassFinalisationValidationError(`${controlName} is blank`));
+        }
+      });
   }
 
   activityCodeChanged(activityCodeModel: ActivityCodeModel) {
@@ -425,10 +443,12 @@ export class NonPassFinalisationPage extends PracticeableBasePageComponent imple
   }
 
   testStartTimeChanged(startTime: string): void {
+    this.scStartTime = startTime;
     this.store$.dispatch(StartTimeChanged(startTime));
   }
 
   testEndTimeChanged(endTime: string): void {
+    this.scEndTime = endTime;
     this.store$.dispatch(EndTimeChanged(endTime));
   }
 
