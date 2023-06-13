@@ -29,6 +29,9 @@ export class LicenceInformation {
   @Input()
   bookingGender: string;
 
+  @Input()
+  preDecSignature: string;
+
   idPrefix = 'candidate-licence-card';
 
   constructor(private domSanitizer: DomSanitizer) {}

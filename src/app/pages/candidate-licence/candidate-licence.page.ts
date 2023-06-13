@@ -46,6 +46,8 @@ import {
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { getRekeyIndicator } from '@store/tests/rekey/rekey.reducer';
 import { isRekey } from '@store/tests/rekey/rekey.selector';
+import { getPreTestDeclarations } from '@store/tests/pre-test-declarations/pre-test-declarations.reducer';
+import { getSignatureStatus } from '@store/tests/pre-test-declarations/pre-test-declarations.selector';
 
 interface CandidateLicencePageState {
   candidateUntitledName$: Observable<string>;
@@ -54,6 +56,7 @@ interface CandidateLicencePageState {
   trueLikenessToPhoto$: Observable<boolean>;
   driverPhotograph$: Observable<string>;
   genderDescription$: Observable<string>;
+  previousSignature$: Observable<string>;
   age$: Observable<number>;
   candidateData$: Observable<DriverLicenceSchema>;
 }
@@ -95,6 +98,10 @@ export class CandidateLicencePage extends PracticeableBasePageComponent implemen
     );
 
     this.pageState = {
+      previousSignature$: currentTest$.pipe(
+        select(getPreTestDeclarations),
+        select(getSignatureStatus),
+      ),
       candidateUntitledName$: currentTest$.pipe(
         select(getJournalData),
         select(getCandidate),
