@@ -86,7 +86,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   }
 
   async ngOnInit() {
-    // force light mode
+    // force light mode, remove when dark mode is fully integrated
     document.body.classList.toggle('light', true);
 
     try {
