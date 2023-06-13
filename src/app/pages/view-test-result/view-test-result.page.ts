@@ -37,9 +37,9 @@ import { isAnyOf } from '@shared/helpers/simplifiers';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { CatADI2UniqueTypes } from '@dvsa/mes-test-schema/categories/ADI2';
 import {
-  TrainerDetails as CatADI3TrainerDetails,
   Review as CatADI3Review,
   TestData as CatADI3TestData,
+  TrainerDetails as CatADI3TrainerDetails,
 } from '@dvsa/mes-test-schema/categories/ADI3';
 import { ADI3AssessmentProvider } from '@providers/adi3-assessment/adi3-assessment';
 import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
@@ -138,7 +138,7 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   }
 
   get totalScore(): number {
-    if (this.isCategoryADI3()) {
+    if (this.isCategoryADI3() || this.isCategorySC()) {
       return this.adi3AssessmentProvider.getTotalAssessmentScore(this.testResult.testData as CatADI3TestData);
     }
     return null;
@@ -267,6 +267,8 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
   isCategoryB = (): boolean => isAnyOf(this.testCategory, [TestCategory.B]);
 
   isCategoryADI3 = (): boolean => isAnyOf(this.testCategory, [TestCategory.ADI3]);
+
+  isCategorySC = (): boolean => isAnyOf(this.testCategory, [TestCategory.SC]);
 
   showDebriefCommonCard = (): boolean => isAnyOf(this.testCategory, [
     TestCategory.B, // Cat B

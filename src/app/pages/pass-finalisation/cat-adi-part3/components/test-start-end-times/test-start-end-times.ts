@@ -2,6 +2,7 @@ import {
   Component, EventEmitter, Input, OnChanges, OnInit, Output,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 
 @Component({
   selector: 'test-start-end-times',
@@ -23,6 +24,8 @@ export class TestStartEndTimesComponent implements OnInit, OnChanges {
 
   @Output()
   testEndTimeChange = new EventEmitter<string>();
+
+  timeDisplayType = DisplayType.Time;
 
   private formControlStart: FormControl = null;
   private formControlEnd: FormControl = null;
