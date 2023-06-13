@@ -1,56 +1,68 @@
 <div id="dateTimeItem + {{control}}">
-    <ion-input
-            class="input-box type-{{displayType}}"
-            id="{{inputId}}"
-            aria-label="Date time"
-            [(ngModel)]="displayValue"
-            [disabled]="disabled"
-            [placeholder]="displayType === 'date' ? formatDisplayDate(initialValue) : formatDisplayTime(initialValue)">
-    </ion-input>
-    <ion-modal
-            class="{{displayType}}-modal"
-            trigger="dateTimeItem + {{control}}"
-            [keepContentsMounted]="true"
-            mode="ios"
-            [backdropDismiss]="false">
-        <ng-template>
-            <ion-datetime
-                    *ngIf="displayType === 'date'"
-                    #date
-                    id="{{pickerId}}"
-                    [showDefaultButtons]=!emitButtonEvents
-                    [showClearButton]="showClearButton && !emitButtonEvents"
-                    size="cover"
-                    presentation="date"
-                    [(ngModel)]="displayValue"
-                    [max]="maxValue"
-                    [min]="minValue"
-                    (ngModelChange)="onSelected(date, displayType)">
-                <ion-buttons slot="buttons" *ngIf="emitButtonEvents">
-                    <ion-button color="primary" (click)="date.cancel(); buttonEmit(date, 'cancel')">Cancel</ion-button>
-                    <ion-button *ngIf="showClearButton" color="primary" (click)="date.reset(); buttonEmit(date, 'clear')">Clear</ion-button>
-                    <ion-button color="primary" (click)="date.confirm(); buttonEmit(date, 'done')">Done</ion-button>
-                </ion-buttons>
-            </ion-datetime>
-            <ion-datetime
-                    *ngIf="displayType === 'time'"
-                    class="time-modal-content"
-                    #time
-                    id="{{pickerId}}"
-                    [showDefaultButtons]=!emitButtonEvents
-                    [showClearButton]="showClearButton && !emitButtonEvents"
-                    size="cover"
-                    presentation="time"
-                    [(ngModel)]="outputValue"
-                    [max]="maxValue"
-                    [min]="minValue"
-                    (ngModelChange)="onSelected(time, displayType)">
-                <ion-buttons slot="buttons" *ngIf="emitButtonEvents">
-                    <ion-button color="primary" (click)="time.cancel(); buttonEmit(time, 'cancel')">Cancel</ion-button>
-                    <ion-button *ngIf="showClearButton" color="primary" (click)="time.reset(); buttonEmit(time, 'clear')">Clear</ion-button>
-                    <ion-button color="primary" (click)="time.confirm(); buttonEmit(time, 'done')">Done</ion-button>
-                </ion-buttons>
-            </ion-datetime>
-        </ng-template>
-    </ion-modal>
+  <ion-input
+    class="input-box type-{{displayType}}"
+    id="{{inputId}}"
+    aria-label="Date time"
+    [(ngModel)]="displayValue"
+    [disabled]="disabled"
+    [placeholder]="displayType === 'date' ? formatDisplayDate(initialValue) : formatDisplayTime(initialValue)">
+  </ion-input>
+  <ion-modal
+    class="{{displayType}}-modal"
+    trigger="dateTimeItem + {{control}}"
+    [keepContentsMounted]="true"
+    mode="ios"
+    [backdropDismiss]="false">
+    <ng-template>
+      <ion-datetime
+        *ngIf="displayType === 'date'"
+        #date
+        id="{{pickerId}}"
+        [showDefaultButtons]=!emitButtonEvents
+        [showClearButton]="showClearButton && !emitButtonEvents"
+        size="cover"
+        presentation="date"
+        [(ngModel)]="displayValue"
+        [max]="maxValue"
+        [min]="minValue"
+        (ionChange)="onSelected(date, displayType)">
+        <ion-buttons slot="buttons" *ngIf="emitButtonEvents">
+          <ion-button
+            color="primary"
+            (click)="date.cancel();
+             buttonEmit(date, 'cancel')">
+            Cancel
+          </ion-button>
+          <ion-button
+            *ngIf="showClearButton"
+            color="primary"
+            (click)="date.reset();
+             buttonEmit(date, 'clear')">
+            Clear
+          </ion-button>
+          <ion-button color="primary" (click)="date.confirm(); buttonEmit(date, 'done')">Done</ion-button>
+        </ion-buttons>
+      </ion-datetime>
+      <ion-datetime
+        *ngIf="displayType === 'time'"
+        class="time-modal-content"
+        #time
+        id="{{pickerId}}"
+        [showDefaultButtons]=!emitButtonEvents
+        [showClearButton]="showClearButton && !emitButtonEvents"
+        size="cover"
+        presentation="time"
+        [(ngModel)]="outputValue"
+        [max]="maxValue"
+        [min]="minValue"
+        (ionChange)="onSelected(time, displayType)">
+        <ion-buttons slot="buttons" *ngIf="emitButtonEvents">
+          <ion-button color="primary" (click)="time.cancel(); buttonEmit(time, 'cancel')">Cancel</ion-button>
+          <ion-button *ngIf="showClearButton" color="primary" (click)="time.reset(); buttonEmit(time, 'clear')">Clear
+          </ion-button>
+          <ion-button color="primary" (click)="time.confirm(); buttonEmit(time, 'done')">Done</ion-button>
+        </ion-buttons>
+      </ion-datetime>
+    </ng-template>
+  </ion-modal>
 </div>

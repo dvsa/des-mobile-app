@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
   LessonAndTheme,
-  LessonPlanning, Review,
+  LessonPlanning,
+  Review,
   RiskManagement,
   TeachingLearningStrategies,
 } from '@dvsa/mes-test-schema/categories/ADI3';
@@ -15,6 +16,18 @@ import { lessonThemeValues, studentValues } from '@app/shared/constants/adi3-que
 export class Adi3DebriefCard implements OnInit {
   @Input()
   public totalScore: number;
+
+  @Input()
+  public isSC: boolean = false;
+
+  @Input()
+  public isSearchCompleted: boolean = false;
+
+  @Input()
+  public startTime: string = null;
+
+  @Input()
+  public endTime: string = null;
 
   @Input()
   public lessonTheme: LessonAndTheme;

@@ -94,4 +94,15 @@
       </ion-card>
     </ion-col>
   </ion-row>
+  <ion-row *ngIf="isSearchCompleted">
+    <ion-col>
+      <ion-card class="ion-padding">
+        <ion-row class="tr-standard-text">Test start - end time</ion-row>
+        <br>
+        <ion-row>
+          <p>{{startTime}} - {{endTime}}</p>
+        </ion-row>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 </ion-grid>
