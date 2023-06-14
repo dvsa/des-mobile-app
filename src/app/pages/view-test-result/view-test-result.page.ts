@@ -264,6 +264,14 @@ export class ViewTestResultPage extends BasePageComponent implements OnInit {
     };
   }
 
+  getValidCertificate() {
+    if (!this.testResult || !this.isCategorySC()) {
+      return null;
+    }
+
+    return get(this.testResult, 'preTestDeclarations.validCertificate') ? 'Yes' : 'No';
+  }
+
   isCategoryB = (): boolean => isAnyOf(this.testCategory, [TestCategory.B]);
 
   isCategoryADI3 = (): boolean => isAnyOf(this.testCategory, [TestCategory.ADI3]);

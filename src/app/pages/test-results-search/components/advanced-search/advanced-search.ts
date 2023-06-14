@@ -29,7 +29,10 @@ export class AdvancedSearchComponent {
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
 
   activityCodes: { activityCode: string; description: string; }[] = [
-    { activityCode: '', description: 'All' },
+    {
+      activityCode: '',
+      description: 'All',
+    },
     ...activityCodeModelList,
   ];
 
@@ -69,6 +72,7 @@ export class AdvancedSearchComponent {
     TestCategory.G,
     TestCategory.H,
     TestCategory.K,
+    TestCategory.SC,
   ];
 
   selectedActivity: { activityCode: string; description: string; } = this.activityCodes[0];
@@ -81,12 +85,19 @@ export class AdvancedSearchComponent {
   compareStartDate: Date = null;
   compareEndDate: Date = null;
   focusedElement: string = null;
-  currentDate: any = new Date().toISOString().substring(0, 10);
+  currentDate: any = new Date().toISOString()
+    .substring(0, 10);
   displayType = DisplayType;
-  today = moment().format('YYYY-MM-DD');
-  todayPlaceholder = moment().format('DD/MM/YYYY');
-  minStartDate = moment().subtract(2, 'years').format('YYYY-MM-DD');
-  minStartDatePlaceholder = moment().subtract(2, 'years').format('DD/MM/YYYY');
+  today = moment()
+    .format('YYYY-MM-DD');
+  todayPlaceholder = moment()
+    .format('DD/MM/YYYY');
+  minStartDate = moment()
+    .subtract(2, 'years')
+    .format('YYYY-MM-DD');
+  minStartDatePlaceholder = moment()
+    .subtract(2, 'years')
+    .format('DD/MM/YYYY');
 
   constructor(
     public appComponent: AppComponent,
@@ -102,7 +113,8 @@ export class AdvancedSearchComponent {
     }
 
     if (nonAlphaNumericValues.test(event.value)) {
-      event.value = event.value?.replace(nonAlphaNumericValues, '').toUpperCase();
+      event.value = event.value?.replace(nonAlphaNumericValues, '')
+        .toUpperCase();
     }
     event.value = event.value?.toUpperCase();
   }
