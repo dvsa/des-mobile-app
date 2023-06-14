@@ -61,6 +61,10 @@
   color: black;
 }
 
+ input, textarea {
+  caret-color: var(--primary) !important;
+}
+
 .mes-padding-left {
   padding-left: 16px;
   padding-top: 0;
