@@ -1,5 +1,5 @@
 import { createAction } from '@ngrx/store';
 
-export const PassCertificateDidEnter = createAction(
+export const PassCertificatedViewDidEnter = createAction(
   '[PassCertificatesPage] Page Entered',
 );
