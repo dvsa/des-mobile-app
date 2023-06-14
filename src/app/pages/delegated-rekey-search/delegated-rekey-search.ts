@@ -26,6 +26,7 @@ import { ERROR_PAGE } from '@pages/page-names.constants';
 import { ErrorTypes } from '@shared/models/error-message';
 import { isEmpty } from 'lodash';
 import { AppComponent } from '@app/app.component';
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import {
   DelegatedRekeySearchClearState,
   DelegatedRekeySearchViewDidEnter,
@@ -54,6 +55,7 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   focusedElement: string = null;
 
   constructor(
+    public orientationMonitorProvider: OrientationMonitorProvider,
     protected platform: Platform,
     protected authenticationProvider: AuthenticationProvider,
     protected router: Router,
@@ -102,6 +104,12 @@ export class DelegatedRekeySearchPage extends BasePageComponent implements OnIni
   ionViewDidEnter() {
     this.store$.dispatch(DelegatedRekeySearchViewDidEnter());
     this.setUpSubscription();
+  }
+  async ionViewWillEnter() {
+    await this.orientationMonitorProvider.monitorOrientation();
+  }
+  async ionViewWillLeave() {
+    await this.orientationMonitorProvider.tearDownListener();
   }
 
   setUpSubscription() {

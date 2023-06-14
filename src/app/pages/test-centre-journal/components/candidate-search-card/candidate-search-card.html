@@ -60,6 +60,7 @@
   </div>
   <ion-list *ngFor="let candidateSlot of todaySlots">
     <test-slot
+      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slot]="candidateSlot.slot"
       [teamJournalCandidateResult]="true"
       [examinerName]="candidateSlot.examinerName"
@@ -87,6 +88,7 @@
   </div>
   <ion-list *ngFor="let candidateSlot of tomorrowSlots">
     <test-slot
+      [isPortrait]="orientationMonitorProvider.isPortraitMode$ | async"
       [slot]="candidateSlot.slot"
       [teamJournalCandidateResult]="true"
       [examinerName]="candidateSlot.examinerName"

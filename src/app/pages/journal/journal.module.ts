@@ -11,6 +11,7 @@ import { ComponentsModule } from '@components/common/common-components.module';
 import { TestSlotComponentsModule } from '@components/test-slot/test-slot-components.module';
 import { TestsEffects } from '@store/tests/tests.effects';
 
+import { OrientationMonitorProvider } from '@providers/orientation-monitor/orientation-monitor.provider';
 import { JournalPage } from './journal.page';
 import { JournalPageRoutingModule } from './journal-routing.module';
 import { JournalComponentsModule } from './components/journal-components.module';
@@ -37,6 +38,7 @@ import { JournalAnalyticsEffects } from './journal.analytics.effects';
     CandidateDetailsPageModule,
   ],
   providers: [
+    OrientationMonitorProvider,
     JournalProvider,
     NavParams,
     SlotProvider,
