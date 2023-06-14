@@ -12,6 +12,7 @@
         charCount
         class="mes-data input-styling-background"
         charLimit="950"
+        [value]="reasonGivenText"
         (change)="adviceReasonChange($event.target.value)"
         (onCharacterCountChanged)="characterCountChanged($event)"
         id="ordit-reason-for-advice-textarea">
