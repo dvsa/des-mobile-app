@@ -16,6 +16,7 @@ export const TEST_RESULTS_SEARCH_PAGE = 'TestResultsSearchPage';
 export const LEGAL_REQUIREMENTS_MODAL = 'LegalRequirementsModal';
 export const SPECIAL_REQUIREMENT_MODAL = 'SpecialLegalRequirementModal';
 export const REVERSE_DIAGRAM_PAGE = 'ReverseDiagramPage';
+export const PASS_CERTIFICATES = 'PassCertificatesPage';
 export const DELEGATED_REKEY_SEARCH_PAGE = 'DelegatedRekeySearchPage';
 export const DELEGATED_REKEY_UPLOAD_OUTCOME_PAGE = 'DelegatedRekeyUploadOutcomePage';
 export const CONFIRM_TEST_DETAILS = 'ConfirmTestDetailsPage';

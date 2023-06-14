@@ -7,6 +7,7 @@ import {
   FAKE_JOURNAL_PAGE,
   JOURNAL_PAGE,
   LOGIN_PAGE,
+  PASS_CERTIFICATES,
   REKEY_SEARCH_PAGE,
   TEST_CENTRE_JOURNAL_PAGE,
   TEST_RESULTS_SEARCH_PAGE,
@@ -31,6 +32,11 @@ const routes: Routes = [
   {
     path: UNUPLOADED_TESTS_PAGE,
     loadChildren: () => import('./pages/unuploaded-tests/unuploaded-tests.module').then((m) => m.UnuploadedTestsModule),
+  },
+  {
+    path: PASS_CERTIFICATES,
+    loadChildren: () => import('@pages/pass-certificates/pass-certificates.module')
+      .then((m) => m.PassCertificatesPageModule),
   },
   {
     path: LOGIN_PAGE,
