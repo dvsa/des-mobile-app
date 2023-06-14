@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  CommonPassFinalisationPageState, PassFinalisationPageComponent,
+  CommonPassFinalisationPageState,
+  PassFinalisationPageComponent,
 } from '@shared/classes/test-flow-base-pages/pass-finalisation/pass-finalisation-base-page';
 import { UntypedFormGroup } from '@angular/forms';
 import { Platform } from '@ionic/angular';
@@ -10,13 +11,15 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { RouteByCategoryProvider } from '@providers/route-by-category/route-by-category';
 import {
-  PassFinalisationReportActivityCode, PassFinalisationValidationError,
+  PassFinalisationReportActivityCode,
+  PassFinalisationValidationError,
   PassFinalisationViewDidEnter,
 } from '@pages/pass-finalisation/pass-finalisation.actions';
 import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest, getJournalData } from '@store/tests/tests.selector';
 import {
-  getFurtherDevelopment, getGrade,
+  getFurtherDevelopment,
+  getGrade,
   getReasonForNoAdviceGiven,
 } from '@store/tests/test-data/cat-adi-part3/review/review.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part3/test-data.cat-adi-part3.reducer';
@@ -30,7 +33,7 @@ import { PersistTests } from '@store/tests/tests.actions';
 import { TestFlowPageNames } from '@pages/page-names.constants';
 import { OutcomeBehaviourMapProvider } from '@providers/outcome-behaviour-map/outcome-behaviour-map';
 import { behaviourMap } from '@pages/office/office-behaviour-map.cat-adi-part3';
-import { map } from 'rxjs/operators';
+import { filter, map, withLatestFrom } from 'rxjs/operators';
 import { getCandidate } from '@store/tests/journal-data/common/candidate/candidate.reducer';
 import { getCandidatePrn } from '@store/tests/journal-data/common/candidate/candidate.selector';
 import { getTestCategory } from '@store/tests/category/category.reducer';
@@ -62,10 +65,12 @@ type PassFinalisationPageState = CommonPassFinalisationPageState & CatAdi3PassFi
 export class PassFinalisationCatADIPart3Page extends PassFinalisationPageComponent implements OnInit {
 
   form: UntypedFormGroup;
-  merged$: Observable<boolean>;
+  merged$: Observable<boolean | string>;
   pageState: PassFinalisationPageState;
   subscription: Subscription;
   furtherDevelopment: boolean;
+  scStartTime: string;
+  scEndTime: string;
 
   constructor(
     platform: Platform,
@@ -87,6 +92,8 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
       select(getTests),
       select(getCurrentTest),
     );
+
+    const category$ = currentTest$.pipe(select(getTestCategory));
 
     this.pageState = {
       ...this.commonPageState,
@@ -115,21 +122,36 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
         map((category) => isAnyOf(category, [TestCategory.SC])),
       ),
       testStartTime$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([testResult]) => testResult),
         select(getTestData),
         select(getTestStartTime),
-        map((time: string) => time || moment().toISOString()),
+        map((time: string) => time || moment()
+          .toISOString()),
       ),
       testEndTime$: currentTest$.pipe(
+        withLatestFrom(category$),
+        filter(([, category]) => category === TestCategory.SC),
+        map(([testResult]) => testResult),
         select(getTestData),
         select(getTestEndTime),
-        map((time: string) => time || moment().add(1, 'hour').toISOString()),
+        map((time: string) => time || moment()
+          .add(1, 'hour')
+          .toISOString()),
       ),
     };
 
-    const { furtherDevelopment$ } = this.pageState;
+    const {
+      furtherDevelopment$,
+      testStartTime$,
+      testEndTime$,
+    } = this.pageState;
 
     this.merged$ = merge(
       furtherDevelopment$.pipe(map((value) => this.furtherDevelopment = value)),
+      testStartTime$.pipe(map((value) => this.scStartTime = value)),
+      testEndTime$.pipe(map((value) => this.scEndTime = value)),
     );
     this.subscription = this.merged$.subscribe();
   }
@@ -155,15 +177,18 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
   }
 
   testStartTimeChanged(startTime: string): void {
+    this.scStartTime = startTime;
     this.store$.dispatch(StartTimeChanged(startTime));
   }
 
   testEndTimeChanged(endTime: string): void {
+    this.scEndTime = endTime;
     this.store$.dispatch(EndTimeChanged(endTime));
   }
 
   async onSubmit(): Promise<void> {
-    Object.keys(this.form.controls).forEach((controlName) => this.form.controls[controlName].markAsDirty());
+    Object.keys(this.form.controls)
+      .forEach((controlName) => this.form.controls[controlName].markAsDirty());
 
     this.form.updateValueAndValidity();
 
@@ -171,17 +196,23 @@ export class PassFinalisationCatADIPart3Page extends PassFinalisationPageCompone
       if (this.furtherDevelopment) {
         this.adviceReasonChanged(null);
       }
+
+      this.testStartTimeChanged(this.scStartTime);
+      this.testEndTimeChanged(this.scEndTime);
+
       this.store$.dispatch(PersistTests());
       this.store$.dispatch(PassFinalisationReportActivityCode(this.testOutcome));
+
       await this.routeByCat.navigateToPage(TestFlowPageNames.CONFIRM_TEST_DETAILS_PAGE);
       return;
     }
 
-    Object.keys(this.form.controls).forEach((controlName) => {
-      if (this.form.controls[controlName].invalid) {
-        this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
-      }
-    });
+    Object.keys(this.form.controls)
+      .forEach((controlName) => {
+        if (this.form.controls[controlName].invalid) {
+          this.store$.dispatch(PassFinalisationValidationError(`${controlName} is blank`));
+        }
+      });
   }
 
 }
