@@ -5,8 +5,13 @@ import { NativeBiometric } from 'capacitor-native-biometric';
 import { Platform } from '@ionic/angular';
 import { DeviceProvider } from '@providers/device/device';
 import { LoadingProvider } from '@providers/loader/loader';
-import { AppConfigProvider } from '../app-config/app-config';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogType } from '@shared/models/log.model';
+import { StoreModel } from '@shared/models/store.model';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { Store } from '@ngrx/store';
 import { ExaminerRole } from '../app-config/constants/examiner-role.constants';
+import { AppConfigProvider } from '../app-config/app-config';
 
 @Injectable()
 export class DeviceAuthenticationProvider {
@@ -16,6 +21,8 @@ export class DeviceAuthenticationProvider {
     public appConfig: AppConfigProvider,
     private deviceProvider: DeviceProvider,
     private loadingProvider: LoadingProvider,
+    private store$: Store<StoreModel>,
+    private logHelper: LogHelper,
   ) {
   }
 
@@ -29,6 +36,7 @@ export class DeviceAuthenticationProvider {
 
       return await this.performBiometricVerification(isPracticeMode);
     } catch (err) {
+      this.logEvent(err);
       throw new Error(err);
     }
   };
@@ -56,5 +64,11 @@ export class DeviceAuthenticationProvider {
         await this.loadingProvider.handleUILoading(false);
       }
     }
+  };
+
+  public logEvent = (err: any) => {
+    this.store$.dispatch(SaveLog({
+      payload: this.logHelper.createLog(LogType.ERROR, 'Device auth', err),
+    }));
   };
 }
