@@ -2,12 +2,14 @@ import { Component, Input } from '@angular/core';
 import { get } from 'lodash';
 import {
   Accompaniment,
-  TestSummary,
+  CategoryCode,
+  CommunicationPreferences,
   PassCompletion,
-  CommunicationPreferences, CategoryCode,
+  TestSummary,
 } from '@dvsa/mes-test-schema/categories/common';
 import { TestSummary as CatAMod2TestSummary } from '@dvsa/mes-test-schema/categories/AM2';
-import { flattenArray, convertBooleanToString } from '../../view-test-result-helpers';
+import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { convertBooleanToString, flattenArray } from '../../view-test-result-helpers';
 
 @Component({
   selector: 'test-summary-card',
@@ -30,7 +32,10 @@ export class TestSummaryCardComponent {
   @Input()
   category?: CategoryCode;
 
-  public get accompaniedBy() : string {
+  @Input()
+  validCertificate: string;
+
+  public get accompaniedBy(): string {
     const accompaniedBy: string[] = [];
 
     if (get(this.accompaniment, 'ADI')) {
@@ -55,7 +60,7 @@ export class TestSummaryCardComponent {
     return flattenArray(accompaniedBy);
   }
 
-  public get provisionalLicenceProvided() : string {
+  public get provisionalLicenceProvided(): string {
     return convertBooleanToString(get(this.passCompletion, 'provisionalLicenceProvided'));
   }
 
@@ -64,7 +69,7 @@ export class TestSummaryCardComponent {
     return code78 !== null ? convertBooleanToString(code78) : null;
   }
 
-  public get passCertificateNumber() : string {
+  public get passCertificateNumber(): string {
     return get(this.passCompletion, 'passCertificateNumber');
   }
 
@@ -72,11 +77,11 @@ export class TestSummaryCardComponent {
     return get(this.testSummary, 'routeNumber', 'None');
   }
 
-  public get independentDriving() : string {
+  public get independentDriving(): string {
     return get(this.testSummary, 'independentDriving', 'None');
   }
 
-  public get trueLikenessToPhoto() : boolean {
+  public get trueLikenessToPhoto(): boolean {
     return get(this.testSummary, 'trueLikenessToPhoto', false);
   }
 
@@ -88,24 +93,24 @@ export class TestSummaryCardComponent {
     return convertBooleanToString(get(this.testSummary, 'debriefWitnessed'));
   }
 
-  public get weatherConditions() : string {
+  public get weatherConditions(): string {
     const weatherConditions: string[] = get(this.testSummary, 'weatherConditions', []);
     return flattenArray((weatherConditions?.length > 0) ? weatherConditions : ['None']);
   }
 
-  public get d255() : string {
+  public get d255(): string {
     return convertBooleanToString(get(this.testSummary, 'D255'));
   }
 
-  public get additionalInformation() : string {
+  public get additionalInformation(): string {
     return get(this.testSummary, 'additionalInformation', 'None');
   }
 
-  public shouldDisplayLicenceProvided() : boolean {
+  public shouldDisplayLicenceProvided(): boolean {
     return get(this.passCompletion, 'provisionalLicenceProvided') !== undefined;
   }
 
-  public shouldDisplayTestConductedOn() : boolean {
+  public shouldDisplayTestConductedOn(): boolean {
     return get(this.testSummary, 'modeOfTransport') !== undefined;
   }
 
@@ -118,6 +123,10 @@ export class TestSummaryCardComponent {
   }
 
   isADI3() {
-    return this.category === 'ADI3';
+    return this.category === TestCategory.ADI3;
+  }
+
+  isSC() {
+    return this.category === TestCategory.SC;
   }
 }
