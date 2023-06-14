@@ -48,6 +48,7 @@ export enum AnalyticsScreenNames {
   CONFIRM_TEST_DETAILS = 'confirm test details screen',
   FAKE_JOURNAL = 'practice journal screen',
   UN_UPLOADED = 'incomplete tests screen',
+  PASS_CERTIFICATES = 'pass certificates screen',
 }
 
 export enum AnalyticsEventCategories {
