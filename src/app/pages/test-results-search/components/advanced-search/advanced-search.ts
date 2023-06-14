@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component, EventEmitter, Input, Output,
+} from '@angular/core';
 import { AdvancedSearchParams } from '@providers/search/search.models';
 import { removeLeadingZeros } from '@shared/helpers/formatters';
 import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-validators';
