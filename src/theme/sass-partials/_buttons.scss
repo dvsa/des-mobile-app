@@ -57,6 +57,7 @@
 .mes-transparent-button {
   color: var(--gds-black);
   border-radius: 4px;
+  padding: 0 0.8rem;
   margin: 0 0.2rem;
   line-height: 2.6rem;
   z-index: 10;
@@ -141,12 +142,12 @@
   color: initial;
   word-spacing: normal;
   text-transform: none;
-  text-indent: 0px;
+  text-indent: 0;
   text-shadow: none;
   justify-content: space-between;
   align-items: center;
 
-  margin: 0em;
+  margin: 0;
 
   height: 3.75vh;
 
