@@ -39,7 +39,7 @@
   </ion-button>
 </ion-row>
 
-<section *ngIf="shouldShowCandidateResults">
+<section class="journal-section" *ngIf="shouldShowCandidateResults">
   <!--TODAY'S SLOTS-->
   <div>
     <ion-grid>
@@ -95,5 +95,6 @@
       [isTeamJournal]="true"
     ></test-slot>
   </ion-list>
+  <section class="background"></section>
 
 </section>

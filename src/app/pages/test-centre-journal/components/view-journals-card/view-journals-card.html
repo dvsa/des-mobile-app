@@ -51,7 +51,7 @@
   </ion-button>
 </ion-row>
 
-<section *ngIf="hasSelectedExaminer">
+<section class="journal-section" *ngIf="hasSelectedExaminer">
   <div *ngIf="journal; else noJournal">
     <journal-navigation (nextDayClicked)="onNextDayClick()"
                         (previousDayClicked)="onPreviousDayClick()"
@@ -76,6 +76,7 @@
         [slots]="slotItems$ | async">
       </journal-slots>
     </ion-list>
+    <section class="background"></section>
   </div>
 
   <ng-template #noJournal>
@@ -84,5 +85,6 @@
         This examiner does not have any journal information to display
       </p>
     </div>
+    <section class="background"></section>
   </ng-template>
 </section>

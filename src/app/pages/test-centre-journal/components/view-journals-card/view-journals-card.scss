@@ -1,3 +1,8 @@
+.journal-section {
+  position: relative;
+  left: -38px;
+}
+
 .mes-full-width-card {
   padding: 20px 0 0 0;
 
@@ -23,12 +28,17 @@ label {
   color: black;
 }
 
+.background {
+  height: 30px;
+  bottom: -28px;
+}
+
 ion-list, section {
   background-color: var(--ion-background-color);
 }
 
 section {
-  width: 95%;
+  width: 113.8%;
   height: 100%;
   margin-top: 22px;
   position: absolute;
