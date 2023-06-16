@@ -99,10 +99,6 @@
     <adi3-debrief-card
       *ngIf="(isCategoryADI3() || isCategorySC()) && !didTestTerminate()"
       [totalScore]="totalScore"
-      [isSC]="isCategorySC()"
-      [startTime]="testResult.testData['startTime']"
-      [endTime]="testResult.testData['endTime']"
-      [isSearchCompleted]="true"
       [lessonTheme]="testResult.testData['lessonAndTheme']"
       [lessonPlanning]="testResult.testData['lessonPlanning']"
       [riskManagement]="testResult.testData['riskManagement']"
@@ -110,6 +106,12 @@
       [grade]="testResult.testData['review']?.grade"
       [review]="testResult.testData['review']">
     </adi3-debrief-card>
+
+    <sc-debrief-card
+      *ngIf="isCategorySC()"
+      [startTime]="testResult.testData['startTime']"
+      [endTime]="testResult.testData['endTime']">
+    </sc-debrief-card>
 
     <test-summary-card
       [category]="testResult.category"
