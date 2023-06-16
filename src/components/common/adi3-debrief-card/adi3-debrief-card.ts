@@ -18,18 +18,6 @@ export class Adi3DebriefCard implements OnInit {
   public totalScore: number;
 
   @Input()
-  public isSC: boolean = false;
-
-  @Input()
-  public isSearchCompleted: boolean = false;
-
-  @Input()
-  public startTime: string = null;
-
-  @Input()
-  public endTime: string = null;
-
-  @Input()
   public lessonTheme: LessonAndTheme;
 
   @Input()
