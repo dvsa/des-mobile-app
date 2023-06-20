@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import * as Sentry from '@sentry/capacitor';
-import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular';
+import { BrowserTracing, init as sentryAngularInit } from '@sentry/angular-ivy';
 
 import { AuthenticationProvider } from '@providers/authentication/authentication';
 import { DataStoreProvider } from '@providers/data-store/data-store';
@@ -245,7 +245,7 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   navPage = async ({
     title,
     descriptor,
-  }: { title: string; descriptor: string; }): Promise<void> => {
+  }: Pages): Promise<void> => {
     await this.router.navigate([title]);
     await this.menuController.close();
     this.store$.dispatch(SideMenuItemSelected(descriptor));

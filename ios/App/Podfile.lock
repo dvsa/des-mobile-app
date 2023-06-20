@@ -1,21 +1,21 @@
 PODS:
-  - Capacitor (5.0.3):
+  - Capacitor (5.0.5):
     - CapacitorCordova
-  - CapacitorCordova (5.0.3)
+  - CapacitorCordova (5.0.5)
   - CapacitorNativeBiometric (0.0.1):
     - Capacitor
-  - CapacitorSplashScreen (5.0.2):
+  - CapacitorSplashScreen (5.0.4):
     - Capacitor
-  - CapacitorStatusBar (5.0.2):
+  - CapacitorStatusBar (5.0.4):
     - Capacitor
   - CapawesomeCapacitorManagedConfigurations (5.0.0):
     - Capacitor
   - CapawesomeCapacitorScreenOrientation (5.0.0):
     - Capacitor
-  - CordovaPlugins (5.0.3):
+  - CordovaPlugins (5.0.5):
     - CapacitorCordova
   - CordovaPluginsResources (0.0.105)
-  - CordovaPluginsStatic (5.0.3):
+  - CordovaPluginsStatic (5.0.5):
     - CapacitorCordova
     - GoogleAnalytics (= 3.20.0)
   - DvsaCapacitorPluginAsam (0.0.10):
@@ -24,7 +24,7 @@ PODS:
   - Sentry (7.27.1):
     - Sentry/Core (= 7.27.1)
   - Sentry/Core (7.27.1)
-  - SentryCapacitor (0.11.3):
+  - SentryCapacitor (0.12.1):
     - Capacitor
     - Sentry (~> 7.27.1)
 
@@ -74,20 +74,20 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@sentry/capacitor"
 
 SPEC CHECKSUMS:
-  Capacitor: 304a960e431f9e6f78556554ca71c41c1b2b9680
-  CapacitorCordova: def732a63679698df6fb392bbe6d269a0b61e937
+  Capacitor: b1248915663add1bd6567e2b67c1c1fa3abcf5e8
+  CapacitorCordova: f8c06b897c74ee8f7701fe10e6443b40822bc83a
   CapacitorNativeBiometric: b47637a8cd349bdac014424bb4ddcae9ee5d4919
-  CapacitorSplashScreen: bd2a056394ba0b8807e7bb3e746424f67c426e03
-  CapacitorStatusBar: 48f2899f6846cc7d8431b251ebfc58e1c10e3d58
+  CapacitorSplashScreen: 93a389d4f7673c08214ae25bb6f21d867d5305c5
+  CapacitorStatusBar: 190e0321b8734f4244d0c81baa183a00d5806ddf
   CapawesomeCapacitorManagedConfigurations: 87db7aa30986c411b7a285d273b780acaca9b91a
   CapawesomeCapacitorScreenOrientation: 5b7cfb76348775e4b824bf460e5c52212b94c8d1
-  CordovaPlugins: b2a7cef298b97a2994dc182eee96cd2d9c94cfa7
+  CordovaPlugins: 351b056fdd964263cce5ddda3cf6da19c5bddf4e
   CordovaPluginsResources: 1b3992e05cb6336d2850cd77dd5e3054f2f76f96
-  CordovaPluginsStatic: 1bbf76c1361d61d8aab2496642ee0fe06a5377e3
+  CordovaPluginsStatic: 257b68176bf1c7f11c81001104aa6e708ccc6aa2
   DvsaCapacitorPluginAsam: 9c9f03afdc71818a37ca5b8a03c0ba35d70dfaf6
   GoogleAnalytics: 01e4c5a04544a3608f93e970ce0817836897c5a5
   Sentry: bc644307e2eb6a4c9c55cf117a80b895bb2a25a7
-  SentryCapacitor: c350e52730e48149273c8cd63b9651fceb2a4be1
+  SentryCapacitor: f31de50b1671f12c107f25f735937f196f87f9d2
 
 PODFILE CHECKSUM: 6e6c4042ab9a91ebf65bcda09389edc710947ca4
 

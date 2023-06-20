@@ -7,18 +7,19 @@ const os = require('os');
 process.env.CHROME_BIN = puppeteer.executablePath();
 
 const DEFAULT_PROCESSES_TO_SHARD = 2;
+const JASMINE_DEFAULT_TIMEOUT = 15000;
 
 let executors = os ? Math.ceil(os.cpus().length / 2) : DEFAULT_PROCESSES_TO_SHARD;
 
 if (os) {
-  console.log("Total number of CPU's available:", os.cpus().length);
+  console.log('Total number of CPU\'s available:', os.cpus().length);
 
   if (os.cpus().length <= 2) {
     executors = os.cpus().length;
   }
 }
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     basePath: '',
     frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
@@ -29,7 +30,7 @@ module.exports = function (config) {
       require('karma-coverage'),
       require('karma-parallel'),
       require('@angular-devkit/build-angular/plugins/karma'),
-      require('karma-spec-reporter')
+      require('karma-spec-reporter'),
     ],
     webpack: webpackTestConfig,
     webpackMiddleware: { stats: 'errors-only' },
@@ -38,23 +39,24 @@ module.exports = function (config) {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
-        timeoutInterval: 15000,
+        timeoutInterval: (executors <= 2) ? (JASMINE_DEFAULT_TIMEOUT * 2) : JASMINE_DEFAULT_TIMEOUT,
       },
     },
     jasmineHtmlReporter: {
-      suppressAll: false // removes the duplicated traces
+      suppressAll: false, // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/ngv'),
+      dir: require('path')
+        .join(__dirname, './coverage/ngv'),
       subdir: '.',
       instrumenterOptions: {
-        istanbul: { noCompact: true }
+        istanbul: { noCompact: true },
       },
       reporters: [
         { type: 'html' },
         { type: 'lcovonly' },
-        { type: 'text-summary' }
-      ]
+        { type: 'text-summary' },
+      ],
     },
     reporters: ['kjhtml', 'spec'],
     port: 9876,
