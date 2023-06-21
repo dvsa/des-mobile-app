@@ -83,7 +83,7 @@ describe('TestsAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.SUBMIT_TEST,
-            'pass',
+            'Pass',
           );
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');
@@ -109,7 +109,7 @@ describe('TestsAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.SUBMIT_REKEY_TEST,
-            'fail',
+            'Fail',
           );
         expect(analyticsProviderMock.addCustomDimension)
           .toHaveBeenCalledWith(AnalyticsDimensionIndices.CANDIDATE_ID, '1');

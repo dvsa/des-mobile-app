@@ -14,7 +14,7 @@ import { select, Store } from '@ngrx/store';
 import { StoreModel } from '@shared/models/store.model';
 import { getTests } from '@store/tests/tests.reducer';
 import {
-  getCurrentTest, getJournalData, isPassed, isPracticeMode,
+  getCurrentTest, getJournalData, isPracticeMode,
 } from '@store/tests/tests.selector';
 import { of } from 'rxjs';
 import { formatAnalyticsText } from '@shared/helpers/format-analytics-text';
@@ -29,6 +29,7 @@ import {
   getApplicationNumber,
 } from '@store/tests/journal-data/common/application-reference/application-reference.selector';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { getTestOutcome } from '@pages/debrief/debrief.selector';
 import { RekeyReasonViewDidEnter, RekeyUploadTest } from './rekey-reason.actions';
 
 @Injectable()
@@ -93,7 +94,7 @@ export class RekeyReasonAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
             select(getCurrentTest),
-            select(isPassed),
+            select(getTestOutcome),
           ),
           this.store$.pipe(
             select(getTests),
@@ -108,15 +109,14 @@ export class RekeyReasonAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, isTestPassed, tests]:
-      [ReturnType<typeof RekeyUploadTest>, boolean, TestsModel, boolean],
+      [, testOutcome, tests]:
+      [ReturnType<typeof RekeyUploadTest>, string, TestsModel, boolean],
     ) => {
-      const outcome = isTestPassed ? 'Pass' : 'Fail';
 
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.CONFIRM_UPLOAD, tests),
-        formatAnalyticsText(`Upload confirmed - ${outcome}`, tests),
+        formatAnalyticsText(`Upload confirmed - ${testOutcome}`, tests),
       );
 
       return of(AnalyticRecorded());

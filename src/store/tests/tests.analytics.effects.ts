@@ -25,6 +25,8 @@ import {
 import {
   getApplicationReference,
 } from '@store/tests/journal-data/common/application-reference/application-reference.reducer';
+import { getTestOutcome } from '@pages/debrief/debrief.selector';
+import { TestResultCommonSchema } from '@dvsa/mes-test-schema/categories/common';
 import { TestsModel } from './tests.model';
 import {
   TestOutcomeChanged,
@@ -34,7 +36,6 @@ import {
 } from './tests.actions';
 import {
   getTestById,
-  isPassed,
   getCurrentTest,
   getJournalData,
 } from './tests.selector';
@@ -61,16 +62,16 @@ export class TestsAnalyticsEffects {
         ),
       ),
     )),
-    concatMap(([action, tests]: [ReturnType <typeof SetTestStatusSubmitted>, TestsModel]) => {
+    concatMap(([action, tests]: [ReturnType<typeof SetTestStatusSubmitted>, TestsModel]) => {
       const test = getTestById(tests, action.slotId);
-      const isTestPassed = isPassed(test);
+      const testOutcome = getTestOutcome(test as TestResultCommonSchema);
       const isRekey: boolean = test.rekey;
       const journalDataOfTest = test.journalData;
 
       this.analytics.logEvent(
         AnalyticsEventCategories.POST_TEST,
         isRekey ? AnalyticsEvents.SUBMIT_REKEY_TEST : AnalyticsEvents.SUBMIT_TEST,
-        isTestPassed ? 'pass' : 'fail',
+        testOutcome,
       );
 
       this.analytics.addCustomDimension(
@@ -110,7 +111,7 @@ export class TestsAnalyticsEffects {
         ),
       ),
     )),
-    switchMap(([action, tests]: [ReturnType <typeof TestOutcomeChanged>, TestsModel]) => {
+    switchMap(([action, tests]: [ReturnType<typeof TestOutcomeChanged>, TestsModel]) => {
       const test = getCurrentTest(tests);
       const journalDataOfTest = test.journalData;
 

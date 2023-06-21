@@ -223,7 +223,7 @@ describe('OfficeAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.SAVE_WRITE_UP,
-            'pass',
+            'Pass',
           );
         done();
       });
@@ -248,7 +248,7 @@ describe('OfficeAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             AnalyticsEventCategories.POST_TEST,
             AnalyticsEvents.SAVE_WRITE_UP,
-            'fail',
+            'Fail',
           );
         done();
       });
@@ -273,7 +273,7 @@ describe('OfficeAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.POST_TEST}`,
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.SAVE_WRITE_UP}`,
-            'pass',
+            'Pass',
           );
         done();
       });
@@ -298,7 +298,7 @@ describe('OfficeAnalyticsEffects', () => {
           .toHaveBeenCalledWith(
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEventCategories.POST_TEST}`,
             `${AnalyticsEventCategories.PRACTICE_MODE} - ${AnalyticsEvents.SAVE_WRITE_UP}`,
-            'fail',
+            'Fail',
           );
         done();
       });
