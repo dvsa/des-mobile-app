@@ -54,6 +54,7 @@ import {
 } from '@store/tests/test-data/common/test-data.selector';
 import { getTestData } from '@store/tests/test-data/cat-adi-part2/test-data.cat-adi-part2.reducer';
 import { AppConfigProvider } from '@providers/app-config/app-config';
+import { getTestOutcome } from '@pages/debrief/debrief.selector';
 
 @Injectable()
 export class OfficeAnalyticsEffects {
@@ -270,7 +271,7 @@ export class OfficeAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
             select(getCurrentTest),
-            select(isPassed),
+            select(getTestOutcome),
           ),
           this.store$.pipe(
             select(getTests),
@@ -285,17 +286,16 @@ export class OfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, candidateId, applicationReference, isTestPassed, tests]:
-      [ReturnType<typeof CompleteTest>, number, string, boolean, TestsModel, boolean],
+      [, candidateId, applicationReference, testOutcome, tests]:
+      [ReturnType<typeof CompleteTest>, number, string, string, TestsModel, boolean],
     ) => {
-      const outcome = isTestPassed ? 'Pass' : 'Fail';
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
 
       this.analytics.logEvent(
         AnalyticsEventCategories.POST_TEST,
         AnalyticsEvents.CONFIRM_UPLOAD,
-        formatAnalyticsText(`Upload confirmed - ${outcome}`, tests),
+        formatAnalyticsText(`Upload confirmed - ${testOutcome}`, tests),
       );
 
       return of(AnalyticRecorded());
