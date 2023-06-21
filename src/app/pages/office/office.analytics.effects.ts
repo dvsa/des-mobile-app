@@ -176,7 +176,7 @@ export class OfficeAnalyticsEffects {
           this.store$.pipe(
             select(getTests),
             select(getCurrentTest),
-            select(isPassed),
+            select(getTestOutcome),
           ),
           this.store$.pipe(
             select(getTests),
@@ -202,8 +202,8 @@ export class OfficeAnalyticsEffects {
       ? true
       : this.appConfigProvider.getAppConfig()?.journal?.enablePracticeModeAnalytics),
     switchMap((
-      [, tests, isTestPassed, candidateId, applicationReference]:
-      [ReturnType<typeof SavingWriteUpForLater>, TestsModel, boolean, number, string, boolean],
+      [, tests, testOutcome, candidateId, applicationReference]:
+      [ReturnType<typeof SavingWriteUpForLater>, TestsModel, string, number, string, boolean],
     ) => {
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.CANDIDATE_ID, `${candidateId}`);
       this.analytics.addCustomDimension(AnalyticsDimensionIndices.APPLICATION_REFERENCE, applicationReference);
@@ -211,7 +211,7 @@ export class OfficeAnalyticsEffects {
       this.analytics.logEvent(
         formatAnalyticsText(AnalyticsEventCategories.POST_TEST, tests),
         formatAnalyticsText(AnalyticsEvents.SAVE_WRITE_UP, tests),
-        isTestPassed ? 'pass' : 'fail',
+        testOutcome,
       );
       return of(AnalyticRecorded());
     }),
