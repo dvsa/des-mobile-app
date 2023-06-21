@@ -1,7 +1,7 @@
 import {
-  Component, Input, Output, EventEmitter,
+  Component, EventEmitter, Input, Output,
 } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { FaultSummary } from '@shared/models/fault-marking.model';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 
@@ -18,7 +18,7 @@ export class FaultCommentCardComponent {
   formGroup: UntypedFormGroup;
 
   @Input()
-  faultComments: FaultSummary[];
+  faultComments: FaultSummary[] = [];
 
   @Input()
   header: string;

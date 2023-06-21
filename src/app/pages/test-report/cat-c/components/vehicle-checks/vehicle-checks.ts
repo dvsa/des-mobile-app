@@ -16,7 +16,7 @@ interface ComponentState {
 }
 
 @Component({
-  selector: 'vehicle-checks',
+  selector: 'vehicle-checks-c',
   templateUrl: 'vehicle-checks.html',
   styleUrls: ['vehicle-checks.scss'],
 })
@@ -31,7 +31,8 @@ export class VehicleChecksComponent implements OnInit {
     private store$: Store<StoreModel>,
     public faultCountProvider: FaultCountProvider,
     private testDataByCategory: TestDataByCategoryProvider,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     const currentTest$ = this.store$.pipe(

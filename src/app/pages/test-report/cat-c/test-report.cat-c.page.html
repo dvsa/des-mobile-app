@@ -11,9 +11,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding"
-             [ngClass]="{'overflow': !delegatedTest}"
-             force-overscroll="false">
+<ion-content
+  class="ion-no-padding"
+  [ngClass]="{'overflow': !delegatedTest}"
+  force-overscroll="false">
   <toolbar></toolbar>
   <ion-grid class="grid-layout" [ngClass]="{
       'remove-mode': isRemoveFaultMode,
@@ -33,38 +34,38 @@
         <ion-row>
           <ion-col>
             <legal-requirement
-                    [legalRequirement]="legalRequirements.normalStart1"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart1]"
-                    [disabled]="(pageState.delegatedTest$ | async)">
+              [legalRequirement]="legalRequirements.normalStart1"
+              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart1]"
+              [disabled]="(pageState.delegatedTest$ | async)">
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
-                    [legalRequirement]="legalRequirements.normalStart2"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart2]"
-                    [disabled]="(pageState.delegatedTest$ | async)">
+              [legalRequirement]="legalRequirements.normalStart2"
+              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart2]"
+              [disabled]="(pageState.delegatedTest$ | async)">
             </legal-requirement>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="28">
             <legal-requirement
-                    [legalRequirement]="legalRequirements.uphillStart"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.uphillStart]"
-                    [disabled]="(pageState.delegatedTest$ | async)">
+              [legalRequirement]="legalRequirements.uphillStart"
+              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.uphillStart]"
+              [disabled]="(pageState.delegatedTest$ | async)">
             </legal-requirement>
           </ion-col>
           <ion-col size="28">
             <legal-requirement
-                    [legalRequirement]="legalRequirements.downhillStart"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.downhillStart]"
-                    [disabled]="(pageState.delegatedTest$ | async)">
+              [legalRequirement]="legalRequirements.downhillStart"
+              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.downhillStart]"
+              [disabled]="(pageState.delegatedTest$ | async)">
             </legal-requirement>
           </ion-col>
           <ion-col size="40">
             <legal-requirement
-                    [legalRequirement]="legalRequirements.angledStartControlledStop"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.angledStartControlledStop]">
+              [legalRequirement]="legalRequirements.angledStartControlledStop"
+              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.angledStartControlledStop]">
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -76,10 +77,10 @@
         <ion-row *ngIf="pageState.delegatedTest$ | async">
           <ion-col>
             <reverse-left
-                [completed]="manoeuvresCompleted"
-                [controlLabel]="'Reverse Left'"
-                [clickCallback]="getCallback()"
-                [testCategory]="pageState.category$ | async">
+              [completed]="manoeuvresCompleted"
+              [controlLabel]="'Reverse Left'"
+              [clickCallback]="getCallback()"
+              [testCategory]="pageState.category$ | async">
               <reverse-left-popover
                 [testCategory]="pageState.category$ | async"
                 [disableDrivingFaults]="true">
@@ -109,7 +110,7 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <vehicle-checks [testCategory]="pageState.category$ | async"></vehicle-checks>
+            <vehicle-checks-c [testCategory]="pageState.category$ | async"></vehicle-checks-c>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -427,6 +428,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="displayOverlay"></div>
-  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="isRemoveFaultMode"></div>
+  <div
+    class="report-overlay report-overlay-modal"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="displayOverlay">
+  </div>
+  <div
+    class="report-overlay report-overlay-remove"
+    [class.contract]="isSeriousMode || isDangerousMode"
+    [class.show-overlay]="isRemoveFaultMode">
+  </div>
 </ion-content>

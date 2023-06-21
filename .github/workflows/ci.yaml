@@ -14,7 +14,7 @@ env:
 
 jobs:
   run-ci:
-    runs-on: mito-1
+    runs-on: mito-2
 
     steps:
       - uses: actions/checkout@v3
@@ -40,12 +40,10 @@ jobs:
         run: npm ci
 
       - name: Create ionic.config.json
-        run: |
-          echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
+        run: echo "$DES_IONIC_CONFIG_JSON" >> ionic.config.json
 
       - name: Build project
-        run: |
-          npm run build:ci
+        run: npm run build:ci
 
       - name: Run unit tests
         timeout-minutes: 10

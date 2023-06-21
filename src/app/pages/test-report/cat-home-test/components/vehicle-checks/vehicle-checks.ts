@@ -4,8 +4,9 @@ import { getTests } from '@store/tests/tests.reducer';
 import { getCurrentTest } from '@store/tests/tests.selector';
 import { StoreModel } from '@shared/models/store.model';
 import { map } from 'rxjs/operators';
-import { getVehicleChecksCatHomeTest }
-  from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
+import {
+  getVehicleChecksCatHomeTest,
+} from '@store/tests/test-data/cat-home/vehicle-checks/vehicle-checks.cat-home.selector';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { Observable } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
@@ -17,7 +18,7 @@ interface ComponentState {
 }
 
 @Component({
-  selector: 'vehicle-checks',
+  selector: 'vehicle-checks-home',
   templateUrl: 'vehicle-checks.html',
   styleUrls: ['vehicle-checks.scss'],
 })
@@ -32,7 +33,8 @@ export class VehicleChecksComponent implements OnInit {
     private store$: Store<StoreModel>,
     public faultCountProvider: FaultCountProvider,
     private testDataByCategory: TestDataByCategoryProvider,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     const currentTest$ = this.store$.pipe(

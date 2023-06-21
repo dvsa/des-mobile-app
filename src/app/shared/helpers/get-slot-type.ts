@@ -8,9 +8,15 @@ export enum SpecialNeedsCode {
 }
 
 export const getSlotType = (slot: TestSlot): string => {
-  const { specialNeedsExtendedTest } = slot?.booking?.application;
-  const { specialNeedsCode } = slot?.booking?.application;
+  if (!slot || !slot?.booking || !slot?.booking?.application) {
+    return SlotTypes.STANDARD_TEST;
+  }
+
   const { vehicleSlotTypeCode } = slot;
+  const {
+    specialNeedsCode,
+    specialNeedsExtendedTest,
+  } = slot.booking.application;
 
   // Check special case
   // Jira ticket is available here for more details: https://jira.i-env.net/browse/MES-1698
