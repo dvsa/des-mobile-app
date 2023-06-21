@@ -36,6 +36,14 @@ jobs:
           echo "@ionic-enterprise:registry=https://registry.ionicframework.com/" >> .npmrc
           echo "//registry.ionicframework.com/:_authToken=$DES_IONIC_KEY" >> .npmrc
 
+      - name: Cache Node.js dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install dependencies
         run: npm ci
 
