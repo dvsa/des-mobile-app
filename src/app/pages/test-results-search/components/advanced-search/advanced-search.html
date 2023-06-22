@@ -34,14 +34,14 @@
         [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
         [placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
         aria-labelledby="advanced-search-staff-id-label"
-        class="ion-input-styling custom-font-size"
+        class="input-margin ion-input-styling custom-font-size"
         id="advanced-search-staff-id-input"
         type="text">
       </ion-input>
     </ion-col>
   </ion-row>
   <ion-accordion-group>
-    <ion-accordion value="first">
+    <ion-accordion class="accordion-styling" value="first">
       <ion-item slot="header" color="light">
         <label>Additional Filters</label>
       </ion-item>
@@ -66,10 +66,10 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-align-self-center" size="55">
+          <ion-col class="ion-align-self-center" size="21">
             <label>Activity code</label>
           </ion-col>
-          <ion-col size="75">
+          <ion-col size="55">
             <ion-select
               (ionChange)="activitySelectChange($event.target.value)"
               [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
@@ -89,10 +89,10 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-align-self-center" size="54">
+          <ion-col class="ion-align-self-center" size="22">
             <label>Test category</label>
           </ion-col>
-          <ion-col size="22">
+          <ion-col size="54">
             <ion-select (ionChange)="categorySelectChange($event.target.value)"
                         [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
                         aria-label="Test category"
