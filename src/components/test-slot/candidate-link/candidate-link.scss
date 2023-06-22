@@ -11,6 +11,9 @@
 
     &.candidate-name-portrait {
       max-width: 265px;
+      &.team-journal {
+        max-width: 240px;
+      }
       &.extra-large-mode {
         max-width: 230px;
         &.team-journal {
