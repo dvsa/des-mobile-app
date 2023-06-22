@@ -5,7 +5,8 @@
         [ngClass]="{
       'extra-large-mode': (app.getTextZoomClass() === 'text-zoom-x-large'),
       'candidate-name-portrait': isPortrait,
-      'candidate-name-landscape': !isPortrait
+      'candidate-name-landscape': !isPortrait,
+      'team-journal': isTeamJournal,
     }">
         {{name.title}} {{name.firstName}} {{name.lastName}}
     </h3>
