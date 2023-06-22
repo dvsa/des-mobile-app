@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-row>
     <!-- Field label -->
-    <ion-col size="24" class="component-label">
+    <ion-col *ngIf="fieldLabel" size="24" class="component-label">
       <label [id]="fieldLabel | formatToID: idPrefix">{{fieldLabel}}</label>
     </ion-col>
 
@@ -11,8 +11,13 @@
         <ion-row class="spacing-row"></ion-row>
 
         <!-- Placeholder for when no value has been selected before -->
-        <ion-row *ngIf="!model" class="modal-row" [ngClass]="{ 'appear-disabled': disabled }" (click)="openModal()">
-          <ion-col class="placeholder-font-color no-padding-end padding-top ion-nowrap">
+        <ion-row
+          *ngIf="!model"
+          class="modal-row"
+          [ngClass]="{ 'appear-disabled': disabled }"
+          [style.width]="customWidth ? customWidth +'px' : '452px'"
+          (click)="openModal()">
+          <ion-col size="83" class="placeholder-font-color no-padding-end padding-top ion-nowrap">
             <span size="90">{{placeholder}}</span>
           </ion-col>
           <ion-col size="6">

@@ -1,10 +1,12 @@
 import { Platform, ModalController } from '@ionic/angular';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SearchResultTestSchema } from '@dvsa/mes-search-schema';
-import { Subscription, of } from 'rxjs';
+import {
+  Subscription, of, Observable, merge,
+} from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
 
 import { ErrorTypes } from '@shared/models/error-message';
@@ -22,6 +24,9 @@ import { SaveLog } from '@store/logs/logs.actions';
 import { AppComponent } from '@app/app.component';
 import { ErrorPage } from '@pages/error-page/error';
 import { orderBy } from 'lodash';
+import { getRefDataState } from '@store/reference-data/reference-data.reducer';
+import { getActiveTestCentres, getTestCentres } from '@store/reference-data/reference-data.selector';
+import { TestCentre as JournalTestCentre } from '@dvsa/mes-journal-schema';
 import {
   TestResultSearchViewDidEnter, PerformApplicationReferenceSearch, PerformDriverNumberSearch, PerformLDTMSearch,
 } from './test-results-search.actions';
@@ -29,6 +34,10 @@ import {
 enum SearchBy {
   DriverNumber = 'driverNumber',
   ApplicationReference = 'appReference',
+}
+
+interface TestResultPageState {
+  activeTestCentres$: Observable<JournalTestCentre[]>;
 }
 
 @Component({
@@ -47,6 +56,9 @@ export class TestResultsSearchPage extends BasePageComponent {
   showAdvancedSearchSpinner: boolean = false;
   subscription: Subscription = Subscription.EMPTY;
   rekeySearch: boolean = false;
+  pageState: TestResultPageState;
+  testCentreSelected: JournalTestCentre;
+  merged$: Observable<JournalTestCentre[]>;
 
   constructor(
     public modalController: ModalController,
@@ -60,6 +72,26 @@ export class TestResultsSearchPage extends BasePageComponent {
     private app: AppComponent,
   ) {
     super(platform, authenticationProvider, router);
+  }
+
+  ngOnInit(): void {
+    this.pageState = {
+      activeTestCentres$: this.store$.pipe(
+        select(getRefDataState),
+        map(getTestCentres),
+        map(getActiveTestCentres),
+      ),
+    };
+    this.merged$ = merge(
+      this.pageState.activeTestCentres$,
+    );
+  }
+
+  ionViewWillEnter(): boolean {
+    if (this.merged$) {
+      this.subscription = this.merged$.subscribe();
+    }
+    return true;
   }
 
   ionViewDidEnter(): void {
@@ -183,6 +215,10 @@ export class TestResultsSearchPage extends BasePageComponent {
       )
       .subscribe();
   }
+
+  testCentreChange = async (testCentre: JournalTestCentre): Promise<void> => {
+    this.testCentreSelected = testCentre;
+  };
 
   showError = async (error: MesError): Promise<void> => {
     if (error === undefined || error.message === '') return;

@@ -47,6 +47,7 @@ ion-item {
 }
 
 .modal-row {
+  justify-content: space-between;
   border: 2px solid var(--dark);
   border-radius: 8px;
   color: var(--dark);

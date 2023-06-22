@@ -49,6 +49,9 @@ export class SearchablePicklistComponentWrapper<T> {
   @Input()
   disabled: boolean = false;
 
+  @Input()
+  customWidth: number;
+
   @Output()
   outputChanged = new EventEmitter<T>();
 
