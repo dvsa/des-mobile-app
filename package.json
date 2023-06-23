@@ -5,13 +5,16 @@
   "description": "DVSA - Driving Examiner Services",
   "homepage": "https://github.com/dvsa/des-mobile-app",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0 <19.0.0",
+    "npm": ">=8.0.0 <10.0.0"
+  },
   "scripts": {
     "postinstall": "node buildScripts/eslint-alloc-patch.js",
     "prepare": "husky install",
     "vulnerability-check": "snyk test --severity-threshold=high",
     "test": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch",
     "test:reload": "run-s update-mock-data copy-mock-data config:dev && ng test --watch",
-    "test:coverage": "run-s update-mock-data copy-mock-data config:dev && ng test --no-watch",
     "remote-devtools-server": "./bin/remote-devtools-server.sh",
     "serve:local": "run-s update-mock-data copy-mock-data schema-version config:local && ionic serve --configuration local",
     "serve:emulator": "npm run schema-version && ionic cap run ios --configuration development",
@@ -42,7 +45,7 @@
     "update-mock-data:journal": "ts-node -P tsconfig.scripts.json mock/generate-local-journal.ts",
     "update-mock-data:nta": "ts-node -P tsconfig.scripts.json mock/generate-local-journal-non-test-activities.ts",
     "update-mock-data:tc-journal": "ts-node -P tsconfig.scripts.json mock/generate-local-test-centre-journal.ts",
-    "sonar": "buildScripts/sonar-properties-update.sh && sonar-scanner"
+    "sonar": "buildScripts/sonar-properties-update.sh && npm run test && sonar-scanner"
   },
   "dependencies": {
     "@almothafar/angular-signature-pad": "^5.0.1",
