@@ -54,7 +54,4 @@ jobs:
         run: npm run build:ci
 
       - name: Run unit tests
-        timeout-minutes: 10
-        run: |
-          export NODE_OPTIONS="--max_old_space_size=8192"
-          npm run test
+        run: npm run test
