@@ -28,7 +28,7 @@
 <ion-content class="ion-no-padding">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
 
-  <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
+  <!--  <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>-->
 
   <ion-refresher (ionRefresh)="pullRefreshJournal($event)" slot="fixed">
     <ion-refresher-content
