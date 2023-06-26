@@ -14,7 +14,6 @@ export enum DisplayType {
   templateUrl: './date-time-input.component.html',
   styleUrls: ['./date-time-input.component.scss'],
 })
-
 export class DateTimeInputComponent {
   @Input()
   maxValue?: string;
@@ -56,11 +55,13 @@ export class DateTimeInputComponent {
   customButtonEvent = new EventEmitter<{ buttonType: string, data: IonDatetime }>();
 
   formatDisplayDate(date: string) {
-    return moment(date).format('DD/MM/YYYY');
+    return moment(date)
+      .format('DD/MM/YYYY');
   }
 
   formatDisplayTime(time: string) {
-    return moment(time).format('HH:mm');
+    return moment(time)
+      .format('HH:mm');
   }
 
   onSelected(event: IonDatetime, control: DisplayType) {
@@ -68,12 +69,15 @@ export class DateTimeInputComponent {
     switch (control) {
       case DisplayType.Date:
         this.displayValue = this.formatDisplayDate(event.value as string);
-        output = moment(event.value).format('YYYY-MM-DD');
+        output = moment(event.value)
+          .format('YYYY-MM-DD');
         break;
       case DisplayType.Time:
         this.displayValue = this.formatDisplayTime(event.value as string);
-        this.outputValue = moment(event.value).format('YYYY-MM-DDTHH:mm');
-        output = moment(event.value).format('YYYY-MM-DDTHH:mm');
+        this.outputValue = moment(event.value)
+          .format('YYYY-MM-DDTHH:mm');
+        output = moment(event.value)
+          .format('YYYY-MM-DDTHH:mm');
         break;
       default:
         this.displayValue = '';
