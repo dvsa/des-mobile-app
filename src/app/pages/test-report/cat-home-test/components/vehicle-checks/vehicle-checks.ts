@@ -11,6 +11,7 @@ import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { Observable } from 'rxjs';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 interface ComponentState {
   vehicleChecksDrivingFaultCount$: Observable<number>;
@@ -25,7 +26,7 @@ interface ComponentState {
 export class VehicleChecksComponent implements OnInit {
 
   @Input()
-  testCategory: TestCategory;
+  testCategory: TestCategory | CategoryCode;
 
   componentState: ComponentState;
 

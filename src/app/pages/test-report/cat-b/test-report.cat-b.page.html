@@ -32,14 +32,14 @@
         <ion-row>
           <ion-col>
             <legal-requirement
-                    [legalRequirement]="legalRequirements.normalStart1"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart1]">
+              [legalRequirement]="legalRequirements.normalStart1"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]">
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
-                    [legalRequirement]="legalRequirements.normalStart2"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart2]">
+              [legalRequirement]="legalRequirements.normalStart2"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]">
             </legal-requirement>
           </ion-col>
         </ion-row>
@@ -47,14 +47,14 @@
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStart"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.angledStart]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.angledStart]"
             >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.hillStart"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.hillStart]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.hillStart]"
             >
             </legal-requirement>
           </ion-col>
@@ -66,7 +66,9 @@
         </ion-row>
         <ion-row>
           <ion-col>
-            <manoeuvres [completed]="manoeuvresCompleted" [controlLabel]="'Manoeuvres'"
+            <manoeuvres
+              [completed]="manoeuvresCompleted"
+              [controlLabel]="'Manoeuvres'"
               [clickCallback]="getCallback()">
               <manoeuvres-popover></manoeuvres-popover>
             </manoeuvres>
@@ -406,8 +408,10 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="displayOverlay"
-  [class.hide-overlay]="!displayOverlay"></div>
-  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="isRemoveFaultMode"
-  [class.hide-overlay]="!isRemoveFaultMode"></div>
+  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode"
+       [class.show-overlay]="displayOverlay"
+       [class.hide-overlay]="!displayOverlay"></div>
+  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode"
+       [class.show-overlay]="isRemoveFaultMode"
+       [class.hide-overlay]="!isRemoveFaultMode"></div>
 </ion-content>

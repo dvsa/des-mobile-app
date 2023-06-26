@@ -3,21 +3,22 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 
 import { of } from 'rxjs';
 import { ActivityCodes } from '@shared/models/activity-codes';
-import { FaultCountProvider } from '../../fault-count/fault-count';
+import { TestResultProviderMock } from '@providers/test-result/__mocks__/test-result.mock';
 import { TestResultProvider } from '../../test-result/test-result';
 import { ActivityCodeFinalisationProvider } from '../activity-code-finalisation';
 
 describe('ActivityCodeFinalisationProvider', () => {
-
   let testResultProvider: TestResultProvider;
   let activityCodeFinalisationProvider: ActivityCodeFinalisationProvider;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        TestResultProvider,
-        FaultCountProvider,
         ActivityCodeFinalisationProvider,
+        {
+          provide: TestResultProvider,
+          useClass: TestResultProviderMock,
+        },
       ],
     });
 
@@ -27,77 +28,89 @@ describe('ActivityCodeFinalisationProvider', () => {
 
   describe('Check if test data for different categories are invalid', () => {
     beforeEach(() => {
-      spyOn(testResultProvider, 'calculateTestResult').and.returnValue(of(ActivityCodes.PASS));
+      spyOn(testResultProvider, 'calculateTestResult')
+        .and
+        .returnValue(of(ActivityCodes.PASS));
     });
 
-    it('should call testResultProvider with the correct category for B', () => {
-      activityCodeFinalisationProvider.catBTestDataIsInvalid(
+    it('should call testResultProvider with the correct category for B', async () => {
+      await activityCodeFinalisationProvider.catBTestDataIsInvalid(
         ActivityCodes.FAIL_PUBLIC_SAFETY, {}, TestCategory.B,
       );
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.B, {});
+      expect(testResultProvider.calculateTestResult)
+        .toHaveBeenCalledWith(TestCategory.B, {});
     });
 
-    it('should call testResultProvider with the correct category for C', () => {
-      activityCodeFinalisationProvider.catCTestDataIsInvalid(
+    it('should call testResultProvider with the correct category for C', async () => {
+      await activityCodeFinalisationProvider.catCTestDataIsInvalid(
         ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {}, TestCategory.C,
       );
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.C, {});
+      expect(testResultProvider.calculateTestResult)
+        .toHaveBeenCalledWith(TestCategory.C, {});
     });
 
-    it('should call testResultProvider with the correct category for CE', () => {
-      activityCodeFinalisationProvider.catCTestDataIsInvalid(
+    it('should call testResultProvider with the correct category for CE', async () => {
+      await activityCodeFinalisationProvider.catCTestDataIsInvalid(
         ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {}, TestCategory.CE,
       );
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.CE, {});
+      expect(testResultProvider.calculateTestResult)
+        .toHaveBeenCalledWith(TestCategory.CE, {});
     });
 
-    it('should call testResultProvider with the correct category for CM', () => {
-      activityCodeFinalisationProvider.catManoeuvresTestDataIsInvalid(
+    it('should call testResultProvider with the correct category for CM', async () => {
+      await activityCodeFinalisationProvider.catManoeuvresTestDataIsInvalid(
         ActivityCodes.FAIL_CANDIDATE_STOPS_TEST, {}, TestCategory.CM,
       );
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.CM, {});
+      expect(testResultProvider.calculateTestResult)
+        .toHaveBeenCalledWith(TestCategory.CM, {});
     });
 
-    it('should call testResultProvider with the correct category for AM1', () => {
-      activityCodeFinalisationProvider.catAMod1TestDataIsInvalid(
+    it('should call testResultProvider with the correct category for AM1', async () => {
+      await activityCodeFinalisationProvider.catAMod1TestDataIsInvalid(
         ActivityCodes.FAIL_PUBLIC_SAFETY,
         {},
         TestCategory.EUAM1,
       );
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.EUAM1, {});
+      expect(testResultProvider.calculateTestResult)
+        .toHaveBeenCalledWith(TestCategory.EUAM1, {});
     });
 
-    it('should call testResultProvider with the correct category for AM2', () => {
-      activityCodeFinalisationProvider.catAMod2TestDataIsInvalid(
+    it('should call testResultProvider with the correct category for AM2', async () => {
+      await activityCodeFinalisationProvider.catAMod2TestDataIsInvalid(
         ActivityCodes.FAIL_PUBLIC_SAFETY,
         {},
         TestCategory.EUAM2,
       );
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.EUAM2, {});
+      expect(testResultProvider.calculateTestResult)
+        .toHaveBeenCalledWith(TestCategory.EUAM2, {});
     });
 
-    it('should call testResultProvider with the correct category for ADI2', () => {
-      activityCodeFinalisationProvider.catADIPart2TestDataIsInvalid(
+    it('should call testResultProvider with the correct category for ADI2', async () => {
+      await activityCodeFinalisationProvider.catADIPart2TestDataIsInvalid(
         ActivityCodes.FAIL_CANDIDATE_STOPS_TEST,
         {},
         TestCategory.ADI2,
       );
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.ADI2, {});
+      expect(testResultProvider.calculateTestResult)
+        .toHaveBeenCalledWith(TestCategory.ADI2, {});
     });
 
-    it('should call testResultProvider with the correct category for Home', () => {
-      activityCodeFinalisationProvider.catHomeTestDataIsInvalid(
+    it('should call testResultProvider with the correct category for Home', async () => {
+      await activityCodeFinalisationProvider.catHomeTestDataIsInvalid(
         ActivityCodes.FAIL_PUBLIC_SAFETY,
         {},
         TestCategory.F,
       );
-      expect(testResultProvider.calculateTestResult).toHaveBeenCalledWith(TestCategory.F, {});
+      expect(testResultProvider.calculateTestResult)
+        .toHaveBeenCalledWith(TestCategory.F, {});
     });
   });
 
   describe('activityCodeIs4or5', () => {
     beforeEach(() => {
-      spyOn(testResultProvider, 'calculateTestResult').and.returnValue(of(ActivityCodes.PASS));
+      spyOn(testResultProvider, 'calculateTestResult')
+        .and
+        .returnValue(of(ActivityCodes.PASS));
     });
     it('should return false when activity code is not 4/5 for Home', async () => {
       const result = await activityCodeFinalisationProvider.catHomeTestDataIsInvalid(
@@ -105,18 +118,21 @@ describe('ActivityCodeFinalisationProvider', () => {
         {},
         TestCategory.K,
       );
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
     it('should return false when activity code is not 4/5 for B', async () => {
       const result = await activityCodeFinalisationProvider.catBTestDataIsInvalid(ActivityCodes.ACCIDENT,
         {},
         TestCategory.B);
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
     it('should return false when activity code is not 4/5 for C', async () => {
       const result = await activityCodeFinalisationProvider
         .catCTestDataIsInvalid(ActivityCodes.EXAMINER_ILL_PRE_TEST, {}, TestCategory.C);
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
     it('should return false when activity code is not 4/5 for D', async () => {
       const result = await activityCodeFinalisationProvider.catDTestDataIsInvalid(
@@ -124,7 +140,8 @@ describe('ActivityCodeFinalisationProvider', () => {
         {},
         TestCategory.D,
       );
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
     it('should return false when activity code is not 4/5 for AMod1', async () => {
       const result = await activityCodeFinalisationProvider
@@ -133,7 +150,8 @@ describe('ActivityCodeFinalisationProvider', () => {
           {},
           TestCategory.EUA1M1,
         );
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
     it('should return false when activity code is not 4/5 for AMod2', async () => {
       const result = await activityCodeFinalisationProvider
@@ -142,19 +160,23 @@ describe('ActivityCodeFinalisationProvider', () => {
           {},
           TestCategory.EUA1M2,
         );
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
     it('should return false when activity code is not 4/5 for ADI2', async () => {
       const result = await activityCodeFinalisationProvider.catADIPart2TestDataIsInvalid(ActivityCodes.BAD_LIGHT,
         {},
         TestCategory.ADI2);
-      expect(result).toBe(false);
+      expect(result)
+        .toBe(false);
     });
   });
 
   describe('testDataIsInvalid', () => {
     it('should return catADIPart2TestDataIsInvalid if category is ADI2', async () => {
-      spyOn(activityCodeFinalisationProvider, 'catADIPart2TestDataIsInvalid').and.returnValue(Promise.resolve(true));
+      spyOn(activityCodeFinalisationProvider, 'catADIPart2TestDataIsInvalid')
+        .and
+        .returnValue(Promise.resolve(true));
       expect(await activityCodeFinalisationProvider.testDataIsInvalid(TestCategory.ADI2, null, null))
         .toEqual(true);
     });
@@ -163,13 +185,17 @@ describe('ActivityCodeFinalisationProvider', () => {
       TestCategory.SC,
     ].forEach((value) => {
       it(`should return catADIPart3TestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catADIPart3TestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        spyOn(activityCodeFinalisationProvider, 'catADIPart3TestDataIsInvalid')
+          .and
+          .returnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
           .toEqual(true);
       });
     });
     it('should return catBTestDataIsInvalid if category is B', async () => {
-      spyOn(activityCodeFinalisationProvider, 'catBTestDataIsInvalid').and.returnValue(Promise.resolve(true));
+      spyOn(activityCodeFinalisationProvider, 'catBTestDataIsInvalid')
+        .and
+        .returnValue(Promise.resolve(true));
       expect(await activityCodeFinalisationProvider.testDataIsInvalid(TestCategory.B, null, null))
         .toEqual(true);
     });
@@ -180,7 +206,9 @@ describe('ActivityCodeFinalisationProvider', () => {
       TestCategory.C,
     ].forEach((value) => {
       it(`should return catCTestDataIsInvalid if category is ${value}`, async () => {
-        spyOn(activityCodeFinalisationProvider, 'catCTestDataIsInvalid').and.returnValue(Promise.resolve(true));
+        spyOn(activityCodeFinalisationProvider, 'catCTestDataIsInvalid')
+          .and
+          .returnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
           .toEqual(true);
       });
@@ -197,7 +225,8 @@ describe('ActivityCodeFinalisationProvider', () => {
     ].forEach((value) => {
       it(`should return catManoeuvresTestDataIsInvalid if category is ${value}`, async () => {
         spyOn(activityCodeFinalisationProvider, 'catManoeuvresTestDataIsInvalid')
-          .and.returnValue(Promise.resolve(true));
+          .and
+          .returnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
           .toEqual(true);
       });
@@ -210,7 +239,8 @@ describe('ActivityCodeFinalisationProvider', () => {
     ].forEach((value) => {
       it(`should return catDTestDataIsInvalid if category is ${value}`, async () => {
         spyOn(activityCodeFinalisationProvider, 'catDTestDataIsInvalid')
-          .and.returnValue(Promise.resolve(true));
+          .and
+          .returnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
           .toEqual(true);
       });
@@ -223,7 +253,8 @@ describe('ActivityCodeFinalisationProvider', () => {
     ].forEach((value) => {
       it(`should return catAMod1TestDataIsInvalid if category is ${value}`, async () => {
         spyOn(activityCodeFinalisationProvider, 'catAMod1TestDataIsInvalid')
-          .and.returnValue(Promise.resolve(true));
+          .and
+          .returnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
           .toEqual(true);
       });
@@ -236,7 +267,8 @@ describe('ActivityCodeFinalisationProvider', () => {
     ].forEach((value) => {
       it(`should return catAMod2TestDataIsInvalid if category is ${value}`, async () => {
         spyOn(activityCodeFinalisationProvider, 'catAMod2TestDataIsInvalid')
-          .and.returnValue(Promise.resolve(true));
+          .and
+          .returnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
           .toEqual(true);
       });
@@ -249,7 +281,8 @@ describe('ActivityCodeFinalisationProvider', () => {
     ].forEach((value) => {
       it(`should return catHomeTestDataIsInvalid if category is ${value}`, async () => {
         spyOn(activityCodeFinalisationProvider, 'catHomeTestDataIsInvalid')
-          .and.returnValue(Promise.resolve(true));
+          .and
+          .returnValue(Promise.resolve(true));
         expect(await activityCodeFinalisationProvider.testDataIsInvalid(value, null, null))
           .toEqual(true);
       });

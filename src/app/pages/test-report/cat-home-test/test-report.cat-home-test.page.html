@@ -27,14 +27,14 @@
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart1"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart1]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]"
             >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart2"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart2]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]"
             >
             </legal-requirement>
           </ion-col>
@@ -43,14 +43,14 @@
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStart"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.angledStart]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.angledStart]"
             >
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.uphillStartDesignatedStart"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.uphillStartDesignatedStart]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.uphillStartDesignatedStart]"
             >
             </legal-requirement>
           </ion-col>

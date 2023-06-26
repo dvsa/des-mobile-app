@@ -10,6 +10,7 @@ import { sumManoeuvreFaults } from '@shared/helpers/faults';
 import { TestData } from '@dvsa/mes-test-schema/categories/AM2';
 import { TestOutcome } from '@store/tests/tests.constants';
 import { FaultCountBEHelper } from '@providers/fault-count/cat-be/fault-count.cat-be';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { FaultCountBHelper } from './cat-b/fault-count.cat-b';
 import { FaultCountCHelper } from './cat-c/fault-count.cat-c';
 import { FaultCountDHelper } from './cat-d/fault-count.cat-d';
@@ -18,7 +19,6 @@ import { FaultCountAM1Helper } from './cat-a-mod1/fault-count.cat-a-mod1';
 import { FaultCountAM2Helper } from './cat-a-mod2/fault-count.cat-a-mod2';
 import { FaultCountHomeTestHelper } from './cat-home-test/fault-count.cat-home-test';
 import { FaultCountADIPart2Helper } from './cat-adi-part2/fault-count.cat-adi-part2';
-
 import { FaultCountManoeuvreTestHelper } from './cat-manoeuvre/fault-count.cat-manoeuvre';
 
 @Injectable()
@@ -204,7 +204,7 @@ export class FaultCountProvider {
   };
 
   public getManoeuvreFaultCount = <T>(
-    category: TestCategory,
+    category: TestCategory | CategoryCode,
     data: T,
     faultType: CompetencyOutcome,
   ): number => {
@@ -243,7 +243,7 @@ export class FaultCountProvider {
     }
   };
 
-  public getVehicleChecksFaultCount = (category: TestCategory, data: object): VehicleChecksScore => {
+  public getVehicleChecksFaultCount = (category: TestCategory | CategoryCode, data: object): VehicleChecksScore => {
     switch (category) {
       case TestCategory.ADI2:
         return FaultCountADIPart2Helper.getVehicleChecksFaultCountCatADIPart2(data);
@@ -318,12 +318,12 @@ export class FaultCountProvider {
 
     if (category === TestCategory.ADI2) {
       return (drivingFaultCount > 0
-                && testOutcomeText === TestOutcome.Failed);
+        && testOutcomeText === TestOutcome.Failed);
     }
 
     return dangerousFaultCount === 0
-            && seriousFaultCount === 0
-            && drivingFaultCount > maxFaultCount;
+      && seriousFaultCount === 0
+      && drivingFaultCount > maxFaultCount;
   };
 
   public getShowMeFaultCount = (category: TestCategory, data: VehicleChecks): VehicleChecksScore => {

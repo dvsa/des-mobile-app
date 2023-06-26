@@ -1,6 +1,7 @@
 import { ManoeuvreCompetencies, ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { Component, Input } from '@angular/core';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 
 @Component({
   selector: 'reverse-left-popover',
@@ -10,7 +11,7 @@ import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/
 export class ReverseLeftPopoverComponent {
 
   @Input()
-  testCategory: TestCategory;
+  testCategory: TestCategory | CategoryCode;
 
   @Input()
   disableDrivingFaults?: boolean = false;

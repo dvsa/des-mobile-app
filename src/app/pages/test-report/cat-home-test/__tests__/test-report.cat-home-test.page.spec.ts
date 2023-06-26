@@ -22,7 +22,7 @@ import { PracticeModeBanner } from '@components/common/practice-mode-banner/prac
 import { candidateMock } from '@store/tests/__mocks__/tests.mock';
 import { ReverseLeftPopoverComponent } from '@pages/test-report/components/reverse-left-popover/reverse-left-popover';
 import { ReverseLeftComponent } from '@pages/test-report/components/reverse-left/reverse-left';
-import { VehicleChecksComponent } from '@pages/test-report/cat-c/components/vehicle-checks/vehicle-checks';
+import { VehicleChecksComponent } from '@pages/test-report/cat-home-test/components/vehicle-checks/vehicle-checks';
 import { UncoupleRecoupleComponent } from '@pages/test-report/components/uncouple-recouple/uncouple-recouple';
 import { TestReportCatHomeTestPage } from '@pages/test-report/cat-home-test/test-report.cat-home-test.page';
 import { HighwayCodeSafetyComponent } from '@pages/test-report/components/highway-code-safety/highway-code-safety';

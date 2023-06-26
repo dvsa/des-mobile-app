@@ -1,6 +1,4 @@
-import {
-  ComponentFixture, TestBed, waitForAsync,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Platform } from '@ionic/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockComponent } from 'ng-mocks';
@@ -38,7 +36,7 @@ import { DriverPhotograph } from '@dvsa/mes-driver-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { CatBUniqueTypes } from '@dvsa/mes-test-schema/categories/B';
 import { TestsModel } from '@store/tests/tests.model';
-import moment from 'moment';
+import * as moment from 'moment';
 
 describe('CandidateLicencePage', () => {
   let component: CandidateLicencePage;
@@ -58,7 +56,7 @@ describe('CandidateLicencePage', () => {
           category: TestCategory.B,
           journalData: {
             candidate: {
-              dateOfBirth: '1/1/2000',
+              dateOfBirth: '2000-01-01',
               candidateName: {
                 firstName: 'firstName',
                 lastName: 'lastName',
@@ -106,12 +104,30 @@ describe('CandidateLicencePage', () => {
         ReactiveFormsModule,
       ],
       providers: [
-        { provide: DomSanitizer, useClass: DomSanitizerMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: CandidateLicenceProvider, useClass: CandidateLicenceProviderMock },
-        { provide: Platform, useClass: PlatformMock },
-        { provide: Router, useClass: RouterMock },
+        {
+          provide: DomSanitizer,
+          useClass: DomSanitizerMock,
+        },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: CandidateLicenceProvider,
+          useClass: CandidateLicenceProviderMock,
+        },
+        {
+          provide: Platform,
+          useClass: PlatformMock,
+        },
+        {
+          provide: Router,
+          useClass: RouterMock,
+        },
         provideMockStore({ initialState }),
       ],
     });
@@ -135,7 +151,8 @@ describe('CandidateLicencePage', () => {
     describe('ionViewDidEnter', () => {
       it('should dispatch the view did enter action', () => {
         component.ionViewDidEnter();
-        expect(store$.dispatch).toHaveBeenCalledWith(CandidateLicenceViewDidEnter());
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(CandidateLicenceViewDidEnter());
       });
     });
     describe('ngOnInit', () => {
@@ -143,34 +160,44 @@ describe('CandidateLicencePage', () => {
         component.ngOnInit();
 
         component.pageState.testCategory$.subscribe((val) => {
-          expect(val).toEqual(TestCategory.B);
+          expect(val)
+            .toEqual(TestCategory.B);
         });
         component.pageState.age$.subscribe((val) => {
-          expect(val).toEqual(moment().diff('1/1/2000', 'years'));
+          expect(val)
+            .toEqual(moment()
+              .diff('2000-01-01', 'years'));
         });
       });
     });
     describe('trueLikenessToPhotoChanged', () => {
       it('should dispatch the true likeness action', () => {
         component.trueLikenessToPhotoChanged(true);
-        expect(store$.dispatch).toHaveBeenCalledWith(TrueLikenessToPhotoChanged(true));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(TrueLikenessToPhotoChanged(true));
       });
     });
     describe('getImage', () => {
       it('should return img when in practice mode', () => {
         component.isPracticeMode = true;
-        expect(component.getImage('some img string', null)).toEqual('some img string');
+        expect(component.getImage('some img string', null))
+          .toEqual('some img string');
       });
       it('should return null when img not defined', () => {
-        expect(component.getImage(null, null)).toEqual(null);
+        expect(component.getImage(null, null))
+          .toEqual(null);
       });
       it('should use the values from driverPhotograph and pass into dom sanitizer method', () => {
         spyOn(domSanitizer, 'bypassSecurityTrustUrl');
         component.driverDataReturned = true;
         component.getImage('some img', {
-          photograph: { image: 'licence image', imageFormat: 'image format' },
+          photograph: {
+            image: 'licence image',
+            imageFormat: 'image format',
+          },
         } as DriverPhotograph);
-        expect(domSanitizer.bypassSecurityTrustUrl).toHaveBeenCalledWith('data:image format;base64,licence image');
+        expect(domSanitizer.bypassSecurityTrustUrl)
+          .toHaveBeenCalledWith('data:image format;base64,licence image');
       });
     });
     describe('setError', () => {
@@ -182,7 +209,8 @@ describe('CandidateLicencePage', () => {
           name: '',
         });
 
-        expect(component.offlineError).toEqual(true);
+        expect(component.offlineError)
+          .toEqual(true);
       });
       it('should set candidateDataUnavailable to true if CandidateLicenceErr is UNAVAILABLE', () => {
         component.candidateDataUnavailable = false;
@@ -192,7 +220,8 @@ describe('CandidateLicencePage', () => {
           name: '',
         });
 
-        expect(component.candidateDataUnavailable).toEqual(true);
+        expect(component.candidateDataUnavailable)
+          .toEqual(true);
       });
       it('should set niLicenceDetected to true if CandidateLicenceErr is NI_LICENCE', () => {
         component.niLicenceDetected = false;
@@ -202,7 +231,8 @@ describe('CandidateLicencePage', () => {
           name: '',
         });
 
-        expect(component.niLicenceDetected).toEqual(true);
+        expect(component.niLicenceDetected)
+          .toEqual(true);
       });
       it('should set candidateDataError to true if the switch defaults', () => {
         component.candidateDataError = false;
@@ -212,20 +242,25 @@ describe('CandidateLicencePage', () => {
           name: '',
         });
 
-        expect(component.candidateDataError).toEqual(true);
+        expect(component.candidateDataError)
+          .toEqual(true);
       });
     });
     describe('onContinue', () => {
       it('should navigate the user to the COMMUNICATION_PAGE when form is valid', async () => {
         await component.onContinue();
-        expect(store$.dispatch).not.toHaveBeenCalled();
-        expect(router.navigate).toHaveBeenCalledWith([TestFlowPageNames.COMMUNICATION_PAGE]);
+        expect(store$.dispatch)
+          .not
+          .toHaveBeenCalled();
+        expect(router.navigate)
+          .toHaveBeenCalledWith([TestFlowPageNames.COMMUNICATION_PAGE]);
       });
       it('should dispatch an action recording the form error', async () => {
         const ctrl2 = new FormControl(null, [Validators.required]);
         component.formGroup.addControl('ctrl2', ctrl2);
         await component.onContinue();
-        expect(store$.dispatch).toHaveBeenCalledWith(CandidateLicenceDataValidationError('ctrl2 is blank'));
+        expect(store$.dispatch)
+          .toHaveBeenCalledWith(CandidateLicenceDataValidationError('ctrl2 is blank'));
       });
     });
   });
