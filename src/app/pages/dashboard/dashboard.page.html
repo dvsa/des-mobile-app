@@ -17,7 +17,7 @@
 
 <ion-content [fullscreen]="true">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
-  <!--  <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>-->
+  <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
   <div>
     <profile-header
       [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
