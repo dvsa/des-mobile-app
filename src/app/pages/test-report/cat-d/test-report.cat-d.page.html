@@ -28,24 +28,24 @@
         <ion-row class="padding-top-10 only-top-padding">
           <ion-col size="46">
             <multi-legal-requirement
-                    [legalRequirement1]="legalRequirements.normalStart1"
-                    [legalRequirement2]="legalRequirements.normalStart2"
-                    [requirement1Ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart1]"
-                    [requirement2Ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart2]"
-                    label="NS"
-                    [disabled]="(pageState.delegatedTest$ | async)"
+              [legalRequirement1]="legalRequirements.normalStart1"
+              [legalRequirement2]="legalRequirements.normalStart2"
+              [requirement1Ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]"
+              [requirement2Ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]"
+              label="NS"
+              [disabled]="(pageState.delegatedTest$ | async)"
             >
             </multi-legal-requirement>
           </ion-col>
           <ion-col size="4"></ion-col>
           <ion-col size="46">
             <multi-legal-requirement
-                    [legalRequirement1]="legalRequirements.busStop1"
-                    [legalRequirement2]="legalRequirements.busStop2"
-                    [requirement1Ticked]="(pageState.testRequirements$ | async)[legalRequirements.busStop1]"
-                    [requirement2Ticked]="(pageState.testRequirements$ | async)[legalRequirements.busStop2]"
-                    label="BS"
-                    [disabled]="(pageState.delegatedTest$ | async)"
+              [legalRequirement1]="legalRequirements.busStop1"
+              [legalRequirement2]="legalRequirements.busStop2"
+              [requirement1Ticked]="(pageState.testRequirements$ | async)![legalRequirements.busStop1]"
+              [requirement2Ticked]="(pageState.testRequirements$ | async)![legalRequirements.busStop2]"
+              label="BS"
+              [disabled]="(pageState.delegatedTest$ | async)"
             >
             </multi-legal-requirement>
           </ion-col>
@@ -53,24 +53,24 @@
         <ion-row>
           <ion-col size="28">
             <legal-requirement
-                    [legalRequirement]="legalRequirements.uphillStart"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.uphillStart]"
-                    [disabled]="(pageState.delegatedTest$ | async)"
+              [legalRequirement]="legalRequirements.uphillStart"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.uphillStart]"
+              [disabled]="(pageState.delegatedTest$ | async)"
             >
             </legal-requirement>
           </ion-col>
           <ion-col size="28">
             <legal-requirement
-                    [legalRequirement]="legalRequirements.downhillStart"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.downhillStart]"
-                    [disabled]="(pageState.delegatedTest$ | async)"
+              [legalRequirement]="legalRequirements.downhillStart"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.downhillStart]"
+              [disabled]="(pageState.delegatedTest$ | async)"
             >
             </legal-requirement>
           </ion-col>
           <ion-col size="40">
             <legal-requirement
-                    [legalRequirement]="legalRequirements.angledStartControlledStop"
-                    [ticked]="(pageState.testRequirements$ | async)[legalRequirements.angledStartControlledStop]"
+              [legalRequirement]="legalRequirements.angledStartControlledStop"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.angledStartControlledStop]"
             >
             </legal-requirement>
           </ion-col>
@@ -149,7 +149,7 @@
             <pcv-door-exercise></pcv-door-exercise>
           </ion-col>
         </ion-row>
-        <ion-row >
+        <ion-row>
           <ion-col class="ion-no-padding">
             <div class="dark-divider"></div>
           </ion-col>
@@ -453,6 +453,8 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="displayOverlay"></div>
-  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode" [class.show-overlay]="isRemoveFaultMode"></div>
+  <div class="report-overlay report-overlay-modal" [class.contract]="isSeriousMode || isDangerousMode"
+       [class.show-overlay]="displayOverlay"></div>
+  <div class="report-overlay report-overlay-remove" [class.contract]="isSeriousMode || isDangerousMode"
+       [class.show-overlay]="isRemoveFaultMode"></div>
 </ion-content>

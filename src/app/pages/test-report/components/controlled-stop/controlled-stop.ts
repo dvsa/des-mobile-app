@@ -18,6 +18,7 @@ import {
   isControlledStopSelected,
 } from '@store/tests/test-data/common/controlled-stop/controlled-stop.selectors';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { ToggleDangerousFaultMode, ToggleRemoveFaultMode, ToggleSeriousFaultMode } from '../../test-report.actions';
 import { isDangerousMode, isRemoveFaultMode, isSeriousMode } from '../../test-report.selector';
 import { getTestReportState } from '../../test-report.reducer';
@@ -38,7 +39,7 @@ interface ControlledStopComponentState {
 export class ControlledStopComponent implements OnInit, OnDestroy {
 
   @Input()
-  testCategory: TestCategory;
+  testCategory: TestCategory | CategoryCode;
 
   componentState: ControlledStopComponentState;
   subscription: Subscription;
@@ -53,8 +54,9 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
 
   constructor(
     private store$: Store<StoreModel>,
-    private testDataByCategoryProvider : TestDataByCategoryProvider,
-  ) { }
+    private testDataByCategoryProvider: TestDataByCategoryProvider,
+  ) {
+  }
 
   ngOnInit(): void {
     const currentTest$ = this.store$.pipe(
@@ -101,7 +103,9 @@ export class ControlledStopComponent implements OnInit, OnDestroy {
       isDangerousMode$.pipe(map((toggle) => this.isDangerousMode = toggle)),
       selectedControlledStop$.pipe(map((value) => this.selectedControlledStop = value)),
       controlledStopOutcome$.pipe(map((outcome) => this.controlledStopOutcome = outcome)),
-    ).pipe(takeUntil(trDestroy$)).subscribe();
+    )
+      .pipe(takeUntil(trDestroy$))
+      .subscribe();
   }
 
   ngOnDestroy(): void {

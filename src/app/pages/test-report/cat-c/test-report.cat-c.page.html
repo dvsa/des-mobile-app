@@ -35,14 +35,14 @@
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart1"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart1]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart1]"
               [disabled]="(pageState.delegatedTest$ | async)">
             </legal-requirement>
           </ion-col>
           <ion-col>
             <legal-requirement
               [legalRequirement]="legalRequirements.normalStart2"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.normalStart2]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.normalStart2]"
               [disabled]="(pageState.delegatedTest$ | async)">
             </legal-requirement>
           </ion-col>
@@ -51,21 +51,21 @@
           <ion-col size="28">
             <legal-requirement
               [legalRequirement]="legalRequirements.uphillStart"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.uphillStart]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.uphillStart]"
               [disabled]="(pageState.delegatedTest$ | async)">
             </legal-requirement>
           </ion-col>
           <ion-col size="28">
             <legal-requirement
               [legalRequirement]="legalRequirements.downhillStart"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.downhillStart]"
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.downhillStart]"
               [disabled]="(pageState.delegatedTest$ | async)">
             </legal-requirement>
           </ion-col>
           <ion-col size="40">
             <legal-requirement
               [legalRequirement]="legalRequirements.angledStartControlledStop"
-              [ticked]="(pageState.testRequirements$ | async)[legalRequirements.angledStartControlledStop]">
+              [ticked]="(pageState.testRequirements$ | async)![legalRequirements.angledStartControlledStop]">
             </legal-requirement>
           </ion-col>
         </ion-row>

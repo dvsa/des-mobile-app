@@ -15,13 +15,12 @@ import { ManoeuvreTypes } from '@store/tests/test-data/test-data.constants';
 import { StoreModel } from '@shared/models/store.model';
 import { FaultCountProvider } from '@providers/fault-count/fault-count';
 import { TestDataByCategoryProvider } from '@providers/test-data-by-category/test-data-by-category';
-import {
-  ManoeuvresByCategoryProvider,
-} from '@providers/manoeuvres-by-category/manoeuvres-by-category';
+import { ManoeuvresByCategoryProvider } from '@providers/manoeuvres-by-category/manoeuvres-by-category';
 import { ManoeuvreUnion } from '@shared/unions/test-schema-unions';
 import { getReverseLeftSelected } from '@store/tests/test-data/common/manoeuvres/manoeuvres.selectors';
 import { map, takeUntil } from 'rxjs/operators';
 import { trDestroy$ } from '@shared/classes/test-flow-base-pages/test-report/test-report-base-page';
+import { CategoryCode } from '@dvsa/mes-test-schema/categories/common';
 import { OverlayCallback } from '../../test-report.model';
 import { ReverseLeftPopoverClosed, ReverseLeftPopoverOpened } from './reverse-left.actions';
 
@@ -39,7 +38,7 @@ export class ReverseLeftComponent implements OnInit, OnDestroy {
   controlLabel: string;
 
   @Input()
-  testCategory: TestCategory;
+  testCategory: TestCategory | CategoryCode;
 
   @Input()
   clickCallback: OverlayCallback;
@@ -59,7 +58,8 @@ export class ReverseLeftComponent implements OnInit, OnDestroy {
     private faultCountProvider: FaultCountProvider,
     private testDataByCategory: TestDataByCategoryProvider,
     private manoeuvresByCategory: ManoeuvresByCategoryProvider,
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     const manoeuvres$ = this.store$.pipe(
@@ -69,18 +69,19 @@ export class ReverseLeftComponent implements OnInit, OnDestroy {
       select(this.manoeuvresByCategory.getManoeuvresByCategoryCode(this.testCategory)),
     );
 
-    this.subscription = manoeuvres$.pipe(takeUntil(trDestroy$)).subscribe((manoeuvres: ManoeuvreUnion) => {
-      this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<ManoeuvreUnion>(
-        this.testCategory, manoeuvres, CompetencyOutcome.DF,
-      );
-      this.hasSeriousFault = this.faultCountProvider.getManoeuvreFaultCount<ManoeuvreUnion>(
-        this.testCategory, manoeuvres, CompetencyOutcome.S,
-      ) > 0;
-      this.hasDangerousFault = this.faultCountProvider.getManoeuvreFaultCount<ManoeuvreUnion>(
-        this.testCategory, manoeuvres, CompetencyOutcome.D,
-      ) > 0;
-      this.completedReverseLeft = getReverseLeftSelected(manoeuvres);
-    });
+    this.subscription = manoeuvres$.pipe(takeUntil(trDestroy$))
+      .subscribe((manoeuvres: ManoeuvreUnion) => {
+        this.drivingFaults = this.faultCountProvider.getManoeuvreFaultCount<ManoeuvreUnion>(
+          this.testCategory, manoeuvres, CompetencyOutcome.DF,
+        );
+        this.hasSeriousFault = this.faultCountProvider.getManoeuvreFaultCount<ManoeuvreUnion>(
+          this.testCategory, manoeuvres, CompetencyOutcome.S,
+        ) > 0;
+        this.hasDangerousFault = this.faultCountProvider.getManoeuvreFaultCount<ManoeuvreUnion>(
+          this.testCategory, manoeuvres, CompetencyOutcome.D,
+        ) > 0;
+        this.completedReverseLeft = getReverseLeftSelected(manoeuvres);
+      });
   }
 
   ngOnDestroy(): void {
