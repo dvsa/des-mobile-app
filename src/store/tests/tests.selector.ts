@@ -162,9 +162,6 @@ export const getPassCertificateBySlotId = (testsModel: TestsModel, id: number): 
 };
 
 const calculateDaysDiff = (test: TestResultSchemasUnion): number => {
-  // if (!test.journalData?.testSlotAttributes?.start) {
-  //   return -1;
-  // }
   const testDate = new DateTime(test.journalData.testSlotAttributes.start);
   const today = new DateTime();
   return today.daysDiff(new Date(testDate.format('YYYY-MM-DD')));
