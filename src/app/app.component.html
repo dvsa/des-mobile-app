@@ -6,26 +6,23 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content [scrollY]="false" style="--ion-background-color: var(--mes-toolbar-background);">
-        <ion-item *ngFor="let page of Pages | roleFilter" class="menu-item" detail="true" (click)="navPage(page)">
-          <ion-label [id]="page.descriptor | formatToID: 'side-menu'">{{page.descriptor}}</ion-label>
-          <ion-badge
-            *ngIf="page.showUnSubmittedCount && (pageState?.unSubmittedTestSlotsCount$ | async) as count;"
-            slot="end"
-            color="danger"
-            id="un-submitted-test-count-badge">
-            {{count}}
-          </ion-badge>
-        </ion-item>
+    <ion-content [scrollY]="false" style="--ion-background-color: var(--mes-toolbar-background)">
+      <ion-item *ngFor="let page of Pages | roleFilter" class="menu-item" detail="true" (click)="navPage(page)">
+        <ion-label [id]="page.descriptor | formatToID : 'side-menu'">{{ page.descriptor }}</ion-label>
+        <ion-badge
+          *ngIf="page.showUnSubmittedCount && (pageState?.unSubmittedTestSlotsCount$ | async) as count"
+          slot="end"
+          color="danger"
+          id="un-submitted-test-count-badge"
+        >
+          {{ count }}
+        </ion-badge>
+      </ion-item>
     </ion-content>
 
     <ion-footer>
       <ion-list>
-        <ion-item
-          class="menu-item"
-          lines="none"
-          *ngIf="pageState?.logoutEnabled$ | async"
-          (click)="onLogoutClick()">
+        <ion-item class="menu-item" lines="none" *ngIf="pageState?.logoutEnabled$ | async" (click)="onLogoutClick()">
           <ion-label id="logout">Logout</ion-label>
         </ion-item>
       </ion-list>
