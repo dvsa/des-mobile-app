@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -23,9 +23,11 @@ import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-li
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { SlotProvider } from '@providers/slot/slot';
-import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { unsubmittedTestSlots$, unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
+import { getTests } from '@store/tests/tests.reducer';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
+import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -34,6 +36,7 @@ interface DashboardPageState {
   role$: Observable<string>;
   isOffline$: Observable<boolean>;
   notificationCount$: Observable<number>;
+  unsubmittedTestSlotsIds$: Observable<number[]>;
 }
 
 @Component({
@@ -80,6 +83,20 @@ export class DashboardPage extends BasePageComponent {
         unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
       ])
         .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
+      unsubmittedTestSlotsIds$: unsubmittedTestSlots$(this.store$, this.dateTimeProvider, this.slotProvider)
+        .pipe(
+          filter((slots) => !!slots.length),
+          withLatestFrom(
+            this.store$.pipe(
+              select(getTests),
+            ),
+          ),
+          map(([slots = [], tests]) => slots
+            .map((slot) => slot?.slotData?.slotDetail?.slotId)
+            .filter((slotId) => !tests?.startedTests[slotId]),
+          ),
+          switchMap((eligibleSlotIds) => of(eligibleSlotIds)),
+        ),
     };
   }
 
@@ -87,6 +104,7 @@ export class DashboardPage extends BasePageComponent {
     this.store$.dispatch(DashboardViewDidEnter());
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
+    this.store$.dispatch(StoreUnuploadedSlotsInTests());
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();

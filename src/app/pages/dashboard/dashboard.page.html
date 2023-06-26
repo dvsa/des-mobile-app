@@ -9,7 +9,7 @@
       </ion-badge>
     </ion-buttons>
     <ion-buttons slot="end">
-      <h6 class="version-number">Version {{pageState.appVersion$ | async}}</h6>
+      <h6 class="version-number">Version {{pageState.unsubmittedTestSlotsIds$ | async}}</h6>
     </ion-buttons>
     <ion-title id="page-title">My dashboard</ion-title>
   </ion-toolbar>
@@ -17,7 +17,7 @@
 
 <ion-content [fullscreen]="true">
   <offline-banner [isOffline]="pageState.isOffline$ | async"></offline-banner>
-  <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>
+  <!--  <incomplete-tests-banner [todaysDate]="todaysDate"></incomplete-tests-banner>-->
   <div>
     <profile-header
       [disableASAM]="deviceProvider.manuallyDisableSingleAppMode"
