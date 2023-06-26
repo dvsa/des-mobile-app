@@ -3,6 +3,8 @@ import {
 } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { SearchablePicklistModal } from '@components/common/searchable-picklist-modal/searchable-picklist-modal';
+import { TestCentre } from '@dvsa/mes-journal-schema';
+import { AppConfigProvider } from '@providers/app-config/app-config';
 
 export enum SearchablePicklistModalEvent {
   CANCEL = 'cancel',
@@ -21,6 +23,12 @@ export class SearchablePicklistComponentWrapper<T> {
 
   @Input()
   model: T;
+
+  @Input()
+  inputType: 'Candidate' | 'Test Centre';
+
+  @Input()
+  isAdvancedSearch: boolean = false;
 
   @Input()
   fieldLabel: string;
@@ -57,7 +65,17 @@ export class SearchablePicklistComponentWrapper<T> {
 
   searchedValue: string;
 
-  constructor(private modalController: ModalController) {}
+  fakeTestCentres: TestCentre[] = [
+    { centreId: 54321, centreName: 'Example test centre', costCode: 'EXTC1' },
+    { centreId: 54322, centreName: 'Example test centre 2', costCode: 'EXTC2' },
+    { centreId: 90876, centreName: 'Inactive test centre 1', costCode: 'INAC1' },
+    { centreId: 65432, centreName: 'Inactive test centre 2', costCode: 'INAC2' },
+  ];
+
+  constructor(
+    private modalController: ModalController,
+    private appConfig: AppConfigProvider,
+  ) {}
 
   async openModal(): Promise<void> {
     // Don't create new modal if disabled property is set or a modal already exists;
@@ -68,7 +86,7 @@ export class SearchablePicklistComponentWrapper<T> {
     const modal: HTMLIonModalElement = await this.modalController.create({
       component: SearchablePicklistModal,
       componentProps: {
-        dataList: this.dataList,
+        dataList: this.appConfig.isDebugMode && this.inputType === 'Test Centre' ? this.fakeTestCentres : this.dataList,
         model: this.model,
         fuzzySearchKeys: this.fuzzySearchKeys,
         minCharactersBeforeListDisplay: this.minCharactersBeforeListDisplay,
@@ -89,5 +107,6 @@ export class SearchablePicklistComponentWrapper<T> {
   clearInput(): void {
     this.model = null;
     this.searchedValue = null;
+    this.outputChanged.emit('' as T);
   }
 }

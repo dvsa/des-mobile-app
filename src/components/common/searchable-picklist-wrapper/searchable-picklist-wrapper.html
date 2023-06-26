@@ -18,7 +18,7 @@
           [style.width]="customWidth ? customWidth +'px' : '452px'"
           (click)="openModal()">
           <ion-col size="83" class="placeholder-font-color no-padding-end padding-top ion-nowrap">
-            <span size="90">{{placeholder}}</span>
+            <span class="placeholder-position" size="90">{{placeholder}}</span>
           </ion-col>
           <ion-col size="6">
             <ion-icon name="caret-down-outline" class="down-caret-icon"></ion-icon>
@@ -38,8 +38,13 @@
 
       <!-- Modified display for TC not showing in an input box -->
       <ion-row *ngIf="model && differentDisplay">
-        <ion-col size="70">
-          <ion-icon name="location-sharp" class="test-centre-location-icon" id="test-centre-icon"></ion-icon>
+        <ion-col size="95">
+          <ion-icon
+            *ngIf="!isAdvancedSearch"
+            name="location-sharp"
+            class="test-centre-location-icon"
+            id="test-centre-icon">
+          </ion-icon>
           <label id="test-centre-location">{{model[displayKey]}}</label>
         </ion-col>
       </ion-row>
@@ -48,6 +53,9 @@
     <ion-col size="10" *ngIf="model && differentDisplay">
       <ion-button (click)="openModal()" class="changeButton" size="small">
         Change
+      </ion-button>
+      <ion-button *ngIf="isAdvancedSearch" (click)="clearInput()" class="changeButton" size="small">
+        Clear
       </ion-button>
     </ion-col>
   </ion-row>

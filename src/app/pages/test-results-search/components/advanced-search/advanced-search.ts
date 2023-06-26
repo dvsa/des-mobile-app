@@ -132,11 +132,12 @@ export class AdvancedSearchComponent {
       startDate: this.startDate ? this.startDate : this.minStartDate,
       endDate: this.endDate ? this.endDate : this.today,
       staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
-      costCode: this.dtcNumber,
+      costCode: this.dtcNumber ? this.dtcNumber : '',
       activityCode: this.selectedActivity.activityCode ?? '',
       category: this.selectedCategory.toString() === this.testCategories[0]
         ? '' : this.selectedCategory.toString(),
       rekey: this.rekeySearch,
+      passCertificateNumber: this.passCertificateNumber,
     };
     this.onSearchTests.emit(advancedSearchParams);
   }
@@ -168,5 +169,10 @@ export class AdvancedSearchComponent {
 
   toggleRekeySearch(): void {
     this.rekeySearch = !this.rekeySearch;
+  }
+
+  selectTestCentre($event: TestCentre) {
+    this.selectedTestCentre = $event;
+    this.dtcNumber = this.selectedTestCentre.costCode;
   }
 }

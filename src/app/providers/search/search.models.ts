@@ -7,4 +7,5 @@ export interface AdvancedSearchParams {
   activityCode?: string;
   category?: string;
   rekey?: boolean;
+  passCertificateNumber?: string;
 }

@@ -46,6 +46,11 @@ ion-item {
   width: 100%;
 }
 
+.placeholder-position {
+  position: relative;
+  top: 3px;
+}
+
 .modal-row {
   justify-content: space-between;
   border: 2px solid var(--dark);

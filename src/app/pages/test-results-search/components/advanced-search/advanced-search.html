@@ -1,28 +1,9 @@
 <ion-grid>
-  <ion-row class="ion-justify-content-center">
-    <ion-col class="ion-align-self-center" size="18">
-      <label id="advanced-search-test-centre-label">Test centre</label>
-    </ion-col>
-    <ion-col size="28">
-            <searchable-picklist-wrapper
-              (outputChanged)="onInputChange($event.target, 'testCentre')"
-              [dataList]="testCentres"
-              [customWidth]="230"
-              [differentDisplay]="true"
-              [displayKey]="'centreName'"
-              [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
-              [idPrefix]="'tcj-view-journal-tab'"
-              [minCharactersBeforeListDisplay]="2"
-              [model]="selectedTestCentre"
-              [placeholder]="'Select a test centre'"
-              [primaryKey]="'centreId'">
-            </searchable-picklist-wrapper>
-    </ion-col>
-    <ion-col size="7"></ion-col>
+  <ion-row>
     <ion-col class="ion-align-self-center" size="13">
       <label id="advanced-search-staff-id-label">Staff ID</label>
     </ion-col>
-    <ion-col size="28">
+    <ion-col size="23">
       <ion-input
         (ionBlur)="setFocus(null)"
         (ionInput)="onInputChange($event.target, 'staffId')"
@@ -34,12 +15,73 @@
         [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
         [placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
         aria-labelledby="advanced-search-staff-id-label"
-        class="input-margin ion-input-styling custom-font-size"
+        class="ion-input-styling custom-font-size"
         id="advanced-search-staff-id-input"
         type="text">
       </ion-input>
     </ion-col>
   </ion-row>
+  <ion-row class="ion-margin-bottom-6"></ion-row>
+  <ion-row>
+    <ion-col class="ion-align-self-center" size="18">
+      <label id="advanced-search-test-centre-label">Test centre</label>
+    </ion-col>
+    <ion-col size="70">
+      <searchable-picklist-wrapper
+        (outputChanged)="selectTestCentre($event)"
+        [dataList]="testCentres"
+        [isAdvancedSearch]="true"
+        [customWidth]="230"
+        [differentDisplay]="true"
+        [inputType]="'Test Centre'"
+        [displayKey]="'centreName'"
+        [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
+        [idPrefix]="'tcj-view-journal-tab'"
+        [minCharactersBeforeListDisplay]="2"
+        [model]="selectedTestCentre"
+        [placeholder]="'Select a test centre'"
+        [primaryKey]="'centreId'">
+      </searchable-picklist-wrapper>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-margin-bottom-6"></ion-row>
+  <ion-row>
+    <ion-col class="ion-align-self-center" size="18">
+      <label id="advanced-search-date-range-label">Date range</label>
+    </ion-col>
+    <ion-col size="22">
+      <datetime-input
+        (onDataPicked)="changeDate($event)"
+        [control]="'start-date'"
+        [disabled]="false"
+        [displayType]="displayType.Date"
+        [initialValue]="minStartDate"
+        [inputId]="'datetime-input-start'"
+        [maxValue]="endDate ? endDate : today"
+        [minValue]="minStartDate"
+        [pickerId]="'date-picker-start'"
+        [showClearButton]="false"
+      ></datetime-input>
+    </ion-col>
+    <ion-col class="ion-align-self-center" size="4">
+      <label class="to-label" id="to-label">to</label>
+    </ion-col>
+    <ion-col size="22">
+      <datetime-input class="input-styling-background"
+                      (onDataPicked)="changeDate($event)"
+                      [control]="'end-date'"
+                      [disabled]="false"
+                      [displayType]="displayType.Date"
+                      [initialValue]="today"
+                      [inputId]="'datetime-input-end'"
+                      [maxValue]="today"
+                      [minValue]="startDate ? startDate : minStartDate"
+                      [pickerId]="'date-picker-end'"
+                      [showClearButton]="false"
+      ></datetime-input>
+    </ion-col>
+  </ion-row>
+  <ion-row class="ion-margin-bottom-20"></ion-row>
   <ion-accordion-group>
     <ion-accordion class="accordion-styling" value="first">
       <ion-item slot="header" color="light">
@@ -128,47 +170,6 @@
               id="advanced-search-pass-certificate-input"
               type="text">
             </ion-input>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <hr class="advanced-search-divider"/>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col class="ion-align-self-center" size="18">
-            <label id="advanced-search-date-range-label">Date range</label>
-          </ion-col>
-          <ion-col size="22">
-            <datetime-input
-              (onDataPicked)="changeDate($event)"
-              [control]="'start-date'"
-              [disabled]="false"
-              [displayType]="displayType.Date"
-              [initialValue]="minStartDate"
-              [inputId]="'datetime-input-start'"
-              [maxValue]="endDate ? endDate : today"
-              [minValue]="minStartDate"
-              [pickerId]="'date-picker-start'"
-              [showClearButton]="false"
-            ></datetime-input>
-          </ion-col>
-          <ion-col class="ion-align-self-center" size="4">
-            <label class="to-label" id="to-label">to</label>
-          </ion-col>
-          <ion-col size="22">
-            <datetime-input class="input-styling-background"
-                            (onDataPicked)="changeDate($event)"
-                            [control]="'end-date'"
-                            [disabled]="false"
-                            [displayType]="displayType.Date"
-                            [initialValue]="today"
-                            [inputId]="'datetime-input-end'"
-                            [maxValue]="today"
-                            [minValue]="startDate ? startDate : minStartDate"
-                            [pickerId]="'date-picker-end'"
-                            [showClearButton]="false"
-            ></datetime-input>
           </ion-col>
         </ion-row>
       </div>
