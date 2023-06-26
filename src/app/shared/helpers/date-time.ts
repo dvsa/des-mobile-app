@@ -11,7 +11,7 @@ export class DateTime {
   moment: moment.Moment;
 
   constructor(sourceDateTime?: DateTime | string | Date) {
-    if (sourceDateTime === undefined) {
+    if (sourceDateTime === undefined || sourceDateTime === null) {
       this.moment = moment();
     } else if (typeof sourceDateTime === 'string') {
       this.moment = moment(new Date(sourceDateTime));
@@ -53,12 +53,14 @@ export class DateTime {
   daysDiff(targetDate: DateTime | string | Date): number {
     const date = new DateTime(targetDate);
     const today = this.moment.startOf(Duration.DAY);
-    return date.moment.startOf(Duration.DAY).diff(today, Duration.DAY);
+    return date.moment.startOf(Duration.DAY)
+      .diff(today, Duration.DAY);
   }
 
   compareDuration(targetDate: DateTime | string | Date, duration: Duration): number {
     if (typeof targetDate === 'string') {
-      return moment(targetDate).diff(this.moment, duration);
+      return moment(targetDate)
+        .diff(this.moment, duration);
     }
     return new DateTime(targetDate).moment.diff(this.moment, duration);
   }
@@ -69,11 +71,15 @@ export class DateTime {
   }
 
   static today(): Date {
-    return moment().toDate();
+    return moment()
+      .toDate();
   }
 
   static datePickerInputToString(date: any) {
-    return moment().year(date.year).month(date.month - 1).date(date.day)
+    return moment()
+      .year(date.year)
+      .month(date.month - 1)
+      .date(date.day)
       .format('YYYY-MM-DD');
   }
 }

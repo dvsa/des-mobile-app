@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ExaminerWorkSchedule } from '@dvsa/mes-journal-schema';
-import { Observable, from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { timeout } from 'rxjs/operators';
 import { DateTime } from '@shared/helpers/date-time';
 import { AuthenticationProvider } from '../authentication/authentication';
 import { UrlProvider } from '../url/url';
 import { DataStoreProvider } from '../data-store/data-store';
-import { NetworkStateProvider, ConnectionStatus } from '../network-state/network-state';
+import { ConnectionStatus, NetworkStateProvider } from '../network-state/network-state';
 import { AppConfigProvider } from '../app-config/app-config';
 import { DateTimeProvider } from '../date-time/date-time';
 
@@ -88,10 +88,13 @@ export class JournalProvider {
   saveJournalForOffline = (journalData: ExaminerWorkSchedule) => {
     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.ONLINE) {
       const journalDataToStore: JournalCache = {
-        dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+        dateStored: this.dateTimeProvider.now()
+          .format('YYYY/MM/DD'),
         data: journalData,
       };
-      this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore)).then(() => {});
+      this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore))
+        .then(() => {
+        });
     }
   };
 
@@ -102,7 +105,7 @@ export class JournalProvider {
    */
 
   isCacheTooOld = (dateStored: DateTime, now: DateTime): boolean => {
-    return dateStored.daysDiff(now) > this.appConfigProvider.getAppConfig().journal.daysToCacheJournalData;
+    return dateStored.daysDiff(now) > this.appConfigProvider.getAppConfig()?.journal?.daysToCacheJournalData;
   };
 
   /**
@@ -114,10 +117,13 @@ export class JournalProvider {
   emptyCachedData = () => {
     const emptyJournalData: ExaminerWorkSchedule = {};
     const journalDataToStore: JournalCache = {
-      dateStored: this.dateTimeProvider.now().format('YYYY/MM/DD'),
+      dateStored: this.dateTimeProvider.now()
+        .format('YYYY/MM/DD'),
       data: emptyJournalData,
     };
-    this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore)).then(() => {});
+    this.dataStore.setItem('JOURNAL', JSON.stringify(journalDataToStore))
+      .then(() => {
+      });
     return emptyJournalData;
   };
 

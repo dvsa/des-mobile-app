@@ -5,7 +5,18 @@ import { StoreModel } from '@shared/models/store.model';
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { SearchProvider } from '@providers/search/search';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
-import { catchError, concatMap, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  delay,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import { getJournalState } from '@store/journal/journal.reducer';
 import { getExaminer } from '@store/tests/journal-data/common/examiner/examiner.reducer';
@@ -148,7 +159,7 @@ export class UnuploadedTestsEffects {
       )),
     map((slots) => uniqBy(slots, 'slotData.slotDetail.slotId')),
     take(1),
-    switchMap((slots) => {
+    mergeMap((slots) => {
       return slots.map((slot) => {
         const tc = get(slot, 'slotData.booking.application.testCategory') as TestCategory;
         const {
@@ -160,5 +171,8 @@ export class UnuploadedTestsEffects {
           .format('YYYY-MM-DD'));
       });
     }),
+    // delay each StartTest by 100 ms to ensure slots dont pollute one another
+    concatMap((startTestAction) => of(startTestAction)
+      .pipe(delay(100))),
   ));
 }
