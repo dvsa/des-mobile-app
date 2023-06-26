@@ -18,10 +18,10 @@ import { LogoutBasePageComponent } from '@shared/classes/logout-base-page';
 import { LogType } from '@shared/models/log.model';
 import { LoadConfigSuccess, LoadEmployeeId, LoadEmployeeName } from '@store/app-info/app-info.actions';
 import {
-  SaveLog, StartSendingLogs, SendLogs, LoadLog,
+  LoadLog, SaveLog, SendLogs, StartSendingLogs,
 } from '@store/logs/logs.actions';
 import { LoadAppConfig } from '@store/app-config/app-config.actions';
-import { StartSendingCompletedTests, LoadPersistedTests } from '@store/tests/tests.actions';
+import { LoadPersistedTests, StartSendingCompletedTests } from '@store/tests/tests.actions';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Subscription } from 'rxjs';

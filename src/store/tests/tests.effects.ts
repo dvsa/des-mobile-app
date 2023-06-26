@@ -1,25 +1,21 @@
 import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { from, interval, of } from 'rxjs';
+import { Action, select, Store } from '@ngrx/store';
 import {
-  Actions,
-  createEffect,
-  ofType,
-} from '@ngrx/effects';
-import { from, of, interval } from 'rxjs';
-import { Store, select, Action } from '@ngrx/store';
-import {
-  find, startsWith, omit, has,
+  find, has, omit, startsWith,
 } from 'lodash';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import {
+  CategoryCode,
+  ConductedLanguage,
   Examiner,
   TestSlotAttributes,
-  ConductedLanguage,
-  CategoryCode,
 } from '@dvsa/mes-test-schema/categories/common';
 import {
-  switchMap, catchError, filter, map, withLatestFrom, concatMap,
+  catchError, concatMap, filter, map, switchMap, withLatestFrom,
 } from 'rxjs/operators';
 
 import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
@@ -49,7 +45,11 @@ import {
 import { NavigationStateProvider } from '@providers/navigation-state/navigation-state';
 import { createPopulateVehicleDimensionsAction } from '@store/tests/vehicle-details/vehicle-details.action.creator';
 import { ProvisionalLicenseNotReceived } from '@store/tests/pass-completion/pass-completion.actions';
+import { SaveLog } from '@store/logs/logs.actions';
+import { LogHelper } from '@providers/logs/logs-helper';
+import { LogType } from '@shared/models/log.model';
 import * as testActions from './tests.actions';
+import { SendCompletedTests, StartTest } from './tests.actions';
 import * as testStatusActions from './test-status/test-status.actions';
 import {
   PopulateApplicationReference,
@@ -58,10 +58,7 @@ import { PopulateCandidateDetails } from './journal-data/common/candidate/candid
 import { testReportPracticeModeSlot } from './__mocks__/tests.mock';
 import { getTests } from './tests.reducer';
 import {
-  getCurrentTest,
-  isPracticeMode,
-  getCurrentTestSlotId,
-  getCurrentTestStatus,
+  getCurrentTest, getCurrentTestSlotId, getCurrentTestStatus, isPracticeMode,
 } from './tests.selector';
 import { TestStatus } from './test-status/test-status.model';
 import { TestsModel } from './tests.model';
@@ -88,18 +85,15 @@ import { Language } from './communication-preferences/communication-preferences.
 import { StartDelegatedTest } from './delegated-test/delegated-test.actions';
 import { OtherReasonUpdated, OtherSelected } from './rekey-reason/rekey-reason.actions';
 import { getStaffNumber } from './journal-data/common/examiner/examiner.selector';
-import {
-  SendCompletedTests,
-  StartTest,
-  TestActionsTypes,
-} from './tests.actions';
 import { createPopulateCandidateDetailsAction } from './journal-data/common/candidate/candidate.action-creator';
 import { GearboxCategoryChanged } from './vehicle-details/vehicle-details.actions';
 import {
-  InitialiseVehicleChecks as InitialiseVehicleChecksCatC, SetFullLicenceHeld as SetFullLicenceHeldCatC,
+  InitialiseVehicleChecks as InitialiseVehicleChecksCatC,
+  SetFullLicenceHeld as SetFullLicenceHeldCatC,
 } from './test-data/cat-c/vehicle-checks/vehicle-checks.cat-c.action';
 import {
-  InitializeVehicleChecks as InitializeVehicleChecksCatD, SetFullLicenceHeld as SetFullLicenceHeldCatD,
+  InitializeVehicleChecks as InitializeVehicleChecksCatD,
+  SetFullLicenceHeld as SetFullLicenceHeldCatD,
 } from './test-data/cat-d/vehicle-checks/vehicle-checks.cat-d.action';
 
 @Injectable()
@@ -113,6 +107,7 @@ export class TestsEffects {
     private store$: Store<StoreModel>,
     public authenticationProvider: AuthenticationProvider,
     private navigationStateProvider: NavigationStateProvider,
+    private logHelper: LogHelper,
   ) {
   }
 
@@ -131,11 +126,11 @@ export class TestsEffects {
         ),
       )),
     filter(([, , practiceMode]) => !practiceMode),
-    switchMap(([, tests]) => {
-      return this.testPersistenceProvider.persistTests(this.getSaveableTestsObject(tests));
-    }),
+    switchMap(([, tests]) => this.testPersistenceProvider.persistTests(this.getSaveableTestsObject(tests))),
     catchError((err) => {
-      console.log(`Error persisting tests: ${err}`);
+      this.store$.dispatch(SaveLog({
+        payload: this.logHelper.createLog(LogType.ERROR, 'Error in PersistTests', err),
+      }));
       return of();
     }),
   ), { dispatch: false });
@@ -162,7 +157,9 @@ export class TestsEffects {
         filter((testsModel) => testsModel !== null),
         map((testsModel) => testActions.LoadPersistedTestsSuccess(testsModel)),
         catchError((err) => {
-          console.log(`Error reading persisted tests: ${err}`);
+          this.store$.dispatch(SaveLog({
+            payload: this.logHelper.createLog(LogType.ERROR, 'Error in LoadPersistedTests', err),
+          }));
           return of(testActions.LoadPersistedTestsFailure());
         }),
       )),
@@ -187,9 +184,10 @@ export class TestsEffects {
           ),
         ),
       )),
-    switchMap(([action, journal, rekeySearch, delegatedRekeySearch, appVersion]:
-    [TestActionsTypes, JournalModel, RekeySearchModel, DelegatedRekeySearchModel, string]) => {
-      const startTestAction = action as ReturnType<typeof StartTest>;
+    switchMap((
+      [startTestAction, journal, rekeySearch, delegatedRekeySearch, appVersion]:
+      [ReturnType<typeof StartTest>, JournalModel, RekeySearchModel, DelegatedRekeySearchModel, string],
+    ) => {
       const isRekeySearch = this.navigationStateProvider.isRekeySearch();
       const isDelegatedRekeySearch = this.navigationStateProvider.isDelegatedExaminerRekeySearch();
       const employeeId = this.authenticationProvider.getEmployeeId() || journal.examiner.staffNumber;
@@ -215,9 +213,11 @@ export class TestsEffects {
       } else {
         examinerBooked = journal.examiner.staffNumber;
         examiner = journal.examiner;
+
         const slots = startTestAction.startDate
           ? getSlotsOnDate(journal, startTestAction.startDate)
           : getSlotsOnSelectedDate(journal);
+
         const slotData = slots.map((s) => s.slotData);
         slot = slotData.find((data) => data.slotDetail.slotId === startTestAction.slotId && has(data, 'booking'));
       }
@@ -242,8 +242,8 @@ export class TestsEffects {
 
       if (
         startTestAction.category !== TestCategory.B
-          && startTestAction.category !== TestCategory.ADI2
-          && startTestAction.category !== TestCategory.ADI3
+        && startTestAction.category !== TestCategory.ADI2
+        && startTestAction.category !== TestCategory.ADI3
       ) {
         arrayOfActions.push(createPopulateVehicleDimensionsAction(startTestAction.category, slot.booking.application));
       }
@@ -279,13 +279,13 @@ export class TestsEffects {
       }
       if (
         startTestAction.category === TestCategory.CM
-          || startTestAction.category === TestCategory.C1M
-          || startTestAction.category === TestCategory.C1EM
-          || startTestAction.category === TestCategory.CEM
-          || startTestAction.category === TestCategory.DM
-          || startTestAction.category === TestCategory.D1M
-          || startTestAction.category === TestCategory.D1EM
-          || startTestAction.category === TestCategory.DEM
+        || startTestAction.category === TestCategory.C1M
+        || startTestAction.category === TestCategory.C1EM
+        || startTestAction.category === TestCategory.CEM
+        || startTestAction.category === TestCategory.DM
+        || startTestAction.category === TestCategory.D1M
+        || startTestAction.category === TestCategory.D1EM
+        || startTestAction.category === TestCategory.DEM
       ) {
         arrayOfActions.push(D255No());
         arrayOfActions.push(ProvisionalLicenseNotReceived());
@@ -313,6 +313,7 @@ export class TestsEffects {
       }
       if (
         startTestAction.category === TestCategory.ADI3
+        || startTestAction.category === TestCategory.SC
       ) {
         arrayOfActions.push(SetWelshTestMarker(false));
       }

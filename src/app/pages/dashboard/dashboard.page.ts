@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AlertController, Platform } from '@ionic/angular';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Insomnia } from '@awesome-cordova-plugins/insomnia/ngx';
 import { ScreenOrientation } from '@capawesome/capacitor-screen-orientation';
 import { CompletedTestPersistenceProvider } from '@providers/completed-test-persistence/completed-test-persistence';
@@ -23,11 +23,10 @@ import { ClearCandidateLicenceData } from '@pages/candidate-licence/candidate-li
 import { RekeySearchClearState } from '@pages/rekey-search/rekey-search.actions';
 import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { SlotProvider } from '@providers/slot/slot';
-import { unsubmittedTestSlots$, unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
+import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
-import { getTests } from '@store/tests/tests.reducer';
-import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
+import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
   appVersion$: Observable<string>;
@@ -36,7 +35,6 @@ interface DashboardPageState {
   role$: Observable<string>;
   isOffline$: Observable<boolean>;
   notificationCount$: Observable<number>;
-  unsubmittedTestSlotsIds$: Observable<number[]>;
 }
 
 @Component({
@@ -68,6 +66,8 @@ export class DashboardPage extends BasePageComponent {
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now()
       .format('dddd Do MMMM YYYY');
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
+      .format('YYYY-MM-DD')));
   }
 
   ngOnInit() {
@@ -79,24 +79,12 @@ export class DashboardPage extends BasePageComponent {
       role$: this.store$.select(selectRole)
         .pipe(map(this.getRoleDisplayValue)),
       isOffline$: this.networkStateProvider.isOffline$,
-      notificationCount$: combineLatest([
-        unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
-      ])
+      notificationCount$: combineLatest(
+        [
+          unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
+        ],
+      )
         .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
-      unsubmittedTestSlotsIds$: unsubmittedTestSlots$(this.store$, this.dateTimeProvider, this.slotProvider)
-        .pipe(
-          filter((slots) => !!slots.length),
-          withLatestFrom(
-            this.store$.pipe(
-              select(getTests),
-            ),
-          ),
-          map(([slots = [], tests]) => slots
-            .map((slot) => slot?.slotData?.slotDetail?.slotId)
-            .filter((slotId) => !tests?.startedTests[slotId]),
-          ),
-          switchMap((eligibleSlotIds) => of(eligibleSlotIds)),
-        ),
     };
   }
 

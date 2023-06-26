@@ -37,19 +37,21 @@ export class SentryIonicErrorHandler extends ErrorHandler {
   }
 
   async handleError(error) {
-    super.handleError(error);
-
     try {
+      super.handleError(error);
+
       // don't report missing apiKey errors that can be seen via Logs service;
       if (
         error instanceof HttpErrorResponse
-          && error?.status === 403
-          && error?.url?.includes('logs')
-      ) return;
+        && error?.status === 403
+        && error?.url?.includes('logs')
+      ) {
+        return;
+      }
 
       const { role } = this.appConfigProvider.getAppConfig();
       const employeeID = this.authenticationProvider.getEmployeeId();
-      const appVersion = await this.appInfoProvider.getVersionNumber().toPromise();
+      const appVersion = await this.appInfoProvider.getFullVersionNumber();
 
       Sentry.withScope((scope) => {
         if (employeeID) scope.setUser({ id: employeeID });
@@ -62,7 +64,7 @@ export class SentryIonicErrorHandler extends ErrorHandler {
       this.store$.dispatch(SaveLog({
         payload: this.logHelper.createLog(
           LogType.ERROR,
-          'Sentry Error handler',
+          'Error handler',
           err?.message ?? err,
         ),
       }));
