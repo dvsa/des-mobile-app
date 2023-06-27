@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-row>
     <!-- Field label -->
-    <ion-col size="24" class="component-label">
+    <ion-col *ngIf="fieldLabel" size="24" class="component-label">
       <label [id]="fieldLabel | formatToID: idPrefix">{{fieldLabel}}</label>
     </ion-col>
 
@@ -11,9 +11,14 @@
         <ion-row class="spacing-row"></ion-row>
 
         <!-- Placeholder for when no value has been selected before -->
-        <ion-row *ngIf="!model" class="modal-row" [ngClass]="{ 'appear-disabled': disabled }" (click)="openModal()">
-          <ion-col class="placeholder-font-color no-padding-end padding-top ion-nowrap">
-            <span size="90">{{placeholder}}</span>
+        <ion-row
+          *ngIf="!model"
+          class="modal-row"
+          [ngClass]="{ 'appear-disabled': disabled }"
+          [style.width]="customWidth ? customWidth +'px' : '452px'"
+          (click)="openModal()">
+          <ion-col size="87" class="placeholder-font-color no-padding-end padding-top ion-nowrap">
+            <span class="placeholder-details" size="90">{{placeholder}}</span>
           </ion-col>
           <ion-col size="6">
             <ion-icon name="caret-down-outline" class="down-caret-icon"></ion-icon>
@@ -33,16 +38,26 @@
 
       <!-- Modified display for TC not showing in an input box -->
       <ion-row *ngIf="model && differentDisplay">
-        <ion-col size="70">
-          <ion-icon name="location-sharp" class="test-centre-location-icon" id="test-centre-icon"></ion-icon>
+        <ion-col size="95">
+          <!--Removes the icon if the user is on advanced search-->
+          <ion-icon
+            *ngIf="!isAdvancedSearch"
+            name="location-sharp"
+            class="test-centre-location-icon"
+            id="test-centre-icon">
+          </ion-icon>
           <label id="test-centre-location">{{model[displayKey]}}</label>
         </ion-col>
       </ion-row>
     </ion-col>
 
-    <ion-col size="10" *ngIf="model && differentDisplay">
+    <ion-col [size]="isAdvancedSearch ? 30 : 10" *ngIf="model && differentDisplay">
       <ion-button (click)="openModal()" class="changeButton" size="small">
         Change
+      </ion-button>
+      <!--Button to clear the input entirely only appears if the user is on advanced search-->
+      <ion-button *ngIf="isAdvancedSearch" (click)="clearInput()" class="changeButton" size="small">
+        Clear
       </ion-button>
     </ion-col>
   </ion-row>

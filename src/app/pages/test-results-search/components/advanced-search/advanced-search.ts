@@ -7,10 +7,11 @@ import { nonAlphaNumericValues } from '@shared/constants/field-validators/field-
 import * as moment from 'moment';
 import { TestCategory } from '@dvsa/mes-test-schema/category-definitions/common/test-category';
 import { activityCodeModelList } from '@shared/constants/activity-code/activity-code.constants';
-import { InputChangeEventDetail, ToggleChangeEventDetail } from '@ionic/angular';
+import { InputChangeEventDetail } from '@ionic/angular';
 import { AppComponent } from '@app/app.component';
 import { DisplayType } from '@components/common/datetime-input/date-time-input.component';
 import { InputInputEventDetail } from '@ionic/core';
+import { TestCentre } from '@dvsa/mes-journal-schema';
 
 @Component({
   selector: 'advanced-search',
@@ -24,6 +25,12 @@ export class AdvancedSearchComponent {
 
   @Input()
   importStaffNumber: string;
+
+  @Input()
+  testCentres: TestCentre[] = [];
+
+  @Input()
+  selectedTestCentre: TestCentre;
 
   @Output()
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
@@ -78,6 +85,7 @@ export class AdvancedSearchComponent {
   selectedActivity: { activityCode: string; description: string; } = this.activityCodes[0];
   selectedCategory: string = this.testCategories[0];
   dtcNumber: string = '';
+  passCertificateNumber: string = '';
   staffNumber: string = '';
   startDate: string = '';
   endDate: string = '';
@@ -124,11 +132,12 @@ export class AdvancedSearchComponent {
       startDate: this.startDate ? this.startDate : this.minStartDate,
       endDate: this.endDate ? this.endDate : this.today,
       staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
-      costCode: this.dtcNumber,
+      costCode: this.dtcNumber ? this.dtcNumber : '',
       activityCode: this.selectedActivity.activityCode ?? '',
       category: this.selectedCategory.toString() === this.testCategories[0]
         ? '' : this.selectedCategory.toString(),
       rekey: this.rekeySearch,
+      passCertificateNumber: this.passCertificateNumber,
     };
     this.onSearchTests.emit(advancedSearchParams);
   }
@@ -158,7 +167,12 @@ export class AdvancedSearchComponent {
     }
   }
 
-  toggleRekeySearch(event: ToggleChangeEventDetail): void {
-    this.rekeySearch = !!(event.checked);
+  toggleRekeySearch(): void {
+    this.rekeySearch = !this.rekeySearch;
+  }
+
+  selectTestCentre($event: TestCentre) {
+    this.selectedTestCentre = $event;
+    this.dtcNumber = this.selectedTestCentre.costCode;
   }
 }

@@ -51,6 +51,7 @@ export class SearchProvider {
           category: encodeURIComponent(advancedSearchParams.category),
           activityCode: advancedSearchParams.activityCode,
           rekey: advancedSearchParams.rekey,
+          passCertificateNumber: encodeURIComponent(advancedSearchParams.passCertificateNumber),
         },
       },
     ).pipe(timeout(this.appConfig.getAppConfig().requestTimeout));

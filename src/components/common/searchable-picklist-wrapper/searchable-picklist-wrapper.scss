@@ -46,7 +46,13 @@ ion-item {
   width: 100%;
 }
 
+.placeholder-details {
+  position: relative;
+  top: 3px;
+}
+
 .modal-row {
+  justify-content: space-between;
   border: 2px solid var(--dark);
   border-radius: 8px;
   color: var(--dark);
@@ -61,8 +67,12 @@ ion-item {
 }
 
 .down-caret-icon {
-  color: darkgrey;
+  color: black;
+  opacity: 0.59;
   font-size: 14px;
+  position: relative;
+  right: 9px;
+  top: 3px;
 }
 
 .test-centre-location-icon {
@@ -71,7 +81,8 @@ ion-item {
 
 .placeholder-font-color {
   margin-left: 4px;
-  opacity: 0.4;
+  color: black;
+  opacity: 0.59;
 }
 
 ion-item::part(native) {
@@ -81,7 +92,6 @@ ion-item::part(native) {
 
 ion-searchbar {
   --background: var(--mes-white);
-  --placeholder-color: grey;
   --color: black;
 }
 

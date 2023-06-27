@@ -56,6 +56,7 @@ describe('SearchProvider', () => {
         excludeAutoSavedTests: 'true',
         activityCode: '1',
         category: 'A',
+        passCertificateNumber: 'A1',
         rekey: true,
       };
 
@@ -63,7 +64,7 @@ describe('SearchProvider', () => {
 
       httpMock.expectOne(
         // eslint-disable-next-line max-len
-        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true&category=A&activityCode=1&rekey=true',
+        'https://www.example.com/api/v1/test-result?startDate=12-12-12&endDate=12-12-12&staffNumber=12345&dtcCode=abc&excludeAutoSavedTests=true&category=A&activityCode=1&rekey=true&passCertificateNumber=A1',
       );
       expect(urlProvider.getTestResultServiceUrl).toHaveBeenCalled();
     });

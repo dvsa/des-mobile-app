@@ -73,6 +73,7 @@ describe('AdvancedSearchComponent', () => {
       component.selectedActivity.activityCode = 'activityCode';
       [component.selectedCategory] = component.testCategories;
       component.rekeySearch = false;
+      component.passCertificateNumber = 'passCert';
 
       spyOn(component.onSearchTests, 'emit');
       component.searchTests();
@@ -84,6 +85,7 @@ describe('AdvancedSearchComponent', () => {
         costCode: 'dtcNumber',
         activityCode: 'activityCode',
         category: '',
+        passCertificateNumber: 'passCert',
         rekey: false,
       });
     });

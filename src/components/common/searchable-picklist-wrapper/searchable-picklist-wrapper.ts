@@ -23,6 +23,9 @@ export class SearchablePicklistComponentWrapper<T> {
   model: T;
 
   @Input()
+  isAdvancedSearch: boolean = false;
+
+  @Input()
   fieldLabel: string;
 
   @Input()
@@ -49,12 +52,17 @@ export class SearchablePicklistComponentWrapper<T> {
   @Input()
   disabled: boolean = false;
 
+  @Input()
+  customWidth: number;
+
   @Output()
   outputChanged = new EventEmitter<T>();
 
   searchedValue: string;
 
-  constructor(private modalController: ModalController) {}
+  constructor(
+    private modalController: ModalController,
+  ) {}
 
   async openModal(): Promise<void> {
     // Don't create new modal if disabled property is set or a modal already exists;
@@ -86,5 +94,6 @@ export class SearchablePicklistComponentWrapper<T> {
   clearInput(): void {
     this.model = null;
     this.searchedValue = null;
+    this.outputChanged.emit('' as T);
   }
 }

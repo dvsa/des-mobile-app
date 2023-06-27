@@ -1,5 +1,9 @@
 :host {
 
+  .pass-certificate-input {
+    width: 236px;
+  }
+
   #dtc-number {
     width: 100%;
   }
@@ -28,6 +32,13 @@
     width: 100%;
   }
 
+  .ion-margin-bottom-6 {
+    margin-bottom: 6px;
+  }
+  .ion-margin-bottom-20 {
+    margin-bottom: 20px;
+  }
+
   .search-icon {
     display: inline-block;
     position: relative;
@@ -39,6 +50,10 @@
   .advanced-search-divider {
     height: 2px;
     background-color: #bdbdbd;
+  }
+
+  .accordion-styling {
+    background-color: #f4f5f8;
   }
 
   .item-ios.item-block .item-inner {
