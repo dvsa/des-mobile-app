@@ -39,6 +39,7 @@
       <!-- Modified display for TC not showing in an input box -->
       <ion-row *ngIf="model && differentDisplay">
         <ion-col size="95">
+          <!--Removes the icon if the user is on advanced search-->
           <ion-icon
             *ngIf="!isAdvancedSearch"
             name="location-sharp"
@@ -54,6 +55,7 @@
       <ion-button (click)="openModal()" class="changeButton" size="small">
         Change
       </ion-button>
+      <!--Button to clear the input entirely only appears if the user is on advanced search-->
       <ion-button *ngIf="isAdvancedSearch" (click)="clearInput()" class="changeButton" size="small">
         Clear
       </ion-button>
