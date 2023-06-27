@@ -1,9 +1,9 @@
 <ion-grid>
   <ion-row>
-    <ion-col class="ion-align-self-center" size="18">
+    <ion-col class="ion-align-self-center" size="20">
       <label id="advanced-search-staff-id-label">DE number</label>
     </ion-col>
-    <ion-col size="23">
+    <ion-col size="47">
       <ion-input
         (ionBlur)="setFocus(null)"
         (ionInput)="onInputChange($event.target, 'staffId')"
@@ -31,7 +31,7 @@
         (outputChanged)="selectTestCentre($event)"
         [dataList]="testCentres"
         [isAdvancedSearch]="true"
-        [customWidth]="230"
+        [customWidth]="348"
         [differentDisplay]="true"
         [displayKey]="'centreName'"
         [fuzzySearchKeys]="['centreName', 'costCode', 'centreId']"
@@ -45,7 +45,7 @@
   </ion-row>
   <ion-row class="ion-margin-bottom-6"></ion-row>
   <ion-row>
-    <ion-col class="ion-align-self-center" size="18">
+    <ion-col class="ion-align-self-center" size="20">
       <label id="advanced-search-date-range-label">Date range</label>
     </ion-col>
     <ion-col size="22">
@@ -88,7 +88,7 @@
       </ion-item>
       <div class="ion-padding" slot="content">
         <ion-row>
-          <ion-col class="ion-align-self-center" size="21">
+          <ion-col class="ion-align-self-center" size="26">
             <label>Activity code</label>
           </ion-col>
           <ion-col size="55">
@@ -111,10 +111,10 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-align-self-center" size="22">
+          <ion-col class="ion-align-self-center" size="26">
             <label>Test category</label>
           </ion-col>
-          <ion-col size="54">
+          <ion-col size="55">
             <ion-select (ionChange)="categorySelectChange($event.target.value)"
                         [interfaceOptions]="{cssClass:'mes-select', enableBackdropDismiss:false}"
                         aria-label="Test category"
@@ -133,10 +133,10 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="ion-align-self-center" size="25">
+          <ion-col class="ion-align-self-center" size="26">
             <label>Pass certificate</label>
           </ion-col>
-          <ion-col size="35">
+          <ion-col size="55">
             <ion-input
               (ionBlur)="setFocus(null)"
               (ionFocus)="setFocus('passCertificateNum')"
