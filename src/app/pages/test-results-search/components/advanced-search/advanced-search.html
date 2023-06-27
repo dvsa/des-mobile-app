@@ -1,29 +1,32 @@
 <ion-grid>
   <ion-row>
-    <ion-col class="ion-align-self-center" size="20">
-      <label id="advanced-search-staff-id-label">DE number</label>
+    <ion-col class="ion-align-self-center" size="21">
+      <label id="advanced-search-staff-id-label">Staff number</label>
     </ion-col>
     <ion-col size="47">
       <ion-input
+        *ngIf="!importStaffNumber"
         (ionBlur)="setFocus(null)"
         (ionInput)="onInputChange($event.target, 'staffId')"
         (ionFocus)="setFocus('deNumber')"
         [(ngModel)]="staffNumber"
         [class.increase-height]="appComponent.getTextZoomClass() === 'text-zoom-x-large'"
         [clearInput]="true"
-        [disabled]="!!importStaffNumber"
         [ngClass]="{'input-focus': focusedElement === 'deNumber'}"
-        [placeholder]="importStaffNumber ? importStaffNumber : 'DE number'"
+        [placeholder]="'DE number'"
         aria-labelledby="advanced-search-staff-id-label"
         class="ion-input-styling custom-font-size"
         id="advanced-search-staff-id-input"
         type="text">
       </ion-input>
+      <label
+        class="import-staff-text"
+      *ngIf="importStaffNumber">{{importStaffNumber}}</label>
     </ion-col>
   </ion-row>
   <ion-row class="ion-margin-bottom-6"></ion-row>
   <ion-row>
-    <ion-col class="ion-align-self-center" size="18">
+    <ion-col class="ion-align-self-center" size="19">
       <label id="advanced-search-test-centre-label">Test centre</label>
     </ion-col>
     <ion-col size="70">
@@ -45,7 +48,7 @@
   </ion-row>
   <ion-row class="ion-margin-bottom-6"></ion-row>
   <ion-row>
-    <ion-col class="ion-align-self-center" size="20">
+    <ion-col class="ion-align-self-center" size="21">
       <label id="advanced-search-date-range-label">Date range</label>
     </ion-col>
     <ion-col size="22">
