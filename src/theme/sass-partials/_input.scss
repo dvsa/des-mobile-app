@@ -51,6 +51,9 @@ ion-select.select {
   width: 30px !important;
   background-size: 26px !important;
   right: 16px !important;
+  & ion-icon {
+    opacity: 0;
+  }
 }
 
 .input-styling-background {
