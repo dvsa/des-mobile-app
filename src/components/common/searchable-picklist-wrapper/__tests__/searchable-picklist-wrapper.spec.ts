@@ -5,8 +5,6 @@ import {
 } from '@components/common/searchable-picklist-wrapper/searchable-picklist-wrapper';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { ModalControllerMock } from '@mocks/ionic-mocks/modal-controller.mock';
-import { AppConfigProvider } from '@providers/app-config/app-config';
-import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 
 describe('SearchablePicklistComponentWrapper', () => {
   let fixture: ComponentFixture<SearchablePicklistComponentWrapper<any>>;
@@ -24,7 +22,6 @@ describe('SearchablePicklistComponentWrapper', () => {
       ],
       providers: [
         { provide: ModalController, useClass: ModalControllerMock },
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
       ],
     });
 
