@@ -6,6 +6,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { TestCentreDetailResponse } from '@shared/models/test-centre-journal.model';
 import { ComponentsModule } from '@components/common/common-components.module';
 import { TestCentre } from '@dvsa/mes-journal-schema';
+import { AppConfigProvider } from '@providers/app-config/app-config';
+import { AppConfigProviderMock } from '@providers/app-config/__mocks__/app-config.mock';
 import { CandidateData, CandidateSearchCardComponent } from '../candidate-search-card';
 import * as mockData from '../__mocks__/candidate-search-card.mock';
 import { TestCentreJournalComponentsModule } from '../../test-centre-journal-components.module';
@@ -24,6 +26,7 @@ describe('CandidateSearchCardComponent', () => {
         TestCentreJournalComponentsModule,
       ],
       providers: [
+        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
         provideMockStore({ initialState: {} }),
       ],
     });
