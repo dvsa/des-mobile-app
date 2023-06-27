@@ -32,17 +32,21 @@ ion-select {
   @extend .common-input-style;
 }
 
+input {
+  font-weight: normal !important;
+}
+
 // Don't dim select placeholders
 ion-select.select {
   max-width: 100%;
   align-items: center;
-
-  .select-placeholder {
-    color: inherit;
-  }
 }
 
-.input-clear-icon.sc-ion-input-ios  {
+.select-placeholder {
+  color: inherit;
+}
+
+.input-clear-icon.sc-ion-input-ios {
   background-image: url("/assets/imgs/clear-icon.svg") !important;
   width: 30px !important;
   background-size: 26px !important;
@@ -64,22 +68,25 @@ ion-select.select {
     line-height: 1.4em;
     white-space: normal;
   }
+
   .text-zoom-large & {
     font-size: 24px;
     line-height: 1.4em;
     white-space: normal;
   }
+
   .text-zoom-x-large & {
     font-size: 28px;
     line-height: 1.5em;
     white-space: normal;
   }
+
   &.increase-width {
     width: 280px;
   }
 }
 
 .input-focus {
-  border : 4px solid var(--gds-yellow) !important;
+  border: 4px solid var(--gds-yellow) !important;
   box-shadow: inset 0 0 0 9px white;
 }

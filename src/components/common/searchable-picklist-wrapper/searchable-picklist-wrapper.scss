@@ -46,7 +46,7 @@ ion-item {
   width: 100%;
 }
 
-.placeholder-position {
+.placeholder-details {
   position: relative;
   top: 3px;
 }
@@ -67,7 +67,8 @@ ion-item {
 }
 
 .down-caret-icon {
-  color: darkgrey;
+  color: black;
+  opacity: 0.59;
   font-size: 14px;
   position: relative;
   right: 9px;
@@ -80,7 +81,8 @@ ion-item {
 
 .placeholder-font-color {
   margin-left: 4px;
-  opacity: 0.4;
+  color: black;
+  opacity: 0.59;
 }
 
 ion-item::part(native) {
@@ -90,7 +92,6 @@ ion-item::part(native) {
 
 ion-searchbar {
   --background: var(--mes-white);
-  --placeholder-color: grey;
   --color: black;
 }
 

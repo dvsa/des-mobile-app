@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-row>
-    <ion-col class="ion-align-self-center" size="13">
-      <label id="advanced-search-staff-id-label">Staff ID</label>
+    <ion-col class="ion-align-self-center" size="18">
+      <label id="advanced-search-staff-id-label">DE number</label>
     </ion-col>
     <ion-col size="23">
       <ion-input
@@ -89,25 +89,6 @@
       </ion-item>
       <div class="ion-padding" slot="content">
         <ion-row>
-          <ion-col class="ion-align-self-center" size="26">
-            <label id="rekey-checkbox-filter">Show rekey only</label>
-          </ion-col>
-          <ion-col size="10">
-            <input type="checkbox"
-                   id="rekey-toggle"
-                   class="gds-checkbox"
-                   (change)="toggleRekeySearch()"
-                   [checked]="rekeySearch"
-                   [disabled]="!importStaffNumber && !staffNumber">
-            <label [for]="'rekey-toggle'"></label>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            <hr class="advanced-search-divider"/>
-          </ion-col>
-        </ion-row>
-        <ion-row>
           <ion-col class="ion-align-self-center" size="21">
             <label>Activity code</label>
           </ion-col>
@@ -170,6 +151,25 @@
               id="advanced-search-pass-certificate-input"
               type="text">
             </ion-input>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <hr class="advanced-search-divider"/>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col class="ion-align-self-center" size="26">
+            <label id="rekey-checkbox-filter">Show rekey only</label>
+          </ion-col>
+          <ion-col size="10">
+            <input type="checkbox"
+                   id="rekey-toggle"
+                   class="gds-checkbox"
+                   (change)="toggleRekeySearch()"
+                   [checked]="rekeySearch"
+                   [disabled]="!importStaffNumber && !staffNumber">
+            <label [for]="'rekey-toggle'"></label>
           </ion-col>
         </ion-row>
       </div>
