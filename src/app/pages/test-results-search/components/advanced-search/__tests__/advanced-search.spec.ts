@@ -19,11 +19,11 @@ describe('AdvancedSearchComponent', () => {
       declarations: [
         AdvancedSearchComponent,
         MockComponent(DateTimeInputComponent),
+        MockComponent(SearchablePicklistComponentWrapper),
       ],
       imports: [
         AppModule,
         IonicModule,
-        SearchablePicklistComponentWrapper,
       ],
       providers: [
         { provide: AppComponent, useClass: MockAppComponent },
