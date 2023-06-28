@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { IonicModule } from '@ionic/angular';
 import { PassCertificatesPage } from '../pass-certificates.page';
 
 describe('PassCertificatesPage', () => {
@@ -11,6 +12,7 @@ describe('PassCertificatesPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [PassCertificatesPage],
+      imports: [IonicModule],
       providers: [
         { provide: Store, useClass: MockStore },
         provideMockStore({ }),
