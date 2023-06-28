@@ -1,12 +1,14 @@
 ion-accordion-group {
   ion-accordion {
     background-color: #f4f5f8;
-    .ion-accordion-toggle-icon {
-      color: black;
-    }
-    ion-item {
-      --background: #f4f5f8;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.15);
-    }
   }
+}
+
+ion-accordion.accordion-collapsing ion-item[slot='header'],
+ion-accordion.accordion-collapsed ion-item[slot='header'],
+ion-accordion.accordion-expanding ion-item[slot='header'],
+ion-accordion.accordion-expanded ion-item[slot='header']{
+  --background: #f4f5f8;
+  --color: var(--gds-black);
+  --background-activated: var(--gds-black);
 }
