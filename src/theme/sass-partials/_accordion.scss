@@ -1,0 +1,12 @@
+ion-accordion-group {
+  ion-accordion {
+    background-color: #f4f5f8;
+    .ion-accordion-toggle-icon {
+      color: black;
+    }
+    ion-item {
+      --background: #f4f5f8;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0.15);
+    }
+  }
+}
