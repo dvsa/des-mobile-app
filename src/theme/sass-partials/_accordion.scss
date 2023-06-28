@@ -1,6 +1,6 @@
 ion-accordion-group {
   ion-accordion {
-    background-color: #f4f5f8;
+    background-color: var(--ion-accordion);
   }
 }
 
@@ -8,7 +8,7 @@ ion-accordion.accordion-collapsing ion-item[slot='header'],
 ion-accordion.accordion-collapsed ion-item[slot='header'],
 ion-accordion.accordion-expanding ion-item[slot='header'],
 ion-accordion.accordion-expanded ion-item[slot='header']{
-  --background: #f4f5f8;
+  --background: var(--ion-accordion);
   --color: var(--gds-black);
   --background-activated: var(--gds-black);
 }
