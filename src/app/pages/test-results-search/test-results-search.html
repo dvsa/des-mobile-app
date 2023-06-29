@@ -89,7 +89,6 @@
             <tab [tabTitle]="'Advanced search'" id="tab-search-advanced">
                 <advanced-search
                         [importStaffNumber]="verifyAdvancedSearch()"
-                        [selectedTestCentre]="testCentreSelected"
                         [testCentres]="pageState.activeTestCentres$ | async"
                         (onSearchTests)="advancedSearch($event)"
                         [showSpinner]="showAdvancedSearchSpinner">

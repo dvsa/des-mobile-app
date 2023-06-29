@@ -57,7 +57,6 @@ export class TestResultsSearchPage extends BasePageComponent {
   subscription: Subscription = Subscription.EMPTY;
   rekeySearch: boolean = false;
   pageState: TestResultPageState;
-  testCentreSelected: JournalTestCentre;
   merged$: Observable<JournalTestCentre[]>;
 
   constructor(
@@ -215,10 +214,6 @@ export class TestResultsSearchPage extends BasePageComponent {
       )
       .subscribe();
   }
-
-  testCentreChange = async (testCentre: JournalTestCentre): Promise<void> => {
-    this.testCentreSelected = testCentre;
-  };
 
   showError = async (error: MesError): Promise<void> => {
     if (error === undefined || error.message === '') return;
