@@ -13,4 +13,3 @@ export class ScDebriefCard {
   @Input()
   endTime: string;
 }
-Added
