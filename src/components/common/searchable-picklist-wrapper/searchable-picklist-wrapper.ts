@@ -94,6 +94,6 @@ export class SearchablePicklistComponentWrapper<T> {
   clearInput(): void {
     this.model = null;
     this.searchedValue = null;
-    this.outputChanged.emit('' as T);
+    this.outputChanged.emit(null);
   }
 }

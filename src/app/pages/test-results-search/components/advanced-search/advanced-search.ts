@@ -29,9 +29,6 @@ export class AdvancedSearchComponent {
   @Input()
   testCentres: TestCentre[] = [];
 
-  @Input()
-  selectedTestCentre: TestCentre;
-
   @Output()
   onSearchTests = new EventEmitter<AdvancedSearchParams>();
 
@@ -84,8 +81,8 @@ export class AdvancedSearchComponent {
 
   selectedActivity: { activityCode: string; description: string; } = this.activityCodes[0];
   selectedCategory: string = this.testCategories[0];
-  dtcNumber: string = '';
   passCertificateNumber: string = '';
+  selectedTestCentre: TestCentre = null;
   staffNumber: string = '';
   startDate: string = '';
   endDate: string = '';
@@ -129,10 +126,10 @@ export class AdvancedSearchComponent {
 
   searchTests(): void {
     const advancedSearchParams: AdvancedSearchParams = {
-      startDate: this.startDate ? this.startDate : this.minStartDate,
-      endDate: this.endDate ? this.endDate : this.today,
-      staffNumber: removeLeadingZeros(this.importStaffNumber ? this.importStaffNumber : this.staffNumber),
-      costCode: this.dtcNumber ? this.dtcNumber : '',
+      startDate: this.startDate || this.minStartDate,
+      endDate: this.endDate || this.today,
+      staffNumber: removeLeadingZeros(this.importStaffNumber || this.staffNumber),
+      costCode: this.selectedTestCentre?.costCode || '',
       activityCode: this.selectedActivity.activityCode ?? '',
       category: this.selectedCategory.toString() === this.testCategories[0]
         ? '' : this.selectedCategory.toString(),
@@ -173,6 +170,5 @@ export class AdvancedSearchComponent {
 
   selectTestCentre($event: TestCentre) {
     this.selectedTestCentre = $event;
-    this.dtcNumber = this.selectedTestCentre.costCode;
   }
 }
