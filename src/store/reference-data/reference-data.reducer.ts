@@ -1,10 +1,6 @@
-import { createReducer, createFeatureSelector, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, on } from '@ngrx/store';
 import { RefDataTestCentreResponse } from '@providers/reference-data/reference-data';
-import {
-  ClearTestCentresRefData,
-  LoadTestCentresRefDataSuccess,
-  SetDateRefDataUpdated,
-} from './reference-data.actions';
+import { LoadTestCentresRefDataSuccess, SetDateRefDataUpdated, UnloadRefData } from './reference-data.actions';
 
 export type RefDataStateModel = {
   dateLoaded: string,
@@ -28,7 +24,7 @@ export const referenceDataReducer = createReducer(
     ...state,
     testCentres,
   })),
-  on(ClearTestCentresRefData, () => ({
+  on(UnloadRefData, () => ({
     ...initialState,
   })),
 );

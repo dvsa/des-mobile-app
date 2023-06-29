@@ -92,7 +92,7 @@ export class AppInfoEffects {
   loadEmployeeName$ = createEffect(() => this.actions$.pipe(
     ofType(LoadEmployeeName),
     switchMap(async () => {
-      const employeeName = await this.authenticationProvider.loadEmployeeName();
+      const employeeName = await this.authenticationProvider.getEmployeeName();
       return LoadEmployeeNameSuccess({ employeeName });
     }),
   ));

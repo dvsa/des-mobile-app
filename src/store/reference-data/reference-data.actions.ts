@@ -11,8 +11,8 @@ export const GetTestCentresRefData = createAction(
   '[ReferenceDataEffects] Get test centres',
 );
 
-export const ClearTestCentresRefData = createAction(
-  '[ReferenceDataEffects] Clear test centres',
+export const UnloadRefData = createAction(
+  '[ReferenceDataEffects] Clear ref data',
 );
 
 export const LoadTestCentresRefDataSuccess = createAction(

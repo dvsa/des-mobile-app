@@ -36,7 +36,7 @@ import { DASHBOARD_PAGE } from '../page-names.constants';
 })
 export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
-  appInitError: AuthenticationError | AppConfigError;
+  appInitError: AuthenticationError | AppConfigError | unknown;
   hasUserLoggedOut = false;
   hasDeviceTypeError = false;
   deviceTypeError: DeviceError;
@@ -62,7 +62,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
   async ngOnInit() {
     if (this.router.getCurrentNavigation()?.extras.state) {
-      this.hasUserLoggedOut = !!(this.router.getCurrentNavigation().extras.state.hasLoggedOut);
+      this.hasUserLoggedOut = !!(this.router.getCurrentNavigation()?.extras.state?.hasLoggedOut);
 
       if (this.hasUserLoggedOut) {
         await this.closeSideMenuIfOpen();
@@ -96,10 +96,10 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
   }
 
   login = async (): Promise<any> => {
-    await this.handleLoadingUI(true);
-
     try {
       await this.platform.ready();
+
+      await this.handleLoadingUI(true);
 
       this.store$.dispatch(StartSendingLogs());
 
@@ -107,7 +107,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       this.appInitializedLog();
 
-      this.initialiseAuthentication();
+      this.authenticationProvider.determineAuthenticationMode();
 
       await this.authenticationProvider.expireTokens();
 
@@ -149,13 +149,34 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
 
       await this.handleLoadingUI(false);
 
-      if (error === AuthenticationError.USER_CANCELLED) {
-        this.analytics.logException(error, true);
-        this.dispatchLog('user cancelled login');
-      }
+      await this.loginFlowError(error);
+    }
+    this.hasUserLoggedOut = false;
+  };
 
-      if (error === AuthenticationError.USER_NOT_AUTHORISED) {
-        const token = await this.authenticationProvider.getAuthenticationToken();
+  private async loginFlowError(error: unknown) {
+    this.appInitError = error;
+
+    if (error instanceof Error) {
+      await this.handleLoginError(error.message);
+    } else {
+      await this.handleLoginError(error as string);
+    }
+  }
+
+  private handleLoginError = async (error: string): Promise<void> => {
+    switch (error) {
+      case AuthenticationError.USER_CANCELLED:
+      case AuthenticationError.USER_CANCELLED_AUTH:
+        this.analytics.logException(error, true);
+        this.dispatchLog(error);
+        break;
+      case AuthenticationError.CALLBACK_URL_NO_CODE_PARAM:
+        this.analytics.logException(error, true);
+        this.dispatchLog('user clicked back on account selection');
+        break;
+      case AuthenticationError.USER_NOT_AUTHORISED: {
+        const token = await this.authenticationProvider.geIdToken();
         const examiner = this.authenticationProvider.getEmployeeId() || 'unavailable';
         if (token) {
           this.dispatchLog(`user ${examiner} not authorised: TOKEN ${token}`);
@@ -164,22 +185,17 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
         }
         await this.authenticationProvider.logout();
       }
-      this.appInitError = error;
-      console.log(error);
-      this.dispatchLog(JSON.stringify(this.appInitError));
+        break;
+      default:
+        this.dispatchLog(JSON.stringify(this.appInitError));
+        break;
     }
-    this.hasUserLoggedOut = false;
   };
 
   hideSplashscreen = async (): Promise<void> => {
     if (Capacitor.isPluginAvailable('SplashScreen')) {
       await SplashScreen.hide();
     }
-  };
-
-  initialiseAuthentication = (): void => {
-    this.authenticationProvider.initialiseAuthentication();
-    this.authenticationProvider.determineAuthenticationMode();
   };
 
   dispatchLog = (message: string): void => {
@@ -264,6 +280,7 @@ export class LoginPage extends LogoutBasePageComponent implements OnInit {
       return;
     }
 
+    // Only dismiss if an instance of loadingController exists
     if (await this.loadingController.getTop()) {
       await this.loadingController.dismiss();
     }

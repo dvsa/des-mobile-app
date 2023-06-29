@@ -99,21 +99,32 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
   async ngOnInit() {
     try {
       await this.platform.ready();
-      if (this.platform.is('cordova')) {
+
+      if (this.platform.is('capacitor')) {
         await this.deviceProvider.disableSingleAppMode();
       }
+
       await this.appConfigProvider.initialiseAppConfig();
+
       await this.initialiseSentry();
-      this.initialiseNetworkState();
-      this.initialiseAuthentication();
+
+      this.networkStateProvider.initialiseNetworkState();
+
+      this.authenticationProvider.determineAuthenticationMode();
+
       await this.initialisePersistentStorage();
+
       this.store$.dispatch(LoadAppVersion());
+
       await this.configureStatusBar();
+
       this.configureLocale();
-      if (this.platform.is('cordova')) {
+
+      if (this.platform.is('capacitor')) {
         await this.accessibilityService.configureAccessibility();
         this.configurePlatformSubscriptions();
       }
+
       await this.disableMenuSwipe();
 
       this.pageState = {
@@ -134,15 +145,6 @@ export class AppComponent extends LogoutBasePageComponent implements OnInit {
       this.platformSubscription.unsubscribe();
     }
   }
-
-  public initialiseAuthentication = (): void => {
-    this.authenticationProvider.initialiseAuthentication();
-    this.authenticationProvider.determineAuthenticationMode();
-  };
-
-  public initialiseNetworkState = (): void => {
-    this.networkStateProvider.initialiseNetworkState();
-  };
 
   async initialisePersistentStorage(): Promise<void> {
     if (this.isIos()) {

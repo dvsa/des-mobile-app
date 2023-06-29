@@ -31,6 +31,7 @@ export const showUpdateAvailable$ = (
   .pipe(
     filter(() => platform.is('cordova')),
     withLatestFrom(store$.select(selectLiveAppVersion)),
+    filter(([, liveVersion]) => !!liveVersion),
     map((
       [currentVersion, liveVersion],
     ) => compareVersions(currentVersion, '<', liveVersion)),

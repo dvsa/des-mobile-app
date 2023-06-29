@@ -1,4 +1,4 @@
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
@@ -69,6 +69,7 @@ import { SentryIonicErrorHandler } from '@app/sentry-error-handler';
 import { PipesModule } from '@shared/pipes/pipes.module';
 import { ReferenceDataStoreModule } from '@store/reference-data/reference-data.module';
 
+import { VaultProvider } from '@providers/vault/vault.provider';
 import { MobileAccessibility } from '@awesome-cordova-plugins/mobile-accessibility/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -116,6 +117,16 @@ if (enableRehydrationPlugin) {
   metaReducers.push(localStorageSyncReducer);
 }
 
+const appInitFactory = (
+  authProvider: AuthenticationProvider,
+  vaultProvider: VaultProvider,
+): (() => Promise<void>) => async () => {
+  await Promise.all([
+    authProvider.init(),
+    vaultProvider.init(),
+  ]);
+};
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -153,6 +164,12 @@ if (enableRehydrationPlugin) {
   ],
   providers: [
     {
+      provide: APP_INITIALIZER,
+      useFactory: appInitFactory,
+      deps: [AuthenticationProvider, VaultProvider],
+      multi: true,
+    },
+    {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy,
     },
@@ -172,7 +189,6 @@ if (enableRehydrationPlugin) {
     AppVersion,
     MobileAccessibility,
     AppConfigProvider,
-    AuthenticationProvider,
     AppInfoProvider,
     DateTimeProvider,
     SecureStorage,

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
+  HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,
 } from '@angular/common/http';
-import { Observable, from } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Platform } from '@ionic/angular';
 import { AuthenticationProvider } from './authentication';
@@ -18,7 +15,8 @@ export class AuthInterceptor implements HttpInterceptor {
     private platform: Platform,
     private authProvider: AuthenticationProvider,
     private urlProvider: UrlProvider,
-  ) { }
+  ) {
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.platform.is('cordova') || !request.url.startsWith('http')) {
@@ -35,19 +33,21 @@ export class AuthInterceptor implements HttpInterceptor {
       });
       return next.handle(newRequest);
     }
-    return from(this.authProvider.getAuthenticationToken()).pipe(
-      switchMap((token: string) => {
-        if (token) {
-          const newRequest = request.clone({
-            setHeaders: {
-              Authorization: token,
-            },
-          });
-          return next.handle(newRequest);
-        }
-        return next.handle(request);
-      }),
-    );
+
+    return from(this.authProvider.getAuthenticationToken())
+      .pipe(
+        switchMap((token: string) => {
+          if (token) {
+            const newRequest = request.clone({
+              setHeaders: {
+                Authorization: token,
+              },
+            });
+            return next.handle(newRequest);
+          }
+          return next.handle(request);
+        }),
+      );
   }
 
 }

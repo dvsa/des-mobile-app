@@ -50,9 +50,7 @@ export abstract class BasePageComponent {
       } finally {
         const navigationExtras: NavigationExtras = {
           replaceUrl: true,
-          state: {
-            hasLoggedOut: true,
-          },
+          state: { hasLoggedOut: true },
         };
         await this.router.navigate([LOGIN_PAGE], navigationExtras);
       }
