@@ -77,7 +77,7 @@ export class TestPersistenceProvider {
 
     return Object.keys(tests.startedTests)
       .filter((key) => {
-        const startDate: DateTime = new DateTime(tests.startedTests[key].journalData.testSlotAttributes.start);
+        const startDate: DateTime = new DateTime(tests?.startedTests[key]?.journalData?.testSlotAttributes?.start);
         return (startDate.daysDiff(new DateTime())) > (daysToCacheJournalData + GRACE_PERIOD_TO_RETAIN_TEST_IN_DAYS);
       });
   }

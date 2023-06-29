@@ -25,6 +25,7 @@ import { ClearVehicleData } from '@pages/back-to-office/back-to-office.actions';
 import { SlotProvider } from '@providers/slot/slot';
 import { unsubmittedTestSlotsCount$ } from '@pages/unuploaded-tests/unuploaded-tests.selector';
 import { sumFlatArray } from '@shared/helpers/sum-number-array';
+import { StoreUnuploadedSlotsInTests } from '@pages/unuploaded-tests/unuploaded-tests.actions';
 import { DashboardViewDidEnter, PracticeTestReportCard } from './dashboard.actions';
 
 interface DashboardPageState {
@@ -65,6 +66,8 @@ export class DashboardPage extends BasePageComponent {
     this.todaysDate = this.dateTimeProvider.now();
     this.todaysDateFormatted = this.dateTimeProvider.now()
       .format('dddd Do MMMM YYYY');
+    this.store$.dispatch(journalActions.SetSelectedDate(this.dateTimeProvider.now()
+      .format('YYYY-MM-DD')));
   }
 
   ngOnInit() {
@@ -76,9 +79,11 @@ export class DashboardPage extends BasePageComponent {
       role$: this.store$.select(selectRole)
         .pipe(map(this.getRoleDisplayValue)),
       isOffline$: this.networkStateProvider.isOffline$,
-      notificationCount$: combineLatest([
-        unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
-      ])
+      notificationCount$: combineLatest(
+        [
+          unsubmittedTestSlotsCount$(this.store$, this.dateTimeProvider, this.slotProvider),
+        ],
+      )
         .pipe(map(sumFlatArray)), /* Sum all individual counts to determine, overall count */
     };
   }
@@ -87,6 +92,7 @@ export class DashboardPage extends BasePageComponent {
     this.store$.dispatch(DashboardViewDidEnter());
     this.store$.dispatch(ClearCandidateLicenceData());
     this.store$.dispatch(ClearVehicleData());
+    this.store$.dispatch(StoreUnuploadedSlotsInTests());
 
     if (super.isIos()) {
       await ScreenOrientation.unlock();
