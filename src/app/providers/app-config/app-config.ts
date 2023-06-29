@@ -10,11 +10,13 @@ import { GetResult, ManagedConfigurations } from '@capawesome/capacitor-managed-
 import { Subscription } from 'rxjs';
 
 import { environment } from '@environments/environment';
-import { EnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
+import { EnvironmentFile, LocalEnvironmentFile, TestersEnvironmentFile } from '@environments/models/environment.model';
 import { StoreModel } from '@shared/models/store.model';
 import { LogType } from '@shared/models/log.model';
 import { SaveLog } from '@store/logs/logs.actions';
 import { getAppConfigState } from '@store/app-config/app-config.reducer';
+import { MdmConfig } from '@dvsa/mes-config-schema/mdm-config';
+import { RemoteConfig } from '@dvsa/mes-config-schema/remote-config';
 import { AppConfig } from './app-config.model';
 
 import { SchemaValidatorProvider } from '../schema-validator/schema-validator';
@@ -86,7 +88,7 @@ export class AppConfigProvider {
       this.mapInAppConfig(this.environmentFile);
 
       if (!this.environmentFile.isRemote) {
-        this.mapRemoteConfig(this.environmentFile);
+        this.mapRemoteConfig(this.environmentFile as LocalEnvironmentFile);
       }
       return await Promise.resolve();
     } catch (err) {
@@ -117,7 +119,7 @@ export class AppConfigProvider {
   };
 
   public loadManagedConfig = async (): Promise<void> => {
-    const newEnvFile = {
+    const newEnvFile: EnvironmentFile = {
       production: false,
       isRemote: true,
       configUrl: await this.getManagedConfigValueString('configUrl'),
@@ -125,7 +127,6 @@ export class AppConfigProvider {
         dsn: await this.getManagedConfigValueString('sentryDsn'),
         environment: await this.getManagedConfigValueString('sentryEnv'),
       },
-      daysToCacheJournalData: await this.getManagedConfigValueNumber('daysToCacheJournalData'),
       daysToCacheLogs: await this.getManagedConfigValueNumber('daysToCacheLogs'),
       logsPostApiKey: await this.getManagedConfigValueString('logsPostApiKey'),
       taxMotApiKey: await this.getManagedConfigValueString('taxMotApiKey'),
@@ -139,7 +140,7 @@ export class AppConfigProvider {
         redirectUrl: await this.getManagedConfigValueString('redirectUrl'),
         resourceUrl: await this.getManagedConfigValueString('resourceUrl'),
       },
-    } as EnvironmentFile;
+    };
 
     // Check to see if we have any config
     if (!isEmpty((newEnvFile.configUrl))) {
@@ -152,9 +153,9 @@ export class AppConfigProvider {
     }
   };
 
-  private getManagedConfigValueString = async (key: string): Promise<string> => {
+  private getManagedConfigValueString = async <T>(key: string): Promise<T> => {
     const data: GetResult<string> = await ManagedConfigurations.getString({ key });
-    return data?.value;
+    return data?.value as T;
   };
 
   private getManagedConfigValueNumber = async (key: string): Promise<number> => {
@@ -163,7 +164,7 @@ export class AppConfigProvider {
   };
 
   public loadRemoteConfig = (): Promise<any> => this.getRemoteData()
-    .then((data: any) => {
+    .then((data) => {
       const result: ValidatorResult = this.schemaValidatorProvider.validateRemoteConfig(data);
       if (result?.errors?.length > 0) {
         return Promise.reject(result.errors);
@@ -195,7 +196,7 @@ export class AppConfigProvider {
       return Promise.reject(AppConfigError.VALIDATION_ERROR);
     });
 
-  private getRemoteData = () => new Promise((resolve, reject) => {
+  private getRemoteData = () => new Promise<RemoteConfig>((resolve, reject) => {
     if (this.networkStateProvider.getNetworkState() === ConnectionStatus.OFFLINE) {
       this.getCachedRemoteConfig()
         .then((data) => resolve(data))
@@ -210,7 +211,7 @@ export class AppConfigProvider {
         this.httpClient.get(url)
           .pipe(timeout(30000))
           .subscribe(
-            (data) => {
+            (data: RemoteConfig) => {
               this.dataStoreProvider.setItem('CONFIG', JSON.stringify(data));
               resolve(data);
             },
@@ -240,7 +241,7 @@ export class AppConfigProvider {
     }));
   };
 
-  private getCachedRemoteConfig = async (): Promise<any> => {
+  private getCachedRemoteConfig = async (): Promise<RemoteConfig> => {
     try {
       const response = await this.dataStoreProvider.getItem('CONFIG');
       return JSON.parse(response);
@@ -249,8 +250,8 @@ export class AppConfigProvider {
     }
   };
 
-  private mapInAppConfig = (data) => {
-    this.appConfig = merge({}, this.appConfig, {
+  private mapInAppConfig = (data: MdmConfig): void => {
+    this.appConfig = merge({}, this.appConfig, <MdmConfig>{
       configUrl: data.configUrl,
       sentry: {
         dsn: data.sentry.dsn,
@@ -269,11 +270,11 @@ export class AppConfigProvider {
         logoutUrl: data.authentication.logoutUrl,
         employeeIdKey: data.authentication.employeeIdKey,
       },
-    } as AppConfig);
+    });
   };
 
-  private mapRemoteConfig = (data: any) => {
-    this.appConfig = merge({}, this.appConfig, {
+  private mapRemoteConfig = (data: LocalEnvironmentFile | RemoteConfig): void => {
+    this.appConfig = merge({}, this.appConfig, <AppConfig>{
       googleAnalyticsId: data.googleAnalyticsId,
       approvedDeviceIdentifiers: data.approvedDeviceIdentifiers,
       timeTravelDate: data.timeTravelDate,
@@ -316,7 +317,7 @@ export class AppConfigProvider {
         testCentreUrl: data.refData.testCentreUrl,
       },
       requestTimeout: data.requestTimeout,
-    } as AppConfig);
+    });
   };
 
   getDebugMode = (): Promise<void> => {

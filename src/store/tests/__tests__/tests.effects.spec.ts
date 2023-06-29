@@ -4,7 +4,7 @@ import { fakeAsync, TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { TestSubmissionProvider } from '@providers/test-submission/test-submission';
 import { Store, StoreModule } from '@ngrx/store';
-import { NetworkStateProvider, ConnectionStatus } from '@providers/network-state/network-state';
+import { ConnectionStatus, NetworkStateProvider } from '@providers/network-state/network-state';
 import { NetworkStateProviderMock } from '@providers/network-state/__mocks__/network-state.mock';
 import { AppConfigProvider } from '@providers/app-config/app-config';
 import { StoreModel } from '@shared/models/store.model';
@@ -28,19 +28,18 @@ import * as delegatedRekeySearchActions from '@pages/delegated-rekey-search/dele
 import { TestSlot } from '@dvsa/mes-journal-schema';
 import { appInfoReducer } from '@store/app-info/app-info.reducer';
 import { delegatedSearchReducer } from '@pages/delegated-rekey-search/delegated-rekey-search.reducer';
+import { LogHelperMock } from '@providers/logs/__mocks__/logs-helper.mock';
+import { LogHelper } from '@providers/logs/logs-helper';
 import { TestsEffects } from '../tests.effects';
 import * as testsActions from '../tests.actions';
 import * as testStatusActions from '../test-status/test-status.actions';
 import * as rekeyActions from '../rekey/rekey.actions';
 import { TestsModel } from '../tests.model';
-import { PopulateApplicationReference }
-  from '../journal-data/common/application-reference/application-reference.actions';
-import { PopulateCandidateDetails } from '../journal-data/common/candidate/candidate.actions';
 import {
-  testApplicationMock,
-  candidateMock,
-  testReportPracticeModeSlot,
-} from '../__mocks__/tests.mock';
+  PopulateApplicationReference,
+} from '../journal-data/common/application-reference/application-reference.actions';
+import { PopulateCandidateDetails } from '../journal-data/common/candidate/candidate.actions';
+import { candidateMock, testApplicationMock, testReportPracticeModeSlot } from '../__mocks__/tests.mock';
 import { initialState, testsReducer } from '../tests.reducer';
 import { PopulateExaminer } from '../journal-data/common/examiner/examiner.actions';
 import { SetExaminerBooked } from '../examiner-booked/examiner-booked.actions';
@@ -55,6 +54,7 @@ describe('TestsEffects', () => {
   let actions$: ReplaySubject<any>;
   let testPersistenceProviderMock;
   let store$: Store<StoreModel>;
+  let logHelper: LogHelper;
   let navigationStateProviderMock: NavigationStateProviderMock;
   let authenticationProviderMock: AuthenticationProvider;
   const testSlot: TestSlot = {
@@ -90,12 +90,34 @@ describe('TestsEffects', () => {
       providers: [
         TestsEffects,
         provideMockActions(() => actions$),
-        { provide: AppConfigProvider, useClass: AppConfigProviderMock },
-        { provide: TestPersistenceProvider, useClass: TestPersistenceProviderMock },
-        { provide: TestSubmissionProvider, useClass: TestSubmissionProviderMock },
-        { provide: NetworkStateProvider, useClass: NetworkStateProviderMock },
-        { provide: AuthenticationProvider, useClass: AuthenticationProviderMock },
-        { provide: NavigationStateProvider, useClass: NavigationStateProviderMock },
+        {
+          provide: AppConfigProvider,
+          useClass: AppConfigProviderMock,
+        },
+        {
+          provide: TestPersistenceProvider,
+          useClass: TestPersistenceProviderMock,
+        },
+        {
+          provide: TestSubmissionProvider,
+          useClass: TestSubmissionProviderMock,
+        },
+        {
+          provide: NetworkStateProvider,
+          useClass: NetworkStateProviderMock,
+        },
+        {
+          provide: AuthenticationProvider,
+          useClass: AuthenticationProviderMock,
+        },
+        {
+          provide: NavigationStateProvider,
+          useClass: NavigationStateProviderMock,
+        },
+        {
+          provide: LogHelper,
+          useClass: LogHelperMock,
+        },
         Store,
       ],
     });
@@ -106,6 +128,8 @@ describe('TestsEffects', () => {
     authenticationProviderMock = TestBed.inject(AuthenticationProvider);
     navigationStateProviderMock = TestBed.inject(NavigationStateProvider);
     store$ = TestBed.inject(Store);
+    logHelper = TestBed.inject(LogHelper);
+    spyOn(logHelper, 'createLog');
   });
 
   describe('persistTestsEffect', () => {
@@ -117,7 +141,8 @@ describe('TestsEffects', () => {
       actions$.next(testsActions.PersistTests());
       // ASSERT
       effects.persistTestsEffect$.subscribe(() => {
-        expect(testPersistenceProviderMock.persistTests).toHaveBeenCalled();
+        expect(testPersistenceProviderMock.persistTests)
+          .toHaveBeenCalled();
       });
     });
   });
@@ -137,8 +162,10 @@ describe('TestsEffects', () => {
       actions$.next(testsActions.LoadPersistedTests());
       // ASSERT
       effects.loadPersistedTestsEffect$.subscribe((emission) => {
-        expect(testPersistenceProviderMock.loadPersistedTests).toHaveBeenCalled();
-        expect(emission).toEqual(testsActions.LoadPersistedTestsSuccess(persistedTests));
+        expect(testPersistenceProviderMock.loadPersistedTests)
+          .toHaveBeenCalled();
+        expect(emission)
+          .toEqual(testsActions.LoadPersistedTestsSuccess(persistedTests));
         done();
       });
     });
@@ -151,10 +178,12 @@ describe('TestsEffects', () => {
       // ASSERT
       effects.startPracticeTestEffect$.subscribe((result) => {
         if (result.type === PopulateApplicationReference.type) {
-          expect(result).toEqual(PopulateApplicationReference(testApplicationMock));
+          expect(result)
+            .toEqual(PopulateApplicationReference(testApplicationMock));
         }
         if (result.type === PopulateCandidateDetails.type) {
-          expect(result).toEqual(PopulateCandidateDetails(candidateMock));
+          expect(result)
+            .toEqual(PopulateCandidateDetails(candidateMock));
         }
       });
     });
@@ -182,13 +211,16 @@ describe('TestsEffects', () => {
       effects.sendCompletedTestsEffect$.subscribe((result) => {
         if (result.type === testsActions.SendCompletedTestSuccess.type) {
           if (result.payload === currentTestSlotId) {
-            expect(result).toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId));
+            expect(result)
+              .toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId));
           }
           if (result.payload === currentTestSlotId1) {
-            expect(result).toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId1));
+            expect(result)
+              .toEqual(testsActions.SendCompletedTestSuccess(currentTestSlotId1));
           }
           if (result.payload === currentTestSlotId2) {
-            expect(result.type).toEqual(testsActions.SendCompletedTestsFailure().type);
+            expect(result.type)
+              .toEqual(testsActions.SendCompletedTestsFailure().type);
           }
           if (result.payload === testReportPracticeModeSlot.slotDetail.slotId) {
             fail('Practice test should not be submitted');
@@ -207,10 +239,12 @@ describe('TestsEffects', () => {
       // ASSERT
       effects.sendCurrentTestSuccessEffect$.subscribe((result) => {
         if (result.type === testStatusActions.SetTestStatusSubmitted.type) {
-          expect(result).toEqual(testStatusActions.SetTestStatusSubmitted(currentTestSlotId));
+          expect(result)
+            .toEqual(testStatusActions.SetTestStatusSubmitted(currentTestSlotId));
         }
         if (result.type === testsActions.PersistTests.type) {
-          expect(result).toEqual(testsActions.PersistTests());
+          expect(result)
+            .toEqual(testsActions.PersistTests());
         }
       });
     });
@@ -219,11 +253,17 @@ describe('TestsEffects', () => {
   describe('startTestEffect$', () => {
     it('should copy the examiner from the journal state into the test state', (done) => {
       const selectedDate: string = new DateTime().format('YYYY-MM-DD');
-      const examiner = { staffNumber: '123', individualId: 456 };
+      const examiner = {
+        staffNumber: '123',
+        individualId: 456,
+      };
       store$.dispatch(journalActions.SetSelectedDate(selectedDate));
       store$.dispatch(
         journalActions.LoadJournalSuccess(
-          { examiner, slotItemsByDate: journalSlotsDataMock },
+          {
+            examiner,
+            slotItemsByDate: journalSlotsDataMock,
+          },
           ConnectionStatus.ONLINE,
           false,
           new Date(),
@@ -237,21 +277,31 @@ describe('TestsEffects', () => {
           bufferCount(13),
         )
         .subscribe(([, res1, , , , , , res7, res8, res9]) => {
-          expect(res1).toEqual(PopulateExaminer(examiner));
-          expect(res7).toEqual(SetExaminerBooked(parseInt(examiner.staffNumber, 10)));
-          expect(res8).toEqual(SetExaminerConducted(parseInt(examiner.staffNumber, 10)));
-          expect(res9).toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+          expect(res1)
+            .toEqual(PopulateExaminer(examiner));
+          expect(res7)
+            .toEqual(SetExaminerBooked(parseInt(examiner.staffNumber, 10)));
+          expect(res8)
+            .toEqual(SetExaminerConducted(parseInt(examiner.staffNumber, 10)));
+          expect(res9)
+            .toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
           done();
         });
     });
 
     it('should mark the test as a rekey when this is a rekey', (done) => {
       const selectedDate: string = new DateTime().format('YYYY-MM-DD');
-      const examiner = { staffNumber: '123', individualId: 456 };
+      const examiner = {
+        staffNumber: '123',
+        individualId: 456,
+      };
       store$.dispatch(journalActions.SetSelectedDate(selectedDate));
       store$.dispatch(
         journalActions.LoadJournalSuccess(
-          { examiner, slotItemsByDate: journalSlotsDataMock },
+          {
+            examiner,
+            slotItemsByDate: journalSlotsDataMock,
+          },
           ConnectionStatus.ONLINE,
           false,
           new Date(),
@@ -265,17 +315,24 @@ describe('TestsEffects', () => {
           bufferCount(14),
         )
         .subscribe(([, res1, , , , , , res7, res8, res9, , , , res13]) => {
-          expect(res1).toEqual(PopulateExaminer(examiner));
-          expect(res7).toEqual(SetExaminerBooked(parseInt(examiner.staffNumber, 10)));
-          expect(res8).toEqual(SetExaminerConducted(parseInt(examiner.staffNumber, 10)));
-          expect(res9).toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-          expect(res13).toEqual(rekeyActions.MarkAsRekey());
+          expect(res1)
+            .toEqual(PopulateExaminer(examiner));
+          expect(res7)
+            .toEqual(SetExaminerBooked(parseInt(examiner.staffNumber, 10)));
+          expect(res8)
+            .toEqual(SetExaminerConducted(parseInt(examiner.staffNumber, 10)));
+          expect(res9)
+            .toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+          expect(res13)
+            .toEqual(rekeyActions.MarkAsRekey());
           done();
         });
     });
 
     it('should get the slot from booked slots when this is a rekey test started from the rekey search', (done) => {
-      spyOn(navigationStateProviderMock, 'isRekeySearch').and.returnValue(true);
+      spyOn(navigationStateProviderMock, 'isRekeySearch')
+        .and
+        .returnValue(true);
       const staffNumber = '654321';
       store$.dispatch(rekeySearchActions.SearchBookedTestSuccess(testSlot, staffNumber));
       // ACT
@@ -286,20 +343,30 @@ describe('TestsEffects', () => {
           bufferCount(14),
         )
         .subscribe(([res0, res1, res2, res3, , , , res7, res8, res9, , , , res13]) => {
-          expect(res0).toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
-          expect(res1).toEqual(PopulateExaminer({ staffNumber }));
-          expect(res2).toEqual(PopulateApplicationReference(testSlot.booking.application));
-          expect(res3).toEqual(PopulateCandidateDetails(testSlot.booking.candidate));
-          expect(res7).toEqual(SetExaminerBooked(parseInt(staffNumber, 10)));
-          expect(res8).toEqual(SetExaminerConducted(parseInt(staffNumber, 10)));
-          expect(res9).toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
-          expect(res13).toEqual(rekeyActions.MarkAsRekey());
+          expect(res0)
+            .toEqual(PopulateTestCategory(testSlot.booking.application.testCategory as CategoryCode));
+          expect(res1)
+            .toEqual(PopulateExaminer({ staffNumber }));
+          expect(res2)
+            .toEqual(PopulateApplicationReference(testSlot.booking.application));
+          expect(res3)
+            .toEqual(PopulateCandidateDetails(testSlot.booking.candidate));
+          expect(res7)
+            .toEqual(SetExaminerBooked(parseInt(staffNumber, 10)));
+          expect(res8)
+            .toEqual(SetExaminerConducted(parseInt(staffNumber, 10)));
+          expect(res9)
+            .toEqual(SetExaminerKeyed(parseInt(authenticationProviderMock.getEmployeeId(), 10)));
+          expect(res13)
+            .toEqual(rekeyActions.MarkAsRekey());
           done();
         });
     });
 
     it('should set the rekey reason and reason correctly when it is a delegated examiner test', fakeAsync(() => {
-      spyOn(navigationStateProviderMock, 'isDelegatedExaminerRekeySearch').and.returnValue(true);
+      spyOn(navigationStateProviderMock, 'isDelegatedExaminerRekeySearch')
+        .and
+        .returnValue(true);
       store$.dispatch(delegatedRekeySearchActions.SearchBookedDelegatedTestSuccess(testSlot));
       // ACT
       actions$.next(testsActions.StartTest(1001, TestCategory.B, false, true));
@@ -309,9 +376,12 @@ describe('TestsEffects', () => {
           bufferCount(17),
         )
         .subscribe(([, , , , , , , , , , , , , , res13, res14, res15]) => {
-          expect(res13).toEqual(StartDelegatedTest());
-          expect(res14).toEqual(OtherSelected(true));
-          expect(res15).toEqual(OtherReasonUpdated('Delegated Examiner'));
+          expect(res13)
+            .toEqual(StartDelegatedTest());
+          expect(res14)
+            .toEqual(OtherSelected(true));
+          expect(res15)
+            .toEqual(OtherReasonUpdated('Delegated Examiner'));
         });
     }));
   });
@@ -322,7 +392,8 @@ describe('TestsEffects', () => {
       actions$.next(testsActions.ActivateTest(1234, TestCategory.B, true));
       // ASSERT
       effects.activateTestEffect$.subscribe((result) => {
-        expect(result.type).toEqual(rekeyActions.MarkAsRekey.type);
+        expect(result.type)
+          .toEqual(rekeyActions.MarkAsRekey.type);
         done();
       });
     });
@@ -335,7 +406,8 @@ describe('TestsEffects', () => {
 
       // Assert
       effects.sendPartialTest$.subscribe((result) => {
-        expect(result.type).toEqual(testsActions.SendCompletedTests.type);
+        expect(result.type)
+          .toEqual(testsActions.SendCompletedTests.type);
         done();
       });
     });
