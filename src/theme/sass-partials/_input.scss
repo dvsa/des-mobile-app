@@ -6,6 +6,7 @@
   border: 2px solid var(--mes-theme-opposing-colour);
   padding-left: 10px;
   height: 48px;
+  background-color: var(--mes-theme-main-colour);
 
   &:focus {
     border: $input-border-invalid solid var(--gds-yellow);
@@ -53,13 +54,17 @@ ion-select.select {
   width: 30px !important;
   background-size: 26px !important;
   right: 16px !important;
+  //Commented out to force light mode, comment back in if dark mode is fully integrated
+  //@media (prefers-color-scheme: dark) {
+  //  filter: invert(100%);
+  //  -webkit-filter: invert(100%);
+  //}
   & ion-icon {
     opacity: 0;
   }
 }
 
 .input-styling-background {
-  --background: var(--mes-theme-main-colour);
   color: var(--mes-theme-opposing-colour);
 }
 

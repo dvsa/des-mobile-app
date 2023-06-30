@@ -466,6 +466,10 @@ $card-ios-background-color: var(--mes-theme-main-colour);
     --ion-color-light-tint: #f5f6f9;
 
     /** app styles **/
+    //--ion-accordion: #2f2f2f;
+    //Commented out to force light mode, comment variable above back in and delete line below if dark mode is fully integrated
+    --ion-accordion: #f4f5f8;
+
     --ion-background-color: var(--mes-background);
     ion-content {
       --ion-background-color: var(--mes-background);
